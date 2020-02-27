@@ -462,6 +462,45 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 	test.pass()
 })
 
+// User Status
+// =============================================================================
+ava.serial('user status: You should be able to enable and disable Do Not Disturb', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const verifyDndState = async (expectedOn) => {
+		// Open the user menu
+		await macros.waitForThenClickSelector(page, '.user-menu-toggle')
+
+		const doNotDisturbButton = await page.waitForSelector('[data-test="button-dnd"]')
+
+		// A 'check' icon implies 'Do Not Disturb' is ON
+		const checkIcon = await doNotDisturbButton.$('i')
+		test.is(Boolean(checkIcon), expectedOn)
+
+		// The user's avatar should also have a status icon if 'Do Not Disturb' is ON
+		const statusIcon = await page.$('.user-menu-toggle .user-status-icon')
+		test.is(Boolean(statusIcon), expectedOn)
+		return doNotDisturbButton
+	}
+
+	const toggleDnd = async (doNotDisturbButton) => {
+		doNotDisturbButton.click()
+		await macros.waitForThenDismissAlert(page, 'success')
+	}
+
+	let dndButton = await verifyDndState(false)
+	await toggleDnd(dndButton)
+	dndButton = await verifyDndState(true)
+	await toggleDnd(dndButton)
+	dndButton = await verifyDndState(false)
+
+	test.pass()
+})
+
 // User Profile
 // =============================================================================
 

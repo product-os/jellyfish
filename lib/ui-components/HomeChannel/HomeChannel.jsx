@@ -21,6 +21,7 @@ import {
 } from 'rendition'
 import MentionsCount from '../MentionsCount'
 import TreeMenu from './TreeMenu'
+import DoNotDisturb from './DoNotDisturb'
 import RouterLink from '../Link'
 import ViewLink from '../ViewLink'
 import Avatar from '../shame/Avatar'
@@ -289,8 +290,14 @@ export default class HomeChannel extends React.Component {
 				</Flex>
 
 				{this.state.showMenu && (
-					<Fixed top={true} right={true} bottom={true} left={true} z={9999999} onClick={this.hideMenu}>
+					<Fixed top={true} right={true} bottom={true} left={true} z={10} onClick={this.hideMenu}>
 						<MenuPanel className="user-menu" mx={3} p={3}>
+							{user && (
+								<Box mb={2}>
+									<DoNotDisturb user={user} />
+								</Box>
+							)}
+
 							{user && (
 								<div>
 									<RouterLink

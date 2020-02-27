@@ -45,6 +45,7 @@ const mapDispatchToProps = (dispatch) => {
 				'setChatWidgetOpen',
 				'setDefault',
 				'setUIState',
+				'setUserStatus',
 				'streamView'
 			]), dispatch)
 	}

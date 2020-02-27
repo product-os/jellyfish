@@ -177,3 +177,7 @@ exports.waitForSelectorToDisappear = async (page, selector) => {
 		throw new Error(`Element still exists: ${selector}`)
 	})
 }
+
+exports.waitForThenDismissAlert = async (page, alertType) => {
+	await exports.waitForThenClickSelector(page, `[data-test="alert--${alertType}"] button`)
+}

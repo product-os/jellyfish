@@ -128,6 +128,7 @@ export const selectors = {
 	getAppCodename: (state) => { return _.get(state.core, [ 'config', 'codename' ]) || null },
 	getChannels: (state) => { return state.core.channels },
 	getCurrentUser: (state) => { return _.get(state.core, [ 'session', 'user' ]) || null },
+	getCurrentUserStatus: (state) => { return _.get(state.core, [ 'session', 'user', 'data', 'status' ]) || null },
 	getNotifications: (state) => { return state.core.notifications || [] },
 	getSessionToken: (state) => { return _.get(state.core, [ 'session', 'authToken' ]) || null },
 	getStatus: (state) => { return state.core.status },
@@ -215,6 +216,7 @@ export default class ActionCreator {
 			'removeViewDataItem',
 			'removeViewNotice',
 			'setAvatarUrl',
+			'setUserStatus',
 			'setAuthToken',
 			'setChannels',
 			'setChatWidgetOpen',
@@ -880,6 +882,27 @@ export default class ActionCreator {
 
 				dispatch(this.setUser(updatedUser))
 				dispatch(this.addNotification('success', 'Successfully changed avatar'))
+			} catch (error) {
+				dispatch(this.addNotification('danger', error.message || error))
+			}
+		}
+	}
+
+	setUserStatus (newStatus) {
+		return async (dispatch, getState) => {
+			try {
+				const user = selectors.getCurrentUser(getState())
+				await this.sdk.card.update(user.id, user.type, [
+					{
+						op: _.has(user, [ 'data', 'status' ]) ? 'replace' : 'add',
+						path: '/data/status',
+						value: newStatus
+					}
+				])
+
+				const updatedUser = await this.sdk.getById(user.id)
+				dispatch(this.setUser(updatedUser))
+				dispatch(this.addNotification('success', `Your status is now '${newStatus.title}'`))
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
