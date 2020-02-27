@@ -1,7 +1,7 @@
 version: '2.1'
 
 services:
-  parallel-1:
+  test:
     build:
       context: .
       dockerfile: apps/ci/Dockerfile
