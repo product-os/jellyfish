@@ -5,6 +5,12 @@
  */
 
 module.exports = {
+	'new-user-invalid-ip': {
+		expected: require('./new-user-invalid-ip/expected.json'),
+		steps: [
+			require('./new-user-invalid-ip/01.json')
+		]
+	},
 	'new-user-ip': {
 		expected: require('./new-user-ip/expected.json'),
 		steps: [
