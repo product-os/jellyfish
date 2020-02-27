@@ -18,10 +18,24 @@ const syncContext = require('../../../lib/action-library/sync-context')
 ava.beforeEach(async (test) => {
 	const suffix = uuid()
 	const dbName = `test_${suffix.replace(/-/g, '_')}`
-	const context = { id: `CORE-TEST-${uuid()}` }
+	const context = {
+		id: `CORE-TEST-${uuid()}`
+	}
 
-	const cache = await helpers.createCache({ dbName, context })
-	const backend = await helpers.createBackend({ cache, dbName, context, options: { suffix } })
+	const cache = await helpers.createCache({
+		dbName,
+		context
+	})
+
+	const backend = await helpers.createBackend({
+		cache,
+		dbName,
+		context,
+		options: {
+			suffix
+		}
+	})
+
 	const kernel = await helpers.createKernel(backend, context)
 	const adminSession = kernel.sessions.admin
 	const session = await kernel.getCardById(
@@ -49,9 +63,18 @@ ava.beforeEach(async (test) => {
 	await kernel.insertCard(context, adminSession,
 		actionLibrary['action-delete-card'].card)
 
-	const queue = await helpers.createQueue({ context, kernel, session: adminSession })
+	const queue = await helpers.createQueue({
+		context,
+		kernel,
+		session: adminSession
+	})
 
-	const worker = await helpers.createWorker({ context, kernel, session: adminSession, queue })
+	const worker = await helpers.createWorker({
+		context,
+		kernel,
+		session: adminSession,
+		queue
+	})
 
 	const actionContext = worker.getActionContext(context)
 
@@ -71,7 +94,13 @@ ava.beforeEach(async (test) => {
 })
 
 ava.afterEach(async (test) => {
-	const { queue, kernel, backend, context, cache } = test.context
+	const {
+		queue,
+		kernel,
+		backend,
+		context,
+		cache
+	} = test.context
 	await queue.consumer.cancel()
 	await kernel.disconnect(context)
 	await backend.disconnect(context)
@@ -510,8 +539,17 @@ ava('.importCards() should import a dependent card in parallel segment', async (
 })
 
 ava('.importCards() should add create events', async (test) => {
-	const { queue, syncContext, actor, session, kernel, context } = test.context
-	const result = await pipeline.importCards(syncContext, [
+	const {
+		queue,
+		syncContext: testSyncContext,
+		actor,
+		session,
+		kernel,
+		worker,
+		context
+	} = test.context
+
+	const result = await pipeline.importCards(testSyncContext, [
 		{
 			time: new Date(),
 			actor: actor.id,
@@ -526,7 +564,14 @@ ava('.importCards() should add create events', async (test) => {
 		}
 	])
 
-	await helpers.flushQueue({ queue, context, actor, session })
+	await helpers.flushQueue({
+		queue,
+		context,
+		actor,
+		kernel,
+		worker,
+		session
+	})
 
 	const timeline = await kernel.query(context, session, {
 		type: 'object',
@@ -707,7 +752,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 			BrokenIntegration.instance = this
 		}
 
-		// eslint-disable-next-line class-methods-use-
+		// eslint-disable-next-line class-methods-use-this
 		async translate () {
 			throw new TranslateError('Foo Bar')
 		}

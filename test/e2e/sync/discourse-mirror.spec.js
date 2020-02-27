@@ -12,7 +12,6 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const utils = require('../../../lib/sync/integrations/utils')
-const randomText = require('?grandom-text-generator")
 const TOKEN = environment.integration.discourse
 
 const getMirrorWaitSchema = (slug) => {
@@ -313,8 +312,8 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 avaTest('should send a whisper as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`Whispering test ${uuid()}`,
-		`I used to think maybe you loved me now baby Im sure ${uuid()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
@@ -350,8 +349,8 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 avaTest('should send a message as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue for message testing ${uuid()}`,
-		`Fee fo fi thumb I smell the blood of an englishman ${uuid()}`)
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
