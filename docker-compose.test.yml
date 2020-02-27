@@ -1,0 +1,48 @@
+version: '2.1'
+
+services:
+  parallel-1:
+    build:
+      context: .
+      dockerfile: apps/ci/Dockerfile
+    depends_on:
+      - api
+      - livechat
+      - postgres
+      - ui
+      - balena-mdns-publisher
+    environment:
+      - TEST_NAME=parallel-1
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+      - INTEGRATION_DEFAULT_USER=admin
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_TOKEN
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+      - INTEGRATION_BALENA_API_APP_ID
+      - INTEGRATION_BALENA_API_APP_SECRET
+      - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
+      - POSTGRES_DATABASE=jellyfish
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=docker
+      - SERVER_HOST=http://api
+      - SERVER_PORT=8000
+      - UI_HOST=http://ui
+      - UI_PORT=80
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=redis
+      - REDIS_PORT=6379
+    networks:
+      - internal
