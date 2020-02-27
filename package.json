@@ -67,6 +67,7 @@
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.8.6",
     "@json-schema-org/tests": "^1.0.0",
     "ava": "^3.3.0",
     "babel-loader": "^8.0.6",
@@ -108,7 +109,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@babel/register": "^7.8.3",
     "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.6.1",
