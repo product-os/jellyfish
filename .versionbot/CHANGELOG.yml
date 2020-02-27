@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update references to GitHub test repo to new location
+      hash: 9afe561ed017e240f6bd1050bb89fa10e0714963
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.2.6
+  date: 2020-02-27T00:36:33.474Z
+- commits:
     - subject: Fix CardChatSummery test
       hash: e7ec629043bafe9881b3bb359fa8f7fd87005dc9
       body: ''
