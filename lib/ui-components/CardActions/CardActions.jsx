@@ -13,11 +13,11 @@ import {
 } from 'rendition'
 import CardLinker from '../CardLinker'
 import ContextMenu from '../ContextMenu'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../../lib/ui-components/services/helpers'
 import {
 	ActionLink
-} from '@jellyfish/ui-components/shame/ActionLink'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../shame/ActionLink'
+import Icon from '../shame/Icon'
 
 export default class CardActions extends React.Component {
 	constructor (props) {

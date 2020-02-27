@@ -21,7 +21,7 @@ import {
 import {
 	sdk
 } from '../../../core'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 import Feedback from './Feedback'
 
 export default function AuditPanel (props) {

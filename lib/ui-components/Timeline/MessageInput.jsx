@@ -13,12 +13,12 @@ import {
 	useTheme
 } from 'rendition'
 import styled from 'styled-components'
-import AutocompleteTextarea from '@jellyfish/ui-components/shame/AutocompleteTextarea'
+import AutocompleteTextarea from '../shame/AutocompleteTextarea'
 import FileIcon from 'react-icons/lib/fa/paperclip'
 import UseSecretIcon from 'react-icons/lib/fa/user-secret'
 import {
 	FileUploadButton
-} from '@jellyfish/ui-components/FileUploader'
+} from '../FileUploader'
 
 const PlainAutocompleteTextarea = styled(AutocompleteTextarea) `
 	border: 0 !important;

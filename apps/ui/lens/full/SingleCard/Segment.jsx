@@ -21,9 +21,9 @@ import {
 } from '../../../lens'
 import {
 	evalSchema
-} from '@jellyfish/ui-components/services/helpers'
-import LinkModal from '@jellyfish/ui-components/LinkModal'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+} from '../../../../../lib/ui-components/services/helpers'
+import LinkModal from '../../../../../lib/ui-components/LinkModal'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 export default class Segment extends React.Component {
 	constructor (props) {
