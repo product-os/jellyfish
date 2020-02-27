@@ -642,6 +642,23 @@ export default class ActionCreator {
 									})
 								}
 							}
+
+							// If we receive a user card...
+							if (card.type.split('@')[0] === 'user') {
+								// ...and we have a corresponding actor already cached in our Redux store
+								if (selectors.getActor(getState(), id)) {
+									// ...then update the card for that actor
+									dispatch({
+										type: actions.UPDATE_ACTOR,
+										value: {
+											actor: {
+												card
+											},
+											id
+										}
+									})
+								}
+							}
 						}
 					})
 
