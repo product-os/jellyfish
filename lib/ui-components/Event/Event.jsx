@@ -278,7 +278,6 @@ export default class Event extends React.Component {
 		}
 
 		this.state = {
-			actor: null,
 			showMenu: false,
 			expanded: false,
 			messageHeight: null
@@ -294,16 +293,6 @@ export default class Event extends React.Component {
 
 	async componentDidMount () {
 		this.processText()
-
-		const createCard = _.find(_.get(this.props.card, [ 'links', 'has attached element' ]), (linkedCard) => {
-			return [ 'create', 'create@1.0.0' ].includes(linkedCard.type)
-		})
-
-		const actorId = _.get(this.props.card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
-		const actor = await this.props.getActor(actorId)
-		this.setState({
-			actor
-		})
 	}
 
 	downloadAttachment (event) {
@@ -398,7 +387,7 @@ export default class Event extends React.Component {
 
 		return (
 			<Txt color={Theme.colors.text.light}>
-				<em>{text}</em> <strong>{this.state.actor ? this.state.actor.name : ''}</strong>
+				<em>{text}</em> <strong>{this.props.actor ? this.props.actor.name : ''}</strong>
 			</Txt>
 		)
 	}
@@ -406,11 +395,9 @@ export default class Event extends React.Component {
 	render () {
 		const {
 			card,
+			actor,
 			addNotification
 		} = this.props
-		const {
-			actor
-		} = this.state
 		const props = _.omit(this.props, [
 			'card',
 			'menuOptions',
