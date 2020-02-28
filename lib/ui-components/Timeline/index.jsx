@@ -35,7 +35,8 @@ const messageSymbolRE = /^\s*%\s*/
  * This message text is used when uploading a file so that syncing can be done
  * effectively without have to sync the entire file
  */
-const FILE_PROXY_MESSAGE = '[](#jellyfish-hidden)A file has been uploaded using Jellyfish:'
+export const HIDDEN_ANCHOR = '#jellyfish-hidden'
+export const FILE_PROXY_MESSAGE = `[](${HIDDEN_ANCHOR})A file has been uploaded using Jellyfish:`
 
 const TypingNotice = styled.div `
 	background: white;

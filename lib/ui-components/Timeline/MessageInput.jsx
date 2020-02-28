@@ -14,10 +14,9 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import AutocompleteTextarea from '../shame/AutocompleteTextarea'
-import FileIcon from 'react-icons/lib/fa/paperclip'
 import UseSecretIcon from 'react-icons/lib/fa/user-secret'
 import {
-	FileUploadButton
+	FilesInput
 } from '../FileUploader'
 
 const PlainAutocompleteTextarea = styled(AutocompleteTextarea) `
@@ -64,6 +63,7 @@ const MessageInput = React.memo(({
 	value,
 	onChange,
 	onSubmit,
+	files,
 	onFileChange,
 	wide = true,
 	style,
@@ -127,12 +127,9 @@ const MessageInput = React.memo(({
 	)
 
 	const fileUploadButton = (
-		<FileUploadButton
-			fontSize="18px"
-			plain
-			p={2}
+		<FilesInput
+			value={files}
 			onChange={onFileChange}
-			icon={<FileIcon />}
 		/>
 	)
 
@@ -164,13 +161,13 @@ const MessageInput = React.memo(({
 				}}>
 					{textInput}
 				</Box>
-				<Box px={2} style={{
+				<Flex px={2} style={{
 					gridColumn: 2,
 					gridRow: 1
 				}}>
 					{toggleWhisperButton}
 					{fileUploadButton}
-				</Box>
+				</Flex>
 				<Box style={{
 					gridColumn: 1,
 					gridRow: 2

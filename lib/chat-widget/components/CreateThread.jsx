@@ -49,7 +49,7 @@ export const CreateThread = ({
 	const currentUser = useSelector(selectCurrentUser())
 	const [ subject, setSubject ] = React.useState('')
 	const [ text, setText ] = React.useState('')
-	const [ files, setFiles ] = React.useState('')
+	const [ files, setFiles ] = React.useState([])
 	const actions = useActions()
 	const initiateThreadTask = useTask(actions.initiateThread)
 
@@ -103,6 +103,7 @@ export const CreateThread = ({
 					value={text}
 					placeholder="Type your message"
 					onChange={handleTextChange}
+					files={files}
 					onFileChange={handleFileChange}
 					onSubmit={handleSubmit}
 				/>

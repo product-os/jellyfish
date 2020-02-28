@@ -38,6 +38,9 @@ import {
 } from '../shame/ActionLink'
 import Avatar from '../shame/Avatar'
 import Icon from '../shame/Icon'
+import {
+	HIDDEN_ANCHOR
+} from '../Timeline'
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
@@ -109,11 +112,10 @@ export const getMessage = (card) => {
 		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
 	}
 
-	if (message.includes('#jellyfish-hidden')) {
-		return ''
-	}
-
 	return message
+		.split('\n')
+		.filter((line) => { return !line.includes(HIDDEN_ANCHOR) })
+		.join('\n')
 }
 
 const downloadFile = async (sdk, cardId, file) => {
