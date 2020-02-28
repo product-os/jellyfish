@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove duplicate "Outreach Mirror" test executions
+      hash: d1a360ccb379c02e2635612b324dadcc6813e435
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.10
+  date: 2020-02-28T09:04:15.024Z
+- commits:
     - subject: Use random-word package to diversify data
       hash: f2819f5ab23883fec8ead5413281653fc6d959fb
       body: ''
