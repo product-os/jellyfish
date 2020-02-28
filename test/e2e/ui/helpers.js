@@ -5,8 +5,17 @@
  */
 
 const puppeteer = require('puppeteer')
+const uuid = require('uuid/v4')
 const environment = require('../../../lib/environment')
 const helpers = require('../sdk/helpers')
+
+exports.generateUserDetails = () => {
+	return {
+		username: `johndoe-${uuid()}`,
+		email: `johndoe-${uuid()}@example.com`,
+		password: 'password'
+	}
+}
 
 exports.addPageHandlers = (page, headless = true) => {
 	const onError = (prefix) => {

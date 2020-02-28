@@ -630,3 +630,82 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 
 	test.pass('Support thread closed correctly')
 })
+
+ava.serial('My Participation shows only support threads that the logged-in user has participated in', async (test) => {
+	const {
+		page
+	} = context
+
+	// Add a support thread and message that should _not_ appear in the new user's My Participation view
+	const supportThread1 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messageText1 = uuid()
+
+	const messageEvent1 = {
+		target: supportThread1,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: messageText1
+		}
+	}
+
+	await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent1)
+
+	// Create a new user and login as that user
+	const otherUser = helpers.generateUserDetails()
+	const otherCommunityUser = await context.createUser(otherUser)
+	await context.addUserToBalenaOrg(otherCommunityUser.id)
+	await macros.logout(page)
+	await macros.loginUser(page, otherUser)
+
+	// Go to the My Participation view and verify there are no threads listed
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-support-threads-participation`)
+	await page.waitForSelector('[data-test="alt-text--no-support-threads"]')
+
+	// Add a new support thread and send a message in it
+	const supportThread2 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messageText2 = uuid()
+
+	const messageEvent2 = {
+		target: supportThread2,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: messageText2
+		}
+	}
+
+	await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent2)
+
+	// Verify the expected support thread is now listed
+	await page.waitForSelector('[data-test-component="card-chat-summary"]')
+	const actualMessageText2 = await macros.getElementText(
+		page,
+		`[data-test-id="${supportThread2.id}"] [data-test="card-chat-summary__message"] p`
+	)
+	test.is(actualMessageText2, messageText2)
+})
