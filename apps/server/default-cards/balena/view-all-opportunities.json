@@ -48,7 +48,7 @@
     ],
     "lenses": [
       "lens-list",
-      "lens-better-table",
+      "lens-crm-table",
       "lens-kanban"
     ]
   },
