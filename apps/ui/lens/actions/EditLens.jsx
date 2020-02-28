@@ -50,6 +50,7 @@ class EditLens extends React.Component {
 
 		// Omit known computed values from the schema
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [
+			'properties.data.properties.participants',
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.alertsUser',
 

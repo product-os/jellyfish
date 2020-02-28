@@ -257,6 +257,7 @@ class CreateLens extends React.Component {
 
 		// Omit known computed values from the schema
 		const schema = _.omit(selectedTypeTarget.data.schema, [
+			'properties.data.properties.participants',
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.alertsUser'
 		])

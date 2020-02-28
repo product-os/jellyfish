@@ -35,7 +35,7 @@ class GroupUpdate extends React.Component {
 			// Remove known metadata properties
 			if (flatSchema.properties) {
 				flatSchema.properties = _.omitBy(flatSchema.properties, (value) => {
-					return _.includes([ 'alertsUser', 'mentionsUser', '$$localSchema' ], value.title)
+					return _.includes([ 'participants', 'alertsUser', 'mentionsUser', '$$localSchema' ], value.title)
 				})
 			}
 			const selectedField = _.keys(flatSchema.properties).shift()
