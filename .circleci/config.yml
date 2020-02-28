@@ -122,13 +122,6 @@ jobs:
           command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
 
       - run:
-          name: Sync Tests Outreach Mirror
-          command: make test FILES=./test/integration/server/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-      - run:
-          name: Sync Tests Outreach Mirror Without Tokens
-          command: make test FILES=./test/integration/server/outreach-mirror.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
-
-      - run:
           name: Sync Tests Balena API Translate
           command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
       - run:
