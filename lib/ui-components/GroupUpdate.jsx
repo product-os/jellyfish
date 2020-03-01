@@ -19,7 +19,7 @@ import {
 } from 'rendition/dist/unstable'
 import {
 	patchPath
-} from '@jellyfish/ui-components/services/helpers'
+} from './services/helpers'
 import {
 	withSetup
 } from './SetupProvider'

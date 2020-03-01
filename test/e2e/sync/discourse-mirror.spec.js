@@ -12,6 +12,7 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const utils = require('../../../lib/sync/integrations/utils')
+const randomWords = require('random-words')
 const TOKEN = environment.integration.discourse
 
 const getMirrorWaitSchema = (slug) => {
@@ -45,6 +46,9 @@ const getMirrorWaitSchema = (slug) => {
 			}
 		}
 	}
+}
+const generateRandomWords = (number) => {
+	return randomWords(number).join(' ')
 }
 
 ava.before(async (test) => {
@@ -349,8 +353,9 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 avaTest('should send a message as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
@@ -371,8 +376,9 @@ avaTest('should send a message as a non moderator user', async (test) => {
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My closed issue topic ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	const issue = await test.context.sdk.card.create({
 		name: 'My issue',
@@ -380,7 +386,7 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 		type: 'issue',
 		version: '1.0.0',
 		data: {
-			repository: 'balena-io/jellyfish-test-github',
+			repository: 'product-os/jellyfish-test-github',
 			description: 'Foo bar',
 			status: 'open',
 			mentionsUser: [],
@@ -430,8 +436,9 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 avaTest('should not update a post by posting a #summary whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My summary issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
@@ -448,8 +455,9 @@ avaTest('should not update a post by posting a #summary whisper', async (test) =
 avaTest('should not update a post by defining no new tags', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My re-tagged issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
@@ -472,8 +480,9 @@ avaTest('should not update a post by defining no new tags', async (test) => {
 avaTest('should not re-open a closed thread by marking a message as read', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	const message = await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Hello')
@@ -502,8 +511,9 @@ avaTest('should not re-open a closed thread by marking a message as read', async
 avaTest('should fail with a user error if posting an invalid message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	const error = await test.throwsAsync(test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), '.'))
@@ -740,8 +750,9 @@ avaTest('should update a whisper', async (test) => {
 avaTest('should send a message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'First comment')

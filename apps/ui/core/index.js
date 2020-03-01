@@ -6,7 +6,7 @@
 
 import localForage from 'localforage'
 import * as _ from 'lodash'
-import Analytics from '@jellyfish/ui-components/services/analytics'
+import Analytics from '../../../lib/ui-components/services/analytics'
 import * as environment from '../environment'
 import {
 	sdk as SDK
@@ -83,4 +83,6 @@ localForage.getItem(STORAGE_KEY)
 		console.error(error)
 	})
 
-window.sdk = sdk
+if (typeof window !== 'undefined') {
+	window.sdk = sdk
+}

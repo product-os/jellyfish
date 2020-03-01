@@ -14,7 +14,7 @@ import {
 import {
 	actionCreators
 } from '../../core'
-import Login from '@jellyfish/ui-components/Login'
+import Login from '../../../../lib/ui-components/Login'
 
 const mapDispatchToProps = (dispatch) => {
 	return {

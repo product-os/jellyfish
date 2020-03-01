@@ -8,7 +8,7 @@ import React from 'react'
 import styled from 'styled-components'
 import {
 	App
-} from '@jellyfish/chat-widget'
+} from '../../lib/chat-widget'
 import {
 	useSetup
 } from './SetupProvider'

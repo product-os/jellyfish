@@ -6,10 +6,17 @@
 
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	configure
 } from 'enzyme'
 import React from 'react'
 import Login from '../Login'
+
+import Adapter from 'enzyme-adapter-react-16'
+
+configure({
+	adapter: new Adapter()
+})
 
 ava('It should render', (test) => {
 	test.notThrows(() => {

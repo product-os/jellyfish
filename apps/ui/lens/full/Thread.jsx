@@ -23,7 +23,7 @@ import {
 import {
 	selectors
 } from '../../core'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
 import Timeline from '../list/Timeline'
 import CardLayout from '../../layouts/CardLayout'
 

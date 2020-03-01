@@ -25,9 +25,9 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Column from '@jellyfish/ui-components/shame/Column'
-import * as helpers from '@jellyfish/ui-components/services/helpers'
-import Icon from '@jellyfish/ui-components/shame/Icon'
+import Column from '../../../../lib/ui-components/shame/Column'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
+import Icon from '../../../../lib/ui-components/shame/Icon'
 import CardChatSummary from '../../../../lib/ui-components/CardChatSummary'
 import {
 	InfiniteList

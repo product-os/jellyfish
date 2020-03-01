@@ -1,4 +1,146 @@
 - commits:
+    - subject: Remove duplicate "Outreach Mirror" test executions
+      hash: d1a360ccb379c02e2635612b324dadcc6813e435
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.10
+  date: 2020-02-28T09:04:15.024Z
+- commits:
+    - subject: Use random-word package to diversify data
+      hash: f2819f5ab23883fec8ead5413281653fc6d959fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 26.2.9
+  date: 2020-02-28T05:55:18.736Z
+- commits:
+    - subject: 'doc: Add documentation for data model, permissions and API queries'
+      hash: dbdd6daded5f37acd82b736a73837e272abab575
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 26.2.8
+  date: 2020-02-27T16:20:38.322Z
+- commits:
+    - subject: Update webpack.config to remove the @jellyfish alias
+      hash: 43726558ab9dcae092fd36ee3f2bdd30b8cc8efa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Remove webpack @jellyfish alias from ui-components
+      hash: b7783c30f3e9e03a80c8290a104e3c12f647cc6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.7
+  date: 2020-02-27T06:57:28.450Z
+- commits:
+    - subject: Update references to GitHub test repo to new location
+      hash: 9afe561ed017e240f6bd1050bb89fa10e0714963
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.2.6
+  date: 2020-02-27T00:36:33.474Z
+- commits:
+    - subject: Fix CardChatSummery test
+      hash: e7ec629043bafe9881b3bb359fa8f7fd87005dc9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update unit tests to support future sinon versions
+      hash: 81047b0bd326a3741feaf7581f7394d020579be8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.5
+  date: 2020-02-26T19:02:28.430Z
+- commits:
+    - subject: Allow window to be undefined
+      hash: 726f4c0b9d16e753978c408f019d941aca32bfe2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.2.4
+  date: 2020-02-26T17:23:12.132Z
+- commits:
+    - subject: Fix bold mistake introduced in e03c806f5b2204f1c27b43899b34953f53e10845
+      hash: 616cab2c9b67907e5e9b0a46998bba00d4a3666e
+      body: |
+        We are not currently logging unless levels matche, but that's NOT how
+        log levels work: if log level is 'debug' and we log an exception, it
+        must be logged
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.2.3
+  date: 2020-02-26T14:17:27.492Z
+- commits:
+    - subject: 'dev: Update repository code owners'
+      hash: 3a85d8cd3b817ce4152765120c14357c570c6be1
+      body: |
+        Added grahammcculloch as a code owner
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.2.2
+  date: 2020-02-26T13:24:03.167Z
+- commits:
+    - subject: Use postgres host env var in more places
+      hash: 80c5f5d748a1d49937ef08ab54f2505715eee489
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.2.1
+  date: 2020-02-26T07:15:48.702Z
+- commits:
     - subject: >-
         Use graphile-worker instead of our own implementation of a db based
         queue
