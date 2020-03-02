@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'server: Log external event creation through the hooks endpoint'
+      hash: 3b95094bfc980d8334b2a33cf29283e293ea05ca
+      body: |
+        For debugging purposes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.4.7
+  date: 2020-03-02T16:35:18.850Z
+- commits:
     - subject: Move babel/register to devdependencies
       hash: 15be96041011b1f824ed94f9079f14028cfb8eb9
       body: ''
