@@ -248,8 +248,9 @@ const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 avaTest('should send, but not sync, a whisper to a deleted thread', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My deleted summary issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
@@ -282,8 +283,9 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 avaTest('should send, but not sync, a message to a deleted thread', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My deleted summary issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
@@ -316,13 +318,16 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 avaTest('should send a whisper as a non moderator user', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
+
+	const content = generateRandomWords(50)
 
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
 	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), 'First whisper')
+		test.context.getWhisperSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -334,7 +339,7 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 	test.is(utils.parseHTML(lastPost.cooked, {
 		baseUrl
 	}), [
-		`(${test.context.username}) First whisper`,
+		`(${test.context.username}) ${content}`,
 		'',
 		'* * *',
 		'',
@@ -357,17 +362,19 @@ avaTest('should send a message as a non moderator user', async (test) => {
 		generateRandomWords(10)
 	)
 
+	const content = generateRandomWords(50)
+
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
 	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'First comment')
+		test.context.getMessageSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), 'First comment')
+	test.is(utils.parseHTML(lastPost.cooked), content)
 	test.is(lastPost.post_type, 1)
 
 	await helpers.mirror.afterEach(test)
@@ -443,8 +450,10 @@ avaTest('should not update a post by posting a #summary whisper', async (test) =
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.username)
 
+	const content = generateRandomWords(50)
+
 	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), '#summary Foo Bar')
+		test.context.getWhisperSlug(), `#summary ${content}`)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
@@ -484,8 +493,9 @@ avaTest('should not re-open a closed thread by marking a message as read', async
 		generateRandomWords(10)
 	)
 
+	const content = generateRandomWords(50)
 	const message = await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'Hello')
+		test.context.getMessageSlug(), content)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -524,8 +534,9 @@ avaTest('should fail with a user error if posting an invalid message', async (te
 avaTest('should not re-open a closed thread with a whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -535,8 +546,9 @@ avaTest('should not re-open a closed thread with a whisper', async (test) => {
 		}
 	])
 
+	const content = generateRandomWords(50)
 	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), 'Hello')
+		test.context.getWhisperSlug(), content)
 
 	const thread = await test.context.sdk.getById(supportThread.id)
 	test.true(thread.active)
@@ -546,8 +558,9 @@ avaTest('should not re-open a closed thread with a whisper', async (test) => {
 avaTest('should not re-open an archived thread with a whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -568,8 +581,9 @@ avaTest('should not re-open an archived thread with a whisper', async (test) => 
 avaTest('should re-open a closed thread with a message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -590,8 +604,9 @@ avaTest('should re-open a closed thread with a message', async (test) => {
 avaTest('should re-open an archived thread with a message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -601,8 +616,9 @@ avaTest('should re-open an archived thread with a message', async (test) => {
 		}
 	])
 
+	const content = generateRandomWords(50)
 	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'Hello')
+		test.context.getMessageSlug(), content)
 
 	const thread = await test.context.sdk.getById(supportThread.id)
 	test.true(thread.active)
@@ -612,13 +628,15 @@ avaTest('should re-open an archived thread with a message', async (test) => {
 avaTest('should close a thread with a #summary whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	test.is(supportThread.data.status, 'open')
 
+	const content = generateRandomWords(50)
 	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), '#summary Foo Bar')
+		test.context.getWhisperSlug(), `#summary ${content}`)
 
 	const thread = await test.context.sdk.getById(supportThread.id)
 	test.true(thread.active)
@@ -638,8 +656,9 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 avaTest('should add and remove a thread tag', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -665,8 +684,9 @@ avaTest('should add and remove a thread tag', async (test) => {
 avaTest('should add a thread tag', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -684,8 +704,9 @@ avaTest('should add a thread tag', async (test) => {
 avaTest('should not sync top level tags', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -703,38 +724,43 @@ avaTest('should not sync top level tags', async (test) => {
 avaTest('should send a whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
+	const content = generateRandomWords(50)
 	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), 'First whisper')
+		test.context.getWhisperSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), 'First whisper')
+	test.is(utils.parseHTML(lastPost.cooked), content)
 	test.is(lastPost.post_type, 4)
 })
 
 avaTest('should update a whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
+	const content = generateRandomWords(50)
 	const whisper = await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), 'First whisper')
+		test.context.getWhisperSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
+	const newContent = generateRandomWords(50)
 	await test.context.sdk.card.update(whisper.id, whisper.type, [
 		{
 			op: 'replace',
 			path: '/data/payload/message',
-			value: 'Edited whisper'
+			value: newContent
 		}
 	])
 
@@ -742,7 +768,7 @@ avaTest('should update a whisper', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), 'Edited whisper')
+	test.is(utils.parseHTML(lastPost.cooked), newContent)
 	test.is(lastPost.post_type, 4)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })
@@ -754,35 +780,39 @@ avaTest('should send a message', async (test) => {
 		generateRandomWords(10)
 	)
 
+	const content = generateRandomWords(50)
 	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'First comment')
+		test.context.getMessageSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), 'First comment')
+	test.is(utils.parseHTML(lastPost.cooked), content)
 	test.is(lastPost.post_type, 1)
 })
 
 avaTest('should update a message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
+	const content = generateRandomWords(50)
 	const message = await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'First comment')
+		test.context.getMessageSlug(), content)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
+	const newContent = generateRandomWords(50)
 	await test.context.sdk.card.update(message.id, message.type, [
 		{
 			op: 'replace',
 			path: '/data/payload/message',
-			value: 'Edited comment'
+			value: newContent
 		}
 	])
 
@@ -790,7 +820,7 @@ avaTest('should update a message', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), 'Edited comment')
+	test.is(utils.parseHTML(lastPost.cooked), newContent)
 	test.is(lastPost.post_type, 1)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })
@@ -798,10 +828,11 @@ avaTest('should update a message', async (test) => {
 avaTest('should update the thread title', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`)
+		generateRandomWords(5),
+		generateRandomWords(10)
+	)
 
-	const newTitle = `New issue title ${uuid()}`
+	const newTitle = `${generateRandomWords(10)} ${uuid()}`
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
