@@ -336,8 +336,7 @@ const getObjDifference = (expected, obtained) => {
 
 module.exports = {
 	beforeEach: async (test) => {
-		const suffix = TRANSLATE_PREFIX
-		const dbName = `test_${suffix.replace(/-/g, '_')}`
+		const dbName = `test_${uuid().replace(/-/g, '_')}`
 		const context = {
 			id: `CORE-TEST-${uuid()}`
 		}
