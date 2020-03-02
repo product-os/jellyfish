@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'circleci: Remove balena cloud job'
+      hash: b804bc9f2a8d88f408620a755c4add6bbd9ef742
+      body: |
+        We don't need this job anymore if we develop on balena already.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.4.3
+  date: 2020-03-02T13:45:48.235Z
+- commits:
     - subject: Allow env to be undefined
       hash: 7bb4a088861451b537043037981ff082250aef81
       body: >
