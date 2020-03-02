@@ -13,8 +13,6 @@ const _ = require('lodash')
 const helpers = require('../../helpers')
 const syncContext = require('../../../lib/action-library/sync-context')
 
-const TRANSLATE_PREFIX = uuid()
-
 const tailSort = [
 	(card) => {
 		return card.data.timestamp
@@ -336,7 +334,8 @@ const getObjDifference = (expected, obtained) => {
 
 module.exports = {
 	beforeEach: async (test) => {
-		const dbName = `test_${uuid().replace(/-/g, '_')}`
+		const suffix = uuid()
+		const dbName = `test_${suffix.replace(/-/g, '_')}`
 		const context = {
 			id: `CORE-TEST-${uuid()}`
 		}
