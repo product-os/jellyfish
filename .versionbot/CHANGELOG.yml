@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add faq card type to default cards
+      hash: 6b8b470e52d4347877cf9b9a4cebf084b8d67c6b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 26.3.0
+  date: 2020-03-02T00:19:28.865Z
+- commits:
     - subject: Remove duplicate "Outreach Mirror" test executions
       hash: d1a360ccb379c02e2635612b324dadcc6813e435
       body: ''
