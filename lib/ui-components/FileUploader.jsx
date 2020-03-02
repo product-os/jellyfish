@@ -5,8 +5,12 @@
  */
 
 import React from 'react'
+import FileIcon from 'react-icons/lib/fa/paperclip'
 import {
-	Button
+	Box,
+	Button,
+	Flex,
+	Tag
 } from 'rendition'
 import styled from 'styled-components'
 
@@ -52,5 +56,56 @@ export const FileUploadButton = ({
 		<FileUploader onChange={onChange}>
 			{(startUpload) => { return <Button onClick={startUpload} {...rest} /> }}
 		</FileUploader>
+	)
+}
+
+const FileTag = ({
+	file, onRemove, ...rest
+}) => {
+	const handleRemove = React.useCallback(() => {
+		onRemove(file)
+	}, [ file, onRemove ])
+
+	return (
+		<Tag onClose={handleRemove} {...rest} name={file.name} />
+	)
+}
+
+export const FilesInput = ({
+	value = [],
+	onChange,
+	multiple,
+	...rest
+}) => {
+	const handleRemove = React.useCallback((file) => {
+		onChange(value.filter((item) => {
+			return item !== file
+		}))
+	}, [ value ])
+
+	return (
+		<Flex {...rest} alignItems="center">
+			{(multiple || !value.length) && (
+				<Box style={{
+					lineHeight: 1
+				}}>
+					<FileUploadButton
+						p={2}
+						fontSize="18px"
+						plain
+						multiple={multiple}
+						onChange={onChange}
+						icon={<FileIcon />}
+					/>
+				</Box>
+			)}
+			<Box flex="1">
+				{value.map((file) => {
+					return (
+						<FileTag ml={1} key={file.name} file={file} onRemove={handleRemove} />
+					)
+				})}
+			</Box>
+		</Flex>
 	)
 }
