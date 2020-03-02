@@ -1,4 +1,16 @@
 - commits:
+    - subject: Configure Kanban Lens for opportunities
+      hash: 6b6277aad63dce5f0ecc5e32323e8579687d71cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.4.4
+  date: 2020-03-02T14:24:58.703Z
+- commits:
     - subject: 'circleci: Remove balena cloud job'
       hash: b804bc9f2a8d88f408620a755c4add6bbd9ef742
       body: |
