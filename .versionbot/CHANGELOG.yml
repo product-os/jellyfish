@@ -1,4 +1,14 @@
 - commits:
+    - subject: Implement file upload on thread creation
+      hash: 178adc4cc69162c9c15e922bd69b66da278efd03
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 26.4.0
+  date: 2020-03-02T08:46:28.079Z
+- commits:
     - subject: Add test data cleanup scripts and CircleCI job
       hash: c74cc66fdfae607c5c43488e0d15c47369caf14c
       body: ''
