@@ -1,0 +1,35 @@
+{
+  "slug": "view-all-faqs",
+  "name": "FAQs",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All FAQs",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [ "faq", "faq@1.0.0" ]
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ],
+  },
+  "requires": [],
+  "capabilities": []
+}
