@@ -393,6 +393,13 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				}
 
 				return uuid.random().then((id) => {
+					const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`
+
+					logger.info(request.context, 'Creating external event', {
+						source: request.params.provider,
+						slug
+					})
+
 					return producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 						action: 'action-create-card@1.0.0',
 						card: typeCard.id,
@@ -401,7 +408,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 						arguments: {
 							reason: null,
 							properties: {
-								slug: `${EXTERNAL_EVENT_BASE_TYPE}-${id}`,
+								slug,
 								version: '1.0.0',
 								data: {
 									source: request.params.provider,
