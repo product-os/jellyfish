@@ -1354,7 +1354,9 @@ ava('.getNextExecutionDate() should throw if the interval is invalid', async (te
 				}
 			}
 		}, date)
-	}, errors.WorkerInvalidDuration)
+	}, {
+		instanceOf: errors.WorkerInvalidDuration
+	})
 })
 
 ava('.getNextExecutionDate() should return the next interval after the last execution', async (test) => {
@@ -1387,7 +1389,7 @@ ava('.getNextExecutionDate() should return the next interval after the last exec
 })
 
 ava('.getNextExecutionDate() should return the start date if the last execution ' +
-				'happened way before the start date', async (test) => {
+	'happened way before the start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({
@@ -1417,7 +1419,7 @@ ava('.getNextExecutionDate() should return the start date if the last execution 
 })
 
 ava('.getNextExecutionDate() should return the subsequent interval if the last ' +
-				' execution happened just before the start date', async (test) => {
+	' execution happened just before the start date', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 	const result = triggers.getNextExecutionDate({

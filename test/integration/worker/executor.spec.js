@@ -468,7 +468,9 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 		version: '1.0.0',
 		slug: 'foo-bar-baz',
 		active: false
-	}), test.context.jellyfish.errors.JellyfishElementAlreadyExists)
+	}), {
+		instanceOf: test.context.jellyfish.errors.JellyfishElementAlreadyExists
+	})
 })
 
 ava('.insertCard() should add a create event if attachEvents is true', async (test) => {
@@ -1615,7 +1617,9 @@ ava('.run() should throw if the input card does not exist', async (test) => {
 				slug: 'foo-bar-baz'
 			}
 		}
-	}), errors.WorkerNoElement)
+	}), {
+		instanceOf: errors.WorkerNoElement
+	})
 })
 
 ava('.run() should throw if the actor does not exist', async (test) => {
@@ -1639,7 +1643,9 @@ ava('.run() should throw if the actor does not exist', async (test) => {
 				slug: 'foo-bar-baz'
 			}
 		}
-	}), errors.WorkerNoElement)
+	}), {
+		instanceOf: errors.WorkerNoElement
+	})
 })
 
 ava('.run() should throw if input card does not match the action filter', async (test) => {
@@ -1660,7 +1666,9 @@ ava('.run() should throw if input card does not match the action filter', async 
 				slug: 'foo-bar-baz'
 			}
 		}
-	}), errors.WorkerSchemaMismatch)
+	}), {
+		instanceOf: errors.WorkerSchemaMismatch
+	})
 })
 
 ava('.run() should throw if the arguments do not match the action', async (test) => {
@@ -1682,7 +1690,9 @@ ava('.run() should throw if the arguments do not match the action', async (test)
 			foo: 'bar',
 			bar: 'baz'
 		}
-	}), errors.WorkerSchemaMismatch)
+	}), {
+		instanceOf: errors.WorkerSchemaMismatch
+	})
 })
 
 ava('.run() should throw if the action has no corresponding implementation', async (test) => {
@@ -1705,5 +1715,7 @@ ava('.run() should throw if the action has no corresponding implementation', asy
 				slug: 'foo-bar-baz'
 			}
 		}
-	}), errors.WorkerInvalidAction)
+	}), {
+		instanceOf: errors.WorkerInvalidAction
+	})
 })

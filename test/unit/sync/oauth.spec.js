@@ -96,7 +96,9 @@ ava('.getAuthorizeUrl() should throw given no appId', (test) => {
 		}, {
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
 		})
-	}, oauth.OAuthInvalidOption)
+	}, {
+		instanceOf: oauth.OAuthInvalidOption
+	})
 })
 
 ava('.getAuthorizeUrl() should throw given no redirectUri', (test) => {
@@ -110,7 +112,9 @@ ava('.getAuthorizeUrl() should throw given no redirectUri', (test) => {
 		}, {
 			appId: 'xxxxxxxxxx'
 		})
-	}, oauth.OAuthInvalidOption)
+	}, {
+		instanceOf: oauth.OAuthInvalidOption
+	})
 })
 
 ava('.getAuthorizeUrl() should throw given no scopes', (test) => {
@@ -121,7 +125,9 @@ ava('.getAuthorizeUrl() should throw given no scopes', (test) => {
 			appId: 'xxxxxxxxxx',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
 		})
-	}, oauth.OAuthInvalidOption)
+	}, {
+		instanceOf: oauth.OAuthInvalidOption
+	})
 })
 
 ava('.getAuthorizeUrl() should throw given scopes is null', (test) => {
@@ -132,7 +138,9 @@ ava('.getAuthorizeUrl() should throw given scopes is null', (test) => {
 			appId: 'xxxxxxxxxx',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
 		})
-	}, oauth.OAuthInvalidOption)
+	}, {
+		instanceOf: oauth.OAuthInvalidOption
+	})
 })
 
 ava('.getAccessToken() should return the access token if successful', async (test) => {
@@ -219,8 +227,9 @@ ava('.getAccessToken() should throw given the wrong code', async (test) => {
 			appId: 'xxxxxxxxxxxx',
 			appSecret: 'yyyyyyyy',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthUnsuccessfulResponse)
+		}), {
+			instanceOf: oauth.OAuthUnsuccessfulResponse
+		})
 
 	nock.cleanAll()
 })
@@ -233,8 +242,9 @@ ava('.getAccessToken() should throw given no appId', async (test) => {
 		oauth.getAccessToken('https://api.balena-cloud.com', '123456', {
 			appSecret: 'yyyyyyyy',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })
@@ -247,8 +257,9 @@ ava('.getAccessToken() should throw given no appSecret', async (test) => {
 		oauth.getAccessToken('https://api.balena-cloud.com', '123456', {
 			appId: 'xxxxxxxxxx',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })
@@ -261,8 +272,9 @@ ava('.getAccessToken() should throw given no redirectUri', async (test) => {
 		oauth.getAccessToken('https://api.balena-cloud.com', '123456', {
 			appId: 'xxxxxxxxxx',
 			appSecret: 'yyyyyyyy'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })
@@ -363,8 +375,9 @@ ava('.refreshAccessToken() should fail if the access token is invalid', async (t
 			appId: 'xxxxxxxxxxxx',
 			appSecret: 'yyyyyyyy',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthUnsuccessfulResponse)
+		}), {
+			instanceOf: oauth.OAuthUnsuccessfulResponse
+		})
 
 	nock.cleanAll()
 })
@@ -383,8 +396,9 @@ ava('.refreshAccessToken() should fail if no appId', async (test) => {
 		}, {
 			appSecret: 'yyyyyyyy',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })
@@ -403,8 +417,9 @@ ava('.refreshAccessToken() should fail if no appSecret', async (test) => {
 		}, {
 			appId: 'xxxxxxxxxx',
 			redirectUri: 'https://jel.ly.fish/oauth/balena'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })
@@ -423,8 +438,9 @@ ava('.refreshAccessToken() should fail if no redirectUri', async (test) => {
 		}, {
 			appId: 'xxxxxxxxxx',
 			appSecret: 'yyyyyyyy'
-		}),
-		oauth.OAuthInvalidOption)
+		}), {
+			instanceOf: oauth.OAuthInvalidOption
+		})
 
 	nock.cleanAll()
 })

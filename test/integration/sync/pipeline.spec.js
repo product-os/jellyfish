@@ -35,7 +35,9 @@ ava('.importCards() should throw if the type is invalid', async (test) => {
 				}
 			}
 		}
-	]), test.context.worker.errors.WorkerNoElement)
+	]), {
+		instanceOf: test.context.worker.errors.WorkerNoElement
+	})
 })
 
 ava('.importCards() should import a single card', async (test) => {
@@ -355,7 +357,9 @@ ava('.importCards() should throw if a template does not evaluate', async (test) 
 				}
 			}
 		}
-	]), errors.SyncInvalidTemplate)
+	]), {
+		instanceOf: errors.SyncInvalidTemplate
+	})
 })
 
 ava('.importCards() should import a dependent card in parallel segment', async (test) => {
@@ -629,7 +633,9 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 	}), {
 		context: test.context.syncContext,
 		actor: test.context.actor.id
-	}), errors.SyncInvalidTemplate)
+	}), {
+		instanceOf: errors.SyncInvalidTemplate
+	})
 
 	test.true(TestIntegration.instance.initialized)
 	test.true(TestIntegration.instance.destroyed)
@@ -637,6 +643,7 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 
 ava('.translateExternalEvent() should destroy the integration even if there was a translate error', async (test) => {
 	const TranslateError = typedErrors.makeTypedError('TranslateError')
+
 	class BrokenIntegration extends NoOpIntegration {
 		constructor () {
 			super()
@@ -669,7 +676,9 @@ ava('.translateExternalEvent() should destroy the integration even if there was 
 	}, {
 		context: test.context.syncContext,
 		actor: test.context.actor.id
-	}), TranslateError)
+	}), {
+		instanceOf: TranslateError
+	})
 
 	test.true(BrokenIntegration.instance.initialized)
 	test.true(BrokenIntegration.instance.destroyed)

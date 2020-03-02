@@ -39,6 +39,16 @@
     "verbose": true,
     "serial": true,
     "failWithoutAssertions": true,
+    "extensions": [
+      "jsx"
+    ],
+    "babel": {
+      "testOptions": {
+        "plugins": [
+          "@babel/plugin-syntax-jsx"
+        ]
+      }
+    },
     "files": [
       "test/**/*.spec.{js,jsx}",
       "lib/**/*.spec.{js,jsx}",
@@ -52,17 +62,19 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "devDependencies": {
+    "@ava/babel": "^1.0.1",
     "@babel/cli": "^7.2.3",
-    "@babel/core": "^7.2.2",
+    "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.0.0",
+    "@babel/register": "^7.8.6",
     "@json-schema-org/tests": "^1.0.0",
-    "ava": "^1.4.1",
+    "ava": "^3.3.0",
     "babel-loader": "^8.0.6",
     "browser-env": "^3.2.5",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^5.1.1",
-    "depcheck": "^0.7.2",
+    "depcheck": "^0.9.2",
     "deplint": "^1.1.2",
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.13.0",
@@ -87,7 +99,7 @@
     "puppeteer": "1.13.0",
     "request": "^2.88.0",
     "scripts-template": "file:scripts/template",
-    "sinon": "^7.3.2",
+    "sinon": "^8.1.1",
     "style-loader": "^1.0.0",
     "webpack": "^4.1.1",
     "webpack-bundle-analyzer": "^3.6.0",
@@ -97,7 +109,6 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
-    "@babel/register": "^7.0.0",
     "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.6.1",
@@ -175,7 +186,7 @@
     "redis-mock": "^0.39.0",
     "redux": "^3.7.2",
     "redux-thunk": "^2.2.0",
-    "rendition": "^11.34.3",
+    "rendition": "^13.2.3",
     "request-promise": "^4.2.2",
     "response-time": "^2.3.2",
     "skhema": "5.2.9",

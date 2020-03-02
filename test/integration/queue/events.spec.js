@@ -71,7 +71,9 @@ ava('.post() should fail if no result error', async (test) => {
 		timestamp: '2018-06-30T19:34:42.829Z'
 	}, {
 		data: '414f2345-4f5e-4571-820f-28a49731733d'
-	}), test.context.jellyfish.errors.JellyfishSchemaMismatch)
+	}), {
+		instanceOf: test.context.jellyfish.errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.post() should use the passed timestamp in the payload', async (test) => {

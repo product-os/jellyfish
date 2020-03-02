@@ -77,7 +77,9 @@ ava('.patchCardBySlug() should throw an error if the element does not exist', as
 			}
 		], {
 			type: 'card@1.0.0'
-		}), errors.JellyfishNoElement)
+		}), {
+		instanceOf: errors.JellyfishNoElement
+	})
 })
 
 ava('.patchCardBySlug() should apply a single operation', async (test) => {
@@ -341,7 +343,9 @@ ava('.patchCardBySlug() should not be able to delete a top level property', asyn
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -371,7 +375,9 @@ ava('.patchCardBySlug() should throw given an operation without a path', async (
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishInvalidPatch)
+		}), {
+		instanceOf: errors.JellyfishInvalidPatch
+	})
 })
 
 ava('.patchCardBySlug() should throw if the patch does not match', async (test) => {
@@ -394,7 +400,9 @@ ava('.patchCardBySlug() should throw if the patch does not match', async (test) 
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -425,7 +433,9 @@ ava('.patchCardBySlug() should throw if adding to non existent property', async 
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishInvalidPatch)
+		}), {
+		instanceOf: errors.JellyfishInvalidPatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -456,7 +466,9 @@ ava('.patchCardBySlug() should throw given an invalid operation', async (test) =
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishInvalidPatch)
+		}), {
+		instanceOf: errors.JellyfishInvalidPatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -492,7 +504,9 @@ ava('.patchCardBySlug() should not apply half matching patches', async (test) =>
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishInvalidPatch)
+		}), {
+		instanceOf: errors.JellyfishInvalidPatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -523,7 +537,9 @@ ava('.patchCardBySlug() should not break the type schema', async (test) => {
 			}
 		], {
 			type: card.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${card.slug}@${card.version}`, {
@@ -698,7 +714,9 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 			}
 		], {
 			type: userCard.type
-		}), errors.JellyfishNoElement)
+		}), {
+		instanceOf: errors.JellyfishNoElement
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
@@ -801,7 +819,9 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 			}
 		], {
 			type: userCard.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
@@ -1023,7 +1043,9 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 			}
 		], {
 			type: randomCard.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${randomCard.slug}@${randomCard.version}`, {
@@ -1127,7 +1149,9 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 			}
 		], {
 			type: userCard.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
@@ -1232,7 +1256,9 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 			}
 		], {
 			type: userCard.type
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 
 	const result = await test.context.kernel.getCardBySlug(
 		test.context.context,
@@ -1246,7 +1272,9 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 ava('.insertCard() should throw an error if the element is not a valid card', async (test) => {
 	await test.throwsAsync(test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		hello: 'world'
-	}), errors.JellyfishSchemaMismatch)
+	}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should throw an error if the element does not adhere to the type', async (test) => {
@@ -1255,7 +1283,9 @@ ava('.insertCard() should throw an error if the element does not adhere to the t
 		type: 'action@1.0.0',
 		version: '1.0.0',
 		data: {}
-	}), errors.JellyfishSchemaMismatch)
+	}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should throw an error if the slug contains @latest', async (test) => {
@@ -1265,7 +1295,9 @@ ava('.insertCard() should throw an error if the slug contains @latest', async (t
 			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should throw an error if the slug contains a version', async (test) => {
@@ -1275,7 +1307,9 @@ ava('.insertCard() should throw an error if the slug contains a version', async 
 			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should throw an error if the card type does not exist', async (test) => {
@@ -1285,7 +1319,9 @@ ava('.insertCard() should throw an error if the card type does not exist', async
 		version: '1.0.0',
 		active: true,
 		data: {}
-	}), errors.JellyfishUnknownCardType)
+	}), {
+		instanceOf: errors.JellyfishUnknownCardType
+	})
 })
 
 ava('.insertCard() should be able to insert a card', async (test) => {
@@ -1367,7 +1403,9 @@ ava('.insertCard() should throw if the card already exists', async (test) => {
 	await test.throwsAsync(test.context.kernel.insertCard(test.context.context,
 		test.context.kernel.sessions.admin,
 		card
-	), errors.JellyfishElementAlreadyExists)
+	), {
+		instanceOf: errors.JellyfishElementAlreadyExists
+	})
 })
 
 ava('.replaceCard() should replace an element', async (test) => {
@@ -1636,7 +1674,9 @@ ava('.insertCard() read access on a property should not allow to write other pro
 			hash: 'PASSWORDLESS',
 			roles: []
 		}
-	}), errors.JellyfishSchemaMismatch)
+	}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.replaceCard() should not overwrite the "created_at" field when overriding a card', async (test) => {
@@ -1831,7 +1871,9 @@ ava('.query() should throw an error given an invalid regex', async (test) => {
 					pattern: '-(^[xx'
 				}
 			}
-		}), errors.JellyfishInvalidRegularExpression)
+		}), {
+		instanceOf: errors.JellyfishInvalidRegularExpression
+	})
 })
 
 ava('.query() should be able to limit the results', async (test) => {
@@ -4175,7 +4217,9 @@ ava('.insertCard() should not create a user with an empty email list', async (te
 				hash: 'PASSWORDLESS',
 				roles: []
 			}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should not create a user with an invalid email', async (test) => {
@@ -4189,7 +4233,9 @@ ava('.insertCard() should not create a user with an invalid email', async (test)
 				hash: 'PASSWORDLESS',
 				roles: []
 			}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should not create a user with an invalid and a valid email', async (test) => {
@@ -4203,7 +4249,9 @@ ava('.insertCard() should not create a user with an invalid and a valid email', 
 				hash: 'PASSWORDLESS',
 				roles: []
 			}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })
 
 ava('.insertCard() should not create a user with duplicated emails', async (test) => {
@@ -4217,5 +4265,7 @@ ava('.insertCard() should not create a user with duplicated emails', async (test
 				hash: 'PASSWORDLESS',
 				roles: []
 			}
-		}), errors.JellyfishSchemaMismatch)
+		}), {
+		instanceOf: errors.JellyfishSchemaMismatch
+	})
 })

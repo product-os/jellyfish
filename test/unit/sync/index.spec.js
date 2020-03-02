@@ -331,7 +331,9 @@ ava('.authorize() should throw given an invalid integration', async (test) => {
 	}, {
 		code: '12345',
 		origin: 'https://jel.ly.fish/oauth/helloworld'
-	}), errors.SyncNoCompatibleIntegration)
+	}), {
+		instanceOf: errors.SyncNoCompatibleIntegration
+	})
 })
 
 ava('.authorize() should throw given no token', async (test) => {
@@ -342,7 +344,9 @@ ava('.authorize() should throw given no token', async (test) => {
 	}, {
 		code: '12345',
 		origin: 'https://jel.ly.fish/oauth/helloworld'
-	}), errors.SyncNoIntegrationAppCredentials)
+	}), {
+		instanceOf: errors.SyncNoIntegrationAppCredentials
+	})
 })
 
 ava('.authorize() should throw given no appId', async (test) => {
@@ -355,7 +359,9 @@ ava('.authorize() should throw given no appId', async (test) => {
 	}, {
 		code: '12345',
 		origin: 'https://jel.ly.fish/oauth/helloworld'
-	}), errors.SyncNoIntegrationAppCredentials)
+	}), {
+		instanceOf: errors.SyncNoIntegrationAppCredentials
+	})
 })
 
 ava('.authorize() should throw given no appSecret', async (test) => {
@@ -368,7 +374,9 @@ ava('.authorize() should throw given no appSecret', async (test) => {
 	}, {
 		code: '12345',
 		origin: 'https://jel.ly.fish/oauth/helloworld'
-	}), errors.SyncNoIntegrationAppCredentials)
+	}), {
+		instanceOf: errors.SyncNoIntegrationAppCredentials
+	})
 })
 
 ava('.authorize() should throw given a code mismatch', async (test) => {
@@ -408,7 +416,9 @@ ava('.authorize() should throw given a code mismatch', async (test) => {
 	}, {}, {
 		code: 'invalidcode',
 		origin: 'https://jel.ly.fish/oauth/outreach'
-	}), oauth.OAuthUnsuccessfulResponse)
+	}), {
+		instanceOf: oauth.OAuthUnsuccessfulResponse
+	})
 
 	nock.cleanAll()
 })
@@ -435,7 +445,9 @@ ava('.associate() should throw given an invalid integration', async (test) => {
 				type
 			})
 		}
-	}), errors.SyncNoCompatibleIntegration)
+	}), {
+		instanceOf: errors.SyncNoCompatibleIntegration
+	})
 })
 
 ava('.associate() should set the access token in the user card', async (test) => {

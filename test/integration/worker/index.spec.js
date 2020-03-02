@@ -11,7 +11,6 @@ const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 const Worker = require('../../../lib/worker')
 const uuid = require('../../../lib/uuid')
-const errors = require('../../../lib/core/errors')
 
 ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
@@ -94,7 +93,9 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		errors.JellyfishElementAlreadyExists)
+		{
+			instanceOf: test.context.jellyfish.errors.JellyfishElementAlreadyExists
+		})
 
 	const enqueuedRequest2 = await test.context.dequeue()
 	test.falsy(enqueuedRequest2)
@@ -146,7 +147,9 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 
 	await test.throwsAsync(
 		test.context.worker.execute(test.context.session, enqueuedRequest1),
-		errors.JellyfishElementAlreadyExists)
+		{
+			instanceOf: test.context.jellyfish.errors.JellyfishElementAlreadyExists
+		})
 
 	const enqueuedRequest2 = await test.context.dequeue()
 	test.falsy(enqueuedRequest2)
@@ -330,7 +333,9 @@ ava('should not change the password of a password-less user given a password', a
 			currentPassword: 'xxxxxxxxxxxxxxxxxxxxxx',
 			newPassword: 'new-password'
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 })
 
 ava('should change the password of a password-less user given no password', async (test) => {
@@ -437,7 +442,9 @@ ava('should change a user password', async (test) => {
 		arguments: {
 			password: plaintextPassword
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 
 	const request3 = await test.context.worker.pre(test.context.session, {
 		action: 'action-create-session@1.0.0',
@@ -490,7 +497,9 @@ ava('should not change a user password given invalid current password', async (t
 			currentPassword: 'xxxxxxxxxxxxxxxxxxxxxx',
 			newPassword: 'new-password'
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 })
 
 ava('should not change a user password given a null current password', async (test) => {
@@ -526,7 +535,9 @@ ava('should not change a user password given a null current password', async (te
 			currentPassword: null,
 			newPassword: 'new-password'
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 })
 
 ava('should change the hash when updating a user password', async (test) => {
@@ -678,7 +689,9 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		'You may not use card actions to create an event'
+		{
+			message: 'You may not use card actions to create an event'
+		}
 	)
 })
 
@@ -1156,7 +1169,9 @@ ava('should fail when attempting to insert a triggered-action card with duplicat
 	}
 
 	await test.throwsAsync(test.context.jellyfish.insertCard(test.context.context, test.context.session, trigger),
-		test.context.backend.errors.JellyfishSchemaMismatch)
+		{
+			instanceOf: test.context.backend.errors.JellyfishSchemaMismatch
+		})
 })
 
 ava('should fail to set a trigger when the list of card ids contains duplicates', async (test) => {
@@ -1206,7 +1221,9 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 
 	test.throws(() => {
 		test.context.worker.setTriggers(test.context.context, triggers)
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('trigger should fail to update card if triggered by a user not owning the card', async (test) => {
@@ -1317,7 +1334,9 @@ ava('trigger should fail to update card if triggered by a user not owning the ca
 		})
 
 	await test.throwsAsync(test.context.flush(sessionIdOfJohnDoe, 1),
-		test.context.worker.errors.WorkerNoElement)
+		{
+			instanceOf: test.context.worker.errors.WorkerNoElement
+		})
 })
 
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
@@ -2236,7 +2255,9 @@ ava('.setTriggers() should throw if no interval nor filter', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if mode is not a string', (test) => {
@@ -2255,7 +2276,9 @@ ava('.setTriggers() should throw if mode is not a string', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if both interval and filter', (test) => {
@@ -2275,7 +2298,9 @@ ava('.setTriggers() should throw if both interval and filter', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if no id', (test) => {
@@ -2293,7 +2318,9 @@ ava('.setTriggers() should throw if no id', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if id is not a string', (test) => {
@@ -2312,7 +2339,9 @@ ava('.setTriggers() should throw if id is not a string', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if interval is not a string', (test) => {
@@ -2329,7 +2358,9 @@ ava('.setTriggers() should throw if interval is not a string', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if no action', (test) => {
@@ -2346,7 +2377,9 @@ ava('.setTriggers() should throw if no action', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if action is not a string', (test) => {
@@ -2364,7 +2397,9 @@ ava('.setTriggers() should throw if action is not a string', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if no target', (test) => {
@@ -2382,7 +2417,9 @@ ava('.setTriggers() should throw if no target', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if target is not a string', (test) => {
@@ -2401,7 +2438,9 @@ ava('.setTriggers() should throw if target is not a string', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if no filter', (test) => {
@@ -2417,7 +2456,9 @@ ava('.setTriggers() should throw if no filter', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if filter is not an object', (test) => {
@@ -2434,7 +2475,9 @@ ava('.setTriggers() should throw if filter is not an object', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if no arguments', (test) => {
@@ -2449,7 +2492,9 @@ ava('.setTriggers() should throw if no arguments', (test) => {
 				}
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.setTriggers() should throw if arguments is not an object', (test) => {
@@ -2465,7 +2510,9 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 				arguments: 1
 			}
 		])
-	}, test.context.worker.errors.WorkerInvalidTrigger)
+	}, {
+		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
+	})
 })
 
 ava('.tick() should not enqueue actions if there are no triggers', async (test) => {
@@ -2897,7 +2944,9 @@ ava('should not be able to login as a password-less user', async (test) => {
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		{
+			instanceOf: test.context.worker.errors.WorkerSchemaMismatch
+		})
 })
 
 ava('should not be able to login as a password-less user given a random password', async (test) => {
@@ -2921,7 +2970,9 @@ ava('should not be able to login as a password-less user given a random password
 		arguments: {
 			password: 'foobar'
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 })
 
 ava('should not be able to login as a password-less non-disallowed user', async (test) => {
@@ -2949,7 +3000,9 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		{
+			instanceOf: test.context.worker.errors.WorkerSchemaMismatch
+		})
 })
 
 ava('should not be able to login as a password-less disallowed user', async (test) => {
@@ -2977,7 +3030,9 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.worker.errors.WorkerSchemaMismatch)
+		{
+			instanceOf: test.context.worker.errors.WorkerSchemaMismatch
+		})
 })
 
 ava('should fail if signing up with the wrong password', async (test) => {
@@ -3012,7 +3067,9 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		arguments: {
 			password: 'foobarbaz'
 		}
-	}), test.context.worker.errors.WorkerAuthenticationError)
+	}), {
+		instanceOf: test.context.worker.errors.WorkerAuthenticationError
+	})
 })
 
 ava('should fail to update a card if the schema does not match', async (test) => {
@@ -3059,7 +3116,9 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 
 	await test.throwsAsync(
 		test.context.flush(test.context.session, 1),
-		test.context.jellyfish.errors.JellyfishSchemaMismatch)
+		{
+			instanceOf: test.context.jellyfish.errors.JellyfishSchemaMismatch
+		})
 })
 
 ava('should update a card to add an extra property', async (test) => {
@@ -3691,8 +3750,9 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 			arguments: {
 				password: 'foobarbaz'
 			}
-		}),
-		test.context.worker.errors.WorkerAuthenticationError)
+		}), {
+			instanceOf: test.context.worker.errors.WorkerAuthenticationError
+		})
 })
 
 ava('action-create-event should create a link card', async (test) => {
