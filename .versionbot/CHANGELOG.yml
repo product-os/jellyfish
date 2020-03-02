@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Add more entropy to mirror test messages'
+      hash: 97fffd7cb71ffdfab764f019e07e0d3052b1e023
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.4.8
+  date: 2020-03-02T19:04:37.943Z
+- commits:
     - subject: 'server: Log external event creation through the hooks endpoint'
       hash: 3b95094bfc980d8334b2a33cf29283e293ea05ca
       body: |
