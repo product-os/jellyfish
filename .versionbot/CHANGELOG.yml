@@ -1,4 +1,19 @@
 - commits:
+    - subject: Allow env to be undefined
+      hash: 7bb4a088861451b537043037981ff082250aef81
+      body: >
+        Because react isn't compiled by Webpack, env vars aren't included during
+        unit tests. This commit allows these to be undefined if "env" doesn't
+        exists.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.4.2
+  date: 2020-03-02T12:52:18.677Z
+- commits:
     - subject: Fix expected user roles in balena-api webhook tests
       hash: 876f2d1098ace4f70e9f677117cc8ba65dd9a119
       body: ''
