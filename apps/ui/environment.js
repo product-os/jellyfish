@@ -15,18 +15,18 @@ export const isProduction = () => {
 }
 
 export const sentry = {
-	dsn: env.SENTRY_DSN_UI || '0'
+	dsn: (typeof env === 'undefined') ? '0' : (env.SENTRY_DSN_UI || '0')
 }
 
 export const api = {
-	prefix: env.API_PREFIX || 'api/v2',
-	url: env.API_URL || window.location.origin
+	prefix: (typeof env === 'undefined') ? 'api/v2' : (env.API_PREFIX || 'api/v2'),
+	url: (typeof env === 'undefined' || typeof window === 'undefined') ? '' : (env.API_URL || window.location.origin)
 }
 
 export const analytics = {
 	mixpanel: {
-		token: env.MIXPANEL_TOKEN_UI
+		token: (typeof env === 'undefined') ? '' : (env.MIXPANEL_TOKEN_UI || '')
 	}
 }
 
-export const version = env.VERSION
+export const version = (typeof env === 'undefined') ? 'v1.0.0' : (env.VERSION || 'v1.0.0')
