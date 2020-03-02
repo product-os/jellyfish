@@ -1,0 +1,70 @@
+AWSTemplateFormatVersion: 2010-09-09
+Parameters:
+  KubernetesVPC:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC ID of the kubernetes cluster
+  KubernetesSubnetIDs:
+    Type: List<AWS::EC2::Subnet::Id>
+    Description: List of kubernetes node subnet IDs
+  CacheNodeType:
+    Description: The instance type the nodes will launch under.
+    Type: String
+    Default: cache.t3.small
+    AllowedValues:
+      - cache.m5.large
+      - cache.m5.xlarge
+      - cache.m5.2xlarge
+      - cache.m5.4xlarge
+      - cache.m5.12xlarge
+      - cache.m5.24xlarge
+      - cache.m4.large
+      - cache.m4.xlarge
+      - cache.m4.2xlarge
+      - cache.m4.4xlarge
+      - cache.m4.10xlarge
+      - cache.t3.small
+      - cache.t3.medium
+Resources:
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Security Group for Jellifish Redis cluster
+      SecurityGroupIngress:
+        - CidrIp: 172.20.0.0/16
+          FromPort: 6379
+          ToPort: 6379
+          IpProtocol: tcp
+      VpcId:
+        Ref: KubernetesVPC
+  SubnetGroup:
+    Type: 'AWS::ElastiCache::SubnetGroup'
+    Properties:
+      Description: Subnet Group for Jellifish Redis cluster
+      SubnetIds:
+        Ref: KubernetesSubnetIDs
+  ReplicationGroup:
+    Type: 'AWS::ElastiCache::ReplicationGroup'
+    Properties:
+      ReplicationGroupDescription: Jellyfish Redis Cluster
+      CacheNodeType:
+        Ref: CacheNodeType
+      Engine: redis
+      NumCacheClusters: 2
+      AutomaticFailoverEnabled: true
+      CacheSubnetGroupName:
+        Ref: SubnetGroup
+      SecurityGroupIds:
+        - Ref: SecurityGroup
+Outputs:
+  RedisReplicationGroupPrimaryEndPointAddress:
+    Value: !GetAtt [ReplicationGroup, PrimaryEndPoint.Address]
+  RedisReplicationGroupPrimaryEndPointPort:
+    Value: !GetAtt [ReplicationGroup, PrimaryEndPoint.Port]
+  RedisReplicationGroupReadEndPointAddresses:
+    Value: !GetAtt [ReplicationGroup, ReadEndPoint.Addresses]
+  RedisReplicationGroupReadEndPointAddressesList:
+    Value: !Join [',', !GetAtt [ReplicationGroup, ReadEndPoint.Addresses.List]]
+  RedisReplicationGroupReadEndPointPorts:
+    Value: !GetAtt [ReplicationGroup, ReadEndPoint.Ports]
+  RedisReplicationGroupReadEndPointPortsList:
+    Value: !Join [',', !GetAtt [ReplicationGroup, ReadEndPoint.Ports.List]]
