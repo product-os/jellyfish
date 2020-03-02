@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add running on balena doc
+      hash: 1d94fcb2a5b3cc479a4efa76030321532badb1b7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.4.5
+  date: 2020-03-02T15:08:58.506Z
+- commits:
     - subject: Configure Kanban Lens for opportunities
       hash: 6b6277aad63dce5f0ecc5e32323e8579687d71cc
       body: ''
