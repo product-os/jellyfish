@@ -13,7 +13,9 @@
 	test-unit \
 	test-integration \
 	test-e2e \
-	scrub
+	scrub \
+	clean-front \
+	clean-github
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -371,6 +373,15 @@ test-integration-%:
 
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
+
+clean-front:
+	FRONT_INBOX_1=$(TEST_INTEGRATION_FRONT_INBOX_1) \
+	FRONT_INBOX_2=$(TEST_INTEGRATION_FRONT_INBOX_2) \
+	node ./scripts/ci/front-delete-conversations.js
+
+clean-github:
+	GITHUB_REPO=$(TEST_INTEGRATION_GITHUB_REPO) \
+	node ./scripts/ci/github-close-issues.js
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
