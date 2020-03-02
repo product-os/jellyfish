@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix expected user roles in balena-api webhook tests
+      hash: 876f2d1098ace4f70e9f677117cc8ba65dd9a119
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.4.1
+  date: 2020-03-02T11:57:11.742Z
+- commits:
     - subject: Implement file upload on thread creation
       hash: 178adc4cc69162c9c15e922bd69b66da278efd03
       body: ''
