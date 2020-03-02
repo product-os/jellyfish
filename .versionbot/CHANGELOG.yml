@@ -1,4 +1,63 @@
 - commits:
+    - subject: Move babel/register to devdependencies
+      hash: 15be96041011b1f824ed94f9079f14028cfb8eb9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update depcheck to 0.9.2
+      hash: c650e05a8cabb17bb950e7395139efa7a227f36c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update babel/core to 7.8.4
+      hash: 27872673f9d07ca37274ebbd3186b5c6b7763cb7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update rendition to 13.2.3
+      hash: 84e3ac09a7b7a200b48994782d8267efe1855a43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update babel/register to 7.8.3
+      hash: 406017180542165f7e75425921f8db3305ec0b8d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Update Sinon to 8.1.1
+      hash: dc2d0f48b950ac5831c33cdcc0f02201b3514dce
+      body: >
+        For this the Enzyme browser-setup needs to be updated to support updated
+        Sinon version
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 26.4.6
+  date: 2020-03-02T15:56:15.965Z
+- commits:
     - subject: Add running on balena doc
       hash: 1d94fcb2a5b3cc479a4efa76030321532badb1b7
       body: ''
