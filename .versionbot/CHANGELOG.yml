@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add test data cleanup scripts and CircleCI job
+      hash: c74cc66fdfae607c5c43488e0d15c47369caf14c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.3.1
+  date: 2020-03-02T07:39:38.406Z
+- commits:
     - subject: Add faq card type to default cards
       hash: 6b8b470e52d4347877cf9b9a4cebf084b8d67c6b
       body: ''
