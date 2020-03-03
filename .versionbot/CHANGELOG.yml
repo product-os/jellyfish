@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'repo: Update CODEOWNERS'
+      hash: 58e696599993ec9cedaf3e705a70965d3b84f1b2
+      body: |
+        - ensure Rich is only a CODEOWNER for Katapult-related templates
+        - add Lucy-Jane as JF codeowner
+        - add anton and carlo miguel as codeowners of cloudformation templates
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.5.1
+  date: 2020-03-03T10:04:58.216Z
+- commits:
     - subject: 'dev: Check node version after npm install'
       hash: a93c69671148c8ed320fb894984aa47f786adb85
       body: >
