@@ -1,4 +1,30 @@
 - commits:
+    - subject: >-
+        Make test `flush` always expect an action request to be dequeued and
+        executed. If we don't expect something to be dequeued, don't call
+        `flush` at all
+      hash: a7152a03ed1674178cf13b2e87250ccfa2606bc6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        Wait 10 ms instead of 1 ms when dequeueing requests, so we don't get 'No
+        message dequeued' errors in tests
+      hash: 8ca9af0946c5a43c6564799be443ecc6cc8139f8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.5.5
+  date: 2020-03-03T14:03:37.923Z
+- commits:
     - subject: 'Don''t download puppeteer with the `build` job, it''s useless'
       hash: b8b405d07ff2fe45f3936902f772ba9ec4d0ae87
       body: ''
