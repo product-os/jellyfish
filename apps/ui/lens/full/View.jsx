@@ -195,7 +195,7 @@ class ViewRenderer extends React.Component {
 		if (page + 1 >= this.state.options.totalPages) {
 			return null
 		}
-		const options = _.merge(this.state.options, {
+		const options = Object.assign({}, this.state.options, {
 			page
 		})
 		if (!channel) {
@@ -215,7 +215,7 @@ class ViewRenderer extends React.Component {
 			.then((data) => {
 				if (data.length < this.state.options.limit) {
 					this.setState({
-						options: Object.assign(this.state.options, {
+						options: Object.assign({}, this.state.options, {
 							totalPages: this.state.options.page + 1
 						})
 					})

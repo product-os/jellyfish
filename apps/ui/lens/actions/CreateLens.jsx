@@ -128,7 +128,7 @@ class CreateLens extends React.Component {
 	}
 
 	setLocalSchema (schema) {
-		const model = this.state.newCardModel
+		const model = clone(this.state.newCardModel)
 		_.set(model, [ 'data', '$$localSchema' ], schema)
 		this.setState({
 			newCardModel: model
