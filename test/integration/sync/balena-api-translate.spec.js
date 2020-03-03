@@ -119,7 +119,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -236,7 +236,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -351,7 +351,7 @@ avaTest('should change the remote username to an existing user while removing ex
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -474,7 +474,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -595,7 +595,7 @@ avaTest('should change the remote username to an existing user while removing th
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -717,7 +717,7 @@ avaTest('should change the remote username to an existing user while removing th
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -848,7 +848,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -954,7 +954,7 @@ avaTest('should change the remote username', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1037,7 +1037,7 @@ avaTest('should change the remote username while filling in the company', async 
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1119,7 +1119,7 @@ avaTest('should change the remote username while filling in the first name', asy
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1203,7 +1203,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1286,7 +1286,7 @@ avaTest('should change the remote username while not changing anything else', as
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1363,7 +1363,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1448,7 +1448,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1535,7 +1535,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -1621,7 +1621,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
