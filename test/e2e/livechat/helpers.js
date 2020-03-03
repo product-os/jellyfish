@@ -8,6 +8,7 @@ const puppeteer = require('puppeteer')
 const environment = require('../../../lib/environment')
 const coverage = require('../../../lib/coverage')
 const helpers = require('../sdk/helpers')
+const uiHelpers = require('../ui/helpers')
 
 exports.browser = {
 	beforeEach: async (test) => {
@@ -32,11 +33,7 @@ exports.browser = {
 			height: 768
 		})
 
-		test.context.page.on('pageerror', function (err) {
-			const theTempValue = err.toString()
-			console.log(`Page error: ${theTempValue}`)
-			console.log(err)
-		})
+		uiHelpers.addPageHandlers(test.context.page, options.headless)
 	},
 
 	afterEach: async (test) => {

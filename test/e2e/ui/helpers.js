@@ -9,6 +9,28 @@ const environment = require('../../../lib/environment')
 const coverage = require('../../../lib/coverage')
 const helpers = require('../sdk/helpers')
 
+exports.addPageHandlers = (page, headless = true) => {
+	const onError = (prefix) => {
+		return (err) => {
+			const tempValue = err.toString()
+			console.log(`${prefix}: ${tempValue}`)
+			console.log(err)
+		}
+	}
+	page.on('pageerror', onError('Page error'))
+	page.on('error', onError('Error'))
+
+	// If we are opening the Chrome browser (i.e. not headless)
+	// then we capture the browser's JavaScript console output too
+	if (!headless) {
+		page.on('console', (msg) => {
+			for (let index = 0; index < msg.args().length; ++index) {
+				console.log(`${msg.args()[index]}`)
+			}
+		})
+	}
+}
+
 exports.browser = {
 	beforeEach: async (test) => {
 		await helpers.before(test)
@@ -38,11 +60,7 @@ exports.browser = {
 			height: 768
 		})
 
-		test.context.page.on('pageerror', function (err) {
-			const theTempValue = err.toString()
-			console.log(`Page error: ${theTempValue}`)
-			console.log(err)
-		})
+		this.addPageHandlers(test.context.page, options.headless)
 
 		test.context.createUser = async (user) => {
 			const result = await test.context.sdk.action({
