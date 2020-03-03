@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'dev: Check node version after npm install'
+      hash: a93c69671148c8ed320fb894984aa47f786adb85
+      body: >
+        Added a simple script that will error if the node version is less than
+        the one specified in `engines` in `package.json`. This script is called
+        by the postinstall routine. Also added nvm settings file so you can just
+        call `nvm use` to set it to the right version.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.5.0
+  date: 2020-03-03T09:05:38.352Z
+- commits:
     - subject: 'dev: Capture browser console logging'
       hash: 42fa5f89f96ef3cf5ff64ed92549691d2d9f65b1
       body: >
