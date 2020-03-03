@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'server: Increase ping timeout on web socket'
+      hash: 638d4efe668c0960d19c2e4f5af8f19751a28fdf
+      body: >
+        If the web socket is being flooded with 'update' messages, it doesn't
+        ping quickly enough. The socket times out and closes down. It may
+        re-open but some streamed updates may not make it to the client (UI).
+        This can cause e2e stress tests to fail.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.4.9
+  date: 2020-03-03T01:22:58.197Z
+- commits:
     - subject: 'discourse: Add more entropy to mirror test messages'
       hash: 97fffd7cb71ffdfab764f019e07e0d3052b1e023
       body: ''
