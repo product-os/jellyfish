@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'dev: Capture browser console logging'
+      hash: 42fa5f89f96ef3cf5ff64ed92549691d2d9f65b1
+      body: >
+        Added puppeteer callbacks to log browser console log output if VISUAL=1
+        is set.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.4.10
+  date: 2020-03-03T03:18:04.107Z
+- commits:
     - subject: 'server: Increase ping timeout on web socket'
       hash: 638d4efe668c0960d19c2e4f5af8f19751a28fdf
       body: >
