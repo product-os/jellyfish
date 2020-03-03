@@ -12,27 +12,26 @@ ava('when querying for jsonb array field that contains string const we use the @
 		type: 'object',
 		required: [ 'type', 'data' ],
 		additionalProperties: true,
-		properties:
-			{
-				type: {
-					type: 'string',
-					const: 'support-thread'
-				},
-				data: {
-					type: 'object',
-					required: [ 'mirrors' ],
-					additionalProperties: true,
-					properties: {
-						mirrors: {
-							type: 'array',
-							contains: {
-								type: 'string',
-								const: 'https://api2.frontapp.com/conversations/cnv_2q9efia'
-							}
+		properties: {
+			type: {
+				type: 'string',
+				const: 'support-thread'
+			},
+			data: {
+				type: 'object',
+				required: [ 'mirrors' ],
+				additionalProperties: true,
+				properties: {
+					mirrors: {
+						type: 'array',
+						contains: {
+							type: 'string',
+							const: 'https://api2.frontapp.com/conversations/cnv_2q9efia'
 						}
 					}
 				}
 			}
+		}
 	})
 
 	const expected = `SELECT
@@ -51,27 +50,26 @@ ava('when querying for jsonb array field that contains number const we use the @
 		type: 'object',
 		required: [ 'type', 'data' ],
 		additionalProperties: true,
-		properties:
-			{
-				type: {
-					type: 'string',
-					const: 'support-thread'
-				},
-				data: {
-					type: 'object',
-					required: [ 'mirrors' ],
-					additionalProperties: true,
-					properties: {
-						mirrors: {
-							type: 'array',
-							contains: {
-								type: 'number',
-								const: 42
-							}
+		properties: {
+			type: {
+				type: 'string',
+				const: 'support-thread'
+			},
+			data: {
+				type: 'object',
+				required: [ 'mirrors' ],
+				additionalProperties: true,
+				properties: {
+					mirrors: {
+						type: 'array',
+						contains: {
+							type: 'number',
+							const: 42
 						}
 					}
 				}
 			}
+		}
 	})
 
 	const expected = `SELECT
@@ -637,6 +635,104 @@ array_length("links.has_attached_element", 1) IS NULL
 LIMIT 100`
 
 	const query = jsonschema2sql('cards', payload.query, payload.options)
+
+	test.deepEqual(expected, query)
+})
+
+ava('when running a text search against a field that supports full text search, we use the correct operator', (test) => {
+	const query = jsonschema2sql('cards', {
+		type: 'object',
+		required: [ 'type', 'data' ],
+		additionalProperties: true,
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				properties: {
+					type: {
+						enum: [ 'message', 'create', 'whisper' ]
+					},
+					data: {
+						type: 'object',
+						required: [ 'payload' ],
+						additionalProperties: true,
+						properties: {
+							payload: {
+								type: 'object',
+								required: [ 'message' ],
+								properties: {
+									message: {
+										type: 'string',
+										contains: {
+											type: 'string',
+											const: '"balena fin" -board'
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				additionalProperties: true
+			}
+		},
+		properties: {
+			type: {
+				type: 'string',
+				const: 'support-thread'
+			}
+		}
+	})
+
+	const expected = `WITH main AS (
+SELECT
+cards.id,
+cards.slug,
+cards.type,
+cards.active,
+cards.version,
+cards.name,
+cards.tags,
+cards.markers,
+cards.created_at,
+cards.links,
+cards.requires,
+cards.capabilities,
+cards.data,
+cards.updated_at,
+cards.linked_at
+, (SELECT array(
+SELECT to_jsonb(linked)
+FROM cards linked
+WHERE (
+    linked.id IN (
+SELECT toId FROM links
+WHERE links.name = 'has attached element' AND fromId = cards.id
+UNION
+SELECT fromId FROM links
+WHERE links.inversename = 'has attached element' AND toId = cards.id
+    )
+    AND ((linked.type IN ('message', 'create', 'whisper'))
+AND
+((jsonb_typeof(linked.data->'payload') = 'object')
+AND
+((jsonb_typeof(linked.data->'payload'->'message') = 'string')
+AND
+(to_tsvector('english', linked.data->'payload'->'message') @@ websearch_to_tsquery('"balena fin" -board')))))
+))) AS "links.has_attached_element"
+FROM cards
+WHERE
+cards.type = 'support-thread'
+AND
+EXISTS (
+SELECT 1 FROM links
+WHERE links.name = 'has attached element' AND fromId = cards.id
+UNION
+SELECT 1 FROM links
+WHERE links.inversename = 'has attached element' AND toId = cards.id
+)
+)
+SELECT * FROM main
+WHERE array_length("links.has_attached_element", 1) > 0`
 
 	test.deepEqual(expected, query)
 })

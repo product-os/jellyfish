@@ -4411,6 +4411,61 @@ ava('.query() should be able to skip', async (test) => {
 	test.not(result1[0].slug, result2[0].slug)
 })
 
+ava('.query() should be able to search using full text search', async (test) => {
+	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'usersaw',
+		type: 'card@1.0.0',
+		version: '1.0.0',
+		data: {
+			payload: {
+				message: 'This user saw many boards'
+			}
+		}
+	})
+
+	const userSee = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+		slug: 'usersee',
+		type: 'card@1.0.0',
+		version: '1.0.0',
+		data: {
+			payload: {
+				message: 'This user sees many boards'
+			}
+		}
+	})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'data' ],
+			properties: {
+				data: {
+					type: 'object',
+					required: [ 'payload' ],
+					properties: {
+						payload: {
+							type: 'object',
+							required: [ 'message' ],
+							properties: {
+								message: {
+									type: 'string',
+									contains: {
+										type: 'string',
+										const: 'Users see BOARDS'
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}, {})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, userSee.slug)
+})
+
 ava('.insertCard() should create a user with two email addressses', async (test) => {
 	const card = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
