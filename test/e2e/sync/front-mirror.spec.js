@@ -241,9 +241,13 @@ ava.before(async (test) => {
 			test.context.front.conversation.listComments, id, fn)
 	}
 
-	test.context.getFrontMessagesUntil = async (id, fn) => {
-		return listResourceUntil(
-			test.context.front.conversation.listMessages, id, fn)
+	test.context.getFrontMessagesUntil = async (id, filter, fn) => {
+		const results = await listResourceUntil(
+			test.context.front.conversation.listMessages, id, (elements) => {
+				return fn(_.filter(elements, filter))
+			})
+
+		return _.filter(results, filter)
 	}
 })
 
@@ -396,11 +400,10 @@ avaTest('should be able to reply to a moved inbound message', async (test) => {
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'Message in another inbox')
 
-	const messages = _.reject(await test.context.getFrontMessagesUntil(
-		conversationId, (elements) => {
-			return elements.length > 1
-		}), {
-		is_draft: true
+	const messages = await test.context.getFrontMessagesUntil(conversationId, {
+		is_draft: false
+	}, (elements) => {
+		return elements.length > 1
 	})
 
 	test.is(messages.length, 2)
@@ -428,12 +431,12 @@ avaTest('should be able to reply to an inbound message', async (test) => {
 	await test.context.createMessage(supportThread,
 		test.context.getMessageSlug(), 'First message')
 
-	const messages = _.reject(await test.context.getFrontMessagesUntil(
-		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
+	const messages = await test.context.getFrontMessagesUntil(
+		_.last(supportThread.data.mirrors[0].split('/')), {
+			is_draft: false
+		}, (elements) => {
 			return elements.length > 1
-		}), {
-		is_draft: true
-	})
+		})
 
 	test.is(messages.length, 2)
 	test.is(messages[0].body, '<p>First message</p>\n')
