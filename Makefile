@@ -257,9 +257,7 @@ COVERAGE_COMMAND =
 endif
 
 AVA_ARGS = $(AVA_OPTS)
-ifndef CI
 AVA_ARGS += --fail-fast
-endif
 ifdef MATCH
 AVA_ARGS += --match $(MATCH)
 endif
