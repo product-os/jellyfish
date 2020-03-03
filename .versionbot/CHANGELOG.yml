@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Don''t download puppeteer with the `build` job, it''s useless'
+      hash: b8b405d07ff2fe45f3936902f772ba9ec4d0ae87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.5.4
+  date: 2020-03-03T13:20:58.550Z
+- commits:
     - subject: 'front: Handle rate limits in mirror tests'
       hash: 2640fb6682c5a8b54a3ca052e1b985e07a08a88a
       body: ''
