@@ -71,7 +71,7 @@ avaTest('should not change the same user email', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)
@@ -148,7 +148,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 				arguments: {}
 			})
 
-		await test.context.flush(test.context.session, 1)
+		await test.context.flush(test.context.session)
 		const result = await test.context.queue.producer.waitResults(
 			test.context.context, request)
 		test.false(result.error)

@@ -466,8 +466,6 @@ ava('.importCards() should add create events', async (test) => {
 		}
 	])
 
-	await test.context.flush(test.context.session)
-
 	const timeline = await test.context.jellyfish.query(test.context.context, test.context.session, {
 		type: 'object',
 		additionalProperties: true,

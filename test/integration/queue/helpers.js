@@ -65,7 +65,7 @@ exports.beforeEach = async (test, options) => {
 				return null
 			}
 
-			await Bluebird.delay(1)
+			await Bluebird.delay(10)
 			return test.context.dequeue(times - 1)
 		}
 

@@ -52,14 +52,10 @@ exports.worker = {
 			test.context.queue.producer)
 		await test.context.worker.initialize(test.context.context)
 
-		test.context.flush = async (session, expect = 0) => {
+		test.context.flush = async (session) => {
 			const request = await test.context.dequeue()
 
 			if (!request) {
-				if (expect <= 0) {
-					return
-				}
-
 				throw new Error('No message dequeued')
 			}
 
@@ -75,8 +71,6 @@ exports.worker = {
 				error.stack = errio.fromObject(result.data).stack
 				throw error
 			}
-
-			await test.context.flush(session, expect - 1)
 		}
 	},
 	afterEach: helpers.afterEach
