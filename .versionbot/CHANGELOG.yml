@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Handle rate limits in mirror tests'
+      hash: 2640fb6682c5a8b54a3ca052e1b985e07a08a88a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.5.3
+  date: 2020-03-03T12:00:09.444Z
+- commits:
     - subject: 'ui: Don''t setup jsdom in e2e tests'
       hash: f4dbd259ceb555bee3b8eb7d438b2d8fae9122b0
       body: |
