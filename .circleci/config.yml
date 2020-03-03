@@ -43,7 +43,11 @@ jobs:
       # --unsafe-perm flag allows the postinstall script to run correctly
       - run:
           name: Install Dependencies
-          command: npm ci --unsafe-perm && make build-ui COVERAGE=1 NODE_ENV=test && COVERAGE=1 NODE_ENV=test make build-livechat
+          command: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
+
+      - run:
+          name: Build UI and livechat
+          command: make build-ui COVERAGE=1 NODE_ENV=test && COVERAGE=1 NODE_ENV=test make build-livechat
 
       - save_cache:
           paths:
