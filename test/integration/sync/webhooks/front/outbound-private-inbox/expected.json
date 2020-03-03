@@ -1,0 +1,82 @@
+{
+  "head": {
+    "name": "Outbound test",
+    "type": "support-thread@1.0.0",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "Test_Contracts",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11sfzr7"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "create@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
+        "timestamp": "2018-10-10T22:08:57.175Z",
+        "payload": {
+          "name": "Outbound test",
+          "type": "support-thread@1.0.0",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "Test_Contracts",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sfzr7"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "type": "message@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9kf8r"
+        ],
+        "timestamp": "2018-10-10T22:09:21.921Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hello\n\n—\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io"
+        }
+      }
+    }
+  ]
+}

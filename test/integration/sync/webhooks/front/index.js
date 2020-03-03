@@ -5,6 +5,13 @@
  */
 
 module.exports = {
+	'outbound-private-inbox': {
+		expected: require('./outbound-private-inbox/expected.json'),
+		steps: [
+			require('./outbound-private-inbox/01.json'),
+			require('./outbound-private-inbox/02.json')
+		]
+	},
 	'inbound-comment-edit-blank': {
 		expected: require('./inbound-comment-edit-blank/expected.json'),
 		steps: [
