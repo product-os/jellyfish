@@ -12,7 +12,7 @@ const pgp = require('../../../../../../lib/core/backend/postgres/pg-promise')
 const streams = require('../../../../../../lib/core/backend/postgres/streams')
 const environment = require('../../../../../../lib/environment')
 
-ava.beforeEach(async (test) => {
+ava.serial.beforeEach(async (test) => {
 	const id = uuid()
 
 	test.context.table = 'test_table'
@@ -61,7 +61,7 @@ ava.beforeEach(async (test) => {
 	test.context.triggerColumns = [ 'id', 'slug' ]
 })
 
-ava.afterEach(async (test) => {
+ava.serial.afterEach(async (test) => {
 	await test.context.destroyConnection(test.context.connection)
 	test.context.connection = null
 })

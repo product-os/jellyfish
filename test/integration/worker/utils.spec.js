@@ -8,8 +8,8 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const utils = require('../../../lib/worker/utils')
 
-ava.beforeEach(helpers.jellyfish.beforeEach)
-ava.afterEach(helpers.jellyfish.afterEach)
+ava.serial.beforeEach(helpers.jellyfish.beforeEach)
+ava.serial.afterEach(helpers.jellyfish.afterEach)
 
 ava('.hasCard() id = yes (exists), slug = yes (exists)', async (test) => {
 	const card = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {

@@ -9,8 +9,8 @@ const permissionFilter = require('../../../lib/core/permission-filter')
 const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava('.getSessionUser() should throw if the session is invalid', async (test) => {
 	await test.throwsAsync(permissionFilter.getSessionUser(

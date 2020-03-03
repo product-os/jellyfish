@@ -25,13 +25,13 @@ const userDetails = {
 	password: 'password'
 }
 
-ava.before(async () => {
+ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
 })
 
-ava.after(async () => {
+ava.serial.after(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

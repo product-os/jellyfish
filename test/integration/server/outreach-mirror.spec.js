@@ -16,8 +16,8 @@ const environment = require('../../../lib/environment')
 const helpers = require('./helpers')
 const TOKEN = environment.integration.outreach
 
-ava.before(helpers.before)
-ava.after(helpers.after)
+ava.serial.before(helpers.before)
+ava.serial.after(helpers.after)
 
 const OAUTH_DETAILS = {
 	access_token: 'MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3',
@@ -33,7 +33,7 @@ const NOCK_OPTS = {
 	}
 }
 
-ava.beforeEach(async (test) => {
+ava.serial.beforeEach(async (test) => {
 	await helpers.beforeEach(test)
 
 	test.context.getProspect = async (id) => {
@@ -130,7 +130,7 @@ ava.beforeEach(async (test) => {
 	])
 })
 
-ava.afterEach(async (test) => {
+ava.serial.afterEach(async (test) => {
 	await helpers.afterEach(test)
 	nock.cleanAll()
 })

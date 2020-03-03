@@ -28,13 +28,13 @@ const context = {
 	}
 }
 
-ava.before(async () => {
+ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
 })
 
-ava.beforeEach(async () => {
+ava.serial.beforeEach(async () => {
 	const threads = await context.sdk.query({
 		properties: {
 			type: {
@@ -53,7 +53,7 @@ ava.beforeEach(async () => {
 	}))
 })
 
-ava.after(async () => {
+ava.serial.after(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

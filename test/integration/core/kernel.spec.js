@@ -12,8 +12,8 @@ const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava('should only expose the required methods', (test) => {
 	const methods = Object.getOwnPropertyNames(

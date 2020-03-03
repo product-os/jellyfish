@@ -7,11 +7,11 @@
 const ava = require('ava')
 const helpers = require('../sdk/helpers')
 
-ava.before(helpers.before)
-ava.after(helpers.after)
+ava.serial.before(helpers.before)
+ava.serial.after(helpers.after)
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava.serial('should sanely handle line breaks before tags in messages/whispers', async (test) => {
 	const thread = await test.context.sdk.card.create({

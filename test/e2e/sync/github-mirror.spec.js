@@ -47,7 +47,7 @@ const getMirrorWaitSchema = (slug) => {
 	}
 }
 
-ava.before(async (test) => {
+ava.serial.before(async (test) => {
 	await helpers.mirror.before(test)
 
 	const [ owner, repo ] = environment.test.integration.github.repo.split('/')
@@ -111,12 +111,12 @@ ava.before(async (test) => {
 	})
 })
 
-ava.after(helpers.mirror.after)
-ava.beforeEach(async (test) => {
+ava.serial.after(helpers.mirror.after)
+ava.serial.beforeEach(async (test) => {
 	await helpers.mirror.beforeEach(test, uuid())
 })
 
-ava.afterEach(helpers.mirror.afterEach)
+ava.serial.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no GitHub token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
