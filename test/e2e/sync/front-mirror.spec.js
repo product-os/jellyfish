@@ -29,6 +29,20 @@ const retryWhile404 = async (fn, times = 5) => {
 	}
 }
 
+const retryWhile429 = async (fn, times = 50) => {
+	try {
+		return fn()
+	} catch (error) {
+		if (error.name === 'FrontError' && error.status === 429 && times > 0) {
+			const delay = _.parseInt(_.first(error.message.match(/(\d+)/))) || 2000
+			await Bluebird.delay(delay)
+			return retryWhile429(fn, times - 1)
+		}
+
+		throw error
+	}
+}
+
 const wait = async (fn, check, times = 8) => {
 	const result = await fn()
 	if (check(result)) {
@@ -129,8 +143,10 @@ ava.before(async (test) => {
 
 	test.context.startSupportThread = async (title, description, inbox) => {
 		// We need a "custom" channel in order to simulate an inbound
-		const channels = await test.context.front.inbox.listChannels({
-			inbox_id: inbox
+		const channels = await retryWhile429(() => {
+			return test.context.front.inbox.listChannels({
+				inbox_id: inbox
+			})
 		})
 
 		// eslint-disable-next-line no-underscore-dangle
@@ -141,27 +157,33 @@ ava.before(async (test) => {
 			throw new Error('No custom channel to simulate inbound')
 		}
 
-		const inboundResult = await test.context.front.message.receiveCustom({
-			channel_id: channel.id,
-			subject: title,
-			body: description,
-			sender: {
-				handle: `jellytest-${uuid()}`
-			}
-		})
-
-		const message = await retryWhile404(async () => {
-			return test.context.front.message.get({
-				// The "receive custom" endpoint gives us a uid,
-				// while all the other endpoints take an id.
-				// Front supports interpreting a uid as an id
-				// using this alternate notation.
-				message_id: `alt:uid:${inboundResult.message_uid}`
+		const inboundResult = await retryWhile429(() => {
+			return test.context.front.message.receiveCustom({
+				channel_id: channel.id,
+				subject: title,
+				body: description,
+				sender: {
+					handle: `jellytest-${uuid()}`
+				}
 			})
 		})
 
-		const remoteInbox = await test.context.front.inbox.get({
-			inbox_id: test.context.inboxes[0]
+		const message = await retryWhile404(async () => {
+			return retryWhile429(() => {
+				return test.context.front.message.get({
+					// The "receive custom" endpoint gives us a uid,
+					// while all the other endpoints take an id.
+					// Front supports interpreting a uid as an id
+					// using this alternate notation.
+					message_id: `alt:uid:${inboundResult.message_uid}`
+				})
+			})
+		})
+
+		const remoteInbox = await retryWhile429(() => {
+			return test.context.front.inbox.get({
+				inbox_id: test.context.inboxes[0]
+			})
 		})
 
 		const slug = test.context.generateRandomSlug({
@@ -189,8 +211,10 @@ ava.before(async (test) => {
 	}
 
 	const listResourceUntil = async (fn, id, predicate, retries = 10) => {
-		const result = await fn({
-			conversation_id: id
+		const result = await retryWhile429(() => {
+			return fn({
+				conversation_id: id
+			})
 		})
 
 		// eslint-disable-next-line no-underscore-dangle
@@ -225,8 +249,10 @@ ava.before(async (test) => {
 
 ava.after(helpers.mirror.after)
 ava.beforeEach(async (test) => {
-	const teammates = await test.context.front.inbox.listTeammates({
-		inbox_id: test.context.inboxes[0]
+	const teammates = await retryWhile429(() => {
+		return test.context.front.inbox.listTeammates({
+			inbox_id: test.context.inboxes[0]
+		})
 	})
 
 	// Find the first available teammate for the tests
@@ -264,8 +290,10 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 	const id = _.last(supportThread.data.mirrors[0].split('/'))
 
 	await wait(() => {
-		return test.context.front.conversation.get({
-			conversation_id: id
+		return retryWhile429(() => {
+			return test.context.front.conversation.get({
+				conversation_id: id
+			})
 		})
 	}, (conversation) => {
 		return conversation.status === 'archived'
@@ -274,8 +302,10 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 	// Check that it remains closed after a while
 	await Bluebird.delay(5000)
 
-	const conversation = await test.context.front.conversation.get({
-		conversation_id: id
+	const conversation = await retryWhile429(() => {
+		return test.context.front.conversation.get({
+			conversation_id: id
+		})
 	})
 
 	test.is(conversation.status, 'archived')
@@ -318,10 +348,11 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 		}
 	])
 
-	const remoteConversationBefore =
-		await test.context.front.conversation.get({
+	const remoteConversationBefore = await retryWhile429(() => {
+		return test.context.front.conversation.get({
 			conversation_id: conversationId
 		})
+	})
 
 	test.is(remoteConversationBefore.status, 'archived')
 
@@ -338,10 +369,11 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 
 	test.is(newSupportThread.data.status, 'open')
 
-	const remoteConversationAfter =
-		await test.context.front.conversation.get({
+	const remoteConversationAfter = await retryWhile429(() => {
+		return test.context.front.conversation.get({
 			conversation_id: conversationId
 		})
+	})
 
 	test.is(remoteConversationAfter.status, 'unassigned')
 })
@@ -354,9 +386,11 @@ avaTest('should be able to reply to a moved inbound message', async (test) => {
 
 	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
 
-	await test.context.front.conversation.update({
-		conversation_id: conversationId,
-		inbox_id: test.context.inboxes[1]
+	await retryWhile429(() => {
+		return test.context.front.conversation.update({
+			conversation_id: conversationId,
+			inbox_id: test.context.inboxes[1]
+		})
 	})
 
 	await test.context.createMessage(supportThread,
@@ -476,10 +510,12 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 		test.context.inboxes[0])
 
 	const id = _.last(supportThread.data.mirrors[0].split('/'))
-	await test.context.front.conversation.update({
-		conversation_id: id,
-		tags: [],
-		assignee_id: null
+	await retryWhile429(() => {
+		return test.context.front.conversation.update({
+			conversation_id: id,
+			tags: [],
+			assignee_id: null
+		})
 	})
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
@@ -491,8 +527,10 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 	])
 
 	const result = await wait(() => {
-		return test.context.front.conversation.get({
-			conversation_id: id
+		return retryWhile429(() => {
+			return test.context.front.conversation.get({
+				conversation_id: id
+			})
 		})
 	}, (conversation) => {
 		return conversation.tags.length > 0
@@ -535,8 +573,10 @@ avaTest('should be able to close an inbound message', async (test) => {
 	])
 
 	const result = await wait(() => {
-		return test.context.front.conversation.get({
-			conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+		return retryWhile429(() => {
+			return test.context.front.conversation.get({
+				conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+			})
 		})
 	}, (conversation) => {
 		return conversation.status === 'archived'
@@ -560,8 +600,10 @@ avaTest('should be able to archive an inbound message', async (test) => {
 	])
 
 	const result = await wait(() => {
-		return test.context.front.conversation.get({
-			conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+		return retryWhile429(() => {
+			return test.context.front.conversation.get({
+				conversation_id: _.last(supportThread.data.mirrors[0].split('/'))
+			})
 		})
 	}, (conversation) => {
 		return conversation.status === 'archived'
