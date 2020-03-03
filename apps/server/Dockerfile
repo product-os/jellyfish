@@ -11,6 +11,7 @@ ENV COVERAGE ${ENABLE_COVERAGE}
 
 COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts/eslint-plugin-jellyfish
+COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
 COPY scripts/eslint-plugin-jellyfish/package.json \
 	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN mkdir -p scripts/template
