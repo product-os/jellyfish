@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Don''t setup jsdom in e2e tests'
+      hash: f4dbd259ceb555bee3b8eb7d438b2d8fae9122b0
+      body: |
+        There should be no reason to make the e2e suite definition files browser
+        contexts, as we are already driving a Puppeteer instance that is a real
+        browser.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.5.2
+  date: 2020-03-03T11:03:38.563Z
+- commits:
     - subject: 'repo: Update CODEOWNERS'
       hash: 58e696599993ec9cedaf3e705a70965d3b84f1b2
       body: |
