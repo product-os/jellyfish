@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Don''t consider draft messages in mirror tests wait conditions'
+      hash: e4117796c0c60691b8044f8a12ed0803e7082a1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.5.7
+  date: 2020-03-03T16:00:18.564Z
+- commits:
     - subject: 'front: Don''t consider private inboxes'
       hash: dc1904ab4e5651bd08d6110845c899a819830d38
       body: |
