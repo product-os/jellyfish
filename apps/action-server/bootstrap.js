@@ -45,6 +45,9 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 		id: {
 			type: 'string'
 		},
+		slug: {
+			type: 'string'
+		},
 		active: {
 			type: 'boolean',
 			const: true
@@ -65,7 +68,7 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 			additionalProperties: true
 		}
 	},
-	required: [ 'id', 'active', 'type', 'data' ]
+	required: [ 'id', 'slug', 'active', 'type', 'data' ]
 }
 
 const bootstrap = async (context, library, options) => {
@@ -106,6 +109,7 @@ const bootstrap = async (context, library, options) => {
 		worker.setTriggers(context, triggers.map((trigger) => {
 			const object = {
 				id: trigger.id,
+				slug: trigger.slug,
 				action: trigger.data.action,
 				target: trigger.data.target,
 				arguments: trigger.data.arguments

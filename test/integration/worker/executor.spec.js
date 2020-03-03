@@ -1393,6 +1393,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 	test.deepEqual(test.context.triggers, [
 		{
 			id: test.context.triggers[0].id,
+			slug: 'triggered-action-test-thread-data-mentions',
 			action: 'action-set-add@1.0.0',
 			target: {
 				$eval: 'source.links[\'is attached to\'][0].id'
