@@ -12,6 +12,7 @@ const uuid = require('../../../lib/uuid')
 
 module.exports = (jellyfish, server) => {
 	const socketServer = socketIo(server, {
+		pingTimeout: 60000,
 		transports: [ 'websocket', 'polling' ]
 	})
 
