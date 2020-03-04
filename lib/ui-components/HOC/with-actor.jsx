@@ -5,9 +5,6 @@
  */
 
 import React from 'react'
-import {
-	useSelector
-} from 'react-redux'
 import _ from 'lodash'
 
 const getActorIdFromCard = _.memoize((card) => {
@@ -17,22 +14,16 @@ const getActorIdFromCard = _.memoize((card) => {
 	return _.get(card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
 }, (card) => { return card.id })
 
-const getActorFromState = (actorId) => {
-	return (state) => {
-		return _.get(state, [ 'core', 'actors', actorId ], null)
-	}
-}
-
 export const withActor = (BaseComponent) => {
 	return ({
 		card, ...props
 	}) => {
 		const actorId = getActorIdFromCard(card)
-		const actor = useSelector(getActorFromState(actorId))
+		const [ actor, setActor ] = React.useState(null)
 
 		React.useEffect(() => {
 			if (!actor) {
-				props.getActor(actorId)
+				props.getActor(actorId).then(setActor)
 			}
 		}, [ card.id ])
 
