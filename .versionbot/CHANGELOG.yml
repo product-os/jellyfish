@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'core: Fix caching of actors'
+      hash: 5d5da6fba83b28b083d4008552caebfb4317ce21
+      body: |
+        Fixes a bug where sometimes the user card for an actor can't be found
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.5
+  date: 2020-03-04T09:10:49.047Z
+- commits:
     - subject: 'test: Execute after/before hooks serially'
       hash: a9547a95ed27e23e476b20a2bf7f21b518679d6e
       body: |
