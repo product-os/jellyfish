@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Fix default message input placeholder'
+      hash: e44d7d2e9ca8660a9defae6870dad0b35427954b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 26.6.8
+  date: 2020-03-04T14:14:58.567Z
+- commits:
     - subject: 'front: Increase rate limit retries'
       hash: db95c0786d74a25c06d81c68baa7e32ad697c9fd
       body: |
