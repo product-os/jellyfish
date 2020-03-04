@@ -29,7 +29,7 @@ const retryWhile404 = async (fn, times = 5) => {
 	}
 }
 
-const retryWhile429 = async (fn, times = 50) => {
+const retryWhile429 = async (fn, times = 100) => {
 	try {
 		return fn()
 	} catch (error) {
