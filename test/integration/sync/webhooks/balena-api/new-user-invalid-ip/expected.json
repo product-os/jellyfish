@@ -1,0 +1,69 @@
+{
+  "head": {
+    "name": null,
+    "slug": "user-johndoe",
+    "type": "user@1.0.0",
+    "version": "1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "email": "johndoe@souvlakitek.com",
+      "roles": [ "user-external-support" ],
+      "hash": "PASSWORDLESS",
+      "mirrors": [
+        "https://api.balena-cloud.com/v5/user(999)"
+      ],
+      "profile": {
+        "type": "professional",
+        "company": "Souvlaki Tek",
+        "name": {
+          "first": "John",
+          "last": "Doe"
+        }
+      }
+    }
+  },
+  "tail": [
+    {
+      "type": "create@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-admin"
+        },
+        "timestamp": "2019-04-17T15:24:08.731Z",
+        "payload": {
+          "type": "user@1.0.0",
+          "version": "1.0.0",
+          "active": true,
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "email": "johndoe@souvlakitek.com",
+            "roles": [ "user-external-support" ],
+            "hash": "PASSWORDLESS",
+            "mirrors": [
+              "https://api.balena-cloud.com/v5/user(999)"
+            ],
+            "profile": {
+              "type": "professional",
+              "company": "Souvlaki Tek",
+              "name": {
+                "first": "John",
+                "last": "Doe"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}
