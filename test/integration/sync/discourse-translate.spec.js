@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const nock = require('nock')
 const uuid = require('uuid/v4')
 const scenario = require('./scenario')
@@ -15,9 +14,7 @@ const TOKEN = environment.integration.discourse
 ava.serial.beforeEach(scenario.beforeEach)
 ava.serial.afterEach.always(scenario.afterEach)
 
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
-
-avaTest('should not change the same user email', async (test) => {
+ava('should not change the same user email', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-jviotti',
@@ -94,7 +91,7 @@ avaTest('should not change the same user email', async (test) => {
 	})
 })
 
-avaTest('should add a new e-mail to a user', async (test) => {
+ava('should add a new e-mail to a user', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-jviotti',
@@ -171,7 +168,7 @@ avaTest('should add a new e-mail to a user', async (test) => {
 	})
 })
 
-scenario.run(avaTest, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/discourse'),
 	scenarios: require('./webhooks/discourse'),
 	baseUrl: 'https://forums.balena.io',

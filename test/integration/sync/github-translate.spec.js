@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.github
@@ -13,9 +12,7 @@ const TOKEN = environment.integration.github
 ava.serial.beforeEach(scenario.beforeEach)
 ava.serial.afterEach.always(scenario.afterEach)
 
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
-
-scenario.run(avaTest, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/github'),
 	scenarios: require('./webhooks/github'),
 	baseUrl: 'https://api.github.com',
