@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'scripts: Retry on connection refused when fetching previous dump'
+      hash: 947e28fb0c845e832d58293fa4caa8f3d2775644
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.12
+  date: 2020-03-04T18:46:39.403Z
+- commits:
     - subject: 'ava: Reduce test timeout to 1m'
       hash: d5ea4b87ac297642f8b8fcd38eb4fac45485a4ce
       body: ''
