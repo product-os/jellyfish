@@ -436,6 +436,63 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 	test.is(archivedThread.data.status, 'archived', 'Should be able to archive the thread once auditing is complete')
 })
 
+ava.serial('Support threads should close correctly even when being updated at a high frequency', async (test) => {
+	const {
+		page
+	} = context
+
+	// Create an open support thread
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread',
+			name: 'test thread',
+			data: {
+				status: 'open'
+			}
+		})
+	})
+
+	// Generate a large batch of 20 updates to the "name" field, followed by
+	// a single update that sets the status to closed.
+	// The expected behaviour is that even with the high volume of update to
+	// a single card in a short space of time, the UI should eventually set the
+	// support thread to closed and stop displaying it. This guards against race
+	// conditions where one of the UI operations cause by the update would resolve
+	// after the close operation, resulting in the support thread still staying
+	// open
+	await page.evaluate((id) => {
+		const updates = []
+		let count = 10
+		while (count--) {
+			updates.push(window.sdk.card.update(id, 'support-thread', [
+				{
+					op: 'replace',
+					path: '/name',
+					value: `foobar ${count}`
+				}
+			]))
+		}
+
+		updates.push(
+			window.sdk.card.update(id, 'support-thread', [
+				{
+					op: 'replace',
+					path: '/data/status',
+					value: 'closed'
+				}
+			])
+		)
+
+		return window.Promise.all(updates)
+	}, supportThread.id)
+
+	const updatedThread = await page.evaluate((id) => {
+		return window.sdk.getById(id)
+	}, supportThread.id)
+
+	test.is(updatedThread.data.status, 'closed')
+})
+
 ava.serial('Support threads should close correctly in the UI even when being updated at a high frequency', async (test) => {
 	const {
 		page
