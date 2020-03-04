@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Update cache when a user card is updated'
+      hash: 9c8ca6191135f44eaddee09d919c3e6578a62570
+      body: >
+        Note - the cache is only updated if a corresponding actor already exists
+        in the cache when the updated user card is received.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.3
+  date: 2020-03-04T06:35:09.738Z
+- commits:
     - subject: 'ui-components: Refactored caching and retrieval of actors'
       hash: 340d82d79042fc348a568cfe96f6598121d266ac
       body: >
