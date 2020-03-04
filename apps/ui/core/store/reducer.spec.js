@@ -359,6 +359,41 @@ ava('SET_ACTOR action overwrites the specified actor', (test) => {
 	})
 })
 
+ava('UPDATE_ACTOR action merges the specified actor', (test) => {
+	const initialState = reducer()
+	initialState.core.actors = {
+		1: {
+			id: 1,
+			name: 'test'
+		},
+		2: {
+			id: 2
+		}
+	}
+
+	const newState = reducer(initialState, {
+		type: actions.UPDATE_ACTOR,
+		value: {
+			id: 1,
+			actor: {
+				id: 1,
+				foo: 'bar'
+			}
+		}
+	})
+
+	test.deepEqual(newState.core.actors, {
+		1: {
+			id: 1,
+			name: 'test',
+			foo: 'bar'
+		},
+		2: {
+			id: 2
+		}
+	})
+})
+
 ava('SET_USER action sets the authToken to null if not already set', (test) => {
 	const initialState = reducer()
 

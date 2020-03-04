@@ -233,6 +233,23 @@ const coreReducer = (state, action) => {
 				})
 			})
 		}
+		case actions.UPDATE_ACTOR: {
+			const {
+				actor,
+				id
+			} = action.value
+			const currentActor = _.get(state, [ 'actors', id ])
+			if (!currentActor) {
+				return state
+			}
+			return update(state, {
+				actors: (actors) => update(actors || {}, {
+					[id]: {
+						$set: _.assign({}, currentActor, actor)
+					}
+				})
+			})
+		}
 		case actions.SET_AUTHTOKEN: {
 			return update(state, {
 				session: (session) => update(session || {}, {
