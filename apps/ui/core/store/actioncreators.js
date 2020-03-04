@@ -288,7 +288,7 @@ export default class ActionCreator {
 					}
 
 					const card = await loadingCardCache[id]
-					actor = generateActorFromUserCard(card)
+					actor = card ? generateActorFromUserCard(card) : null
 
 					dispatch({
 						type: actions.SET_ACTOR,
