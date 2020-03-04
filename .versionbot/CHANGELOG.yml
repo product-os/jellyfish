@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Add status to user card'
+      hash: e86a4581222eca16c98051bf23bdba8794f3deff
+      body: >
+        Currently unused - but will be used to set the user's status and display
+        it to other users
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.0
+  date: 2020-03-04T03:34:09.468Z
+- commits:
     - subject: 'worker: Include trigger name in trigger input card errors'
       hash: 9acdb53c52121e61bac00f2182847ca09e518d32
       body: ''
