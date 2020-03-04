@@ -130,7 +130,7 @@ class EditLens extends React.Component {
 	}
 
 	setLocalSchema (schema) {
-		const model = this.state.editModel
+		const model = clone(this.state.editModel)
 		_.set(model, [ 'data', '$$localSchema' ], schema)
 		this.setState({
 			editModel: model
