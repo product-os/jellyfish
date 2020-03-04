@@ -23,7 +23,7 @@ const user = {
 	password: 'password'
 }
 
-ava.before(async () => {
+ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
@@ -34,7 +34,7 @@ ava.before(async () => {
 	await macros.loginUser(context.page, user)
 })
 
-ava.after(async () => {
+ava.serial.after(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

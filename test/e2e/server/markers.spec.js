@@ -17,7 +17,7 @@ const users = {
 	}
 }
 
-ava.before(async (test) => {
+ava.serial.before(async (test) => {
 	await helpers.before(test)
 
 	await test.context.sdk.action({
@@ -32,10 +32,10 @@ ava.before(async (test) => {
 	})
 })
 
-ava.after(helpers.after)
+ava.serial.after(helpers.after)
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 const createUserDetails = () => {
 	return {

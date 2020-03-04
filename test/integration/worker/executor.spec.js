@@ -13,7 +13,7 @@ const executor = require('../../../lib/worker/executor')
 const utils = require('../../../lib/worker/utils')
 const Promise = require('bluebird')
 
-ava.beforeEach(async (test) => {
+ava.serial.beforeEach(async (test) => {
 	await helpers.jellyfish.beforeEach(test)
 
 	test.context.triggers = []
@@ -50,7 +50,7 @@ ava.beforeEach(async (test) => {
 	}
 })
 
-ava.afterEach(helpers.jellyfish.afterEach)
+ava.serial.afterEach(helpers.jellyfish.afterEach)
 
 ava('.replaceCard() updating a card must have the correct tail', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(

@@ -128,7 +128,7 @@ const runner = async ({
 	return connection.any(query)
 }
 
-ava.before(async (test) => {
+ava.serial.before(async (test) => {
 	if (!IS_POSTGRES) {
 		return
 	}

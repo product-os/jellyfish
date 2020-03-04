@@ -12,11 +12,11 @@ const actionLibrary = require('../../../lib/action-library')
 const Worker = require('../../../lib/worker')
 const uuid = require('../../../lib/uuid')
 
-ava.beforeEach(async (test) => {
+ava.serial.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.serial.afterEach(helpers.worker.afterEach)
 
 ava('.getId() should preserve the same id during its lifetime', async (test) => {
 	const id1 = test.context.worker.getId()

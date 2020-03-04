@@ -9,11 +9,11 @@ const Bluebird = require('bluebird')
 const _ = require('lodash')
 const helpers = require('../../sdk/helpers')
 
-ava.before(helpers.before)
-ava.after(helpers.after)
+ava.serial.before(helpers.before)
+ava.serial.after(helpers.after)
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava.serial('should create a new tag using using action-increment-tag', async (test) => {
 	const name = test.context.generateRandomSlug({

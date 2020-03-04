@@ -9,8 +9,8 @@ const ava = require('ava')
 const errors = require('../../../lib/queue/errors')
 const helpers = require('./helpers')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava('.dequeue() should return nothing if no requests', async (test) => {
 	const request = await test.context.dequeue()

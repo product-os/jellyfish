@@ -90,7 +90,7 @@ const getMirrorWaitSchema = (slug) => {
 	}
 }
 
-ava.before(async (test) => {
+ava.serial.before(async (test) => {
 	await helpers.mirror.before(test)
 
 	if (TOKEN) {
@@ -251,8 +251,8 @@ ava.before(async (test) => {
 	}
 })
 
-ava.after(helpers.mirror.after)
-ava.beforeEach(async (test) => {
+ava.serial.after(helpers.mirror.after)
+ava.serial.beforeEach(async (test) => {
 	const teammates = await retryWhile429(() => {
 		return test.context.front.inbox.listTeammates({
 			inbox_id: test.context.inboxes[0]
@@ -271,7 +271,7 @@ ava.beforeEach(async (test) => {
 	await helpers.mirror.beforeEach(test, teammate.username.replace(/_/g, '-'))
 })
 
-ava.afterEach(helpers.mirror.afterEach)
+ava.serial.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial

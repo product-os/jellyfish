@@ -66,7 +66,7 @@ const ensureCommunityLogin = async (page) => {
 	return currentUser
 }
 
-ava.before(async () => {
+ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
@@ -75,7 +75,7 @@ ava.before(async () => {
 	await context.addUserToBalenaOrg(user.id)
 })
 
-ava.after(async () => {
+ava.serial.after(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

@@ -10,8 +10,8 @@ const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.outreach
 
-ava.beforeEach(scenario.beforeEach)
-ava.afterEach.always(scenario.afterEach)
+ava.serial.beforeEach(scenario.beforeEach)
+ava.serial.afterEach.always(scenario.afterEach)
 
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
 

@@ -51,7 +51,7 @@ const generateRandomWords = (number) => {
 	return randomWords(number).join(' ')
 }
 
-ava.before(async (test) => {
+ava.serial.before(async (test) => {
 	await helpers.mirror.before(test)
 	test.context.category = environment.test.integration.discourse.category
 
@@ -234,13 +234,13 @@ ava.before(async (test) => {
 	}
 })
 
-ava.after(helpers.mirror.after)
-ava.beforeEach(async (test) => {
+ava.serial.after(helpers.mirror.after)
+ava.serial.beforeEach(async (test) => {
 	await helpers.mirror.beforeEach(
 		test, environment.integration.discourse.username)
 })
 
-ava.afterEach(helpers.mirror.afterEach)
+ava.serial.afterEach(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Discourse token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial

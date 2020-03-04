@@ -10,8 +10,8 @@ const triggers = require('../../../lib/worker/triggers')
 const errors = require('../../../lib/worker/errors')
 const Promise = require('bluebird')
 
-ava.beforeEach(helpers.jellyfish.beforeEach)
-ava.afterEach(helpers.jellyfish.afterEach)
+ava.serial.beforeEach(helpers.jellyfish.beforeEach)
+ava.serial.afterEach(helpers.jellyfish.afterEach)
 
 ava('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(

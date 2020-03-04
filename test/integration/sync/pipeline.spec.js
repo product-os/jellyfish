@@ -12,8 +12,8 @@ const pipeline = require('../../../lib/sync/pipeline')
 const errors = require('../../../lib/sync/errors')
 const NoOpIntegration = require('./noop-integration')
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 ava('.importCards() should import no card', async (test) => {
 	const result = await pipeline.importCards(test.context.syncContext, [])

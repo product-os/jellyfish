@@ -11,11 +11,11 @@ const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
 
-ava.before(helpers.before)
-ava.after(helpers.after)
+ava.serial.before(helpers.before)
+ava.serial.after(helpers.after)
 
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.beforeEach)
+ava.serial.afterEach(helpers.afterEach)
 
 const createUserDetails = () => {
 	return {
