@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'worker: Execute triggered actions with a privileged session'
+      hash: 3d4808ce0cd7233494dc3df13bf612b2555c4c26
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.10
+  date: 2020-03-04T16:42:35.600Z
+- commits:
     - subject: 'front: Compute test teammate once per suite, not once per test'
       hash: ec035b4476f1511cd2bd92d1c654e97d9f63091b
       body: |
