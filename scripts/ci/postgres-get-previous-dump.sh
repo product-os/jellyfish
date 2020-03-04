@@ -36,7 +36,7 @@ OWNER="product-os"
 REPO="jellyfish"
 
 function get_statuses() {
-	curl --retry 5 --header "Authorization: Bearer $GITHUB_TOKEN" \
+	curl --retry 10 --retry-connrefused --header "Authorization: Bearer $GITHUB_TOKEN" \
 		"https://api.github.com/repos/$OWNER/$REPO/commits/$1/statuses"
 }
 
@@ -45,7 +45,7 @@ function filter_results_job() {
 }
 
 get_artifact_link() {
-	curl --retry 5 -u "$CIRCLE_TOKEN:" "$1/artifacts" | jq -r ".[] | select(.path==\"$2\") .url"
+	curl --retry 10 --retry-connrefused -u "$CIRCLE_TOKEN:" "$1/artifacts" | jq -r ".[] | select(.path==\"$2\") .url"
 }
 
 for commit in $COMMITS; do
@@ -62,7 +62,7 @@ for commit in $COMMITS; do
 	DUMP_URL="$(get_artifact_link "$API_URL" "test-results/dump-$TYPE.gz")"
 	echo "    --> Postgres dump URL: $DUMP_URL"
 	set +e
-	curl --retry 5 -v -o dump.gz -L "$DUMP_URL?circle-token=$CIRCLE_TOKEN"
+	curl --retry 10 --retry-connrefused -v -o dump.gz -L "$DUMP_URL?circle-token=$CIRCLE_TOKEN"
 	EXIT_CODE="$?"
 	set -e
 
