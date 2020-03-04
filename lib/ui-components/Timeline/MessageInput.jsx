@@ -54,10 +54,22 @@ const InputWrapper = styled(Box) `
 	}}
 `
 
+const getMessageInputDefaultPlaceholder = (allowWhispers, whisper) => {
+	if (!allowWhispers) {
+		return 'Type your messsage...'
+	}
+
+	if (whisper) {
+		return 'Type your private comment...'
+	}
+
+	return 'Type your public reply...'
+}
+
 const MessageInput = React.memo(({
 	allowWhispers,
 	whisper,
-	placeholder = whisper ? 'Type your private comment...' : 'Type your public reply...',
+	placeholder = getMessageInputDefaultPlaceholder(allowWhispers, whisper),
 	toggleWhisper,
 	sendCommand,
 	value,
