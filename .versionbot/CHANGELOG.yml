@@ -1,4 +1,45 @@
 - commits:
+    - subject: 'package.json: Require Node.js >=12.15.0 instead of >=12.16.0'
+      hash: b058ef27bc592214c63ad0b467a0a4531574c98b
+      body: >
+        We have v12.15.0 in the base images, which is making our compose build
+
+        jobs crash:
+
+
+        ```
+
+        ERROR The current node version v12.15.0 does not satisfy the required
+        version >=12.16.0.
+
+        npm ERR! code ELIFECYCLE
+
+        npm ERR! errno 1
+
+        npm ERR! *********@26.5.8 requirements-check: `node
+        scripts/check_node_version.js`
+
+        npm ERR! Exit status 1
+
+        npm ERR!
+
+        npm ERR! Failed at the *********@26.5.8 requirements-check script.
+
+        npm ERR! This is probably not a problem with npm. There is likely
+        additional logging output above.
+
+        ```
+      footer:
+        See: 'https://circleci.com/gh/product-os/jellyfish/77187'
+        see: 'https://circleci.com/gh/product-os/jellyfish/77187'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.6
+  date: 2020-03-04T10:09:08.279Z
+- commits:
     - subject: 'core: Fix caching of actors'
       hash: 5d5da6fba83b28b083d4008552caebfb4317ce21
       body: |
