@@ -25,6 +25,102 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('should be able to run high privilege triggers in response to common tasks', async (test) => {
+	const userDetails = createUserDetails()
+	const session = await test.context.sdk.card.get(test.context.token)
+	const sessionTypeCard = await test.context.sdk.card.get('session@1.0.0')
+
+	const filterSlug = test.context.generateRandomSlug({
+		prefix: 'support-thread-test'
+	})
+
+	const sessionSlug = test.context.generateRandomSlug({
+		prefix: 'session-test'
+	})
+
+	/*
+	 * Create a trigger as the admin user to perform a high privilege
+	 * task in response to a low privilege task
+	 */
+
+	const trigger = await test.context.sdk.card.create({
+		type: 'triggered-action',
+		slug: test.context.generateRandomSlug({
+			prefix: 'triggered-action'
+		}),
+		version: '1.0.0',
+		data: {
+			action: 'action-create-card@1.0.0',
+			filter: {
+				type: 'object',
+				properties: {
+					slug: {
+						type: 'string',
+						const: filterSlug
+					},
+					type: {
+						type: 'string',
+						const: 'support-thread@1.0.0'
+					}
+				}
+			},
+			target: sessionTypeCard.id,
+			arguments: {
+				reason: null,
+				properties: {
+					version: '1.0.0',
+					slug: sessionSlug,
+					data: {
+						actor: session.data.actor
+					}
+				}
+			}
+		}
+	})
+
+	/*
+	 * Create a normal user and login as them
+	 */
+
+	await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	await test.context.sdk.auth.login(userDetails)
+
+	/*
+	 * Execute the low privilege task that will try to trigger
+	 * the high privilege task
+	 */
+
+	await test.context.sdk.card.create({
+		slug: filterSlug,
+		type: 'support-thread@1.0.0',
+		data: {
+			status: 'open'
+		}
+	})
+
+	/*
+	 * The high privilege task should have succeeded
+	 */
+
+	test.context.sdk.setAuthToken(test.context.token)
+	const result = await test.context.sdk.card.get(sessionSlug)
+	test.truthy(result)
+	test.is(result.type, 'session@1.0.0')
+	test.is(result.data.actor, session.data.actor)
+
+	await test.context.sdk.card.remove(trigger.id, trigger.type)
+})
+
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
