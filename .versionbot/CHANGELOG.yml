@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui-components: Refactored caching and retrieval of actors'
+      hash: 340d82d79042fc348a568cfe96f6598121d266ac
+      body: >
+        Main change is that we now cache the whole actor in the Redux store, not
+        just the actor's card.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.2
+  date: 2020-03-04T05:20:59.371Z
+- commits:
     - subject: 'ui: Ensure component state is immutable'
       hash: 61cf55fba89cc9da86ae59bc8b1c606cb59cae92
       body: |
