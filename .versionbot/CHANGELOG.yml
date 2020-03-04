@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Ensure component state is immutable'
+      hash: 61cf55fba89cc9da86ae59bc8b1c606cb59cae92
+      body: |
+        Avoid mutating React component state!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.1
+  date: 2020-03-04T04:07:33.740Z
+- commits:
     - subject: 'core: Add status to user card'
       hash: e86a4581222eca16c98051bf23bdba8794f3deff
       body: >
