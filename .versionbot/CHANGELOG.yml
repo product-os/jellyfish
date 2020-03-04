@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'front: Increase rate limit retries'
+      hash: db95c0786d74a25c06d81c68baa7e32ad697c9fd
+      body: |
+        We don't want this number to be infinite, but looks like we still get
+        some rate limiting issues sometimes, so lets try to be a bit more
+        aggressive on it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.7
+  date: 2020-03-04T11:46:09.293Z
+- commits:
     - subject: 'package.json: Require Node.js >=12.15.0 instead of >=12.16.0'
       hash: b058ef27bc592214c63ad0b467a0a4531574c98b
       body: >
