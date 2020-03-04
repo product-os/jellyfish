@@ -99,6 +99,23 @@ ava.serial.before(async (test) => {
 
 	test.context.inboxes = environment.test.integration.front.inboxes
 
+	const teammates = await retryWhile429(() => {
+		return test.context.front.inbox.listTeammates({
+			inbox_id: test.context.inboxes[0]
+		})
+	})
+
+	// Find the first available teammate for the tests
+	// eslint-disable-next-line no-underscore-dangle
+	const teammate = _.find(teammates._results, {
+		is_available: true
+	})
+	if (!teammate) {
+		throw new Error(`No available teammate for inbox ${test.context.inboxes[0]}`)
+	}
+
+	test.context.teammate = teammate.username
+
 	test.context.getMessageSlug = () => {
 		return test.context.generateRandomSlug({
 			prefix: 'message'
@@ -253,22 +270,7 @@ ava.serial.before(async (test) => {
 
 ava.serial.after(helpers.mirror.after)
 ava.serial.beforeEach(async (test) => {
-	const teammates = await retryWhile429(() => {
-		return test.context.front.inbox.listTeammates({
-			inbox_id: test.context.inboxes[0]
-		})
-	})
-
-	// Find the first available teammate for the tests
-	// eslint-disable-next-line no-underscore-dangle
-	const teammate = _.find(teammates._results, {
-		is_available: true
-	})
-	if (!teammate) {
-		throw new Error(`No available teammate for inbox ${test.context.inboxes[0]}`)
-	}
-
-	await helpers.mirror.beforeEach(test, teammate.username.replace(/_/g, '-'))
+	await helpers.mirror.beforeEach(test, test.context.teammate.replace(/_/g, '-'))
 })
 
 ava.serial.afterEach(helpers.mirror.afterEach)
