@@ -20,6 +20,9 @@ import {
 import {
 	getQueue
 } from './async-dispatch-queue'
+import {
+	generateActorFromUserCard
+} from './helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -247,13 +250,6 @@ export default class ActionCreator {
 		this.getActorInternal = (id) => {
 			return async (dispatch, getState) => {
 				let actor = null
-				let name = 'unknown user'
-				let email = null
-
-				// IF proxy is true, it indicates that the actor has been created as a proxy
-				// for a real user in JF, usually as a result of syncing from an external
-				// service
-				let proxy = false
 
 				if (!id) {
 					return null
@@ -291,7 +287,8 @@ export default class ActionCreator {
 						})
 					}
 
-					actor = await loadingCardCache[id]
+					const card = await loadingCardCache[id]
+					actor = generateActorFromUserCard(card)
 
 					dispatch({
 						type: actions.SET_ACTOR,
@@ -302,38 +299,7 @@ export default class ActionCreator {
 					})
 				}
 
-				if (!actor) {
-					return null
-				}
-
-				email = _.get(actor, [ 'data', 'email' ], '')
-
-				const isBalenaTeam = _.find(
-					_.get(actor, [ 'links', 'is member of' ], []),
-					{
-						slug: 'org-balena'
-					}
-				)
-
-				// Check if the user is part of the balena org
-				if (isBalenaTeam) {
-					name = actor.name || actor.slug.replace('user-', '')
-				} else {
-					proxy = true
-					let handle = actor.name || _.get(actor, [ 'data', 'handle' ])
-					if (!handle) {
-						handle = email || actor.slug.replace(/^(account|user)-/, '')
-					}
-					name = `[${handle}]`
-				}
-
-				return {
-					name,
-					email,
-					avatarUrl: _.get(actor, [ 'data', 'avatar' ]),
-					proxy,
-					card: actor
-				}
+				return actor || null
 			}
 		}
 	}
