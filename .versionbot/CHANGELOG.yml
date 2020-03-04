@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'balena-api: Retry .whoami() handler on 429'
+      hash: e7ab8fddfb3dbaa5f39b0a5a97930f1b8eeaa6b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/ffceb80789074ce3bce0b7f7f50d952f/'
+        fixes: 'https://sentry.io/share/issue/ffceb80789074ce3bce0b7f7f50d952f/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.14
+  date: 2020-03-04T20:20:18.536Z
+- commits:
     - subject: 'github: Fallback for issue mirror URL'
       hash: ccb189fd299e27bca2da24f7f5d3e8b5a4241931
       body: ''
