@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'test: Execute after/before hooks serially'
+      hash: a9547a95ed27e23e476b20a2bf7f21b518679d6e
+      body: |
+        According to the docs, before/after hooks run all in parallel unless
+        they are explicitly prefixed by "serial".
+
+        Making them serial will help us debug cases like
+        https://circleci.com/gh/product-os/jellyfish/74925, where before/after
+        hooks blow up and we never get a stack trace as we don't enable
+        `--fail-fast` in the CI.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.4
+  date: 2020-03-04T08:24:17.126Z
+- commits:
     - subject: 'ui: Update cache when a user card is updated'
       hash: 9c8ca6191135f44eaddee09d919c3e6578a62570
       body: >
