@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'balena-api: Check that geoip result is defined'
+      hash: ebaa61773bb5dd4ecce82e8f09d09207d2e01646
+      body: |
+        This can be the case if the ip doesn't resolve to any valid location.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/266bb268586a40e092c37777872ddca5/'
+        fixes: 'https://sentry.io/share/issue/266bb268586a40e092c37777872ddca5/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.15
+  date: 2020-03-04T20:54:58.099Z
+- commits:
     - subject: 'balena-api: Retry .whoami() handler on 429'
       hash: e7ab8fddfb3dbaa5f39b0a5a97930f1b8eeaa6b4
       body: ''
