@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'front: Compute test teammate once per suite, not once per test'
+      hash: ec035b4476f1511cd2bd92d1c654e97d9f63091b
+      body: |
+        We were doing a lot of unnecessary HTTP requests on the `beforeEach`
+        clause when we could have done it once in the `before` clause.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.6.9
+  date: 2020-03-04T15:54:38.735Z
+- commits:
     - subject: 'ChatWidget: Fix default message input placeholder'
       hash: e44d7d2e9ca8660a9defae6870dad0b35427954b
       body: ''
