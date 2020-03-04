@@ -162,8 +162,8 @@ exports.getElementText = async (page, selector) => {
 	})
 }
 
-exports.waitForSelectorToDisappear = async (page, selector) => {
-	return exports.retry(30, async () => {
+exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => {
+	return exports.retry(retryCount, async () => {
 		try {
 			await page.waitForSelector(selector, {
 				timeout: 1000
