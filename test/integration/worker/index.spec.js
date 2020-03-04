@@ -1232,7 +1232,7 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 	})
 })
 
-ava('trigger should fail to update card if triggered by a user not owning the card', async (test) => {
+ava('trigger should update card if triggered by a user not owning the card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'foo-admin',
@@ -1340,10 +1340,11 @@ ava('trigger should fail to update card if triggered by a user not owning the ca
 			}
 		})
 
-	await test.throwsAsync(test.context.flush(sessionIdOfJohnDoe),
-		{
-			instanceOf: test.context.worker.errors.WorkerNoElement
-		})
+	await test.context.flush(sessionIdOfJohnDoe)
+	const result = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, card.id)
+	test.truthy(result)
+	test.true(result.data.updated)
 })
 
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
