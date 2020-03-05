@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'circleci: Skip sync integration tests on UI-only changes'
+      hash: 53a86420c357b77dfe213b4bb5499f5157bd0180
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.8.1
+  date: 2020-03-05T09:17:49.545Z
+- commits:
     - subject: 'ui: Add user status icon'
       hash: 9adf8f17ebb687bd67f2fc2a115cefbf12ede99c
       body: >
