@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'sync: Add bigger test timeouts in mirror tests'
+      hash: c1ffba0e2b9f72a488ee42cfe222b4e6e6756cb4
+      body: |
+        Looks like some test cases may take a really long time due to rate
+        limiting, but they will still pass given enough time.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.8.4
+  date: 2020-03-05T15:45:58.254Z
+- commits:
     - subject: 'test: Make queue''s afterEach more resilient as its run with ".always"'
       hash: fbbbacc1542f2b1df32654880317e3833ab6f43a
       body: "This particular `.afterEach()` clause its run with `.always`, which\nmeans it will run even if the `.beforeEach()` or the test itself\ncrashes.\n\nIf `.beforeEach()` crashes, then the queue or the core might not have\nbeen initialized, and then `.afterEach()` will fail with errors such as:\n\n```\nRejected promise returned by test. Reason:\n\nTypeError {\n\tmessage: 'Cannot read property \\'consumer\\' of undefined',\n}\n\nObject.exports.afterEach (test/integration/queue/helpers.js:811:28)\nObject.afterEach (test/integration/sync/helpers.js:177:26)\nafterEach (test/integration/sync/scenario.js:4321:23)\n```\n"
