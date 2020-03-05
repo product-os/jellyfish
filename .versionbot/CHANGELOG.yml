@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ChatWidget: Fix display of message author'
+      hash: 243c6f05666d159adeddb8a570e970f9cf419851
+      body: |
+        Fetch the actor using the provided `getActor` prop
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.6.16
+  date: 2020-03-05T04:09:35.323Z
+- commits:
     - subject: 'balena-api: Check that geoip result is defined'
       hash: ebaa61773bb5dd4ecce82e8f09d09207d2e01646
       body: |
