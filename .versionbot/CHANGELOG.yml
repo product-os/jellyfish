@@ -1,4 +1,42 @@
 - commits:
+    - subject: 'circleci: Remove unused jobs and artifacts'
+      hash: 119ac291c9cfc0d597605416526ff899bddd5387
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server/action-server: Simplify Dockerfiles'
+      hash: cf73ac12e44c2cbf1e858ac7877028e091862bf4
+      body: |
+        We can directly install production dependencies now that we don't need
+        to worry about code coverage.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Get rid of code coverage support
+      hash: 94d9a4dbb67383950d600feccb2f677dd680df49
+      body: |
+        We are losing this already by moving (part of) the test suite to Balena
+        CI (https://github.com/product-os/jellyfish/pull/3253), and not doing it
+        anymore will likely make the tests run faster.
+
+        This commit can always be reverted if we want to figure out how to get
+        this back on Balena CI.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 26.8.2
+  date: 2020-03-05T13:29:38.575Z
+- commits:
     - subject: 'circleci: Skip sync integration tests on UI-only changes'
       hash: 53a86420c357b77dfe213b4bb5499f5157bd0180
       body: ''
