@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Extract worker tests from one large file Moved into logical smaller
+        units
+      hash: 307aa78f7a5121baab104664dfe1cee6598e650c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 26.7.0
+  date: 2020-03-05T05:31:48.023Z
+- commits:
     - subject: 'ChatWidget: Fix display of message author'
       hash: 243c6f05666d159adeddb8a570e970f9cf419851
       body: |
