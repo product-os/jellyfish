@@ -100,7 +100,6 @@ class CardLinker extends React.Component {
 
 	render () {
 		const {
-			actions,
 			card,
 			connectDragSource,
 			types
@@ -179,7 +178,6 @@ class CardLinker extends React.Component {
 				</span>
 
 				<LinkModal
-					actions={actions}
 					card={card}
 					types={types}
 					show={showLinkModal}

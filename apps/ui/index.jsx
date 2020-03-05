@@ -22,7 +22,8 @@ import {
 import {
 	analytics,
 	sdk,
-	store
+	store,
+	actionCreators
 } from './core'
 import JellyfishUI from './JellyfishUI'
 import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
@@ -86,8 +87,8 @@ ReactDOM.render(
 					fontSize: 14
 				}}
 			>
-				<SetupProvider sdk={sdk} analytics={analytics}>
-					<Provider store={store}>
+				<Provider store={store}>
+					<SetupProvider sdk={sdk} analytics={analytics} actionCreators={actionCreators}>
 						<React.Fragment>
 							<GlobalStyle />
 
@@ -95,8 +96,8 @@ ReactDOM.render(
 								<JellyfishUI />
 							</ErrorBoundary>
 						</React.Fragment>
-					</Provider>
-				</SetupProvider>
+					</SetupProvider>
+				</Provider>
 			</RProvider>
 		</Router>
 	),

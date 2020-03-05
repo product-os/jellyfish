@@ -5,19 +5,27 @@
  */
 
 import React from 'react'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	useDispatch
+} from 'react-redux'
 
 const setupContext = React.createContext(null)
 
 export const SetupProvider = ({
-	analytics, sdk, actions, children
+	analytics, sdk, actionCreators, children
 }) => {
+	const dispatch = useDispatch()
 	const setup = React.useMemo(() => {
+		const actions = bindActionCreators(actionCreators || [], dispatch)
 		return {
 			sdk,
 			analytics,
 			actions
 		}
-	}, [ sdk, analytics, actions ])
+	}, [ sdk, analytics, actionCreators ])
 
 	return (
 		<setupContext.Provider value={setup}>{children}</setupContext.Provider>

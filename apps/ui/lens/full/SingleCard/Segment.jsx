@@ -138,7 +138,6 @@ export default class Segment extends React.Component {
 		} = this.state
 
 		const {
-			actions,
 			card,
 			segment,
 			types
@@ -194,7 +193,6 @@ export default class Segment extends React.Component {
 				)}
 
 				<LinkModal
-					actions={actions}
 					card={card}
 					types={[ type ]}
 					show={showLinkModal}
