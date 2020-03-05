@@ -1,0 +1,26 @@
+###########################################################
+# Runtime
+###########################################################
+
+FROM resinci/jellyfish-test:latest
+
+WORKDIR /usr/src/jellyfish
+
+COPY webpack.config.base.js /usr/src/jellyfish/
+COPY ./scripts ./scripts
+COPY package.json package-lock.json /usr/src/jellyfish/
+RUN npm ci
+
+RUN apt-get update && apt-get install -y \
+	libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 \
+	libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 \
+	gconf-gsettings-backend libasound2 libatk1.0-0 libgtk-3-0
+
+COPY ./apps ./apps
+COPY ./lib ./lib
+COPY ./test ./test
+COPY ./Makefile ./Makefile
+COPY ./.git ./.git
+
+# Run set test script
+CMD /bin/bash -c "/usr/src/jellyfish/scripts/ci/tests/init.sh"

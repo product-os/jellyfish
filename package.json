@@ -81,6 +81,7 @@
     "babel-loader": "^8.0.6",
     "browser-env": "^3.3.0",
     "canvas": "^2.6.1",
+    "catch-uncommitted": "^1.6.1",
     "cli-spinner": "^0.2.8",
     "copy-webpack-plugin": "^5.1.1",
     "depcheck": "^0.9.2",

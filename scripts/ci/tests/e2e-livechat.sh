@@ -6,14 +6,8 @@
 # Proprietary and confidential.
 ###
 
-set -eu
+set -e
+source "$(dirname $0)/helpers.sh"
 
-OUTPUT="$(git status -s)"
-
-if [ -n "$OUTPUT" ]; then
-	echo "$OUTPUT"
-	git --no-pager diff
-	echo ""
-	echo "There are unstaged changes" 1>&2
-	exit 1
-fi
+# Run Livechat end-to-end tests.
+run_test "Livechat End-to-End Tests" test-e2e-livechat
