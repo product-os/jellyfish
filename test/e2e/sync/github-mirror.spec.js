@@ -113,6 +113,7 @@ ava.serial.before(async (test) => {
 
 ava.serial.after(helpers.mirror.after)
 ava.serial.beforeEach(async (test) => {
+	test.timeout(1000 * 60 * 5)
 	await helpers.mirror.beforeEach(test, uuid())
 })
 
