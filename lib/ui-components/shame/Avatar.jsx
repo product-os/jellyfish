@@ -12,16 +12,26 @@ import {
 	Img
 } from 'rendition'
 import UserIcon from 'react-icons/lib/fa/user'
+import UserStatusIcon from '../UserStatusIcon'
 
 const dimensions = (props) => {
 	const size = props.small ? 24 : 36
+	const top = props.small ? -2 : -4
 	return `
 		width: ${size}px;
 		height: ${size}px;
+		.user-status-icon {
+			top: ${top}px;
+			right: -2px;
+		}
 	`
 }
 
 const OuterWrapper = styled(Box) `
+	position: relative;
+	.user-status-icon {
+		position: absolute;
+	}
 	box-sizing: content-box;
 	${dimensions}
 `
@@ -48,10 +58,12 @@ const IconWrapper = styled(Flex) `
 
 export default function Avatar ({
 	url,
+	userStatus,
+	small,
 	...rest
 }) {
 	return (
-		<OuterWrapper {...rest}>
+		<OuterWrapper small={small} {...rest}>
 			<InnerWrapper>
 				{url ? (
 					<Img src={url} />
@@ -61,6 +73,7 @@ export default function Avatar ({
 					</IconWrapper>
 				)}
 			</InnerWrapper>
+			<UserStatusIcon className="user-status-icon" small={small} userStatus={userStatus} />
 		</OuterWrapper>
 	)
 }

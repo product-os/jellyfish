@@ -268,6 +268,7 @@ export default class HomeChannel extends React.Component {
 						<Avatar
 							name={username}
 							url={_.get(user, [ 'data', 'avatar' ])}
+							userStatus={_.get(user, [ 'data', 'status' ])}
 						/>
 						{Boolean(username) && <Txt mx={2} style={{
 							textOverflow: 'ellipsis',
