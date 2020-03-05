@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Add user status icon'
+      hash: 9adf8f17ebb687bd67f2fc2a115cefbf12ede99c
+      body: >
+        The user status icon (when user status can be updated) will appear
+        top-right of the user's avatar.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.8.0
+  date: 2020-03-05T07:03:58.342Z
+- commits:
     - subject: >-
         Extract worker tests from one large file Moved into logical smaller
         units
