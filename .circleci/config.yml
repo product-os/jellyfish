@@ -117,28 +117,28 @@ jobs:
 
       - run:
           name: Sync Tests Outreach Translate
-          command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
       - run:
           name: Sync Tests Outreach Translate Without Tokens
           command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
 
       - run:
           name: Sync Tests Balena API Translate
-          command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
       - run:
           name: Sync Tests Balena API Translate Without Tokens
           command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
 
       - run:
           name: Sync Tests Github Translate
-          command: make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync Tests Github Translate Without Tokens
           command: make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
 
       - run:
           name: Sync Tests Flowdock Translate
-          command: make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
       - run:
           name: Sync Tests Flowdock Translate Without Tokens
           command: make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY= INTEGRATION_FLOWDOCK_TOKEN=
@@ -238,7 +238,15 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
+          command: |
+            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
+              mkdir -p .nyc_output
+              # Mock coverage output so that "persist_to_workspace" succeeds
+              touch .nyc_output/none-front-translate.json
+              exit 0
+            fi
+
+            make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
@@ -313,7 +321,15 @@ jobs:
 
       - run:
           name: Sync Tests
-          command: make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+          command: |
+            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
+              mkdir -p .nyc_output
+              # Mock coverage output so that "persist_to_workspace" succeeds
+              touch .nyc_output/none-discourse-translate.json
+              exit 0
+            fi
+
+            make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync End To End Tests Without Tokens
           command: make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
@@ -651,7 +667,7 @@ jobs:
           command: make build-livechat COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/livechat && cp dist/livechat/webpack-bundle-report.html /tmp/test-results/livechat/webpack-bundle-report.html
       - run:
           name: Generate Coverage Results
-          command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && make coverage && cp -rf coverage /tmp/test-results
+          command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && rm .nyc_output/none-*.json && make coverage && cp -rf coverage /tmp/test-results
       - run:
           name: Git Stats
           command: gitstats -c start_date="1 month ago" . /tmp/test-results/gitstats
