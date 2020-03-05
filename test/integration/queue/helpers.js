@@ -80,6 +80,11 @@ exports.beforeEach = async (test, options) => {
 }
 
 exports.afterEach = async (test) => {
-	await test.context.queue.consumer.cancel()
-	await helpers.afterEach(test)
+	if (test.context.queue) {
+		await test.context.queue.consumer.cancel()
+	}
+
+	if (test.context.jellyfish) {
+		await helpers.afterEach(test)
+	}
 }
