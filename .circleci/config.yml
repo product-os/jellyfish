@@ -41,10 +41,6 @@ jobs:
           name: Install Dependencies
           command: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
 
-      - run:
-          name: Build UI and livechat
-          command: make build-ui NODE_ENV=test && NODE_ENV=test make build-livechat
-
       - save_cache:
           paths:
             - /root/.npm
@@ -63,7 +59,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - dist
               - node_modules
 
   compose-build:
@@ -114,30 +109,18 @@ jobs:
       - run:
           name: Sync Tests Outreach Translate
           command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/outreach-translate.spec.js INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-      - run:
-          name: Sync Tests Outreach Translate Without Tokens
-          command: make test FILES=./test/integration/sync/outreach-translate.spec.js INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
 
       - run:
           name: Sync Tests Balena API Translate
           command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/balena-api-translate.spec.js INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
-      - run:
-          name: Sync Tests Balena API Translate Without Tokens
-          command: make test FILES=./test/integration/sync/balena-api-translate.spec.js INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
 
       - run:
           name: Sync Tests Github Translate
           command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
-      - run:
-          name: Sync Tests Github Translate Without Tokens
-          command: make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=
 
       - run:
           name: Sync Tests Flowdock Translate
           command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/flowdock-translate.spec.js INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
-      - run:
-          name: Sync Tests Flowdock Translate Without Tokens
-          command: make test FILES=./test/integration/sync/flowdock-translate.spec.js INTEGRATION_FLOWDOCK_SIGNATURE_KEY= INTEGRATION_FLOWDOCK_TOKEN=
 
   integration_tests: &integration_tests
     <<: *job_defaults
@@ -222,9 +205,6 @@ jobs:
             fi
 
             make test FILES=./test/integration/sync/front-translate.spec.js INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/integration/sync/front-translate.spec.js INTEGRATION_FRONT_TOKEN=
 
   sync_tests_front_mirror:
     <<: *job_defaults
@@ -289,9 +269,6 @@ jobs:
             fi
 
             make test FILES=./test/integration/sync/discourse-translate.spec.js INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/integration/sync/discourse-translate.spec.js INTEGRATION_DISCOURSE_TOKEN=
 
   sync_tests_discourse_mirror:
     <<: *job_defaults
@@ -569,16 +546,6 @@ jobs:
           name: Postgres Dump
           command: mkdir -p /tmp/test-results && cp dump-*.gz /tmp/test-results/
 
-      - run:
-          name: Webpack Bundle Report For UI
-          command: make build-ui NODE_ENV=test && mkdir -p /tmp/test-results/ui && cp dist/ui/webpack-bundle-report.html /tmp/test-results/ui/webpack-bundle-report.html
-      - run:
-          name: Webpack Bundle Report For Chat Widget
-          command: make build-livechat NODE_ENV=test && mkdir -p /tmp/test-results/livechat && cp dist/livechat/webpack-bundle-report.html /tmp/test-results/livechat/webpack-bundle-report.html
-      - run:
-          name: Git Stats
-          command: gitstats -c start_date="1 month ago" . /tmp/test-results/gitstats
-
       # Store artifacts for debugging purposes
       - store_test_results:
           path: /tmp/test-results
@@ -593,14 +560,6 @@ jobs:
       - run:
           name: Post PR Summary
           command: GITHUB_TOKEN=$GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
-
-  eslint_jellyfish:
-    <<: *job_defaults
-    steps:
-      - checkout
-      - run:
-          name: Test
-          command: cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
 
   clean_old_test_data:
     <<: *job_defaults
@@ -704,9 +663,6 @@ workflows:
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
-                <<: *workflow_filter
-
-            - eslint_jellyfish:
                 <<: *workflow_filter
 
             - clean_old_test_data:

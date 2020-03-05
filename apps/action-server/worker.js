@@ -14,7 +14,6 @@ const DEFAULT_ERROR_CONTEXT = {
 }
 
 const onError = (serverContext, error, message = 'Worker error') => {
-	// eslint-disable-next-line jellyfish/logger-string-expression
 	logger.exception(serverContext, message, error)
 	setTimeout(() => {
 		process.exit(1)

@@ -92,7 +92,7 @@ It should be noted that in many cases the default values for the options set bel
 ### Lint
 Run ESLint tests:
 ```
-cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
+npm test
 ```
 
 ### Unit

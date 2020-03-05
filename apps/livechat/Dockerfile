@@ -7,13 +7,10 @@ FROM balena/open-balena-base:v9.2.0 as base
 WORKDIR /usr/src/jellyfish
 
 COPY package.json package-lock.json /usr/src/jellyfish/
-RUN mkdir -p scripts/eslint-plugin-jellyfish
-COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
-COPY scripts/eslint-plugin-jellyfish/package.json \
-	/usr/src/jellyfish/scripts/eslint-plugin-jellyfish
 RUN mkdir -p scripts/template
 COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
+COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY webpack.config.base.js .
