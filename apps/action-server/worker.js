@@ -8,7 +8,6 @@ const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('../../lib/uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
-require('../../lib/coverage').attach()
 
 const DEFAULT_ERROR_CONTEXT = {
 	id: `WORKER-ERROR-${packageJSON.version}`

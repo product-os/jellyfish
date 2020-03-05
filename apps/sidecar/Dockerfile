@@ -17,7 +17,6 @@ COPY package.json package-lock.json /usr/src/jellyfish/
 RUN npm ci
 
 COPY ./lib/core ./lib/core
-COPY ./lib/coverage ./lib/coverage
 COPY ./lib/chat-widget ./lib/chat-widget
 COPY ./lib/environment ./lib/environment
 COPY ./lib/sdk ./lib/sdk

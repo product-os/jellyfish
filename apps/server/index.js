@@ -9,7 +9,6 @@ const uuid = require('../../lib/uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
 const environment = require('../../lib/environment')
-require('../../lib/coverage').attach()
 
 const DEFAULT_CONTEXT = {
 	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`

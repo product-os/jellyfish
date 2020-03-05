@@ -24,14 +24,12 @@ COPY lib/chat-widget ./lib/chat-widget
 COPY lib/uuid ./lib/uuid
 COPY Makefile .
 
-ARG ENABLE_COVERAGE=0
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
 ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
 
 RUN make build-ui \
 	NODE_ENV=production \
-	COVERAGE=${ENABLE_COVERAGE} \
 	SENTRY_DSN_UI=$SENTRY_DSN_UI \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT \

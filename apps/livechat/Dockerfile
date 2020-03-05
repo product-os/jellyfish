@@ -28,13 +28,11 @@ COPY lib/chat-widget ./lib/chat-widget
 COPY lib/uuid ./lib/uuid
 COPY Makefile .
 
-ARG ENABLE_COVERAGE=0
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
 
 RUN make build-livechat \
 	NODE_ENV=production \
-	COVERAGE=${ENABLE_COVERAGE} \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT
 

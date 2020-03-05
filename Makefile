@@ -1,6 +1,5 @@
 .PHONY: clean \
 	lint \
-	coverage \
 	node \
 	test \
 	build-ui \
@@ -220,8 +219,6 @@ DETACH ?=
 export CI
 VISUAL ?=
 export VISUAL
-COVERAGE ?= 0
-export COVERAGE
 
 DOCKER_COMPOSE_OPTIONS = \
 	--file docker-compose.yml \
@@ -247,15 +244,6 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
-NYC_TMP_DIR = .nyc-root
-NYC_GLOBAL_OPS = --extension .js --extension .jsx --extension .json --extension .svg
-NYC_OPTS = $(NYC_GLOBAL_OPS) --exclude '**/*.spec.js' --exclude '**/*.spec.jsx' --compact=false
-ifeq ($(COVERAGE),1)
-COVERAGE_COMMAND = ./node_modules/.bin/nyc --no-clean $(NYC_OPTS) --exclude 'test/e2e/ui/macros.js'
-else
-COVERAGE_COMMAND =
-endif
-
 AVA_ARGS = $(AVA_OPTS)
 ifndef CI
 AVA_ARGS += --fail-fast
@@ -267,19 +255,6 @@ endif
 # -----------------------------------------------
 # Rules
 # -----------------------------------------------
-
-ifeq ($(COVERAGE),1)
-.nyc-root: lib apps
-	rm -rf $@ && mkdir -p $@ .nyc_output
-	for directory in $^; do \
-		./node_modules/.bin/nyc \
-			instrument $(NYC_OPTS) $$directory $@/$$directory; \
-	done
-	cp package.json $@
-else
-.nyc-root:
-	rm -rf $@ && mkdir -p $@ .nyc_output
-endif
 
 .tmp:
 	mkdir -p $@
@@ -296,8 +271,6 @@ clean:
 		*.0x \
 		*.lock \
 		dump.rdb \
-		.nyc_output \
-		coverage \
 		postgres_data \
 		webpack-bundle-report.html \
 		webpack-bundle-report.chat-widget.html \
@@ -331,16 +304,12 @@ lint:
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel'
 
-coverage:
-	./node_modules/.bin/nyc $(NYC_GLOBAL_OPS) --reporter=text --reporter=html --reporter=json report
-
 scrub:
 	$(SCRUB_COMMAND)
 
 test: LOGLEVEL = warning
 test: scrub
-	$(COVERAGE_COMMAND) node $(NODE_DEBUG_ARGS) \
-		./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
 	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
@@ -394,31 +363,16 @@ node:
 # -----------------------------------------------
 
 start-server: LOGLEVEL = info
-ifeq ($(COVERAGE),1)
-start-server: .nyc-root
-	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) $^/apps/server/index.js
-else
 start-server:
 	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js
-endif
 
 start-worker: LOGLEVEL = info
-ifeq ($(COVERAGE),1)
-start-worker: .nyc-root
-	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) $^/apps/action-server/worker.js
-else
 start-worker:
 	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
-endif
 
 start-tick: LOGLEVEL = info
-ifeq ($(COVERAGE),1)
-start-tick: .nyc-root
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) $^/apps/action-server/tick.js
-else
 start-tick:
 	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
-endif
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)
@@ -437,29 +391,13 @@ start-static-%:
 # Build
 # -----------------------------------------------
 
-ifeq ($(COVERAGE),1)
-build-ui: .nyc-root
-	NODE_ENV=test UI_DIRECTORY="./$</apps/ui" \
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
-else
 build-ui:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
-endif
 
-ifeq ($(COVERAGE),1)
-build-livechat: .nyc-root
-	NODE_ENV=test \
-	LIVECHAT_DIR="./$</apps/livechat" \
-	CHAT_WIDGET_DIR="./$</lib/chat-widget" \
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
-else
 build-livechat:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
-endif
 
 # -----------------------------------------------
 # Development

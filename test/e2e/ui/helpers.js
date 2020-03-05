@@ -6,7 +6,6 @@
 
 const puppeteer = require('puppeteer')
 const environment = require('../../../lib/environment')
-const coverage = require('../../../lib/coverage')
 const helpers = require('../sdk/helpers')
 
 exports.addPageHandlers = (page, headless = true) => {
@@ -85,7 +84,6 @@ exports.browser = {
 	},
 
 	afterEach: async (test) => {
-		await coverage.puppeteer(test.context.page)
 		await test.context.browser.close()
 		await helpers.afterEach(test)
 		await helpers.after(test)

@@ -1,6 +1,5 @@
 build-variables:
   global:
-    - ENABLE_COVERAGE=0
     - SENTRY_DSN_UI=0
   services:
     ui:

@@ -60,13 +60,6 @@ Whether test databases should be dropped before running tests.
 
 The script that actually does the deletion work is `scripts/postgres-delete-test-databases.js`.
 
-### `COVERAGE`
-Whether test coverage data should be generated for the tests being ran.
-- `COVERAGE=1`: Generate and display coverage report
-- `COVERAGE=0`: Don't generate and display coverate report (default)
-
-When running tests locally, setting `COVERAGE=0` should generally lead to faster test iterations and save time.  For CI, however, coverage should be enabled as it is exported as an artifact.
-
 ### `SERVER_HOST`
 Location of the Jellyfish API server, defaults to `http://localhost`.
 
@@ -105,7 +98,7 @@ cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
 ### Unit
 Run unit tests:
 ```
-make test-unit COVERAGE=1
+make test-unit
 ```
 
 ### Front Mirror
@@ -114,7 +107,6 @@ Run Front mirror tests with proper keys and tokens set:
 make test \
 	FILES=./test/e2e/sync/front-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN \
 	INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN \
 	SERVER_HOST=http://api \
@@ -130,7 +122,6 @@ Run the same tests without keys and token set (cases requiring them should get s
 make test \
 	FILES=./test/e2e/sync/front-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_FRONT_TOKEN= \
 	SERVER_HOST=http://api \
 	SERVER_PORT=8000 \
@@ -145,7 +136,6 @@ Run Front translate tests with proper keys and token set:
 ```
 make test \
 	FILES=./test/integration/sync/front-translate.spec.js \
-	COVERAGE=1 \
 	SCRUB=0 \
 	INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN \
 	INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN \
@@ -160,7 +150,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 ```
 make test \
 	FILES=./test/integration/sync/front-translate.spec.js \
-	COVERAGE=1 \
 	SCRUB=0 \
 	INTEGRATION_FRONT_TOKEN= \
 	SERVER_HOST=http://api \
@@ -176,7 +165,6 @@ Run Discourse mirror tests with proper keys and tokens set:
 make test \
 	FILES=./test/e2e/sync/discourse-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN \
 	INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY \
 	INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME \
@@ -192,7 +180,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/e2e/sync/discourse-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_DISCOURSE_TOKEN= \
 	SERVER_HOST=http://api \
 	POSTGRES_HOST=$POSTGRES_HOST \
@@ -206,7 +193,6 @@ Run Discourse translate tests with proper keys and tokens set:
 ```
 make test \
 	FILES=./test/integration/sync/discourse-translate.spec.js \
-	COVERAGE=1 \
 	SCRUB=0 \
 	INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN \
 	INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY \
@@ -222,7 +208,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 ```
 make test \
 	FILES=./test/integration/sync/discourse-translate.spec.js \
-	COVERAGE=1 \
 	SCRUB=0 \
 	INTEGRATION_DISCOURSE_TOKEN= \
 	SERVER_HOST=http://api \
@@ -238,7 +223,6 @@ Run Outreach mirror tests with proper keys and tokens set.
 make test \
 	FILES=./test/integration/server/outreach-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
 	INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
 	INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
@@ -255,7 +239,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/integration/server/outreach-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_OUTREACH_APP_ID= \
 	INTEGRATION_OUTREACH_APP_SECRET= \
 	INTEGRATION_OUTREACH_SIGNATURE_KEY=
@@ -267,7 +250,6 @@ Run Outreach translate tests with proper keys and tokens set:
 make test \
 	FILES=./test/integration/sync/outreach-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
 	INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
 	INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
@@ -282,7 +264,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/integration/sync/outreach-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_OUTREACH_APP_ID= \
 	INTEGRATION_OUTREACH_APP_SECRET= \
 	INTEGRATION_OUTREACH_SIGNATURE_KEY=
@@ -294,7 +275,6 @@ Run Balena API translate tests with proper keys and tokens set:
 make test \
 	FILES=./test/integration/sync/balena-api-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION \
 	INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING \
 	INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
@@ -305,7 +285,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/integration/sync/balena-api-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= \
 	INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= \
 	INTEGRATION_BALENA_API_PRIVATE_KEY=
@@ -317,7 +296,6 @@ Run GitHub mirror tests with proper keys and tokens set:
 make test \
 	FILES=./test/e2e/sync/github-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY \
 	SERVER_HOST=http://api \
@@ -333,7 +311,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/e2e/sync/github-mirror.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_GITHUB_TOKEN= \
 	SERVER_HOST=http://api \
 	SERVER_PORT=8000 \
@@ -349,7 +326,6 @@ Run GitHub translate tests with proper keys and tokens set:
 make test \
 	FILES=./test/integration/sync/github-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
 ```
@@ -359,7 +335,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/integration/sync/github-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_GITHUB_TOKEN=
 ```
 
@@ -369,7 +344,6 @@ Run Flowdock translate tests with proper keys and tokens set:
 make test \
 	FILES=./test/integration/sync/flowdock-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY \
 	INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
 ```
@@ -379,7 +353,6 @@ Run the same tests without keys and tokens set (cases requiring them should get 
 make test \
 	FILES=./test/integration/sync/flowdock-translate.spec.js \
 	SCRUB=0 \
-	COVERAGE=1 \
 	INTEGRATION_FLOWDOCK_SIGNATURE_KEY= \
 	INTEGRATION_FLOWDOCK_TOKEN=
 ```
@@ -388,7 +361,6 @@ make test \
 Run UI e2e tests, passing along variables indicating where all necessary services are located:
 ```
 make test-e2e-ui \
-	COVERAGE=1 \
 	SCRUB=0 \
 	UI_HOST=http://ui \
 	UI_PORT=80 \
@@ -404,7 +376,6 @@ make test-e2e-ui \
 Run Livechat e2e tests, passing along variables indicating where all necessary services are located:
 ```
 make test-e2e-livechat \
-	COVERAGE=1 \
 	SCRUB=0 \
 	LIVECHAT_HOST=http://livechat \
 	LIVECHAT_PORT=80 \
@@ -420,7 +391,6 @@ make test-e2e-livechat \
 Run server e2e tests, passing along some external service keys as well as where all necessary local services are located:
 ```
 make test-e2e-server \
-	COVERAGE=1 \
 	SCRUB=0 \
 	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY \
@@ -440,9 +410,8 @@ make test-e2e-server \
 ### Multiple Integration Tests
 Run multiple integration tests with two `make test` commands. Note that as some external service tokens/keys are not passed as variables in this example, not all tests will run. For example, since `INTEGRATION_FRONT_TOKEN` is not set, the Front sync tests will get skipped.
 ```
-make test-integration-core test-integration-queue test-integration-sync test-integration-worker COVERAGE=1 SCRUB=0 && \
+make test-integration-core test-integration-queue test-integration-sync test-integration-worker SCRUB=0 && \
 	make test-integration-server \
-		COVERAGE=1 \
 		SCRUB=0 \
 		INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
 		INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \

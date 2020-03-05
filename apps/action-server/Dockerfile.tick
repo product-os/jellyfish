@@ -6,9 +6,6 @@ FROM balena/open-balena-base:v9.2.0 as base
 
 WORKDIR /usr/src/jellyfish
 
-ARG ENABLE_COVERAGE=0
-ENV COVERAGE ${ENABLE_COVERAGE}
-
 COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts/eslint-plugin-jellyfish
 COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
@@ -22,7 +19,6 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 COPY ./lib/action-library ./lib/action-library
 COPY ./lib/assert ./lib/assert
 COPY ./lib/core ./lib/core
-COPY ./lib/coverage ./lib/coverage
 COPY ./lib/environment ./lib/environment
 COPY ./lib/logger ./lib/logger
 COPY ./lib/jellyscript ./lib/jellyscript
@@ -34,8 +30,7 @@ COPY ./lib/worker ./lib/worker
 COPY ./apps/action-server ./apps/action-server
 COPY Makefile .
 
-RUN make .nyc-root && \
-	echo "#!/bin/sh" > run.sh && \
+RUN echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-tick >> run.sh && \
 	chmod +x run.sh && cat run.sh
 
@@ -61,7 +56,6 @@ COPY --from=base /usr/src/jellyfish/node_modules ./node_modules
 COPY --from=base /usr/src/jellyfish/lib ./lib
 COPY --from=base /usr/src/jellyfish/apps ./apps
 
-COPY --from=base /usr/src/jellyfish/.nyc-root ./.nyc-root
 COPY --from=base /usr/src/jellyfish/run.sh ./
 
 # Production debugging scripts
