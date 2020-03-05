@@ -14,10 +14,6 @@ aliases:
       docker:
         - image: resinci/jellyfish-test
 
-      # Match the Dockerfile WORKDIR so we can
-      # transparently merge code coverage reports.
-      working_directory: /usr/src/jellyfish
-
       environment: &job_defaults_environment
         DATABASE: postgres
         POSTGRES_USER: postgres
@@ -45,10 +41,6 @@ jobs:
           name: Install Dependencies
           command: PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
 
-      - run:
-          name: Build UI and livechat
-          command: make build-ui COVERAGE=1 NODE_ENV=test && COVERAGE=1 NODE_ENV=test make build-livechat
-
       - save_cache:
           paths:
             - /root/.npm
@@ -67,7 +59,6 @@ jobs:
       - persist_to_workspace:
           root: .
           paths:
-              - dist
               - node_modules
 
   compose-build:
@@ -86,7 +77,7 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Compose Build
-          command: make compose-build COVERAGE=1
+          command: make compose-build
       - run:
           name: Save Docker image layers
           command: docker save -o /images.tar `docker images --format '{{.Repository}}' | grep -E 'jellyfish_'`
@@ -113,40 +104,23 @@ jobs:
 
       - run:
           name: Unit Tests
-          command: make test-unit COVERAGE=1
+          command: make test-unit
 
       - run:
           name: Sync Tests Outreach Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-      - run:
-          name: Sync Tests Outreach Translate Without Tokens
-          command: make test FILES=./test/integration/sync/outreach-translate.spec.js COVERAGE=1 INTEGRATION_OUTREACH_APP_ID= INTEGRATION_OUTREACH_APP_SECRET= INTEGRATION_OUTREACH_SIGNATURE_KEY=
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/outreach-translate.spec.js INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
 
       - run:
           name: Sync Tests Balena API Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
-      - run:
-          name: Sync Tests Balena API Translate Without Tokens
-          command: make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= INTEGRATION_BALENA_API_PRIVATE_KEY=
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/balena-api-translate.spec.js INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
 
       - run:
           name: Sync Tests Github Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
-      - run:
-          name: Sync Tests Github Translate Without Tokens
-          command: make test FILES=./test/integration/sync/github-translate.spec.js COVERAGE=1 INTEGRATION_GITHUB_TOKEN=
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
 
       - run:
           name: Sync Tests Flowdock Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
-      - run:
-          name: Sync Tests Flowdock Translate Without Tokens
-          command: make test FILES=./test/integration/sync/flowdock-translate.spec.js COVERAGE=1 INTEGRATION_FLOWDOCK_SIGNATURE_KEY= INTEGRATION_FLOWDOCK_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/flowdock-translate.spec.js INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
 
   integration_tests: &integration_tests
     <<: *job_defaults
@@ -166,12 +140,7 @@ jobs:
 
       - run:
           name: Integration Tests
-          command: make test-integration-core test-integration-queue test-integration-sync test-integration-worker COVERAGE=1 && make test-integration-server COVERAGE=1 INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+          command: make test-integration-core test-integration-queue test-integration-sync test-integration-worker && make test-integration-server INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
 
   sync_tests_github_mirror:
     <<: *job_defaults
@@ -195,30 +164,22 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY COVERAGE=1
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY"
       - run:
           name: Compose Down
           command: make compose-stop
       - run:
           name: Compose Up Without Tokens
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_GITHUB_TOKEN="
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN="
       - run:
           name: Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   sync_tests_front_translate:
     <<: *job_defaults
@@ -240,21 +201,10 @@ jobs:
           name: Sync Tests
           command: |
             if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              mkdir -p .nyc_output
-              # Mock coverage output so that "persist_to_workspace" succeeds
-              touch .nyc_output/none-front-translate.json
               exit 0
             fi
 
-            make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/integration/sync/front-translate.spec.js COVERAGE=1 INTEGRATION_FRONT_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+            make test FILES=./test/integration/sync/front-translate.spec.js INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
 
   sync_tests_front_mirror:
     <<: *job_defaults
@@ -278,30 +228,22 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN COVERAGE=1
+          command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
       - run:
           name: Compose Down
           command: make compose-stop
       - run:
           name: Compose Up Without Tokens
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_FRONT_TOKEN="
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN="
       - run:
           name: Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   sync_tests_discourse_translate:
     <<: *job_defaults
@@ -323,21 +265,10 @@ jobs:
           name: Sync Tests
           command: |
             if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              mkdir -p .nyc_output
-              # Mock coverage output so that "persist_to_workspace" succeeds
-              touch .nyc_output/none-discourse-translate.json
               exit 0
             fi
 
-            make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
-      - run:
-          name: Sync End To End Tests Without Tokens
-          command: make test FILES=./test/integration/sync/discourse-translate.spec.js COVERAGE=1 INTEGRATION_DISCOURSE_TOKEN=
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
+            make test FILES=./test/integration/sync/discourse-translate.spec.js INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
 
   sync_tests_discourse_mirror:
     <<: *job_defaults
@@ -361,30 +292,22 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME COVERAGE=1
+          command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
       - run:
           name: Compose Down
           command: make compose-stop
       - run:
           name: Compose Up Without Tokens
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: Sync End To End Tests Without Tokens
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test COVERAGE=0 FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 COVERAGE=0 INTEGRATION_DISCOURSE_TOKEN="
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN="
       - run:
           name: Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   e2e_tests_server: &e2e_tests_server
     <<: *job_defaults
@@ -408,24 +331,20 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up (with integration tokens)
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
       - run:
           name: End To End Tests (Server)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server COVERAGE=0 SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Postgres Dump
           command: make compose-exec-sidecar COMMAND="./scripts/postgres-dump.sh" ARGS="dump.gz" && docker cp jellyfish_sidecar_1:/usr/src/jellyfish/dump.gz dump-server.gz
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
           paths:
-            - .nyc_output/*.json
             - dump-server.gz
 
   e2e_tests_ui: &e2e_tests_ui
@@ -452,24 +371,20 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 COVERAGE=1 FS_DRIVER=s3FS
+          command: make compose-up DETACH=1 FS_DRIVER=s3FS
       - run:
           name: End To End Tests (UI)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui SCRUB=0"
       - run:
           name: Postgres Dump
           command: make compose-exec-sidecar COMMAND="./scripts/postgres-dump.sh" ARGS="dump.gz" && docker cp jellyfish_sidecar_1:/usr/src/jellyfish/dump.gz dump-ui.gz
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
           paths:
-            - .nyc_output/*.json
             - dump-ui.gz
 
   e2e_tests_livechat: &e2e_tests_livechat
@@ -494,24 +409,20 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: End To End Tests (Livechat)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat SCRUB=0"
       - run:
           name: Postgres Dump
           command: make compose-exec-sidecar COMMAND="./scripts/postgres-dump.sh" ARGS="dump.gz" && docker cp jellyfish_sidecar_1:/usr/src/jellyfish/dump.gz dump-livechat.gz
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
 
       - persist_to_workspace:
           root: .
           paths:
-            - .nyc_output/*.json
             - dump-livechat.gz
 
   e2e_tests_server_previous_dump: &e2e_tests_server_previous_dump
@@ -536,7 +447,7 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up (with integration tokens)
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish COVERAGE=1
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
       - run:
           name: Fetch Old Postgres Dump
           command: ./scripts/ci/postgres-get-previous-dump.sh server && ls -l && gunzip dump.gz
@@ -545,18 +456,10 @@ jobs:
           command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
       - run:
           name: End To End Tests (Server)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server COVERAGE=0 SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   e2e_tests_ui_previous_dump: &e2e_tests_ui_previous_dump
     <<: *job_defaults
@@ -580,7 +483,7 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: Fetch Old Postgres Dump
           command: ./scripts/ci/postgres-get-previous-dump.sh ui && ls -l && gunzip dump.gz
@@ -589,18 +492,10 @@ jobs:
           command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
       - run:
           name: End To End Tests (UI)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui COVERAGE=0 SCRUB=0"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-ui SCRUB=0"
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   e2e_tests_livechat_previous_dump: &e2e_tests_livechat_previous_dump
     <<: *job_defaults
@@ -624,7 +519,7 @@ jobs:
           command: cd scripts/template; npm install
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 COVERAGE=1
+          command: make compose-up DETACH=1
       - run:
           name: Fetch Old Postgres Dump
           command: ./scripts/ci/postgres-get-previous-dump.sh livechat && ls -l && gunzip dump.gz
@@ -633,18 +528,10 @@ jobs:
           command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
       - run:
           name: End To End Tests (Livechat)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat COVERAGE=0 SCRUB=0"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-livechat SCRUB=0"
       - run:
           name: Docker Compose Down
           command: make compose-stop
-      - run:
-          name: Copy Code Coverage Reports
-          command: make compose-up-worker_1 DETACH=1 && docker cp jellyfish_worker_1_1:/usr/src/jellyfish/.nyc_output .nyc_output && make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .nyc_output/*.json
 
   results:
     <<: *job_defaults
@@ -658,19 +545,6 @@ jobs:
       - run:
           name: Postgres Dump
           command: mkdir -p /tmp/test-results && cp dump-*.gz /tmp/test-results/
-
-      - run:
-          name: Webpack Bundle Report For UI
-          command: make build-ui COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/ui && cp dist/ui/webpack-bundle-report.html /tmp/test-results/ui/webpack-bundle-report.html
-      - run:
-          name: Webpack Bundle Report For Chat Widget
-          command: make build-livechat COVERAGE=0 NODE_ENV=test && mkdir -p /tmp/test-results/livechat && cp dist/livechat/webpack-bundle-report.html /tmp/test-results/livechat/webpack-bundle-report.html
-      - run:
-          name: Generate Coverage Results
-          command: mkdir -p /tmp/test-results && tar czf /tmp/test-results/nyc_output.tar.gz .nyc_output && rm .nyc_output/none-*.json && make coverage && cp -rf coverage /tmp/test-results
-      - run:
-          name: Git Stats
-          command: gitstats -c start_date="1 month ago" . /tmp/test-results/gitstats
 
       # Store artifacts for debugging purposes
       - store_test_results:
@@ -686,14 +560,6 @@ jobs:
       - run:
           name: Post PR Summary
           command: GITHUB_TOKEN=$GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
-
-  eslint_jellyfish:
-    <<: *job_defaults
-    steps:
-      - checkout
-      - run:
-          name: Test
-          command: cd ./scripts/eslint-plugin-jellyfish && npm install && npm test
 
   clean_old_test_data:
     <<: *job_defaults
@@ -797,9 +663,6 @@ workflows:
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
-                <<: *workflow_filter
-
-            - eslint_jellyfish:
                 <<: *workflow_filter
 
             - clean_old_test_data:

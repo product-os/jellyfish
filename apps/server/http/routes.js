@@ -469,11 +469,9 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				request.params.fileName, {
 					log: {
 						warn: (message, data) => {
-							// eslint-disable-next-line jellyfish/logger-string-expression
 							logger.warn(request.context, message, data)
 						},
 						info: (message, data) => {
-							// eslint-disable-next-line jellyfish/logger-string-expression
 							logger.info(request.context, message, data)
 						}
 					}

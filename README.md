@@ -84,7 +84,7 @@ make start-redis
 make start-server
 make start-tick
 make start-worker # Run more than once for more workers
-make build-ui start-static-ui COVERAGE=0
+make build-ui start-static-ui
 ```
 
 The API will listen on `8000` and the UI will listen on `9000`. Open
@@ -123,11 +123,6 @@ make test-e2e-server                             # Run all the server end to end
 make test-e2e                                    # Run all the end to end tests
 make test FILES=./test/unit/worker/utils.spec.js # Run a specific unit test file inside "worker"
 ```
-
-The tests run with code coverage instrumentation by default unless you pass
-`COVERAGE=0`. The tests don't generate a coverage report until you run `make
-coverage`, which will accumulate all the code coverage information stored until
-that point from `.nyc_output`.
 
 Some suites may provide or require various options. Consult the corresponding
 ["Developing"

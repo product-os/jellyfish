@@ -111,11 +111,6 @@ core provides the foundation library for the rest of system.
 - The core aims to be the only module in the system that directly interacts
 	with the database
 
-### [`lib/coverage`](https://github.com/balena-io/jellyfish/tree/master/lib/coverage)
-
-A set of utilities to help creating code coverage reports out of
-the different parts of the Jellyfish codebase.
-
 ### [`lib/environment`](https://github.com/balena-io/jellyfish/tree/master/lib/environment)
 
 This module aims to be the startup system configuration hub, and it exposes any
