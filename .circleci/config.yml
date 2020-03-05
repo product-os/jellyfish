@@ -107,9 +107,6 @@ jobs:
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
 
       - run:
           name: Unit Tests
@@ -160,9 +157,6 @@ jobs:
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
 
       - run:
           name: Integration Tests
@@ -232,9 +226,6 @@ jobs:
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
 
       - run:
           name: Sync Tests
@@ -315,9 +306,6 @@ jobs:
       - run:
           name: Start PostgreSQL
           command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
 
       - run:
           name: Sync Tests

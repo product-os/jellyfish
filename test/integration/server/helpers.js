@@ -14,12 +14,7 @@ const {
 const environment = require('../../../lib/environment')
 const bootstrap = require('../../../apps/server/bootstrap')
 const actionServer = require('../../../apps/action-server/bootstrap')
-
-const workerOptions = {
-	onError: (context, error) => {
-		throw error
-	}
-}
+const core = require('../../../lib/core')
 
 module.exports = {
 	before: async (test) => {
@@ -27,9 +22,21 @@ module.exports = {
 			id: `SERVER-TEST-${uuid()}`
 		}
 
-		test.context.server = await bootstrap(test.context.context)
+		const cache = new core.MemoryCache(Object.assign({}, environment.redis, {
+			mock: true
+		}))
+
+		test.context.server = await bootstrap(test.context.context, {
+			cache
+		})
+
 		test.context.actionWorker = await actionServer.worker(
-			test.context.context, workerOptions)
+			test.context.context, {
+				cache,
+				onError: (context, error) => {
+					throw error
+				}
+			})
 
 		test.context.sdk = getSdk({
 			apiPrefix: 'api/v2',

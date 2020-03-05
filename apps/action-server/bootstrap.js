@@ -71,9 +71,9 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 	required: [ 'id', 'slug', 'active', 'type', 'data' ]
 }
 
-const bootstrap = async (context, library, options) => {
+const bootstrap = async (context, library, options = {}) => {
 	logger.info(context, 'Setting up cache')
-	const cache = new core.MemoryCache(environment.redis)
+	const cache = options.cache || new core.MemoryCache(environment.redis)
 	if (cache) {
 		await cache.connect(context)
 	}
@@ -197,6 +197,7 @@ const bootstrap = async (context, library, options) => {
 exports.worker = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
 		enablePriorityBuffer: true,
+		cache: options.cache,
 		onError: options.onError,
 		onActionRequest: async (serverContext, jellyfish, worker, queue, session, actionRequest, errorHandler) => {
 			return getActorKey(serverContext, jellyfish, session, actionRequest.data.actor)
@@ -212,6 +213,7 @@ exports.worker = async (context, options) => {
 exports.tick = async (context, options) => {
 	return bootstrap(context, actionLibrary, {
 		enablePriorityBuffer: false,
+		cache: options.cache,
 		delay: 2000,
 		onError: options.onError,
 		onLoop: async (serverContext, worker, session) => {

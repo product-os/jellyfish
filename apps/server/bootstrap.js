@@ -17,9 +17,9 @@ const cardLoader = require('./card-loader')
 const http = require('./http')
 const socket = require('./socket')
 
-module.exports = async (context) => {
+module.exports = async (context, options = {}) => {
 	logger.info(context, 'Setting up cache')
-	const cache = new core.MemoryCache(environment.redis)
+	const cache = options.cache || new core.MemoryCache(environment.redis)
 	if (cache) {
 		await cache.connect(context)
 	}

@@ -16,6 +16,7 @@ exports.beforeEach = async (test, options = {}) => {
 
 	test.context.cache = new Cache(
 		Object.assign({}, environment.redis, {
+			mock: true,
 			namespace: dbName
 		}))
 
