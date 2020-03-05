@@ -61,31 +61,6 @@ jobs:
           paths:
               - node_modules
 
-  compose-build:
-    <<: *job_defaults
-
-    resource_class: xlarge
-
-    steps:
-      - checkout
-
-      - setup_remote_docker:
-          docker_layer_caching: true
-
-      - run:
-          name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
-      - run:
-          name: Compose Build
-          command: make compose-build
-      - run:
-          name: Save Docker image layers
-          command: docker save -o /images.tar `docker images --format '{{.Repository}}' | grep -E 'jellyfish_'`
-      - save_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}-{{ epoch }}
-          paths:
-            - /images.tar
-
   unit_and_sync_tests: &unit_and_sync_tests
     <<: *job_defaults
 
@@ -153,23 +128,23 @@ jobs:
   sync_tests_github_mirror:
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
       - attach_workspace:
           at: .
 
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
@@ -221,23 +196,20 @@ jobs:
   sync_tests_front_mirror:
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
@@ -289,23 +261,20 @@ jobs:
   sync_tests_discourse_mirror:
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Compose Up
           command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
@@ -328,23 +297,20 @@ jobs:
   e2e_tests_server: &e2e_tests_server
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up (with integration tokens)
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
@@ -371,20 +337,15 @@ jobs:
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1 FS_DRIVER=s3FS
@@ -406,23 +367,20 @@ jobs:
   e2e_tests_livechat: &e2e_tests_livechat
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1
@@ -444,23 +402,20 @@ jobs:
   e2e_tests_server_previous_dump: &e2e_tests_server_previous_dump
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up (with integration tokens)
           command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
@@ -480,23 +435,20 @@ jobs:
   e2e_tests_ui_previous_dump: &e2e_tests_ui_previous_dump
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1
@@ -516,23 +468,20 @@ jobs:
   e2e_tests_livechat_previous_dump: &e2e_tests_livechat_previous_dump
     <<: *job_defaults
 
+    resource_class: xlarge
+
     steps:
       - checkout
 
-      - attach_workspace:
-          at: .
-
-      - setup_remote_docker
-
-      - restore_cache:
-          key: jellyfish-docker-layers-{{ .Branch }}
-      - run:
-          name: Load Docker image layers
-          command: docker load -i /images.tar
+      - setup_remote_docker:
+          docker_layer_caching: true
 
       - run:
           name: Install scripts-template dependencies
-          command: cd scripts/template; npm install
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
       - run:
           name: Docker Compose Up
           command: make compose-up DETACH=1
@@ -596,9 +545,6 @@ workflows:
             - build:
                 <<: *workflow_filter
 
-            - compose-build:
-                <<: *workflow_filter
-
             - unit_and_sync_tests:
                 requires:
                     - build
@@ -610,33 +556,21 @@ workflows:
                 <<: *workflow_filter
 
             - e2e_tests_server:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - e2e_tests_ui:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - e2e_tests_livechat:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - e2e_tests_server_previous_dump:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - e2e_tests_ui_previous_dump:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - e2e_tests_livechat_previous_dump:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - sync_tests_front_translate:
@@ -650,18 +584,12 @@ workflows:
                 <<: *workflow_filter
 
             - sync_tests_front_mirror:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - sync_tests_discourse_mirror:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - sync_tests_github_mirror:
-                requires:
-                    - compose-build
                 <<: *workflow_filter
 
             - results:
