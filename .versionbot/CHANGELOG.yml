@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'server: Rename primary and secondary owner links'
+      hash: a63c387075aa3096f26a9f17ef867fa6b5c3c109
+      body: |
+        Primary owner is now Owner and Secondary owners is now Backup owners
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 26.9.0
+  date: 2020-03-06T03:13:12.996Z
+- commits:
     - subject: 'sync: Add bigger test timeouts in mirror tests'
       hash: c1ffba0e2b9f72a488ee42cfe222b4e6e6756cb4
       body: |
