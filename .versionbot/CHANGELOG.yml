@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'build(deps-dev): bump @babel/preset-react from 7.7.0 to 7.8.3'
+      hash: 496a6043735badc51beaa0c2dc5b0ee34871bb72
+      body: >
+        Bumps [@babel/preset-react](https://github.com/babel/babel) from 7.7.0
+        to 7.8.3.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/babel/babel/compare/v7.7.0...v7.8.3)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: 'dependabot-preview[bot]'
+  version: 26.10.1
+  date: 2020-03-06T12:42:10.263Z
+- commits:
     - subject: 'ui: New CRM table lens'
       hash: e0ac634d6fa03917539bae1208ef8a78f0fba8c7
       body: |
