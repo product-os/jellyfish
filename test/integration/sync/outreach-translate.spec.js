@@ -13,8 +13,6 @@ const TOKEN = environment.integration.outreach
 ava.serial.beforeEach(scenario.beforeEach)
 ava.serial.afterEach.always(scenario.afterEach)
 
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava
-
 const OAUTH_DETAILS = {
 	access_token: 'MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3',
 	token_type: 'bearer',
@@ -23,7 +21,7 @@ const OAUTH_DETAILS = {
 	scope: 'create'
 }
 
-scenario.run(avaTest, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/outreach'),
 	scenarios: require('./webhooks/outreach'),
 	slices: _.range(0, 50),

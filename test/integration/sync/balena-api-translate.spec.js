@@ -7,7 +7,6 @@
 const ava = require('ava')
 const querystring = require('querystring')
 const randomstring = require('randomstring')
-const _ = require('lodash')
 const url = require('url')
 const jose = require('node-jose')
 const jws = require('jsonwebtoken')
@@ -18,8 +17,6 @@ const TOKEN = environment.integration['balena-api']
 
 ava.serial.beforeEach(scenario.beforeEach)
 ava.serial.afterEach.always(scenario.afterEach)
-
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
 
 const prepareEvent = async (event) => {
 	const signedToken = jws.sign({
@@ -48,7 +45,7 @@ const prepareEvent = async (event) => {
 	return event
 }
 
-avaTest('should change the remote username to an existing unsynced user', async (test) => {
+ava('should change the remote username to an existing unsynced user', async (test) => {
 	await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			slug: 'user-johndoe',
@@ -158,7 +155,7 @@ avaTest('should change the remote username to an existing unsynced user', async 
 	})
 })
 
-avaTest('should change the remote username to an existing user', async (test) => {
+ava('should change the remote username to an existing user', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -275,7 +272,7 @@ avaTest('should change the remote username to an existing user', async (test) =>
 	})
 })
 
-avaTest('should change the remote username to an existing user while removing existing username', async (test) => {
+ava('should change the remote username to an existing user while removing existing username', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -396,7 +393,7 @@ avaTest('should change the remote username to an existing user while removing ex
 	})
 })
 
-avaTest('should change the remote username to an existing user and add a name', async (test) => {
+ava('should change the remote username to an existing user and add a name', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -519,7 +516,7 @@ avaTest('should change the remote username to an existing user and add a name', 
 	})
 })
 
-avaTest('should change the remote username to an existing user while removing the name', async (test) => {
+ava('should change the remote username to an existing user while removing the name', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -634,7 +631,7 @@ avaTest('should change the remote username to an existing user while removing th
 	})
 })
 
-avaTest('should change the remote username to an existing user while removing the email', async (test) => {
+ava('should change the remote username to an existing user while removing the email', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -764,7 +761,7 @@ avaTest('should change the remote username to an existing user while removing th
 	})
 })
 
-avaTest('should change the remote username to an existing user with a name', async (test) => {
+ava('should change the remote username to an existing user with a name', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -895,7 +892,7 @@ avaTest('should change the remote username to an existing user with a name', asy
 	})
 })
 
-avaTest('should change the remote username', async (test) => {
+ava('should change the remote username', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -981,7 +978,7 @@ avaTest('should change the remote username', async (test) => {
 	test.falsy(newUsername)
 })
 
-avaTest('should change the remote username while filling in the company', async (test) => {
+ava('should change the remote username while filling in the company', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -1063,7 +1060,7 @@ avaTest('should change the remote username while filling in the company', async 
 	test.falsy(newUsername)
 })
 
-avaTest('should change the remote username while filling in the first name', async (test) => {
+ava('should change the remote username while filling in the first name', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -1147,7 +1144,7 @@ avaTest('should change the remote username while filling in the first name', asy
 	test.falsy(newUsername)
 })
 
-avaTest('should change the remote username while filling in the last name', async (test) => {
+ava('should change the remote username while filling in the last name', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -1231,7 +1228,7 @@ avaTest('should change the remote username while filling in the last name', asyn
 	test.falsy(newUsername)
 })
 
-avaTest('should change the remote username while not changing anything else', async (test) => {
+ava('should change the remote username while not changing anything else', async (test) => {
 	for (const externalEvent of [
 		{
 			headers: {
@@ -1309,7 +1306,7 @@ avaTest('should change the remote username while not changing anything else', as
 	test.falsy(newUsername)
 })
 
-avaTest('should add a company and email to an existing user', async (test) => {
+ava('should add a company and email to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
@@ -1395,7 +1392,7 @@ avaTest('should add a company and email to an existing user', async (test) => {
 	})
 })
 
-avaTest('should add a first name to an existing user', async (test) => {
+ava('should add a first name to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
@@ -1482,7 +1479,7 @@ avaTest('should add a first name to an existing user', async (test) => {
 	})
 })
 
-avaTest('should add a last name to an existing user', async (test) => {
+ava('should add a last name to an existing user', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
@@ -1569,7 +1566,7 @@ avaTest('should add a last name to an existing user', async (test) => {
 	})
 })
 
-avaTest('should link an existing user by adding no data', async (test) => {
+ava('should link an existing user by adding no data', async (test) => {
 	const username = uuid()
 	const userCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		slug: `user-${username}`,
@@ -1650,7 +1647,7 @@ avaTest('should link an existing user by adding no data', async (test) => {
 	})
 })
 
-scenario.run(_.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/balena-api'),
 	scenarios: require('./webhooks/balena-api'),
 	baseUrl: 'https://api.balena-cloud.com',
