@@ -73,7 +73,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.3.1",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/preset-react": "^7.8.3",
     "@babel/register": "^7.8.6",
     "@json-schema-org/tests": "^1.0.0",
     "ava": "^3.5.0",
