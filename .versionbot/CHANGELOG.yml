@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: New CRM table lens'
+      hash: e0ac634d6fa03917539bae1208ef8a78f0fba8c7
+      body: |
+        Used by the Opportunities view
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: StefKors <stef.kors@gmail.com>
+        signed-off-by: StefKors <stef.kors@gmail.com>
+      author: StefKors
+  version: 26.10.0
+  date: 2020-03-06T08:58:38.942Z
+- commits:
     - subject: 'server: Rename primary and secondary owner links'
       hash: a63c387075aa3096f26a9f17ef867fa6b5c3c109
       body: |
