@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'build(deps-dev): bump js-combinatorics from 0.5.4 to 0.5.5'
+      hash: 32a3bfd50ae71421ab284589b6bb35fe2d4f8886
+      body: >
+        Bumps [js-combinatorics](https://github.com/dankogai/js-combinatorics)
+        from 0.5.4 to 0.5.5.
+
+        - [Release notes](https://github.com/dankogai/js-combinatorics/releases)
+
+        -
+        [Commits](https://github.com/dankogai/js-combinatorics/compare/0.5.4...0.5.5)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: 'dependabot-preview[bot]'
+  version: 26.10.4
+  date: 2020-03-06T16:11:32.318Z
+- commits:
     - subject: 'build(deps-dev): bump enzyme from 3.10.0 to 3.11.0'
       hash: 181dbb5a706db7062dfb3f3ec8a5ca03ae78e0b4
       body: >
