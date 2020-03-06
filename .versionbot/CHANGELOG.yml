@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'build(deps-dev): bump enzyme from 3.10.0 to 3.11.0'
+      hash: 181dbb5a706db7062dfb3f3ec8a5ca03ae78e0b4
+      body: >
+        Bumps
+        [enzyme](https://github.com/airbnb/enzyme/tree/HEAD/packages/enzyme)
+        from 3.10.0 to 3.11.0.
+
+        - [Release notes](https://github.com/airbnb/enzyme/releases)
+
+        -
+        [Changelog](https://github.com/enzymejs/enzyme/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/airbnb/enzyme/commits/enzyme@3.11.0/packages/enzyme)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: 'dependabot-preview[bot]'
+  version: 26.10.3
+  date: 2020-03-06T15:19:38.830Z
+- commits:
     - subject: 'test: Don''t run translate tests without tokens'
       hash: af2ef1d21fe16d189b2f482d635e2cb155187b4e
       body: |
