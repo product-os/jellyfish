@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
@@ -53,7 +52,6 @@ ava.serial('should let users create new accounts', async (test) => {
 	await page.waitForSelector('#root_name')
 
 	await macros.setInputValue(page, '#root_name', name)
-	await bluebird.delay(1000)
 	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
 
 	await page.waitForSelector('.column--account')
@@ -74,7 +72,6 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 	await page.waitForSelector('#root_name')
 
 	await macros.setInputValue(page, '#root_name', name)
-	await bluebird.delay(1000)
 	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
 
 	// Wait for the success alert as a heuristic for the action completing
@@ -121,10 +118,29 @@ ava.serial('should let users create new contacts', async (test) => {
 	await page.waitForSelector('#root_name')
 
 	await macros.setInputValue(page, '#root_name', name)
-	await bluebird.delay(1000)
 	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
 
 	await page.waitForSelector('.column--contact')
+
+	test.pass()
+})
+
+ava.serial('should let users create new opportunities', async (test) => {
+	const {
+		page
+	} = context
+
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-opportunities"]')
+	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
+
+	const name = `test opportunity ${uuid()}`
+
+	await page.waitForSelector('#root_name')
+
+	await macros.setInputValue(page, '#root_name', name)
+	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
+
+	await page.waitForSelector('.column--opportunity')
 
 	test.pass()
 })
