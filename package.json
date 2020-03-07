@@ -116,7 +116,7 @@
     "@babel/polyfill": "^7.2.5",
     "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.6.0",
-    "@octokit/rest": "^16.6.1",
+    "@octokit/rest": "^17.0.0",
     "@sentry/browser": "^4.4.2",
     "@sentry/node": "^5.9.0",
     "@webscopeio/react-textarea-autocomplete": "^4.5.0",
