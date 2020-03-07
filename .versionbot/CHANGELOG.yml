@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'build(deps-dev): bump webpack-dev-server from 3.9.0 to 3.10.3'
+      hash: 8624c3661cdcceb935aff68042428108d92a966f
+      body: >
+        Bumps
+        [webpack-dev-server](https://github.com/webpack/webpack-dev-server) from
+        3.9.0 to 3.10.3.
+
+        - [Release
+        notes](https://github.com/webpack/webpack-dev-server/releases)
+
+        -
+        [Changelog](https://github.com/webpack/webpack-dev-server/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack/webpack-dev-server/compare/v3.9.0...v3.10.3)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: 'dependabot-preview[bot]'
+  version: 26.10.5
+  date: 2020-03-06T21:35:35.765Z
+- commits:
     - subject: 'build(deps-dev): bump js-combinatorics from 0.5.4 to 0.5.5'
       hash: 32a3bfd50ae71421ab284589b6bb35fe2d4f8886
       body: >
