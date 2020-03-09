@@ -30,9 +30,9 @@ module.exports = {
 					valid: true
 				},
 				{
-					description: 'data that is > is ivalid',
+					description: 'data that is > is invalid',
 					data: '2020-08-08T00:00:00.000Z',
-					valid: true
+					valid: false
 				}
 			]
 		},
@@ -40,7 +40,7 @@ module.exports = {
 			description: 'formatMinimum can filter date-time correctly',
 			schema: {
 				format: 'date-time',
-				formatMaximum: '2019-08-08T00:00:00.000Z'
+				formatMinimum: '2019-08-08T00:00:00.000Z'
 			},
 			tests: [
 				{
@@ -56,7 +56,7 @@ module.exports = {
 				{
 					description: 'data that is < is invalid',
 					data: '2018-08-08T00:00:00.000Z',
-					valid: true
+					valid: false
 				}
 			]
 		}
