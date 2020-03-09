@@ -44,7 +44,9 @@
                   "user",
                   "user@1.0.0",
                   "view",
-                  "view@1.0.0"
+                  "view@1.0.0",
+                  "password-reset",
+                  "password-reset@1.0.0"
                 ]
               }
             }
