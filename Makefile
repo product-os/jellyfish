@@ -289,7 +289,7 @@ dist:
 	mkdir $@
 
 postgres_data:
-	initdb --pgdata $@
+	initdb --locale=en_US.UTF8 --pgdata $@
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
