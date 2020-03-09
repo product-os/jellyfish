@@ -144,7 +144,7 @@ ava.serial('core: should stop users from seeing messages attached to cards they 
 			type: 'object',
 			properties: {
 				type: {
-					const: 'message',
+					const: 'message@1.0.0',
 					type: 'string'
 				},
 				data: {
@@ -187,7 +187,7 @@ ava.serial.skip('card actions: should let users copy a working permalink', async
 
 	const card = await context.sdk.card.create({
 		slug: `thread-${uuid()}`,
-		type: 'thread'
+		type: 'thread@1.0.0'
 	})
 
 	await context.page.goto(
@@ -221,7 +221,7 @@ ava.serial.skip('card actions: should let users copy a card as JSON', async (tes
 
 	const card = await context.sdk.card.create({
 		slug: `thread-${uuid()}`,
-		type: 'thread'
+		type: 'thread@1.0.0'
 	})
 
 	await context.page.goto(
@@ -252,7 +252,7 @@ ava.serial.skip('card actions: should let users delete a card', async (test) => 
 
 	const card = await context.sdk.card.create({
 		slug: `thread-${uuid()}`,
-		type: 'thread'
+		type: 'thread@1.0.0'
 	})
 
 	await context.page.goto(
@@ -280,7 +280,7 @@ ava.serial('card actions: should let users add a custom field to a card', async 
 
 	const card = await context.sdk.card.create({
 		slug: `thread-${uuid()}`,
-		type: 'thread'
+		type: 'thread@1.0.0'
 	})
 
 	await context.page.goto(
@@ -322,7 +322,7 @@ ava.serial('files upload: Users should be able to upload an image', async (test)
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -350,7 +350,7 @@ ava.serial('file upload: Users should be able to upload an image to a support th
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread@1.0.0'
 		})
 	})
 
@@ -379,7 +379,7 @@ ava.serial('file upload: Users should be able to upload a text file', async (tes
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -407,7 +407,7 @@ ava.serial('file upload: Users should be able to upload a text file to a support
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread'
+			type: 'support-thread@1.0.0'
 		})
 	})
 
@@ -473,7 +473,7 @@ ava.serial('user profile: The send command should default to "shift+enter"', asy
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -515,7 +515,7 @@ ava.serial('user profile: You should be able to change the send command to "ente
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -558,7 +558,7 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 

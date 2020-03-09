@@ -39,7 +39,7 @@ ava.serial.beforeEach(async () => {
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'support-thread', 'support-thread@1.0.0' ]
+				const: 'support-thread@1.0.0'
 			},
 			active: {
 				const: true

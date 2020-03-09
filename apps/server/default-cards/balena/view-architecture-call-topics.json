@@ -17,7 +17,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "discussion-topic", "discussion-topic@1.0.0" ]
+              "const": "discussion-topic@1.0.0"
             },
             "data": {
               "type": "object",

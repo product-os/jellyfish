@@ -88,7 +88,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 			type: 'object',
 			properties: {
 				type: {
-					enum: [ 'contact', 'contact@1.0.0' ]
+					const: 'contact@1.0.0'
 				},
 				links: {
 					type: 'object'

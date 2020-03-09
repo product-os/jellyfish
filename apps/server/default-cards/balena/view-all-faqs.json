@@ -16,7 +16,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "faq", "faq@1.0.0" ]
+              "const": "faq@1.0.0"
             }
           },
           "additionalProperties": true,
@@ -28,7 +28,7 @@
     ],
     "lenses": [
       "lens-list"
-    ],
+    ]
   },
   "requires": [],
   "capabilities": []

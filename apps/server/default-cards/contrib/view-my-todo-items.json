@@ -15,7 +15,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": [ "todo", "todo@1.0.0" ]
+              "const": "todo@1.0.0"
             },
             "data": {
               "type": "object",

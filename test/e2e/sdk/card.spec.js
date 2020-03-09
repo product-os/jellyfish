@@ -20,7 +20,7 @@ const context = {
 
 const createSupportThread = async (sdk) => {
 	return sdk.card.create({
-		type: 'support-thread',
+		type: 'support-thread@1.0.0',
 		data: {
 			inbox: 'S/Paid_Support',
 			status: 'open'
@@ -30,7 +30,7 @@ const createSupportThread = async (sdk) => {
 
 const createSupportIssue = async (sdk) => {
 	return sdk.card.create({
-		type: 'support-issue',
+		type: 'support-issue@1.0.0',
 		name: `test-support-issue-${uuid()}`,
 		data: {
 			inbox: 'S/Paid_Support',

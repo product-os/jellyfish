@@ -29,23 +29,14 @@
               "type": "string",
               "not": {
                 "enum": [
-                  "action-request",
                   "action-request@1.0.0",
-                  "event",
                   "event@1.0.0",
-                  "external-event",
                   "external-event@1.0.0",
-                  "role",
                   "role@1.0.0",
-                  "session",
                   "session@1.0.0",
-                  "type",
                   "type@1.0.0",
-                  "user",
                   "user@1.0.0",
-                  "view",
                   "view@1.0.0",
-                  "password-reset",
                   "password-reset@1.0.0"
                 ]
               }
@@ -61,21 +52,16 @@
               "not": {
                 "enum": [
                   "card",
-                  "card@1.0.0",
                   "action",
-                  "action@1.0.0",
                   "event",
-                  "event@1.0.0",
                   "external-event",
-                  "external-event@1.0.0",
-                  "role",
-                  "role@1.0.0"
+                  "role"
                 ]
               }
             },
             "type": {
               "type": "string",
-              "enum": [ "type", "type@1.0.0" ]
+              "const": "type@1.0.0"
             }
           }
         },
@@ -88,9 +74,6 @@
             "type": {
               "type": "string",
               "enum": [
-                "view",
-                "session",
-                "execute",
                 "view@1.0.0",
                 "session@1.0.0",
                 "execute@1.0.0"
@@ -124,7 +107,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "user", "user@1.0.0" ]
+              "const": "user@1.0.0"
             },
             "data": {
               "type": "object",
@@ -162,7 +145,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "view", "view@1.0.0" ]
+              "const": "view@1.0.0"
             },
             "slug": {
               "type": "string",
@@ -200,7 +183,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "user", "user@1.0.0" ]
+              "const": "user@1.0.0"
             },
             "data": {
               "type": "object",

@@ -32,7 +32,7 @@ const lens = {
 			properties: {
 				type: {
 					type: 'string',
-					enum: [ 'specification', 'specification@1.0.0' ]
+					const: 'specification@1.0.0'
 				}
 			}
 		}

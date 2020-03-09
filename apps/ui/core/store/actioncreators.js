@@ -1239,7 +1239,7 @@ export default class ActionCreator {
 				description: `Get subscription ${user.id} / ${target}`,
 				properties: {
 					type: {
-						enum: [ 'subscription', 'subscription@1.0.0' ]
+						const: 'subscription@1.0.0'
 					},
 					data: {
 						type: 'object',

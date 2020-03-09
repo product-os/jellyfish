@@ -16,7 +16,7 @@
       "properties": {
         "type": {
           "type": "string",
-          "enum": [ "message", "message@1.0.0" ]
+          "const": "message@1.0.0"
         },
         "data": {
           "type": "object",

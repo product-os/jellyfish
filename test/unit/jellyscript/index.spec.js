@@ -336,7 +336,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 							properties: {
 								type: {
 									type: 'string',
-									enum: [ 'thread', 'thread@1.0.0' ]
+									const: 'thread@1.0.0'
 								}
 							}
 						}
