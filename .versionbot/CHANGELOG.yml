@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Fix failing format{Maximum,Minimum} integration test'
+      hash: b0d3e33882f03fb4b29cc8c3f273d7eba102b50d
+      body: >
+        This commit includes two changes:
+
+        - Fix the test itself to do what it says it does
+
+        - Changes format{Maximum,Minimum} to use the appropriate
+        date/time/timestamp cast instead of string comparison
+
+
+        Closes #3161
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 27.0.1
+  date: 2020-03-09T17:33:35.261Z
+- commits:
     - subject: 'core: Require version suffixes in .getBySlug()'
       hash: 19c887f2a86eaa619e0eb1b44de2be4ec7b35597
       body: |
