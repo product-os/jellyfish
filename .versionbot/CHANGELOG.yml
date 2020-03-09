@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Require version suffixes in .getBySlug()'
+      hash: 19c887f2a86eaa619e0eb1b44de2be4ec7b35597
+      body: |
+        We should make sure we didn't get any "No version reference" warning for
+        a while, as a confirmation that we migrated all the data correctly.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.0.0
+  date: 2020-03-09T11:06:58.236Z
+- commits:
     - subject: Update open-balena-base to latest 9.2.1
       hash: 199c43288c74a4a66ef34f8001ed15d6da4bdb3f
       body: ''
