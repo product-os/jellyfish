@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update open-balena-base to latest 9.2.1
+      hash: 199c43288c74a4a66ef34f8001ed15d6da4bdb3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 26.11.3
+  date: 2020-03-09T08:46:38.412Z
+- commits:
     - subject: Verify parameters on POST signup
       hash: 65e5b9531b9341cf7f2b6b3056faa130d3e29508
       body: ''
