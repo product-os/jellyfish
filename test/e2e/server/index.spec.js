@@ -885,7 +885,7 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 	})), [ 'view' ])
 })
 
-ava.serial('/view/:slug endpoing should return the list of all views', async (test) => {
+ava.serial('/view/:slug endpoint should return the list of all views', async (test) => {
 	const result = await test.context.http(
 		'POST',
 		'/api/v2/view/view-all-by-type@1.0.0',

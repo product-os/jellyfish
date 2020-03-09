@@ -626,6 +626,21 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			password
 		} = request.body
 
+		// Verify parameters
+		const parameters = {
+			username,
+			email,
+			password
+		}
+		for (const [ key, value ] of Object.entries(parameters).sort()) {
+			if (!_.isString(value)) {
+				return response.status(400).json({
+					error: true,
+					data: `Invalid ${key}`
+				})
+			}
+		}
+
 		// Normalize username and email to lower case
 		const name = username.toLowerCase()
 		const mail = email.toLowerCase()
