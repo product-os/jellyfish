@@ -39,7 +39,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "type", "type@1.0.0" ]
+              "const": "type@1.0.0"
             },
             "data": {
               "type": "object",
@@ -57,8 +57,6 @@
             "type": {
               "type": "string",
               "enum": [
-                "create",
-                "update",
                 "create@1.0.0",
                 "update@1.0.0"
               ]
@@ -93,7 +91,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "link", "link@1.0.0" ]
+              "const": "link@1.0.0"
             },
             "data": {
               "type": "object",
@@ -120,7 +118,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "action", "action@1.0.0" ]
+              "const": "action@1.0.0"
             },
             "data": {
               "type": "object",
@@ -136,8 +134,6 @@
             "type": {
               "type": "string",
               "enum": [
-                "execute",
-                "session",
                 "execute@1.0.0",
                 "session@1.0.0"
               ]
@@ -170,7 +166,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "user", "user@1.0.0" ]
+              "const": "user@1.0.0"
             }
           }
         },
@@ -184,7 +180,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "user", "user@1.0.0" ]
+              "const": "user@1.0.0"
             },
             "slug": {
               "type": "string",

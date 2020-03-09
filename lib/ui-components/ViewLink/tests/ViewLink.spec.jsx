@@ -51,7 +51,7 @@ const view = {
 					],
 					properties: {
 						type: {
-							enum: [ 'message', 'message@1.0.0' ]
+							const: 'message@1.0.0'
 						},
 						active: {
 							type: 'boolean',

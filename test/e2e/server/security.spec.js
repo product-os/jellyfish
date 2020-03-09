@@ -640,7 +640,7 @@ ava.serial('.query() the guest user should only see its own private fields', asy
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'user', 'user@1.0.0' ]
+				const: 'user@1.0.0'
 			},
 			data: {
 				type: 'object',
@@ -702,7 +702,7 @@ ava.serial('timeline cards should reference the correct actor', async (test) => 
 				properties: {
 					type: {
 						type: 'string',
-						enum: [ 'update', 'update@1.0.0' ]
+						const: 'update@1.0.0'
 					}
 				}
 			}
@@ -777,7 +777,7 @@ ava.serial('.query() community users should be able to query views', async (test
 			},
 			type: {
 				type: 'string',
-				enum: [ 'view', 'view@1.0.0' ]
+				const: 'view@1.0.0'
 			}
 		}
 	})
@@ -1157,7 +1157,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'user', 'user@1.0.0' ]
+				const: 'user@1.0.0'
 			},
 			id: {
 				type: 'string',
@@ -1172,7 +1172,7 @@ ava.serial('.query() additionalProperties should not affect listing users as a n
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'user', 'user@1.0.0' ]
+				const: 'user@1.0.0'
 			},
 			id: {
 				type: 'string',
@@ -1236,7 +1236,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 				properties: {
 					type: {
 						type: 'string',
-						enum: [ 'user', 'user@1.0.0' ]
+						const: 'user@1.0.0'
 					}
 				}
 			}
@@ -1249,7 +1249,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			},
 			type: {
 				type: 'string',
-				enum: [ 'message', 'message@1.0.0' ]
+				const: 'message@1.0.0'
 			},
 			links: {
 				type: 'object',

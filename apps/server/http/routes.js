@@ -286,10 +286,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			properties: {
 				type: {
 					type: 'string',
-
-					// TODO: Get rid of this enum once we have
-					// versions supported all across the system.
-					enum: [ base, `${base}@${version || '1.0.0'}` ]
+					const: `${base}@${version || '1.0.0'}`
 				}
 			}
 		}).then((results) => {

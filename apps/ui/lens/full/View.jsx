@@ -624,7 +624,7 @@ const lens = {
 			type: 'object',
 			properties: {
 				type: {
-					enum: [ 'view', 'view@1.0.0' ]
+					const: 'view@1.0.0'
 				}
 			}
 		}

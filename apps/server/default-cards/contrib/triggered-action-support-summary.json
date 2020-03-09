@@ -16,7 +16,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "support-thread", "support-thread@1.0.0" ]
+              "const": "support-thread@1.0.0"
             },
             "data": {
               "type": "object",
@@ -43,7 +43,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [ "whisper", "whisper@1.0.0" ]
+          "const": "whisper@1.0.0"
         },
         "data": {
           "type": "object",

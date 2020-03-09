@@ -185,7 +185,7 @@ class SupportThreadBase extends React.Component {
 				},
 				type: {
 					type: 'string',
-					enum: [ 'support-thread', 'support-thread@1.0.0' ]
+					const: 'support-thread@1.0.0'
 				}
 			},
 			additionalProperties: true
@@ -582,7 +582,7 @@ export default {
 			properties: {
 				type: {
 					type: 'string',
-					enum: [ 'support-thread', 'support-thread@1.0.0' ]
+					const: 'support-thread@1.0.0'
 				}
 			}
 		}

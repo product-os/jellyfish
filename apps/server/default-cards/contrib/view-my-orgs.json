@@ -27,7 +27,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "enum": [ "org", "org@1.0.0" ]
+              "const": "org@1.0.0"
             }
           },
           "additionalProperties": true

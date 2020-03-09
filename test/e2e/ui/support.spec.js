@@ -56,7 +56,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	// Create a new support thread
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -90,7 +90,7 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	const supportIssue = await page.evaluate((cardName) => {
 		return window.sdk.card.create({
-			type: 'support-issue',
+			type: 'support-issue@1.0.0',
 			name: cardName,
 			data: {
 				inbox: 'S/Paid_Support',
@@ -134,7 +134,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -163,7 +163,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -192,7 +192,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -223,7 +223,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -252,7 +252,7 @@ ava.serial('Users should be able to close a support thread', async (test) => {
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -284,7 +284,7 @@ ava.serial('Users should be able to close a support thread by sending a message 
 
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'open'
@@ -320,7 +320,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 	// Create a closed support thread
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			data: {
 				inbox: 'S/Paid_Support',
 				status: 'closed'
@@ -444,7 +444,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	// Create an open support thread
 	const supportThread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread',
+			type: 'support-thread@1.0.0',
 			name: 'test thread',
 			data: {
 				status: 'open'
@@ -473,7 +473,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 		const updates = []
 		let count = 100
 		while (count--) {
-			updates.push(window.sdk.card.update(id, 'support-thread', [
+			updates.push(window.sdk.card.update(id, 'support-thread@1.0.0', [
 				{
 					op: 'replace',
 					path: '/name',
@@ -483,7 +483,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 		}
 
 		updates.push(
-			window.sdk.card.update(id, 'support-thread', [
+			window.sdk.card.update(id, 'support-thread@1.0.0', [
 				{
 					op: 'replace',
 					path: '/data/status',
