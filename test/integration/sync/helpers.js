@@ -6,7 +6,7 @@
 
 const helpers = require('../worker/helpers')
 const actionLibrary = require('../../../lib/action-library')
-const syncContext = require('../../../lib/action-library/sync-context')
+const syncContext = require('../../../lib/action-library/handlers/sync-context')
 
 module.exports = {
 	beforeEach: async (test, options) => {
