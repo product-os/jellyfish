@@ -1,4 +1,16 @@
 - commits:
+    - subject: Verify parameters on POST signup
+      hash: 65e5b9531b9341cf7f2b6b3056faa130d3e29508
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 26.11.2
+  date: 2020-03-09T08:18:18.560Z
+- commits:
     - subject: Refactors handlers into individual files
       hash: a18fc24e448e6f86aa00cf368b7405166687e97b
       body: ''
