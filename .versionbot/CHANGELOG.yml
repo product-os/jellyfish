@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactors handlers into individual files
+      hash: a18fc24e448e6f86aa00cf368b7405166687e97b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 26.11.1
+  date: 2020-03-09T04:00:28.213Z
+- commits:
     - subject: 'Account Management: Add the `password-reset` default card.'
       hash: d9f849ebdad1004036b0d31fe524f3945467259c
       body: >
