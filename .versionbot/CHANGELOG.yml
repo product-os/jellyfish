@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Account Management: Add the `password-reset` default card.'
+      hash: d9f849ebdad1004036b0d31fe524f3945467259c
+      body: >
+        This card is used to capture the state of a password reset request for a
+        valid user, and (along with an email) is a side-effect of the
+        `action-request-password-reset`.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 26.11.0
+  date: 2020-03-09T02:55:48.755Z
+- commits:
     - subject: 'build(deps-dev): bump webpack-dev-server from 3.9.0 to 3.10.3'
       hash: 8624c3661cdcceb935aff68042428108d92a966f
       body: >
