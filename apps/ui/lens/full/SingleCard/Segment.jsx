@@ -20,7 +20,8 @@ import {
 	getLens
 } from '../../../lens'
 import {
-	evalSchema
+	evalSchema,
+	getRelationshipTargetType
 } from '../../../../../lib/ui-components/services/helpers'
 import LinkModal from '../../../../../lib/ui-components/LinkModal'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
@@ -48,7 +49,8 @@ export default class Segment extends React.Component {
 			})
 			this.getData()
 		} else if (
-			!circularDeepEqual(prevProps.card, this.props.card)
+			!circularDeepEqual(prevProps.card, this.props.card) ||
+			!circularDeepEqual(prevProps.toBeLinkedCards, this.props.toBeLinkedCards)
 		) {
 			this.getData()
 		}
@@ -74,11 +76,20 @@ export default class Segment extends React.Component {
 		const {
 			card,
 			segment,
-			actions
+			actions,
+			onSave,
+			toBeLinkedCards
 		} = this.props
 
-		if (segment.link) {
+		if (onSave) {
+			const results = toBeLinkedCards || []
+
+			this.setState({
+				results
+			})
+		} else if (segment.link) {
 			const results = await	actions.getLinks(card, segment.link)
+
 			this.setState({
 				results
 			})
@@ -141,11 +152,12 @@ export default class Segment extends React.Component {
 			actions,
 			card,
 			segment,
-			types
+			types,
+			onSave
 		} = this.props
 
 		const type = _.find(types, {
-			slug: segment.type.split('@')[0]
+			slug: getRelationshipTargetType(segment)
 		})
 
 		if (!results) {
@@ -167,21 +179,24 @@ export default class Segment extends React.Component {
 				)}
 
 				{results.length === 0 && (
-					<Box px={3}>
+					<Box px={3} mt={2}>
 						<strong>There are no results</strong>
 					</Box>
 				)}
 
-				{!results.length && segment.link && (
-					<Flex mt={4} px={3}>
-						<Button
-							mr={2}
-							success
-							data-test={`add-${type.slug}`}
-							onClick={this.openCreateChannel}
-						>
-							Add new {type.name || type.slug}
-						</Button>
+				{segment.link && (
+					<Flex mt={2} px={3}>
+
+						{!onSave &&
+							<Button
+								mr={2}
+								success
+								data-test={`add-${type.slug}`}
+								onClick={this.openCreateChannel}
+							>
+								Add new {type.name || type.slug}
+							</Button>
+						}
 
 						<Button
 							outline
@@ -194,11 +209,13 @@ export default class Segment extends React.Component {
 				)}
 
 				<LinkModal
+					linkVerb={segment.link}
 					actions={actions}
 					card={card}
 					types={[ type ]}
 					show={showLinkModal}
 					onHide={this.hideLinkModal}
+					onSave={onSave}
 				/>
 			</React.Fragment>
 		)

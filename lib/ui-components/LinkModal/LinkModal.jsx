@@ -23,20 +23,69 @@ export default class LinkModal extends React.Component {
 	constructor (props) {
 		super(props)
 
+		this.getFromType = _.memoize((card) => {
+			let fromType = card.type.split('@')[0]
+			if (fromType === 'type') {
+				fromType = card.slug.split('@')[0]
+			}
+			return fromType
+		})
+
+		this.getAvailableTypeSlugs = _.memoize((types) => {
+			return _.reduce(types || [], (acc, type) => {
+				acc[type.slug] = true
+				return acc
+			}, {})
+		})
+
+		this.filterLinks = (linkVerb, availableTypeSlugs, target, fromType) => {
+			return _.filter(LINKS, (link) => {
+				// Filter by the link verb
+				if (linkVerb && linkVerb !== link.name) {
+					return false
+				}
+
+				// Filter by the 'from' card
+				if (fromType !== link.data.from) {
+					return false
+				}
+
+				// Filter by the 'types' prop
+				if (!availableTypeSlugs[link.data.to]) {
+					return false
+				}
+
+				// If the target is specified, the link 'to' property must match it
+				if (target && target.type.split('@')[0] !== link.data.to) {
+					return false
+				}
+
+				return true
+			}).map((link) => {
+				// Move the data.title property to the root of the object, as the rendition Select
+				// component can't use a non-root field for the `labelKey` prop
+				return Object.assign({}, link, {
+					title: link.data.title
+				})
+			})
+		}
+
 		const {
 			card,
+			linkVerb,
+			types,
 			target
 		} = props
 
-		const linkType = _.find(LINKS, [ 'data.from', card.type ]) ||
-			_.find(LINKS, [ 'data.from', card.type.split('@')[0] ])
+		const fromType = this.getFromType(card)
+		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
+		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
+		const linkType = _.first(linkTypeTargets)
 
 		this.state = {
 			results: [],
 			selectedTarget: target || null,
-			linkType: Object.assign({}, linkType, {
-				title: linkType.data.title
-			})
+			linkType
 		}
 
 		this.getLinkTargets = this.getLinkTargets.bind(this)
@@ -62,7 +111,8 @@ export default class LinkModal extends React.Component {
 
 	async linkToExisting () {
 		const {
-			card
+			card,
+			onSave
 		} = this.props
 
 		const {
@@ -74,8 +124,13 @@ export default class LinkModal extends React.Component {
 			return
 		}
 
+		if (onSave) {
+			this.props.onSave(card, selectedTarget, linkType.name)
+		} else {
+			this.props.actions.createLink(card, selectedTarget, linkType.name)
+		}
+
 		// Create the link asynchronously without waiting for the result
-		this.props.actions.createLink(card, selectedTarget, linkType.name)
 		this.setState({
 			selectedTarget: null
 		})
@@ -133,7 +188,9 @@ export default class LinkModal extends React.Component {
 
 	render () {
 		const {
+			actions,
 			card,
+			linkVerb,
 			show,
 			types,
 			target
@@ -147,28 +204,13 @@ export default class LinkModal extends React.Component {
 			return null
 		}
 
-		const type = card.type.split('@')[0]
-
-		// Create an array of available link types, then map over them and move the
-		// data.title file to the root of the object, as the rendition Select
-		// component can't use a non-root field for the `labelKey` prop
-		// TODO make the Select component allow nested fields for the `labelKey` prop
-		let linkTypeTargets = _.filter(LINKS, [ 'data.from', type ])
-			.map((constraint) => {
-				return Object.assign({}, constraint, {
-					title: constraint.data.title
-				})
-			})
-
-		// If the target prop was provided, restrict link options to those that can
-		// link to the target
-		if (target) {
-			linkTypeTargets = _.filter(linkTypeTargets, [ 'data.to', target.type.split('@')[0] ])
-		}
+		const fromType = this.getFromType(card)
+		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
+		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
 
 		if (!linkTypeTargets.length) {
-			console.error(`No known link types for ${type}`)
-
+			console.error(`No matching link types for ${fromType}`)
+			actions.addNotification('danger', `No matching link types for ${fromType}`)
 			return null
 		}
 
@@ -179,8 +221,8 @@ export default class LinkModal extends React.Component {
 			label: selectedTarget.name || selectedTarget.slug
 		} : null
 
-		const typeCard = _.find(types, [ 'slug', type ])
-		const typeName = typeCard ? typeCard.name : type
+		const typeCard = _.find(types, [ 'slug', fromType ])
+		const typeName = typeCard ? typeCard.name : fromType
 
 		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
 			? linkTypeTargets[0].title : 'another element'}`

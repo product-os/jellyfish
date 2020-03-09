@@ -6,7 +6,9 @@
 
 import clone from 'deep-copy'
 import * as _ from 'lodash'
+import Bluebird from 'bluebird'
 import React from 'react'
+import update from 'immutability-helper'
 import {
 	connect
 } from 'react-redux'
@@ -17,6 +19,7 @@ import * as redux from 'redux'
 import {
 	Box,
 	Button,
+	Card,
 	Flex,
 	Heading,
 	Select,
@@ -38,6 +41,13 @@ import {
 } from '../../core'
 import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
 import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import Segment from '../full/SingleCard/Segment'
+
+// 'Draft' links are stored in a map in the component's state,
+// keyed by the combination of the target card type and the link verb.
+const getLinkKey = (targetCardType, linkVerb) => {
+	return `${targetCardType.split('@')[0]}-${helpers.slugify(linkVerb)}`
+}
 
 class CreateLens extends React.Component {
 	constructor (props) {
@@ -86,6 +96,7 @@ class CreateLens extends React.Component {
 		this.state = {
 			newCardModel: seed,
 			selectedTypeTarget,
+			links: {},
 			linkOption
 		}
 
@@ -95,10 +106,24 @@ class CreateLens extends React.Component {
 			'handlLinkOptionSelect',
 			'handleFormChange',
 			'setFreeFieldData',
-			'setLocalSchema'
+			'setLocalSchema',
+			'saveLink'
 		])
+	}
 
-		this.handleFormChange = this.handleFormChange.bind(this)
+	saveLink (card, selectedTarget, linkTypeName) {
+		this.setState((prevState) => {
+			const key = getLinkKey(selectedTarget.type, linkTypeName)
+			return update(prevState, {
+				links: {
+					[key]: (items) => update(items || [], {
+						$push: [ {
+							target: selectedTarget, verb: linkTypeName
+						} ]
+					})
+				}
+			})
+		})
 	}
 
 	bindMethods (methods) {
@@ -137,11 +162,18 @@ class CreateLens extends React.Component {
 
 	addEntry () {
 		const {
+			links,
 			selectedTypeTarget
 		} = this.state
+
+		const {
+			actions
+		} = this.props
+
 		if (!selectedTypeTarget) {
 			return
 		}
+
 		const newCard = helpers.removeUndefinedArrayItems(_.merge({
 			type: selectedTypeTarget.slug
 		}, this.state.newCardModel))
@@ -152,9 +184,22 @@ class CreateLens extends React.Component {
 
 		sdk.card.create(newCard)
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message)
+				actions.addNotification('danger', error.message)
 			})
-			.then((card) => {
+			.then(async (card) => {
+				// Create all the links asynchronously
+				const linkActions = _.reduce(links, (acc, targetLinks) => {
+					_.map(targetLinks, ({
+						target, verb
+					}) => {
+						acc.push(actions.createLink(card, target, verb))
+					})
+					return acc
+				}, [])
+
+				// Wait for all the links to be created
+				await Bluebird.all(linkActions)
+
 				if (card) {
 					analytics.track('element.create', {
 						element: {
@@ -233,12 +278,15 @@ class CreateLens extends React.Component {
 		const {
 			redirectTo,
 			selectedTypeTarget,
+			links,
 			linkOption
 		} = this.state
 
 		const {
 			card,
-			channel
+			channel,
+			allTypes,
+			actions
 		} = this.props
 
 		if (redirectTo) {
@@ -266,6 +314,12 @@ class CreateLens extends React.Component {
 				'ui:order': [ 'name', 'tags', '*' ]
 			}
 			: {}
+
+		const relationships = _.get(selectedTypeTarget, [ 'data', 'meta', 'relationships' ], [])
+			.filter((relationship) => {
+				// We only support relationships that define a particular link
+				return typeof relationship.type !== 'undefined' && typeof relationship.link !== 'undefined'
+			})
 
 		// TODO: Encode these relationships in the type card, instead of hacking it
 		// into the UI
@@ -391,6 +445,27 @@ class CreateLens extends React.Component {
 						onSchemaChange={this.setLocalSchema}
 					/>
 
+					{_.map(relationships, (segment) => {
+						const key = getLinkKey(segment.type, segment.link)
+						return (
+							<Card
+								p={3}
+								mt={3}
+								key={key}
+								title={segment.title}
+							>
+								<Segment
+									card={card.types}
+									segment={segment}
+									types={allTypes}
+									actions={actions}
+									onSave={this.saveLink}
+									toBeLinkedCards={_.map(links[key], 'target')}
+								/>
+							</Card>
+						)
+					})}
+
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
 							onClick={this.close}
@@ -425,7 +500,9 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addNotification',
 				'createLink',
-				'removeChannel'
+				'removeChannel',
+				'getLinks',
+				'queryAPI'
 			]),
 			dispatch
 		)

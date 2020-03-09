@@ -8,6 +8,7 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
+const Bluebird = require('bluebird')
 
 const context = {
 	context: {
@@ -143,4 +144,68 @@ ava.serial('should let users create new opportunities', async (test) => {
 	await page.waitForSelector('.column--opportunity')
 
 	test.pass()
+})
+
+ava.serial('should let users create new opportunities and directly link existing account', async (test) => {
+	const {
+		page
+	} = context
+
+	// Navigate to view all opportunities
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-opportunities"]')
+
+	// Open CreateLens for opportunities
+	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
+
+	const name = `test opportunity ${uuid()}`
+
+	await page.waitForSelector('#root_name')
+
+	await macros.setInputValue(page, '#root_name', name)
+
+	// Create new Link to Account
+	await macros.waitForThenClickSelector(page, '[data-test="link-to-account"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await page.type('#react-select-2-input', 'test')
+	await page.waitForSelector('#react-select-2-option-0')
+	await page.keyboard.press('Enter')
+	await page.click('[data-test="card-linker--existing__submit"]')
+
+	// Submit CreateLens
+	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="alert--success"]')
+
+	// We wait for the db to catch up on the linking
+	await Bluebird.delay(1000)
+
+	// Check if new Opportunity is Linked
+	const results = await page.evaluate((nameParam) => {
+		console.log('nameParam', nameParam)
+		return window.sdk.query({
+			$$links: {
+				'is attached to': {
+					type: 'object'
+				}
+			},
+			type: 'object',
+			properties: {
+				type: {
+					enum: [ 'opportunity', 'opportunity@1.0.0' ]
+				},
+				links: {
+					type: 'object'
+				},
+				name: {
+					const: nameParam
+				}
+			}
+		}, {
+			limit: 1
+		})
+	}, name)
+
+	test.is(results[0].links['is attached to'].length, 1)
 })
