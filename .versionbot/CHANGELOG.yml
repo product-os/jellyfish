@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'ui-components: New SlideInPanel component'
+      hash: 2445021a03e743ed27fcfebc3887d9ad216d185c
+      body: >
+        A generic slide-in panel component that can slide in from any direction.
+        Height (for top/bottom direction) or width (for left/right direction)
+        can be specified. Be sure to mark the appropriate parent element with
+        relative position to display the component as desired.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.1.0
+  date: 2020-03-10T03:36:59.395Z
+- commits:
     - subject: Explicity set the locale in `make start-postgres`
       hash: 6516087163fc4d92dc59baab6b89233f42cd3fbe
       body: >
