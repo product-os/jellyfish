@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: Add new `StepsFlow` component'
+      hash: 92b13c6a6839337adc2c6ad789962eb3350d0dc0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.3.0
+  date: 2020-03-10T09:19:28.765Z
+- commits:
     - subject: Set correct spacing and width for FreeFieldForm inputs
       hash: c7323f224df7a4d4a3ffdc2ad411d4c15a48142a
       body: ''
