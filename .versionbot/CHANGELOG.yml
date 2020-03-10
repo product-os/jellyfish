@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'sdk: Add support for unlinking and re-linking'
+      hash: eb9b0db53708fd8e7118b536a27d51f237924cd2
+      body: |
+        This will be needed for ownership changes!
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.2.0
+  date: 2020-03-10T07:27:29.145Z
+- commits:
     - subject: 'ui-components: New SlideInPanel component'
       hash: 2445021a03e743ed27fcfebc3887d9ad216d185c
       body: >
