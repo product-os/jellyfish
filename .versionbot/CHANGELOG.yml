@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Add computed ''participants'' property to support thread card'
+      hash: 601ab6b7e53e9ee4fa89d0afd83eda1720509296
+      body: >
+        Part 1 of adding support for a new view of support threads that the
+        authenticated user has participated in.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.4.0
+  date: 2020-03-10T10:02:58.680Z
+- commits:
     - subject: 'ui-components: Add new `StepsFlow` component'
       hash: 92b13c6a6839337adc2c6ad789962eb3350d0dc0
       body: ''
