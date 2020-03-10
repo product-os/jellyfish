@@ -51,6 +51,7 @@ ava.serial('should be able to run high privilege triggers in response to common 
 		version: '1.0.0',
 		data: {
 			action: 'action-create-card@1.0.0',
+			mode: 'insert',
 			filter: {
 				type: 'object',
 				properties: {

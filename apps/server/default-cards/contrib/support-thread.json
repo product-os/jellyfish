@@ -53,6 +53,10 @@
                 "production"
               ]
             },
+            "participants": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.actor')"
+            },
             "mentionsUser": {
               "type": "array",
               "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
