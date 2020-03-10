@@ -32,7 +32,9 @@ AFFECTED_MODULES="$(git diff --name-only master "$CURRENT_BRANCH" \
 # If no module was actually affected, then there is no need to run the tests
 if [ -z "$AFFECTED_MODULES" ]
 then
-	echo "No affected modules. Skipping tests..."
+	echo "Current branch: $CURRENT_BRANCH" 1>&2
+	git diff --name-only master "$CURRENT_BRANCH"
+	echo "No affected modules. Skipping tests..." 1>&2
 	exit 0
 fi
 
