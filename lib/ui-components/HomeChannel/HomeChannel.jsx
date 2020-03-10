@@ -29,7 +29,6 @@ import MenuPanel from '../shame/MenuPanel'
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
-	'view-my-todo-items',
 	'view-my-orgs'
 ]
 

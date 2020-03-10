@@ -74,7 +74,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/support-thread.json'),
 		await loadCard('contrib/tag.json'),
 		await loadCard('contrib/thread.json'),
-		await loadCard('contrib/todo.json'),
 		await loadCard('contrib/view-all-pipelines.json'),
 		await loadCard('contrib/whisper.json'),
 		await loadCard('contrib/workflow.json'),
@@ -98,7 +97,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/view-all-views.json'),
 		await loadCard('contrib/view-my-inbox.json'),
 		await loadCard('contrib/view-my-orgs.json'),
-		await loadCard('contrib/view-my-todo-items.json'),
 		await loadCard('contrib/view-all-by-type.json'),
 
 		// Balena org cards
