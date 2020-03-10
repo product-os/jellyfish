@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Server: Setup opportunity owners and backup owners'
+      hash: 35bac44555d10c450a9913708a82db4e1148dd98
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.4.2
+  date: 2020-03-10T12:27:59.520Z
+- commits:
     - subject: 'test: Fix for long-running UI test timing out'
       hash: ac53e553e49297313bf304165adeb834d5a6305f
       body: >
