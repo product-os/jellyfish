@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'test: Fix for long-running UI test timing out'
+      hash: ac53e553e49297313bf304165adeb834d5a6305f
+      body: >
+        Added an optional parameter extend the time we wait for an element to
+        disappear.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: >-
+        Add test "Support threads should close correctly even when being updated
+        at a high frequency"
+      hash: 63b50e4cbedc692e5798bd6ae77e968ad5646360
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.4.1
+  date: 2020-03-10T11:11:58.898Z
+- commits:
     - subject: 'server: Add computed ''participants'' property to support thread card'
       hash: 601ab6b7e53e9ee4fa89d0afd83eda1720509296
       body: >
