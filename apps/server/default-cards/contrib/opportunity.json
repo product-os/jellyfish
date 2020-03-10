@@ -75,6 +75,16 @@
           "title": "Account",
           "link": "is attached to",
           "type": "account"
+        },
+        {
+          "title": "Owner",
+          "link": "is owned by",
+          "type": "user"
+        },
+        {
+          "title": "Backup owners",
+          "link": "has backup owner",
+          "type": "user"
         }
       ]
     }
