@@ -471,7 +471,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	// open
 	await page.evaluate((id) => {
 		const updates = []
-		let count = 10
+		let count = 100
 		while (count--) {
 			updates.push(window.sdk.card.update(id, 'support-thread', [
 				{
@@ -495,7 +495,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 		return window.Promise.all(updates)
 	}, supportThread.id)
 
-	await macros.waitForSelectorToDisappear(page, summarySelector)
+	await macros.waitForSelectorToDisappear(page, summarySelector, 150)
 
 	test.pass('Support thread closed correctly')
 })
