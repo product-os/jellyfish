@@ -128,10 +128,11 @@ export default class FreeFieldForm extends React.Component {
 					hideSubmitButton={true}
 				/>
 
-				<Flex justifyContent="space-between" pt={60}>
-					<Txt mt={9}>Add a new field</Txt>
+				<Flex justifyContent="space-between">
+					<Txt mt={9} mr={2} minWidth={100}>Add a new field</Txt>
 
 					<Input
+						mr={2}
 						value={this.state.key}
 						onChange={this.setFieldTitle}
 						placeholder="Enter the field title"
@@ -139,6 +140,7 @@ export default class FreeFieldForm extends React.Component {
 					/>
 
 					<Select
+						ml={2}
 						value={this.state.fieldType}
 						onChange={this.setFieldType}
 						options={this.dataTypes}
@@ -146,6 +148,7 @@ export default class FreeFieldForm extends React.Component {
 					/>
 
 					<Button
+						ml={2}
 						success
 						onClick={this.addField}
 						icon={<Icon name="plus"/>}
