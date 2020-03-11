@@ -8,9 +8,9 @@ const QueryFacade = require('./query')
 
 module.exports = class AuthFacade extends QueryFacade {
 	async whoami (context, sessionToken, ipAddress) {
-		const result = await this.jellyfish.getCardById(context, sessionToken, sessionToken)
+		const user = await this.jellyfish.getSessionUser(context, sessionToken)
 
-		if (!result) {
+		if (!user) {
 			throw new Error('Could not retrieve session data')
 		}
 
@@ -25,7 +25,7 @@ module.exports = class AuthFacade extends QueryFacade {
 			properties: {
 				id: {
 					type: 'string',
-					const: result.data.actor
+					const: user.id
 				},
 				type: {
 					type: 'string',
@@ -42,15 +42,14 @@ module.exports = class AuthFacade extends QueryFacade {
 
 		// Try and load the user with attached org data, otherwise load them without it.
 		// TODO: Fix our broken queries so that we can optionally get linked data
-		let user = await this.queryAPI(context, sessionToken, schema, {
+		const userWithOrgs = await this.queryAPI(context, sessionToken, schema, {
 			limit: 1
 		}, ipAddress)
 			.then((elements) => {
 				return elements[0] || null
 			})
-
-		if (!user) {
-			user = await this.jellyfish.getCardById(context, sessionToken, result.data.actor)
+		if (userWithOrgs) {
+			return userWithOrgs
 		}
 
 		return user

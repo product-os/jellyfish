@@ -29,14 +29,31 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 		actor: actorId
 	})
 
-	return jellyfish.replaceCard(context, session, jellyfish.defaults({
+	const actorSession = await jellyfish.replaceCard(context, session, jellyfish.defaults({
 		slug: keySlug,
 		version: '1.0.0',
-		type: 'session@1.0.0',
-		data: {
-			actor: actorId
-		}
+		type: 'session@1.0.0'
 	}))
+	await jellyfish.replaceCard(context, session, {
+		slug: `link-${keySlug}-is-owned-by-${actorId}`,
+		type: 'link@1.0.0',
+		name: 'is owned by',
+		data: {
+			inverseName: 'owns',
+			from: {
+				id: actorSession.id,
+				type: actorSession.type
+			},
+			to: {
+				id: actorId,
+
+				// TODO: find a way to make sure this is actually the case
+				type: 'user@1.0.0'
+			}
+		}
+	})
+
+	return actorSession
 }
 
 const SCHEMA_ACTIVE_TRIGGERS = {

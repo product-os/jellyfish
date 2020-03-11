@@ -20,8 +20,8 @@ ava('.dequeue() should return nothing if no requests', async (test) => {
 ava('.enqueue() should include the actor from the passed session', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
-	const session = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, test.context.session)
+	const actor = await test.context.jellyfish.getSessionUser(
+		test.context.context, test.context.session)
 	await test.context.queue.producer.enqueue(test.context.queueActor, test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -39,7 +39,7 @@ ava('.enqueue() should include the actor from the passed session', async (test) 
 	})
 
 	const request = await test.context.dequeue()
-	test.is(session.data.actor, request.data.actor)
+	test.is(actor.id, request.data.actor)
 })
 
 ava('.enqueue() should include the whole passed action', async (test) => {

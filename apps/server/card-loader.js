@@ -24,11 +24,24 @@ module.exports = async (context, jellyfish, worker, session) => {
 		context, session, jellyfish.defaults({
 			slug: 'session-guest',
 			version: '1.0.0',
-			type: 'session@1.0.0',
-			data: {
-				actor: guestUser.id
-			}
+			type: 'session@1.0.0'
 		}))
+	await jellyfish.replaceCard(context, session, {
+		slug: 'link-session-guest-is-owned-by-user-guest',
+		type: 'link@1.0.0',
+		name: 'is owned by',
+		data: {
+			inverseName: 'owns',
+			from: {
+				id: guestUserSession.id,
+				type: guestUserSession.type
+			},
+			to: {
+				id: guestUser.id,
+				type: guestUser.type
+			}
+		}
+	})
 
 	logger.info(context, 'Done setting up guest session')
 	logger.info(context, 'Setting default cards')

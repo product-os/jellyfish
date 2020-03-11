@@ -36,7 +36,10 @@ ava('should only expose the required methods', (test) => {
 		'query',
 		'stream',
 		'defaults',
-		'getStatus'
+		'getStatus',
+
+		// TODO to be removed, see the method decl
+		'getSessionUser'
 	])
 })
 
@@ -694,9 +697,25 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -722,6 +741,9 @@ ava('.patchCardBySlug() should be able to patch cards hidden to the user', async
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
+
+	// Clear the `linked_at` field since it is not deterministic
+	result.linked_at = {}
 
 	test.deepEqual(result, userCard)
 })
@@ -797,9 +819,25 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -827,6 +865,9 @@ ava('.patchCardBySlug() should not allow updates in hidden fields', async (test)
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
+
+	// Clear the `linked_at` field since it is not deterministic
+	result.linked_at = {}
 
 	test.deepEqual(result, userCard)
 })
@@ -902,9 +943,25 @@ ava('.patchCardBySlug() should not return the full card', async (test) => {
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -1010,9 +1067,25 @@ ava('.patchCardBySlug() should not allow a patch that makes a card inaccessible'
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -1126,9 +1199,25 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -1157,6 +1246,9 @@ ava('.patchCardBySlug() should not remove inaccessible fields', async (test) => 
 		test.context.context, test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
+
+	// Clear the `linked_at` field since it is not deterministic
+	result.linked_at = {}
 
 	test.deepEqual(result, userCard)
 })
@@ -1232,9 +1324,25 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: userCard.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
 			}
 		})
 
@@ -1265,6 +1373,9 @@ ava('.patchCardBySlug() should not add an inaccesible field', async (test) => {
 		test.context.kernel.sessions.admin, `${userCard.slug}@${userCard.version}`, {
 			type: userCard.type
 		})
+
+	// Clear the `linked_at` field since it is not deterministic
+	result.linked_at = {}
 
 	test.deepEqual(result, userCard)
 })
@@ -1658,11 +1769,27 @@ ava('.insertCard() read access on a property should not allow to write other pro
 			prefix: 'session'
 		}),
 		type: 'session@1.0.0',
-		version: '1.0.0',
-		data: {
-			actor: userCard.id
-		}
+		version: '1.0.0'
 	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: userCard.id,
+					type: userCard.type
+				}
+			}
+		})
 
 	await test.throwsAsync(test.context.kernel.replaceCard(test.context.context, session.id, {
 		id: targetUserCard.id,
@@ -2017,7 +2144,8 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		required: [ 'type' ]
 	}, {
 		limit: 1,
-		skip: 1
+		skip: 1,
+		sortBy: 'data'
 	})
 
 	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result2 ])
@@ -2191,11 +2319,12 @@ ava('.query() should be able to describe a property that starts with $', async (
 ava('.query() should take roles into account', async (test) => {
 	const actor = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'johndoe',
-			type: 'card@1.0.0',
+			slug: 'user-johndoe',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.io',
+				hash: 'PASSWORDLESS',
 				roles: [ 'foo' ]
 			}
 		})
@@ -2206,9 +2335,25 @@ ava('.query() should take roles into account', async (test) => {
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: actor.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: actor.id,
+					type: actor.type
+				}
 			}
 		})
 
@@ -2275,11 +2420,12 @@ ava('.query() should take roles into account', async (test) => {
 
 ava('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'johndoe',
-		type: 'card@1.0.0',
+		slug: 'user-johndoe',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'johndoe@example.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'foo' ]
 		}
 	})
@@ -2289,11 +2435,27 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 			prefix: 'session'
 		}),
 		type: 'session@1.0.0',
-		version: '1.0.0',
-		data: {
-			actor: actor.id
-		}
+		version: '1.0.0'
 	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: actor.id,
+					type: actor.type
+				}
+			}
+		})
 
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'role-foo',
@@ -2344,11 +2506,12 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 ava('.query() should ignore $id properties in roles', async (test) => {
 	const actor = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'johndoe',
-			type: 'card@1.0.0',
+			slug: 'user-johndoe',
+			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
 				email: 'johndoe@example.io',
+				hash: 'PASSWORDLESS',
 				roles: [ 'foo' ]
 			}
 		})
@@ -2359,9 +2522,25 @@ ava('.query() should ignore $id properties in roles', async (test) => {
 				prefix: 'session'
 			}),
 			type: 'session@1.0.0',
-			version: '1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: actor.id
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: actor.id,
+					type: actor.type
+				}
 			}
 		})
 
@@ -2417,11 +2596,12 @@ ava('.query() should ignore $id properties in roles', async (test) => {
 
 ava('.query() should ignore queries to disallowed properties with additionalProperties: true', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
-		slug: 'johndoe',
-		type: 'card@1.0.0',
+		slug: 'user-johndoe',
+		type: 'user@1.0.0',
 		version: '1.0.0',
 		data: {
 			email: 'johndoe@example.io',
+			hash: 'PASSWORDLESS',
 			roles: [ 'foo' ]
 		}
 	})
@@ -2431,11 +2611,27 @@ ava('.query() should ignore queries to disallowed properties with additionalProp
 			prefix: 'session'
 		}),
 		type: 'session@1.0.0',
-		version: '1.0.0',
-		data: {
-			actor: actor.id
-		}
+		version: '1.0.0'
 	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: actor.id,
+					type: actor.type
+				}
+			}
+		})
 
 	await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'role-foo',

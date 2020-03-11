@@ -22,23 +22,20 @@ ava('.getSessionUser() should throw if the session is invalid', async (test) => 
 	})
 })
 
-ava('.getSessionUser() should throw if the session actor is invalid', async (test) => {
+ava('.getSessionUser() should throw if the session is not owned by any user', async (test) => {
 	const session = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
 		type: 'session@1.0.0',
-		version: '1.0.0',
-		data: {
-			actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84'
-		}
+		version: '1.0.0'
 	})
 
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.context, test.context.backend, session.id, {
 		user: 'cards',
 		session: 'sessions'
 	}), {
-		instanceOf: errors.JellyfishNoElement
+		instanceOf: errors.JellyfishInvalidSession
 	})
 })
 
@@ -65,10 +62,28 @@ ava('.getSessionUser() should get the session user given the session did not exp
 		type: 'session@1.0.0',
 		version: '1.0.0',
 		data: {
-			actor: result.id,
 			expiration: date.toISOString()
 		}
 	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: result.id,
+					type: result.type
+				}
+			}
+		})
 
 	const user = await permissionFilter.getSessionUser(test.context.context, test.context.backend, session.id, {
 		user: 'cards',
@@ -103,10 +118,28 @@ ava('.getSessionUser() should throw if the session expired', async (test) => {
 		type: 'session@1.0.0',
 		version: '1.0.0',
 		data: {
-			actor: user.id,
 			expiration: date.toISOString()
 		}
 	})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: session.id,
+					type: session.type
+				},
+				to: {
+					id: user.id,
+					type: user.type
+				}
+			}
+		})
 
 	await test.throwsAsync(permissionFilter.getSessionUser(test.context.context, test.context.backend, session.id, {
 		user: 'cards',

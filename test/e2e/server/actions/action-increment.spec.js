@@ -21,11 +21,9 @@ ava.serial('should increment a card value using action-increment', async (test) 
 		slug: test.context.generateRandomSlug({
 			prefix: 'session'
 		}),
-		version: '1.0.0',
-		data: {
-			actor: admin.id
-		}
+		version: '1.0.0'
 	})
+	await test.context.sdk.card.link(session, admin, 'is owned by')
 
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {

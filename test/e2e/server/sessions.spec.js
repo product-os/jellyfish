@@ -38,10 +38,10 @@ ava.serial('should fail with a user error when querying an id with an expired se
 		}),
 		version: '1.0.0',
 		data: {
-			actor: admin.id,
 			expiration: '2015-04-10T23:00:00.000Z'
 		}
 	})
+	await test.context.sdk.card.link(session, admin, 'is owned by')
 
 	const result = await test.context.http(
 		'GET', '/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
@@ -69,10 +69,10 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 		}),
 		version: '1.0.0',
 		data: {
-			actor: admin.id,
 			expiration: '2015-04-10T23:00:00.000Z'
 		}
 	})
+	await test.context.sdk.card.link(session, admin, 'is owned by')
 
 	const result = await test.context.http(
 		'GET', '/api/v2/slug/user-admin', null, {
@@ -100,10 +100,10 @@ ava.serial('should fail with a user error when querying with an expired session'
 		}),
 		version: '1.0.0',
 		data: {
-			actor: admin.id,
 			expiration: '2015-04-10T23:00:00.000Z'
 		}
 	})
+	await test.context.sdk.card.link(session, admin, 'is owned by')
 
 	const result = await test.context.http(
 		'POST', '/api/v2/query', {
@@ -147,10 +147,10 @@ ava.serial('should fail with a user error when posting an action with an expired
 		}),
 		version: '1.0.0',
 		data: {
-			actor: admin.id,
 			expiration: '2015-04-10T23:00:00.000Z'
 		}
 	})
+	await test.context.sdk.card.link(session, admin, 'is owned by')
 
 	const result = await test.context.http(
 		'POST', '/api/v2/action', {

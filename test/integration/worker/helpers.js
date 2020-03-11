@@ -12,6 +12,9 @@ exports.jellyfish = {
 	beforeEach: async (test) => {
 		await helpers.beforeEach(test)
 
+		test.context.actor = await test.context.jellyfish.getSessionUser(
+			test.context.context, test.context.session)
+
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../lib/worker/cards/update'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
@@ -30,6 +33,9 @@ exports.worker = {
 		await helpers.beforeEach(test, {
 			suffix: options.suffix
 		})
+
+		test.context.actor = await test.context.jellyfish.getSessionUser(
+			test.context.context, test.context.session)
 
 		test.context.worker = new Worker(
 			test.context.jellyfish,

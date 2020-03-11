@@ -483,9 +483,25 @@ ava('should broadcast the same message twice given different actors', async (tes
 		test.context.context, test.context.session, {
 			type: 'session@1.0.0',
 			version: '1.0.0',
-			slug: 'session-rogue-user-test',
+			slug: 'session-rogue-user-test'
+		})
+	await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
 			data: {
-				actor: rogueUser.id
+				inverseName: 'owns',
+				from: {
+					id: rogueSession.id,
+					type: rogueSession.type
+				},
+				to: {
+					id: rogueUser.id,
+					type: rogueUser.type
+				}
 			}
 		})
 

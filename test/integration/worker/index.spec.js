@@ -199,6 +199,37 @@ ava('should be able to login as a user with a password', async (test) => {
 
 	const session = await test.context.jellyfish.getCardById(
 		test.context.context, test.context.session, loginResult.data.id)
+	const validSessions = await test.context.jellyfish.query(
+		test.context.context, test.context.session, {
+			type: 'object',
+			$$links: {
+				'is owned by': {
+					type: 'object',
+					required: [ 'slug', 'type' ],
+					properties: {
+						slug: {
+							type: 'string',
+							const: 'user-johndoe'
+						},
+						type: {
+							type: 'string',
+							const: 'user@1.0.0'
+						}
+					}
+				}
+			},
+			required: [ 'id', 'type' ],
+			properties: {
+				id: {
+					type: 'string',
+					const: loginResult.data.id
+				},
+				type: {
+					type: 'string',
+					const: 'session@1.0.0'
+				}
+			}
+		})
 
 	test.deepEqual(session, test.context.kernel.defaults({
 		created_at: session.created_at,
@@ -210,10 +241,10 @@ ava('should be able to login as a user with a password', async (test) => {
 		type: 'session@1.0.0',
 		links: session.links,
 		data: {
-			actor: signupResult.data.id,
 			expiration: session.data.expiration
 		}
 	}))
+	test.deepEqual(validSessions.length, 1)
 
 	const currentDate = new Date()
 	test.true(new Date(session.data.expiration) > currentDate)
@@ -752,12 +783,28 @@ ava('trigger should update card if triggered by a user not owning the card', asy
 		test.context.context, test.context.session, {
 			type: 'session@1.0.0',
 			version: '1.0.0',
-			slug: 'session-john-doe-user',
-			data: {
-				actor: userJohnDoe.id
-			}
+			slug: 'session-john-doe-user'
 		})
 	const sessionIdOfJohnDoe = sessionOfJohnDoe.id
+	await test.context.jellyfish.insertCard(
+		test.context.context, test.context.session, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'link'
+			}),
+			type: 'link@1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: sessionOfJohnDoe.id,
+					type: sessionOfJohnDoe.type
+				},
+				to: {
+					id: userJohnDoe.id,
+					type: userJohnDoe.type
+				}
+			}
+		})
 
 	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), sessionIdOfJohnDoe, {

@@ -19,11 +19,6 @@ exports.beforeEach = async (test, options) => {
 	test.context.jellyfish = test.context.kernel
 	test.context.session = test.context.jellyfish.sessions.admin
 
-	const session = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, test.context.session)
-	test.context.actor = await test.context.jellyfish.getCardById(
-		test.context.context, test.context.session, session.data.actor)
-
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		require('../../../apps/server/default-cards/contrib/message.json'))
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,

@@ -230,6 +230,8 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 		const sessionTypeCard = await jellyfish.getCardBySlug(
 			request.context, jellyfish.sessions.admin, 'session@1.0.0')
+		const linkTypeCard = await jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, 'link@1.0.0')
 
 		/*
 		 * This allows us to differentiate two login requests
@@ -246,19 +248,45 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: `session-${user.slug}-${Date.now()}-${suffix}`,
+					slug: `session-${user.slug}-${Date.now()}-${suffix}`
+				}
+			}
+		})
+		const createSessionResult = await producer.waitResults(
+			request.context, actionRequest)
+		if (createSessionResult.error) {
+			throw errio.fromObject(createSessionResult.data)
+		}
+
+		const linkRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+			action: 'action-create-card@1.0.0',
+			card: linkTypeCard.id,
+			type: linkTypeCard.type,
+			context: request.context,
+			arguments: {
+				reason: null,
+				properties: {
+					slug: `link-${createSessionResult.id}-is-owned-by-${user.id}-${suffix}`,
+					type: 'link@1.0.0',
+					name: 'is owned by',
 					data: {
-						actor: user.id
+						inverseName: 'owns',
+						from: {
+							id: createSessionResult.id,
+							type: createSessionResult.type
+						},
+						to: {
+							id: user.id,
+							type: user.type
+						}
 					}
 				}
 			}
 		})
-
-		const createSessionResult = await producer.waitResults(
-			request.context, actionRequest)
-
-		if (createSessionResult.error) {
-			throw errio.fromObject(createSessionResult.data)
+		const createLinkResult = await producer.waitResults(
+			request.context, linkRequest)
+		if (createLinkResult.error) {
+			throw errio.fromObject(createLinkResult.data)
 		}
 
 		return response.status(200).json({
