@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Adds lib/mail to server docker-compose. Also adds
+        INTEGRATION-MAILGUN-TOKEN env to root docker-compose
+      hash: dcbefa77d17000f72f360f8c4d91fd103ebd6c86
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.5.1
+  date: 2020-03-11T04:56:45.647Z
+- commits:
     - subject: Add mailgun integration with sendEmail method
       hash: 9a759e98e4db1a932a90ef15b6d94958b6d30947
       body: ''
