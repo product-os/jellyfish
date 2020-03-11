@@ -311,7 +311,7 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'thread', 'thread@1.0.0' ]
+				const: 'thread@1.0.0'
 			},
 			data: {
 				type: 'object',
@@ -398,7 +398,7 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 			properties: {
 				type: {
 					type: 'string',
-					enum: [ 'card', 'card@1.0.0' ]
+					const: 'card@1.0.0'
 				},
 				data: {
 					type: 'object',
@@ -486,7 +486,7 @@ ava.serial('should be able to resolve links', async (test) => {
 					},
 					type: {
 						type: 'string',
-						enum: [ 'thread', 'thread@1.0.0' ]
+						const: 'thread@1.0.0'
 					},
 					data: {
 						additionalProperties: true,
@@ -508,7 +508,7 @@ ava.serial('should be able to resolve links', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'message', 'message@1.0.0' ]
+				const: 'message@1.0.0'
 			},
 			links: {
 				type: 'object',
@@ -604,7 +604,7 @@ ava.serial('should get all elements by type', async (test) => {
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'user', 'user@1.0.0' ]
+				const: 'user@1.0.0'
 			}
 		}
 	})

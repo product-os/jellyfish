@@ -64,7 +64,7 @@ exports.browser = {
 		test.context.createUser = async (user) => {
 			const result = await test.context.sdk.action({
 				card: 'user@1.0.0',
-				type: 'type',
+				type: 'type@1.0.0',
 				action: 'action-create-user@1.0.0',
 				arguments: {
 					email: user.email,

@@ -21,7 +21,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "product-improvement", "product-improvement@1.0.0" ]
+              "const": "product-improvement@1.0.0"
             }
           },
           "additionalProperties": true,

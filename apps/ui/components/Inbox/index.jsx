@@ -28,8 +28,6 @@ const getBasePingQuery = (user, searchTerm) => {
 			type: {
 				type: 'string',
 				enum: [
-					'message',
-					'whisper',
 					'message@1.0.0',
 					'whisper@1.0.0'
 				]
@@ -140,8 +138,6 @@ const getSentQuery = (user, searchTerm) => {
 			type: {
 				type: 'string',
 				enum: [
-					'message',
-					'whisper',
 					'message@1.0.0',
 					'whisper@1.0.0'
 				]

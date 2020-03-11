@@ -34,7 +34,7 @@ const getUsers = async (user, sdk, value) => {
 		type: 'object',
 		properties: {
 			type: {
-				enum: [ 'user', 'user@1.0.0' ]
+				const: 'user@1.0.0'
 			},
 			slug: {
 				pattern: `^user-${value}`
@@ -151,7 +151,7 @@ export const getTrigger = _.memoize((allTypes, sdk, user) => {
 					description: `Tag that matches ${matcher}`,
 					properties: {
 						type: {
-							enum: [ 'tag', 'tag@1.0.0' ]
+							const: 'tag@1.0.0'
 						},
 						name: {
 							pattern: `^${matcher}`

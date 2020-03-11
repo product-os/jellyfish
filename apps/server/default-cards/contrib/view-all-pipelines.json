@@ -17,7 +17,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "pipeline", "pipeline@1.0.0" ]
+              "const": "pipeline@1.0.0"
             }
           },
           "additionalProperties": true,

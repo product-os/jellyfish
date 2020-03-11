@@ -15,7 +15,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "support-thread", "support-thread@1.0.0" ]
+              "const": "support-thread@1.0.0"
             },
             "data": {
               "type": "object",
@@ -41,7 +41,7 @@
         },
         "type": {
           "type": "string",
-          "enum": [ "issue", "issue@1.0.0" ]
+          "const": "issue@1.0.0"
         },
         "data": {
           "type": "object",

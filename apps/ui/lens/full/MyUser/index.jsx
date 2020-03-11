@@ -42,7 +42,7 @@ export default {
 			properties: {
 				type: {
 					type: 'string',
-					enum: [ 'user', 'user@1.0.0' ]
+					const: 'user@1.0.0'
 				},
 				slug: {
 					type: 'string',

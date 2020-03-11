@@ -17,7 +17,7 @@
           "properties": {
             "type": {
               "type": "string",
-              "enum": [ "support-issue", "support-issue@1.0.0" ]
+              "const": "support-issue@1.0.0"
             }
           },
           "additionalProperties": true,

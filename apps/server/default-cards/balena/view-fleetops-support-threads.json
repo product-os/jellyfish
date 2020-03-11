@@ -19,10 +19,6 @@
               "properties": {
                 "type": {
                   "enum": [
-                    "message",
-                    "update",
-                    "create",
-                    "whisper",
                     "message@1.0.0",
                     "update@1.0.0",
                     "create@1.0.0",
@@ -41,7 +37,7 @@
             },
             "type": {
               "type": "string",
-              "enum": [ "support-thread", "support-thread@1.0.0" ]
+              "const": "support-thread@1.0.0"
             },
             "data": {
               "type": "object",

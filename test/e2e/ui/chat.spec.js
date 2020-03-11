@@ -86,7 +86,7 @@ ava.serial('A notice should be displayed when another user is typing', async (te
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -116,13 +116,13 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 
 	const thread1 = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
 	const thread2 = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -161,7 +161,7 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -211,7 +211,7 @@ ava.serial('Only messages that ping a user should appear in their inbox', async 
 	// Making a thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -276,7 +276,7 @@ ava.serial('When having two chats side-by-side both should update with new messa
 
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -308,7 +308,7 @@ ava.serial('Username pings should be case insensitive', async (test) => {
 
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 
@@ -343,7 +343,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'thread'
+			type: 'thread@1.0.0'
 		})
 	})
 

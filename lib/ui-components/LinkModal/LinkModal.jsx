@@ -107,7 +107,7 @@ export default class LinkModal extends React.Component {
 			// type
 			_.set(filter, [ 'properties', 'type' ], {
 				type: 'string',
-				enum: [ typeCard.slug, `${typeCard.slug}@${typeCard.version}` ]
+				const: `${typeCard.slug}@${typeCard.version}`
 			})
 
 			// Query the API for results and set them to state so they can be accessed

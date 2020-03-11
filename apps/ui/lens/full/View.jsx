@@ -259,7 +259,7 @@ class ViewRenderer extends React.Component {
 			: _.get(lenses, [ '0', 'slug' ])
 
 		const tailType = _.find(this.props.types, {
-			slug: helpers.getTypeFromViewCard(head)
+			slug: helpers.getTypeFromViewCard(head).split('@')[0]
 		}) || null
 
 		if (options && options.slice) {
@@ -624,7 +624,7 @@ const lens = {
 			type: 'object',
 			properties: {
 				type: {
-					enum: [ 'view', 'view@1.0.0' ]
+					const: 'view@1.0.0'
 				}
 			}
 		}
