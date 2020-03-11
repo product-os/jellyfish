@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'core: Automatically add versions to link types if needed'
+      hash: 2acd5a938e9c735753065e3011e192372b874496
+      body: |
+        To let the system help with the migration we're doing.
+      footer:
+        See: 'https://github.com/product-os/jellyfish/pull/3088'
+        see: 'https://github.com/product-os/jellyfish/pull/3088'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.6.1
+  date: 2020-03-11T15:37:44.362Z
+- commits:
     - subject: Remove enums that match unversioned cards
       hash: 3b083efac8f949039ed2beb5bc93f6b6b7fa34f3
       body: |
