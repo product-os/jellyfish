@@ -60,6 +60,7 @@ services:
       - INTEGRATION_OUTREACH_APP_ID
       - INTEGRATION_OUTREACH_APP_SECRET
       - INTEGRATION_OUTREACH_SIGNATURE_KEY
+      - INTEGRATION_MAILGUN_TOKEN
     healthcheck:
       interval: 30s
       retries: 5
@@ -175,6 +176,7 @@ services:
       - INTEGRATION_OUTREACH_APP_ID
       - INTEGRATION_OUTREACH_APP_SECRET
       - INTEGRATION_OUTREACH_SIGNATURE_KEY
+      - INTEGRATION_MAILGUN_TOKEN
     restart: always
     networks:
       - internal
@@ -239,6 +241,7 @@ services:
       - INTEGRATION_OUTREACH_APP_ID
       - INTEGRATION_OUTREACH_APP_SECRET
       - INTEGRATION_OUTREACH_SIGNATURE_KEY
+      - INTEGRATION_MAILGUN_TOKEN
     restart: always
     networks:
       - internal
