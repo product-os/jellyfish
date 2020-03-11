@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix meta relationship on org card
+      hash: b9efe2597b99c036eea1ff8179ced8a0aeb77f31
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.5.2
+  date: 2020-03-11T05:19:35.924Z
+- commits:
     - subject: >-
         Adds lib/mail to server docker-compose. Also adds
         INTEGRATION-MAILGUN-TOKEN env to root docker-compose
