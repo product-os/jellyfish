@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add mailgun integration with sendEmail method
+      hash: 9a759e98e4db1a932a90ef15b6d94958b6d30947
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.5.0
+  date: 2020-03-11T00:56:28.648Z
+- commits:
     - subject: 'Server: Setup opportunity owners and backup owners'
       hash: 35bac44555d10c450a9913708a82db4e1148dd98
       body: ''
