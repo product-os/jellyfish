@@ -259,7 +259,7 @@ class ViewRenderer extends React.Component {
 			: _.get(lenses, [ '0', 'slug' ])
 
 		const tailType = _.find(this.props.types, {
-			slug: helpers.getTypeFromViewCard(head)
+			slug: helpers.getTypeFromViewCard(head).split('@')[0]
 		}) || null
 
 		if (options && options.slice) {

@@ -117,7 +117,7 @@ export default class Segment extends React.Component {
 			head: {
 				action: 'create',
 				types: _.find(types, {
-					slug: segment.type
+					slug: segment.type.split('@')[0]
 				}),
 				seed: {
 					markers: card.markers
@@ -145,7 +145,7 @@ export default class Segment extends React.Component {
 		} = this.props
 
 		const type = _.find(types, {
-			slug: segment.type
+			slug: segment.type.split('@')[0]
 		})
 
 		if (!results) {
