@@ -461,7 +461,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 
 	await page.waitForSelector(summarySelector)
 
-	// Generate a large batch of 20 updates to the "name" field, followed by
+	// Generate a large batch of updates to the "name" field, followed by
 	// a single update that sets the status to closed.
 	// The expected behaviour is that even with the high volume of update to
 	// a single card in a short space of time, the UI should eventually set the
@@ -471,7 +471,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	// open
 	await page.evaluate((id) => {
 		const updates = []
-		let count = 100
+		let count = 10
 		while (count--) {
 			updates.push(window.sdk.card.update(id, 'support-thread@1.0.0', [
 				{
