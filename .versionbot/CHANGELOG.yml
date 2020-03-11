@@ -1,4 +1,49 @@
 - commits:
+    - subject: Remove enums that match unversioned cards
+      hash: 3b083efac8f949039ed2beb5bc93f6b6b7fa34f3
+      body: |
+        This is no longer needed now that the production database has been fully
+        migrated.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'test: Revert temporary test change'
+      hash: 2c1055b01c037c1d0c0d6480a659adde278b92a6
+      body: >
+        This change was accidentally merged into master from another branch and
+        just makes testing unstable/failure-prone.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Fix logic that finds the relevant card'
+      hash: 2f42bc4e084434b0d902bfa1857821a18af661e2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Remove enums that match unversioned cards
+      hash: 1d0278343074613b34f00d4c4734aa85fbfd2058
+      body: |
+        This is no longer needed now that the production database has been fully
+        migrated.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.6.0
+  date: 2020-03-11T11:00:10.142Z
+- commits:
     - subject: Fix meta relationship on org card
       hash: b9efe2597b99c036eea1ff8179ced8a0aeb77f31
       body: ''
