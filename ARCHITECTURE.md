@@ -137,6 +137,10 @@ module provides a set of functions that the backend uses for logging purposes.
 - The logger is able to pipe logs to a central location when running in
 	production
 
+### [`lib/mail`](https://github.com/balena-io/jellyfish/tree/master/lib/mail)
+
+The mail library consists of a mailgun integration which can be used to send emails to jellyfish users
+
 ### [`lib/queue`](https://github.com/balena-io/jellyfish/tree/master/lib/queue)
 
 The Jellyfish system processes incoming action requests and adds them to a
