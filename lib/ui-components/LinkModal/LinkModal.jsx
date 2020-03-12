@@ -203,10 +203,12 @@ export default class LinkModal extends React.Component {
 					)}
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
+							id="card-linker--type-select"
 							value={linkType}
 							onChange={this.handleLinkTypeSelect}
 							labelKey="title"
 							options={linkTypeTargets}
+							data-test="card-linker--type__input"
 						/>
 					)}
 					<Box
