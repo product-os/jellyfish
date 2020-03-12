@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'sdk: Add ''is owned by'' link between support-thread and user'
+      hash: a54ac3433c64b0dc07f89540d014cece75047dd8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.9.0
+  date: 2020-03-12T08:37:45.357Z
+- commits:
     - subject: 'ui-components: Add prev/next/action buttons to StepsFlow component'
       hash: 8fc1fdb0a9a1099613f27608537f086a6d7d4cb0
       body: |
