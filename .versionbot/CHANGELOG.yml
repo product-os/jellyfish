@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Don''t provide a default version of types anymore'
+      hash: 7c59b7249a1c8b2b52b71db3f821914715189f6e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.6.2
+  date: 2020-03-11T23:31:04.620Z
+- commits:
     - subject: 'core: Automatically add versions to link types if needed'
       hash: 2acd5a938e9c735753065e3011e192372b874496
       body: |
