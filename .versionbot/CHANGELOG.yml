@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Add prev/next/action buttons to StepsFlow component'
+      hash: 8fc1fdb0a9a1099613f27608537f086a6d7d4cb0
+      body: |
+        Added unit tests to verify behaviour.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.8.0
+  date: 2020-03-12T07:56:28.540Z
+- commits:
     - subject: Don't copy apps/ui code into livechat container
       hash: 0311a31884d78cff1038178db0a97af8af642541
       body: |
