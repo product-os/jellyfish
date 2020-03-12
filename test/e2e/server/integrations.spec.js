@@ -11,7 +11,7 @@ const uuid = require('uuid/v4')
 const randomstring = require('randomstring')
 const jws = require('jsonwebtoken')
 const _ = require('lodash')
-const helpers = require('../sdk/helpers')
+const helpers = require('../client-sdk/helpers')
 const environment = require('../../../lib/environment')
 
 ava.serial.before(helpers.before)

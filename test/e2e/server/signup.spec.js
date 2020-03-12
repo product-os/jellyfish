@@ -5,7 +5,7 @@
  */
 
 const ava = require('ava')
-const helpers = require('../sdk/helpers')
+const helpers = require('../client-sdk/helpers')
 
 ava.before(helpers.before)
 ava.after(helpers.after)

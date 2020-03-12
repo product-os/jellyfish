@@ -8,7 +8,7 @@ const Bluebird = require('bluebird')
 const helpers = require('../server/helpers')
 const {
 	getSdk
-} = require('../../../lib/sdk')
+} = require('../../../lib/client-sdk')
 const environment = require('../../../lib/environment')
 
 exports.before = async (test) => {

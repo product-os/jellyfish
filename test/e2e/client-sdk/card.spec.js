@@ -8,13 +8,13 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 
-// TODO: Possibly move this file to test/integration/sdk if/when
+// TODO: Possibly move this file to test/integration/client-sdk if/when
 // we resolve where to place sdk helper methods that are used by
 // both e2e tests and integration tests.
 
 const context = {
 	context: {
-		id: `SDK-CARD-E2E-TEST-${uuid()}`
+		id: `CLIENT-SDK-CARD-E2E-TEST-${uuid()}`
 	}
 }
 

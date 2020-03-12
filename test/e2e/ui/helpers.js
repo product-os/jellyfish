@@ -6,7 +6,7 @@
 
 const puppeteer = require('puppeteer')
 const environment = require('../../../lib/environment')
-const helpers = require('../sdk/helpers')
+const helpers = require('../client-sdk/helpers')
 
 exports.addPageHandlers = (page, headless = true) => {
 	const onError = (prefix) => {

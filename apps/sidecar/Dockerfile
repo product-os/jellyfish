@@ -13,7 +13,7 @@ RUN npm ci
 COPY ./lib/core ./lib/core
 COPY ./lib/chat-widget ./lib/chat-widget
 COPY ./lib/environment ./lib/environment
-COPY ./lib/sdk ./lib/sdk
+COPY ./lib/client-sdk ./lib/client-sdk
 COPY ./lib/sync ./lib/sync
 COPY ./lib/uuid ./lib/uuid
 COPY ./lib/mail ./lib/mail

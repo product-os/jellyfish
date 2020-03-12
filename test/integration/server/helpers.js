@@ -10,7 +10,7 @@ const request = require('request')
 const _ = require('lodash')
 const {
 	getSdk
-} = require('../../../lib/sdk')
+} = require('../../../lib/client-sdk')
 const environment = require('../../../lib/environment')
 const bootstrap = require('../../../apps/server/bootstrap')
 const actionServer = require('../../../apps/action-server/bootstrap')

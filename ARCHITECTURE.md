@@ -96,6 +96,12 @@ throughout the code
 The chat widget is an embeddable component to allow external clients to send
 and receive messages using the Jellyfish system.
 
+### [`lib/client-sdk`](https://github.com/balena-io/jellyfish/tree/master/lib/client-sdk)
+
+The client sdk is a client side library to interact with the Jellyfish
+infrastructure through its public interfaces (i.e. HTTP). Its meant to provide
+high level useful functionality to the web UI and any other clients.
+
 ### [`lib/core`](https://github.com/balena-io/jellyfish/tree/master/lib/core)
 
 The Jellyfish core is a low-level internal SDK to interact with cards in the
@@ -159,12 +165,6 @@ this module.
 - The queue aims to be the source of truth of how action requests are marked as
 	executed and how action requests results are propagated back
 
-### [`lib/sdk`](https://github.com/balena-io/jellyfish/tree/master/lib/sdk)
-
-The sdk is a client side library to interact with the Jellyfish infrastructure
-through its public interfaces (i.e. HTTP). Its meant to provide high level
-useful functionality to the web UI and any other clients.
-
 ### [`lib/sync`](https://github.com/balena-io/jellyfish/tree/master/lib/sync)
 
 This module contains an integration syncing engine built on top of Jellyfish,
@@ -187,4 +187,3 @@ executing them, and reporting back the results. This module provides an lower
 level interface to write a worker server. The intention is that we can write
 multiple types of workers, optimised for different tasks using a single shared
 framework.
-

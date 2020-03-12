@@ -14,7 +14,7 @@ import {
 } from 'rendition'
 import {
 	constraints as LINKS
-} from '../../sdk/link-constraints'
+} from '../../client-sdk/link-constraints'
 import ContextMenu from '../ContextMenu'
 import LinkModal from '../LinkModal'
 import Icon from '../shame/Icon'

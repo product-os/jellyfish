@@ -17,7 +17,7 @@ get_artifact_link() (
 echo "Ship shape and ready to sail!"
 echo ""
 echo "- [PostgreSQL Dump (e2e/server)]($(get_artifact_link "test-results/dump-server.gz"))"
-echo "- [PostgreSQL Dump (e2e/sdk)]($(get_artifact_link "test-results/dump-sdk.gz"))"
+echo "- [PostgreSQL Dump (e2e/client-sdk)]($(get_artifact_link "test-results/dump-client-sdk.gz"))"
 echo "- [PostgreSQL Dump (e2e/sync)]($(get_artifact_link "test-results/dump-sync.gz"))"
 echo "- [PostgreSQL Dump (e2e/ui)]($(get_artifact_link "test-results/dump-ui.gz"))"
 echo "- [PostgreSQL Dump (e2e/livechat)]($(get_artifact_link "test-results/dump-livechat.gz"))"

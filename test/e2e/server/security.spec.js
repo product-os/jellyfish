@@ -7,7 +7,7 @@
 const ava = require('ava')
 const uuid = require('uuid/v4')
 const _ = require('lodash')
-const helpers = require('../sdk/helpers')
+const helpers = require('../client-sdk/helpers')
 
 ava.serial.before(helpers.before)
 ava.serial.after(helpers.after)

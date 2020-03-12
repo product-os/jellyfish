@@ -17,9 +17,9 @@ make test-unit-ui-components
 make build-ui test-e2e-ui VISUAL=1
 ```
 
-You can run the unit and end to end SDK tests as follows:
+You can run the unit and end to end client SDK tests as follows:
 
 ```sh
-make test-unit-sdk
-make test-e2e-sdk
+make test-unit-client-sdk
+make test-e2e-client-sdk
 ```

@@ -16,7 +16,7 @@ import {
 } from 'rendition'
 import {
 	constraints as LINKS
-} from '../../sdk/link-constraints'
+} from '../../client-sdk/link-constraints'
 import * as helpers from '../services/helpers'
 
 export default class LinkModal extends React.Component {

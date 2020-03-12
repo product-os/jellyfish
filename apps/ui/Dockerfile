@@ -15,7 +15,7 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY webpack.config.base.js .
 COPY apps/ui ./apps/ui
-COPY lib/sdk ./lib/sdk
+COPY lib/client-sdk ./lib/client-sdk
 COPY lib/ui-components ./lib/ui-components
 COPY lib/chat-widget ./lib/chat-widget
 COPY lib/uuid ./lib/uuid

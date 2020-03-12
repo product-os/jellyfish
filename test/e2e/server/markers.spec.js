@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const uuid = require('uuid/v4')
-const helpers = require('../sdk/helpers')
+const helpers = require('../client-sdk/helpers')
 const environment = require('../../../lib/environment')
 
 const users = {
