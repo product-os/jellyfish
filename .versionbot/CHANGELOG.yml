@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add support for linking relationship in CreateLens
+      hash: 96f11713516d6944865e60a7e3acdd76ac871375
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.9.1
+  date: 2020-03-12T10:23:29.031Z
+- commits:
     - subject: 'sdk: Add ''is owned by'' link between support-thread and user'
       hash: a54ac3433c64b0dc07f89540d014cece75047dd8
       body: ''
