@@ -14,10 +14,6 @@ COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY webpack.config.base.js .
-# TODO: When
-# https://github.com/balena-io/jellyfish/issues/3004
-# is solved, remove the below
-COPY apps/ui ./apps/ui
 COPY apps/livechat ./apps/livechat
 COPY lib/sdk ./lib/sdk
 COPY lib/ui-components ./lib/ui-components
