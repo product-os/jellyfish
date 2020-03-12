@@ -33,6 +33,7 @@
       "lib/ui-components",
       "lib/uuid",
       "lib/client-sdk",
+      "lib/server-sdk",
       "lib/sync",
       "lib/worker",
       "lib/mail"
