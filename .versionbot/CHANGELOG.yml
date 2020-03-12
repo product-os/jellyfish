@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't copy apps/ui code into livechat container
+      hash: 0311a31884d78cff1038178db0a97af8af642541
+      body: |
+        Fixes product-os/jellyfish#3316
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.7.1
+  date: 2020-03-12T07:16:28.946Z
+- commits:
     - subject: Add action-send-email card and handler to action-library
       hash: 65d2aa05fcc24c8999c4fa5d066e24a644366aab
       body: ''
