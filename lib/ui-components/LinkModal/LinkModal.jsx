@@ -6,7 +6,6 @@
 
 import _ from 'lodash'
 import React from 'react'
-import Async from 'react-select/lib/Async'
 import {
 	Box,
 	Modal,
@@ -17,7 +16,7 @@ import {
 import {
 	constraints as LINKS
 } from '../../sdk/link-constraints'
-import * as helpers from '../services/helpers'
+import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -83,23 +82,18 @@ export default class LinkModal extends React.Component {
 		const linkType = _.first(linkTypeTargets)
 
 		this.state = {
-			results: [],
 			selectedTarget: target || null,
 			linkType
 		}
 
-		this.getLinkTargets = this.getLinkTargets.bind(this)
 		this.handleTargetSelect = this.handleTargetSelect.bind(this)
 		this.handleLinkTypeSelect = this.handleLinkTypeSelect.bind(this)
 		this.linkToExisting = this.linkToExisting.bind(this)
 	}
 
-	async handleTargetSelect (target) {
-		// Find the full card from cached results and save it to state
+	handleTargetSelect (target) {
 		this.setState({
-			selectedTarget: _.find(this.state.results, {
-				id: target.value
-			}) || null
+			selectedTarget: target
 		})
 	}
 
@@ -139,53 +133,6 @@ export default class LinkModal extends React.Component {
 		this.props.onHide()
 	}
 
-	async getLinkTargets (term) {
-		try {
-			const {
-				linkType
-			} = this.state
-
-			// If there is no search term, return an empty array
-			if (!linkType || !term) {
-				return []
-			}
-
-			// Retrieve the target type of the selected link
-			const typeCard = _.find(this.props.types, {
-				slug: linkType.data.to.split('@')[0]
-			})
-
-			// Create full text search query based on the target type and search term
-			const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, term)
-
-			// Additionally, restrict the query to only filter for cards of the chosen
-			// type
-			_.set(filter, [ 'properties', 'type' ], {
-				type: 'string',
-				const: `${typeCard.slug}@${typeCard.version}`
-			})
-
-			// Query the API for results and set them to state so they can be accessed
-			// when an option is selected
-			const results = await this.props.actions.queryAPI(filter)
-			this.setState({
-				results
-			})
-
-			// Return the results in a format understood by the AsyncSelect component
-			return results.map((card) => {
-				return {
-					label: card.name || card.slug || card.id,
-					value: card.id
-				}
-			})
-		} catch (error) {
-			this.props.actions.addNotification('danger', error.message || error)
-		}
-
-		return null
-	}
-
 	render () {
 		const {
 			actions,
@@ -196,7 +143,6 @@ export default class LinkModal extends React.Component {
 			target
 		} = this.props
 		const {
-			selectedTarget,
 			linkType
 		} = this.state
 
@@ -213,13 +159,6 @@ export default class LinkModal extends React.Component {
 			actions.addNotification('danger', `No matching link types for ${fromType}`)
 			return null
 		}
-
-		// If there is a selectedTarget, create an object that AsyncSelect can use
-		// as a value
-		const selectTargetValue = selectedTarget ? {
-			value: selectedTarget.id,
-			label: selectedTarget.name || selectedTarget.slug
-		} : null
 
 		const typeCard = _.find(types, [ 'slug', fromType ])
 		const typeName = typeCard ? typeCard.name : fromType
@@ -258,13 +197,11 @@ export default class LinkModal extends React.Component {
 						ml={2}
 						data-test="card-linker--existing__input"
 					>
-						<Async
-							classNamePrefix="jellyfish-async-select"
+						<AutoCompleteCardSelect
+							cardType={linkType.data.to}
+							types={types}
 							isDisabled={Boolean(target)}
-							value={selectTargetValue}
-							cacheOptions defaultOptions
 							onChange={this.handleTargetSelect}
-							loadOptions={this.getLinkTargets}
 						/>
 					</Box>
 				</Flex>
