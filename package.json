@@ -201,7 +201,7 @@
     "socket.io-client": "^2.2.0",
     "socket.io-redis": "^5.2.0",
     "static-eval": "^2.0.2",
-    "styled-components": "^4.2.0",
+    "styled-components": "^5.0.1",
     "turndown": "^5.0.3",
     "typed-errors": "^1.1.0",
     "use-debounce": "^3.1.0",
