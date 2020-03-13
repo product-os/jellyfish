@@ -11,18 +11,18 @@ const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 const environment = require('../../../../lib/environment')
 
-const TOKEN = environment.integration.mailgun
+const MAILGUN = environment.mail
 
 ava.beforeEach(async (test) => {
 	await helpers.worker.beforeEach(test, actionLibrary)
 })
 
 ava.afterEach(async (test) => {
+	helpers.worker.afterEach(test)
 	nock.cleanAll()
-	await helpers.worker.afterEach
 })
 
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
+const avaTest = _.some(_.values(MAILGUN), _.isEmpty) ? ava.skip : ava.serial
 
 const checkForKeyValue = (key, value, text) => {
 	const pattern = new RegExp(`name="${key}"\\s*${value}`, 'm')
@@ -33,15 +33,14 @@ const checkForKeyValue = (key, value, text) => {
 ava.serial('action send-email should send an email through the mailgun integration', async (test) => {
 	let actualBody
 
-	nock('https://api.mailgun.net/v3/mail.ly.fish')
-		.log(console.log)
+	nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
 		.post('/messages', (body) => {
 			actualBody = body
 			return body
 		})
 		.basicAuth({
 			user: 'api',
-			pass: TOKEN.api
+			pass: MAILGUN.token
 		})
 		.reply(200)
 
@@ -55,7 +54,7 @@ ava.serial('action send-email should send an email through the mailgun integrati
 	const	toAddress = 'to@address.com'
 	const fromAddress = 'from@address.com'
 	const subject = 'fake subject'
-	const body = 'fake body'
+	const html = 'fake body'
 
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-send-email@1.0.0',
@@ -66,7 +65,7 @@ ava.serial('action send-email should send an email through the mailgun integrati
 			toAddress,
 			fromAddress,
 			subject,
-			body
+			html
 		}
 	})
 
@@ -75,11 +74,10 @@ ava.serial('action send-email should send an email through the mailgun integrati
 	const result = await test.context.queue.producer.waitResults(test.context.context, request)
 
 	test.false(result.error)
-
 	const fromIsInBody = checkForKeyValue('from', fromAddress, actualBody)
 	const toIsInBody = checkForKeyValue('to', toAddress, actualBody)
 	const subjectIsInBody = checkForKeyValue('subject', subject, actualBody)
-	const textIsInBody = checkForKeyValue('text', body, actualBody)
+	const textIsInBody = checkForKeyValue('html', html, actualBody)
 
 	test.true(fromIsInBody)
 	test.true(toIsInBody)
@@ -104,7 +102,7 @@ avaTest('live: action send-email should send an email through the mailgun integr
 			toAddress: 'test1@balenateam.m8r.co',
 			fromAddress: 'hello@balena.io',
 			subject: 'sending real email',
-			body: 'with real text in the body'
+			html: 'with real text in the body'
 		}
 	})
 
@@ -132,7 +130,7 @@ avaTest('live: action send-email should throw an error when the email is invalid
 			toAddress: 'test@test',
 			fromAddress: 'hello@balena.io',
 			subject: 'sending real email',
-			body: 'with real text in the body'
+			html: 'with real text in the body'
 		}
 	})
 
