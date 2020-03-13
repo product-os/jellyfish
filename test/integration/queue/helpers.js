@@ -28,6 +28,8 @@ exports.beforeEach = async (test, options) => {
 		require('../../../apps/server/default-cards/contrib/message.json'))
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		require('../../../apps/server/default-cards/contrib/role-user-community.json'))
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		require('../../../apps/server/default-cards/contrib/password-reset.json'))
 
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-create-card'].card)
@@ -43,6 +45,8 @@ exports.beforeEach = async (test, options) => {
 		actionLibrary['action-update-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-delete-card'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-send-email'].card)
 
 	test.context.queue = {}
 	test.context.queue.errors = queueErrors
