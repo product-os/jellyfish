@@ -13,6 +13,6 @@ export const ErrorMessage = ({
 	error, ...rest
 }) => {
 	return (
-		<Txt.span color="colors.danger.main" {...rest}>{error.message}</Txt.span>
+		<Txt.span color="danger.main" {...rest}>{error.message}</Txt.span>
 	)
 }
