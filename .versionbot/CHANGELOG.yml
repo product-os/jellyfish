@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Refactor auto-complete card select into new component'
+      hash: c08b9f87795e2c9b2151f5020f6a364578be49ab
+      body: |
+        This component will be used elsewhere (e.g. the Guided Handover Flow).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.9.2
+  date: 2020-03-12T13:58:09.495Z
+- commits:
     - subject: Add support for linking relationship in CreateLens
       hash: 96f11713516d6944865e60a7e3acdd76ac871375
       body: ''
