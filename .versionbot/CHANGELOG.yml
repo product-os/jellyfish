@@ -1,4 +1,14 @@
 - commits:
+    - subject: Hide availability status when available
+      hash: 06e3e21c3da2bf044badbf136996670e0a9cf389
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.11.0
+  date: 2020-03-13T09:19:16.239Z
+- commits:
     - subject: Improve loading indicator and error message styles
       hash: 9758fa098d1e8abcf3f3b3d7aec974e28b5816a9
       body: ''
