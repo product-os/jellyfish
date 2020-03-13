@@ -24,7 +24,9 @@
       "alertsUser": [],
       "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
       "status": "closed",
-      "archived": false
+      "archived": false,
+      "merged_at": null,
+      "closed_at": null
     }
   },
   "tail": [
@@ -66,7 +68,9 @@
             "alertsUser": [],
             "description": "Signed-off-by: Juan Cruz Viotti <juan@resin.io>",
             "status": "open",
-            "archived": false
+            "archived": false,
+            "merged_at": null,
+            "closed_at": null
           }
         }
       }

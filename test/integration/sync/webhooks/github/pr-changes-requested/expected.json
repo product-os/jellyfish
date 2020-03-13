@@ -24,7 +24,9 @@
       "alertsUser": [],
       "description": "",
       "status": "open",
-      "archived": false
+      "archived": false,
+      "merged_at": null,
+      "closed_at": null
     }
   },
   "tail": [
@@ -66,7 +68,9 @@
             "alertsUser": [],
             "description": "",
             "status": "open",
-            "archived": false
+            "archived": false,
+            "merged_at": null,
+            "closed_at": null
           }
         }
       }
