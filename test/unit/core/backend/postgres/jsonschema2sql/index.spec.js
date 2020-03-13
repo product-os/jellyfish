@@ -519,7 +519,8 @@ WHERE links.inversename = 'has attached element' AND toId = cards.id
 ORDER BY cards.created_at DESC
 )
 SELECT * FROM main
-WHERE array_length("links.has_attached_element", 1) > 0
+WHERE
+array_length("links.has_attached_element", 1) > 0
 LIMIT 100`
 
 	const query = jsonschema2sql('cards', payload.query, payload.options)
@@ -631,7 +632,8 @@ WHERE links.inversename = 'has attached element' AND toId = cards.id
 ORDER BY cards.created_at DESC
 )
 SELECT * FROM main
-WHERE array_length("links.has_attached_element", 1) IS NULL
+WHERE
+array_length("links.has_attached_element", 1) IS NULL
 LIMIT 100`
 
 	const query = jsonschema2sql('cards', payload.query, payload.options)
