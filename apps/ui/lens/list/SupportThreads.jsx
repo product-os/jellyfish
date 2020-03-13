@@ -46,8 +46,8 @@ const SLUG = 'lens-support-threads'
 // This name is added to update events that reopen issues
 const THREAD_REOPEN_NAME = 'Re-opened because linked issue was closed'
 
-// Two days in milliseconds
-const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 48
+// One day in milliseconds
+const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 24
 
 const timestampSort = (cards) => {
 	return _.sortBy(cards, (element) => {
@@ -159,7 +159,7 @@ export class SupportThreads extends React.Component {
 					}
 
 					// If the message contains the 'pendingengineerresponse' tag and its
-					// been less than 48hours since the message was created, then we are
+					// been less than 24hours since the message was created, then we are
 					// waiting on a response from an engineer and can break out of the loop
 					if (
 						!hasEngineerResponse &&
