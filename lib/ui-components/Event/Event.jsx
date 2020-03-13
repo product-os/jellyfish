@@ -210,23 +210,32 @@ const MessageContainer = styled(Box) `
 		background-color: #f6f8fa;
 	}
 
-	${/* eslint-disable no-nested-ternary */
-	(props) => {
-		return props.whisper ? `
-				background: ${props.theme.colors.secondary.main};
+	${({
+		card, actor, theme
+	}) => {
+		if (card.type === 'whisper' || card.type === 'whisper@1.0.0') {
+			return `
+				background: ${theme.colors.secondary.main};
 				color: white;
 
 				blockquote {
 					color: lightgray;
 				}
-			` : props.proxy ? `
-				background: ${props.theme.colors.quartenary.main};
-			` : `
-				border: solid 0.5px #e8ebf2;
-				background: white;
 			`
-	}
-	/* eslint-enable no-nested-ternary */}
+		}
+
+		if (actor && actor.proxy) {
+			return `
+				background: ${theme.colors.quartenary.main};
+				color: ${theme.colors.text.dark};
+			`
+		}
+
+		return `
+			border: solid 0.5px #e8ebf2;
+			background: white;
+		`
+	}}
 `
 
 export default class Event extends React.Component {
@@ -579,8 +588,8 @@ export default class Event extends React.Component {
 						{isMessage && Boolean(message) && (
 							<MessageContainer
 								ref={this.setMessageElement}
-								whisper={card.type === 'whisper' || card.type === 'whisper@1.0.0'}
-								proxy={actor && actor.proxy}
+								card={card}
+								actor={actor}
 								py={2}
 								px={3}
 								mr={1}
