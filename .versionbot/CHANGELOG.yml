@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'scripts: Fix skip_tests_if_only.sh script logic in CircleCI'
+      hash: 8391963bc445173a8dcce7db25dd8fb84f3e2283
+      body: |
+        The issue is that in CircleCI, `master` equals the version-to-be of that
+        branch if the PR is merged, and not the real `master`, which confuses
+        the script.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.11.1
+  date: 2020-03-13T11:40:27.997Z
+- commits:
     - subject: Hide availability status when available
       hash: 06e3e21c3da2bf044badbf136996670e0a9cf389
       body: ''
