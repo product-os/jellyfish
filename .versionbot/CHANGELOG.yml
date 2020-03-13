@@ -1,4 +1,14 @@
 - commits:
+    - subject: Improve loading indicator and error message styles
+      hash: 9758fa098d1e8abcf3f3b3d7aec974e28b5816a9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.10.0
+  date: 2020-03-13T06:39:29.507Z
+- commits:
     - subject: 'ui-components: Refactor auto-complete card select into new component'
       hash: c08b9f87795e2c9b2151f5020f6a364578be49ab
       body: |
