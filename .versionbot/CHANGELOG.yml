@@ -1,15 +1,4 @@
 - commits:
-    - subject: Optimise check for existing links for large data sets
-      hash: 8b60d1916ddf10de264b0cccdf122e99b72e5b7c
-      body: |
-        Fixes product-os/jellyfish#3335
-      footer:
-        Change-type: patch
-        change-type: patch
-      author: Lucian Buzzo
-  version: 27.12.2
-  date: 2020-03-13T17:22:59.461Z
-- commits:
     - subject: 'front: Don''t skip mirroring if there is no remote author'
       hash: f157b7705043326e3f2550025e5d24443d3ae605
       body: ''
