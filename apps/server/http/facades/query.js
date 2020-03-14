@@ -41,13 +41,18 @@ module.exports = class QueryFacade {
 			}
 		}).then(async (schema) => {
 			const startDate = new Date()
+
+			logger.info(context, 'JSON Schema query start', {
+				date: startDate,
+				ip: ipAddress,
+				schema
+			})
+
 			const data = await this.jellyfish.query(context, sessionToken, schema, options)
 			const endDate = new Date()
 			const queryTime = endDate.getTime() - startDate.getTime()
-			logger.info(context, 'JSON Schema query', {
-				time: queryTime,
-				ip: ipAddress,
-				schema
+			logger.info(context, 'JSON Schema query end', {
+				time: queryTime
 			})
 
 			return data
