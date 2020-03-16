@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'sync: Retry external service OAuth POST on 500'
+      hash: f3de9779f4441d9e80f7ddd21f22613a06fb9d1f
+      body: |
+        This indicates a transient issue on the external service that we are
+        trying to integrate with, and retrying usually fixes the problem.
+
+        We also improve the error messages a bit, so we display the base URL of
+        the service that's actually failing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/c76b14909a1249ef8cbf13841377bf44/'
+        fixes: 'https://sentry.io/share/issue/c76b14909a1249ef8cbf13841377bf44/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.12.4
+  date: 2020-03-16T11:36:59.009Z
+- commits:
     - subject: Bump rendition version to 14.0.0
       hash: c523a99e779131e260096d43668381196971aa15
       body: ''
