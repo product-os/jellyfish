@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove the `todo` card and associated view
+      hash: 0da838056597a808eca8b118d04a264c5e42f2e3
+      body: |
+        The `todo` card is unused and unusable through the UI
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 27.12.7
+  date: 2020-03-16T17:21:58.711Z
+- commits:
     - subject: >-
         Don't stop graphileRunner of an uninitialized consumer, as it's still
         null
