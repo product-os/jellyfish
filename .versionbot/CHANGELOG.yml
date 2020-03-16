@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump rendition version to 14.0.0
+      hash: c523a99e779131e260096d43668381196971aa15
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.12.3
+  date: 2020-03-16T10:13:28.889Z
+- commits:
     - subject: Optimise check for existing links for large data sets
       hash: 8b60d1916ddf10de264b0cccdf122e99b72e5b7c
       body: |
