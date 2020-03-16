@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'support-flow: adjust pendingengineerresponse timeout to one day'
+      hash: 82de6de7f6e02c0a771151c380b6a8be70c24e2c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew McGinn <matthew@balena.io>
+        signed-off-by: Matthew McGinn <matthew@balena.io>
+      author: Matthew McGinn
+  version: 27.12.8
+  date: 2020-03-16T20:50:28.923Z
+- commits:
     - subject: Remove the `todo` card and associated view
       hash: 0da838056597a808eca8b118d04a264c5e42f2e3
       body: |
