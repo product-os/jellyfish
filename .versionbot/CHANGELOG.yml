@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'discourse: Use deletor as post actor when user is deleted'
+      hash: fcc849575c224ea41d6700a13cb6b4b488cca9dc
+      body: |
+        Consider that a user sends a post and then the user is hard deleted from
+        the database as a response to that post (i.e. spam checks). The webhook
+        event will contain no information about the actor whatsoever, all the
+        details will be `null`, the API will respond with 404, etc.
+
+        The orphaned post then belongs to the "system" Discourse user, which is
+        the deletor of the post.
+
+        This change will at least allow us to sync these deleted messages as
+        belonging to the "system" user, rather than completely failing the
+        action.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.13.1
+  date: 2020-03-17T14:41:59.049Z
+- commits:
     - subject: Sync merge and close dates from GitHub Pull Requests
       hash: a0f746ab936f4455a7d5dad342aa6e0f93b090f1
       body: |
