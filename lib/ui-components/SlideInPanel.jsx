@@ -7,6 +7,9 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
+	Flex
+} from 'rendition'
+import {
 	swallowEvent
 } from './services/helpers'
 
@@ -44,7 +47,7 @@ const SlideInWrapper = styled.div `
 	}
 `
 
-const SlideInPanelBase = styled.div `
+const SlideInPanelBase = styled(Flex) `
 	position: absolute;
   background: ${(props) => { return props.theme.global.colors.white }};
   z-index: 1;
