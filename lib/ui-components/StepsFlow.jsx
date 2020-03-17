@@ -17,6 +17,7 @@ import {
 	Step
 } from 'rendition'
 import _ from 'lodash'
+import Icon from './shame/Icon'
 
 const VALID_STEP_STATUSES = {
 	pending: true,
@@ -63,16 +64,25 @@ const StepsFlow = ({
 	action,
 	...rest
 }) => {
-	if (initialStep > children.length - 1 || initialStep < 0) {
+	// Ignore falsey children
+	const steps = _.compact(children)
+	if (initialStep > steps.length - 1 || initialStep < 0) {
 		throw new Error('initialStep is out of bounds')
 	}
 	const [ activeStepIndex, setActiveStepIndex ] = React.useState(initialStep || 0)
-	const stepStatuses = _.map(children, 'props.status')
+	const [ busy, setBusy ] = React.useState(false)
+	const onActionButtonClick = async () => {
+		setBusy(true)
+		await onDone()
+		setBusy(false)
+		setActiveStepIndex(initialStep || 0)
+	}
+	const stepStatuses = _.map(steps, 'props.status')
 	const allComplete = nonePending(stepStatuses)
 	return (
 		<Flex {...rest} flex={1} flexDirection="column">
 			<Steps flex={0} className="flow-steps" {...stepsProps}>
-				{React.Children.map(children, (step, stepIndex) => {
+				{React.Children.map(steps, (step, stepIndex) => {
 					if (step.type !== FlowStep) {
 						throw new Error(
 							'You can only use StepsFlow.Step components as children of StepsFlow.'
@@ -103,32 +113,35 @@ const StepsFlow = ({
 				})}
 			</Steps>
 			<Box flex={1}>
-				{React.cloneElement(children[activeStepIndex], {
+				{React.cloneElement(steps[activeStepIndex], {
 					stepIndex: activeStepIndex
 				})}
 			</Box>
-			<Flex flex={0} alignItems="center" justifyContent="space-between">
+			<Flex flex={0} alignItems="center" justifyContent="flex-end">
 				<Button
+					mr={3}
 					data-test="steps-flow__prev-btn"
 					disabled={activeStepIndex === 0}
 					onClick={() => { return setActiveStepIndex(activeStepIndex - 1) }}
 				>
 					Previous
 				</Button>
-				{ activeStepIndex < children.length - 1 && (
+				{ activeStepIndex < steps.length - 1 && (
 					<Button
 						data-test="steps-flow__next-btn"
-						disabled={children[activeStepIndex].props.status === 'pending'}
+						disabled={steps[activeStepIndex].props.status === 'pending'}
 						onClick={() => { return setActiveStepIndex(activeStepIndex + 1) }}
+						primary
 					>
 						Next
 					</Button>
 				)}
-				{ activeStepIndex === children.length - 1 && (
+				{ activeStepIndex === steps.length - 1 && (
 					<Button
-						disabled={!allComplete}
+						icon={busy ? <Icon name="cog" spin /> : null }
+						disabled={!allComplete || busy}
 						data-test="steps-flow__action-btn"
-						onClick={onDone}
+						onClick={onActionButtonClick}
 						primary
 					>
 						{action}
