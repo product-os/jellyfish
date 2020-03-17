@@ -1,4 +1,17 @@
 - commits:
+    - subject: Sync merge and close dates from GitHub Pull Requests
+      hash: a0f746ab936f4455a7d5dad342aa6e0f93b090f1
+      body: |
+        Fixes #3300
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.13.0
+  date: 2020-03-17T13:06:38.469Z
+- commits:
     - subject: 'github: Ensure that issue/pull number is a number'
       hash: dc36f840d29a690865986bd3f25c91cb51f4ffef
       body: ''
