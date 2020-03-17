@@ -7,16 +7,12 @@
 import _ from 'lodash'
 import React from 'react'
 import Async from 'react-select/lib/Async'
-import {
-	withSetup
-} from './SetupProvider'
-import * as helpers from './services/helpers'
+import * as helpers from '../services/helpers'
 
-class AutoCompleteCardSelect extends React.Component {
+export default class AutoCompleteCardSelect extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			selectedValue: null,
 			results: []
 		}
 
@@ -28,8 +24,7 @@ class AutoCompleteCardSelect extends React.Component {
 		// If the card type is changed, we should reset
 		if (prevProps.cardType !== this.props.cardType) {
 			this.setState({
-				results: [],
-				selectedValue: null
+				results: []
 			})
 			this.props.onChange(null)
 		}
@@ -41,16 +36,6 @@ class AutoCompleteCardSelect extends React.Component {
 			? (_.find(this.state.results, {
 				id: option.value
 			}) || null) : null
-
-		// Cache an AsyncSelect-compatible format of the selected option
-		const selectedValue = selectedCard ? {
-			value: selectedCard.id,
-			label: selectedCard.name || selectedCard.slug
-		} : null
-
-		this.setState({
-			selectedValue
-		})
 
 		this.props.onChange(selectedCard)
 	}
@@ -80,6 +65,12 @@ class AutoCompleteCardSelect extends React.Component {
 		// Query the API for results and set them to state so they can be accessed
 		// when an option is selected
 		const results = await sdk.query(filter)
+
+		// If the card type was changed while the request was in-flight, we should discard these results
+		if (cardType !== this.props.cardType) {
+			return []
+		}
+
 		this.setState({
 			results
 		})
@@ -95,25 +86,27 @@ class AutoCompleteCardSelect extends React.Component {
 
 	render () {
 		const {
-			cardType
+			actions,
+			analytics,
+			cardType,
+			sdk,
+			types,
+			onChange,
+			value,
+			...rest
 		} = this.props
-		const {
-			selectedValue
-		} = this.state
 
 		return (
 			<Async
 				key={cardType}
 				classNamePrefix="jellyfish-async-select"
-				value={selectedValue}
+				value={value}
 				isClearable
-				cacheOptions
 				defaultOptions
 				onChange={this.onChange}
 				loadOptions={this.getTargets}
+				{...rest}
 			/>
 		)
 	}
 }
-
-export default withSetup(AutoCompleteCardSelect)

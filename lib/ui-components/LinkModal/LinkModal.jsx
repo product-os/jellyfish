@@ -99,7 +99,8 @@ export default class LinkModal extends React.Component {
 
 	async handleLinkTypeSelect (payload) {
 		this.setState({
-			linkType: payload.option
+			linkType: payload.option,
+			selectedTarget: this.props.target || null
 		})
 	}
 
@@ -143,7 +144,8 @@ export default class LinkModal extends React.Component {
 			target
 		} = this.props
 		const {
-			linkType
+			linkType,
+			selectedTarget
 		} = this.state
 
 		if (!show) {
@@ -165,6 +167,11 @@ export default class LinkModal extends React.Component {
 
 		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
 			? linkTypeTargets[0].title : 'another element'}`
+
+		const selectedTargetValue = selectedTarget ? {
+			value: selectedTarget.id,
+			label: selectedTarget.name || selectedTarget.slug
+		} : null
 
 		return (
 			<Modal
@@ -198,6 +205,7 @@ export default class LinkModal extends React.Component {
 						data-test="card-linker--existing__input"
 					>
 						<AutoCompleteCardSelect
+							value={selectedTargetValue}
 							cardType={linkType.data.to}
 							types={types}
 							isDisabled={Boolean(target)}
