@@ -24,7 +24,9 @@
       "alertsUser": [],
       "description": "Change-type: patch\r\nSigned-off-by: Giovanni Garufi <giovanni@balena.io>",
       "status": "open",
-      "archived": false
+      "archived": false,
+      "merged_at": null,
+      "closed_at": null
     }
   },
   "tail": [
@@ -65,7 +67,9 @@
             "alertsUser": [],
             "description": "Change-type: patch\r\nSigned-off-by: Giovanni Garufi <giovanni@balena.io>",
             "status": "open",
-            "archived": false
+            "archived": false,
+            "merged_at": null,
+            "closed_at": null
           },
           "type": "pull-request@1.0.0"
         }

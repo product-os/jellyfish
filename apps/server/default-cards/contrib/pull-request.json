@@ -79,8 +79,13 @@
                 "branch",
                 "sha"
               ]
+            },
+            "created_at": {
+              "type": [ "string", "null" ]
+            },
+            "merged_at": {
+              "type": [ "string", "null" ]
             }
-
           }
         }
       },
