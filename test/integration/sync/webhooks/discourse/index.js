@@ -5,20 +5,20 @@
  */
 
 module.exports = {
-	'inbound-delete-topic-no-user': {
-		expected: require('./inbound-delete-topic-no-user/expected.json'),
-		steps: [
-			require('./inbound-delete-topic-no-user/01.json'),
-			require('./inbound-delete-topic-no-user/02.json'),
-			require('./inbound-delete-topic-no-user/03.json')
-		]
-	},
 	'inbound-message-delete-user': {
 		expected: require('./inbound-message-delete-user/expected.json'),
 		steps: [
 			require('./inbound-message-delete-user/01.json'),
 			require('./inbound-message-delete-user/02.json'),
 			require('./inbound-message-delete-user/03.json')
+		]
+	},
+	'inbound-delete-topic-no-user': {
+		expected: require('./inbound-delete-topic-no-user/expected.json'),
+		steps: [
+			require('./inbound-delete-topic-no-user/01.json'),
+			require('./inbound-delete-topic-no-user/02.json'),
+			require('./inbound-delete-topic-no-user/03.json')
 		]
 	},
 	'inbound-preview': {
@@ -34,6 +34,13 @@ module.exports = {
 		steps: [
 			require('./inbound-emoji/01.json'),
 			require('./inbound-emoji/02.json')
+		]
+	},
+	'inbound-null-user': {
+		expected: require('./inbound-null-user/expected.json'),
+		steps: [
+			require('./inbound-null-user/01.json'),
+			require('./inbound-null-user/02.json')
 		]
 	},
 	'inbound-whisper-emoji': {
