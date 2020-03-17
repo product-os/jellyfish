@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui-components: Fix auto-complete card select component'
+      hash: 805fe7f79fe3b119a335b735506a5857420f746b
+      body: >
+        Three related fixes that handle how the AutoCompleteCardSelect component
+        behaves.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.12.10
+  date: 2020-03-17T05:28:58.674Z
+- commits:
     - subject: 'core: Log Postgres query information on profile: true'
       hash: bfa8075db15338f89b675be360e910ef8570431f
       body: ''
