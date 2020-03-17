@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'github: Ensure that issue/pull number is a number'
+      hash: dc36f840d29a690865986bd3f25c91cb51f4ffef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.12.13
+  date: 2020-03-17T10:45:58.390Z
+- commits:
     - subject: 'ui-components: Improve StepsFlow UX'
       hash: 0170a0c62058366385618fcb53cc6ef2df7504bc
       body: |
