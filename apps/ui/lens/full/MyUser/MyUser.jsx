@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import * as jsonpatch from 'fast-json-patch'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -43,13 +44,22 @@ export default class MyUser extends React.Component {
 			'startAuthorize'
 		])
 
+		const userTypeCard = props.types.find((card) => {
+			return card.slug === 'user'
+		})
+
+		const userProfileSchema = _.pick(userTypeCard.data.schema, [
+			'properties.data.type',
+			'properties.data.properties.avatar',
+			'properties.data.properties.profile.properties.name'
+		])
+
 		this.state = {
 			updatingSendCommand: false,
 			settingPassword: false,
 			changePassword: {},
-			profile: {
-				avatar: props.card.data.avatar || ''
-			}
+			userProfileData: props.card,
+			userProfileSchema
 		}
 	}
 
@@ -88,15 +98,14 @@ export default class MyUser extends React.Component {
 		})
 	}
 
-	handleProfileFormSubmit (data) {
-		const url = data.formData.avatar
+	handleProfileFormSubmit (event) {
 		this.setState({
-			profile: {
-				avatar: url
-			}
+			userProfileData: event.formData
 		})
 
-		this.props.actions.setAvatarUrl(url)
+		const patches = jsonpatch.compare(this.props.card, event.formData)
+
+		this.props.actions.updateUser(patches)
 	}
 
 	async changePassword () {
@@ -189,17 +198,9 @@ export default class MyUser extends React.Component {
 							</Flex>
 
 							<Form
-								schema={{
-									type: 'object',
-									properties: {
-										avatar: {
-											title: 'Avatar URL',
-											type: 'string'
-										}
-									}
-								}}
+								schema={this.state.userProfileSchema}
 								onFormSubmit={this.handleProfileFormSubmit}
-								value={this.state.profile}
+								value={this.state.userProfileData}
 							/>
 						</Box>
 					</Tab>
