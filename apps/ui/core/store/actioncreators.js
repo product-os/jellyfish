@@ -219,7 +219,7 @@ export default class ActionCreator {
 			'removeNotification',
 			'removeViewDataItem',
 			'removeViewNotice',
-			'setAvatarUrl',
+			'updateUser',
 			'setAuthToken',
 			'setChannels',
 			'setChatWidgetOpen',
@@ -864,22 +864,17 @@ export default class ActionCreator {
 		}
 	}
 
-	setAvatarUrl (url) {
+	updateUser (patches) {
 		return async (dispatch, getState) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
-				await this.sdk.card.update(user.id, 'user', [
-					{
-						op: _.has(user, [ 'data', 'avatar' ]) ? 'replace' : 'add',
-						path: '/data/avatar',
-						value: url
-					}
-				])
+
+				await this.sdk.card.update(user.id, 'user', patches)
 
 				const updatedUser = await this.sdk.getById(user.id)
 
 				dispatch(this.setUser(updatedUser))
-				dispatch(this.addNotification('success', 'Successfully changed avatar'))
+				dispatch(this.addNotification('success', 'Successfully updated user'))
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
