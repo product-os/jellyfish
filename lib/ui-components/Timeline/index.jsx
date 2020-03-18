@@ -5,12 +5,17 @@
  */
 
 import {
-	commaListsAnd
+	commaListsAnd,
+	html
 } from 'common-tags'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import {
+	saveAs
+} from 'file-saver'
 import _ from 'lodash'
+import moment from 'moment'
 import React from 'react'
 import {
 	Box,
@@ -19,8 +24,12 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
-import Event from '../Event'
-import Update from '../Update'
+import Event, {
+	getMessage
+} from '../Event'
+import Update, {
+	generateJSONPatchDescription
+} from '../Update'
 import * as helpers from '../services/helpers'
 import Column from '../shame/Column'
 import Icon from '../shame/Icon'
@@ -133,6 +142,55 @@ class Timeline extends React.Component {
 		this.setState({
 			messagesOnly: !this.state.messagesOnly
 		})
+	}
+
+	async handleDownloadConversation (events) {
+		let text = this.props.card.name
+		let activeDate = null
+
+		for (const event of events) {
+			const typeBase = event.type.split('@')[0]
+			let content = ''
+
+			if (typeBase === 'update') {
+				if (_.some(event.data.payload, 'op')) {
+					content = generateJSONPatchDescription(event.data.payload)
+				} else {
+					content = event.name
+				}
+			} else if (typeBase === 'message' || typeBase === 'whisper') {
+				content = (typeBase === 'whisper' ? '**whisper** ' : '') + getMessage(event)
+			} else {
+				continue
+			}
+
+			const actorCard = await this.props.getActor(event.data.actor)
+			const actorName = actorCard.name || ''
+
+			const timestamp = moment(_.get(event, [ 'data', 'timestamp' ]) || event.created_at)
+			const time = timestamp.format('HH:mm')
+			let date = ''
+
+			// Show message date if it's different from previous message date
+			if (!activeDate || !timestamp.isSame(activeDate, 'day')) {
+				date = timestamp.format('YYYY - MM - DD')
+				activeDate = timestamp
+			}
+
+			text += '\n\n'
+			text += html `
+                ${date}
+                ${time} ${actorName}
+				
+                    ${content}
+			`
+		}
+
+		const blob = new Blob([ text ], {
+			type: 'text/plain'
+		})
+
+		saveAs(blob, `${this.props.card.name}.txt`)
 	}
 
 	handleWhisperToggle () {
@@ -433,6 +491,17 @@ class Timeline extends React.Component {
 						ml={2}
 						onClick={this.handleEventToggle}
 						icon={<Icon name="stream"/>}
+					/>
+
+					<Button
+						plain
+						tooltip={{
+							placement: 'left',
+							text: 'Download conversation'
+						}}
+						ml={2}
+						onClick={() => { return this.handleDownloadConversation(sortedTail) }}
+						icon={<Icon name="download"/>}
 					/>
 				</Flex>
 
