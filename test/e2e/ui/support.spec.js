@@ -141,6 +141,60 @@ ava.serial('Updates to messages should be reflected in the thread\'s timeline', 
 	test.pass()
 })
 
+ava.serial('A message\'s mirror icon is automatically updated when the message is mirrored', async (test) => {
+	const {
+		page
+	} = context
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				mirrors: [ 'https://github.com' ],
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messageEvent = {
+		target: supportThread,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: 'A message'
+		}
+	}
+
+	const message = await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent)
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+
+	// Verify the mirror icon is present but not synced
+	await page.waitForSelector('.unsynced[data-test="mirror-icon"]')
+
+	// Now update the message...
+	await page.evaluate(({
+		messageId
+	}) => {
+		return window.sdk.card.update(messageId, 'message', [
+			{
+				op: 'add',
+				path: '/data/mirrors',
+				value: [ 'https://github.com' ]
+			}
+		])
+	}, {
+		messageId: message.id
+	})
+
+	// The mirror icon is now synced
+	await page.waitForSelector('.synced[data-test="mirror-icon"]')
+	test.pass()
+})
+
 ava.serial('You should be able to link support threads to existing support issues', async (test) => {
 	const {
 		page

@@ -294,6 +294,8 @@ class SupportThreadBase extends React.Component {
 
 		const status = _.get(card, [ 'data', 'status' ], 'open')
 
+		const isMirrored = !_.isEmpty(_.get(card, [ 'data', 'mirrors' ]))
+
 		return (
 			<CardLayout
 				card={card}
@@ -503,6 +505,7 @@ class SupportThreadBase extends React.Component {
 												getActor={this.props.actions.getActor}
 												addNotification={this.props.actions.addNotification}
 												mb={1}
+												threadIsMirrored={isMirrored}
 											/>
 										)
 									})}

@@ -38,6 +38,7 @@ import {
 } from '../shame/ActionLink'
 import Avatar from '../shame/Avatar'
 import Icon from '../shame/Icon'
+import MirrorIcon from '../MirrorIcon'
 import {
 	HIDDEN_ANCHOR
 } from '../Timeline'
@@ -405,7 +406,8 @@ export default class Event extends React.Component {
 		const {
 			card,
 			actor,
-			addNotification
+			addNotification,
+			threadIsMirrored
 		} = this.props
 		const props = _.omit(this.props, [
 			'card',
@@ -470,7 +472,7 @@ export default class Event extends React.Component {
 						}}
 					>
 						<Flex justifyContent="space-between" mb={1}>
-							<Flex mt={isMessage ? 0 : 1} align="center" style={{
+							<Flex mt={isMessage ? 0 : 1} alignItems="center" style={{
 								lineHeight: 1.75
 							}}>
 								{isMessage && (
@@ -504,7 +506,7 @@ export default class Event extends React.Component {
 										{helpers.formatTimestamp(timestamp, true)}
 									</Txt>
 								)}
-								{card.pending &&
+								{card.pending ? (
 									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
 										sending...
 										<Icon
@@ -515,7 +517,12 @@ export default class Event extends React.Component {
 											name="cog"
 										/>
 									</Txt>
-								}
+								) : (
+									<MirrorIcon
+										mirrors={_.get(card, [ 'data', 'mirrors' ])}
+										threadIsMirrored={threadIsMirrored}
+									/>
+								)}
 							</Flex>
 
 							<span>
