@@ -36,8 +36,7 @@ make ngrok-server
 ```
 
 ## [ndb](https://github.com/GoogleChromeLabs/ndb)
-> ndb is an improved debugging experience for Node.js, enabled by Chrome DevTools
-Lucian found ndb to be really useful for debugging backend code. It allows you to easily start a Chrome DevTools windows connected to your Node.js application.
+ndb is an improved debugging experience for Node.js, enabled by Chrome DevTools. It allows you to easily start a Chrome DevTools windows connected to your Node.js application.
 
 ## [@ffissore's collection of docker & k8s scripts](https://github.com/ffissore/docker-k8s-scripts)
->  A collection of scripts that ease daily docker and kubernetes usage.
+A collection of scripts that ease daily docker and kubernetes usage.
