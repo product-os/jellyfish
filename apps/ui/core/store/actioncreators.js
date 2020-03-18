@@ -21,6 +21,7 @@ import {
 	getQueue
 } from './async-dispatch-queue'
 import {
+	updateThreadChannels,
 	generateActorFromUserCard
 } from './helpers'
 
@@ -642,6 +643,21 @@ export default class ActionCreator {
 										value: clonedChannel
 									})
 								}
+							}
+
+							// If we receive a card that targets another card...
+							const targetId = _.get(card, [ 'data', 'target' ])
+							if (targetId) {
+								// ...update all channels that have this card in their links
+								const channelsToUpdate = updateThreadChannels(targetId, card, allChannels)
+								for (const updatedChannel of channelsToUpdate) {
+									dispatch({
+										type: actions.UPDATE_CHANNEL,
+										value: updatedChannel
+									})
+								}
+
+								// TODO (FUTURE): Also update view channels that have a list of threads in them
 							}
 
 							// If we receive a user card...

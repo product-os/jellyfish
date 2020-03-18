@@ -82,6 +82,65 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	test.is(rand, messageText.trim())
 })
 
+ava.serial('Updates to messages should be reflected in the thread\'s timeline', async (test) => {
+	const {
+		page
+	} = context
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messageTextBefore = 'Message before'
+	const messageTextAfter = 'Message after'
+
+	const messageEvent = {
+		target: supportThread,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: messageTextBefore
+		}
+	}
+
+	const message = await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent)
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+
+	// Verify the message text
+	const messageText = await macros.getElementText(page, '[data-test="event-card__message"]')
+	test.is(messageText.trim(), messageTextBefore)
+
+	// Now update the message...
+	await page.evaluate(({
+		messageId, newMessage
+	}) => {
+		return window.sdk.card.update(messageId, 'message', [
+			{
+				op: 'replace',
+				path: '/data/payload/message',
+				value: newMessage
+			}
+		])
+	}, {
+		messageId: message.id, newMessage: messageTextAfter
+	})
+
+	// ... and wait for the updated message text to appear
+	await page.waitForXPath(`//*[@data-test="event-card__message"]//p[text()="${messageTextAfter}"]`)
+
+	// Boom! It worked!
+	test.pass()
+})
+
 ava.serial('You should be able to link support threads to existing support issues', async (test) => {
 	const {
 		page
