@@ -45,6 +45,19 @@ Parameters:
     - db.m5.12xlarge
     - db.m5.24xlarge
     ConstraintDescription: must select a valid database instance type.
+  JellyfishDBInstanceIdentifier:
+    Description: RDS PostgreSQL database instance name
+    Type: String
+    Default: 'jellyfish'
+  JellyfishDBParameterGroupFamily:
+    Description: RDS PostgreSQL engine version
+    Type: String
+    Default: postgres10
+    AllowedValues:
+    - postgres10
+    - postgres11
+    - postgres12
+    ConstraintDescription: must select a valid database engine version
   JellyfishDBName:
     Default: jellyfish
     Description: The Jellyfish database name
@@ -56,6 +69,7 @@ Parameters:
     Type: String
     MinLength: '0'
     MaxLength: '64'
+    Default: ''
   JellyfishDBUsername:
     Default: jellyfish
     Description: The Jellyfish database admin account username
@@ -88,6 +102,19 @@ Parameters:
   JellyfishDBStorageIops:
     Description: The number of reserved iops for 'io1' storage type
     Type: String
+    Default: ''
+Conditions:
+  HasIdentifier: !Not [ !Equals [ '', !Ref JellyfishDBInstanceIdentifier ]]
+  HasSnapshot: !Not [ !Equals [ '', !Ref JellyfishDBSnapshotIdentifier ]]
+  HasIOPS: !Not [ !Equals [ '', !Ref JellyfishDBStorageIops ]]
+Mappings:
+  EngineMap:
+    postgres10:
+      EngineVersion: 10.6
+    postgres11:
+      EngineVersion: 11.6
+    postgres12:
+      EngineVersion: 12.2
 Resources:
   JellyfishDBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -120,7 +147,7 @@ Resources:
     Type: AWS::RDS::DBParameterGroup
     Properties:
       Description: Jellyfish DB Parameter group
-      Family: postgres10
+      Family: !Ref JellyfishDBParameterGroupFamily
       Parameters:
         autovacuum_analyze_scale_factor: '0.1'
         autovacuum_naptime: '60'
@@ -130,19 +157,33 @@ Resources:
         max_connections: '5000'
         statement_timeout: '120000'
         work_mem: '64000'
+        effective_io_concurrency: '200'
+        random_page_cost: '1.1'
+        # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PostgreSQL.Replication.ReadReplicas.html#USER_PostgreSQL.Replication.ReadReplicas.Interruptions
+        # https://aws.amazon.com/blogs/database/best-practices-for-amazon-rds-postgresql-replication/
+        wal_keep_segments: '256'
   JellyfishDB:
     Type: AWS::RDS::DBInstance
     Properties:
-      DBInstanceIdentifier: jellyfish
+      DBInstanceIdentifier: !If
+        - HasIdentifier
+        - !Ref JellyfishDBInstanceIdentifier
+        - !Ref AWS::NoValue
       DBName:
         Ref: JellyfishDBName
-      DBSnapshotIdentifier:
-        Ref: JellyfishDBSnapshotIdentifier
+      DBSnapshotIdentifier: !If
+        - HasSnapshot
+        - !Ref JellyfishDBSnapshotIdentifier
+        - !Ref AWS::NoValue
       AllocatedStorage:
         Ref: JellyfishDBAllocatedStorage
       DBInstanceClass:
         Ref: DBInstanceClass
       Engine: postgres
+      EngineVersion: !FindInMap
+        - EngineMap
+        - !Ref JellyfishDBParameterGroupFamily
+        - EngineVersion
       MasterUsername:
         Ref: JellyfishDBUsername
       MasterUserPassword:
@@ -161,8 +202,10 @@ Resources:
       PubliclyAccessible: false
       StorageType:
         Ref: JellyfishDBStorageType
-      Iops:
-        Ref: JellyfishDBStorageIops
+      Iops: !If
+        - HasIOPS
+        - !Ref JellyfishDBStorageIops
+        - !Ref AWS::NoValue
       DBParameterGroupName:
         Ref: JellyfishDBParameterGroup
       Tags:
@@ -182,7 +225,6 @@ Outputs:
         - Fn::GetAtt:
           - JellyfishDB
           - Endpoint.Port
-
   JellyfishDB:
     Value:
       Ref: JellyfishDB
@@ -190,4 +232,3 @@ Outputs:
     Export:
       Name:
         Fn::Sub: "${AWS::StackName}-JellyfishDB"
-
