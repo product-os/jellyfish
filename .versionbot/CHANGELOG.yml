@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui-components: Add mirror icon to message display'
+      hash: a951b81e3fa8d4e556ae90e3a27a9d75febcbe3c
+      body: >
+        Mirror icon is only shown if the thread is mirrored. Icon has reduced
+        opacity until the message has been mirrored.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.19.0
+  date: 2020-03-18T14:50:19.733Z
+- commits:
     - subject: Add first name and last name to profile page
       hash: 1460eee8282451d4774c8bd17651ba2a77d888f0
       body: ''
