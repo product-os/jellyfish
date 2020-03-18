@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Require version suffixes in link from/to type slugs'
+      hash: 523ab2d66ef21a618bc382d75c5355d566619968
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.17.0
+  date: 2020-03-18T13:44:19.592Z
+- commits:
     - subject: 'ui: Download conversation'
       hash: a1157b2edc2a2fc4cf853d91de2114c871342675
       body: ''
