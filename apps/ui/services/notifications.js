@@ -10,6 +10,7 @@ import {
 import * as _ from 'lodash'
 import {
 	actionCreators,
+	selectors,
 	store
 } from '../core'
 
@@ -37,6 +38,12 @@ export const createNotification = ({
 	target
 }) => {
 	if (!canUseNotifications) {
+		return
+	}
+
+	// Skip notifications if the user's status is set to 'Do Not Disturb'
+	const userStatus = selectors.getCurrentUserStatus(store.getState())
+	if (_.get(userStatus, [ 'value' ]) === 'DoNotDisturb') {
 		return
 	}
 
