@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Update corresponding channel when event is updated'
+      hash: 7b0b784d9c20bac36b857efe2fd52896163f35a7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.15.0
+  date: 2020-03-18T09:42:08.883Z
+- commits:
     - subject: 'ui: Skip notifications if user status is DoNotDisturb'
       hash: 74b27027380da22143a9489718f601eef586e6da
       body: ''
