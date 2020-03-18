@@ -335,6 +335,20 @@ ava.serial('files upload: Users should be able to upload an image', async (test)
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
 
+	await require('bluebird').delay(10 * 1000)
+
+	const html = await page.$eval(`.column--slug-${thread.slug}`, (element) => {
+		return element.innerHTML
+	})
+
+	console.log('##############################')
+	console.log('##############################')
+	console.log('##############################')
+	console.log(html)
+	console.log('##############################')
+	console.log('##############################')
+	console.log('##############################')
+
 	await page.waitForSelector('.column--thread [data-test="event-card__image"]')
 
 	test.pass()
