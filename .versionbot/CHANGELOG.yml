@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ui: Download conversation'
+      hash: a1157b2edc2a2fc4cf853d91de2114c871342675
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.16.0
+  date: 2020-03-18T11:51:05.186Z
+- commits:
     - subject: 'ui: Update corresponding channel when event is updated'
       hash: 7b0b784d9c20bac36b857efe2fd52896163f35a7
       body: ''
