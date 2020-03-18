@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ui: Add titles to profile fields'
+      hash: 0778663a527ed233aa5cf915c5580d0ccd6d6c5f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.20.0
+  date: 2020-03-18T20:36:49.233Z
+- commits:
     - subject: 'ui-components: Add mirror icon to message display'
       hash: a951b81e3fa8d4e556ae90e3a27a9d75febcbe3c
       body: >
