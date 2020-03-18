@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'outreach: Add more logging to prospect find by email logic'
+      hash: 23a08ee105f0af92be0f561e64a4e0b2baba0655
+      body: |
+        We keep hitting weird cases where we try to insert a prospect into
+        Outreach, Outreach complains that the email already belongs to another
+        prospect, but then we query Outreach to find the prospect that has that
+        e-mail and the result is none.
+
+        Hopefully these extra logs will shed some light.
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: 'https://sentry.io/share/issue/300732926e9e4f2fb0aa347d3d9a045d/'
+        see: 'https://sentry.io/share/issue/300732926e9e4f2fb0aa347d3d9a045d/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.13.2
+  date: 2020-03-17T16:02:09.092Z
+- commits:
     - subject: 'discourse: Use deletor as post actor when user is deleted'
       hash: fcc849575c224ea41d6700a13cb6b4b488cca9dc
       body: |
