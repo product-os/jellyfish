@@ -1,4 +1,14 @@
 - commits:
+    - subject: Add first name and last name to profile page
+      hash: 1460eee8282451d4774c8bd17651ba2a77d888f0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.18.0
+  date: 2020-03-18T14:03:43.997Z
+- commits:
     - subject: 'core: Require version suffixes in link from/to type slugs'
       hash: 523ab2d66ef21a618bc382d75c5355d566619968
       body: ''
