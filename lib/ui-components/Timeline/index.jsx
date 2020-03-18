@@ -450,6 +450,8 @@ class Timeline extends React.Component {
 
 		const sendCommand = getSendCommand(this.props.user)
 
+		const isMirrored = !_.isEmpty(_.get(this.props.card, [ 'data', 'mirrors' ]))
+
 		return (
 			<Column>
 				<Flex my={2} mr={2} justifyContent="flex-end">
@@ -549,6 +551,7 @@ class Timeline extends React.Component {
 									user={this.props.user}
 									getActor={this.props.getActor}
 									addNotification={this.props.addNotification}
+									threadIsMirrored={isMirrored}
 								/>
 							</Box>
 						)
@@ -562,6 +565,7 @@ class Timeline extends React.Component {
 									card={item}
 									getActor={this.props.getActor}
 									addNotification={this.props.addNotification}
+									threadIsMirrored={isMirrored}
 								/>
 							</Box>
 						)
