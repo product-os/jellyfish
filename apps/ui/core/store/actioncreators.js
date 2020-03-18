@@ -131,6 +131,7 @@ export const selectors = {
 	getAppCodename: (state) => { return _.get(state.core, [ 'config', 'codename' ]) || null },
 	getChannels: (state) => { return state.core.channels },
 	getCurrentUser: (state) => { return _.get(state.core, [ 'session', 'user' ]) || null },
+	getCurrentUserStatus: (state) => { return _.get(state.core, [ 'session', 'user', 'data', 'status' ]) || null },
 	getNotifications: (state) => { return state.core.notifications || [] },
 	getSessionToken: (state) => { return _.get(state.core, [ 'session', 'authToken' ]) || null },
 	getStatus: (state) => { return state.core.status },
