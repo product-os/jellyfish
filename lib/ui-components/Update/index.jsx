@@ -27,7 +27,7 @@ import {
 } from '../shame/ActionLink'
 import Icon from '../shame/Icon'
 
-const generateJSONPatchDescription = (payload) => {
+export const generateJSONPatchDescription = (payload) => {
 	const items = []
 	for (const patch of payload) {
 		switch (patch.op) {
