@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Skip notifications if user status is DoNotDisturb'
+      hash: 74b27027380da22143a9489718f601eef586e6da
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.14.0
+  date: 2020-03-18T08:56:56.347Z
+- commits:
     - subject: 'outreach: Add more logging to prospect find by email logic'
       hash: 23a08ee105f0af92be0f561e64a4e0b2baba0655
       body: |
