@@ -28,7 +28,8 @@
     ],
     "lenses": [
       "lens-list",
-      "lens-kanban"
+      "lens-kanban",
+      "lens-pull-request-chart"
     ]
   },
   "requires": [],
