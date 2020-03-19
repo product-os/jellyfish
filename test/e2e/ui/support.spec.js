@@ -224,11 +224,21 @@ ava.serial('You should be able to link support threads to existing support issue
 	)
 	supportIssueOption.click()
 
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	// TODO: this is a hack, because waiting for the async-select option is really
+	// flakey for some reason
+	await macros.retry(5, async () => {
+		await Bluebird.delay(1000)
 
-	await page.type('.jellyfish-async-select__input input', name)
+		// Clicking the type input here will ensure that the target input gets cleared if this
+		// is executing in a retry loop
+		await macros.waitForThenClickSelector(page, '[data-test="card-linker--type__input"]')
 
-	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
+		await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+
+		await page.type('.jellyfish-async-select__input input', name)
+
+		await page.waitForSelector('.jellyfish-async-select__option--is-focused')
+	})
 
 	await page.keyboard.press('Enter')
 
