@@ -72,6 +72,10 @@
             "inbox": {
               "type": "string"
             },
+            "statusDescription": {
+              "title": "Current Status",
+              "type": "string"
+            },
             "status": {
               "title": "Status",
               "type": "string",
