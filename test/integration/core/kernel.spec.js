@@ -3467,6 +3467,111 @@ ava('.query() should be able to query using links', async (test) => {
 	])
 })
 
+ava('.query() should be able to query using multiple link types', async (test) => {
+	const parent = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const ownedCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'bar',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${ownedCard.slug}-is-owned-by-${parent.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: ownedCard.id,
+					type: ownedCard.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const attachedCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'qux',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${attachedCard.slug}-is-attached-to-${parent.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: attachedCard.id,
+					type: attachedCard.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					required: [ 'id' ],
+					properties: {
+						id: {
+							type: 'string'
+						}
+					},
+					additionalProperties: false
+				},
+				owns: {
+					type: 'object',
+					required: [ 'id' ],
+					properties: {
+						id: {
+							type: 'string'
+						}
+					},
+					additionalProperties: false
+				}
+			},
+			properties: {
+				id: {
+					type: 'string',
+					const: parent.id
+				},
+				links: {
+					type: 'object'
+				}
+			},
+			required: [ 'links' ]
+		})
+
+	test.deepEqual(results[0].links, {
+		'has attached element': [ {
+			id: attachedCard.id
+		} ],
+		owns: [ {
+			id: ownedCard.id
+		} ]
+	})
+})
+
 ava.cb('.stream() should include data if additionalProperties true', (test) => {
 	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
