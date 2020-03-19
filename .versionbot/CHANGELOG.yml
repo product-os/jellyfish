@@ -1,4 +1,46 @@
 - commits:
+    - subject: Add basic testing for pull request chart lens
+      hash: 8dc0cf5d553f6f48d180fa60f83e1cf2a81cfea7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add the repository field to the pull-request type definition
+      hash: 14c274b987271f2bbdf366258c38ab3cdffcc3bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add a basic chart lens for pull requests
+      hash: 9748e9cb24c1a99e787819956ed59f68a46e35d0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3303'
+        connects-to: '#3303'
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Surface pull requests in the UI
+      hash: a2ad06dcfa26398ac9188a660ba2b421071d3bfd
+      body: |
+        Connects to product-os/jellyfish#3303
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.23.0
+  date: 2020-03-19T16:06:59.082Z
+- commits:
     - subject: 'server: Add statusDescription field to thread cards'
       hash: 2ec3e5affb592daf23f918d25213229de1b15bd3
       body: ''
