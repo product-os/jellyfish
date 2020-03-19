@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Add support for querying for multiple link types with a single JSON
+        schema query
+      hash: a607d9c944e2e2a15141e765bc5bcde44ef08a83
+      body: |
+        Closes #3332
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 27.24.0
+  date: 2020-03-19T16:53:58.997Z
+- commits:
     - subject: Add basic testing for pull request chart lens
       hash: 8dc0cf5d553f6f48d180fa60f83e1cf2a81cfea7
       body: ''
