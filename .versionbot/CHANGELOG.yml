@@ -1,4 +1,17 @@
 - commits:
+    - subject: Configure dependabot to automerge @balena/* dependencies
+      hash: 5d32d6197b20a8413af3bc1e92ca88af37b912f0
+      body: |
+        Fixes product-os/jellyfish#3345
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.21.1
+  date: 2020-03-19T04:22:39.534Z
+- commits:
     - subject: 'chat-widget: Add dev-only support for Redux Dev Tools'
       hash: a337530acef2c14f27c30afe99dd4ca96dac7fb4
       body: >
