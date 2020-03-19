@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui-components: Small CSS fix that corrects the color of the mirror icon'
+      hash: 423489ad28aff1bab52a7110ef1ce231d72de829
+      body: >
+        Missing semi-colon. Also lightened the overall color a bit to make it
+        less prominent.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.20.1
+  date: 2020-03-19T02:29:23.098Z
+- commits:
     - subject: 'ui: Add titles to profile fields'
       hash: 0778663a527ed233aa5cf915c5580d0ccd6d6c5f
       body: ''
