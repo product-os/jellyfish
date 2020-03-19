@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'chat-widget: Add dev-only support for Redux Dev Tools'
+      hash: a337530acef2c14f27c30afe99dd4ca96dac7fb4
+      body: >
+        Redux Dev Tools is a Chrome Extension that is very useful for debugging
+        the Redux store. Its already supported by the main Jellyfish app. This
+        commit adds the same change to the chat widget, explicitly providing a
+        name for the chat-widget's Redux store so you can distinguish it from
+        the 'Jellyfish' one in the main app.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.21.0
+  date: 2020-03-19T02:55:59.561Z
+- commits:
     - subject: 'ui-components: Small CSS fix that corrects the color of the mirror icon'
       hash: 423489ad28aff1bab52a7110ef1ce231d72de829
       body: >
