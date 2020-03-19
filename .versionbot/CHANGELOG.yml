@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Add statusDescription field to thread cards'
+      hash: 2ec3e5affb592daf23f918d25213229de1b15bd3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.22.0
+  date: 2020-03-19T04:46:19.593Z
+- commits:
     - subject: Configure dependabot to automerge @balena/* dependencies
       hash: 5d32d6197b20a8413af3bc1e92ca88af37b912f0
       body: |
