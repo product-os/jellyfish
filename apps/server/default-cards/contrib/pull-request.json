@@ -85,6 +85,9 @@
             },
             "merged_at": {
               "type": [ "string", "null" ]
+            },
+            "repository": {
+              "type": "string"
             }
           }
         }

@@ -1,0 +1,219 @@
+[
+  {
+    "id": "759a61d6-f9cb-4204-b0db-018b4b05405a",
+    "slug": "pull-request-mdexolb1bgxszxf1zxn0mzkxmdmxnze5",
+    "type": "pull-request@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "linux-technologic: Disable the isl12022 rtc driver from the device tree",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-03-19T14:20:27.827Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base": {
+        "sha": "9d926aa0800ef83b88f79f1ef79bfc5757eed641",
+        "branch": "master"
+      },
+      "head": {
+        "sha": "f12449b636b34e72feb7c9f6013d9633447ac369",
+        "branch": "disable_rtc_on_ts4900"
+      },
+      "origin": "external-event-bc123715-b0f8-4205-b8ca-95ac34bc6bfd@1.0.0",
+      "status": "open",
+      "mirrors": [
+        "https://github.com/balena-os/balena-ts/pull/168"
+      ],
+      "archived": false,
+      "closed_at": null,
+      "merged_at": null,
+      "alertsUser": [],
+      "repository": "balena-os/balena-ts",
+      "description": "On the customer ts4900 daughter board there are problems with this rtc\r\ndevice on the i2c bus. In lack of schematics to check if changes have\r\nbeen made to the rtc in relation to the i2c bus, we will disable this\r\ndriver so that timedatectl and friends won't error out when trying to\r\nread the rtc:\r\nrtc-isl12022 0-006f: isl12022_read_regs: read error, ret=-6\r\n\r\nChangelog-entry: Disable the isl12022 rtc driver for ts4900 because of unknown customer hw modifications\r\nSigned-off-by: Florin Sarbu <florin@balena.io>",
+      "mentionsUser": []
+    },
+    "updated_at": "2020-03-19T14:20:27.847Z",
+    "linked_at": {
+      "has base at": "2020-03-19T14:20:28.622Z",
+      "has head at": "2020-03-19T14:20:28.354Z",
+      "has attached element": "2020-03-19T14:20:27.984Z"
+    }
+  },
+  {
+    "id": "ae70d1f9-6d42-4cc2-8032-a90efa0c089a",
+    "slug": "pull-request-mdexolb1bgxszxf1zxn0mzg2njgxmtg5",
+    "type": "pull-request@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Recast the `actor` property in `session` cards as an `is owned by` link",
+    "tags": [
+      "backend",
+      "feature",
+      "status:in progress"
+    ],
+    "markers": [],
+    "created_at": "2020-03-19T13:11:29.588Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base": {
+        "sha": "d4883c87fb39b9772d08a4f6e23686e545ff65ce",
+        "branch": "master"
+      },
+      "head": {
+        "sha": "a33a13d5fd805187a51d7e2df28800d385df8d29",
+        "branch": "refs-to-links"
+      },
+      "origin": "external-event-b85eb263-a550-4df2-822a-191f6537f3b2@1.0.0",
+      "status": "open",
+      "mirrors": [
+        "https://github.com/product-os/jellyfish/pull/3304"
+      ],
+      "archived": false,
+      "closed_at": null,
+      "merged_at": null,
+      "alertsUser": [],
+      "repository": "product-os/jellyfish",
+      "description": "This is part 1 of a series of PRs aimed at closing #3263.\r\n\r\nChange-type: major\r\nSigned-off-by: Carol Schulze <carol@balena.io>\r\n\r\nCurrent concerns:\r\n- Ergonomy loss due to lack of link-aware functions in `core/kernel`\r\n- Lack of a low-level constraint checking for links may lead to subtle bugs\r\n- The `linked_at` field becomes extra noise that needs to be filtered in some tests",
+      "mentionsUser": []
+    },
+    "updated_at": "2020-03-19T14:05:06.780Z",
+    "linked_at": {
+      "has base at": "2020-03-19T13:11:30.452Z",
+      "has head at": "2020-03-19T13:11:30.140Z",
+      "has attached element": "2020-03-19T14:05:06.813Z"
+    }
+  },
+  {
+    "id": "88af7123-e648-4df3-bc3d-80154033dbe7",
+    "slug": "pull-request-mdexolb1bgxszxf1zxn0mzg3ntcwndm0",
+    "type": "pull-request@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Complete password reset",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-03-19T13:05:22.993Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base": {
+        "sha": "5a2c5dcf910ee8584863b99a9bade7ab4551c76a",
+        "branch": "request-password-reset"
+      },
+      "head": {
+        "sha": "44f51679860d0659dbd77ff038322c8431743940",
+        "branch": "complete-password-reset"
+      },
+      "origin": "external-event-30512d56-1f4c-4d1d-bc7b-a5b407f74f15@1.0.0",
+      "status": "open",
+      "mirrors": [
+        "https://github.com/product-os/jellyfish/pull/3328"
+      ],
+      "archived": false,
+      "closed_at": null,
+      "merged_at": null,
+      "alertsUser": [],
+      "repository": "product-os/jellyfish",
+      "description": "**NOTE:**\r\nThis needs to be merged before the request-password-reset pull request OR the base branch should be changed to master\r\n\r\nAction and handler for completing the password reset\r\n\r\n- [x] should have a prehook that hashes the submitted password\r\n- [x] should check that the user still exists and has not been disabled\r\n- [x] should check that the token is still valid\r\n- [x] updates user record with new password\r\n- [x] should invalidate the reset-password card (set it to inactive by using the remove card func)\r\n- [x] send success to server\r\n",
+      "mentionsUser": []
+    },
+    "updated_at": null,
+    "linked_at": {
+      "has base at": "2020-03-19T13:05:23.854Z",
+      "has head at": "2020-03-19T13:05:23.551Z",
+      "has attached element": "2020-03-19T13:05:23.200Z"
+    }
+  },
+  {
+    "id": "6a396e62-aef8-4112-83f5-9c09d14296d9",
+    "slug": "pull-request-mdexolb1bgxszxf1zxn0mzkwotg5ndqy",
+    "type": "pull-request@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Add support for querying for multiple link types with a single JSON schema query",
+    "tags": [
+      "backend",
+      "feature"
+    ],
+    "markers": [],
+    "created_at": "2020-03-19T13:00:49.086Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base": {
+        "sha": "d4883c87fb39b9772d08a4f6e23686e545ff65ce",
+        "branch": "master"
+      },
+      "head": {
+        "sha": "31c22b4e9385de595277ea698361205e099e5324",
+        "branch": "query-multiple-links"
+      },
+      "origin": "external-event-5cc871ab-2db0-42ed-81e8-8decc29a2288@1.0.0",
+      "status": "open",
+      "mirrors": [
+        "https://github.com/product-os/jellyfish/pull/3372"
+      ],
+      "archived": false,
+      "closed_at": null,
+      "merged_at": null,
+      "alertsUser": [],
+      "repository": "product-os/jellyfish",
+      "description": "Closes #3332\r\n\r\nChange-type: minor\r\nSigned-off-by: Carol Schulze <carol@balena.io>\r\n\r\n***\r\n\r\nA query for multiple link types will return cards with all link types at the same time.",
+      "mentionsUser": []
+    },
+    "updated_at": "2020-03-19T13:01:03.450Z",
+    "linked_at": {
+      "has base at": "2020-03-19T13:00:49.753Z",
+      "has head at": "2020-03-19T13:00:49.536Z",
+      "has attached element": "2020-03-19T14:24:20.281Z"
+    }
+  },
+  {
+    "id": "dd42a4b3-645a-4a3a-a8a7-ea579b02fe0a",
+    "slug": "pull-request-mdexolb1bgxszxf1zxn0mzkwotc3mzy3",
+    "type": "pull-request@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Move device actions under the \"device\" folder",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-03-19T12:34:30.297Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "base": {
+        "sha": "26a9dd612cee76a370a3b65aef84be6b7751f2e8",
+        "branch": "master"
+      },
+      "head": {
+        "sha": "c7d9b3493b25c4a0fce7437d514e3d39ffbc48fc",
+        "branch": "move-actions-device"
+      },
+      "origin": "external-event-71617faa-611c-499a-b09d-69cc8789335c@1.0.0",
+      "status": "closed",
+      "mirrors": [
+        "https://github.com/balena-io/balenacloud-dashboard/pull/3506"
+      ],
+      "archived": false,
+      "closed_at": null,
+      "merged_at": null,
+      "alertsUser": [],
+      "repository": "balena-io/balenacloud-dashboard",
+      "description": "Change-type: patch\r\nSigned-off-by: Stevche Radevski <stevche@balena.io>\r\n\r\n---\r\n##### Contributor checklist\r\n<!-- For completed items, change [ ] to [x].  -->\r\n- [ ] Introduces security considerations\r\n- [ ] Affects the development, build or deployment processes of the component\r\n\r\n##### Reviewer Guidelines\r\n- When submitting a review, please pick:\r\n  - '*Approve*' if this change would be acceptable in the codebase (even if there are minor or cosmetic tweaks that could be improved).\r\n  - '*Request Changes*' if this change would not be acceptable in our codebase (e.g. bugs, changes that will make development harder in future, security/performance issues, etc).\r\n  - '*Comment*' if you don't feel you have enough information to decide either way (e.g. if you have major questions, or you don't understand the context of the change sufficiently to fully review yourself, but want to make a comment)\r\n---\r\n",
+      "mentionsUser": []
+    },
+    "updated_at": "2020-03-19T12:55:44.146Z",
+    "linked_at": {
+      "has base at": "2020-03-19T12:34:31.015Z",
+      "has head at": "2020-03-19T12:34:30.769Z",
+      "has attached element": "2020-03-19T12:55:44.192Z"
+    }
+  }
+]
