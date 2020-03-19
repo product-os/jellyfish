@@ -16,8 +16,8 @@ const MirrorIconWrapper = styled(Flex) `
 	margin: 0 0 2px 6px;
 	font-size: 80%;
 	opacity: 0.3;
-	transition: opacity linear 0.5s
-	color: ${(props) => { return props.theme.colors.info.main }};
+	transition: opacity linear 0.5s;
+	color: ${(props) => { return props.theme.colors.primary.light }};
 	&.synced {
 		opacity: 1;
 	}
