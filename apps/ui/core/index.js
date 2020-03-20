@@ -46,8 +46,8 @@ localForage.getItem(STORAGE_KEY)
 			// Remove view data
 			_.set(state, [ 'views', 'viewData' ], {})
 
-			// Remove cached actor data
-			_.set(state, [ 'core', 'actors' ], {})
+			// Remove cached card data
+			_.set(state, [ 'core', 'cards' ], {})
 
 			_.set(state, [ 'core', 'channels' ], _.get(state, [ 'core', 'channels' ], []).slice(0, 1))
 

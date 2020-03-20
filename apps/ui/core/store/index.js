@@ -7,6 +7,7 @@
 import localForage from 'localforage'
 import * as redux from 'redux'
 import reduxThunk from 'redux-thunk'
+import _ from 'lodash'
 import {
 	isProduction
 } from '../../environment'
@@ -32,8 +33,10 @@ export const setupStore = ({
 }) => {
 	const save = (state) => {
 		// Only save the core state to prevent localStorage from filling up with view data
+		// Don't save cached (user) cards - these should be refetched to ensure we have
+		// the latest version
 		localForage.setItem(storageKey, {
-			core: state.core
+			core: _.omit(state.core, [ 'cards' ])
 		})
 	}
 
