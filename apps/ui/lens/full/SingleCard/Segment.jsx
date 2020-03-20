@@ -208,15 +208,16 @@ export default class Segment extends React.Component {
 					</Flex>
 				)}
 
-				<LinkModal
-					linkVerb={segment.link}
-					actions={actions}
-					card={card}
-					types={[ type ]}
-					show={showLinkModal}
-					onHide={this.hideLinkModal}
-					onSave={onSave}
-				/>
+				{showLinkModal && (
+					<LinkModal
+						linkVerb={segment.link}
+						actions={actions}
+						card={card}
+						types={[ type ]}
+						onHide={this.hideLinkModal}
+						onSave={onSave}
+					/>
+				)}
 			</React.Fragment>
 		)
 	}

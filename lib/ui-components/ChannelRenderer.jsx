@@ -149,7 +149,6 @@ class ChannelRenderer extends React.Component {
 						target={head}
 						card={linkFrom}
 						types={types}
-						show={showLinkModal}
 						onHide={this.closeLinkModal}
 					/>
 				)}
