@@ -18,15 +18,18 @@ const	formatCreateLabel = (value) => {
 // TODO: Make this an SDK method
 // Generates a schema that will pattern match a field on a specific card type
 const generateKeyPathQuerySchema = (keyPath, resource, value) => {
+	// If the type isn't versioned, default to 1.0.0
+	const type = resource.match('@') ? resource : `${resource}@1.0.0`
+
 	const schema = {
 		type: 'object',
-		description: `Find by pattern on type ${resource}`,
+		description: `Find by pattern on type ${type}`,
 		properties: {
 			active: {
 				const: true
 			},
 			type: {
-				const: resource
+				const: type
 			}
 		},
 		required: [ 'type', 'active' ]
