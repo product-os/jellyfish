@@ -1,4 +1,17 @@
 - commits:
+    - subject: Reduce e2e UI test flakiness when selecting a link target
+      hash: ca7e57827bdab6cf4ba1cf38889e5d8ab9a8bc77
+      body: |
+        Connects to product-os/jellyfish#3341
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.24.1
+  date: 2020-03-20T10:14:36.416Z
+- commits:
     - subject: >-
         Add support for querying for multiple link types with a single JSON
         schema query
