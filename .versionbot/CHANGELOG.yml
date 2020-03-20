@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump file-loader from 4.2.0 to 6.0.0'
+      hash: e78835c257f542236fbdec9094803adf6e9de82a
+      body: >
+        Bumps [file-loader](https://github.com/webpack-contrib/file-loader) from
+        4.2.0 to 6.0.0.
+
+        - [Release
+        notes](https://github.com/webpack-contrib/file-loader/releases)
+
+        -
+        [Changelog](https://github.com/webpack-contrib/file-loader/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack-contrib/file-loader/compare/v4.2.0...v6.0.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 27.24.2
+  date: 2020-03-20T10:57:59.127Z
+- commits:
     - subject: Reduce e2e UI test flakiness when selecting a link target
       hash: ca7e57827bdab6cf4ba1cf38889e5d8ab9a8bc77
       body: |
