@@ -1,4 +1,35 @@
 - commits:
+    - subject: Migrate to native-url package now that 'url' methods are deprecated
+      hash: 418e4d99413ace0915911e71488addd8374177b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: 'build(deps): bump redis from 2.8.0 to 3.0.2'
+      hash: 9ab42c421bd4e6ed2d9d3841d4821442fafc3fad
+      body: >
+        Bumps [redis](https://github.com/NodeRedis/node-redis) from 2.8.0 to
+        3.0.2.
+
+        - [Release notes](https://github.com/NodeRedis/node-redis/releases)
+
+        -
+        [Changelog](https://github.com/NodeRedis/node-redis/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/NodeRedis/node-redis/compare/v.2.8.0...v3.0.2)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 27.24.3
+  date: 2020-03-20T13:21:07.297Z
+- commits:
     - subject: 'patch: bump file-loader from 4.2.0 to 6.0.0'
       hash: e78835c257f542236fbdec9094803adf6e9de82a
       body: >
