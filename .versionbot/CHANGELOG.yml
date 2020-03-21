@@ -1,4 +1,26 @@
 - commits:
+    - subject: Add version suffix when querying using the AutoCompleteWidget
+      hash: fb1cbf829f83cf876772a83073cdd226d3ff1284
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Always conditionally render the LinkModal
+      hash: aeab920b92b7c06da8989cada26e4ff2d03d17fd
+      body: |
+        Fixes product-os/jellyfish#3376
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.24.4
+  date: 2020-03-20T17:29:39.477Z
+- commits:
     - subject: Migrate to native-url package now that 'url' methods are deprecated
       hash: 418e4d99413ace0915911e71488addd8374177b2
       body: ''
