@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update table data when table is paginated
+      hash: 8f5320bf9f3d6fb6cd4fc8d96a4f7fb1914e9fb8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.24.5
+  date: 2020-03-21T01:37:09.187Z
+- commits:
     - subject: Add version suffix when querying using the AutoCompleteWidget
       hash: fb1cbf829f83cf876772a83073cdd226d3ff1284
       body: ''
