@@ -139,7 +139,6 @@ export default class LinkModal extends React.Component {
 			actions,
 			card,
 			linkVerb,
-			show,
 			types,
 			target
 		} = this.props
@@ -147,10 +146,6 @@ export default class LinkModal extends React.Component {
 			linkType,
 			selectedTarget
 		} = this.state
-
-		if (!show) {
-			return null
-		}
 
 		const fromType = this.getFromType(card)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
