@@ -17,6 +17,7 @@ import BaseLens from '../../common/BaseLens'
 import Link from '../../../../../lib/ui-components/Link'
 import Column from '../../../../../lib/ui-components/shame/Column'
 
+const PAGE_SIZE = 25
 const COLUMNS = [
 	{
 		field: 'name',
@@ -72,10 +73,11 @@ export default class CardTable extends BaseLens {
 							rowKey={this.props.rowKey}
 							data={data}
 							columns={columns}
-							usePager={data.length >= 30}
-							itemsPerPage={30}
+							usePager={true}
+							itemsPerPage={PAGE_SIZE}
 							pagerPosition={'both'}
 							data-test="table-component"
+							onPageChange={this.props.setPage}
 						/>
 					)}
 					{Boolean(data) && data.length === 0 &&

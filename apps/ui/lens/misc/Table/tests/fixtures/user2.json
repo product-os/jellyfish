@@ -1,0 +1,22 @@
+{
+  "id": "99eb9304-96a7-4350-9360-c4bdf8c2e99c",
+  "slug": "user-testuser",
+  "type": "user",
+  "active": true,
+  "version": "1.0.0",
+  "name": null,
+  "tags": [],
+  "markers": [],
+  "created_at": "2019-05-31T09:40:03.330Z",
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "email": "testuser@example.com"
+  },
+  "updated_at": null,
+  "linked_at": {
+    "is member of": "2019-05-31T09:40:03.516Z",
+    "has attached element": "2019-05-31T09:40:03.438Z"
+  }
+}

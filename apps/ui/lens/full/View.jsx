@@ -110,6 +110,7 @@ class ViewRenderer extends React.Component {
 			'setLens',
 			'setPage',
 			'setSlice',
+			'updateView',
 			'updateFilters'
 		]
 		methods.forEach((method) => {
@@ -203,20 +204,23 @@ class ViewRenderer extends React.Component {
 		}
 		this.setState({
 			options
-		})
-		const syntheticViewCard = createSyntheticViewCard(channel.data.head, this.state.filters)
+		}, () => this.updateView(channel, this.state))
 
+		return options
+	}
+
+	updateView (channel, state) {
 		// There is no need to catch the response here, as `loadViewResults` will
 		// show an error notification if anything goes wrong
-		return this.props.actions.loadViewResults(
-			syntheticViewCard,
-			this.getQueryOptions(this.state.activeLens)
+		this.props.actions.loadViewResults(
+			createSyntheticViewCard(channel.data.head, state.filters),
+			this.getQueryOptions(state.activeLens)
 		)
 			.then((data) => {
-				if (data.length < this.state.options.limit) {
+				if (data.length < state.options.limit) {
 					this.setState({
-						options: Object.assign({}, this.state.options, {
-							totalPages: this.state.options.page + 1
+						options: Object.assign({}, state.options, {
+							totalPages: state.options.page + 1
 						})
 					})
 				}
@@ -569,12 +573,12 @@ class ViewRenderer extends React.Component {
 							<Icon spin name="cog"/>
 						</Box>
 					)}
-
 					{Boolean(tail) && Boolean(lens) && (
 						<lens.data.renderer
 							channel={this.props.channel}
 							tail={tail}
 							setPage={this.setPage}
+							pageOptions={this.state.options}
 							page={this.state.options.page}
 							totalPages={this.state.options.totalPages}
 							type={tailType}
