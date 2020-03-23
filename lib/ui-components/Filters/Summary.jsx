@@ -5,7 +5,9 @@
  */
 
 import * as React from 'react'
-import FaBookmarkO from 'react-icons/lib/fa/bookmark-o'
+import {
+	FaBookmark
+} from 'react-icons/fa'
 import {
 	Button,
 	Box,
@@ -155,7 +157,7 @@ class FilterSummary extends React.Component {
 						onClick={this.toggleForm}
 						data-test="filters__open-save-view-modal"
 					>
-						<FaBookmarkO style={{
+						<FaBookmark style={{
 							marginRight: 6
 						}} />
 						Save view

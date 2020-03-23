@@ -14,8 +14,12 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import AutocompleteTextarea from '../shame/AutocompleteTextarea'
-import SendIcon from 'react-icons/lib/md/send'
-import UseSecretIcon from 'react-icons/lib/fa/user-secret'
+import {
+	FaUserSecret
+} from 'react-icons/fa'
+import {
+	MdSend
+} from 'react-icons/md'
 import {
 	FilesInput
 } from '../FileUploader'
@@ -132,7 +136,7 @@ const MessageInput = React.memo(({
 				placement: 'left',
 				text: `Toggle response visibility (currently ${whisper ? 'private' : 'public'})`
 			}}
-			icon={<UseSecretIcon />}
+			icon={<FaUserSecret />}
 			style={{
 				opacity: whisper ? 1 : 0.6
 			}}
@@ -219,7 +223,7 @@ const MessageInput = React.memo(({
 							fontSize={26}
 							tooltip={sendCommand}
 							color={theme.colors.primary.main}
-							icon={<SendIcon />}
+							icon={<MdSend />}
 							onClick={onSubmit}
 						/>
 					)}

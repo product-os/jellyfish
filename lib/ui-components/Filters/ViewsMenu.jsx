@@ -6,7 +6,9 @@
 
 import clone from 'deep-copy'
 import * as React from 'react'
-import FaPieChart from 'react-icons/lib/fa/pie-chart'
+import {
+	FaChartPie
+} from 'react-icons/fa'
 import styled from 'styled-components'
 import {
 	Box,
@@ -106,7 +108,7 @@ class ViewsMenu extends React.Component {
 					noListFormat
 					label={
 						<span>
-							<FaPieChart style={{
+							<	FaChartPie style={{
 								marginRight: 10
 							}} />
 							Views

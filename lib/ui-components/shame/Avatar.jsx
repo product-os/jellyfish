@@ -11,7 +11,9 @@ import {
 	Flex,
 	Img
 } from 'rendition'
-import UserIcon from 'react-icons/lib/fa/user'
+import {
+	FaUser
+} from 'react-icons/fa'
 import UserStatusIcon from '../UserStatusIcon'
 
 const dimensions = (props) => {
@@ -69,7 +71,7 @@ export default function Avatar ({
 					<Img src={url} />
 				) : (
 					<IconWrapper>
-						<UserIcon name="user" />
+						<FaUser name="user" />
 					</IconWrapper>
 				)}
 			</InnerWrapper>

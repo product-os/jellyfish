@@ -5,7 +5,9 @@
  */
 
 import React from 'react'
-import FileIcon from 'react-icons/lib/fa/paperclip'
+import {
+	FaPaperclip
+} from 'react-icons/fa'
 import {
 	Box,
 	Button,
@@ -95,7 +97,7 @@ export const FilesInput = ({
 						plain
 						multiple={multiple}
 						onChange={onChange}
-						icon={<FileIcon />}
+						icon={<FaPaperclip />}
 					/>
 				</Box>
 			)}
