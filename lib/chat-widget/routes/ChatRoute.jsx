@@ -46,9 +46,19 @@ export const ChatRoute = () => {
 	}, [])
 
 	// ToDo: implement this
-	const usersTyping = React.memo(() => {
+	const usersTyping = React.useMemo(() => {
 		return {}
 	}, [])
+
+	const timelineHeaderOptions = React.useMemo(() => {
+		return {
+			title: _.get(thread, [ 'name' ]),
+			buttons: {
+				toggleWhispers: false,
+				toggleEvents: false
+			}
+		}
+	}, [ thread ])
 
 	return (
 		<Task task={fetchThreadTask}>
@@ -82,6 +92,7 @@ export const ChatRoute = () => {
 								signalTyping={_.noop}
 								setTimelineMessage={_.noop}
 								eventMenuOptions={false}
+								headerOptions={timelineHeaderOptions}
 							/>
 						</Box>
 					</Box>
