@@ -20,7 +20,8 @@ import React from 'react'
 import {
 	Box,
 	Button,
-	Flex
+	Flex,
+	Txt
 } from 'rendition'
 import styled from 'styled-components'
 import uuid from 'uuid/v4'
@@ -410,7 +411,8 @@ class Timeline extends React.Component {
 			allowWhispers,
 			tail,
 			usersTyping,
-			wide
+			wide,
+			headerOptions
 		} = this.props
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
 		const {
@@ -452,59 +454,79 @@ class Timeline extends React.Component {
 
 		const isMirrored = !_.isEmpty(_.get(this.props.card, [ 'data', 'mirrors' ]))
 
+		const headerTitle = _.get(headerOptions, [ 'title' ])
+
 		return (
 			<Column>
-				<Flex my={2} mr={2} justifyContent="flex-end">
-					<Button
-						plain
-						tooltip={{
-							placement: 'left',
-							text: 'Jump to first message'
-						}}
-						ml={2}
-						onClick={this.handleJumpToTop}
-						icon={<Icon name="chevron-circle-up"/>}
-					/>
+				<Flex m={2}>
+					{headerTitle && (
+						<Box flex={1} mr={2} style={{
+							minWidth: 0,
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+						}}>
+							<Txt.span tooltip={headerTitle}>{headerTitle}</Txt.span>
+						</Box>
+					)}
+					<Box style={{
+						marginLeft: 'auto'
+					}}>
+						<Button
+							plain
+							tooltip={{
+								placement: 'left',
+								text: 'Jump to first message'
+							}}
+							ml={2}
+							onClick={this.handleJumpToTop}
+							icon={<Icon name="chevron-circle-up"/>}
+						/>
 
-					<Button
-						plain
-						tooltip={{
-							placement: 'left',
-							text: `${hideWhispers ? 'Show' : 'Hide'} whispers`
-						}}
-						style={{
-							opacity: hideWhispers ? 0.5 : 1
-						}}
-						ml={2}
-						onClick={this.handleWhisperToggle}
-						icon={<Icon name="user-secret"/>}
-					/>
+						{_.get(headerOptions, [ 'buttons', 'toggleWhispers' ]) !== false && (
+							<Button
+								plain
+								tooltip={{
+									placement: 'left',
+									text: `${hideWhispers ? 'Show' : 'Hide'} whispers`
+								}}
+								style={{
+									opacity: hideWhispers ? 0.5 : 1
+								}}
+								ml={2}
+								onClick={this.handleWhisperToggle}
+								icon={<Icon name="user-secret"/>}
+							/>
+						)}
 
-					<Button
-						plain
-						tooltip={{
-							placement: 'left',
-							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
-						}}
-						style={{
-							opacity: messagesOnly ? 0.5 : 1
-						}}
-						className="timeline__checkbox--additional-info"
-						ml={2}
-						onClick={this.handleEventToggle}
-						icon={<Icon name="stream"/>}
-					/>
+						{_.get(headerOptions, [ 'buttons', 'toggleEvents' ]) !== false && (
+							<Button
+								plain
+								tooltip={{
+									placement: 'left',
+									text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
+								}}
+								style={{
+									opacity: messagesOnly ? 0.5 : 1
+								}}
+								className="timeline__checkbox--additional-info"
+								ml={2}
+								onClick={this.handleEventToggle}
+								icon={<Icon name="stream"/>}
+							/>
+						)}
 
-					<Button
-						plain
-						tooltip={{
-							placement: 'left',
-							text: 'Download conversation'
-						}}
-						ml={2}
-						onClick={() => { return this.handleDownloadConversation(sortedTail) }}
-						icon={<Icon name="download"/>}
-					/>
+						<Button
+							plain
+							tooltip={{
+								placement: 'left',
+								text: 'Download conversation'
+							}}
+							ml={2}
+							onClick={() => { return this.handleDownloadConversation(sortedTail) }}
+							icon={<Icon name="download"/>}
+						/>
+					</Box>
 				</Flex>
 
 				<EventsContainer
