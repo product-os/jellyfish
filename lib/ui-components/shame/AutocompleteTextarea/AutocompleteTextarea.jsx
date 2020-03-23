@@ -157,14 +157,29 @@ class AutoCompleteArea extends React.Component {
 			})
 	}
 
+	componentDidUpdate (prevProps) {
+		if (this.props.value !== prevProps.value) {
+			this.processInput(this.props.value)
+		}
+	}
+
 	handleOnChange (event) {
+		this.processInput(event.target.value)
+
+		if (this.props.onChange) {
+			this.props.onChange(event)
+		}
+	}
+
+	processInput (value) {
 		const {
 			types
 		} = this.props
-		const value = event.target.value
+
 		this.setState({
 			value
 		})
+
 		if (value.match(QUICK_SEARCH_RE)) {
 			const [ typeSlug, ...rest ] = value.trim().split(/\s+/)
 			const slug = typeSlug.replace('?', '')
@@ -181,13 +196,11 @@ class AutoCompleteArea extends React.Component {
 			this.loadResults(typeCard, rest.join(' '))
 			return
 		}
+
 		this.setState({
 			showQuickSearchPanel: false,
 			results: null
 		})
-		if (this.props.onChange) {
-			this.props.onChange(event)
-		}
 	}
 
 	handleOnKeyPress (event) {

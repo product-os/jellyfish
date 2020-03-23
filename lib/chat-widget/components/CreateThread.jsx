@@ -105,7 +105,6 @@ export const CreateThread = ({
 					onChange={handleTextChange}
 					files={files}
 					onFileChange={handleFileChange}
-					onSubmit={handleSubmit}
 				/>
 			</Box>
 			<Flex p={16} flexDirection="column" alignItems="center">
