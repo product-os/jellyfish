@@ -197,6 +197,7 @@ export default class ActionCreator {
 			'authorizeIntegration',
 			'bootstrap',
 			'clearViewData',
+			'completePasswordReset',
 			'createLink',
 			'dumpState',
 			'getIntegrationAuthUrl',
@@ -882,6 +883,24 @@ export default class ActionCreator {
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
+		}
+	}
+
+	completePasswordReset ({
+		password,
+		resetToken
+	}) {
+		return async (dispatch, getState) => {
+			const userType = await this.sdk.getBySlug('user@latest')
+			return this.sdk.action({
+				card: userType.id,
+				action: 'action-complete-password-reset@1.0.0',
+				type: userType.type,
+				arguments: {
+					newPassword: password,
+					resetToken
+				}
+			})
 		}
 	}
 

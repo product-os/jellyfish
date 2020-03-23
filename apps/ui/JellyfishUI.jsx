@@ -32,9 +32,11 @@ import Notifications from './components/HOC/Notifications'
 import RouteHandler from './components/HOC/RouteHandler'
 import Oauth from './components/HOC/Oauth'
 import Login from './components/HOC/Login'
+import CompletePasswordReset from './components/HOC/CompletePasswordReset'
 import Inbox from './components/Inbox'
 import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
 import Splash from '../../lib/ui-components/Splash'
+import AuthContainer from '../../lib/ui-components/Auth'
 import {
 	actionCreators,
 	selectors
@@ -103,10 +105,13 @@ class JellyfishUI extends React.Component {
 		}
 		if (this.props.status === 'unauthorized') {
 			return (
-				<React.Fragment>
-					<Login />
+				<AuthContainer>
+					<Switch>
+						<Route path='/password_reset/:resetToken' component={CompletePasswordReset} />
+						<Route path="/*" component={Login} />
+					</Switch>
 					<Notifications />
-				</React.Fragment>
+				</AuthContainer>
 			)
 		}
 		const [ home ] = this.props.channels
