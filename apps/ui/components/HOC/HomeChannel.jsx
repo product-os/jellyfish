@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch) => {
 				'loadViewResults',
 				'logout',
 				'removeViewNotice',
+				'updateUser',
 				'setChatWidgetOpen',
 				'setDefault',
 				'setUIState',
