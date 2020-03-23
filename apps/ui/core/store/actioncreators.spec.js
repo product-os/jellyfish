@@ -66,7 +66,7 @@ ava.beforeEach((test) => {
 		sdk: test.context.sdk,
 		analytics: test.context.analytics
 	})
-	test.context.getCardAction = test.context.actionCreator.getCard(cardId, 'user')
+	test.context.getCardAction = test.context.actionCreator.getCard(cardId, 'user', [ 'is member of' ])
 	test.context.getActorAction = test.context.actionCreator.getActor(cardId)
 })
 

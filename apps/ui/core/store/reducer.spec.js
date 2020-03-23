@@ -325,14 +325,21 @@ ava('REMOVE_CHANNEL action removes the specified channel', (test) => {
 	])
 })
 
-ava('SET_CARD action overwrites the specified card', (test) => {
+ava('SET_CARD action merges the specified card', (test) => {
 	const initialState = reducer()
 	initialState.core.cards = {
 		user: {
 			1: {
 				id: 1,
 				type: 'user',
-				name: 'test'
+				name: 'test',
+				links: {
+					'is member of': [
+						{
+							slug: 'org-balena'
+						}
+					]
+				}
 			},
 			2: {
 				id: 2,
@@ -346,7 +353,14 @@ ava('SET_CARD action overwrites the specified card', (test) => {
 		value: {
 			id: 1,
 			type: 'user',
-			foo: 'bar'
+			foo: 'bar',
+			links: {
+				'has attached element': [
+					{
+						slug: 'some-card'
+					}
+				]
+			}
 		}
 	})
 
@@ -355,7 +369,20 @@ ava('SET_CARD action overwrites the specified card', (test) => {
 			1: {
 				id: 1,
 				type: 'user',
-				foo: 'bar'
+				name: 'test',
+				foo: 'bar',
+				links: {
+					'is member of': [
+						{
+							slug: 'org-balena'
+						}
+					],
+					'has attached element': [
+						{
+							slug: 'some-card'
+						}
+					]
+				}
 			},
 			2: {
 				id: 2,

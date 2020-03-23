@@ -244,14 +244,18 @@ export default class ActionCreator {
 		// This is a function that memoizes a debounce function, this allows us to
 		// create different debounce lists depending on the args passed to
 		// 'getCard'
-		this.getCardInternal = (id, type) => {
+		this.getCardInternal = (id, type, linkVerbs = []) => {
 			return async (dispatch, getState) => {
 				if (!id) {
 					return null
 				}
 				let card = selectors.getCard(id, type)(getState())
 				if (!card) {
-					if (!Reflect.has(loadingCardCache, id)) {
+					// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
+					const linkVerbSlugs = _.orderBy(linkVerbs)
+						.map((verb) => { return helpers.slugify(verb) })
+					const loadingCacheKey = [ id ].concat(linkVerbSlugs).join('_')
+					if (!Reflect.has(loadingCardCache, loadingCacheKey)) {
 						const schema = {
 							type: 'object',
 							properties: {
@@ -262,19 +266,17 @@ export default class ActionCreator {
 							additionalProperties: true
 						}
 
-						// TODO: Make this generic. Will require some thought
-						// as to how to handle different requests for the same
-						// card with different links required. For now we always
-						// fetch the user's org with the user.
-						if (type.split('@')[0] === 'user') {
-							schema.$$links = {
-								'is member of': {
+						if (linkVerbs.length) {
+							schema.$$links = {}
+							for (const linkVerb of linkVerbs) {
+								schema.$$links[linkVerb] = {
 									type: 'object',
 									additionalProperties: true
 								}
 							}
 						}
-						loadingCardCache[id] = this.sdk.query(
+
+						loadingCardCache[loadingCacheKey] = this.sdk.query(
 							schema,
 							{
 								limit: 1
@@ -285,11 +287,11 @@ export default class ActionCreator {
 							}
 							return this.sdk.card.get(id)
 						}).finally(() => {
-							Reflect.deleteProperty(loadingCardCache, id)
+							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
 						})
 					}
 
-					card = await loadingCardCache[id]
+					card = await loadingCardCache[loadingCacheKey]
 					dispatch({
 						type: actions.SET_CARD,
 						value: card
@@ -312,15 +314,15 @@ export default class ActionCreator {
 		}
 	}
 
-	getCard (cardId, cardType) {
+	getCard (cardId, cardType, linkVerbs) {
 		return async (dispatch, getState) => {
-			return this.getCardInternal(cardId, cardType)(dispatch, getState)
+			return this.getCardInternal(cardId, cardType, linkVerbs)(dispatch, getState)
 		}
 	}
 
 	getActor (id) {
 		return async (dispatch, getState) => {
-			const card = await this.getCardInternal(id, 'user')(dispatch, getState)
+			const card = await this.getCardInternal(id, 'user', [ 'is member of' ])(dispatch, getState)
 			return helpers.generateActorFromUserCard(card)
 		}
 	}

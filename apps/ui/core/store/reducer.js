@@ -222,12 +222,14 @@ const coreReducer = (state, action) => {
 		case actions.SET_CARD: {
 			const card = action.value
 			const cardType = card.type.split('@')[0]
+			const prevCard = _.cloneDeep(_.get(state, [ 'cards', cardType, card.id ], {}))
+			const mergedCard = _.merge(prevCard, card)
 			return update(state, {
 				cards: {
 					[cardType]: (cardsForType) => update(cardsForType || {}, {
-						[card.id]: {
-							$set: card
-						}
+						[card.id]: (existingCard) => update(existingCard || {}, {
+							$set: mergedCard
+						})
 					})
 				}
 			})
