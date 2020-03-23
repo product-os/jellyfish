@@ -87,7 +87,27 @@ ava('getCard returns the cached card if found', async (test) => {
 	test.deepEqual(fetchedCard, card)
 
 	// But the SDK query was not called
-	test.is(sdk.query.callCount, 0)
+	test.true(sdk.query.notCalled)
+})
+
+ava('getCard does not use cache if a requested link is missing', async (test) => {
+	const {
+		getCardAction,
+		sdk,
+		dispatch
+	} = test.context
+	sdk.query = sandbox.fake.resolves([ card ])
+
+	// The cached card does not have any links included
+	const cachedCard = _.omit(card, 'links')
+
+	const fetchedCard = await getCardAction(dispatch, getStateFactory(cachedCard))
+
+	// Verify expected card was returned
+	test.deepEqual(fetchedCard, card)
+
+	// And the SDK query was called
+	test.true(sdk.query.calledOnce)
 })
 
 ava('getCard uses the API to fetch the card if not already cached', async (test) => {
@@ -104,7 +124,7 @@ ava('getCard uses the API to fetch the card if not already cached', async (test)
 	test.deepEqual(fetchedCard, card)
 
 	// And that the SDK query method was called as expected
-	test.is(sdk.query.callCount, 1)
+	test.true(sdk.query.calledOnce)
 	const query = sdk.query.getCall(0).args[0]
 	test.deepEqual(query, {
 		type: 'object',
@@ -123,7 +143,7 @@ ava('getCard uses the API to fetch the card if not already cached', async (test)
 	})
 
 	// Finally check that the correct action was dispatched
-	test.is(dispatch.callCount, 1)
+	test.true(dispatch.calledOnce)
 	test.deepEqual(dispatch.getCall(0).args[0], {
 		type: actions.SET_CARD,
 		value: card
@@ -162,7 +182,7 @@ ava('getCard debounces calls to fetch the same card ID', async (test) => {
 
 	// And that the SDK query method was only called once
 	// Both calls ended up awaiting the same response
-	test.is(sdk.query.callCount, 1)
+	test.true(sdk.query.calledOnce)
 })
 
 ava('getActor returns an actor using the cached user card if found', async (test) => {
@@ -184,5 +204,5 @@ ava('getActor returns an actor using the cached user card if found', async (test
 	})
 
 	// But the SDK query was not called
-	test.is(sdk.query.callCount, 0)
+	test.true(sdk.query.notCalled)
 })

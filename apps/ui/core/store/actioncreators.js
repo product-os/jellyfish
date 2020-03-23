@@ -250,7 +250,13 @@ export default class ActionCreator {
 					return null
 				}
 				let card = selectors.getCard(id, type)(getState())
-				if (!card) {
+
+				// Check if the cached card has all the links required by this request
+				const isCached = card && _.every(linkVerbs, (linkVerb) => {
+					return Boolean(_.get(card, [ 'links' ], {})[linkVerb])
+				})
+
+				if (!isCached) {
 					// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
 					const linkVerbSlugs = _.orderBy(linkVerbs)
 						.map((verb) => { return helpers.slugify(verb) })
