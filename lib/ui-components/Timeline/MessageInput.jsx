@@ -14,6 +14,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import AutocompleteTextarea from '../shame/AutocompleteTextarea'
+import SendIcon from 'react-icons/lib/md/send'
 import UseSecretIcon from 'react-icons/lib/fa/user-secret'
 import {
 	FilesInput
@@ -145,12 +146,6 @@ const MessageInput = React.memo(({
 		/>
 	)
 
-	const sendCommandText = sendCommand && (
-		<Txt fontSize={11} italic color="#859CB0">
-			Press {sendCommand} to send
-		</Txt>
-	)
-
 	if (wide) {
 		return (
 			<Box
@@ -184,7 +179,9 @@ const MessageInput = React.memo(({
 					gridColumn: 1,
 					gridRow: 2
 				}}>
-					{sendCommandText}
+					<Txt fontSize={11} italic color="#859CB0">
+						Press {sendCommand} to send
+					</Txt>
 				</Box>
 			</Box>
 		)
@@ -204,7 +201,7 @@ const MessageInput = React.memo(({
 				{textInput}
 			</Box>
 
-			<Flex px={2} style={{
+			<Flex px={2} alignItems="center" style={{
 				borderTop: 'solid 1px rgb(238, 238, 238)',
 				borderTopStyle: 'dashed'
 			}}>
@@ -215,7 +212,17 @@ const MessageInput = React.memo(({
 				<Box style={{
 					marginLeft: 'auto'
 				}}>
-					{sendCommandText}
+					{onSubmit && (
+						<Button
+							p={2}
+							plain
+							fontSize={26}
+							tooltip={sendCommand}
+							color={theme.colors.primary.main}
+							icon={<SendIcon />}
+							onClick={onSubmit}
+						/>
+					)}
 				</Box>
 			</Flex>
 		</Flex>
