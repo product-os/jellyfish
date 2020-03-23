@@ -81,6 +81,7 @@ export const ChatRoute = () => {
 								addNotification={actions.addNotification}
 								signalTyping={_.noop}
 								setTimelineMessage={_.noop}
+								eventMenuOptions={false}
 							/>
 						</Box>
 					</Box>

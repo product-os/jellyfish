@@ -525,39 +525,41 @@ export default class Event extends React.Component {
 								)}
 							</Flex>
 
-							<span>
-								<Button
-									className="event-card--actions"
-									px={2}
-									plain
-									onClick={this.toggleMenu}
-									icon={<Icon name="ellipsis-v"/>}
-								/>
+							{this.props.menuOptions !== false && (
+								<span>
+									<Button
+										className="event-card--actions"
+										px={2}
+										plain
+										onClick={this.toggleMenu}
+										icon={<Icon name="ellipsis-v"/>}
+									/>
 
-								{this.state.showMenu && (
-									<ContextMenu position="bottom" onClose={this.toggleMenu}>
-										<React.Fragment>
-											<ActionLink onClick={this.copyJSON} tooltip={{
-												text: 'JSON copied!',
-												trigger: 'click'
-											}}>
-												Copy as JSON
-											</ActionLink>
-
-											{isMessage && (
-												<ActionLink onClick={this.copyRawMessage} tooltip={{
-													text: 'Message copied!',
+									{this.state.showMenu && (
+										<ContextMenu position="bottom" onClose={this.toggleMenu}>
+											<React.Fragment>
+												<ActionLink onClick={this.copyJSON} tooltip={{
+													text: 'JSON copied!',
 													trigger: 'click'
 												}}>
-													Copy raw message
+													Copy as JSON
 												</ActionLink>
-											)}
 
-											{this.props.menuOptions}
-										</React.Fragment>
-									</ContextMenu>
-								)}
-							</span>
+												{isMessage && (
+													<ActionLink onClick={this.copyRawMessage} tooltip={{
+														text: 'Message copied!',
+														trigger: 'click'
+													}}>
+														Copy raw message
+													</ActionLink>
+												)}
+
+												{this.props.menuOptions}
+											</React.Fragment>
+										</ContextMenu>
+									)}
+								</span>
+							)}
 						</Flex>
 
 						{Boolean(attachments) && _.map(attachments, (attachment) => {
