@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Fix support logo'
+      hash: e65413ed64175632910e018313371f9286320ed8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 27.27.1
+  date: 2020-03-23T18:40:29.151Z
+- commits:
     - subject: 'ChatWidget: Show send button'
       hash: d60985d6d2e3c8af16e18de4badc2d2268e8acf5
       body: ''
