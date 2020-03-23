@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Remove timeline event context menu'
+      hash: a68b06bfbca711cfb39e1b7e7273fdda31093afc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.25.0
+  date: 2020-03-23T10:35:29.670Z
+- commits:
     - subject: Update table data when table is paginated
       hash: 8f5320bf9f3d6fb6cd4fc8d96a4f7fb1914e9fb8
       body: ''
