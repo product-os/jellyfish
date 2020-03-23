@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Hide unnecessary timeline buttons'
+      hash: bdc65551c286537a3afc6f93c241e2d92bcc4fda
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.26.0
+  date: 2020-03-23T14:19:28.709Z
+- commits:
     - subject: 'ChatWidget: Remove timeline event context menu'
       hash: a68b06bfbca711cfb39e1b7e7273fdda31093afc
       body: ''
