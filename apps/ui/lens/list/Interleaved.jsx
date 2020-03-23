@@ -267,7 +267,8 @@ export class Interleaved extends BaseLens {
 									openChannel={this.openChannel}
 									user={this.props.user}
 									card={card}
-									getActor={this.props.actions.getActor}
+									selectCard={selectors.getCard}
+									getCard={this.props.actions.getCard}
 									addNotification={this.props.actions.addNotification}
 								/>
 							</Box>
@@ -310,7 +311,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'getActor'
+				'getCard'
 			]),
 			dispatch
 		)

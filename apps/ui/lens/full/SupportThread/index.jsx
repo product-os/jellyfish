@@ -507,7 +507,8 @@ class SupportThreadBase extends React.Component {
 												key={statusEvent.id}
 												card={statusEvent}
 												user={this.props.user}
-												getActor={this.props.actions.getActor}
+												selectCard={selectors.getCard}
+												getCard={this.props.actions.getCard}
 												addNotification={this.props.actions.addNotification}
 												mb={1}
 												threadIsMirrored={isMirrored}
@@ -569,6 +570,7 @@ const mapDispatchToProps = (dispatch) => {
 				'addNotification',
 				'addChannel',
 				'getActor',
+				'getCard',
 				'removeChannel'
 			]),
 			dispatch

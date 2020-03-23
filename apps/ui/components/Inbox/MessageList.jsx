@@ -139,7 +139,8 @@ class MessageList extends React.Component {
 									user={this.props.user}
 									openChannel={this.openChannel}
 									card={card}
-									getActor={this.props.actions.getActor}
+									selectCard={selectors.getCard}
+									getCard={this.props.actions.getCard}
 									addNotification={this.props.actions.addNotification}
 									menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 										<ActionLink
@@ -177,7 +178,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'getActor'
+				'getCard'
 			]),
 			dispatch
 		)
