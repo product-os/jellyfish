@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add action-complete-password-reset card and handler to action-library
+      hash: aeb39221e56ea06fef7b3c247b5bd1516a17ce8e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucian Buzzo
+    - subject: Add action-request-password-reset card and handler to action-library
+      hash: a7372b4ca07a44210752bf788ed25eeedb4696fd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucian Buzzo
+  version: 27.28.0
+  date: 2020-03-23T22:30:04.134Z
+- commits:
     - subject: 'ChatWidget: Fix support logo'
       hash: e65413ed64175632910e018313371f9286320ed8
       body: ''
