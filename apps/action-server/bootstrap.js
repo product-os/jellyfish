@@ -14,6 +14,11 @@ const Producer = require('../../lib/queue').Producer
 const core = require('../../lib/core')
 const environment = require('../../lib/environment')
 const uuid = require('../../lib/uuid')
+const {
+	metrics
+} = require('@balena/node-metrics-gatherer')
+const http = require('http')
+const express = require('express')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`
@@ -178,6 +183,24 @@ const bootstrap = async (context, library, options) => {
 		})
 	}
 
+	const app = express()
+	const server = http.Server(app)
+	app.use('/metrics', metrics.requestHandler())
+	server.on('listening', () => {
+		logger.info(context, `Worker listening on port ${server.address().port}`)
+	})
+
+	// When running multiple workers locally, workers cannot bind to the same port more than once
+	// so we start listening to a random one. That's not a problem, as long as, in production, we
+	// start each worker in its own pod, and thus we can bind each worker to the same port
+	server.on('error', (err) => {
+		if (err.code === 'EADDRINUSE') {
+			logger.warn(context, `Port ${environment.http.worker_port} is in use, falling back to random port`)
+			server.listen(0)
+		}
+	})
+	server.listen(environment.http.worker_port)
+
 	return {
 		jellyfish,
 		worker,
@@ -192,6 +215,7 @@ exports.worker = async (context, options) => {
 		enablePriorityBuffer: true,
 		onError: options.onError,
 		onActionRequest: async (serverContext, jellyfish, worker, queue, session, actionRequest, errorHandler) => {
+			metrics.inc('action_requests')
 			return getActorKey(serverContext, jellyfish, session, actionRequest.data.actor)
 				.then((key) => {
 					actionRequest.data.context.worker = serverContext.id
