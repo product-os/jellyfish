@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Show send button'
+      hash: d60985d6d2e3c8af16e18de4badc2d2268e8acf5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.27.0
+  date: 2020-03-23T14:56:49.455Z
+- commits:
     - subject: 'ChatWidget: Hide unnecessary timeline buttons'
       hash: bdc65551c286537a3afc6f93c241e2d92bcc4fda
       body: ''
