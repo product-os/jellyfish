@@ -6,7 +6,7 @@
 
 import * as _ from 'lodash'
 import React from 'react'
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable'
+import AsyncCreatableSelect from 'react-select/async-creatable'
 import {
 	withSetup
 } from './SetupProvider'
