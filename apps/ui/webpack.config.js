@@ -23,8 +23,10 @@ const resourcesRoot = __dirname
 const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
+const uiComponentsPath = path.join(root, 'lib', 'ui-components')
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const iconsFolderPath = path.join(resourcesRoot, 'icons')
+const uiComponentsIconsFolderPath = path.join(uiComponentsPath, 'icons')
 const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const outDir = path.join(root, 'dist/ui')
@@ -72,6 +74,10 @@ const config = mergeConfig(baseConfig, {
 			},
 			{
 				from: faviconPath
+			},
+			{
+				from: uiComponentsIconsFolderPath,
+				to: 'icons'
 			}
 		]),
 

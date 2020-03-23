@@ -38,7 +38,9 @@ import {
 } from '../shame/ActionLink'
 import Avatar from '../shame/Avatar'
 import Icon from '../shame/Icon'
-import MirrorIcon from '../MirrorIcon'
+import {
+	MirrorIcon
+} from '../MirrorIcon'
 import {
 	HIDDEN_ANCHOR
 } from '../Timeline'

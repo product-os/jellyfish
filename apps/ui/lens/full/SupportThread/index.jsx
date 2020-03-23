@@ -37,6 +37,9 @@ import RouterLink from '../../../../../lib/ui-components/Link'
 import {
 	Tag
 } from '../../../../../lib/ui-components/Tag'
+import {
+	ThreadMirrorIcon
+} from '../../../../../lib/ui-components/MirrorIcon'
 import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 
@@ -294,7 +297,8 @@ class SupportThreadBase extends React.Component {
 
 		const status = _.get(card, [ 'data', 'status' ], 'open')
 
-		const isMirrored = !_.isEmpty(_.get(card, [ 'data', 'mirrors' ]))
+		const mirrors = _.get(card, [ 'data', 'mirrors' ])
+		const isMirrored = !_.isEmpty(mirrors)
 
 		return (
 			<CardLayout
@@ -446,9 +450,10 @@ class SupportThreadBase extends React.Component {
 						})}
 					</Flex>
 
-					<Flex>
+					<Flex alignItems="center" mb={1} >
+						<ThreadMirrorIcon mirrors={mirrors} mr={2}/>
 						{Boolean(actor) && (
-							<Txt mb={1} tooltip={actor.email}>
+							<Txt tooltip={actor.email}>
 								Conversation with <strong>{actor.name}</strong>
 							</Txt>
 						)}
