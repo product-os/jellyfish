@@ -552,6 +552,7 @@ class Timeline extends React.Component {
 									getActor={this.props.getActor}
 									addNotification={this.props.addNotification}
 									threadIsMirrored={isMirrored}
+									menuOptions={this.props.eventMenuOptions}
 								/>
 							</Box>
 						)
@@ -566,6 +567,7 @@ class Timeline extends React.Component {
 									getActor={this.props.getActor}
 									addNotification={this.props.addNotification}
 									threadIsMirrored={isMirrored}
+									menuOptions={this.props.eventMenuOptions}
 								/>
 							</Box>
 						)
