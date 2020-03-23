@@ -32,6 +32,7 @@ import Notifications from './components/HOC/Notifications'
 import RouteHandler from './components/HOC/RouteHandler'
 import Oauth from './components/HOC/Oauth'
 import Login from './components/HOC/Login'
+import RequestPasswordReset from './components/HOC/RequestPasswordReset'
 import CompletePasswordReset from './components/HOC/CompletePasswordReset'
 import Inbox from './components/Inbox'
 import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
@@ -107,6 +108,7 @@ class JellyfishUI extends React.Component {
 			return (
 				<AuthContainer>
 					<Switch>
+						<Route path='/request_password_reset' component={RequestPasswordReset} />
 						<Route path='/password_reset/:resetToken' component={CompletePasswordReset} />
 						<Route path="/*" component={Login} />
 					</Switch>

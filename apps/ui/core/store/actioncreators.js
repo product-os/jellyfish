@@ -215,6 +215,7 @@ export default class ActionCreator {
 			'removeNotification',
 			'removeViewDataItem',
 			'removeViewNotice',
+			'requestPasswordReset',
 			'updateUser',
 			'setAuthToken',
 			'setChannels',
@@ -883,6 +884,22 @@ export default class ActionCreator {
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
+		}
+	}
+
+	requestPasswordReset ({
+		email
+	}) {
+		return async (dispatch, getState) => {
+			const userType = await this.sdk.getBySlug('user@latest')
+			return this.sdk.action({
+				card: userType.id,
+				action: 'action-request-password-reset@1.0.0',
+				type: userType.type,
+				arguments: {
+					email
+				}
+			})
 		}
 	}
 
