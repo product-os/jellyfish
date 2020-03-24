@@ -6,7 +6,7 @@
 
 import _ from 'lodash'
 import React from 'react'
-import Async from 'react-select/lib/Async'
+import AsyncSelect from 'react-select/async'
 import * as helpers from '../services/helpers'
 
 export default class AutoCompleteCardSelect extends React.Component {
@@ -97,7 +97,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 		} = this.props
 
 		return (
-			<Async
+			<AsyncSelect
 				key={cardType}
 				classNamePrefix="jellyfish-async-select"
 				value={value}
