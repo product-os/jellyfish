@@ -52,6 +52,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 	async getTargets (value) {
 		const {
+			cardFilter,
 			cardType,
 			types,
 			sdk
@@ -71,6 +72,9 @@ export default class AutoCompleteCardSelect extends React.Component {
 			type: 'string',
 			const: `${typeCard.slug}@${typeCard.version}`
 		})
+
+		// Merge with the provided filter (if given)
+		_.merge(filter, cardFilter)
 
 		// Query the API for results and set them to state so they can be accessed
 		// when an option is selected

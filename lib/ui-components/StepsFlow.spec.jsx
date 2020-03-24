@@ -25,7 +25,7 @@ configure({
 })
 
 const stepsProps = {
-	titleText: 'Test flow'
+	title: 'Test flow'
 }
 
 const getStep = (index, stepStatus) => {
@@ -41,7 +41,7 @@ const getShallowStepsFlow = ({
 }) => {
 	const stepStatus = status || 'pending'
 	return shallow(
-		<StepsFlow stepsProps={stepsProps} {...props}>
+		<StepsFlow {...stepsProps} {...props}>
 			{[ 1, 2, 3 ].map((index) => { return getStep(index, stepStatus) })}
 		</StepsFlow>
 	)
@@ -53,7 +53,7 @@ const getMountedStepsFlow = ({
 	const stepStatus = status || 'pending'
 	return mount(
 		<Provider>
-			<StepsFlow stepsProps={stepsProps} {...props}>
+			<StepsFlow {...stepsProps} {...props}>
 				{[ 1, 2, 3 ].map((index) => { return getStep(index, stepStatus) })}
 			</StepsFlow>
 		</Provider>
@@ -134,7 +134,7 @@ ava('initialStep cannot be greater than number of steps', (test) => {
 ava('Invalid child components are not allowed', (test) => {
 	test.throws(() => {
 		shallow(
-			<StepsFlow initialStep={3} stepsProps={stepsProps}>
+			<StepsFlow initialStep={3} {...stepsProps}>
 				<StepsFlow.Step label="Step 1" status="completed">
 					<div className="step1">Step 1</div>
 				</StepsFlow.Step>

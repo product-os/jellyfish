@@ -11,6 +11,7 @@ import React from 'react'
 import {
 	Box,
 	Button,
+	Divider,
 	Heading,
 	Flex,
 	Steps,
@@ -38,18 +39,29 @@ const nonePending = (stepStatuses) => {
 	)
 }
 
+const StepsHeading = styled(Heading.h3) `
+	line-height: 1;
+`
+
+const StepsBox = styled(Box) `
+	.flow-steps {
+		padding: ${(props) => { return props.theme.space[4] }}px;
+	}
+`
+
 /**
  * Each StepsFlow.Step should define the following props:
- * - 'label' (to be used as the step label and also the title above the step content)
+ * - 'label' (to be used as the step label)
+ * - 'title' (to be used as the title above the step content)
  * - 'status' ('pending', 'completed' or 'none')
  * - 'children' (the step content, to be displayed when the step is active)
  */
 const FlowStep = ({
-	stepIndex, label, status, children, ...rest
+	stepIndex, label, title, status, children, ...rest
 }) => {
 	return (
-		<FlowStepFlex flex={1} {...rest} flexDirection="column">
-			<Heading.h5 data-test={`flow-step-${stepIndex}__heading`} mb={2}>{label}</Heading.h5>
+		<FlowStepFlex pt={4} px={4} flex={1} alignSelf="stretch" {...rest} flexDirection="column">
+			<Heading.h5 data-test={`flow-step-${stepIndex}__heading`} mb={2}>{title || label}</Heading.h5>
 			{children}
 		</FlowStepFlex>
 	)
@@ -63,7 +75,10 @@ const FlowStep = ({
  * Children of StepsFlow must be of type StepsFlow.Step.
  */
 const StepsFlow = ({
+	title,
+	titleIcon,
 	initialStep,
+	onClose,
 	onDone,
 	stepsProps,
 	children,
@@ -86,9 +101,24 @@ const StepsFlow = ({
 	const stepStatuses = _.map(steps, 'props.status')
 	const allComplete = nonePending(stepStatuses)
 	return (
-		<Flex {...rest} flex={1} flexDirection="column">
-			<Box mb={4} flex={0} >
-				<Steps className="flow-steps" {...stepsProps}>
+		<Flex py={4} {...rest} alignItems="flex-start" flex={1} flexDirection="column">
+			<Flex alignItems="center" alignSelf="stretch" justifyContent="space-between" px={4}>
+				{title && (
+					<StepsHeading>
+						{titleIcon && <Box display="inline-block" mr={2}><Icon name={titleIcon} /></Box>}
+						{title}
+					</StepsHeading>
+				)}
+				<Button plain p={2} icon={<Icon name="times" />} onClick={onClose} />
+			</Flex>
+			<StepsBox flex={0}>
+				<Steps
+					className="flow-steps"
+					bordered={false}
+					ordered
+					activeStepIndex={activeStepIndex}
+					{...stepsProps}
+				>
 					{React.Children.map(steps, (step, stepIndex) => {
 						if (step.type !== FlowStep) {
 							throw new Error(
@@ -101,29 +131,23 @@ const StepsFlow = ({
 							)
 						}
 
-						// Link should be active if:
-						// - its a previous step OR
-						// - its not the current step AND all previous steps are not pending
-						const clickHandler = (stepIndex < activeStepIndex) ||
-						(stepIndex !== activeStepIndex && nonePending(stepStatuses.slice(0, stepIndex)))
-							? () => { return setActiveStepIndex(stepIndex) }
-							: null
 						return (
 							<Step
 								key={step.props.label}
 								status={step.props.status}
-								onClick={clickHandler}
+								onClick={() => { return setActiveStepIndex(stepIndex) }}
 							>
 								{step.props.label}
 							</Step>
 						)
 					})}
 				</Steps>
-			</Box>
+			</StepsBox>
+			<Divider m={0} />
 			{React.cloneElement(steps[activeStepIndex], {
 				stepIndex: activeStepIndex
 			})}
-			<Flex flex={0} mt={4} alignItems="center" justifyContent="flex-end">
+			<Flex flex={0} px={4} mt={4} alignSelf="flex-end" alignItems="center" justifyContent="flex-end">
 				<Button
 					mr={3}
 					data-test="steps-flow__prev-btn"
