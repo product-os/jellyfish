@@ -1,4 +1,19 @@
 - commits:
+    - subject: Remove CODEOWNERS file
+      hash: 66e7339a91811f9f2ff74558b8bcd3c3a2a4fbfd
+      body: >
+        The use of CODEOWNERS is not well defined and generates a lot of noise.
+        At this point the functionality is causing more harm than good, we're
+        better off selectively choosing reviewers.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.30.1
+  date: 2020-03-24T08:54:35.117Z
+- commits:
     - subject: 'ui-components: Display user-friendly field labels'
       hash: 0ab57cf2d6588fc73facc34c3061e217a275335b
       body: >
