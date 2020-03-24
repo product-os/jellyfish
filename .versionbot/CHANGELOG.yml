@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'ChatWidget: Get user display name from profile'
+      hash: 0001d25531e5a0f15cd40d16b0ba62549d32103d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 27.29.0
+  date: 2020-03-23T23:38:55.243Z
+- commits:
     - subject: Add action-complete-password-reset card and handler to action-library
       hash: aeb39221e56ea06fef7b3c247b5bd1516a17ce8e
       body: ''
