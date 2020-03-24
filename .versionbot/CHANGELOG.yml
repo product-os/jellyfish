@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update imports for React-Icons v3 breaking changes
+      hash: c5e2e407a3e1755109472a869eaa74972e659068
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.30.4
+  date: 2020-03-24T16:47:18.873Z
+- commits:
     - subject: 'core: Make card table creation not lock if not needed'
       hash: 6e0e9924cd77a68686c930be6449494b647af55c
       body: |
