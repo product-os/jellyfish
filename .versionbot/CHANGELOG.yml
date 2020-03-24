@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add linkVerbs argument to getCard action
+      hash: e3b03368ce9379760389303b33d60b511d19c157
+      body: >
+        This commit refactors the chat-widget redux state structure to use a map
+        keyed by card id to hold cards in - instead of a flat list.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add support for caching arbitrary cards
+      hash: a617da6596fa41ea90061ace50de105502895459
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.30.2
+  date: 2020-03-24T12:25:05.754Z
+- commits:
     - subject: Remove CODEOWNERS file
       hash: 66e7339a91811f9f2ff74558b8bcd3c3a2a4fbfd
       body: >
