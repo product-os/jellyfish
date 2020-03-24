@@ -8,8 +8,10 @@
 import clone from 'deep-copy'
 import * as _ from 'lodash'
 import * as React from 'react'
-import FaFilter from 'react-icons/lib/fa/filter'
-import FaClose from 'react-icons/lib/fa/close'
+import {
+	FaTimes,
+	FaFilter
+} from 'react-icons/fa'
 import {
 	Button,
 	Box,
@@ -547,7 +549,7 @@ class Filters extends React.Component {
 													this.removeCompound(index)
 												}}
 											>
-												<FaClose />
+												<FaTimes />
 											</DeleteButton>
 										)}
 									</RelativeBox>

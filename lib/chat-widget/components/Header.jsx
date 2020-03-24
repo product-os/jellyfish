@@ -5,8 +5,9 @@
  */
 
 import * as React from 'react'
-import BackIcon from 'react-icons/lib/fa/angle-left'
-import CloseIcon from 'react-icons/lib/fa/close'
+import {
+	FaAngleLeft, FaTimes
+} from 'react-icons/fa'
 import {
 	useSelector
 } from 'react-redux'
@@ -56,7 +57,7 @@ export const Header = ({
 				<Button
 					ml="12px"
 					plain
-					icon={<BackIcon size="20px" />}
+					icon={<FaAngleLeft size="20px" />}
 					onClick={handleBackButtonClick}
 					data-test="navigate-back-button"
 				/>
@@ -72,7 +73,7 @@ export const Header = ({
 			<Button
 				ml="20px"
 				plain
-				icon={<CloseIcon size="14px" />}
+				icon={<FaTimes size="14px" />}
 				onClick={onClose}
 			/>
 		</Flex>

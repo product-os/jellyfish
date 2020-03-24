@@ -6,7 +6,9 @@
 
 import * as React from 'react'
 import styled from 'styled-components'
-import FaClose from 'react-icons/lib/fa/close'
+import {
+	FaTimes
+} from 'react-icons/fa'
 import {
 	Box,
 	Button,
@@ -87,7 +89,7 @@ class FilterDescription extends React.Component {
 						color={props.dark ? '#fff' : ''}
 						onClick={this.delete}
 					>
-						<FaClose />
+						<FaTimes />
 					</DeleteButton>
 				)}
 			</div>
