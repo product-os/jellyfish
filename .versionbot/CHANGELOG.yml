@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'core: Make card table creation not lock if not needed'
+      hash: 6e0e9924cd77a68686c930be6449494b647af55c
+      body: |
+        Looks like `CREATE TABLE IF NOT EXISTS` and `ALTER TABLE <XXX> ADD IF
+        NOT EXISTS` will take exclusive locks on the table even if they are
+        no-ops.
+
+        After this commit, we approximate `CREATE TABLE IF NOT EXISTS` in a
+        non-locking way by first fetching the list of existing tables. Of
+        course, this is a non-atomic operation that will prevent the lock
+        altogether in the best case, or will end up in the current no-op
+        blocking situation in the worst case.
+
+        I think its also safe to remove the `ALTER TABLE` statements below as
+        all the environments we care about have been already migrated, and we
+        need a better migration story anyways.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.30.3
+  date: 2020-03-24T13:00:51.011Z
+- commits:
     - subject: Add linkVerbs argument to getCard action
       hash: e3b03368ce9379760389303b33d60b511d19c157
       body: >
