@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'ui-components: Display user-friendly field labels'
+      hash: 0ab57cf2d6588fc73facc34c3061e217a275335b
+      body: >
+        If the field's schema has a title property, use that as the field label,
+        rather than the fiend name itself. 
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Display mirror icon in Support Thread lens'
+      hash: bf1d5054d07cb5c6a3e699eaa5450203cf2ebe22
+      body: >
+        The mirror icon will display if the thread is mirrored. Currently
+        supported mirrors are GitHub, Front and Discourse.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.30.0
+  date: 2020-03-24T05:17:35.443Z
+- commits:
     - subject: 'ChatWidget: Get user display name from profile'
       hash: 0001d25531e5a0f15cd40d16b0ba62549d32103d
       body: ''
