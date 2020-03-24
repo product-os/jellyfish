@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update react-select imports for v3.0 breaking changes
+      hash: f62833d228b8e8f1cae554589e562fb34836e067
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'patch: bump react-select from 2.4.4 to 3.1.0'
+      hash: 7a7cd911088b4361baa6c6bd1242794021de3d8c
+      body: >
+        Bumps [react-select](https://github.com/JedWatson/react-select) from
+        2.4.4 to 3.1.0.
+
+        - [Release notes](https://github.com/JedWatson/react-select/releases)
+
+        -
+        [Changelog](https://github.com/JedWatson/react-select/blob/master/.sweet-changelogs.js)
+
+        -
+        [Commits](https://github.com/JedWatson/react-select/compare/v2.4.4...react-select@3.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 27.30.5
+  date: 2020-03-24T17:31:38.833Z
+- commits:
     - subject: Update imports for React-Icons v3 breaking changes
       hash: c5e2e407a3e1755109472a869eaa74972e659068
       body: ''
