@@ -192,7 +192,7 @@
     "react-visibility-sensor": "^5.0.2",
     "redis": "^3.0.2",
     "redis-mock": "^0.39.0",
-    "redux": "^3.7.2",
+    "redux": "^4.0.5",
     "redux-thunk": "^2.2.0",
     "rendition": "^14.2.0",
     "request-promise": "^4.2.2",
