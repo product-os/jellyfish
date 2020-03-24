@@ -38,7 +38,7 @@ const getDefaultState = () => {
 			session: null,
 			notifications: [],
 			viewNotices: {},
-			actors: {},
+			cards: {},
 			orgs: [],
 			config: {},
 			ui: {
@@ -219,35 +219,19 @@ const coreReducer = (state, action) => {
 				}
 			})
 		}
-		case actions.SET_ACTOR: {
-			const {
-				actor,
-				id
-			} = action.value
-
+		case actions.SET_CARD: {
+			const card = action.value
+			const cardType = card.type.split('@')[0]
+			const prevCard = _.cloneDeep(_.get(state, [ 'cards', cardType, card.id ], {}))
+			const mergedCard = _.merge(prevCard, card)
 			return update(state, {
-				actors: (actors) => update(actors || {}, {
-					[id]: {
-						$set: actor
-					}
-				})
-			})
-		}
-		case actions.UPDATE_ACTOR: {
-			const {
-				actor,
-				id
-			} = action.value
-			const currentActor = _.get(state, [ 'actors', id ])
-			if (!currentActor) {
-				return state
-			}
-			return update(state, {
-				actors: (actors) => update(actors || {}, {
-					[id]: {
-						$set: _.assign({}, currentActor, actor)
-					}
-				})
+				cards: {
+					[cardType]: (cardsForType) => update(cardsForType || {}, {
+						[card.id]: (existingCard) => update(existingCard || {}, {
+							$set: mergedCard
+						})
+					})
+				}
 			})
 		}
 		case actions.SET_AUTHTOKEN: {

@@ -21,8 +21,7 @@ import {
 	getQueue
 } from './async-dispatch-queue'
 import {
-	updateThreadChannels,
-	generateActorFromUserCard
+	updateThreadChannels
 } from './helpers'
 
 // Refresh the session token once every 3 hours
@@ -120,13 +119,8 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
+	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
-	getActor: (state, id) => {
-		// Return false if there is no card in state.
-		// Actor can be null, setting default value to null makes it impossible
-		// to determine whether it existed in state or not.
-		return _.get(state.core, [ 'actors', id ], false)
-	},
 	getOrgs: (state) => { return state.core.orgs },
 	getAppVersion: (state) => { return _.get(state.core, [ 'config', 'version' ]) || null },
 	getAppCodename: (state) => { return _.get(state.core, [ 'config', 'codename' ]) || null },
@@ -207,6 +201,7 @@ export default class ActionCreator {
 			'dumpState',
 			'getIntegrationAuthUrl',
 			'getActor',
+			'getCard',
 			'getCardWithLinks',
 			'getLinks',
 			'loadChannelData',
@@ -248,28 +243,26 @@ export default class ActionCreator {
 
 		// This is a function that memoizes a debounce function, this allows us to
 		// create different debounce lists depending on the args passed to
-		// 'getActor'
-		this.getActorInternal = (id) => {
+		// 'getCard'
+		this.getCardInternal = (id, type, linkVerbs = []) => {
 			return async (dispatch, getState) => {
-				let actor = null
-
 				if (!id) {
 					return null
 				}
+				let card = selectors.getCard(id, type)(getState())
 
-				const cachedActor = selectors.getActor(getState(), id)
-				const actorFoundInState = cachedActor !== false
+				// Check if the cached card has all the links required by this request
+				const isCached = card && _.every(linkVerbs, (linkVerb) => {
+					return Boolean(_.get(card, [ 'links' ], {})[linkVerb])
+				})
 
-				if (actorFoundInState) {
-					actor = cachedActor
-				} else {
-					if (!Reflect.has(loadingCardCache, id)) {
-						loadingCardCache[id] = this.sdk.query({
-							$$links: {
-								'is member of': {
-									type: 'object'
-								}
-							},
+				if (!isCached) {
+					// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
+					const linkVerbSlugs = _.orderBy(linkVerbs)
+						.map((verb) => { return helpers.slugify(verb) })
+					const loadingCacheKey = [ id ].concat(linkVerbSlugs).join('_')
+					if (!Reflect.has(loadingCardCache, loadingCacheKey)) {
+						const schema = {
 							type: 'object',
 							properties: {
 								id: {
@@ -277,31 +270,40 @@ export default class ActionCreator {
 								}
 							},
 							additionalProperties: true
-						}, {
-							limit: 1
-						}).then((result) => {
+						}
+
+						if (linkVerbs.length) {
+							schema.$$links = {}
+							for (const linkVerb of linkVerbs) {
+								schema.$$links[linkVerb] = {
+									type: 'object',
+									additionalProperties: true
+								}
+							}
+						}
+
+						loadingCardCache[loadingCacheKey] = this.sdk.query(
+							schema,
+							{
+								limit: 1
+							}
+						).then((result) => {
 							if (result.length) {
 								return result[0]
 							}
 							return this.sdk.card.get(id)
 						}).finally(() => {
-							Reflect.deleteProperty(loadingCardCache, id)
+							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
 						})
 					}
 
-					const card = await loadingCardCache[id]
-					actor = card ? generateActorFromUserCard(card) : null
-
+					card = await loadingCardCache[loadingCacheKey]
 					dispatch({
-						type: actions.SET_ACTOR,
-						value: {
-							actor,
-							id
-						}
+						type: actions.SET_CARD,
+						value: card
 					})
 				}
-
-				return actor || null
+				return card || null
 			}
 		}
 	}
@@ -318,9 +320,16 @@ export default class ActionCreator {
 		}
 	}
 
+	getCard (cardId, cardType, linkVerbs) {
+		return async (dispatch, getState) => {
+			return this.getCardInternal(cardId, cardType, linkVerbs)(dispatch, getState)
+		}
+	}
+
 	getActor (id) {
-		return (dispatch, getState) => {
-			return this.getActorInternal(id)(dispatch, getState)
+		return async (dispatch, getState) => {
+			const card = await this.getCardInternal(id, 'user', [ 'is member of' ])(dispatch, getState)
+			return helpers.generateActorFromUserCard(card)
 		}
 	}
 
@@ -662,17 +671,12 @@ export default class ActionCreator {
 
 							// If we receive a user card...
 							if (card.type.split('@')[0] === 'user') {
-								// ...and we have a corresponding actor already cached in our Redux store
-								if (selectors.getActor(getState(), id)) {
-									// ...then update the card for that actor
+								// ...and we have a corresponding card already cached in our Redux store
+								if (selectors.getCard(getState(), id, card.type)) {
+									// ...then update the card
 									dispatch({
-										type: actions.UPDATE_ACTOR,
-										value: {
-											actor: {
-												card
-											},
-											id
-										}
+										type: actions.SET_CARD,
+										value: card
 									})
 								}
 							}

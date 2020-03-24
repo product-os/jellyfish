@@ -58,7 +58,7 @@ ava('reducer should create a default state if one is not provided', (test) => {
 			session: null,
 			notifications: [],
 			viewNotices: {},
-			actors: {},
+			cards: {},
 			orgs: [],
 			config: {},
 			ui: {
@@ -325,71 +325,69 @@ ava('REMOVE_CHANNEL action removes the specified channel', (test) => {
 	])
 })
 
-ava('SET_ACTOR action overwrites the specified actor', (test) => {
+ava('SET_CARD action merges the specified card', (test) => {
 	const initialState = reducer()
-	initialState.core.actors = {
-		1: {
-			id: 1,
-			name: 'test'
-		},
-		2: {
-			id: 2
+	initialState.core.cards = {
+		user: {
+			1: {
+				id: 1,
+				type: 'user',
+				name: 'test',
+				links: {
+					'is member of': [
+						{
+							slug: 'org-balena'
+						}
+					]
+				}
+			},
+			2: {
+				id: 2,
+				type: 'user'
+			}
 		}
 	}
 
 	const newState = reducer(initialState, {
-		type: actions.SET_ACTOR,
+		type: actions.SET_CARD,
 		value: {
 			id: 1,
-			actor: {
-				id: 1,
-				foo: 'bar'
+			type: 'user',
+			foo: 'bar',
+			links: {
+				'has attached element': [
+					{
+						slug: 'some-card'
+					}
+				]
 			}
 		}
 	})
 
-	test.deepEqual(newState.core.actors, {
-		1: {
-			id: 1,
-			foo: 'bar'
-		},
-		2: {
-			id: 2
-		}
-	})
-})
-
-ava('UPDATE_ACTOR action merges the specified actor', (test) => {
-	const initialState = reducer()
-	initialState.core.actors = {
-		1: {
-			id: 1,
-			name: 'test'
-		},
-		2: {
-			id: 2
-		}
-	}
-
-	const newState = reducer(initialState, {
-		type: actions.UPDATE_ACTOR,
-		value: {
-			id: 1,
-			actor: {
+	test.deepEqual(newState.core.cards, {
+		user: {
+			1: {
 				id: 1,
-				foo: 'bar'
+				type: 'user',
+				name: 'test',
+				foo: 'bar',
+				links: {
+					'is member of': [
+						{
+							slug: 'org-balena'
+						}
+					],
+					'has attached element': [
+						{
+							slug: 'some-card'
+						}
+					]
+				}
+			},
+			2: {
+				id: 2,
+				type: 'user'
 			}
-		}
-	})
-
-	test.deepEqual(newState.core.actors, {
-		1: {
-			id: 1,
-			name: 'test',
-			foo: 'bar'
-		},
-		2: {
-			id: 2
 		}
 	})
 })

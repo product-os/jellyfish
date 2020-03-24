@@ -7,8 +7,7 @@ const ava = require('ava')
 const uuid = require('uuid').v4
 const update = require('immutability-helper')
 const {
-	updateThreadChannels,
-	generateActorFromUserCard
+	updateThreadChannels
 } = require('./helpers')
 
 const getMessageCard = (target) => {
@@ -32,58 +31,6 @@ const getThreadChannel = (id, messages) => {
 		}
 	}
 }
-
-ava('generateActorFromUserCard can generate name from slug', (test) => {
-	const card = {
-		slug: 'user-foobar',
-		links: {
-			'is member of': [
-				{
-					slug: 'org-balena'
-				}
-			]
-		}
-	}
-	const actor = generateActorFromUserCard(card)
-	test.is(actor.name, 'foobar')
-	test.is(actor.proxy, false)
-})
-
-ava('generateActorFromUserCard can generate name from handle', (test) => {
-	const card = {
-		slug: 'user-foobar',
-		data: {
-			handle: 'a-handle'
-		}
-	}
-	const actor = generateActorFromUserCard(card)
-	test.is(actor.name, '[a-handle]')
-})
-
-ava('generateActorFromUserCard can generate name from email', (test) => {
-	const card = {
-		slug: 'user-foobar',
-		data: {
-			email: 'user@test.com'
-		}
-	}
-	const actor = generateActorFromUserCard(card)
-	test.is(actor.name, '[user@test.com]')
-})
-
-ava('generateActorFromUserCard generates proxy, email and avatarUrl from card', (test) => {
-	const card = {
-		slug: 'user-foobar',
-		data: {
-			email: 'user@test.com',
-			avatar: 'https://www.example.com'
-		}
-	}
-	const actor = generateActorFromUserCard(card)
-	test.is(actor.avatarUrl, 'https://www.example.com')
-	test.is(actor.email, 'user@test.com')
-	test.is(actor.proxy, true)
-})
 
 ava('updateThreadChannels updates the corresponding channel', (test) => {
 	// Setup:

@@ -5,14 +5,9 @@
  */
 
 import React from 'react'
-import _ from 'lodash'
-
-const getActorIdFromCard = _.memoize((card) => {
-	const createCard = _.find(_.get(card, [ 'links', 'has attached element' ]), (linkedCard) => {
-		return [ 'create', 'create@1.0.0' ].includes(linkedCard.type)
-	})
-	return _.get(card, [ 'data', 'actor' ]) || _.get(createCard, [ 'data', 'actor' ])
-}, (card) => { return card.id })
+import {
+	getActorIdFromCard
+} from '../services/helpers'
 
 export const withActor = (BaseComponent) => {
 	return ({
