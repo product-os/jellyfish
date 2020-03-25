@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Load event actors using CardLoader component'
+      hash: 597af9af7ab4b01f3a522f54c20f4d674bba7cd0
+      body: >
+        A consistent approach to fetching the user associated with an event's
+        actor. This refactor means that updates to cards in the redux store will
+        automatically get reflected in all corresponding events in the UI!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.30.7
+  date: 2020-03-25T01:07:49.244Z
+- commits:
     - subject: Apply permissions to all links in `permissionFilter.getQuery()`
       hash: d74036d35e9f93030533a32a611f649b0a080c98
       body: |
