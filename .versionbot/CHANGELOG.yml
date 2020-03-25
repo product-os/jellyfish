@@ -1,4 +1,16 @@
 - commits:
+    - subject: Adds CompletePasswordReset page
+      hash: ddf7ab68f1d83ef00ae17848672bbcc2ef6ca594
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Balena CI
+  version: 27.31.0
+  date: 2020-03-25T02:46:27.169Z
+- commits:
     - subject: 'ui: Load event actors using CardLoader component'
       hash: 597af9af7ab4b01f3a522f54c20f4d674bba7cd0
       body: >
