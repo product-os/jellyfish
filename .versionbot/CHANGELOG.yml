@@ -1,4 +1,17 @@
 - commits:
+    - subject: Apply permissions to all links in `permissionFilter.getQuery()`
+      hash: d74036d35e9f93030533a32a611f649b0a080c98
+      body: |
+        This fixes an oversight in PR #3372
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 27.30.6
+  date: 2020-03-25T00:25:09.007Z
+- commits:
     - subject: Update react-select imports for v3.0 breaking changes
       hash: f62833d228b8e8f1cae554589e562fb34836e067
       body: ''
