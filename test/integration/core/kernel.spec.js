@@ -2389,6 +2389,211 @@ ava('.query() should take roles into account when querying for linked cards', as
 	test.deepEqual(results, [])
 })
 
+ava('.query() should take $$links permissions from roles into account', async (test) => {
+	const actor = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user@1.0.0',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.io',
+				hash: 'PASSWORDLESS',
+				roles: [ 'foo' ]
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session@1.0.0',
+			version: '1.0.0',
+			data: {
+				actor: actor.id
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role@1.0.0',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					$$links: {
+						// This should be `false` but that seems to be ignored
+						// when merging schemas
+						'is bot owner': {
+							not: true
+						}
+					},
+					properties: {
+						type: {
+							type: 'string',
+							const: 'user@1.0.0'
+						}
+					}
+				}
+			}
+		})
+
+	const bot = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-bot',
+			type: 'user@1.0.0',
+			version: '1.0.0',
+			data: {
+				email: 'bot@example.io',
+				hash: 'PASSWORDLESS',
+				roles: [ 'foo' ]
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${actor.slug}-is-bot-owner-${bot.slug}`,
+			type: 'link@1.0.0',
+			name: 'is bot owner',
+			data: {
+				inverseName: 'is owned by',
+				from: {
+					id: actor.id,
+					type: actor.type
+				},
+				to: {
+					id: bot.id,
+					type: bot.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, session.id, {
+			type: 'object',
+			$$links: {
+				'is bot owner': {
+					type: 'object'
+				}
+			},
+			properties: {
+				id: {
+					type: 'string',
+					const: actor.id
+				}
+			}
+		})
+
+	test.deepEqual(results, [])
+})
+
+ava('.query() should not add $$links from permissions to the final query', async (test) => {
+	const actor = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'user-johndoe',
+			type: 'user@1.0.0',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.io',
+				hash: 'PASSWORDLESS',
+				roles: [ 'foo' ]
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session@1.0.0',
+			version: '1.0.0',
+			data: {
+				actor: actor.id
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role@1.0.0',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					$$links: {
+						'is bot owner': true
+					},
+					properties: {
+						type: {
+							type: 'string',
+							const: 'user@1.0.0'
+						}
+					}
+				}
+			}
+		})
+
+	const attachment = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'attachment-foo',
+			type: 'card@1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${actor.slug}-has-attachment-${attachment.slug}`,
+			type: 'link@1.0.0',
+			name: 'has attachment',
+			data: {
+				inverseName: 'is attached to',
+				from: {
+					id: actor.id,
+					type: actor.type
+				},
+				to: {
+					id: attachment.id,
+					type: attachment.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, session.id, {
+			type: 'object',
+			$$links: {
+				'has attachment': {
+					type: 'object',
+					properties: {
+						id: {
+							type: 'string'
+						}
+					},
+					additionalProperties: false
+				}
+			},
+			properties: {
+				id: {
+					type: 'string',
+					const: actor.id
+				},
+				links: {
+					type: 'object'
+				}
+			},
+			additionalProperties: false
+		})
+
+	test.deepEqual(results, [ {
+		id: actor.id,
+		links: {
+			'has attachment': [ {
+				id: attachment.id
+			} ]
+		}
+	} ])
+})
+
 ava('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
