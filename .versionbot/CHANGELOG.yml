@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Allow schema.title on CardField component to be undefined when reading
+        it
+      hash: 8a61a0d1b0184f6bc3729ba7791136c3460c0f26
+      body: >
+        PR #3389 introduced a bug o nthe CardField component. Visible when
+        viewing the knowledge base low severity items on production. This fix
+        allows the schema object title to be undefined instead of failing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.32.3
+  date: 2020-03-25T09:22:28.957Z
+- commits:
     - subject: Fix slugify helper methods
       hash: 795452c244dd08acfa45196a78c8cb4781d7fa8c
       body: ''
