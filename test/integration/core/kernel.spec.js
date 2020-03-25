@@ -2273,6 +2273,122 @@ ava('.query() should take roles into account', async (test) => {
 	])
 })
 
+ava('.query() should take roles into account when querying for linked cards', async (test) => {
+	const actor = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'johndoe',
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				email: 'johndoe@example.io',
+				roles: [ 'foo' ]
+			}
+		})
+
+	const session = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
+			type: 'session@1.0.0',
+			version: '1.0.0',
+			data: {
+				actor: actor.id
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'role-foo',
+			type: 'role@1.0.0',
+			version: '1.0.0',
+			data: {
+				read: {
+					type: 'object',
+					required: [ 'type' ],
+					properties: {
+						type: {
+							type: 'string',
+							not: {
+								const: 'org@1.0.0'
+							}
+						}
+					}
+				}
+			}
+		})
+
+	const org = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'tag-foo',
+			type: 'org@1.0.0',
+			name: 'Foo Ltd'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${actor.slug}-is-part-of-${org.slug}`,
+			type: 'link@1.0.0',
+			name: 'is part of',
+			data: {
+				inverseName: 'has member',
+				from: {
+					id: actor.id,
+					type: actor.type
+				},
+				to: {
+					id: org.id,
+					type: org.type
+				}
+			}
+		})
+
+	const attachment = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'attachment-foo',
+			type: 'card@1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${actor.slug}-is-attached-to-${attachment.slug}`,
+			type: 'link@1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: actor.id,
+					type: actor.type
+				},
+				to: {
+					id: attachment.id,
+					type: attachment.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, session.id, {
+			type: 'object',
+			$$links: {
+				'is attached to': {
+					type: 'object'
+				},
+				'is part of': {
+					type: 'object'
+				}
+			},
+			properties: {
+				id: {
+					type: 'string',
+					const: actor.id
+				}
+			}
+		})
+
+	test.deepEqual(results, [])
+})
+
 ava('.query() should ignore queries to properties not whitelisted by a role', async (test) => {
 	const actor = await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
 		slug: 'johndoe',
