@@ -5,6 +5,7 @@
  */
 
 const IgnorePlugin = require('webpack/lib/IgnorePlugin')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const config = {
 	mode: 'development',
@@ -71,7 +72,8 @@ const config = {
 if (process.env.NODE_ENV === 'production') {
 	config.mode = 'production'
 	config.optimization = {
-		minimize: true
+		minimize: true,
+		minimizer: [ new TerserPlugin() ]
 	}
 }
 

@@ -53,6 +53,19 @@ global.Sound = Sound
 class Location {}
 global.location = Location
 
+window.URL.createObjectURL = _.noop
+
+// HACK to get react-textarea-autosize not to complain
+// eslint-disable-next-line no-multi-assign
+global.getComputedStyle = global.window.getComputedStyle = () => {
+	return {
+		height: '100px',
+		getPropertyValue: (name) => {
+			return name === 'box-sizing' ? '' : null
+		}
+	}
+}
+
 // eslint-disable-next-line no-undef
 window.HTMLElement.prototype.scrollIntoView = _.noop
 

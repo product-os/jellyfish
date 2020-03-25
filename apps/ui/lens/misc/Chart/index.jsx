@@ -13,7 +13,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import PullRequestChart from './PullRequestChart'
+import Chart from './Chart'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -33,14 +33,14 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: 'lens-pull-request-chart',
+	slug: 'lens-chart',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Pull request chart lens',
+	name: 'Generic chart lens',
 	data: {
 		icon: 'chart-bar',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(PullRequestChart),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(Chart),
 		filter: {
 			type: 'array',
 			items: {
