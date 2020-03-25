@@ -113,7 +113,8 @@
                 "action-update-card",
                 "action-upsert-card",
                 "action-create-event",
-                "action-oauth-authorize"
+                "action-oauth-authorize",
+                "action-complete-password-reset"
               ]
             },
             "type": {

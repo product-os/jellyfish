@@ -14,16 +14,16 @@ import {
 import {
 	actionCreators
 } from '../../core'
-import Login from '../../../../lib/ui-components/Auth/Login'
+import CompletePasswordReset from '../../../../lib/ui-components/Auth/CompletePasswordReset'
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'login'
+				'completePasswordReset'
 			]), dispatch)
 	}
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(null, mapDispatchToProps)(CompletePasswordReset)
