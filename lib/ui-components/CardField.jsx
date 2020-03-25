@@ -70,7 +70,7 @@ const CardField = ({
 	}
 	return (
 		<React.Fragment>
-			<Label my={3}>{schema.title || field}</Label>
+			<Label my={3}>{_.get(schema, [ 'title' ]) || field}</Label>
 
 			{_.isObject(payload[field]) ? _.map(payload[field], (item, key) => {
 				return (
