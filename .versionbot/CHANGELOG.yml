@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Log external HTTP API calls'
+      hash: a6cd19366bf180cdede98f95c1c2b27962c5283b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.33.0
+  date: 2020-03-25T17:52:35.087Z
+- commits:
     - subject: 'UI: Account for periods when highlighting usernames'
       hash: 32631bb4b11e8087bc6aa55b6d5756c48caa105a
       body: >
