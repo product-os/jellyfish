@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix slugify helper methods
+      hash: 795452c244dd08acfa45196a78c8cb4781d7fa8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.32.2
+  date: 2020-03-25T06:29:08.829Z
+- commits:
     - subject: Move some tests to run on balenaCI compose
       hash: 247c576049ac11eb7e0e5cf716d3cf35e8085b17
       body: ''
