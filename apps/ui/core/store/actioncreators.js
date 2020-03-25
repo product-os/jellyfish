@@ -869,7 +869,7 @@ export default class ActionCreator {
 		}
 	}
 
-	updateUser (patches) {
+	updateUser (patches, successNotification) {
 		return async (dispatch, getState) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
@@ -879,7 +879,7 @@ export default class ActionCreator {
 				const updatedUser = await this.sdk.getById(user.id)
 
 				dispatch(this.setUser(updatedUser))
-				dispatch(this.addNotification('success', 'Successfully updated user'))
+				dispatch(this.addNotification('success', successNotification || 'Successfully updated user'))
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
