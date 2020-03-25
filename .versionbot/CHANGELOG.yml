@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'UI: Account for periods when highlighting usernames'
+      hash: 32631bb4b11e8087bc6aa55b6d5756c48caa105a
+      body: >
+        The `memoize` wrapper has been removed, as it would return the same
+        RegExp object when called
+
+        multiple times, resulting in unexpected behaviour when useing
+        `RegExp.exec()`.
+
+
+        Fixes #2593
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.32.4
+  date: 2020-03-25T09:56:58.951Z
+- commits:
     - subject: >-
         Allow schema.title on CardField component to be undefined when reading
         it
