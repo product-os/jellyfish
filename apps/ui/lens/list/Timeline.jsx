@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 
 	return {
+		selectCard: selectors.getCard,
 		enableAutocomplete: !environment.isTest(),
 		sdk,
 		types: selectors.getTypes(state),
@@ -38,6 +39,7 @@ const mapDispatchToProps = (dispatch) => {
 			'addNotification',
 			'setTimelineMessage',
 			'signalTyping',
+			'getCard',
 			'getActor'
 		]),
 		dispatch

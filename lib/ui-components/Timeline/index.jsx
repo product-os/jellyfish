@@ -182,7 +182,7 @@ class Timeline extends React.Component {
 			text += html `
                 ${date}
                 ${time} ${actorName}
-				
+
                     ${content}
 			`
 		}
@@ -405,6 +405,8 @@ class Timeline extends React.Component {
 
 	render () {
 		const {
+			selectCard,
+			getCard,
 			enableAutocomplete,
 			sdk,
 			types,
@@ -571,7 +573,8 @@ class Timeline extends React.Component {
 									onCardVisible={this.handleCardVisible}
 									card={card}
 									user={this.props.user}
-									getActor={this.props.getActor}
+									selectCard={selectCard}
+									getCard={getCard}
 									addNotification={this.props.addNotification}
 									threadIsMirrored={isMirrored}
 									menuOptions={this.props.eventMenuOptions}
@@ -586,7 +589,8 @@ class Timeline extends React.Component {
 								<Event
 									user={this.props.user}
 									card={item}
-									getActor={this.props.getActor}
+									selectCard={selectCard}
+									getCard={getCard}
 									addNotification={this.props.addNotification}
 									threadIsMirrored={isMirrored}
 									menuOptions={this.props.eventMenuOptions}

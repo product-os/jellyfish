@@ -23,14 +23,16 @@ configure({
 	adapter: new Adapter()
 })
 
+const actor = {
+	name: 'johndoe',
+	email: 'johndoe@example.com',
+	proxy: false,
+	card: {}
+}
+
 const actions = {
 	getActor: async () => {
-		return {
-			name: 'johndoe',
-			email: 'johndoe@example.com',
-			proxy: false,
-			card: {}
-		}
+		return actor
 	}
 }
 
@@ -40,10 +42,23 @@ ava('It should render', (test) => {
 			<Event
 				actions={actions}
 				card={card}
-				getActor={actions.getActor}
 			/>
 		)
 	})
+})
+
+ava('It should display the actor\'s details', (test) => {
+	const event = shallow(
+		<Event
+			actions={actions}
+			card={card}
+			actor={actor}
+		/>
+	)
+	const avatar = event.find('Avatar')
+	test.is(avatar.props().name, actor.name)
+	const actorLabel = event.find('[data-test="event__actor-label"]')
+	test.is(actorLabel.props().tooltip, actor.email)
 })
 
 ava('getMessage() should prefix Front images embedded in img tags', (test) => {

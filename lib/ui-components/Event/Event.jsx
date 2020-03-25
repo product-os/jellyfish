@@ -479,6 +479,7 @@ export default class Event extends React.Component {
 							}}>
 								{isMessage && (
 									<Txt
+										data-test="event__actor-label"
 										tooltip={actor ? actor.email : 'loading...'}
 									>
 										{Boolean(actor) && Boolean(actor.card) && (
