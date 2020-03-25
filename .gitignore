@@ -92,3 +92,7 @@ deploy-templates/jellyfish-product/product/deploy/kubernetes/templates
 
 # tmp directory
 tmp/
+
+# Cryptographic keys used for testing
+*.p8
+*.pem

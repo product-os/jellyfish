@@ -1,0 +1,19 @@
+FROM resinci/jellyfish-test
+
+WORKDIR /usr/src/jellyfish
+
+COPY scripts ./scripts
+
+COPY package.json package-lock.json ./
+
+# --unsafe-perm flag allows the postinstall script to run correctly
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
+
+COPY . ./
+
+# Run catch-uncommitted.
+RUN make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml && \
+	npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
+
+# Run lint and unit tests.
+RUN make lint && make test-unit COVERAGE=0

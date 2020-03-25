@@ -2,6 +2,10 @@ reviewers: 1
 docker:
   builds:
     - path: .
+      dockerfile: test/containers/Dockerfile.test
+      docker_repo: balena/jellyfish-ci-test
+      publish: false
+    - path: .
       dockerfile: apps/server/Dockerfile
       docker_repo: balena/jellyfish
       publish: true
