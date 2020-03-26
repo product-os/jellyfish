@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'build(deps): bump redux from 3.7.2 to 4.0.5'
+      hash: ff2ac393b8e253e37440e16dc3aa7738593bfdbd
+      body: |
+        Bumps [redux](https://github.com/reduxjs/redux) from 3.7.2 to 4.0.5.
+        - [Release notes](https://github.com/reduxjs/redux/releases)
+        - [Changelog](https://github.com/reduxjs/redux/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/reduxjs/redux/compare/v3.7.2...v4.0.5)
+      footer:
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+        Change-type: patch
+        change-type: patch
+      author: 'dependabot-preview[bot]'
+  version: 27.36.1
+  date: 2020-03-26T11:45:56.746Z
+- commits:
     - subject: >-
         Update graphile-worker to latest 0.5.0, in particular because it fixes a
         problem with signal handling: it was previously handling signals on its
