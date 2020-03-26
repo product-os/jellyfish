@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Don''t always lock "cards" at startup with SET STORAGE EXTERNAL'
+      hash: 9116feb57e5daee2e11cc9f30caf0801d6a7d746
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.36.3
+  date: 2020-03-26T16:03:32.812Z
+- commits:
     - subject: Link Sales thread to Opportunity
       hash: 5f1cf09ad321f5d38bc9b7954e667fcafc2a96a6
       body: ''
