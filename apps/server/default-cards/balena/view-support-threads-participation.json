@@ -1,0 +1,79 @@
+{
+  "slug": "view-support-threads-participation",
+  "name": "My participation",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "namespace": "Support",
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message",
+                    "create",
+                    "whisper",
+                    "update",
+                    "message@1.0.0",
+                    "create@1.0.0",
+                    "whisper@1.0.0",
+                    "update@1.0.0"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "type": "object",
+          "properties": {
+            "active": {
+              "const": true,
+              "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "enum": [ "support-thread", "support-thread@1.0.0" ]
+            },
+            "data": {
+              "type": "object",
+              "required": [
+                "participants"
+              ],
+              "properties": {
+                "participants": {
+                  "type": "array",
+                  "contains": {
+                    "const": {
+                      "$eval": "user.id"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "description": "View all support threads I've participated in",
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-support-threads",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

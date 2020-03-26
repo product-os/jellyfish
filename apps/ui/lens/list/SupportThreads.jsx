@@ -269,7 +269,11 @@ export class SupportThreads extends React.Component {
 									}}
 								>
 									{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
-										<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
+										<Box p={3}>
+											<strong data-test="alt-text--no-support-threads">
+												Good job! There are no support threads here
+											</strong>
+										</Box>
 									)}
 
 									{_.map(segment.cards, (card) => {
