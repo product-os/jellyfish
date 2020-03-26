@@ -5,15 +5,21 @@
  */
 
 import React from 'react'
+import styled from 'styled-components'
 import {
 	Box,
 	Button,
 	Divider,
 	Heading,
 	Input,
+	Link,
 	Txt
 } from 'rendition'
 import Icon from '../../shame/Icon'
+
+const StyledLink = styled(Link) `
+	float: right;
+`
 
 export default class Login extends React.Component {
 	constructor (props) {
@@ -115,6 +121,12 @@ export default class Login extends React.Component {
 						</Button>
 					</Box>
 				</form>
+				<StyledLink
+					mt={3}
+					href="/request_password_reset"
+				>
+					Forgot Password?
+				</StyledLink>
 			</div>
 		)
 	}

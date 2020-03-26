@@ -114,6 +114,7 @@
                 "action-upsert-card",
                 "action-create-event",
                 "action-oauth-authorize",
+                "action-request-password-reset",
                 "action-complete-password-reset"
               ]
             },
