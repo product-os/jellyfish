@@ -13,6 +13,9 @@ import {
 	swallowEvent
 } from './services/helpers'
 
+// Slide-in delay in seconds
+const DELAY = 0.6
+
 const px = (val) => {
 	return (typeof val === 'number' ? `${val}px` : val)
 }
@@ -25,13 +28,13 @@ const SlideInWrapper = styled.div `
 	height: 100%;
 	width: 100%;
 	visibility: hidden;
-	transition: visibility 0s 0.6s;
+	transition: visibility 0s ${DELAY}s;
 	&.slide-in--open {
 		visibility: visible;
 		transition: visibility 0s 0s;
 		&::after {
 			background: ${(props) => { return props.theme.layer.overlay.background }};
-			transition: background .3s 0s;
+			transition: background ${DELAY / 2}s 0s;
 		}
 	}
 	&::after {
@@ -43,7 +46,7 @@ const SlideInWrapper = styled.div `
 		height: 100%;
 		background: 0 0;
 		cursor: pointer;
-		transition: background .3s .3s;
+		transition: background ${DELAY / 2}s ${DELAY / 2}s;
 	}
 `
 
@@ -51,7 +54,7 @@ const SlideInPanelBase = styled(Flex) `
 	position: absolute;
   background: ${(props) => { return props.theme.global.colors.white }};
   z-index: 1;
-	transition: transform 0.3s 0.3s;
+	transition: transform ${DELAY / 2}s ${DELAY / 2}s;
 	.slide-in--open & {
 		transform: translate3d(0, 0, 0);
   	transition-delay: 0s;
@@ -95,8 +98,23 @@ export default function SlideIn ({
 	width,
 	height,
 	disableClickOutsideToClose,
+	lazyLoadContent,
 	children
 }) {
+	const [ isContentLoaded, setIsContentLoaded ] = React.useState(isOpen)
+
+	React.useEffect(() => {
+		if (isOpen) {
+			// Load the panel's content as soon as we open the panel
+			setIsContentLoaded(true)
+		} else {
+			// Unload the panel's content after the panel has fully slid out of view
+			setTimeout(() => {
+				return setIsContentLoaded(false)
+			}, DELAY * 1000)
+		}
+	}, [ isOpen ])
+
 	const SlideInPanel = Panels[from]
 	if (typeof SlideInPanel === 'undefined') {
 		throw new Error('SlideIn \'from\' prop must be one of: top | bottom | left | right')
@@ -112,7 +130,7 @@ export default function SlideIn ({
 				className={className}
 				onClick={swallowEvent}
 			>
-				{children}
+				{(!lazyLoadContent || isContentLoaded) && children}
 			</SlideInPanel>
 		</SlideInWrapper>
 	)
