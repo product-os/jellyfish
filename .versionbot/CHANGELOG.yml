@@ -1,4 +1,18 @@
 - commits:
+    - subject: Adds RequestPasswordReset page and link from login page
+      hash: d0a2f6fee4da682ebf7b937f9be709b396f97dbd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        Co-Authored-By: Graham McCulloch <admin@grahammcculloch.co.uk>
+        co-authored-by: Graham McCulloch <admin@grahammcculloch.co.uk>
+      author: Balena CI
+  version: 27.35.0
+  date: 2020-03-26T03:31:29.337Z
+- commits:
     - subject: 'ui: New View: ''Support -> My Participation'''
       hash: 0196edd0d180267138b0e52ba9c1decb5d1ea9ba
       body: >
