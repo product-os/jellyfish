@@ -61,7 +61,16 @@
     },
     "slices": [
       "properties.data.properties.status"
-    ]
+    ],
+    "meta": {
+      "relationships": [
+        {
+          "title": "Opportunity",
+          "link": "is attached to",
+          "type": "opportunity"
+        }
+      ]
+    }
   },
   "requires": [],
   "capabilities": []

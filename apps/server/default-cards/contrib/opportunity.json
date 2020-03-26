@@ -85,6 +85,11 @@
           "title": "Backup owners",
           "link": "has backup owner",
           "type": "user"
+        },
+        {
+          "title": "Sales Thread",
+          "link": "has attached",
+          "type": "sales-thread"
         }
       ]
     }
