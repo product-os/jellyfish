@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'front: Cache contact requests'
+      hash: 57dd774ad1172a8e78bab128910c2775c7b9adbc
+      body: |
+        We do a lot of repetitive contact based HTTP requests that eat our rate
+        limits. This is not something we can find from the information we have
+        on Jellyfish, but we can cache it much better at the integration level.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.36.4
+  date: 2020-03-26T17:17:17.159Z
+- commits:
     - subject: 'core: Don''t always lock "cards" at startup with SET STORAGE EXTERNAL'
       hash: 9116feb57e5daee2e11cc9f30caf0801d6a7d746
       body: ''
