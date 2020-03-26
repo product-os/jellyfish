@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: New View: ''Support -> My Participation'''
+      hash: 0196edd0d180267138b0e52ba9c1decb5d1ea9ba
+      body: >
+        This new view displays all support issues in which the authenticated
+        user has participated.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.34.0
+  date: 2020-03-26T02:12:49.814Z
+- commits:
     - subject: 'front: Log external HTTP API calls'
       hash: a6cd19366bf180cdede98f95c1c2b27962c5283b
       body: ''
