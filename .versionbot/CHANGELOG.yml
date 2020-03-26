@@ -1,4 +1,16 @@
 - commits:
+    - subject: Link Sales thread to Opportunity
+      hash: 5f1cf09ad321f5d38bc9b7954e667fcafc2a96a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.36.2
+  date: 2020-03-26T14:35:29.434Z
+- commits:
     - subject: 'build(deps): bump redux from 3.7.2 to 4.0.5'
       hash: ff2ac393b8e253e37440e16dc3aa7738593bfdbd
       body: |
