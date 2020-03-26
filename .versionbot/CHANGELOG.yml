@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Update graphile-worker to latest 0.5.0, in particular because it fixes a
+        problem with signal handling: it was previously handling signals on its
+        own, disrupting our graceful shutdown code
+      hash: 36554172a9db1b0bac9c6f98b9ded4c5ae5a7ab3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 27.36.0
+  date: 2020-03-26T04:28:29.542Z
+- commits:
     - subject: Adds RequestPasswordReset page and link from login page
       hash: d0a2f6fee4da682ebf7b937f9be709b396f97dbd
       body: ''
