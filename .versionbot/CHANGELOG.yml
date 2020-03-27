@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: Lazy-load the SlideInPanel''s content'
+      hash: a15f52a9e2b5f2bc601a9ab0e12285b4a9eeeca2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.5
+  date: 2020-03-27T01:25:28.600Z
+- commits:
     - subject: 'front: Cache contact requests'
       hash: 57dd774ad1172a8e78bab128910c2775c7b9adbc
       body: |
