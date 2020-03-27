@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Log JSON Schema query timeouts for debugging purposes'
+      hash: 98550ec19f03b73eace1f6603e0d2659d422ffd2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.36.8
+  date: 2020-03-27T14:13:29.890Z
+- commits:
     - subject: 'patch: bump circular-std from 1.0.0 to 1.0.3'
       hash: c3fbc02d9edd53d4e18fbc33d609dee8b2b9577c
       body: >
