@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: New useDebounce React Hook'
+      hash: aa79abf637687c9e378ee815f0be90311802c0d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.6
+  date: 2020-03-27T02:54:40.182Z
+- commits:
     - subject: 'ui-components: Lazy-load the SlideInPanel''s content'
       hash: a15f52a9e2b5f2bc601a9ab0e12285b4a9eeeca2
       body: ''
