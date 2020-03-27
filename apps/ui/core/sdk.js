@@ -6,7 +6,7 @@
 
 import {
 	getSdk
-} from '../../../lib/sdk'
+} from '@balena/jellyfish-client-sdk'
 import * as environment from '../environment'
 
 export const sdk = getSdk({

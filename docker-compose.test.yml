@@ -5,6 +5,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.ci
+      args:
+        NPM_TOKEN: $NPM_TOKEN
     depends_on:
       - api
       - livechat
