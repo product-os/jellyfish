@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump circular-std from 1.0.0 to 1.0.3'
+      hash: c3fbc02d9edd53d4e18fbc33d609dee8b2b9577c
+      body: >
+        Bumps [circular-std](https://github.com/ahmedtarek2134/circular-std)
+        from 1.0.0 to 1.0.3.
+
+        - [Release
+        notes](https://github.com/ahmedtarek2134/circular-std/releases)
+
+        -
+        [Commits](https://github.com/ahmedtarek2134/circular-std/commits/1.0.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 27.36.7
+  date: 2020-03-27T12:11:49.122Z
+- commits:
     - subject: 'ui-components: New useDebounce React Hook'
       hash: aa79abf637687c9e378ee815f0be90311802c0d3
       body: ''
