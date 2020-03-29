@@ -36,7 +36,7 @@ export const setupStore = ({
 		// Don't save cached (user) cards - these should be refetched to ensure we have
 		// the latest version
 		localForage.setItem(storageKey, {
-			core: _.omit(state.core, [ 'cards' ])
+			core: _.omit(state.core, [ 'cards', 'ui.flows' ])
 		})
 	}
 

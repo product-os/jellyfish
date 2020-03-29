@@ -62,6 +62,7 @@ ava('reducer should create a default state if one is not provided', (test) => {
 			orgs: [],
 			config: {},
 			ui: {
+				flows: {},
 				sidebar: {
 					expanded: []
 				},
@@ -547,5 +548,93 @@ ava('USER_STOPPED_TYPING action removes the user from the usersTyping for that c
 		2: {
 			test2: true
 		}
+	})
+})
+
+ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
+	const initialState = reducer()
+	const flowId = 'HANDOVER'
+	const cardId = '3'
+	const flowStateUpdates = {
+		someItem: 'someValue'
+	}
+
+	const newState = reducer(initialState, {
+		type: actions.SET_FLOW,
+		value: {
+			flowId,
+			cardId,
+			flowState: flowStateUpdates
+		}
+	})
+
+	test.deepEqual(newState.core.ui.flows, {
+		[flowId]: {
+			[cardId]: {
+				someItem: 'someValue'
+			}
+		}
+	})
+})
+
+ava('SET_FLOW merges an existing flow state', (test) => {
+	const initialState = reducer()
+	const flowId = 'HANDOVER'
+	const cardId = '3'
+	const flowState = {
+		isOpen: true,
+		valA: 'initial'
+	}
+	initialState.core.ui.flows = {
+		[flowId]: {
+			[cardId]: flowState
+		}
+	}
+	const flowStateUpdates = {
+		valA: 'changed'
+	}
+
+	const newState = reducer(initialState, {
+		type: actions.SET_FLOW,
+		value: {
+			flowId,
+			cardId,
+			flowState: flowStateUpdates
+		}
+	})
+
+	test.deepEqual(newState.core.ui.flows, {
+		[flowId]: {
+			[cardId]: {
+				isOpen: true,
+				valA: 'changed'
+			}
+		}
+	})
+})
+
+ava('REMOVE_FLOW removes flow state', (test) => {
+	const initialState = reducer()
+	const flowId = 'HANDOVER'
+	const cardId = '3'
+	const flowState = {
+		isOpen: true
+	}
+	initialState.core.ui.flows = {
+		[flowId]: {
+			[cardId]: flowState
+		}
+	}
+
+	const newState = reducer(initialState, {
+		type: actions.REMOVE_FLOW,
+		value: {
+			flowId,
+			cardId
+		}
+	})
+
+	test.deepEqual(newState.core.ui.flows, {
+		[flowId]: {}
 	})
 })

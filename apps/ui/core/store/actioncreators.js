@@ -119,6 +119,7 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
+	getFlow: (flowId, cardId) => (state) => { return _.get(state.core, [ 'ui', 'flows', flowId, cardId ]) || null },
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
@@ -212,6 +213,7 @@ export default class ActionCreator {
 			'logout',
 			'queryAPI',
 			'removeChannel',
+			'removeFlow',
 			'removeNotification',
 			'removeViewDataItem',
 			'removeViewNotice',
@@ -221,6 +223,7 @@ export default class ActionCreator {
 			'setChannels',
 			'setChatWidgetOpen',
 			'setDefault',
+			'setFlow',
 			'setOrgs',
 			'setPassword',
 			'setSendCommand',
@@ -1346,6 +1349,31 @@ export default class ActionCreator {
 				.catch((error) => {
 					dispatch(this.addNotification('danger', error.message))
 				})
+		}
+	}
+
+	setFlow (flowId, cardId, flowState) {
+		return (dispatch) => {
+			return dispatch({
+				type: actions.SET_FLOW,
+				value: {
+					flowId,
+					cardId,
+					flowState
+				}
+			})
+		}
+	}
+
+	removeFlow (flowId, cardId) {
+		return (dispatch) => {
+			return dispatch({
+				type: actions.REMOVE_FLOW,
+				value: {
+					flowId,
+					cardId
+				}
+			})
 		}
 	}
 }
