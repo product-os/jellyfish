@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve test init script
+      hash: 5a2bd188de3917ebb676fcca8569ecebe39912d4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 27.36.13
+  date: 2020-03-30T09:25:46.119Z
+- commits:
     - subject: 'tests: Fix flaky e2e sales test'
       hash: 98246e075439289635b4666f5a1e11fc83579319
       body: ''
