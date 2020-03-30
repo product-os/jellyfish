@@ -42,6 +42,7 @@ const getDefaultState = () => {
 			orgs: [],
 			config: {},
 			ui: {
+				flows: {},
 				sidebar: {
 					expanded: []
 				},
@@ -376,6 +377,41 @@ const coreReducer = (state, action) => {
 						$unset: [ action.value.user ]
 					})
 				})
+			})
+		}
+		case actions.SET_FLOW: {
+			const {
+				flowId,
+				cardId,
+				flowState
+			} = action.value
+			return update(state, {
+				ui: {
+					flows: {
+						[flowId]: (flowsById) => update(flowsById || {}, {
+							[cardId]: {
+								$apply: (existingFlowState) => {
+									return _.merge({}, existingFlowState || {}, flowState)
+								}
+							}
+						})
+					}
+				}
+			})
+		}
+		case actions.REMOVE_FLOW: {
+			const {
+				flowId,
+				cardId
+			} = action.value
+			return update(state, {
+				ui: {
+					flows: {
+						[flowId]: (flowsById) => update(flowsById || {}, {
+							$unset: [ cardId ]
+						})
+					}
+				}
 			})
 		}
 
