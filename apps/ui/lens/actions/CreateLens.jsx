@@ -103,8 +103,9 @@ class CreateLens extends React.Component {
 		this.bindMethods([
 			'addEntry',
 			'close',
-			'handlLinkOptionSelect',
+			'handleLinkOptionSelect',
 			'handleFormChange',
+			'handleDone',
 			'setFreeFieldData',
 			'setLocalSchema',
 			'saveLink'
@@ -185,6 +186,9 @@ class CreateLens extends React.Component {
 		sdk.card.create(newCard)
 			.catch((error) => {
 				actions.addNotification('danger', error.message)
+				this.setState({
+					submitting: false
+				})
 			})
 			.then(async (card) => {
 				// Create all the links asynchronously
@@ -207,12 +211,7 @@ class CreateLens extends React.Component {
 						}
 					})
 				}
-				this.handleDone(card || null)
-			})
-			.finally(() => {
-				this.setState({
-					submitting: false
-				})
+				await this.handleDone(card || null)
 			})
 
 		this.setState({
@@ -224,7 +223,7 @@ class CreateLens extends React.Component {
 		this.props.actions.removeChannel(this.props.channel)
 	}
 
-	handlLinkOptionSelect (payload) {
+	handleLinkOptionSelect (payload) {
 		const option = payload.value
 		const selectedTypeTarget = _.find(this.props.allTypes, {
 			slug: option.data.to
@@ -236,39 +235,34 @@ class CreateLens extends React.Component {
 		})
 	}
 
-	handleDone (newCard) {
+	async handleDone (newCard) {
 		const {
 			onDone
 		} = this.props.channel.data.head
 
-		if (!onDone) {
-			return
-		}
+		let closed = false
 
-		if (onDone.action === 'open') {
+		if (_.get(onDone, [ 'action' ]) === 'open') {
 			this.setState({
 				redirectTo: `/${newCard.slug || newCard.id}`
 			})
-
-			return
-		}
-
-		if (onDone.action === 'link') {
+		} else if (_.get(onDone, [ 'action' ]) === 'link') {
 			const card = onDone.target
 			const {
 				linkOption,
 				selectedTypeTarget
 			} = this.state
-			if (!newCard) {
-				return
+			if (newCard && selectedTypeTarget) {
+				await this.props.actions.createLink(card, newCard, linkOption.name)
+				this.close()
+				closed = true
 			}
-			if (!selectedTypeTarget) {
-				return
-			}
-			this.props.actions.createLink(card, newCard, linkOption.name)
-			this.close()
 		}
-
+		if (!closed) {
+			this.setState({
+				submitting: false
+			})
+		}
 		if (onDone.callback) {
 			onDone.callback(newCard)
 		}
@@ -424,7 +418,7 @@ class CreateLens extends React.Component {
 							<Select
 								ml={2}
 								value={linkOption.data.title}
-								onChange={this.handlLinkOptionSelect}
+								onChange={this.handleLinkOptionSelect}
 								options={linkTypeTargets}
 								labelKey="title"
 							/>
