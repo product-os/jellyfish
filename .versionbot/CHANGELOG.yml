@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Fix incorrect translate target for "merged_at" field on github pull
+        requests
+      hash: 2c1699dbabb8a46b35a15e944acc1b45cea39cc0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 27.36.14
+  date: 2020-03-30T13:44:49.620Z
+- commits:
     - subject: Improve test init script
       hash: 5a2bd188de3917ebb676fcca8569ecebe39912d4
       body: ''
