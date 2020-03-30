@@ -452,6 +452,7 @@ class CreateLens extends React.Component {
 								p={3}
 								mt={3}
 								key={key}
+								data-test={`segment-card--${_.get(segment, [ 'type' ])}`}
 								title={segment.title}
 							>
 								<Segment
