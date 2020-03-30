@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+/* eslint-disable no-underscore-dangle */
+
 import _ from 'lodash'
 import React from 'react'
 import AsyncSelect from 'react-select/async'
@@ -18,6 +20,14 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 		this.getTargets = this.getTargets.bind(this)
 		this.onChange = this.onChange.bind(this)
+	}
+
+	componentDidMount () {
+		this._isMounted = true
+	}
+
+	componentWillUnmount () {
+		this._isMounted = false
 	}
 
 	componentDidUpdate (prevProps) {
@@ -71,9 +81,11 @@ export default class AutoCompleteCardSelect extends React.Component {
 			return []
 		}
 
-		this.setState({
-			results
-		})
+		if (this._isMounted) {
+			this.setState({
+				results
+			})
+		}
 
 		// Return the results in a format understood by the AsyncSelect component
 		return results.map((card) => {
