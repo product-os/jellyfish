@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'tests: Fix flaky e2e sales test'
+      hash: 98246e075439289635b4666f5a1e11fc83579319
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.12
+  date: 2020-03-30T07:15:41.036Z
+- commits:
     - subject: Bump rendition from 14.2.0 to 14.4.0
       hash: 39a6fa62882645d4052ac1fb733a406e4d847c0d
       body: ''
