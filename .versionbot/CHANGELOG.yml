@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump rendition from 14.2.0 to 14.4.0
+      hash: 39a6fa62882645d4052ac1fb733a406e4d847c0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.11
+  date: 2020-03-30T06:23:18.791Z
+- commits:
     - subject: 'ui-components: AutoCompleteCardSelect - only set state if mounted'
       hash: b163920425635625c9dccbd5c6f0284a1843506f
       body: ''
