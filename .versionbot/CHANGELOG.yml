@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: AutoCompleteCardSelect - only set state if mounted'
+      hash: b163920425635625c9dccbd5c6f0284a1843506f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.10
+  date: 2020-03-30T04:54:19.315Z
+- commits:
     - subject: 'ui: Add support for flows in the redux store'
       hash: af0b4162d1d22dbbdf1e25d811d327c65ecb3c6e
       body: ''
