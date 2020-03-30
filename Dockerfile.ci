@@ -23,4 +23,4 @@ COPY ./Makefile ./Makefile
 COPY ./.git ./.git
 
 # Run set test script
-CMD /bin/bash -c "/usr/src/jellyfish/scripts/ci/tests/init.sh"
+CMD /bin/bash -c "/usr/src/jellyfish/scripts/ci/tests/init.js"
