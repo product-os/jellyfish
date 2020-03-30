@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Add support for flows in the redux store'
+      hash: af0b4162d1d22dbbdf1e25d811d327c65ecb3c6e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.36.9
+  date: 2020-03-29T09:13:09.653Z
+- commits:
     - subject: 'core: Log JSON Schema query timeouts for debugging purposes'
       hash: 98550ec19f03b73eace1f6603e0d2659d422ffd2
       body: ''
