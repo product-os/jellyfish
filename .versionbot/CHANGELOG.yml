@@ -1,4 +1,16 @@
 - commits:
+    - subject: Clean up compose test init script
+      hash: a90d28c38646fda5352b1ea0ee0856b4d4deb029
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 27.37.2
+  date: 2020-03-31T06:23:28.649Z
+- commits:
     - subject: Fixes request-password-reset and complete-password-reset
       hash: a972dad0a12c16301ab24ea75b820b8d9e41f6d3
       body: ''
