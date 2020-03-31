@@ -1,4 +1,31 @@
 - commits:
+    - subject: >-
+        Wrap `graphileRunner.stop` with `_.once` since, during tests, it may be
+        called more than once, leading to an error
+      hash: 7c198ff23649d092232afe452bfa5889f82562e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+    - subject: >-
+        First attempt at enabling `metrics` on jellyfish First metric is exposed
+        by workers and its the total number of handled action requests
+      hash: b499f302f2a5121ece754acc0eb219c3d99b9a09
+      body: ''
+      footer:
+        Connects-to: '#3374'
+        connects-to: '#3374'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+  version: 27.37.3
+  date: 2020-03-31T12:43:39.086Z
+- commits:
     - subject: Clean up compose test init script
       hash: a90d28c38646fda5352b1ea0ee0856b4d4deb029
       body: ''
