@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fixes request-password-reset and complete-password-reset
+      hash: a972dad0a12c16301ab24ea75b820b8d9e41f6d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.37.1
+  date: 2020-03-31T02:20:55.710Z
+- commits:
     - subject: 'ui-components: new re-usable LinksProvider component'
       hash: 1122f0ca0b2e11f5463dfacb3802a33c15dd85fa
       body: >
