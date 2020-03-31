@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui-components: new re-usable LinksProvider component'
+      hash: 1122f0ca0b2e11f5463dfacb3802a33c15dd85fa
+      body: >
+        Can be used with matching withLinks and withLink higher order
+        components, or useLink and useLinks hooks.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.37.0
+  date: 2020-03-31T00:30:57.007Z
+- commits:
     - subject: >-
         Fix incorrect translate target for "merged_at" field on github pull
         requests
