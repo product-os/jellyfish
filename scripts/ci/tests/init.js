@@ -10,7 +10,7 @@ const _ = require('lodash')
 const childProcess = require('child_process')
 const fs = require('fs')
 
-/*
+/**
  * This script runs test scripts as background jobs, monitoring output and
  * restarting/killing non-responsive jobs as necessary.
  */
@@ -20,81 +20,131 @@ const RETRIES = 3
 const SCRIPTS_DIR = '/usr/src/jellyfish/scripts'
 const TESTS_DIR = `${SCRIPTS_DIR}/ci/tests`
 
-const jobs = {}
-
-// Install dependencies.
-const installDeps = () => {
+/**
+ * @summary Install required npm packages
+ * @function
+ */
+const installPackages = () => {
 	childProcess.execSync(`cd ${SCRIPTS_DIR}/template && npm install`)
 }
 
-// Loop through script files and start them as jobs.
+/**
+ * @summary Start all *.spec.sh scripts as background jobs
+ * @function
+ *
+ * @returns {Object} started jobs
+ */
 const startJobs = () => {
-	fs.readdirSync(TESTS_DIR).forEach((file) => {
-		if (file.match(/\.spec\.sh$/)) {
-			jobs[file] = {
-				output: 0,
+	const jobs = {}
+	fs.readdirSync(TESTS_DIR).forEach((name) => {
+		if (name.match(/\.spec\.sh$/)) {
+			jobs[name] = {
+				complete: false,
+				errors: '',
+				name,
+				outputLength: 0,
 				retries: RETRIES
 			}
-			startJob(file)
+			startJob(jobs[name])
 		}
 	})
+	return jobs
 }
 
-// Start a single test.
-const startJob = (file) => {
-	jobs[file].process = childProcess.execFile(`${TESTS_DIR}/${file}`)
-	jobs[file].process.stdout.on('data', (data) => {
-		jobs[file].output += data.length
+/**
+ * @summary Start a single job
+ * @function
+ *
+ * @param {Object} job - job to start
+ * @returns {Object} the job that was started
+ */
+const startJob = (job) => {
+	job.process = childProcess.execFile(`${TESTS_DIR}/${job.name}`)
+
+	// Update jobs output length and make logs easier to parse.
+	job.process.stdout.on('data', (data) => {
+		job.outputLength += data.length
 		const line = data.replace(/\n/gm, '')
-		console.log(`[${file}] ${line}`)
+		console.log(`[${job.name}] ${line}`)
 	})
-	jobs[file].process.on('exit', (code) => {
-		// Exit with non-zero code if any job fails.
+
+	// Catch stderr to output at end of tests to make it easier for developers.
+	job.process.stderr.on('data', (data) => {
+		job.errors += `[${job.name}] ${data}`
+	})
+
+	// Exit init script with non-zero code if job fails.
+	job.process.on('exit', (code) => {
 		if (_.isInteger(code) && code !== 0) {
-			console.log(`Job exited with code ${code}`)
+			console.log(`[${job.name}] Job exited with code ${code}`)
 			process.exit(1)
 		}
-
-		// Remove job from list and exit with 0 if all jobs are done.
-		Reflect.deleteProperty(jobs, file)
-		if (Object.keys(jobs).length === 0) {
-			process.exit(0)
-		}
+		job.complete = true
 	})
+
+	return job
 }
 
-// Watch test output and restart/kill if necessary.
-// Uses length of jobs output to determine if there has been any test activity.
-// If length doesn't change within <TIMEOUT> seconds, job is considered inactive.
-const watchJobs = () => {
-	const prev = {}
+/**
+ * Watch running jobs output and restart/kill if necessary
+ * Uses length of jobs output to determine if there has been any test activity
+ * If length doesn't change within <TIMEOUT> seconds, job is considered inactive
+ *
+ * @function
+ *
+ * @param {Object} jobs - object of running jobs
+ */
+const watchJobs = (jobs) => {
+	const previousOutputLengths = {}
 	setInterval(() => {
-		_.forOwn(jobs, (value, key) => {
-			if (prev[key] && prev[key] === jobs[key].output) {
-				if (jobs[key].retries > 0) {
-					restartJob(key)
+		// Exit if all jobs are complete
+		let incomplete = false
+		_.forOwn(jobs, (job) => {
+			if (!job.complete) {
+				incomplete = true
+			}
+		})
+		if (!incomplete) {
+			console.log('All tests complete')
+			process.exit(0)
+		}
+
+		// Restart/kill a job if its output hasn't updated since last check
+		_.forOwn(jobs, (job, name) => {
+			if (previousOutputLengths[name] && previousOutputLengths[name] === job.outputLength) {
+				if (job.retries > 0) {
+					restartJob(job)
 				} else {
-					console.error(`[ERROR] Bailing out, [${key}] has no retries left`)
+					console.error(`Bailing out, [${name}] has no retries left`)
 					process.exit(1)
 				}
 			}
 
-			// Update previous output length data for next check.
-			prev[key] = jobs[key].output
+			// Update previous output length data for next check
+			previousOutputLengths[name] = job.outputLength
 		})
 	}, TIMEOUT)
 }
 
-// Restart a single test.
-const restartJob = (file) => {
-	console.log(`[${file}] No new output from job, restarting...`)
-	jobs[file].retries -= 1
-	jobs[file].output = 0
-	jobs[file].process.kill(0)
-	Reflect.deleteProperty(jobs[file], 'process')
-	startJob(file)
+/**
+ * @summary Restart a single job
+ * @function
+ *
+ * @param {Object} job - job to restart
+ * @returns {Object} - restarted job
+ */
+const restartJob = (job) => {
+	console.log(`[${job.name}] No new output from job, restarting...`)
+	job.retries -= 1
+	job.outputLength = 0
+	job.process.kill(0)
+	Reflect.deleteProperty(job, 'process')
+	return startJob(job)
 }
 
-installDeps()
-startJobs()
-watchJobs()
+// Install packages
+installPackages()
+
+// Start and watch jobs
+const jobs = startJobs()
+watchJobs(jobs)
