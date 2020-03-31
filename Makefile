@@ -61,6 +61,8 @@ SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= $(PORT)
 export SERVER_PORT
+WORKER_PORT ?= 8888
+export WORKER_PORT
 SERVER_DATABASE ?= jellyfish
 export SERVER_DATABASE
 UI_PORT ?= 9000

@@ -38,6 +38,8 @@ properties:
     type: string?
   LOGLEVEL:
     type: string?
+  WORKER_PORT:
+    type: number
   INTEGRATION_BALENA_API_PRIVATE_KEY:
     type: string?
   INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:

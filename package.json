@@ -116,6 +116,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "@balena/node-metrics-gatherer": "^5.1.0",
     "@octokit/plugin-retry": "^2.2.0",
     "@octokit/plugin-throttling": "^2.6.0",
     "@octokit/rest": "^16.6.1",

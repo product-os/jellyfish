@@ -46,6 +46,8 @@ spec:
           value: {{{LOGENTRIES_TOKEN}}}
         - name: LOGLEVEL
           value: {{{LOGLEVEL}}}
+        - name: WORKER_PORT
+          value: '{{{WORKER_PORT}}}'
         - name: INTEGRATION_BALENA_API_APP_ID
           value: '{{{INTEGRATION_BALENA_API_APP_ID}}}'
         - name: INTEGRATION_BALENA_API_APP_SECRET
@@ -82,6 +84,9 @@ spec:
           value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
           value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
+        ports:
+          - containerPort: 8888
+            name: worker
 
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
