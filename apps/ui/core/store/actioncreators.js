@@ -303,10 +303,13 @@ export default class ActionCreator {
 					}
 
 					card = await loadingCardCache[loadingCacheKey]
-					dispatch({
-						type: actions.SET_CARD,
-						value: card
-					})
+
+					if (card) {
+						dispatch({
+							type: actions.SET_CARD,
+							value: card
+						})
+					}
 				}
 				return card || null
 			}
