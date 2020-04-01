@@ -34,7 +34,8 @@ ava('should only expose the required methods', (test) => {
 		'getElementsById',
 		'query',
 		'stream',
-		'getStatus'
+		'getStatus',
+		'createTypeIndex'
 	])
 })
 
@@ -4895,4 +4896,109 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 
 		test.is(results.length, 1)
 	}
+})
+
+ava('.upsertElement() should created indexes for type cards with the indexed_fields field', async (test) => {
+	const typeCard = {
+		slug: 'test-link',
+		type: 'type@1.0.0',
+		version: '1.0.0',
+		markers: [],
+		tags: [],
+		links: {},
+		active: true,
+		linked_at: {},
+		created_at: new Date().toISOString(),
+		updated_at: null,
+		data: {
+			schema: {
+				type: 'object',
+				properties: {
+					name: {
+						type: 'string'
+					},
+					slug: {
+						type: 'string',
+						pattern: '^link-[a-z0-9-]+$'
+					},
+					type: {
+						type: 'string',
+						enum: [ 'link', 'link@1.0.0' ]
+					},
+					links: {
+						type: 'object',
+						additionalProperties: false,
+						properties: {}
+					},
+					data: {
+						type: 'object',
+						properties: {
+							inverseName: {
+								type: 'string'
+							},
+							from: {
+								type: 'object',
+								required: [ 'id', 'type' ],
+								properties: {
+									id: {
+										type: 'string',
+										format: 'uuid'
+									},
+									type: {
+										type: 'string',
+										pattern: '^[a-z0-9-]+@\\d+\\.\\d+\\.\\d+$'
+									}
+								}
+							},
+							to: {
+								type: 'object',
+								required: [ 'id', 'type' ],
+								properties: {
+									id: {
+										type: 'string',
+										format: 'uuid'
+									},
+									type: {
+										type: 'string',
+										pattern: '^[a-z0-9-]+@\\d+\\.\\d+\\.\\d+$'
+									}
+								}
+							}
+						},
+						required: [
+							'inverseName',
+							'from',
+							'to'
+						]
+					}
+				},
+				required: [
+					'name',
+					'type',
+					'links',
+					'data'
+				]
+			},
+			indexed_fields: [
+				[ 'data.from.id', 'name', 'data.to.id' ]
+			]
+		},
+		requires: [],
+		capabilities: []
+	}
+
+	await test.context.backend.upsertElement(test.context.context, typeCard)
+
+	await Bluebird.delay(2000)
+
+	const indexes = await test.context.backend.connection.any(`
+		SELECT * FROM pg_indexes WHERE tablename = 'cards';
+	`)
+
+	// Look for an index with the expected name
+	const typeIndex = _.find(indexes, {
+		indexname: 'test-link__data_from_id__name__data_to_id__idx'
+	})
+
+	test.truthy(typeIndex)
 })
