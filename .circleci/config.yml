@@ -355,8 +355,8 @@ workflows:
             - e2e_tests_server:
                 <<: *workflow_filter
 
-            - e2e_tests_server_previous_dump:
-                <<: *workflow_filter
+#            - e2e_tests_server_previous_dump:
+#                <<: *workflow_filter
 
             - sync_tests_front_mirror:
                 <<: *workflow_filter
@@ -381,7 +381,7 @@ workflows:
                 requires:
                   - unit_and_sync_tests
                   - e2e_tests_server
-                  - e2e_tests_server_previous_dump
+#                  - e2e_tests_server_previous_dump
                   - sync_tests_front_translate
                   - sync_tests_discourse_translate
                   - sync_tests_front_mirror
