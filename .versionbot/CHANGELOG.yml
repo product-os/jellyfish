@@ -1,4 +1,19 @@
 - commits:
+    - subject: Revert "Use plain subqueries instead of CTEs when querying for links"
+      hash: 15cc30b2850ec9a6cd130f916c6b42c4adc54053
+      body: |
+        This reverts commit 46ab4123d09b74522acad9a570d9198dab7ad932.
+
+        The DB is not behaving as expected
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 27.37.5
+  date: 2020-03-31T23:17:50.103Z
+- commits:
     - subject: Use plain subqueries instead of CTEs when querying for links
       hash: 46ab4123d09b74522acad9a570d9198dab7ad932
       body: |
