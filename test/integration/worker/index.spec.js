@@ -194,7 +194,7 @@ ava('should evaluate a simple computed property on insertion', async (test) => {
 	})
 })
 
-ava.only('should evaluate a simple SUM property on a insertAction', async (test) => {
+ava('should evaluate a simple SUM property on a insertAction', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
@@ -226,7 +226,7 @@ ava.only('should evaluate a simple SUM property on a insertAction', async (test)
 									},
 									fruitSalad: {
 										type: 'number',
-										$$formula: 'SUM(["apples", "oranges"])'
+										$$formula: 'SUM([this.data.apples, this.data.oranges])'
 									}
 								},
 								additionalProperties: true
