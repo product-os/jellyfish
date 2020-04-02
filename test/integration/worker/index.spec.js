@@ -101,6 +101,170 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 	test.falsy(enqueuedRequest2)
 })
 
+ava('should evaluate a simple computed property on insertion', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {
+					foo: 'hello'
+				}
+			}
+		}
+	}
+
+	const insertRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.context.flush(test.context.session)
+	const insertResult = await test.context.queue.producer.waitResults(
+		test.context.context, insertRequest)
+	test.false(insertResult.error)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, insertResult.data.id)
+
+	test.deepEqual(card, {
+		id: card.id,
+		slug: card.slug,
+		capabilities: [],
+		requires: [],
+		markers: [],
+		name: null,
+		version: '1.0.0',
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		created_at: card.created_at,
+		type: 'test-type@1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			foo: 'HELLO'
+		}
+	})
+})
+
+ava('should throw if the result of the formula is incompatible with the given type', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'number',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {
+					foo: 'hello'
+				}
+			}
+		}
+	}
+
+	await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.throwsAsync(
+		test.context.flush(test.context.session),
+		{
+			instanceOf: test.context.jellyfish.errors.JellyfishSchemaMismatch
+		})
+})
+
 ava('should not re-enqueue requests after execute failure', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
