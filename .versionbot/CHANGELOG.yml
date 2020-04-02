@@ -1,4 +1,18 @@
 - commits:
+    - subject: Prevent users from seeing the "create" cards that create users
+      hash: f93dfb5780cc4b7bc70e9fe42808f9e863dc844d
+      body: |
+        If you can view the "create" card, you can also see the exposed user
+        hash that the user was created with.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 27.37.10
+  date: 2020-04-02T11:55:47.427Z
+- commits:
     - subject: >-
         Update request-password-reset to use right session Using privileged
         session instead of guest session
