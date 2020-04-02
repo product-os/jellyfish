@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update request-password-reset to use right session Using privileged
+        session instead of guest session
+      hash: 707bc12b5e1742bb781eb9ce3f6e727fe74496ce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.37.9
+  date: 2020-04-02T07:25:39.896Z
+- commits:
     - subject: Adds user to warning
       hash: 53dde97907eb58eed640f5ba95345d2748ee4397
       body: ''
