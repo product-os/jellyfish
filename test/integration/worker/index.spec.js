@@ -194,6 +194,476 @@ ava('should evaluate a simple computed property on insertion', async (test) => {
 	})
 })
 
+ava('should evaluate a simple computed property on a JSON Patch move', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {
+					bar: 'hello',
+					foo: 'test'
+				}
+			}
+		}
+	}
+
+	const insertRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.context.flush(test.context.session)
+	const insertResult = await test.context.queue.producer.waitResults(
+		test.context.context, insertRequest)
+	test.false(insertResult.error)
+
+	const updateAction = {
+		action: 'action-update-card@1.0.0',
+		context: test.context.context,
+		card: insertResult.data.id,
+		type: insertResult.data.type,
+		arguments: {
+			reason: null,
+			patch: [
+				{
+					op: 'move',
+					from: '/data/bar',
+					path: '/data/foo'
+				}
+			]
+		}
+	}
+
+	const updateRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, updateAction)
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.producer.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
+
+	test.deepEqual(card, {
+		id: card.id,
+		slug: card.slug,
+		capabilities: [],
+		requires: [],
+		markers: [],
+		name: null,
+		version: '1.0.0',
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		created_at: card.created_at,
+		type: 'test-type@1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			bar: 'hello',
+			foo: 'HELLO'
+		}
+	})
+})
+
+ava('should evaluate a simple computed property on a JSON Patch copy', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {
+					bar: 'hello',
+					foo: 'test'
+				}
+			}
+		}
+	}
+
+	const insertRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.context.flush(test.context.session)
+	const insertResult = await test.context.queue.producer.waitResults(
+		test.context.context, insertRequest)
+	test.false(insertResult.error)
+
+	const updateAction = {
+		action: 'action-update-card@1.0.0',
+		context: test.context.context,
+		card: insertResult.data.id,
+		type: insertResult.data.type,
+		arguments: {
+			reason: null,
+			patch: [
+				{
+					op: 'copy',
+					from: '/data/bar',
+					path: '/data/foo'
+				}
+			]
+		}
+	}
+
+	const updateRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, updateAction)
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.producer.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
+
+	test.deepEqual(card, {
+		id: card.id,
+		slug: card.slug,
+		capabilities: [],
+		requires: [],
+		markers: [],
+		name: null,
+		version: '1.0.0',
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		created_at: card.created_at,
+		type: 'test-type@1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			foo: 'HELLO',
+			bar: 'hello'
+		}
+	})
+})
+
+ava('should evaluate a simple computed property on a JSON Patch replace', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {
+					foo: 'hello'
+				}
+			}
+		}
+	}
+
+	const insertRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.context.flush(test.context.session)
+	const insertResult = await test.context.queue.producer.waitResults(
+		test.context.context, insertRequest)
+	test.false(insertResult.error)
+
+	const updateAction = {
+		action: 'action-update-card@1.0.0',
+		context: test.context.context,
+		card: insertResult.data.id,
+		type: insertResult.data.type,
+		arguments: {
+			reason: null,
+			patch: [
+				{
+					op: 'replace',
+					path: '/data/foo',
+					value: 'bar'
+				}
+			]
+		}
+	}
+
+	const updateRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, updateAction)
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.producer.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
+
+	test.deepEqual(card, {
+		id: card.id,
+		slug: card.slug,
+		capabilities: [],
+		requires: [],
+		markers: [],
+		name: null,
+		version: '1.0.0',
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		created_at: card.created_at,
+		type: 'test-type@1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			foo: 'BAR'
+		}
+	})
+})
+
+ava('should evaluate a simple computed property on a JSON Patch addition', async (test) => {
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, 'type@latest')
+
+	const typeAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeCard.id,
+		type: typeCard.type,
+		arguments: {
+			reason: null,
+			properties: {
+				slug: 'test-type',
+				data: {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								pattern: '^test-type@'
+							},
+							data: {
+								type: 'object',
+								properties: {
+									foo: {
+										type: 'string',
+										$$formula: 'UPPER(input)'
+									}
+								},
+								additionalProperties: true
+							}
+						},
+						additionalProperties: true,
+						required: [ 'type', 'data' ]
+					}
+				}
+			}
+		}
+	}
+
+	const typeRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, typeAction)
+	await test.context.flush(test.context.session)
+	const typeResult = await test.context.queue.producer.waitResults(
+		test.context.context, typeRequest)
+	test.false(typeResult.error)
+
+	const insertAction = {
+		action: 'action-create-card@1.0.0',
+		context: test.context.context,
+		card: typeResult.data.id,
+		type: typeResult.data.type,
+		arguments: {
+			reason: null,
+			properties: {
+				data: {}
+			}
+		}
+	}
+
+	const insertRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, insertAction)
+	await test.context.flush(test.context.session)
+	const insertResult = await test.context.queue.producer.waitResults(
+		test.context.context, insertRequest)
+	test.false(insertResult.error)
+
+	const updateAction = {
+		action: 'action-update-card@1.0.0',
+		context: test.context.context,
+		card: insertResult.data.id,
+		type: insertResult.data.type,
+		arguments: {
+			reason: null,
+			patch: [
+				{
+					op: 'add',
+					path: '/data/foo',
+					value: 'hello'
+				}
+			]
+		}
+	}
+
+	const updateRequest = await test.context.queue.producer.enqueue(
+		test.context.worker.getId(), test.context.session, updateAction)
+	await test.context.flush(test.context.session)
+	const updateResult = await test.context.queue.producer.waitResults(
+		test.context.context, updateRequest)
+	test.false(updateResult.error)
+
+	const card = await test.context.jellyfish.getCardById(
+		test.context.context, test.context.session, updateResult.data.id)
+
+	test.deepEqual(card, {
+		id: card.id,
+		slug: card.slug,
+		capabilities: [],
+		requires: [],
+		markers: [],
+		name: null,
+		version: '1.0.0',
+		linked_at: card.linked_at,
+		updated_at: card.updated_at,
+		created_at: card.created_at,
+		type: 'test-type@1.0.0',
+		active: true,
+		links: {},
+		tags: [],
+		data: {
+			foo: 'HELLO'
+		}
+	})
+})
+
 ava('should throw if the result of the formula is incompatible with the given type', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
