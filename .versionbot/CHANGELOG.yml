@@ -1,4 +1,53 @@
 - commits:
+    - subject: 'worker: Fix SUM $$formula test case'
+      hash: 213b1c3c08fa8ee62bbe08744006a760330f5443
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'worker/jellyscript: Add support for $$formula in JSON Patch'
+      hash: 610fe6b48a226255392f37a9e73b7db0093e1bd1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'worker: Evaluate type $$formula on insertion'
+      hash: d72b66a175cd3260fda8321e7ec22deab14279f0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'jellyscript: Don''t fail if expression input is nil'
+      hash: bf7a89f28108f1ef9036983fb41815ef4e38dbce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'jellyscript: Don''t iterate on strings in vain on eachDeep'
+      hash: 8f9cb707bc2fcbc81d2b7431584fef1fa45f72ab
+      body: |
+        Otherwise we try to call the callback for every character in a string.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.38.0
+  date: 2020-04-02T15:43:19.285Z
+- commits:
     - subject: Prevent users from seeing the "create" cards that create users
       hash: f93dfb5780cc4b7bc70e9fe42808f9e863dc844d
       body: |
