@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'github: Instantiate different Octokit clients for translate/mirror'
+      hash: b1174a9e1acf78e5209d957d1c72085c071756fc
+      body: |
+        We can't have a single GitHub Octokit client for the whole integration
+        once we move to GitHub Apps.
+
+        This commit prepares the integration so that we instantiate Octokit
+        clients on the fly on the `.translate()` and `.mirror()` methods.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.38.1
+  date: 2020-04-02T21:49:19.466Z
+- commits:
     - subject: 'worker: Fix SUM $$formula test case'
       hash: 213b1c3c08fa8ee62bbe08744006a760330f5443
       body: ''
