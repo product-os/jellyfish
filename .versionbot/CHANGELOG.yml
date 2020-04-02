@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Adds more warning logs to request-password-reset in order to debug
+        production
+      hash: 7b588fa0018fb26fe6ed75da07a73171606368b0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.37.7
+  date: 2020-04-02T03:36:59.681Z
+- commits:
     - subject: 'ui: Fix setting empty card to redux store'
       hash: 73b8621e0acd674b7d4b89ae4d07e91914066889
       body: ''
