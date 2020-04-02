@@ -503,7 +503,7 @@ ava('when querying cards with linked cards, we fetch links with a subquery, and 
 		}
 	}
 
-	const expected = `WITH main AS (
+	const expected = `WITH main AS MATERIALIZED (
 SELECT
 cards.id,
 cards.slug,
@@ -616,7 +616,7 @@ ava('when querying cards without linked cards, we fetch links with a subquery, a
 		}
 	}
 
-	const expected = `WITH main AS (
+	const expected = `WITH main AS MATERIALIZED (
 SELECT
 cards.id,
 cards.slug,
