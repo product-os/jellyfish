@@ -6,7 +6,7 @@
 
 const fs = require('fs')
 const _ = require('lodash')
-const Octokit = require('@octokit/rest')
+const Octokit = require('@octokit/rest').Octokit
 const packageJSON = require('../../package.json')
 
 const OWNER = 'product-os'
@@ -32,15 +32,11 @@ const BODY = fs.readFileSync(FILE, {
 })
 
 const github = new Octokit({
+	auth: TOKEN,
 	headers: {
 		accept: 'application/vnd.github.v3+json',
 		'user-agent': `${packageJSON.name} v${packageJSON.version}`
 	}
-})
-
-github.authenticate({
-	type: 'token',
-	token: TOKEN
 })
 
 github.users.getAuthenticated().then(async (authenticated) => {
@@ -51,7 +47,7 @@ github.users.getAuthenticated().then(async (authenticated) => {
 	const comments = await github.issues.listComments({
 		owner: OWNER,
 		repo: REPO,
-		number: PR,
+		issue_number: PR,
 		per_page: 100
 	})
 
@@ -72,7 +68,7 @@ github.users.getAuthenticated().then(async (authenticated) => {
 		await github.issues.createComment({
 			owner: OWNER,
 			repo: REPO,
-			number: PR,
+			issue_number: PR,
 			body: BODY
 		})
 	}
