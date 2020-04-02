@@ -1400,3 +1400,24 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 
 	test.is(error.name, 'JellyfishSchemaMismatch')
 })
+
+ava.serial('Users should not be able to view create cards that create users', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user1Details = createUserDetails()
+	const user2Details = createUserDetails()
+
+	await sdk.auth.signup(user1Details)
+	await sdk.auth.signup(user2Details)
+
+	await sdk.auth.login(user1Details)
+
+	const user2 = await sdk.card.getWithTimeline(`user-${user1Details.username}`)
+	const createCard = _.find(user2.links['has attached element'], {
+		type: 'create@1.0.0'
+	})
+
+	test.falsy(createCard)
+})
