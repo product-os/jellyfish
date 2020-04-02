@@ -30,6 +30,7 @@
               "not": {
                 "enum": [
                   "action-request@1.0.0",
+                  "create@1.0.0",
                   "event@1.0.0",
                   "external-event@1.0.0",
                   "role@1.0.0",
@@ -133,6 +134,38 @@
                 "profile": {
                   "type": "object",
                   "additionalProperties": true
+                }
+              }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "description": "User can view create cards that don't create users",
+          "additionalProperties": true,
+          "required": [ "data", "type" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "create@1.0.0"
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "properties": {
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "not": {
+                        "enum": [
+                          "user@1.0.0",
+                          "user"
+                        ]
+                      }
+                    }
+                  }
                 }
               }
             }
