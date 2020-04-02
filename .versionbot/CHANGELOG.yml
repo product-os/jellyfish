@@ -1,4 +1,16 @@
 - commits:
+    - subject: Adds user to warning
+      hash: 53dde97907eb58eed640f5ba95345d2748ee4397
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Balena CI
+  version: 27.37.8
+  date: 2020-04-02T05:17:59.490Z
+- commits:
     - subject: >-
         Adds more warning logs to request-password-reset in order to debug
         production
