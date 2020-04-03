@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'github: Setup GitHub App id and private key env vars'
+      hash: 8997a36415506c7c0f140009a4980269d45afd28
+      body: |
+        These env vars will be used by the GitHub integration to make use of
+        GitHub Apps when possible.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.39.0
+  date: 2020-04-02T23:19:29.577Z
+- commits:
     - subject: 'github: Instantiate different Octokit clients for translate/mirror'
       hash: b1174a9e1acf78e5209d957d1c72085c071756fc
       body: |
