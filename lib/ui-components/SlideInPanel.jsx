@@ -12,6 +12,7 @@ import {
 import {
 	swallowEvent
 } from './services/helpers'
+import ErrorBoundary from './shame/ErrorBoundary'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
@@ -132,7 +133,7 @@ export default function SlideIn ({
 				className={className}
 				onClick={swallowEvent}
 			>
-				{(!lazyLoadContent || isContentLoaded) && children}
+				{(!lazyLoadContent || isContentLoaded) && <ErrorBoundary>{children}</ErrorBoundary>}
 			</SlideInPanel>
 		</SlideInWrapper>
 	)
