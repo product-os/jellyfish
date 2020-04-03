@@ -59,7 +59,9 @@ export const LinksProvider = ({
 	React.useEffect(() => {
 		// Reset the links and then asynchronously fetch them
 		setLinks({})
-		fetchLinks()
+		if (_.get(cards, [ 'length' ])) {
+			fetchLinks()
+		}
 	}, [ _.join(_.map(cards, 'id'), '_'), link ])
 
 	const value = {
