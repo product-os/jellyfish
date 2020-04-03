@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Small fix for LinksProvider'
+      hash: abf1e56bbfca1b576cf62abf0ded6b4a960fb739
+      body: |
+        Handles the situation where cards is null.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.39.1
+  date: 2020-04-03T07:42:45.147Z
+- commits:
     - subject: 'github: Setup GitHub App id and private key env vars'
       hash: 8997a36415506c7c0f140009a4980269d45afd28
       body: |
