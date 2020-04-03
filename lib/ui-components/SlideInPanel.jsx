@@ -63,11 +63,13 @@ const SlideInPanelBase = styled(Flex) `
 
 const VerticalSlideInPanel = styled(SlideInPanelBase) `
 	height: ${(props) => { return px(props.height) }};
+	max-height: 100%;
 	width: 100%;
 `
 
 const HorizontalSlideInPanel = styled(SlideInPanelBase) `
 	width: ${(props) => { return px(props.width) }};
+	max-width: 100%;
 	height: 100%;
 `
 

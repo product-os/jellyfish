@@ -17,6 +17,7 @@ import {
 	Step
 } from 'rendition'
 import _ from 'lodash'
+import styled from 'styled-components'
 import Icon from './shame/Icon'
 
 const VALID_STEP_STATUSES = {
@@ -24,6 +25,11 @@ const VALID_STEP_STATUSES = {
 	completed: true,
 	none: true
 }
+
+const FlowStepFlex = styled(Flex) `
+	min-height: 0;
+	overflow-y: ${(props) => { return props.scrollable ? 'auto' : 'unset' }};
+`
 
 const nonePending = (stepStatuses) => {
 	return _.every(
@@ -42,10 +48,10 @@ const FlowStep = ({
 	stepIndex, label, status, children, ...rest
 }) => {
 	return (
-		<Box my={3} {...rest}>
+		<FlowStepFlex flex={1} {...rest} flexDirection="column">
 			<Heading.h5 data-test={`flow-step-${stepIndex}__heading`} mb={2}>{label}</Heading.h5>
 			{children}
-		</Box>
+		</FlowStepFlex>
 	)
 }
 
@@ -81,43 +87,43 @@ const StepsFlow = ({
 	const allComplete = nonePending(stepStatuses)
 	return (
 		<Flex {...rest} flex={1} flexDirection="column">
-			<Steps flex={0} className="flow-steps" {...stepsProps}>
-				{React.Children.map(steps, (step, stepIndex) => {
-					if (step.type !== FlowStep) {
-						throw new Error(
-							'You can only use StepsFlow.Step components as children of StepsFlow.'
-						)
-					}
-					if (!VALID_STEP_STATUSES[step.props.status]) {
-						throw new Error(
-							`Invalid step status: ${step.props.status}`
-						)
-					}
+			<Box mb={4} flex={0} >
+				<Steps className="flow-steps" {...stepsProps}>
+					{React.Children.map(steps, (step, stepIndex) => {
+						if (step.type !== FlowStep) {
+							throw new Error(
+								'You can only use StepsFlow.Step components as children of StepsFlow.'
+							)
+						}
+						if (!VALID_STEP_STATUSES[step.props.status]) {
+							throw new Error(
+								`Invalid step status: ${step.props.status}`
+							)
+						}
 
-					// Link should be active if:
-					// - its a previous step OR
-					// - its not the current step AND all previous steps are not pending
-					const clickHandler = (stepIndex < activeStepIndex) ||
+						// Link should be active if:
+						// - its a previous step OR
+						// - its not the current step AND all previous steps are not pending
+						const clickHandler = (stepIndex < activeStepIndex) ||
 						(stepIndex !== activeStepIndex && nonePending(stepStatuses.slice(0, stepIndex)))
-						? () => { return setActiveStepIndex(stepIndex) }
-						: null
-					return (
-						<Step
-							key={step.props.label}
-							status={step.props.status}
-							onClick={clickHandler}
-						>
-							{step.props.label}
-						</Step>
-					)
-				})}
-			</Steps>
-			<Box flex={1}>
-				{React.cloneElement(steps[activeStepIndex], {
-					stepIndex: activeStepIndex
-				})}
+							? () => { return setActiveStepIndex(stepIndex) }
+							: null
+						return (
+							<Step
+								key={step.props.label}
+								status={step.props.status}
+								onClick={clickHandler}
+							>
+								{step.props.label}
+							</Step>
+						)
+					})}
+				</Steps>
 			</Box>
-			<Flex flex={0} alignItems="center" justifyContent="flex-end">
+			{React.cloneElement(steps[activeStepIndex], {
+				stepIndex: activeStepIndex
+			})}
+			<Flex flex={0} mt={4} alignItems="center" justifyContent="flex-end">
 				<Button
 					mr={3}
 					data-test="steps-flow__prev-btn"
