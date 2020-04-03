@@ -31,13 +31,15 @@ export default class Segment extends React.Component {
 		super(props)
 
 		this.state = {
-			results: null,
+			results: props.draftCards || null,
 			showLinkModal: false
 		}
 
 		this.openCreateChannel = this.openCreateChannel.bind(this)
 		this.openLinkModal = this.openLinkModal.bind(this)
 		this.hideLinkModal = this.hideLinkModal.bind(this)
+		this.updateResults = this.updateResults.bind(this)
+		this.getData = this.getData.bind(this)
 	}
 
 	componentDidUpdate (prevProps) {
@@ -50,7 +52,7 @@ export default class Segment extends React.Component {
 			this.getData()
 		} else if (
 			!circularDeepEqual(prevProps.card, this.props.card) ||
-			!circularDeepEqual(prevProps.toBeLinkedCards, this.props.toBeLinkedCards)
+			!circularDeepEqual(prevProps.draftCards, this.props.draftCards)
 		) {
 			this.getData()
 		}
@@ -72,27 +74,30 @@ export default class Segment extends React.Component {
 		this.getData()
 	}
 
+	updateResults (results) {
+		const {
+			onCardsUpdated,
+			draftCards
+		} = this.props
+		this.setState({
+			results: _.unionBy(results, (draftCards || []), 'id')
+		}, () => {
+			if (onCardsUpdated) {
+				onCardsUpdated(results)
+			}
+		})
+	}
+
 	async getData () {
 		const {
 			card,
 			segment,
-			actions,
-			onSave,
-			toBeLinkedCards
+			actions
 		} = this.props
 
-		if (onSave) {
-			const results = toBeLinkedCards || []
-
-			this.setState({
-				results
-			})
-		} else if (segment.link) {
+		if (segment.link) {
 			const results = await	actions.getLinks(card, segment.link)
-
-			this.setState({
-				results
-			})
+			this.updateResults(results)
 		} else if (segment.query) {
 			let context = [ card ]
 			for (const relation of _.castArray(segment.query)) {
@@ -108,9 +113,7 @@ export default class Segment extends React.Component {
 				}
 			}
 
-			this.setState({
-				results: _.flatten(context)
-			})
+			this.updateResults(_.flatten(context))
 		}
 	}
 
@@ -135,7 +138,8 @@ export default class Segment extends React.Component {
 				},
 				onDone: {
 					action: 'link',
-					target: card
+					target: card,
+					callback: this.getData
 				}
 			},
 			canonical: false
@@ -185,11 +189,12 @@ export default class Segment extends React.Component {
 				)}
 
 				{segment.link && (
-					<Flex mt={2} px={3}>
+					<Flex px={3} flexWrap="wrap">
 
 						{!onSave &&
 							<Button
 								mr={2}
+								mt={2}
 								success
 								data-test={`add-${type.slug}`}
 								onClick={this.openCreateChannel}
@@ -200,6 +205,7 @@ export default class Segment extends React.Component {
 
 						<Button
 							outline
+							mt={2}
 							data-test={`link-to-${type.slug}`}
 							onClick={this.openLinkModal}
 						>
@@ -216,6 +222,7 @@ export default class Segment extends React.Component {
 						types={[ type ]}
 						onHide={this.hideLinkModal}
 						onSave={onSave}
+						onSaved={this.getData}
 					/>
 				)}
 			</React.Fragment>
