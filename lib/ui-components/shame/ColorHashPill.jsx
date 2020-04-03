@@ -10,7 +10,7 @@ import {
 	Badge
 } from 'rendition'
 import {
-	colorHash
+	stringToNumber
 } from '../services/helpers'
 
 export default (props) => {
@@ -21,11 +21,16 @@ export default (props) => {
 		return null
 	}
 
+	const SHADE_MAP = {
+		open: 1,
+		closed: 5
+	}
+
 	return (
 		<Badge
 			{...rest}
 			xsmall
-			bg={colorHash(value)}
+			shade={_.get(SHADE_MAP, [ value ], stringToNumber(value, 22))}
 		>
 			{value}
 		</Badge>
