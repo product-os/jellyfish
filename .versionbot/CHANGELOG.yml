@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactor ColorHashPill to use redition shades
+      hash: 089d82f99e19e8e4cf601cf8aa4efb71e5d80ea4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.39.3
+  date: 2020-04-03T14:40:15.141Z
+- commits:
     - subject: 'ui-components: Small layout improvements to StepsFlow and SlideInPanel'
       hash: 357a5d6d19d0fd201491130d0680a42e878cc4fa
       body: |
