@@ -17,6 +17,7 @@ import {
 	constraints as LINKS
 } from '../../sdk/link-constraints'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
+import Icon from '../shame/Icon'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -82,6 +83,7 @@ export default class LinkModal extends React.Component {
 		const linkType = _.first(linkTypeTargets)
 
 		this.state = {
+			submitting: false,
 			selectedTarget: target || null,
 			linkType
 		}
@@ -106,8 +108,11 @@ export default class LinkModal extends React.Component {
 
 	async linkToExisting () {
 		const {
+			actions,
 			card,
-			onSave
+			onHide,
+			onSave,
+			onSaved
 		} = this.props
 
 		const {
@@ -118,20 +123,26 @@ export default class LinkModal extends React.Component {
 		if (!linkType || !selectedTarget) {
 			return
 		}
-
-		if (onSave) {
-			this.props.onSave(card, selectedTarget, linkType.name)
-		} else {
-			this.props.actions.createLink(card, selectedTarget, linkType.name)
-		}
-
-		// Create the link asynchronously without waiting for the result
 		this.setState({
-			selectedTarget: null
-		})
+			submitting: true
+		}, async () => {
+			if (onSave) {
+				onSave(card, selectedTarget, linkType.name)
+			} else {
+				await actions.createLink(card, selectedTarget, linkType.name)
+				if (onSaved) {
+					onSaved(selectedTarget, linkType.name)
+				}
+			}
 
-		// Trigger the onHide callback to close the modal
-		this.props.onHide()
+			this.setState({
+				submitting: false,
+				selectedTarget: null
+			}, () => {
+				// Trigger the onHide callback to close the modal
+				onHide()
+			})
+		})
 	}
 
 	render () {
@@ -144,7 +155,8 @@ export default class LinkModal extends React.Component {
 		} = this.props
 		const {
 			linkType,
-			selectedTarget
+			selectedTarget,
+			submitting
 		} = this.state
 
 		const fromType = this.getFromType(card)
@@ -173,9 +185,10 @@ export default class LinkModal extends React.Component {
 				title={title}
 				cancel={this.props.onHide}
 				primaryButtonProps={{
-					disabled: !linkType,
+					disabled: !linkType || submitting,
 					'data-test': 'card-linker--existing__submit'
 				}}
+				action={submitting ? <Icon spin name="cog"/> : 'OK'}
 				done={this.linkToExisting}
 			>
 				<Flex alignItems="center">

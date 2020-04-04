@@ -270,7 +270,7 @@ class CreateLens extends React.Component {
 		}
 
 		if (onDone.callback) {
-			onDone.callback()
+			onDone.callback(newCard)
 		}
 	}
 
@@ -461,7 +461,7 @@ class CreateLens extends React.Component {
 									types={allTypes}
 									actions={actions}
 									onSave={this.saveLink}
-									toBeLinkedCards={_.map(links[key], 'target')}
+									draftCards={_.map(links[key], 'target')}
 								/>
 							</Card>
 						)
