@@ -1,4 +1,38 @@
 - commits:
+    - subject: 'ui: Small improvements in card-linking UX'
+      hash: 1c1230db7b7616f0cde697007b9d6371f4b03193
+      body: >
+        A collection of related improvements to the functionality of the core
+        React components used for linking cards:
+
+        - The CreateLens onDone callback now includes the created card as an
+        argument
+
+        - LinkModal now waits until the link is created before closing. The
+        modal action button is disabled with a spinning cog icon during this
+        time.
+
+        - LinkModal now calls the 'onSaved' callback prop (if set) after
+        creating the link.
+
+        - Segment now combines existing links with 'draft' (unsaved) links
+        (rather than operating with one or the other). 
+
+        - Segment now calls the 'onCardsUpdated' callback prop (if set) whenever
+        its list of cards is updated.
+
+        - Segment always refreshes its data when a link is created via
+        CreateLens or LinkModal. This means the list of cards in a Segment will
+        always be updated after a link is added.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.39.4
+  date: 2020-04-03T17:14:26.284Z
+- commits:
     - subject: Refactor ColorHashPill to use redition shades
       hash: 089d82f99e19e8e4cf601cf8aa4efb71e5d80ea4
       body: ''
