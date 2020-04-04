@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: Catch errors thrown in a slide-in-panel'
+      hash: 9e5ecb76f82a25af8d0689f3c9fd7b23f21108fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.39.5
+  date: 2020-04-04T00:51:49.053Z
+- commits:
     - subject: 'ui: Small improvements in card-linking UX'
       hash: 1c1230db7b7616f0cde697007b9d6371f4b03193
       body: >
