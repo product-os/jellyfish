@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump @babel/polyfill from 7.7.0 to 7.8.7'
+      hash: a7827db2d87e085afcf47f80d5c596e1a4c3b240
+      body: >
+        Bumps [@babel/polyfill](https://github.com/babel/babel) from 7.7.0 to
+        7.8.7.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/babel/babel/compare/v7.7.0...v7.8.7)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 27.39.6
+  date: 2020-04-04T06:20:29.344Z
+- commits:
     - subject: 'ui-components: Catch errors thrown in a slide-in-panel'
       hash: 9e5ecb76f82a25af8d0689f3c9fd7b23f21108fb
       body: ''
