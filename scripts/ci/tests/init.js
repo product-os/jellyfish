@@ -40,7 +40,6 @@ const startJobs = () => {
 		if (name.match(/\.spec\.sh$/)) {
 			jobs[name] = {
 				complete: false,
-				errors: '',
 				name,
 				outputLength: 0,
 				retries: RETRIES
@@ -59,27 +58,20 @@ const startJobs = () => {
  * @returns {Object} the job that was started
  */
 const startJob = (job) => {
-	job.process = childProcess.execFile(`${TESTS_DIR}/${job.name}`)
+	job.process = childProcess.execFile(`${TESTS_DIR}/${job.name}`, (err, stdout, stderr) => {
+		if (err) {
+			console.error(`[${job.name}] Job exited with error: ${err}`)
+			console.error(`[${job.name}] stderr: ${stderr}`)
+			process.exit(1)
+		}
+		job.complete = true
+	})
 
 	// Update jobs output length and make logs easier to parse.
 	job.process.stdout.on('data', (data) => {
 		job.outputLength += data.length
 		const line = data.replace(/\n/gm, '')
 		console.log(`[${job.name}] ${line}`)
-	})
-
-	// Catch stderr to output at end of tests to make it easier for developers.
-	job.process.stderr.on('data', (data) => {
-		job.errors += `[${job.name}] ${data}`
-	})
-
-	// Exit init script with non-zero code if job fails.
-	job.process.on('exit', (code) => {
-		if (_.isInteger(code) && code !== 0) {
-			console.log(`[${job.name}] Job exited with code ${code}`)
-			process.exit(1)
-		}
-		job.complete = true
 	})
 
 	return job
@@ -111,7 +103,7 @@ const watchJobs = (jobs) => {
 
 		// Restart/kill a job if its output hasn't updated since last check
 		_.forOwn(jobs, (job, name) => {
-			if (previousOutputLengths[name] && previousOutputLengths[name] === job.outputLength) {
+			if (previousOutputLengths[name] && previousOutputLengths[name] === job.outputLength && !job.complete) {
 				if (job.retries > 0) {
 					restartJob(job)
 				} else {
