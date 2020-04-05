@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix job exit logic in test init script
+      hash: ed4647807d494f201e8ff1c69cc24218e7e80837
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 27.39.7
+  date: 2020-04-05T02:12:29.865Z
+- commits:
     - subject: 'patch: bump @babel/polyfill from 7.7.0 to 7.8.7'
       hash: a7827db2d87e085afcf47f80d5c596e1a4c3b240
       body: >
