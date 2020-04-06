@@ -26,24 +26,24 @@ export default class RequestPasswordReset extends React.Component {
 		super(props)
 
 		this.state = {
-			email: '',
+			username: '',
 			requestingPasswordReset: false
 		}
 
-		this.handleEmailChange = this.handleEmailChange.bind(this)
+		this.handleUsernameChange = this.handleUsernameChange.bind(this)
 		this.requestPasswordReset = this.requestPasswordReset.bind(this)
 	}
 
-	handleEmailChange (event) {
+	handleUsernameChange (event) {
 		this.setState({
-			email: event.target.value
+			username: event.target.value
 		})
 	}
 
 	requestPasswordReset (event) {
 		event.preventDefault()
 		const {
-			email
+			username
 		} = this.state
 
 		this.setState({
@@ -51,14 +51,14 @@ export default class RequestPasswordReset extends React.Component {
 		})
 
 		this.props.actions.requestPasswordReset({
-			email
+			username
 		})
 			.then(() => {
-				this.props.actions.addNotification('success', `Thanks! Please check ${email} for a link to reset your password`)
+				this.props.actions.addNotification('success', 'Thanks! Please check your email for a link to reset your password')
 			})
 			.catch(() => {
 				this.props.actions.addNotification('danger',
-					`Whoops! Something went wrong while trying to request a password reset for email ${email}`)
+					`Whoops! Something went wrong while trying to request a password reset for username ${username}`)
 			})
 			.finally(() => {
 				this.setState({
@@ -69,7 +69,7 @@ export default class RequestPasswordReset extends React.Component {
 
 	render () {
 		const {
-			email,
+			username,
 			requestingPasswordReset
 		} = this.state
 
@@ -77,7 +77,7 @@ export default class RequestPasswordReset extends React.Component {
 			<React.Fragment>
 				<Txt align="center" mb={4}>
 					<Heading.h2 mb={2}>Request a password reset</Heading.h2>
-					<span>Enter your email below</span>
+					<span>Enter your username below</span>
 				</Txt>
 
 				<Divider color="#eee" mb={4}/>
@@ -86,15 +86,15 @@ export default class RequestPasswordReset extends React.Component {
 					onSubmit={this.requestPasswordReset}
 					data-test="requestPasswordReset-page__form"
 				>
-					<Txt fontSize={1} mb={1}>Email</Txt>
+					<Txt fontSize={1} mb={1}>Username</Txt>
 					<Input
-						data-test="requestPasswordReset-page__email"
+						data-test="requestPasswordReset-page__username"
 						mb={5}
 						width="100%"
 						emphasized={true}
-						placeholder="Email"
-						value={email}
-						onChange={this.handleEmailChange}
+						placeholder="Username"
+						value={username}
+						onChange={this.handleUsernameChange}
 					/>
 					<Box>
 						<Button
@@ -103,7 +103,7 @@ export default class RequestPasswordReset extends React.Component {
 							primary={true}
 							emphasized={true}
 							type="submit"
-							disabled={!email || requestingPasswordReset}
+							disabled={!username || requestingPasswordReset}
 						>
 							{requestingPasswordReset ? <Icon spin name="cog"/> : 'Submit'}
 						</Button>

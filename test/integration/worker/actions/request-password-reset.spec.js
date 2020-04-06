@@ -38,7 +38,9 @@ ava.beforeEach(async (test) => {
 
 	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
 
+	const username = 'johndoe'
 	const userEmail = 'test@test.com'
+	const userPassword = 'foobarbaz'
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -46,9 +48,9 @@ ava.beforeEach(async (test) => {
 		card: userCard.id,
 		type: userCard.type,
 		arguments: {
-			email: userEmail,
-			username: 'user-johndoe',
-			password: 'foobarbaz'
+			username: `user-${username}`,
+			password: userPassword,
+			email: userEmail
 		}
 	})
 
@@ -69,7 +71,9 @@ ava.beforeEach(async (test) => {
 		...test.context,
 		user: await processAction(createUserAction),
 		processAction,
+		username,
 		userEmail,
+		userPassword,
 		userCard,
 		nockRequest
 	}
@@ -87,7 +91,7 @@ ava('should create a password reset card and user link when arguments match a va
 		context,
 		processAction,
 		user,
-		userEmail,
+		username,
 		nockRequest
 	} = test.context
 
@@ -99,7 +103,7 @@ ava('should create a password reset card and user link when arguments match a va
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -136,13 +140,14 @@ ava('should create a password reset card and user link when arguments match a va
 	test.is(passwordReset.links['is attached to'].id, user.id)
 })
 
-ava('should send a password-reset email when the email in the argument matches a valid user', async (test) => {
+ava('should send a password-reset email when the username in the argument matches a valid user', async (test) => {
 	const {
 		jellyfish,
 		session,
 		context,
 		processAction,
 		user,
+		username,
 		userEmail,
 		nockRequest
 	} = test.context
@@ -152,17 +157,17 @@ ava('should send a password-reset email when the email in the argument matches a
 		mailBody = body
 	}
 
+	nockRequest(saveBody)
+
 	const requestPasswordResetAction = {
 		action: 'action-request-password-reset@1.0.0',
 		context: test.context.context,
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
-
-	nockRequest(saveBody)
 
 	const requestPasswordReset = await processAction(requestPasswordResetAction)
 	test.false(requestPasswordReset.error)
@@ -204,14 +209,17 @@ ava('should send a password-reset email when the email in the argument matches a
 	test.true(htmlIsInBody)
 })
 
-ava('should fail silently if the email does not match a user', async (test) => {
+ava('should fail silently if the username does not match a user', async (test) => {
 	const {
 		jellyfish,
 		session,
 		context,
 		processAction,
-		user
+		user,
+		nockRequest
 	} = test.context
+
+	nockRequest()
 
 	const requestPasswordResetAction = {
 		action: 'action-request-password-reset@1.0.0',
@@ -219,7 +227,7 @@ ava('should fail silently if the email does not match a user', async (test) => {
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: 'emailWithoutUser@test.com'
+			username: 'madeup'
 		}
 	}
 
@@ -250,8 +258,11 @@ ava('should fail silently if the user is inactive', async (test) => {
 		context,
 		processAction,
 		user,
-		userEmail
+		username,
+		nockRequest
 	} = test.context
+
+	nockRequest()
 
 	const requestDeleteCard = {
 		action: 'action-delete-card@1.0.0',
@@ -270,7 +281,7 @@ ava('should fail silently if the user is inactive', async (test) => {
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -301,8 +312,11 @@ ava('should fail silently if the user does not have a hash', async (test) => {
 		context,
 		processAction,
 		user,
-		userEmail
+		username,
+		nockRequest
 	} = test.context
+
+	nockRequest()
 
 	const requestUpdateCard = {
 		action: 'action-update-card@1.0.0',
@@ -328,7 +342,7 @@ ava('should fail silently if the user does not have a hash', async (test) => {
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -359,7 +373,7 @@ ava('should invalidate previous password reset requests', async (test) => {
 		context,
 		processAction,
 		user,
-		userEmail,
+		username,
 		nockRequest
 	} = test.context
 
@@ -371,7 +385,7 @@ ava('should invalidate previous password reset requests', async (test) => {
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -407,15 +421,15 @@ ava('should not invalidate previous password reset requests from other users', a
 		context,
 		processAction,
 		user,
-		userEmail,
+		username,
 		userCard,
-		nockRequest,
-		worker
+		worker,
+		nockRequest
 	} = test.context
 
 	nockRequest()
 
-	const otherUserEmail = 'other@user.com'
+	const otherUsername = 'janedoe'
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -423,8 +437,8 @@ ava('should not invalidate previous password reset requests from other users', a
 		card: userCard.id,
 		type: userCard.type,
 		arguments: {
-			email: otherUserEmail,
-			username: 'user-janedoe',
+			email: 'other@user.com',
+			username: `user-${otherUsername}`,
 			password: 'apassword'
 		}
 	})
@@ -438,7 +452,7 @@ ava('should not invalidate previous password reset requests from other users', a
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: otherUserEmail
+			username: otherUsername
 		}
 	}
 
@@ -450,7 +464,7 @@ ava('should not invalidate previous password reset requests from other users', a
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 	await processAction(userRequest)
@@ -482,15 +496,16 @@ ava('accounts with the same password have different request tokens', async (test
 		context,
 		processAction,
 		user,
-		userEmail,
-		nockRequest,
+		username,
+		userPassword,
 		userCard,
-		worker
+		worker,
+		nockRequest
 	} = test.context
 
-	nockRequest()
+	nockRequest
 
-	const newEmail = 'new@test.com'
+	const newUsername = 'janedoe'
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -498,9 +513,9 @@ ava('accounts with the same password have different request tokens', async (test
 		card: userCard.id,
 		type: userCard.type,
 		arguments: {
-			email: newEmail,
-			username: 'user-janedoe',
-			password: 'foobarbaz'
+			email: 'madeup@gmail.com',
+			username: `user-${newUsername}`,
+			password: userPassword
 		}
 	})
 
@@ -513,7 +528,7 @@ ava('accounts with the same password have different request tokens', async (test
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -526,7 +541,7 @@ ava('accounts with the same password have different request tokens', async (test
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			email: newEmail
+			username: newUsername
 		}
 	}
 
@@ -546,26 +561,30 @@ ava('accounts with the same password have different request tokens', async (test
 	}, {
 		sortBy: 'created_at'
 	})
-
 	test.is(passwordResets.length, 2)
 	test.false(passwordResets[0].data.resetToken === passwordResets[1].data.resetToken)
 })
 
-ava('successfully finds a matching user with multiple email addresses', async (test) => {
+ava('successfully sends an email to a user with an array of emails', async (test) => {
 	const {
 		jellyfish,
 		session,
 		context,
 		processAction,
-		nockRequest,
 		userCard,
-		worker
+		worker,
+		nockRequest
 	} = test.context
 
-	nockRequest()
+	let mailBody
+	const saveBody = (body) => {
+		mailBody = body
+	}
+	nockRequest(saveBody)
 
 	const firstEmail = 'first@email.com'
 	const secondEmail = 'second@email.com'
+	const newUsername = 'janedoe'
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -574,7 +593,7 @@ ava('successfully finds a matching user with multiple email addresses', async (t
 		type: userCard.type,
 		arguments: {
 			email: firstEmail,
-			username: 'user-janedoe',
+			username: `user-${newUsername}`,
 			password: 'foobarbaz'
 		}
 	})
@@ -610,39 +629,13 @@ ava('successfully finds a matching user with multiple email addresses', async (t
 		card: newUser.data.id,
 		type: newUser.data.type,
 		arguments: {
-			email: secondEmail
+			username: newUsername
 		}
 	}
 
 	const passwordReset = await processAction(passwordResetRequest)
 	test.false(passwordReset.error)
 
-	const [ recoveredPasswordReset ] = await jellyfish.query(context, session, {
-		type: 'object',
-		required: [ 'type', 'links' ],
-		additionalProperties: false,
-		properties: {
-			type: {
-				type: 'string',
-				const: 'password-reset@1.0.0'
-			},
-			links: {
-				type: 'object'
-			}
-		},
-		$$links: {
-			'is attached to': {
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string',
-						const: newUser.data.id
-					}
-				}
-			}
-		}
-	})
-
-	test.true(recoveredPasswordReset !== undefined)
-	test.is(recoveredPasswordReset.links['is attached to'].id, newUser.data.is)
+	const toIsInBody = checkForKeyValue('to', firstEmail, mailBody)
+	test.true(toIsInBody)
 })

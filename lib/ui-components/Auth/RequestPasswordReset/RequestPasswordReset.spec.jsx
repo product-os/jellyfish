@@ -41,7 +41,7 @@ ava.afterEach(() => {
 	sandbox.restore()
 })
 
-ava('Submit button is disabled if the email input is empty', async (test) => {
+ava('Submit button is disabled if the username input is empty', async (test) => {
 	sandbox.stub(Img)
 
 	const requestPasswordReset = mount(
@@ -51,9 +51,9 @@ ava('Submit button is disabled if the email input is empty', async (test) => {
 
 	await flushPromises()
 
-	const emailInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__email"]`)
+	const usernameInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__username"]`)
 
-	test.is(emailInput.prop('value'), '')
+	test.is(usernameInput.prop('value'), '')
 
 	const submitButton = requestPasswordReset.find(`button[data-test="${DATA_TEST_PREFIX}__submit"]`)
 
@@ -61,7 +61,7 @@ ava('Submit button is disabled if the email input is empty', async (test) => {
 })
 
 ava('Fires the requirePasswordReset action followed by a success notification when the form is submitted', async (test) => {
-	const email = 'fake@email.com'
+	const username = 'fake@username.com'
 
 	sandbox.stub(Img)
 
@@ -84,11 +84,11 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 	await flushPromises()
 	requestPasswordReset.update()
 
-	const emailInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__email"]`)
+	const usernameInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__username"]`)
 
-	emailInput.simulate('change', {
+	usernameInput.simulate('change', {
 		target: {
-			name: 'email', value: email
+			name: 'username', value: username
 		}
 	})
 
@@ -102,11 +102,11 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 
 	test.is(requestPasswordResetAction.callCount, 1)
 	test.is(addNotification.callCount, 1)
-	test.deepEqual(addNotification.args, [ [ 'success', `Thanks! Please check ${email} for a link to reset your password` ] ])
+	test.deepEqual(addNotification.args, [ [ 'success', 'Thanks! Please check your email for a link to reset your password' ] ])
 })
 
 ava('Sends a danger notification if the action throws an error', async (test) => {
-	const email = 'fake@email.com'
+	const username = 'fake@username.com'
 
 	sandbox.stub(Img)
 
@@ -129,11 +129,11 @@ ava('Sends a danger notification if the action throws an error', async (test) =>
 	await flushPromises()
 	requestPasswordReset.update()
 
-	const emailInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__email"]`)
+	const usernameInput = requestPasswordReset.find(`input[data-test="${DATA_TEST_PREFIX}__username"]`)
 
-	emailInput.simulate('change', {
+	usernameInput.simulate('change', {
 		target: {
-			name: 'email', value: email
+			name: 'username', value: username
 		}
 	})
 
@@ -148,5 +148,5 @@ ava('Sends a danger notification if the action throws an error', async (test) =>
 	test.is(requestPasswordResetAction.callCount, 1)
 	test.is(addNotification.callCount, 1)
 	test.deepEqual(addNotification.args, [ [ 'danger',
-		`Whoops! Something went wrong while trying to request a password reset for email ${email}` ] ])
+		`Whoops! Something went wrong while trying to request a password reset for username ${username}` ] ])
 })
