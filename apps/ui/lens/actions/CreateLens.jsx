@@ -307,6 +307,7 @@ class CreateLens extends React.Component {
 		const schema = _.omit(selectedTypeTarget.data.schema, [
 			'properties.data.properties.participants',
 			'properties.data.properties.mentionsUser',
+			'properties.data.properties.totalValue',
 			'properties.data.properties.alertsUser'
 		])
 		const uiSchema = _.get(schema, [ 'properties', 'name' ])

@@ -31,20 +31,27 @@
               ]
             },
             "dueDate": {
-              "title": "Due date",
+              "title": "Expected close date",
               "type": "string",
               "format": "date"
             },
-            "value": {
-              "title": "Value",
+            "recurringValue": {
+              "title": "Estimated recurring value",
               "type": "number",
               "format": "currency",
               "minimum": 0
             },
-            "arr": {
-              "title": "Estimated ARR",
+            "nonRecurringValue": {
+              "title": "Estimated non-recurring value",
               "type": "number",
               "format": "currency",
+              "minimum": 0
+            },
+            "totalValue": {
+              "title": "Total value",
+              "type": "number",
+              "format": "currency",
+              "$$formula": "SUM([this.data.recurringValue, this.data.nonRecurringValue])",
               "minimum": 0
             },
             "device": {
@@ -53,11 +60,13 @@
             },
             "usecase": {
               "title": "Use case(s)",
-              "type": "string"
+              "type": "string",
+              "format": "markdown"
             },
             "stack": {
               "title": "Tech stack",
-              "type": "string"
+              "type": "string",
+              "format": "markdown"
             }
           },
           "required": [
