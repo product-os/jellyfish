@@ -1,4 +1,17 @@
 - commits:
+    - subject: Generate CardTable table columns from card schema
+      hash: df7894e07cc83985725d1d7ef61a3266f31b9a24
+      body: |
+        Fixes #3440
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.41.0
+  date: 2020-04-06T13:38:25.363Z
+- commits:
     - subject: Update opportunity schema based on sales feedback
       hash: f0e2749ec59a7df52f0a363acb7dea0df885c83c
       body: ''
