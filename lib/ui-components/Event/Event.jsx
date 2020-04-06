@@ -586,7 +586,7 @@ export default class Event extends React.Component {
 									key={attachment.url}
 									data-attachmentslug={attachment.slug}
 									onClick={this.downloadAttachment}
-									light={card.type === 'whisper' || card.type === 'whisper@1.0.0'}
+									secondary={card.type.split('@')[0] === 'whisper'}
 									data-test="event-card__file"
 									mr={2}
 									mb={2}
