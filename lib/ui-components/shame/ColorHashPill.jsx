@@ -23,7 +23,14 @@ export default (props) => {
 
 	const SHADE_MAP = {
 		open: 1,
-		closed: 5
+		closed: 5,
+		balenaLabs: 4,
+		balenaCloud: 9,
+		openBalena: 16,
+		balenaEtcher: 6,
+		balenaOS: 20,
+		balenaEngine: 2,
+		balenaFin: 15
 	}
 
 	return (
