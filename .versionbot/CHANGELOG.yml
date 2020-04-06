@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'front: Don''t crash if Intercom reports no "location_data"'
+      hash: a0fc9a7ac9a5f784b3cb8905012bb7847436b9c8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/352f9953589c4a168f9ca9ea09c4fbf6/'
+        fixes: 'https://sentry.io/share/issue/352f9953589c4a168f9ca9ea09c4fbf6/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.41.2
+  date: 2020-04-06T17:08:19.714Z
+- commits:
     - subject: Update ColorHashPills colormap to match product colors
       hash: 53c9c1d0413e5751b4e748e032e464be5abd1a7f
       body: ''
