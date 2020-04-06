@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'github: Attempt to authenticate using GitHub Apps on translate()'
+      hash: e3b6cc12a617b1ff87adf96971b79c24e36ffdf8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 27.42.0
+  date: 2020-04-06T19:43:20.265Z
+- commits:
     - subject: 'front: Don''t crash if Intercom reports no "location_data"'
       hash: a0fc9a7ac9a5f784b3cb8905012bb7847436b9c8
       body: ''
