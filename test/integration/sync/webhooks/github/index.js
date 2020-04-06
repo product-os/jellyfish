@@ -5,6 +5,12 @@
  */
 
 module.exports = {
+	'push-to-master-with-installation-id': {
+		expected: require('./push-to-master-with-installation-id/expected.json'),
+		steps: [
+			require('./push-to-master-with-installation-id/01.json')
+		]
+	},
 	'push-to-master': {
 		expected: require('./push-to-master/expected.json'),
 		steps: [

@@ -12,9 +12,11 @@
 
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const Octokit = require('@octokit/rest')
-	.plugin(require('@octokit/plugin-retry'))
-	.plugin(require('@octokit/plugin-throttling'))
+const Octokit = require('@octokit/rest').Octokit.plugin(
+	require('@octokit/plugin-retry'),
+	require('@octokit/plugin-throttling')
+)
+
 const moment = require('moment')
 const packageJSON = require('../../package.json')
 

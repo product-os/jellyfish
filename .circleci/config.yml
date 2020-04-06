@@ -81,7 +81,7 @@ jobs:
 
       - run:
           name: Sync Tests Github Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID INTEGRATION_GITHUB_PRIVATE_KEY="$GITHUB_PRIVATE_KEY"
 
       - run:
           name: Sync Tests Flowdock Translate

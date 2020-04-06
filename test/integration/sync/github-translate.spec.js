@@ -5,11 +5,45 @@
  */
 
 const ava = require('ava')
+const nock = require('nock')
+const jwt = require('jsonwebtoken')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.github
 
-ava.serial.beforeEach(scenario.beforeEach)
+ava.serial.beforeEach(async (test) => {
+	await scenario.beforeEach(test)
+
+	if (TOKEN.api && TOKEN.key) {
+		await nock('https://api.github.com')
+			.persist()
+			.post(/^\/app\/installations\/\d+\/access_tokens$/)
+			.reply(function (uri, request, callback) {
+				const token = this.req.headers.authorization[0].split(' ')[1]
+				jwt.verify(token, TOKEN.key, {
+					algorithms: [ 'RS256' ]
+				}, (error) => {
+					if (error) {
+						return callback(error)
+					}
+
+					return callback(null, [
+						201,
+						{
+							token: TOKEN.api,
+							expires_at: '2056-07-11T22:14:10Z',
+							permissions: {
+								issues: 'write',
+								contents: 'read'
+							},
+							repositories: []
+						}
+					])
+				})
+			})
+	}
+})
+
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {

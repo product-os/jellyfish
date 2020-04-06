@@ -7,8 +7,10 @@
 const ava = require('ava')
 const _ = require('lodash')
 const uuid = require('uuid/v4')
-const Octokit = require('@octokit/rest')
-	.plugin(require('@octokit/plugin-retry'))
+const Octokit = require('@octokit/rest').Octokit.plugin(
+	require('@octokit/plugin-retry')
+)
+
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
