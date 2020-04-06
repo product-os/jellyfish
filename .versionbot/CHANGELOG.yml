@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Improve styling of whisper file attachment buttons'
+      hash: 44844b6c26ed0449fadd1e6ce43b568c1cb654a2
+      body: |
+        These buttons now have the same styling as whisper messages.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.40.0
+  date: 2020-04-06T02:41:59.928Z
+- commits:
     - subject: Fix job exit logic in test init script
       hash: ed4647807d494f201e8ff1c69cc24218e7e80837
       body: ''
