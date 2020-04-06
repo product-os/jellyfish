@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update ColorHashPills colormap to match product colors
+      hash: 53c9c1d0413e5751b4e748e032e464be5abd1a7f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.41.1
+  date: 2020-04-06T14:51:10.656Z
+- commits:
     - subject: Generate CardTable table columns from card schema
       hash: df7894e07cc83985725d1d7ef61a3266f31b9a24
       body: |
