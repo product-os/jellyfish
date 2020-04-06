@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update opportunity schema based on sales feedback
+      hash: f0e2749ec59a7df52f0a363acb7dea0df885c83c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 27.40.1
+  date: 2020-04-06T12:54:59.364Z
+- commits:
     - subject: 'ui-components: Improve styling of whisper file attachment buttons'
       hash: 44844b6c26ed0449fadd1e6ce43b568c1cb654a2
       body: |
