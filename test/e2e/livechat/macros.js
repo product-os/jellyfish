@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+const environment = require('../../../lib/environment')
+
 exports.createThreads = async (context, start, count) => {
 	const threads = []
 
@@ -42,4 +44,16 @@ exports.createConversation = async (context) => {
 	await context.page.type('[data-test="conversation-subject"]', 'Conversation subject')
 	await context.page.type('.new-message-input', 'Conversation first message')
 	await context.page.click('[data-test="start-conversation-button"]')
+}
+
+exports.initChat = async (context) => {
+	await context.page.evaluate(async (token, userSlug) => {
+		window.localStorage.setItem('token', token)
+
+		await window.init({
+			product: 'jellyfish',
+			productTitle: 'Jelly',
+			userSlug
+		})
+	}, context.sdk.getAuthToken(), `user-${environment.test.user.username}`)
 }

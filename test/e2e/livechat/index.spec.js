@@ -6,7 +6,6 @@
 
 const ava = require('ava')
 const uuid = require('uuid/v4')
-const qs = require('query-string')
 const environment = require('../../../lib/environment')
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
@@ -19,6 +18,7 @@ const {
 	createConversation,
 	createThreads,
 	getRenderedConversationIds,
+	initChat,
 	scrollToLatestConversationListItem
 } = require('./macros')
 
@@ -64,13 +64,8 @@ ava.serial('Initial create conversation page', async (test) => {
 		page
 	} = context
 
-	const queryString = qs.stringify({
-		authToken: context.sdk.getAuthToken(),
-		product: 'jellyfish',
-		productTitle: 'Jelly'
-	})
-
-	await page.goto(`${environment.livechat.host}:${environment.livechat.port}?${queryString}`)
+	await page.goto(`${environment.livechat.host}:${environment.livechat.port}`)
+	await initChat(context)
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="initial-create-conversation-page"]'),
@@ -100,6 +95,7 @@ ava.serial('Initial short conversation list page', async (test) => {
 	const threads = await createThreads(context, 0, 2)
 
 	await page.reload()
+	await initChat(context)
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
@@ -180,6 +176,7 @@ ava.serial('Full conversation list page', async (test) => {
 	const threads = await createThreads(context, 0, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1)
 
 	await page.reload()
+	await initChat(context)
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
@@ -257,6 +254,7 @@ ava.serial('Create conversation page', async (test) => {
 	await createThreads(context, 0, 1)
 
 	await page.reload()
+	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
 
@@ -287,6 +285,7 @@ ava.serial('Chat page', async (test) => {
 	const thread = (await createThreads(context, 0, 1))[0]
 
 	await page.reload()
+	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
 
