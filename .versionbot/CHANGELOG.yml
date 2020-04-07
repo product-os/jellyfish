@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add mailgun and password reset secret key to deploy templates
+      hash: ca05ce8dd2bc81aee42b7f1e509f055a195e9623
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 27.42.1
+  date: 2020-04-07T02:05:39.748Z
+- commits:
     - subject: 'github: Attempt to authenticate using GitHub Apps on translate()'
       hash: e3b6cc12a617b1ff87adf96971b79c24e36ffdf8
       body: ''
