@@ -894,7 +894,7 @@ export default class ActionCreator {
 	}
 
 	requestPasswordReset ({
-		email
+		username
 	}) {
 		return async (dispatch, getState) => {
 			const userType = await this.sdk.getBySlug('user@latest')
@@ -903,7 +903,7 @@ export default class ActionCreator {
 				action: 'action-request-password-reset@1.0.0',
 				type: userType.type,
 				arguments: {
-					email
+					username
 				}
 			})
 		}

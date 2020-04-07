@@ -39,6 +39,7 @@ ava.beforeEach(async (test) => {
 
 	const userEmail = 'test@test.com'
 	const userPassword = 'original-password'
+	const username = 'johndoe'
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -47,8 +48,8 @@ ava.beforeEach(async (test) => {
 		type: userCard.type,
 		arguments: {
 			email: userEmail,
-			username: 'user-johndoe',
-			password: userPassword
+			password: userPassword,
+			username: `user-${username}`
 		}
 	})
 
@@ -74,6 +75,7 @@ ava.beforeEach(async (test) => {
 		processAction,
 		userEmail,
 		userPassword,
+		username,
 		userCard,
 		resetToken
 	}
@@ -88,7 +90,7 @@ ava('should replace the user password when the requestToken is valid', async (te
 		worker,
 		processAction,
 		user,
-		userEmail,
+		username,
 		resetToken,
 		userPassword: originalPassword
 	} = test.context
@@ -101,7 +103,7 @@ ava('should replace the user password when the requestToken is valid', async (te
 		card: user.id,
 		type: user.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -185,7 +187,7 @@ ava('should fail when the reset token has expired', async (test) => {
 		worker,
 		processAction,
 		user,
-		userEmail,
+		username,
 		resetToken
 	} = test.context
 
@@ -197,7 +199,7 @@ ava('should fail when the reset token has expired', async (test) => {
 		card: user.id,
 		type: user.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -277,7 +279,7 @@ ava('should fail when the reset token is not active', async (test) => {
 		worker,
 		processAction,
 		user,
-		userEmail,
+		username,
 		resetToken
 	} = test.context
 
@@ -289,7 +291,7 @@ ava('should fail when the reset token is not active', async (test) => {
 		card: user.id,
 		type: user.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -354,7 +356,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		context,
 		processAction,
 		user,
-		userEmail,
+		username,
 		worker,
 		resetToken
 	} = test.context
@@ -365,7 +367,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		card: user.id,
 		type: user.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
@@ -406,7 +408,7 @@ ava('should remove the password reset card', async (test) => {
 		context,
 		processAction,
 		user,
-		userEmail,
+		username,
 		worker,
 		jellyfish,
 		resetToken
@@ -418,7 +420,7 @@ ava('should remove the password reset card', async (test) => {
 		card: user.id,
 		type: user.type,
 		arguments: {
-			email: userEmail
+			username
 		}
 	}
 
