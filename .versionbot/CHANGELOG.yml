@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Behind the scenes improvements to the display of tags'
+      hash: 319f36fd3b54ccff112f63ebd8cc6baf04b70744
+      body: >
+        Added a new TagList component that ensures consistent handling of a list
+        of tags. Main functional difference is that #tag1 and tag1 are now
+        considered the same and are de-duplicated.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.43.1
+  date: 2020-04-07T10:15:49.573Z
+- commits:
     - subject: 'ui: Add support for deleting custom views'
       hash: 291f3d93ab585b3b4dd29c067a6591202386eaff
       body: |
