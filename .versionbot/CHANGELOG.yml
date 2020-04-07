@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Fix generation of hashtags'
+      hash: c29434eb80f224b372b96253b5a86a99923d9c00
+      body: >
+        This fix ensures that support threads tagged with 'discussion'
+        automatically get added to the 'Discussions' tab of the Support Threads
+        list.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.42.3
+  date: 2020-04-07T06:26:08.396Z
+- commits:
     - subject: >-
         Update request password reset action and ui to take username instead of
         email
