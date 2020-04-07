@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Add support for deleting custom views'
+      hash: 291f3d93ab585b3b4dd29c067a6591202386eaff
+      body: |
+        This action is triggered via the custom view's ViewLink context menu
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 27.43.0
+  date: 2020-04-07T08:55:19.618Z
+- commits:
     - subject: 'ui: Fix generation of hashtags'
       hash: c29434eb80f224b372b96253b5a86a99923d9c00
       body: >
