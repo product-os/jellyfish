@@ -35,6 +35,7 @@ import CardFields from '../../../../../lib/ui-components/CardFields'
 import Event from '../../../../../lib/ui-components/Event'
 import RouterLink from '../../../../../lib/ui-components/Link'
 import {
+	TagList,
 	Tag
 } from '../../../../../lib/ui-components/Tag'
 import {
@@ -319,12 +320,10 @@ class SupportThreadBase extends React.Component {
 								mb={1}
 							/>
 
-							{Boolean(card.tags) && _.map(card.tags, (tag) => {
-								if (tag === 'status' || tag === 'summary' || tag === 'pendinguserresponse') {
-									return null
-								}
-								return <Tag key={tag} mr={2} mb={1}>{tag}</Tag>
-							})}
+							<TagList
+								tags={card.tags}
+								blacklist={[ 'status', 'summary', 'pendinguserresponse' ]}
+							/>
 						</Flex>
 
 						{status === 'open' && (
