@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: Oauth if not logged in'
+      hash: 93f1ebb1ce9946485cccef024eeda5f73f8b82c2
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Kakhaber
+  version: 28.0.0
+  date: 2020-04-07T12:41:39.648Z
+- commits:
     - subject: 'ui: Behind the scenes improvements to the display of tags'
       hash: 319f36fd3b54ccff112f63ebd8cc6baf04b70744
       body: >
