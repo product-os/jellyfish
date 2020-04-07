@@ -6,51 +6,122 @@
 
 import React from 'react'
 import ReactDOM from 'react-dom'
+import {
+	BrowserRouter as Router, Redirect, Route, Switch
+} from 'react-router-dom'
 import '@babel/polyfill'
 import 'circular-std'
-import qs from 'query-string'
 import {
-	App,
-	createSdk
+	Provider as ThemeProvider
+} from 'rendition'
+import {
+	App, createSdk
 } from '../../lib/chat-widget'
+import {
+	OauthCallbackTask
+} from './components/OauthCallbackTask'
+import {
+	AuthenticationTask
+} from './components/AuthenticationTask'
 
-const init = async ({
-	product,
-	productTitle,
-	authToken,
-	onClose
+const Livechat = ({
+	userSlug,
+	oauthUrl,
+	oauthProvider,
+	...rest
 }) => {
-	const sdk = createSdk()
-	window.sdk = sdk
+	const sdk = React.useMemo(() => {
+		return createSdk({
+			authToken: localStorage.getItem('token')
+		})
+	}, [])
 
-	sdk.setAuthToken(authToken)
+	return (
+		<ThemeProvider style={{
+			height: '100%', display: 'flex', flexDirection: 'column'
+		}}>
+			<Router>
+				<Switch>
+					<Route path="/oauth/callback" exact render={(props) => {
+						return (
+							<OauthCallbackTask {...props} userSlug={userSlug} sdk={sdk} oauthProvider={oauthProvider}>
+								{() => {
+									return (
+										<Redirect to="/" />
+									)
+								}}
+							</OauthCallbackTask>
+						)
+					}} />
+					<Route path="/" render={() => {
+						return (
+							<AuthenticationTask userSlug={userSlug} sdk={sdk} oauthUrl={oauthUrl}>
+								{() => {
+									return (
+										<App {...rest} sdk={sdk} />
+									)
+								}}
+							</AuthenticationTask>
+						)
+					}} />
+				</Switch>
+			</Router>
+		</ThemeProvider>
+	)
+}
 
+const init = (options = {}) => {
 	return new Promise((resolve) => {
 		ReactDOM.render((
-			<App
-				sdk={sdk}
-				product={product}
-				productTitle={productTitle}
-				onClose={onClose}
-			/>
+			<Livechat {...options} />
 		), document.getElementById('app'), resolve)
 	})
 }
 
-const params = qs.parse(window.location.search)
+window.init = init
 
-init({
-	product: params.product,
-	productTitle: params.productTitle,
-	authToken: params.authToken,
-	onClose: () => {
-		const event = {
-			type: 'close'
+const actions = {
+	async init (event) {
+		const onClose = () => {
+			event.source.postMessage({
+				type: 'close'
+			}, event.origin)
 		}
 
-		parent.postMessage(
-			JSON.stringify(event),
-			'*'
-		)
+		return init({
+			...event.data.payload,
+			onClose
+		})
 	}
+}
+
+const respond = (event, response) => {
+	event.source.postMessage({
+		type: 'response',
+		payload: {
+			request: event.data,
+			...response
+		}
+	}, event.origin)
+}
+
+window.addEventListener('message', async (event) => {
+	const action = event.data && event.data.type && actions[event.data.type]
+
+	if (!action) {
+		return null
+	}
+
+	let result = null
+	try {
+		result = await action(event)
+	} catch (error) {
+		return respond(event, {
+			error
+		})
+	}
+
+	return respond(event, {
+		data: result
+	})
 })

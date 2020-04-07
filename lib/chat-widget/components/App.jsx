@@ -12,9 +12,6 @@ import {
 	MemoryRouter as Router, Route
 } from 'react-router-dom'
 import {
-	Provider as ThemeProvider
-} from 'rendition'
-import {
 	SetupProvider
 } from '../../../lib/ui-components/SetupProvider'
 import {
@@ -55,24 +52,20 @@ export const App = React.memo(({
 			<SetupProvider
 				sdk={sdk}
 				analytics={analytics}>
-				<ThemeProvider style={{
-					height: '100%', display: 'flex', flexDirection: 'column'
-				}}>
-					<StreamProviderTask>
-						{() => {
-							return (
-								<Router>
-									<Layout flex={1} onClose={onClose}>
-										<Route path="/" exact component={IndexRoute} />
-										<Route path="/full_thread_list" exact component={FullThreadListRoute} />
-										<Route path="/new_thread" exact component={NewThreadRoute} />
-										<Route path="/chat/:thread" exact component={ChatRoute} />
-									</Layout>
-								</Router>
-							)
-						}}
-					</StreamProviderTask>
-				</ThemeProvider>
+				<StreamProviderTask>
+					{() => {
+						return (
+							<Router>
+								<Layout flex={1} onClose={onClose}>
+									<Route path="/" exact component={IndexRoute} />
+									<Route path="/full_thread_list" exact component={FullThreadListRoute} />
+									<Route path="/new_thread" exact component={NewThreadRoute} />
+									<Route path="/chat/:thread" exact component={ChatRoute} />
+								</Layout>
+							</Router>
+						)
+					}}
+				</StreamProviderTask>
 			</SetupProvider>
 		</StoreProvider>
 	)
