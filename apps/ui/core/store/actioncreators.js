@@ -215,6 +215,7 @@ export default class ActionCreator {
 			'removeChannel',
 			'removeFlow',
 			'removeNotification',
+			'removeView',
 			'removeViewDataItem',
 			'removeViewNotice',
 			'requestPasswordReset',
@@ -859,6 +860,38 @@ export default class ActionCreator {
 		return {
 			type: actions.REMOVE_NOTIFICATION,
 			value: id
+		}
+	}
+
+	removeView (view) {
+		return async (dispatch, getState) => {
+			try {
+				const user = selectors.getCurrentUser(getState())
+				if (!helpers.isCustomView(view, user)) {
+					dispatch(this.addNotification('danger', 'You do not have permission to delete this view'))
+					return
+				}
+
+				// First remove any matching view channels - if found
+				const state = getState()
+				const matchingChannels = _.filter(state.core.channels, (channel) => {
+					return _.get(channel, [ 'data', 'target' ]) === view.slug
+				})
+				if (matchingChannels.length) {
+					const removeChannelActions = _.map(matchingChannels, (channel) => {
+						return dispatch(this.removeChannel(channel))
+					})
+					await Bluebird.all(removeChannelActions)
+				}
+
+				// Then remove the card via the SDK
+				await this.sdk.card.remove(view.id, view.type)
+
+				dispatch(this.addNotification('success', 'Successfully deleted view'))
+			} catch (err) {
+				console.error('Failed to remove view', err)
+				dispatch(this.addNotification('danger', 'Could not remove view'))
+			}
 		}
 	}
 

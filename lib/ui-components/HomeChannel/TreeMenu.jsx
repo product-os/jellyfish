@@ -18,6 +18,7 @@ const TreeMenu = (props) => {
 	const {
 		subscriptions,
 		types,
+		user,
 		actions,
 		node
 	} = props
@@ -31,6 +32,7 @@ const TreeMenu = (props) => {
 		const update = props.viewNotices[card.id]
 		return (
 			<ViewLink
+				user={user}
 				subscription={subscriptions[card.id] || null}
 				types={types}
 				actions={actions}
@@ -77,6 +79,7 @@ const TreeMenu = (props) => {
 				{node.children.map((child) => {
 					return (
 						<TreeMenu
+							user={user}
 							subscriptions={subscriptions}
 							types={types}
 							actions={actions}

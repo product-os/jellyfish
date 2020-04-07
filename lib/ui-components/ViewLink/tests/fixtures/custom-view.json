@@ -1,0 +1,106 @@
+{
+  "id": "c0ebb861-d409-4d0d-8b7c-9f55f160b4e2",
+  "slug": "view-user-created-view-d0cfe5b7-331e-4ae2-b915-94061f08e730-temp",
+  "type": "view@1.0.0",
+  "active": true,
+  "version": "1.0.0",
+  "name": "Test View",
+  "tags": [],
+  "markers": [
+    "user-1"
+  ],
+  "created_at": "2020-04-07T01:20:23.474Z",
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "actor": "0a2e2663-f493-434e-82e4-b6237de50878",
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "$$links": {
+            "has attached element": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "enum": [
+                    "message@1.0.0",
+                    "update@1.0.0",
+                    "create@1.0.0",
+                    "whisper@1.0.0"
+                  ]
+                }
+              },
+              "additionalProperties": true
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "properties": {
+            "data": {
+              "type": "object",
+              "required": [
+                "category"
+              ],
+              "properties": {
+                "category": {
+                  "const": "customer-success"
+                }
+              }
+            },
+            "type": {
+              "type": "string",
+              "const": "support-thread@1.0.0"
+            },
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      {
+        "name": "user-generated-filter",
+        "schema": {
+          "$id": "p2Z1cIT3Fl3s5rmL",
+          "type": "object",
+          "anyOf": [
+            {
+              "$id": "f71nMlq5k0E1matI",
+              "type": "object",
+              "title": "is",
+              "required": [
+                "data"
+              ],
+              "properties": {
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "const": "closed",
+                      "title": "status"
+                    }
+                  }
+                }
+              },
+              "description": "{\"name\":\"Status\",\"operator\":\"is\",\"value\":\"closed\"}"
+            }
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-support-threads",
+      "lens-kanban"
+    ]
+  },
+  "updated_at": "2020-04-06T01:44:54.903Z",
+  "linked_at": {
+    "has attached element": "2020-04-07T01:20:23.553Z"
+  }
+}

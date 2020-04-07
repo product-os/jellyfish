@@ -7,75 +7,100 @@
 import ava from 'ava'
 import {
 	shallow,
+	mount,
 	configure
 } from 'enzyme'
+import sinon from 'sinon'
 import React from 'react'
+import {
+	MemoryRouter
+} from 'react-router-dom'
+import {
+	Provider
+} from 'rendition'
 import ViewLink from '../ViewLink'
+import view from './fixtures/all-messages-view.json'
+import customView from './fixtures/custom-view.json'
+import user from './fixtures/user.json'
 
 import Adapter from 'enzyme-adapter-react-16'
+
+const browserEnv = require('browser-env')
+browserEnv([ 'window', 'document', 'navigator' ])
 
 configure({
 	adapter: new Adapter()
 })
 
-const view = {
-	id: 'ffc200db-0f81-4ce3-a280-01515f94869f',
-	slug: 'view-all-messages',
-	type: 'view',
-	active: true,
-	version: '1.0.0',
-	name: 'All messages',
-	tags: [],
-	markers: [
-		'org-balena'
-	],
-	created_at: '2018-10-15T18:56:07.628Z',
-	links: {},
-	requires: [],
-	capabilities: [],
-	data: {
-		allOf: [
-			{
-				name: 'Active cards',
-				schema: {
-					type: 'object',
-					markers: {
-						type: 'array',
-						contains: {
-							const: 'org-balena'
-						}
-					},
-					required: [
-						'active',
-						'type'
-					],
-					properties: {
-						type: {
-							const: 'message@1.0.0'
-						},
-						active: {
-							type: 'boolean',
-							const: true
-						}
-					},
-					additionalProperties: true
-				}
-			}
-		],
-		lenses: [
-			'lens-interleaved'
-		]
-	},
-	updated_at: '2019-05-17T14:21:12.292Z',
-	linked_at: null
+const TestProvider = ({
+	children
+}) => {
+	return (
+		<MemoryRouter>
+			<Provider>
+				{children}
+			</Provider>
+		</MemoryRouter>
+	)
 }
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<ViewLink
+				user={user}
 				card={view}
 			/>
 		)
 	})
+})
+
+ava('removeView action called when \'Delete this view\' button pressed and action confirmed', async (test) => {
+	const actions = {
+		removeView: sinon.fake()
+	}
+	const component =	await mount(
+		<ViewLink
+			isActive
+			user={user}
+			card={customView}
+			actions={actions}
+		/>
+		, {
+			wrappingComponent: TestProvider
+		})
+
+	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
+	contextMenuButton.simulate('click')
+
+	const deleteViewButton = component.find('button[data-test="view-link--delete-view-btn"]')
+	deleteViewButton.simulate('click')
+
+	const confirmButton = component.find('button[data-test="view-delete__submit"]')
+	confirmButton.simulate('click')
+
+	test.true(actions.removeView.calledOnce)
+	test.is(actions.removeView.getCall(0).lastArg.id, customView.id)
+})
+
+ava('\'Delete this view\' button not shown if view is not a valid custom view', async (test) => {
+	const actions = {
+		removeView: sinon.fake()
+	}
+	const component =	await mount(
+		<ViewLink
+			isActive
+			user={user}
+			card={view}
+			actions={actions}
+		/>
+		, {
+			wrappingComponent: TestProvider
+		})
+
+	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
+	contextMenuButton.simulate('click')
+
+	const deleteViewButton = component.find('button[data-test="view-link--delete-view-btn"]')
+	test.is(deleteViewButton.length, 0)
 })

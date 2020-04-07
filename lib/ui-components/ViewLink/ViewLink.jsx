@@ -12,7 +12,8 @@ import React from 'react'
 import {
 	Button,
 	Box,
-	Flex
+	Flex,
+	Modal
 } from 'rendition'
 import Link from '../Link'
 import MentionsCount from '../MentionsCount'
@@ -25,11 +26,15 @@ export default class ViewLink extends React.Component {
 		super(props)
 
 		this.state = {
+			showDeleteModal: false,
 			showMenu: false
 		}
 
 		this.setDefault = this.setDefault.bind(this)
 		this.toggleMenu = this.toggleMenu.bind(this)
+		this.removeView = this.removeView.bind(this)
+		this.showDeleteModal = this.showDeleteModal.bind(this)
+		this.hideDeleteModal = this.hideDeleteModal.bind(this)
 	}
 
 	toggleMenu () {
@@ -38,8 +43,25 @@ export default class ViewLink extends React.Component {
 		})
 	}
 
+	showDeleteModal () {
+		this.setState({
+			showDeleteModal: true
+		})
+	}
+
+	hideDeleteModal () {
+		this.setState({
+			showDeleteModal: false
+		})
+	}
+
 	setDefault () {
 		this.props.actions.setDefault(this.props.card)
+	}
+
+	removeView () {
+		this.hideDeleteModal()
+		this.props.actions.removeView(this.props.card)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -52,10 +74,13 @@ export default class ViewLink extends React.Component {
 			card,
 			isActive,
 			types,
+			user,
 			update
 		} = this.props
 
 		const slices = isActive ? helpers.getViewSlices(card, types) : null
+
+		const isCustomView = helpers.isCustomView(card, user)
 
 		return (
 			<Box>
@@ -84,6 +109,7 @@ export default class ViewLink extends React.Component {
 
 					{isActive &&
 							<Button
+								data-test="view-link--context-menu-btn"
 								pr={3}
 								pl={1}
 								plain
@@ -104,6 +130,20 @@ export default class ViewLink extends React.Component {
 								>
 									Set as default
 								</Button>
+								{ isCustomView && (
+									<Button
+										style={{
+											display: 'block'
+										}}
+										mt={2}
+										plain
+										data-test="view-link--delete-view-btn"
+										tooltip="Delete this view"
+										onClick={this.showDeleteModal}
+									>
+										Delete custom view
+									</Button>
+								)}
 							</ContextMenu>
 					}
 				</Flex>
@@ -150,6 +190,17 @@ export default class ViewLink extends React.Component {
 							)
 						})}
 					</ul>
+				)}
+				{this.state.showDeleteModal && (
+					<Modal
+						title="Are you sure you want to delete this view?"
+						cancel={this.hideDeleteModal}
+						done={this.removeView}
+						action="Yes"
+						primaryButtonProps={{
+							'data-test': 'view-delete__submit'
+						}}
+					/>
 				)}
 			</Box>
 		)
