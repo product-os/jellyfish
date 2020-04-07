@@ -1,0 +1,52 @@
+{
+  "id": "a8372161-0c14-48fb-abfb-f9526151785c",
+  "slug": "view-all-messages",
+  "type": "view@1.0.0",
+  "active": true,
+  "version": "1.0.0",
+  "name": "All messages",
+  "tags": [],
+  "markers": [
+    "org-balena"
+  ],
+  "created_at": "2020-03-06T02:50:16.886Z",
+  "links": {},
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "allOf": [
+      {
+        "name": "Active cards",
+        "schema": {
+          "type": "object",
+          "markers": {
+            "type": "array",
+            "contains": {
+              "const": "org-balena"
+            }
+          },
+          "required": [
+            "active",
+            "type"
+          ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "message@1.0.0"
+            },
+            "active": {
+              "type": "boolean",
+              "const": true
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-interleaved"
+    ]
+  },
+  "updated_at": "2020-04-06T01:44:54.453Z",
+  "linked_at": {}
+}
