@@ -80,3 +80,11 @@ properties:
     type: string?
   INTEGRATION_OUTREACH_SIGNATURE_KEY:
     type: string?
+  MAILGUN_TOKEN:
+    type: string?
+  MAILGUN_DOMAIN:
+    type: string?
+  MAILGUN_BASE_URL:
+    type: string?
+  RESET_PASSWORD_SECRET_TOKEN:
+    type: string?
