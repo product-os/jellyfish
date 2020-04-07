@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update request password reset action and ui to take username instead of
+        email
+      hash: 5d0be6913465efb8821cebdce45f59d248b20ac2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 27.42.2
+  date: 2020-04-07T04:27:50.741Z
+- commits:
     - subject: Add mailgun and password reset secret key to deploy templates
       hash: ca05ce8dd2bc81aee42b7f1e509f055a195e9623
       body: ''
