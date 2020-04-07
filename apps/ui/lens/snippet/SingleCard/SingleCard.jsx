@@ -17,7 +17,7 @@ import {
 import CardFields from '../../../../../lib/ui-components/CardFields'
 import Link from '../../../../../lib/ui-components/Link'
 import {
-	Tag
+	TagList
 } from '../../../../../lib/ui-components/Tag'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 
@@ -58,13 +58,10 @@ export default class SingleCard extends React.Component {
 					)}
 				</Flex>
 
-				{Boolean(card.tags) && card.tags.length > 0 && (
-					<Box mb={1}>
-						{_.map(card.tags, (tag) => {
-							return <Tag key={tag} mr={1}>#{tag}</Tag>
-						})}
-					</Box>
-				)}
+				<TagList
+					tags={card.tags}
+					mb={1}
+				/>
 
 				<CardFields
 					card={card}

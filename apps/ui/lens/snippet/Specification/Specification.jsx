@@ -15,7 +15,7 @@ import {
 } from 'rendition/dist/extra/Markdown'
 import Link from '../../../../../lib/ui-components/Link'
 import {
-	Tag
+	TagList
 } from '../../../../../lib/ui-components/Tag'
 
 export default function SingleCard (props) {
@@ -33,13 +33,10 @@ export default function SingleCard (props) {
 				</Link>
 			</Txt>
 
-			{Boolean(card.tags) && card.tags.length > 0 && (
-				<Box mb={1}>
-					{_.map(card.tags, (tag) => {
-						return <Tag key={tag} mr={1}>#{tag}</Tag>
-					})}
-				</Box>
-			)}
+			<TagList
+				tags={card.tags}
+				mb={1}
+			/>
 
 			<Markdown>{blurb}</Markdown>
 		</Box>

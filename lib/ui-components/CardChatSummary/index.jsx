@@ -25,7 +25,7 @@ import * as helpers from '../services/helpers'
 import ColorHashPill from '../shame/ColorHashPill'
 import Icon from '../shame/Icon'
 import {
-	Tag
+	TagList
 } from '../Tag'
 
 const SummaryWrapper = styled(Link) `
@@ -135,27 +135,17 @@ export class CardChatSummary extends React.Component {
 					<Flex alignItems="flex-start">
 						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
 						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} />
-						{Boolean(card.tags) && _.map(card.tags, (tag) => {
-							if (
-								tag === 'status' ||
-								tag === 'summary' ||
-								tag.includes('pending')
-							) {
-								return null
-							}
-							return (
-								<Tag
-									key={tag}
-									mr={2}
-									style={{
-										lineHeight: 1.5,
-										fontSize: 10,
-										letterSpacing: 0.5
-									}}>
-									{tag}
-								</Tag>
-							)
-						})}
+						<TagList
+							tags={card.tags.filter((tag) => { return !tag.includes('pending') })}
+							blacklist={[ 'status', 'summary' ]}
+							tagProps={{
+								style: {
+									lineHeight: 1.5,
+									fontSize: 10,
+									letterSpacing: 0.5
+								}
+							}}
+						/>
 					</Flex>
 
 					<Txt color="text.light" fontSize={12}>

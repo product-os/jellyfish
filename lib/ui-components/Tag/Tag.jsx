@@ -31,12 +31,12 @@ const StyledTag = styled(Txt.span) `
 	${tagStyle}
 `
 
-const TAG_SYMBOL = '#'
+export const TAG_SYMBOL = '#'
 
-export const Tag = ({
+export default function Tag ({
 	children,
 	...rest
-}) => {
+}) {
 	let content = children
 
 	if (content && typeof content === 'string' && !content.startsWith(TAG_SYMBOL)) {

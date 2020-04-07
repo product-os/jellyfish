@@ -18,7 +18,7 @@ import {
 } from 'rendition'
 import CardFields from '../../../../lib/ui-components/CardFields'
 import {
-	Tag
+	TagList
 } from '../../../../lib/ui-components/Tag'
 import {
 	selectors
@@ -57,13 +57,10 @@ class Thread extends React.Component {
 				)}
 			>
 				<Box px={3} pb={0}>
-					{Boolean(card.tags) && card.tags.length > 0 && (
-						<Box mb={1}>
-							{_.map(card.tags, (tag) => {
-								return <Tag mr={1}>#{tag}</Tag>
-							})}
-						</Box>
-					)}
+					<TagList
+						tags={card.tags}
+						mb={1}
+					/>
 
 					<CardFields
 						card={card}
