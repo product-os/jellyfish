@@ -47,7 +47,7 @@ export const OauthCallbackTask = ({
 	}, [ sdk, location.search, userSlug, oauthProvider ])
 
 	return (
-		<Task task={exchangeCodeTask}>
+		<Task task={exchangeCodeTask} px={2}>
 			{children}
 		</Task>
 	)
