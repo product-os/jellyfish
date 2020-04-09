@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'github: Use github.pulls instead of github.pullRequests'
+      hash: 2d10ef6b91ece0bfc0f928f5b144f9f9c661500b
+      body: |
+        We recently upgraded `octokit` and production is complaining that
+        `github.pullRequests` doesn't exist. Sadly we don't have tests at the
+        moment that confirm that this part of the code works.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.0.2
+  date: 2020-04-09T09:41:40.204Z
+- commits:
     - subject: Migrate translate tests from CircleCI to balenaCI
       hash: 94a80c8e9c507e8ad247dbcb51776176e2acc31f
       body: ''
