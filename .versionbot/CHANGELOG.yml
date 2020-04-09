@@ -1,4 +1,16 @@
 - commits:
+    - subject: Migrate translate tests from CircleCI to balenaCI
+      hash: 94a80c8e9c507e8ad247dbcb51776176e2acc31f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 28.0.1
+  date: 2020-04-09T04:01:06.488Z
+- commits:
     - subject: 'Livechat: Oauth if not logged in'
       hash: 93f1ebb1ce9946485cccef024eeda5f73f8b82c2
       body: ''
