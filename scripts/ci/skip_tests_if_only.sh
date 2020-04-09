@@ -23,7 +23,7 @@ CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
 # A list of the affected modules from lib/ and apps/
 # that the current branch is modifying
-AFFECTED_MODULES="$(git diff --name-only master "$CURRENT_BRANCH" \
+AFFECTED_MODULES="$(git diff --name-only master..."$CURRENT_BRANCH" \
 	| grep -E "^(lib|apps)" \
 	| cut -d / -f 2 \
 	| sort \
@@ -32,21 +32,22 @@ AFFECTED_MODULES="$(git diff --name-only master "$CURRENT_BRANCH" \
 # If no module was actually affected, then there is no need to run the tests
 if [ -z "$AFFECTED_MODULES" ]
 then
-	echo "Current branch: $CURRENT_BRANCH" 1>&2
-	git diff --name-only master "$CURRENT_BRANCH"
-	echo "No affected modules. Skipping tests..." 1>&2
+	echo "Current branch: $CURRENT_BRANCH"
+	git diff --name-only master..."$CURRENT_BRANCH"
+	echo "No affected modules. Skipping tests..."
 	exit 0
 fi
 
 # The set of modules that can cause the tests to be skipped
 INPUT_MODULES="$(echo "$MODULES" | tr ' ' '\n' | sort | uniq)"
+echo "INPUT_MODULES:$INPUT_MODULES"
 
 # Skip the tests if all the affected modules are a subset of the input modules
-echo "Affected modules: $(echo "$AFFECTED_MODULES" | tr '\n' ' ')" 1>&2
+echo "Affected modules: $(echo "$AFFECTED_MODULES" | tr '\n' ' ')"
 FILTERED_MODULES="$(echo "$INPUT_MODULES" | grep --fixed-strings "$AFFECTED_MODULES" || true)"
 if [ "$FILTERED_MODULES" = "$AFFECTED_MODULES" ]
 then
-	echo "Skipping tests..." 1>&2
+	echo "Skipping tests..."
 	exit 0
 else
 	exit 1

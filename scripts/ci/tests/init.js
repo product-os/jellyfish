@@ -17,8 +17,32 @@ const fs = require('fs')
 
 const TIMEOUT = 120 * 1000
 const RETRIES = 3
-const SCRIPTS_DIR = '/usr/src/jellyfish/scripts'
+const JF_DIR = '/usr/src/jellyfish'
+const SCRIPTS_DIR = `${JF_DIR}/scripts`
 const TESTS_DIR = `${SCRIPTS_DIR}/ci/tests`
+
+/**
+ * @summary Checkout master to make it accessible as a local branch
+ * @function
+ * @todo Remove this function once balenaCI checks out master after fetch
+ */
+const checkoutMaster = () => {
+	const currentBranch = childProcess.execSync('git rev-parse --abbrev-ref HEAD', {
+		cwd: JF_DIR
+	})
+	childProcess.execSync('git config user.name "balena-ci" && git config user.email "balena-ci@balena.io"', {
+		cwd: JF_DIR
+	})
+	childProcess.execSync('git stash && git checkout master', {
+		cwd: JF_DIR
+	})
+	childProcess.execSync(`git checkout ${currentBranch}`, {
+		cwd: JF_DIR
+	})
+	childProcess.execSync('git stash pop', {
+		cwd: JF_DIR
+	})
+}
 
 /**
  * @summary Install required npm packages
@@ -133,6 +157,9 @@ const restartJob = (job) => {
 	Reflect.deleteProperty(job, 'process')
 	return startJob(job)
 }
+
+// Checkout master branch
+checkoutMaster()
 
 // Install packages
 installPackages()

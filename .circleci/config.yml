@@ -51,42 +51,6 @@ jobs:
           paths:
               - node_modules
 
-  unit_and_sync_tests: &unit_and_sync_tests
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - run:
-          name: Reset master branch
-          command: git fetch origin && git checkout master && git reset --hard origin/master && git checkout $CIRCLE_BRANCH
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests Outreach Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/outreach-translate.spec.js INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY
-
-      - run:
-          name: Sync Tests Balena API Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/balena-api-translate.spec.js COVERAGE=1 INTEGRATION_BALENA_API_PRIVATE_KEY=LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JR0hBZ0VBTUJNR0J5cUdTTTQ5QWdFR0NDcUdTTTQ5QXdFSEJHMHdhd0lCQVFRZ2NDTU5RdXYwTTZ0SFhxZVgKSTFxTmg5aUxHWGUyTE1TUHBubmx5dTM3V3dPaFJBTkNBQVNFeU83MU1JU1BvNXhoUy85TzRyWDdoeWFxSExEMgozaFBUNC9rOXdtVHEzbk1Vbk1LQXFHQWRUbTE1TThTS1BPVTM0ZGN4LzJucFd0LzNkMjVobDM3ZwotLS0tLUVORCBQUklWQVRFIEtFWS0tLS0tCg== INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=LS0tLS1CRUdJTiBQVUJMSUMgS0VZLS0tLS0KTUZrd0V3WUhLb1pJemowQ0FRWUlLb1pJemowREFRY0RRZ0FFaE1qdTlUQ0VqNk9jWVV2L1R1SzErNGNtcWh5dwo5dDRUMCtQNVBjSms2dDV6Rkp6Q2dLaGdIVTV0ZVRQRWlqemxOK0hYTWY5cDZWcmY5M2R1WVpkKzRBPT0KLS0tLS1FTkQgUFVCTElDIEtFWS0tLS0tCg==
-
-      - run:
-          name: Sync Tests Github Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/github-translate.spec.js INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID INTEGRATION_GITHUB_PRIVATE_KEY="$GITHUB_PRIVATE_KEY"
-
-      - run:
-          name: Sync Tests Flowdock Translate
-          command: ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || make test FILES=./test/integration/sync/flowdock-translate.spec.js INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
-
   sync_tests_github_mirror:
     <<: *job_defaults
 
@@ -117,35 +81,6 @@ jobs:
           name: Compose Down
           command: make compose-stop
 
-  sync_tests_front_translate:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - run:
-          name: Reset master branch
-          command: git fetch origin && git checkout master && git reset --hard origin/master && git checkout $CIRCLE_BRANCH
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: |
-            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              exit 0
-            fi
-
-            make test FILES=./test/integration/sync/front-translate.spec.js INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
-
   sync_tests_front_mirror:
     <<: *job_defaults
 
@@ -172,35 +107,6 @@ jobs:
       - run:
           name: Compose Down
           command: make compose-stop
-
-  sync_tests_discourse_translate:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - run:
-          name: Reset master branch
-          command: git fetch origin && git checkout master && git reset --hard origin/master && git checkout $CIRCLE_BRANCH
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: |
-            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              exit 0
-            fi
-
-            make test FILES=./test/integration/sync/discourse-translate.spec.js INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
 
   sync_tests_discourse_mirror:
     <<: *job_defaults
@@ -347,11 +253,6 @@ workflows:
             - build:
                 <<: *workflow_filter
 
-            - unit_and_sync_tests:
-                requires:
-                  - build
-                <<: *workflow_filter
-
             - e2e_tests_server:
                 <<: *workflow_filter
 
@@ -359,16 +260,6 @@ workflows:
                 <<: *workflow_filter
 
             - sync_tests_front_mirror:
-                <<: *workflow_filter
-
-            - sync_tests_front_translate:
-                requires:
-                  - build
-                <<: *workflow_filter
-
-            - sync_tests_discourse_translate:
-                requires:
-                  - build
                 <<: *workflow_filter
 
             - sync_tests_discourse_mirror:
@@ -379,11 +270,8 @@ workflows:
 
             - results:
                 requires:
-                  - unit_and_sync_tests
                   - e2e_tests_server
                   - e2e_tests_server_previous_dump
-                  - sync_tests_front_translate
-                  - sync_tests_discourse_translate
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
