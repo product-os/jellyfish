@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'outreach: Adapt URL to existing prospect with email address if taken'
+      hash: 97db71b5e07247b8f733c062c0b90ffec948a1b8
+      body: ''
+      footer:
+        Fixes: 'https://sentry.io/share/issue/300732926e9e4f2fb0aa347d3d9a045d/'
+        fixes: 'https://sentry.io/share/issue/300732926e9e4f2fb0aa347d3d9a045d/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.0.4
+  date: 2020-04-09T13:52:07.285Z
+- commits:
     - subject: 'worker: Don''t sent WorkerNoElement errors to Sentry'
       hash: 64ac412a1b0c6c9f3f1974bf6c92b3f026bbe0d1
       body: |
