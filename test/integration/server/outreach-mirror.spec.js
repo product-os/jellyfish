@@ -138,6 +138,51 @@ ava.serial.afterEach(async (test) => {
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
+avaTest('should update mirror URL to prospect with new email address', async (test) => {
+	const username = `test-${uuid()}`
+
+	const prospectResult = await outreachMock.postProspect({
+		data: {
+			type: 'prospect',
+			attributes: {
+				emails: [ `${username}-test@test.io` ],
+				firstName: 'John',
+				lastName: 'Doe'
+			}
+		}
+	})
+
+	test.is(prospectResult.code, 201)
+
+	const createResult = await test.context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email: `${username}@test.io`
+			}
+		}
+	})
+
+	const contact = await test.context.sdk.card.get(createResult.id)
+	test.deepEqual(contact.data.mirrors, [
+		'https://api.outreach.io/api/v2/prospects/2'
+	])
+
+	await test.context.sdk.card.update(createResult.id, createResult.type, [
+		{
+			op: 'replace',
+			path: '/data/profile/email',
+			value: `${username}-test@test.io`
+		}
+	])
+
+	const newContact = await test.context.sdk.card.get(createResult.id)
+	test.deepEqual(newContact.data.mirrors, [
+		prospectResult.response.data.links.self
+	])
+})
+
 avaTest('should not update remote prospects that do not exist', async (test) => {
 	const username = `test-${uuid()}`
 
