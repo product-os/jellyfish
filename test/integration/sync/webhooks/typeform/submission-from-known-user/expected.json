@@ -1,0 +1,169 @@
+{
+    "head": {
+        "name": "",
+        "type": "form-response@1.0.0",
+        "version": "1.0.0",
+        "active": true,
+        "tags": [],
+        "requires": [],
+        "data": {
+            "mirrors": [
+                "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=jfaekp127dc3h42sjfaemo8tqvytm3gi"
+            ],
+            "user": null,
+            "timestamp": "2020-04-04T20:17:22.000Z",
+            "responses": [
+                {
+                    "question": "How did you first hear about balenaCloud?",
+                    "answer": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "value": "Internet"
+                    }
+                },
+                {
+                    "question": "How would you describe your role?",
+                    "answer": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "value": "Developer"
+                    }
+                },
+                {
+                    "question": "Could you briefly describe your use case?",
+                    "answer": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "value": "AI, Blockchain, IoT"
+                    }
+                },
+                {
+                    "question": "How has your experience been so far? What can we improve? We count on your honest feedback to make balenaCloud better.",
+                    "answer": {
+                        "schema": {
+                            "type": "string"
+                        },
+                        "value": "Allow non http traffic for the balenaVPN."
+                    }
+                },
+                {
+                    "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
+                    "answer": {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 10
+                        },
+                        "value": 10
+                    }
+                },
+                {
+                    "question": "Finally, how about inviting a friend or co-worker to experience balenaCloud for themselves? Provide us with their email address and we'll do the rest.",
+                    "answer": {
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "value": "marios@balena.io"
+                    }
+                }
+            ]
+        },
+        "capabilities": []
+    },
+    "tail": [
+        {
+            "type": "create@1.0.0",
+            "version": "1.0.0",
+            "active": true,
+            "tags": [],
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "actor": {
+                    "slug": "user-admin",
+                    "active": true
+                },
+                "timestamp": "2020-04-04T20:17:22.000Z",
+                "payload": {
+                    "name": "",
+                    "type": "form-response@1.0.0",
+                    "version": "1.0.0",
+                    "active": true,
+                    "tags": [],
+                    "requires": [],
+                    "capabilities": [],
+                    "data": {
+                        "mirrors": [
+                            "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=jfaekp127dc3h42sjfaemo8tqvytm3gi"
+                        ],
+                        "user": null,
+                        "timestamp": "2020-04-04T20:17:22.000Z",
+                        "responses": [
+                            {
+                                "question": "How did you first hear about balenaCloud?",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "value": "Internet"
+                                }
+                            },
+                            {
+                                "question": "How would you describe your role?",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "value": "Developer"
+                                }
+                            },
+                            {
+                                "question": "Could you briefly describe your use case?",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "value": "AI, Blockchain, IoT"
+                                }
+                            },
+                            {
+                                "question": "How has your experience been so far? What can we improve? We count on your honest feedback to make balenaCloud better.",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string"
+                                    },
+                                    "value": "Allow non http traffic for the balenaVPN."
+                                }
+                            },
+                            {
+                                "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
+                                "answer": {
+                                    "schema": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 10
+                                    },
+                                    "value": 10
+                                }
+                            },
+                            {
+                                "question": "Finally, how about inviting a friend or co-worker to experience balenaCloud for themselves? Provide us with their email address and we'll do the rest.",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "value": "marios@balena.io"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

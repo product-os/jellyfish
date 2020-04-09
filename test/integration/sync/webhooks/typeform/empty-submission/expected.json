@@ -1,0 +1,53 @@
+{
+    "head": {
+        "name": "",
+        "type": "form-response@1.0.0",
+        "version": "1.0.0",
+        "active": true,
+        "tags": [],
+        "requires": [],
+        "capabilities": [],
+        "data": {
+            "mirrors": [
+                "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=fjjsrmo30t5yrqtl66fjjsrrynopvbj4"
+            ],
+            "user": null,
+            "timestamp": "2020-03-24T11:49:54.000Z",
+            "responses": []
+        }
+    },
+    "tail": [
+        {
+            "type": "create@1.0.0",
+            "version": "1.0.0",
+            "active": true,
+            "tags": [],
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "actor": {
+                    "slug": "user-admin",
+                    "active": true
+                },
+                "timestamp": "2020-03-24T11:49:54.000Z",
+                "payload": {
+                    "name": "",
+                    "type": "form-response@1.0.0",
+                    "version": "1.0.0",
+                    "active": true,
+                    "tags": [],
+                    "requires": [],
+                    "capabilities": [],
+                    "data": {
+                        "mirrors": [
+                            "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=fjjsrmo30t5yrqtl66fjjsrrynopvbj4"
+                        ],
+                        "user": null,
+                        "timestamp": "2020-03-24T11:49:54.000Z",
+                        "responses": []
+                    }
+                }
+            }
+        }
+    ]
+}
