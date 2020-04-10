@@ -610,6 +610,21 @@ ava.serial('should limit the amount of get elements by type endpoint', async (te
 	test.is(result.response.length, 100)
 })
 
+ava.serial('should fail to query with an invalid query object', async (test) => {
+	const result = await test.context.http(
+		'POST', '/api/v2/query', {
+			foo: 'bar'
+		}, {
+			Authorization: `Bearer ${test.context.token}`
+		})
+
+	test.is(result.code, 400)
+	test.deepEqual(result.response, {
+		error: true,
+		data: 'Invalid request body'
+	})
+})
+
 ava.serial('should get all elements by type', async (test) => {
 	const result = await test.context.http(
 		'GET', '/api/v2/type/user', null, {
