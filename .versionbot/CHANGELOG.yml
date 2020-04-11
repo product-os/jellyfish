@@ -1,4 +1,28 @@
 - commits:
+    - subject: modify CFN templates
+      hash: 8ccaad3e9171b36ea16bde12952f0a1297cd371f
+      body: >
+        * increase WAL storage
+
+        * add SSD performance settings
+
+        * sync DB instance types and storage options
+
+        * add a condition to accommodate the optional behavior of the IOPS
+        property
+
+        * allow setting PG version
+      footer:
+        Change-type: minor
+        change-type: minor
+        Co-Authored-by: Carlo Miguel Cruz <carloc@balena.io>
+        co-authored-by: Carlo Miguel Cruz <carloc@balena.io>
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+  version: 28.1.0
+  date: 2020-04-11T11:24:20.594Z
+- commits:
     - subject: 'discourse: Don''t log event "post_stream" property'
       hash: bfb30707bba702687aeb0a3ad684ebcafa0764b1
       body: |
