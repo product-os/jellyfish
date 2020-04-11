@@ -24,7 +24,3 @@ source "$(dirname $0)/helpers.sh"
 # Run Flowdock translate tests.
 ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Flowdock Translate Tests" test FILES=./test/integration/sync/flowdock-translate.spec.js
-
-# Run Front translate tests.
-./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
-	run_test "Front Translate Tests" test FILES=./test/integration/sync/front-translate.spec.js
