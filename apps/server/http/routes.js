@@ -289,6 +289,8 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 					const: `${base}@${version || '1.0.0'}`
 				}
 			}
+		}, {
+			limit: 100
 		}).then((results) => {
 			return response.status(200).json(results)
 		}).catch((error) => {
