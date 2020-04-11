@@ -589,6 +589,27 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 	})
 })
 
+ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
+	for (const time of _.range(0, 200)) {
+		await test.context.sdk.card.create({
+			type: 'card',
+			slug: test.context.generateRandomSlug({
+				prefix: `test-card-${time}`
+			}),
+			version: '1.0.0',
+			data: {}
+		})
+	}
+
+	const result = await test.context.http(
+		'GET', '/api/v2/type/card', null, {
+			Authorization: `Bearer ${test.context.token}`
+		})
+
+	test.is(result.code, 200)
+	test.is(result.response.length, 100)
+})
+
 ava.serial('should get all elements by type', async (test) => {
 	const result = await test.context.http(
 		'GET', '/api/v2/type/user', null, {

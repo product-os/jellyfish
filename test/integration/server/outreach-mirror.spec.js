@@ -166,7 +166,7 @@ avaTest('should update mirror URL to prospect with new email address', async (te
 
 	const contact = await test.context.sdk.card.get(createResult.id)
 	test.deepEqual(contact.data.mirrors, [
-		'https://api.outreach.io/api/v2/prospects/2'
+		'https://api.outreach.io/api/v2/prospects/3'
 	])
 
 	await test.context.sdk.card.update(createResult.id, createResult.type, [
