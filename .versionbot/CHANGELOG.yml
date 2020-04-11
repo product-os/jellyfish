@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'discourse: Don''t log event "post_stream" property'
+      hash: bfb30707bba702687aeb0a3ad684ebcafa0764b1
+      body: |
+        Just to reduce the noise in the logs. That property is so huge that
+        Rapid7 ends up truncating part of the remaining of the object, limiting
+        our debugging attempts.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.0.8
+  date: 2020-04-11T04:16:31.731Z
+- commits:
     - subject: 'server: Add limit to /api/v2/type/:type endpoint'
       hash: 8e4544e75a52f0dd027d56face4c6e9c6a4299dc
       body: |
