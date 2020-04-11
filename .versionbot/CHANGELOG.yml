@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Add limit to /api/v2/type/:type endpoint'
+      hash: 8e4544e75a52f0dd027d56face4c6e9c6a4299dc
+      body: |
+        Querying for instances of a very used type (such as `action-request`)
+        can easily choke the system with a large enough database.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.0.7
+  date: 2020-04-11T03:27:00.162Z
+- commits:
     - subject: Move Front/Discourse translate tests back to CircleCI
       hash: 1d74ab4ea3f5e23cfe9f1f0bd41eddd79623d067
       body: ''
