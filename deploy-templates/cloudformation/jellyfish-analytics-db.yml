@@ -10,25 +10,71 @@ Parameters:
     Type: String
     Default: db.t3.small
     AllowedValues:
-      - db.m5.large
-      - db.m5.xlarge
-      - db.m5.2xlarge
-      - db.m5.4xlarge
-      - db.m5.12xlarge
-      - db.m5.24xlarge
-      - db.t3.micro
-      - db.t3.small
-      - db.t3.medium
-      - db.t3.large
-      - db.t3.xlarge
-      - db.t3.2xlarge
+    - db.t3.micro
+    - db.t3.small
+    - db.t3.medium
+    - db.t3.large
+    - db.t3.xlarge
+    - db.t3.2xlarge
+    - db.r5.large
+    - db.r5.xlarge
+    - db.r5.2xlarge
+    - db.r5.4xlarge
+    - db.r5.12xlarge
+    - db.r5.24xlarge
+    - db.x1e.xlarge
+    - db.x1e.2xlarge
+    - db.x1e.4xlarge
+    - db.x1e.8xlarge
+    - db.x1e.16xlarge
+    - db.x1e.32xlarge
+    - db.m5.large
+    - db.m5.xlarge
+    - db.m5.2xlarge
+    - db.m5.4xlarge
+    - db.m5.12xlarge
+    - db.m5.24xlarge
     ConstraintDescription: must select a valid database instance type.
+  JellyfishDBStorageType:
+    Description: Jellyfish Database instance class
+    Default: gp2
+    Type: String
+    AllowedValues:
+      - standard
+      - gp2
+      - io1
+  JellyfishDBStorageIops:
+    Description: The number of reserved iops for 'io1' storage type
+    Type: String
+    Default: ''
+  JellyfishDBParameterGroupFamily:
+    Description: RDS PostgreSQL engine version
+    Type: String
+    Default: postgres10
+    AllowedValues:
+    - postgres10
+    - postgres11
+    - postgres12
+Conditions:
+  HasIOPS:
+    Fn::Not:
+      - Fn::Equals:
+          - ""
+          - !Ref JellyfishDBStorageIops
+Mappings:
+  EngineMap:
+    postgres10:
+      EngineVersion: 10.6
+    postgres11:
+      EngineVersion: 11.6
+    postgres12:
+      EngineVersion: 12.2
 Resources:
   JellyfishAnalyticsDBParameterGroup:
     Type: 'AWS::RDS::DBParameterGroup'
     Properties:
       Description: Jellyfish Analytics DB Parameter group
-      Family: postgres10
+      Family: !Ref JellyfishDBParameterGroupFamily
       Parameters:
         autovacuum_analyze_scale_factor: '0.1'
         autovacuum_naptime: '60'
@@ -38,6 +84,8 @@ Resources:
         max_connections: '1000'
         max_standby_streaming_delay: '-1'
         statement_timeout: '0'
+        effective_io_concurrency: '200'
+        random_page_cost: '1.1'
   JellyfishAnalyticsDB:
     Type: 'AWS::RDS::DBInstance'
     Properties:
@@ -45,7 +93,40 @@ Resources:
         Fn::Sub: "${DBStackName}-JellyfishDB"
       DBInstanceIdentifier: jellyfish-analytics
       DBInstanceClass: !Ref DBInstanceClass
+      Engine: postgres
+      EngineVersion: !FindInMap
+        - EngineMap
+        - !Ref JellyfishDBParameterGroupFamily
+        - EngineVersion
       DBParameterGroupName: !Ref JellyfishAnalyticsDBParameterGroup
+      StorageType:
+        Ref: JellyfishDBStorageType
+      Iops:
+        Fn::If:
+          - HasIOPS
+          - !Ref JellyfishDBStorageIops
+          - !Ref AWS::NoValue
       Tags:
         - Key: Name
           Value: jellyfish-analytics
+Outputs:
+  dbEndpoint:
+    Description: Connection string for the database
+    Value:
+      Fn::Join:
+      - ''
+      - - psql://
+        - Fn::GetAtt:
+          - JellyfishAnalyticsDB
+          - Endpoint.Address
+        - ":"
+        - Fn::GetAtt:
+          - JellyfishAnalyticsDB
+          - Endpoint.Port
+  JellyfishAnalyticsDB:
+    Value:
+      Ref: JellyfishAnalyticsDB
+    Description: ID of JellyfishAnalyticsDB
+    Export:
+      Name:
+        Fn::Sub: "${AWS::StackName}-JellyfishAnalyticsDB"

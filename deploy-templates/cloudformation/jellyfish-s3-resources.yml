@@ -67,7 +67,6 @@ Resources:
       UserName:
         Ref: JFIAMUser
 Outputs:
-
   JFAccessKey:
     Description: JF access key
     Value:
@@ -78,4 +77,3 @@ Outputs:
       Fn::GetAtt:
         - JFAccessKey
         - SecretAccessKey
-
