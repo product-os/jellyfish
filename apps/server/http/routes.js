@@ -564,6 +564,11 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				error: true,
 				data: 'No query schema'
 			})
+		} else if (_.isPlainObject(request.body) && !request.body.query) {
+			return response.status(400).json({
+				error: true,
+				data: 'Invalid request body'
+			})
 		}
 
 		return queryFacade.queryAPI(
