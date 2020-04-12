@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Gracefully fail if query object is invalid'
+      hash: d0ee1b614bc5705222b7a6df8bb48d3a81d7e045
+      body: ''
+      footer:
+        Fixes: 'https://sentry.io/share/issue/fb767e9b794f452ab605c6b84b8a5cea/'
+        fixes: 'https://sentry.io/share/issue/fb767e9b794f452ab605c6b84b8a5cea/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.1.1
+  date: 2020-04-12T01:51:17.473Z
+- commits:
     - subject: modify CFN templates
       hash: 8ccaad3e9171b36ea16bde12952f0a1297cd371f
       body: >
