@@ -21,6 +21,7 @@ COPY ./lib/queue ./lib/queue
 COPY ./lib/uuid ./lib/uuid
 COPY ./lib/worker ./lib/worker
 COPY ./lib/mail ./lib/mail
+COPY ./lib/metrics ./lib/metrics
 
 COPY ./apps/server ./apps/server
 COPY Makefile .
