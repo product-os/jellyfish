@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Gracefully handle malformed JSON bodies'
+      hash: aecc9f8c9b23b6987975a058e4d520225ce91aee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/6d3eb8ccbd1a49fa9381695b1c4f8ec3/'
+        fixes: 'https://sentry.io/share/issue/6d3eb8ccbd1a49fa9381695b1c4f8ec3/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.1.2
+  date: 2020-04-13T12:59:00.833Z
+- commits:
     - subject: 'server: Gracefully fail if query object is invalid'
       hash: d0ee1b614bc5705222b7a6df8bb48d3a81d7e045
       body: ''
