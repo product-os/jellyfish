@@ -29,6 +29,13 @@ module.exports = (context, jellyfish, worker, producer, configuration, options) 
 	// otherwise Express doesn't take it as an error handler.
 	// See https://expressjs.com/en/guide/using-middleware.html
 	application.use((error, request, response, next) => {
+		if (error.type === 'entity.parse.failed') {
+			return response.status(400).json({
+				error: true,
+				data: 'Invalid request body'
+			})
+		}
+
 		// So we get more info about the error
 		error.url = request.url
 		error.method = request.method
@@ -40,7 +47,7 @@ module.exports = (context, jellyfish, worker, producer, configuration, options) 
 		})
 
 		logger.exception(request.context || context, 'Middleware error', error)
-		response.status(error.statusCode || 500).json({
+		return response.status(error.statusCode || 500).json({
 			error: true,
 			data: errorObject
 		})
