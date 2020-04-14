@@ -36,7 +36,21 @@ ava('when querying for jsonb array field that contains string const we use the @
 	})
 
 	const expected = `SELECT
-cards.*
+cards.id,
+cards.slug,
+cards.type,
+cards.active,
+cards.version,
+cards.name,
+cards.tags,
+cards.markers,
+cards.created_at,
+cards.links,
+cards.requires,
+cards.capabilities,
+cards.data,
+cards.updated_at,
+cards.linked_at
 FROM cards
 WHERE
 (cards.type = 'support-thread')
@@ -75,7 +89,21 @@ ava('when querying for jsonb array field that contains number const we use the @
 	})
 
 	const expected = `SELECT
-cards.*
+cards.id,
+cards.slug,
+cards.type,
+cards.active,
+cards.version,
+cards.name,
+cards.tags,
+cards.markers,
+cards.created_at,
+cards.links,
+cards.requires,
+cards.capabilities,
+cards.data,
+cards.updated_at,
+cards.linked_at
 FROM cards
 WHERE
 (cards.type = 'support-thread')
@@ -157,7 +185,21 @@ ava('when querying without filters and additionalProperties=true, query should s
 	})
 
 	const expected = `SELECT
-cards.*
+cards.id,
+cards.slug,
+cards.type,
+cards.active,
+cards.version,
+cards.name,
+cards.tags,
+cards.markers,
+cards.created_at,
+cards.links,
+cards.requires,
+cards.capabilities,
+cards.data,
+cards.updated_at,
+cards.linked_at
 FROM cards
 WHERE
 true`
