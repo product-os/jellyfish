@@ -39,7 +39,8 @@
                   "user@1.0.0",
                   "view@1.0.0",
                   "password-reset@1.0.0",
-				  				"first-time-login@1.0.0"
+				  				"first-time-login@1.0.0",
+									"action-create-user@1.0.0"
                 ]
               }
             }

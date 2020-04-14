@@ -410,7 +410,7 @@ ava.serial('.query() community users should be able to query views', async (test
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
 
-ava.serial('creating a user with a community user session should succeed', async (test) => {
+ava.serial('creating a user with a community user session should fail', async (test) => {
 	const userDetails = createUserDetails()
 
 	const user = await test.context.sdk.action({
@@ -454,32 +454,13 @@ ava.serial('creating a user with a community user session should succeed', async
 			Authorization: `Bearer ${token}`
 		})
 
-	test.is(result2.code, 200)
-
-	const newUserId = result2.response.data.id
-
-	const card = await test.context.sdk.card.get(newUserId)
-
-	test.deepEqual(card, {
-		created_at: card.created_at,
-		linked_at: card.linked_at,
-		updated_at: card.updated_at,
-		tags: [],
-		capabilities: [],
-		requires: [],
-		links: {},
-		version: '1.0.0',
-		markers: [],
-		active: true,
-		type: card.type,
-		slug: `user-${newUserDetails.username}`,
-		id: card.id,
-		name: null,
+	test.is(result2.code, 400)
+	test.deepEqual(result2.response, {
+		error: true,
 		data: {
-			email: newUserDetails.email,
-			roles: [ 'user-community' ],
-			hash: card.data.hash,
-			avatar: null
+			context: result2.response.data.context,
+			name: 'QueueInvalidRequest',
+			message: 'No such input card: action-create-user@1.0.0'
 		}
 	})
 })
