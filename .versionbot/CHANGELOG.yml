@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add a missing `sort` to a test
+      hash: fa71a6979ddaa910e549906e2ac93424885ce5d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.2.3
+  date: 2020-04-14T18:09:26.721Z
+- commits:
     - subject: 'WIP core: Prepare to handle new version columns in a safe way'
       hash: 91f51e7d4a91ac5399fa2dd5118c1b7ab31c2e3e
       body: |
