@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Mention explicit columns in Postgres adapter getters'
+      hash: 2e2f4530bf37fb569d7e491e1786c6945c366ed0
+      body: |
+        This gives us more control over the columns we return to make it easier
+        to add extra columns in a backwards compatible way.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.1.3
+  date: 2020-04-13T23:53:10.599Z
+- commits:
     - subject: 'server: Gracefully handle malformed JSON bodies'
       hash: aecc9f8c9b23b6987975a058e4d520225ce91aee
       body: ''
