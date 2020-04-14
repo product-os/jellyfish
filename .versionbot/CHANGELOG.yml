@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'config: Add encrypted GitHub PEM keys'
+      hash: 14a11ec9028504e1cfeaf80d4a6980328a39b524
+      body: |
+        The decryption passphrases are stored in PassPack:
+
+        - Jellyfish Config Github Private Key Production
+        - Jellyfish Config Github Private Key Staging
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.2.1
+  date: 2020-04-14T06:02:11.346Z
+- commits:
     - subject: Add role-user-operator to default cards when server is run
       hash: 9a99e13fd992f06166577903ce00d1da2deb439d
       body: ''
