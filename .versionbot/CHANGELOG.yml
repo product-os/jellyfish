@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'WIP core: Prepare to handle new version columns in a safe way'
+      hash: 91f51e7d4a91ac5399fa2dd5118c1b7ab31c2e3e
+      body: |
+        This PR ensures the logic in "core" doesn't get confused by the addition
+        of the new version columns, while still not making any use of them, so
+        we can start rolling out the feature in a completely backwards
+        compatible way.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.2.2
+  date: 2020-04-14T15:16:15.302Z
+- commits:
     - subject: 'config: Add encrypted GitHub PEM keys'
       hash: 14a11ec9028504e1cfeaf80d4a6980328a39b524
       body: |
