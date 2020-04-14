@@ -3702,6 +3702,15 @@ ava('.query() should be able to query using links and an inverse name', async (t
 		}
 	})
 
+	results[0].links['has attached element'].sort((cardA, cardB) => {
+		if (cardA.slug > cardB.slug) {
+			return -1
+		} else if (cardA.slug === cardB.slug) {
+			return 0
+		}
+		return 1
+	})
+
 	test.deepEqual(results, [
 		{
 			id: thread.id,
