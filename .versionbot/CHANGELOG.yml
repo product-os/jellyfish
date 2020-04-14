@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add role-user-operator to default cards when server is run
+      hash: 9a99e13fd992f06166577903ce00d1da2deb439d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+        signed-off-by: Lucy-Jane Walsh <ljewalsh@gmail.com>
+      author: Lucy-Jane Walsh
+  version: 28.2.0
+  date: 2020-04-14T05:06:50.570Z
+- commits:
     - subject: 'core: Mention explicit columns in Postgres adapter getters'
       hash: 2e2f4530bf37fb569d7e491e1786c6945c366ed0
       body: |
