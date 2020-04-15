@@ -442,7 +442,7 @@ ava('should remove the password reset card', async (test) => {
 
 	const [ passwordReset ] = await jellyfish.query(context, session, {
 		type: 'object',
-		required: [ 'type', 'active' ],
+		required: [ 'type', 'active', 'data' ],
 		additionalProperties: true,
 		properties: {
 			type: {
@@ -453,18 +453,21 @@ ava('should remove the password reset card', async (test) => {
 				type: 'boolean'
 			},
 			data: {
-				resetToken: {
-					type: 'string',
-					contains: {
+				type: 'object',
+				properties: {
+					resetToken: {
 						type: 'string',
 						const: resetToken
 					}
-				}
+				},
+				required: [ 'resetToken' ]
 			}
 		}
 	}, {
 		limit: 1
 	})
 
+	// Sanity check to make sure the return element is the one we expect
+	test.is(passwordReset.data.resetToken, resetToken)
 	test.false(passwordReset.active)
 })
