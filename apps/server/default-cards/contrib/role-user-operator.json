@@ -15,13 +15,15 @@
 			"additionalProperties": true,
 			"required": [ "slug", "type", "data"],
 			"properties": {
-				"type": "string",
-				"const": "view@1.0.0"
-			},
-			"slug": {
-				"type": "string",
-				"const": "view-all-users"
-			}
-    }
-  }
+				"type": {
+					"type": "string",
+					"const": "view@1.0.0"
+				},
+				"slug": {
+					"type": "string",
+					"const": "view-all-users"
+				}
+    	}
+  	}
+	}
 }
