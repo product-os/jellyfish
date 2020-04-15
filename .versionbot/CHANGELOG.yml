@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix the operator role schema currently invalid json schema
+      hash: c9884504bac5c184125be63dd1791e299dedf047
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.2.4
+  date: 2020-04-15T23:10:54.715Z
+- commits:
     - subject: Add a missing `sort` to a test
       hash: fa71a6979ddaa910e549906e2ac93424885ce5d9
       body: ''
