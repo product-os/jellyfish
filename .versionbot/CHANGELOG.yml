@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'github: Add private key non-set warning'
+      hash: ae0acc0a42b43418fa2f9f8802af3f1e5b5527ae
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.3.2
+  date: 2020-04-16T14:16:04.767Z
+- commits:
     - subject: 'github: Make INTEGRATION_GITHUB_PRIVATE_KEY a base64 string'
       hash: fe9b4ac50f8861b4c0fc26a769b10a988879429c
       body: ''
