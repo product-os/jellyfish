@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump fast-equals from 1.6.3 to 2.0.0'
+      hash: 9e338c5299ff72ebaff98cbf63d770bc92ae1e11
+      body: >
+        Bumps [fast-equals](https://github.com/planttheidea/fast-equals) from
+        1.6.3 to 2.0.0.
+
+        - [Release notes](https://github.com/planttheidea/fast-equals/releases)
+
+        -
+        [Changelog](https://github.com/planttheidea/fast-equals/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/planttheidea/fast-equals/compare/1.6.3...2.0.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 28.3.3
+  date: 2020-04-16T15:01:24.804Z
+- commits:
     - subject: 'github: Add private key non-set warning'
       hash: ae0acc0a42b43418fa2f9f8802af3f1e5b5527ae
       body: ''
