@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'github: Make INTEGRATION_GITHUB_PRIVATE_KEY a base64 string'
+      hash: fe9b4ac50f8861b4c0fc26a769b10a988879429c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: >-
+          https://www.flowdock.com/app/rulemotion/p-cyclops/threads/qq1KOBcXqr-mNPd-1tG5-f17ToX
+        see: >-
+          https://www.flowdock.com/app/rulemotion/p-cyclops/threads/qq1KOBcXqr-mNPd-1tG5-f17ToX
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.3.1
+  date: 2020-04-16T12:03:44.898Z
+- commits:
     - subject: >-
         Add first-time-login-link action and handler So that operators can
         request a link be sent to new users to allow them to set their password
