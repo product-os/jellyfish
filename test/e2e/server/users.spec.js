@@ -122,6 +122,11 @@ ava.serial('Users should be able to read other users, even if they don\'t have a
 		}
 	])
 
+	await sdk.auth.login({
+		username: 'jellyfish',
+		password: 'jellyfish'
+	})
+
 	// Create and login as user 2
 	await sdk.action({
 		card: 'user@1.0.0',
