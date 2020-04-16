@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix malformed query in password reset test case
+      hash: 756cb4048f11b088872808380852acb0037eb8a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.2.5
+  date: 2020-04-15T23:59:40.809Z
+- commits:
     - subject: Fix the operator role schema currently invalid json schema
       hash: c9884504bac5c184125be63dd1791e299dedf047
       body: ''
