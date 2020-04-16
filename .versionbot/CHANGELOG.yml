@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Add first-time-login-link action and handler So that operators can
+        request a link be sent to new users to allow them to set their password
+        and log back in
+      hash: 317bd1718f4776c57da35bb4bd9a9cfab1e9755e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.3.0
+  date: 2020-04-16T04:48:42.118Z
+- commits:
     - subject: Fix malformed query in password reset test case
       hash: 756cb4048f11b088872808380852acb0037eb8a3
       body: ''
