@@ -65,7 +65,7 @@ properties:
   INTEGRATION_GITHUB_PRIVATE_KEY:
     type: string?
   INTEGRATION_GITHUB_APP_ID:
-    type: string?
+    type: number?
   INTEGRATION_FLOWDOCK_SIGNATURE_KEY:
     type: string?
   INTEGRATION_DISCOURSE_TOKEN:
