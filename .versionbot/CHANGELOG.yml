@@ -1,4 +1,16 @@
 - commits:
+    - subject: Dummy change to trigger Balena CI re-deploy
+      hash: 200d165b906494656c09e53b2e1a7d45f2e868e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.3.4
+  date: 2020-04-16T15:23:21.907Z
+- commits:
     - subject: 'patch: bump fast-equals from 1.6.3 to 2.0.0'
       hash: 9e338c5299ff72ebaff98cbf63d770bc92ae1e11
       body: >
