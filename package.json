@@ -143,7 +143,7 @@
     "errio": "^1.2.2",
     "esprima": "^4.0.0",
     "express": "^4.16.2",
-    "fast-equals": "^1.5.3",
+    "fast-equals": "^2.0.0",
     "fast-json-patch": "^2.1.0",
     "file-saver": "^2.0.1",
     "flat": "^5.0.0",
