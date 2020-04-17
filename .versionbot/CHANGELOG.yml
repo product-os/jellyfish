@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Manually set defaults for version columns'
+      hash: 367c0faeb726fdc126a3e41596803cbbd978f3b4
+      body: |
+        We should revert this once we can set a default on the Postgres table
+        definition level.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.3.6
+  date: 2020-04-17T01:59:05.549Z
+- commits:
     - subject: 'deploy-templates: Stringify github secrets'
       hash: b19ea9b03468d3dd521b8439b284030aedd7427d
       body: ''
