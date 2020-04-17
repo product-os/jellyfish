@@ -38,7 +38,9 @@ properties:
     type: string?
   LOGLEVEL:
     type: string?
-  WORKER_PORT:
+  METRICS_PORT:
+    type: number
+  SOCKET_METRICS_PORT:
     type: number
   INTEGRATION_BALENA_API_PRIVATE_KEY:
     type: string?
@@ -88,3 +90,5 @@ properties:
     type: string?
   RESET_PASSWORD_SECRET_TOKEN:
     type: string?
+  MONITOR_SECRET_TOKEN:
+    type: string

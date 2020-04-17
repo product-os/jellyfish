@@ -126,7 +126,19 @@ spec:
           value: user-community
         - name: SERVER_PORT
           value: '8000'
+        - name: METRICS_PORT
+          value: '8888'
+        - name: SOCKET_METRICS_PORT
+          value: '8889'
+        - name: MONITOR_SECRET_TOKEN
+          value: '{{{MONITOR_SECRET_TOKEN}}}'
         ports:
         - containerPort: 8000
+        - containerPort: 8888
+          name: prometheus-A
+          protocol: TCP
+        - containerPort: 8889
+          name: prometheus-B
+          protocol: TCP
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
