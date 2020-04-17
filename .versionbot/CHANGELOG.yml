@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add check for role to send-first-time-login-link Checks if the
+        first-time login user has no role and adds community role
+      hash: 1d9f2f89f6faa669b896b18fdd93bfd1a529408c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.3.7
+  date: 2020-04-17T03:27:41.769Z
+- commits:
     - subject: 'core: Manually set defaults for version columns'
       hash: 367c0faeb726fdc126a3e41596803cbbd978f3b4
       body: |
