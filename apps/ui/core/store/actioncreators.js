@@ -198,6 +198,7 @@ export default class ActionCreator {
 			'authorizeIntegration',
 			'bootstrap',
 			'clearViewData',
+			'completeFirstTimeLogin',
 			'completePasswordReset',
 			'createLink',
 			'dumpState',
@@ -955,6 +956,24 @@ export default class ActionCreator {
 				arguments: {
 					newPassword: password,
 					resetToken
+				}
+			})
+		}
+	}
+
+	completeFirstTimeLogin ({
+		password,
+		firstTimeLoginToken
+	}) {
+		return async (dispatch, getState) => {
+			const userType = await this.sdk.getBySlug('user@latest')
+			return this.sdk.action({
+				card: userType.id,
+				action: 'action-complete-first-time-login@1.0.0',
+				type: userType.type,
+				arguments: {
+					newPassword: password,
+					firstTimeLoginToken
 				}
 			})
 		}
