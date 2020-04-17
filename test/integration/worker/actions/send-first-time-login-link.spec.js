@@ -644,3 +644,59 @@ ava('throws an error when the first-time-login user does not belong to the reque
 		message: `User with slug ${userSlug} is not a member of any of your organisations`
 	})
 })
+
+ava('a community role is added to a supplied user with no role set', async (test) => {
+	const {
+		session,
+		context,
+		processAction,
+		userCard,
+		org,
+		jellyfish,
+		worker,
+		nockRequest
+	} = test.context
+
+	nockRequest()
+
+	const createUserAction = await worker.pre(session, {
+		action: 'action-create-card@1.0.0',
+		context,
+		card: userCard.id,
+		type: userCard.type,
+		arguments: {
+			reason: 'for testing',
+			properties: {
+				slug: 'user-janedoe',
+				data: {
+					hash: 'fake-hash',
+					email: 'fake@email.com',
+					roles: []
+				}
+			}
+		}
+	})
+
+	const userWithoutRole = await processAction(session, createUserAction)
+	test.false(userWithoutRole.error)
+
+	const linkAction = await createOrgLinkAction({
+		toId: userWithoutRole.data.id,
+		fromId: org.data.id,
+		context
+	})
+
+	await processAction(session, linkAction)
+
+	await processAction(session, {
+		action: 'action-send-first-time-login-link@1.0.0',
+		context,
+		card: userWithoutRole.data.id,
+		type: userWithoutRole.data.type,
+		arguments: {}
+	})
+
+	const updatedUser = await jellyfish.getCardById(context, session, userWithoutRole.data.id)
+
+	test.deepEqual(updatedUser.data.roles, [ 'user-community' ])
+})
