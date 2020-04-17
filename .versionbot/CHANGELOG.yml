@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Stringify github secrets'
+      hash: b19ea9b03468d3dd521b8439b284030aedd7427d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.3.5
+  date: 2020-04-16T23:20:15.046Z
+- commits:
     - subject: Dummy change to trigger Balena CI re-deploy
       hash: 200d165b906494656c09e53b2e1a7d45f2e868e6
       body: ''
