@@ -80,7 +80,7 @@ export default class LinkModal extends React.Component {
 		const fromType = this.getFromType(card)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
 		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
-		const linkType = _.first(linkTypeTargets)
+		const linkType = linkTypeTargets.length === 1 ? linkTypeTargets[0] : null
 
 		this.state = {
 			submitting: false,
@@ -185,7 +185,7 @@ export default class LinkModal extends React.Component {
 				title={title}
 				cancel={this.props.onHide}
 				primaryButtonProps={{
-					disabled: !linkType || submitting,
+					disabled: !linkType || !selectedTargetValue || submitting,
 					'data-test': 'card-linker--existing__submit'
 				}}
 				action={submitting ? <Icon spin name="cog"/> : 'OK'}
@@ -200,7 +200,7 @@ export default class LinkModal extends React.Component {
 					{linkTypeTargets.length > 1 && (
 						<Select ml={2}
 							id="card-linker--type-select"
-							value={linkType}
+							value={linkType || ''}
 							onChange={this.handleLinkTypeSelect}
 							labelKey="title"
 							options={linkTypeTargets}
@@ -214,9 +214,9 @@ export default class LinkModal extends React.Component {
 					>
 						<AutoCompleteCardSelect
 							value={selectedTargetValue}
-							cardType={linkType.data.to}
+							cardType={_.get(linkType, [ 'data', 'to' ])}
 							types={types}
-							isDisabled={Boolean(target)}
+							isDisabled={Boolean(target) || !linkType}
 							onChange={this.handleTargetSelect}
 						/>
 					</Box>
