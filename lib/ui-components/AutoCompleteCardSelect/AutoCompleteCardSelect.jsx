@@ -117,6 +117,15 @@ export default class AutoCompleteCardSelect extends React.Component {
 				defaultOptions
 				onChange={this.onChange}
 				loadOptions={this.getTargets}
+				menuPortalTarget={document.body}
+				styles={{
+					// Ensure the menu portal shows on top of a modal
+					menuPortal: (base) => {
+						return {
+							...base, zIndex: 100
+						}
+					}
+				}}
 				{...rest}
 			/>
 		)
