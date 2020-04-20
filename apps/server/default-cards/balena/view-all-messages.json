@@ -21,12 +21,12 @@
             "type": {
               "type": "string",
               "const": "message@1.0.0"
-            }
-          },
-          "markers": {
-            "type": "array",
-            "contains": {
-              "const": "org-balena"
+            },
+            "markers": {
+                "type": "array",
+                "contains": {
+                    "const": "org-balena"
+                }
             }
           },
           "required": [
