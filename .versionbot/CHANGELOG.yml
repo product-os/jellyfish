@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'server: Fix community role "action-create-user" rule'
+      hash: e807419f4227e13b1e9e2889165b0c4da9afabd5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: Remove ability for community users to add users
+      hash: e07bef76e0f58638dce19a7020a230c995b1aaa8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.3.8
+  date: 2020-04-20T01:47:44.559Z
+- commits:
     - subject: >-
         Add check for role to send-first-time-login-link Checks if the
         first-time login user has no role and adds community role
