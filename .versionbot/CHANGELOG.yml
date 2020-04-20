@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix minor typo
+      hash: 2640592cee7c2b19e6cc16806d70423a06648f57
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.5.1
+  date: 2020-04-20T15:33:35.747Z
+- commits:
     - subject: 'core: Set version_major/minor/patch based on "version"'
       hash: 754adb564cc2d8c716cdcc33f7a2dbd996841fce
       body: ''
