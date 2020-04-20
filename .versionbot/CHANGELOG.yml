@@ -1,4 +1,23 @@
 - commits:
+    - subject: Support for short semver versions
+      hash: 1fa7ad7126327b7ef363acd3395283e40461f296
+      body: |
+        We want to allow versions such as:
+
+        - 1.0.0
+        - 1.0
+        - 1
+
+        To model entities that don't necessarily follow three-component semver.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.5.2
+  date: 2020-04-20T18:35:44.891Z
+- commits:
     - subject: Fix minor typo
       hash: 2640592cee7c2b19e6cc16806d70423a06648f57
       body: ''
