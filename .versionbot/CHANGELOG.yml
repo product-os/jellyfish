@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Replace `name` keyword in query with `title` as the former is not valid
+        in JSON schema
+      hash: dba60858a37327b2c1d945d513522718986eeff2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.5.4
+  date: 2020-04-20T20:53:36.058Z
+- commits:
     - subject: Fix an invalid JSON schema in view-all-messages card
       hash: 76687c4fdd15b8df8f79954fd01ab97ecad516e5
       body: ''
