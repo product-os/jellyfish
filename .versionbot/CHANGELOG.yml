@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix an invalid JSON schema in view-all-messages card
+      hash: 76687c4fdd15b8df8f79954fd01ab97ecad516e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.5.3
+  date: 2020-04-20T19:47:32.286Z
+- commits:
     - subject: Support for short semver versions
       hash: 1fa7ad7126327b7ef363acd3395283e40461f296
       body: |
