@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'core: Set version_major/minor/patch based on "version"'
+      hash: 754adb564cc2d8c716cdcc33f7a2dbd996841fce
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'core: Let version fragments be null'
+      hash: e766e2426a348254e64344d2f25c4ac8cf409a5a
+      body: |
+        The top level version field will correspond to component versions, so we
+        are happy to let some fragments be null, to model entities like Ubuntu,
+        which only use two fragments, i.e. 16.04.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.5.0
+  date: 2020-04-20T14:26:05.553Z
+- commits:
     - subject: Add complete-first-time-login action and handler
       hash: a40313de148ba700f1c8cc79a78505e00f557f28
       body: ''
