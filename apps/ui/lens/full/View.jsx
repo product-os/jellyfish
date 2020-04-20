@@ -276,8 +276,7 @@ class ViewRenderer extends React.Component {
 			} = options
 
 			const filter = {
-				name: USER_FILTER_NAME,
-				title: 'is',
+				title: USER_FILTER_NAME,
 				description: `${sliceTitle} is ${slice.value}`,
 				type: 'object',
 				properties: {}
