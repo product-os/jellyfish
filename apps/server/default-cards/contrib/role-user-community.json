@@ -23,8 +23,14 @@
         {
           "type": "object",
           "additionalProperties": true,
-          "required": [ "type" ],
+          "required": [ "slug", "type" ],
           "properties": {
+            "slug": {
+              "type": "string",
+              "not": {
+                "enum": [ "action-create-user" ]
+              }
+            },
             "type": {
               "type": "string",
               "not": {
@@ -39,7 +45,8 @@
                   "user@1.0.0",
                   "view@1.0.0",
                   "password-reset@1.0.0",
-				  				"first-time-login@1.0.0"
+				  				"first-time-login@1.0.0",
+									"action-create-user@1.0.0"
                 ]
               }
             }

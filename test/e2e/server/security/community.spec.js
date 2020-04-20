@@ -36,6 +36,30 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 		}
 	})
 
+	const newUserDetails = createUserDetails()
+	const {
+		id: newUserId
+	} = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${newUserDetails.username}`,
+			email: newUserDetails.email,
+			password: newUserDetails.password
+		}
+	})
+
+	const newUser = await test.context.sdk.card.get(newUserId)
+
+	test.truthy(newUser.data.hash)
+	test.deepEqual(newUser.data, {
+		email: newUserDetails.email,
+		hash: newUser.data.hash,
+		avatar: null,
+		roles: [ 'user-community' ]
+	})
+
 	const result1 = await test.context.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
@@ -49,33 +73,6 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.is(result1.code, 200)
 
 	const token = result1.response.data.id
-
-	const newUserDetails = createUserDetails()
-	const result2 = await test.context.http(
-		'POST', '/api/v2/action', {
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				email: newUserDetails.email,
-				username: `user-${newUserDetails.username}`,
-				password: newUserDetails.password
-			}
-		}, {
-			Authorization: `Bearer ${token}`
-		})
-
-	test.is(result2.code, 200)
-
-	const newUser = await test.context.sdk.card.get(result2.response.data.id)
-
-	test.truthy(newUser.data.hash)
-	test.deepEqual(newUser.data, {
-		email: newUserDetails.email,
-		hash: newUser.data.hash,
-		avatar: null,
-		roles: [ 'user-community' ]
-	})
 
 	const result3 = await test.context.http(
 		'POST', '/api/v2/action', {
@@ -126,23 +123,20 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const token = result1.response.data.id
 
 	const newUserDetails = createUserDetails()
-	const result2 = await test.context.http(
-		'POST', '/api/v2/action', {
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				email: newUserDetails.email,
-				username: `user-${newUserDetails.username}`,
-				password: newUserDetails.password
-			}
-		}, {
-			Authorization: `Bearer ${token}`
-		})
+	const {
+		id: newUserId
+	} = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${newUserDetails.username}`,
+			email: newUserDetails.email,
+			password: newUserDetails.password
+		}
+	})
 
-	test.is(result2.code, 200)
-
-	const newUser = await test.context.sdk.card.get(result2.response.data.id)
+	const newUser = await test.context.sdk.card.get(newUserId)
 	test.truthy(newUser.data.hash)
 	test.deepEqual(newUser.data, {
 		email: newUserDetails.email,
@@ -200,23 +194,20 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const token = result1.response.data.id
 
 	const newUserDetails = createUserDetails()
-	const result2 = await test.context.http(
-		'POST', '/api/v2/action', {
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				email: newUserDetails.email,
-				username: `user-${newUserDetails.username}`,
-				password: newUserDetails.password
-			}
-		}, {
-			Authorization: `Bearer ${token}`
-		})
+	const {
+		id: newUserId
+	} = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${newUserDetails.username}`,
+			email: newUserDetails.email,
+			password: newUserDetails.password
+		}
+	})
 
-	test.is(result2.code, 200)
-
-	const newUser = await test.context.sdk.card.get(result2.response.data.id)
+	const newUser = await test.context.sdk.card.get(newUserId)
 	test.truthy(newUser.data.hash)
 	test.deepEqual(newUser.data, {
 		email: newUserDetails.email,
@@ -410,7 +401,7 @@ ava.serial('.query() community users should be able to query views', async (test
 	test.true(_.includes(_.map(results, 'slug'), 'view-all-views'))
 })
 
-ava.serial('creating a user with a community user session should succeed', async (test) => {
+ava.serial('creating a user with a community user session should fail', async (test) => {
 	const userDetails = createUserDetails()
 
 	const user = await test.context.sdk.action({
@@ -454,32 +445,13 @@ ava.serial('creating a user with a community user session should succeed', async
 			Authorization: `Bearer ${token}`
 		})
 
-	test.is(result2.code, 200)
-
-	const newUserId = result2.response.data.id
-
-	const card = await test.context.sdk.card.get(newUserId)
-
-	test.deepEqual(card, {
-		created_at: card.created_at,
-		linked_at: card.linked_at,
-		updated_at: card.updated_at,
-		tags: [],
-		capabilities: [],
-		requires: [],
-		links: {},
-		version: '1.0.0',
-		markers: [],
-		active: true,
-		type: card.type,
-		slug: `user-${newUserDetails.username}`,
-		id: card.id,
-		name: null,
+	test.is(result2.code, 400)
+	test.deepEqual(result2.response, {
+		error: true,
 		data: {
-			email: newUserDetails.email,
-			roles: [ 'user-community' ],
-			hash: card.data.hash,
-			avatar: null
+			context: result2.response.data.context,
+			name: 'QueueInvalidAction',
+			message: 'No such action: action-create-user@1.0.0'
 		}
 	})
 })
@@ -646,7 +618,7 @@ ava.serial('users with the "user-community" role should not be able to change it
 })
 
 ava.serial('.query() users with the community role' +
-'should NOT be able to see view-all-users for their organisation', async (test) => {
+' should NOT be able to see view-all-users for their organisation', async (test) => {
 	const {
 		sdk
 	} = test.context
