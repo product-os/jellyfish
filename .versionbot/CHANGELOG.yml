@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Use new version fields in card slug getters'
+      hash: 6bf6afbcdc763e4349fbf3c433dedffad1dcc93f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.6.0
+  date: 2020-04-20T21:41:05.254Z
+- commits:
     - subject: >-
         Replace `name` keyword in query with `title` as the former is not valid
         in JSON schema
