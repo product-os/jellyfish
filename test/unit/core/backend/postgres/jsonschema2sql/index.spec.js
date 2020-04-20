@@ -7,6 +7,50 @@
 const ava = require('ava')
 const jsonschema2sql = require('../../../../../../lib/core/backend/postgres/jsonschema2sql')
 
+ava('when querying versions we use the version fragments', (test) => {
+	const query = jsonschema2sql('cards', {
+		type: 'object',
+		required: [ 'type', 'version' ],
+		additionalProperties: true,
+		properties: {
+			type: {
+				type: 'string',
+				const: 'support-thread'
+			},
+			version: {
+				type: 'string',
+				const: '1.0.0'
+			}
+		}
+	})
+
+	const expected = `SELECT
+cards.id,
+cards.slug,
+cards.type,
+cards.active,
+cards.version,
+cards.name,
+cards.tags,
+cards.markers,
+cards.created_at,
+cards.links,
+cards.requires,
+cards.capabilities,
+cards.data,
+cards.updated_at,
+cards.linked_at
+FROM cards
+WHERE
+(cards.type = 'support-thread')
+AND
+(CONCAT_WS('.', COALESCE(cards.version_major, '1')::text,
+  COALESCE(cards.version_minor, '0')::text,
+  COALESCE(cards.version_patch, '0')::text) = '1.0.0')`
+
+	test.deepEqual(expected, query)
+})
+
 ava('when querying for jsonb array field that contains string const we use the @> operator', (test) => {
 	const query = jsonschema2sql('cards', {
 		type: 'object',
