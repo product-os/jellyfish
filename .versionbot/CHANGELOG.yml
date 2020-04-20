@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add complete-first-time-login action and handler
+      hash: a40313de148ba700f1c8cc79a78505e00f557f28
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.4.0
+  date: 2020-04-20T03:00:24.737Z
+- commits:
     - subject: 'server: Fix community role "action-create-user" rule'
       hash: e807419f4227e13b1e9e2889165b0c4da9afabd5
       body: ''
