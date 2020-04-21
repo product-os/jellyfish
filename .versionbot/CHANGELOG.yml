@@ -1,4 +1,26 @@
 - commits:
+    - subject: Use private SDK package from npm instead of local module
+      hash: 3227121d7fd47d431fe694206e5a2ab7152739fd
+      body: >
+        Additionally requires the circleCI build job to pass before running
+        other jobs
+
+        This should help reduce resource usage on circle if a build were to fail
+        early.
+
+        Since the build job is cheap and efficient it's not a problem to run it
+        before the other jobs.
+      footer:
+        Connects-to: '#3346'
+        connects-to: '#3346'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.9.2
+  date: 2020-04-21T12:17:11.825Z
+- commits:
     - subject: 'core: Account for NULL version fragments'
       hash: 5b843b23cdcec3a6bf8411ee995de691ef19a2cc
       body: ''
