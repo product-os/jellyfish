@@ -988,3 +988,162 @@ avaTest('maxItems keyword should work on TEXT array columns', async (test) => {
 	test.is(results.length, 1)
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
+
+avaTest('const keyword should work for boolean values', async (test) => {
+	const table = 'const_boolean_value'
+
+	const schema = {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'checked' ],
+				properties: {
+					checked: {
+						const: true
+					}
+				}
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: true
+			}
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: false
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
+
+avaTest('const boolean value should not match against a string equivalent', async (test) => {
+	const table = 'const_boolean_string'
+
+	const schema = {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'checked' ],
+				properties: {
+					checked: {
+						const: true
+					}
+				}
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: true
+			}
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: 'true'
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
+
+avaTest('const number value should not match against a string equivalent', async (test) => {
+	const table = 'const_number_string'
+
+	const schema = {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'checked' ],
+				properties: {
+					checked: {
+						const: 1
+					}
+				}
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: 1
+			}
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				checked: '1'
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
