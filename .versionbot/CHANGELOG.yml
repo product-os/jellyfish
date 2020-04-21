@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Account for NULL version fragments'
+      hash: 5b843b23cdcec3a6bf8411ee995de691ef19a2cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.9.1
+  date: 2020-04-21T11:20:45.007Z
+- commits:
     - subject: 'ui-components: Sanitize code blocks in card chat summaries'
       hash: d7f2a8baef95d6f1b86cdd85df9b597e50781579
       body: |
