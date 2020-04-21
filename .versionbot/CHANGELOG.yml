@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Sanitize code blocks in card chat summaries'
+      hash: d7f2a8baef95d6f1b86cdd85df9b597e50781579
+      body: |
+        Code blocks are now replaced with <code block> static text.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.9.0
+  date: 2020-04-21T10:14:04.840Z
+- commits:
     - subject: 'ui-components: Allow 404 channels to be closed'
       hash: 169c7696f311ddb2b4b0dc5a702fa7db8996b76f
       body: |
