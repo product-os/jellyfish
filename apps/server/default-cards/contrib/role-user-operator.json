@@ -25,7 +25,7 @@
 						"slug": {
 							"type": "string",
 							"const": "view-all-users"
-							},
+						},
 						"data": {
 							"type": "object",
 							"additionalProperties": true
@@ -39,11 +39,46 @@
 					"properties": {
 						"slug": {
 							"type": "string",
-							"const": "first-time-login"
+							"enum": [ 
+								"first-time-login",
+								"action-create-user"
+							]
 						}
 					}
-				}
+				},
+				{
+					"type": "object",
+					"description": "User can see other user's roles (except for user-admin and user-guest)",
+        	"additionalProperties": true,
+        	"required": [ "data", "type", "slug" ],
+        	"properties": {
+          	"slug": {
+            	"type": "string",
+            	"not": {
+              	"enum": [
+                	"user-admin",
+                	"user-guest"
+              	]
+            	}
+          	},
+						"type": {
+							"type": "string",
+							"const": "user@1.0.0"
+						},
+          	"data": {
+            	"type": "object",
+							"properties": {
+								"roles": {
+									"type": "array",
+									"items": {
+										"type": "string"
+									}
+								}
+							}
+						}
+        	}
+    		}
 			]
-    }
-  }
+  	}
+	}
 }
