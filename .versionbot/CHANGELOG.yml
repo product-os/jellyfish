@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add additional tests to check for type coercions
+      hash: 86b8d01d7a93515c79d90564ea1664c40dfbe943
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.6.1
+  date: 2020-04-20T23:41:34.691Z
+- commits:
     - subject: 'core: Use new version fields in card slug getters'
       hash: 6bf6afbcdc763e4349fbf3c433dedffad1dcc93f
       body: ''
