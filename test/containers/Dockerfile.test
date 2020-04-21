@@ -6,8 +6,11 @@ COPY scripts ./scripts
 
 COPY package.json package-lock.json ./
 
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 # --unsafe-perm flag allows the postinstall script to run correctly
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
+RUN rm -f ~/.npmrc
 
 COPY . ./
 

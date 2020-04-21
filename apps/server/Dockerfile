@@ -5,7 +5,10 @@ WORKDIR /usr/src/jellyfish
 COPY package.json package-lock.json /usr/src/jellyfish/
 RUN mkdir -p scripts
 COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN NODE_ENV=production npm ci
+RUN rm -f ~/.npmrc
 
 COPY ./lib/action-library ./lib/action-library
 COPY ./lib/assert ./lib/assert

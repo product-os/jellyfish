@@ -10,7 +10,7 @@ import Bluebird from 'bluebird'
 import update from 'immutability-helper'
 import {
 	supportsLink
-} from '../sdk/link-constraints'
+} from '@balena/jellyfish-client-sdk/lib/link-constraints'
 const linksContext = React.createContext(null)
 
 // LinksProvider asynchronously fetches the requested links and stores them in React context

@@ -11,11 +11,13 @@ RUN mkdir -p scripts/template
 COPY scripts/template/package*.json \
 	/usr/src/jellyfish/scripts/template/
 COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+RUN rm -f ~/.npmrc
 
 COPY webpack.config.base.js .
 COPY apps/livechat ./apps/livechat
-COPY lib/sdk ./lib/sdk
 COPY lib/ui-components ./lib/ui-components
 COPY lib/chat-widget ./lib/chat-widget
 COPY lib/uuid ./lib/uuid

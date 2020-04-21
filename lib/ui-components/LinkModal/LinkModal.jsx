@@ -15,7 +15,7 @@ import {
 } from 'rendition'
 import {
 	constraints as LINKS
-} from '../../sdk/link-constraints'
+} from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
 import Icon from '../shame/Icon'
 
