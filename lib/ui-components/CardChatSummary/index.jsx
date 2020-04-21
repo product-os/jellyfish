@@ -117,6 +117,7 @@ export class CardChatSummary extends React.Component {
 			const typeBase = event.type.split('@')[0]
 			if (typeBase === 'message' || typeBase === 'whisper') {
 				latestMessageText = _.get(event, [ 'data', 'payload', 'message' ], '')
+					.replace(/```[^`]*```/, '`<code block>`')
 					.split('\n')
 					.shift()
 				break
