@@ -1,4 +1,30 @@
 - commits:
+    - subject: 'ui-components: No link type selected by default when linking cards'
+      hash: d68f968421a43a062a747332a29a7080ef5aca1a
+      body: |
+        Also:
+        * Disable the target select element until a link type has been selected
+        * Disable the action button until a target has been selected
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Ensure Select options not cllipped'
+      hash: 7628f7487091efec24bdbab704ed384e978d0d56
+      body: >
+        Set the menu portal's target to the document body and set the z-index so
+        that it appears above (for example) a modal.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.7.0
+  date: 2020-04-21T00:52:04.566Z
+- commits:
     - subject: Add additional tests to check for type coercions
       hash: 86b8d01d7a93515c79d90564ea1664c40dfbe943
       body: ''
