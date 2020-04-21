@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Reconstruct top-level version field using the fragments'
+      hash: 0a404f876695a28884811f09bdc69f21b652de87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.9.3
+  date: 2020-04-21T13:09:04.722Z
+- commits:
     - subject: Use private SDK package from npm instead of local module
       hash: 3227121d7fd47d431fe694206e5a2ab7152739fd
       body: >
