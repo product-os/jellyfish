@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Implement sort by "version" using fragment columns'
+      hash: c0d69fef5f3ff07f74a8c0c0b3e112e48bece9ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.9.4
+  date: 2020-04-21T13:59:51.545Z
+- commits:
     - subject: 'core: Reconstruct top-level version field using the fragments'
       hash: 0a404f876695a28884811f09bdc69f21b652de87
       body: ''
