@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Allow 404 channels to be closed'
+      hash: 169c7696f311ddb2b4b0dc5a702fa7db8996b76f
+      body: |
+        Added a little close button to the top right of a 404'd channel
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.8.0
+  date: 2020-04-21T07:28:11.524Z
+- commits:
     - subject: 'discourse: Track back-syncs'
       hash: 1f1e582aa01de29efe645988b1d48eccab58d171
       body: ''
