@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'discourse: Track back-syncs'
+      hash: 1f1e582aa01de29efe645988b1d48eccab58d171
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.7.1
+  date: 2020-04-21T01:48:05.970Z
+- commits:
     - subject: 'ui-components: No link type selected by default when linking cards'
       hash: d68f968421a43a062a747332a29a7080ef5aca1a
       body: |
