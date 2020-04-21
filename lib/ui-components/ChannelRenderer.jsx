@@ -11,13 +11,15 @@ import {
 } from 'react-dnd'
 import {
 	Alert,
-	Box
+	Box,
+	Flex
 } from 'rendition'
 import styled from 'styled-components'
-
-// TODO: These ui-components -> ui imports should not happen
-import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
-import Icon from '../../lib/ui-components/shame/Icon'
+import ErrorBoundary from './shame/ErrorBoundary'
+import Icon from './shame/Icon'
+import {
+	CloseButton
+} from './shame/CloseButton'
 import LinkModal from './LinkModal'
 
 const ErrorNotFound = styled.h1 `
@@ -114,9 +116,23 @@ class ChannelRenderer extends React.Component {
 
 			if (head === null) {
 				return (
-					<ErrorNotFound>
-						404
-					</ErrorNotFound>
+					<div style={style}>
+						<Flex flexDirection='column' alignItems='center' flex={1}>
+							<Box
+								flex={0}
+								alignSelf='flex-end'
+								mr={3}
+								mt={3}
+							>
+								<CloseButton
+									channel={channel}
+								/>
+							</Box>
+							<ErrorNotFound flex={1}>
+							404
+							</ErrorNotFound>
+						</Flex>
+					</div>
 				)
 			}
 
