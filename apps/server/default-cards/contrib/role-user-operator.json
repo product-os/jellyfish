@@ -25,6 +25,10 @@
 						"slug": {
 							"type": "string",
 							"const": "view-all-users"
+							},
+						"data": {
+							"type": "object",
+							"additionalProperties": true
 						}
 					}
 				},
