@@ -379,8 +379,9 @@ class ViewRenderer extends React.Component {
 			}
 			this.loadViewWithFilters(head, filters)
 		} else {
-			this.props.actions.streamView(head.id)
-			this.props.actions.loadViewResults(head.id, this.getQueryOptions(activeLens))
+			const queryOptions = this.getQueryOptions(activeLens)
+			this.props.actions.streamView(head.id, queryOptions)
+			this.props.actions.loadViewResults(head.id, queryOptions)
 		}
 
 		// Set default state
@@ -492,9 +493,10 @@ class ViewRenderer extends React.Component {
 
 	loadViewWithFilters (view, filters) {
 		const syntheticViewCard = createSyntheticViewCard(view, filters)
+		const options = this.getQueryOptions(this.state.activeLens)
 		this.props.actions.clearViewData(syntheticViewCard)
-		this.props.actions.streamView(syntheticViewCard)
-		return this.props.actions.loadViewResults(syntheticViewCard, this.getQueryOptions(this.state.activeLens))
+		this.props.actions.streamView(syntheticViewCard, options)
+		return this.props.actions.loadViewResults(syntheticViewCard, options)
 	}
 
 	render () {

@@ -1129,15 +1129,18 @@ export default class ActionCreator {
 		}
 	}
 
-	streamView (query) {
+	streamView (query, options = {}) {
 		return (dispatch, getState) => {
 			const user = selectors.getCurrentUser(getState())
 			const viewId = getViewId(query)
 			return loadSchema(this.sdk, query, user)
-				.then((schema) => {
-					if (!schema) {
+				.then((rawSchema) => {
+					if (!rawSchema) {
 						return
 					}
+
+					const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
+
 					if (streams[viewId]) {
 						streams[viewId].close()
 						Reflect.deleteProperty(streams, viewId)
