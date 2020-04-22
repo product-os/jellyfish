@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix schema typo in action-request-password-reset handler
+      hash: 49a571f09146af39515c0b93a401d611bd7bcf5f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.10.1
+  date: 2020-04-22T17:55:35.588Z
+- commits:
     - subject: Output fatal errors in the server process to the console
       hash: 3ed1dbd2412106b8c25f632b0b6b92fb7bbd0876
       body: ''
