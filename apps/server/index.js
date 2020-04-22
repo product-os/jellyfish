@@ -16,6 +16,12 @@ const DEFAULT_CONTEXT = {
 
 const onError = (error, message = 'Server error', context = DEFAULT_CONTEXT) => {
 	logger.exception(context, message, error)
+	console.error({
+		context,
+		message,
+		error
+	})
+	console.error('Process exiting')
 	setTimeout(() => {
 		process.exit(1)
 	}, 1000)
