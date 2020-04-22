@@ -155,7 +155,7 @@ Resources:
         log_autovacuum_min_duration: '100'
         log_min_duration_statement: '200'
         max_connections: '5000'
-        statement_timeout: '120000'
+        statement_timeout: '30000'
         work_mem: '64000'
         effective_io_concurrency: '200'
         random_page_cost: '1.1'
