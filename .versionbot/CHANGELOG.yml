@@ -1,4 +1,26 @@
 - commits:
+    - subject: Output fatal errors in the server process to the console
+      hash: 3ed1dbd2412106b8c25f632b0b6b92fb7bbd0876
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Disable inbox
+      hash: 8dcf5aad0ce81644cdb8aee6b097a989179f9f4e
+      body: |
+        The inbox generates very slow queries to the database
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.10.0
+  date: 2020-04-22T11:08:13.571Z
+- commits:
     - subject: 'core: Implement sort by "version" using fragment columns'
       hash: c0d69fef5f3ff07f74a8c0c0b3e112e48bece9ab
       body: ''
