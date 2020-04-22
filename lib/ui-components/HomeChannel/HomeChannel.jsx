@@ -309,22 +309,6 @@ export default class HomeChannel extends React.Component {
 								</div>
 							)}
 
-							<RouterLink
-								mb={2}
-								to="/inbox"
-								style={{
-									display: 'block'
-								}}
-							>
-								<Flex justifyContent="space-between">
-									Inbox
-
-									{(mentions && mentions.length > 0) && (
-										<MentionsCount mr={2}>{mentions.length}</MentionsCount>
-									)}
-								</Flex>
-							</RouterLink>
-
 							{_.map(defaultViews, (card) => {
 								const isActive = card.slug === activeChannelTarget ||
 									card.id === activeChannelTarget
