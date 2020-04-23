@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add component to take first-time-login token and set the user's password
+      hash: 319a589820c1ffa994518255cf2692f295de2a04
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 28.11.0
+  date: 2020-04-23T03:11:43.476Z
+- commits:
     - subject: Reduce postgres statement timeout to 30 seconds
       hash: ffda96b16f083dea7f2fee180494831c48dfbf61
       body: ''
