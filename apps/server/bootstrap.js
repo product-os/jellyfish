@@ -51,6 +51,17 @@ module.exports = async (context) => {
 	logger.info(context, 'Initializing built-in worker')
 	await worker.initialize(context)
 
+	logger.info(context, 'Configuring HTTP server')
+	const webServer = await http(context, jellyfish, worker, producer, {
+		port: environment.http.port
+	})
+
+	logger.info(context, 'Starting web server')
+
+	// Start the webserver so that liveness and readiness endpoints can begin
+	// serving traffic
+	await webServer.start()
+
 	logger.info(context, 'Inserting default cards')
 	const results = await cardLoader(
 		context, jellyfish, worker, jellyfish.sessions.admin)
@@ -142,18 +153,14 @@ module.exports = async (context) => {
 			})
 	}
 
-	logger.info(context, 'Configuring HTTP server')
-	const webServer = await http(context, jellyfish, worker, producer, {
-		port: environment.http.port
-	}, {
-		guestSession: results.guestSession.id
-	})
-
 	logger.info(context, 'Configuring socket server')
 	const socketServer = socket(jellyfish, webServer.server)
 
-	logger.info(context, 'Starting web server')
-	await webServer.start()
+	// Finish setting up routes and middlewares now that we are ready to serve
+	// http traffic
+	await webServer.ready({
+		guestSession: results.guestSession.id
+	})
 
 	return {
 		worker,
