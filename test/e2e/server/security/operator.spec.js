@@ -8,6 +8,7 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const bcrypt = require('bcrypt')
 const helpers = require('../../sdk/helpers')
+const typedErrors = require('typed-errors')
 
 ava.serial.before(helpers.before)
 ava.serial.after(helpers.after)
@@ -82,4 +83,39 @@ ava.serial('.query() users with the role operator should be able to see view-all
 
 	test.is(viewAllUsers.slug, 'view-all-users')
 	test.deepEqual(viewAllUsers.markers, [ 'org-balena' ])
+})
+
+ava.serial('the user-operator role can only be added to a user if they also have the community role', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const {
+		email,
+		password,
+		username
+	} = createUserDetails()
+	const hash = await bcrypt.hash(password, 12)
+
+	const schemaMismatchError = typedErrors.makeTypedError('SchemaMismatch')
+
+	await test.throwsAsync(sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-card@1.0.0',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: `user-${username}`,
+				data: {
+					email,
+					hash,
+					roles: [ 'user-operator' ]
+				}
+			}
+		}
+	}, {
+		instanceOf: schemaMismatchError
+	})
+	)
 })
