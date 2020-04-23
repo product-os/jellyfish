@@ -159,12 +159,6 @@ this module.
 - The queue aims to be the source of truth of how action requests are marked as
 	executed and how action requests results are propagated back
 
-### [`lib/sdk`](https://github.com/balena-io/jellyfish/tree/master/lib/sdk)
-
-The sdk is a client side library to interact with the Jellyfish infrastructure
-through its public interfaces (i.e. HTTP). Its meant to provide high level
-useful functionality to the web UI and any other clients.
-
 ### [`lib/sync`](https://github.com/balena-io/jellyfish/tree/master/lib/sync)
 
 This module contains an integration syncing engine built on top of Jellyfish,
