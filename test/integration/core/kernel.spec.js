@@ -3445,6 +3445,276 @@ ava('.query() should be able to query using multiple link types', async (test) =
 	})
 })
 
+/* Ava('.query() should be able to query with a $$link nested inside a not', async (test) => {
+	const parent = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const ownedCard = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'bar',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${ownedCard.slug}-is-owned-by-${parent.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: ownedCard.id,
+					type: ownedCard.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			not: {
+				$$links: {
+					'is owned by': true
+				}
+			},
+			properties: {
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			}
+		})
+
+	test.deepEqual(results, [ ownedCard ])
+})
+
+ava('.query() should be able to query with a $$link nested inside an allOf', async (test) => {
+	const card1 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const card2 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'bar',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card1.id,
+					type: card1.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+	const card3 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'qux',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card3.slug}-is-owned-by-${card1.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: card3.id,
+					type: card3.type
+				},
+				to: {
+					id: card1.id,
+					type: card1.type
+				}
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card3.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card3.id,
+					type: card3.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			allOf: [
+				{
+					$$links: {
+						'is owned by': true
+					}
+				},
+				{
+					$$links: {
+						'is attached to': true
+					}
+				}
+			],
+			properties: {
+				id: {
+					type: 'string'
+				},
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			}
+		})
+
+	test.deepEqual(results, [ card3 ])
+})
+
+ava('.query() should be able to query with a $$link nested inside an anyOf', async (test) => {
+	const card1 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'foo',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const card2 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'bar',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card1.id,
+					type: card1.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+	const card3 = await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: 'qux',
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card3.slug}-is-owned-by-${card1.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is owned by',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: card3.id,
+					type: card3.type
+				},
+				to: {
+					id: card1.id,
+					type: card1.type
+				}
+			}
+		})
+
+	await test.context.kernel.insertCard(
+		test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card3.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card3.id,
+					type: card3.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+	const results = await test.context.kernel.query(
+		test.context.context, test.context.kernel.sessions.admin, {
+			type: 'object',
+			anyOf: [
+				{
+					$$links: {
+						'is owned by': true
+					}
+				},
+				{
+					$$links: {
+						'is attached to': true
+					}
+				}
+			],
+			properties: {
+				id: {
+					type: 'string'
+				},
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			}
+		}, {
+			sortBy: 'slug'
+		})
+
+	test.deepEqual(results, [ card1, card3 ])
+}) */
+
 ava.cb('.stream() should include data if additionalProperties true', (test) => {
 	test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
 		type: 'object',
