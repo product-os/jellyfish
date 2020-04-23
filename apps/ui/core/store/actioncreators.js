@@ -1131,48 +1131,6 @@ export default class ActionCreator {
 					streams[viewId] = subscribeToCoreFeed(
 						'update',
 						/* eslint-disable consistent-return */
-						/*
-						async (response) => {
-							const {
-								after, before
-							} = response.data
-							const afterValid = after && skhema.isValid(schema, after)
-							const beforeValid = before && skhema.isValid(schema, before)
-
-							// If before is non-null then the card has been updated
-							if (beforeValid) {
-								// If after is null, the item has been removed from the result set
-								if (!after || !afterValid) {
-									return dispatch(this.removeViewDataItem(query, before))
-								}
-
-								const card = await this.getCardWithLinks(schema, after)
-
-								if (!card) {
-									return
-								}
-
-								return dispatch(this.upsertViewData(query, card))
-							}
-							if (!before && afterValid) {
-								// Otherwise, if before is null, this is a new item
-								const card = await this.getCardWithLinks(schema, after)
-
-								if (viewId === 'view-my-inbox') {
-									notify({
-										user: selectors.getCurrentUser(getState()),
-										card: after
-									})
-								}
-
-								if (!card) {
-									return
-								}
-
-								return dispatch(this.appendViewData(query, card))
-							}
-						}
-						*/
 						(response) => {
 							// Use the async dispatch queue here, as we want to ensure that
 							// each update causes a store update one at a time, to prevent
@@ -1206,13 +1164,6 @@ export default class ActionCreator {
 								if (!before && afterValid) {
 									// Otherwise, if before is null, this is a new item
 									const card = await this.getCardWithLinks(schema, after)
-
-									if (viewId === 'view-my-inbox') {
-										notify({
-											user: selectors.getCurrentUser(getState()),
-											card: after
-										})
-									}
 
 									if (!card) {
 										return
