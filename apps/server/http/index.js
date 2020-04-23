@@ -13,7 +13,8 @@ const routes = require('./routes')
 const logger = require('../../../lib/logger').getLogger(__filename)
 
 module.exports = (context, jellyfish, worker, producer, configuration, options) => {
-	const application = express()
+	const application = metrics.collectAPIMetrics('jf-api', express())
+	metrics.exportOn(9091)
 	const server = http.Server(application)
 	application.set('port', configuration.port)
 

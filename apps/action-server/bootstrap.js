@@ -183,9 +183,9 @@ const bootstrap = async (context, library, options) => {
 		})
 	}
 
-	const app = express()
+	const app = metrics.collectAPIMetrics('jf-action-server', express())
+	metrics.exportOn(9092)
 	const server = http.Server(app)
-	app.use('/metrics', metrics.requestHandler())
 	server.on('listening', () => {
 		logger.info(context, `Worker listening on port ${server.address().port}`)
 	})
