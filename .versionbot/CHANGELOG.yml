@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add docs on card data model and permissions back to the system
+      hash: 4621f9eb6cc47c00bd5fd09cb72bb94c38565f8e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.11.1
+  date: 2020-04-23T09:41:55.531Z
+- commits:
     - subject: Add component to take first-time-login token and set the user's password
       hash: 319a589820c1ffa994518255cf2692f295de2a04
       body: ''
