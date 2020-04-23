@@ -242,7 +242,7 @@ jobs:
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Postgres Dump
-          command: make compose-exec-sidecar COMMAND="./scripts/postgres-dump.sh" ARGS="dump.gz" && docker cp jellyfish_sidecar_1:/usr/src/jellyfish/dump.gz dump-server.gz
+          command: docker exec jellyfish_postgres_1 bash -c 'PGPASSWORD="${POSTGRES_PASSWORD}" pg_dump --username="${POSTGRES_USER}" jellyfish' | gzip -9 > dump-server.gz
       - run:
           name: Docker Compose Down
           command: make compose-stop
