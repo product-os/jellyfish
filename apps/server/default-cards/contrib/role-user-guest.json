@@ -115,7 +115,8 @@
                 "action-create-event",
                 "action-oauth-authorize",
                 "action-request-password-reset",
-                "action-complete-password-reset"
+                "action-complete-password-reset",
+								"action-complete-first-time-login"
               ]
             },
             "type": {

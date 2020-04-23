@@ -34,6 +34,7 @@ import Oauth from './components/HOC/Oauth'
 import Login from './components/HOC/Login'
 import RequestPasswordReset from './components/HOC/RequestPasswordReset'
 import CompletePasswordReset from './components/HOC/CompletePasswordReset'
+import CompleteFirstTimeLogin from './components/HOC/CompleteFirstTimeLogin'
 import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
 import Splash from '../../lib/ui-components/Splash'
 import AuthContainer from '../../lib/ui-components/Auth'
@@ -109,6 +110,7 @@ class JellyfishUI extends React.Component {
 					<Switch>
 						<Route path='/request_password_reset' component={RequestPasswordReset} />
 						<Route path='/password_reset/:resetToken' component={CompletePasswordReset} />
+						<Route path='/first_time_login/:firstTimeLoginToken' component={CompleteFirstTimeLogin} />
 						<Route path="/*" component={Login} />
 					</Switch>
 					<Notifications />
