@@ -15,9 +15,6 @@ import uuid from 'uuid/v4'
 import actions from './actions'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
-	createNotification
-} from '../../services/notifications'
-import {
 	getQueue
 } from './async-dispatch-queue'
 import {
@@ -28,21 +25,6 @@ import {
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
 const asyncDispatchQueue = getQueue()
-
-const notify = ({
-	user,
-	card
-}) => {
-	const title = `new ${card.type}`
-	const body = _.get(card, [ 'data', 'payload', 'message' ])
-	const target = _.get(card, [ 'data', 'target' ])
-
-	createNotification({
-		title,
-		body,
-		target
-	})
-}
 
 const createChannel = (data = {}) => {
 	const id = uuid()

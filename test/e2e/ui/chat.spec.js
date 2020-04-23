@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
