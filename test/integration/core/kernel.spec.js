@@ -2958,249 +2958,6 @@ ava('.query() should get all properties of all cards', async (test) => {
 	])
 })
 
-ava('.query() should take into account newly inserted links when processing null link queries', async (test) => {
-	const parent1 = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'foo',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: true,
-				number: 1
-			}
-		})
-
-	const parent2 = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'bar',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: true,
-				number: 2
-			}
-		})
-
-	const card1 = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'baz',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: false,
-				count: 1
-			}
-		})
-
-	await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: `link-${card1.slug}-is-appended-to-${parent1.slug}`,
-			type: 'link@1.0.0',
-			version: '1.0.0',
-			name: 'is appended to',
-			active: true,
-			data: {
-				inverseName: 'has appended element',
-				from: {
-					id: card1.id,
-					type: card1.type
-				},
-				to: {
-					id: parent1.id,
-					type: parent1.type
-				}
-			}
-		})
-
-	const results1 = await test.context.kernel.query(
-		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'object',
-			additionalProperties: false,
-			required: [ 'slug', 'type', 'data' ],
-			$$links: {
-				'has appended element': null
-			},
-			properties: {
-				slug: {
-					type: 'string'
-				},
-				type: {
-					type: 'string',
-					const: 'card@1.0.0'
-				},
-				data: {
-					type: 'object',
-					required: [ 'thread' ],
-					additionalProperties: true,
-					properties: {
-						thread: {
-							type: 'boolean',
-							const: true
-						}
-					}
-				}
-			}
-		})
-
-	test.deepEqual(results1, [
-		{
-			slug: 'bar',
-			type: 'card@1.0.0',
-			data: {
-				number: 2,
-				thread: true
-			}
-		}
-	])
-
-	await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: `link-${card1.slug}-is-appended-to-${parent2.slug}`,
-			type: 'link@1.0.0',
-			version: '1.0.0',
-			name: 'is appended to',
-			active: true,
-			data: {
-				inverseName: 'has appended element',
-				from: {
-					id: card1.id,
-					type: card1.type
-				},
-				to: {
-					id: parent2.id,
-					type: parent2.type
-				}
-			}
-		})
-
-	const results2 = await test.context.kernel.query(
-		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'object',
-			required: [ 'slug', 'type', 'data' ],
-			$$links: {
-				'has appended element': null
-			},
-			properties: {
-				slug: {
-					type: 'string'
-				},
-				type: {
-					type: 'string',
-					const: 'card@1.0.0'
-				},
-				data: {
-					type: 'object',
-					required: [ 'thread' ],
-					additionalProperties: true,
-					properties: {
-						thread: {
-							type: 'boolean',
-							const: true
-						}
-					}
-				}
-			}
-		})
-
-	test.deepEqual(results2, [])
-})
-
-ava('.query() should be able to query for cards without a certain type of link', async (test) => {
-	const parent1 = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'foo',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: true,
-				number: 1
-			}
-		})
-
-	await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'bar',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: true,
-				number: 2
-			}
-		})
-
-	const card1 = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'baz',
-			type: 'card@1.0.0',
-			version: '1.0.0',
-			data: {
-				thread: false,
-				count: 1
-			}
-		})
-
-	await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			slug: `link-${card1.slug}-is-appended-to-${parent1.slug}`,
-			type: 'link@1.0.0',
-			version: '1.0.0',
-			name: 'is appended to',
-			active: true,
-			data: {
-				inverseName: 'has appended element',
-				from: {
-					id: card1.id,
-					type: card1.type
-				},
-				to: {
-					id: parent1.id,
-					type: parent1.type
-				}
-			}
-		})
-
-	const results = await test.context.kernel.query(
-		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'object',
-			additionalProperties: false,
-			required: [ 'slug', 'type', 'data' ],
-			$$links: {
-				'has appended element': null
-			},
-			properties: {
-				slug: {
-					type: 'string'
-				},
-				type: {
-					type: 'string',
-					const: 'card@1.0.0'
-				},
-				data: {
-					type: 'object',
-					required: [ 'thread' ],
-					additionalProperties: true,
-					properties: {
-						thread: {
-							type: 'boolean',
-							const: true
-						}
-					}
-				}
-			}
-		})
-
-	test.deepEqual(results, [
-		{
-			slug: 'bar',
-			type: 'card@1.0.0',
-			data: {
-				number: 2,
-				thread: true
-			}
-		}
-	])
-})
-
 ava('.query() should not consider inactive links', async (test) => {
 	const parent1 = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
@@ -4164,59 +3921,6 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 	}).catch(test.end)
 })
 
-ava('.query() should return an unexecuted action request', async (test) => {
-	const date = new Date()
-	const request = await test.context.kernel.insertCard(
-		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'action-request@1.0.0',
-			created_at: date.toISOString(),
-			updated_at: null,
-			linked_at: {},
-			version: '1.0.0',
-			active: true,
-			tags: [],
-			markers: [],
-			links: {},
-			requires: [],
-			capabilities: [],
-			slug: 'action-request-1',
-			data: {
-				epoch: date.valueOf(),
-				timestamp: date.toISOString(),
-				context: test.context.context,
-				actor: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-				action: 'action-foo@1.0.0',
-				input: {
-					id: '98853c0c-d055-4d25-a7be-682a2d5decc5',
-					type: 'card@1.0.0'
-				},
-				arguments: {}
-			}
-		})
-
-	const result = await test.context.kernel.query(
-		test.context.context, test.context.kernel.sessions.admin, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'type' ],
-			$$links: {
-				'is executed by': null
-			},
-			properties: {
-				type: {
-					type: 'string',
-					pattern: '^action-request@'
-				}
-			}
-		})
-
-	test.deepEqual(result, [
-		Object.assign({}, request, {
-			updated_at: result[0].updated_at
-		})
-	])
-})
-
 ava('.query() should be able to limit', async (test) => {
 	const date = new Date()
 	await test.context.kernel.insertCard(
@@ -4276,9 +3980,6 @@ ava('.query() should be able to limit', async (test) => {
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'type' ],
-			$$links: {
-				'is executed by': null
-			},
 			properties: {
 				type: {
 					type: 'string',
@@ -4296,9 +3997,6 @@ ava('.query() should be able to limit', async (test) => {
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'type' ],
-			$$links: {
-				'is executed by': null
-			},
 			properties: {
 				type: {
 					type: 'string',
@@ -4373,9 +4071,6 @@ ava('.query() should be able to skip', async (test) => {
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'type' ],
-			$$links: {
-				'is executed by': null
-			},
 			properties: {
 				type: {
 					type: 'string',
@@ -4393,9 +4088,6 @@ ava('.query() should be able to skip', async (test) => {
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'type' ],
-			$$links: {
-				'is executed by': null
-			},
 			properties: {
 				type: {
 					type: 'string',
