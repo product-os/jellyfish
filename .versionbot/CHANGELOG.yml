@@ -1,4 +1,16 @@
 - commits:
+    - subject: temporarily disable deployments
+      hash: d313feeeceeaadf97ec074874e2c1642e2e780e5
+      body: ''
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+  version: 28.11.2
+  date: 2020-04-24T01:13:35.303Z
+- commits:
     - subject: Add docs on card data model and permissions back to the system
       hash: 4621f9eb6cc47c00bd5fd09cb72bb94c38565f8e
       body: ''
