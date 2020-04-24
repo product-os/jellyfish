@@ -1,25 +1,33 @@
-kind: Ingress
 apiVersion: extensions/v1beta1
+kind: Ingress
 metadata:
-  name: jellyfish-api
+  labels:
+    name: jellyfish-api
   namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  name: jellyfish-api
+  # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/#deploy-ingress-for-echoserver
   annotations:
-    kubernetes.io/tls-acme: 'true'
-    ingress.kubernetes.io/affinity: "cookie"
-    ingress.kubernetes.io/session-cookie-name: "jellyfishAPI"
-    ingress.kubernetes.io/session-cookie-expires: "172800"
-    ingress.kubernetes.io/session-cookie-max-age: "172800"
-    ingress.kubernetes.io/limit-rpm: "120"
+    kubernetes.io/ingress.class: alb
+    # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/annotation/
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:491725000532:certificate/f9995922-ae03-48eb-8fd1-c6ebe891eaf2
+    alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    alb.ingress.kubernetes.io/load-balancer-attributes: idle_timeout.timeout_seconds=63
+    alb.ingress.kubernetes.io/load-balancer-attributes: routing.http2.enabled=true
+    alb.ingress.kubernetes.io/target-group-attributes: stickiness.enabled=true,stickiness.lb_cookie.duration_seconds=172800,deregistration_delay.timeout_seconds=60
+    alb.ingress.kubernetes.io/healthcheck-port: "8000"
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+    alb.ingress.kubernetes.io/healthcheck-interval-seconds: "10"
+    alb.ingress.kubernetes.io/healthcheck-timeout-seconds: "8"
+    external-dns.alpha.kubernetes.io/hostname: {{{JELLYFISH_API_HOST}}}
+    external-dns.alpha.kubernetes.io/ttl: "120"
 spec:
-  tls:
-    - secretName: jellyfish-api-tls
-      hosts:
-        - {{{JELLYFISH_API_HOST}}}
   rules:
     - host: {{{JELLYFISH_API_HOST}}}
       http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: jellyfish-api
               servicePort: 8000

@@ -96,3 +96,6 @@ tmp/
 # Cryptographic keys used for testing
 *.p8
 *.pem
+
+# macOS
+.DS_Store

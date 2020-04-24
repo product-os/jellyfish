@@ -5,8 +5,27 @@ metadata:
     name: jellyfish-ui
   namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
   name: jellyfish-ui
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+    service.beta.kubernetes.io/aws-load-balancer-ssl-ports: https
+    service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:us-east-1:491725000532:certificate/f9995922-ae03-48eb-8fd1-c6ebe891eaf2
+    service.beta.kubernetes.io/aws-load-balancer-ssl-negotiation-policy: ELBSecurityPolicy-TLS-1-2-2017-01
+    service.beta.kubernetes.io/aws-load-balancer-connection-idle-timeout: "63"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-connection-draining-timeout: "60"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    external-dns.alpha.kubernetes.io/hostname: {{{JELLYFISH_HOST}}}
+    external-dns.alpha.kubernetes.io/ttl: "120"
 spec:
+  type: LoadBalancer
   selector:
     app: jellyfish-ui
   ports:
-  - port: 80
+    - port: 443
+      targetPort: 80
+      protocol: TCP
+      name: https
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
