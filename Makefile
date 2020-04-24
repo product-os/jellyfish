@@ -361,6 +361,10 @@ test-integration-%:
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
 
+# Temporarily run fewer e2e tests while we resolve instability
+test-e2e-ui:
+	FILES="'./test/e2e/ui/index.spec.js'" make test
+
 clean-front:
 	FRONT_INBOX_1=$(TEST_INTEGRATION_FRONT_INBOX_1) \
 	FRONT_INBOX_2=$(TEST_INTEGRATION_FRONT_INBOX_2) \
