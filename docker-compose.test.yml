@@ -47,5 +47,8 @@ services:
       - INTEGRATION_FRONT_TOKEN=foobar
       - SCRUB=0
       - COVERAGE=0
+      - METRICS_PORT=8888
+      - SOCKET_METRICS_PORT=8889
+      - MONITOR_SECRET_TOKEN=TEST
     networks:
       - internal

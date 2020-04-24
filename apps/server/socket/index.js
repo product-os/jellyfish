@@ -9,6 +9,10 @@ const socketIo = require('socket.io')
 const redisAdapter = require('socket.io-redis')
 const environment = require('../../../lib/environment')
 const uuid = require('../../../lib/uuid')
+const express = require('express')
+const http = require('http')
+const basicAuth = require('express-basic-auth')
+const prometheus = require('socket.io-prometheus-metrics')
 
 module.exports = (jellyfish, server) => {
 	const socketServer = socketIo(server, {
@@ -87,6 +91,24 @@ module.exports = (jellyfish, server) => {
 			})
 		})
 	})
+
+	// Collect and expose socket metrics
+	const metrics = prometheus.metrics(socketServer, {
+		collectDefaultMetrics: true,
+		createServer: false
+	})
+	const application = express()
+	const expressServer = http.Server(application)
+	application.use(basicAuth({
+		users: {
+			monitor: environment.metrics.token
+		}
+	}))
+	application.get('/metrics', (req, res) => {
+		res.set('Content-Type', metrics.register.contentType)
+		res.end(metrics.register.metrics())
+	})
+	expressServer.listen(environment.metrics.ports.socket)
 
 	return {
 		close: () => {

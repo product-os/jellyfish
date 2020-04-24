@@ -5,15 +5,16 @@
  */
 
 const Bluebird = require('bluebird')
-const express = require('express')
 const errio = require('errio')
 const http = require('http')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 const logger = require('../../../lib/logger').getLogger(__filename)
+const metrics = require('../../../lib/metrics')
 
 module.exports = (context, jellyfish, worker, producer, configuration, options) => {
-	const application = express()
+	const application = metrics.initExpress(context)
+
 	const server = http.Server(application)
 	application.set('port', configuration.port)
 

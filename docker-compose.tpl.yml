@@ -37,7 +37,8 @@ services:
       - SERVER_DATABASE={{SERVER_DATABASE}}
       - SERVER_HOST={{& SERVER_HOST}}
       - SERVER_PORT={{SERVER_PORT}}
-      - WORKER_PORT={{WORKER_PORT}}
+      - METRICS_PORT={{METRICS_PORT}}
+      - SOCKET_METRICS_PORT={{SOCKET_METRICS_PORT}}
       - TEST_USER_ORGANIZATION={{TEST_USER_ORGANIZATION}}
       - TEST_USER_PASSWORD={{TEST_USER_PASSWORD}}
       - TEST_USER_ROLE={{TEST_USER_ROLE}}
@@ -70,6 +71,7 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
+      - MONITOR_SECRET_TOKEN=TEST
     healthcheck:
       interval: 30s
       retries: 5
@@ -271,6 +273,8 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
+      - METRICS_PORT={{METRICS_PORT}}
+      - MONITOR_SECRET_TOKEN=TEST
     restart: always
     networks:
       - internal

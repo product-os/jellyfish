@@ -12,6 +12,7 @@ const actionLibrary = require('../../lib/action-library')
 const environment = require('../../lib/environment')
 const assert = require('../../lib/assert')
 const logger = require('../../lib/logger').getLogger(__filename)
+const metrics = require('../../lib/metrics')
 
 const cardLoader = require('./card-loader')
 const http = require('./http')
@@ -28,6 +29,8 @@ module.exports = async (context) => {
 	const jellyfish = await core.create(context, cache, {
 		backend: environment.database.options
 	})
+
+	metrics.startServer(context)
 
 	logger.info(context, 'Creating producer instance')
 	const producer = new Producer(jellyfish, jellyfish.sessions.admin)
