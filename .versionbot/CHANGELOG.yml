@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump webpack from 4.41.2 to 4.42.1'
+      hash: 2e9aa6ce3662a87924e0f8626cf1903c397b9e2e
+      body: >
+        Bumps [webpack](https://github.com/webpack/webpack) from 4.41.2 to
+        4.42.1.
+
+        - [Release notes](https://github.com/webpack/webpack/releases)
+
+        -
+        [Commits](https://github.com/webpack/webpack/compare/v4.41.2...v4.42.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 28.12.1
+  date: 2020-04-24T08:20:08.466Z
+- commits:
     - subject: Upgrade `open-balena-db` to 4.1.0 to pull in PG12
       hash: 1b066779c7fc9609ea7a2f0553e9672ffc64b876
       body: |
