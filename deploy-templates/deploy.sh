@@ -1,12 +1,12 @@
 #!/bin/bash
 
-exit 0
-
 ###
 # Copyright (C) Balena.io - All Rights Reserved
 # Unauthorized copying of this file, via any medium is strictly prohibited.
 # Proprietary and confidential.
 ###
+
+exit 0
 
 # Install kubectl
 wget -O kubectl "https://storage.googleapis.com/kubernetes-release/release/$(curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt)/bin/linux/amd64/kubectl" && chmod +x ./kubectl && mv kubectl /usr/local/bin/
