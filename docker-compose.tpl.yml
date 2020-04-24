@@ -97,7 +97,7 @@ services:
     environment:
       NGINX_PORT: 80
   postgres:
-    image: balena/open-balena-db:3.0.1
+    image: balena/open-balena-db:4.1.0
     restart: always
     networks:
       - internal
