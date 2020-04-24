@@ -185,20 +185,98 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			return response.sendStatus(401)
 		}
 
-		let result = null
-
 		try {
-			result = await oauth.authorize(
+			// 1. Exchange oauth code for token
+			const credentials = await oauth.authorize(
 				request.context,
 				worker,
 				producer,
 				options.guestSession,
 				request.params.provider, {
 					code,
-					ip: request.ip,
+					ip: request.ip
+				}
+			)
+
+			// 2. Fetch user data from provider
+			const externalUser = await oauth.whoami(
+				request.context,
+				worker,
+				jellyfish.sessions.admin,
+				request.params.provider,
+				credentials
+			)
+
+			// 3. Get jellyfish user that matches external user
+			const user = await oauth.match(
+				request.context,
+				worker,
+				jellyfish.sessions.admin,
+				request.params.provider,
+				externalUser, {
 					slug
 				}
 			)
+
+			// 4. Throw if no matching user found.
+			// ToDo: create corresponding user in this case.
+			if (!user) {
+				return response.status(401).json({
+					error: true,
+					data: `User sync failed for the user: ${slug}`
+				})
+			}
+
+			// 5. Attach external token to the user
+			await oauth.associate(
+				request.context,
+				worker,
+				producer,
+				jellyfish.sessions.admin,
+				request.params.provider,
+				user,
+				credentials, {
+					ip: request.ip
+				}
+			)
+
+			const sessionTypeCard = await jellyfish.getCardBySlug(
+				request.context, jellyfish.sessions.admin, 'session@1.0.0')
+
+			/*
+			* This allows us to differentiate two login requests
+			* coming on the same millisecond, unlikely but possible.
+			*/
+			const suffix = await uuid.random()
+
+			const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+				action: 'action-create-card@1.0.0',
+				card: sessionTypeCard.id,
+				type: sessionTypeCard.type,
+				context: request.context,
+				arguments: {
+					reason: null,
+					properties: {
+						version: '1.0.0',
+						slug: `session-${user.slug}-${Date.now()}-${suffix}`,
+						data: {
+							actor: user.id
+						}
+					}
+				}
+			})
+
+			const createSessionResult = await producer.waitResults(
+				request.context, actionRequest)
+
+			if (createSessionResult.error) {
+				throw errio.fromObject(createSessionResult.data)
+			}
+
+			return response.status(200).json({
+				access_token: createSessionResult.data.id,
+				token_type: 'Bearer'
+			})
 		} catch (error) {
 			if ([ 'OAuthUnsuccessfulResponse', 'SyncNoMatchingUser' ].includes(error.name)) {
 				return response.status(401).json({
@@ -209,62 +287,6 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 			return sendHTTPError(request, response, error)
 		}
-
-		const {
-			user,
-			credentials
-		} = result
-
-		await oauth.associate(
-			request.context,
-			worker,
-			producer,
-			jellyfish.sessions.admin,
-			request.params.provider,
-			user,
-			credentials, {
-				code,
-				ip: request.ip
-			}
-		)
-
-		const sessionTypeCard = await jellyfish.getCardBySlug(
-			request.context, jellyfish.sessions.admin, 'session@1.0.0')
-
-		/*
-		 * This allows us to differentiate two login requests
-		 * coming on the same millisecond, unlikely but possible.
-		 */
-		const suffix = await uuid.random()
-
-		const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
-			action: 'action-create-card@1.0.0',
-			card: sessionTypeCard.id,
-			type: sessionTypeCard.type,
-			context: request.context,
-			arguments: {
-				reason: null,
-				properties: {
-					version: '1.0.0',
-					slug: `session-${user.slug}-${Date.now()}-${suffix}`,
-					data: {
-						actor: user.id
-					}
-				}
-			}
-		})
-
-		const createSessionResult = await producer.waitResults(
-			request.context, actionRequest)
-
-		if (createSessionResult.error) {
-			throw errio.fromObject(createSessionResult.data)
-		}
-
-		return response.status(200).json({
-			access_token: createSessionResult.data.id,
-			token_type: 'Bearer'
-		})
 	}
 
 	application.post('/api/v2/oauth/:provider', (request, response) => {
