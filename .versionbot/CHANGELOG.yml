@@ -1,4 +1,22 @@
 - commits:
+    - subject: Temporarily reduce the amount of e2e testing
+      hash: 94683cabe0f8f569efcf82e9fe814657457c39a8
+      body: >
+        To improve development velocity why we try to resolve platform
+        instability
+
+        I have decided to reduce the amount of e2e testing on the project.
+      footer:
+        Connects-to: '#3476'
+        connects-to: '#3476'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.12.2
+  date: 2020-04-24T09:25:07.328Z
+- commits:
     - subject: 'patch: bump webpack from 4.41.2 to 4.42.1'
       hash: 2e9aa6ce3662a87924e0f8626cf1903c397b9e2e
       body: >
