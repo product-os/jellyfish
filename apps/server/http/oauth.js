@@ -22,6 +22,33 @@ exports.getAuthorizeUrl = (provider, userSlug) => {
 		})
 }
 
+exports.whoami = (context, worker, session, provider, credentials) => {
+	return sync.whoami(
+		{
+			getElementBySlug: (slug) => {
+				return worker.jellyfish.getCardBySlug(
+					context, session, slug)
+			}
+		},
+		provider,
+		credentials
+	)
+}
+
+exports.match = (context, worker, session, provider, externalUser, options) => {
+	return sync.match(
+		{
+			getElementBySlug: (slug) => {
+				return worker.jellyfish.getCardBySlug(
+					context, session, slug)
+			}
+		},
+		provider,
+		externalUser,
+		options
+	)
+}
+
 exports.authorize = async (context, worker, queue, session, provider, options) => {
 	logger.info(context, 'OAuth authorization', {
 		ip: options.ip,
@@ -40,8 +67,7 @@ exports.authorize = async (context, worker, queue, session, provider, options) =
 		arguments: {
 			provider,
 			code: options.code,
-			origin: exports.getRedirectUrl(provider),
-			slug: options.slug
+			origin: exports.getRedirectUrl(provider)
 		}
 	})
 
