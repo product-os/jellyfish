@@ -241,51 +241,6 @@ jobs:
           name: End To End Tests (Server)
           command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
-          name: Postgres Dump
-          command: docker exec jellyfish_postgres_1 bash -c 'PGPASSWORD="${POSTGRES_PASSWORD}" pg_dump --username="${POSTGRES_USER}" jellyfish' | gzip -9 > dump-server.gz
-      - run:
-          name: Docker Compose Down
-          command: make compose-stop
-
-      - persist_to_workspace:
-          root: .
-          paths:
-            - dump-server.gz
-
-  e2e_tests_server_previous_dump: &e2e_tests_server_previous_dump
-    <<: *job_defaults
-
-    resource_class: xlarge
-
-    steps:
-      - checkout
-
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - setup_remote_docker:
-          docker_layer_caching: true
-
-      - run:
-          name: Install scripts-template dependencies
-          command: cd scripts/template && npm install
-      - run:
-          name: Compose Build
-          command: make compose-build
-      - run:
-          name: Docker Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
-      - run:
-          name: Fetch Old Postgres Dump
-          command: ./scripts/ci/postgres-get-previous-dump.sh server && ls -l && gunzip dump.gz
-      - run:
-          name: Import Postgres Dump
-          command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
-      - run:
-          name: End To End Tests (Server)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
-      - run:
           name: Docker Compose Down
           command: make compose-stop
 
@@ -305,9 +260,6 @@ jobs:
       - run:
           name: Install Dependencies
           command: npm i
-      - run:
-          name: Postgres Dump
-          command: mkdir -p /tmp/test-results && cp dump-*.gz /tmp/test-results/
 
       # Store artifacts for debugging purposes
       - store_test_results:
@@ -348,11 +300,6 @@ workflows:
                   - build
                 <<: *workflow_filter
 
-            - e2e_tests_server_previous_dump:
-                requires:
-                  - build
-                <<: *workflow_filter
-
             - sync_tests_front_mirror:
                 requires:
                   - build
@@ -381,7 +328,6 @@ workflows:
             - results:
                 requires:
                   - e2e_tests_server
-                  - e2e_tests_server_previous_dump
                   - sync_tests_front_translate
                   - sync_tests_discourse_translate
                   - sync_tests_front_mirror
