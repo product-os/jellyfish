@@ -1,4 +1,27 @@
 - commits:
+    - subject: Upgrade `open-balena-db` to 4.1.0 to pull in PG12
+      hash: 1b066779c7fc9609ea7a2f0553e9672ffc64b876
+      body: |
+        Also use `pg_dump` from the `postgres` container in
+        `.circleci/config.yml` so that we don't get version mismatches
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+    - subject: Fix deploy script copyright comment position
+      hash: 0eaecf6ddb6c8b885456b3524e95939843b78a03
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 28.12.0
+  date: 2020-04-24T02:16:24.708Z
+- commits:
     - subject: temporarily disable deployments
       hash: d313feeeceeaadf97ec074874e2c1642e2e780e5
       body: ''
