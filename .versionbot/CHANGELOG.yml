@@ -1,4 +1,28 @@
 - commits:
+    - subject: Move slice selection to View component and default to first slice
+      hash: 4ecb3e4652901228979b04bcba658e844fc83e3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Don't run expensive inbox queries
+      hash: b0af4dc7119245dbfc9129c7708cf0697f144d79
+      body: |
+        We will re-implement notifications using the new notifications system.
+        For now its a good idea to disable this expensive query as it is run on
+        every page load.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.13.0
+  date: 2020-04-24T11:54:15.158Z
+- commits:
     - subject: Temporarily reduce the amount of e2e testing
       hash: 94683cabe0f8f569efcf82e9fe814657457c39a8
       body: >
