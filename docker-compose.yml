@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   api:
+    image: balena/jellyfish
     build:
       context: .
       dockerfile: apps/server/Dockerfile
@@ -144,6 +145,7 @@ services:
       timeout: 10s
     restart: always
   tick:
+    image: balena/jellyfish-tick-server
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.tick
@@ -216,6 +218,7 @@ services:
     networks:
       - internal
   worker_1:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
@@ -271,6 +274,7 @@ services:
     networks:
       - internal
   worker_2:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
@@ -326,6 +330,7 @@ services:
     networks:
       - internal
   worker_3:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
