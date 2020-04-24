@@ -1,4 +1,20 @@
 - commits:
+    - subject: Explicitly enable CTE materialization when querying for links
+      hash: 939b911bfa3438db4f7296245ab453bda09b16e1
+      body: |
+        In PG 12, CTEs are not optimization barriers anymore and can be trated
+        as unmaterialized plain SELECTs. This unfortunately leads to a bad query
+        plan. This PR explicitly forces the CTE to be materialized so that PG 12
+        doesn't pessimize the query plan.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 28.13.1
+  date: 2020-04-24T13:07:53.661Z
+- commits:
     - subject: Move slice selection to View component and default to first slice
       hash: 4ecb3e4652901228979b04bcba658e844fc83e3f
       body: ''
