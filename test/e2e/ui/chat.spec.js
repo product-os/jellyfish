@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
@@ -374,61 +373,4 @@ ava.skip('Users should be able to mark all messages as read from their inbox', a
 
 	// Assert that there are no longer messages in the inbox
 	test.is(messages.length, 0)
-})
-
-ava.serial('Users should be able to create private conversations', async (test) => {
-	const {
-		user1,
-		page,
-		user2,
-		incognitoPage
-	} = context
-
-	const rootUrl = _.parseInt(environment.ui.port) === 80
-		? `${environment.ui.host}/`
-		: `${environment.ui.host}:${environment.ui.port}/`
-
-	// Clean up the URL
-	await page.goto(rootUrl)
-
-	const anticipatedSlug = `view-121-${user2.slug}-${user1.slug}`
-
-	// First check that user1 can create a private conversation view with user2
-	await macros.waitForThenClickSelector(page, '[data-test="create-private-conversation"]')
-	await page.waitForSelector('[data-test="private-conversation-search-input"]')
-	await macros.setInputValue(page, '[data-test="private-conversation-search-input"]', user2.slug)
-	await macros.waitForThenClickSelector(page, `[data-test="private-conversation-${user2.slug}"]`)
-	await page.waitForSelector(`.column--${anticipatedSlug}`)
-
-	// Make sure the view is also accessible for user2
-	await incognitoPage.goto(`${rootUrl}${anticipatedSlug}`)
-	await incognitoPage.waitForSelector(`.column--${anticipatedSlug}`)
-
-	// Check that a thread created from this view is also private
-	await macros.waitForThenClickSelector(page, '.btn--add-thread')
-	await page.waitForSelector('.column--thread')
-
-	const rand = uuid()
-
-	await page.waitForSelector('.new-message-input')
-	await macros.createChatMessage(page, '.column--thread', rand)
-
-	const [ viewSlug, threadSlug ] = page.url().replace(rootUrl, '').split('/')
-
-	const view = await page.evaluate((slug) => {
-		return window.sdk.card.get(slug)
-	}, viewSlug)
-	const thread = await page.evaluate((slug) => {
-		return window.sdk.card.get(slug)
-	}, threadSlug)
-
-	test.deepEqual(view.markers, [
-		`${user2.slug}+${user1.slug}`
-	])
-
-	test.deepEqual(thread.markers, [
-		`${user2.slug}+${user1.slug}`
-	])
-
-	test.pass()
 })

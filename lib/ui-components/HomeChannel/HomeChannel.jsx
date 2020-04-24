@@ -98,9 +98,6 @@ export default class HomeChannel extends React.Component {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
 			this.props.actions.streamView(this.props.channel.data.head)
 		}
-
-		this.props.actions.loadViewResults('view-my-inbox')
-		this.props.actions.streamView('view-my-inbox')
 	}
 
 	openCreateViewChannel () {

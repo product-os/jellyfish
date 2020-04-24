@@ -22,7 +22,8 @@ import {
 	Button,
 	ButtonGroup,
 	Flex,
-	SchemaSieve
+	SchemaSieve,
+	Select
 } from 'rendition'
 import uuid from 'uuid/v4'
 import Filters from '../../../../lib/ui-components/Filters'
@@ -44,6 +45,67 @@ import Icon from '../../../../lib/ui-components/shame/Icon'
 const USER_FILTER_NAME = 'user-generated-filter'
 
 const TIMELINE_FILTER_PROP = '$$links'
+
+const createSliceFilter = (slice) => {
+	const filter = {
+		// Use the slice path as a unique ID, as we don't want multiple slice constraints
+		// on the same path
+		$id: slice.value.path,
+		title: USER_FILTER_NAME,
+		description: `${slice.title}`,
+		type: 'object',
+		properties: {}
+	}
+
+	if (!slice.value.value) {
+		return filter
+	}
+
+	_.set(filter, slice.value.path, {
+		const: slice.value.value
+	})
+
+	const keys = slice.value.path.split('.')
+
+	// Make sure that "property" keys correspond with { type: 'object' },
+	// otherwise the filter won't work
+	while (keys.length) {
+		if (keys.pop() === 'properties') {
+			_.set(filter, keys.concat('type'), 'object')
+		}
+	}
+	return filter
+}
+
+// TODO helpers.getViewSlices() should just return a set of schemas allowing us
+// to remove all the intermediary data formats
+const getSliceOptions = (card, types) => {
+	const slices = helpers.getViewSlices(card, types)
+	if (!slices) {
+		return []
+	}
+	const sliceOptions = []
+	for (const slice of slices) {
+		for (const sliceValue of slice.values) {
+			sliceOptions.push({
+				title: `${slice.title}: ${sliceValue}`,
+				value: {
+					path: slice.path,
+					value: sliceValue
+				}
+			})
+		}
+
+		sliceOptions.push({
+			title: `${slice.title}: All`,
+			value: {
+				path: slice.path
+			}
+		})
+	}
+
+	return sliceOptions.length ? sliceOptions : null
+}
 
 const createSyntheticViewCard = (view, filters) => {
 	const syntheticViewCard = clone(view)
@@ -183,10 +245,35 @@ class ViewRenderer extends React.Component {
 	}
 
 	setSlice (event) {
-		const slug = event.target.value
+		const {
+			value
+		} = event
+		console.log('set slice', event)
 		this.setState({
-			activeSlice: slug
+			activeSlice: value
 		})
+		const filter = createSliceFilter(value)
+
+		const {
+			head
+		} = this.props.channel.data
+
+		const filters = head
+			? _.map(_.filter(head.data.allOf, {
+				name: USER_FILTER_NAME
+			}), 'schema')
+			: []
+
+		// Remove any pre-existing filter with the same $id
+		const parsedFilters = filters.filter((item) => {
+			return item.anyOf && item.anyOf[0].$id !== filter.$id
+		})
+
+		parsedFilters.push({
+			anyOf: [ filter ]
+		})
+
+		this.loadViewWithFilters(head, parsedFilters)
 	}
 
 	setPage (page) {
@@ -233,7 +320,7 @@ class ViewRenderer extends React.Component {
 
 	bootstrap (channel) {
 		const {
-			head, options
+			head
 		} = channel.data
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user')
@@ -266,40 +353,20 @@ class ViewRenderer extends React.Component {
 			slug: helpers.getTypeFromViewCard(head).split('@')[0]
 		}) || null
 
-		if (options && options.slice) {
-			const slices = helpers.getViewSlices(head, this.props.types)
-			const sliceTitle = _.find(slices, {
-				path: options.slice.path
-			}).title
-			const {
-				slice
-			} = options
+		let activeSlice = null
 
-			const filter = {
-				title: USER_FILTER_NAME,
-				description: `${sliceTitle} is ${slice.value}`,
-				type: 'object',
-				properties: {}
-			}
+		const sliceOptions = getSliceOptions(head, this.props.types)
+		if (sliceOptions.length) {
+			activeSlice = _.first(sliceOptions)
+
+			const filter = createSliceFilter(activeSlice)
 
 			const existingFilter = filters.find((item) => {
-				return item.anyOf && item.anyOf[0].description === filter.description
+				return item.anyOf && item.anyOf[0].$id === filter.$id
 			})
 
 			// If a matching filter already exists, don't add it twice
 			if (!existingFilter) {
-				_.set(filter, slice.path, {
-					const: slice.value
-				})
-				const keys = slice.path.split('.')
-
-				// Make sure that "property" keys correspond with { type: 'object' },
-				// otherwise the filter won't work
-				while (keys.length) {
-					if (keys.pop() === 'properties') {
-						_.set(filter, keys.concat('type'), 'object')
-					}
-				}
 				filters.push({
 					anyOf: [ filter ]
 				})
@@ -315,6 +382,7 @@ class ViewRenderer extends React.Component {
 			activeLens,
 			filters,
 			tailType,
+			activeSlice,
 
 			// Mark as ready
 			ready: true
@@ -473,6 +541,8 @@ class ViewRenderer extends React.Component {
 			format: 'date-time'
 		})
 
+		const sliceOptions = getSliceOptions(head, this.props.types)
+
 		// Add the timeline link prop to spoof the filters component into generating
 		// subschemas for the $$links property - see the createSyntheticViewCard()
 		// method for how we unpack the filters
@@ -522,6 +592,16 @@ class ViewRenderer extends React.Component {
 									</Box>
 								)}
 							</Box>
+
+							{sliceOptions.length && (
+								<Select
+									options={sliceOptions}
+									valueKey='value'
+									labelKey='title'
+									value={this.state.activeSlice}
+									onChange={this.setSlice}
+								/>
+							)}
 
 							<Flex mx={3}>
 								{this.lenses.length > 1 && Boolean(lens) && (

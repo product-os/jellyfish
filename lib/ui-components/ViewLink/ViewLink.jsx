@@ -7,7 +7,6 @@
 import {
 	circularDeepEqual
 } from 'fast-equals'
-import _ from 'lodash'
 import React from 'react'
 import {
 	Button,
@@ -73,12 +72,9 @@ export default class ViewLink extends React.Component {
 			activeSlice,
 			card,
 			isActive,
-			types,
 			user,
 			update
 		} = this.props
-
-		const slices = isActive ? helpers.getViewSlices(card, types) : null
 
 		const isCustomView = helpers.isCustomView(card, user)
 
@@ -147,50 +143,7 @@ export default class ViewLink extends React.Component {
 							</ContextMenu>
 					}
 				</Flex>
-				{isActive && Boolean(slices) && (
-					<ul
-						style={{
-							padding: 0, margin: 0, listStyle: 'none'
-						}}
-					>
-						{_.map(slices, (slice) => {
-							return (
-								<React.Fragment key={slice.path}>
-									{_.map(slice.values, (value) => {
-										const isActiveSlice = activeSlice && (
-											activeSlice.path === slice.path && activeSlice.value === value
-										)
-										const path = `/${card.slug || card.id}...${slice.path}+is+${encodeURIComponent(value)}`
-										return (
-											<li
-												key={value}
-												style={{
-													background: (isActiveSlice) ? '#eee' : 'none'
-												}}
-											>
-												<Link
-													style={{
-														display: 'block'
-													}}
-													py={2}
-													pr={3}
-													pl={4}
-													color="#333"
-													data-slicetitle={slice.title}
-													data-slicepath={slice.path}
-													data-slicevalue={value}
-													to={path}
-												>
-													{slice.title}: {value}
-												</Link>
-											</li>
-										)
-									})}
-								</React.Fragment>
-							)
-						})}
-					</ul>
-				)}
+
 				{this.state.showDeleteModal && (
 					<Modal
 						title="Are you sure you want to delete this view?"

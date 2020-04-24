@@ -15,9 +15,6 @@ import uuid from 'uuid/v4'
 import actions from './actions'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
-	createNotification
-} from '../../services/notifications'
-import {
 	getQueue
 } from './async-dispatch-queue'
 import {
@@ -28,21 +25,6 @@ import {
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
 const asyncDispatchQueue = getQueue()
-
-const notify = ({
-	user,
-	card
-}) => {
-	const title = `new ${card.type}`
-	const body = _.get(card, [ 'data', 'payload', 'message' ])
-	const target = _.get(card, [ 'data', 'target' ])
-
-	createNotification({
-		title,
-		body,
-		target
-	})
-}
 
 const createChannel = (data = {}) => {
 	const id = uuid()
@@ -1131,48 +1113,6 @@ export default class ActionCreator {
 					streams[viewId] = subscribeToCoreFeed(
 						'update',
 						/* eslint-disable consistent-return */
-						/*
-						async (response) => {
-							const {
-								after, before
-							} = response.data
-							const afterValid = after && skhema.isValid(schema, after)
-							const beforeValid = before && skhema.isValid(schema, before)
-
-							// If before is non-null then the card has been updated
-							if (beforeValid) {
-								// If after is null, the item has been removed from the result set
-								if (!after || !afterValid) {
-									return dispatch(this.removeViewDataItem(query, before))
-								}
-
-								const card = await this.getCardWithLinks(schema, after)
-
-								if (!card) {
-									return
-								}
-
-								return dispatch(this.upsertViewData(query, card))
-							}
-							if (!before && afterValid) {
-								// Otherwise, if before is null, this is a new item
-								const card = await this.getCardWithLinks(schema, after)
-
-								if (viewId === 'view-my-inbox') {
-									notify({
-										user: selectors.getCurrentUser(getState()),
-										card: after
-									})
-								}
-
-								if (!card) {
-									return
-								}
-
-								return dispatch(this.appendViewData(query, card))
-							}
-						}
-						*/
 						(response) => {
 							// Use the async dispatch queue here, as we want to ensure that
 							// each update causes a store update one at a time, to prevent
@@ -1206,13 +1146,6 @@ export default class ActionCreator {
 								if (!before && afterValid) {
 									// Otherwise, if before is null, this is a new item
 									const card = await this.getCardWithLinks(schema, after)
-
-									if (viewId === 'view-my-inbox') {
-										notify({
-											user: selectors.getCurrentUser(getState()),
-											card: after
-										})
-									}
 
 									if (!card) {
 										return
