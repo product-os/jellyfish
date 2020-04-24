@@ -1,4 +1,70 @@
 - commits:
+    - subject: Refactor for EKS deployment
+      hash: 5c9c5f86ea43b43414efcf74d9b2cedb8ff978a4
+      body: |
+        * remove Nginx ingress (API)
+        * add ALB ingress (API)
+        * all other ingress(es)=>services (ELB/Classic)
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+    - subject: update puppeteer
+      hash: 69f966da97c8eac39c3cd15a34dd4a9a8c8ef16d
+      body: ''
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+    - subject: 'Oauth: Split authorize action'
+      hash: 9d912929df9ed0224ac5710c350094af4325dcb3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+    - subject: Stop docker compose from rebuilding images unnecessarily
+      hash: 1b709b7ac4c579a86d2c53c73d0e01dc737da1e1
+      body: |
+        Providing an image name for containers built by docker compose should
+        make compose choose the correct images from local cache
+
+        Fixes product-os/jellyfish#3578
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Explicitly enable CTE materialization when querying for links
+      hash: 939b911bfa3438db4f7296245ab453bda09b16e1
+      body: |
+        In PG 12, CTEs are not optimization barriers anymore and can be trated
+        as unmaterialized plain SELECTs. This unfortunately leads to a bad query
+        plan. This PR explicitly forces the CTE to be materialized so that PG 12
+        doesn't pessimize the query plan.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+    - subject: Expand Prometheus metrics gathering
+      hash: fffc8985afc0dac1db2b7167a71511d386401109
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 28.14.0
+  date: 2020-04-24T22:45:56.060Z
+- commits:
     - subject: update puppeteer
       hash: 69f966da97c8eac39c3cd15a34dd4a9a8c8ef16d
       body: ''
