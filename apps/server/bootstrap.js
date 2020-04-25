@@ -19,6 +19,17 @@ const http = require('./http')
 const socket = require('./socket')
 
 module.exports = async (context) => {
+	logger.info(context, 'Configuring HTTP server')
+	const webServer = await http(context, {
+		port: environment.http.port
+	})
+
+	logger.info(context, 'Starting web server')
+
+	// Start the webserver so that liveness and readiness endpoints can begin
+	// serving traffic
+	await webServer.start()
+
 	logger.info(context, 'Setting up cache')
 	const cache = new core.MemoryCache(environment.redis)
 	if (cache) {
@@ -50,17 +61,6 @@ module.exports = async (context) => {
 		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer)
 	logger.info(context, 'Initializing built-in worker')
 	await worker.initialize(context)
-
-	logger.info(context, 'Configuring HTTP server')
-	const webServer = await http(context, jellyfish, worker, producer, {
-		port: environment.http.port
-	})
-
-	logger.info(context, 'Starting web server')
-
-	// Start the webserver so that liveness and readiness endpoints can begin
-	// serving traffic
-	await webServer.start()
 
 	logger.info(context, 'Inserting default cards')
 	const results = await cardLoader(
@@ -158,7 +158,7 @@ module.exports = async (context) => {
 
 	// Finish setting up routes and middlewares now that we are ready to serve
 	// http traffic
-	await webServer.ready({
+	await webServer.ready(jellyfish, worker, producer, {
 		guestSession: results.guestSession.id
 	})
 
