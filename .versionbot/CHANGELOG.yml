@@ -1,4 +1,42 @@
 - commits:
+    - subject: Optimise 'const' queries for strings
+      hash: ed3e60529b8c97c7bbafc6671277df26005f6217
+      body: |
+        This change makes const queries where the type is string compatible
+        with the automatic indexes we create.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Add indexed field definitions for messages and whispers
+      hash: eb0e2773577ab3d975ea20b0b3521b767e19b602
+      body: |
+        Requires https://github.com/product-os/jellyfish/pull/3450 to be merged
+        first, as this contains the code that will actually create the indexes
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add indexed field definitions for support threads
+      hash: e8a7e76f8f67acc9fb8562d8bc3872f6332a1b0f
+      body: |
+        Requires https://github.com/product-os/jellyfish/pull/3450 to be merged
+        first, as this contains the code that will actually create the indexes
+
+        Fixes product-os/jellyfish#3587
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.17.2
+  date: 2020-04-25T20:53:03.266Z
+- commits:
     - subject: 'front: Correctly deal with threads in multiple inboxes'
       hash: 45b6d2fa169e865a96793dd6b59e67ec23b26817
       body: ''
