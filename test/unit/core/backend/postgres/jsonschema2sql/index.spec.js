@@ -272,15 +272,15 @@ FROM cards
 WHERE
 (((cards.data->'product' IS NULL)
 OR
-(cards.data->'product' @> '"balenaCloud"'))
+(cards.data->>'product' = 'balenaCloud'))
 AND
 ((cards.data->'category' IS NULL)
 OR
-(cards.data->'category' @> '"general"'))
+(cards.data->>'category' = 'general'))
 AND
 ((cards.data->'status' IS NULL)
 OR
-(cards.data->'status' @> '"open"')))
+(cards.data->>'status' = 'open')))
 AND
 (cards.type = 'support-thread')
 AND
@@ -394,15 +394,15 @@ FROM cards
 WHERE
 (((cards.data->'product' IS NULL)
 OR
-(cards.data->'product' @> '"balenaCloud"'))
+(cards.data->>'product' = 'balenaCloud'))
 AND
 ((cards.data->'category' IS NULL)
 OR
-(cards.data->'category' @> '"general"'))
+(cards.data->>'category' = 'general'))
 AND
 ((cards.data->'status' IS NULL)
 OR
-(cards.data->'status' @> '"open"')))
+(cards.data->>'status' = 'open')))
 AND
 (cards.type = 'support-thread')
 AND
@@ -537,15 +537,15 @@ FROM cards
 WHERE
 (((cards.data->'product' IS NULL)
 OR
-(cards.data->'product' @> '"balenaCloud"'))
+(cards.data->>'product' = 'balenaCloud'))
 AND
 ((cards.data->'category' IS NULL)
 OR
-(cards.data->'category' @> '"general"'))
+(cards.data->>'category' = 'general'))
 AND
 ((cards.data->'status' IS NULL)
 OR
-(cards.data->'status' @> '"open"')))
+(cards.data->>'status' = 'open')))
 AND
 (cards.type = 'support-thread')
 AND
@@ -649,15 +649,15 @@ FROM cards
 WHERE
 (((cards.data->'product' IS NULL)
 OR
-(cards.data->'product' @> '"balenaCloud"'))
+(cards.data->>'product' = 'balenaCloud'))
 AND
 ((cards.data->'category' IS NULL)
 OR
-(cards.data->'category' @> '"general"'))
+(cards.data->>'category' = 'general'))
 AND
 ((cards.data->'status' IS NULL)
 OR
-(cards.data->'status' @> '"open"')))
+(cards.data->>'status' = 'open')))
 AND
 (cards.type = 'support-thread')
 AND
