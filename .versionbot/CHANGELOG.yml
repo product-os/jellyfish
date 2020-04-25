@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'front: Correctly deal with threads in multiple inboxes'
+      hash: 45b6d2fa169e865a96793dd6b59e67ec23b26817
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.17.1
+  date: 2020-04-25T18:14:25.316Z
+- commits:
     - subject: Automatically create partial indexes based on type cards
       hash: afee206ed9a110102e0ce8eaa3072d3f8a2fb188
       body: "A new `indexed_fields` field is added to type cards, this field's value\nis an array of arrays of strings. Each sub-array of strings represents\ncolumns in the database. If the column to be indexed is a jsonb column,\nit is represented using a '.' delimiter.\nOn create or update, if a type card has an `indexed_fields` property,\npartial indexes will be created for that type using the columns named.\n\nFor example, if the link type card has `indexed_fields` set to:\n```\n[\n\t[ 'data.from.id', 'name', 'data.to.id' ]\n]\n```\nA single multi-column partial index will be created, constrained to\ncards where the type is \"link\".\n"
