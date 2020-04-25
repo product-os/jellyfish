@@ -1,0 +1,45 @@
+{
+  "_pagination": {
+    "prev": null,
+    "next": null
+  },
+  "_links": {
+    "self": "https://api2.frontapp.com/conversations/cnv_11sgc1v/inboxes"
+  },
+  "_results": [
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_nsn",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_nsn/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_nsn/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_nsn/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "inb_nsn",
+      "name": "/Hello",
+      "is_private": false,
+      "address": "c7d0d84fadfe68bb",
+      "send_as": "c7d0d84fadfe68bb",
+      "type": "custom"
+    },
+    {
+      "_links": {
+        "self": "https://api2.frontapp.com/inboxes/inb_fczf",
+        "related": {
+          "channels": "https://api2.frontapp.com/inboxes/inb_fczf/channels",
+          "conversations": "https://api2.frontapp.com/inboxes/inb_fczf/conversations",
+          "teammates": "https://api2.frontapp.com/inboxes/inb_fczf/teammates",
+          "owner": "https://api2.frontapp.com/teams/tim_qh"
+        }
+      },
+      "id": "inb_fczf",
+      "name": "Test_Contracts",
+      "is_private": false,
+      "address": "ei8z-resin_io@in.frontapp.com",
+      "send_as": "test@resin.io",
+      "type": "smtp"
+    }
+  ]
+}

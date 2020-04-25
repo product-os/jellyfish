@@ -5,6 +5,14 @@
  */
 
 module.exports = {
+	'inbound-message-multiple-inboxes': {
+		expected: require('./inbound-message-multiple-inboxes/expected.json'),
+		steps: [
+			require('./inbound-message-multiple-inboxes/01.json'),
+			require('./inbound-message-multiple-inboxes/02.json'),
+			require('./inbound-message-multiple-inboxes/03.json')
+		]
+	},
 	'outbound-private-inbox': {
 		expected: require('./outbound-private-inbox/expected.json'),
 		steps: [

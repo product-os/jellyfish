@@ -1,0 +1,149 @@
+{
+  "head": {
+    "name": "Test Reply",
+    "version": "1.0.0",
+    "type": "support-thread@1.0.0",
+    "active": true,
+    "tags": [],
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "environment": "production",
+      "inbox": "Test_Contracts",
+      "mirrors": [
+        "https://api2.frontapp.com/conversations/cnv_11sgc1v"
+      ],
+      "mentionsUser": [],
+      "alertsUser": [],
+      "description": "",
+      "status": "open"
+    }
+  },
+  "tail": [
+    {
+      "type": "message@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9l8fv"
+        ],
+        "timestamp": "2018-10-10T22:13:52.817Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Hey there!"
+        }
+      }
+    },
+    {
+      "type": "create@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-juan-resin-io"
+        },
+        "timestamp": "2018-10-10T22:13:53.011Z",
+        "payload": {
+          "name": "Test Reply",
+          "type": "support-thread@1.0.0",
+          "active": true,
+          "version": "1.0.0",
+          "tags": [],
+          "requires": [],
+          "capabilities": [],
+          "data": {
+            "environment": "production",
+            "inbox": "Test_Contracts",
+            "mirrors": [
+              "https://api2.frontapp.com/conversations/cnv_11sgc1v"
+            ],
+            "mentionsUser": [],
+            "alertsUser": [],
+            "description": "",
+            "status": "open"
+          }
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:14:06.485Z"
+          }
+        ],
+        "timestamp": "2018-10-10T22:14:06.485Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update@1.0.0",
+      "version": "1.0.0"
+    },
+    {
+      "type": "message@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "tags": [],
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "mirrors": [
+          "https://api2.frontapp.com/messages/msg_1y9l9g3"
+        ],
+        "timestamp": "2018-10-10T22:14:18.632Z",
+        "payload": {
+          "mentionsUser": [],
+          "alertsUser": [],
+          "message": "Response!\n\n—\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io\n\n> On Wed, Oct 10, 2018 at 11:13 pm, <[juan@resin.io](mailto:juan@resin.io)\\> Juan Cruz Viotti wrote:\n> \n> Hey there!"
+        }
+      }
+    },
+    {
+      "active": true,
+      "capabilities": [],
+      "data": {
+        "actor": {
+          "active": true,
+          "slug": "user-jviotti"
+        },
+        "payload": [
+          {
+            "op": "replace",
+            "path": "/data/translateDate",
+            "value": "2018-10-10T22:14:18.632Z"
+          }
+        ],
+        "timestamp": "2018-10-10T22:14:18.632Z"
+      },
+      "requires": [],
+      "tags": [],
+      "type": "update@1.0.0",
+      "version": "1.0.0"
+    }
+  ]
+}
