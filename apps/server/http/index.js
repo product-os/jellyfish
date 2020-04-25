@@ -12,46 +12,31 @@ const routes = require('./routes')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const metrics = require('../../../lib/metrics')
 
-module.exports = (context, jellyfish, worker, producer, configuration, options) => {
+module.exports = (context, jellyfish, worker, producer, configuration) => {
 	const application = metrics.initExpress(context)
 
 	const server = http.Server(application)
+	let ready = false
 	application.set('port', configuration.port)
 
-	middlewares(context, application, jellyfish, {
-		guestSession: options.guestSession
+	/*
+	 * This endpoint should very simple and should not
+	 * communicate with the API by design.
+	 * The idea is that this endpoint checks the container
+	 * health and that only, as otherwise we are
+	 * side-checking the database health, and get restarted
+	 * even if the database and not the container is the
+	 * problem.
+	 */
+	application.get('/liveness', (request, response) => {
+		return response.status(200).end()
 	})
 
-	routes(application, jellyfish, worker, producer, {
-		guestSession: options.guestSession
-	})
-
-	// We must define 4 arguments even if we don't use them
-	// otherwise Express doesn't take it as an error handler.
-	// See https://expressjs.com/en/guide/using-middleware.html
-	application.use((error, request, response, next) => {
-		if (error.type === 'entity.parse.failed') {
-			return response.status(400).json({
-				error: true,
-				data: 'Invalid request body'
-			})
+	application.get('/readiness', (request, response) => {
+		if (ready) {
+			return response.status(200).end()
 		}
-
-		// So we get more info about the error
-		error.url = request.url
-		error.method = request.method
-		error.ip = request.ip
-		error.headers = request.headers
-
-		const errorObject = errio.toObject(error, {
-			stack: true
-		})
-
-		logger.exception(request.context || context, 'Middleware error', error)
-		return response.status(error.statusCode || 500).json({
-			error: true,
-			data: errorObject
-		})
+		return response.status(503).end()
 	})
 
 	return {
@@ -72,6 +57,45 @@ module.exports = (context, jellyfish, worker, producer, configuration, options) 
 
 				server.listen(application.get('port'))
 			})
+		},
+		ready: (options) => {
+			middlewares(context, application, jellyfish, {
+				guestSession: options.guestSession
+			})
+
+			routes(application, jellyfish, worker, producer, {
+				guestSession: options.guestSession
+			})
+
+			// We must define 4 arguments even if we don't use them
+			// otherwise Express doesn't take it as an error handler.
+			// See https://expressjs.com/en/guide/using-middleware.html
+			application.use((error, request, response, next) => {
+				if (error.type === 'entity.parse.failed') {
+					return response.status(400).json({
+						error: true,
+						data: 'Invalid request body'
+					})
+				}
+
+				// So we get more info about the error
+				error.url = request.url
+				error.method = request.method
+				error.ip = request.ip
+				error.headers = request.headers
+
+				const errorObject = errio.toObject(error, {
+					stack: true
+				})
+
+				logger.exception(request.context || context, 'Middleware error', error)
+				return response.status(error.statusCode || 500).json({
+					error: true,
+					data: errorObject
+				})
+			})
+
+			ready = true
 		},
 		stop: async () => {
 			await new Bluebird((resolve) => {
