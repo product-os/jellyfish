@@ -1,4 +1,46 @@
 - commits:
+    - subject: add metrics ports to deployment
+      hash: c11dd5c78e2ff53034dbe1138c72bc6e3775b75b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+    - subject: Refactor for EKS deployment
+      hash: 5c9c5f86ea43b43414efcf74d9b2cedb8ff978a4
+      body: |
+        * remove Nginx ingress (API)
+        * add ALB ingress (API)
+        * all other ingress(es)=>services (ELB/Classic)
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+    - subject: update puppeteer
+      hash: 69f966da97c8eac39c3cd15a34dd4a9a8c8ef16d
+      body: ''
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+    - subject: Expand Prometheus metrics gathering
+      hash: fffc8985afc0dac1db2b7167a71511d386401109
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 28.15.0
+  date: 2020-04-24T23:55:05.853Z
+- commits:
     - subject: Refactor for EKS deployment
       hash: 5c9c5f86ea43b43414efcf74d9b2cedb8ff978a4
       body: |
