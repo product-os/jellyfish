@@ -1,4 +1,20 @@
 - commits:
+    - subject: Configure independent readiness and liveness endpoints
+      hash: 04a1ead9cdd60682f1a34102bd95753989e398cb
+      body: |
+        This commit also changes the webserver so that it starts returning 503
+        status for the readiness probe very early in the boostrap phase. Once
+        boostrap is complete, the readiness probe will return 200 status,
+        indicating the server is ready to accept traffic.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.16.0
+  date: 2020-04-25T08:19:05.040Z
+- commits:
     - subject: add metrics ports to deployment
       hash: c11dd5c78e2ff53034dbe1138c72bc6e3775b75b
       body: ''
