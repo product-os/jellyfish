@@ -72,6 +72,11 @@
     },
     "lenses": [
       "lens-interleaved"
+    ],
+    "indexed_fields": [
+      [ "data.readBy" ],
+      [ "data.payload.mentionsUser" ],
+      [ "data.payload.alertsUser" ]
     ]
   },
   "requires": [],

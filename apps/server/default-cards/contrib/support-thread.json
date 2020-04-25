@@ -95,6 +95,9 @@
     },
     "slices": [
       "properties.data.properties.status"
+    ],
+    "indexed_fields": [
+      [ "data.status", "data.category", "data.product" ]
     ]
   },
   "requires": [],
