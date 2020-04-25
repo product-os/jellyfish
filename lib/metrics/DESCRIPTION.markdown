@@ -1,1 +1,1 @@
-This library gathers Prometheus metrics and exposes them on `:8888/app_metrics`.
+This library gathers Prometheus metrics and exposes them on `:9000/app_metrics`.

@@ -37,8 +37,8 @@ services:
       - SERVER_DATABASE=jellyfish
       - SERVER_HOST=http://localhost
       - SERVER_PORT=8000
-      - METRICS_PORT=8888
-      - SOCKET_METRICS_PORT=8889
+      - METRICS_PORT=9000
+      - SOCKET_METRICS_PORT=9001
       - TEST_USER_ORGANIZATION=balena
       - TEST_USER_PASSWORD=jellyfish
       - TEST_USER_ROLE=user-test
@@ -272,7 +272,7 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
-      - METRICS_PORT=8888
+      - METRICS_PORT=9000
       - MONITOR_SECRET_TOKEN=TEST
     restart: always
     networks:
@@ -330,7 +330,7 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
-      - METRICS_PORT=8888
+      - METRICS_PORT=9000
       - MONITOR_SECRET_TOKEN=TEST
     restart: always
     networks:
@@ -388,7 +388,7 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
-      - METRICS_PORT=8888
+      - METRICS_PORT=9000
       - MONITOR_SECRET_TOKEN=TEST
     restart: always
     networks:
