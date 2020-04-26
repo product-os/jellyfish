@@ -41,7 +41,7 @@ module.exports = async (context) => {
 		backend: environment.database.options
 	})
 
-	metrics.startServer(context)
+	metrics.startServer(context, environment.metrics.ports.app)
 
 	logger.info(context, 'Creating producer instance')
 	const producer = new Producer(jellyfish, jellyfish.sessions.admin)

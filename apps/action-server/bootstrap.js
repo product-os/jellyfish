@@ -77,8 +77,6 @@ const bootstrap = async (context, library, options) => {
 		backend: environment.database.options
 	})
 
-	metrics.startServer(context)
-
 	const session = jellyfish.sessions.admin
 	const consumer = new Consumer(jellyfish, session)
 	const producer = new Producer(jellyfish, session)
@@ -191,6 +189,7 @@ const bootstrap = async (context, library, options) => {
 }
 
 exports.worker = async (context, options) => {
+	metrics.startServer(context, options.metricsPort)
 	return bootstrap(context, actionLibrary, {
 		enablePriorityBuffer: true,
 		onError: options.onError,

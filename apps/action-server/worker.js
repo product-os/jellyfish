@@ -8,6 +8,7 @@ const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('../../lib/uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
+const environment = require('../../lib/environment')
 
 const DEFAULT_ERROR_CONTEXT = {
 	id: `WORKER-ERROR-${packageJSON.version}`
@@ -35,6 +36,7 @@ uuid.random().then((id) => {
 	})
 
 	return bootstrap.worker(context, {
+		metricsPort: environment.metrics.ports.app,
 		onError: (serverContext, error) => {
 			return onError(serverContext, error)
 		}
