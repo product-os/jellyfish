@@ -16,6 +16,7 @@ const bootstrap = require('../../../apps/server/bootstrap')
 const actionServer = require('../../../apps/action-server/bootstrap')
 
 const workerOptions = {
+	metricsPort: 9100,
 	onError: (context, error) => {
 		throw error
 	}
