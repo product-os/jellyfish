@@ -356,7 +356,7 @@ class ViewRenderer extends React.Component {
 		let activeSlice = null
 
 		const sliceOptions = getSliceOptions(head, this.props.types)
-		if (sliceOptions.length) {
+		if (sliceOptions && sliceOptions.length) {
 			activeSlice = _.first(sliceOptions)
 
 			const filter = createSliceFilter(activeSlice)
@@ -593,7 +593,7 @@ class ViewRenderer extends React.Component {
 								)}
 							</Box>
 
-							{sliceOptions.length && (
+							{sliceOptions && sliceOptions.length && (
 								<Select
 									options={sliceOptions}
 									valueKey='value'
