@@ -21,12 +21,12 @@ import {
 	Box,
 	Button,
 	ButtonGroup,
+	Filters,
 	Flex,
 	SchemaSieve,
 	Select
 } from 'rendition'
 import uuid from 'uuid/v4'
-import Filters from '../../../../lib/ui-components/Filters'
 import {
 	actionCreators,
 	analytics,
@@ -183,6 +183,10 @@ class ViewRenderer extends React.Component {
 	}
 
 	saveView ([ view ]) {
+		if (!view) {
+			return
+		}
+
 		const newView = this.createView(view)
 
 		sdk.card.create(newView)
