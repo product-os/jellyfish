@@ -1,4 +1,17 @@
 - commits:
+    - subject: Ensure that probe endpoints can receive traffic immediately
+      hash: 93f191c5cb8ef7a2f103588fc8889f6b81e56b1b
+      body: |
+        Fixes #3589
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.17.3
+  date: 2020-04-26T04:20:51.639Z
+- commits:
     - subject: Optimise 'const' queries for strings
       hash: ed3e60529b8c97c7bbafc6671277df26005f6217
       body: |
