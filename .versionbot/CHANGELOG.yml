@@ -1,4 +1,30 @@
 - commits:
+    - subject: Use rendition Filters component
+      hash: cb026548ebd0c4d21c11fc1c854e7860d2561db6
+      body: |
+        The Filters component was originally forked so that we could add queries
+        on timeline messages. AFAIK this is a very little used feature, and we
+        should include support for this in rendition instead of maintaining
+        a seperate fork. Consider removing this forked component as a forcing
+        function.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix incorrect mask override in pull request chart view
+      hash: 7a3a890468778f466c4e0c48236ce505e75ed59c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.17.6
+  date: 2020-04-26T12:36:45.288Z
+- commits:
     - subject: Pass metrics port as argument
       hash: 9a1065bb360a0d77e6d8dbc3bcedcbfda263e696
       body: ''
