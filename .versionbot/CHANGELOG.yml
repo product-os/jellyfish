@@ -1,4 +1,45 @@
 - commits:
+    - subject: Pass metrics port as argument
+      hash: 9a1065bb360a0d77e6d8dbc3bcedcbfda263e696
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'metrics: change ports to 9000/9001 and use simpler metrics.exportOn()'
+      hash: 194523320c43e4246c6fddc20885ae7bae29e9ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+    - subject: >-
+        metrics: add proper histogram buckets for worker job and mirror duration
+        metrics
+      hash: 3790f3733038209b855b5a3ad1d786157be28a29
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+    - subject: 'metrics: add type to jf_mirror_total'
+      hash: f8374071779f8e2bfc1ff45698020b3d2f315eca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 28.17.5
+  date: 2020-04-26T09:41:33.610Z
+- commits:
     - subject: Fix a bug that stops views without slices from rendering
       hash: 9a9d5c063eb479c68f4eed551a95f97e4d21deda
       body: ''
