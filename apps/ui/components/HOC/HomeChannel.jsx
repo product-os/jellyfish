@@ -10,6 +10,9 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import {
+	withTheme
+} from 'styled-components'
+import {
 	actionCreators,
 	selectors
 } from '../../core'
@@ -52,4 +55,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeChannel)
+export default redux.compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withTheme
+)(HomeChannel)

@@ -9,6 +9,7 @@ import {
 	connect
 } from 'react-redux'
 import {
+	compose,
 	bindActionCreators
 } from 'redux'
 import {
@@ -18,6 +19,9 @@ import {
 import {
 	getLens
 } from '../../lens'
+import {
+	withResponsiveContext
+} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
 import RouteHandler from '../../../../lib/ui-components/RouteHandler'
 
 const mapStateToProps = (state) => {
@@ -42,4 +46,7 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RouteHandler)
+export default compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withResponsiveContext
+)(RouteHandler)

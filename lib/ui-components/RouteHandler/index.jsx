@@ -59,13 +59,16 @@ export default class RouteHandler extends React.Component {
 		}
 
 		const channelsToRender = channels.length - 1
-		const squished = channelsToRender - 2
+		const squished = channelsToRender - (this.props.isMobile ? 1 : 2)
 
 		const spaces = []
 
 		if (squished > 0) {
 			for (let item = 0; item < squished; item++) {
-				spaces.push({
+				spaces.push(this.props.isMobile ? {
+					left: 0,
+					width: 0
+				} : {
 					left: sidebarWidth + item * squishedWidth,
 					width: channelMinWidth
 				})
@@ -74,7 +77,12 @@ export default class RouteHandler extends React.Component {
 
 		const width = window.innerWidth - sidebarWidth - Math.max(squished * squishedWidth, 0)
 
-		if (channels.length === 2) {
+		if (this.props.isMobile) {
+			spaces.push({
+				left: 0,
+				width: window.innerWidth
+			})
+		} else if (channels.length === 2) {
 			spaces.push({
 				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
 				width

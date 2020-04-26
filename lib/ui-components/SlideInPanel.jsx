@@ -10,16 +10,13 @@ import {
 	Flex
 } from 'rendition'
 import {
+	px,
 	swallowEvent
 } from './services/helpers'
 import ErrorBoundary from './shame/ErrorBoundary'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
-
-const px = (val) => {
-	return (typeof val === 'number' ? `${val}px` : val)
-}
 
 const SlideInWrapper = styled.div `
 	position: absolute;
