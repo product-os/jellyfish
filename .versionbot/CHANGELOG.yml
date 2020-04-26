@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix a bug that stops views without slices from rendering
+      hash: 9a9d5c063eb479c68f4eed551a95f97e4d21deda
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.17.4
+  date: 2020-04-26T07:08:05.552Z
+- commits:
     - subject: Ensure that probe endpoints can receive traffic immediately
       hash: 93f191c5cb8ef7a2f103588fc8889f6b81e56b1b
       body: |
