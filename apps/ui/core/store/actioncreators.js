@@ -490,6 +490,16 @@ export default class ActionCreator {
 						}
 						return result
 					})
+					.catch((error) => {
+						// TODO: make retries an optional feature of the SDK
+						// Retry in the event of network disruption
+						if (retries - 1) {
+							console.error(`Caught error loading ${target}: retrying now.`, error)
+							load(retries - 1)
+						} else {
+							throw error
+						}
+					})
 			}
 			// eslint-disable-next-line consistent-return
 			return load()
