@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'jsonschema2sql: Translate version to match version fragment fields'
+      hash: 112c2efc49a61572eb5a0d307edb68d73bd2324d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.18.0
+  date: 2020-04-27T14:07:35.658Z
+- commits:
     - subject: Fix bug where lens masks are not applied when streaming view results
       hash: 7b67fc8b390486590e59c6783cae19249ebce286
       body: ''
