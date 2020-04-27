@@ -23,7 +23,9 @@ import {
 	Flex,
 	Theme
 } from 'rendition'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import Event from '../../../../lib/ui-components/Event'
 import {
 	actionCreators,

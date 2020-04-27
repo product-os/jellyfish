@@ -11,7 +11,9 @@ import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
 import * as _ from 'lodash'
 import * as skhema from 'skhema'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import actions from './actions'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {

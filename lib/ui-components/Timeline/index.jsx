@@ -24,7 +24,9 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import Event, {
 	getMessage
 } from '../Event'
