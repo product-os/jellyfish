@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix bug where lens masks are not applied when streaming view results
+      hash: 7b67fc8b390486590e59c6783cae19249ebce286
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Improve handling of base queries in Interleaved lens
+      hash: 0003f6a57811fe269bdf17838054769fe258a41b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.17.10
+  date: 2020-04-27T11:40:16.559Z
+- commits:
     - subject: Make the UI more resilient to network disruption
       hash: 0b1a836e9e4ecaef8094b868c0b7f253553ccd7f
       body: |
