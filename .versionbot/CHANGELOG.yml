@@ -1,4 +1,54 @@
 - commits:
+    - subject: Make the UI more resilient to network disruption
+      hash: 0b1a836e9e4ecaef8094b868c0b7f253553ccd7f
+      body: |
+        When requesting card channel data, retry up to 4 times
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix deprecated uuid imports
+      hash: 5d4ceb931807936658fe49352e78fe88d3433e79
+      body: |
+        See https://www.npmjs.com/package/uuid#deep-requires-now-deprecated
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix bug where cards would be requested despite being in cache
+      hash: 0ea19028fdaaa48f4978ca28f031fbb34be8853e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Don't unnecessarily make requests for cards that are already cached
+      hash: 2bcb02488f2e54e2c5e00b6a2d7fa15190b7da81
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix bug that stops view slices from working correctly
+      hash: a17d50de1d8698f8a1af438685cc9697d84a962a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.17.9
+  date: 2020-04-27T10:20:25.145Z
+- commits:
     - subject: re-enable automatic deployments
       hash: 34edcb851bf2c3399fdfc1d7f2d7fdf61f70af16
       body: ''
