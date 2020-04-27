@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-messages",
-  "name": "All messages",
+  "slug": "view-balena-chat",
+  "name": "Balena chat",
   "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
@@ -8,28 +8,35 @@
   "links": {},
   "active": true,
   "data": {
+    "namespace": "Comms",
     "allOf": [
       {
         "name": "Active cards",
         "schema": {
           "type": "object",
           "properties": {
+            "tags": {
+              "type": "array",
+              "contains": {
+                "const": "balena"
+              }
+            },
             "active": {
               "const": true,
               "type": "boolean"
+            },
+            "type": {
+              "type": "string",
+              "const": "thread@1.0.0"
             },
             "markers": {
               "type": "array",
               "contains": {
                 "const": "org-balena"
               }
-            }
-          },
-          "required": [
-            "active",
-            "type"
-          ],
-          "additionalProperties": true
+            },
+            "additionalProperties": true
+          }
         }
       }
     ],

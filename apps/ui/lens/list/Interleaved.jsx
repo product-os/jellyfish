@@ -343,7 +343,34 @@ const lens = {
 		queryOptions: {
 			limit: 30,
 			sortBy: 'created_at',
-			sortDir: 'desc'
+			sortDir: 'desc',
+
+			// The interleaved lens is inerested in messages that are attached to the
+			// main query resource. Here we invert the query so that we retrieve all
+			// the messages attached to the main queried resource
+			mask: (query) => {
+				return {
+					type: 'object',
+					$$links: {
+						'is attached to': query
+					},
+					properties: {
+						active: {
+							const: true,
+							type: 'boolean'
+						},
+						type: {
+							type: 'string',
+							const: 'message@1.0.0'
+						}
+					},
+					required: [
+						'active',
+						'type'
+					],
+					additionalProperties: true
+				}
+			}
 		}
 	}
 }
