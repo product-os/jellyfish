@@ -61,7 +61,7 @@ ava('It should display the actor\'s details', (test) => {
 	test.is(actorLabel.props().tooltip, actor.email)
 })
 
-ava('getMessage() should prefix Front images embedded in img tags', (test) => {
+ava('getMessage() should prefix Front image embedded in img tags', (test) => {
 	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
 	const formatted = getMessage({
 		data: {
@@ -74,7 +74,20 @@ ava('getMessage() should prefix Front images embedded in img tags', (test) => {
 	test.is(formatted, `<img src="https://app.frontapp.com${url}">`)
 })
 
-ava('getMessage() should prefix Front images embedded in square brackets', (test) => {
+ava('getMessage() should prefix multitple Front images embedded in img tags', (test) => {
+	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
+	const formatted = getMessage({
+		data: {
+			payload: {
+				message: `<img src="${url}"><img src="${url}"><img src="${url}"><img src="${url}">`
+			}
+		}
+	})
+
+	test.is(formatted, `<img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}">`)
+})
+
+ava('getMessage() should prefix Front image embedded in square brackets', (test) => {
 	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
 	const formatted = getMessage({
 		data: {
@@ -85,6 +98,19 @@ ava('getMessage() should prefix Front images embedded in square brackets', (test
 	})
 
 	test.is(formatted, `![Attached image](https://app.frontapp.com${url})`)
+})
+
+ava('getMessage() should prefix multiple Front images embedded in square brackets', (test) => {
+	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
+	const formatted = getMessage({
+		data: {
+			payload: {
+				message: `[${url}] [${url}] [${url}]`
+			}
+		}
+	})
+
+	test.is(formatted, `![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url})`)
 })
 
 ava('getMessage() should hide "#jellyfish-hidden" messages', (test) => {

@@ -88,7 +88,8 @@ const EventButton = styled.button `
 	border-left-width: 3px;
 `
 
-const FRONT_IMG_RE = /^\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]$/
+const FRONT_MARKDOWN_IMG_RE = /\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g
+const FRONT_HTML_IMG_RE = /\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g
 
 const getTargetId = (card) => {
 	return _.get(card, [ 'data', 'target' ]) || card.id
@@ -99,20 +100,17 @@ export const getMessage = (card) => {
 
 	// Fun hack to extract attached images embedded in HTML from synced front messages
 	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
-		const match = message.match(/\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/)
-		let formatted = message
-		match.forEach((source) => {
-			const index = formatted.indexOf(match)
-			formatted = `${formatted.slice(0, index)}https://app.frontapp.com${formatted.slice(index)}`
+		return message.replace(FRONT_HTML_IMG_RE, (source) => {
+			return `https://app.frontapp.com${source}`
 		})
-
-		return formatted
 	}
 
 	// Fun hack to extract attached images from synced front messages embedded in
 	// a different way
-	if (message.match(FRONT_IMG_RE)) {
-		return `![Attached image](https://app.frontapp.com${message.slice(1, -1)})`
+	if (message.match(FRONT_MARKDOWN_IMG_RE)) {
+		return message.replace(FRONT_MARKDOWN_IMG_RE, (source) => {
+			return `![Attached image](https://app.frontapp.com${source.slice(1, -1)})`
+		})
 	}
 
 	return message
