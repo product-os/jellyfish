@@ -11,7 +11,9 @@ import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
 import * as _ from 'lodash'
 import * as skhema from 'skhema'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import actions from './actions'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
@@ -280,7 +282,27 @@ export default class ActionCreator {
 							if (result.length) {
 								return result[0]
 							}
+
+							// If there was a card returned from the cache originally, just
+							// return that one instead of making another request
+							if (card) {
+								return card
+							}
+
 							return this.sdk.card.get(id)
+						}).then((element) => {
+							// If a card doesn't have matching links, but a request was made
+							// for them, indicate this with an empty array, so the cache entry
+							// isn't ignored unnecessarily
+							if (element && linkVerbs.length) {
+								for (const linkVerb of linkVerbs) {
+									if (!element.links[linkVerb]) {
+										element.links[linkVerb] = []
+									}
+								}
+							}
+
+							return element
 						}).finally(() => {
 							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
 						})
@@ -467,6 +489,16 @@ export default class ActionCreator {
 								})
 						}
 						return result
+					})
+					.catch((error) => {
+						// TODO: make retries an optional feature of the SDK
+						// Retry in the event of network disruption
+						if (retries - 1) {
+							console.error(`Caught error loading ${target}: retrying now.`, error)
+							load(retries - 1)
+						} else {
+							throw error
+						}
 					})
 			}
 			// eslint-disable-next-line consistent-return

@@ -8,7 +8,9 @@ import clone from 'deep-copy'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
 import * as redux from 'redux'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import actions from './actions'
 
 const getDefaultState = () => {

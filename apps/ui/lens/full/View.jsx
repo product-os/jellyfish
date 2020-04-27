@@ -26,7 +26,9 @@ import {
 	SchemaSieve,
 	Select
 } from 'rendition'
-import uuid from 'uuid/v4'
+import {
+	v4 as uuid
+} from 'uuid'
 import {
 	actionCreators,
 	analytics,
@@ -252,7 +254,6 @@ class ViewRenderer extends React.Component {
 		const {
 			value
 		} = event
-		console.log('set slice', event)
 		this.setState({
 			activeSlice: value
 		})
@@ -277,7 +278,7 @@ class ViewRenderer extends React.Component {
 			anyOf: [ filter ]
 		})
 
-		this.loadViewWithFilters(head, parsedFilters)
+		this.updateFilters(parsedFilters)
 	}
 
 	setPage (page) {
@@ -360,6 +361,7 @@ class ViewRenderer extends React.Component {
 		let activeSlice = null
 
 		const sliceOptions = getSliceOptions(head, this.props.types)
+
 		if (sliceOptions && sliceOptions.length) {
 			activeSlice = _.first(sliceOptions)
 
@@ -387,6 +389,7 @@ class ViewRenderer extends React.Component {
 			filters,
 			tailType,
 			activeSlice,
+			sliceOptions,
 
 			// Mark as ready
 			ready: true
@@ -545,7 +548,7 @@ class ViewRenderer extends React.Component {
 			format: 'date-time'
 		})
 
-		const sliceOptions = getSliceOptions(head, this.props.types)
+		const sliceOptions = this.state.sliceOptions
 
 		// Add the timeline link prop to spoof the filters component into generating
 		// subschemas for the $$links property - see the createSyntheticViewCard()
@@ -600,9 +603,8 @@ class ViewRenderer extends React.Component {
 							{sliceOptions && sliceOptions.length && (
 								<Select
 									options={sliceOptions}
-									valueKey='value'
-									labelKey='title'
 									value={this.state.activeSlice}
+									labelKey='title'
 									onChange={this.setSlice}
 								/>
 							)}
