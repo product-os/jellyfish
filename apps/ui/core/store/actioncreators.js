@@ -280,6 +280,12 @@ export default class ActionCreator {
 							if (result.length) {
 								return result[0]
 							}
+
+							// If there was a card returned from the cache originally, just
+							// return that one instead of making another request
+							if (card) {
+								return card
+							}
 							return this.sdk.card.get(id)
 						}).finally(() => {
 							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
