@@ -36,9 +36,6 @@ mkdir -p ~/.aws \
   && cat ~/.kube/config \
   && kubectl get svc
 
-# temporarily block deployments
-exit 0
-
 # Deploy with katapult
 KATAPULT_KUBE_CONFIG="$(cat ~/.kube/config)" \
   katapult deploy -t kubernetes -e jellyfish-product
