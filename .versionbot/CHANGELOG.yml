@@ -1,4 +1,25 @@
 - commits:
+    - subject: re-enable automatic deployments
+      hash: 34edcb851bf2c3399fdfc1d7f2d7fdf61f70af16
+      body: ''
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+    - subject: ensure ports are quoted to be parsed as strings
+      hash: bc99369c35b2387b31dffbbf9ebc5195ef6166ed
+      body: ''
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+  version: 28.17.8
+  date: 2020-04-27T01:28:35.217Z
+- commits:
     - subject: Update Katapult deploy script
       hash: 8b230f897b007b5670e44aca9ca597622c2a2163
       body: ''
