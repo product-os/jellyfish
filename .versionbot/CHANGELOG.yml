@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update Katapult deploy script
+      hash: 8b230f897b007b5670e44aca9ca597622c2a2163
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+  version: 28.17.7
+  date: 2020-04-27T00:13:44.848Z
+- commits:
     - subject: Use rendition Filters component
       hash: cb026548ebd0c4d21c11fc1c854e7860d2561db6
       body: |
