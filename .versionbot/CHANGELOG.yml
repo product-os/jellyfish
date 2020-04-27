@@ -1,4 +1,20 @@
 - commits:
+    - subject: Fix front urls in messages
+      hash: 08974f097281e0bd0ef539829d041c6b5b1961ae
+      body: >
+        Instead of fixing the first url in a message, this change will match and
+        fix all Front urls in the message
+      footer:
+        Fixes: '#3012'
+        fixes: '#3012'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 28.18.2
+  date: 2020-04-27T17:04:13.107Z
+- commits:
     - subject: Change from openssl to sha256sum
       hash: 06434d25f3fd7dcb6e316295468519aeb13e7eed
       body: ''
