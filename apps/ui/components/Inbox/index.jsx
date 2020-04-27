@@ -22,8 +22,9 @@ import InboxTab from './InboxTab'
 
 // Generates a basic query that matches messages against a user slug
 const getBasePingQuery = (user, searchTerm) => {
-	return {
+	const query = {
 		type: 'object',
+		required: [ 'data', 'type' ],
 		properties: {
 			type: {
 				type: 'string',
@@ -34,32 +35,20 @@ const getBasePingQuery = (user, searchTerm) => {
 			},
 			data: {
 				type: 'object',
+				required: [ 'payload' ],
 				properties: {
 					payload: {
 						type: 'object',
 						properties: {
-							message: {
-								anyOf: [
-									{
-										regexp: {
-											pattern: `@${user.slug.slice(5)}`,
-											flags: 'i'
-										}
-									}, {
-										regexp: {
-											pattern: `!${user.slug.slice(5)}`,
-											flags: 'i'
-										}
-									}
-								],
-								regexp: {
-									pattern: searchTerm,
-									flags: 'i'
+							mentionsUser: {
+								type: 'array',
+								contains: {
+									const: user.slug
 								}
 							}
 						},
 						required: [
-							'message'
+							'mentionsUser'
 						],
 						additionalProperties: true
 					}
@@ -69,6 +58,18 @@ const getBasePingQuery = (user, searchTerm) => {
 		},
 		additionalProperties: true
 	}
+
+	if (searchTerm) {
+		query.properties.data.payload.properties.message = {
+			regexp: {
+				pattern: searchTerm,
+				flags: 'i'
+			}
+		}
+		query.properties.data.payload.required.push('message')
+	}
+
+	return query
 }
 
 const getUnreadQuery = (user, searchTerm) => {
