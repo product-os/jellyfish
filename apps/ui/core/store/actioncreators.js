@@ -286,7 +286,21 @@ export default class ActionCreator {
 							if (card) {
 								return card
 							}
+
 							return this.sdk.card.get(id)
+						}).then((element) => {
+							// If a card doesn't have matching links, but a request was made
+							// for them, indicate this with an empty array, so the cache entry
+							// isn't ignored unnecessarily
+							if (element && linkVerbs.length) {
+								for (const linkVerb of linkVerbs) {
+									if (!element.links[linkVerb]) {
+										element.links[linkVerb] = []
+									}
+								}
+							}
+
+							return element
 						}).finally(() => {
 							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
 						})
