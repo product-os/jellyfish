@@ -1,4 +1,16 @@
 - commits:
+    - subject: Change from openssl to sha256sum
+      hash: 06434d25f3fd7dcb6e316295468519aeb13e7eed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+  version: 28.18.1
+  date: 2020-04-27T15:48:13.505Z
+- commits:
     - subject: 'jsonschema2sql: Translate version to match version fragment fields'
       hash: 112c2efc49a61572eb5a0d307edb68d73bd2324d
       body: ''
