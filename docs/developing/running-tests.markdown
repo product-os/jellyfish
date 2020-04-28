@@ -425,3 +425,9 @@ make test-integration-core test-integration-queue test-integration-sync test-int
 		POSTGRES_DATABASE=$POSTGRES_DATABASE \
 		REDIS_HOST=localhost
 ```
+
+Please note that when running `test-integration-worker` and `test-integration-server` against an instance of Jellyfish running natively on your local machine, you will need to override default ports or tests will fail as necessary API/worker bootstraps will fail.
+```
+METRICS_PORT=9400 make test-integration-worker
+METRICS_PORT=9400 SOCKET_METRICS_PORT=9500 SERVER_PORT=8100 make test-integration-server
+```

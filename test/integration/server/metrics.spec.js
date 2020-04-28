@@ -6,21 +6,27 @@
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const request = require('request')
+const bootstrap = require('../../../apps/server/bootstrap')
+const uuid = require('uuid/v4')
 
-ava.serial.before(helpers.before)
-ava.serial.after(helpers.after)
+ava.serial.before(async (test) => {
+	test.context.context = {
+		id: `SERVER-TEST-${uuid()}`
+	}
+	test.context.server = await bootstrap(test.context.context)
+})
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.after(async (test) => {
+	test.context.server.close()
+})
 
 const getMetrics = async (port) => {
 	return new Bluebird((resolve, reject) => {
 		const requestOptions = {
 			method: 'GET',
-			baseUrl: `${environment.http.host}:${port}`,
+			baseUrl: `http://localhost:${port}`,
 			url: '/metrics',
 			auth: {
 				user: 'monitor',

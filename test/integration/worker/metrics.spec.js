@@ -8,12 +8,29 @@ const ava = require('ava')
 const Bluebird = require('bluebird')
 const environment = require('../../../lib/environment')
 const request = require('request')
+const actionServer = require('../../../apps/action-server/bootstrap')
+const uuid = require('uuid/v4')
 
-const getMetrics = async (worker) => {
+ava.serial.before(async (test) => {
+	test.context.actionWorker = await actionServer.worker({
+		id: `SERVER-TEST-${uuid()}`
+	}, {
+		metricsPort: environment.metrics.ports.app,
+		onError: (context, error) => {
+			throw error
+		}
+	})
+})
+
+ava.serial.after(async (test) => {
+	test.context.actionWorker.stop()
+})
+
+const getMetrics = async () => {
 	return new Bluebird((resolve, reject) => {
 		const requestOptions = {
 			method: 'GET',
-			baseUrl: `http://${worker}:${environment.metrics.ports.app}`,
+			baseUrl: `http://localhost:${environment.metrics.ports.app}`,
 			url: '/metrics',
 			auth: {
 				user: 'monitor',
@@ -35,32 +52,10 @@ const getMetrics = async (worker) => {
 	})
 }
 
-ava.serial('worker_1 /metrics endpoint should return app metrics data', async (test) => {
-	const result = await getMetrics('worker_1')
+ava.serial('App metrics endpoint should return app metrics data', async (test) => {
+	const result = await getMetrics()
 
 	test.is(result.code, 200)
 	test.truthy(result.response.includes('jf_card_upsert_total'))
 	test.truthy(result.response.includes('jf_card_read_total'))
-	test.truthy(result.response.includes('jf_worker_job_duration_ms'))
-	test.truthy(result.response.includes('jf_worker_saturation'))
-})
-
-ava.serial('worker_2 /metrics endpoint should return app metrics data', async (test) => {
-	const result = await getMetrics('worker_2')
-
-	test.is(result.code, 200)
-	test.truthy(result.response.includes('jf_card_upsert_total'))
-	test.truthy(result.response.includes('jf_card_read_total'))
-	test.truthy(result.response.includes('jf_worker_job_duration_ms'))
-	test.truthy(result.response.includes('jf_worker_saturation'))
-})
-
-ava.serial('worker_3 /metrics endpoint should return app metrics data', async (test) => {
-	const result = await getMetrics('worker_3')
-
-	test.is(result.code, 200)
-	test.truthy(result.response.includes('jf_card_upsert_total'))
-	test.truthy(result.response.includes('jf_card_read_total'))
-	test.truthy(result.response.includes('jf_worker_job_duration_ms'))
-	test.truthy(result.response.includes('jf_worker_saturation'))
 })
