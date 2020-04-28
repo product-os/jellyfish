@@ -627,7 +627,8 @@ export default class Event extends React.Component {
 										py={1}
 										onClick={this.expand}
 										style={this.state.expanded ? {} : {
-											boxShadow: '0 -5px 5px -5px rgba(0,0,0,0.5)'
+											boxShadow: '0 -5px 5px -5px rgba(0,0,0,0.5)',
+											color: 'inherit'
 										}}
 									>
 										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
