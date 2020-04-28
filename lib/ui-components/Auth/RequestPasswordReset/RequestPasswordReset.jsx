@@ -93,6 +93,7 @@ export default class RequestPasswordReset extends React.Component {
 						width="100%"
 						emphasized={true}
 						placeholder="Username"
+						autoComplete="username"
 						value={username}
 						onChange={this.handleUsernameChange}
 					/>

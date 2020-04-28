@@ -92,6 +92,7 @@ export default class Login extends React.Component {
 						width="100%"
 						emphasized={true}
 						placeholder="Username"
+						autoComplete="username"
 						value={username}
 						onChange={this.handleUsernameChange}
 					/>
@@ -104,6 +105,7 @@ export default class Login extends React.Component {
 						emphasized={true}
 						placeholder="Password"
 						type="password"
+						autoComplete="current-password"
 						value={password}
 						onChange={this.handlePasswordChange}
 					/>
