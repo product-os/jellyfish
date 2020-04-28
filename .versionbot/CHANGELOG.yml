@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Use major/minor/patch version columns in queries'
+      hash: 2057925e43ab4179ff129f1e117ad01400fc90b5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.19.0
+  date: 2020-04-28T14:01:15.068Z
+- commits:
     - subject: Refactor katapult deploy script
       hash: a03dfcf35adb33c7fa27e7a91912151382327a88
       body: ''
