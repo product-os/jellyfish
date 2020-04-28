@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Fix: #3031 inherit chevron color style from container'
+      hash: bf1c120e2d1165018f2a578171dfeb2e2e3286b5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 28.18.3
+  date: 2020-04-28T00:03:05.087Z
+- commits:
     - subject: Fix front urls in messages
       hash: 08974f097281e0bd0ef539829d041c6b5b1961ae
       body: >
