@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update rendition dependency to 14.11.0
+      hash: aa60a979af94a2c951255def8cf827e52ed5a24f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.18.5
+  date: 2020-04-28T11:59:03.979Z
+- commits:
     - subject: Fix metrics integration tests
       hash: f0f8969a331e871888e1da447ce9e90e3996ae6a
       body: ''
