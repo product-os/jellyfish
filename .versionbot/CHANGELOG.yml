@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactor katapult deploy script
+      hash: a03dfcf35adb33c7fa27e7a91912151382327a88
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+  version: 28.18.6
+  date: 2020-04-28T13:04:32.368Z
+- commits:
     - subject: Update rendition dependency to 14.11.0
       hash: aa60a979af94a2c951255def8cf827e52ed5a24f
       body: ''
