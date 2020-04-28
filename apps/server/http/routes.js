@@ -208,7 +208,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			)
 
 			// 3. Get jellyfish user that matches external user
-			const user = await oauth.match(
+			let user = await oauth.match(
 				request.context,
 				worker,
 				jellyfish.sessions.admin,
@@ -218,13 +218,26 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				}
 			)
 
-			// 4. Throw if no matching user found.
-			// ToDo: create corresponding user in this case.
+			// 4. If no matching user was found, create it
 			if (!user) {
-				return response.status(401).json({
-					error: true,
-					data: `User sync failed for the user: ${slug}`
-				})
+				await oauth.sync(
+					request.context,
+					worker,
+					producer,
+					jellyfish.sessions.admin,
+					request.params.provider,
+					externalUser
+				)
+
+				user = await worker.jellyfish.getCardBySlug(
+					request.context, jellyfish.sessions.admin, `${slug}@1.0.0`)
+
+				if (!user) {
+					return response.status(401).json({
+						error: true,
+						data: `User sync failed for the user: ${slug}`
+					})
+				}
 			}
 
 			// 5. Attach external token to the user

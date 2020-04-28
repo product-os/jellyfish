@@ -5,6 +5,7 @@
  */
 
 const errio = require('errio')
+const uuid = require('uuid/v4')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const sync = require('../../../lib/sync')
 const environment = require('../../../lib/environment')
@@ -47,6 +48,37 @@ exports.match = (context, worker, session, provider, externalUser, options) => {
 		externalUser,
 		options
 	)
+}
+
+exports.sync = async (context, worker, queue, session, provider, externalUser) => {
+	const event = await worker.jellyfish.insertCard(context, session, {
+		type: 'external-event@1.0.0',
+		slug: `external-event-${uuid()}`,
+		version: '1.0.0',
+		data: await sync.getExternalUserSyncEventData(
+			{},
+			provider,
+			externalUser
+		)
+	})
+
+	const data = await worker.pre(session, {
+		action: 'action-integration-import-event@1.0.0',
+		context,
+		card: event.id,
+		type: event.type,
+		arguments: {}
+	})
+
+	const actionRequest = await queue.enqueue(
+		worker.getId(), session, data)
+
+	const results = await queue.waitResults(
+		context, actionRequest)
+
+	if (results.error) {
+		throw errio.fromObject(results.data)
+	}
 }
 
 exports.authorize = async (context, worker, queue, session, provider, options) => {
