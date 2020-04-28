@@ -72,7 +72,7 @@ export const getLens = (format, data, user) => {
 		return LinksGraphLens
 	}
 	if (data.action === 'create') {
-		if (data.types.slug === 'user') {
+		if (_.get(data, [ 'types', 'slug' ]) === 'user') {
 			return CreateUserLens
 		}
 		return CreateLens

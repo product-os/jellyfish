@@ -16,15 +16,15 @@ import {
 } from 'uuid'
 import {
 	isUUID
-} from '../../../../lib/uuid'
-import actions from './actions'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+} from '../../../../../lib/uuid'
+import actions from '../actions'
+import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import {
 	getQueue
-} from './async-dispatch-queue'
+} from '../async-dispatch-queue'
 import {
 	updateThreadChannels
-} from './helpers'
+} from '../helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -1020,14 +1020,15 @@ export default class ActionCreator {
 				await dispatch(this.sendFirstTimeLoginLink({
 					user
 				}))
-				await dispatch(this.addNotification('success', 'Successfully created user'))
+				dispatch(this.addNotification('success', 'Successfully created user'))
 				return true
 			} catch (error) {
-				await dispatch(this.addNotification('danger', error.message))
+				dispatch(this.addNotification('danger', error.message))
 				return false
 			}
 		}
 	}
+
 	sendFirstTimeLoginLink ({
 		user
 	}) {
@@ -1194,13 +1195,11 @@ export default class ActionCreator {
 		return async (dispatch) => {
 			try {
 				await this.sdk.card.link(fromCard, toCard, verb)
-
 				this.analytics.track('element.create', {
 					element: {
 						type: 'link'
 					}
 				})
-
 				if (!options.skipSuccessMessage) {
 					dispatch(this.addNotification('success', 'Created new link'))
 				}

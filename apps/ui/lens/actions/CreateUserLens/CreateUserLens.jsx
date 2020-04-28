@@ -7,27 +7,42 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
 	Box,
 	Button,
 	Flex,
 	Heading,
 	Txt
 } from 'rendition'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import * as skhema from 'skhema'
 import {
 	Form
 } from 'rendition/dist/unstable'
-import Icon from '../../../../lib/ui-components/shame/Icon'
-import CardLayout from '../../layouts/CardLayout'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
+import CardLayout from '../../../layouts/CardLayout'
 import {
-	actionCreators,
 	sdk
-} from '../../core'
+} from '../../../core'
+
+const SCHEMA = {
+	type: 'object',
+	required: [ 'data' ],
+	properties: {
+		data: {
+			type: 'object',
+			required: [ 'email', 'username' ],
+			properties: {
+				username: {
+					type: 'string'
+				},
+				email: {
+					type: 'string',
+					format: 'email'
+				}
+			}
+		}
+	}
+}
 
 class CreateUserLens extends React.Component {
 	constructor (props) {
@@ -36,7 +51,8 @@ class CreateUserLens extends React.Component {
 		this.state = {
 			org: null,
 			submitting: false,
-			newCardModel: this.props.channel.data.head.seed
+			newCard: this.props.channel.data.head.seed,
+			cardIsValid: false
 		}
 
 		this.bindMethods([
@@ -56,9 +72,10 @@ class CreateUserLens extends React.Component {
 		const {
 			seed
 		} = this.props.channel.data.head
-
+		const newCard = Object.assign({}, seed, data.formData)
 		this.setState({
-			newCardModel: Object.assign({}, seed, data.formData)
+			newCard,
+			cardIsValid: skhema.isValid(SCHEMA, helpers.removeUndefinedArrayItems(newCard))
 		})
 	}
 
@@ -66,14 +83,13 @@ class CreateUserLens extends React.Component {
 		event.preventDefault()
 		const {
 			org,
-			newCardModel: {
+			newCard: {
 				data
 			}
 		} = this.state
 
 		const {
-			actions,
-			channel
+			actions
 		} = this.props
 
 		this.setState({
@@ -87,7 +103,7 @@ class CreateUserLens extends React.Component {
 				submitting: false
 			})
 			if (success) {
-				await actions.removeChannel(channel)
+				this.close()
 			}
 		})
 	}
@@ -97,46 +113,41 @@ class CreateUserLens extends React.Component {
 	}
 
 	componentDidMount () {
-		const orgSlug = this.props.card.seed.markers[0]
-		return sdk.getBySlug(orgSlug).then((org) => {
-			this.setState({
-				org
-			})
+		const {
+			card,
+			actions
+		} = this.props
+		const markers = card.seed.markers
+		const orgSlug = _.find(markers, (marker) => {
+			const match = marker.search(/org-[a-z-]*/)
+			return match === 0
 		})
+		if (orgSlug) {
+			sdk.getBySlug(orgSlug).then((org) => {
+				if (org) {
+					this.setState({
+						org
+					})
+				} else {
+					actions.addNotification('danger', 'Could not find your organisation')
+				}
+			})
+		} else {
+			actions.addNotification('danger', 'You must belong to an organisation to add new users')
+		}
 	}
 
 	render () {
 		const {
 			org,
-			newCardModel
+			newCard,
+			cardIsValid
 		} = this.state
 
 		const {
 			card,
 			channel
 		} = this.props
-
-		const schema = {
-			type: 'object',
-			required: [ 'data' ],
-			properties: {
-				data: {
-					type: 'object',
-					required: [ 'email', 'username' ],
-					properties: {
-						username: {
-							type: 'string'
-						},
-						email: {
-							type: 'string',
-							format: 'email'
-						}
-					}
-				}
-			}
-		}
-
-		const newCardModelIsValid = skhema.isValid(schema, helpers.removeUndefinedArrayItems(newCardModel))
 
 		return (
 			<CardLayout
@@ -154,8 +165,8 @@ class CreateUserLens extends React.Component {
 			>
 				<Box px={3} pb={3}>
 					<Form
-						schema={schema}
-						value={newCardModel}
+						schema={SCHEMA}
+						value={newCard}
 						onFormChange={this.handleInputChange}
 						hideSubmitButton={true}
 					>
@@ -168,16 +179,15 @@ class CreateUserLens extends React.Component {
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
 							onClick={this.close}
-							mr={2}
 						>
 							Cancel
 						</Button>
 						<Button
-							primary={true}
+							primary
 							type="submit"
 							onClick={this.handleOnSubmit}
-							disabled={!newCardModelIsValid || !org}
-							data-test="card-creator__submit"
+							disabled={!cardIsValid || !org}
+							data-test="create-user-lens__submit"
 						>
 							{this.state.submitting ? <Icon spin name="cog"/> : 'Submit' }
 						</Button>
@@ -188,30 +198,4 @@ class CreateUserLens extends React.Component {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'removeChannel',
-				'addUser'
-			]),
-			dispatch
-		)
-	}
-}
-
-export default {
-	slug: 'lens-action-create-user',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Create user lens',
-	data: {
-		renderer: connect(null, mapDispatchToProps)(CreateUserLens),
-		icon: 'address-card',
-		type: '*',
-		action: {
-			type: 'string',
-			const: 'create'
-		}
-	}
-}
+export default CreateUserLens
