@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Sync: Try to sync if user does not exist'
+      hash: 2682aff8d0a82fdb219f7363f45b07f7d04b62b8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 28.20.0
+  date: 2020-04-28T16:08:15.329Z
+- commits:
     - subject: 'core: Use major/minor/patch version columns in queries'
       hash: 2057925e43ab4179ff129f1e117ad01400fc90b5
       body: ''
