@@ -1,0 +1,14 @@
+{
+  "flows": {},
+  "sidebar": {
+    "expanded": [
+      "Starred views",
+      "Balena",
+      "Support"
+    ]
+  },
+  "timelines": {},
+  "chatWidget": {
+    "open": false
+  }
+}

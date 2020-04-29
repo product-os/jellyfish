@@ -1,0 +1,2350 @@
+[
+  {
+    "id": "c7cf6a2d-e69b-4627-89ba-d2a8cf85426b",
+    "slug": "view-active-triggered-actions",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Active Triggered Actions",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:20.352Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Triggered actions",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active",
+              "type",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "additionalProperties": true
+              },
+              "type": {
+                "type": "string",
+                "const": "triggered-action@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:50.316Z",
+    "linked_at": {}
+  },
+  {
+    "id": "24ae34cb-116a-447c-9ee2-b8c1d33ce283",
+    "slug": "view-active",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Active cards",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:20.368Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active"
+            ],
+            "properties": {
+              "type": {
+                "not": {
+                  "const": "session@1.0.0"
+                }
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-default-list",
+        "lens-default-card"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:50.330Z",
+    "linked_at": {}
+  },
+  {
+    "id": "2c987271-1962-465c-80d4-127d6501c34d",
+    "slug": "view-all-views",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All views",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:21.584Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Card type view",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "view@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.033Z",
+    "linked_at": {}
+  },
+  {
+    "id": "88e45599-7176-4359-b2dc-21d892d4ac32",
+    "slug": "view-all-agendas",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Agendas",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.762Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "agenda@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list"
+      ],
+      "namespace": "Brainstorms"
+    },
+    "updated_at": "2020-04-29T04:55:51.171Z",
+    "linked_at": {}
+  },
+  {
+    "id": "c864bb15-d151-4ea0-959d-9270c9c19754",
+    "slug": "view-all-checkins",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Checkins",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.771Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All checkins",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "checkin@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ],
+      "namespace": "Projects"
+    },
+    "updated_at": "2020-04-29T04:55:51.183Z",
+    "linked_at": {}
+  },
+  {
+    "id": "9a1eaf7f-b040-4709-8138-a2e8c90624ed",
+    "slug": "view-all-pull-requests",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All pull requests",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:21.654Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All Pull Requests",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "pull-request@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban",
+        "lens-pull-request-chart"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.094Z",
+    "linked_at": {}
+  },
+  {
+    "id": "5fbd5f73-82de-4038-8efa-cc7eb405adba",
+    "slug": "view-all-customers",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All accounts",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.797Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "account@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-list",
+        "lens-kanban"
+      ],
+      "namespace": "Sales"
+    },
+    "updated_at": "2020-04-29T04:55:51.212Z",
+    "linked_at": {}
+  },
+  {
+    "id": "7543e901-3a7d-4099-9a9d-3764a6ca2f79",
+    "slug": "view-all-faqs",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "FAQs",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.815Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All FAQs",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "faq@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.228Z",
+    "linked_at": {}
+  },
+  {
+    "id": "639eba76-4bdc-457a-a788-37754a20f2f0",
+    "slug": "view-all-messages",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All messages",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.869Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "active": {
+                "type": "boolean",
+                "const": true
+              },
+              "markers": {
+                "type": "array",
+                "contains": {
+                  "const": "org-balena"
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-interleaved"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.262Z",
+    "linked_at": {}
+  },
+  {
+    "id": "6db8bccb-7378-4b03-ac55-f19ccf64ba6a",
+    "slug": "view-all-opportunities",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All opportunities",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.882Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active opportunities",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "is attached to": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "account@1.0.0"
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "opportunity@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-crm-table",
+        "lens-kanban"
+      ],
+      "namespace": "Sales"
+    },
+    "updated_at": "2020-04-29T04:55:51.273Z",
+    "linked_at": {}
+  },
+  {
+    "id": "44ca0138-3821-4e0a-844e-8937426eee6d",
+    "slug": "view-all-product-improvements",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Product improvements",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.896Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All Product Improvements",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached": {
+                "type": "object"
+              }
+            },
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "product-improvement@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.288Z",
+    "linked_at": {}
+  },
+  {
+    "id": "4842ec78-9af6-46e5-adaf-b8ff4aa8b0b3",
+    "slug": "view-all-products",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Products",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.909Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All Balena Products",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "product@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.302Z",
+    "linked_at": {}
+  },
+  {
+    "id": "8991236b-05fc-4bf2-a37e-d1a87cb27eef",
+    "slug": "view-all-projects",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All projects",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.918Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All Balena Projects",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "project@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ],
+      "namespace": "Projects"
+    },
+    "updated_at": "2020-04-29T04:55:51.314Z",
+    "linked_at": {}
+  },
+  {
+    "id": "b6e59616-e5dc-431d-b2db-49f9277f083c",
+    "slug": "view-all-sales-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All sales threads",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.932Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "sales-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads"
+      ],
+      "namespace": "Sales"
+    },
+    "updated_at": "2020-04-29T04:55:51.324Z",
+    "linked_at": {}
+  },
+  {
+    "id": "15eb0cc7-ecf9-4b93-a5c8-68f7732f16ce",
+    "slug": "view-all-users",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Users",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.035Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All users",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "user@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.421Z",
+    "linked_at": {}
+  },
+  {
+    "id": "52d21c6d-bfb7-4616-bd45-07ae9329a8a4",
+    "slug": "view-architecture-call-topics",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Architecture call topics",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.047Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Architecture call topics",
+          "schema": {
+            "type": "object",
+            "required": [
+              "data",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "type"
+                ],
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "const": "architecture"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "discussion-topic@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ],
+      "namespace": "Brainstorms"
+    },
+    "updated_at": "2020-04-29T04:55:51.439Z",
+    "linked_at": {}
+  },
+  {
+    "id": "9f4842d3-3442-49f0-b0cd-4fc7c4b2a6ac",
+    "slug": "view-changelogs",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Changelogs",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.061Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "changelog@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              },
+              "markers": {
+                "type": "array",
+                "contains": {
+                  "const": "org-balena"
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.451Z",
+    "linked_at": {}
+  },
+  {
+    "id": "cdbf7400-b322-42f9-8d9c-8aa4cd45be59",
+    "slug": "view-fleetops-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "FleetOps",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.114Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "category"
+                ],
+                "properties": {
+                  "category": {
+                    "const": "fleetops"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.491Z",
+    "linked_at": {}
+  },
+  {
+    "id": "af8f1685-b763-4641-99f7-f94c368b33fb",
+    "slug": "view-os-test-results",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "OS test results",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.132Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "os-test-result@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              },
+              "markers": {
+                "type": "array",
+                "contains": {
+                  "const": "org-balena"
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.504Z",
+    "linked_at": {}
+  },
+  {
+    "id": "6a63c146-e751-47c7-bf72-49864997af7b",
+    "slug": "view-security-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Security",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.156Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "category"
+                ],
+                "properties": {
+                  "category": {
+                    "const": "security"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.530Z",
+    "linked_at": {}
+  },
+  {
+    "id": "652be039-0aa0-47e4-b906-d7c10adffe3d",
+    "slug": "view-workflows",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Workflows",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.191Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Workflows",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "workflow@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.565Z",
+    "linked_at": {}
+  },
+  {
+    "id": "72c214a3-b566-45a1-89e5-cfb7f55902c8",
+    "slug": "view-all-pipelines",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All pipelines",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.290Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "All Balena Pipelines",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "pipeline@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-kanban"
+      ],
+      "namespace": "Pipelines"
+    },
+    "updated_at": "2020-04-29T04:55:50.776Z",
+    "linked_at": {}
+  },
+  {
+    "id": "bc507f51-cda9-4f54-bc13-86bd5ffb125e",
+    "slug": "view-all-contacts",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All contacts",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.782Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active contacts",
+          "schema": {
+            "type": "object",
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "contact@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-kanban"
+      ],
+      "namespace": "Sales"
+    },
+    "updated_at": "2020-04-29T04:55:51.198Z",
+    "linked_at": {}
+  },
+  {
+    "id": "27053b53-99b1-434c-8097-5eabeed8b4b0",
+    "slug": "view-all-issues",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All GitHub issues",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.834Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "issue@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.240Z",
+    "linked_at": {}
+  },
+  {
+    "id": "c64acf46-8fb8-4bc1-909d-6ac29eb2b36d",
+    "slug": "view-all-specifications",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Specifications",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.946Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "specification@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.337Z",
+    "linked_at": {}
+  },
+  {
+    "id": "b2aad2ac-c098-48c9-99cb-b2792a9d08d8",
+    "slug": "view-devices-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Devices",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.096Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "category"
+                ],
+                "properties": {
+                  "category": {
+                    "const": "devices"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.477Z",
+    "linked_at": {}
+  },
+  {
+    "id": "cb01096d-1ac7-46b7-9629-001263e38018",
+    "slug": "view-support-threads-to-audit",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "To audit",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.169Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type",
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "const": "closed"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads-to-audit",
+        "lens-kanban",
+        "lens-support-audit-chart"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.555Z",
+    "linked_at": {}
+  },
+  {
+    "id": "661ebc0c-c2d5-4ed3-a83c-36764ee96548",
+    "slug": "view-121-user-jellyfish-user-jellyfish",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "jellyfish - jellyfish",
+    "tags": [],
+    "markers": [
+      "user-jellyfish+user-jellyfish"
+    ],
+    "created_at": "2020-04-28T08:52:50.375Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Marked threads",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "type",
+              "markers"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "thread@1.0.0"
+              },
+              "markers": {
+                "type": "array",
+                "items": {
+                  "const": "user-jellyfish+user-jellyfish"
+                },
+                "minItems": 1
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-interleaved"
+      ]
+    },
+    "updated_at": null,
+    "linked_at": {
+      "has attached element": "2020-04-28T08:52:50.477Z"
+    }
+  },
+  {
+    "id": "66479ef9-76c5-4187-85f5-662b14d79d18",
+    "slug": "view-non-executed-action-requests",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Pending actions",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:20.395Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Action Requests",
+          "schema": {
+            "type": "object",
+            "required": [
+              "id",
+              "type",
+              "data"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "data": {
+                "type": "object",
+                "required": [
+                  "action",
+                  "target",
+                  "arguments"
+                ],
+                "properties": {
+                  "actor": {
+                    "type": "string"
+                  },
+                  "action": {
+                    "type": "string"
+                  },
+                  "target": {
+                    "type": "string"
+                  },
+                  "arguments": {
+                    "type": "object",
+                    "additionalProperties": true
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "action-request@1.0.0"
+              }
+            }
+          }
+        },
+        {
+          "name": "Non-executed",
+          "schema": {
+            "type": "object",
+            "required": [
+              "data"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "executed"
+                ],
+                "properties": {
+                  "executed": {
+                    "type": "boolean",
+                    "const": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "lenses": [
+        "lens-default-list",
+        "lens-default-card"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:50.345Z",
+    "linked_at": {}
+  },
+  {
+    "id": "9dfd3a26-6f45-4d3c-960b-d1765252a539",
+    "slug": "view-my-inbox",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Inbox",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:21.604Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "message or whisper",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "enum": [
+                  "message@1.0.0",
+                  "whisper@1.0.0"
+                ],
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        {
+          "name": "Unread",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "readBy": {
+                    "type": "array",
+                    "items": {
+                      "not": {
+                        "const": {
+                          "$eval": "user.slug"
+                        }
+                      }
+                    }
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "anyOf": [
+        {
+          "name": "My mentions",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "payload"
+                ],
+                "properties": {
+                  "payload": {
+                    "type": "object",
+                    "required": [
+                      "message"
+                    ],
+                    "properties": {
+                      "message": {
+                        "regexp": {
+                          "flags": "i",
+                          "pattern": {
+                            "$eval": "'@' + user.slug[5:]"
+                          }
+                        }
+                      }
+                    },
+                    "additionalProperties": true
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        {
+          "name": "My alerts",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "payload"
+                ],
+                "properties": {
+                  "payload": {
+                    "type": "object",
+                    "required": [
+                      "message"
+                    ],
+                    "properties": {
+                      "message": {
+                        "regexp": {
+                          "flags": "i",
+                          "pattern": {
+                            "$eval": "'!' + user.slug[5:]"
+                          }
+                        }
+                      }
+                    },
+                    "additionalProperties": true
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-inbox"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.048Z",
+    "linked_at": {}
+  },
+  {
+    "id": "e922f3ea-82c9-44d8-8ca0-34ddd1adf10e",
+    "slug": "view-my-orgs",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "My organisations",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:21.622Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "My organisations",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has member": {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "const": {
+                      "$eval": "user.id"
+                    }
+                  }
+                }
+              }
+            },
+            "properties": {
+              "type": {
+                "const": "org@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.062Z",
+    "linked_at": {}
+  },
+  {
+    "id": "734a7eda-b70b-4567-b393-0b1c82e1166b",
+    "slug": "view-all-by-type",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "All cards by type",
+    "tags": [],
+    "markers": [],
+    "created_at": "2020-04-28T03:56:21.640Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Card type view",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "enum": {
+                  "$eval": "types"
+                },
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "arguments": {
+        "type": "object",
+        "required": [
+          "types"
+        ],
+        "properties": {
+          "types": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "updated_at": "2020-04-29T04:55:51.075Z",
+    "linked_at": {}
+  },
+  {
+    "id": "73467ac9-f69d-4d64-bdc4-8c0b3c50ebfa",
+    "slug": "view-all-jellyfish-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Jellyfish threads",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.850Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "product"
+                ],
+                "properties": {
+                  "product": {
+                    "const": "jellyfish"
+                  },
+                  "category": {
+                    "const": "general",
+                    "description": "This field is not required and should match cases where the field is not present OR is 'general'"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.251Z",
+    "linked_at": {}
+  },
+  {
+    "id": "b419910c-a4f0-497f-a0b3-725cce1a1aad",
+    "slug": "view-all-support-issues",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Support knowledge base",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.965Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Support knowledge base",
+          "schema": {
+            "type": "object",
+            "required": [
+              "type"
+            ],
+            "properties": {
+              "type": {
+                "type": "string",
+                "const": "support-issue@1.0.0"
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-list",
+        "lens-support-issue-table"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.349Z",
+    "linked_at": {}
+  },
+  {
+    "id": "f2d37894-6014-488a-8ce2-5a41b2ba6523",
+    "slug": "view-balena-chat",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Balena chat",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:21.980Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tags": {
+                "type": "array",
+                "contains": {
+                  "const": "balena"
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              },
+              "markers": {
+                "type": "array",
+                "contains": {
+                  "const": "org-balena"
+                }
+              },
+              "additionalProperties": true
+            }
+          }
+        }
+      ],
+      "lenses": [
+        "lens-interleaved"
+      ],
+      "namespace": "Comms"
+    },
+    "updated_at": "2020-04-29T04:55:51.361Z",
+    "linked_at": {}
+  },
+  {
+    "id": "faa6a24d-fbd9-4ef6-8781-f2a12c10366b",
+    "slug": "view-support-threads-participation",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "My participation",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.011Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message",
+                      "create",
+                      "whisper",
+                      "update",
+                      "message@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0",
+                      "update@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "participants"
+                ],
+                "properties": {
+                  "participants": {
+                    "type": "array",
+                    "contains": {
+                      "const": {
+                        "$eval": "user.id"
+                      }
+                    }
+                  }
+                }
+              },
+              "type": {
+                "enum": [
+                  "support-thread",
+                  "support-thread@1.0.0"
+                ],
+                "type": "string"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "description": "View all support threads I've participated in",
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.391Z",
+    "linked_at": {}
+  },
+  {
+    "id": "fef0fd12-89cd-4e14-9115-a5e397b54037",
+    "slug": "view-all-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "General",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.021Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0",
+                      "update@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "product": {
+                    "const": "balenaCloud"
+                  },
+                  "category": {
+                    "const": "general",
+                    "description": "This field is not required and should match cases where the field is not present OR is 'general'"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.406Z",
+    "linked_at": {}
+  },
+  {
+    "id": "3f1f210b-4ff7-42ad-a30d-07e5e6490299",
+    "slug": "view-customer-success-support-threads",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Customer success",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.079Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "required": [
+                  "category"
+                ],
+                "properties": {
+                  "category": {
+                    "const": "customer-success"
+                  }
+                }
+              },
+              "type": {
+                "type": "string",
+                "const": "support-thread@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-support-threads",
+        "lens-kanban"
+      ],
+      "namespace": "Support"
+    },
+    "updated_at": "2020-04-29T04:55:51.467Z",
+    "linked_at": {}
+  },
+  {
+    "id": "80d84445-8e58-425b-bf98-233de18dc2e4",
+    "slug": "view-product-specs",
+    "type": "view@1.0.0",
+    "active": true,
+    "version": "1.0.0",
+    "name": "Product specs",
+    "tags": [],
+    "markers": [
+      "org-balena"
+    ],
+    "created_at": "2020-04-28T03:56:22.146Z",
+    "links": {},
+    "requires": [],
+    "capabilities": [],
+    "data": {
+      "allOf": [
+        {
+          "name": "Active cards",
+          "schema": {
+            "type": "object",
+            "$$links": {
+              "has attached element": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "enum": [
+                      "message@1.0.0",
+                      "update@1.0.0",
+                      "create@1.0.0",
+                      "whisper@1.0.0"
+                    ]
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "active",
+              "type"
+            ],
+            "properties": {
+              "data": {
+                "type": "object",
+                "properties": {
+                  "repository": {
+                    "type": "string",
+                    "const": "resin-io/balena-demo"
+                  }
+                }
+              },
+              "name": {
+                "not": {
+                  "const": "Universe-update"
+                },
+                "type": "string"
+              },
+              "type": {
+                "type": "string",
+                "const": "pull-request@1.0.0"
+              },
+              "active": {
+                "type": "boolean",
+                "const": true
+              },
+              "markers": {
+                "type": "array",
+                "contains": {
+                  "const": "org-balena"
+                }
+              }
+            },
+            "additionalProperties": true
+          }
+        }
+      ],
+      "lenses": [
+        "lens-table",
+        "lens-kanban"
+      ]
+    },
+    "updated_at": "2020-04-29T04:55:51.516Z",
+    "linked_at": {}
+  }
+]

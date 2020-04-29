@@ -39,6 +39,7 @@ const TreeMenu = (props) => {
 				key={card.id}
 				card={card}
 				isActive={isActive}
+				isStarred={node.isStarred}
 				activeSlice={activeSlice}
 				update={update}
 				open={props.open}
@@ -49,7 +50,7 @@ const TreeMenu = (props) => {
 	const isExpanded = node.key === 'root' || props.isExpanded(node.name)
 
 	return (
-		<Box key={node.key}>
+		<Box key={node.key} data-test={`home-channel__group${node.key}`}>
 			{node.name && (
 				<Button
 					plain
@@ -61,9 +62,7 @@ const TreeMenu = (props) => {
 					data-test={`home-channel__group-toggle--${node.key}`}
 					onClick={props.toggleExpandGroup}
 				>
-					<Flex style={{
-						width: '100%'
-					}} justifyContent="space-between">
+					<Flex width="100%" justifyContent="space-between" alignItems="center">
 						{node.name}
 						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`}/>
 					</Flex>

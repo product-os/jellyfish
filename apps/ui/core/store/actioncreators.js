@@ -221,6 +221,7 @@ export default class ActionCreator {
 			'setUser',
 			'setViewData',
 			'setViewLens',
+			'setViewStarred',
 			'signalTyping',
 			'signup',
 			'streamView',
@@ -1225,6 +1226,26 @@ export default class ActionCreator {
 			)
 
 			return this.updateUser(patches, null)(dispatch, getState)
+		}
+	}
+
+	setViewStarred (view, isStarred) {
+		return (dispatch, getState) => {
+			const user = selectors.getCurrentUser(getState())
+			const existingStarredViews = _.get(user, [ 'data', 'profile', 'starredViews' ], [])
+			const newStarredViews = isStarred
+				? _.uniq(existingStarredViews.concat(view.slug))
+				: _.without(existingStarredViews, view.slug)
+			const patch = helpers.patchPath(
+				user,
+				[ 'data', 'profile', 'starredViews' ],
+				newStarredViews
+			)
+
+			return this.updateUser(
+				patch,
+				`${isStarred ? 'Starred' : 'Un-starred'} view '${view.name || view.slug}'`
+			)(dispatch, getState)
 		}
 	}
 

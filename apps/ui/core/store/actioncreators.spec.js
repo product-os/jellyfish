@@ -55,7 +55,8 @@ ava.beforeEach((test) => {
 	test.context.sdk = {
 		query: sandbox.fake(),
 		card: {
-			get: sandbox.fake()
+			get: sandbox.fake(),
+			update: sandbox.fake()
 		}
 	}
 	test.context.analytics = {
@@ -205,4 +206,159 @@ ava('getActor returns an actor using the cached user card if found', async (test
 
 	// But the SDK query was not called
 	test.true(sdk.query.notCalled)
+})
+
+ava('setViewStarred(_, true) adds the view slug to the list of starred views in the user\'s profile', async (test) => {
+	const {
+		actionCreator,
+		sdk,
+		dispatch
+	} = test.context
+
+	const getState = () => ({
+		core: {
+			session: {
+				user: {
+					id: '1',
+					data: {
+						profile: {
+							starredViews: []
+						}
+					}
+				}
+			}
+		}
+	})
+
+	const view = {
+		slug: 'my-view'
+	}
+
+	sdk.getById = sandbox.fake.resolves({
+		id: '1',
+		data: {
+			profile: {
+				starredViews: [ view.slug ]
+			}
+		}
+	})
+
+	await actionCreator.setViewStarred(view, true)(dispatch, getState)
+
+	// 1: setUser, 2: addNotification
+	test.is(dispatch.callCount, 2)
+
+	// The user's card is updated via the SDK
+	test.true(sdk.card.update.calledOnce)
+	test.deepEqual(
+		sdk.card.update.getCall(0).args,
+		[
+			'1',
+			'user',
+			[
+				{
+					op: 'add',
+					path: '/data/profile/starredViews/0',
+					value: 'my-view'
+				}
+			]
+		]
+	)
+
+	// Then the user is fetched via the SDK
+	test.true(sdk.getById.calledOnce)
+	test.is(sdk.getById.getCall(0).args[0], '1')
+
+	// And the user is updated in the store
+	test.deepEqual(
+		dispatch.getCall(0).args,
+		[ {
+			type: actions.SET_USER,
+			value: {
+				id: '1',
+				data: {
+					profile: {
+						starredViews: [ view.slug ]
+					}
+				}
+			}
+		} ]
+	)
+})
+
+ava('setViewStarred(_, false) removes the view slug to the list of starred views in the user\'s profile', async (test) => {
+	const {
+		actionCreator,
+		sdk,
+		dispatch
+	} = test.context
+
+	const view = {
+		slug: 'my-view'
+	}
+
+	const getState = () => ({
+		core: {
+			session: {
+				user: {
+					id: '1',
+					data: {
+						profile: {
+							starredViews: [ view.slug ]
+						}
+					}
+				}
+			}
+		}
+	})
+
+	sdk.getById = sandbox.fake.resolves({
+		id: '1',
+		data: {
+			profile: {
+				starredViews: []
+			}
+		}
+	})
+
+	await actionCreator.setViewStarred(view, false)(dispatch, getState)
+
+	// 1: setUser, 2: addNotification
+	test.is(dispatch.callCount, 2)
+
+	// The user's card is updated via the SDK
+	test.true(sdk.card.update.calledOnce)
+	test.deepEqual(
+		sdk.card.update.getCall(0).args,
+		[
+			'1',
+			'user',
+			[
+				{
+					op: 'remove',
+					path: '/data/profile/starredViews/0'
+				}
+			]
+		]
+	)
+
+	// Then the user is fetched via the SDK
+	test.true(sdk.getById.calledOnce)
+	test.is(sdk.getById.getCall(0).args[0], '1')
+
+	// And the user is updated in the store
+	test.deepEqual(
+		dispatch.getCall(0).args,
+		[ {
+			type: actions.SET_USER,
+			value: {
+				id: '1',
+				data: {
+					profile: {
+						starredViews: []
+					}
+				}
+			}
+		} ]
+	)
 })
