@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'test: Drop SQL tables after running integration tests'
+      hash: 142980bced111d00b3d5a1385acc4f7f7022ff99
+      body: |
+        Introducing a unique composite constraint on the slug and version
+        properties for some reason slows down PostgreSQL a lot (>6x) when we
+        have a lot of databases, which we do when running integration test (we
+        create a separate database for each test case).
+
+        This commit makes sure we drop the tables from the databases after
+        running each integration test case, which seems to solve the issue.
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: 'https://github.com/product-os/jellyfish/pull/3621'
+        see: 'https://github.com/product-os/jellyfish/pull/3621'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.21.0
+  date: 2020-04-29T20:33:05.556Z
+- commits:
     - subject: 'core: Make TEXT version field obsolete'
       hash: 5be04be43a8e6832500bae7bd84de27b67c609c0
       body: |
