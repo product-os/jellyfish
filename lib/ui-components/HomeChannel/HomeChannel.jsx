@@ -405,6 +405,7 @@ export default class HomeChannel extends React.Component {
 				}
 			},
 			user,
+			uiState,
 			mentions
 		} = this.props
 
@@ -434,7 +435,7 @@ export default class HomeChannel extends React.Component {
 		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
-		const collapsed = channels.length > 1 && isMobile
+		const collapsed = (channels.length > 1 || uiState.chatWidget.open) && isMobile
 
 		const grabHandleProps = isiOS ? {
 			onClick: this.toggleDrawerIOS

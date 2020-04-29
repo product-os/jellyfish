@@ -28,10 +28,6 @@ const SplashWrapper = styled(Box) `
 		top: 50%;
 		left: 50%;
 		background: #0af;
-		// width: 500px;
-		// height: 500px;
-		// margin-left: -250px;
-		// margin-top: -250px;
 		transform-origin: 50% 48%;
 		border-radius: 43%;
 		animation: drift 3000ms infinite linear;

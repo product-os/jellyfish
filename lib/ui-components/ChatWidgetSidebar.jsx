@@ -21,7 +21,6 @@ const Container = styled(Box) `
     flex-direction: column;
     background-color: white;
     color: #000;
-    // width: 376px;
     min-height: 250px;
     max-height: 670px;
     box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
