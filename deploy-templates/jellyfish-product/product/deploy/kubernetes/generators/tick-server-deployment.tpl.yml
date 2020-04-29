@@ -82,6 +82,8 @@ spec:
           value: {{{MAILGUN_BASE_URL}}}
         - name: RESET_PASSWORD_SECRET_TOKEN
           value: {{{RESET_PASSWORD_SECRET_TOKEN}}}
+        - name: NEW_COMPILER_TEST_CHANCE
+          value: {{{NEW_COMPILER_TEST_CHANCE}}}
 
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

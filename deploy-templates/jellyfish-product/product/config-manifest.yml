@@ -92,3 +92,5 @@ properties:
     type: string?
   RESET_PASSWORD_SECRET_TOKEN:
     type: string?
+  NEW_COMPILER_TEST_CHANCE:
+    type: number?
