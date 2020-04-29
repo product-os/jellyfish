@@ -1,4 +1,64 @@
 - commits:
+    - subject: >-
+        Add autocomplete properties to input fields for password managers
+        support
+      hash: 34c97135122d64cc6236376817c937918f01daf3
+      body: >
+        Based on the following resources:
+
+
+        -
+        https://hiddedevries.nl/en/blog/2018-01-13-making-password-managers-play-ball-with-your-login-form
+
+        -
+        https://www.chromium.org/developers/design-documents/form-styles-that-chromium-understands
+
+
+        I formatted and tested our account management forms. With this change
+        Jellyfish supports the following password managers:
+
+
+        All routes:
+
+        - Chrome
+
+        - 1Password
+
+
+        Route specific:
+
+        - Firefox
+
+        - LastPass
+
+
+        1Password and Lastpass extensions work consistently on Safari, Chrome
+        and Firefox.
+
+
+        **Note:** Safari only triggers the keychain on actual page navigation.
+        For now, the choice is made to not support Safari/iOS for this.
+
+
+        Issue #1008 has been investigated and labeld won't fix
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Fix login layout on Safari taking a lot of usesless space
+      hash: 99efa73c022b514c85f958b079151eadabb71695
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 28.21.1
+  date: 2020-04-29T22:48:43.655Z
+- commits:
     - subject: 'test: Drop SQL tables after running integration tests'
       hash: 142980bced111d00b3d5a1385acc4f7f7022ff99
       body: |
