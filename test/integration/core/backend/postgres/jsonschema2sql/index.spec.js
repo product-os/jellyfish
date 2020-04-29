@@ -1147,3 +1147,105 @@ avaTest('const number value should not match against a string equivalent', async
 	test.is(results.length, 1)
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
+
+avaTest('const matches against strings nested in contains should work', async (test) => {
+	const table = 'contains_const_string'
+
+	const schema = {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'collection' ],
+				properties: {
+					collection: {
+						type: 'array',
+						contains: {
+							const: 'foo'
+						}
+					}
+				}
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				collection: [ 'foo' ]
+			}
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			data: {
+				collection: [ 'bar' ]
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
+
+avaTest('const matches against strings nested in contains should work against top level fields', async (test) => {
+	const table = 'contains_const_string_tl'
+
+	const schema = {
+		type: 'object',
+		markers: [ 'collection' ],
+		properties: {
+			markers: {
+				type: 'array',
+				contains: {
+					const: 'foo'
+				}
+			}
+		},
+		additionalProperties: true
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			markers: [ 'foo' ]
+		},
+		{
+			slug: 'test-2',
+			version: '1.0.0',
+			type: 'card',
+			active: true,
+			markers: [ 'bar' ]
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
