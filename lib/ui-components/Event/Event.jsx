@@ -563,25 +563,33 @@ export default class Event extends React.Component {
 							)}
 						</Flex>
 
-						{Boolean(attachments) && _.map(attachments, (attachment) => {
+						{Boolean(attachments.length) && _.map(attachments, (attachment, index) => {
 							// If the mime type is of an image, display the file as an image
 							// Additionally, if there are many attachments, skip trying to
 							// render them
 							if (attachments.length < 3 && attachment.mime && attachment.mime.match(/image\//)) {
 								return (
-									<AuthenticatedImage
-										data-test="event-card__image"
-										key={attachment.slug}
-										cardId={card.id}
-										fileName={attachment.slug}
-										addNotification={addNotification}
-									/>
+									<MessageContainer
+										key={`${attachment.slug}-${index}`}
+										card={card}
+										actor={actor}
+										py={2}
+										px={3}
+										mr={1}
+									>
+										<AuthenticatedImage
+											data-test="event-card__image"
+											cardId={card.id}
+											fileName={attachment.slug}
+											addNotification={addNotification}
+										/>
+									</MessageContainer>
 								)
 							}
 
 							return (
 								<Button
-									key={attachment.url}
+									key={`${attachment.url}-${index}`}
 									data-attachmentslug={attachment.slug}
 									onClick={this.downloadAttachment}
 									secondary={card.type.split('@')[0] === 'whisper'}
@@ -593,7 +601,8 @@ export default class Event extends React.Component {
 									<Txt monospace ml={2}>{attachment.name}</Txt>
 								</Button>
 							)
-						})}
+						}
+						)}
 
 						{isMessage && Boolean(message) && (
 							<MessageContainer
