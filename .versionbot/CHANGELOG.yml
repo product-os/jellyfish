@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'core: Add temporary DEFAULT value to the "version" column'
+      hash: 8259a129cb524c0036ca2de502eb1760b05c3593
+      body: |
+        This is an intermediary state so we can remove this column definition
+        from the codebase and keep the system up and running while we delete it
+        from the actual production database.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.20.1
+  date: 2020-04-28T17:24:25.654Z
+- commits:
     - subject: 'Sync: Try to sync if user does not exist'
       hash: 2682aff8d0a82fdb219f7363f45b07f7d04b62b8
       body: ''
