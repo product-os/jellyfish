@@ -34,6 +34,7 @@ exports.beforeEach = async (test, options = {}) => {
 }
 
 exports.afterEach = async (test) => {
+	await test.context.backend.drop(test.context.context)
 	await test.context.kernel.disconnect(test.context.context)
 	await helpers.afterEach(test)
 }

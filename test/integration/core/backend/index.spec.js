@@ -26,6 +26,7 @@ ava('should only expose the required methods', (test) => {
 		'constructor',
 		'connect',
 		'disconnect',
+		'drop',
 		'reset',
 		'insertElement',
 		'upsertElement',
