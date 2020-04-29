@@ -88,6 +88,7 @@ class CompletePasswordReset extends React.Component {
 						name="password"
 						placeholder="New Password"
 						type="password"
+						autoComplete="new-password"
 						value={password}
 						onChange={this.handleInputChange}
 					/>
@@ -100,6 +101,7 @@ class CompletePasswordReset extends React.Component {
 						name="passwordConfirmation"
 						placeholder="Password Confirmation"
 						type="password"
+						autoComplete="new-password"
 						value={passwordConfirmation}
 						onChange={this.handleInputChange}
 					/>
