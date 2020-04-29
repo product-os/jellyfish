@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix incorrect metrics module description
+      hash: 2af08e9986916accd5287b7987f651aaa6bb786f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+    - subject: Fix bug where const keyword would not work inside a contains statement
+      hash: 05e57206fbe0492399522dda87344f9eb949cb5e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.20.2
+  date: 2020-04-29T10:09:24.232Z
+- commits:
     - subject: 'core: Add temporary DEFAULT value to the "version" column'
       hash: 8259a129cb524c0036ca2de502eb1760b05c3593
       body: |
