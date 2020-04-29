@@ -185,7 +185,7 @@ ava('should send a password-reset email when the username in the argument matche
 		limit: 1
 	})
 
-	const resetPasswordUrl = `https://jel.ly.fish/password_reset/${passwordReset.data.resetToken}`
+	const resetPasswordUrl = `https://jel.ly.fish/password_reset/${passwordReset.data.resetToken}/${username}`
 
 	const expectedEmailBody = `<p>Hello,</p><p>We have received a password reset request for the Jellyfish account attached to this email.</p><p>Please use the link below to reset your password:</p><a href="${resetPasswordUrl}">${resetPasswordUrl}</a><p>Cheers</p><p>Jellyfish Team</p><a href="https://jel.ly.fish">https://jel.ly.fish</a>`
 
