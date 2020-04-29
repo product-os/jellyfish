@@ -12,13 +12,15 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": [ "string", "null" ]
+          "type": [ "string", "null" ],
+          "fullTextSearch": true
         },
         "tags": {
           "type": "array",
           "items": {
             "type": "string"
-          }
+          },
+          "fullTextSearch": true
         },
         "data": {
           "type": "object",
@@ -27,7 +29,8 @@
               "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "fullTextSearch": true
             },
             "mirrors": {
               "type": "array",
@@ -36,11 +39,13 @@
               }
             },
             "inbox": {
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "statusDescription": {
               "title": "Current Status",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "status": {
               "title": "Status",
@@ -50,7 +55,8 @@
                 "open",
                 "closed",
                 "archived"
-              ]
+              ],
+              "fullTextSearch": true
             }
           }
         }

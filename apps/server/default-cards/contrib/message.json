@@ -21,7 +21,8 @@
           "properties": {
             "timestamp": {
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "fullTextSearch": true
             },
             "actor": {
               "type": "string",
@@ -47,7 +48,8 @@
                   "type": "object",
                   "properties": {
                     "name": {
-                      "type": "string"
+                      "type": "string",
+                      "fullTextSearch": true
                     },
                     "mime": {
                       "type": "string"
@@ -83,7 +85,8 @@
                 },
                 "message": {
                   "type": "string",
-                  "format": "markdown"
+                  "format": "markdown",
+                  "fullTextSearch": true
                 }
               }
             },

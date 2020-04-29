@@ -16,7 +16,8 @@
           "items": {
             "type": "string"
           },
-          "$$formula": "AGGREGATE($events, 'tags')"
+          "$$formula": "AGGREGATE($events, 'tags')",
+          "fullTextSearch": true
         },
         "data": {
           "type": "object",
@@ -30,7 +31,8 @@
               "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
             },
             "description": {
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             }
           }
         }

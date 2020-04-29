@@ -36,7 +36,8 @@ ava('should only expose the required methods', (test) => {
 		'query',
 		'stream',
 		'getStatus',
-		'createTypeIndex'
+		'createTypeIndex',
+		'createFullTextSearchIndex'
 	])
 })
 

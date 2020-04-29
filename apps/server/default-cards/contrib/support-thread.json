@@ -12,14 +12,16 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": [ "string", "null" ]
+          "type": [ "string", "null" ],
+          "fullTextSearch": true
         },
         "tags": {
           "type": "array",
           "items": {
             "type": "string"
           },
-          "$$formula": "AGGREGATE($events, 'tags')"
+          "$$formula": "AGGREGATE($events, 'tags')",
+          "fullTextSearch": true
         },
         "data": {
           "type": "object",
@@ -33,13 +35,15 @@
                 "devices",
                 "fleetops",
                 "security"
-              ]
+              ],
+              "fullTextSearch": true
             },
             "tags": {
               "type": "array",
               "items": {
                 "type": "string"
-              }
+              },
+              "fullTextSearch": true
             },
             "mirrors": {
               "type": "array",
@@ -51,7 +55,8 @@
               "type": "string",
               "enum": [
                 "production"
-              ]
+              ],
+              "fullTextSearch": true
             },
             "participants": {
               "type": "array",
@@ -67,14 +72,17 @@
             },
             "description": {
               "type": "string",
-              "format": "markdown"
+              "format": "markdown",
+              "fullTextSearch": true
             },
             "inbox": {
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "statusDescription": {
               "title": "Current Status",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "status": {
               "title": "Status",
