@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'core: Make TEXT version field obsolete'
+      hash: 5be04be43a8e6832500bae7bd84de27b67c609c0
+      body: |
+        We will rely on the `INTEGER` counter-parts for better sorting
+        performance. It will still look like a version string from outside, so
+        we don't break any interface.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.20.4
+  date: 2020-04-29T12:35:30.241Z
+- commits:
     - subject: 'core: Apply version default with an ALTER TABLE'
       hash: 1c517750a2fbf98a32ba55c4e0b2aed5a8651a30
       body: ''
