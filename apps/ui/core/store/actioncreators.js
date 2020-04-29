@@ -204,7 +204,6 @@ export default class ActionCreator {
 			'removeViewDataItem',
 			'removeViewNotice',
 			'requestPasswordReset',
-			'updateUser',
 			'setAuthToken',
 			'setChannels',
 			'setChatWidgetOpen',
@@ -226,6 +225,7 @@ export default class ActionCreator {
 			'signup',
 			'streamView',
 			'updateChannel',
+			'updateUser',
 			'upsertViewData'
 		])
 
@@ -934,7 +934,9 @@ export default class ActionCreator {
 				const updatedUser = await this.sdk.getById(user.id)
 
 				dispatch(this.setUser(updatedUser))
-				dispatch(this.addNotification('success', successNotification || 'Successfully updated user'))
+				if (successNotification !== null) {
+					dispatch(this.addNotification('success', successNotification || 'Successfully updated user'))
+				}
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message || error))
 			}
@@ -1016,24 +1018,15 @@ export default class ActionCreator {
 
 	setSendCommand (command) {
 		return async (dispatch, getState) => {
-			try {
-				const user = await this.sdk.auth.whoami()
+			const user = selectors.getCurrentUser(getState())
 
-				const patch = helpers.patchPath(
-					user,
-					[ 'data', 'profile', 'sendCommand' ],
-					command
-				)
+			const patches = helpers.patchPath(
+				user,
+				[ 'data', 'profile', 'sendCommand' ],
+				command
+			)
 
-				await this.sdk.card.update(user.id, 'user', patch)
-
-				const updatedUser = await this.sdk.getById(user.id)
-
-				dispatch(this.setUser(updatedUser))
-				dispatch(this.addNotification('success', `Successfully set "${command}" as send command`))
-			} catch (error) {
-				dispatch(this.addNotification('danger', error.message || error))
-			}
+			return this.updateUser(patches, `Successfully set "${command}" as send command`)(dispatch, getState)
 		}
 	}
 
@@ -1225,22 +1218,13 @@ export default class ActionCreator {
 		return (dispatch, getState) => {
 			const user = selectors.getCurrentUser(getState())
 
-			const patch = helpers.patchPath(
+			const patches = helpers.patchPath(
 				user,
 				[ 'data', 'profile', 'viewSettings', viewId, 'lens' ],
 				lensSlug
 			)
 
-			this.sdk.card.update(user.id, 'user', patch)
-				.then((result) => {
-					return this.sdk.getById(user.id)
-				})
-				.then((updatedUser) => {
-					dispatch(this.setUser(updatedUser))
-				})
-				.catch((error) => {
-					dispatch(this.addNotification('danger', error.message || error))
-				})
+			return this.updateUser(patches, null)(dispatch, getState)
 		}
 	}
 
