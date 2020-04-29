@@ -24,7 +24,8 @@ import {
 	Filters,
 	Flex,
 	SchemaSieve,
-	Select
+	Select,
+	Theme
 } from 'rendition'
 import {
 	v4 as uuid
@@ -576,6 +577,9 @@ class ViewRenderer extends React.Component {
 			}
 		})
 
+		// Only render filters in compact mode for the first breakpoint
+		const FiltersBreakpointSettings = _.sortBy(Theme.breakpoints).map((breakpoint, index) => Boolean(index <= 0))
+
 		return (
 			<Flex
 				flex={this.props.flex}
@@ -597,6 +601,7 @@ class ViewRenderer extends React.Component {
 												filters={this.state.filters}
 												onFiltersUpdate={this.updateFilters}
 												onViewsUpdate={this.saveView}
+												compact={FiltersBreakpointSettings}
 												renderMode={[ 'add', 'search' ]}
 											/>
 										</Box>
