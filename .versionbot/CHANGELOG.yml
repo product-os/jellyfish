@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Apply version default with an ALTER TABLE'
+      hash: 1c517750a2fbf98a32ba55c4e0b2aed5a8651a30
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: 'https://github.com/product-os/jellyfish/pull/3612'
+        see: 'https://github.com/product-os/jellyfish/pull/3612'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.20.3
+  date: 2020-04-29T11:36:35.474Z
+- commits:
     - subject: Fix incorrect metrics module description
       hash: 2af08e9986916accd5287b7987f651aaa6bb786f
       body: ''
