@@ -11,6 +11,7 @@ import {
 	DropDownButton
 } from 'rendition'
 import _ from 'lodash'
+import styled from 'styled-components'
 import {
 	userDisplayName,
 	getType
@@ -22,6 +23,13 @@ import {
 	FLOW_IDS
 } from '../Flows'
 import * as handoverUtils from '../Flows/HandoverFlowPanel/handover-utils'
+
+const OwnerTxt = styled(Txt.span) `
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	max-width: 120px;
+`
 
 export default class CardOwner extends React.Component {
 	constructor (props) {
@@ -122,7 +130,7 @@ export default class CardOwner extends React.Component {
 					tertiary={cardOwner && (cardOwner.id === user.id)}
 					quartenary={cardOwner && (cardOwner.id !== user.id)}
 					label={cardOwner ? (
-						<Txt.span
+						<OwnerTxt
 							bold
 							data-test="card-owner-dropdown__label--assigned"
 							onClick={this.openOwnerChannel}
@@ -132,9 +140,9 @@ export default class CardOwner extends React.Component {
 							}}
 						>
 							{userDisplayName(cardOwner)}
-						</Txt.span>
+						</OwnerTxt>
 					) : (
-						<Txt.span
+						<OwnerTxt
 							bold
 							italic
 							data-test="card-owner-dropdown__label--unassigned"
@@ -144,7 +152,7 @@ export default class CardOwner extends React.Component {
 							}}
 						>
 						Unassigned
-						</Txt.span>
+						</OwnerTxt>
 					)}
 				>
 					<ActionLink

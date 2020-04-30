@@ -8,6 +8,7 @@ import React from 'react'
 import {
 	withRouter
 } from 'react-router-dom'
+import styled from 'styled-components'
 import {
 	pathWithoutChannel
 } from '../services/helpers'
@@ -15,6 +16,12 @@ import {
 	Button
 } from 'rendition'
 import Icon from './Icon'
+
+const CloseRenditionButton = styled(Button) `
+	i {
+		line-height: 1.5;
+	}
+`
 
 class CloseButtonBase extends React.Component {
 	constructor (props) {
@@ -39,7 +46,8 @@ class CloseButtonBase extends React.Component {
 
 	render () {
 		return (
-			<Button
+			<CloseRenditionButton
+				pl={3}
 				{...this.props}
 				plain
 				icon={<Icon name="times"/>}
