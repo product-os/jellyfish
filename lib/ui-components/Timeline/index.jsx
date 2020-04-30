@@ -550,7 +550,7 @@ class Timeline extends React.Component {
 
 						if (_.includes(this.state.uploadingFiles, card.slug)) {
 							return (
-								<Box p={3}>
+								<Box key={card.slug} p={3}>
 									<Icon name="cog" spin /><em>{' '}Uploading file...</em>
 								</Box>
 							)
