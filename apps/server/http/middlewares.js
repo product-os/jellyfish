@@ -56,10 +56,12 @@ module.exports = (rootContext, application, jellyfish, options) => {
 		next()
 	})
 
-	application.use((request, response, next) => {
-		uuid.random().then((id) => {
+	application.use(async (request, response, next) => {
+		try {
+			const contextId = request.headers['request-id'] || (await uuid.random())
+
 			const context = {
-				id: `REQUEST-${packageJSON.version}-${id}`,
+				id: `REQUEST-${packageJSON.version}-${contextId}`,
 				api: rootContext.id
 			}
 
@@ -73,7 +75,11 @@ module.exports = (rootContext, application, jellyfish, options) => {
 
 			request.context = context
 			return next()
-		}).catch(next)
+		} catch (error) {
+			logger.exception(request.context,
+				'Context set error', error)
+			return next()
+		}
 	})
 
 	application.use(responseTime((request, response, time) => {

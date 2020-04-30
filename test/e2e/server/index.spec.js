@@ -10,6 +10,7 @@ const uuid = require('uuid/v4')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('../../../lib/environment')
+const packageJson = require('../../../package.json')
 
 ava.serial.before(helpers.before)
 ava.serial.after(helpers.after)
@@ -969,4 +970,19 @@ ava.serial('/view/:slug endpoint should return the list of all views', async (te
 	test.deepEqual(_.uniq(_.map(result.response.data, (card) => {
 		return _.first(card.type.split('@'))
 	})), [ 'view' ])
+})
+
+ava.serial('Using the request-id header should be reflected in the X-Request-Id header', async (test) => {
+	const requestId = 'my-request'
+	const result = await test.context.http(
+		'GET',
+		'/api/v2/whoami',
+		{},
+		{
+			Authorization: `Bearer ${test.context.token}`,
+			'request-id': requestId
+		}
+	)
+
+	test.is(result.headers['x-request-id'], `REQUEST-${packageJson.version}-${requestId}`)
 })
