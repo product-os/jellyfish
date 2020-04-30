@@ -33,7 +33,16 @@ const DEFAULT_VIEWS = [
 	'view-my-orgs'
 ]
 
-const viewsToTree = (views, root = {}) => {
+const getStarredViews = _.memoize((user) => {
+	return _.reduce(
+		_.get(user, [ 'data', 'profile', 'starredViews' ], []),
+		(acc, viewSlug) => {
+			acc[viewSlug] = true
+			return acc
+		}, {})
+})
+
+const viewsToTree = (starredViews, views, root = {}, namespaced = true) => {
 	const result = _.defaults(root, {
 		name: null,
 		key: 'root',
@@ -42,7 +51,7 @@ const viewsToTree = (views, root = {}) => {
 
 	for (const view of views) {
 		let node = result
-		if (view.data.namespace) {
+		if (namespaced && view.data.namespace) {
 			const parts = view.data.namespace.split('.')
 			for (const part of parts) {
 				let exists = false
@@ -69,6 +78,7 @@ const viewsToTree = (views, root = {}) => {
 		node.children.push({
 			name: view.name,
 			key: view.slug,
+			isStarred: Boolean(starredViews[view.slug]),
 			card: view,
 			children: []
 		})
@@ -126,17 +136,30 @@ export default class HomeChannel extends React.Component {
 			}
 		}
 
+		const userStarredViews = getStarredViews(this.props.user)
+
 		// Sorty by name, then sort the priority views to the top
 		const [ defaults, nonDefaults ] = _.partition(tail, (view) => {
 			return _.includes(DEFAULT_VIEWS, view.slug)
 		})
 		groups.defaults = defaults
 
+		const starredViews = _.filter(tail, (view) => {
+			return Boolean(userStarredViews[view.slug])
+		})
+		if (starredViews.length) {
+			const starredViewsTree = viewsToTree(userStarredViews, starredViews, {
+				name: 'Starred',
+				key: '__starredViews'
+			}, false)
+			groups.main.children.push(starredViewsTree)
+		}
+
 		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
 			return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, this.props.user.slug)
 		})
 		if (myViews.length) {
-			groups.main.children.push(viewsToTree(myViews, {
+			groups.main.children.push(viewsToTree(userStarredViews, myViews, {
 				name: 'My views',
 				key: '__myViews'
 			}))
@@ -147,7 +170,7 @@ export default class HomeChannel extends React.Component {
 				const org = _.find(this.props.orgs, {
 					slug: key
 				})
-				groups.main.children.push(viewsToTree(views, {
+				groups.main.children.push(viewsToTree(userStarredViews, views, {
 					name: org ? org.name : 'Unknown organisation',
 					key
 				}))
@@ -222,8 +245,8 @@ export default class HomeChannel extends React.Component {
 			mentions
 		} = this.props
 
-		const viewLinkActions = _.pick(actions, [ 'setDefault', 'removeView' ])
-		const treeMenuActions = _.pick(actions, [ 'setDefault', 'removeView' ])
+		const viewLinkActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
+		const treeMenuActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
 
 		const {
 			tail

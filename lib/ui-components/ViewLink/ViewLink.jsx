@@ -34,9 +34,14 @@ export default class ViewLink extends React.Component {
 		this.removeView = this.removeView.bind(this)
 		this.showDeleteModal = this.showDeleteModal.bind(this)
 		this.hideDeleteModal = this.hideDeleteModal.bind(this)
+		this.toggleViewStarred = this.toggleViewStarred.bind(this)
 	}
 
-	toggleMenu () {
+	toggleMenu (event) {
+		if (event) {
+			event.preventDefault()
+			event.stopPropagation()
+		}
 		this.setState({
 			showMenu: !this.state.showMenu
 		})
@@ -52,6 +57,17 @@ export default class ViewLink extends React.Component {
 		this.setState({
 			showDeleteModal: false
 		})
+	}
+
+	toggleViewStarred () {
+		const {
+			card,
+			isStarred,
+			actions: {
+				setViewStarred
+			}
+		} = this.props
+		setViewStarred(card, !isStarred)
 	}
 
 	setDefault () {
@@ -72,6 +88,7 @@ export default class ViewLink extends React.Component {
 			activeSlice,
 			card,
 			isActive,
+			isStarred,
 			user,
 			update
 		} = this.props
@@ -125,6 +142,17 @@ export default class ViewLink extends React.Component {
 									onClick={this.setDefault}
 								>
 									Set as default
+								</Button>
+								<Button
+									style={{
+										display: 'block'
+									}}
+									mt={2}
+									plain
+									data-test="view-link--star-view-btn"
+									onClick={this.toggleViewStarred}
+								>
+									{isStarred ? 'Un-star this view' : 'Star this view'}
 								</Button>
 								{ isCustomView && (
 									<Button
