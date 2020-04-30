@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add metrics for http routes
+      hash: ca5618499f85a0275f8649b21c8f07de5d50b041
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.23.1
+  date: 2020-04-30T09:37:48.838Z
+- commits:
     - subject: 'ui: Add support for starring views'
       hash: c48c575bf9d2e1bfe524f9d4d7a6c73666a7215f
       body: >
