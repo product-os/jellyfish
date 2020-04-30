@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: new ''Guided Handover Flow'' for card ownership changes'
+      hash: 8272440acbb49fd1e5a440fcc3081fd43bac559c
+      body: >
+        Includes a new CardOwner component in the generic Card Actions section
+        of a lens.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.22.0
+  date: 2020-04-30T03:42:24.909Z
+- commits:
     - subject: >-
         Add autocomplete properties to input fields for password managers
         support
