@@ -68,6 +68,7 @@ export default class Notifications extends React.Component {
 		return (
 			<Fixed
 				left
+				z={9000}
 				bottom
 				pb={3}
 				width={350}

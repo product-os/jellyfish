@@ -7,6 +7,7 @@
 import clone from 'deep-copy'
 import _ from 'lodash'
 import React from 'react'
+import styled from 'styled-components'
 import {
 	Box,
 	Button,
@@ -21,6 +22,10 @@ import {
 
 // TODO: This ui-components -> ui import should not happen
 import Icon from './shame/Icon'
+
+const FieldInputBox = styled(Box) `
+	flex: 1;
+`
 
 export default class FreeFieldForm extends React.Component {
 	constructor (props) {
@@ -128,19 +133,29 @@ export default class FreeFieldForm extends React.Component {
 					hideSubmitButton={true}
 				/>
 
-				<Flex justifyContent="space-between">
-					<Txt mt={9} mr={2} minWidth={100}>Add a new field</Txt>
+				<Flex
+					flexDirection={[ 'column', 'column', 'row' ]}
+					justifyContent="space-between"
+					alignItems={[ 'flex-start', 'flex-start', 'center' ]}
+					flexWrap="wrap"
+				>
+					<Txt mr={2} minWidth={100}>Add a new field</Txt>
 
-					<Input
+					<FieldInputBox
 						mr={2}
-						value={this.state.key}
-						onChange={this.setFieldTitle}
-						placeholder="Enter the field title"
-						data-test="card-edit__free-field-name-input"
-					/>
+						my={1}
+					>
+						<Input
+							value={this.state.key}
+							onChange={this.setFieldTitle}
+							placeholder="Enter the field title"
+							data-test="card-edit__free-field-name-input"
+						/>
+					</FieldInputBox>
 
 					<Select
-						ml={2}
+						mr={2}
+						my={1}
 						value={this.state.fieldType}
 						onChange={this.setFieldType}
 						options={this.dataTypes}
@@ -148,7 +163,7 @@ export default class FreeFieldForm extends React.Component {
 					/>
 
 					<Button
-						ml={2}
+						my={1}
 						success
 						onClick={this.addField}
 						icon={<Icon name="plus"/>}

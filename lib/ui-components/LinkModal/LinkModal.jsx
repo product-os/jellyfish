@@ -191,14 +191,14 @@ export default class LinkModal extends React.Component {
 				action={submitting ? <Icon spin name="cog"/> : 'OK'}
 				done={this.linkToExisting}
 			>
-				<Flex alignItems="center">
+				<Flex alignItems={[ 'flex-start', 'flex-start', 'center' ]} flexDirection={[ 'column', 'column', 'row' ]}>
 					{linkTypeTargets.length > 1 && (
 						<Txt>
 							Link this {typeName} to{' '}
 						</Txt>
 					)}
 					{linkTypeTargets.length > 1 && (
-						<Select ml={2}
+						<Select ml={2} my={2}
 							id="card-linker--type-select"
 							value={linkType || ''}
 							onChange={this.handleLinkTypeSelect}
@@ -210,6 +210,8 @@ export default class LinkModal extends React.Component {
 					<Box
 						flex="1"
 						ml={2}
+						my={2}
+						alignSelf={[ 'stretch', 'stretch', 'auto' ]}
 						data-test="card-linker--existing__input"
 					>
 						<AutoCompleteCardSelect

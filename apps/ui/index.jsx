@@ -26,6 +26,9 @@ import {
 } from './core'
 import JellyfishUI from './JellyfishUI'
 import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
+import {
+	ResponsiveProvider
+} from '../../lib/ui-components/hooks/ResponsiveProvider'
 import * as environment from './environment'
 import {
 	BrowserRouter as Router
@@ -50,11 +53,12 @@ const GlobalStyle = createGlobalStyle `
   body {
     line-height: 1.5;
     margin: 0;
-    font-family: ${Theme.font};
+		font-family: ${Theme.font};
+		height: 100%;
+		height: fill-available;
   }
 
 	html,
-	body,
 	#app {
 		height: 100%;
 	}
@@ -72,7 +76,9 @@ const customTheme = {
 			main: Theme.colors.secondary.main,
 			light: Theme.colors.secondary.light,
 			dark: Theme.colors.secondary.dark
-		}
+		},
+		background: '#fff',
+		border: '#eee'
 	}
 }
 
@@ -86,17 +92,19 @@ ReactDOM.render(
 					fontSize: 14
 				}}
 			>
-				<SetupProvider sdk={sdk} analytics={analytics}>
-					<Provider store={store}>
-						<React.Fragment>
-							<GlobalStyle />
+				<ResponsiveProvider>
+					<SetupProvider sdk={sdk} analytics={analytics}>
+						<Provider store={store}>
+							<React.Fragment>
+								<GlobalStyle />
 
-							<ErrorBoundary>
-								<JellyfishUI />
-							</ErrorBoundary>
-						</React.Fragment>
-					</Provider>
-				</SetupProvider>
+								<ErrorBoundary>
+									<JellyfishUI />
+								</ErrorBoundary>
+							</React.Fragment>
+						</Provider>
+					</SetupProvider>
+				</ResponsiveProvider>
 			</RProvider>
 		</Router>
 	),

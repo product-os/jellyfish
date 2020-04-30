@@ -180,7 +180,7 @@ class Kanban extends BaseLens {
 			<Flex
 				flexDirection="column"
 				style={{
-					height: '100%', width: '100%', position: 'relative'
+					height: '100%', width: '100%', position: 'relative', overflowX: 'auto'
 				}}
 			>
 				<ReactTrello

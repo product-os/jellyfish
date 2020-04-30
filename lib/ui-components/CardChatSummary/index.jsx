@@ -133,9 +133,9 @@ export class CardChatSummary extends React.Component {
 				{...rest}
 			>
 				<Flex justifyContent="space-between" mb={3}>
-					<Flex alignItems="flex-start">
-						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} />
-						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} />
+					<Flex alignItems="flex-start" flexWrap="wrap">
+						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
+						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
 						<TagList
 							tags={card.tags.filter((tag) => { return !tag.includes('pending') })}
 							blacklist={[ 'status', 'summary' ]}

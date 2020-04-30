@@ -7,18 +7,20 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
+	Box
+} from 'rendition'
+import {
 	App
 } from '../../lib/chat-widget'
 import {
 	useSetup
 } from './SetupProvider'
 
-const Container = styled.div `
+const Container = styled(Box) `
     display: flex;
     flex-direction: column;
     background-color: white;
     color: #000;
-    width: 376px;
     min-height: 250px;
     max-height: 670px;
     box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
@@ -28,7 +30,7 @@ const Container = styled.div `
     position: absolute;
     bottom: 10px;
     right: 10px;
-    z-index: 9999;
+    z-index: 15;
 `
 
 export const ChatWidgetSidebar = ({
@@ -39,7 +41,9 @@ export const ChatWidgetSidebar = ({
 	} = useSetup()
 
 	return (
-		<Container>
+		<Container
+			width={[ 'calc(100% - 20px)', 'calc(100% - 20px)', '376px' ]}
+		>
 			<App
 				sdk={sdk}
 				productTitle={'Jelly'}

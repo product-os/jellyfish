@@ -10,6 +10,9 @@ import {
 	Img
 } from 'rendition'
 import styled from 'styled-components'
+import {
+	px
+} from './services/helpers'
 
 const SplashWrapper = styled(Box) `
 	width: 100%;
@@ -25,10 +28,6 @@ const SplashWrapper = styled(Box) `
 		top: 50%;
 		left: 50%;
 		background: #0af;
-		width: 500px;
-		height: 500px;
-		margin-left: -250px;
-		margin-top: -250px;
 		transform-origin: 50% 48%;
 		border-radius: 43%;
 		animation: drift 3000ms infinite linear;
@@ -78,12 +77,23 @@ const SplashWrapper = styled(Box) `
 		75% { transform: rotate(-15deg); }
 	}
 `
+
+const sizes = [ 240, 500 ]
+const dim = [ px(sizes[0]), px(sizes[0]), px(sizes[1]) ]
+const margin = [ px(-sizes[0] / 2), px(-sizes[0] / 2), px(-sizes[1] / 2) ]
+const splashWaveStyles = {
+	width: dim,
+	height: dim,
+	ml: margin,
+	mt: margin
+}
+
 export default function Splash (props) {
 	return (
 		<SplashWrapper className="splash" {...props}>
-			<div className="splash__wave -one"/>
-			<div className="splash__wave -two"/>
-			<div className="splash__wave -three"/>
+			<Box {...splashWaveStyles} className="splash__wave -one"/>
+			<Box {...splashWaveStyles} className="splash__wave -two"/>
+			<Box {...splashWaveStyles} className="splash__wave -three"/>
 			<Img className="splash__icon" src="/icons/jellyfish.svg"/>
 		</SplashWrapper>
 	)

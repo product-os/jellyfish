@@ -307,7 +307,7 @@ class SupportThreadBase extends React.Component {
 				channel={channel}
 				title={(
 					<Flex flex={1} justifyContent="space-between">
-						<Flex
+						<Flex flexWrap="wrap"
 							style={{
 								transform: 'translateY(2px)'
 							}}

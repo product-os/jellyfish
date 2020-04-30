@@ -24,7 +24,8 @@ import {
 	Filters,
 	Flex,
 	SchemaSieve,
-	Select
+	Select,
+	Theme
 } from 'rendition'
 import {
 	v4 as uuid
@@ -576,6 +577,9 @@ class ViewRenderer extends React.Component {
 			}
 		})
 
+		// Only render filters in compact mode for the first breakpoint
+		const FiltersBreakpointSettings = _.sortBy(Theme.breakpoints).map((breakpoint, index) => Boolean(index <= 0))
+
 		return (
 			<Flex
 				flex={this.props.flex}
@@ -586,32 +590,35 @@ class ViewRenderer extends React.Component {
 				}}
 			>
 				{Boolean(head) && (
-					<Box>
-						<Flex mt={3} justifyContent="space-between">
-							<Box flex="1" mx={3}>
-								{useFilters && (
-									<Box mt={0} flex="1 0 auto">
-										<Filters
-											schema={schemaForFilters}
-											filters={this.state.filters}
-											onFiltersUpdate={this.updateFilters}
-											onViewsUpdate={this.saveView}
-											renderMode={[ 'add', 'search' ]}
-										/>
-									</Box>
+					<React.Fragment>
+						<Flex mt={3} mx={3} alignItems='flex-start'>
+							<Flex flex={1} flexWrap='wrap'>
+								<Box flex="1">
+									{useFilters && (
+										<Box mt={0} flex="1 0 auto">
+											<Filters
+												schema={schemaForFilters}
+												filters={this.state.filters}
+												onFiltersUpdate={this.updateFilters}
+												onViewsUpdate={this.saveView}
+												compact={FiltersBreakpointSettings}
+												renderMode={[ 'add', 'search' ]}
+											/>
+										</Box>
+									)}
+								</Box>
+
+								{sliceOptions && sliceOptions.length && (
+									<Select
+										mx={3}
+										mb={3}
+										options={sliceOptions}
+										value={this.state.activeSlice}
+										labelKey='title'
+										onChange={this.setSlice}
+									/>
 								)}
-							</Box>
 
-							{sliceOptions && sliceOptions.length && (
-								<Select
-									options={sliceOptions}
-									value={this.state.activeSlice}
-									labelKey='title'
-									onChange={this.setSlice}
-								/>
-							)}
-
-							<Flex mx={3}>
 								{this.lenses.length > 1 && Boolean(lens) && (
 									<ButtonGroup>
 										{_.map(this.lenses, (item) => {
@@ -629,17 +636,19 @@ class ViewRenderer extends React.Component {
 										})}
 									</ButtonGroup>
 								)}
-
-								<CloseButton
-									ml={3}
-									mt={-3}
-									channel={this.props.channel}
-								/>
 							</Flex>
+
+							<CloseButton
+								flex={0}
+								p={3}
+								mt="-4px"
+								mr={-3}
+								channel={this.props.channel}
+							/>
 						</Flex>
 
 						{useFilters && this.state.filters.length > 0 && (
-							<Box flex="1 0 auto" mb={3} mx={3}>
+							<Box flex="1 0 auto" mx={3}>
 								<Filters
 									schema={schemaForFilters}
 									filters={this.state.filters}
@@ -649,12 +658,10 @@ class ViewRenderer extends React.Component {
 								/>
 							</Box>
 						)}
-					</Box>
+					</React.Fragment>
 				)}
 
-				<Flex style={{
-					height: '100%', minHeight: 0
-				}}>
+				<Flex height="100%" minHeight="0" mt={this.state.filters.length ? 0 : 3}>
 					{!tail && (
 						<Box p={3}>
 							<Icon spin name="cog"/>
