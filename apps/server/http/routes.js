@@ -12,6 +12,7 @@ const Storage = require('./file-storage')
 const oauth = require('./oauth')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const environment = require('../../../lib/environment')
+const metrics = require('../../../lib/metrics')
 const sync = require('../../../lib/sync')
 const uuid = require('../../../lib/uuid')
 const packageJSON = require('../../../package.json')
@@ -257,9 +258,9 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				request.context, jellyfish.sessions.admin, 'session@1.0.0')
 
 			/*
-			* This allows us to differentiate two login requests
-			* coming on the same millisecond, unlikely but possible.
-			*/
+			 * This allows us to differentiate two login requests
+			 * coming on the same millisecond, unlikely but possible.
+			 */
 			const suffix = await uuid.random()
 
 			const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
@@ -312,50 +313,57 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			request, response, request.query.state, request.query.code)
 	})
 
-	application.get('/api/v2/type/:type', (request, response) => {
-		const [ base, version ] = request.params.type.split('@')
-		jellyfish.query(request.context, request.sessionToken, {
-			type: 'object',
-			additionalProperties: true,
-			required: [ 'type' ],
-			properties: {
-				type: {
-					type: 'string',
-					const: `${base}@${version || '1.0.0'}`
+	application.get('/api/v2/type/:type', async (request, response) => {
+		return metrics.measureHttpType(() => {
+			const [ base, version ] = request.params.type.split('@')
+			return jellyfish.query(request.context, request.sessionToken, {
+				type: 'object',
+				additionalProperties: true,
+				required: [ 'type' ],
+				properties: {
+					type: {
+						type: 'string',
+						const: `${base}@${version || '1.0.0'}`
+					}
 				}
-			}
-		}, {
-			limit: 100
-		}).then((results) => {
-			return response.status(200).json(results)
+			}, {
+				limit: 100
+			}).then((results) => {
+				return response.status(200).json(results)
+			})
 		}).catch((error) => {
 			return sendHTTPError(request, response, error)
 		})
 	})
 
-	application.get('/api/v2/id/:id', (request, response) => {
-		jellyfish.getCardById(
-			request.context, request.sessionToken, request.params.id).then((card) => {
-			if (card) {
-				return response.status(200).json(card)
-			}
+	application.get('/api/v2/id/:id', async (request, response) => {
+		return metrics.measureHttpId(() => {
+			return jellyfish.getCardById(
+				request.context, request.sessionToken, request.params.id).then((card) => {
+				if (card) {
+					return response.status(200).json(card)
+				}
 
-			return response.status(404).end()
+				return response.status(404).end()
+			})
 		}).catch((error) => {
 			return sendHTTPError(request, response, error)
 		})
 	})
 
-	application.get('/api/v2/slug/:slug', (request, response) => {
-		jellyfish.getCardBySlug(
-			request.context, request.sessionToken, `${request.params.slug}@latest`, {
-				type: request.params.type
-			}).then((card) => {
-			if (card) {
-				return response.status(200).json(card)
-			}
+	application.get('/api/v2/slug/:slug', async (request, response) => {
+		return metrics.measureHttpSlug(() => {
+			return jellyfish.getCardBySlug(
+				request.context, request.sessionToken, `${request.params.slug}@latest`, {
+					type: request.params.type
+				})
+				.then((card) => {
+					if (card) {
+						return response.status(200).json(card)
+					}
 
-			return response.status(404).end()
+					return response.status(404).end()
+				})
 		}).catch((error) => {
 			return sendHTTPError(request, response, error)
 		})
@@ -531,96 +539,102 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	})
 
 	application.post('/api/v2/action', upload.any(), async (request, response) => {
-		// If files are uploaded, the action payload is serialized as the form field
-		// "action" and will need to be parsed
-		const action = request.files
-			? JSON.parse(request.body.action)
-			: request.body
+		return metrics.measureHttpAction(() => {
+			// If files are uploaded, the action payload is serialized as the form field
+			// "action" and will need to be parsed
+			const action = request.files
+				? JSON.parse(request.body.action)
+				: request.body
 
-		logger.info(request.context, 'HTTP action request', {
-			ip: request.ip,
-			card: action.card,
-			type: action.type,
-			action: action.action
-		})
-
-		if (_.isEmpty(action)) {
-			return response.status(400).json({
-				error: true,
-				data: 'No action request'
+			logger.info(request.context, 'HTTP action request', {
+				ip: request.ip,
+				card: action.card,
+				type: action.type,
+				action: action.action
 			})
-		}
 
-		if (!action.type) {
-			return response.status(400).json({
-				error: true,
-				data: 'No action card type'
-			})
-		}
-
-		if (!action.card) {
-			return response.status(400).json({
-				error: true,
-				data: 'No input card'
-			})
-		}
-
-		return actionFacade.processAction(
-			request.context,
-			request.sessionToken,
-			action,
-			{
-				files: request.files
+			if (_.isEmpty(action)) {
+				return response.status(400).json({
+					error: true,
+					data: 'No action request'
+				})
 			}
-		)
-			.then((results) => {
-				if (results.error) {
-					if (results.data.expected) {
-						return response.status(400).json({
-							error: true,
-							data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
-						})
+
+			if (!action.type) {
+				return response.status(400).json({
+					error: true,
+					data: 'No action card type'
+				})
+			}
+
+			if (!action.card) {
+				return response.status(400).json({
+					error: true,
+					data: 'No input card'
+				})
+			}
+
+			return actionFacade.processAction(
+				request.context,
+				request.sessionToken,
+				action,
+				{
+					files: request.files
+				}
+			)
+				.then((results) => {
+					if (results.error) {
+						if (results.data.expected) {
+							return response.status(400).json({
+								error: true,
+								data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
+							})
+						}
+
+						logger.exception(request.context,
+							'HTTP response error', errio.fromObject(results.data))
 					}
 
-					logger.exception(request.context,
-						'HTTP response error', errio.fromObject(results.data))
-				}
-
-				const code = results.error ? 500 : 200
-				return response.status(code).json(results)
-			}).catch((error) => {
+					const code = results.error ? 500 : 200
+					return response.status(code).json(results)
+				})
+		})
+			.catch((error) => {
 				return sendHTTPError(request, response, error)
 			})
 	})
 
-	application.post('/api/v2/query', (request, response) => {
-		if (_.isEmpty(request.body)) {
-			return response.status(400).json({
-				error: true,
-				data: 'No query schema'
-			})
-		} else if (_.isPlainObject(request.body) && !request.body.query) {
-			return response.status(400).json({
-				error: true,
-				data: 'Invalid request body'
-			})
-		}
+	application.post('/api/v2/query', async (request, response) => {
+		return metrics.measureHttpQuery(() => {
+			if (_.isEmpty(request.body)) {
+				return response.status(400).json({
+					error: true,
+					data: 'No query schema'
+				})
+			} else if (_.isPlainObject(request.body) && !request.body.query) {
+				return response.status(400).json({
+					error: true,
+					data: 'Invalid request body'
+				})
+			}
 
-		return queryFacade.queryAPI(
-			request.context,
-			request.sessionToken,
-			request.body.query,
-			request.body.options,
-			request.ip
-		).then((data) => {
-			return response.status(200).json({
-				error: false,
-				data
+			return queryFacade.queryAPI(
+				request.context,
+				request.sessionToken,
+				request.body.query,
+				request.body.options,
+				request.ip
+			).then((data) => {
+				return response.status(200).json({
+					error: false,
+					data
+				})
 			})
-		}).catch((error) => {
-			logger.warn(request.context, 'JSON Schema query error', request.body)
-			return sendHTTPError(request, response, error)
 		})
+			.catch((error) => {
+				logger.warn(request.context, 'JSON Schema query error', request.body)
+				return sendHTTPError(request, response, error)
+			})
 	})
 
 	application.post('/api/v2/view/:slug', (request, response) => {
@@ -646,16 +660,16 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	})
 
 	application.get('/api/v2/whoami', async (request, response) => {
-		try {
+		return metrics.measureHttpWhoami(async () => {
 			const user = await authFacade.whoami(request.context, request.sessionToken, request.ip)
 
 			return response.status(200).json({
 				error: false,
 				data: user
 			})
-		} catch (error) {
+		}).catch((error) => {
 			return sendHTTPError(request, response, error)
-		}
+		})
 	})
 
 	application.post('/api/v2/signup', async (request, response) => {
