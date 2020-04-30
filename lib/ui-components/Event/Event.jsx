@@ -45,6 +45,18 @@ import {
 	HIDDEN_ANCHOR
 } from '../Timeline'
 
+const OverflowButton = styled(Button) `
+	color: inherit;
+
+	&:hover {
+		color: inherit !important;
+	}
+
+	${(expanded) => {
+		return expanded ? {} : 'boxShadow: \'0 -5px 5px -5px rgba(0,0,0,0.5)\''
+	}}
+`
+
 const ActorPlaceholder = styled.span `
 	width: 80px;
 	line-height: inherit;
@@ -629,19 +641,16 @@ export default class Event extends React.Component {
 								</Markdown>
 
 								{messageOverflows && (
-									<Button
+									<OverflowButton
 										className="event-card__expand"
 										plain
 										width="100%"
 										py={1}
 										onClick={this.expand}
-										style={this.state.expanded ? {} : {
-											boxShadow: '0 -5px 5px -5px rgba(0,0,0,0.5)',
-											color: 'inherit'
-										}}
+										expanded={this.state.expanded}
 									>
 										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
-									</Button>
+									</OverflowButton>
 								)}
 							</MessageContainer>
 						)}
