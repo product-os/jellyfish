@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix logical error in stream filter function
+      hash: 57c39e2522b6a145d98e7e5b10a1d19550b8d24b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 28.24.2
+  date: 2020-04-30T15:32:48.113Z
+- commits:
     - subject: Upgrade Puppeteer to v3.0.2
       hash: fa7b47fe96a695936aaac743c7210c249c5332fa
       body: ''
