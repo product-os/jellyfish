@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'ui: Add support for starring views'
+      hash: c48c575bf9d2e1bfe524f9d4d7a6c73666a7215f
+      body: >
+        Starred views will appear at the top of the view list in the home
+        channel
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Reuse updateUser action'
+      hash: b3d147bebe0f922856986a740f3b1eb61c4fbf59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.23.0
+  date: 2020-04-30T08:04:45.836Z
+- commits:
     - subject: 'ui: new ''Guided Handover Flow'' for card ownership changes'
       hash: 8272440acbb49fd1e5a440fcc3081fd43bac559c
       body: >
