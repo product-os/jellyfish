@@ -1,4 +1,16 @@
 - commits:
+    - subject: Upgrade Puppeteer to v3.0.2
+      hash: fa7b47fe96a695936aaac743c7210c249c5332fa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 28.24.1
+  date: 2020-04-30T12:58:05.095Z
+- commits:
     - subject: 'ui: Ensure chat widget not hidden behind home channel on mobile'
       hash: bde7ed029ef6795c49c4b3c40fbc27e47bd7438c
       body: ''
