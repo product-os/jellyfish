@@ -12,33 +12,33 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
+	analytics,
 	actionCreators,
 	sdk,
 	selectors
 }	from '../../core'
-import CardActions from '../../../../lib/ui-components/CardActions'
+import SlideInFlowPanel from '../../../../lib/ui-components/Flows/SlideInFlowPanel'
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
 	return {
 		sdk,
+		analytics,
 		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state)
+		flowState: selectors.getFlow(props.flowId, props.card.id)(state)
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'addChannel',
 				'setFlow',
-				'createLink',
-				'queryAPI'
+				'removeFlow'
 			]),
 			dispatch
 		)
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CardActions)
+export default connect(mapStateToProps, mapDispatchToProps)(SlideInFlowPanel)

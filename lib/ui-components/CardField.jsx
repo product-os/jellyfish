@@ -82,7 +82,7 @@ const CardField = ({
 					/>
 				)
 			})
-				: <Txt>{`${payload[field]}`}</Txt>
+				: <Txt data-test={`card-field--${helpers.slugify(field.toString())}`}>{`${payload[field]}`}</Txt>
 			}
 		</React.Fragment>
 	)

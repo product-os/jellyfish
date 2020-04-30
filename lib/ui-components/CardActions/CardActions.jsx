@@ -11,12 +11,16 @@ import {
 	Flex,
 	Modal
 } from 'rendition'
+import {
+	supportsLink
+} from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import CardLinker from '../CardLinker'
 import ContextMenu from '../ContextMenu'
 import * as helpers from '../../../lib/ui-components/services/helpers'
 import {
 	ActionLink
 } from '../shame/ActionLink'
+import CardOwner from '../CardOwner'
 import Icon from '../shame/Icon'
 
 export default class CardActions extends React.Component {
@@ -75,9 +79,18 @@ export default class CardActions extends React.Component {
 		}
 	}
 	render () {
+		const supportsOwnership = supportsLink(this.props.card.type, 'is owned by')
 		return (
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
+					{supportsOwnership && (
+						<CardOwner
+							user={this.props.user}
+							types={this.props.types}
+							card={this.props.card}
+							sdk={this.props.sdk}
+							actions={this.props.actions} />
+					)}
 					<Button
 						plain
 						mr={3}
