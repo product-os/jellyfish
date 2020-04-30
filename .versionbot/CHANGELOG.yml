@@ -1,4 +1,56 @@
 - commits:
+    - subject: 'ui: Ensure chat widget not hidden behind home channel on mobile'
+      hash: bde7ed029ef6795c49c4b3c40fbc27e47bd7438c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: >-
+        ui: Responsive UI - Render Filters component compact on smallest
+        breakpoint
+      hash: 4f69fceed846a6ba4cecc4123ae5c8ac0e55562f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'ui: Responsive UI - collapsible home channel'
+      hash: dc6c6d29b94e11e3440cf3d61176ac4903be7541
+      body: >
+        Also ensures that just the active channel is displayed full-screen on
+        small screens.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Responsive UI - improve Link Modal mobile view'
+      hash: 4da743fae48d06dc655fa1c0dbccf8cb1f97c7b0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Responsive UI - allow kanban to scroll'
+      hash: 18105a1c351908424442a7f24d8339bfb4292bc1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.24.0
+  date: 2020-04-30T11:13:07.908Z
+- commits:
     - subject: Add metrics for http routes
       hash: ca5618499f85a0275f8649b21c8f07de5d50b041
       body: ''
