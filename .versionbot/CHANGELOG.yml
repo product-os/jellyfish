@@ -1,4 +1,27 @@
 - commits:
+    - subject: Give streams the ability to resolve links
+      hash: 0ff97d978f79cbad592e9d2d12af2d956d357139
+      body: |
+        This commit also removes a lot of unused code that was left over from
+        when links were materialised in the "links" database column.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix bug in column filtering by upgrading skhema
+      hash: 59200f9db8bdbcb5fe9dd95cc42180b648599a98
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.24.6
+  date: 2020-05-01T11:10:31.594Z
+- commits:
     - subject: 'SRE: Enables debug port 9229 for the API servers.'
       hash: 83f9296e13cffd4b3f5feb2780730c670b474bad
       body: |
