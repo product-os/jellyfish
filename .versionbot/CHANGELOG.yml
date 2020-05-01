@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'Bug: add key for box component in timeline component'
+      hash: a48e1dd1ab3fac7a9c9c1dd04bfcdaa6d8abea2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Display timeline images inside MessageContainer component
+      hash: bb99e94b4555ba7911a8012cd0e5f6c829d3c7da
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 28.24.4
+  date: 2020-05-01T07:39:32.393Z
+- commits:
     - subject: 'ui: Fix behavior of home channel drawer on Android'
       hash: 7f692ed1de7dd15c0ca3942479d985c96deab148
       body: ''
