@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Add a unique constraint on slug + version'
+      hash: 70b51dd75a8c32e98bd69ad6beefff9e14b588e7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 28.25.0
+  date: 2020-05-01T12:09:45.252Z
+- commits:
     - subject: Give streams the ability to resolve links
       hash: 0ff97d978f79cbad592e9d2d12af2d956d357139
       body: |
