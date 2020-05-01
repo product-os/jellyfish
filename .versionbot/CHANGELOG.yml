@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Fix behavior of home channel drawer on Android'
+      hash: 7f692ed1de7dd15c0ca3942479d985c96deab148
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.24.3
+  date: 2020-05-01T06:44:05.199Z
+- commits:
     - subject: Fix logical error in stream filter function
       hash: 57c39e2522b6a145d98e7e5b10a1d19550b8d24b
       body: ''
