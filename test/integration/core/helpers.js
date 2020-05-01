@@ -8,7 +8,7 @@ const uuid = require('uuid/v4')
 const helpers = require('./backend/helpers')
 const Kernel = require('../../../lib/core/kernel')
 
-const generateRandomSlug = (options) => {
+const generateRandomSlug = (options = {}) => {
 	const suffix = uuid()
 	if (options.prefix) {
 		return `${options.prefix}-${suffix}`
