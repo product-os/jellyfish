@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Revert "core: Add a unique constraint on slug + version"'
+      hash: 484abb4a776caea81d897b49b51ab78b6ce64195
+      body: |
+        This reverts commit 70b51dd75a8c32e98bd69ad6beefff9e14b588e7.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 28.25.2
+  date: 2020-05-01T16:03:14.833Z
+- commits:
     - subject: 'ui: Improve layout of cards on small screens'
       hash: 3c9626cff3f59fa4deef3ea1be350bc024fdc4b4
       body: ''
