@@ -7,7 +7,7 @@ spec:
   selector:
     matchLabels:
       app: jellyfish
-  replicas: 3
+  replicas: 6
   template:
     metadata:
       labels:
@@ -134,6 +134,8 @@ spec:
           value: {{{MONITOR_SECRET_TOKEN}}}
         ports:
         - containerPort: 8000
+        - containerPort: 9229
+          name: debug
         - containerPort: {{{METRICS_PORT}}}
           name: prometheus-a
         - containerPort: {{{SOCKET_METRICS_PORT}}}
