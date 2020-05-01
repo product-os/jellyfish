@@ -394,11 +394,7 @@ class SupportThreadBase extends React.Component {
 					</React.Fragment>
 				)}
 			>
-
-				<Box
-					px={3}
-					pt={2}
-				>
+				<Box px={3}>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">
 						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
 							return (

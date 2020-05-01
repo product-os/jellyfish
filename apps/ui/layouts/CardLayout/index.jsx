@@ -10,7 +10,6 @@ import {
 	connect
 } from 'react-redux'
 import {
-	Box,
 	Flex,
 	Heading,
 	Txt
@@ -59,8 +58,12 @@ const CardLayout = (props) => {
 				overflowY={overflowY}
 				data-test={props['data-test']}
 			>
-				<Box p={3} pb={0}>
-					<Flex justifyContent="space-between" alignItems="center">
+				<Flex
+					p={3} pb={0}
+					flexDirection={[ 'column-reverse', 'column-reverse', 'row' ]}
+					justifyContent="space-between"
+					alignItems="center">
+					<Flex alignSelf={[ 'flex-start', 'flex-start', 'inherit' ]} my={[ 2, 2, 0 ]}>
 						{title}
 
 						{!title && (
@@ -74,22 +77,20 @@ const CardLayout = (props) => {
 								)}
 							</div>
 						)}
-
-						<Flex align="baseline">
-							{!noActions && (
-								<CardActions card={card}>
-									{actionItems}
-								</CardActions>
-							)}
-
-							<CloseButton
-								onClick={props.onClose}
-								ml={3}
-								channel={channel}
-							/>
-						</Flex>
 					</Flex>
-				</Box>
+					<Flex alignSelf={[ 'flex-end', 'flex-end', 'inherit' ]}>
+						{!noActions && (
+							<CardActions card={card}>
+								{actionItems}
+							</CardActions>
+						)}
+						<CloseButton
+							flex={0}
+							onClick={props.onClose}
+							channel={channel}
+						/>
+					</Flex>
+				</Flex>
 
 				{children}
 				<SlideInFlowPanel

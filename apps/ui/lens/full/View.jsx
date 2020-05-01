@@ -610,7 +610,7 @@ class ViewRenderer extends React.Component {
 
 								{sliceOptions && sliceOptions.length && (
 									<Select
-										mx={3}
+										ml={3}
 										mb={3}
 										options={sliceOptions}
 										value={this.state.activeSlice}
@@ -620,7 +620,7 @@ class ViewRenderer extends React.Component {
 								)}
 
 								{this.lenses.length > 1 && Boolean(lens) && (
-									<ButtonGroup>
+									<ButtonGroup ml={3}>
 										{_.map(this.lenses, (item) => {
 											return (
 												<Button
@@ -641,7 +641,7 @@ class ViewRenderer extends React.Component {
 							<CloseButton
 								flex={0}
 								p={3}
-								mt="-4px"
+								mt="-8px"
 								mr={-3}
 								channel={this.props.channel}
 							/>
