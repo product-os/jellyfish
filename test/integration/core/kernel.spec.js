@@ -4164,6 +4164,329 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 	}).catch(test.end)
 })
 
+ava.cb('.stream() should be able to resolve links on an update to the base card', (test) => {
+	Bluebird.try(async () => {
+		const slug = `card-${uuid()}`
+
+		const card1 = await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 1
+				}
+			})
+
+		const card2	= await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug: 'card-bar',
+				active: false,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 2
+				}
+			})
+
+		await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card1.id,
+					type: card1.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+		test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						slug: {
+							type: 'string'
+						}
+					}
+				}
+			},
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				slug: {
+					type: 'string',
+					const: slug
+				},
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			},
+			required: [ 'type' ]
+		}).then((emitter) => {
+			emitter.on('data', (change) => {
+				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+					type: 'card@1.0.0',
+					slug,
+					links: {
+						'is attached to': [ {
+							slug: 'card-bar'
+						} ]
+					}
+				})
+
+				emitter.close()
+			})
+
+			let promise = Promise.resolve()
+
+			emitter.on('error', (error) => {
+				promise.then(() => {
+					test.end(error)
+				}).catch(test.end)
+			})
+
+			emitter.on('closed', () => {
+				promise.then(() => {
+					test.end()
+				}).catch(test.end)
+			})
+
+			promise = test.context.kernel.patchCardBySlug(
+				test.context.context, test.context.kernel.sessions.admin, `${card1.slug}@${card1.version}`, [
+					{
+						op: 'replace',
+						path: '/data/test',
+						value: 3
+					}
+				], {
+					type: card1.type
+				})
+		})
+	}).catch(test.end)
+})
+
+ava.cb('.stream() should be able to resolve links when a new link is added', (test) => {
+	Bluebird.try(async () => {
+		const slug = `card-${uuid()}`
+
+		const card1 = await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 1
+				}
+			})
+
+		const card2	= await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug: 'card-bar',
+				active: false,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 2
+				}
+			})
+
+		test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						slug: {
+							type: 'string'
+						}
+					}
+				}
+			},
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				slug: {
+					type: 'string',
+					const: slug
+				},
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			},
+			required: [ 'type' ]
+		}).then((emitter) => {
+			emitter.on('data', (change) => {
+				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+					type: 'card@1.0.0',
+					slug,
+					links: {
+						'is attached to': [ {
+							slug: 'card-bar'
+						} ]
+					}
+				})
+
+				emitter.close()
+			})
+
+			let promise = Promise.resolve()
+
+			emitter.on('error', (error) => {
+				promise.then(() => {
+					test.end(error)
+				}).catch(test.end)
+			})
+
+			emitter.on('closed', () => {
+				promise.then(() => {
+					test.end()
+				}).catch(test.end)
+			})
+
+			promise = test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+				slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
+				type: 'link@1.0.0',
+				name: 'is attached to',
+				data: {
+					inverseName: 'has attached element',
+					from: {
+						id: card1.id,
+						type: card1.type
+					},
+					to: {
+						id: card2.id,
+						type: card2.type
+					}
+				}
+			})
+		})
+	}).catch(test.end)
+})
+
+// TODO: Get this working, but in a performant way.
+ava.cb.skip('.stream() should be able to resolve links on an update to the linked card', (test) => {
+	Bluebird.try(async () => {
+		const slug = `card-${uuid()}`
+
+		const card1 = await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 1
+				}
+			})
+
+		const card2	= await test.context.kernel.insertCard(
+			test.context.context, test.context.kernel.sessions.admin, {
+				slug: 'card-bar',
+				active: false,
+				type: 'card@1.0.0',
+				version: '1.0.0',
+				data: {
+					test: 2
+				}
+			})
+
+		await test.context.kernel.insertCard(test.context.context, test.context.kernel.sessions.admin, {
+			slug: `link-${card1.slug}-is-attached-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				from: {
+					id: card1.id,
+					type: card1.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+		test.context.kernel.stream(test.context.context, test.context.kernel.sessions.admin, {
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						slug: {
+							type: 'string'
+						},
+						data: {
+							type: 'object'
+						}
+					}
+				}
+			},
+			type: 'object',
+			additionalProperties: false,
+			properties: {
+				slug: {
+					type: 'string',
+					const: slug
+				},
+				type: {
+					type: 'string',
+					const: 'card@1.0.0'
+				}
+			},
+			required: [ 'type' ]
+		}).then((emitter) => {
+			emitter.on('data', (change) => {
+				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+					type: 'card@1.0.0',
+					slug,
+					links: {
+						'is attached to': [ {
+							slug: 'card-bar'
+						} ]
+					}
+				})
+
+				emitter.close()
+			})
+
+			let promise = Promise.resolve()
+
+			emitter.on('error', (error) => {
+				promise.then(() => {
+					test.end(error)
+				}).catch(test.end)
+			})
+
+			emitter.on('closed', () => {
+				promise.then(() => {
+					test.end()
+				}).catch(test.end)
+			})
+
+			promise = test.context.kernel.patchCardBySlug(
+				test.context.context, test.context.kernel.sessions.admin, `${card2.slug}@${card1.version}`, [
+					{
+						op: 'replace',
+						path: '/data/test',
+						value: 3
+					}
+				], {
+					type: card1.type
+				})
+		})
+	}).catch(test.end)
+})
+
 ava('.query() should return an unexecuted action request', async (test) => {
 	const date = new Date()
 	const request = await test.context.kernel.insertCard(
