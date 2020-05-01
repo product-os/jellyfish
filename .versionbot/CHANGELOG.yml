@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Safely add the slug + version unique constraint'
+      hash: bca2f2af7ed9a925794c6b1867be07b9f88a514b
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 29.0.0
+  date: 2020-05-01T18:23:13.271Z
+- commits:
     - subject: 'Revert "core: Add a unique constraint on slug + version"'
       hash: 484abb4a776caea81d897b49b51ab78b6ce64195
       body: |
