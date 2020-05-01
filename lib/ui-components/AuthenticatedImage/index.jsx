@@ -13,6 +13,9 @@ import {
 const ResponsiveImg = styled.img `
 	height: auto;
 	max-width: 100%;
+	border-radius: 6px;
+	border-top-left-radius: 0;
+	display: block;
 `
 
 class AuthenticatedImage extends React.Component {
