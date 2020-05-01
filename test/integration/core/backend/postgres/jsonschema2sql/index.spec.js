@@ -244,7 +244,7 @@ for (const suite of testSuites) {
 					const results = await runner({
 						connection: test.context.connection,
 						database: test.context.database,
-						table,
+						table: table.toLowerCase(),
 						elements: [
 							{
 								version: '1.0.0',
@@ -280,7 +280,7 @@ for (const suite of testSuites) {
 				const results = await runner({
 					connection: test.context.connection,
 					database: test.context.database,
-					table: `NESTED_${table}`,
+					table: `NESTED_${table}`.toLowerCase(),
 					elements: [
 						{
 							version: '1.0.0',
