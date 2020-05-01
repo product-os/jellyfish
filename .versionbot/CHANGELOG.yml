@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'SRE: Enables debug port 9229 for the API servers.'
+      hash: 83f9296e13cffd4b3f5feb2780730c670b474bad
+      body: |
+        This is to allow debugging using K8s port forwarding.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 28.24.5
+  date: 2020-05-01T09:43:51.542Z
+- commits:
     - subject: 'Bug: add key for box component in timeline component'
       hash: a48e1dd1ab3fac7a9c9c1dd04bfcdaa6d8abea2a
       body: ''
