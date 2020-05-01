@@ -154,18 +154,7 @@ const streams = {}
 const NOTIFICATION_LIFETIME = 7.5 * 1000
 const MAX_RETRIES = 4
 
-let mutableMegaStream = null
-
-const subscribeToCoreFeed = (channel, listener) => {
-	mutableMegaStream.on(channel, listener)
-	return {
-		close: () => {
-			if (mutableMegaStream) {
-				mutableMegaStream.removeListener(channel, listener)
-			}
-		}
-	}
-}
+let commsStream = null
 
 export default class ActionCreator {
 	constructor (context) {
@@ -525,6 +514,58 @@ export default class ActionCreator {
 						value: clonedChannel
 					})
 				})
+				.then(async () => {
+					const stream = await this.sdk.stream({
+						$$links: {
+							'has attached element': {
+								type: 'object'
+							}
+						},
+						type: 'object',
+						properties: {
+							slug: {
+								type: 'string',
+								const: target
+							}
+						},
+						required: [ 'slug' ]
+					})
+
+					const hash = hashCode(target)
+
+					if (streams[hash]) {
+						streams[hash].close()
+						Reflect.deleteProperty(streams, hash)
+					}
+					streams[hash] = stream
+
+					stream.on('update', async (payload) => {
+						const update = payload.data
+						if (update.after) {
+							const card = update.after
+							const currentChannel = _.find(selectors.getChannels(getState()), {
+								id: channel.id
+							})
+							if (currentChannel) {
+								const clonedChannel = clone(currentChannel)
+
+								// Don't bother is the channel head card hasn't changed
+								if (fastEquals.deepEqual(clonedChannel.data.head, card)) {
+									return
+								}
+								clonedChannel.data.head = card
+								dispatch({
+									type: actions.UPDATE_CHANNEL,
+									value: clonedChannel
+								})
+							}
+						}
+					})
+
+					stream.on('error', (error) => {
+						console.error('A stream error occurred', error)
+					})
+				})
 				.catch((error) => {
 					dispatch(this.addNotification('danger', error.message))
 				})
@@ -554,6 +595,19 @@ export default class ActionCreator {
 	}
 
 	removeChannel (channel) {
+		// Shutdown any streams that are open for this channel
+		if (channel.data.canonical !== false) {
+			const {
+				target
+			} = channel.data
+			const hash = hashCode(target)
+
+			if (streams[hash]) {
+				streams[hash].close()
+				Reflect.deleteProperty(streams, hash)
+			}
+		}
+
 		return {
 			type: actions.REMOVE_CHANNEL,
 			value: channel
@@ -609,14 +663,10 @@ export default class ActionCreator {
 				user: this.sdk.auth.whoami(),
 				orgs: this.sdk.card.getAllByType('org'),
 				types: this.sdk.card.getAllByType('type'),
-				config: this.sdk.getConfig(),
-				stream: this.sdk.stream({
-					type: 'object',
-					additionalProperties: true
-				})
+				config: this.sdk.getConfig()
 			})
-				.then(({
-					user, types, orgs, config, stream
+				.then(async ({
+					user, types, orgs, config
 				}) => {
 					if (!user) {
 						throw new Error('Could not retrieve user')
@@ -643,41 +693,36 @@ export default class ActionCreator {
 						dispatch(this.setAuthToken(newToken))
 					}, TOKEN_REFRESH_INTERVAL)
 
-					mutableMegaStream = stream
-					stream.on('update', async (payload) => {
+					if (commsStream) {
+						commsStream.close()
+					}
+
+					// Open a stream for messages, whispers and uses. This allows us to
+					// listen for message edits, sync status, alerts/pings and changes in
+					// other users statuses
+					commsStream = await this.sdk.stream({
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								enum: [
+									'message@1.0.0',
+									'whisper@1.0.0',
+									'user@1.0.0'
+								]
+							}
+						},
+						required: [ 'type' ]
+					})
+
+					commsStream.on('update', async (payload) => {
 						const update = payload.data
 						if (update.after) {
 							const card = update.after
 							const {
-								id,
-								slug
+								id
 							} = card
 							const allChannels = selectors.getChannels(getState())
-							const channels = _.filter(allChannels, (item) => {
-								const target = _.get(item, [ 'data', 'target' ])
-								return target === slug || target === id
-							})
-							if (channels) {
-								for (const key in channels) {
-									const channel = channels[key]
-
-									const clonedChannel = clone(channel)
-
-									const cardWithTimeline = _.get(card.linked_at, [ 'has attached element' ])
-										? await this.sdk.card.getWithTimeline(card.id)
-										: card
-
-									// Don't bother is the channel head card hasn't changed
-									if (fastEquals.deepEqual(clonedChannel.data.head, cardWithTimeline)) {
-										return
-									}
-									clonedChannel.data.head = cardWithTimeline
-									dispatch({
-										type: actions.UPDATE_CHANNEL,
-										value: clonedChannel
-									})
-								}
-							}
 
 							// If we receive a card that targets another card...
 							const targetId = _.get(card, [ 'data', 'target' ])
@@ -710,7 +755,9 @@ export default class ActionCreator {
 
 					const typingTimeouts = {}
 
-					stream.on('typing', (payload) => {
+					// TODO handle typing notifications in a more generic way, this is an
+					// abomination. (A small abomination, but still an abomination)
+					commsStream.on('typing', (payload) => {
 						if (typingTimeouts[payload.card] && typingTimeouts[payload.card][payload.user]) {
 							clearTimeout(typingTimeouts[payload.card][payload.user])
 						}
@@ -733,7 +780,7 @@ export default class ActionCreator {
 						}, 2 * 1000))
 					})
 
-					stream.on('error', (error) => {
+					commsStream.on('error', (error) => {
 						console.error('A stream error occurred', error)
 					})
 
@@ -790,9 +837,9 @@ export default class ActionCreator {
 
 		this.analytics.track('ui.logout')
 		this.analytics.identify()
-		if (mutableMegaStream) {
-			mutableMegaStream.close()
-			mutableMegaStream = null
+		if (commsStream) {
+			commsStream.close()
+			commsStream = null
 			this.sdk.auth.logout()
 		}
 		return {
@@ -1128,7 +1175,7 @@ export default class ActionCreator {
 			const user = selectors.getCurrentUser(getState())
 			const viewId = getViewId(query)
 			return loadSchema(this.sdk, query, user)
-				.then((rawSchema) => {
+				.then(async (rawSchema) => {
 					if (!rawSchema) {
 						return
 					}
@@ -1139,7 +1186,10 @@ export default class ActionCreator {
 						streams[viewId].close()
 						Reflect.deleteProperty(streams, viewId)
 					}
-					streams[viewId] = subscribeToCoreFeed(
+
+					streams[viewId] = await this.sdk.stream(schema)
+
+					streams[viewId].on(
 						'update',
 						/* eslint-disable consistent-return */
 						(response) => {
@@ -1252,7 +1302,8 @@ export default class ActionCreator {
 	signalTyping (card) {
 		return (dispatch, getState) => {
 			const user = selectors.getCurrentUser(getState())
-			mutableMegaStream.type(user.slug, card)
+
+			commsStream.type(user.slug, card)
 		}
 	}
 
