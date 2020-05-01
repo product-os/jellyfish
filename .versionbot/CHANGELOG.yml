@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Improve layout of cards on small screens'
+      hash: 3c9626cff3f59fa4deef3ea1be350bc024fdc4b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 28.25.1
+  date: 2020-05-01T13:29:34.868Z
+- commits:
     - subject: 'core: Add a unique constraint on slug + version'
       hash: 70b51dd75a8c32e98bd69ad6beefff9e14b588e7
       body: ''
