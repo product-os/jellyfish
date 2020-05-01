@@ -113,7 +113,7 @@ const HomeChannelContent = styled(Flex) `
 	background: #fff;
 `
 
-const GrabHandle = styled(isiOS ? Box : Swipeable) `
+const GrabHandle = styled(isiOS() ? Box : Swipeable) `
 	margin-right: -15px;
 	padding: 25px 5px;
 	border-radius: 0 4px 4px 0;
@@ -437,7 +437,7 @@ export default class HomeChannel extends React.Component {
 
 		const collapsed = (channels.length > 1 || uiState.chatWidget.open) && isMobile
 
-		const grabHandleProps = isiOS ? {
+		const grabHandleProps = isiOS() ? {
 			onClick: this.toggleDrawerIOS
 		} : {
 			onSwiping: this.onGrabHandleSwiping,
