@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use individual specific streams to listen for channel updates
+      hash: 50fd15836016a8fcf91517a282ef725b87fae119
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 29.0.3
+  date: 2020-05-02T13:47:05.020Z
+- commits:
     - subject: Improve performance of kernel integration tests
       hash: 7f81f558b1ecc592d52627e583d6a5db8958c3b5
       body: >
