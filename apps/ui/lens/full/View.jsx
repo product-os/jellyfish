@@ -324,6 +324,14 @@ class ViewRenderer extends React.Component {
 		this.bootstrap(this.props.channel)
 	}
 
+	componentWillUnmount () {
+		const {
+			head
+		} = this.props.channel.data
+
+		this.props.actions.clearViewData(head.id)
+	}
+
 	bootstrap (channel) {
 		const {
 			head
