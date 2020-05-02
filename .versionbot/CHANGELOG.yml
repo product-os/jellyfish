@@ -1,4 +1,16 @@
 - commits:
+    - subject: Improve front-delete-converstions script
+      hash: f606e272e921e130226887ed360084a44bcd41e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 29.0.1
+  date: 2020-05-02T03:18:41.357Z
+- commits:
     - subject: 'core: Safely add the slug + version unique constraint'
       hash: bca2f2af7ed9a925794c6b1867be07b9f88a514b
       body: ''
