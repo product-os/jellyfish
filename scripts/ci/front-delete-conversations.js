@@ -38,10 +38,13 @@ const deleteConversations = async (options) => {
 		console.log(`Looking through ${inbox}...`)
 		let pageToken = null
 		while (true) {
+			console.log('Getting conversations...')
 			const conversations = await front.inbox.listConversations({
 				inbox_id: inbox,
 				limit: CONVERSATION_LIMIT,
 				page_token: pageToken
+			}).catch((err) => {
+				console.error(err)
 			})
 
 			// Set next page token for subsequent search.
@@ -55,6 +58,7 @@ const deleteConversations = async (options) => {
 			// Check if conversation is old enough to delete.
 			conversations._results.forEach((conversation) => {
 				if (conversation.created_at <= BEFORE && conversation.status !== 'deleted') {
+					console.log(`Marking ${inbox}:${conversation.id} for deletion`)
 					oldConversations.push(`${inbox}:${conversation.id}`)
 				}
 			})
@@ -124,7 +128,7 @@ validate(options)
 // Delete old conversations using provided options.
 deleteConversations(options)
 	.then((total) => {
-		console.log(`Successfully deleted ${total} conversations`)
+		console.log(`Successfully deleted ${total} old conversations`)
 	})
 	.catch((err) => {
 		console.error(err)
