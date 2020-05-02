@@ -1,4 +1,37 @@
 - commits:
+    - subject: Improve performance of kernel integration tests
+      hash: 7f81f558b1ecc592d52627e583d6a5db8958c3b5
+      body: >
+        Previously, the kernel tests would configure new backend and kernel
+
+        instances for every test, allowing the tests to run in a pristine
+
+        environment.
+
+        This commit makes the bulk of the kernel tests share a backend and
+        kernel
+
+        instance, which required a number of refactors to ensure that the tests
+
+        still work, even when there are many more cards in the system.
+
+        Some tests have remained as they were, as they explicitly test
+
+        disconnects, requiring them to have seperate instances.
+
+
+        In addition to these changes, duplicate tests for skip and limit options
+
+        have been removed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 29.0.2
+  date: 2020-05-02T12:46:26.152Z
+- commits:
     - subject: Improve front-delete-converstions script
       hash: f606e272e921e130226887ed360084a44bcd41e7
       body: ''
