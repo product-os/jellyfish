@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add note to README about NPM_TOKEN
+      hash: 4c6bc0b7107ed17d92366d8a6c1f131e4c6f39eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 29.0.4
+  date: 2020-05-03T09:25:14.968Z
+- commits:
     - subject: Use individual specific streams to listen for channel updates
       hash: 50fd15836016a8fcf91517a282ef725b87fae119
       body: ''
