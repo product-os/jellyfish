@@ -29,6 +29,19 @@ as a cross between Slack and Excel!
 	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)
 	- [**Using Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown)
 
+Getting private package access
+------------------------------
+
+In order to develop Jellyfish, you must have an [npmjs](https://npmjs.com) account
+that has read access to the private Jellyfish packages. Provide your npmjs account
+information with ops and request access. Once access has been granted, you will now
+be able to build and run Jellyfish by setting the `NPM_TOKEN` environment variable:
+
+```sh
+npm login
+export NPM_TOKEN=`cat ~/.npmrc | cut -d '=' -f 2`
+```
+
 Running with Docker Compose
 ---------------------------
 
