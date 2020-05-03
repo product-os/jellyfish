@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add IF NOT EXISTS to CREATE INDEX statements
+      hash: b4e6939c4a58881d3dbc2aa3e676b934b74a94f3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 29.0.5
+  date: 2020-05-03T15:53:35.543Z
+- commits:
     - subject: Add note to README about NPM_TOKEN
       hash: 4c6bc0b7107ed17d92366d8a6c1f131e4c6f39eb
       body: ''
