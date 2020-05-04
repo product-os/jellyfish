@@ -1388,6 +1388,49 @@ ava('.insertCard() should throw an error if the card type does not exist', async
 	})
 })
 
+ava('.insertCard() should be able to insert two versions of the same card', async (test) => {
+	const slug = context.generateRandomSlug({
+		prefix: 'hello-world'
+	})
+
+	const card1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug,
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const card2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug,
+			type: 'card@1.0.0',
+			version: '1.0.1',
+			data: {
+				foo: 'baz'
+			}
+		})
+
+	test.is(card1.slug, card2.slug)
+
+	const element1 = await context.kernel.getCardBySlug(
+		context.context,
+		context.kernel.sessions.admin,
+		`${card1.slug}@1.0.0`)
+	test.is(element1.data.foo, 'bar')
+
+	const element2 = await context.kernel.getCardBySlug(
+		context.context,
+		context.kernel.sessions.admin,
+		`${card1.slug}@1.0.1`)
+	test.is(element2.data.foo, 'baz')
+
+	test.deepEqual(element1, card1)
+	test.deepEqual(element2, card2)
+})
+
 ava('.insertCard() should be able to insert a card', async (test) => {
 	const slug = context.generateRandomSlug({
 		prefix: 'hello-world'
@@ -1929,6 +1972,48 @@ ava('.getCardBySlug() should find an active card by its slug using @latest', asy
 		context.context, context.kernel.sessions.admin, `${result.slug}@${result.version}`)
 
 	test.deepEqual(card, result)
+})
+
+ava('.getCardBySlug() should find the latest version of a card', async (test) => {
+	const slug = context.generateRandomSlug()
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug,
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				foo: 'bar'
+			}
+		})
+
+	const card2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug,
+			type: 'card@1.0.0',
+			version: '2.0.1',
+			data: {
+				foo: 'baz'
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug,
+			type: 'card@1.0.0',
+			version: '1.2.1',
+			data: {
+				foo: 'qux'
+			}
+		})
+
+	const element = await context.kernel.getCardBySlug(
+		context.context,
+		context.kernel.sessions.admin,
+		`${slug}@latest`)
+
+	test.is(element.data.foo, 'baz')
+	test.deepEqual(element, card2)
 })
 
 ava('.getCardBySlug() should find an active card by its slug and its type', async (test) => {
