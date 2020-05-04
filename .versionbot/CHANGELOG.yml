@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Remove slug uniqueness constraint'
+      hash: 7c5ae6550028c23bd4dd825756b832d57d74f07e
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.0.0
+  date: 2020-05-04T13:25:51.599Z
+- commits:
     - subject: Add prometheus and grafana to compose
       hash: 42dd214c901491c1baefde29bf2a799b53e4811b
       body: ''
