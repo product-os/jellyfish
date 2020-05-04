@@ -23,3 +23,23 @@ You can run the unit and end to end SDK tests as follows:
 make test-unit-sdk
 make test-e2e-sdk
 ```
+
+### Service Worker
+
+Jellyfish is a Progressive Web App which makes use of a service worker.
+
+The environment variables `NODE_ENV` and `JF_DEBUG_SW` determine whether the service worker is registered on startup and whether it outputs dev logs. The following table summarises the behaviour:
+
+|                                       | `NODE_ENV === 'production'` | `NODE_ENV !== 'production'` |
+|---------------------------|----------------------------------|---------------------------------|
+| `JF_DEBUG_SW` is set    | Service worker is registered<br>Workbox logs are disabled | Service worker is registered<br>Workbox logs are enabled |
+| `JF_DEBUG_SW` not set |  Service worker is registered<br>Workbox logs are disabled | Service worker is not registered<br>Workbox logs are disabled |
+
+In summary: if you are debugging, first clear your application cache and then ensure the `JF_DEBUG_SW` environment variable is unset. Run `make dev-ui` and the service worker will not be used.
+
+If you specifically _want_ to debug the service worker, use the following approach:
+```
+JF_DEBUG_SW=1 make build-ui
+make start-static-ui
+```
+
