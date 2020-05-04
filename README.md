@@ -20,10 +20,12 @@ as a cross between Slack and Excel!
 	- [**Working with the backend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/backend.markdown)
 	- [**Adding a new type**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-on-balena.markdown)
+	- [**Adding metrics**](https://github.com/product-os/jellyfish/blob/master/docs/developing/adding-metrics.markdown)
 - **Links**
 	- [**Rapid7**](https://eu.ops.insight.rapid7.com/op/8306227C3C134F65ACF1#/search?logs=%5B%225df30105-2e0a-4e5a-b76a-baa5fc997b36%22%5D&range=Last%2020%20Minutes)
 	- [**Sentry**](https://sentry.io/organizations/balena/issues/?project=1366139)
 	- [**New Relic**](https://synthetics.newrelic.com/accounts/2054842/monitors/8bf2b38d-7c2a-4d71-9629-7cbf05b6bd21)
+	- [**Metrics**](https://monitor.k8s.balena-cloud.com/d/jellyfish/jellyfish?orgId=1)
 - **Services**
 	- [**Using New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown)
 	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)
