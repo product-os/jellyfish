@@ -1,0 +1,42 @@
+global:
+  scrape_interval:     15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets:
+        - prometheus:9090
+  - job_name: 'grafana'
+    static_configs:
+      - targets:
+        - grafana:3000
+  - job_name: 'api'
+    basic_auth:
+      username: monitor
+      password: 'TEST'
+    static_configs:
+      - targets:
+        - api:9000
+        - api:9001
+  - job_name: 'worker_1'
+    basic_auth:
+      username: monitor
+      password: 'TEST'
+    static_configs:
+      - targets:
+        - worker_1:9000
+  - job_name: 'worker_2'
+    basic_auth:
+      username: monitor
+      password: 'TEST'
+    static_configs:
+      - targets:
+        - worker_2:9000
+  - job_name: 'worker_3'
+    basic_auth:
+      username: monitor
+      password: 'TEST'
+    static_configs:
+      - targets:
+        - worker_3:9000

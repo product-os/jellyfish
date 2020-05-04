@@ -299,6 +299,25 @@ services:
         ["jel", "livechat", "api"]
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
+  prometheus:
+    image: 'prom/prometheus:v2.17.2'
+    volumes:
+      - './prometheus:/etc/prometheus'
+    command: "--config.file=/etc/prometheus/prometheus.yaml"
+    ports:
+      - '9090:9090'
+    restart: always
+    networks:
+      - internal
+  grafana:
+    image: 'grafana/grafana:6.7.3'
+    volumes:
+      - './grafana:/etc/grafana'
+    ports:
+      - '3000:3000'
+    restart: always
+    networks:
+      - internal
   haproxy:
     image: 'balena/open-balena-haproxy:2.11.3'
     cap_add:
