@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add prometheus and grafana to compose
+      hash: 42dd214c901491c1baefde29bf2a799b53e4811b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 29.0.7
+  date: 2020-05-04T02:06:34.952Z
+- commits:
     - subject: Add metrics docs
       hash: 3cb91a28d6bfc4e47b9520833972ad3d609f5855
       body: ''
