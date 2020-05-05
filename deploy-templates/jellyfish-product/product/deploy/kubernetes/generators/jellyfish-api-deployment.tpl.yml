@@ -132,6 +132,8 @@ spec:
           value: '{{{SOCKET_METRICS_PORT}}}'
         - name: MONITOR_SECRET_TOKEN
           value: {{{MONITOR_SECRET_TOKEN}}}
+        - name: NEW_COMPILER_TEST_CHANCE
+          value: {{{NEW_COMPILER_TEST_CHANCE}}}
         ports:
         - containerPort: 8000
         - containerPort: 9229

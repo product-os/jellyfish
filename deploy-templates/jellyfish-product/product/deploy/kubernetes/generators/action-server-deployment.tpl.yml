@@ -100,6 +100,8 @@ spec:
           value: {{{RESET_PASSWORD_SECRET_TOKEN}}}
         - name: MONITOR_SECRET_TOKEN
           value: {{{MONITOR_SECRET_TOKEN}}}
+        - name: NEW_COMPILER_TEST_CHANCE
+          value: {{{NEW_COMPILER_TEST_CHANCE}}}
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a
