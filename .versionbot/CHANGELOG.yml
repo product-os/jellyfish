@@ -1,4 +1,16 @@
 - commits:
+    - subject: Don't allow users to create triggered actions
+      hash: 3eb6e85332ac123b73f78404ba92e6e45558a35f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.0.4
+  date: 2020-05-05T11:55:33.234Z
+- commits:
     - subject: Optimise UI queries for links
       hash: 71ca977d82925b8973a25b37026c0b13ba26de97
       body: ''
