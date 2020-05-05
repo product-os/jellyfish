@@ -1589,6 +1589,58 @@ ava('.insertCard() should be able to create a link between two valid cards', asy
 	test.not(element.data.from, element.data.to)
 })
 
+ava('.insertCard() should be able to bump the version of a link card', async (test) => {
+	const card1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug({
+				prefix: 'foo-bar'
+			}),
+			type: 'card@1.0.0'
+		})
+
+	const card2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug({
+				prefix: 'bar-baz'
+			}),
+			type: 'card@1.0.0'
+		})
+
+	const linkCard1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${card1.slug}-is-linked-to-${card2.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is linked to',
+			data: {
+				inverseName: 'is linked to',
+				from: {
+					id: card1.id,
+					type: card1.type
+				},
+				to: {
+					id: card2.id,
+					type: card2.type
+				}
+			}
+		})
+
+	const linkCard2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: linkCard1.slug,
+			type: 'link@1.0.0',
+			version: '1.0.1',
+			name: linkCard1.name,
+			data: linkCard1.data
+		})
+
+	const linkElement1 = await context.kernel.getCardById(
+		context.context, context.kernel.sessions.admin, linkCard1.id)
+	const linkElement2 = await context.kernel.getCardById(
+		context.context, context.kernel.sessions.admin, linkCard2.id)
+	test.deepEqual(linkElement1.data, linkElement2.data)
+})
+
 ava('.insertCard() should be able to create a direction-less link between two valid cards', async (test) => {
 	const card1 = await context.kernel.insertCard(context.context, context.kernel.sessions.admin, {
 		slug: context.generateRandomSlug({
