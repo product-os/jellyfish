@@ -1,4 +1,16 @@
 - commits:
+    - subject: Optimise UI queries for links
+      hash: 71ca977d82925b8973a25b37026c0b13ba26de97
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.0.3
+  date: 2020-05-05T10:43:42.746Z
+- commits:
     - subject: Allow clients to specify a context id for logging purposes
       hash: 9e379c27cc7cec651c95b4b692c092ccbf28d9b5
       body: |
