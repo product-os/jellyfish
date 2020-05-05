@@ -37,3 +37,5 @@ require('@babel/register')({
 		/apps\/chat-widget/
 	]
 })
+
+global.env = {}

@@ -29,6 +29,7 @@ localForage.setDriver(localForage.LOCALSTORAGE)
 export const setupStore = ({
 	sdk,
 	analytics,
+	errorReporter,
 	storageKey
 }) => {
 	const save = (state) => {
@@ -62,6 +63,7 @@ export const setupStore = ({
 		actionCreators: new ActionCreator({
 			sdk,
 			analytics,
+			errorReporter,
 			selectors
 		}),
 		selectors

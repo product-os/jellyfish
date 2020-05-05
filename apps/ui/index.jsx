@@ -5,7 +5,6 @@
  */
 
 import '@babel/polyfill'
-import * as Sentry from '@sentry/browser'
 import 'circular-std'
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -21,6 +20,7 @@ import {
 } from 'styled-components'
 import {
 	analytics,
+	errorReporter,
 	sdk,
 	store
 } from './core'
@@ -29,21 +29,12 @@ import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
 import {
 	ResponsiveProvider
 } from '../../lib/ui-components/hooks/ResponsiveProvider'
-import * as environment from './environment'
 import {
 	BrowserRouter as Router
 } from 'react-router-dom'
 import {
 	SetupProvider
 } from '../../lib/ui-components/SetupProvider'
-
-if (environment.isProduction() && environment.sentry.dsn !== '0') {
-	Sentry.init({
-		dsn: environment.sentry.dsn,
-		release: environment.version,
-		environment: 'ui'
-	})
-}
 
 const GlobalStyle = createGlobalStyle `
   * {
@@ -93,7 +84,7 @@ ReactDOM.render(
 				}}
 			>
 				<ResponsiveProvider>
-					<SetupProvider sdk={sdk} analytics={analytics}>
+					<SetupProvider sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
 						<Provider store={store}>
 							<React.Fragment>
 								<GlobalStyle />
