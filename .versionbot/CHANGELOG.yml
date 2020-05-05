@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Reduce the number of inserted cards in an e2e test to reduce the chance
+        of timeouts
+      hash: 949ef0c16372be78c30da1c18b291b228f972cc4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.0.6
+  date: 2020-05-05T17:07:23.127Z
+- commits:
     - subject: Fix incorrect metric names
       hash: 58df22bc8832ee0d578d46ce1a920b53c06970a5
       body: ''
