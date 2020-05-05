@@ -986,3 +986,88 @@ ava.serial('Using the request-id header should be reflected in the X-Request-Id 
 
 	test.is(result.headers['x-request-id'], `REQUEST-${packageJson.version}-${requestId}`)
 })
+
+ava.serial('whoami should respond even if user has little permissions', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const roleSlug = test.context.generateRandomSlug({
+		prefix: 'role-user'
+	})
+
+	await test.context.sdk.action({
+		card: 'role@1.0.0',
+		type: 'type',
+		action: 'action-create-card@1.0.0',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: roleSlug,
+				version: '1.0.0',
+				data: {
+					read: {
+						type: 'object',
+						additionalProperties: false,
+						required: [ 'id', 'slug', 'type' ],
+						properties: {
+							id: {
+								type: 'string'
+							},
+							slug: {
+								type: 'string'
+							},
+							type: {
+								type: 'string',
+								enum: [ 'session@1.0.0', 'user@1.0.0' ]
+							}
+						}
+					}
+				}
+			}
+		}
+	})
+
+	const userDetails = createUserDetails()
+	const user = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	const session = await test.context.sdk.card.create({
+		type: 'session@1.0.0',
+		slug: test.context.generateRandomSlug({
+			prefix: 'session'
+		}),
+		version: '1.0.0',
+		data: {
+			actor: user.id
+		}
+	})
+
+	await sdk.card.update(user.id, user.type, [
+		{
+			op: 'replace',
+			path: '/data/roles',
+			value: [ roleSlug.replace(/^role-/, '') ]
+		}
+	])
+
+	const result = await test.context.http(
+		'GET',
+		'/api/v2/whoami',
+		{},
+		{
+			Authorization: `Bearer ${session.id}`
+		}
+	)
+
+	test.false(result.response.error)
+	test.is(result.response.data.id, user.id)
+})
