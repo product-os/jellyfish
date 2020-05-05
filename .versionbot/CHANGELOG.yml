@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix incorrect metric names
+      hash: 58df22bc8832ee0d578d46ce1a920b53c06970a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.0.5
+  date: 2020-05-05T13:02:45.370Z
+- commits:
     - subject: Don't allow users to create triggered actions
       hash: 3eb6e85332ac123b73f78404ba92e6e45558a35f
       body: ''
