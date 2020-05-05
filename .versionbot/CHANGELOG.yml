@@ -1,4 +1,19 @@
 - commits:
+    - subject: Allow clients to specify a context id for logging purposes
+      hash: 9e379c27cc7cec651c95b4b692c092ccbf28d9b5
+      body: |
+        If a client sends the 'request-id' header, this will be used for the
+        logging context in the API. This change allows us to trace queries
+        through the request lifecycle.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 30.0.2
+  date: 2020-05-05T02:44:15.782Z
+- commits:
     - subject: 'Livechat: Fix external support user permissions'
       hash: 11aad4aabe9d8d335c892b1c5d1b3bacbc9d4249
       body: ''
