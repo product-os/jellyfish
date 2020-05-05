@@ -1,4 +1,43 @@
 - commits:
+    - subject: Add a reworked `jsonschema2sql` under a feature gate
+      hash: 7b3c02725b4ebbd8449456f015ebe08ac8d5e96b
+      body: |
+        This rework is necessary to support further improvements, some of which
+        are already incorporated in this commit such as:
+
+        - A new query structure for linked cards relying on plain joins instead
+          of subqueries. Benchmarks show that this new structure is consistently
+          faster than the old query structure even on difficult edge cases;
+        - Better error checking instead of silently ignoring wrong schemas;
+        - Correct query generation for some nested keywords (i.e. nested
+          `required` that is currently ignored);
+        - Other minor improvements and handling of rare corner cases.
+
+        This PR also prunes:
+
+        - The experimental alternative query generator that supports `$$links`
+          within `$$links`. This code path is unused in production and conflicts
+          with this rewrite. If needed, this feature can be reintroduced in the
+          future;
+        - Support for setting `null` as the schema for a linked cards,
+          signifying that the link must not exist. This functionality is not
+          currently used and would be obsoleted anyway when support for nested
+          links lands;
+        - Support for the following keywords (may be readded later):
+          - `default`
+          - `patternProperties`
+          - `propertyNames`
+          - `formatMaximum`
+          - `formatMinimum`
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.1.0
+  date: 2020-05-05T21:25:15.611Z
+- commits:
     - subject: >-
         Reduce the number of inserted cards in an e2e test to reduce the chance
         of timeouts
