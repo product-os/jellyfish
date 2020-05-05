@@ -65,7 +65,8 @@
                   "event",
                   "external-event",
                   "role",
-									"first-time-login"
+									"first-time-login",
+									"triggered-action"
                 ]
               }
             },
