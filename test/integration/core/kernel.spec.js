@@ -2060,6 +2060,23 @@ ava('.query() should throw an error given an invalid regex', async (test) => {
 	})
 })
 
+ava('.query() should throw an error given an invalid enum', async (test) => {
+	await test.throwsAsync(context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'slug' ],
+			properties: {
+				slug: {
+					type: 'string',
+					enum: []
+				}
+			}
+		}), {
+		instanceOf: errors.JellyfishInvalidSchema
+	})
+})
+
 ava('.query() should be able to limit the results', async (test) => {
 	const ref = uuid()
 	const result1 = await context.kernel.insertCard(context.context, context.kernel.sessions.admin, {

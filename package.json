@@ -205,7 +205,7 @@
     "request-promise": "^4.2.2",
     "response-time": "^2.3.2",
     "semver": "^7.1.3",
-    "skhema": "5.2.10",
+    "skhema": "^5.3.0",
     "socket.io": "^2.1.0",
     "socket.io-prometheus-metrics": "^1.0.5",
     "socket.io-redis": "^5.2.0",
