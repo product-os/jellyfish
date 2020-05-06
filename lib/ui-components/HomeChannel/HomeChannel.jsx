@@ -17,7 +17,6 @@ import {
 	Divider,
 	Fixed,
 	Flex,
-	Link,
 	Txt
 } from 'rendition'
 import {
@@ -640,16 +639,16 @@ export default class HomeChannel extends React.Component {
 							/>
 						</Box>
 
-						<Link
+						<RouterLink
 							p={2}
 							fontSize={1}
-							href='https://github.com/balena-io/jellyfish/blob/master/CHANGELOG.md'
+							to='https://github.com/balena-io/jellyfish/blob/master/CHANGELOG.md'
 							blank
 						>
 							<Txt monospace>
 								v{this.props.version} {this.props.codename}
 							</Txt>
-						</Link>
+						</RouterLink>
 					</HomeChannelContent>
 				</HomeChannelDrawer>
 			</HomeChannelWrapper>

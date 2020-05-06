@@ -7,9 +7,9 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {
-	Link,
 	Txt
 } from 'rendition'
+import RouterLink from './Link'
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
@@ -41,7 +41,7 @@ const CardField = ({
 				<Label my={3}>{field}</Label>
 				{_.map(value, (mirror) => {
 					const url = transformMirror(mirror)
-					return <div><Link blank href={url} key={mirror}>{url}</Link></div>
+					return <div><RouterLink blank to={url} key={mirror}>{url}</RouterLink></div>
 				})}
 			</React.Fragment>
 		)

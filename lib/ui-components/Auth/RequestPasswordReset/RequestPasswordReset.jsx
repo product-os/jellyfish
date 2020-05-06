@@ -12,12 +12,12 @@ import {
 	Divider,
 	Heading,
 	Input,
-	Link,
 	Txt
 } from 'rendition'
 import Icon from '../../shame/Icon'
+import RouterLink from '../../Link'
 
-const StyledLink = styled(Link) `
+const StyledLink = styled(RouterLink) `
 	float: right;
 `
 
@@ -112,7 +112,7 @@ export default class RequestPasswordReset extends React.Component {
 				</form>
 				<StyledLink
 					mt={3}
-					href="/"
+					to="/"
 				>
 					Return to login?
 				</StyledLink>

@@ -8,13 +8,13 @@ import _ from 'lodash'
 import path from 'path'
 import React from 'react'
 import {
-	withRouter
-} from 'react-router-dom'
-import {
 	Link
 } from 'rendition'
+import {
+	isExternalLink
+} from '../services/helpers'
 
-class RouterLink extends React.Component {
+export default class RouterLink extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -36,13 +36,23 @@ class RouterLink extends React.Component {
 			return path.join(location.pathname, append)
 		}
 
-		return ''
+		return null
 	}
 
 	navigate (event) {
-		// If control or meta keys are pressed, then use default browser behaviour
+		const {
+			blank,
+			to
+		} = this.props
+
+		// If control or meta keys are pressed use default browser behaviour
 		if (event.ctrlKey || event.metaKey) {
-			return
+			return true
+		}
+
+		// If the link is external use default browser behaviour
+		if (blank || isExternalLink(to)) {
+			return true
 		}
 
 		event.preventDefault()
@@ -53,6 +63,7 @@ class RouterLink extends React.Component {
 		const url = this.makeUrl()
 
 		history.push(url)
+		return false
 	}
 
 	render () {
@@ -70,10 +81,10 @@ class RouterLink extends React.Component {
 			<Link
 				{...props}
 				href={url}
-				onClick={this.navigate}
+
+				// We should only navigate when `url` is defined
+				onClick={url ? this.navigate : props.onClick}
 			/>
 		)
 	}
 }
-
-export default withRouter(RouterLink)

@@ -18,7 +18,6 @@ import {
 	Box,
 	Button,
 	Flex,
-	Link,
 	Theme,
 	Txt
 } from 'rendition'
@@ -400,14 +399,14 @@ class SupportThreadBase extends React.Component {
 							return (
 								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
 									<Icon name="github" brands />
-									<Link
+									<RouterLink
 										ml={1}
-										href={`/${entry.slug || entry.id}`}
+										to={`/${entry.slug || entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-issue"
 									>
 										{entry.name}
-									</Link>
+									</RouterLink>
 								</Tag>
 							)
 						})}
@@ -416,14 +415,14 @@ class SupportThreadBase extends React.Component {
 							return (
 								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
 									<JellyIcon />
-									<Link
+									<RouterLink
 										ml={1}
-										href={`/${entry.slug || entry.id}`}
+										to={`/${entry.slug || entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-support-issue"
 									>
 										{entry.name}
-									</Link>
+									</RouterLink>
 								</Tag>
 							)
 						})}
@@ -432,14 +431,14 @@ class SupportThreadBase extends React.Component {
 							return (
 								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
 									<JellyIcon />
-									<Link
+									<RouterLink
 										ml={1}
-										href={`/${entry.slug || entry.id}`}
+										to={`/${entry.slug || entry.id}`}
 										key={entry.id}
 										data-test="support-thread__linked-support-issue"
 									>
 										{entry.name}
-									</Link>
+									</RouterLink>
 								</Tag>
 							)
 						})}
@@ -469,13 +468,13 @@ class SupportThreadBase extends React.Component {
 					</Flex>
 
 					{!this.state.expanded && (
-						<Link
+						<RouterLink
 							onClick={this.handleExpandToggle}
 							mt={2}
 							data-test="support-thread__expand"
 						>
 							More
-						</Link>
+						</RouterLink>
 					)}
 
 					{this.state.expanded && (
@@ -483,13 +482,13 @@ class SupportThreadBase extends React.Component {
 							{highlights.length > 0 && (
 								<div>
 									<strong>
-										<Link
+										<RouterLink
 											mt={1}
 											onClick={this.toggleHighlights}
 										>
 														Highlights{' '}
 											<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
-										</Link>
+										</RouterLink>
 									</strong>
 								</div>
 							)}
@@ -528,9 +527,9 @@ class SupportThreadBase extends React.Component {
 							/>
 
 							<Box>
-								<Link mt={3} onClick={this.handleExpandToggle}>
+								<RouterLink mt={3} onClick={this.handleExpandToggle}>
 									Less
-								</Link>
+								</RouterLink>
 							</Box>
 						</React.Fragment>
 					)}

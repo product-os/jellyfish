@@ -17,8 +17,7 @@ import {
 	Txt,
 	Tab,
 	Tabs,
-	Divider,
-	Link
+	Divider
 } from 'rendition'
 import {
 	Form
@@ -28,6 +27,7 @@ import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
 import Avatar from '../../../../../lib/ui-components/shame/Avatar'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
+import RouterLink from '../../../../../lib/ui-components/Link'
 
 const SLUG = 'lens-my-user'
 
@@ -262,9 +262,9 @@ export default class MyUser extends React.Component {
 							<Divider color="#eee" />
 
 							<Flex justifyContent="space-between" alignItems="center">
-								<Link href="https://www.outreach.io/" blank>
+								<RouterLink to="https://www.outreach.io/" blank>
 									<Txt bold>Outreach</Txt>
-								</Link>
+								</RouterLink>
 
 								{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
 									<Txt>Authorized</Txt>
