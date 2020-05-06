@@ -203,6 +203,7 @@ export default class LinkModal extends React.Component {
 							value={linkType || ''}
 							onChange={this.handleLinkTypeSelect}
 							labelKey="title"
+							valueKey="slug"
 							options={linkTypeTargets}
 							data-test="card-linker--type__input"
 						/>
