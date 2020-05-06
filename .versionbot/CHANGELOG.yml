@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: Add UNIQUE constraint on slug + version on the links table'
+      hash: b20c5b1c574d4e8b10f774e7e5e4bd16dc412663
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: 'https://github.com/product-os/jellyfish/pull/3655'
+        see: 'https://github.com/product-os/jellyfish/pull/3655'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.3.0
+  date: 2020-05-06T13:16:06.488Z
+- commits:
     - subject: 'ui-components: Ensure selected link type displayed in Link Modal'
       hash: c89a1b9c114fd30ff8641d0f5cbb9ae5068cf042
       body: ''
