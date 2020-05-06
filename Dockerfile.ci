@@ -11,7 +11,7 @@ COPY ./scripts ./scripts
 COPY package.json package-lock.json /usr/src/jellyfish/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN npm ci
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 RUN rm -f ~/.npmrc
 
 RUN apt-get update && apt-get install -y \
@@ -26,4 +26,4 @@ COPY ./Makefile ./Makefile
 COPY ./.git ./.git
 
 # Run set test script
-CMD /bin/bash -c "/usr/src/jellyfish/scripts/ci/tests/init.js"
+CMD /bin/bash -c "source ~/.bashrc && /usr/src/jellyfish/scripts/ci/tests/init.js"
