@@ -14,6 +14,9 @@ import * as skhema from 'skhema'
 import {
 	v4 as uuid
 } from 'uuid'
+import {
+	isUUID
+} from '../../../../lib/uuid'
 import actions from './actions'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import {
@@ -516,6 +519,7 @@ export default class ActionCreator {
 					})
 				})
 				.then(async () => {
+					const identifier = isUUID(target) ? 'id' : 'slug'
 					const stream = await this.sdk.stream({
 						$$links: {
 							'has attached element': {
@@ -524,12 +528,12 @@ export default class ActionCreator {
 						},
 						type: 'object',
 						properties: {
-							slug: {
+							[identifier]: {
 								type: 'string',
 								const: target
 							}
 						},
-						required: [ 'slug' ]
+						required: [ identifier ]
 					})
 
 					const hash = hashCode(target)
