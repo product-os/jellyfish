@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui-components: Ensure selected link type displayed in Link Modal'
+      hash: c89a1b9c114fd30ff8641d0f5cbb9ae5068cf042
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.2.1
+  date: 2020-05-06T06:02:45.927Z
+- commits:
     - subject: 'ui-components: Log exceptions caught by the ErrorBoundary to Sentry'
       hash: 2acbf51a25a8fb365eeb68a5266984a72d0fd76e
       body: ''
