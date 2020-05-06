@@ -8,6 +8,8 @@
 
 set -xe
 
+exit 0
+
 # install kubectl
 kubectl_release=v1.18.2 \
   && wget -qO kubectl "https://storage.googleapis.com/kubernetes-release/release/${kubectl_release}/bin/linux/amd64/kubectl" \
