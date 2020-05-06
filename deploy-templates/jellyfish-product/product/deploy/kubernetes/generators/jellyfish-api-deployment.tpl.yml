@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: jellyfish
-  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
 spec:
   selector:
     matchLabels:
@@ -49,19 +49,19 @@ spec:
         - name: PORT
           value: '8000'
         - name: DATABASE
-          value: postgres
+          value: 'postgres'
         - name: POSTGRES_DATABASE
-          value: {{POSTGRES_DATABASE}}
+          value: '{{{POSTGRES_DATABASE}}}'
         - name: POSTGRES_USER
-          value: {{POSTGRES_USER}}
+          value: '{{{POSTGRES_USER}}}'
         - name: POSTGRES_PASSWORD
-          value: {{POSTGRES_PASSWORD}}
+          value: '{{{POSTGRES_PASSWORD}}}'
         - name: POSTGRES_PORT
-          value: '{{POSTGRES_PORT}}'
+          value: '{{{POSTGRES_PORT}}}'
         - name: POSTGRES_HOST
-          value: {{POSTGRES_HOST}}
+          value: '{{{POSTGRES_HOST}}}'
         - name: REDIS_HOST
-          value: {{REDIS_HOST}}
+          value: '{{{REDIS_HOST}}}'
         - name: REDIS_PASSWORD
           value: '{{{REDIS_PASSWORD}}}'
         - name: NODE_ENV
@@ -111,19 +111,19 @@ spec:
         - name: INTEGRATION_OUTREACH_APP_SECRET
           value: '{{{INTEGRATION_OUTREACH_APP_SECRET}}}'
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
-          value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
+          value: '{{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}'
         - name: MAILGUN_TOKEN
-          value: {{{MAILGUN_TOKEN}}}
+          value: '{{{MAILGUN_TOKEN}}}'
         - name: MAILGUN_DOMAIN
-          value: {{{MAILGUN_DOMAIN}}}
+          value: '{{{MAILGUN_DOMAIN}}}'
         - name: MAILGUN_BASE_URL
-          value: {{{MAILGUN_BASE_URL}}}
+          value: '{{{MAILGUN_BASE_URL}}}'
         - name: RESET_PASSWORD_SECRET_TOKEN
-          value: {{{RESET_PASSWORD_SECRET_TOKEN}}}
+          value: '{{{RESET_PASSWORD_SECRET_TOKEN}}}'
         - name: TEST_USER_USERNAME
-          value: jellyfish
+          value: 'jellyfish'
         - name: TEST_USER_ROLE
-          value: user-community
+          value: 'user-community'
         - name: SERVER_PORT
           value: '8000'
         - name: METRICS_PORT
@@ -131,9 +131,9 @@ spec:
         - name: SOCKET_METRICS_PORT
           value: '{{{SOCKET_METRICS_PORT}}}'
         - name: MONITOR_SECRET_TOKEN
-          value: {{{MONITOR_SECRET_TOKEN}}}
+          value: '{{{MONITOR_SECRET_TOKEN}}}'
         - name: NEW_COMPILER_TEST_CHANCE
-          value: {{{NEW_COMPILER_TEST_CHANCE}}}
+          value: '{{{NEW_COMPILER_TEST_CHANCE}}}'
         ports:
         - containerPort: 8000
         - containerPort: 9229

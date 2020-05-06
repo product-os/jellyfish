@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: jellyfish-livechat
-  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
 spec:
   selector:
     matchLabels:
@@ -40,7 +40,7 @@ spec:
         - name: NGINX_PORT
           value: '80'
         - name: NODE_ENV
-          value: {{{NODE_ENV}}}
+          value: '{{{NODE_ENV}}}'
         ports:
         - containerPort: 80
       imagePullSecrets:

@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: redis
-  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
 spec:
   selector:
     matchLabels:
@@ -17,7 +17,7 @@ spec:
           name: redis
           env:
             - name: REDIS_PASSWORD
-              value: {{{REDIS_PASSWORD}}}
+              value: '{{{REDIS_PASSWORD}}}'
           ports:
             - containerPort: 6379
       imagePullSecrets:
