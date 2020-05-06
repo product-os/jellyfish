@@ -66,6 +66,7 @@ export default class ErrorBoundary extends React.Component {
 			info,
 			error
 		})
+		this.props.errorReporter.reportException(error, info)
 		this.setState({
 			hasError: true
 		})

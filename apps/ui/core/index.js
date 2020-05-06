@@ -7,6 +7,7 @@
 import localForage from 'localforage'
 import * as _ from 'lodash'
 import Analytics from '../../../lib/ui-components/services/analytics'
+import ErrorReporter from '../../../lib/ui-components/services/error-reporter'
 import * as environment from '../environment'
 import {
 	sdk as SDK
@@ -27,8 +28,15 @@ export const analytics = new Analytics({
 	token: environment.analytics.mixpanel.token
 })
 
+export const errorReporter = new ErrorReporter({
+	isProduction: environment.isProduction(),
+	dsn: environment.sentry.dsn,
+	version: environment.version
+})
+
 const bundle = setupStore({
 	analytics,
+	errorReporter,
 	sdk,
 	storageKey: STORAGE_KEY
 })

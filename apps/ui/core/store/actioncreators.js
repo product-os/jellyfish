@@ -159,6 +159,7 @@ let commsStream = null
 export default class ActionCreator {
 	constructor (context) {
 		this.sdk = context.sdk
+		this.errorReporter = context.errorReporter
 		this.analytics = context.analytics
 		this.tokenRefreshInterval = null
 
@@ -688,6 +689,12 @@ export default class ActionCreator {
 						})
 					}
 
+					this.errorReporter.setUser({
+						id: user.id,
+						slug: user.slug,
+						email: _.get(user, [ 'data', 'email' ])
+					})
+
 					this.tokenRefreshInterval = setInterval(async () => {
 						const newToken = await this.sdk.auth.refreshToken()
 						dispatch(this.setAuthToken(newToken))
@@ -837,6 +844,7 @@ export default class ActionCreator {
 
 		this.analytics.track('ui.logout')
 		this.analytics.identify()
+		this.errorReporter.setUser(null)
 		if (commsStream) {
 			commsStream.close()
 			commsStream = null

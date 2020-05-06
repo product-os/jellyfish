@@ -63,8 +63,13 @@ ava.beforeEach((test) => {
 		track: sandbox.fake(),
 		identify: sandbox.fake()
 	}
+	test.context.errorReporter = {
+		reportException: sandbox.fake(),
+		setUser: sandbox.fake()
+	}
 	test.context.actionCreator = new ActionCreator({
 		sdk: test.context.sdk,
+		errorReporter: test.context.errorReporter,
 		analytics: test.context.analytics
 	})
 	test.context.getCardAction = test.context.actionCreator.getCard(cardId, 'user', [ 'is member of' ])
