@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add more comments to the new `jsonschema2sql` compiler
+      hash: f0592516f68126182d5090a9e045779aae263285
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.5.4
+  date: 2020-05-07T12:20:40.455Z
+- commits:
     - subject: 'ui: Fix logic when subscribing to card updates'
       hash: e20562b6aeaee60e808af44fe841ad5383002366
       body: |
