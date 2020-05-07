@@ -1,4 +1,21 @@
 - commits:
+    - subject: Explicitly set which links table columns that values are written to
+      hash: aa564657ac553e5119b1a3e6a682281795e2847c
+      body: |
+        By explicitly setting which columns alues are written to, we avoid an
+        error where the insert would fail if the table columns were in
+        a different order to the values being inserted. This can happen if
+        a previously created table is altered to include the new version
+        columns.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian <lucian.buzzo@gmail.com>
+      author: Lucian
+  version: 30.5.2
+  date: 2020-05-07T10:09:06.152Z
+- commits:
     - subject: Decrease verbosity of compose logs
       hash: 567a9855c861d1da2675d9d4a6605671ffa87831
       body: ''
