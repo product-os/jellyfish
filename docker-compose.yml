@@ -21,7 +21,7 @@ services:
     environment:
       - DATABASE=postgres
       - LOGENTRIES_TOKEN
-      - LOGLEVEL=info
+      - LOGLEVEL=crit
       - NODE_ENV=test
       - POD_NAME=localhost
       - PORT=8000
@@ -170,7 +170,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT=6379
-      - LOGLEVEL=info
+      - LOGLEVEL=crit
       - SENTRY_DSN_SERVER
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
@@ -234,7 +234,7 @@ services:
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
-      - LOGLEVEL=info
+      - LOGLEVEL=crit
       - NODE_ENV=test
       - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
@@ -293,7 +293,7 @@ services:
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
-      - LOGLEVEL=info
+      - LOGLEVEL=crit
       - NODE_ENV=test
       - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
@@ -352,7 +352,7 @@ services:
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
-      - LOGLEVEL=info
+      - LOGLEVEL=crit
       - NODE_ENV=test
       - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
