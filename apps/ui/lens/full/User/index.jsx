@@ -12,43 +12,37 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	actionCreators,
-	selectors
+	actionCreators
 } from '../../../core'
-import InnerSingleCard from './SingleCard'
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state)
-	}
-}
+import User from './User'
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'createLink',
-				'addNotification',
-				'addChannel',
-				'getLinks',
-				'queryAPI'
+				'sendFirstTimeLoginLink',
+				'createLink'
 			]), dispatch)
 	}
 }
 
-export const SingleCard = connect(mapStateToProps, mapDispatchToProps)(InnerSingleCard)
-
 const lens = {
-	slug: 'lens-full-default',
+	slug: 'lens-full-user',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Default lens',
+	name: 'User lens',
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: SingleCard,
+		renderer: connect(null, mapDispatchToProps)(User),
 		filter: {
-			type: 'object'
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'user@1.0.0'
+				}
+			}
 		}
 	}
 }

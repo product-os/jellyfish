@@ -26,13 +26,10 @@ configure({
 })
 
 const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
+browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement' ])
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
-
-class XMLHttpRequest {}
-global.XMLHttpRequest = XMLHttpRequest
 
 class HowlerGlobal {}
 global.HowlerGlobal = HowlerGlobal

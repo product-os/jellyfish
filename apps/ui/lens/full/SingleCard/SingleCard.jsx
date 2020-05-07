@@ -66,7 +66,8 @@ export default class SingleCardFull extends React.Component {
 			card,
 			channel,
 			fieldOrder,
-			types
+			types,
+			actionItems
 		} = this.props
 		const type = _.find(types, {
 			slug: card.type.split('@')[0]
@@ -86,6 +87,7 @@ export default class SingleCardFull extends React.Component {
 				overflowY
 				card={card}
 				channel={channel}
+				actionItems={actionItems}
 			>
 				<Divider width="100%" color={colorHash(card.type)} />
 

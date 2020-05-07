@@ -35,7 +35,8 @@ require('@babel/register')({
 		/lib\/chat-widget/,
 		/\.jsx$/,
 		/apps\/ui/,
-		/apps\/chat-widget/
+		/apps\/chat-widget/,
+		/node_modules\/dagre-d3-renderer/
 	]
 })
 

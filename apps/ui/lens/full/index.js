@@ -10,12 +10,14 @@ import SingleCard from './SingleCard'
 import SupportThread from './SupportThread'
 import Thread from './Thread'
 import View from './View'
+import User from './User'
 
 export default [
 	MyUser,
 	Repository,
 	SingleCard,
 	SupportThread,
+	User,
 	Thread,
 	View
 ]

@@ -16,9 +16,7 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-import {
-	getLens
-} from '../../../lens'
+
 import {
 	evalSchema,
 	getRelationshipTargetType
@@ -172,7 +170,7 @@ export default class Segment extends React.Component {
 			)
 		}
 
-		const lens = getLens('list', results)
+		const lens = require('../../../lens').getLens('list', results)
 
 		return (
 			<React.Fragment>

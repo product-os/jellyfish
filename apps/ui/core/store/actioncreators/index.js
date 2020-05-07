@@ -222,6 +222,7 @@ export default class ActionCreator {
 			'removeViewDataItem',
 			'removeViewNotice',
 			'requestPasswordReset',
+			'sendFirstTimeLoginLink',
 			'setAuthToken',
 			'setChannels',
 			'setChatWidgetOpen',
@@ -1084,12 +1085,17 @@ export default class ActionCreator {
 		user
 	}) {
 		return async (dispatch, getState) => {
-			return this.sdk.action({
-				card: user.id,
-				action: 'action-send-first-time-login-link@1.0.0',
-				type: user.type,
-				arguments: {}
-			})
+			try {
+				await this.sdk.action({
+					card: user.id,
+					action: 'action-send-first-time-login-link@1.0.0',
+					type: user.type,
+					arguments: {}
+				})
+				dispatch(this.addNotification('success', 'Sent first-time login token to user'))
+			} catch (error) {
+				dispatch(this.addNotification('danger', error.message))
+			}
 		}
 	}
 
