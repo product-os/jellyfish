@@ -4,7 +4,7 @@ metadata:
   labels:
     name: redis
   name: redis
-  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
 spec:
   selector:
     app: redis

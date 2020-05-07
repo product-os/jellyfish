@@ -2,7 +2,7 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   name: action-server
-  namespace: {{{KATAPULT_KUBE_NAMESPACE}}}
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
 spec:
   replicas: 12
   selector:
@@ -23,29 +23,29 @@ spec:
             fieldRef:
               fieldPath: metadata.name
         - name: DATABASE
-          value: postgres
+          value: 'postgres'
         - name: POSTGRES_DATABASE
-          value: {{POSTGRES_DATABASE}}
+          value: '{{{POSTGRES_DATABASE}}}'
         - name: POSTGRES_USER
-          value: {{POSTGRES_USER}}
+          value: '{{{POSTGRES_USER}}}'
         - name: POSTGRES_PASSWORD
-          value: {{POSTGRES_PASSWORD}}
+          value: '{{{POSTGRES_PASSWORD}}}'
         - name: POSTGRES_PORT
-          value: '{{POSTGRES_PORT}}'
+          value: '{{{POSTGRES_PORT}}}'
         - name: POSTGRES_HOST
-          value: {{POSTGRES_HOST}}
+          value: '{{{POSTGRES_HOST}}}'
         - name: REDIS_HOST
-          value: {{REDIS_HOST}}
+          value: '{{{REDIS_HOST}}}'
         - name: REDIS_PASSWORD
-          value: {{{REDIS_PASSWORD}}}
+          value: '{{{REDIS_PASSWORD}}}'
         - name: NODE_ENV
-          value: {{{NODE_ENV}}}
+          value: '{{{NODE_ENV}}}'
         - name: SENTRY_DSN_SERVER
-          value: {{{SENTRY_DSN_SERVER}}}
+          value: '{{{SENTRY_DSN_SERVER}}}'
         - name: LOGENTRIES_TOKEN
-          value: {{{LOGENTRIES_TOKEN}}}
+          value: '{{{LOGENTRIES_TOKEN}}}'
         - name: LOGLEVEL
-          value: {{{LOGLEVEL}}}
+          value: '{{{LOGLEVEL}}}'
         - name: WORKER_PORT
           value: '{{{WORKER_PORT}}}'
         - name: METRICS_PORT
@@ -57,17 +57,17 @@ spec:
         - name: INTEGRATION_BALENA_API_OAUTH_BASE_URL
           value: '{{{INTEGRATION_BALENA_API_OAUTH_BASE_URL}}}'
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
-          value: {{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}
+          value: '{{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}'
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-          value: {{{INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION}}}
+          value: '{{{INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION}}}'
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-          value: {{{INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING}}}
+          value: '{{{INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING}}}'
         - name: INTEGRATION_DEFAULT_USER
-          value: {{{INTEGRATION_DEFAULT_USER}}}
+          value: '{{{INTEGRATION_DEFAULT_USER}}}'
         - name: INTEGRATION_INTERCOM_TOKEN
-          value: {{{INTEGRATION_INTERCOM_TOKEN}}}
+          value: '{{{INTEGRATION_INTERCOM_TOKEN}}}'
         - name: INTEGRATION_FRONT_TOKEN
-          value: {{{INTEGRATION_FRONT_TOKEN}}}
+          value: '{{{INTEGRATION_FRONT_TOKEN}}}'
         - name: INTEGRATION_GITHUB_TOKEN
           value: '{{{INTEGRATION_GITHUB_TOKEN}}}'
         - name: INTEGRATION_GITHUB_SIGNATURE_KEY
@@ -77,31 +77,31 @@ spec:
         - name: INTEGRATION_GITHUB_APP_ID
           value: '{{{INTEGRATION_GITHUB_APP_ID}}}'
         - name: INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-          value: {{{INTEGRATION_FLOWDOCK_SIGNATURE_KEY}}}
+          value: '{{{INTEGRATION_FLOWDOCK_SIGNATURE_KEY}}}'
         - name: INTEGRATION_DISCOURSE_TOKEN
-          value: {{{INTEGRATION_DISCOURSE_TOKEN}}}
+          value: '{{{INTEGRATION_DISCOURSE_TOKEN}}}'
         - name: INTEGRATION_DISCOURSE_USERNAME
-          value: {{{INTEGRATION_DISCOURSE_USERNAME}}}
+          value: '{{{INTEGRATION_DISCOURSE_USERNAME}}}'
         - name: INTEGRATION_DISCOURSE_SIGNATURE_KEY
-          value: {{{INTEGRATION_DISCOURSE_SIGNATURE_KEY}}}
+          value: '{{{INTEGRATION_DISCOURSE_SIGNATURE_KEY}}}'
         - name: INTEGRATION_OUTREACH_APP_ID
-          value: {{{INTEGRATION_OUTREACH_APP_ID}}}
+          value: '{{{INTEGRATION_OUTREACH_APP_ID}}}'
         - name: INTEGRATION_OUTREACH_APP_SECRET
-          value: {{{INTEGRATION_OUTREACH_APP_SECRET}}}
+          value: '{{{INTEGRATION_OUTREACH_APP_SECRET}}}'
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
-          value: {{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}
+          value: '{{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}'
         - name: MAILGUN_TOKEN
-          value: {{{MAILGUN_TOKEN}}}
+          value: '{{{MAILGUN_TOKEN}}}'
         - name: MAILGUN_DOMAIN
-          value: {{{MAILGUN_DOMAIN}}}
+          value: '{{{MAILGUN_DOMAIN}}}'
         - name: MAILGUN_BASE_URL
-          value: {{{MAILGUN_BASE_URL}}}
+          value: '{{{MAILGUN_BASE_URL}}}'
         - name: RESET_PASSWORD_SECRET_TOKEN
-          value: {{{RESET_PASSWORD_SECRET_TOKEN}}}
+          value: '{{{RESET_PASSWORD_SECRET_TOKEN}}}'
         - name: MONITOR_SECRET_TOKEN
-          value: {{{MONITOR_SECRET_TOKEN}}}
+          value: '{{{MONITOR_SECRET_TOKEN}}}'
         - name: NEW_COMPILER_TEST_CHANCE
-          value: {{{NEW_COMPILER_TEST_CHANCE}}}
+          value: '{{{NEW_COMPILER_TEST_CHANCE}}}'
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a
