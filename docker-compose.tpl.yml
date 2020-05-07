@@ -21,7 +21,7 @@ services:
     environment:
       - DATABASE={{DATABASE}}
       - LOGENTRIES_TOKEN
-      - LOGLEVEL={{LOGLEVEL}}
+      - LOGLEVEL=crit
       - NODE_ENV={{NODE_ENV}}
       - POD_NAME={{POD_NAME}}
       - PORT={{PORT}}
@@ -170,7 +170,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PASSWORD=redis
       - REDIS_PORT={{REDIS_PORT}}
-      - LOGLEVEL={{LOGLEVEL}}
+      - LOGLEVEL=crit
       - SENTRY_DSN_SERVER
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
@@ -235,7 +235,7 @@ services:
       - balena-mdns-publisher
     environment:
       - DATABASE={{DATABASE}}
-      - LOGLEVEL={{LOGLEVEL}}
+      - LOGLEVEL=crit
       - NODE_ENV={{NODE_ENV}}
       - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
       - POSTGRES_HOST=postgres
