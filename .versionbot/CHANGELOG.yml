@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'ui: Convert Jellyfish into a Progressive Web App'
+      hash: e3e7987c7a96997f189d8eb58450b12118fd575e
+      body: >
+        Added a manifest and a service worker. Jellyfish can now be 'installed'
+        as a Progressive Web App. All static resources are pre-cached by the
+        service worker using a 'CacheFirst' strategy. When the app is updated in
+        any way, the user is notified via a confirm dialog and the app is
+        updated and the page is refreshed once they accept.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.5.0
+  date: 2020-05-07T05:32:25.535Z
+- commits:
     - subject: Use Chromium pre-installed in base image and skip download
       hash: 48326dbbfc6b29bd46176dcf02804bd70721b5d8
       body: ''
