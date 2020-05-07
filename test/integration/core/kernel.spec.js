@@ -2060,6 +2060,35 @@ ava('.query() should throw an error given an invalid regex', async (test) => {
 	})
 })
 
+ava('.query() should throw an error given an invalid enum in links', async (test) => {
+	await test.throwsAsync(context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			$$links: {
+				'is member of': {
+					type: 'object',
+					properties: {
+						slug: {
+							enum: []
+						}
+					}
+				}
+			},
+			type: 'object',
+			properties: {
+				type: {
+					const: 'user@1.0.0'
+				},
+				slug: {
+					pattern: '^user-admin'
+				}
+			},
+			required: [ 'type', 'slug' ],
+			additionalProperties: true
+		}), {
+		instanceOf: errors.JellyfishInvalidSchema
+	})
+})
+
 ava('.query() should throw an error given an invalid enum', async (test) => {
 	await test.throwsAsync(context.kernel.query(
 		context.context, context.kernel.sessions.admin, {
