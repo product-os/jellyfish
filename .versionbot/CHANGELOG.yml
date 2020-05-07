@@ -1,4 +1,16 @@
 - commits:
+    - subject: Decrease verbosity of compose logs
+      hash: 567a9855c861d1da2675d9d4a6605671ffa87831
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.5.1
+  date: 2020-05-07T09:17:36.012Z
+- commits:
     - subject: 'ui: Convert Jellyfish into a Progressive Web App'
       hash: e3e7987c7a96997f189d8eb58450b12118fd575e
       body: >
