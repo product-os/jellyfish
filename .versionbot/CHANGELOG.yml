@@ -1,4 +1,26 @@
 - commits:
+    - subject: Quote all the things (in k8s templates)
+      hash: 30959f278de7c02c62dfb74b12069eb0b3bbc2ed
+      body: |
+        Previously we were relying on the value to look like a string, which led
+        to spurious quoting for variables that could have a number-like value
+        like a port.
+
+        Also templeting was used inconsistently by using double brackets
+        ({{...}}) which HTML escapes instead of triple ones that put the value
+        as-is.
+
+        Both issued are fixed by universally quoting all values and converting
+        everything to triple brackets.
+      footer:
+        Signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        signed-off-by: Petros Angelatos <petrosagg@gmail.com>
+        Change-Type: patch
+        change-type: patch
+      author: Petros Angelatos
+  version: 30.5.6
+  date: 2020-05-07T20:14:41.838Z
+- commits:
     - subject: 'SRE: Re-enables auto-deployment upon merge.'
       hash: b713f4a3c13245f263696377bc561c9d7f7150bf
       body: ''
