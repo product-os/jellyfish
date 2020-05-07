@@ -5,10 +5,12 @@
  */
 
 /* eslint-env node */
+/* eslint-disable no-process-env */
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
+const WorkboxPlugin = require('workbox-webpack-plugin')
 const path = require('path')
 const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
@@ -19,7 +21,6 @@ const baseConfig = require('../../webpack.config.base.js')
 const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
 
-// eslint-disable-next-line no-process-env
 const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
@@ -29,6 +30,7 @@ const iconsFolderPath = path.join(resourcesRoot, 'icons')
 const uiComponentsIconsFolderPath = path.join(uiComponentsPath, 'icons')
 const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
+const manifestPath = path.join(resourcesRoot, 'manifest.json')
 const outDir = path.join(root, 'dist/ui')
 const packageJSON = require('../../package.json')
 
@@ -76,6 +78,9 @@ const config = mergeConfig(baseConfig, {
 				from: faviconPath
 			},
 			{
+				from: manifestPath
+			},
+			{
 				from: uiComponentsIconsFolderPath,
 				to: 'icons'
 			}
@@ -85,19 +90,26 @@ const config = mergeConfig(baseConfig, {
 			template: indexFilePath
 		}),
 
+		new WorkboxPlugin.InjectManifest({
+			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+
+			// The vendors.js file is BIG - set this to a safe value of 40MB
+			maximumFileSizeToCacheInBytes: 40000000,
+			swSrc: './apps/ui/service-worker.js'
+		}),
+
 		new DefinePlugin({
-			/* eslint-disable no-process-env */
 			env: {
 				API_URL: JSON.stringify(process.env.API_URL),
 				API_PREFIX: JSON.stringify(process.env.API_PREFIX || 'api/v2/'),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
 				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
+				JF_DEBUG_SW: JSON.stringify(process.env.JF_DEBUG_SW),
 
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
-			/* eslint-enable no-process-env */
 		}),
 
 		new webpack.ContextReplacementPlugin(
@@ -109,7 +121,6 @@ const config = mergeConfig(baseConfig, {
 	]
 })
 
-// eslint-disable-next-line no-process-env
 if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({

@@ -35,6 +35,10 @@ import {
 import {
 	SetupProvider
 } from '../../lib/ui-components/SetupProvider'
+import PWA from './pwa'
+
+export const pwa = new PWA()
+pwa.init()
 
 const GlobalStyle = createGlobalStyle `
   * {
