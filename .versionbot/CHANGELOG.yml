@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Fix logic when subscribing to card updates'
+      hash: e20562b6aeaee60e808af44fe841ad5383002366
+      body: |
+        Target can now be an ID or a slug.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.5.3
+  date: 2020-05-07T11:15:06.495Z
+- commits:
     - subject: Explicitly set which links table columns that values are written to
       hash: aa564657ac553e5119b1a3e6a682281795e2847c
       body: |
