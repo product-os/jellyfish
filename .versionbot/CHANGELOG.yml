@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'core: Remove slug UNIQUE constraint on links table'
+      hash: c77f5163ed3b7fdba12ab11fe12deaf125040a44
+      body: |
+        We will rely on the existing slug + version composite UNIQUE constraint
+        instead.
+      footer:
+        Change-type: minor
+        change-type: minor
+        See: 'https://github.com/product-os/jellyfish/pull/3655'
+        see: 'https://github.com/product-os/jellyfish/pull/3655'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.4.0
+  date: 2020-05-07T00:43:32.662Z
+- commits:
     - subject: 'core: Throw JellyfishInvalidSchema on invalid schemas'
       hash: 1904f273900b8a19d8b073aa8a804828eeedcfb0
       body: |
