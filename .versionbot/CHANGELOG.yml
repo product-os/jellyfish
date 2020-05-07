@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'SRE: Re-enables auto-deployment upon merge.'
+      hash: b713f4a3c13245f263696377bc561c9d7f7150bf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.5.5
+  date: 2020-05-07T13:13:35.562Z
+- commits:
     - subject: Add more comments to the new `jsonschema2sql` compiler
       hash: f0592516f68126182d5090a9e045779aae263285
       body: ''
