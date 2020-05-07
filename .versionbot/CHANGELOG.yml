@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use Chromium pre-installed in base image and skip download
+      hash: 48326dbbfc6b29bd46176dcf02804bd70721b5d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.4.1
+  date: 2020-05-07T04:01:22.976Z
+- commits:
     - subject: 'core: Remove slug UNIQUE constraint on links table'
       hash: c77f5163ed3b7fdba12ab11fe12deaf125040a44
       body: |
