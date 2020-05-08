@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Revert "Merge pull request #3671 from
+        product-os/streams-req-optimization"
+      hash: 534c7fa6fe39fda8b6921a219d04513d79025382
+      body: |
+        This reverts commit f32b4086d1275b6feab5b47ae013b88cb50fc32e, reversing
+        changes made to 368c7871d55c00d011c5dd0021fdc9de13545c5a.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 30.9.2
+  date: 2020-05-08T16:10:50.920Z
+- commits:
     - subject: 'core: Small optimization for filtering stream subscriptions'
       hash: 86499f12b37c04f32156a503e3e169a91f008f32
       body: ''
