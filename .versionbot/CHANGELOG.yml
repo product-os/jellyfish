@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'core: Add ''Owned conversations'' tab to user card'
+      hash: e471f778b332d99f92fbf47d6403571887041d11
+      body: >
+        The meta relationships of a user card now defines a 'Owned
+        conversations' relationship, exposed as a tab on the user card's
+        (default) lens. Currently this only displays owned support-threads and
+        sales-threads.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.9.0
+  date: 2020-05-08T08:05:03.438Z
+- commits:
     - subject: 'server: Add file field to message and whisper card types'
       hash: 41a62ce2cf762bfd4c41ad2584fe522680d7fd38
       body: >
