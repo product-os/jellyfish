@@ -11,8 +11,8 @@ import {
 	Link
 } from 'rendition'
 import {
-	isExternalLink,
-	toRelativeLink
+	isExternalUrl,
+	toRelativeUrl
 } from '../services/helpers'
 
 export default class RouterLink extends React.Component {
@@ -30,7 +30,7 @@ export default class RouterLink extends React.Component {
 		} = this.props
 
 		if (to) {
-			return toRelativeLink(to)
+			return toRelativeUrl(to)
 		}
 
 		if (append) {
@@ -52,7 +52,7 @@ export default class RouterLink extends React.Component {
 		}
 
 		// If the link is external use default browser behaviour
-		if (blank || isExternalLink(to)) {
+		if (blank || isExternalUrl(to)) {
 			return true
 		}
 
