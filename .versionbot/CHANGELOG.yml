@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: New ''My conversations'' view'
+      hash: 64817a4c5182d7cf7420672dda20f17a79d12c87
+      body: |
+        Added to the user's menu.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.7.0
+  date: 2020-05-08T03:02:48.527Z
+- commits:
     - subject: Bump jellyfish-client-sdk to v0.3.0
       hash: f152f7914d5f7313bf1c763d827575e270d2d1d2
       body: |
