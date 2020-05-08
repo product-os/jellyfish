@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-client-sdk to v0.3.0
+      hash: f152f7914d5f7313bf1c763d827575e270d2d1d2
+      body: |
+        This version adds support for ownership of sales threads.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.6.0
+  date: 2020-05-08T01:01:30.203Z
+- commits:
     - subject: Fix flakey kernel query test
       hash: 7adbefae1068845a3908d016ba4966476feb7315
       body: |
