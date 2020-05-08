@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix flakey kernel query test
+      hash: 7adbefae1068845a3908d016ba4966476feb7315
+      body: |
+        The sort order of results returned from the DB was not explicitly set
+        and could result in a failing test.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.5.7
+  date: 2020-05-07T23:22:48.968Z
+- commits:
     - subject: Quote all the things (in k8s templates)
       hash: 30959f278de7c02c62dfb74b12069eb0b3bbc2ed
       body: |
