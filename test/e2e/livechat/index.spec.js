@@ -11,14 +11,18 @@ const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
 } = require('../../../lib/chat-widget/constants')
 const {
-	createChatMessage
+	createChatMessage,
+	waitForInnerText
 } = require('../ui/macros')
 const helpers = require('./helpers')
 const {
 	createConversation,
+	createOrg,
 	createThreads,
 	getRenderedConversationIds,
 	initChat,
+	insertAgentReply,
+	prepareUser,
 	scrollToLatestConversationListItem
 } = require('./macros')
 
@@ -32,6 +36,10 @@ ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
+
+	const org = await createOrg(context)
+	context.supportAgent = await prepareUser(context, org, 'user-community', 'Support Agent')
+	context.supportUser = await prepareUser(context, org, 'user-external-support', 'Support User')
 })
 
 ava.serial.beforeEach(async () => {
@@ -293,7 +301,19 @@ ava.serial('Chat page', async (test) => {
 
 	await page.waitForSelector('[data-test="chat-page"]')
 
-	await createChatMessage(page, '', 'First message')
+	await createChatMessage(page, '', 'Message from user')
+
+	await test.notThrowsAsync(
+		waitForInnerText(page, '[data-test="event__actor-label"]', 'Support User'),
+		'should display support user\'s name'
+	)
+
+	await insertAgentReply(context, thread, 'Response from agent')
+
+	await test.notThrowsAsync(
+		waitForInnerText(page, '[data-test="event__actor-label"]', 'Support Agent', 1),
+		'should display support agent\'s name'
+	)
 
 	test.pass()
 })

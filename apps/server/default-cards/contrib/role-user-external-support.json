@@ -143,9 +143,6 @@
           "additionalProperties": true,
           "required": [ "id", "slug", "type", "data" ],
           "properties": {
-            "id": {
-              "type": "string"
-            },
             "slug": {
               "type": "string",
               "const": {
@@ -186,18 +183,9 @@
           "additionalProperties": true,
           "required": [ "id", "slug", "type", "data" ],
           "properties": {
-            "id": {
-              "type": "string"
-            },
-            "slug": {
-              "type": "string"
-            },
             "type": {
               "type": "string",
               "const": "user@1.0.0"
-            },
-            "name": {
-              "type": "string"
             },
             "data": {
               "type": "object",
@@ -208,6 +196,10 @@
                 },
                 "avatar": {
                   "type": [ "string", "null" ]
+                },
+                "profile": {
+                  "type": "object",
+                  "additionalProperties": true
                 }
               }
             }
