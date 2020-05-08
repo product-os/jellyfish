@@ -2249,11 +2249,12 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		},
 		required: [ 'data' ]
 	}, {
+		sortBy: [ 'data', 'timestamp' ],
 		limit: 1,
 		skip: 1
 	})
 
-	test.deepEqual(_.sortBy(results, [ 'data', 'test' ]), [ result2 ])
+	test.deepEqual(results, [ result2 ])
 })
 
 ava('.query() should return the cards that match a schema', async (test) => {
