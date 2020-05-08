@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Small optimization for filtering stream subscriptions'
+      hash: 86499f12b37c04f32156a503e3e169a91f008f32
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.9.1
+  date: 2020-05-08T13:43:20.962Z
+- commits:
     - subject: 'core: Add ''Owned conversations'' tab to user card'
       hash: e471f778b332d99f92fbf47d6403571887041d11
       body: >
