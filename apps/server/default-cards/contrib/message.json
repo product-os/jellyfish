@@ -43,6 +43,23 @@
                     "type": "string"
                   }
                 },
+                "file": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "mime": {
+                      "type": "string"
+                    },
+                    "bytesize": {
+                      "type": "number"
+                    },
+                    "slug": {
+                      "type": "string"
+                    }
+                  }
+                },
                 "attachments": {
                   "type": "array",
                   "items": {
