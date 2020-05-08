@@ -307,6 +307,7 @@ export default class Event extends React.Component {
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
 		this.downloadAttachment = this.downloadAttachment.bind(this)
+		this.customMarkdownRenderer = this.customMarkdownRenderer.bind(this)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -365,6 +366,21 @@ export default class Event extends React.Component {
 				}
 			}
 		})
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	customMarkdownRenderer (marked, renderer) {
+		renderer.link = function (_href, _title, _text, args) {
+			const link = Reflect.apply(marked.Renderer.prototype.link, this, ...args)
+
+			if (helpers.isExternalUrl(link.href)) {
+				return link.replace('<a', '<a target="_blank" rel="noopener noreferrer"')
+			}
+
+			return helpers.toRelativeUrl(link)
+		}
+
+		return renderer
 	}
 
 	handleVisibilityChange (isVisible) {
@@ -629,6 +645,8 @@ export default class Event extends React.Component {
 											? MESSAGE_COLLAPSED_HEIGHT
 											: 'none'
 									}}
+
+									renderer={this.customMarkdownRenderer}
 									data-test={card.pending ? '' : 'event-card__message'}
 									flex={0}
 								>
