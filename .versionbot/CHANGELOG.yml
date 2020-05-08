@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Add file field to message and whisper card types'
+      hash: 41a62ce2cf762bfd4c41ad2584fe522680d7fd38
+      body: >
+        The file.name field will eventually be searchable so it needs to be
+        explicitly included in the type schema.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.8.0
+  date: 2020-05-08T05:48:04.359Z
+- commits:
     - subject: 'sync: Improve OAuthUnsuccessfulResponse error logs'
       hash: d094e3b36189b6a9f9c17e920be163f427f6135c
       body: |
