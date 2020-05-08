@@ -133,6 +133,7 @@ const GrabHandleGrip = styled.div `
 
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = [
+	'view-my-conversations',
 	'view-my-orgs'
 ]
 
