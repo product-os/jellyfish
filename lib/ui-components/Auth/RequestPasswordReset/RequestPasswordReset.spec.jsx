@@ -19,10 +19,22 @@ import RequestPasswordReset from './RequestPasswordReset.jsx'
 
 import Adapter from 'enzyme-adapter-react-16'
 
+const Router = require('react-router-dom').MemoryRouter
+
 const DATA_TEST_PREFIX = 'requestPasswordReset-page'
 
 const browserEnv = require('browser-env')
 browserEnv([ 'window', 'document', 'navigator' ])
+
+const Wrapper = ({
+	children
+}) => {
+	return (
+		<Router>
+			<Provider>{children}</Provider>
+		</Router>
+	)
+}
 
 configure({
 	adapter: new Adapter()
@@ -46,7 +58,7 @@ ava('Submit button is disabled if the username input is empty', async (test) => 
 
 	const requestPasswordReset = mount(
 		<RequestPasswordReset/>, {
-			wrappingComponent: Provider
+			wrappingComponent: Wrapper
 		})
 
 	await flushPromises()
@@ -78,7 +90,7 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 				addNotification
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent: Wrapper
 		})
 
 	await flushPromises()
@@ -123,7 +135,7 @@ ava('Sends a danger notification if the action throws an error', async (test) =>
 				addNotification
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent: Wrapper
 		})
 
 	await flushPromises()
