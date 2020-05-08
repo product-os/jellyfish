@@ -1202,7 +1202,6 @@ avaTest('const matches against strings nested in contains should work against to
 
 	const schema = {
 		type: 'object',
-		markers: [ 'collection' ],
 		properties: {
 			markers: {
 				type: 'array',
