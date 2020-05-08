@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'sync: Improve OAuthUnsuccessfulResponse error logs'
+      hash: d094e3b36189b6a9f9c17e920be163f427f6135c
+      body: |
+        I've seen some warnings in Rapid7 about Outreach OAuth. This should help
+        us debug the issue further:
+
+        - Log the response body
+        - Log the response code
+        - Log the request body
+        - Mark it as an internal error so we get it in Sentry
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.7.1
+  date: 2020-05-08T04:56:42.407Z
+- commits:
     - subject: 'ui-components: New ''My conversations'' view'
       hash: 64817a4c5182d7cf7420672dda20f17a79d12c87
       body: |
