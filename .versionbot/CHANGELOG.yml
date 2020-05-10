@@ -1,4 +1,17 @@
 - commits:
+    - subject: Sort results of the new and old compilers
+      hash: 5eb975daac78e07bab2ad64282897746459fdfd0
+      body: |
+        Avoid spurious mismatches
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.9.3
+  date: 2020-05-09T01:54:25.754Z
+- commits:
     - subject: >-
         Revert "Merge pull request #3671 from
         product-os/streams-req-optimization"
