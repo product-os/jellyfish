@@ -1,4 +1,54 @@
 - commits:
+    - subject: Don't modify `options.sortBy` when using the new `jsonschema2sql`
+      hash: 43b190c31b169e8000a29316256aeb80b967c1ca
+      body: |
+        `options.sortBy` could be modified in some cases. While this is
+        innocuous most of the time, it will lead to an invalid query if reusing
+        the same `options` object.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+    - subject: 'dev: Only check for JF_DEBUG_SW===1'
+      hash: 9b5d44f043fd142d2bd494bda5d8ff879d37c188
+      body: >
+        Rather than also checking for `true` or `TRUE`. This simplifies the code
+        a bit and keeps it consistent with our usage of other env vars.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'dev: don''t inject SW manifest when debugging'
+      hash: 4dc6572052a637dd9f9aa901938f15b9cf65760c
+      body: >
+        Small change to the webpack config which ensures we don't inject the
+        precache manifest into the service worker unless we're in production
+        mode or we've explicitly said we're debugging the SW (via the
+        JF_DEBUG_SW env var). This change speeds up the build time when
+        debugging and also removes the 'InjectManifest has been called multiple
+        times' warning when running `make dev-ui`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Fix overall app height on Firefox'
+      hash: b9b74e7643e4e7c0c0b6c2e3c191cd541095e90e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.10.1
+  date: 2020-05-11T10:33:25.745Z
+- commits:
     - subject: Restore CircleCI Postgres server dump
       hash: ac2150f79c5053d15effe8243462648c3dd82ad6
       body: ''
