@@ -8,7 +8,10 @@ const QueryFacade = require('./query')
 
 module.exports = class AuthFacade extends QueryFacade {
 	async whoami (context, sessionToken, ipAddress) {
-		const result = await this.jellyfish.getCardById(context, sessionToken, sessionToken)
+		// Use the admin session, as the user invoking this function
+		// might not have enough access to read its entire session card.
+		const result = await this.jellyfish.getCardById(
+			context, this.jellyfish.sessions.admin, sessionToken)
 
 		if (!result) {
 			throw new Error('Could not retrieve session data')
