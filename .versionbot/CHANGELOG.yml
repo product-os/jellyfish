@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Enable message send button on small screens'
+      hash: 39f8301418c82f6ed224dcb193d90ae4f77f3c5b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.11.0
+  date: 2020-05-11T11:40:47.541Z
+- commits:
     - subject: Don't modify `options.sortBy` when using the new `jsonschema2sql`
       hash: 43b190c31b169e8000a29316256aeb80b967c1ca
       body: |
