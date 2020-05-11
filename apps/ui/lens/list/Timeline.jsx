@@ -9,6 +9,7 @@ import {
 	connect
 } from 'react-redux'
 import {
+	compose,
 	bindActionCreators
 } from 'redux'
 import {
@@ -18,11 +19,15 @@ import {
 } from '../../core'
 import * as environment from '../../environment'
 import Timeline from '../../../../lib/ui-components/Timeline'
+import {
+	withResponsiveContext
+} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 
 	return {
+		wide: !ownProps.isMobile,
 		selectCard: selectors.getCard,
 		enableAutocomplete: !environment.isTest(),
 		sdk,
@@ -54,7 +59,10 @@ const lens = {
 	data: {
 		format: 'list',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Timeline),
+		renderer: compose(
+			withResponsiveContext,
+			connect(mapStateToProps, mapDispatchToProps)
+		)(Timeline),
 
 		// This lens can display event-like objects
 		filter: {
