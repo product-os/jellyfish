@@ -92,3 +92,43 @@ export const getLensBySlug = (slug) => {
 		slug
 	}) || null
 }
+
+// Generate a query that will get all the contextual threads and their attached
+// messages and whispers
+export const getContextualThreadsQuery = (id) => {
+	return {
+		$$links: {
+			'has attached element': {
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						type: 'string',
+						enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
+					}
+				},
+				additionalProperties: true
+			},
+			'is of': {
+				type: 'object',
+				required: [ 'id' ],
+				properties: {
+					id: {
+						type: 'string',
+						const: id
+					}
+				},
+				additionalProperties: false
+			}
+		},
+		type: 'object',
+		required: [ 'type' ],
+		properties: {
+			type: {
+				type: 'string',
+				const: 'thread@1.0.0'
+			}
+		},
+		additionalProperties: true
+	}
+}

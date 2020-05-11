@@ -5,6 +5,7 @@
  */
 
 import MyUser from './MyUser'
+import Repository from './Repository'
 import SingleCard from './SingleCard'
 import SupportThread from './SupportThread'
 import Thread from './Thread'
@@ -12,6 +13,7 @@ import View from './View'
 
 export default [
 	MyUser,
+	Repository,
 	SingleCard,
 	SupportThread,
 	Thread,

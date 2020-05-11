@@ -20,8 +20,7 @@ import {
 import {
 	Box,
 	Button,
-	Flex,
-	Theme
+	Flex
 } from 'rendition'
 import {
 	v4 as uuid
@@ -94,7 +93,15 @@ export class Interleaved extends BaseLens {
 					if (thread) {
 						this.openChannel(thread.slug || thread.id)
 					}
-					return null
+					return thread
+				})
+				.then((thread) => {
+					// If a relationship is defined, link this thread using the
+					// relationship
+					const relationship = this.props.relationship
+					if (thread && relationship) {
+						sdk.card.link(thread, relationship.target, relationship.name)
+					}
 				})
 				.then(() => {
 					analytics.track('element.create', {
@@ -226,22 +233,6 @@ export class Interleaved extends BaseLens {
 				}}
 			>
 				<ReactResizeObserver onResize={this.scrollToBottom}/>
-				<Flex my={2} mr={2} justifyContent="flex-end">
-					<Button
-						plain
-						tooltip={{
-							placement: 'left',
-							text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
-						}}
-						className="timeline__checkbox--additional-info"
-						color={messagesOnly ? Theme.colors.text.light : false}
-						ml={2}
-						onClick={this.handleEventToggle}
-					>
-						<Icon name="stream"/>
-					</Button>
-				</Flex>
-
 				<div
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
