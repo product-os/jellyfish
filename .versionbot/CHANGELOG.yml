@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'core: Ensure we can handle invalid enums in $$links'
+      hash: a072d402cadb00568fb1297818d67ff05ba190fe
+      body: |
+        A further test case to ensure that the linked Sentry issues won't happen
+        again.
+      footer:
+        See: 'https://sentry.io/share/issue/cb99ffacd6804f6e835c5abe4a4d7820/'
+        see: 'https://sentry.io/share/issue/cb99ffacd6804f6e835c5abe4a4d7820/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.11.4
+  date: 2020-05-11T20:55:19.722Z
+- commits:
     - subject: 'server: The /whoami endpoint should respond regardless of permissions'
       hash: 3da8f276d48a45e255ca025161422195b7282e94
       body: |
