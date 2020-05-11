@@ -6,6 +6,7 @@
 
 const LocalFS = require('./local-fs')
 const S3FS = require('./s3-fs')
+const logger = require('../../../../lib/logger').getLogger(__filename)
 
 module.exports = class Storage {
 	/**
@@ -33,11 +34,21 @@ module.exports = class Storage {
 		}
 	}
 
-	store (scope, name, data) {
+	store (context, scope, name, data) {
+		logger.info('Storing file', {
+			scope,
+			name
+		})
+
 		return this.backend.store(scope, name, data)
 	}
 
-	retrieve (scope, name) {
-		return this.backend.retrieve(scope, name)
+	retrieve (context, scope, name) {
+		logger.info('Retrieving file', {
+			scope,
+			name
+		})
+
+		return this.backend.retrieve(context, scope, name)
 	}
 }

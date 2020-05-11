@@ -7,6 +7,7 @@
 const AWS = require('aws-sdk')
 const Bluebird = require('bluebird')
 const environment = require('../../../../lib/environment')
+const logger = require('../../../../lib/logger').getLogger(__filename)
 
 module.exports = class S3FS {
 	constructor () {
@@ -27,23 +28,37 @@ module.exports = class S3FS {
 		this.BUCKET_NAME = environment.aws.s3BucketName
 	}
 
-	store (scope, name, data) {
-		const s3 = new AWS.S3(this.config)
-		return s3.putObject({
+	store (context, scope, name, data) {
+		const object = {
 			Body: data,
 			Key: `${scope}/${name}`,
 			Bucket: this.BUCKET_NAME
-		}).promise()
+		}
+
+		logger.info(context, 'Storing S3 object', {
+			key: object.Key,
+			bucket: object.Bucket
+		})
+
+		const s3 = new AWS.S3(this.config)
+		return s3.putObject(object).promise()
 	}
 
-	retrieve (scope, name, retries = 0) {
+	retrieve (context, scope, name, retries = 0) {
 		const s3 = new AWS.S3(this.config)
+
+		const object = {
+			Key: `${scope}/${name}`,
+			Bucket: this.BUCKET_NAME
+		}
+
+		logger.info(context, 'Getting S3 object', {
+			key: object.Key,
+			bucket: object.Bucket
+		})
+
 		return new Bluebird((resolve, reject) => {
-			s3.getObject({
-				Key: `${scope}/${name}`,
-				Bucket: this.BUCKET_NAME
-			},
-			(err, data) => {
+			s3.getObject(object, (err, data) => {
 				if (err) {
 					if (retries < this.numberOfRetries) {
 						return Bluebird.delay(100)
