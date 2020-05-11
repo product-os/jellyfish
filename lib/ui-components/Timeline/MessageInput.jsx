@@ -47,15 +47,30 @@ const InputWrapper = styled(Box) `
 			&::after {
 				content: ' ';
 				position: absolute;
-				top: calc(50% - 6px);
-				right: -6px;
 				width: 0;
 				height: 0;
+			}
+		` : ''
+	}}
+
+	${(props) => {
+		return props.wide ? `
+			&::after {
+				top: calc(50% - 6px);
+				right: -6px;
 				border-top: 6px solid transparent;
 				border-bottom: 6px solid transparent;
 				border-left: 6px solid ${props.borderColor};
 			}
-		` : ''
+		` : `
+			&::after {
+				left: 14px;
+				bottom: -6px;
+				border-left: 6px solid transparent;
+				border-right: 6px solid transparent;
+				border-top: 6px solid ${props.borderColor};
+			}
+		`
 	}}
 `
 
@@ -97,6 +112,7 @@ const MessageInput = React.memo(({
 			bubble={whisper}
 			py={2}
 			px={3}
+			wide={wide}
 			{...(whisper ? {
 				color: 'white',
 				bg: theme.colors.secondary.main,
