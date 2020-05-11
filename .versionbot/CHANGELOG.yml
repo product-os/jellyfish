@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'github: Fetch pull request from payload.issue as a fallback'
+      hash: 2797af90954eb0df04eb4d810ebdc7c5d1854203
+      body: ''
+      footer:
+        Fixes: 'https://sentry.io/share/issue/8973460072534543ae0999fc708b07ae/'
+        fixes: 'https://sentry.io/share/issue/8973460072534543ae0999fc708b07ae/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.11.2
+  date: 2020-05-11T14:15:35.696Z
+- commits:
     - subject: 'environment: Trim Outreach client id and client secret env vars'
       hash: 830e487647ccbdc6aee5381fa39c4f1e8c012d60
       body: |
