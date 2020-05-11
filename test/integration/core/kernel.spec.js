@@ -3710,6 +3710,156 @@ ava('.query() should be able to query using multiple link types', async (test) =
 	})
 })
 
+ava('.query() should be able to query $$links inside $$links', async (test) => {
+	const parent = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const child = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const grandchild = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: child.id,
+					type: child.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${grandchild.slug}-is-child-of-${child.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'owns',
+				from: {
+					id: grandchild.id,
+					type: grandchild.type
+				},
+				to: {
+					id: child.id,
+					type: child.type
+				}
+			}
+		})
+
+	const santa = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	for (const eternalChild of [ parent, child, grandchild ]) {
+		await context.kernel.insertCard(
+			context.context, context.kernel.sessions.admin, {
+				slug: `link-${eternalChild.slug}-believes-in-${santa.slug}`,
+				type: 'link@1.0.0',
+				version: '1.0.0',
+				name: 'believes in',
+				data: {
+					inverseName: 'is believed by',
+					from: {
+						id: eternalChild.id,
+						type: eternalChild.type
+					},
+					to: {
+						id: santa.id,
+						type: santa.type
+					}
+				}
+			})
+	}
+
+	const results = await context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			$$links: {
+				'is child of': {
+					$$links: {
+						'is child of': {
+							$$links: {
+								'believes in': {
+									properties: {
+										id: {
+											const: santa.id
+										}
+									}
+								}
+							},
+							properties: {
+								id: {
+									const: parent.id
+								},
+								links: true
+							}
+						},
+						'believes in': {
+							properties: {
+								id: {
+									const: santa.id
+								}
+							}
+						}
+					},
+					properties: {
+						id: {
+							const: child.id
+						},
+						links: true
+					}
+				},
+				'believes in': {
+					properties: {
+						id: {
+							const: santa.id
+						}
+					}
+				}
+			},
+			properties: {
+				id: {
+					const: grandchild.id
+				},
+				links: true
+			}
+		})
+
+	test.deepEqual(results.length, 1)
+	test.deepEqual(results[0].id, grandchild.id)
+	test.deepEqual(results[0].links['believes in'][0].id, santa.id)
+	test.deepEqual(results[0].links['is child of'][0].id, child.id)
+	test.deepEqual(results[0].links['is child of'][0].links['believes in'][0].id, santa.id)
+	test.deepEqual(results[0].links['is child of'][0].links['is child of'][0].id, parent.id)
+	test.deepEqual(results[0].links['is child of'][0].links['is child of'][0].links['believes in'][0].id, santa.id)
+})
+
 ava.cb('.stream() should include data if additionalProperties true', (test) => {
 	const slug = context.generateRandomSlug({
 		prefix: 'card'
