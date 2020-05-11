@@ -1,4 +1,30 @@
 - commits:
+    - subject: 'server: The /whoami endpoint should respond regardless of permissions'
+      hash: 3da8f276d48a45e255ca025161422195b7282e94
+      body: |
+        Right now the `/whoami` endpoint will raise an exception if the user
+        sending a request can't see their whole session card.
+      footer:
+        Fixes: 'https://sentry.io/share/issue/3625525a06484e928fb77bd48892f9ba/'
+        fixes: 'https://sentry.io/share/issue/3625525a06484e928fb77bd48892f9ba/'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'SRE: Updates K8s config apiVersion for Kubernetes 1.16 compatibility.'
+      hash: f91aa75bb8018446d4dc17673a5f1636c830281b
+      body: |
+        K8s deployments should now use "apiVersion: apps/v1".
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.11.3
+  date: 2020-05-11T19:42:30.977Z
+- commits:
     - subject: 'github: Fetch pull request from payload.issue as a fallback'
       hash: 2797af90954eb0df04eb4d810ebdc7c5d1854203
       body: ''
