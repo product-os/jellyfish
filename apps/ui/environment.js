@@ -33,6 +33,6 @@ export const version = (typeof env === 'undefined') ? 'v1.0.0' : (env.VERSION ||
 
 export const pwa = {
 	debugSW: () => {
-		return env.JF_DEBUG_SW === 'true' || env.JF_DEBUG_SW === '1'
+		return (typeof env === 'undefined') ? false : (env.JF_DEBUG_SW === '1')
 	}
 }
