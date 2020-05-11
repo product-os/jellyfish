@@ -1817,7 +1817,7 @@ ava('.insertCard() read access on a property should not allow to write other pro
 			roles: []
 		}
 	}), {
-		instanceOf: errors.JellyfishSchemaMismatch
+		instanceOf: errors.JellyfishPermissionsError
 	})
 })
 

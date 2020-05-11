@@ -173,7 +173,7 @@ ava.serial(
 			}
 		}))
 
-		test.is(error.name, 'JellyfishSchemaMismatch')
+		test.is(error.name, 'JellyfishPermissionsError')
 
 		// Create thread on behalf of external support user without markers
 		error = await test.throwsAsync(test.context.sdk.card.create({
@@ -186,7 +186,7 @@ ava.serial(
 			}
 		}))
 
-		test.is(error.name, 'JellyfishSchemaMismatch')
+		test.is(error.name, 'JellyfishPermissionsError')
 	}
 )
 

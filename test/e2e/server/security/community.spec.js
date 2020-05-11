@@ -23,6 +23,43 @@ const createUserDetails = () => {
 	}
 }
 
+ava.serial('a community user cannot create a session that points to another user', async (test) => {
+	const userDetails = createUserDetails()
+
+	const user = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${userDetails.username}`,
+			email: userDetails.email,
+			password: userDetails.password
+		}
+	})
+
+	await test.context.sdk.auth.login(userDetails)
+	const otherUser = uuid()
+	test.not(otherUser, user.id)
+
+	const error = await test.throwsAsync(test.context.sdk.action({
+		card: 'session@1.0.0',
+		type: 'type@1.0.0',
+		action: 'action-create-card@1.0.0',
+		arguments: {
+			reason: null,
+			properties: {
+				slug: `session-test-${uuid()}`,
+				data: {
+					actor: otherUser
+				}
+			}
+		}
+	}))
+
+	test.is(error.name, 'JellyfishPermissionsError')
+	test.true(error.expected)
+})
+
 ava.serial('a community user should not be able to reset other user\'s passwords given the right password', async (test) => {
 	const userDetails = createUserDetails()
 	const user = await test.context.sdk.action({
