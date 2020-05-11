@@ -1,4 +1,25 @@
 - commits:
+    - subject: Restore CircleCI Postgres server dump
+      hash: ac2150f79c5053d15effe8243462648c3dd82ad6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: Add the CreateUserLens for creating new users
+      hash: 77368d42369996a52f84c09c907c927056700ee1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.10.0
+  date: 2020-05-11T05:37:15.765Z
+- commits:
     - subject: Fix an invalid JSON schema in a test
       hash: 5462e0162dd56d38366d08322f6943166db5d056
       body: ''
