@@ -362,6 +362,28 @@ export default class HomeChannel extends React.Component {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
+	componentDidMount () {
+		// TODO: Replace this with parsing loop cards to define the chat room
+		// structure
+		this.props.actions.queryAPI({
+			type: 'object',
+			required: [ 'type', 'name' ],
+			properties: {
+				type: {
+					const: 'repository@1.0.0'
+				},
+				name: {
+					pattern: '^product-os'
+				}
+			}
+		})
+			.then((results) => {
+				this.setState({
+					productOS: results
+				})
+			})
+	}
+
 	componentDidUpdate (prevProps) {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
@@ -445,6 +467,23 @@ export default class HomeChannel extends React.Component {
 			onSwipedRight: this.showDrawer,
 			onSwipedLeft: this.hideDrawer
 		}
+
+		// Add the productOS comms rooms to the top of the sidebar
+		// TODO: Replace this with a fully fledged loop mapping once the loop
+		// structure becomes concrete.
+		groups.children.unshift({
+			name: 'productOS',
+			key: 'product-os',
+			children: (this.state.productOS || []).map((item) => {
+				return {
+					name: item.name,
+					key: item.slug,
+					card: item,
+					isStarred: false,
+					children: []
+				}
+			})
+		})
 
 		return (
 			<HomeChannelWrapper

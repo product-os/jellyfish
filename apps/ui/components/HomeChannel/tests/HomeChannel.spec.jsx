@@ -34,6 +34,7 @@ const actions = _.reduce([
 	'addChannel',
 	'loadViewResults',
 	'logout',
+	'queryAPI',
 	'removeView',
 	'removeViewNotice',
 	'setChantWidgetOpen',
@@ -43,7 +44,7 @@ const actions = _.reduce([
 	'streamView',
 	'updateUser'
 ], (acc, action) => {
-	acc[action] = sandbox.fake()
+	acc[action] = sandbox.stub()
 	return acc
 }, {})
 
@@ -62,6 +63,7 @@ const Wrapper = ({
 }
 
 ava('Starred views appear in their own menu section', async (test) => {
+	actions.queryAPI.resolves([])
 	const homeChannel = await mount((
 		<HomeChannel
 			{...homeChannelProps}
