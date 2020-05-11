@@ -20,6 +20,39 @@ import {
 import Column from '../../../../lib/ui-components/shame/Column'
 import InboxTab from './InboxTab'
 
+const mergeWithUniqConcatArrays = (objValue, srcValue) => {
+	if (_.isArray(objValue)) {
+		return _.uniq(objValue.concat(srcValue))
+	}
+	// eslint-disable-next-line no-undefined
+	return undefined
+}
+
+const withSearch = (query, searchTerm) => {
+	if (searchTerm) {
+		return _.mergeWith(query, {
+			properties: {
+				data: {
+					properties: {
+						payload: {
+							properties: {
+								message: {
+									regexp: {
+										pattern: searchTerm,
+										flags: 'i'
+									}
+								}
+							},
+							required: [ 'message' ]
+						}
+					}
+				}
+			}
+		}, mergeWithUniqConcatArrays)
+	}
+	return query
+}
+
 // Generates a basic query that matches messages against a user slug
 const getBasePingQuery = (user, searchTerm) => {
 	const query = {
@@ -59,17 +92,7 @@ const getBasePingQuery = (user, searchTerm) => {
 		additionalProperties: true
 	}
 
-	if (searchTerm) {
-		query.properties.data.payload.properties.message = {
-			regexp: {
-				pattern: searchTerm,
-				flags: 'i'
-			}
-		}
-		query.properties.data.payload.required.push('message')
-	}
-
-	return query
+	return withSearch(query, searchTerm)
 }
 
 const getUnreadQuery = (user, searchTerm) => {
@@ -106,21 +129,6 @@ const getReadQuery = (user, searchTerm) => {
 							const: user.slug
 						},
 						minLength: 1
-					},
-					payload: {
-						type: 'object',
-						properties: {
-							message: {
-								regexp: {
-									pattern: searchTerm,
-									flags: 'i'
-								}
-							}
-						},
-						required: [
-							'message'
-						],
-						additionalProperties: true
 					}
 				},
 				required: [
@@ -133,7 +141,7 @@ const getReadQuery = (user, searchTerm) => {
 }
 
 const getSentQuery = (user, searchTerm) => {
-	return {
+	return withSearch({
 		type: 'object',
 		properties: {
 			type: {
@@ -155,7 +163,7 @@ const getSentQuery = (user, searchTerm) => {
 			}
 		},
 		additionalProperties: true
-	}
+	}, searchTerm)
 }
 
 export default React.memo((props) => {
