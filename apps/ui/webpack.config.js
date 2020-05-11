@@ -90,14 +90,6 @@ const config = mergeConfig(baseConfig, {
 			template: indexFilePath
 		}),
 
-		new WorkboxPlugin.InjectManifest({
-			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-
-			// The vendors.js file is BIG - set this to a safe value of 40MB
-			maximumFileSizeToCacheInBytes: 40000000,
-			swSrc: './apps/ui/service-worker.js'
-		}),
-
 		new DefinePlugin({
 			env: {
 				API_URL: JSON.stringify(process.env.API_URL),
@@ -120,6 +112,20 @@ const config = mergeConfig(baseConfig, {
 		new MonacoWebpackPlugin()
 	]
 })
+
+if (process.env.NODE_ENV === 'production' ||
+		process.env.JF_DEBUG_SW === '1' ||
+		(process.env.JF_DEBUG_SW || '').toLowerCase() === 'true') {
+	config.plugins.push(
+		new WorkboxPlugin.InjectManifest({
+			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
+
+			// The vendors.js file is BIG - set this to a safe value of 40MB
+			maximumFileSizeToCacheInBytes: 40000000,
+			swSrc: './apps/ui/service-worker.js'
+		})
+	)
+}
 
 if (process.env.NODE_ENV !== 'production') {
 	config.plugins.push(
