@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: jellyfish-livechat
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
+  labels:
+    app.kubernetes.io/name: jellyfish-livechat
 spec:
   selector:
     matchLabels:

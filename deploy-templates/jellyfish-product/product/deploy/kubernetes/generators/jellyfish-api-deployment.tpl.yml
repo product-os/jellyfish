@@ -3,6 +3,8 @@ kind: Deployment
 metadata:
   name: jellyfish
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
+  labels:
+    app.kubernetes.io/name: jellyfish-api
 spec:
   selector:
     matchLabels:
