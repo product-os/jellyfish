@@ -1,4 +1,18 @@
 - commits:
+    - subject: add app.kubernetes.io/name labels to deployments
+      hash: 3e17ddcfe0e21f9244bfcc3248256f3b707c5a7f
+      body: |
+        This is needed for monitoring to provide meaningful labels on metrics
+        discovered from the deployed pods (if/when they expose metrics ports)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 30.9.4
+  date: 2020-05-11T00:18:25.623Z
+- commits:
     - subject: Sort results of the new and old compilers
       hash: 5eb975daac78e07bab2ad64282897746459fdfd0
       body: |
