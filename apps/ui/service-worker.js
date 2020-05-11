@@ -39,9 +39,8 @@ self.addEventListener('message', (event) => {
 // dev logs while in development mode.
 // 2. __WB_DISABLE_DEV_LOGS defaults to true (disable logging).
 // 3. __WB_DISABLE_DEV_LOGS is ignored if NODE_ENV === 'production'
-const jfDebugSW = (env.JF_DEBUG_SW || '').toLowerCase()
 // eslint-disable-next-line no-underscore-dangle
-self.__WB_DISABLE_DEV_LOGS = jfDebugSW !== 'true' && jfDebugSW !== '1'
+self.__WB_DISABLE_DEV_LOGS = env.JF_DEBUG_SW !== '1'
 
 // Cache google font files
 registerRoute(

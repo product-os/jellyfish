@@ -32,8 +32,8 @@ The environment variables `NODE_ENV` and `JF_DEBUG_SW` determine whether the ser
 
 |                                       | `NODE_ENV === 'production'` | `NODE_ENV !== 'production'` |
 |---------------------------|----------------------------------|---------------------------------|
-| `JF_DEBUG_SW` is set    | Service worker is registered<br>Workbox logs are disabled | Service worker is registered<br>Workbox logs are enabled |
-| `JF_DEBUG_SW` not set |  Service worker is registered<br>Workbox logs are disabled | Service worker is not registered<br>Workbox logs are disabled |
+| `JF_DEBUG_SW === '1'`    | Service worker is registered<br>Workbox logs are disabled | Service worker is registered<br>Workbox logs are enabled |
+| `JF_DEBUG_SW !== '1'` |  Service worker is registered<br>Workbox logs are disabled | Service worker is not registered<br>Workbox logs are disabled |
 
 In summary: if you are debugging, first clear your application cache and then ensure the `JF_DEBUG_SW` environment variable is unset. Run `make dev-ui` and the service worker will not be used.
 

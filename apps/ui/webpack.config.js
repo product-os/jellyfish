@@ -114,8 +114,7 @@ const config = mergeConfig(baseConfig, {
 })
 
 if (process.env.NODE_ENV === 'production' ||
-		process.env.JF_DEBUG_SW === '1' ||
-		(process.env.JF_DEBUG_SW || '').toLowerCase() === 'true') {
+		process.env.JF_DEBUG_SW === '1') {
 	config.plugins.push(
 		new WorkboxPlugin.InjectManifest({
 			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
