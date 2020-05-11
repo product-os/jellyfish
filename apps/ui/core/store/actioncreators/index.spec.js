@@ -13,9 +13,9 @@ import Bluebird from 'bluebird'
 import {
 	// eslint-disable-next-line no-unused-vars
 	store
-} from '../index'
-import actions from './actions'
-import ActionCreator from './actioncreators'
+} from '../../index'
+import actions from '../actions'
+import ActionCreator from './'
 
 const sandbox = sinon.createSandbox()
 

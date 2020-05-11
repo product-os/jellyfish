@@ -16,15 +16,15 @@ import {
 } from 'uuid'
 import {
 	isUUID
-} from '../../../../lib/uuid'
-import actions from './actions'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+} from '../../../../../lib/uuid'
+import actions from '../actions'
+import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import {
 	getQueue
-} from './async-dispatch-queue'
+} from '../async-dispatch-queue'
 import {
 	updateThreadChannels
-} from './helpers'
+} from '../helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -171,6 +171,7 @@ export default class ActionCreator {
 			'addNotification',
 			'addSubscription',
 			'addViewNotice',
+			'addUser',
 			'appendViewData',
 			'authorizeIntegration',
 			'bootstrap',
@@ -1003,6 +1004,44 @@ export default class ActionCreator {
 		}
 	}
 
+	addUser ({
+		username,
+		email,
+		org
+	}) {
+		return async (dispatch, getState) => {
+			try {
+				const user = await this.sdk.auth.signup({
+					username,
+					email,
+					password: ''
+				})
+				await dispatch(this.createLink(org, user, 'has member'))
+				await dispatch(this.sendFirstTimeLoginLink({
+					user
+				}))
+				dispatch(this.addNotification('success', 'Successfully created user'))
+				return true
+			} catch (error) {
+				dispatch(this.addNotification('danger', error.message))
+				return false
+			}
+		}
+	}
+
+	sendFirstTimeLoginLink ({
+		user
+	}) {
+		return async (dispatch, getState) => {
+			return this.sdk.action({
+				card: user.id,
+				action: 'action-send-first-time-login-link@1.0.0',
+				type: user.type,
+				arguments: {}
+			})
+		}
+	}
+
 	requestPasswordReset ({
 		username
 	}) {
@@ -1156,13 +1195,11 @@ export default class ActionCreator {
 		return async (dispatch) => {
 			try {
 				await this.sdk.card.link(fromCard, toCard, verb)
-
 				this.analytics.track('element.create', {
 					element: {
 						type: 'link'
 					}
 				})
-
 				if (!options.skipSuccessMessage) {
 					dispatch(this.addNotification('success', 'Created new link'))
 				}
