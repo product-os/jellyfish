@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix an invalid JSON schema in a test
+      hash: 5462e0162dd56d38366d08322f6943166db5d056
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.9.5
+  date: 2020-05-11T01:20:55.216Z
+- commits:
     - subject: add app.kubernetes.io/name labels to deployments
       hash: 3e17ddcfe0e21f9244bfcc3248256f3b707c5a7f
       body: |
