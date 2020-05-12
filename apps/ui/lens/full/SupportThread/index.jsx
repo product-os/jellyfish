@@ -28,8 +28,7 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import TeardownFlowPanel from './TeardownFlowPanel'
-import SlideInFlowPanel from '../../../components/HOC/SlideInFlowPanel'
+import SlideInFlowPanel from '../../../components/Flows/SlideInFlowPanel'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
@@ -46,8 +45,9 @@ import {
 import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 import {
-	FLOW_IDS
-} from '../../../../../lib/ui-components/Flows'
+	FLOW_IDS,
+	TeardownFlowPanel
+} from '../../../components/Flows'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'

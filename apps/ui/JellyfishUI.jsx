@@ -27,9 +27,9 @@ import {
 import {
 	ChatWidgetSidebar
 } from '../../lib/ui-components/ChatWidgetSidebar'
-import HomeChannel from './components/HOC/HomeChannel'
+import HomeChannel from './components/HomeChannel'
 import Notifications from './components/HOC/Notifications'
-import RouteHandler from './components/HOC/RouteHandler'
+import RouteHandler from './components/RouteHandler'
 import Oauth from './components/HOC/Oauth'
 import Login from './components/HOC/Login'
 import RequestPasswordReset from './components/HOC/RequestPasswordReset'

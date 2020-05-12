@@ -18,12 +18,14 @@ import {
 	CloseButton
 } from '../../../../lib/ui-components/shame/CloseButton'
 import Column from '../../../../lib/ui-components/shame/Column'
-import CardActions from '../../components/HOC/CardActions'
-import SlideInFlowPanel from '../../components/HOC/SlideInFlowPanel'
+import CardActions from '../../components/CardActions'
+import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel'
 import {
-	FLOW_IDS,
+	FLOW_IDS
+} from '../../components/Flows/flow-utils'
+import {
 	HandoverFlowPanel
-} from '../../../../lib/ui-components/Flows'
+} from '../../components/Flows/HandoverFlowPanel'
 import {
 	LinksProvider
 } from '../../../../lib/ui-components/LinksProvider'

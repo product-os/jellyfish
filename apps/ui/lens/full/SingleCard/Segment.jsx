@@ -23,7 +23,7 @@ import {
 	evalSchema,
 	getRelationshipTargetType
 } from '../../../../../lib/ui-components/services/helpers'
-import LinkModal from '../../../../../lib/ui-components/LinkModal'
+import LinkModal from '../../../components/LinkModal'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 export default class Segment extends React.Component {
