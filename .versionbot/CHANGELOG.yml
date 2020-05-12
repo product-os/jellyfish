@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: new Guided Teardown Flow for support threads'
+      hash: 996e60abad14094cb7f3a757ab6baf9b35e4d8a4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.12.0
+  date: 2020-05-12T01:54:01.035Z
+- commits:
     - subject: 'core: Ensure we can handle invalid enums in $$links'
       hash: a072d402cadb00568fb1297818d67ff05ba190fe
       body: |
