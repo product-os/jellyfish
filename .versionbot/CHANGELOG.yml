@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'test: Ensure community users can''t spoof sessions'
+      hash: 8ed0f5c001399c048205c2f6f68bcace5bffdaa1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/2597b632d0fb48d3a767f1023331dee3/'
+        fixes: 'https://sentry.io/share/issue/2597b632d0fb48d3a767f1023331dee3/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.12.6
+  date: 2020-05-12T13:49:51.934Z
+- commits:
     - subject: 'Livechat: Add tests for displaying message actor'
       hash: 7cd1a453affcaa572e5b3b082e8779f9ec02b479
       body: ''
