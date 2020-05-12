@@ -1,4 +1,20 @@
 - commits:
+    - subject: Use proper transaction isolation when comparing old and new compilers
+      hash: ff833a395f8ff4c706ac832d530403f92037ff5b
+      body: |
+        Turns out PG's default isolation level is `read commited` which allows
+        nonrepeatable reads, possibly leading to spurious mismatches between old
+        and new compilers. This commit explicitly uses `repeatable reads`
+        isolation level to avoid that problem.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.12.3
+  date: 2020-05-12T05:36:34.799Z
+- commits:
     - subject: Change LOGLEVEL for sut
       hash: 964a5024566d1d6ce5f162979b7d9e3ead0f56ab
       body: ''
