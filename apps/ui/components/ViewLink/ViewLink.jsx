@@ -71,7 +71,12 @@ export default class ViewLink extends React.Component {
 	}
 
 	setDefault () {
-		this.props.actions.setDefault(this.props.card)
+		const {
+			actions,
+			card,
+			isHomeView
+		} = this.props
+		actions.setDefault(isHomeView ? null : card)
 	}
 
 	removeView () {
@@ -85,6 +90,7 @@ export default class ViewLink extends React.Component {
 
 	render () {
 		const {
+			isHomeView,
 			activeSlice,
 			card,
 			isActive,
@@ -111,9 +117,13 @@ export default class ViewLink extends React.Component {
 						color="#333"
 						to={`/${card.slug || card.id}`}
 					>
-						<Flex justifyContent="space-between">
+						<Flex justifyContent="space-between" alignItems="center">
 							{card.name}
-
+							{isHomeView && (
+								<Box fontSize="80%" color="gray.dark" mx={2} tooltip="Default view">
+									<Icon name="home" />
+								</Box>
+							)}
 							{Boolean(update) && card.slug === 'view-my-inbox' && (
 								<MentionsCount mr={2}>{update}</MentionsCount>
 							)}
@@ -138,10 +148,15 @@ export default class ViewLink extends React.Component {
 										display: 'block'
 									}}
 									plain
-									tooltip="Set this view as the default page when logging in"
+									tooltip={{
+										text: `${isHomeView ? 'Unset' : 'Set'} this view as the default page when logging in`,
+										containerStyle: {
+											maxWidth: '400px'
+										}
+									}}
 									onClick={this.setDefault}
 								>
-									Set as default
+									{`${isHomeView ? 'Unset' : 'Set'} as default`}
 								</Button>
 								<Button
 									style={{

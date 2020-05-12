@@ -380,9 +380,21 @@ export default class HomeChannel extends React.Component {
 	}
 
 	componentDidMount () {
+		const {
+			actions,
+			channels,
+			history,
+			homeView
+		} = this.props
+		if (channels.length === 1) {
+			if (homeView) {
+				history.push(homeView)
+			}
+		}
+
 		// TODO: Replace this with parsing loop cards to define the chat room
 		// structure
-		this.props.actions.queryAPI({
+		actions.queryAPI({
 			type: 'object',
 			required: [ 'type', 'name' ],
 			properties: {
