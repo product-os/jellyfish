@@ -15,6 +15,7 @@ services:
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
+      - LOGLEVEL=crit
       - LIVECHAT_HOST=http://livechat
       - LIVECHAT_PORT=80
       - NODE_ENV=test
