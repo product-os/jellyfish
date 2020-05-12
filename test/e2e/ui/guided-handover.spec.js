@@ -8,7 +8,14 @@ const ava = require('ava')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('../../../lib/environment')
+const guidedFlowUtils = require('./guided-flow-utils')
+
+const {
+	commonSelectors,
+	nextStep,
+	action,
+	createSupportThreadAndNavigate
+} = guidedFlowUtils
 
 const context = {
 	context: {
@@ -19,6 +26,7 @@ const context = {
 }
 
 const selectors = {
+	threadMoreButton: '[data-test="support-thread__expand"]',
 	rbTeam: 'label[for="rb-ghf-team"]',
 	rbUnassign: 'label[for="rb-ghf-unassign"]',
 	ddAssignToMe: '[data-test="card-owner-menu__assign-to-me"]',
@@ -54,41 +62,6 @@ const verifyCardOwner = async (test, page, isAssigned, expectedOwnerText) => {
 		return ele.textContent
 	}, cardOwner)
 	test.is(text, expectedOwnerText)
-}
-
-const createSupportThreadAndNavigate = async (page, owner = null) => {
-	const supportThread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'support-thread@1.0.0',
-			data: {
-				inbox: 'S/Paid_Support',
-				status: 'open'
-			}
-		})
-	})
-	if (owner) {
-		await page.evaluate((props) => {
-			return window.sdk.card.link(props.supportThread, props.owner, 'is owned by')
-		}, {
-			supportThread, owner
-		})
-	}
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
-
-	// Expand the extra info on the thead
-	await macros.waitForThenClickSelector(page, '[data-test="support-thread__expand"]')
-	return supportThread
-}
-
-const nextStep = (page) => {
-	return macros.waitForThenClickSelector(page, `${selectors.nextBtn}:not(:disabled)`)
-}
-
-const action = async (page) => {
-	// Click the action button, wait for it to be disabled and then enabled again
-	await macros.waitForThenClickSelector(page, `${selectors.actionBtn}:not(:disabled)`)
-	await page.waitForSelector(`${selectors.actionBtn}[disabled]`)
-	await page.waitForSelector(selectors.actionBtn)
 }
 
 const getWhisperText = async (page) => {
@@ -134,6 +107,7 @@ ava('You can assign an unassigned thread to yourself', async (test) => {
 
 	// Create a new support thread
 	await createSupportThreadAndNavigate(page)
+	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
 	await verifyCardOwner(test, page, false, 'Unassigned')
@@ -152,7 +126,7 @@ ava('You can assign an unassigned thread to yourself', async (test) => {
 	test.is(whisperText, `Assigned to @${currentUserSlug}`)
 })
 
-ava('TEMP You can assign an unassigned thread to another user', async (test) => {
+ava('You can assign an unassigned thread to another user', async (test) => {
 	const {
 		page,
 		otherCommunityUser,
@@ -161,6 +135,7 @@ ava('TEMP You can assign an unassigned thread to another user', async (test) => 
 
 	// Create a new support thread
 	await createSupportThreadAndNavigate(page)
+	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
 	await verifyCardOwner(test, page, false, 'Unassigned')
@@ -207,6 +182,7 @@ ava('You can unassign a thread that was assigned to you', async (test) => {
 
 	// Create a new support thread (assigned to ourselves)
 	await createSupportThreadAndNavigate(page, currentUser)
+	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to us
 	await verifyCardOwner(test, page, true, currentUserSlug)
@@ -250,6 +226,7 @@ ava('You can unassign a thread that was assigned to another user', async (test) 
 
 	// Create a new support thread (assigned to the other user)
 	await createSupportThreadAndNavigate(page, otherCommunityUser)
+	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to the other user
 	await verifyCardOwner(test, page, true, otherCommunityUserSlug)
@@ -294,6 +271,7 @@ ava('You can reassign a thread from yourself to another user', async (test) => {
 
 	// Create a new support thread (assigned to ourselves)
 	await createSupportThreadAndNavigate(page, currentUser)
+	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to us
 	await verifyCardOwner(test, page, true, currentUserSlug)
@@ -358,7 +336,7 @@ ava('You can reassign a thread from another user to yourself', async (test) => {
 	test.is(whisperText, `Reassigned from @${otherCommunityUserSlug} to @${currentUserSlug}`)
 })
 
-ava('You cannot assign a thread to its existing owner', async (test) => {
+ava('TEMP You cannot assign a thread to its existing owner', async (test) => {
 	const {
 		page,
 		otherCommunityUser,
@@ -383,6 +361,6 @@ ava('You cannot assign a thread to its existing owner', async (test) => {
 
 	// Error message should be displayed and 'Next' button should be disabled
 	await page.waitForSelector(selectors.userError)
-	await page.waitForSelector(`${selectors.nextBtn}[disabled]`)
+	await page.waitForSelector(`${commonSelectors.nextBtn}[disabled]`)
 	test.pass()
 })

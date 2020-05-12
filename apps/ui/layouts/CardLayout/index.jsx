@@ -63,7 +63,7 @@ const CardLayout = (props) => {
 					flexDirection={[ 'column-reverse', 'column-reverse', 'row' ]}
 					justifyContent="space-between"
 					alignItems="center">
-					<Flex alignSelf={[ 'flex-start', 'flex-start', 'inherit' ]} my={[ 2, 2, 0 ]}>
+					<Flex flex={1} alignSelf={[ 'flex-start', 'flex-start', 'inherit' ]} my={[ 2, 2, 0 ]}>
 						{title}
 
 						{!title && (
@@ -78,7 +78,7 @@ const CardLayout = (props) => {
 							</div>
 						)}
 					</Flex>
-					<Flex alignSelf={[ 'flex-end', 'flex-end', 'inherit' ]}>
+					<Flex alignSelf={[ 'flex-end', 'flex-end', 'flex-start' ]}>
 						{!noActions && (
 							<CardActions card={card}>
 								{actionItems}

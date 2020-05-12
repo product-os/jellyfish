@@ -28,6 +28,8 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
+import TeardownFlowPanel from './TeardownFlowPanel'
+import SlideInFlowPanel from '../../../components/HOC/SlideInFlowPanel'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
@@ -43,6 +45,9 @@ import {
 } from '../../../../../lib/ui-components/MirrorIcon'
 import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
+import {
+	FLOW_IDS
+} from '../../../../../lib/ui-components/Flows'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'
@@ -93,6 +98,8 @@ class SupportThreadBase extends React.Component {
 				})
 				.catch((error) => {
 					this.props.actions.addNotification('danger', error.message || error)
+				})
+				.finally(() => {
 					this.setState({
 						isClosing: false
 					})
@@ -100,27 +107,17 @@ class SupportThreadBase extends React.Component {
 		}
 
 		this.close = () => {
-			this.setState({
-				isClosing: true
-			})
-
 			const {
-				card
+				card,
+				actions: {
+					setFlow
+				}
 			} = this.props
-
-			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'closed')
-
-			sdk.card.update(card.id, card.type, patch)
-				.then(() => {
-					this.props.actions.addNotification('success', 'Closed support thread')
-					this.props.actions.removeChannel(this.props.channel)
-				})
-				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message || error)
-					this.setState({
-						isClosing: false
-					})
-				})
+			const flowState = {
+				isOpen: true,
+				card
+			}
+			setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState)
 		}
 
 		this.archiveCard = () => {
@@ -307,7 +304,7 @@ class SupportThreadBase extends React.Component {
 				channel={channel}
 				title={(
 					<Flex flex={1} justifyContent="space-between">
-						<Flex flexWrap="wrap"
+						<Flex flex={1} flexWrap="wrap"
 							style={{
 								transform: 'translateY(2px)'
 							}}
@@ -349,6 +346,7 @@ class SupportThreadBase extends React.Component {
 							<Button
 								plain
 								mr={3}
+								data-test="support-thread__archive-thread"
 								tooltip={{
 									placement: 'bottom',
 									text: 'Archive this support thread'
@@ -367,6 +365,7 @@ class SupportThreadBase extends React.Component {
 							<Button
 								plain
 								mr={3}
+								data-test="support-thread__open-thread"
 								tooltip={{
 									placement: 'bottom',
 									text: 'Open this support thread'
@@ -545,6 +544,15 @@ class SupportThreadBase extends React.Component {
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
 				</Box>
+				<SlideInFlowPanel
+					slideInPanelProps={{
+						height: 500
+					}}
+					card={card}
+					flowId={FLOW_IDS.GUIDED_TEARDOWN}
+				>
+					<TeardownFlowPanel/>
+				</SlideInFlowPanel>
 			</CardLayout>
 		)
 	}
@@ -566,6 +574,7 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'getActor',
 				'getCard',
+				'setFlow',
 				'removeChannel'
 			]),
 			dispatch
