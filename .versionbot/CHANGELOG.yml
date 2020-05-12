@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: Add tests for displaying message actor'
+      hash: 7cd1a453affcaa572e5b3b082e8779f9ec02b479
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 30.12.5
+  date: 2020-05-12T12:30:56.442Z
+- commits:
     - subject: 'patch: bump @webscopeio/react-textarea-autocomplete from 4.6.1 to 4.6.3'
       hash: 5739edc73e1fcbdc277618c663e37028400068dc
       body: >
