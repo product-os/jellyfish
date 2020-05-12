@@ -163,6 +163,8 @@ export default class MyUser extends React.Component {
 			}
 		}
 
+		const emails = Array.isArray(user.data.email) ? user.data.email.join(', ') : user.data.email
+
 		return (
 			<CardLayout
 				data-test={`lens--${SLUG}`}
@@ -193,7 +195,7 @@ export default class MyUser extends React.Component {
 									<strong>{user.slug.replace('user-', '')}</strong>
 
 									<br />
-									<strong>{user.data.email}</strong>
+									<strong>{emails}</strong>
 								</Box>
 							</Flex>
 
