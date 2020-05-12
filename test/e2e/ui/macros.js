@@ -162,6 +162,17 @@ exports.getElementText = async (page, selector) => {
 	})
 }
 
+exports.waitForInnerText = async (page, selector, text, index = 0, options = {}) => {
+	await page.waitForFunction(
+		(sel, txt, ind) => {
+			const matches = document.querySelectorAll(sel)
+			return matches[ind] && matches[ind].innerText === txt
+		},
+		options,
+		selector, text, index
+	)
+}
+
 exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => {
 	return exports.retry(retryCount, async () => {
 		try {
