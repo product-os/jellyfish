@@ -55,7 +55,7 @@ module.exports = class ActionFacade {
 						key: item.name
 					})
 
-					await this.fileStore.store(cardId, item.name, item.buffer)
+					await this.fileStore.store(context, cardId, item.name, item.buffer)
 				}
 			}
 			return results

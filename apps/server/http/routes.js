@@ -527,7 +527,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		}
 
 		return fileStore.retrieve(
-			request.params.cardId, request.params.fileName).then((file) => {
+			request.context, request.params.cardId, request.params.fileName).then((file) => {
 			if (!file) {
 				return response.status(404).end()
 			}

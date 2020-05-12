@@ -16,7 +16,7 @@ module.exports = class LocalFS {
 		this.STORAGE_DIR = path.resolve(ROOT, '.tmp', 'jellyfish-files')
 	}
 
-	store (scope, name, data) {
+	store (context, scope, name, data) {
 		return mkdirp(path.join(this.STORAGE_DIR, scope))
 			.then(() => {
 				return new Bluebird((resolve, reject) => {
@@ -31,7 +31,7 @@ module.exports = class LocalFS {
 			})
 	}
 
-	retrieve (scope, name, retries = 0) {
+	retrieve (context, scope, name, retries = 0) {
 		return new Bluebird((resolve, reject) => {
 			fs.readFile(path.join(this.STORAGE_DIR, scope, name), (err, data) => {
 				if (err) {
