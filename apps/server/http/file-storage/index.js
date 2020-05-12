@@ -35,7 +35,7 @@ module.exports = class Storage {
 	}
 
 	store (context, scope, name, data) {
-		logger.info('Storing file', {
+		logger.info(context, 'Storing file', {
 			scope,
 			name
 		})
@@ -44,7 +44,7 @@ module.exports = class Storage {
 	}
 
 	retrieve (context, scope, name) {
-		logger.info('Retrieving file', {
+		logger.info(context, 'Retrieving file', {
 			scope,
 			name
 		})

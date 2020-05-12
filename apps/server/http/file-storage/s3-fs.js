@@ -60,10 +60,11 @@ module.exports = class S3FS {
 		return new Bluebird((resolve, reject) => {
 			s3.getObject(object, (err, data) => {
 				if (err) {
+					logger.exception(context, 'S3 error', err)
 					if (retries < this.numberOfRetries) {
 						return Bluebird.delay(100)
 							.then(() => {
-								return this.retrieve(scope, name, retries + 1)
+								return this.retrieve(context, scope, name, retries + 1)
 							})
 							.then((file) => {
 								resolve(file)
