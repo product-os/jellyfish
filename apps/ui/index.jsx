@@ -74,6 +74,23 @@ const customTheme = {
 		},
 		background: '#fff',
 		border: '#eee'
+	},
+	tabs: {
+		header: {
+			extend: (props) => {
+				return `
+					@media only screen and (max-width: ${props.theme.breakpoints[1]}px) {
+						flex-wrap: nowrap;
+						overflow-x: auto;
+						button > div > span {
+							white-space: nowrap;
+							overflow: hidden;
+							text-overflow: ellipsis;
+						}
+					}
+				`
+			}
+		}
 	}
 }
 
