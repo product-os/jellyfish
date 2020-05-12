@@ -131,7 +131,7 @@
     "@octokit/rest": "^17.1.4",
     "@sentry/browser": "^4.4.2",
     "@sentry/node": "^5.15.5",
-    "@webscopeio/react-textarea-autocomplete": "^4.5.0",
+    "@webscopeio/react-textarea-autocomplete": "^4.6.3",
     "aws-sdk": "^2.289.0",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.1",
