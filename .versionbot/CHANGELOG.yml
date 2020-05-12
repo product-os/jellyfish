@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump @webscopeio/react-textarea-autocomplete from 4.6.1 to 4.6.3'
+      hash: 5739edc73e1fcbdc277618c663e37028400068dc
+      body: >
+        Bumps
+        [@webscopeio/react-textarea-autocomplete](https://github.com/webscopeio/react-textarea-autocomplete)
+        from 4.6.1 to 4.6.3.
+
+        - [Release
+        notes](https://github.com/webscopeio/react-textarea-autocomplete/releases)
+
+        -
+        [Commits](https://github.com/webscopeio/react-textarea-autocomplete/compare/v4.6.1...v4.6.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.12.4
+  date: 2020-05-12T11:17:40.432Z
+- commits:
     - subject: Use proper transaction isolation when comparing old and new compilers
       hash: ff833a395f8ff4c706ac832d530403f92037ff5b
       body: |
