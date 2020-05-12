@@ -727,7 +727,7 @@ ava.serial('Users should not be able to create sessions as other users', async (
 		})
 	})
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.is(error.name, 'JellyfishPermissionsError')
 })
 
 ava.serial('Users should not be able to create action requests', async (test) => {
@@ -776,7 +776,7 @@ ava.serial('Users should not be able to create action requests', async (test) =>
 		await sdk.card.create(actionRequest)
 	})
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.is(error.name, 'JellyfishPermissionsError')
 })
 
 ava.serial('Users should not be able to view create cards that create users', async (test) => {
