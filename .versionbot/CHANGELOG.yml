@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'server: Add more logs about attachments'
+      hash: 6b75734990740b1a9faf9c6b803a3b0ab646ad5d
+      body: |
+        Should help with debugging the attachment related issues we've been
+        seeing on Sentry (see the links from this commit).
+      footer:
+        Change-type: patch
+        change-type: patch
+        See: 'https://sentry.io/share/issue/d9a03211ce5541a584cc2056b11df2ea/'
+        see: 'https://sentry.io/share/issue/d9a03211ce5541a584cc2056b11df2ea/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.12.1
+  date: 2020-05-12T03:06:35.982Z
+- commits:
     - subject: 'ui: new Guided Teardown Flow for support threads'
       hash: 996e60abad14094cb7f3a757ab6baf9b35e4d8a4
       body: ''
