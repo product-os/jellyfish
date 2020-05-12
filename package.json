@@ -191,7 +191,7 @@
     "random-words": "^1.1.0",
     "randomstring": "^1.1.5",
     "react": "^16.8.5",
-    "react-autosize-textarea": "^6.0.0",
+    "react-autosize-textarea": "^7.0.0",
     "react-chartjs-2": "^2.7.6",
     "react-dnd": "^5.0.0",
     "react-dnd-html5-backend": "^5.0.1",
