@@ -5,6 +5,7 @@
  */
 
 const AWS = require('aws-sdk')
+const _ = require('lodash')
 const Bluebird = require('bluebird')
 const environment = require('../../../../lib/environment')
 const logger = require('../../../../lib/logger').getLogger(__filename)
@@ -57,26 +58,19 @@ module.exports = class S3FS {
 			bucket: object.Bucket
 		})
 
-		return new Bluebird((resolve, reject) => {
-			s3.getObject(object, (err, data) => {
-				if (err) {
-					logger.exception(context, 'S3 error', err)
-					if (retries < this.numberOfRetries) {
-						return Bluebird.delay(100)
-							.then(() => {
-								return this.retrieve(context, scope, name, retries + 1)
-							})
-							.then((file) => {
-								resolve(file)
-							})
-							.catch(reject)
-					}
+		return s3.getObject(object).promise().then((data) => {
+			logger.info(context, 'S3 object fetch response', _.omit(data, [ 'Body' ]))
+			return data.Body
+		}).catch((error) => {
+			logger.exception(context, 'S3 error', error)
 
-					return reject(err)
-				}
+			if (retries < this.numberOfRetries) {
+				return Bluebird.delay(100).then(() => {
+					return this.retrieve(context, scope, name, retries + 1)
+				})
+			}
 
-				return resolve(data.Body)
-			})
+			throw error
 		})
 	}
 }
