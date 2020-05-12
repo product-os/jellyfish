@@ -1,4 +1,30 @@
 - commits:
+    - subject: 's3: Refactor .retrieve() to use AWS-SDK promises'
+      hash: 2e4140ce23e0fe43dae23460a7236ee581056a27
+      body: |
+        Just to make it nicer to read while we're at it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+    - subject: 'server: Fix and improve S3 attachments logs'
+      hash: b78ddbc8ed85d39186edd0719e68838284efd00d
+      body: |
+        Looks like I made some obvious mistakes regarding the `context` argument
+        in the `logger` functions.
+
+        I also made sure we log exceptions in a more verbose way.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.12.7
+  date: 2020-05-12T17:32:51.072Z
+- commits:
     - subject: 'test: Ensure community users can''t spoof sessions'
       hash: 8ed0f5c001399c048205c2f6f68bcace5bffdaa1
       body: ''
