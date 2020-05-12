@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add simple constant folding to `SqlFilter` in `jsonschema2sql`
+      hash: 56bc7fb2c1d9e0e44536bebacf7dfd1b4b0d3645
+      body: |
+        This will simplify the generated SQL and make debugging easier
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.13.0
+  date: 2020-05-12T20:27:30.884Z
+- commits:
     - subject: >-
         Unify handling of nulls in `SqlFilter` and compare JSON as text when
         possible
