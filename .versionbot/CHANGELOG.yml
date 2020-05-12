@@ -1,4 +1,16 @@
 - commits:
+    - subject: Change LOGLEVEL for sut
+      hash: 964a5024566d1d6ce5f162979b7d9e3ead0f56ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.12.2
+  date: 2020-05-12T04:45:55.790Z
+- commits:
     - subject: 'server: Add more logs about attachments'
       hash: 6b75734990740b1a9faf9c6b803a3b0ab646ad5d
       body: |
