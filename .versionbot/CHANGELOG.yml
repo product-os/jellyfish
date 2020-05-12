@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Unify handling of nulls in `SqlFilter` and compare JSON as text when
+        possible
+      hash: 445f503300bb98a5b98c611ba7118b8c66bc0201
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.12.8
+  date: 2020-05-12T18:47:16.819Z
+- commits:
     - subject: 's3: Refactor .retrieve() to use AWS-SDK promises'
       hash: 2e4140ce23e0fe43dae23460a7236ee581056a27
       body: |
