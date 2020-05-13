@@ -1,4 +1,27 @@
 - commits:
+    - subject: Ensure mock globals are available for code being unit tested
+      hash: 6aae16d76e7b3f1c7830b5e5e727c2165e9b9c56
+      body: >
+        The new reusable ui-setup.js file could be imported in other tests as
+        required in the future.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Move components to the ui app
+      hash: 100811c2fad5bd62f631a085b11e51860e80afec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.15.4
+  date: 2020-05-13T06:28:05.773Z
+- commits:
     - subject: >-
         Add hidden form fields to password reset to improve password manager
         support
