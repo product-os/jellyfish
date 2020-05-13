@@ -42,7 +42,8 @@ const NONE_MESSAGE_TIMELINE_TYPES = [
 	'update',
 	'create@1.0.0',
 	'event@1.0.0',
-	'update@1.0.0'
+	'update@1.0.0',
+	'thread@1.0.0'
 ]
 
 const isHiddenEventType = (type) => {
