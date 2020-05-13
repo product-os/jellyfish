@@ -1,4 +1,14 @@
 - commits:
+    - subject: Fix broken logout
+      hash: 892cb200dc569b56ffb070678f31ce4c33832538
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+  version: 30.15.6
+  date: 2020-05-13T09:33:30.363Z
+- commits:
     - subject: 'ui: Fix reference to guided handover flow panel'
       hash: 6f980342fb0745b3a79b490f40f20a57d4e6b77c
       body: ''
