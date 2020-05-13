@@ -899,7 +899,7 @@ export default class ActionCreator {
 			this.sdk.auth.logout()
 		}
 		_.forEach(streams, (stream, id) => {
-			streams.close()
+			stream.close()
 			Reflect.deleteProperty(streams, id)
 		})
 		return {
