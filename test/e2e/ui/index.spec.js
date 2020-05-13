@@ -524,7 +524,7 @@ ava.serial('user profile: The send command should default to "shift+enter"', asy
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
-	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(1) > button[role="menuitem"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(1)')
 
 	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="shift+enter"]')
 
@@ -565,7 +565,7 @@ ava.serial('user profile: You should be able to change the send command to "ente
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
-	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(3) > button[role="menuitem"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(3)')
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
@@ -607,7 +607,7 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
-	await macros.waitForThenClickSelector(page, '[role="menubar"] > div:nth-of-type(2) > button[role="menuitem"]')
+	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(2)')
 
 	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="ctrl+enter"]')
 
@@ -637,7 +637,7 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 // Views
 // =============================================================================
 
-ava.serial('views: Should be able to save a new view', async (test) => {
+ava.serial.skip('views: Should be able to save a new view', async (test) => {
 	const {
 		page
 	} = context
