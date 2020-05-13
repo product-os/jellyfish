@@ -10,7 +10,7 @@
   "data": {
     "allOf": [
       {
-        "name": "message or whisper",
+        "name": "My unread pings",
         "schema": {
           "type": "object",
           "properties": {
@@ -20,23 +20,31 @@
                 "message@1.0.0",
                 "whisper@1.0.0"
               ]
-            }
-          },
-          "additionalProperties": true
-        }
-      },
-      {
-        "name": "Unread",
-        "schema": {
-          "type": "object",
-          "properties": {
+            },
             "data": {
               "type": "object",
               "properties": {
+                "payload": {
+                  "type": "object",
+                  "properties": {
+                    "mentionsUser": {
+                      "type": "array",
+                      "contains": {
+                        "const": {
+                          "$eval": "user.slug"
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "mentionsUser"
+                  ],
+                  "additionalProperties": true
+                },
                 "readBy": {
                   "type": "array",
-                  "items": {
-                    "not": {
+                  "not": {
+                    "contains": {
                       "const": {
                         "$eval": "user.slug"
                       }
@@ -50,81 +58,6 @@
           "additionalProperties": true
         }
       }
-    ],
-    "anyOf": [
-      {
-        "name": "My mentions",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "data": {
-              "type": "object",
-              "properties": {
-                "payload": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "regexp": {
-                        "pattern": {
-                          "$eval": "'@' + user.slug[5:]"
-                        },
-                        "flags": "i"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "additionalProperties": true
-                }
-              },
-              "required": [
-                "payload"
-              ],
-              "additionalProperties": true
-            }
-          },
-          "additionalProperties": true
-        }
-      },
-      {
-        "name": "My alerts",
-        "schema": {
-          "type": "object",
-          "properties": {
-            "data": {
-              "type": "object",
-              "properties": {
-                "payload": {
-                  "type": "object",
-                  "properties": {
-                    "message": {
-                      "regexp": {
-                        "pattern": {
-                          "$eval": "'!' + user.slug[5:]"
-                        },
-                        "flags": "i"
-                      }
-                    }
-                  },
-                  "required": [
-                    "message"
-                  ],
-                  "additionalProperties": true
-                }
-              },
-              "required": [
-                "payload"
-              ],
-              "additionalProperties": true
-            }
-          },
-          "additionalProperties": true
-        }
-      },
-    ],
-    "lenses": [
-      "lens-inbox"
     ]
   },
   "requires": [],

@@ -20,6 +20,9 @@ import {
 import actions from '../actions'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import {
+	createNotification
+} from '../../../services/notifications'
+import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
@@ -30,6 +33,23 @@ import {
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
 const asyncDispatchQueue = getQueue()
+
+const notify = ({
+	user,
+	card,
+	cardType
+}) => {
+	const baseType = card.type.split('@')[0]
+	const title = `New ${_.get(cardType, [ 'name' ], baseType)}`
+	const body = _.get(card, [ 'data', 'payload', 'message' ])
+	const target = _.get(card, [ 'data', 'target' ])
+
+	createNotification({
+		title,
+		body,
+		target
+	})
+}
 
 const createChannel = (data = {}) => {
 	const id = uuid()
@@ -732,9 +752,25 @@ export default class ActionCreator {
 						if (update.after) {
 							const card = update.after
 							const {
-								id
+								id,
+								type
 							} = card
 							const allChannels = selectors.getChannels(getState())
+
+							const baseType = type.split('@')[0]
+
+							// Create a desktop notification if an unread message ping appears
+							if (
+								(baseType === 'message' || baseType === 'whisper') &&
+								_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug) &&
+								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
+							) {
+								notify({
+									user: selectors.getCurrentUser(getState()),
+									card,
+									cardType: helpers.getType(type, types)
+								})
+							}
 
 							// If we receive a card that targets another card...
 							const targetId = _.get(card, [ 'data', 'target' ])
@@ -796,6 +832,13 @@ export default class ActionCreator {
 						console.error('A stream error occurred', error)
 					})
 
+					// Load unread message pings
+					// TODO Get the Inbox component to use data from the redux store,
+					// rather than generating its own queries, allowing us to de-duplicate
+					// this schema.
+					this.loadViewResults('view-my-inbox')(dispatch, getState)
+					this.streamView('view-my-inbox')(dispatch, getState)
+
 					return user
 				})
 		}
@@ -855,6 +898,10 @@ export default class ActionCreator {
 			commsStream = null
 			this.sdk.auth.logout()
 		}
+		_.forEach(streams, (stream, id) => {
+			streams.close()
+			Reflect.deleteProperty(streams, id)
+		})
 		return {
 			type: actions.LOGOUT
 		}
