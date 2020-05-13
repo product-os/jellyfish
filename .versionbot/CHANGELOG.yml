@@ -1,4 +1,18 @@
 - commits:
+    - subject: Avoid recalculating `SqlQuery.isProcessing*()`
+      hash: 4089ba707bb67be478eb814971ac7144f120a990
+      body: |
+        This results in a minor performance boost and unlocks a nicer
+        implementation of PR #3716.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.15.1
+  date: 2020-05-13T03:18:00.169Z
+- commits:
     - subject: 'ui: Ensure search works on all inbox tabs'
       hash: 15eeda503515bcc0985539ba64a305861277f16b
       body: >
