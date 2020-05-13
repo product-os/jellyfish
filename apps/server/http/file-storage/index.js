@@ -40,7 +40,7 @@ module.exports = class Storage {
 			name
 		})
 
-		return this.backend.store(scope, name, data)
+		return this.backend.store(context, scope, name, data)
 	}
 
 	retrieve (context, scope, name) {
