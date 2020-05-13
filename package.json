@@ -179,7 +179,7 @@
     "monaco-editor": "^0.19.0",
     "monaco-editor-webpack-plugin": "^1.8.1",
     "multer": "^1.3.1",
-    "native-url": "^0.2.6",
+    "native-url": "^0.3.1",
     "node-emoji": "^1.10.0",
     "node-hook": "^1.0.0",
     "node-jose": "^1.1.3",
