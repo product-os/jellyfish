@@ -269,6 +269,23 @@ export default class HomeChannel extends React.Component {
 			groups.main.children.push(starredViewsTree)
 		}
 
+		// Add the productOS comms rooms to the top of the sidebar
+		// TODO: Replace this with a fully fledged loop mapping once the loop
+		// structure becomes concrete.
+		groups.main.children.push({
+			name: 'productOS',
+			key: 'product-os',
+			children: (this.state.productOS || []).map((item) => {
+				return {
+					name: item.name,
+					key: item.slug,
+					card: item,
+					isStarred: false,
+					children: []
+				}
+			})
+		})
+
 		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
 			return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, this.props.user.slug)
 		})
@@ -360,6 +377,28 @@ export default class HomeChannel extends React.Component {
 
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
+	componentDidMount () {
+		// TODO: Replace this with parsing loop cards to define the chat room
+		// structure
+		this.props.actions.queryAPI({
+			type: 'object',
+			required: [ 'type', 'name' ],
+			properties: {
+				type: {
+					const: 'repository@1.0.0'
+				},
+				name: {
+					pattern: '^product-os'
+				}
+			}
+		})
+			.then((results) => {
+				this.setState({
+					productOS: results
+				})
+			})
 	}
 
 	componentDidUpdate (prevProps) {

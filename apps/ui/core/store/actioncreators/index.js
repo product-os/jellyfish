@@ -106,7 +106,7 @@ const loadSchema = async (sdk, query, user) => {
 	if (query.type === 'view' || query.type === 'view@1.0.0') {
 		return helpers.getViewSchema(query, user)
 	}
-	return query
+	return clone(query)
 }
 
 const getViewId = (query) => {
