@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const assert = require('../../../../lib/assert')
 const QueryFacade = require('./query')
 
 module.exports = class AuthFacade extends QueryFacade {
@@ -12,10 +13,8 @@ module.exports = class AuthFacade extends QueryFacade {
 		// might not have enough access to read its entire session card.
 		const result = await this.jellyfish.getCardById(
 			context, this.jellyfish.sessions.admin, sessionToken)
-
-		if (!result) {
-			throw new Error('Could not retrieve session data')
-		}
+		assert.USER(context, result,
+			this.jellyfish.errors.JellyfishInvalidSession, 'Session does not exist')
 
 		const schema = {
 			type: 'object',
