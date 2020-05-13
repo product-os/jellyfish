@@ -599,27 +599,16 @@ class ViewRenderer extends React.Component {
 			>
 				{Boolean(head) && (
 					<React.Fragment>
-						<Flex mt={3} mx={3} alignItems='flex-start'>
-							<Flex flex={1} flexWrap='wrap'>
-								<Box flex="1">
-									{useFilters && (
-										<Box mt={0} flex="1 0 auto">
-											<Filters
-												schema={schemaForFilters}
-												filters={this.state.filters}
-												onFiltersUpdate={this.updateFilters}
-												onViewsUpdate={this.saveView}
-												compact={FiltersBreakpointSettings}
-												renderMode={[ 'add', 'search' ]}
-											/>
-										</Box>
-									)}
-								</Box>
-
+						<Flex
+							mt={3} mx={3}
+							flexWrap={[ 'wrap', 'wrap', 'nowrap' ]}
+							flexDirection="row-reverse"
+							alignItems={[ 'flex-start', 'flex-start', 'center' ]}
+						>
+							<Flex mb={3} alignItems="center" justifyContent="flex-end" minWidth={[ '100%', '100%', 'auto' ]}>
 								{sliceOptions && sliceOptions.length && (
 									<Select
 										ml={3}
-										mb={3}
 										options={sliceOptions}
 										value={this.state.activeSlice}
 										labelKey='title'
@@ -644,19 +633,33 @@ class ViewRenderer extends React.Component {
 										})}
 									</ButtonGroup>
 								)}
-							</Flex>
 
-							<CloseButton
-								flex={0}
-								p={3}
-								mt="-8px"
-								mr={-3}
-								channel={this.props.channel}
-							/>
+								<CloseButton
+									flex={0}
+									p={3}
+									py={2}
+									mr={-3}
+									channel={this.props.channel}
+								/>
+							</Flex>
+							<Box flex="1">
+								{useFilters && (
+									<Box mt={0} flex="1 0 auto">
+										<Filters
+											schema={schemaForFilters}
+											filters={this.state.filters}
+											onFiltersUpdate={this.updateFilters}
+											onViewsUpdate={this.saveView}
+											compact={FiltersBreakpointSettings}
+											renderMode={[ 'add', 'search' ]}
+										/>
+									</Box>
+								)}
+							</Box>
 						</Flex>
 
 						{useFilters && this.state.filters.length > 0 && (
-							<Box flex="1 0 auto" mx={3}>
+							<Box flex="1 0 auto" mx={3} mt={-3}>
 								<Filters
 									schema={schemaForFilters}
 									filters={this.state.filters}
