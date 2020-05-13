@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'server: Pass context as the 1st argument to file-storage''s .store()'
+      hash: d37598ec89a89b90cfdfd8c19673705cd2d20e7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.15.2
+  date: 2020-05-13T04:10:12.350Z
+- commits:
     - subject: Avoid recalculating `SqlQuery.isProcessing*()`
       hash: 4089ba707bb67be478eb814971ac7144f120a990
       body: |
