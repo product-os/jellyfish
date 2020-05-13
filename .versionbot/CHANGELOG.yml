@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Improve view filter layout on small screens'
+      hash: 48861401deb0da226351dc56735ac63e717fb900
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.13.1
+  date: 2020-05-13T00:42:35.983Z
+- commits:
     - subject: Add simple constant folding to `SqlFilter` in `jsonschema2sql`
       hash: 56bc7fb2c1d9e0e44536bebacf7dfd1b4b0d3645
       body: |
