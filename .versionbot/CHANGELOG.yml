@@ -1,4 +1,22 @@
 - commits:
+    - subject: >-
+        Don't use `_.defaults()` for better performance in `SqlQuery`
+        constructor
+      hash: 2d3c3e78d60ea513e0ce88be2c97afbc82432853
+      body: |
+        Profiling showed that lodash's `defaults()` was taking a not
+        insignificant amount of time. Benchmarking showed that using plain `in`
+        operators to set the default values led to a not insignificant
+        performance boost.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.14.0
+  date: 2020-05-13T01:34:30.452Z
+- commits:
     - subject: 'ui: Improve view filter layout on small screens'
       hash: 48861401deb0da226351dc56735ac63e717fb900
       body: ''
