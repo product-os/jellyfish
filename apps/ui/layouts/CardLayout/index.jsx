@@ -23,9 +23,7 @@ import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel'
 import {
 	FLOW_IDS
 } from '../../components/Flows/flow-utils'
-import {
-	HandoverFlowPanel
-} from '../../components/Flows/HandoverFlowPanel'
+import HandoverFlowPanel from '../../components/Flows/HandoverFlowPanel'
 import {
 	LinksProvider
 } from '../../../../lib/ui-components/LinksProvider'
