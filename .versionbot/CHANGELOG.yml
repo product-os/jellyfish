@@ -1,4 +1,36 @@
 - commits:
+    - subject: 'ui: Ensure search works on all inbox tabs'
+      hash: 15eeda503515bcc0985539ba64a305861277f16b
+      body: >
+        Needed to be careful to avoid duplications when merging `required`
+        fields - hence the use of `_.mergeWith` with a customizer function.
+        Abstracting out the search filter to a single method will also prove
+        useful when we start searching for `searchable` fields and the search
+        filter has to be modified.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Refactor inbox to use materialized field instead of regexp
+      hash: 6504ae7a50f9275a7c5d9fc6314c156d619b24a0
+      body: >
+        Previously the inbox had been disabled due to performance and stability
+
+        concerns. A chunk of this PR is simply re-enabling the inbox
+
+        functionality that as turned off in this PR
+        https://github.com/product-os/jellyfish/pull/3568
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.15.0
+  date: 2020-05-13T02:26:36.443Z
+- commits:
     - subject: >-
         Don't use `_.defaults()` for better performance in `SqlQuery`
         constructor
