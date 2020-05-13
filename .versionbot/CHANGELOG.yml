@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Fix reference to guided handover flow panel'
+      hash: 6f980342fb0745b3a79b490f40f20a57d4e6b77c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.15.5
+  date: 2020-05-13T08:34:38.976Z
+- commits:
     - subject: Ensure mock globals are available for code being unit tested
       hash: 6aae16d76e7b3f1c7830b5e5e727c2165e9b9c56
       body: >
