@@ -1,0 +1,87 @@
+{
+  "slug": "form-response",
+  "name": "form-response",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "version",
+        "data"
+      ],
+      "properties": {
+        "version": {
+          "type": "string",
+          "const": "1.0.0"
+        },
+        "data": {
+          "type": "object",
+          "required": [
+            "mirrors",
+            "user",
+            "timestamp",
+            "responses"
+          ],
+          "properties": {
+            "mirrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "user": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "responses": {
+              "type": "array",
+              "required": [
+                "question",
+                "answer"
+              ],
+              "items": {
+                "type": "object",
+                "properties": {
+                  "question": {
+                    "type": "string"
+                  },
+                  "answer": {
+                    "type": "object",
+                    "required": [
+                      "schema",
+                      "value"
+                    ],
+                    "properties": {
+                      "schema": {
+                        "type": "object",
+                        "required": [
+                          "type"
+                        ]
+                      },
+                      "value": {
+                        "type": ["string", "number"]
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

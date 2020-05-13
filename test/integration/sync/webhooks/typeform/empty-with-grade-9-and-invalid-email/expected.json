@@ -1,0 +1,97 @@
+{
+    "head": {
+        "name": "",
+        "type": "form-response@1.0.0",
+        "version": "1.0.0",
+        "active": true,
+        "tags": [],
+        "requires": [],
+        "capabilities": [],
+        "data": {
+            "mirrors": [
+                "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=vnxe7zjf9kfnw0d7agvnxeb7f8b1wb3j"
+            ],
+            "user": null,
+            "timestamp": "2020-03-24T12:37:42.000Z",
+            "responses": [
+                {
+                    "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
+                    "answer": {
+                        "schema": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 10
+                        },
+                        "value": 9
+                    }
+                },
+                {
+                    "question": "Finally, how about inviting a friend or co-worker to experience balenaCloud for themselves? Provide us with their email address and we'll do the rest.",
+                    "answer": {
+                        "schema": {
+                            "type": "string",
+                            "format": "email"
+                        },
+                        "value": "a@b.notMyMailAddr"
+                    }
+                }
+            ]
+        }
+    },
+    "tail": [
+        {
+            "type": "create@1.0.0",
+            "version": "1.0.0",
+            "active": true,
+            "tags": [],
+            "requires": [],
+            "capabilities": [],
+            "data": {
+                "actor": {
+                    "slug": "user-admin",
+                    "active": true
+                },
+                "timestamp": "2020-03-24T12:37:42.000Z",
+                "payload": {
+                    "name": "",
+                    "type": "form-response@1.0.0",
+                    "version": "1.0.0",
+                    "active": true,
+                    "tags": [],
+                    "requires": [],
+                    "capabilities": [],
+                    "data": {
+                        "mirrors": [
+                            "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=vnxe7zjf9kfnw0d7agvnxeb7f8b1wb3j"
+                        ],
+                        "user": null,
+                        "timestamp": "2020-03-24T12:37:42.000Z",
+                        "responses": [
+                            {
+                                "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
+                                "answer": {
+                                    "schema": {
+                                        "type": "integer",
+                                        "minimum": 1,
+                                        "maximum": 10
+                                    },
+                                    "value": 9
+                                }
+                            },
+                            {
+                                "question": "Finally, how about inviting a friend or co-worker to experience balenaCloud for themselves? Provide us with their email address and we'll do the rest.",
+                                "answer": {
+                                    "schema": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "value": "a@b.notMyMailAddr"
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    ]
+}

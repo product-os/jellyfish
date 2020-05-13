@@ -188,6 +188,10 @@ export INTEGRATION_OUTREACH_APP_SECRET
 INTEGRATION_OUTREACH_SIGNATURE_KEY ?=
 export INTEGRATION_OUTREACH_SIGNATURE_KEY
 
+# Typeform
+INTEGRATION_TYPEFORM_SIGNATURE_KEY ?=
+export INTEGRATION_TYPEFORM_SIGNATURE_KEY
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------

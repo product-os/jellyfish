@@ -348,6 +348,8 @@ module.exports = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/email-sequence.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			require('../../../apps/server/default-cards/contrib/form-response.json'))
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/repository.json'))
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			require('../../../apps/server/default-cards/contrib/push.json'))
