@@ -1,4 +1,48 @@
 - commits:
+    - subject: 'ui: Remove ''thread'' cards from the Interleaved message list'
+      hash: a2c4dbd1fa3418874664de88244a115e53adefbb
+      body: |
+        threads should be treated like create, event, update cards.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Ensure Starred views appear above productOS views in sidebar'
+      hash: f228438a61f2f98cff468514ee7ffcbafc21a22a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Surface repos as rooms for productOS
+      hash: 290ed8eb5f66b3c9eed06cc42154b7790ec50958
+      body: |
+        This is a heuristic that will be replaced by using the loop card to
+        define the structure of communications. For now, this allows us to
+        experiment with chat in Jellyfish in a way that allows us to transition
+        to using loops in the future.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Allow users to have multi-threaded conversation about a repository
+      hash: 37356965cf878cb0b35fb2f93c202070d968b1b7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.16.0
+  date: 2020-05-13T11:22:21.192Z
+- commits:
     - subject: Fix broken logout
       hash: 892cb200dc569b56ffb070678f31ce4c33832538
       body: ''
