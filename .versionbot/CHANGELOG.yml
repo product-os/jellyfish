@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add hidden form fields to password reset to improve password manager
+        support
+      hash: 0a6a86b43261b458c4ed2e227733f61106422a5c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 30.15.3
+  date: 2020-05-13T05:35:45.659Z
+- commits:
     - subject: 'server: Pass context as the 1st argument to file-storage''s .store()'
       hash: d37598ec89a89b90cfdfd8c19673705cd2d20e7a
       body: ''
