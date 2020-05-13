@@ -5,6 +5,7 @@
  */
 
 import React from 'react'
+import * as _ from 'lodash'
 import {
 	Box,
 	Button,
@@ -66,6 +67,8 @@ class CompletePasswordReset extends React.Component {
 			completingPasswordReset
 		} = this.state
 
+		const username = _.get(this.props, [ 'match', 'params', 'username' ], '')
+
 		return (
 			<React.Fragment>
 				<Txt align="center" mb={4}>
@@ -78,6 +81,8 @@ class CompletePasswordReset extends React.Component {
 				<form
 					data-test="completePasswordReset-page__form"
 					onSubmit={this.completePasswordReset}>
+
+					<Input display="none" name="username" autoComplete="username" value={username} />
 
 					<Txt fontSize={1} mb={1}>Password</Txt>
 					<Input

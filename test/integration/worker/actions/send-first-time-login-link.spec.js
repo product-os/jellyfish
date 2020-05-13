@@ -253,7 +253,7 @@ ava('should send a first-time-login email to a user', async (test) => {
 		limit: 1
 	})
 
-	const firstTimeLoginUrl = `https://jel.ly.fish/first_time_login/${firstTimeLogin.data.firstTimeLoginToken}`
+	const firstTimeLoginUrl = `https://jel.ly.fish/first_time_login/${firstTimeLogin.data.firstTimeLoginToken}/${username}`
 
 	const expectedEmailBody = `<p>Hello,</p><p>Here is a link to login to your new Jellyfish account ${username}.</p><p>Please use the link below to set your password and login:</p><a href="${firstTimeLoginUrl}">${firstTimeLoginUrl}</a><p>Cheers</p><p>Jellyfish Team</p><a href="https://jel.ly.fish">https://jel.ly.fish</a>`
 

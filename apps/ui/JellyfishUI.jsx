@@ -110,8 +110,8 @@ class JellyfishUI extends React.Component {
 				<AuthContainer>
 					<Switch>
 						<Route path='/request_password_reset' component={RequestPasswordReset} />
-						<Route path='/password_reset/:resetToken' component={CompletePasswordReset} />
-						<Route path='/first_time_login/:firstTimeLoginToken' component={CompleteFirstTimeLogin} />
+						<Route path='/password_reset/:resetToken/:username?' component={CompletePasswordReset} />
+						<Route path='/first_time_login/:firstTimeLoginToken/:username?' component={CompleteFirstTimeLogin} />
 						<Route path="/*" component={Login} />
 					</Switch>
 					<Notifications />
