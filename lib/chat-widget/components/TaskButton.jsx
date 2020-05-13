@@ -22,9 +22,7 @@ export const TaskButton = ({
 
 	return (
 		<React.Fragment>
-			{task.error && (
-				<ErrorMessage error={task.error} pb={4} />
-			)}
+			{task.error && <ErrorMessage mb={4}>{task.error.message}</ErrorMessage>}
 			<Button
 				disabled={task.started}
 				icon={icon}

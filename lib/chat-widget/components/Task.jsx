@@ -6,8 +6,8 @@
 
 import React from 'react'
 import {
-	Button,
-	Txt
+	Link,
+	Flex
 } from 'rendition'
 import {
 	ErrorMessage
@@ -23,17 +23,16 @@ export const Task = ({
 }) => {
 	if (!task.finished || task.error) {
 		return (
-			<Txt align="center" fontSize={13} mt={3} {...rest}>
+			<Flex justifyContent="center" mt={3} mx={3} {...rest}>
 				{task.finished ? (
-					<React.Fragment>
-						<ErrorMessage error={task.error} />&nbsp;<Button underline onClick={task.retry} style={{
-							display: 'inline'
-						}}>Retry</Button>
-					</React.Fragment>
+					<ErrorMessage>
+						{task.error.message}
+						<Link ml={1} onClick={task.retry}>Retry</Link>
+					</ErrorMessage>
 				) : (
 					<Loader />
 				)}
-			</Txt>
+			</Flex>
 		)
 	}
 
