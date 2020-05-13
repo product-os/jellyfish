@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount,
@@ -37,9 +38,6 @@ const initialState = {
 	}
 }
 const store = mockStore(initialState)
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
 
 configure({
 	adapter: new Adapter()
@@ -169,7 +167,7 @@ ava.serial('Fires an error notification when the user card has no org markers', 
 	test.deepEqual(actions.addNotification.args, [ [ 'danger', 'You must belong to an organisation to add new users' ] ])
 })
 
-ava.serial.only('Fires an error notification when the user\'s organisation cannot be found', async (test) => {
+ava.serial('Fires an error notification when the user\'s organisation cannot be found', async (test) => {
 	const {
 		getBySlug,
 		actions
