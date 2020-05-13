@@ -269,6 +269,23 @@ export default class HomeChannel extends React.Component {
 			groups.main.children.push(starredViewsTree)
 		}
 
+		// Add the productOS comms rooms to the top of the sidebar
+		// TODO: Replace this with a fully fledged loop mapping once the loop
+		// structure becomes concrete.
+		groups.main.children.push({
+			name: 'productOS',
+			key: 'product-os',
+			children: (this.state.productOS || []).map((item) => {
+				return {
+					name: item.name,
+					key: item.slug,
+					card: item,
+					isStarred: false,
+					children: []
+				}
+			})
+		})
+
 		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
 			return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, this.props.user.slug)
 		})
@@ -467,23 +484,6 @@ export default class HomeChannel extends React.Component {
 			onSwipedRight: this.showDrawer,
 			onSwipedLeft: this.hideDrawer
 		}
-
-		// Add the productOS comms rooms to the top of the sidebar
-		// TODO: Replace this with a fully fledged loop mapping once the loop
-		// structure becomes concrete.
-		groups.children.unshift({
-			name: 'productOS',
-			key: 'product-os',
-			children: (this.state.productOS || []).map((item) => {
-				return {
-					name: item.name,
-					key: item.slug,
-					card: item,
-					isStarred: false,
-					children: []
-				}
-			})
-		})
 
 		return (
 			<HomeChannelWrapper
