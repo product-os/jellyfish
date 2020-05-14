@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        SRE: Increase Jellyfish API replicas to 10 to accommodate more
+        concurrency.
+      hash: bdf326f75f23181c1512f9f65a2212cbd5fc37fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.17.2
+  date: 2020-05-14T15:45:01.645Z
+- commits:
     - subject: Revert "Temporarily reduce the amount of e2e testing"
       hash: 65919f0494f9bdfccc5357eaea03093489c7bb8c
       body: |
