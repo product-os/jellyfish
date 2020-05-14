@@ -6,7 +6,6 @@
 
 import React from 'react'
 import Bluebird from 'bluebird'
-import _ from 'lodash'
 import {
 	stepStatus
 } from '../flow-utils'
@@ -80,8 +79,7 @@ export default function TeardownFlowPanel ({
 
 	const {
 		problem,
-		solution,
-		links
+		solution
 	} = flowState
 
 	const cardTypeName = helpers.getType(card.type, types).name
@@ -89,7 +87,7 @@ export default function TeardownFlowPanel ({
 	const completed = {
 		problem: Boolean(problem),
 		solution: Boolean(solution),
-		persist: _.some(links, (link) => { return link.results && link.results.length })
+		persist: true
 	}
 
 	return (
