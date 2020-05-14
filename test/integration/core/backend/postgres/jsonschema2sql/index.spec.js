@@ -1241,3 +1241,66 @@ avaTest('const matches against strings nested in contains should work against to
 	test.is(results.length, 1)
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
+
+// TODO: enable this test when the new compiler becomes the default
+ava.skip('contains - items of type object should be handled correctly', async (test) => {
+	const table = 'contains_object'
+
+	const schema = {
+		type: 'object',
+		required: [ 'data' ],
+		properties: {
+			data: {
+				type: 'object',
+				required: [ 'array' ],
+				properties: {
+					array: {
+						type: 'array',
+						contains: {
+							type: 'object',
+							required: [ 'name' ],
+							properties: {
+								name: {
+									type: 'string',
+									pattern: 'abc'
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	const elements = [
+		{
+			slug: 'test-1',
+			type: 'card',
+			data: {
+				array: [ {
+					name: 'abc'
+				} ]
+			}
+		},
+		{
+			slug: 'test-2',
+			type: 'card',
+			data: {
+				array: [ {
+					name: 'cba'
+				} ]
+			}
+		}
+	]
+
+	const results = await runner({
+		connection: test.context.connection,
+		database: test.context.database,
+		table,
+		elements,
+		schema
+	})
+
+	test.is(results.length, 1)
+	test.deepEqual(results[0].slug, elements[0].slug)
+})
