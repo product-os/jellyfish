@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Make links step optional in support thread teardown flow'
+      hash: 5dae601ebd80b5125ac35275a01c0edba1741c60
+      body: >
+        Mark step 3 as complete by default - meaning it can be skipped if the
+        user doesn't want to create any links.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.17.0
+  date: 2020-05-14T07:36:16.363Z
+- commits:
     - subject: 'server: Return 400 on /api/v2/whoami if the session is invalid'
       hash: 68f8361f120a5e3fadde8af41c900930251ed285
       body: |
