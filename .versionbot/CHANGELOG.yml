@@ -1,4 +1,20 @@
 - commits:
+    - subject: Revert "Temporarily reduce the amount of e2e testing"
+      hash: 65919f0494f9bdfccc5357eaea03093489c7bb8c
+      body: |
+        This reverts commit 94683cabe0f8f569efcf82e9fe814657457c39a8.
+        The platform stability is now dramatically improved (We originally
+        reduced e2e testing to improve velocity whilst we addressed the
+        outages), so its time to turn the testing back on.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.17.1
+  date: 2020-05-14T09:43:48.597Z
+- commits:
     - subject: 'ui: Make links step optional in support thread teardown flow'
       hash: 5dae601ebd80b5125ac35275a01c0edba1741c60
       body: >
