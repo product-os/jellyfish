@@ -4,45 +4,20 @@
  * Proprietary and confidential.
  */
 
+import {
+	getWrapper
+} from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	shallow,
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
-import {
-	MemoryRouter
-} from 'react-router-dom'
-import {
-	Provider
-} from 'rendition'
 import ViewLink from '../ViewLink'
 import view from './fixtures/all-messages-view.json'
 import customView from './fixtures/custom-view.json'
 import user from './fixtures/user.json'
-
-import Adapter from 'enzyme-adapter-react-16'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
-
-const TestProvider = ({
-	children
-}) => {
-	return (
-		<MemoryRouter>
-			<Provider>
-				{children}
-			</Provider>
-		</MemoryRouter>
-	)
-}
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
@@ -67,7 +42,7 @@ ava('removeView action called when \'Delete this view\' button pressed and actio
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: TestProvider
+			wrappingComponent: getWrapper().wrapper
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
@@ -95,7 +70,7 @@ ava('\'Delete this view\' button not shown if view is not a valid custom view', 
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: TestProvider
+			wrappingComponent: getWrapper().wrapper
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
@@ -103,4 +78,58 @@ ava('\'Delete this view\' button not shown if view is not a valid custom view', 
 
 	const deleteViewButton = component.find('button[data-test="view-link--delete-view-btn"]')
 	test.is(deleteViewButton.length, 0)
+})
+
+ava('\'setDefault\' action called with view as arg when \'Set as default\' context menu item clicked', async (test) => {
+	const actions = {
+		setDefault: sinon.fake()
+	}
+	const component =	await mount(
+		<ViewLink
+			isActive
+			isHomeView={false}
+			user={user}
+			card={customView}
+			actions={actions}
+		/>
+		, {
+			wrappingComponent: getWrapper().wrapper
+		})
+
+	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
+	contextMenuButton.simulate('click')
+
+	const setDefaultButton = component.find('button[data-test="view-link--set-default-btn"]')
+	test.is(setDefaultButton.text(), 'Set as default')
+	setDefaultButton.simulate('click')
+
+	test.true(actions.setDefault.calledOnce)
+	test.is(actions.setDefault.getCall(0).args[0].id, customView.id)
+})
+
+ava('\'setDefault\' action called with null as arg when \'Unset as default\' context menu item clicked', async (test) => {
+	const actions = {
+		setDefault: sinon.fake()
+	}
+	const component =	await mount(
+		<ViewLink
+			isActive
+			isHomeView
+			user={user}
+			card={customView}
+			actions={actions}
+		/>
+		, {
+			wrappingComponent: getWrapper().wrapper
+		})
+
+	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
+	contextMenuButton.simulate('click')
+
+	const setDefaultButton = component.find('button[data-test="view-link--set-default-btn"]')
+	test.is(setDefaultButton.text(), 'Unset as default')
+	setDefaultButton.simulate('click')
+
+	test.true(actions.setDefault.calledOnce)
+	test.is(actions.setDefault.getCall(0).args[0], null)
 })

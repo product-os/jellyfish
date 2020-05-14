@@ -4,77 +4,68 @@
  * Proprietary and confidential.
  */
 
+import {
+	getWrapper
+} from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
-import {
-	Provider
-} from 'rendition'
 import _ from 'lodash'
 import sinon from 'sinon'
 import HomeChannel from '../HomeChannel'
 import * as homeChannelProps from './fixtures'
-import Adapter from 'enzyme-adapter-react-16'
 
-const Router = require('react-router-dom').MemoryRouter
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
+const context = {}
 
 const sandbox = sinon.createSandbox()
 
-const actions = _.reduce([
-	'addChannel',
-	'loadViewResults',
-	'logout',
-	'queryAPI',
-	'removeView',
-	'removeViewNotice',
-	'setChantWidgetOpen',
-	'setDefault',
-	'setUIState',
-	'setViewStarred',
-	'streamView',
-	'updateUser'
-], (acc, action) => {
-	acc[action] = sandbox.stub()
-	return acc
-}, {})
+ava.beforeEach(async () => {
+	context.actions = _.reduce([
+		'addChannel',
+		'loadViewResults',
+		'logout',
+		'queryAPI',
+		'removeView',
+		'removeViewNotice',
+		'setChantWidgetOpen',
+		'setDefault',
+		'setUIState',
+		'setViewStarred',
+		'streamView',
+		'updateUser'
+	], (acc, action) => {
+		acc[action] = sandbox.stub()
+		return acc
+	}, {})
+	context.actions.queryAPI.resolves([])
+
+	context.history = {
+		push: sandbox.stub()
+	}
+})
 
 ava.afterEach(async () => {
 	sandbox.restore()
 })
 
-const Wrapper = ({
-	children
-}) => {
-	return (
-		<Router>
-			<Provider>{children}</Provider>
-		</Router>
-	)
-}
-
 ava('Starred views appear in their own menu section', async (test) => {
-	actions.queryAPI.resolves([])
+	const {
+		wrapper
+	} = getWrapper()
 	const homeChannel = await mount((
 		<HomeChannel
 			{...homeChannelProps}
-			channels={[]}
-			actions={actions}
+			channels={[ homeChannelProps.channel ]}
+			actions={context.actions}
 			viewNotices={{}}
 			subscriptions={{}}
 			orgs={[]}
+			history={context.history}
 		/>
 	), {
-		wrappingComponent: Wrapper
+		wrappingComponent: wrapper
 	})
 
 	const starredViews = homeChannelProps.user.data.profile.starredViews
@@ -84,4 +75,28 @@ ava('Starred views appear in their own menu section', async (test) => {
 		const starredViewLink = starredViewsDiv.find(`a[data-test="home-channel__item--${starredView}"]`)
 		test.is(starredViewLink.length, 1)
 	})
+})
+
+ava('The home view is loaded on mount if set', async (test) => {
+	const homeView = 'view-123'
+	const {
+		wrapper
+	} = getWrapper()
+	await mount((
+		<HomeChannel
+			{...homeChannelProps}
+			channels={[ homeChannelProps.channel ]}
+			actions={context.actions}
+			viewNotices={{}}
+			subscriptions={{}}
+			orgs={[]}
+			homeView={homeView}
+			history={context.history}
+		/>
+	), {
+		wrappingComponent: wrapper
+	})
+
+	test.true(context.history.push.calledOnce)
+	test.is(context.history.push.getCall(0).args[0], homeView)
 })

@@ -148,6 +148,7 @@ export default class ViewLink extends React.Component {
 										display: 'block'
 									}}
 									plain
+									data-test="view-link--set-default-btn"
 									tooltip={{
 										text: `${isHomeView ? 'Unset' : 'Set'} this view as the default page when logging in`,
 										containerStyle: {
