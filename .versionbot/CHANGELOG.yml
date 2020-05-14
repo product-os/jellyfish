@@ -1,4 +1,80 @@
 - commits:
+    - subject: 'lib/environment: Default to empty if typefrom signature doesn''t exist'
+      hash: a3b8b2140dea54fe7ee6904771bf95e9b9d9a9e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: '.circleci/config.yml: Add typeform signature key'
+      hash: 7a0e8fe21fc08304d578e1c7ce80c049b8e35c09
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'lib/sync/integrations: Add typeform integration implementation'
+      hash: 05d0a42161aa2c30b2a6b88b1c147319d65ee06d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'test/integration/sync: Enable typeform tests'
+      hash: 6b200bb8f0d95d5654167b6e7077a95384366cf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'card-loader: Load form-response card'
+      hash: 2bc01ef65d9e7a2a8ffd041d7141ae0ba9a44336
+      body: |
+        Add typeform in triggered actions
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'default-cards: Add form-response type'
+      hash: 299857ba76361b82eddd8d68d2089e4c342939e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'environment: Add typeform''s signature variable'
+      hash: d5938e85221dc2014dcf08274e9781a54282099c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'Typeform: Set up translate tests'
+      hash: 137c266a863ef7a00f00213212fd1d4457ce18e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.16.1
+  date: 2020-05-13T19:35:13.532Z
+- commits:
     - subject: 'ui: Remove ''thread'' cards from the Interleaved message list'
       hash: a2c4dbd1fa3418874664de88244a115e53adefbb
       body: |
