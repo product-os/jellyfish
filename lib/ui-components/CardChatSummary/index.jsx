@@ -15,6 +15,7 @@ import {
 	Txt
 } from 'rendition'
 import {
+	defaultSanitizerOptions,
 	Markdown
 } from 'rendition/dist/extra/Markdown'
 import styled, {
@@ -68,6 +69,38 @@ const LatestMessage = styled(Markdown) `
 		text-overflow: ellipsis;
 	}
 `
+
+const sanitizerOptions = _.defaultsDeep({
+	allowedAttributes: {
+		// eslint-disable-next-line id-length
+		a: _.get(defaultSanitizerOptions, [ 'allowedAttributes', 'a' ], []).concat('onclick')
+	},
+
+	transformTags: {
+		img: (tagName, attribs) => {
+			return {
+				tagName: 'span',
+				text: `[${attribs.title || attribs.alt || 'image'}]`
+			}
+		},
+		// eslint-disable-next-line id-length
+		a: (tagName, attribs) => {
+			return {
+				tagName: 'a',
+				attribs: {
+					...attribs,
+
+					// The whole chat summary is clickable. Prevent navigating to the
+					// chat/thread channel when clicking on a link within the last message
+					// summary.
+					// TODO: Improve this logic to use window.location instead of
+					// window.open if the url is within the same app
+					onclick: `event.stopPropagation(); window.open("${attribs.href}");`
+				}
+			}
+		}
+	}
+}, defaultSanitizerOptions)
 
 export class CardChatSummary extends React.Component {
 	constructor (props) {
@@ -182,7 +215,7 @@ export class CardChatSummary extends React.Component {
 							}}
 						/>
 
-						<LatestMessage data-test="card-chat-summary__message">
+						<LatestMessage data-test="card-chat-summary__message" sanitizerOptions={sanitizerOptions}>
 							{latestMessageText}
 						</LatestMessage>
 					</Flex>
