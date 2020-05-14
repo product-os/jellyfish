@@ -30,6 +30,7 @@ require('@babel/register')({
 		'@babel/preset-react'
 	],
 	only: [
+		/test\/ui-setup.js/,
 		/lib\/ui-components/,
 		/lib\/chat-widget/,
 		/\.jsx$/,
