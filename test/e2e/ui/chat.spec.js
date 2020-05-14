@@ -267,7 +267,7 @@ ava('Only messages that ping a user should appear in their inbox', async (test) 
 	test.pass()
 })
 
-ava.serial('When having two chats side-by-side both should update with new messages', async (test) => {
+ava.serial.skip('When having two chats side-by-side both should update with new messages', async (test) => {
 	const {
 		user1,
 		page
