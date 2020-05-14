@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'server: Return 400 on /api/v2/whoami if the session is invalid'
+      hash: 68f8361f120a5e3fadde8af41c900930251ed285
+      body: |
+        This would clearly be a user error. We can throw a meaningful error such
+        as `JellyfishInvalidSession` and don't report it to Sentry.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Fixes: 'https://sentry.io/share/issue/1982e52d855e402da2d0435110d8ad0a/'
+        fixes: 'https://sentry.io/share/issue/1982e52d855e402da2d0435110d8ad0a/'
+        Signed-off-by: Juan Cruz Viotti <juan@balena.io>
+        signed-off-by: Juan Cruz Viotti <juan@balena.io>
+      author: Juan Cruz Viotti
+  version: 30.16.2
+  date: 2020-05-14T04:18:47.121Z
+- commits:
     - subject: 'lib/environment: Default to empty if typefrom signature doesn''t exist'
       hash: a3b8b2140dea54fe7ee6904771bf95e9b9d9a9e7
       body: ''
