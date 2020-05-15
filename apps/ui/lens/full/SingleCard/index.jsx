@@ -15,7 +15,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import InnerSingleCard from './SingleCard'
+import SingleCard from './SingleCard'
 
 const mapStateToProps = (state) => {
 	return {
@@ -36,8 +36,6 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export const SingleCard = connect(mapStateToProps, mapDispatchToProps)(InnerSingleCard)
-
 const lens = {
 	slug: 'lens-full-default',
 	type: 'lens',
@@ -46,7 +44,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: SingleCard,
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SingleCard),
 		filter: {
 			type: 'object'
 		}

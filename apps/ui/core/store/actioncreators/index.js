@@ -1069,11 +1069,14 @@ export default class ActionCreator {
 					password: ''
 				})
 				await dispatch(this.createLink(org, user, 'has member'))
-				await dispatch(this.sendFirstTimeLoginLink({
+				const loginLinkSent = await dispatch(this.sendFirstTimeLoginLink({
 					user
 				}))
-				dispatch(this.addNotification('success', 'Successfully created user'))
-				return true
+				if (loginLinkSent) {
+					dispatch(this.addNotification('success', 'Successfully created user'))
+					return true
+				}
+				return false
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message))
 				return false
@@ -1093,8 +1096,10 @@ export default class ActionCreator {
 					arguments: {}
 				})
 				dispatch(this.addNotification('success', 'Sent first-time login token to user'))
+				return true
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message))
+				return false
 			}
 		}
 	}

@@ -14,6 +14,9 @@ import {
 import sinon from 'sinon'
 import React from 'react'
 
+// TODO: Remove this unused import if we resolve the circular dependency
+// eslint-disable-next-line no-unused-vars
+import full from '../../full'
 import User from './User'
 
 const {

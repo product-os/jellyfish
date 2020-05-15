@@ -16,7 +16,9 @@ import {
 	Button,
 	Flex
 } from 'rendition'
-
+import {
+	getLens
+} from '../../../lens'
 import {
 	evalSchema,
 	getRelationshipTargetType
@@ -170,8 +172,7 @@ export default class Segment extends React.Component {
 			)
 		}
 
-		// TODO: Return to ES6 import once circular-dependency is resolved: see https://github.com/product-os/jellyfish/issues/3770
-		const lens = require('../../../lens').getLens('list', results)
+		const lens = getLens('list', results)
 
 		return (
 			<React.Fragment>

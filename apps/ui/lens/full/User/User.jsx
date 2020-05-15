@@ -9,18 +9,15 @@ import _ from 'lodash'
 import {
 	ActionLink
 } from '../../../../../lib/ui-components/shame/ActionLink'
-import {
-	SingleCard
-} from '../SingleCard'
+import singleCardLens from '../SingleCard'
 
 export default class User extends React.Component {
 	constructor (props) {
 		super(props)
 		this.sendFirstTimeLoginLink = this.sendFirstTimeLoginLink.bind(this)
-		this.getActionItems = this.getActionItems.bind(this)
 
 		this.state = {
-			isOperator: _.includes(props.user.data.roles, 'user-operator')
+			isOperator: _.includes(_.get(props, [ 'user', 'data', 'roles' ], []), 'user-operator')
 		}
 	}
 
@@ -34,23 +31,19 @@ export default class User extends React.Component {
 		})
 	}
 
-	getActionItems () {
-		return (
-			<ActionLink
-				onClick={this.sendFirstTimeLoginLink}
-				data-test="card-action-menu__send-first-time-login"
-			>
-				Send first-time login link
-			</ActionLink>
-		)
-	}
-
 	render () {
 		return (
-			<SingleCard {...{
-				...this.props,
-				actionItems: this.state.isOperator ? this.getActionItems() : null
-			} }/>
+			<singleCardLens.data.renderer
+				{...this.props}
+				actionItems={this.state.isOperator ? (
+					<ActionLink
+						onClick={this.sendFirstTimeLoginLink}
+						data-test="card-action-menu__send-first-time-login"
+					>
+						Send first-time login link
+					</ActionLink>
+				) : null}
+			/>
 		)
 	}
 }
