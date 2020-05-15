@@ -1,4 +1,16 @@
 - commits:
+    - subject: Log query time regressions with the new compiler
+      hash: 5342039fbb127e80954d6650dfc0c3b046c8822e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.19.1
+  date: 2020-05-15T02:44:20.658Z
+- commits:
     - subject: 'dev: Add unit tests for Set as Default functionality'
       hash: 14d9f32041bd2b00547c07dbfe2ed01435eb06c1
       body: ''
