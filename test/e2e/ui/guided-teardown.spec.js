@@ -55,7 +55,7 @@ ava.serial.after(async () => {
 	})
 })
 
-ava('You can teardown a support thread following a specific flow', async (test) => {
+ava.serial('You can teardown a support thread following a specific flow', async (test) => {
 	const {
 		page,
 		context: {

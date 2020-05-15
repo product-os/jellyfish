@@ -151,7 +151,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	test.pass()
 })
 
-ava('Messages that ping a user should appear in their inbox', async (test) => {
+ava.serial('Messages that ping a user should appear in their inbox', async (test) => {
 	const {
 		user2,
 		page,
@@ -186,7 +186,7 @@ ava('Messages that ping a user should appear in their inbox', async (test) => {
 	test.pass()
 })
 
-ava('Only messages that ping a user should appear in their inbox', async (test) => {
+ava.serial('Only messages that ping a user should appear in their inbox', async (test) => {
 	const {
 		user2,
 		page,
@@ -298,7 +298,7 @@ ava.serial.skip('When having two chats side-by-side both should update with new 
 	test.pass()
 })
 
-ava('Username pings should be case insensitive', async (test) => {
+ava.serial('Username pings should be case insensitive', async (test) => {
 	const {
 		user2,
 		page,
@@ -333,7 +333,7 @@ ava('Username pings should be case insensitive', async (test) => {
 	test.pass()
 })
 
-ava('Users should be able to mark all messages as read from their inbox', async (test) => {
+ava.serial('Users should be able to mark all messages as read from their inbox', async (test) => {
 	const {
 		user2,
 		page,
