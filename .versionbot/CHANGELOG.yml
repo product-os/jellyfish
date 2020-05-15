@@ -1,4 +1,37 @@
 - commits:
+    - subject: Fixed up User card code
+      hash: 4d7d623ff1533133f88749ba9d9a0cf5584b87b2
+      body: >
+        Removed the deferred require statement in Segment component as we just
+        import `full` before importing `User` in `User.spec.jsx`.
+
+        `ui-setup.jsx` is picked up automatically by the ava test settings as
+        it's a `.jsx` file so I've removed the explicit reference to it in
+        `test/register.js`.
+
+        Added logic to ensure addUser action still works as expected when
+        failing to send the first time login link.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: >-
+        Add lens for viewing a single user card This lens wraps the usual
+        SingleCard lens in order to add a "send first-time login" option in the
+        drop-down button
+      hash: 3a4666d0be9a703a96d2a8b31bacf1be1c8d7436
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.20.2
+  date: 2020-05-15T10:25:17.170Z
+- commits:
     - subject: Add stream metrics
       hash: 008348733d279406168833d1888d4799b1affb7a
       body: ''
