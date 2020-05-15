@@ -40,6 +40,13 @@ global.Howl = Howl
 class Sound {}
 global.Sound = Sound
 
+export const flushPromises = () => {
+	return new Promise((resolve) => {
+		// eslint-disable-next-line no-undef
+		return setImmediate(resolve)
+	})
+}
+
 export const getWrapper = (initialState = {}) => {
 	const store = mockStore(initialState)
 	return {

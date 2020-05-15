@@ -4,22 +4,14 @@
  * Proprietary and confidential.
  */
 
+import '../../../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import CRMTable from '../CRMTable'
 import props from './fixtures/props.json'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const {
 	channel,

@@ -4,28 +4,20 @@
  * Proprietary and confidential.
  */
 
+import {
+	getWrapper
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	shallow,
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
-import {
-	Provider
-} from 'rendition'
 import {
 	TagList
 } from '../'
 
-import Adapter from 'enzyme-adapter-react-16'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
+const wrappingComponent = getWrapper().wrapper
 
 ava('Tags are filtered if they appear in the blacklist', (test) => {
 	const tagList = shallow(<TagList tags={[ 'tag1', 'tag2' ]} blacklist={[ 'tag1' ]} />)
@@ -40,7 +32,7 @@ ava('Tags are automatically prefixed with a hashtag', (test) => {
 	const tagList = mount(
 		<TagList tags={[ '#tag1', 'tag2' ]} />,
 		{
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 	const tags = tagList.find('Tag')
 	test.is(tags.length, 2)

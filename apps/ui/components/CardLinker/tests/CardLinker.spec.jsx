@@ -4,19 +4,13 @@
  * Proprietary and confidential.
  */
 
+import '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import React from 'react'
 import CardLinker from '../CardLinker'
-
-import Adapter from 'enzyme-adapter-react-16'
-
-configure({
-	adapter: new Adapter()
-})
 
 ava('It should render', (test) => {
 	test.notThrows(() => {

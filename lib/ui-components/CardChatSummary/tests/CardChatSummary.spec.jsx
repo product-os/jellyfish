@@ -4,24 +4,15 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
 import {
-	Provider
-} from 'rendition'
-import {
-	Provider as ReduxProvider
-} from 'react-redux'
-import {
-	MemoryRouter
-} from 'react-router-dom'
-import configureStore from 'redux-mock-store'
+	getWrapper
+} from '../../../../test/ui-setup'
 import _ from 'lodash'
 import ava from 'ava'
 import Bluebird from 'bluebird'
 import {
 	shallow,
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
@@ -33,15 +24,6 @@ import card from './fixtures/card.json'
 import inlineImageMsg from './fixtures/msg-inline-image.json'
 import user1 from './fixtures/user1.json'
 import user2 from './fixtures/user2.json'
-
-import Adapter from 'enzyme-adapter-react-16'
-
-configure({
-	adapter: new Adapter()
-})
-
-const middlewares = []
-const mockStore = configureStore(middlewares)
 
 const getActor = async (id) => {
 	if (id === user1.id) {
@@ -55,19 +37,7 @@ const getTimeline = (target) => {
 	return _.sortBy(_.get(target.links, [ 'has attached element' ], []), 'data.timestamp')
 }
 
-const Wrapper = ({
-	children
-}) => {
-	return (
-		<MemoryRouter>
-			<ReduxProvider store={mockStore({})}>
-				<Provider>
-					{children}
-				</Provider>
-			</ReduxProvider>
-		</MemoryRouter>
-	)
-}
+const wrappingComponent = getWrapper().wrapper
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
@@ -150,7 +120,7 @@ ava('Inline messages are transformed to a text representation', async (test) => 
 			getActor={getActor}
 		/>
 	), {
-		wrappingComponent: Wrapper
+		wrappingComponent
 	})
 	const messageSummary = component.find('div[data-test="card-chat-summary__message"]')
 	const messageSummaryText = messageSummary.text()
@@ -167,7 +137,7 @@ ava('Links are transformed to include an onclick handler that stops propagation'
 			getActor={getActor}
 		/>
 	), {
-		wrappingComponent: Wrapper
+		wrappingComponent
 	})
 	const messageSummary = component.find('div[data-test="card-chat-summary__message"]')
 

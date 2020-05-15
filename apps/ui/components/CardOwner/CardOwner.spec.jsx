@@ -4,22 +4,14 @@
  * Proprietary and confidential.
  */
 
+import '../../../../test/ui-setup'
 import ava from 'ava'
 import sinon from 'sinon'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import React from 'react'
 import CardOwner from './CardOwner'
-import Adapter from 'enzyme-adapter-react-16'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const user = {
 	name: 'User 1',

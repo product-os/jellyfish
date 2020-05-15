@@ -4,44 +4,26 @@
  * Proprietary and confidential.
  */
 
-import '../../../../../test/ui-setup'
+import {
+	flushPromises,
+	getWrapper
+} from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
-import {
-	Provider as ReduxProvider
-} from 'react-redux'
-import {
-	Provider as ThemeProvider
-} from 'rendition'
 import sinon from 'sinon'
-import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
-import configureStore from 'redux-mock-store'
 import {
 	sdk
 } from '../../../core'
-import {
-	MemoryRouter
-} from 'react-router-dom'
-
 import CreateUserLens from './CreateUserLens'
-
-const middlewares = []
-const mockStore = configureStore(middlewares)
 
 const initialState = {
 	core: {
 		types: []
 	}
 }
-const store = mockStore(initialState)
-
-configure({
-	adapter: new Adapter()
-})
 
 const CHANNEL = {
 	data: {
@@ -82,13 +64,6 @@ const ORG = {
 
 const sandbox = sinon.createSandbox()
 
-const flushPromises = () => {
-	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve)
-	})
-}
-
 ava.beforeEach((test) => {
 	const getBySlug = sandbox.stub(sdk, 'getBySlug')
 
@@ -98,26 +73,30 @@ ava.beforeEach((test) => {
 		addNotification: sinon.stub()
 	}
 
-	const wrappedComponent = (
-		<MemoryRouter>
-			<ReduxProvider store={store}>
-				<ThemeProvider>
-					<CreateUserLens
-						channel={CHANNEL}
-						card={CARD}
-						store={store}
-						actions={actions}
-					/>
-				</ThemeProvider>
-			</ReduxProvider>
-		</MemoryRouter>
-	)
+	const {
+		store,
+		wrapper
+	} = getWrapper(initialState)
+
+	const mountComponent = (props = {}) => {
+		return mount((
+			<CreateUserLens
+				channel={CHANNEL}
+				card={CARD}
+				store={store}
+				actions={actions}
+				{...props}
+			/>
+		), {
+			wrappingComponent: wrapper
+		})
+	}
 
 	test.context = {
 		...test.context,
 		getBySlug,
 		actions,
-		wrappedComponent
+		mountComponent
 	}
 })
 
@@ -127,18 +106,18 @@ ava.afterEach(() => {
 
 ava.serial('Retrieves org data on component update', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug
 	} = test.context
 	getBySlug.resolves(ORG)
-	const wrapper = await mount(wrappedComponent)
-	const lens = wrapper.find(CreateUserLens).instance()
-	test.deepEqual(lens.state.org, ORG)
+	const lens = await mountComponent()
+	test.deepEqual(lens.state('org'), ORG)
 })
 
 ava.serial('Fires an error notification when the user card has no org markers', async (test) => {
 	const {
-		actions
+		actions,
+		mountComponent
 	} = test.context
 
 	const card = {
@@ -148,20 +127,9 @@ ava.serial('Fires an error notification when the user card has no org markers', 
 		}
 	}
 
-	mount(
-		<MemoryRouter>
-			<ReduxProvider store={store}>
-				<ThemeProvider>
-					<CreateUserLens
-						channel={CHANNEL}
-						card={card}
-						store={store}
-						actions={actions}
-					/>
-				</ThemeProvider>
-			</ReduxProvider>
-		</MemoryRouter>
-	)
+	await mountComponent({
+		card
+	})
 
 	test.is(actions.addNotification.callCount, 1)
 	test.deepEqual(actions.addNotification.args, [ [ 'danger', 'You must belong to an organisation to add new users' ] ])
@@ -169,6 +137,7 @@ ava.serial('Fires an error notification when the user card has no org markers', 
 
 ava.serial('Fires an error notification when the user\'s organisation cannot be found', async (test) => {
 	const {
+		mountComponent,
 		getBySlug,
 		actions
 	} = test.context
@@ -182,23 +151,12 @@ ava.serial('Fires an error notification when the user\'s organisation cannot be 
 
 	getBySlug.resolves(null)
 
-	const wrapper = mount(
-		<MemoryRouter>
-			<ReduxProvider store={store}>
-				<ThemeProvider>
-					<CreateUserLens
-						channel={CHANNEL}
-						card={card}
-						store={store}
-						actions={actions}
-					/>
-				</ThemeProvider>
-			</ReduxProvider>
-		</MemoryRouter>
-	)
+	const lens = await mountComponent({
+		card
+	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.is(actions.addNotification.callCount, 1)
 	test.deepEqual(actions.addNotification.args, [ [ 'danger', 'Could not find your organisation' ] ])
@@ -206,16 +164,15 @@ ava.serial('Fires an error notification when the user\'s organisation cannot be 
 
 ava.serial('Submit button is disabled if org is null', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug
 	} = test.context
 
 	getBySlug.resolves(null)
-	const wrapper = await mount(wrappedComponent)
+	const lens = await mountComponent()
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
-	const lens = wrapper.find(CreateUserLens)
 	test.is(lens.state().org, null)
 
 	const inputs = lens.find('input')
@@ -237,7 +194,7 @@ ava.serial('Submit button is disabled if org is null', async (test) => {
 	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.deepEqual(lens.state().newCard, {
 		data: {
@@ -252,16 +209,15 @@ ava.serial('Submit button is disabled if org is null', async (test) => {
 
 ava.serial('Submit button is disabled if username is missing', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug
 	} = test.context
 	getBySlug.resolves(null)
-	const wrapper = await mount(wrappedComponent)
+	const lens = await mountComponent()
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
-	const lens = wrapper.find(CreateUserLens)
 	test.is(lens.state().org, null)
 
 	const inputs = lens.find('input')
@@ -275,7 +231,7 @@ ava.serial('Submit button is disabled if username is missing', async (test) => {
 	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.deepEqual(lens.state().newCard, {
 		data: {
@@ -289,16 +245,15 @@ ava.serial('Submit button is disabled if username is missing', async (test) => {
 
 ava.serial('Submit button is disabled if email is missing', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug
 	} = test.context
 	getBySlug.resolves(null)
-	const wrapper = await mount(wrappedComponent)
+	const lens = await mountComponent()
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
-	const lens = wrapper.find(CreateUserLens)
 	test.is(lens.state().org, null)
 
 	const inputs = lens.find('input')
@@ -312,7 +267,7 @@ ava.serial('Submit button is disabled if email is missing', async (test) => {
 	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.deepEqual(lens.state().newCard, {
 		data: {
@@ -326,18 +281,17 @@ ava.serial('Submit button is disabled if email is missing', async (test) => {
 
 ava.serial('On submit the addUser action is called', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug,
 		actions
 	} = test.context
 
 	getBySlug.resolves(ORG)
 
-	const wrapper = await mount(wrappedComponent)
+	const lens = await mountComponent()
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
-	const lens = wrapper.find(CreateUserLens)
 	test.is(lens.state().org, ORG)
 
 	const inputs = lens.find('input')
@@ -359,13 +313,13 @@ ava.serial('On submit the addUser action is called', async (test) => {
 	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	const submitButton = lens.find('button[data-test="create-user-lens__submit"]')
 	submitButton.simulate('click')
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.is(actions.addUser.callCount, 1)
 	test.deepEqual(actions.addUser.args, [
@@ -381,7 +335,7 @@ ava.serial('On submit the addUser action is called', async (test) => {
 
 ava.serial('when addUser is successful, the channel is closed', async (test) => {
 	const {
-		wrappedComponent,
+		mountComponent,
 		getBySlug,
 		actions
 	} = test.context
@@ -389,11 +343,10 @@ ava.serial('when addUser is successful, the channel is closed', async (test) => 
 	getBySlug.resolves(ORG)
 	actions.addUser.resolves(true)
 
-	const wrapper = await mount(wrappedComponent)
+	const lens = await mountComponent()
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
-	const lens = wrapper.find(CreateUserLens)
 	test.is(lens.state().org, ORG)
 
 	const inputs = lens.find('input')
@@ -415,13 +368,13 @@ ava.serial('when addUser is successful, the channel is closed', async (test) => 
 	})
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	const submitButton = lens.find('button[data-test="create-user-lens__submit"]')
 	submitButton.simulate('click')
 
 	await flushPromises()
-	wrapper.update()
+	lens.update()
 
 	test.is(actions.removeChannel.callCount, 1)
 	test.deepEqual(actions.removeChannel.args, [

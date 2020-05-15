@@ -4,10 +4,10 @@
  * Proprietary and confidential.
  */
 
+import '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import React from 'react'
 import Event, {
@@ -16,12 +16,6 @@ import Event, {
 import {
 	card
 } from './fixtures'
-
-import Adapter from 'enzyme-adapter-react-16'
-
-configure({
-	adapter: new Adapter()
-})
 
 const actor = {
 	name: 'johndoe',

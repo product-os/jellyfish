@@ -4,18 +4,13 @@
  * Proprietary and confidential.
  */
 
+import '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import AuthenticatedImage from '../index'
-
-configure({
-	adapter: new Adapter()
-})
 
 // Borrowed from https://gist.github.com/nolanlawson/0eac306e4dac2114c752
 const getFile = async () => {

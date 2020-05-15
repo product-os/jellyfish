@@ -6,20 +6,17 @@
 
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
-import Adapter from 'enzyme-adapter-react-16'
 
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
+// HACK: Import this after the other imports as it causes undesired
+// behaviour with the @emotion dependency if imported first!
+import {
+	flushPromises
+} from '../../../test/ui-setup'
 
 const types = [
 	{
@@ -57,13 +54,6 @@ const issues = [
 ]
 
 const sandbox = sinon.createSandbox()
-
-const flushPromises = () => {
-	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve)
-	})
-}
 
 ava.afterEach(async (test) => {
 	sandbox.restore()

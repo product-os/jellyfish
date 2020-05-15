@@ -4,22 +4,17 @@
  * Proprietary and confidential.
  */
 
+import '../../../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import MyUser from '../MyUser'
 import {
 	user,
 	userType
 } from './fixtures'
-
-configure({
-	adapter: new Adapter()
-})
 
 ava('It should render', (test) => {
 	test.notThrows(() => {

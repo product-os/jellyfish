@@ -4,11 +4,11 @@
  * Proprietary and confidential.
  */
 
+import '../../test/ui-setup'
 import ava from 'ava'
 import _ from 'lodash'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
@@ -19,14 +19,6 @@ import {
 	useLink,
 	useLinks
 } from './LinksProvider'
-import Adapter from 'enzyme-adapter-react-16'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const sandbox = sinon.createSandbox()
 

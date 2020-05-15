@@ -4,23 +4,15 @@
  * Proprietary and confidential.
  */
 
+import '../../../test/ui-setup'
 import React from 'react'
 import ava from 'ava'
 import sinon from 'sinon'
 import {
 	shallow,
-	mount,
-	configure
+	mount
 } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import CardLoader from './CardLoader'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const testCard = {
 	id: '1',
