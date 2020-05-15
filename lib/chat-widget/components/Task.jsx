@@ -6,7 +6,7 @@
 
 import React from 'react'
 import {
-	Button,
+	Link,
 	Flex
 } from 'rendition'
 import {
@@ -18,15 +18,17 @@ import {
 
 export const Task = ({
 	task,
-	children
+	children,
+	...rest
 }) => {
 	if (!task.finished || task.error) {
 		return (
-			<Flex fontSize={13} mt={3} justifyContent="center">
+			<Flex justifyContent="center" mt={3} mx={3} {...rest}>
 				{task.finished ? (
-					<React.Fragment>
-						<ErrorMessage error={task.error} />&nbsp;<Button underline onClick={task.retry}>Retry</Button>
-					</React.Fragment>
+					<ErrorMessage>
+						{task.error.message}
+						<Link ml={1} onClick={task.retry}>Retry</Link>
+					</ErrorMessage>
 				) : (
 					<Loader />
 				)}

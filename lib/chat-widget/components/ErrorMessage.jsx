@@ -6,13 +6,13 @@
 
 import React from 'react'
 import {
-	Txt
+	Alert
 } from 'rendition'
 
 export const ErrorMessage = ({
-	error, ...rest
+	children, ...rest
 }) => {
 	return (
-		<Txt.span color="danger.main" {...rest}>{error.message}</Txt.span>
+		<Alert plaintext danger {...rest}>{children}</Alert>
 	)
 }
