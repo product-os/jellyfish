@@ -1,4 +1,40 @@
 - commits:
+    - subject: Reduce emission of type-checking conditionals in the new compiler
+      hash: 87c4067a8d91691fa0a66a096f7d7d6074283b4a
+      body: |
+        Many JSON schema keywords must be implemented with a material
+        conditional at the SQL level, equivalent to:
+
+        ```
+        typeof <field> === <type> ? <condition> : true
+        ```
+
+        This is implemented as a boolean expression at the SQL level:
+
+        ```
+        NOT <isType> OR <condition>
+        ```
+
+        where `<isType>` is the equivalent SQL for the `typeof` check.
+        Frequently the type is specified in the schema, leading to the following
+        SQL expression:
+
+        ```
+        <isType> AND (NOT <isType> OR <condition>)
+        ```
+
+        which siplifies to just `<isType> AND <condition>`. PG does not
+        recognize this optimization opportunity so this commit applies it at the
+        compiler level.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.20.6
+  date: 2020-05-15T21:12:26.455Z
+- commits:
     - subject: Refactor common UI unit test code into helper file
       hash: 002db5cf31699cdc2e0126371303cae7d3f3fbbb
       body: ''
