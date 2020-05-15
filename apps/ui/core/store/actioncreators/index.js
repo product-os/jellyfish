@@ -222,6 +222,7 @@ export default class ActionCreator {
 			'removeViewDataItem',
 			'removeViewNotice',
 			'requestPasswordReset',
+			'sendFirstTimeLoginLink',
 			'setAuthToken',
 			'setChannels',
 			'setChatWidgetOpen',
@@ -1068,11 +1069,14 @@ export default class ActionCreator {
 					password: ''
 				})
 				await dispatch(this.createLink(org, user, 'has member'))
-				await dispatch(this.sendFirstTimeLoginLink({
+				const loginLinkSent = await dispatch(this.sendFirstTimeLoginLink({
 					user
 				}))
-				dispatch(this.addNotification('success', 'Successfully created user'))
-				return true
+				if (loginLinkSent) {
+					dispatch(this.addNotification('success', 'Successfully created user'))
+					return true
+				}
+				return false
 			} catch (error) {
 				dispatch(this.addNotification('danger', error.message))
 				return false
@@ -1084,12 +1088,19 @@ export default class ActionCreator {
 		user
 	}) {
 		return async (dispatch, getState) => {
-			return this.sdk.action({
-				card: user.id,
-				action: 'action-send-first-time-login-link@1.0.0',
-				type: user.type,
-				arguments: {}
-			})
+			try {
+				await this.sdk.action({
+					card: user.id,
+					action: 'action-send-first-time-login-link@1.0.0',
+					type: user.type,
+					arguments: {}
+				})
+				dispatch(this.addNotification('success', 'Sent first-time login token to user'))
+				return true
+			} catch (error) {
+				dispatch(this.addNotification('danger', error.message))
+				return false
+			}
 		}
 	}
 
