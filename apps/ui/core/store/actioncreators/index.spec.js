@@ -367,3 +367,79 @@ ava('setViewStarred(_, false) removes the view slug to the list of starred views
 		} ]
 	)
 })
+
+ava('setDefault() sets the homeView field in the user\'s profile', async (test) => {
+	const {
+		actionCreator,
+		sdk,
+		dispatch
+	} = test.context
+
+	const getState = () => ({
+		core: {
+			session: {
+				user: {
+					id: '1',
+					data: {
+						profile: { }
+					}
+				}
+			}
+		}
+	})
+
+	const view = {
+		id: 'view-123'
+	}
+
+	sdk.getById = sandbox.fake.resolves({
+		id: '1',
+		data: {
+			profile: {
+				homeView: view.id
+			}
+		}
+	})
+
+	await actionCreator.setDefault(view)(dispatch, getState)
+
+	// 1: setUser, 2: addNotification
+	test.is(dispatch.callCount, 2)
+
+	// The user's card is updated via the SDK
+	test.true(sdk.card.update.calledOnce)
+	test.deepEqual(
+		sdk.card.update.getCall(0).args,
+		[
+			'1',
+			'user',
+			[
+				{
+					op: 'add',
+					path: '/data/profile/homeView',
+					value: view.id
+				}
+			]
+		]
+	)
+
+	// Then the user is fetched via the SDK
+	test.true(sdk.getById.calledOnce)
+	test.is(sdk.getById.getCall(0).args[0], '1')
+
+	// And the user is updated in the store
+	test.deepEqual(
+		dispatch.getCall(0).args,
+		[ {
+			type: actions.SET_USER,
+			value: {
+				id: '1',
+				data: {
+					profile: {
+						homeView: view.id
+					}
+				}
+			}
+		} ]
+	)
+})

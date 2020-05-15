@@ -4,6 +4,19 @@
  * Proprietary and confidential.
  */
 
+import {
+	connect
+} from 'react-redux'
+import {
+	selectors
+} from '../../core'
 import ViewLink from './ViewLink'
 
-export default ViewLink
+const mapStateToProps = (state, ownProps) => {
+	const homeView = selectors.getHomeView(state)
+	return {
+		isHomeView: ownProps.card.id === homeView
+	}
+}
+
+export default connect(mapStateToProps)(ViewLink)

@@ -168,6 +168,10 @@ export const selectors = {
 	getUsersViewLens: (state, viewId) => {
 		const user = selectors.getCurrentUser(state)
 		return _.get(user, [ 'data', 'profile', 'viewSettings', viewId, 'lens' ], null)
+	},
+	getHomeView: (state) => {
+		const user = selectors.getCurrentUser(state)
+		return _.get(user, [ 'data', 'profile', 'homeView' ], null)
 	}
 }
 
@@ -1348,16 +1352,15 @@ export default class ActionCreator {
 			const patch = helpers.patchPath(
 				user,
 				[ 'data', 'profile', 'homeView' ],
-				card.id
+				// eslint-disable-next-line no-undefined
+				_.get(card, [ 'id' ], undefined)
 			)
 
-			this.sdk.card.update(user.id, 'user', patch)
-				.then(() => {
-					dispatch(this.addNotification('success', `Set ${card.name || card.slug} as default view`))
-				})
-				.catch((error) => {
-					dispatch(this.addNotification('danger', error.message || error))
-				})
+			const successNotification = card
+				? `Set ${card.name || card.slug} as default view`
+				: 'Removed default view'
+
+			return this.updateUser(patch, successNotification)(dispatch, getState)
 		}
 	}
 

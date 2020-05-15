@@ -10,6 +10,9 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import {
+	withRouter
+} from 'react-router-dom'
+import {
 	withTheme
 } from 'styled-components'
 import {
@@ -34,6 +37,7 @@ const mapStateToProps = (state, ownProps) => {
 		subscriptions: selectors.getSubscriptions(state),
 		uiState: selectors.getUIState(state),
 		user,
+		homeView: selectors.getHomeView(state),
 		version: selectors.getAppVersion(state),
 		viewNotices: selectors.getViewNotices(state)
 	}
@@ -62,5 +66,6 @@ const mapDispatchToProps = (dispatch) => {
 export default redux.compose(
 	connect(mapStateToProps, mapDispatchToProps),
 	withTheme,
+	withRouter,
 	withResponsiveContext
 )(HomeChannel)
