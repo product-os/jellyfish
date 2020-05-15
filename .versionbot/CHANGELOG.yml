@@ -1,4 +1,16 @@
 - commits:
+    - subject: Refactor common UI unit test code into helper file
+      hash: 002db5cf31699cdc2e0126371303cae7d3f3fbbb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.20.5
+  date: 2020-05-15T14:53:27.173Z
+- commits:
     - subject: 'test: Run all UI e2e tests serially'
       hash: b51324cfed689f4c4aeeb03f1dbb652abf9a5e33
       body: |
