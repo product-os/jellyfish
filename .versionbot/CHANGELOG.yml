@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Use text representation of inline images in chat summary'
+      hash: 4ba3803806365ff53a078021d1a52ff35d9ad297
+      body: |
+        Also transform links so that they actually work!
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.18.0
+  date: 2020-05-15T00:07:36.571Z
+- commits:
     - subject: >-
         SRE: Increase Jellyfish API replicas to 10 to accommodate more
         concurrency.
