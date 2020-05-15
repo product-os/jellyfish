@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add stream metrics
+      hash: 008348733d279406168833d1888d4799b1affb7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.20.1
+  date: 2020-05-15T05:01:01.191Z
+- commits:
     - subject: 'Livechat: Use rendition Alert for error message'
       hash: 4415986afca7e2dd6a2de076ee5f3ac811b07e6e
       body: ''
