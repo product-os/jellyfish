@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'Livechat: Use rendition Alert for error message'
+      hash: 4415986afca7e2dd6a2de076ee5f3ac811b07e6e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'Livechat: Improve error style'
+      hash: f6122e2fb2f1d519fdd25fcfe178aee6d354f138
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 30.20.0
+  date: 2020-05-15T04:02:31.377Z
+- commits:
     - subject: Log query time regressions with the new compiler
       hash: 5342039fbb127e80954d6650dfc0c3b046c8822e
       body: ''
