@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'test: Run all UI e2e tests serially'
+      hash: b51324cfed689f4c4aeeb03f1dbb652abf9a5e33
+      body: |
+        Ensure tests don't conflict with each other.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.20.4
+  date: 2020-05-15T13:42:17.097Z
+- commits:
     - subject: 'patch: bump native-url from 0.2.6 to 0.3.1'
       hash: 5a8a17f16126a5f3bdcc4d3fe0f9570e59dd24d0
       body: >
