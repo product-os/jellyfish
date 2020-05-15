@@ -4,23 +4,15 @@
  * Proprietary and confidential.
  */
 
+import '../../test/ui-setup'
 import React from 'react'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import sinon from 'sinon'
-import Adapter from 'enzyme-adapter-react-16'
 import UserStatusMenuItem from './UserStatusMenuItem'
 import user from '../core/cards/user'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const DND = {
 	title: 'Do Not Disturb',

@@ -9,9 +9,12 @@ import {
 	shallow,
 	configure
 } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
 import React from 'react'
 import CreateView from '../CreateView'
+
+// HACK: Don't use the standard test/ui-setup as it causes problems
+// with CreateView if the XMLHttpRequest global is declared
+import Adapter from 'enzyme-adapter-react-16'
 
 configure({
 	adapter: new Adapter()

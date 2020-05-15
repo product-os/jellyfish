@@ -4,38 +4,26 @@
  * Proprietary and confidential.
  */
 
+import {
+	flushPromises,
+	getWrapper
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
 import {
-	Provider,
 	Img
 } from 'rendition'
 import RequestPasswordReset from './RequestPasswordReset.jsx'
 
-import Adapter from 'enzyme-adapter-react-16'
-
 const DATA_TEST_PREFIX = 'requestPasswordReset-page'
 
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
+const wrappingComponent = getWrapper().wrapper
 
 const sandbox = sinon.createSandbox()
-
-const flushPromises = () => {
-	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve)
-	})
-}
 
 ava.afterEach(() => {
 	sandbox.restore()
@@ -46,7 +34,7 @@ ava('Submit button is disabled if the username input is empty', async (test) => 
 
 	const requestPasswordReset = mount(
 		<RequestPasswordReset/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -78,7 +66,7 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 				addNotification
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -123,7 +111,7 @@ ava('Sends a danger notification if the action throws an error', async (test) =>
 				addNotification
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()

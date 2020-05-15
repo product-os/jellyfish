@@ -4,21 +4,16 @@
  * Proprietary and confidential.
  */
 
+import '../../test/ui-setup'
 import React from 'react'
 import ava from 'ava'
 import {
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import {
 	ThreadMirrorIcon,
 	MirrorIcon
 } from './MirrorIcon'
-import Adapter from 'enzyme-adapter-react-16'
-
-configure({
-	adapter: new Adapter()
-})
 
 const mirrorTests = [
 	{

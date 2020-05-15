@@ -4,20 +4,20 @@
  * Proprietary and confidential.
  */
 
+import {
+	flushPromises,
+	getWrapper
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
 import {
-	Provider,
 	Img
 } from 'rendition'
 import CompleteFirstTimeLogin from './CompleteFirstTimeLogin.jsx'
-
-import Adapter from 'enzyme-adapter-react-16'
 
 const MATCH = {
 	params: {
@@ -27,21 +27,9 @@ const MATCH = {
 
 const DATA_TEST_PREFIX = 'completeFirstTimeLogin-page'
 
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
-
 const sandbox = sinon.createSandbox()
 
-const flushPromises = () => {
-	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve)
-	})
-}
+const wrappingComponent = getWrapper().wrapper
 
 ava.before(() => {
 	sandbox.stub(Img)
@@ -56,7 +44,7 @@ ava('Submit button is disabled if the new password input is empty', async (test)
 		<CompleteFirstTimeLogin
 			match={MATCH}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -76,7 +64,7 @@ ava('Submit button is disabled if the new password does not match the password c
 		<CompleteFirstTimeLogin
 			match={MATCH}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -123,7 +111,7 @@ ava('Fires the completeFirstTimeLogin and then the addNotification action when t
 			}}
 			match={MATCH}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()

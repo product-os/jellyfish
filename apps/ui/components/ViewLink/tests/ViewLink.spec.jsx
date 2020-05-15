@@ -19,6 +19,8 @@ import view from './fixtures/all-messages-view.json'
 import customView from './fixtures/custom-view.json'
 import user from './fixtures/user.json'
 
+const wrappingComponent = getWrapper().wrapper
+
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
@@ -42,7 +44,7 @@ ava('removeView action called when \'Delete this view\' button pressed and actio
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: getWrapper().wrapper
+			wrappingComponent
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
@@ -70,7 +72,7 @@ ava('\'Delete this view\' button not shown if view is not a valid custom view', 
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: getWrapper().wrapper
+			wrappingComponent
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
@@ -93,7 +95,7 @@ ava('\'setDefault\' action called with view as arg when \'Set as default\' conte
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: getWrapper().wrapper
+			wrappingComponent
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')
@@ -120,7 +122,7 @@ ava('\'setDefault\' action called with null as arg when \'Unset as default\' con
 			actions={actions}
 		/>
 		, {
-			wrappingComponent: getWrapper().wrapper
+			wrappingComponent
 		})
 
 	const contextMenuButton = component.find('button[data-test="view-link--context-menu-btn"]')

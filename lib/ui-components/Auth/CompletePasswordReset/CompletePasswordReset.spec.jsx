@@ -4,38 +4,26 @@
  * Proprietary and confidential.
  */
 
+import {
+	flushPromises,
+	getWrapper
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	mount,
-	configure
+	mount
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
 import {
-	Provider,
 	Img
 } from 'rendition'
 import CompletePasswordReset from './CompletePasswordReset.jsx'
 
-import Adapter from 'enzyme-adapter-react-16'
-
 const DATA_TEST_PREFIX = 'completePasswordReset-page'
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
 
 const sandbox = sinon.createSandbox()
 
-const flushPromises = () => {
-	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve)
-	})
-}
+const wrappingComponent = getWrapper().wrapper
 
 ava.afterEach(() => {
 	sandbox.restore()
@@ -53,7 +41,7 @@ ava('Submit button is disabled if the new password input is empty', async (test)
 				resetToken: '123456'
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -82,7 +70,7 @@ ava('Submit button is disabled if the new password does not match the password c
 				}
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()
@@ -135,7 +123,7 @@ ava('Fires the completePasswordReset and then the addNotification action when th
 				}
 			}}
 		/>, {
-			wrappingComponent: Provider
+			wrappingComponent
 		})
 
 	await flushPromises()

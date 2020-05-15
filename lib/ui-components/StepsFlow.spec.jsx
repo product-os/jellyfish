@@ -4,25 +4,18 @@
  * Proprietary and confidential.
  */
 
+import {
+	getWrapper
+} from '../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount,
-	shallow,
-	configure
+	shallow
 } from 'enzyme'
 import React from 'react'
-import {
-	Provider
-} from 'rendition'
 import StepsFlow from './StepsFlow'
-import Adapter from 'enzyme-adapter-react-16'
 
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator' ])
-
-configure({
-	adapter: new Adapter()
-})
+const wrappingComponent = getWrapper().wrapper
 
 const stepsProps = {
 	title: 'Test flow'
@@ -51,13 +44,13 @@ const getMountedStepsFlow = ({
 	status, ...props
 }) => {
 	const stepStatus = status || 'pending'
-	return mount(
-		<Provider>
-			<StepsFlow {...stepsProps} {...props}>
-				{[ 1, 2, 3 ].map((index) => { return getStep(index, stepStatus) })}
-			</StepsFlow>
-		</Provider>
-	)
+	return mount((
+		<StepsFlow {...stepsProps} {...props}>
+			{[ 1, 2, 3 ].map((index) => { return getStep(index, stepStatus) })}
+		</StepsFlow>
+	), {
+		wrappingComponent
+	})
 }
 
 ava('StepsFlow should render', (test) => {
