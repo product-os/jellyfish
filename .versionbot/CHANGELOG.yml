@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump native-url from 0.2.6 to 0.3.1'
+      hash: 5a8a17f16126a5f3bdcc4d3fe0f9570e59dd24d0
+      body: >
+        Bumps [native-url](https://github.com/GoogleChromeLabs/native-url) from
+        0.2.6 to 0.3.1.
+
+        - [Release
+        notes](https://github.com/GoogleChromeLabs/native-url/releases)
+
+        - [Commits](https://github.com/GoogleChromeLabs/native-url/commits)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.20.3
+  date: 2020-05-15T11:25:50.865Z
+- commits:
     - subject: Fixed up User card code
       hash: 4d7d623ff1533133f88749ba9d9a0cf5584b87b2
       body: >
