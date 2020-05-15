@@ -1,4 +1,38 @@
 - commits:
+    - subject: 'dev: Add unit tests for Set as Default functionality'
+      hash: 14d9f32041bd2b00547c07dbfe2ed01435eb06c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'dev: Improve UI unit test setup utilities'
+      hash: e0ab4d9a97a7166599365b7b5b65d4149cf6bddf
+      body: >
+        Relates to #3630 - other PRs can make use of this new utility, either by
+        importing the file before any other imports or specifically importing
+        `getWrapper` from the file and using the generated mock store and/or
+        wrapper.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Navigate to default view if set when home page loaded'
+      hash: f1dad7f3e7556da5b257179f427ebfb8453666fc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.19.0
+  date: 2020-05-15T01:28:14.379Z
+- commits:
     - subject: 'ui-components: Use text representation of inline images in chat summary'
       hash: 4ba3803806365ff53a078021d1a52ff35d9ad297
       body: |
