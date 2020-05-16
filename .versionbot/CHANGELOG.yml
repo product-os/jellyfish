@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump webpack-cli from 3.3.10 to 3.3.11'
+      hash: 530f66511934a8a5f9e2b1de0ac7f3f5f36369c1
+      body: >
+        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.10
+        to 3.3.11.
+
+        - [Release notes](https://github.com/webpack/webpack-cli/releases)
+
+        -
+        [Changelog](https://github.com/webpack/webpack-cli/blob/next/CHANGELOG_v3.md)
+
+        -
+        [Commits](https://github.com/webpack/webpack-cli/compare/v3.3.10...v3.3.11)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.20.7
+  date: 2020-05-16T11:33:16.071Z
+- commits:
     - subject: Reduce emission of type-checking conditionals in the new compiler
       hash: 87c4067a8d91691fa0a66a096f7d7d6074283b4a
       body: |
