@@ -289,6 +289,37 @@ jobs:
           name: Docker Compose Down
           command: make compose-stop
 
+  s3_file_upload: &s3_file_upload
+    <<: *job_defaults
+
+    resource_class: xlarge
+
+    steps:
+      - checkout
+
+      - run:
+          name: Authenticate with registry
+          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+
+      - setup_remote_docker:
+          docker_layer_caching: true
+
+      - run:
+          name: Install scripts-template dependencies
+          command: cd scripts/template && npm install
+      - run:
+          name: Compose Build
+          command: make compose-build
+      - run:
+          name: Docker Compose Up
+          command: make compose-up DETACH=1 FS_DRIVER=s3FS
+      - run:
+          name: S3 File Upload Tests
+          command: make compose-exec-sidecar COMMAND="/bin/bash -c '. /root/.bashrc && make test FILES="./test/e2e/ui/file-upload.spec.js"'"
+      - run:
+          name: Docker Compose Down
+          command: make compose-stop
+
   results:
     <<: *job_defaults
 
@@ -353,6 +384,11 @@ workflows:
                   - build
                 <<: *workflow_filter
 
+            - s3_file_upload:
+                requires:
+                  - build
+                <<: *workflow_filter
+
             - sync_tests_front_mirror:
                 requires:
                   - build
@@ -382,6 +418,7 @@ workflows:
                 requires:
                   - e2e_tests_server
                   - e2e_tests_server_previous_dump
+                  - s3_file_upload
                   - sync_tests_front_translate
                   - sync_tests_discourse_translate
                   - sync_tests_front_mirror
