@@ -37,15 +37,17 @@ export const App = React.memo(({
 	sdk,
 	productTitle,
 	product,
+	inbox,
 	onClose
 }) => {
 	const analytics = useAnalytics()
 	const store = React.useMemo(() => {
 		return createStore({
 			product,
-			productTitle
+			productTitle,
+			inbox
 		})
-	}, [ product, productTitle ])
+	}, [ product, productTitle, inbox ])
 
 	return (
 		<StoreProvider store={store}>
