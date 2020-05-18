@@ -1,4 +1,31 @@
 - commits:
+    - subject: 'SRE: Fixes mapping of Postgres Port to secret.'
+      hash: 803ccdb75054aa7c11579d0d4d8dbef737352cbf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+    - subject: 'SRE: Kubernetes deployments map directly to secrets in the namespace.'
+      hash: dd2e3aa6906982b510f20ce0819e257f34def7d4
+      body: >
+        This prevents Katapult from obtaining a different secret with the same
+
+        key name.  This also allows consolidation of secrets into a single
+        secrets
+
+        config file.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.21.2
+  date: 2020-05-18T03:21:00.887Z
+- commits:
     - subject: 'ui: Use location rather than channels to drive default view redirect'
       hash: eaf2beb5b8657af2d41fb95ebfc76f8507b58bdd
       body: >
