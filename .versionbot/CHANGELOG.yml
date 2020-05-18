@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Ensure starred ProductOS views appear in Starred Views section'
+      hash: 741e429c2628270734c14606fbd19f50b1fe96c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.21.3
+  date: 2020-05-18T04:30:41.770Z
+- commits:
     - subject: 'SRE: Fixes mapping of Postgres Port to secret.'
       hash: 803ccdb75054aa7c11579d0d4d8dbef737352cbf
       body: ''
