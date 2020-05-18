@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: add thread inbox parameter'
+      hash: 34281e51e187bb37502c9cfae09ba43774880bd1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 30.23.0
+  date: 2020-05-18T15:24:45.310Z
+- commits:
     - subject: 'On the interleaved lens, close open threads when opening a new thread'
       hash: 145960e144f36a42105334075755d819163d4e96
       body: |
