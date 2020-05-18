@@ -382,11 +382,11 @@ export default class HomeChannel extends React.Component {
 	componentDidMount () {
 		const {
 			actions,
-			channels,
+			location,
 			history,
 			homeView
 		} = this.props
-		if (channels.length === 1) {
+		if (location.pathname === '/') {
 			if (homeView) {
 				history.push(homeView)
 			}

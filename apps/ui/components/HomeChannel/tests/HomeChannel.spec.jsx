@@ -63,6 +63,9 @@ ava('Starred views appear in their own menu section', async (test) => {
 			subscriptions={{}}
 			orgs={[]}
 			history={context.history}
+			location={{
+				pathname: '/some-view'
+			}}
 		/>
 	), {
 		wrappingComponent: wrapper
@@ -92,6 +95,9 @@ ava('The home view is loaded on mount if set', async (test) => {
 			orgs={[]}
 			homeView={homeView}
 			history={context.history}
+			location={{
+				pathname: '/'
+			}}
 		/>
 	), {
 		wrappingComponent: wrapper
