@@ -1,4 +1,60 @@
 - commits:
+    - subject: >-
+        Generate better SQL in the new compiler with `required`/`properties` in
+        schemas
+      hash: af5d9343e103ffbf39c30e98368030d177785582
+      body: |
+        Some keywords (`type`, `const`, and `enum`) will only be true if the
+        property they constrain exists, while all other keywords can be true if
+        the property doesn't exist. We can use this to elide checks for required
+        properties. For example:
+
+        ```
+        {
+          properties: {
+            'data': {
+              required: ['actor'],
+              properties: {
+                actor: {
+                  const: 'user-qwerty'
+                }
+              }
+            }
+          }
+        }
+        ```
+
+        The `required: ['actor']` schema fragment would generate an SQL
+        fragment (if querying the `cards` table):
+
+        ```
+        cards.data ? 'actor'
+        ```
+
+        In this case this check can be elided because `actor` is constrained by
+        a `const` keyword. The following two fragments are functionally equal:
+
+        ```
+        cards.data ? 'actor'
+        AND
+        const.data->>'actor' = 'user-qwerty'
+        ```
+
+        ```
+        const.data->>'actor' = 'user-qwerty'
+        ```
+
+        This optimization works recursively, so a deep `const` may cause
+        multiple `required` to be elided.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.23.1
+  date: 2020-05-18T20:45:35.658Z
+- commits:
     - subject: 'Livechat: add thread inbox parameter'
       hash: 34281e51e187bb37502c9cfae09ba43774880bd1
       body: ''
