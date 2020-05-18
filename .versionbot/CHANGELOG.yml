@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'ui: Use location rather than channels to drive default view redirect'
+      hash: eaf2beb5b8657af2d41fb95ebfc76f8507b58bdd
+      body: >
+        Due to a race condition, the number of channels can still be 1 at the
+        point when HomeChannel is mounted even when other channels are being
+        loaded. Therefore we need to rely on the location instead (which is
+        simpler and should have been used in the first place!).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.21.1
+  date: 2020-05-18T02:22:50.879Z
+- commits:
     - subject: 'server: Add new web-push-subscription type card'
       hash: f03951fae89dbdde99c886d91af2829f56893dbb
       body: >
