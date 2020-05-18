@@ -52,21 +52,22 @@ export default function Collapsible ({
 	const toggleCollapsed = () => {
 		setIsCollapsed(!isCollapsed)
 	}
+	const dataTest = rest['data-test'] || 'collapsible'
 	return (
-		<CollapsibleWrapper data-test="collapsible" {...rest}>
+		<CollapsibleWrapper data-test={dataTest} {...rest}>
 			{collapsible && (
 				<CollapsibleHeader
 					color="primary.main"
 					alignItems="center"
 					onClick={toggleCollapsed}
-					data-test="collapsible__header"
+					data-test={`${dataTest}__header`}
 				>
 					<Box mr={2}><Icon name="angle-down" rotate={isCollapsed ? 0 : 180} /></Box>
 					{typeof title === 'string' ? <Txt>{title}</Txt> : title}
 				</CollapsibleHeader>
 			)}
 			<CollapsibleContent
-				data-test="collapsible__content"
+				data-test={`${dataTest}__content`}
 				maxHeight={maxContentHeight}
 				className={cn({
 					collapsed: isCollapsed

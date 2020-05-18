@@ -35,6 +35,7 @@ import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../../../lib/ui-components/CardFields'
 import Event from '../../../../../lib/ui-components/Event'
 import RouterLink from '../../../../../lib/ui-components/Link'
+import Collapsible from '../../../../../lib/ui-components/Collapsible'
 import {
 	TagList,
 	Tag
@@ -144,26 +145,12 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
-		this.handleExpandToggle = () => {
-			this.setState({
-				expanded: !this.state.expanded
-			})
-		}
-
-		this.toggleHighlights = () => {
-			this.setState({
-				showHighlights: !this.state.showHighlights
-			})
-		}
-
 		this.state = {
 			actor: null,
 			isClosing: false,
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
-			linkedProductImprovements: [],
-			showHighlights: false,
-			expanded: false
+			linkedProductImprovements: []
 		}
 		this.loadLinks(props.card.id)
 	}
@@ -459,41 +446,17 @@ class SupportThreadBase extends React.Component {
 						</Box>
 					)}
 
-					<Flex justifyContent="space-between">
-						<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
+					<Collapsible title="Details" maxContentHeight='50vh' lazyLoadContent data-test="support-thread-details">
+						<Flex mt={1} justifyContent="space-between">
+							<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
 
-						<Txt>
-							<em>Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
-						</Txt>
-					</Flex>
+							<Txt>
+								<em>Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
+							</Txt>
+						</Flex>
 
-					{!this.state.expanded && (
-						<Link
-							onClick={this.handleExpandToggle}
-							mt={2}
-							data-test="support-thread__expand"
-						>
-							More
-						</Link>
-					)}
-
-					{this.state.expanded && (
-						<React.Fragment>
-							{highlights.length > 0 && (
-								<div>
-									<strong>
-										<Link
-											mt={1}
-											onClick={this.toggleHighlights}
-										>
-														Highlights{' '}
-											<Icon name={`caret-${this.state.showHighlights ? 'down' : 'right'}`}/>
-										</Link>
-									</strong>
-								</div>
-							)}
-
-							{this.state.showHighlights && (
+						{highlights.length > 0 && (
+							<Collapsible mt={1} title="Highlights" lazyLoadContent data-test="support-thread-highlights">
 								<Extract py={2}>
 									{_.map(highlights, (statusEvent) => {
 										return (
@@ -510,31 +473,24 @@ class SupportThreadBase extends React.Component {
 										)
 									})}
 								</Extract>
-							)}
+							</Collapsible>
+						)}
 
-							<CardFields
-								card={card}
-								fieldOrder={fieldOrder}
-								type={typeCard}
-								omit={[
-									'category',
-									'status',
-									'inbox',
-									'origin',
-									'environment',
-									'translateDate'
-								]}
-							/>
-
-							<Box>
-								<Link mt={3} onClick={this.handleExpandToggle}>
-									Less
-								</Link>
-							</Box>
-						</React.Fragment>
-					)}
+						<CardFields
+							card={card}
+							fieldOrder={fieldOrder}
+							type={typeCard}
+							omit={[
+								'category',
+								'status',
+								'inbox',
+								'origin',
+								'environment',
+								'translateDate'
+							]}
+						/>
+					</Collapsible>
 				</Box>
-
 				<Box flex="1" style={{
 					minHeight: 0
 				}}>

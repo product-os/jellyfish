@@ -26,7 +26,7 @@ const context = {
 }
 
 const selectors = {
-	threadMoreButton: '[data-test="support-thread__expand"]',
+	threadMoreButton: '[data-test="support-thread-details__header"]',
 	rbTeam: 'label[for="rb-ghf-team"]',
 	rbUnassign: 'label[for="rb-ghf-unassign"]',
 	ddAssignToMe: '[data-test="card-owner-menu__assign-to-me"]',
@@ -336,7 +336,7 @@ ava.serial('You can reassign a thread from another user to yourself', async (tes
 	test.is(whisperText, `Reassigned from @${otherCommunityUserSlug} to @${currentUserSlug}`)
 })
 
-ava.serial('TEMP You cannot assign a thread to its existing owner', async (test) => {
+ava.serial('You cannot assign a thread to its existing owner', async (test) => {
 	const {
 		page,
 		otherCommunityUser,
