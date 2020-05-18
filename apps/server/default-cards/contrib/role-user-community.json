@@ -77,7 +77,7 @@
         },
         {
           "type": "object",
-          "description": "User can view their own execute, session and view cards",
+          "description": "User can view their own execute, session, web-push-subscription and view cards",
           "additionalProperties": true,
           "required": [ "data", "type" ],
           "properties": {
@@ -86,6 +86,7 @@
               "enum": [
                 "view@1.0.0",
                 "session@1.0.0",
+                "web-push-subscription@1.0.0",
                 "execute@1.0.0"
               ]
             },

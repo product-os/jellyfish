@@ -1,0 +1,39 @@
+{
+  "slug": "web-push-subscription",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "name": "Web Push subscription",
+  "markers": [],
+  "requires": [],
+  "capabilities": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [ "data" ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "endpoint",
+            "token",
+            "auth"
+          ],
+          "properties": {
+            "endpoint": {
+              "type": "string"
+            },
+            "token": {
+              "type": "string"
+            },
+            "auth": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
