@@ -38,7 +38,7 @@ spec:
         - name: POSTGRES_PORT
           valueFrom:
             secretKeyRef:
-              key: POSTGRES_USER
+              key: POSTGRES_PORT
               name: postgres-port
         - name: POSTGRES_HOST
           valueFrom:
