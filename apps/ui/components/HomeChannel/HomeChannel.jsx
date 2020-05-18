@@ -258,9 +258,15 @@ export default class HomeChannel extends React.Component {
 		})
 		groups.defaults = defaults
 
-		const starredViews = _.filter(tail, (view) => {
-			return Boolean(userStarredViews[view.slug])
-		})
+		const starredViews = []
+		const addToStarredViewsIfStarred = (view) => {
+			if (userStarredViews[view.slug]) {
+				starredViews.push(view)
+			}
+		}
+		_.forEach(this.state.productOS, addToStarredViewsIfStarred)
+		_.forEach(tail, addToStarredViewsIfStarred)
+
 		if (starredViews.length) {
 			const starredViewsTree = viewsToTree(userStarredViews, starredViews, {
 				name: 'Starred',
