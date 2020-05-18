@@ -251,6 +251,25 @@ const MessageContainer = styled(Box) `
 	}}
 `
 
+const MessageIcon = ({
+	firstInThread,
+	threadColor
+}) => {
+	const transform = firstInThread ? null : 'scale(1, -1)'
+	return (
+		<Icon
+			style={{
+				marginLeft: 6,
+				marginTop: 16,
+				fontSize: '18px',
+				transform,
+				color: threadColor
+			}}
+			name= {firstInThread ? 'comment-alt' : 'share'}
+		/>
+	)
+}
+
 export default class Event extends React.Component {
 	constructor (props) {
 		super(props)
@@ -418,6 +437,7 @@ export default class Event extends React.Component {
 		const {
 			card,
 			actor,
+			firstInThread,
 			addNotification,
 			threadIsMirrored
 		} = this.props
@@ -456,23 +476,16 @@ export default class Event extends React.Component {
 						/>
 
 						{this.props.openChannel &&
-							<Box
-								tooltip={{
-									placement: 'bottom',
-									text: `Open ${card.type.split('@')[0]}`
-								}}
-							>
-								<Icon
-									style={{
-										marginLeft: 6,
-										marginTop: 16,
-										fontSize: '18px',
-										transform: 'scale(1, -1)',
-										color: threadColor
-									}}
-									name="share"
-								/>
-							</Box>
+						<Box
+							tooltip={{
+								placement: 'bottom',
+								text: `Open ${card.type.split('@')[0]}`
+							}}
+						>
+							<MessageIcon
+								threadColor={threadColor}
+								firstInThread={firstInThread} />
+						</Box>
 						}
 
 					</EventButton>

@@ -50,6 +50,17 @@ const isHiddenEventType = (type) => {
 	return _.includes(NONE_MESSAGE_TIMELINE_TYPES, type)
 }
 
+// TODO: remove once we can retrieve this data during query
+const isFirstInThread = (card, firstMessagesByThreads) => {
+	const target = _.get(card, [ 'data', 'target' ])
+	const firstInThread = firstMessagesByThreads[target]
+	if (!firstInThread) {
+		firstMessagesByThreads[target] = card
+		return true
+	}
+	return false
+}
+
 export class Interleaved extends BaseLens {
 	constructor (props) {
 		super(props)
@@ -158,6 +169,7 @@ export class Interleaved extends BaseLens {
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.bindScrollArea = this.bindScrollArea.bind(this)
 	}
+
 	componentWillUpdate () {
 		if (!this.scrollArea) {
 			return
@@ -166,6 +178,7 @@ export class Interleaved extends BaseLens {
 		// Only set the scroll flag if the scroll area is already at the bottom
 		this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 	}
+
 	componentDidUpdate (nextProps) {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
@@ -203,6 +216,7 @@ export class Interleaved extends BaseLens {
 		} = this.state
 
 		let tail = this.props.tail ? this.props.tail.slice() : null
+		const firstMessagesByThreads = {}
 
 		// If tail has expanded links, interleave them in with the head cards
 		_.forEach(tail, (card) => {
@@ -263,6 +277,7 @@ export class Interleaved extends BaseLens {
 									openChannel={this.openChannel}
 									user={this.props.user}
 									card={card}
+									firstInThread={isFirstInThread(card, firstMessagesByThreads)}
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
 									addNotification={this.props.actions.addNotification}
