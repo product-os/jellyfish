@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui-components: Use same color for the event left border and thread icon'
+      hash: a410fa6735c2d64ad01f5d5bf93e2066d301ded5
+      body: |
+        This change will help to identify which thread a message belongs to.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.21.4
+  date: 2020-05-18T05:27:50.723Z
+- commits:
     - subject: 'ui: Ensure starred ProductOS views appear in Starred Views section'
       hash: 741e429c2628270734c14606fbd19f50b1fe96c9
       body: ''
