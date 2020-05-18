@@ -1242,7 +1242,8 @@ avaTest('const matches against strings nested in contains should work against to
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
 
-// TODO: enable this test when the new compiler becomes the default
+// TODO: enable these tests when the new compiler becomes the default
+
 ava.skip('contains - items of type object should be handled correctly', async (test) => {
 	const table = 'contains_object'
 
@@ -1304,3 +1305,264 @@ ava.skip('contains - items of type object should be handled correctly', async (t
 	test.is(results.length, 1)
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
+
+const requiresNothing = {
+	desc: 'nothing is required',
+	value: []
+}
+const requiresActor = {
+	desc: '`actor` is required',
+	value: [ 'actor' ]
+}
+const requiresOther = {
+	desc: '`other` is required',
+	value: [ 'other' ]
+}
+const actorContents = 'qwerty'
+const notActorContents = 'asdfg'
+const reqoptTestCases = {
+	'`actor` true': {
+		actor: true,
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`actor` false': {
+		actor: false,
+		cases: [
+			{
+				required: requiresNothing,
+				valid: false
+			},
+			{
+				required: requiresActor,
+				valid: false
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`actor` matching const': {
+		actor: {
+			const: actorContents
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`actor` not matching const': {
+		actor: {
+			const: notActorContents
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: false
+			},
+			{
+				required: requiresActor,
+				valid: false
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`actor` matching pattern': {
+		actor: {
+			pattern: actorContents
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`actor` not matching pattern': {
+		actor: {
+			pattern: notActorContents
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: false
+			},
+			{
+				required: requiresActor,
+				valid: false
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`other` true': {
+		other: true,
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`other` false': {
+		other: false,
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`other` const': {
+		other: {
+			const: 'asd'
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	},
+
+	'`other` pattern': {
+		other: {
+			pattern: 'asd'
+		},
+		cases: [
+			{
+				required: requiresNothing,
+				valid: true
+			},
+			{
+				required: requiresActor,
+				valid: true
+			},
+			{
+				required: requiresOther,
+				valid: false
+			}
+		]
+	}
+}
+
+for (const [ name, testCases ] of Object.entries(reqoptTestCases)) {
+	for (const [ idx, testCase ] of testCases.cases.entries()) {
+		ava.skip(`required/optional properties: schema ${name} - ${testCase.required.desc}`,
+			/* eslint-disable no-loop-func */
+			async (test) => {
+				const table = [
+					'reqopt',
+					name,
+					idx
+				].join('_').replace(/ /g, '_').replace(/`/g, '')
+
+				const schema = {
+					properties: {
+						data: {
+							properties: {}
+						}
+					}
+				}
+				const required = testCase.required.value
+				if (required.length > 0) {
+					schema.properties.data.required = required
+				}
+				if ('actor' in testCases) {
+					schema.properties.data.properties.actor = testCases.actor
+				}
+				if ('other' in testCases) {
+					schema.properties.data.properties.other = testCases.other
+				}
+
+				const elements = [
+					{
+						slug: 'test-1',
+						type: 'card',
+						data: {
+							actor: actorContents
+						}
+					}
+				]
+
+				const results = await runner({
+					connection: test.context.connection,
+					database: test.context.database,
+					table,
+					elements,
+					schema
+				})
+
+				test.is(results.length === 1, testCase.valid)
+			}
+		)
+	}
+}
