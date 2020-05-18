@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'server: Add new web-push-subscription type card'
+      hash: f03951fae89dbdde99c886d91af2829f56893dbb
+      body: >
+        Users with the user-community role can view their own
+        web-push-subscription cards.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.21.0
+  date: 2020-05-18T00:21:10.088Z
+- commits:
     - subject: 'patch: bump webpack-cli from 3.3.10 to 3.3.11'
       hash: 530f66511934a8a5f9e2b1de0ac7f3f5f36369c1
       body: >
