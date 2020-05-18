@@ -1,4 +1,16 @@
 - commits:
+    - subject: Display multiple email addresses correctly in own user card
+      hash: 835b0ccdfd8b7a8e2daa58a78e038c6fe8d37070
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: JuanFRidano <juanfridano@gmail.com>
+        signed-off-by: JuanFRidano <juanfridano@gmail.com>
+      author: JuanFRidano
+  version: 30.21.7
+  date: 2020-05-18T09:29:57.821Z
+- commits:
     - subject: 'docs: Fix metrics link in README'
       hash: abbaea714b459c0ecabe62f4ffd4b9e626e0e297
       body: ''
