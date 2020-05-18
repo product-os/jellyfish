@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'docs: Fix metrics link in README'
+      hash: abbaea714b459c0ecabe62f4ffd4b9e626e0e297
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.21.6
+  date: 2020-05-18T08:21:11.343Z
+- commits:
     - subject: 'dev: Bake Prometheus/Grafana configs in images'
       hash: 123d6e65a6c4a2ddae1a70c81e1db05a6d40909b
       body: ''
