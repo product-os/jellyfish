@@ -303,9 +303,9 @@ services:
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
   prometheus:
-    image: 'prom/prometheus:v2.17.2'
-    volumes:
-      - './prometheus:/etc/prometheus'
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
     command: "--config.file=/etc/prometheus/prometheus.yaml"
     ports:
       - '9090:9090'
@@ -313,9 +313,9 @@ services:
     networks:
       - internal
   grafana:
-    image: 'grafana/grafana:6.7.3'
-    volumes:
-      - './grafana:/etc/grafana'
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     restart: always
