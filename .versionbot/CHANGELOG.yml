@@ -1,4 +1,42 @@
 - commits:
+    - subject: 'ui: Move thread and view header info into collapsible sections'
+      hash: bb224c9807ab533ec313277ddbc35fc0b39f3919
+      body: >
+        These collapsible sections are collapsed by default. The Views 'Filters
+        and Lenses' collapsible section is only collapsible on smaller screens.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Use updated useDebounce hook in SlideInPanel component'
+      hash: 343866be40cc3b25fb086a353a074e4661214f69
+      body: |
+        A minor code clean-up
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Add new Collapsible component'
+      hash: cddb1cab92db323ea67e76195528dcf3b483fde5
+      body: >
+        Note - the 'useDebounce' React hook has been extended to allow the
+        caller to disable the lag/debounce for rising edges and/or falling edges
+        - this applies more to boolean values but can still be used with, for
+        example, string values where you want different behaviour when the
+        string is empty.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.22.0
+  date: 2020-05-18T12:43:50.751Z
+- commits:
     - subject: Disable Redis save to disk for compose
       hash: 125cdbd3f98b17db556e82377196fe64091aea56
       body: ''
