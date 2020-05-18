@@ -14,6 +14,7 @@ import {
 	swallowEvent
 } from './services/helpers'
 import ErrorBoundary from './shame/ErrorBoundary'
+import useDebounce from './hooks/use-debounce'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
@@ -101,19 +102,9 @@ export default function SlideIn ({
 	lazyLoadContent,
 	children
 }) {
-	const [ isContentLoaded, setIsContentLoaded ] = React.useState(isOpen)
-
-	React.useEffect(() => {
-		if (isOpen) {
-			// Load the panel's content as soon as we open the panel
-			setIsContentLoaded(true)
-		} else {
-			// Unload the panel's content after the panel has fully slid out of view
-			setTimeout(() => {
-				return setIsContentLoaded(false)
-			}, DELAY * 1000)
-		}
-	}, [ isOpen ])
+	const isContentLoaded = useDebounce(isOpen, DELAY * 1000, {
+		lagOnRisingEdge: false
+	})
 
 	const SlideInPanel = Panels[from]
 	if (typeof SlideInPanel === 'undefined') {

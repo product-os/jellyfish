@@ -17,6 +17,7 @@ import {
 	Txt
 } from 'rendition'
 import CardFields from '../../../../lib/ui-components/CardFields'
+import Collapsible from '../../../../lib/ui-components/Collapsible'
 import {
 	TagList
 } from '../../../../lib/ui-components/Tag'
@@ -49,17 +50,23 @@ class Thread extends React.Component {
 				card={card}
 				channel={channel}
 				title={(
-					<Txt mb={3}>
+					<Txt mb={[ 0, 0, 3 ]}>
 						<strong>
 							Thread created at {helpers.formatTimestamp(card.created_at)}
 						</strong>
 					</Txt>
 				)}
 			>
-				<Box px={3} pb={0}>
+				<Collapsible
+					title="Details"
+					px={3}
+					maxContentHeight='50vh'
+					lazyLoadContent
+					data-test="thread-details"
+				>
 					<TagList
 						tags={card.tags}
-						mb={1}
+						my={1}
 					/>
 
 					<CardFields
@@ -67,7 +74,7 @@ class Thread extends React.Component {
 						fieldOrder={fieldOrder}
 						type={typeCard}
 					/>
-				</Box>
+				</Collapsible>
 
 				<Box flex="1" style={{
 					minHeight: 0

@@ -44,6 +44,10 @@ import {
 	CloseButton
 } from '../../../../lib/ui-components/shame/CloseButton'
 import Icon from '../../../../lib/ui-components/shame/Icon'
+import Collapsible from '../../../../lib/ui-components/Collapsible'
+import {
+	withResponsiveContext
+} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 
@@ -598,78 +602,86 @@ class ViewRenderer extends React.Component {
 				}}
 			>
 				{Boolean(head) && (
-					<React.Fragment>
-						<Flex
-							mt={3} mx={3}
-							flexWrap={[ 'wrap', 'wrap', 'nowrap' ]}
-							flexDirection="row-reverse"
-							alignItems={[ 'flex-start', 'flex-start', 'center' ]}
+					<Flex alignItems="flex-start" mx={3} mt={3}>
+						<Collapsible
+							title="Filters and Lenses"
+							maxContentHeight="70vh"
+							flex={1}
+							collapsible={this.props.isMobile}
+							data-test="filters-and-lense"
 						>
-							<Flex mb={3} alignItems="center" justifyContent="flex-end" minWidth={[ '100%', '100%', 'auto' ]}>
-								{sliceOptions && sliceOptions.length && (
-									<Select
-										ml={3}
-										options={sliceOptions}
-										value={this.state.activeSlice}
-										labelKey='title'
-										onChange={this.setSlice}
-									/>
-								)}
-
-								{this.lenses.length > 1 && Boolean(lens) && (
-									<ButtonGroup ml={3}>
-										{_.map(this.lenses, (item) => {
-											return (
-												<Button
-													key={item.slug}
-													active={lens && lens.slug === item.slug}
-													data-test={`lens-selector--${item.slug}`}
-													data-slug={item.slug}
-													onClick={this.setLens}
-													pt={11}
-													icon={<Icon name={item.data.icon}/>}
-												/>
-											)
-										})}
-									</ButtonGroup>
-								)}
-
-								<CloseButton
-									flex={0}
-									p={3}
-									py={2}
-									mr={-3}
-									channel={this.props.channel}
-								/>
-							</Flex>
-							<Box flex="1">
-								{useFilters && (
-									<Box mt={0} flex="1 0 auto">
-										<Filters
-											schema={schemaForFilters}
-											filters={this.state.filters}
-											onFiltersUpdate={this.updateFilters}
-											onViewsUpdate={this.saveView}
-											compact={FiltersBreakpointSettings}
-											renderMode={[ 'add', 'search' ]}
+							<Flex
+								mt={[ 2, 2, 0 ]}
+								flexWrap={[ 'wrap', 'wrap', 'nowrap' ]}
+								flexDirection="row-reverse"
+								alignItems={[ 'flex-start', 'flex-start', 'center' ]}
+							>
+								<Flex mb={3} alignItems="center" justifyContent="flex-end" minWidth={[ '100%', '100%', 'auto' ]}>
+									{sliceOptions && sliceOptions.length && (
+										<Select
+											ml={3}
+											options={sliceOptions}
+											value={this.state.activeSlice}
+											labelKey='title'
+											onChange={this.setSlice}
 										/>
-									</Box>
-								)}
-							</Box>
-						</Flex>
+									)}
 
-						{useFilters && this.state.filters.length > 0 && (
-							<Box flex="1 0 auto" mx={3} mt={-3}>
-								<Filters
-									schema={schemaForFilters}
-									filters={this.state.filters}
-									onFiltersUpdate={this.updateFilters}
-									onViewsUpdate={this.saveView}
-									renderMode={[ 'summary' ]}
-								/>
-							</Box>
-						)}
-					</React.Fragment>
+									{this.lenses.length > 1 && Boolean(lens) && (
+										<ButtonGroup ml={3}>
+											{_.map(this.lenses, (item) => {
+												return (
+													<Button
+														key={item.slug}
+														active={lens && lens.slug === item.slug}
+														data-test={`lens-selector--${item.slug}`}
+														data-slug={item.slug}
+														onClick={this.setLens}
+														pt={11}
+														icon={<Icon name={item.data.icon}/>}
+													/>
+												)
+											})}
+										</ButtonGroup>
+									)}
+								</Flex>
+								<Box flex="1">
+									{useFilters && (
+										<Box mt={0} flex="1 0 auto">
+											<Filters
+												schema={schemaForFilters}
+												filters={this.state.filters}
+												onFiltersUpdate={this.updateFilters}
+												onViewsUpdate={this.saveView}
+												compact={FiltersBreakpointSettings}
+												renderMode={[ 'add', 'search' ]}
+											/>
+										</Box>
+									)}
+								</Box>
+							</Flex>
+
+							{useFilters && this.state.filters.length > 0 && (
+								<Box flex="1 0 auto" mt={-3}>
+									<Filters
+										schema={schemaForFilters}
+										filters={this.state.filters}
+										onFiltersUpdate={this.updateFilters}
+										onViewsUpdate={this.saveView}
+										renderMode={[ 'summary' ]}
+									/>
+								</Box>
+							)}
+						</Collapsible>
+						<CloseButton
+							flex={0}
+							p={3}
+							py={2}
+							mr={-3}
+							mt={[ -2, -2, 0 ]}
+							channel={this.props.channel}
+						/>
+					</Flex>
 				)}
 
 				<Flex height="100%" minHeight="0" mt={this.state.filters.length ? 0 : 3}>
@@ -719,6 +731,11 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
+const WrappedViewRenderer = redux.compose(
+	connect(mapStateToProps, mapDispatchToProps),
+	withResponsiveContext
+)(ViewRenderer)
+
 const lens = {
 	slug: 'lens-view',
 	type: 'lens',
@@ -728,7 +745,7 @@ const lens = {
 		type: 'view',
 		icon: 'filter',
 		format: 'full',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(ViewRenderer),
+		renderer: WrappedViewRenderer,
 		filter: {
 			type: 'object',
 			properties: {

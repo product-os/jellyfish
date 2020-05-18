@@ -244,7 +244,7 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	await page.click('[data-test="card-linker--existing__submit"]')
 
-	await macros.waitForThenClickSelector(page, '[data-test="support-thread__expand"]')
+	await macros.waitForThenClickSelector(page, '[data-test="support-thread-details__header"]')
 
 	await page.waitForSelector('[data-test="support-thread__linked-support-issue"]')
 
