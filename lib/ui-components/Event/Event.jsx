@@ -438,6 +438,7 @@ export default class Event extends React.Component {
 
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
+		const threadColor = helpers.colorHash(getTargetId(card))
 
 		return (
 			<VisibilitySensor
@@ -445,7 +446,7 @@ export default class Event extends React.Component {
 			>
 				<EventWrapper {...props} className={`event-card--${typeBase}`}>
 					<EventButton onClick={this.openChannel} style={{
-						borderLeftColor: helpers.colorHash(getTargetId(card))
+						borderLeftColor: threadColor
 					}}>
 						<Avatar
 							small
@@ -467,7 +468,7 @@ export default class Event extends React.Component {
 										marginTop: 16,
 										fontSize: '18px',
 										transform: 'scale(1, -1)',
-										color: '#2e587a'
+										color: threadColor
 									}}
 									name="share"
 								/>
