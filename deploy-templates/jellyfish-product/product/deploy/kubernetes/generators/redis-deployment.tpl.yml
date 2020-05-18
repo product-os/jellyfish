@@ -18,8 +18,11 @@ spec:
         - image: <<%&children.sw.containerized-application.jellyfish-redis.data.assets.image.url%>>
           name: redis
           env:
-            - name: REDIS_PASSWORD
-              value: '{{{REDIS_PASSWORD}}}'
+          - name: REDIS_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                key: REDIS_PASSWORD
+                name: redis-password
           ports:
             - containerPort: 6379
       imagePullSecrets:

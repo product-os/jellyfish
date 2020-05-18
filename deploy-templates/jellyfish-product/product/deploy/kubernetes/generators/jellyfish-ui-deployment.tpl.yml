@@ -42,7 +42,10 @@ spec:
         - name: NGINX_PORT
           value: '80'
         - name: NODE_ENV
-          value: '{{{NODE_ENV}}}'
+          valueFrom:
+            secretKeyRef:
+              key: NODE_ENV
+              name: node-env
         ports:
         - containerPort: 80
       imagePullSecrets:

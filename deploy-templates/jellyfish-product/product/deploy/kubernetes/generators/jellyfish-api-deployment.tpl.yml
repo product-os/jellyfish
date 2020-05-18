@@ -37,13 +37,25 @@ spec:
           failureThreshold: 30
         env:
         - name: AWS_ACCESS_KEY_ID
-          value: '{{{AWS_ACCESS_KEY_ID}}}'
+          valueFrom:
+            secretKeyRef:
+              key: AWS_ACCESS_KEY_ID
+              name: aws-access-key-id
         - name: AWS_S3_BUCKET_NAME
-          value: '{{{AWS_S3_BUCKET_NAME}}}'
+          valueFrom:
+            secretKeyRef:
+              key: AWS_S3_BUCKET_NAME
+              name: aws-s3-bucket-name
         - name: AWS_SECRET_ACCESS_KEY
-          value: '{{{AWS_SECRET_ACCESS_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: AWS_SECRET_ACCESS_KEY
+              name: aws-secret-access-key
         - name: FS_DRIVER
-          value: '{{{FS_DRIVER}}}'
+          valueFrom:
+            secretKeyRef:
+              key: FS_DRIVER
+              name: fs-driver
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -53,75 +65,180 @@ spec:
         - name: DATABASE
           value: 'postgres'
         - name: POSTGRES_DATABASE
-          value: '{{{POSTGRES_DATABASE}}}'
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_DATABASE
+              name: postgres-database
         - name: POSTGRES_USER
-          value: '{{{POSTGRES_USER}}}'
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_USER
+              name: postgres-user
         - name: POSTGRES_PASSWORD
-          value: '{{{POSTGRES_PASSWORD}}}'
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_PASSWORD
+              name: postgres-password
         - name: POSTGRES_PORT
-          value: '{{{POSTGRES_PORT}}}'
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_USER
+              name: postgres-port
         - name: POSTGRES_HOST
-          value: '{{{POSTGRES_HOST}}}'
+          valueFrom:
+            secretKeyRef:
+              key: POSTGRES_HOST
+              name: postgres-host
         - name: REDIS_HOST
-          value: '{{{REDIS_HOST}}}'
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_HOST
+              name: redis-host
         - name: REDIS_PASSWORD
-          value: '{{{REDIS_PASSWORD}}}'
+          valueFrom:
+            secretKeyRef:
+              key: REDIS_PASSWORD
+              name: redis-password
         - name: NODE_ENV
-          value: '{{{NODE_ENV}}}'
+          valueFrom:
+            secretKeyRef:
+              key: NODE_ENV
+              name: node-env
         - name: SENTRY_DSN_SERVER
-          value: '{{{SENTRY_DSN_SERVER}}}'
+          valueFrom:
+            secretKeyRef:
+              key: SENTRY_DSN_SERVER
+              name: sentry-dsn-server
         - name: LOGENTRIES_TOKEN
-          value: '{{{LOGENTRIES_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: LOGENTRIES_TOKEN
+              name: logentries-token
         - name: LOGLEVEL
-          value: '{{{LOGLEVEL}}}'
+          valueFrom:
+            secretKeyRef:
+              key: LOGLEVEL
+              name: loglevel
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
-          value: '{{{INTEGRATION_BALENA_API_PRIVATE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_PRIVATE_KEY
+              name: integration-balena-api-private-key
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-          value: '{{{INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+              name: integration-balena-api-public-key-production
         - name: INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-          value: '{{{INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
+              name: integration-balena-api-public-key-staging
         - name: INTEGRATION_BALENA_API_APP_ID
-          value: '{{{INTEGRATION_BALENA_API_APP_ID}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_APP_ID
+              name: integration-balena-api-app-id
         - name: INTEGRATION_BALENA_API_APP_SECRET
-          value: '{{{INTEGRATION_BALENA_API_APP_SECRET}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_APP_SECRET
+              name: integration-balena-api-app-secret
         - name: INTEGRATION_BALENA_API_OAUTH_BASE_URL
-          value: '{{{INTEGRATION_BALENA_API_OAUTH_BASE_URL}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_BALENA_API_OAUTH_BASE_URL
+              name: integration-balena-api-oauth-base-url
         - name: INTEGRATION_DEFAULT_USER
-          value: '{{{INTEGRATION_DEFAULT_USER}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_DEFAULT_USER
+              name: integration-default-user
         - name: INTEGRATION_INTERCOM_TOKEN
-          value: '{{{INTEGRATION_INTERCOM_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_INTERCOM_TOKEN
+              name: integration-intercom-token
         - name: INTEGRATION_FRONT_TOKEN
-          value: '{{{INTEGRATION_FRONT_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_FRONT_TOKEN
+              name: integration-front-token
         - name: INTEGRATION_GITHUB_TOKEN
-          value: '{{{INTEGRATION_GITHUB_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_GITHUB_TOKEN
+              name: integration-github-token
         - name: INTEGRATION_GITHUB_SIGNATURE_KEY
-          value: '{{{INTEGRATION_GITHUB_SIGNATURE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_GITHUB_SIGNATURE_KEY
+              name: integration-github-signature-key
         - name: INTEGRATION_GITHUB_PRIVATE_KEY
-          value: '{{{INTEGRATION_GITHUB_PRIVATE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_GITHUB_PRIVATE_KEY
+              name: integration-github-private-key
         - name: INTEGRATION_GITHUB_APP_ID
-          value: '{{{INTEGRATION_GITHUB_APP_ID}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_GITHUB_APP_ID
+              name: integration-github-app-id
         - name: INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-          value: '{{{INTEGRATION_FLOWDOCK_SIGNATURE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+              name: integration-flowdock-signature-key
         - name: INTEGRATION_DISCOURSE_TOKEN
-          value: '{{{INTEGRATION_DISCOURSE_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_DISCOURSE_TOKEN
+              name: integration-discourse-token
         - name: INTEGRATION_DISCOURSE_USERNAME
-          value: '{{{INTEGRATION_DISCOURSE_USERNAME}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_DISCOURSE_USERNAME
+              name: integration-discourse-username
         - name: INTEGRATION_DISCOURSE_SIGNATURE_KEY
-          value: '{{{INTEGRATION_DISCOURSE_SIGNATURE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_DISCOURSE_SIGNATURE_KEY
+              name: integration-discourse-signature-key
         - name: INTEGRATION_OUTREACH_APP_ID
-          value: '{{{INTEGRATION_OUTREACH_APP_ID}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_OUTREACH_APP_ID
+              name: integration-outreach-app-id
         - name: INTEGRATION_OUTREACH_APP_SECRET
-          value: '{{{INTEGRATION_OUTREACH_APP_SECRET}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_OUTREACH_APP_SECRET
+              name: integration-outreach-app-secret
         - name: INTEGRATION_OUTREACH_SIGNATURE_KEY
-          value: '{{{INTEGRATION_OUTREACH_SIGNATURE_KEY}}}'
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_OUTREACH_SIGNATURE_KEY
+              name: integration-outreach-signature-key
         - name: MAILGUN_TOKEN
-          value: '{{{MAILGUN_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: MAILGUN_TOKEN
+              name: mailgun-token
         - name: MAILGUN_DOMAIN
-          value: '{{{MAILGUN_DOMAIN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: MAILGUN_DOMAIN
+              name: mailgun-domain
         - name: MAILGUN_BASE_URL
-          value: '{{{MAILGUN_BASE_URL}}}'
+          valueFrom:
+            secretKeyRef:
+              key: MAILGUN_BASE_URL
+              name: mailgun-base-url
         - name: RESET_PASSWORD_SECRET_TOKEN
-          value: '{{{RESET_PASSWORD_SECRET_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: RESET_PASSWORD_SECRET_TOKEN
+              name: reset-password-secret-token
         - name: TEST_USER_USERNAME
           value: 'jellyfish'
         - name: TEST_USER_ROLE
@@ -129,13 +246,25 @@ spec:
         - name: SERVER_PORT
           value: '8000'
         - name: METRICS_PORT
-          value: '{{{METRICS_PORT}}}'
+          valueFrom:
+            secretKeyRef:
+              key: METRICS_PORT
+              name: metrics-port
         - name: SOCKET_METRICS_PORT
-          value: '{{{SOCKET_METRICS_PORT}}}'
+          valueFrom:
+            secretKeyRef:
+              key: SOCKET_METRICS_PORT
+              name: socket-metrics-port
         - name: MONITOR_SECRET_TOKEN
-          value: '{{{MONITOR_SECRET_TOKEN}}}'
+          valueFrom:
+            secretKeyRef:
+              key: MONITOR_SECRET_TOKEN
+              name: monitor-secret-token
         - name: NEW_COMPILER_TEST_CHANCE
-          value: '{{{NEW_COMPILER_TEST_CHANCE}}}'
+          valueFrom:
+            secretKeyRef:
+              key: NEW_COMPILER_TEST_CHANCE
+              name: new-compiler-test-chance
         ports:
         - containerPort: 8000
         - containerPort: 9229
