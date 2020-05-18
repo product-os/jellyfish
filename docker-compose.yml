@@ -107,6 +107,7 @@ services:
       - internal
   redis:
     image: balena/balena-redis:0.0.3
+    command: [sh, -c, "redis-server /usr/local/etc/redis/redis.conf --save ''"]
     restart: always
     networks:
       - internal
