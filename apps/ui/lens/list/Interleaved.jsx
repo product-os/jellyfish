@@ -65,8 +65,10 @@ export class Interleaved extends BaseLens {
 			}
 		}
 		this.openChannel = (target) => {
+			// Remove everything after the current channel, then append the target.
+			const current = this.props.channel.data.target
 			this.props.history.push(
-				path.join(window.location.pathname, target)
+				path.join(window.location.pathname.split(current)[0], current, target)
 			)
 		}
 		this.addThread = (event) => {
