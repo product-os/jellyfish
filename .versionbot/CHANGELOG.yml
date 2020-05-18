@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'On the interleaved lens, close open threads when opening a new thread'
+      hash: 145960e144f36a42105334075755d819163d4e96
+      body: |
+        Fixes #3694
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.22.1
+  date: 2020-05-18T14:08:50.332Z
+- commits:
     - subject: 'ui: Move thread and view header info into collapsible sections'
       hash: bb224c9807ab533ec313277ddbc35fc0b39f3919
       body: >
