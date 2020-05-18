@@ -1,4 +1,16 @@
 - commits:
+    - subject: Disable Redis save to disk for compose
+      hash: 125cdbd3f98b17db556e82377196fe64091aea56
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.21.8
+  date: 2020-05-18T10:51:14.672Z
+- commits:
     - subject: Display multiple email addresses correctly in own user card
       hash: 835b0ccdfd8b7a8e2daa58a78e038c6fe8d37070
       body: ''
