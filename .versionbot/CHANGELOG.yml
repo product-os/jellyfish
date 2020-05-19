@@ -1,4 +1,17 @@
 - commits:
+    - subject: Display an error notice in place of the message if an image load fails
+      hash: f0f820f503e4c52b70cf45a260cc0aec68c89b14
+      body: |
+        Fixes #3705
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.25.1
+  date: 2020-05-19T13:42:15.077Z
+- commits:
     - subject: 'UI: Correctly style emojis sent from discourse'
       hash: be901b25377619aa7c708f6b914227c1d7b9230b
       body: |
