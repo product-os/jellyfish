@@ -7,8 +7,13 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
+import {
 	withSetup
 } from '../SetupProvider'
+import Collapsible from '../Collapsible'
+import Icon from '../shame/Icon'
 
 const ResponsiveImg = styled.img `
 	height: auto;
@@ -22,7 +27,8 @@ class AuthenticatedImage extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
-			imageSrc: null
+			imageSrc: null,
+			error: null
 		}
 	}
 
@@ -35,17 +41,40 @@ class AuthenticatedImage extends React.Component {
 				})
 			})
 			.catch((error) => {
-				this.props.addNotification('danger', error.message || error)
+				this.setState({
+					error: error.message || error
+				})
 			})
 	}
 
 	render () {
 		const {
-			imageSrc
+			imageSrc,
+			error
 		} = this.state
 
+		if (error) {
+			const detail = `\`\`\`\n${error}\n\`\`\``
+			return (
+				<div>
+					<span><em>An error occurred whilst loading image</em></span>
+					<Collapsible
+						title="Details"
+						maxContentHeight="70vh"
+						flex={1}
+					>
+						<Markdown>
+							{detail}
+						</Markdown>
+					</Collapsible>
+				</div>
+			)
+		}
+
 		if (!imageSrc) {
-			return null
+			return (
+				<Icon name="cog" spin />
+			)
 		}
 
 		return (
