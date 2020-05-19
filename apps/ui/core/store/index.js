@@ -7,6 +7,9 @@
 import localForage from 'localforage'
 import * as redux from 'redux'
 import reduxThunk from 'redux-thunk'
+import {
+	routerMiddleware
+} from 'connected-react-router'
 import _ from 'lodash'
 import {
 	isProduction
@@ -18,6 +21,7 @@ import actions from './actions'
 import ActionCreator, {
 	selectors
 } from './actioncreators'
+import history from '../../services/history'
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -57,8 +61,13 @@ export const setupStore = ({
 		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
 	) || redux.compose
 
+	const middleware = [
+		routerMiddleware(history),
+		reduxThunk
+	]
+
 	return {
-		store: redux.createStore(reducerWrapper, composeEnhancers(redux.applyMiddleware(reduxThunk))),
+		store: redux.createStore(reducerWrapper, composeEnhancers(redux.applyMiddleware(...middleware))),
 		actions,
 		actionCreators: new ActionCreator({
 			sdk,
