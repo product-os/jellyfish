@@ -211,11 +211,6 @@ spec:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
-        - name: NEW_COMPILER_TEST_CHANCE
-          valueFrom:
-            secretKeyRef:
-              key: NEW_COMPILER_TEST_CHANCE
-              name: new-compiler-test-chance
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a

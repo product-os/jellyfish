@@ -1244,7 +1244,7 @@ avaTest('const matches against strings nested in contains should work against to
 
 // TODO: enable these tests when the new compiler becomes the default
 
-ava.skip('contains - items of type object should be handled correctly', async (test) => {
+avaTest('contains - items of type object should be handled correctly', async (test) => {
 	const table = 'contains_object'
 
 	const schema = {
@@ -1516,7 +1516,7 @@ const reqoptTestCases = {
 
 for (const [ name, testCases ] of Object.entries(reqoptTestCases)) {
 	for (const [ idx, testCase ] of testCases.cases.entries()) {
-		ava.skip(`required/optional properties: schema ${name} - ${testCase.required.desc}`,
+		avaTest(`required/optional properties: schema ${name} - ${testCase.required.desc}`,
 			/* eslint-disable no-loop-func */
 			async (test) => {
 				const table = [

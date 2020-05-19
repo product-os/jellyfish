@@ -72,7 +72,6 @@ services:
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
       - MONITOR_SECRET_TOKEN=TEST
-      - NEW_COMPILER_TEST_CHANCE
     healthcheck:
       interval: 30s
       retries: 5
@@ -201,7 +200,6 @@ services:
       - MAILGUN_DOMAIN
       - MAILGUN_BASE_URL
       - RESET_PASSWORD_SECRET_TOKEN
-      - NEW_COMPILER_TEST_CHANCE
     restart: always
     networks:
       - internal
@@ -278,7 +276,6 @@ services:
       - RESET_PASSWORD_SECRET_TOKEN
       - METRICS_PORT={{METRICS_PORT}}
       - MONITOR_SECRET_TOKEN=TEST
-      - NEW_COMPILER_TEST_CHANCE
     restart: always
     networks:
       - internal

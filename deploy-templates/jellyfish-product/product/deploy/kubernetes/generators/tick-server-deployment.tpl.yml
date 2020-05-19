@@ -180,11 +180,6 @@ spec:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
-        - name: NEW_COMPILER_TEST_CHANCE
-          valueFrom:
-            secretKeyRef:
-              key: NEW_COMPILER_TEST_CHANCE
-              name: new-compiler-test-chance
 
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
