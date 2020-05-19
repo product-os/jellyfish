@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Use speech-bubble icon for 1st repo thread message Determine whether the
+        message is the first in its thread and display a speech bubble icon
+        instead of the open thread icon
+      hash: b85bae56eeb04f19e293feec98ff278bcf8834dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.23.4
+  date: 2020-05-19T04:09:46.532Z
+- commits:
     - subject: Use custom `InvalidSchema` in `jsonschema2sql`
       hash: fe4e30d7efb64cceaadd595511a6b94c119d76db
       body: |
