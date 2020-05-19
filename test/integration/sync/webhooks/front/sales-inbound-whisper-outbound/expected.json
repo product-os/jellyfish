@@ -197,7 +197,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test email reply\n\n—\n\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io\n\n> On July 19, 2019, 1:20 PM GMT+1 [jv@jviotti.com](mailto:jv@jviotti.com) wrote:\n> \n> Test\n> \\--\n> Juan Cruz Viotti\n> Software Engineer\n> [https://www.jviotti.com](https://www.jviotti.com/)"
+          "message": "<div>Test email reply</div>\n<div class=\"front-signature fa-uid_3ceb624a81164f46da606d90470c85fb\"><div>—</div><div>Juan Cruz Viotti,</div><div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin\\\\\\_io</div></div>\n\n> On July 19, 2019, 1:20 PM GMT+1 [jv@jviotti.com](mailto:jv@jviotti.com) wrote:\n> <div id=\"fae_44t177n-n94dtz\">Test\n> \\--\n> Juan Cruz Viotti\n> Software Engineer\n> [https://www.jviotti.com](https://www.jviotti.com/)</div>"
         }
       }
     },
