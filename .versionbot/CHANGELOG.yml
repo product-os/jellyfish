@@ -1,4 +1,31 @@
 - commits:
+    - subject: 'ui: Fix navigation from desktop notification'
+      hash: d19e82ca751fba1d5f0f77f4f3f0efba2310f697
+      body: >
+        We now use react-router to navigate to the appropriate channel when a
+        desktop notification is clicked on. If the channel is already open, it
+        is moved to the end of the list of channels.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Integrate react-router with redux store
+      hash: f10ba44f0ad63a63399ee4441ab26477e99d1075
+      body: >
+        We use connected-react-router to hook up the react-router to the redux
+        store. This will allow us to do things like call history.push from a
+        redux action. 
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.24.0
+  date: 2020-05-19T07:15:21.455Z
+- commits:
     - subject: >-
         Use speech-bubble icon for 1st repo thread message Determine whether the
         message is the first in its thread and display a speech bubble icon
