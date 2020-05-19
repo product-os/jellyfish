@@ -1,4 +1,16 @@
 - commits:
+    - subject: Retire the old `jsonschema2sql` compiler
+      hash: 223bc38dff5eed42f1f5f1b05c2e654860512ddb
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.26.0
+  date: 2020-05-19T20:28:59.317Z
+- commits:
     - subject: json2schema metric name following prometheus conventions
       hash: b0a598fe9ff5a2fc966c0c347267d9db68326002
       body: ''
