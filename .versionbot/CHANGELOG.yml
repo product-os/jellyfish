@@ -1,4 +1,23 @@
 - commits:
+    - subject: Use custom `InvalidSchema` in `jsonschema2sql`
+      hash: fe4e30d7efb64cceaadd595511a6b94c119d76db
+      body: |
+        Commit `1904f273900b8a19d8b073aa8a804828eeedcfb0` added an assertion to
+        the new `jsonschema2sql` compiler that throws an error of type
+        `JellyfishInvalidSchema`, passed through the `options` object. This
+        commit adds a module-specific `InvalidSchema` error, applied to all
+        applicable cases. This commit also removes the need for
+        `options.errors` to simplify the logic and avoid cases where
+        `options.errors` could be undefined.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.23.3
+  date: 2020-05-19T00:48:50.109Z
+- commits:
     - subject: 'patch: bump semver from 7.1.3 to 7.3.2'
       hash: 85c9fb057afec595e92e0e81e53961a43af4e7f5
       body: >
