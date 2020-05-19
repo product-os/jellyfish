@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump semver from 7.1.3 to 7.3.2'
+      hash: 85c9fb057afec595e92e0e81e53961a43af4e7f5
+      body: >
+        Bumps [semver](https://github.com/npm/node-semver) from 7.1.3 to 7.3.2.
+
+        - [Release notes](https://github.com/npm/node-semver/releases)
+
+        -
+        [Changelog](https://github.com/npm/node-semver/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/npm/node-semver/compare/v7.1.3...v7.3.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.23.2
+  date: 2020-05-18T23:49:20.490Z
+- commits:
     - subject: >-
         Generate better SQL in the new compiler with `required`/`properties` in
         schemas
