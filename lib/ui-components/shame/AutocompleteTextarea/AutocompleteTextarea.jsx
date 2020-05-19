@@ -66,7 +66,7 @@ const SubAuto = (props) => {
 			<ReactTextareaAutocomplete
 				textAreaComponent={{
 					component: TextareaAutosize,
-					ref: 'innerRef'
+					ref: 'ref'
 				}}
 				className={className}
 				value={value}
