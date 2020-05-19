@@ -8,12 +8,6 @@ import ava from 'ava'
 import sinon from 'sinon'
 import _ from 'lodash'
 import Bluebird from 'bluebird'
-
-// HACK: We need to import this first to avoid a cyclical dependency issue
-import {
-	// eslint-disable-next-line no-unused-vars
-	store
-} from '../../index'
 import actions from '../actions'
 import ActionCreator from './'
 

@@ -7,12 +7,10 @@
 import {
 	Howl
 } from 'howler'
-import * as _ from 'lodash'
+import path from 'path'
 import {
-	actionCreators,
-	selectors,
-	store
-} from '../core'
+	pathWithoutTarget
+} from '../../../lib/ui-components/services/helpers'
 
 const TIMEOUT = 10 * 1000
 
@@ -33,17 +31,12 @@ if (typeof window !== 'undefined') {
 }
 
 export const createNotification = ({
+	historyPush,
 	title,
 	body,
 	target
 }) => {
 	if (!canUseNotifications) {
-		return
-	}
-
-	// Skip notifications if the user's status is set to 'Do Not Disturb'
-	const userStatus = selectors.getCurrentUserStatus(store.getState())
-	if (_.get(userStatus, [ 'value' ]) === 'DoNotDisturb') {
 		return
 	}
 
@@ -67,10 +60,14 @@ export const createNotification = ({
 			console.error()
 		}
 
-		store.dispatch(actionCreators.addChannel({
-			target,
-			parentChannel: _.get(store.getState(), [ 'channels', '0', 'id' ])
-		}))
+		const newPath = path.join(pathWithoutTarget(target), target)
+
+		// Don't bother pushing if the location won't actually change
+		// (avoid a 'null' history entry)
+		if (newPath !== window.location.pathname) {
+			historyPush(newPath)
+		}
+
 		clearTimeout(timeout)
 		notice.close()
 	}

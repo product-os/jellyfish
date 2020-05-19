@@ -24,14 +24,15 @@ import {
 	sdk,
 	store
 } from './core'
+import history from './services/history'
 import JellyfishUI from './JellyfishUI'
 import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
 import {
 	ResponsiveProvider
 } from '../../lib/ui-components/hooks/ResponsiveProvider'
 import {
-	BrowserRouter as Router
-} from 'react-router-dom'
+	ConnectedRouter
+} from 'connected-react-router'
 import {
 	SetupProvider
 } from '../../lib/ui-components/SetupProvider'
@@ -79,29 +80,27 @@ const customTheme = {
 
 ReactDOM.render(
 	(
-		<Router>
-			<RProvider
-				theme={customTheme}
-				style={{
-					height: '100%',
-					fontSize: 14
-				}}
-			>
-				<ResponsiveProvider>
-					<SetupProvider sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
-						<Provider store={store}>
-							<React.Fragment>
-								<GlobalStyle />
+		<RProvider
+			theme={customTheme}
+			style={{
+				height: '100%',
+				fontSize: 14
+			}}
+		>
+			<ResponsiveProvider>
+				<SetupProvider sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
+					<Provider store={store}>
+						<ConnectedRouter history={history}>
+							<GlobalStyle />
 
-								<ErrorBoundary>
-									<JellyfishUI />
-								</ErrorBoundary>
-							</React.Fragment>
-						</Provider>
-					</SetupProvider>
-				</ResponsiveProvider>
-			</RProvider>
-		</Router>
+							<ErrorBoundary>
+								<JellyfishUI />
+							</ErrorBoundary>
+						</ConnectedRouter>
+					</Provider>
+				</SetupProvider>
+			</ResponsiveProvider>
+		</RProvider>
 	),
 	document.getElementById('app')
 )

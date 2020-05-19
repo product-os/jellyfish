@@ -6,12 +6,6 @@
 
 import ava from 'ava'
 import sinon from 'sinon'
-
-// Hack fix for a circular dependency until we refactor the notifications code
-import {
-	// eslint-disable-next-line no-unused-vars
-	store
-} from '../../'
 import ActionCreator from './'
 
 const sandbox = sinon.createSandbox()

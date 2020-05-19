@@ -9,6 +9,9 @@
 import * as Bluebird from 'bluebird'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
+import {
+	push
+} from 'connected-react-router'
 import * as _ from 'lodash'
 import * as skhema from 'skhema'
 import {
@@ -33,23 +36,6 @@ import {
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
 const asyncDispatchQueue = getQueue()
-
-const notify = ({
-	user,
-	card,
-	cardType
-}) => {
-	const baseType = card.type.split('@')[0]
-	const title = `New ${_.get(cardType, [ 'name' ], baseType)}`
-	const body = _.get(card, [ 'data', 'payload', 'message' ])
-	const target = _.get(card, [ 'data', 'target' ])
-
-	createNotification({
-		title,
-		body,
-		target
-	})
-}
 
 const createChannel = (data = {}) => {
 	const id = uuid()
@@ -251,6 +237,32 @@ export default class ActionCreator {
 
 		// Card exists here until it's loaded
 		const loadingCardCache = {}
+
+		this.notify = ({
+			user,
+			card,
+			cardType
+		}) => {
+			return (dispatch, getState) => {
+				// Skip notifications if the user's status is set to 'Do Not Disturb'
+				const userStatus = selectors.getCurrentUserStatus(getState())
+				if (_.get(userStatus, [ 'value' ]) === 'DoNotDisturb') {
+					return
+				}
+
+				const baseType = card.type.split('@')[0]
+				const title = `New ${_.get(cardType, [ 'name' ], baseType)}`
+				const body = _.get(card, [ 'data', 'payload', 'message' ])
+				const target = _.get(card, [ 'data', 'target' ])
+
+				createNotification({
+					title,
+					body,
+					target,
+					historyPush: (path, pathState) => dispatch(push(path, pathState))
+				})
+			}
+		}
 
 		// This is a function that memoizes a debounce function, this allows us to
 		// create different debounce lists depending on the args passed to
@@ -770,11 +782,11 @@ export default class ActionCreator {
 								_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug) &&
 								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
 							) {
-								notify({
+								this.notify({
 									user: selectors.getCurrentUser(getState()),
 									card,
 									cardType: helpers.getType(type, types)
-								})
+								})(dispatch, getState)
 							}
 
 							// If we receive a card that targets another card...

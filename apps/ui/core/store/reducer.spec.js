@@ -32,51 +32,49 @@ ava('SET_VIEW_DATA action updates the specified view data', (test) => {
 ava('reducer should create a default state if one is not provided', (test) => {
 	const initialState = reducer()
 
-	test.deepEqual(initialState, {
-		core: {
-			status: 'initializing',
-			channels: [
-				{
-					id: initialState.core.channels[0].id,
-					created_at: initialState.core.channels[0].created_at,
-					slug: initialState.core.channels[0].slug,
-					type: 'channel',
-					version: '1.0.0',
-					tags: [],
-					markers: [],
-					links: {},
-					requires: [],
-					capabilities: [],
-					active: true,
-					data: {
-						target: 'view-all-views',
-						cardType: 'view'
-					}
-				}
-			],
-			types: [],
-			session: null,
-			notifications: [],
-			viewNotices: {},
-			cards: {},
-			orgs: [],
-			config: {},
-			ui: {
-				flows: {},
-				sidebar: {
-					expanded: []
-				},
-				timelines: {},
-				chatWidget: {
-					open: false
+	test.deepEqual(initialState.core, {
+		status: 'initializing',
+		channels: [
+			{
+				id: initialState.core.channels[0].id,
+				created_at: initialState.core.channels[0].created_at,
+				slug: initialState.core.channels[0].slug,
+				type: 'channel',
+				version: '1.0.0',
+				tags: [],
+				markers: [],
+				links: {},
+				requires: [],
+				capabilities: [],
+				active: true,
+				data: {
+					target: 'view-all-views',
+					cardType: 'view'
 				}
 			}
-		},
-		views: {
-			activeView: null,
-			viewData: {},
-			subscriptions: {}
+		],
+		types: [],
+		session: null,
+		notifications: [],
+		viewNotices: {},
+		cards: {},
+		orgs: [],
+		config: {},
+		ui: {
+			flows: {},
+			sidebar: {
+				expanded: []
+			},
+			timelines: {},
+			chatWidget: {
+				open: false
+			}
 		}
+	})
+	test.deepEqual(initialState.views, {
+		activeView: null,
+		viewData: {},
+		subscriptions: {}
 	})
 })
 

@@ -6,12 +6,16 @@
 
 import clone from 'deep-copy'
 import update from 'immutability-helper'
+import {
+	connectRouter
+} from 'connected-react-router'
 import * as _ from 'lodash'
 import * as redux from 'redux'
 import {
 	v4 as uuid
 } from 'uuid'
 import actions from './actions'
+import history from '../../services/history'
 
 const getDefaultState = () => {
 	return {
@@ -423,6 +427,7 @@ const coreReducer = (state, action) => {
 }
 
 export const reducer = redux.combineReducers({
+	router: connectRouter(history),
 	core: coreReducer,
 	views: viewsReducer
 })
