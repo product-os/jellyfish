@@ -1,4 +1,25 @@
 - commits:
+    - subject: json2schema metric name following prometheus conventions
+      hash: b0a598fe9ff5a2fc966c0c347267d9db68326002
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+    - subject: measure json2schema generation duration metric as histogram
+      hash: 03b5a63f822df22d43e615ade7db118709a10dc4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 30.25.2
+  date: 2020-05-19T16:20:45.396Z
+- commits:
     - subject: Display an error notice in place of the message if an image load fails
       hash: f0f820f503e4c52b70cf45a260cc0aec68c89b14
       body: |
