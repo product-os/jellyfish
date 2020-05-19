@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'UI: Correctly style emojis sent from discourse'
+      hash: be901b25377619aa7c708f6b914227c1d7b9230b
+      body: |
+        Fixes #2436
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Preserve structural tags when converting HTML to markdown in sync
+      hash: 0f35fb9ac3a7cf4baae8b91b16a76b5d7d941df4
+      body: ''
+      footer:
+        Connects-to: '#2436'
+        connects-to: '#2436'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.25.0
+  date: 2020-05-19T11:48:04.311Z
+- commits:
     - subject: 'patch: bump react-autosize-textarea from 6.0.0 to 7.0.0'
       hash: 6fea116ec48792af37c2aca3a34a85de8aa765be
       body: >
