@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump react-autosize-textarea from 6.0.0 to 7.0.0'
+      hash: 6fea116ec48792af37c2aca3a34a85de8aa765be
+      body: >
+        Bumps
+        [react-autosize-textarea](https://github.com/buildo/react-autosize-textarea)
+        from 6.0.0 to 7.0.0.
+
+        - [Release
+        notes](https://github.com/buildo/react-autosize-textarea/releases)
+
+        -
+        [Changelog](https://github.com/buildo/react-autosize-textarea/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/buildo/react-autosize-textarea/compare/v6.0.0...v7.0.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.24.1
+  date: 2020-05-19T10:24:10.229Z
+- commits:
     - subject: 'ui: Fix navigation from desktop notification'
       hash: d19e82ca751fba1d5f0f77f4f3f0efba2310f697
       body: >
