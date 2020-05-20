@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-test:latest
+FROM resinci/jellyfish-test:v1.3.7
 
 WORKDIR /usr/src/jellyfish
 
@@ -13,11 +13,6 @@ ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 RUN rm -f ~/.npmrc
-
-RUN apt-get update && apt-get install -y \
-	libx11-xcb1 libxcomposite1 libxcursor1 libxdamage1 \
-	libxi6 libxtst6 libnss3 libcups2 libxss1 libxrandr2 \
-	gconf-gsettings-backend libasound2 libatk1.0-0 libgtk-3-0
 
 COPY ./apps ./apps
 COPY ./lib ./lib

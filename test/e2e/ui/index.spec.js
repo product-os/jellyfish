@@ -7,7 +7,6 @@
 const ava = require('ava')
 const bluebird = require('bluebird')
 const _ = require('lodash')
-const path = require('path')
 const uuid = require('uuid/v4')
 const environment = require('../../../lib/environment')
 const helpers = require('./helpers')
@@ -307,123 +306,6 @@ ava.serial('card actions: should let users add a custom field to a card', async 
 	const updatedCard = await context.sdk.card.get(card.id)
 
 	test.is(updatedCard.data[fieldName], fieldValue)
-})
-
-// File upload
-// =============================================================================
-
-ava.serial('files upload: Users should be able to upload an image', async (test) => {
-	const {
-		page
-	} = context
-
-	await ensureCommunityLogin(page)
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'thread@1.0.0'
-		})
-	})
-
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	await page.waitForSelector(`.column--slug-${thread.slug}`)
-
-	await page.waitForSelector('input[type="file"]')
-	const input = await page.$('input[type="file"]')
-	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
-
-	await page.waitForSelector('.column--thread [data-test="event-card__image"]')
-
-	test.pass()
-})
-
-ava.serial('file upload: Users should be able to upload an image to a support thread', async (test) => {
-	const {
-		page
-	} = context
-
-	await ensureCommunityLogin(page)
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'support-thread@1.0.0'
-		})
-	})
-
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	const selector = '.column--support-thread'
-
-	await page.waitForSelector(selector)
-	await page.waitForSelector('input[type="file"]')
-	const input = await page.$('input[type="file"]')
-	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
-
-	await page.waitForSelector(`${selector} [data-test="event-card__image"]`)
-
-	test.pass()
-})
-
-ava.serial('file upload: Users should be able to upload a text file', async (test) => {
-	const {
-		page
-	} = context
-
-	await ensureCommunityLogin(page)
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'thread@1.0.0'
-		})
-	})
-
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	await page.waitForSelector(`.column--slug-${thread.slug}`)
-
-	await page.waitForSelector('input[type="file"]')
-	const input = await page.$('input[type="file"]')
-	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
-
-	await page.waitForSelector('.column--thread [data-test="event-card__file"]')
-
-	test.pass()
-})
-
-ava.serial('file upload: Users should be able to upload a text file to a support thread', async (test) => {
-	const {
-		page
-	} = context
-
-	await ensureCommunityLogin(page)
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'support-thread@1.0.0'
-		})
-	})
-
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	const selector = '.column--support-thread'
-
-	await page.waitForSelector(selector)
-	await page.waitForSelector('input[type="file"]')
-	const input = await page.$('input[type="file"]')
-	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
-
-	await page.waitForSelector(`${selector} [data-test="event-card__file"]`)
-
-	test.pass()
 })
 
 // Lenses
