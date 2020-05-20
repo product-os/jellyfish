@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Restore S3 file upload tests'
+      hash: 51c71821bf1a42e82b941fe5fd42212b3fca5c54
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.27.2
+  date: 2020-05-20T02:57:34.820Z
+- commits:
     - subject: 'patch: bump enzyme-adapter-react-16 from 1.15.1 to 1.15.2'
       hash: 5b7bf3a232c98ebf31c5e96ccb4433aaebdc0f4c
       body: >
