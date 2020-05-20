@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui-components: Fix textarea autosizing bug'
+      hash: 00db671221a0925efa82b1908402e1e21ab76d1b
+      body: >
+        Replaced the package react-autosize-textarea with the more popular
+        package react-textarea-autosize - which is compatible with
+        @webscopeio/react-textarea-autocomplete.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.27.3
+  date: 2020-05-20T05:27:00.447Z
+- commits:
     - subject: 'ci: Restore S3 file upload tests'
       hash: 51c71821bf1a42e82b941fe5fd42212b3fca5c54
       body: ''
