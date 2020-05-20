@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump enzyme-adapter-react-16 from 1.15.1 to 1.15.2'
+      hash: 5b7bf3a232c98ebf31c5e96ccb4433aaebdc0f4c
+      body: >
+        Bumps
+        [enzyme-adapter-react-16](https://github.com/airbnb/enzyme/tree/HEAD/packages/enzyme-adapter-react-16)
+        from 1.15.1 to 1.15.2.
+
+        - [Release notes](https://github.com/airbnb/enzyme/releases)
+
+        -
+        [Changelog](https://github.com/enzymejs/enzyme/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/airbnb/enzyme/commits/enzyme-adapter-react-16@1.15.2/packages/enzyme-adapter-react-16)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.27.1
+  date: 2020-05-20T00:47:14.162Z
+- commits:
     - subject: 'Add support for `format{Maximum,Minimum}` in the new compiler'
       hash: ff14be36927a98543bd93b735c17e7e86aa8c093
       body: ''
