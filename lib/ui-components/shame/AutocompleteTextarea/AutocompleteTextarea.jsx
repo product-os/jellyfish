@@ -7,7 +7,7 @@
 import ReactTextareaAutocomplete from '@webscopeio/react-textarea-autocomplete'
 import * as _ from 'lodash'
 import React from 'react'
-import TextareaAutosize from 'react-autosize-textarea'
+import TextareaAutosize from 'react-textarea-autosize'
 import * as reactDnD from 'react-dnd'
 import {
 	Card,
@@ -66,7 +66,7 @@ const SubAuto = (props) => {
 			<ReactTextareaAutocomplete
 				textAreaComponent={{
 					component: TextareaAutosize,
-					ref: 'ref'
+					ref: 'inputRef'
 				}}
 				className={className}
 				value={value}
