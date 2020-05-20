@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'Add support for `format{Maximum,Minimum}` in the new compiler'
+      hash: ff14be36927a98543bd93b735c17e7e86aa8c093
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.27.0
+  date: 2020-05-19T23:42:04.742Z
+- commits:
     - subject: Retire the old `jsonschema2sql` compiler
       hash: 223bc38dff5eed42f1f5f1b05c2e654860512ddb
       body: ''
