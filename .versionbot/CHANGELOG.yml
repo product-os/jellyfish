@@ -1,4 +1,20 @@
 - commits:
+    - subject: Trim whitespace from AWS S3 access credentials
+      hash: 59106b072d5e578f3b78751cc13e32ccab310c05
+      body: |
+        This change help defend against situations where env vars may have extra
+        whitespace in them.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#3706'
+        connects-to: '#3706'
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.27.4
+  date: 2020-05-20T10:48:49.746Z
+- commits:
     - subject: 'ui-components: Fix textarea autosizing bug'
       hash: 00db671221a0925efa82b1908402e1e21ab76d1b
       body: >
