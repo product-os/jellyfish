@@ -10,6 +10,9 @@ const {
 	pascalCase
 } = require('change-case')
 
+// This is just a wrapper around the logger/context combo so that I don't have
+// to pass `context` to everything, especially given the fact that there would
+// be multiple objects with the name "context" floating around the system.
 class Logger {
 	constructor (logger, context) {
 		this.logger = logger
@@ -30,6 +33,15 @@ class Logger {
 	}
 }
 
+// `SchemaGeneratorContext` is a shared, mutable object used to store
+// information about and side-effects of the schema generation process.
+//
+// The most obvious side-effect is that of the type registry - a dictionary of
+// all generated types and their names.
+//
+// It also contains the name stack which is used by the handler's to generate
+// type names and the anonymous type counters (to generate names for types for
+// which no sensible name could be found).
 module.exports = class SchemaGeneratorContext {
 	constructor (baseTypes, baseCards, logger, logContext) {
 		this.typeRegistry = baseTypes

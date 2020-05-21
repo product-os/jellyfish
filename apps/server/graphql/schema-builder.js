@@ -14,6 +14,9 @@ const {
 	camelCase
 } = require('change-case')
 
+// Use the type generator to generate all the data types in the model and then
+// attach it to a GraphQL schema.
+
 module.exports = async (context, {
 	jellyfish, logger, baseCards
 }) => {

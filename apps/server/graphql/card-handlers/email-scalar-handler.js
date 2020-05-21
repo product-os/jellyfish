@@ -12,7 +12,7 @@ const skhema = require('skhema')
 
 // More specific handler for schemas that look like Email addresses.
 //
-// For hysterical raisins it's possible than an email address field can be
+// For historical reasons it's possible than an email address field can be
 // defined as one of three schemas in our model;
 //
 // 1. A string with an email format.
@@ -108,6 +108,7 @@ module.exports = class EmailScalarHandler extends BaseHandler {
 	}
 
 	process (_childResults) {
+		this.logger.info('Found email schema', this.chunk)
 		return this.context.getType('Email')
 	}
 }
