@@ -21,6 +21,7 @@ import {
 	ActionLink
 } from '../../../../lib/ui-components/shame/ActionLink'
 import CardOwner from '../CardOwner'
+import VideoLink from '../VideoLink'
 import Icon from '../../../../lib/ui-components/shame/Icon'
 
 export default class CardActions extends React.Component {
@@ -102,6 +103,8 @@ export default class CardActions extends React.Component {
 						}}
 						icon={<Icon name="pencil-alt"/>}
 					/>
+
+					<VideoLink card={this.props.card} mr={3} />
 
 					<CardLinker types={this.props.types} card={this.props.card} actions={this.props.actions} />
 

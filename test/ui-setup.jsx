@@ -47,6 +47,17 @@ export const flushPromises = () => {
 	})
 }
 
+export const getPromiseResolver = () => {
+	let resolver = null
+	const promise = new Promise((resolve) => {
+		resolver = resolve
+	})
+	return {
+		promise,
+		resolver
+	}
+}
+
 export const getWrapper = (initialState = {}) => {
 	const store = mockStore(initialState)
 	return {
