@@ -315,7 +315,7 @@ jobs:
           command: make compose-up DETACH=1 FS_DRIVER=s3FS
       - run:
           name: S3 File Upload Tests
-          command: make compose-exec-sidecar COMMAND="/bin/bash -c '. /root/.bashrc && make test FILES="./test/e2e/ui/file-upload.spec.js"'"
+          command: make compose-exec-sidecar COMMAND="/bin/bash -c \". /root/.bashrc && make test FILES=./test/e2e/ui/file-upload.spec.js\""
       - run:
           name: Docker Compose Down
           command: make compose-stop
