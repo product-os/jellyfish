@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'patch: bump redis-mock from 0.39.0 to 0.49.0'
+      hash: 25cfea679c9dfcb59fcbf30a25e65bb82cc57102
+      body: >
+        Bumps [redis-mock](https://github.com/yeahoffline/redis-mock) from
+        0.39.0 to 0.49.0.
+
+        - [Release notes](https://github.com/yeahoffline/redis-mock/releases)
+
+        - [Commits](https://github.com/yeahoffline/redis-mock/commits)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.27.5
+  date: 2020-05-20T16:34:21.489Z
+- commits:
     - subject: Trim whitespace from AWS S3 access credentials
       hash: 59106b072d5e578f3b78751cc13e32ccab310c05
       body: |
