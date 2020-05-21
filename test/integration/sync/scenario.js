@@ -188,6 +188,8 @@ const webhookScenario = async (test, testCase, integration, stub) => {
 					}
 				}
 			}
+		}, {
+			sortBy: [ 'data', 'timestamp' ]
 		})
 
 	testCase.expected.head.slug =
