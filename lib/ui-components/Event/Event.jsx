@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import copy from 'copy-to-clipboard'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -13,138 +12,20 @@ import Mark from 'mark.js'
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
 import {
-	Box,
-	Button,
-	Flex,
-	Theme,
-	Txt
-}	from 'rendition'
-import {
-	Markdown
-} from 'rendition/dist/extra/Markdown'
+	Box, Flex, Theme, Txt
+} from 'rendition'
 import styled from 'styled-components'
-import {
-	saveAs
-} from 'file-saver'
-import AuthenticatedImage from '../AuthenticatedImage'
-import ContextMenu from '../ContextMenu'
 import {
 	tagStyle
 } from '../Tag'
-import Link from '../Link'
 import * as helpers from '../services/helpers'
-import {
-	ActionLink
-} from '../shame/ActionLink'
-import Avatar from '../shame/Avatar'
-import Icon from '../shame/Icon'
-import {
-	MirrorIcon
-} from '../MirrorIcon'
-import {
-	HIDDEN_ANCHOR
-} from '../Timeline'
-
-const OverflowButton = styled(Button) `
-	color: inherit;
-
-	&:hover {
-		color: inherit !important;
-	}
-
-	${(expanded) => {
-		return expanded ? {} : 'boxShadow: \'0 -5px 5px -5px rgba(0,0,0,0.5)\''
-	}}
-`
-
-const ActorPlaceholder = styled.span `
-	width: 80px;
-	line-height: inherit;
-	background: #eee;
-	display: inline-block;
-	border-radius: 10px;
-	text-align: center;
-`
+import EventButton from './EventButton'
+import Header from './Header'
+import Body from './Body'
 
 const MESSAGE_COLLAPSED_HEIGHT = 400
 
-const getAttachments = (card) => {
-	// Start by mapping sync attachments
-	const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map((attachment) => {
-		return {
-			slug: attachment.url.split('/').pop(),
-			mime: attachment.mime,
-			name: attachment.name
-		}
-	})
-
-	// Attach files directly uploaded in Jellyfish
-	if (_.get(card, [ 'data', 'payload', 'file' ])) {
-		attachments.push(card.data.payload.file)
-	}
-
-	return attachments
-}
-
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
-const EventButton = styled.button `
-	cursor: pointer;
-	border: 0;
-	background: none;
-	display: block;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 8px;
-	border-left-style: solid;
-	border-left-width: 3px;
-`
-
-const FRONT_MARKDOWN_IMG_RE = /\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g
-const FRONT_HTML_IMG_RE = /\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g
-
-const getTargetId = (card) => {
-	return _.get(card, [ 'data', 'target' ]) || card.id
-}
-
-export const getMessage = (card) => {
-	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
-
-	// Fun hack to extract attached images embedded in HTML from synced front messages
-	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
-		return message.replace(FRONT_HTML_IMG_RE, (source) => {
-			return `https://app.frontapp.com${source}`
-		})
-	}
-
-	// Fun hack to extract attached images from synced front messages embedded in
-	// a different way
-	if (message.match(FRONT_MARKDOWN_IMG_RE)) {
-		return message.replace(FRONT_MARKDOWN_IMG_RE, (source) => {
-			return `![Attached image](https://app.frontapp.com${source.slice(1, -1)})`
-		})
-	}
-
-	return message
-		.split('\n')
-		.filter((line) => { return !line.includes(HIDDEN_ANCHOR) })
-		.join('\n')
-}
-
-const downloadFile = async (sdk, cardId, file) => {
-	const {
-		slug,
-		name,
-		mime
-	} = file
-
-	const data = await sdk.getFile(cardId, slug)
-	const blob = new Blob([ data ], {
-		type: mime
-	})
-
-	saveAs(blob, name)
-}
 
 // Min-width is used to stop text from overflowing the flex container, see
 // https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
@@ -171,182 +52,39 @@ const EventWrapper = styled(Flex) `
 	}
 
 	.rendition-tag--personal {
-		background: #FFF1C2;
-		border-color: #FFC19B;
+		background: #fff1c2;
+		border-color: #ffc19b;
 	}
 
 	.rendition-tag--read:after {
-		content: '✔';
+		content: "✔";
 		position: absolute;
-    top: -4px;
-    right: -4px;
-    font-size: 10px;
+		top: -4px;
+		right: -4px;
+		font-size: 10px;
 	}
 `
-
-const MessageContainer = styled(Box) `
-	border-radius: 6px;
-	border-top-left-radius: 0;
-	box-shadow: -5px 4.5px 10.5px 0 rgba(152, 173, 227, 0.08);
-
-	a {
-		color: inherit;
-		text-decoration: underline;
-	}
-
-	a .rendition-tag--personal,
-	.rendition-tag--personal {
-		background: #FFF1C2;
-		color: #333;
-
-		&.rendition-tag--read:after {
-			background: #FFC19B;
-			border-radius: 5px;
-			font-size: 8px;
-			padding: 2px;
-		}
-	}
-
-	img {
-		background-color: transparent !important;
-
-		&.emoji {
-			width: 20px;
-			height: 20px;
-			vertical-align: middle;
-		}
-	}
-
-	code {
-		color: #333;
-		background-color: #f6f8fa;
-	}
-
-	${({
-		card, actor, theme
-	}) => {
-		if (card.type === 'whisper' || card.type === 'whisper@1.0.0') {
-			return `
-				background: ${theme.colors.secondary.main};
-				color: white;
-
-				blockquote {
-					color: lightgray;
-				}
-			`
-		}
-
-		if (actor && actor.proxy) {
-			return `
-				background: ${theme.colors.quartenary.main};
-				color: ${theme.colors.text.dark};
-			`
-		}
-
-		return `
-			border: solid 0.5px #e8ebf2;
-			background: white;
-		`
-	}}
-`
-
-const MessageIcon = ({
-	firstInThread,
-	threadColor
-}) => {
-	const transform = firstInThread ? null : 'scale(1, -1)'
-	return (
-		<Icon
-			style={{
-				marginLeft: 6,
-				marginTop: 16,
-				fontSize: '18px',
-				transform,
-				color: threadColor
-			}}
-			name= {firstInThread ? 'comment-alt' : 'share'}
-		/>
-	)
-}
 
 export default class Event extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.openChannel = () => {
-			const {
-				card, openChannel
-			} = this.props
-			if (!openChannel) {
-				return
-			}
-			const targetId = getTargetId(card)
-			openChannel(targetId)
-		}
-
-		this.setMessageElement = (element) => {
-			if (element) {
-				this.messageElement = element
-				this.setState({
-					messageHeight: element.clientHeight
-				})
-			}
-		}
-
-		this.copyJSON = (event) => {
-			event.preventDefault()
-			event.stopPropagation()
-			copy(JSON.stringify(this.props.card, null, 2))
-		}
-
-		this.copyRawMessage = (event) => {
-			event.preventDefault()
-			event.stopPropagation()
-			copy(this.props.card.data.payload.message)
-		}
-
-		this.toggleMenu = () => {
-			this.setState({
-				showMenu: !this.state.showMenu
-			})
-		}
-
-		this.expand = () => {
-			this.setState({
-				expanded: !this.state.expanded
-			})
-		}
-
 		this.state = {
-			showMenu: false,
-			expanded: false,
 			messageHeight: null
 		}
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
-		this.downloadAttachment = this.downloadAttachment.bind(this)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
-		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+		return (
+			!circularDeepEqual(nextState, this.state) ||
+			!circularDeepEqual(nextProps, this.props)
+		)
 	}
 
 	async componentDidMount () {
 		this.processText()
-	}
-
-	downloadAttachment (event) {
-		const attachments = getAttachments(this.props.card)
-		const attachmentSlug = event.currentTarget.dataset.attachmentslug
-		const attachment = _.find(attachments, {
-			slug: attachmentSlug
-		})
-
-		try {
-			downloadFile(this.props.sdk, this.props.card.id, attachment)
-		} catch (error) {
-			this.props.addNotification('danger', error.message || error)
-		}
 	}
 
 	processText () {
@@ -398,11 +136,7 @@ export default class Event extends React.Component {
 		const typeBase = card.type.split('@')[0]
 		const isMessage = typeBase === 'message' || typeBase === 'whisper'
 
-		if (
-			isMessage &&
-			isVisible &&
-			this.props.onCardVisible
-		) {
+		if (isMessage && isVisible && this.props.onCardVisible) {
 			this.props.onCardVisible(this.props.card)
 		}
 	}
@@ -427,18 +161,15 @@ export default class Event extends React.Component {
 
 		return (
 			<Txt color={Theme.colors.text.light}>
-				<em>{text}</em> <strong>{this.props.actor ? this.props.actor.name : ''}</strong>
+				<em>{text}</em>{' '}
+				<strong>{this.props.actor ? this.props.actor.name : ''}</strong>
 			</Txt>
 		)
 	}
 
 	render () {
 		const {
-			card,
-			actor,
-			firstInThread,
-			addNotification,
-			threadIsMirrored
+			card, actor, firstInThread, openChannel
 		} = this.props
 		const props = _.omit(this.props, [
 			'card',
@@ -451,43 +182,17 @@ export default class Event extends React.Component {
 		const typeBase = card.type.split('@')[0]
 		const isMessage = typeBase === 'message' || typeBase === 'whisper'
 
-		const message = getMessage(card)
-
-		const attachments = getAttachments(card)
-
-		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
-		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
-		const threadColor = helpers.colorHash(getTargetId(card))
-
+		const messageOverflows =
+			this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 		return (
-			<VisibilitySensor
-				onChange={this.handleVisibilityChange}
-			>
+			<VisibilitySensor onChange={this.handleVisibilityChange}>
 				<EventWrapper {...props} className={`event-card--${typeBase}`}>
-					<EventButton onClick={this.openChannel} style={{
-						borderLeftColor: threadColor
-					}}>
-						<Avatar
-							small
-							name={actor ? actor.name : null}
-							url={actor ? actor.avatarUrl : null}
-							userStatus={_.get(actor, [ 'card', 'data', 'status' ])}
-						/>
-
-						{this.props.openChannel &&
-						<Box
-							tooltip={{
-								placement: 'bottom',
-								text: `Open ${card.type.split('@')[0]}`
-							}}
-						>
-							<MessageIcon
-								threadColor={threadColor}
-								firstInThread={firstInThread} />
-						</Box>
-						}
-
-					</EventButton>
+					<EventButton
+						card={card}
+						actor={actor}
+						firstInThread={firstInThread}
+						openChannel={openChannel}
+					/>
 					<Box
 						pt={2}
 						flex="1"
@@ -496,181 +201,12 @@ export default class Event extends React.Component {
 							minWidth: 0
 						}}
 					>
-						<Flex justifyContent="space-between" mb={1}>
-							<Flex mt={isMessage ? 0 : 1} alignItems="center" style={{
-								lineHeight: 1.75
-							}}>
-								{isMessage && (
-									<Txt
-										data-test="event__actor-label"
-										tooltip={actor ? actor.email : 'loading...'}
-									>
-										{Boolean(actor) && Boolean(actor.card) && (
-											<Link color="black" append={actor.card.slug}>
-												<Txt.span>{actor.name}</Txt.span>
-											</Link>
-										)}
-
-										{Boolean(actor) && !actor.card && (
-											<Txt.span>Unknown user</Txt.span>
-										)}
-
-										{!actor && (
-											<ActorPlaceholder>Loading...</ActorPlaceholder>
-										)}
-									</Txt>
-								)}
-
-								{!isMessage && this.getTimelineElement(card)}
-
-								{Boolean(card.data) && Boolean(timestamp) && (
-									<Txt
-										color={Theme.colors.text.light}
-										fontSize={1}
-										ml="6px"
-									>
-										{helpers.formatTimestamp(timestamp, true)}
-									</Txt>
-								)}
-								{card.pending ? (
-									<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-										sending...
-										<Icon
-											style={{
-												marginLeft: 6
-											}}
-											spin
-											name="cog"
-										/>
-									</Txt>
-								) : (
-									<MirrorIcon
-										mirrors={_.get(card, [ 'data', 'mirrors' ])}
-										threadIsMirrored={threadIsMirrored}
-									/>
-								)}
-							</Flex>
-
-							{this.props.menuOptions !== false && (
-								<span>
-									<Button
-										className="event-card--actions"
-										px={2}
-										plain
-										onClick={this.toggleMenu}
-										icon={<Icon name="ellipsis-v"/>}
-									/>
-
-									{this.state.showMenu && (
-										<ContextMenu position="bottom" onClose={this.toggleMenu}>
-											<React.Fragment>
-												<ActionLink onClick={this.copyJSON} tooltip={{
-													text: 'JSON copied!',
-													trigger: 'click'
-												}}>
-													Copy as JSON
-												</ActionLink>
-
-												{isMessage && (
-													<ActionLink onClick={this.copyRawMessage} tooltip={{
-														text: 'Message copied!',
-														trigger: 'click'
-													}}>
-														Copy raw message
-													</ActionLink>
-												)}
-
-												{this.props.menuOptions}
-											</React.Fragment>
-										</ContextMenu>
-									)}
-								</span>
-							)}
-						</Flex>
-
-						{Boolean(attachments.length) && _.map(attachments, (attachment, index) => {
-							// If the mime type is of an image, display the file as an image
-							// Additionally, if there are many attachments, skip trying to
-							// render them
-							if (attachments.length < 3 && attachment.mime && attachment.mime.match(/image\//)) {
-								return (
-									<MessageContainer
-										key={`${attachment.slug}-${index}`}
-										card={card}
-										actor={actor}
-										py={2}
-										px={3}
-										mr={1}
-									>
-										<AuthenticatedImage
-											data-test="event-card__image"
-											cardId={card.id}
-											fileName={attachment.slug}
-											addNotification={addNotification}
-										/>
-									</MessageContainer>
-								)
-							}
-
-							return (
-								<Button
-									key={`${attachment.url}-${index}`}
-									data-attachmentslug={attachment.slug}
-									onClick={this.downloadAttachment}
-									secondary={card.type.split('@')[0] === 'whisper'}
-									data-test="event-card__file"
-									mr={2}
-									mb={2}
-								>
-									<Icon name="file-download" />
-									<Txt monospace ml={2}>{attachment.name}</Txt>
-								</Button>
-							)
-						}
-						)}
-
-						{isMessage && Boolean(message) && (
-							<MessageContainer
-								ref={this.setMessageElement}
-								card={card}
-								actor={actor}
-								py={2}
-								px={3}
-								mr={1}
-							>
-								<Markdown
-									py='3px'
-									style={{
-										fontSize: 'inherit',
-										overflow: messageOverflows ? 'hidden' : 'initial',
-										maxHeight: !this.state.expanded && messageOverflows
-											? MESSAGE_COLLAPSED_HEIGHT
-											: 'none'
-									}}
-									data-test={card.pending ? '' : 'event-card__message'}
-									flex={0}
-								>
-									{message}
-								</Markdown>
-
-								{messageOverflows && (
-									<OverflowButton
-										className="event-card__expand"
-										plain
-										width="100%"
-										py={1}
-										onClick={this.expand}
-										expanded={this.state.expanded}
-									>
-										<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
-									</OverflowButton>
-								)}
-							</MessageContainer>
-						)}
-
-						{!isMessage && Boolean(card.name) && (
-							<Txt>{card.name}</Txt>
-						)}
+						<Header {...this.props} />
+						<Body
+							{...this.props}
+							isMessage={isMessage}
+							messageCollapsedHeight={MESSAGE_COLLAPSED_HEIGHT}
+						/>
 					</Box>
 				</EventWrapper>
 			</VisibilitySensor>

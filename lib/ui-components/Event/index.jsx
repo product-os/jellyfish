@@ -5,9 +5,10 @@
  */
 
 import React from 'react'
-import Event, {
+import Event from './Event'
+import {
 	getMessage
-} from './Event'
+} from './Message'
 import CardLoader from '../CardLoader'
 import * as helpers from '../services/helpers'
 import {
