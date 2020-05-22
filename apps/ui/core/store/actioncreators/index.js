@@ -53,7 +53,7 @@ const createChannel = (data = {}) => {
 	}
 }
 
-const mentionsUser = (card, user, userGroups) => {
+export const mentionsUser = (card, user, userGroups) => {
 	if (_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug)) {
 		return true
 	}

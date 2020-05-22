@@ -137,6 +137,8 @@ ava('.getTypeFields should return all fields on a card in a flattend object', (t
 		tags: 'tags',
 		'data.mentionsUser': 'data.mentionsUser',
 		'data.alertsUser': 'data.alertsUser',
+		'data.mentionsGroup': 'data.mentionsGroup',
+		'data.alertsGroup': 'data.alertsGroup',
 		'data.status': 'data.status',
 		'data.archived': 'data.archived',
 		'data.created_at': 'data.created_at',

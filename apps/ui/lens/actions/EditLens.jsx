@@ -53,6 +53,8 @@ class EditLens extends React.Component {
 			'properties.data.properties.participants',
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.alertsUser',
+			'properties.data.properties.mentionsGroup',
+			'properties.data.properties.alertsGroup',
 			'properties.data.properties.totalValue',
 
 			// Omit user password object

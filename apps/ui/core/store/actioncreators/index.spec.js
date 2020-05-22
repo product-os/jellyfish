@@ -9,7 +9,9 @@ import sinon from 'sinon'
 import _ from 'lodash'
 import Bluebird from 'bluebird'
 import actions from '../actions'
-import ActionCreator from './'
+import ActionCreator, {
+	mentionsUser
+} from './'
 
 const sandbox = sinon.createSandbox()
 
@@ -436,4 +438,60 @@ ava('setDefault() sets the homeView field in the user\'s profile', async (test) 
 			}
 		} ]
 	)
+})
+
+ava('mentionsUser() returns true if user slug in mentionsUser field', async (test) => {
+	const user = {
+		slug: 'user-test'
+	}
+
+	const cardWithMentionsUser = {
+		data: {
+			payload: {
+				mentionsUser: [ 'user-test' ]
+			}
+		}
+	}
+
+	const userGroups = {
+		all: {
+			names: [],
+			groups: {}
+		},
+		mine: {
+			names: [],
+			groups: {}
+		}
+	}
+
+	test.true(mentionsUser(cardWithMentionsUser, user, userGroups))
+})
+
+ava('mentionsUser() returns true if user slug in one of the user groups', async (test) => {
+	const user = {
+		slug: 'user-test'
+	}
+
+	const cardWithMentionsUser = {
+		data: {
+			payload: {
+				mentionsGroup: [ 'group1' ]
+			}
+		}
+	}
+
+	const userGroups = {
+		all: {
+			names: [],
+			groups: {}
+		},
+		mine: {
+			names: [ 'group1' ],
+			groups: {
+				group1: {}
+			}
+		}
+	}
+
+	test.true(mentionsUser(cardWithMentionsUser, user, userGroups))
 })

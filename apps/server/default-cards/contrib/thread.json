@@ -31,11 +31,17 @@
             },
             "mentionsGroup": {
               "type": "array",
-              "$$formula": "AGGREGATE($events, 'data.payload.mentionsGroup')"
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsGroup')",
+              "items": {
+                "type": "string"
+              }
             },
             "alertsGroup": {
               "type": "array",
-              "$$formula": "AGGREGATE($events, 'data.payload.alertsGroup')"
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsGroup')",
+              "items": {
+                "type": "string"
+              }
             },
             "description": {
               "type": "string"
