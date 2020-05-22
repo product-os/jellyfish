@@ -7,7 +7,7 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
 import {
-	getUserSlugsByPrefix
+	getSlugsByPrefix
 } from '../../../../../lib/ui-components/services/helpers'
 
 /**
@@ -68,8 +68,10 @@ export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason
 	let whisper = null
 	const message = generateWhisperMessage(currentOwner, newOwner, reason)
 	if (message) {
-		const mentions = getUserSlugsByPrefix('@', message)
-		const alerts = getUserSlugsByPrefix('!', message)
+		const mentions = getSlugsByPrefix('@', message, 'user-')
+		const alerts = getSlugsByPrefix('!', message, 'user-')
+		const groupMentions = getSlugsByPrefix('@@', message)
+		const groupAlerts = getSlugsByPrefix('!!', message)
 
 		whisper = {
 			target: card,
@@ -79,6 +81,8 @@ export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason
 			payload: {
 				mentionsUser: mentions,
 				alertsUser: alerts,
+				mentionsGroup: groupMentions,
+				alertsGroup: groupAlerts,
 				message
 			}
 		}

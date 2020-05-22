@@ -16,6 +16,8 @@ export const generateTeardownWhisper = (card, cardTypeName, problem, solution) =
 		payload: {
 			mentionsUser: [],
 			alertsUser: [],
+			mentionsGroup: [],
+			alertsGroup: [],
 			message
 		}
 	}

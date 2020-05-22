@@ -350,8 +350,10 @@ class Timeline extends React.Component {
 			messageSymbol: false
 		})
 		this.props.setTimelineMessage(this.props.card.id, '')
-		const mentions = helpers.getUserSlugsByPrefix('@', newMessage)
-		const alerts = helpers.getUserSlugsByPrefix('!', newMessage)
+		const mentions = helpers.getSlugsByPrefix('@', newMessage, 'user-')
+		const alerts = helpers.getSlugsByPrefix('!', newMessage, 'user-')
+		const groupMentions = helpers.getSlugsByPrefix('@@', newMessage)
+		const groupAlerts = helpers.getSlugsByPrefix('!!', newMessage)
 		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
 			return tag.slice(1).toLowerCase()
 		})
@@ -364,6 +366,8 @@ class Timeline extends React.Component {
 			payload: {
 				mentionsUser: mentions,
 				alertsUser: alerts,
+				mentionsGroup: groupMentions,
+				alertsGroup: groupAlerts,
 				message: newMessage.replace(messageSymbolRE, '')
 			}
 		}
