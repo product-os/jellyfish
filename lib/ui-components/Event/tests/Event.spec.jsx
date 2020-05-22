@@ -4,18 +4,23 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
+import {
+	getWrapper
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow
+	shallow,
+	mount
 } from 'enzyme'
 import React from 'react'
-import Event, {
-	getMessage
-} from '../Event'
+import Event from '../Event'
 import {
 	card
 } from './fixtures'
+
+const user = {
+	slug: 'user-johndoe'
+}
 
 const actor = {
 	name: 'johndoe',
@@ -30,6 +35,10 @@ const actions = {
 	}
 }
 
+const {
+	wrapper
+} = getWrapper()
+
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
@@ -42,79 +51,18 @@ ava('It should render', (test) => {
 })
 
 ava('It should display the actor\'s details', (test) => {
-	const event = shallow(
+	const event = mount(
 		<Event
 			actions={actions}
 			card={card}
 			actor={actor}
-		/>
+			user={user}
+		/>, {
+			wrappingComponent: wrapper
+		}
 	)
 	const avatar = event.find('Avatar')
 	test.is(avatar.props().name, actor.name)
-	const actorLabel = event.find('[data-test="event__actor-label"]')
+	const actorLabel = event.find('Txt[data-test="event__actor-label"]')
 	test.is(actorLabel.props().tooltip, actor.email)
-})
-
-ava('getMessage() should prefix Front image embedded in img tags', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: `<img src="${url}">`
-			}
-		}
-	})
-
-	test.is(formatted, `<img src="https://app.frontapp.com${url}">`)
-})
-
-ava('getMessage() should prefix multitple Front images embedded in img tags', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: `<img src="${url}"><img src="${url}"><img src="${url}"><img src="${url}">`
-			}
-		}
-	})
-
-	test.is(formatted, `<img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}">`)
-})
-
-ava('getMessage() should prefix Front image embedded in square brackets', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: `[${url}]`
-			}
-		}
-	})
-
-	test.is(formatted, `![Attached image](https://app.frontapp.com${url})`)
-})
-
-ava('getMessage() should prefix multiple Front images embedded in square brackets', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: `[${url}] [${url}] [${url}]`
-			}
-		}
-	})
-
-	test.is(formatted, `![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url})`)
-})
-
-ava('getMessage() should hide "#jellyfish-hidden" messages', (test) => {
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: '#jellyfish-hidden'
-			}
-		}
-	})
-
-	test.is(formatted, '')
 })

@@ -26,7 +26,7 @@ configure({
 })
 
 const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement' ])
+browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement', 'NodeFilter', 'NodeList' ])
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
