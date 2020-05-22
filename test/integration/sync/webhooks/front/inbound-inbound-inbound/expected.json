@@ -74,7 +74,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "One\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <[juan@resin.io](mailto:juan@resin.io)\\> wrote:\n\n>"
+          "message":"<div>One</div>\n<div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\[juan@resin.io\\](mailto:juan@resin.io)\\\\&gt; wrote:</div></div>"
+
         }
       }
     },
@@ -119,7 +120,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Two\n\nOn Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <[juan@resin.io](mailto:juan@resin.io)\\> wrote:\n\n> One\n> \n> On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti <[juan@resin.io](mailto:juan@resin.io)\\> wrote:\n> \n> >"
+          "message":"<div>Two</div>\n<div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\[juan@resin.io\\](mailto:juan@resin.io)\\\\&gt; wrote:</div>\n\n&gt; <div>One</div>\n&gt; <div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\\\\\\\\\\\\\[juan@resin.io\\\\\\\\\\\\\\](mailto:juan@resin.io)\\\\\\\\\\\\\\\\&gt; wrote:</div></div></div>"
+
         }
       }
     },

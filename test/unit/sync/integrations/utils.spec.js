@@ -184,3 +184,13 @@ ava('.parseHTML() should preserve structure from discourse previews', (test) => 
 
 	test.is(result, expected)
 })
+
+ava('.parseHTML() should handle messages that only include <br> and have trailing whitespace', (test) => {
+	const string = '<div><br /></div>  '
+
+	const result = utils.parseHTML(string, {
+		baseUrl: 'https://jel.ly.fish'
+	})
+
+	test.is(result, '')
+})

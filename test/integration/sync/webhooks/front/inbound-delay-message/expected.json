@@ -119,7 +119,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Hey there!\n\n—\nJuan Cruz Viotti,\n\nSoftware Engineer, Resin.io (https://resin.io)\n\ntwt: @resin\\_io\n\n> On Wed, Oct 10, 2018 at 10:39 pm, <[juan@resin.io](mailto:juan@resin.io)\\> Juan Cruz Viotti wrote:\n> \n> Hello"
+          "message":"<div>Hey there!</div>\n<div class=\"front-signature fa-uid_08dbba14523ca30f8679c237594b5e21\">—\nJuan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin\\\\\\_io</div></div>\n\n> On Wed, Oct 10, 2018 at 10:39 pm, <[juan@resin.io](mailto:juan@resin.io)\\> Juan Cruz Viotti wrote:\n> <div id=\"fae_1y9fb8z-ftkyv6\"><div>Hello</div></div>"
+
         }
       }
     },
