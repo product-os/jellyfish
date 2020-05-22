@@ -1250,8 +1250,6 @@ avaTest('const matches against strings nested in contains should work against to
 	test.deepEqual(results[0].slug, elements[0].slug)
 })
 
-// TODO: enable these tests when the new compiler becomes the default
-
 avaTest('contains - items of type object should be handled correctly', async (test) => {
 	const table = 'contains_object'
 
