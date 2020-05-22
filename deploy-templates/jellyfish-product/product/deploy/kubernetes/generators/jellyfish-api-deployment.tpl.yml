@@ -219,6 +219,11 @@ spec:
             secretKeyRef:
               key: INTEGRATION_OUTREACH_SIGNATURE_KEY
               name: integration-outreach-signature-key
+        - name: INTEGRATION_GOOGLE_MEET_CREDENTIALS
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_GOOGLE_MEET_CREDENTIALS
+              name: integration-google-meet-credentials
         - name: MAILGUN_TOKEN
           valueFrom:
             secretKeyRef:

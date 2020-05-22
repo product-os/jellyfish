@@ -84,6 +84,8 @@ properties:
     type: string?
   INTEGRATION_OUTREACH_SIGNATURE_KEY:
     type: string?
+  INTEGRATION_GOOGLE_MEET_CREDENTIALS:
+    type: string?
   MAILGUN_TOKEN:
     type: string?
   MAILGUN_DOMAIN:
