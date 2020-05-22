@@ -43,6 +43,18 @@
                     "type": "string"
                   }
                 },
+                "mentionsGroup": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "alertsGroup": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
                 "file": {
                   "type": "object",
                   "properties": {
@@ -109,7 +121,9 @@
     "indexed_fields": [
       [ "data.readBy" ],
       [ "data.payload.mentionsUser" ],
-      [ "data.payload.alertsUser" ]
+      [ "data.payload.alertsUser" ],
+      [ "data.payload.mentionsGroup" ],
+      [ "data.payload.alertsGroup" ]
     ]
   },
   "requires": [],
