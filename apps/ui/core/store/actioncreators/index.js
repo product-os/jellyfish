@@ -53,6 +53,16 @@ const createChannel = (data = {}) => {
 	}
 }
 
+const mentionsUser = (card, user, userGroups) => {
+	if (_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug)) {
+		return true
+	}
+	const groupMentions = _.get(card, [ 'data', 'payload', 'mentionsGroup' ], [])
+	return _.some(groupMentions, (groupName) => {
+		return userGroups.mine.groups[groupName]
+	})
+}
+
 /**
  * @summary Convert a string into a 32bit hashcode
  *
@@ -777,13 +787,14 @@ export default class ActionCreator {
 								type
 							} = card
 							const allChannels = selectors.getChannels(getState())
+							const userGroupsState = selectors.getUserGroups(getState())
 
 							const baseType = type.split('@')[0]
 
 							// Create a desktop notification if an unread message ping appears
 							if (
 								(baseType === 'message' || baseType === 'whisper') &&
-								_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug) &&
+								mentionsUser(card, user, userGroupsState) &&
 								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
 							) {
 								this.notify({
