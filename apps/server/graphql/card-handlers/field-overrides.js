@@ -6,43 +6,79 @@
 
 const graphql = require('graphql')
 
-// All cards must provide the following, and we don't want to rely on
-// inferring type names for them.
-module.exports = {
+// All cards must provide the following, and we don't want to rely on inferring
+// type names for them.
+//
+// Defining them statically allows us to specify resolvers, documentation, etc
+// also.
+const OVERRIDES = {
 	capabilities () {
-		return this.context.getType('JsonValue')
+		return {
+			type: this.context.getType('JsonValue')
+		}
 	},
 
 	generic_data () {
-		return this.context.getType('JsonValue')
+		return {
+			type: this.context.getType('JsonValue'),
+			resolve: (source) => { return source.data }
+		}
 	},
 
 	id () {
-		return graphql.GraphQLNonNull(graphql.GraphQLID)
+		return {
+			type: graphql.GraphQLNonNull(graphql.GraphQLID)
+		}
 	},
 
 	linked_at () {
-		return graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('LinkedAt')))
+		return {
+			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('LinkedAt')))
+		}
 	},
 
 	links () {
-		return graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('Link')))
+		return {
+			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('Link')))
+		}
 	},
 
 	requires () {
-		return this.context.getType('JsonValue')
+		return {
+			type: this.context.getType('JsonValue')
+		}
 	},
 
 	slug () {
-		return graphql.GraphQLNonNull(this.context.getType('Slug'))
+		return {
+			type: graphql.GraphQLNonNull(this.context.getType('Slug'))
+		}
 	},
 
 	type () {
-		return graphql.GraphQLNonNull(this.context.getType('CardType'))
+		return {
+			type: graphql.GraphQLNonNull(this.context.getType('CardType'))
+		}
 	},
 
 	version () {
-		return graphql.GraphQLNonNull(this.context.getType('SemanticVersion'))
+		return {
+			type: graphql.GraphQLNonNull(this.context.getType('SemanticVersion'))
+		}
 	}
+}
 
+// Used by `CardHandler` and `CardInterfaceHandler` to override the generated
+// fields.
+const applyOverridesToFields = (fields) => {
+	return Object
+		.keys(OVERRIDES)
+		.reduce((result, key) => {
+			result[key] = Reflect.apply(OVERRIDES[key], this, [])
+			return result
+		}, fields)
+}
+
+module.exports = {
+	OVERRIDES, applyOverridesToFields
 }
