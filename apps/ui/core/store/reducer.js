@@ -41,6 +41,16 @@ const getDefaultState = () => {
 				}
 			],
 			types: [],
+			userGroups: {
+				all: {
+					names: [],
+					groups: {}
+				},
+				mine: {
+					names: [],
+					groups: {}
+				}
+			},
 			session: null,
 			notifications: [],
 			viewNotices: {},
@@ -282,6 +292,35 @@ const coreReducer = (state, action) => {
 			return update(state, {
 				types: {
 					$set: action.value
+				}
+			})
+		}
+		case actions.SET_USER_GROUPS: {
+			const {
+				groups,
+				userSlug
+			} = action.value
+			const newUserGroups = _.reduce(groups, (acc, group) => {
+				acc.all.names.push(group.data.name)
+				acc.all.groups[group.data.name] = group
+				if (group.data.users.includes(userSlug)) {
+					acc.mine.names.push(group.data.name)
+					acc.mine.groups[group.data.name] = group
+				}
+				return acc
+			}, {
+				all: {
+					names: [],
+					groups: {}
+				},
+				mine: {
+					names: [],
+					groups: {}
+				}
+			})
+			return update(state, {
+				userGroups: {
+					$set: newUserGroups
 				}
 			})
 		}

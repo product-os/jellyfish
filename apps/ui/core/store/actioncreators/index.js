@@ -131,6 +131,7 @@ export const selectors = {
 		return _.get(state.core, [ 'ui', 'chatWidget', 'open' ])
 	},
 	getTypes: (state) => { return state.core.types },
+	getUserGroups: (state) => { return state.core.userGroups },
 	getUIState: (state) => { return state.core.ui },
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.core.ui, [ 'lensState', lensSlug, cardId ], {})
@@ -221,6 +222,7 @@ export default class ActionCreator {
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
+			'setUserGroups',
 			'setUIState',
 			'setLensState',
 			'setUser',
@@ -706,10 +708,11 @@ export default class ActionCreator {
 				user: this.sdk.auth.whoami(),
 				orgs: this.sdk.card.getAllByType('org'),
 				types: this.sdk.card.getAllByType('type'),
+				userGroups: this.sdk.card.getAllByType('user-group'),
 				config: this.sdk.getConfig()
 			})
 				.then(async ({
-					user, types, orgs, config
+					user, types, userGroups, orgs, config
 				}) => {
 					if (!user) {
 						throw new Error('Could not retrieve user')
@@ -721,6 +724,7 @@ export default class ActionCreator {
 						dispatch(this.setUser(user))
 						dispatch(this.setTypes(types))
 						dispatch(this.setOrgs(orgs))
+						dispatch(this.setUserGroups(userGroups, user))
 						dispatch({
 							type: actions.SET_CONFIG,
 							value: config
@@ -963,6 +967,16 @@ export default class ActionCreator {
 		return {
 			type: actions.SET_TYPES,
 			value: types
+		}
+	}
+
+	setUserGroups (userGroups, user) {
+		return {
+			type: actions.SET_USER_GROUPS,
+			value: {
+				groups: userGroups,
+				userSlug: user.slug
+			}
 		}
 	}
 
