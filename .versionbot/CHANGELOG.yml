@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: Validate inbox parameter'
+      hash: d4139b418ad45e6afa9a383b83c5232261695c8e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 30.28.0
+  date: 2020-05-22T23:25:49.534Z
+- commits:
     - subject: Fix bug in integration html parsing and corresponding test cases
       hash: 7df538bbf5cb86ff9126017ddb2176d4c6f06020
       body: |
