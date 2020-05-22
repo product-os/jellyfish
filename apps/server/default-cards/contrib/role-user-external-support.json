@@ -42,8 +42,7 @@
               "type": "string",
               "enum": [
                 "create@1.0.0",
-                "message@1.0.0",
-                "support-thread@1.0.0"
+                "message@1.0.0"
               ]
             },
             "markers": {
@@ -55,6 +54,42 @@
               },
               "maxItems": 1,
               "minItems": 1
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [ "type", "markers", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread@1.0.0"
+            },
+            "markers": {
+              "type": "array",
+              "contains": {
+                "const": {
+                  "$eval": "user.slug + '+org-balena'"
+                }
+              },
+              "maxItems": 1,
+              "minItems": 1
+            },
+            "data": {
+              "type": "object",
+              "additionalProperties": true,
+              "required": [ "product", "inbox" ],
+              "properties": {
+                "product": {
+                  "type": "string",
+                  "const": "balenaCloud"
+                },
+                "inbox": {
+                  "type": "string",
+                  "const": "S/Paid_Support"
+                }
+              }
             }
           }
         },

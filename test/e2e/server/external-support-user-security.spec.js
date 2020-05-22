@@ -64,6 +64,55 @@ const createOrg = async (test) => {
 	})
 }
 
+ava.serial(`external support users should not be able to crete threads with product and inbox values
+other then balenaCloud and S/Paid_Support respectively`,
+async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	// Get balena org
+	const balenaOrg = await sdk.card.get('org-balena')
+
+	// Create balena organisation user
+	const externalSupportUserDetails = createUserDetails()
+	const externalSupportUser = await createUser(test, balenaOrg, 'user-external-support', externalSupportUserDetails)
+
+	// Logout from current user
+	await sdk.auth.logout()
+
+	// Login with user
+	await sdk.auth.login(externalSupportUserDetails)
+
+	// Create thread with different product
+	let error = await test.throwsAsync(test.context.sdk.card.create({
+		type: 'support-thread',
+		name: 'test subject',
+		markers: [ `${externalSupportUser.slug}+org-balena` ],
+		data: {
+			product: 'test-product',
+			inbox: 'S/Paid_Support',
+			status: 'open'
+		}
+	}))
+
+	test.is(error.name, 'JellyfishPermissionsError')
+
+	// Create thread with different inbox
+	error = await test.throwsAsync(test.context.sdk.card.create({
+		type: 'support-thread',
+		name: 'test subject',
+		markers: [ `${externalSupportUser.slug}+org-balena` ],
+		data: {
+			product: 'balenaCloud',
+			inbox: 'S/TestInbox',
+			status: 'open'
+		}
+	}))
+
+	test.is(error.name, 'JellyfishPermissionsError')
+})
+
 ava.serial('the message sent by external support user should be only visible for balena organisation users', async (test) => {
 	const {
 		sdk
@@ -99,7 +148,8 @@ ava.serial('the message sent by external support user should be only visible for
 		name: 'test subject',
 		markers: [ `${user1.slug}+org-balena` ],
 		data: {
-			product: 'test-product',
+			product: 'balenaCloud',
+			inbox: 'S/Paid_Support',
 			status: 'open'
 		}
 	})
@@ -168,7 +218,8 @@ ava.serial(
 			name: 'test subject',
 			markers: [ `${externalSupportUser.slug}+org-other` ],
 			data: {
-				product: 'test-product',
+				product: 'balenaCloud',
+				inbox: 'S/Paid_Support',
 				status: 'open'
 			}
 		}))
@@ -181,7 +232,8 @@ ava.serial(
 			name: 'test subject',
 			markers: [],
 			data: {
-				product: 'test-product',
+				product: 'balenaCloud',
+				inbox: 'S/Paid_Support',
 				status: 'open'
 			}
 		}))
