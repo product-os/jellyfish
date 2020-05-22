@@ -464,6 +464,7 @@ class SupportThreadBase extends React.Component {
 												key={statusEvent.id}
 												card={statusEvent}
 												user={this.props.user}
+												userGroups={this.props.userGroups}
 												selectCard={selectors.getCard}
 												getCard={this.props.actions.getCard}
 												addNotification={this.props.actions.addNotification}
@@ -518,7 +519,8 @@ const mapStateToProps = (state) => {
 	return {
 		accounts: selectors.getAccounts(state),
 		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		userGroups: selectors.getUserGroups(state)
 	}
 }
 

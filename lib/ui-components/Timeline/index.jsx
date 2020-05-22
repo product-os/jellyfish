@@ -579,6 +579,7 @@ class Timeline extends React.Component {
 									onCardVisible={this.handleCardVisible}
 									card={card}
 									user={this.props.user}
+									userGroups={this.props.userGroups}
 									selectCard={selectCard}
 									getCard={getCard}
 									addNotification={this.props.addNotification}
@@ -594,6 +595,7 @@ class Timeline extends React.Component {
 							<Box key={item.slug}>
 								<Event
 									user={this.props.user}
+									userGroups={this.props.userGroups}
 									card={item}
 									selectCard={selectCard}
 									getCard={getCard}

@@ -93,6 +93,7 @@ export const ChatRoute = () => {
 								tail={messages}
 								usersTyping={usersTyping}
 								user={currentUser}
+								userGroups={[]}
 								getActor={actions.getActor}
 								addNotification={actions.addNotification}
 								signalTyping={_.noop}

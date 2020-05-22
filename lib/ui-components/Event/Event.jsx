@@ -86,7 +86,9 @@ const getAttachments = (card) => {
 	return attachments
 }
 
-const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
+const prefixOptions = '@{1,2}|#|!{1,2}'
+const prefixRE = new RegExp(`^(${prefixOptions})`)
+const tagMatchRE = helpers.createPrefixRegExp(prefixOptions)
 const EventButton = styled.button `
 	cursor: pointer;
 	border: 0;
@@ -182,6 +184,14 @@ const EventWrapper = styled(Flex) `
     right: -4px;
     font-size: 10px;
 	}
+
+	.rendition-tag--read-by:after {
+		content: attr(data-read-by-count);
+		position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+	}
 `
 
 const MessageContainer = styled(Box) `
@@ -199,11 +209,16 @@ const MessageContainer = styled(Box) `
 		background: #FFF1C2;
 		color: #333;
 
-		&.rendition-tag--read:after {
+		&.rendition-tag--read:after,
+		&.rendition-tag--read-by:after {
 			background: #FFC19B;
-			border-radius: 5px;
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			line-height: 1.5em;
+			vertical-align: middle;
+			text-align: center;
 			font-size: 8px;
-			padding: 2px;
 		}
 	}
 
@@ -363,6 +378,7 @@ export default class Event extends React.Component {
 		const readBy = this.props.card.data.readBy || []
 		const userSlug = this.props.user.slug
 		const username = userSlug.slice(5)
+		const userGroups = this.props.userGroups
 
 		instance.markRegExp(tagMatchRE, {
 			element: 'span',
@@ -374,13 +390,21 @@ export default class Event extends React.Component {
 					return
 				}
 
-				const trimmed = text.slice(1).toLowerCase()
+				const trimmed = text.replace(prefixRE, '').toLowerCase()
 
-				if (trimmed === username) {
+				if (userGroups.mine.groups[trimmed]) {
+					element.className += ' rendition-tag--personal'
+				} else if (trimmed === username) {
 					element.className += ' rendition-tag--personal'
 				}
 				if (!readBy.length) {
 					return
+				}
+
+				if (userGroups.all.groups[trimmed]) {
+					const readByCount = _.intersection(readBy, userGroups.all.groups[trimmed].data.users).length
+					element.setAttribute('data-read-by-count', readByCount)
+					element.className += ' rendition-tag--read-by'
 				}
 				if (_.includes(readBy, `user-${trimmed}`)) {
 					element.className += ' rendition-tag--read'

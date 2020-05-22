@@ -33,6 +33,7 @@ const mapStateToProps = (state, ownProps) => {
 		sdk,
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
+		userGroups: selectors.getUserGroups(state),
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
 		timelineMessage: selectors.getTimelineMessage(state, card.id)
 	}

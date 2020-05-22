@@ -137,6 +137,7 @@ class MessageList extends React.Component {
 							<Box key={card.id}>
 								<Event
 									user={this.props.user}
+									userGroups={this.props.userGroups}
 									openChannel={this.openChannel}
 									card={card}
 									selectCard={selectors.getCard}
@@ -169,7 +170,8 @@ class MessageList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		userGroups: selectors.getUserGroups(state)
 	}
 }
 
