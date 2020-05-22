@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix bug in integration html parsing and corresponding test cases
+      hash: 7df538bbf5cb86ff9126017ddb2176d4c6f06020
+      body: |
+        This change fixes broken front translate tests
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.27.8
+  date: 2020-05-22T20:50:05.161Z
+- commits:
     - subject: Fix flakey front translate tests
       hash: 4deccc0e214d784e67523cfdeb65898763741ebc
       body: ''
