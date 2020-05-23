@@ -1,4 +1,16 @@
 - commits:
+    - subject: Defer asking to allow notifications until after login
+      hash: ee7759b09da20affa8b2ddfd268ba8e19fd2cac0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.30.0
+  date: 2020-05-23T06:10:09.729Z
+- commits:
     - subject: Add support for querying `$$links` within `$$links`
       hash: a8a8a0770dd11385bb015b7844042ab73e2f0e9c
       body: ''
