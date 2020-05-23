@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add support for querying `$$links` within `$$links`
+      hash: a8a8a0770dd11385bb015b7844042ab73e2f0e9c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.29.0
+  date: 2020-05-23T00:52:59.794Z
+- commits:
     - subject: Make `SqlFilter.materialConditional` an instance method `implies`
       hash: 3c509fd513e2eb7e1bc7388b7b6b8384f27feeb1
       body: |
