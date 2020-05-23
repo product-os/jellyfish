@@ -1,4 +1,17 @@
 - commits:
+    - subject: Make `SqlFilter.materialConditional` an instance method `implies`
+      hash: 3c509fd513e2eb7e1bc7388b7b6b8384f27feeb1
+      body: |
+        Is an optimization to reduce copies and makes code clearer
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.28.1
+  date: 2020-05-22T23:55:14.160Z
+- commits:
     - subject: 'Livechat: Validate inbox parameter'
       hash: d4139b418ad45e6afa9a383b83c5232261695c8e
       body: ''
