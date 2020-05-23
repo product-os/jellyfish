@@ -16,7 +16,8 @@ run_test "Core Integration Tests" test-integration-core
 run_test "Queue Integration Tests" test-integration-queue
 
 # Run worker integration tests.
-run_test "Worker Integration Tests" test-integration-worker
+run_test "Worker Integration Tests" test-integration-worker \
+	INTEGRATION_GOOGLE_MEET_CREDENTIALS="{}"
 
 # Run server integration tests.
 run_test "Server Integration Tests" test-integration-server \
