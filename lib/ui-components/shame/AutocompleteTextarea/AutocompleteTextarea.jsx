@@ -34,8 +34,12 @@ const QuickSearchPanel = styled(Card) `
 	overflow: auto;
 `
 
+const LoaderSpan = styled.span `
+	background-color: ${(props) => { return props.theme.colors.background }};
+`
+
 const Loader = () => {
-	return <span>Loading</span>
+	return <LoaderSpan>Loading</LoaderSpan>
 }
 
 const SubAuto = (props) => {
