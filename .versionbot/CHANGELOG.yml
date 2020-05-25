@@ -1,4 +1,31 @@
 - commits:
+    - subject: Fix jsdoc typo
+      hash: d758cbb09c6da9942f9869cfe048e234bbf34135
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump eslint-plugin-jsdoc from 3.15.1 to 25.4.2'
+      hash: 71c3d268d1769ee6518926859a1817faaf9feeff
+      body: >
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        3.15.1 to 25.4.2.
+
+        - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
+
+        -
+        [Commits](https://github.com/gajus/eslint-plugin-jsdoc/compare/v3.15.1...v25.4.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.32.1
+  date: 2020-05-25T03:17:34.185Z
+- commits:
     - subject: Flip thread-start icon so it comes from the user's avatar
       hash: aebafd4368fc0ec25605075acd7f1d0497011d7e
       body: |
