@@ -254,14 +254,13 @@ const MessageIcon = ({
 	firstInThread,
 	threadColor
 }) => {
-	const transform = firstInThread ? null : 'scale(1, -1)'
 	return (
 		<Icon
 			style={{
 				marginLeft: 6,
 				marginTop: 16,
 				fontSize: '18px',
-				transform,
+				transform: 'scale(1, -1)',
 				color: threadColor
 			}}
 			name= {firstInThread ? 'comment-alt' : 'share'}

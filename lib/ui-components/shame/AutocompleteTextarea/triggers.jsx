@@ -37,7 +37,10 @@ const getUsers = async (user, sdk, value) => {
 				const: 'user@1.0.0'
 			},
 			slug: {
-				pattern: `^user-${value}`
+				regexp: {
+					pattern: `^user-${value}`,
+					flags: 'i'
+				}
 			}
 		},
 		required: [ 'type', 'slug' ],
