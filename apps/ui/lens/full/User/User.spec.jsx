@@ -23,7 +23,13 @@ const {
 	wrapper
 } = getWrapper({
 	core: {
-		types: []
+		types: [
+			{
+				slug: 'user',
+				type: 'type@1.0.0',
+				version: '1.0.0'
+			}
+		]
 	}
 })
 
