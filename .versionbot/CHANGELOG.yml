@@ -1,4 +1,18 @@
 - commits:
+    - subject: Auto-emojify messages
+      hash: d3d0202a549d344bf17bcb6884bd30421bba4b96
+      body: >
+        Typing :+1: will now result in the message being sent with a thumbs-up
+        emoji rather than the plain text :+1:.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.33.0
+  date: 2020-05-25T09:34:30.088Z
+- commits:
     - subject: Fix jsdoc typo
       hash: d758cbb09c6da9942f9869cfe048e234bbf34135
       body: ''
