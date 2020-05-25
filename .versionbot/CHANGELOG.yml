@@ -1,4 +1,47 @@
 - commits:
+    - subject: Add Google Meet credentials to test script
+      hash: e0a53d8c39452402a2adfc5864e08ff439c59a36
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add Google Meet credentials to deploy templates
+      hash: a5db4b9878a071eae5a2ab7dbaad19a7a6e9af34
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Store Google Meet JWT as stringified JSON in an environment variable
+      hash: 28d8093c1a863ae40162c631b954e8fb0a582aa8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add a Google Meet button to the Card Actions
+      hash: 3d44852893394ebc276dec7cb1f7641f8630560e
+      body: >
+        The standard card actions component now includes a video link that will
+        open a Google Meet specific for that card in a new tab/window. If no
+        link exists, one will be created, saved to the card's data and then the
+        link opened.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.31.0
+  date: 2020-05-25T01:15:14.201Z
+- commits:
     - subject: Defer asking to allow notifications until after login
       hash: ee7759b09da20affa8b2ddfd268ba8e19fd2cac0
       body: ''
