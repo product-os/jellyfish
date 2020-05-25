@@ -69,18 +69,13 @@ module.exports = class NoOpIntegration {
    * @public
 	 *
 	 * @param {Object} event - external event card
-	 * @param {Object} options - options
 	 * @returns {Array} card sequence
    *
    * @example
 	 * const integration = new NoOpIntegration()
 	 * await integration.initialize()
 	 *
-	 * const sequence = await integration.translate({ ... }, {
-	 *   context: { ... },
-	 *   session: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-	 *   actor: 'b76a4589-cac6-4293-b448-0440b5c66498'
-	 * })
+	 * const sequence = await integration.translate({ ... })
    */
 	// eslint-disable-next-line class-methods-use-this
 	async translate (event) {
