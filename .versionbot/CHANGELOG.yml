@@ -1,4 +1,36 @@
 - commits:
+    - subject: Flip thread-start icon so it comes from the user's avatar
+      hash: aebafd4368fc0ec25605075acd7f1d0497011d7e
+      body: |
+        This just looks a bit more logical
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Ensure auto-complete loading placeholder has solid background
+      hash: 11478d31b27a56d40b971fded73d68d260f5b980
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Make auto-complete user lookup in messages case-insensitive
+      hash: 63ed6d59b1379e13116a9bb23e0f87d1fb9db518
+      body: |
+        For example, searching for '@Jelly' will return '@jellyfish'.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.32.0
+  date: 2020-05-25T02:06:15.524Z
+- commits:
     - subject: Add Google Meet credentials to test script
       hash: e0a53d8c39452402a2adfc5864e08ff439c59a36
       body: ''
