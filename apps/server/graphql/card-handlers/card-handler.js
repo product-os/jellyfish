@@ -69,6 +69,7 @@ module.exports = class CardHandler extends TypeObjectHandler {
 
 	process (childResults) {
 		const name = this.generateTypeName()
+		const typeValue = `${this.chunk.slug}@${this.chunk.version}`
 
 		const type = new graphql.GraphQLObjectType({
 			name,
@@ -77,10 +78,13 @@ module.exports = class CardHandler extends TypeObjectHandler {
 				let fields = this.buildFields(childResults)
 
 				fields = this.fieldTypesToFields(fields)
-				fields = applyOverridesToFields(fields)
+				fields = applyOverridesToFields(fields, this.context)
 				fields = this.markRequiredFieldsAsNonNull(fields)
 				fields = this.cameliseKeys(fields)
 				return fields
+			},
+			isTypeOf (value) {
+				return value.type === typeValue
 			}
 		})
 

@@ -66,11 +66,7 @@ module.exports = class AnyOfHandler extends BaseHandler {
 
 		return new graphql.GraphQLUnionType({
 			name,
-			types: resultsWithoutNullOptions,
-			resolveType (value) {
-				// FIXME: this needs to figure out how to resolve the types at runtime.
-				return resultsWithoutNullOptions[0]
-			}
+			types: resultsWithoutNullOptions
 		})
 	}
 

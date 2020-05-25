@@ -63,7 +63,7 @@ module.exports = class CardInterfaceHandler extends TypeObjectHandler {
 			fields: () => {
 				let fields = this.buildFields(childResults)
 				fields = this.fieldTypesToFields(fields)
-				fields = applyOverridesToFields(fields)
+				fields = applyOverridesToFields(fields, this.context)
 				fields = this.markRequiredFieldsAsNonNull(fields)
 				fields = this.cameliseKeys(fields)
 				return fields

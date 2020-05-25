@@ -10,6 +10,10 @@ module.exports = class Expression {
 		return false
 	}
 
+	isFilter () {
+		return false
+	}
+
 	toQuery () {
 		throw new Error('Expressions must implement toQuery')
 	}

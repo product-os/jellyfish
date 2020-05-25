@@ -14,13 +14,13 @@ const graphql = require('graphql')
 const OVERRIDES = {
 	capabilities () {
 		return {
-			type: this.context.getType('JsonValue')
+			type: this.getType('JsonValue')
 		}
 	},
 
 	generic_data () {
 		return {
-			type: this.context.getType('JsonValue'),
+			type: this.getType('JsonValue'),
 			resolve: (source) => { return source.data }
 		}
 	},
@@ -33,48 +33,64 @@ const OVERRIDES = {
 
 	linked_at () {
 		return {
-			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('LinkedAt')))
+			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.getType('LinkedAt'))),
+			resolve: (source) => {
+				if (source.linked_at) {
+					return Object
+						.entries(source.linked_at)
+						.map(([ name, at ]) => {
+							return {
+								name, at
+							}
+						})
+				}
+				return []
+			}
 		}
 	},
 
 	links () {
 		return {
-			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.context.getType('Link')))
+			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.getType('Link'))),
+			resolve: (source) => {
+				console.dir([ 'links, source was', source ])
+				return []
+			}
 		}
 	},
 
 	requires () {
 		return {
-			type: this.context.getType('JsonValue')
+			type: this.getType('JsonValue')
 		}
 	},
 
 	slug () {
 		return {
-			type: graphql.GraphQLNonNull(this.context.getType('Slug'))
+			type: graphql.GraphQLNonNull(this.getType('Slug'))
 		}
 	},
 
 	type () {
 		return {
-			type: graphql.GraphQLNonNull(this.context.getType('CardType'))
+			type: graphql.GraphQLNonNull(this.getType('CardType'))
 		}
 	},
 
 	version () {
 		return {
-			type: graphql.GraphQLNonNull(this.context.getType('SemanticVersion'))
+			type: graphql.GraphQLNonNull(this.getType('SemanticVersion'))
 		}
 	}
 }
 
 // Used by `CardHandler` and `CardInterfaceHandler` to override the generated
 // fields.
-const applyOverridesToFields = (fields) => {
+const applyOverridesToFields = (fields, context) => {
 	return Object
 		.keys(OVERRIDES)
 		.reduce((result, key) => {
-			result[key] = Reflect.apply(OVERRIDES[key], this, [])
+			result[key] = Reflect.apply(OVERRIDES[key], context, [])
 			return result
 		}, fields)
 }

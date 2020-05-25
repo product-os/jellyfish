@@ -8,11 +8,15 @@ const FieldExpression = require('./field-expression')
 const FromExpression = require('./from-expression')
 const FunctionExpression = require('./function-expression')
 const SelectExpression = require('./select-expression')
+const InfixExpression = require('./infix-expression')
+const FilterExpression = require('./filter-expression')
 
 // Query Builder
 //
-// The query builder uses a stack-based approach to building queries.
-// It is very simple and does no query validation.
+// The query builder uses a stack-based approach to building queries.  It is
+// very simple and does no query validation.  It is not consumed directly, but
+// via the `CardQueryBuilder` which closes the abstraction distance between SQL
+// and Cards.
 //
 // Example:
 //
@@ -45,7 +49,7 @@ module.exports = class QueryBuilder {
 	}
 
 	// Push a constant value onto the stack.
-	const (value) {
+	constant (value) {
 		this.expressions.push(new ConstantExpression(value))
 		return this
 	}
@@ -98,6 +102,28 @@ module.exports = class QueryBuilder {
 		return this
 	}
 
+	eq () {
+		const rhs = this.expressions.pop()
+		const lhs = this.expressions.pop()
+		this.expressions.push(new InfixExpression('=', lhs, rhs))
+	}
+
+	and () {
+		const rhs = this.expressions.pop()
+		const lhs = this.expressions.pop()
+		this.expressions.push(new InfixExpression('AND', lhs, rhs))
+	}
+
+	or () {
+		const rhs = this.expressions.pop()
+		const lhs = this.expressions.pop()
+		this.expressions.push(new InfixExpression('OR', lhs, rhs))
+	}
+
+	where () {
+		this.expressions.push(new FilterExpression(this.expressions.pop()))
+	}
+
 	// Convert the top expression on the stack into a SQL query.
 	toQuery () {
 		this._assertAtLeast(1)
@@ -107,7 +133,7 @@ module.exports = class QueryBuilder {
 
 	_assertAtLeast (number) {
 		if (this.expressions.length < number) {
-			throw new Error(`Expected expression stack to contain at least ${number}values.`)
+			throw new Error(`Expected expression stack to contain at least ${number} values.`)
 		}
 	}
 }

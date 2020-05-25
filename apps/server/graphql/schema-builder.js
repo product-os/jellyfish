@@ -5,6 +5,7 @@
  */
 
 const CardVisitor = require('./card-visitor')
+const DynamicResolvers = require('./dynamic-resolvers')
 const graphql = require('graphql')
 const handlers = require('./card-handlers')
 const HardCodedTypes = require('./types')
@@ -105,7 +106,7 @@ module.exports = async (context, {
 						type: graphql.GraphQLNonNull(graphql.GraphQLID)
 					}
 				},
-				resolve: Resolvers.Node
+				resolve: DynamicResolvers.Node
 			},
 			card: {
 				type: schemaGenerationContext.getType('Card'),
@@ -117,7 +118,7 @@ module.exports = async (context, {
 						type: schemaGenerationContext.getType('Slug')
 					}
 				},
-				resolve: Resolvers.Card
+				resolve: DynamicResolvers.Card
 			},
 			cards: {
 				type: new graphql.GraphQLList(graphql.GraphQLNonNull(schemaGenerationContext.getType('Card'))),
@@ -126,7 +127,7 @@ module.exports = async (context, {
 						type: graphql.GraphQLString
 					}
 				},
-				resolve: Resolvers.Cards
+				resolve: DynamicResolvers.Cards
 			},
 			reachabilityHack: {
 				type: reachabilityHack

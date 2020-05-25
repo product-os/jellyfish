@@ -18,7 +18,7 @@ module.exports = class SelectExpression extends Expression {
 	}
 
 	toQuery () {
-		const fields = this
+		const selectables = this
 			.expressions
 			.filter((expr) => { return expr.isSelectable() })
 			.map((expr) => { return expr.toQuery() })
@@ -30,14 +30,23 @@ module.exports = class SelectExpression extends Expression {
 			.map((expr) => { return expr.toQuery() })
 			.join(', ')
 
-		if (fields.length === 0) {
-			throw new Error('Select query contains no fields')
+		const filters = this
+			.expressions
+			.filter((expr) => { return expr.isFilter() })
+			.map((expr) => { return expr.toQuery() })
+			.join(' AND ')
+
+		if (selectables.length === 0) {
+			throw new Error('Select query contains no selectables')
 		}
 
-		if (froms.length === 0) {
-			return format('SELECT %s', fields)
+		let result = format('SELECT %s', selectables)
+		if (froms.length > 0) {
+			result = format('%s FROM %s', result, froms)
 		}
-
-		return format('SELECT %s FROM %s', fields, froms)
+		if (filters.length > 0) {
+			result = format('%s WHERE %s', result, filters)
+		}
+		return result
 	}
 }
