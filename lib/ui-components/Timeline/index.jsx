@@ -364,7 +364,7 @@ class Timeline extends React.Component {
 			payload: {
 				mentionsUser: mentions,
 				alertsUser: alerts,
-				message: newMessage.replace(messageSymbolRE, '')
+				message: helpers.replaceEmoji(newMessage.replace(messageSymbolRE, ''))
 			}
 		}
 
