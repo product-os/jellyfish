@@ -107,7 +107,7 @@
     "request": "^2.88.0",
     "scripts-template": "file:scripts/template",
     "sinon": "^8.1.1",
-    "style-loader": "^1.0.0",
+    "style-loader": "^1.2.1",
     "webpack": "^4.42.1",
     "webpack-bundle-analyzer": "^3.6.0",
     "webpack-cli": "^3.3.11",
