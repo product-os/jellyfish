@@ -9,7 +9,7 @@ import React from 'react'
 import {
 	getLocalSchema
 } from '../services/helpers'
-import CardField from '../CardField'
+import CardField from './CardField'
 
 export default function CardFields (props) {
 	const {

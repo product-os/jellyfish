@@ -1,0 +1,70 @@
+{
+  "id": "1a456dc4-f063-4fab-8d21-2ae0ba73f91c",
+  "slug": "support-thread-149ad596-6bd0-42a7-bb38-c2fe1498b47f",
+  "type": "support-thread@1.0.0",
+  "active": true,
+  "version": "1.0.0",
+  "name": null,
+  "tags": [],
+  "markers": [],
+  "created_at": "2020-05-26T05:15:54.030Z",
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "inbox": "S/Paid_Support",
+    "status": "open",
+    "mirrors": [
+      "https://frontapp.com/id1",
+      "https://frontapp.com/id2",
+      "https://frontapp.com/id3"
+    ],
+    "category": "devices",
+    "object_1": {
+      "nested_object": {
+        "nested_primative_key_3": "world"
+      },
+      "nested_string_array": [
+        "string-item-1",
+        "string-item-2",
+        "string-item-3"
+      ],
+      "nested_primative_key_1": "hello",
+      "nested_primative_key_2": 12
+    },
+    "some_email": "test@balena.io",
+    "participants": [
+      "4972802e-ae01-4939-8375-c25e231d4d10"
+    ],
+    "string_array": [
+      "string-item-1",
+      "string-item-2",
+      "string-item-3"
+    ],
+    "primative_key1": 34,
+    "primative_string": "Hello",
+    "array_of_objects": [
+      {
+        "nested_string_array": [
+          "string-item-1",
+          "string-item-2",
+          "string-item-3"
+        ],
+        "nested_primative_key_4": "I am nested"
+      },
+      {
+        "nested_string_array": [
+          "string-item-4",
+          "string-item-5",
+          "string-item-6"
+        ],
+        "nested_primative_key_4": "I am also nested"
+      }
+    ],
+    "markdown_with_image": "Some image: ![](https://via.placeholder.com/150)",
+    "markdown_with_html_image": "Some image: <img src=\"https://via.placeholder.com/150\" alt=\"some-image.png\">"
+  },
+  "updated_at": "2020-05-26T05:15:54.295Z",
+  "linked_at": {
+    "has attached element": "2020-05-26T05:15:54.330Z"
+  }
+}

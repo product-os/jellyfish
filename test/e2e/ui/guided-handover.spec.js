@@ -70,8 +70,8 @@ const getWhisperText = async (page) => {
 }
 
 const verifyThreadStatus = async (test, page, expectedStatus) => {
-	const statusDescription = await macros.getElementText(page, '[data-test="card-field--statusdescription"]')
-	test.is(statusDescription, expectedStatus)
+	const statusDescription = await macros.getElementText(page, '[data-test="card-field__value--statusdescription"]')
+	test.is(statusDescription.trim(), expectedStatus)
 }
 
 ava.serial.before(async () => {
