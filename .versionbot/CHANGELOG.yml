@@ -1,4 +1,26 @@
 - commits:
+    - subject: Paginate correctly over team communications messages
+      hash: aaf7da800dc6c009549be80f3b7fa2ec29f25469
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Use nested links to query for team communications
+      hash: 747534640b44d01f30c6a0597ab8ceafe6c609ce
+      body: |
+        Fixes #3866
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.33.4
+  date: 2020-05-26T14:19:14.482Z
+- commits:
     - subject: Set blank Redis password for Compose services
       hash: 96d013fd7df6ec270c593781e9da5c285b858b5d
       body: ''
