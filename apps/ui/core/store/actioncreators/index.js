@@ -778,6 +778,7 @@ export default class ActionCreator {
 
 							// Create a desktop notification if an unread message ping appears
 							if (
+								update.type === 'insert' &&
 								(baseType === 'message' || baseType === 'whisper') &&
 								_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug) &&
 								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
