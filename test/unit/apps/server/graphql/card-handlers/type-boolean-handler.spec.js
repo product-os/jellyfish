@@ -17,7 +17,7 @@ const schema = {
 ava('`canHandle` matches boolean JSON schemas', (test) => {
 	const handler = new TypeBooleanHandler(schema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

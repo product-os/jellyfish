@@ -39,8 +39,8 @@ ava('`visit` finds the appropriate handler for a card', (test) => {
 
 	cardVisitor.visit()
 
-	test.truthy(handlerASpy.neverCalledWith())
-	test.truthy(handlerBSpy.calledOnceWith())
+	test.true(handlerASpy.neverCalledWith())
+	test.true(handlerBSpy.calledOnceWith())
 
 	handlerASpy.restore()
 	handlerBSpy.restore()
@@ -56,8 +56,8 @@ ava('`visit` descends into a handler\'s children', (test) => {
 
 	cardVisitor.visit()
 
-	test.truthy(handlerASpy.calledOnceWith())
-	test.truthy(handlerBSpy.calledBefore(handlerASpy))
+	test.true(handlerASpy.calledOnceWith())
+	test.true(handlerBSpy.calledBefore(handlerASpy))
 
 	handlerASpy.restore()
 	handlerBSpy.restore()
@@ -73,8 +73,8 @@ ava('`visit` passes a child handler\'s result into it\'s parent for processing',
 
 	cardVisitor.visit()
 
-	test.truthy(handlerASpy.calledOnceWithExactly([ 'handlerB' ]))
-	test.truthy(handlerBSpy.calledOnceWith())
+	test.true(handlerASpy.calledOnceWithExactly([ 'handlerB' ]))
+	test.true(handlerBSpy.calledOnceWith())
 
 	handlerASpy.restore()
 	handlerBSpy.restore()

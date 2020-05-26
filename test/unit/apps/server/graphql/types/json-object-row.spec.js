@@ -15,7 +15,7 @@ const JsonObjectRow = fakeContext().getType('JsonObjectRow')
 sharedObjectSpecs(JsonObjectRow, 'JsonObjectRow', [ 'asJson', 'key', 'value' ])
 
 ava('the `asJson` field is non-null', (test) => {
-	test.truthy(graphql.isNonNullType(JsonObjectRow.getFields().asJson.type))
+	test.true(graphql.isNonNullType(JsonObjectRow.getFields().asJson.type))
 })
 
 ava('the `asJson` field inner type is `JSON`', (test) => {
@@ -23,7 +23,7 @@ ava('the `asJson` field inner type is `JSON`', (test) => {
 })
 
 ava('the `key` field is non null', (test) => {
-	test.truthy(graphql.isNonNullType(JsonObjectRow.getFields().key.type))
+	test.true(graphql.isNonNullType(JsonObjectRow.getFields().key.type))
 })
 
 ava('the `key` field inner type is `String`', (test) => {
@@ -31,7 +31,7 @@ ava('the `key` field inner type is `String`', (test) => {
 })
 
 ava('the `value` field is non null', (test) => {
-	test.truthy(graphql.isNonNullType(JsonObjectRow.getFields().value.type))
+	test.true(graphql.isNonNullType(JsonObjectRow.getFields().value.type))
 })
 
 ava('the `value` field inner type is `JsonValue`', (test) => {

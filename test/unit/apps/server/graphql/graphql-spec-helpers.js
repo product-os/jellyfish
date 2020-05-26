@@ -52,6 +52,14 @@ const assertTypeNamed = (type, expectedTypeName) => {
 	})
 }
 
+const assertInnerTypeNamed = (type, expectedTypeName) => {
+	const realType = handleTypeGenerator(type)
+	const innerType = graphql.getNamedType(realType)
+	ava(testDescription(type, `is named \`${expectedTypeName}\``), (test) => {
+		test.is(innerType.name, expectedTypeName)
+	})
+}
+
 const assertFieldNamesAreCamelCase = (type) => {
 	const fields = handleTypeGenerator(type).getFields()
 
@@ -184,6 +192,7 @@ module.exports = {
 	assertTypeIsList,
 	assertTypeIsScalar,
 	assertTypeNamed,
+	assertInnerTypeNamed,
 	fakeContext,
 	sharedObjectSpecs
 }

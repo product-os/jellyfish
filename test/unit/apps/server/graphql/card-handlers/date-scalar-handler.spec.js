@@ -18,7 +18,7 @@ const schema = {
 ava('`canHandle` matches date-time formatted string JSON schemas', (test) => {
 	const handler = new DateScalarHandler(schema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

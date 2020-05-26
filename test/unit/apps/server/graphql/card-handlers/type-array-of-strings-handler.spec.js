@@ -17,7 +17,7 @@ const typeArrayOfStringsSchema = {
 ava('`canHandle` matches schemas where `type` is an array', (test) => {
 	const handler = new TypeArrayOfStringsHandler(typeArrayOfStringsSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`children` returns the type values translated into an `anyOf`', (test) => {

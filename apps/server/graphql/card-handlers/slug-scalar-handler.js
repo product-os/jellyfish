@@ -7,9 +7,12 @@
 const BaseHandler = require('./base-handler')
 const skhema = require('skhema')
 
-// Match fields which appear to define a slug type and replace it with the
-// `Slug` scalar.
-
+// Match fields which appear to define a semantic version field and replace them
+// with the `Slug` scalar type.
+//
+// This handler applies in two scenarios:
+//   1. The string `"slug"` is at the top of the name stack, or
+//   2. The schema has a pattern which looks like a slug pattern.
 module.exports = class SlugScalarHandler extends BaseHandler {
 	canHandle () {
 		return this.fieldNameIsSlug() || this.schemaLooksLikeASlug()

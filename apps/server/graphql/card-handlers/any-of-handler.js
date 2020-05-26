@@ -26,10 +26,7 @@ module.exports = class AnyOfHandler extends BaseHandler {
 			type: 'object',
 			properties: {
 				anyOf: {
-					type: 'array',
-					items: {
-						type: 'object'
-					}
+					type: 'array'
 				}
 			},
 			required: [ 'anyOf' ]
@@ -55,7 +52,7 @@ module.exports = class AnyOfHandler extends BaseHandler {
 			return resultsWithoutNullOptions[0]
 		}
 
-		if (resultsWithoutNullOptions.find(graphql.isScalarType)) {
+		if (!resultsWithoutNullOptions.every(graphql.isObjectType)) {
 			// GraphQL doesn't allow Union's to cover both object and non-object
 			// types, so  we have no recourse but to say that the field is just
 			// "something JSONish".

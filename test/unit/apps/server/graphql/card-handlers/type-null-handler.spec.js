@@ -17,7 +17,7 @@ const schema = {
 ava('`canHandle` matches null JSON schemas', (test) => {
 	const handler = new TypeNullHandler(schema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`process` returns `null`', (test) => {

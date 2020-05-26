@@ -13,7 +13,7 @@ ava('it has the correct name', (test) => {
 })
 
 ava('it is a GraphQL interface', (test) => {
-	test.truthy(graphql.isInterfaceType(Node))
+	test.true(graphql.isInterfaceType(Node))
 })
 
 ava('contains only the `id` field', (test) => {
@@ -21,7 +21,7 @@ ava('contains only the `id` field', (test) => {
 })
 
 ava('the `id` field is non null', (test) => {
-	test.truthy(graphql.isNonNullType(Node.getFields().id.type))
+	test.true(graphql.isNonNullType(Node.getFields().id.type))
 })
 
 ava('if `id` field inner type is `ID`', (test) => {

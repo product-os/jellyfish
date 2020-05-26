@@ -25,19 +25,19 @@ ava('`canHandle` matches when the last value on the nameStack is `slug`', (test)
 	context.pushName('slug')
 	const handler = new SlugScalarHandler({}, 0, context)
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches string schemas with the common slug pattern', (test) => {
 	const handler = new SlugScalarHandler(slugSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches string schemas with a dynamic slug pattern', (test) => {
 	const handler = new SlugScalarHandler(altSlugSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

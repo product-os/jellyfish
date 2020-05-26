@@ -19,87 +19,21 @@ const skhema = require('skhema')
 // 2. An array of strings with email format.
 // 3. An `anyOf` consisting of the two previous options.
 //
-// For this reason we have a rather extensive matching schema which we use in
-// conjuction with the higher `weight` to ensure that all of these are correctly
-// detected and hard-coded to our own `Email` GraphQL scalar type.
-
-const emailFormatSchema = {
-	type: 'object',
-	properties: {
-		type: {
-			const: 'string'
-		},
-		format: {
-			const: 'email'
-		}
-	},
-	required: [ 'type', 'format' ]
-}
-
-const arrayOfEmailFormatSchema = {
-	type: 'object',
-	properties: {
-		type: {
-			const: 'array'
-		},
-		items: emailFormatSchema
-	},
-	required: [ 'type', 'items' ]
-}
-
-const arrayOrStringFormatSchema = {
-	type: 'object',
-	properties: {
-		type: {
-			type: 'array',
-			anyOf: [
-				{
-					items: [
-						{
-							const: 'string'
-						},
-						{
-							const: 'array'
-						}
-					]
-				},
-				{
-					items: [
-						{
-							const: 'array'
-						},
-						{
-							const: 'string'
-						}
-					]
-				}
-			]
-		},
-		format: {
-			const: 'email'
-		}
-	},
-	required: [ 'type', 'format' ]
-}
-
-const anyOfEmailTypeSchema = {
-	type: 'object',
-	properties: {
-		anyOf: {
-			type: 'array',
-			items: {
-				anyOf: [ emailFormatSchema, arrayOfEmailFormatSchema ]
-			}
-		}
-	},
-	required: [ 'anyOf' ]
-}
-
+// This handler only accepts strings with an email format, see also
+// `ArrayOfEmailsHandler`.
 module.exports = class EmailScalarHandler extends BaseHandler {
 	canHandle () {
 		return skhema.isValid({
 			type: 'object',
-			anyOf: [ arrayOfEmailFormatSchema, emailFormatSchema, anyOfEmailTypeSchema, arrayOrStringFormatSchema ]
+			properties: {
+				type: {
+					const: 'string'
+				},
+				format: {
+					const: 'email'
+				}
+			},
+			required: [ 'type', 'format' ]
 		}, this.chunk)
 	}
 
@@ -108,7 +42,6 @@ module.exports = class EmailScalarHandler extends BaseHandler {
 	}
 
 	process (_childResults) {
-		this.logger.info('Found email schema', this.chunk)
 		return this.context.getType('Email')
 	}
 }

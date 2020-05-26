@@ -22,13 +22,13 @@ const emptyObjectPropertiesSchema = {
 ava('`canHandle` matches an empty object schema', (test) => {
 	const handler = new EmptyTypeObjectHandler(emptyObjectSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches an object schema with empty properties', (test) => {
 	const handler = new EmptyTypeObjectHandler(emptyObjectPropertiesSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`process` returns a `JsonValue` type', (test) => {

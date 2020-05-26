@@ -18,7 +18,7 @@ const markdownFormatSchema = {
 ava('`canHandle` matches markdown formatted string JSON schemas', (test) => {
 	const handler = new MarkdownScalarHandler(markdownFormatSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

@@ -25,7 +25,7 @@ const oneOfSchema = {
 ava('`canHandle` matches `oneOf` JSON schemas', (test) => {
 	const handler = new OneOfHandler(oneOfSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`children` returns the `oneOf` branches', (test) => {
@@ -37,5 +37,5 @@ ava('`children` returns the `oneOf` branches', (test) => {
 ava('descends from `anyOfHandler`', (test) => {
 	const handler = new OneOfHandler(oneOfSchema, 0, fakeContext())
 
-	test.truthy(handler instanceof AnyOfHandler)
+	test.true(handler instanceof AnyOfHandler)
 })

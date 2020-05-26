@@ -23,13 +23,13 @@ const altSemverSchema = {
 ava('`canHandle` matches string schemas with the common semver pattern', (test) => {
 	const handler = new SemverScalarHandler(semverSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches string schemas with the less common semver pattern', (test) => {
 	const handler = new SemverScalarHandler(altSemverSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

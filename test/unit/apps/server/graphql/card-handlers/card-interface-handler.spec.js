@@ -43,13 +43,13 @@ const childResults = [
 ava('`canHandle` matches the card card', (test) => {
 	const handler = new CardInterfaceHandler(CardCard, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`weight` is higher than the card handler\'s', (test) => {
 	const cardInterfaceHandler = new CardInterfaceHandler(CardCard, 0, {})
 	const cardHandler = new CardHandler(CardCard, 0, {})
-	test.truthy(cardInterfaceHandler.weight() > cardHandler.weight())
+	test.true(cardInterfaceHandler.weight() > cardHandler.weight())
 })
 
 ava('`generateTypeName` is `Card`', (test) => {
@@ -70,7 +70,7 @@ ava('`children` returns the schema of each property minus overriden fields and `
 ava('`process` generates a new GraphQL interface type named `Card`', (test) => {
 	const handler = new CardInterfaceHandler(CardCard, 0, fakeContext())
 	const result = handler.process([])
-	test.truthy(graphql.isInterfaceType(result))
+	test.true(graphql.isInterfaceType(result))
 	test.is(result.name, 'Card')
 })
 
@@ -125,6 +125,6 @@ ava('`process` marks required fields as non nullable', (test) => {
 	const fields = result.getFields()
 
 	for (const field of _.without(CardCard.data.schema.required, 'data')) {
-		test.truthy(graphql.isNonNullType(fields[camelCase(field)].type), `expected field ${camelCase(field)} to be non-null`)
+		test.true(graphql.isNonNullType(fields[camelCase(field)].type), `expected field ${camelCase(field)} to be non-null`)
 	}
 })

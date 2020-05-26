@@ -17,7 +17,7 @@ const numberSchema = {
 ava('`canHandle` matches number JSON schemas', (test) => {
 	const handler = new NumberScalarHandler(numberSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

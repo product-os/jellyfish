@@ -8,27 +8,22 @@ const graphql = require('graphql')
 
 const REGEX = /^.+@.+$/
 
-const serialize = (value) => {
-	if (Array.isArray(value)) {
-		return serialize(value[0])
-	}
-	if (typeof value === 'string') {
-		return value
-	}
-	return null
-}
-
 module.exports = new graphql.GraphQLScalarType({
 	name: 'Email',
 	description: 'An email address',
-	serialize,
-	parseValue: (value) => {
+	serialize (value) {
+		if (typeof value === 'string') {
+			return value
+		}
+		return null
+	},
+	parseValue (value) {
 		if (REGEX.test(value)) {
 			return value
 		}
 		return null
 	},
-	parseLiteral: (ast) => {
+	parseLiteral (ast) {
 		if ((ast.kind === graphql.Kind.STRING) && (REGEX.test(ast.value))) {
 			return ast.value
 		}

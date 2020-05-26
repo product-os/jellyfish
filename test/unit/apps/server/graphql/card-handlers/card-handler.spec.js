@@ -63,7 +63,7 @@ const childResults = (context) => {
 ava('`canHandle` matches cards', (test) => {
 	const handler = new CardHandler(card, 0, getContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`generateTypeName` generates a sensible name', (test) => {
@@ -81,7 +81,7 @@ ava('`children` returns the schema of each property minus overriden fields', (te
 ava('`process` generates a new GraphQL object type', (test) => {
 	const handler = new CardHandler(card, 0, getContext())
 	const result = handler.process([])
-	test.truthy(graphql.isObjectType(result))
+	test.true(graphql.isObjectType(result))
 })
 
 ava('`process` correctly generates the correct fields', (test) => {
@@ -134,6 +134,6 @@ ava('`process` marks required fields as non nullable', (test) => {
 	const fields = result.getFields()
 
 	for (const field of CardCard.data.schema.required) {
-		test.truthy(graphql.isNonNullType(fields[camelCase(field)].type), `expected field ${camelCase(field)} to be non-null`)
+		test.true(graphql.isNonNullType(fields[camelCase(field)].type), `expected field ${camelCase(field)} to be non-null`)
 	}
 })

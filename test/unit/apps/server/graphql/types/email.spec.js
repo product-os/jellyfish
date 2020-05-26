@@ -25,10 +25,6 @@ ava('`parseValue` accepts email string values', (test) => {
 	test.is('marty@mcfly.me', Email.parseValue('marty@mcfly.me'))
 })
 
-ava('`serialize` returns a correctly formatted email when the value is a (legacy) array', (test) => {
-	test.is('marty@mcfly.me', Email.serialize([ 'marty@mcfly.me' ]))
-})
-
 ava('`serialize` returns a string value unchanged', (test) => {
 	test.is('marty@mcfly.me', Email.serialize('marty@mcfly.me'))
 })

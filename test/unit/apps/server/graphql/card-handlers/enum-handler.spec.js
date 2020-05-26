@@ -21,13 +21,13 @@ const enumNumberSchema = {
 ava('`canHandle` matches an enum of strings schema', (test) => {
 	const handler = new EnumHandler(enumStringSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches an enum of numbers schema', (test) => {
 	const handler = new EnumHandler(enumNumberSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeIsEnum(function () {

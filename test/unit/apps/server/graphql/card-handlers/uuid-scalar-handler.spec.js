@@ -18,7 +18,7 @@ const schema = {
 ava('`canHandle` matches UUID formatted string JSON schemas', (test) => {
 	const handler = new UuidScalarHandler(schema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 assertTypeNamed(function () {

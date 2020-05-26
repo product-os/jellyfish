@@ -40,25 +40,25 @@ const anyOfEmailFormatSchema = {
 ava('`canHandle` matches email formatted string JSON schemas', (test) => {
 	const handler = new EmailScalarHandler(emailFormatSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
-ava('`canHandle` matches array of email formatted string JSON schemas', (test) => {
+ava('`canHandle` doesn\'t match array of email formatted string JSON schemas', (test) => {
 	const handler = new EmailScalarHandler(arrayOfEmailFormatSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.false(handler.canHandle())
 })
 
-ava('`canHandle` matches any of email formatted string JSON schemas', (test) => {
+ava('`canHandle` doesn\'t match any of email formatted string JSON schemas', (test) => {
 	const handler = new EmailScalarHandler(anyOfEmailFormatSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.false(handler.canHandle())
 })
 
-ava('`canHandle` matches array or string email formatted JSON schemas', (test) => {
+ava('`canHandle` doesn\'t match array or string email formatted JSON schemas', (test) => {
 	const handler = new EmailScalarHandler(arrayOrStringFormatSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.false(handler.canHandle())
 })
 
 assertTypeNamed(function () {

@@ -40,7 +40,7 @@ const typeB = new graphql.GraphQLObjectType({
 ava('`canHandle` matches `anyOf` JSON schemas', (test) => {
 	const handler = new AnyOfHandler(anyOfSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`children` returns the `anyOf` branches', (test) => {
@@ -67,7 +67,7 @@ ava('`process` returns a GraphQL type union if there is more than one type', (te
 	const handler = new AnyOfHandler(anyOfSchema, 0, fakeContext())
 	const result = handler.process([ typeA, typeB ])
 
-	test.truthy(graphql.isUnionType(result))
+	test.true(graphql.isUnionType(result))
 	test.deepEqual(result.getTypes(), [ typeA, typeB ])
 })
 
@@ -75,7 +75,7 @@ ava('`process` removes any `null` child results', (test) => {
 	const handler = new AnyOfHandler(anyOfSchema, 0, fakeContext())
 	const result = handler.process([ typeA, typeB, null ])
 
-	test.truthy(graphql.isUnionType(result))
+	test.true(graphql.isUnionType(result))
 	test.deepEqual(result.getTypes(), [ typeA, typeB ])
 })
 

@@ -27,7 +27,7 @@ const schema = {
 ava('`canHandle` matches object schemas with at least one property', (test) => {
 	const handler = new TypeObjectHandler(schema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`children` returns one child for each property', (test) => {

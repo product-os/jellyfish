@@ -69,7 +69,21 @@ module.exports = async (context, {
 				}
 			}
 
-			for (const cardType of schemaGenerationContext.getCardTypes()) {
+			// Alphabetically sort the card types to make them easier to find in the
+			// docs.
+			const sortedCards = schemaGenerationContext
+				.getCardTypes()
+				.sort((typeA, typeB) => {
+					if (typeA.name < typeB.name) {
+						return -1
+					}
+					if (typeA.name > typeB.name) {
+						return 1
+					}
+					return 0
+				})
+
+			for (const cardType of sortedCards) {
 				fields[camelCase(cardType.name)] = {
 					type: cardType
 				}

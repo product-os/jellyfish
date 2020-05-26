@@ -22,13 +22,13 @@ const emptyArrayItemsSchema = {
 ava('`canHandle` matches an empty array schema', (test) => {
 	const handler = new EmptyTypeArrayHandler(emptyArraySchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`canHandle` matches an array schema with empty items', (test) => {
 	const handler = new EmptyTypeArrayHandler(emptyArrayItemsSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`process` returns a `JsonValue` type', (test) => {

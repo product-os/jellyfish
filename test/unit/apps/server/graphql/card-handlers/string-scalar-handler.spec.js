@@ -18,12 +18,12 @@ const stringSchema = {
 ava('`canHandle` matches string schemas', (test) => {
 	const handler = new StringScalarHandler(stringSchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`weight` is less than the default handler weight', (test) => {
 	const handler = new StringScalarHandler(stringSchema, 0, fakeContext())
-	test.truthy(handler.weight() < BaseHandler.prototype.weight())
+	test.true(handler.weight() < BaseHandler.prototype.weight())
 })
 
 assertTypeNamed(function () {

@@ -26,7 +26,7 @@ const arraySchema = {
 ava('`canHandle` matches array schemas', (test) => {
 	const handler = new TypeArrayHandler(arraySchema, 0, fakeContext())
 
-	test.truthy(handler.canHandle())
+	test.true(handler.canHandle())
 })
 
 ava('`children` returns the array item schema', (test) => {

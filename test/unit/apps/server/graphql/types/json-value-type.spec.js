@@ -15,7 +15,7 @@ ava('it has the correct name', (test) => {
 })
 
 ava('it is a GraphQL enumeration type', (test) => {
-	test.truthy(graphql.isEnumType(JsonValueType))
+	test.true(graphql.isEnumType(JsonValueType))
 })
 
 ava('it contains options for all JSON data types', (test) => {
