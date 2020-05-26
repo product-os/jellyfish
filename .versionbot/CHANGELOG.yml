@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Only create a notification for ''insert'' stream updates'
+      hash: 413287e63c07ff5a4bc0256df6c9fb50df267e85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.33.2
+  date: 2020-05-26T05:28:04.708Z
+- commits:
     - subject: 'patch: bump style-loader from 1.0.0 to 1.2.1'
       hash: 4d006db52399cbbc2bdfddfc17b838b6ef716d9e
       body: >
