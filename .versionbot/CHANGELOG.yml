@@ -1,4 +1,16 @@
 - commits:
+    - subject: Set blank Redis password for Compose services
+      hash: 96d013fd7df6ec270c593781e9da5c285b858b5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.33.3
+  date: 2020-05-26T09:41:54.875Z
+- commits:
     - subject: 'ui: Only create a notification for ''insert'' stream updates'
       hash: 413287e63c07ff5a4bc0256df6c9fb50df267e85
       body: ''
