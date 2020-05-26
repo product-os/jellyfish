@@ -25,7 +25,7 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		types: selectors.getTypes(state),
-		threads: selectors.getViewData(state, query)
+		messages: selectors.getViewData(state, query)
 	}
 }
 

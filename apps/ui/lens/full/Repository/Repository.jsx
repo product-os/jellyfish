@@ -40,7 +40,7 @@ const SingleCardTabs = styled(Tabs) `
 	}
 `
 
-const LIMIT = 10
+const LIMIT = 30
 
 export default class RepositoryFull extends React.Component {
 	constructor (props) {
@@ -142,8 +142,7 @@ export default class RepositoryFull extends React.Component {
 			card,
 			channel,
 			fieldOrder,
-			types,
-			threads
+			types
 		} = this.props
 		const {
 			expanded
@@ -153,12 +152,7 @@ export default class RepositoryFull extends React.Component {
 		})
 
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
-
-		// TODO: This is an abomination and relies on the deprecated `linked_at` field
-		// being modified to trigger updates.
-		// Once we support queries that can traverse multiple relationships, this can
-		// be cleaned up.
-		const messages = _.flatMap(threads, 'links[has attached element]')
+		const messages = _.sortBy(this.props.messages, 'created_at')
 
 		const Interleaved = getLensBySlug('lens-interleaved').data.renderer
 
