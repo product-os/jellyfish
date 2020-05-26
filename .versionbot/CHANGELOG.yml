@@ -1,4 +1,16 @@
 - commits:
+    - subject: Don't use a regexp to search for pings
+      hash: 389b8debde144b5f1d8ae83d1f7d85c8ea473ee0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.34.1
+  date: 2020-05-26T20:41:21.445Z
+- commits:
     - subject: 'blog: Adding new blog object JSON'
       hash: c028f6ff9e3c8907ab0779a64c0cac284050887d
       body: ''
