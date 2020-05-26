@@ -98,27 +98,29 @@ export const getLensBySlug = (slug) => {
 export const getContextualThreadsQuery = (id) => {
 	return {
 		$$links: {
-			'has attached element': {
+			'is attached to': {
+				$$links: {
+					'is of': {
+						type: 'object',
+						required: [ 'id' ],
+						properties: {
+							id: {
+								type: 'string',
+								const: id
+							}
+						},
+						additionalProperties: false
+					}
+				},
 				type: 'object',
 				required: [ 'type' ],
 				properties: {
 					type: {
 						type: 'string',
-						enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
+						const: 'thread@1.0.0'
 					}
 				},
 				additionalProperties: true
-			},
-			'is of': {
-				type: 'object',
-				required: [ 'id' ],
-				properties: {
-					id: {
-						type: 'string',
-						const: id
-					}
-				},
-				additionalProperties: false
 			}
 		},
 		type: 'object',
@@ -126,7 +128,7 @@ export const getContextualThreadsQuery = (id) => {
 		properties: {
 			type: {
 				type: 'string',
-				const: 'thread@1.0.0'
+				enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
 			}
 		},
 		additionalProperties: true
