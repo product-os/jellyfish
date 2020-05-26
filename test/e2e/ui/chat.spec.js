@@ -298,7 +298,9 @@ ava.serial.skip('When having two chats side-by-side both should update with new 
 	test.pass()
 })
 
-ava.serial('Username pings should be case insensitive', async (test) => {
+// TODO re-enable this test once
+// https://github.com/product-os/jellyfish/issues/3703 is resolved
+ava.skip('Username pings should be case insensitive', async (test) => {
 	const {
 		user2,
 		page,

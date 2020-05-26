@@ -76,10 +76,7 @@ const getBasePingQuery = (user, searchTerm) => {
 							mentionsUser: {
 								type: 'array',
 								contains: {
-									regexp: {
-										pattern: user.slug,
-										flags: 'i'
-									}
+									const: user.slug
 								}
 							}
 						},
