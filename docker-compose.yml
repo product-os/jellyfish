@@ -31,7 +31,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=redis
+      - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - SERVER_DATABASE=jellyfish
@@ -168,7 +168,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=redis
+      - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - LOGLEVEL=crit
       - SENTRY_DSN_SERVER
@@ -241,7 +241,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=redis
+      - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
@@ -299,7 +299,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=redis
+      - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
@@ -357,7 +357,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=redis
+      - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
