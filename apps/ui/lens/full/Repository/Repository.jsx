@@ -67,7 +67,9 @@ export default class RepositoryFull extends React.Component {
 		}
 
 		this.setActiveIndex = this.setActiveIndex.bind(this)
-		this.setPage = this.setPage.bind(this)
+		this.setPage = _.debounce(this.setPage.bind(this), 250, {
+			leading: true
+		})
 	}
 
 	getQueryOptions () {
@@ -84,7 +86,7 @@ export default class RepositoryFull extends React.Component {
 		const options = this.getQueryOptions()
 		this.props.actions.loadViewResults(query, options)
 			.then((results) => {
-				if (results.length < LIMIT * (this.state.options.page + 1)) {
+				if (results.length < LIMIT) {
 					this.setState((state) => {
 						return {
 							options: {
