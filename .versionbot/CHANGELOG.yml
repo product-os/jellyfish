@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'blog: Adding new blog object JSON'
+      hash: c028f6ff9e3c8907ab0779a64c0cac284050887d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Andrew Nhem <andrewn@balena.io>
+        signed-off-by: Andrew Nhem <andrewn@balena.io>
+      author: Andrew Nhem
+  version: 30.34.0
+  date: 2020-05-26T15:54:19.312Z
+- commits:
     - subject: Paginate correctly over team communications messages
       hash: aaf7da800dc6c009549be80f3b7fa2ec29f25469
       body: ''
