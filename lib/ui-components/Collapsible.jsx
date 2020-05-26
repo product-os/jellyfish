@@ -42,6 +42,8 @@ export default function Collapsible ({
 	defaultCollapsed = true,
 	maxContentHeight = 1000,
 	lazyLoadContent = false,
+	headerProps = {},
+	contentProps = {},
 	children,
 	...rest
 }) {
@@ -61,6 +63,7 @@ export default function Collapsible ({
 					alignItems="center"
 					onClick={toggleCollapsed}
 					data-test={`${dataTest}__header`}
+					{...headerProps}
 				>
 					<Box mr={2}><Icon name="angle-down" rotate={isCollapsed ? 0 : 180} /></Box>
 					{typeof title === 'string' ? <Txt>{title}</Txt> : title}
@@ -72,6 +75,7 @@ export default function Collapsible ({
 				className={cn({
 					collapsed: isCollapsed
 				})}
+				{...contentProps}
 			>
 				{(!lazyLoadContent || isContentLoaded) && children}
 			</CollapsibleContent>

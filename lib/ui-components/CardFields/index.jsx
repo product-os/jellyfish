@@ -9,11 +9,12 @@ import React from 'react'
 import {
 	getLocalSchema
 } from '../services/helpers'
-import CardField from '../CardField'
+import CardField from './CardField'
 
 export default function CardFields (props) {
 	const {
 		card,
+		depth,
 		fieldOrder,
 		type,
 		omit
@@ -45,6 +46,7 @@ export default function CardFields (props) {
 				return payload[key]
 					? <CardField
 						key={key}
+						depth={depth}
 						field={key}
 						payload={payload}
 						schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
