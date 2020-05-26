@@ -1,0 +1,36 @@
+{
+  "slug": "view-all-blog-posts",
+  "name": "Checkins",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All blog-posts",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "blog-post@1.0.0"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list",
+      "lens-kanban"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
