@@ -16,6 +16,7 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 	# Known exceptions
 	if [ "$BASENAME" = "DESCRIPTION.markdown" ] || \
 		[ "$BASENAME" = "LICENSE" ] || \
+		[ "$BASENAME" = "README.md" ] || \
 		[[ $BASENAME =~ ^Dockerfile ]]; then
 		continue
 	fi
