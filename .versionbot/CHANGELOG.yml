@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump @babel/register from 7.8.6 to 7.9.0'
+      hash: d58eda4d733db56dbf1536d43c623c80165cd464
+      body: >
+        Bumps [@babel/register](https://github.com/babel/babel) from 7.8.6 to
+        7.9.0.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/babel/babel/compare/v7.8.6...v7.9.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.4
+  date: 2020-05-27T02:46:52.493Z
+- commits:
     - subject: 'patch: bump @babel/cli from 7.7.0 to 7.8.4'
       hash: f6c0afcbbd81b34386b6e5c55e280f240a8b5b14
       body: |
