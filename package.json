@@ -135,7 +135,7 @@
     "aws-sdk": "^2.289.0",
     "bcrypt": "^3.0.6",
     "bluebird": "^3.5.1",
-    "blueimp-md5": "^2.10.0",
+    "blueimp-md5": "^2.16.0",
     "body-parser": "^1.18.2",
     "change-case": "^4.1.1",
     "chart.js": "^2.8.0",
