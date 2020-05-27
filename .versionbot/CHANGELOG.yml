@@ -1,4 +1,40 @@
 - commits:
+    - subject: Add GraphQL server with generated types.
+      hash: 20405960eda2a179025d16a5fe3c4dd18c877a97
+      body: >
+        Includes:
+
+        * Adds the `graphql.js` GraphQL server.
+
+        * Adds schema generation based off our card data model.
+
+        * Basic querying by ID and JSON-Schema filter.
+
+
+        Doesn't include:
+
+        * Correct resolution of all type fields.
+
+        * Implementation of Relay conventions for list fields.
+
+        * Query resolution of any but the root fields.
+
+
+        This can be safely deployed because:
+
+        1. It doesn't give access to any information you can't already access
+        via the API (it maintains existing session-based security).
+
+        2. No one knows it even exists.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 30.34.6
+  date: 2020-05-27T05:46:22.071Z
+- commits:
     - subject: 'patch: bump json-schema-ref-parser from 6.1.0 to 9.0.1'
       hash: 7b8bd1a8dfed0f38f27bc4a7f8144a97e79d16b3
       body: >
