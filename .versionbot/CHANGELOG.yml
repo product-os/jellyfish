@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump blueimp-md5 from 2.12.0 to 2.16.0'
+      hash: f670072546ab15e33093a43d66e08831bb140e50
+      body: >
+        Bumps [blueimp-md5](https://github.com/blueimp/JavaScript-MD5) from
+        2.12.0 to 2.16.0.
+
+        - [Release notes](https://github.com/blueimp/JavaScript-MD5/releases)
+
+        -
+        [Commits](https://github.com/blueimp/JavaScript-MD5/compare/v2.12.0...v2.16.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.7
+  date: 2020-05-27T07:32:06.086Z
+- commits:
     - subject: Add GraphQL server with generated types.
       hash: 20405960eda2a179025d16a5fe3c4dd18c877a97
       body: >
