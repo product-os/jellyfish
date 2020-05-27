@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump @babel/cli from 7.7.0 to 7.8.4'
+      hash: f6c0afcbbd81b34386b6e5c55e280f240a8b5b14
+      body: |
+        Bumps [@babel/cli](https://github.com/babel/babel) from 7.7.0 to 7.8.4.
+        - [Release notes](https://github.com/babel/babel/releases)
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/babel/babel/compare/v7.7.0...v7.8.4)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.3
+  date: 2020-05-27T01:57:24.821Z
+- commits:
     - subject: 'patch: bump eslint-plugin-node from 8.0.1 to 11.1.0'
       hash: feb4fb561ce0a3e5cf5cc6d5732f2e565311502a
       body: >
