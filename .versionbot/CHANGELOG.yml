@@ -1,4 +1,25 @@
 - commits:
+    - subject: Exclude README files from check-filenames linting
+      hash: 7e478d705e3c43e881bd22b11820e94d1b6faaa7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Begin to document the Jellyfish UI
+      hash: 2a3a9b0d9023fdf559281b0e00bb8e99b0f8abb1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.34.8
+  date: 2020-05-27T09:16:31.748Z
+- commits:
     - subject: 'patch: bump blueimp-md5 from 2.12.0 to 2.16.0'
       hash: f670072546ab15e33093a43d66e08831bb140e50
       body: >
