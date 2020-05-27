@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump json-schema-ref-parser from 6.1.0 to 9.0.1'
+      hash: 7b8bd1a8dfed0f38f27bc4a7f8144a97e79d16b3
+      body: >
+        Bumps
+        [json-schema-ref-parser](https://github.com/APIDevTools/json-schema-ref-parser)
+        from 6.1.0 to 9.0.1.
+
+        - [Release
+        notes](https://github.com/APIDevTools/json-schema-ref-parser/releases)
+
+        -
+        [Changelog](https://github.com/APIDevTools/json-schema-ref-parser/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/APIDevTools/json-schema-ref-parser/compare/v6.1.0...v9.0.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.5
+  date: 2020-05-27T04:16:51.029Z
+- commits:
     - subject: 'patch: bump @babel/register from 7.8.6 to 7.9.0'
       hash: d58eda4d733db56dbf1536d43c623c80165cd464
       body: >
