@@ -131,6 +131,7 @@ export default class EventBody extends React.Component {
 
 	render () {
 		const {
+			sdk,
 			card,
 			actor,
 			isMessage,
@@ -169,6 +170,7 @@ export default class EventBody extends React.Component {
 										cardId={card.id}
 										fileName={attachment.slug}
 										addNotification={addNotification}
+										sdk={sdk}
 									/>
 								</MessageContainer>
 							)
