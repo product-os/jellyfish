@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove hash fragment from sync links
+      hash: 653ecc21f90223206a7fdf7dd22b0b94c336ed4b
+      body: |
+        Fixes product-os/jellyfish#3903
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.35.1
+  date: 2020-05-28T14:41:34.527Z
+- commits:
     - subject: 'Livechat: Add ErrorBoundary'
       hash: 9caac4fc698a97bb5e7b1f4c8a3128c1fa7cb6d1
       body: ''
