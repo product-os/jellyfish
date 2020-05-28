@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Refactor Event component: extract Header and Body into separate
+        components
+      hash: 352d6767bf8ec94b492295ad0a996b164e571efb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.34.12
+  date: 2020-05-28T05:23:17.292Z
+- commits:
     - subject: 'patch: bump eslint-plugin-jsdoc from 25.4.2 to 25.4.3'
       hash: ff0afba03312731d7143b7217a17bc6b8d0b081d
       body: >
