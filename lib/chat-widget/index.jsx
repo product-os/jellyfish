@@ -5,20 +5,8 @@
  */
 
 import {
-	getSdk
-} from '@balena/jellyfish-client-sdk'
-import * as environment from './environment'
-import {
 	App
 } from './components/App'
-
-export const createSdk = (options) => {
-	return getSdk({
-		apiPrefix: environment.api.prefix,
-		apiUrl: environment.api.url,
-		...options
-	})
-}
 
 export {
 	App

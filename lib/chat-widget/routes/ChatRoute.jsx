@@ -14,15 +14,16 @@ import {
 } from 'rendition'
 import Timeline from '../../ui-components/Timeline'
 import {
+	useSetup
+} from '../../ui-components/SetupProvider'
+import {
 	Task
 } from '../components/Task'
 import {
 	useActions,
 	useRouter,
-	useSdk,
 	useTask
 } from '../hooks'
-import * as environment from '../environment'
 import {
 	selectCurrentUser,
 	selectMessages,
@@ -33,7 +34,10 @@ export const ChatRoute = () => {
 	// Using an empty types array will effectively disable the autocomplete
 	// trigger that uses the types
 	const types = []
-	const sdk = useSdk()
+	const {
+		sdk,
+		environment
+	} = useSetup()
 	const router = useRouter()
 	const actions = useActions()
 	const fetchThreadTask = useTask(actions.fetchThread)

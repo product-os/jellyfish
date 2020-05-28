@@ -9,16 +9,17 @@ import React from 'react'
 const setupContext = React.createContext(null)
 
 export const SetupProvider = ({
-	analytics, errorReporter, sdk, actions, children
+	environment, analytics, errorReporter, sdk, actions, children
 }) => {
 	const setup = React.useMemo(() => {
 		return {
+			environment,
 			sdk,
 			analytics,
 			errorReporter,
 			actions
 		}
-	}, [ sdk, analytics, errorReporter, actions ])
+	}, [ environment, sdk, analytics, errorReporter, actions ])
 
 	return (
 		<setupContext.Provider value={setup}>{children}</setupContext.Provider>

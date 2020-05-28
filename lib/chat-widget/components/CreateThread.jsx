@@ -16,17 +16,18 @@ import {
 import styled from 'styled-components'
 import MessageInput from '../../../lib/ui-components/Timeline/MessageInput'
 import {
+	useSetup
+} from '../../../lib/ui-components/SetupProvider'
+import {
 	TaskButton
 } from '../components/TaskButton'
 import {
 	useActions,
-	useSdk,
 	useTask
 } from '../hooks'
 import {
 	selectCurrentUser
 } from '../store/selectors'
-import * as environment from '../environment'
 
 const StyledMessageInput = styled(MessageInput) `
 	border: 1px solid #DDE1f0;
@@ -45,7 +46,10 @@ export const CreateThread = ({
 	// Using an empty types array will effectively disable the autocomplete
 	// trigger that uses the types
 	const types = []
-	const sdk = useSdk()
+	const {
+		sdk,
+		environment
+	} = useSetup()
 	const currentUser = useSelector(selectCurrentUser())
 	const [ subject, setSubject ] = React.useState('')
 	const [ text, setText ] = React.useState('')

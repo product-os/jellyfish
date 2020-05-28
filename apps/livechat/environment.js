@@ -24,3 +24,9 @@ export const analytics = {
 		token: env.MIXPANEL_TOKEN_CHAT_WIDGET
 	}
 }
+
+export const sentry = {
+	dsn: env.SENTRY_DSN_UI || '0'
+}
+
+export const version = env.VERSION || 'v1.0.0'

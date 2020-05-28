@@ -36,6 +36,7 @@ import {
 import {
 	SetupProvider
 } from '../../lib/ui-components/SetupProvider'
+import * as environment from './environment'
 import PWA from './pwa'
 
 export const pwa = new PWA()
@@ -88,7 +89,7 @@ ReactDOM.render(
 			}}
 		>
 			<ResponsiveProvider>
-				<SetupProvider sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
+				<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
 					<Provider store={store}>
 						<ConnectedRouter history={history}>
 							<GlobalStyle />
