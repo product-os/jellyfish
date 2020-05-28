@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump bcrypt from 3.0.6 to 4.0.1'
+      hash: d5b51379a7f3fccae274c7fc0084aa0b36c0c54b
+      body: >
+        Bumps [bcrypt](https://github.com/kelektiv/node.bcrypt.js) from 3.0.6 to
+        4.0.1.
+
+        - [Release notes](https://github.com/kelektiv/node.bcrypt.js/releases)
+
+        -
+        [Changelog](https://github.com/kelektiv/node.bcrypt.js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/kelektiv/node.bcrypt.js/compare/v3.0.6...v4.0.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.9
+  date: 2020-05-27T16:24:37.459Z
+- commits:
     - subject: Exclude README files from check-filenames linting
       hash: 7e478d705e3c43e881bd22b11820e94d1b6faaa7
       body: ''
