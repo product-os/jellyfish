@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'Livechat: Add ErrorBoundary'
+      hash: 9caac4fc698a97bb5e7b1f4c8a3128c1fa7cb6d1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 30.35.0
+  date: 2020-05-28T13:00:54.611Z
+- commits:
     - subject: Add initial full text search support
       hash: caa7d78f6dc575ae92da2bac2d8b6a7a864731d2
       body: ''
