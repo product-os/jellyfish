@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-jsdoc from 25.4.2 to 25.4.3'
+      hash: ff0afba03312731d7143b7217a17bc6b8d0b081d
+      body: >
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        25.4.2 to 25.4.3.
+
+        - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
+
+        -
+        [Commits](https://github.com/gajus/eslint-plugin-jsdoc/compare/v25.4.2...v25.4.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.11
+  date: 2020-05-28T03:08:14.699Z
+- commits:
     - subject: 'patch: bump webpack from 4.42.1 to 4.43.0'
       hash: c2512428785c07d1d4b4bc49c86fb5e86ec271e6
       body: >
