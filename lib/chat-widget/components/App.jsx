@@ -12,11 +12,8 @@ import {
 	MemoryRouter as Router, Route
 } from 'react-router-dom'
 import {
-	SetupProvider
-} from '../../../lib/ui-components/SetupProvider'
-import {
-	useAnalytics
-} from '../hooks'
+	useSetup
+} from '../../ui-components/SetupProvider'
 import {
 	IndexRoute,
 	ChatRoute,
@@ -34,41 +31,41 @@ import {
 } from './StreamProviderTask'
 
 export const App = React.memo(({
-	sdk,
 	productTitle,
 	product,
 	inbox,
 	onClose
 }) => {
-	const analytics = useAnalytics()
+	const {
+		environment
+	} = useSetup()
+
 	const store = React.useMemo(() => {
 		return createStore({
 			product,
 			productTitle,
 			inbox
+		}, {
+			environment
 		})
-	}, [ product, productTitle, inbox ])
+	}, [ product, productTitle, inbox, environment ])
 
 	return (
 		<StoreProvider store={store}>
-			<SetupProvider
-				sdk={sdk}
-				analytics={analytics}>
-				<StreamProviderTask>
-					{() => {
-						return (
-							<Router>
-								<Layout flex={1} onClose={onClose}>
-									<Route path="/" exact component={IndexRoute} />
-									<Route path="/full_thread_list" exact component={FullThreadListRoute} />
-									<Route path="/new_thread" exact component={NewThreadRoute} />
-									<Route path="/chat/:thread" exact component={ChatRoute} />
-								</Layout>
-							</Router>
-						)
-					}}
-				</StreamProviderTask>
-			</SetupProvider>
+			<StreamProviderTask>
+				{() => {
+					return (
+						<Router>
+							<Layout flex={1} onClose={onClose}>
+								<Route path="/" exact component={IndexRoute} />
+								<Route path="/full_thread_list" exact component={FullThreadListRoute} />
+								<Route path="/new_thread" exact component={NewThreadRoute} />
+								<Route path="/chat/:thread" exact component={ChatRoute} />
+							</Layout>
+						</Router>
+					)
+				}}
+			</StreamProviderTask>
 		</StoreProvider>
 	)
 })

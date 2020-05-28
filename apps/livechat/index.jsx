@@ -10,19 +10,30 @@ import {
 	BrowserRouter as Router, Redirect, Route, Switch
 } from 'react-router-dom'
 import '@babel/polyfill'
+import {
+	getSdk
+} from '@balena/jellyfish-client-sdk'
 import 'circular-std'
 import {
+	Alert,
 	Provider as ThemeProvider
 } from 'rendition'
 import {
-	App, createSdk
+	App
 } from '../../lib/chat-widget'
+import Analytics from '../../lib/ui-components/services/analytics'
+import ErrorReporter from '../../lib/ui-components/services/error-reporter'
+import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
+import {
+	SetupProvider
+} from '../../lib/ui-components/SetupProvider'
 import {
 	OauthCallbackTask
 } from './components/OauthCallbackTask'
 import {
 	AuthenticationTask
 } from './components/AuthenticationTask'
+import * as environment from './environment'
 
 const Livechat = ({
 	userSlug,
@@ -30,43 +41,73 @@ const Livechat = ({
 	oauthProvider,
 	...rest
 }) => {
+	const analytics = React.useMemo(() => {
+		return new Analytics({
+			token: environment.analytics.mixpanel.token
+		})
+	}, [])
+
 	const sdk = React.useMemo(() => {
-		return createSdk({
+		return getSdk({
+			apiPrefix: environment.api.prefix,
+			apiUrl: environment.api.url,
 			authToken: localStorage.getItem('token')
 		})
 	}, [])
 
+	const errorReporter = React.useMemo(() => {
+		return new ErrorReporter({
+			isProduction: environment.isProduction(),
+			dsn: environment.sentry.dsn,
+			version: environment.version
+		})
+	}, [])
+
+	const getErrorElement = React.useCallback(() => {
+		return (
+			<Alert p={3} justifyContent="center" plaintext danger>There was an error</Alert>
+		)
+	}, [])
+
 	return (
-		<ThemeProvider style={{
-			height: '100%', display: 'flex', flexDirection: 'column'
-		}}>
-			<Router>
-				<Switch>
-					<Route path="/oauth/callback" exact render={(props) => {
-						return (
-							<OauthCallbackTask {...props} userSlug={userSlug} sdk={sdk} oauthProvider={oauthProvider}>
-								{() => {
-									return (
-										<Redirect to="/" />
-									)
-								}}
-							</OauthCallbackTask>
-						)
-					}} />
-					<Route path="/" render={() => {
-						return (
-							<AuthenticationTask userSlug={userSlug} sdk={sdk} oauthUrl={oauthUrl}>
-								{() => {
-									return (
-										<App {...rest} sdk={sdk} />
-									)
-								}}
-							</AuthenticationTask>
-						)
-					}} />
-				</Switch>
-			</Router>
-		</ThemeProvider>
+		<SetupProvider
+			environment={environment}
+			sdk={sdk}
+			analytics={analytics}
+			errorReporter={errorReporter}>
+			<ThemeProvider style={{
+				height: '100%', display: 'flex', flexDirection: 'column'
+			}}>
+				<ErrorBoundary getErrorElement={getErrorElement}>
+					<Router>
+						<Switch>
+							<Route path="/oauth/callback" exact render={(props) => {
+								return (
+									<OauthCallbackTask {...props} userSlug={userSlug} sdk={sdk} oauthProvider={oauthProvider}>
+										{() => {
+											return (
+												<Redirect to="/" />
+											)
+										}}
+									</OauthCallbackTask>
+								)
+							}} />
+							<Route path="/" render={() => {
+								return (
+									<AuthenticationTask userSlug={userSlug} sdk={sdk} oauthUrl={oauthUrl}>
+										{() => {
+											return (
+												<App {...rest} sdk={sdk} />
+											)
+										}}
+									</AuthenticationTask>
+								)
+							}} />
+						</Switch>
+					</Router>
+				</ErrorBoundary>
+			</ThemeProvider>
+		</SetupProvider>
 	)
 }
 

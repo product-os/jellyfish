@@ -51,13 +51,13 @@ export default class ErrorBoundary extends React.Component {
 		super(props)
 
 		this.state = {
-			hasError: false
+			error: false
 		}
 	}
 
-	static getDerivedStateFromError (_error) {
+	static getDerivedStateFromError (error) {
 		return {
-			hasError: true
+			error
 		}
 	}
 
@@ -66,22 +66,33 @@ export default class ErrorBoundary extends React.Component {
 			info,
 			error
 		})
+
 		this.props.errorReporter.reportException(error, info)
-		this.setState({
-			hasError: true
-		})
+	}
+
+	getDefaultErrorElement () {
+		return (
+			<IconWrapper style={this.props.style}>
+				<h1>Oh no, Something went wrong!</h1>
+				<Img src="/icons/dead-jellyfish.svg" />
+			</IconWrapper>
+		)
 	}
 
 	render () {
-		if (this.state.hasError) {
-			return (
-				<IconWrapper style={this.props.style}>
-					<h1>Oh no, Something went wrong!</h1>
-					<Img src="/icons/dead-jellyfish.svg"/>
-				</IconWrapper>
-			)
+		const {
+			getErrorElement,
+			children
+		} = this.props
+
+		const {
+			error
+		} = this.state
+
+		if (error) {
+			return getErrorElement ? getErrorElement(error) : this.getDefaultErrorElement()
 		}
 
-		return this.props.children
+		return children
 	}
 }
