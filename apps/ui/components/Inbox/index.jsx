@@ -37,9 +37,9 @@ const withSearch = (query, searchTerm) => {
 						payload: {
 							properties: {
 								message: {
-									regexp: {
-										pattern: searchTerm,
-										flags: 'i'
+									type: 'string',
+									fullTextSearch: {
+										term: searchTerm
 									}
 								}
 							},
