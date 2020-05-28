@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump webpack from 4.42.1 to 4.43.0'
+      hash: c2512428785c07d1d4b4bc49c86fb5e86ec271e6
+      body: >
+        Bumps [webpack](https://github.com/webpack/webpack) from 4.42.1 to
+        4.43.0.
+
+        - [Release notes](https://github.com/webpack/webpack/releases)
+
+        -
+        [Commits](https://github.com/webpack/webpack/compare/v4.42.1...v4.43.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.10
+  date: 2020-05-28T02:11:09.584Z
+- commits:
     - subject: 'patch: bump bcrypt from 3.0.6 to 4.0.1'
       hash: d5b51379a7f3fccae274c7fc0084aa0b36c0c54b
       body: >
