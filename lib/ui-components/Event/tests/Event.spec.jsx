@@ -4,18 +4,27 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
-import ava from 'ava'
 import {
-	shallow
+	getWrapper
+} from '../../../../test/ui-setup'
+import ava from 'ava'
+import sinon from 'sinon'
+import {
+	shallow,
+	mount
 } from 'enzyme'
 import React from 'react'
-import Event, {
-	getMessage
-} from '../Event'
+import Event from '../Event'
 import {
 	card
 } from './fixtures'
+import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
+
+const user = {
+	slug: 'user-johndoe'
+}
 
 const actor = {
 	name: 'johndoe',
@@ -30,6 +39,16 @@ const actions = {
 	}
 }
 
+const {
+	wrapper
+} = getWrapper()
+
+const sandbox = sinon.createSandbox()
+
+ava.afterEach(() => {
+	sandbox.restore()
+})
+
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
@@ -42,79 +61,147 @@ ava('It should render', (test) => {
 })
 
 ava('It should display the actor\'s details', (test) => {
-	const event = shallow(
+	const event = mount(
 		<Event
 			actions={actions}
 			card={card}
 			actor={actor}
-		/>
+			user={user}
+		/>, {
+			wrappingComponent: wrapper
+		}
 	)
 	const avatar = event.find('Avatar')
 	test.is(avatar.props().name, actor.name)
-	const actorLabel = event.find('[data-test="event__actor-label"]')
+	const actorLabel = event.find('Txt[data-test="event__actor-label"]')
 	test.is(actorLabel.props().tooltip, actor.email)
 })
 
-ava('getMessage() should prefix Front image embedded in img tags', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
+ava('An AuthenticatedImage is displayed when an image is attached', (test) => {
+	const sdk = {
+		getFile: sandbox.stub()
+	}
+
+	sdk.getFile.resolves()
+
+	const attachment = {
+		url: 'fake-image',
+		mime: 'image/jpeg',
+		name: 'fake-image'
+	}
+
+	const cardWithAttachments = {
+		...card,
 		data: {
 			payload: {
-				message: `<img src="${url}">`
+				attachments: [ attachment ]
 			}
 		}
-	})
+	}
+	const event = mount(
+		<Event
+			actions={actions}
+			card={cardWithAttachments}
+			actor={actor}
+			user={user}
+			sdk={sdk}
+		/>, {
+			wrappingComponent: wrapper
+		}
+	)
 
-	test.is(formatted, `<img src="https://app.frontapp.com${url}">`)
+	test.is(sdk.getFile.callCount, 1)
+	test.deepEqual(sdk.getFile.args, [ [ card.id, 'fake-image' ] ])
+	const image = event.find('AuthenticatedImage[data-test="event-card__image"]')
+	test.is(image.filename)
 })
 
-ava('getMessage() should prefix multitple Front images embedded in img tags', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
+ava('A download button is displayed for an attachment when it is not an image', (test) => {
+	const attachment = {
+		url: 'fake-pdf',
+		mime: 'application/pdf',
+		name: 'fake-pdf'
+	}
+
+	const cardWithAttachments = {
+		...card,
 		data: {
 			payload: {
-				message: `<img src="${url}"><img src="${url}"><img src="${url}"><img src="${url}">`
+				attachments: [ attachment ]
 			}
 		}
-	})
+	}
+	const event = mount(
+		<Event
+			actions={actions}
+			card={cardWithAttachments}
+			actor={actor}
+			user={user}
+		/>, {
+			wrappingComponent: wrapper
+		}
+	)
+	const button = event.find('button[data-test="event-card__file"]')
+	test.is(button.length, 1)
+	test.is(button.text(), attachment.name)
 
-	test.is(formatted, `<img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}"><img src="https://app.frontapp.com${url}">`)
+	const image = event.find('AuthenticatedImage[data-test="event-card__image"]')
+	test.is(image.length, 0)
 })
 
-ava('getMessage() should prefix Front image embedded in square brackets', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
+ava('A download button is displayed for each image when there is three or more images attached to a message', (test) => {
+	const attachment = {
+		url: 'fake-image',
+		mime: 'image/jpeg',
+		name: 'fake-image'
+	}
+
+	const cardWithAttachments = {
+		...card,
 		data: {
 			payload: {
-				message: `[${url}]`
+				attachments: [ attachment, attachment, attachment ]
 			}
 		}
-	})
+	}
+	const event = mount(
+		<Event
+			actions={actions}
+			card={cardWithAttachments}
+			actor={actor}
+			user={user}
+		/>, {
+			wrappingComponent: wrapper
+		}
+	)
+	const button = event.find('button[data-test="event-card__file"]')
+	test.is(button.length, 3)
 
-	test.is(formatted, `![Attached image](https://app.frontapp.com${url})`)
+	const image = event.find('AuthenticatedImage[data-test="event-card__image"]')
+	test.is(image.length, 0)
 })
 
-ava('getMessage() should prefix multiple Front images embedded in square brackets', (test) => {
-	const url = '/api/1/companies/resin_io/attachments/8381633c052e15b96c3a25581f7869b5332c032b?resource_link_id=14267942787'
-	const formatted = getMessage({
+ava('A markdown message is displayed when the card is a message', async (test) => {
+	const messageText = 'fake message text'
+	const messageCard = {
+		...card,
+		type: 'message@1.0.0',
 		data: {
 			payload: {
-				message: `[${url}] [${url}] [${url}]`
+				message: messageText
 			}
 		}
-	})
-
-	test.is(formatted, `![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url}) ![Attached image](https://app.frontapp.com${url})`)
-})
-
-ava('getMessage() should hide "#jellyfish-hidden" messages', (test) => {
-	const formatted = getMessage({
-		data: {
-			payload: {
-				message: '#jellyfish-hidden'
-			}
+	}
+	const event = mount(
+		<Event
+			actions={actions}
+			card={messageCard}
+			actor={actor}
+			user={user}
+		/>, {
+			wrappingComponent: wrapper
 		}
-	})
-
-	test.is(formatted, '')
+	)
+	const message = event.find(Markdown)
+	test.is(message.text().trim(), messageText)
 })
