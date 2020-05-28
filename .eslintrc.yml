@@ -8,6 +8,7 @@ plugins:
   - jsdoc
 extends:
   - 'plugin:react/recommended'
+    #  - 'eslint:recommended'
   - standard
 settings:
   react:
@@ -17,6 +18,7 @@ settings:
       customTags:
         - fulfil
 parserOptions:
+  ecmaVersion: 9
   ecmaFeatures:
     jsx: true
 rules:
