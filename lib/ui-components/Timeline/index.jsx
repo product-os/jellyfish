@@ -407,9 +407,12 @@ class Timeline extends React.Component {
 
 	render () {
 		const {
+			user,
 			selectCard,
 			getCard,
 			enableAutocomplete,
+			eventMenuOptions,
+			addNotification,
 			sdk,
 			types,
 			allowWhispers,
@@ -459,6 +462,21 @@ class Timeline extends React.Component {
 		const isMirrored = !_.isEmpty(_.get(this.props.card, [ 'data', 'mirrors' ]))
 
 		const headerTitle = _.get(headerOptions, [ 'title' ])
+
+		const eventProps = {
+			types,
+			enableAutocomplete,
+			sendCommand,
+			onCardVisible: this.handleCardVisible,
+			user,
+			selectCard,
+			getCard,
+			actions: {
+				addNotification
+			},
+			threadIsMirrored: isMirrored,
+			menuOptions: eventMenuOptions
+		}
 
 		return (
 			<Column>
@@ -572,14 +590,9 @@ class Timeline extends React.Component {
 						return (
 							<Box key={card.id}>
 								<Event
-									onCardVisible={this.handleCardVisible}
+									{...eventProps}
 									card={card}
 									user={this.props.user}
-									selectCard={selectCard}
-									getCard={getCard}
-									addNotification={this.props.addNotification}
-									threadIsMirrored={isMirrored}
-									menuOptions={this.props.eventMenuOptions}
 								/>
 							</Box>
 						)
@@ -589,13 +602,8 @@ class Timeline extends React.Component {
 						return (
 							<Box key={item.slug}>
 								<Event
-									user={this.props.user}
+									{...eventProps}
 									card={item}
-									selectCard={selectCard}
-									getCard={getCard}
-									addNotification={this.props.addNotification}
-									threadIsMirrored={isMirrored}
-									menuOptions={this.props.eventMenuOptions}
 								/>
 							</Box>
 						)

@@ -166,14 +166,14 @@ export default class Event extends React.Component {
 			menuOptions,
 			threadIsMirrored,
 			openChannel,
-			addNotification
+			actions
 		} = this.props
 		const props = _.omit(this.props, [
 			'card',
 			'menuOptions',
 			'onCardVisible',
 			'openChannel',
-			'addNotification'
+			'actions'
 		])
 
 		const typeBase = card.type.split('@')[0]
@@ -232,7 +232,7 @@ export default class Event extends React.Component {
 							actor={actor}
 							isMessage={isMessage}
 							messageOverflows={messageOverflows}
-							addNoticication={addNotification}
+							addNoticication={actions.addNotification}
 							setMessageElement={this.setMessageElement}
 							messageCollapsedHeight={MESSAGE_COLLAPSED_HEIGHT}
 						/>
