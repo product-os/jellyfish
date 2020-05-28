@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump eslint from 4.19.1 to 7.1.0'
+      hash: 8d0b6b86155b35e14faab53fede385612401cfc6
+      body: |
+        Bumps [eslint](https://github.com/eslint/eslint) from 4.19.1 to 7.1.0.
+        - [Release notes](https://github.com/eslint/eslint/releases)
+        - [Changelog](https://github.com/eslint/eslint/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/eslint/eslint/compare/v4.19.1...v7.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.34.14
+  date: 2020-05-28T10:00:41.371Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 4.6.6 to 5.15.5'
       hash: 55358d0854858c2f2a5d8672197c6cf3be13aba0
       body: >
