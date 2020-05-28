@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add initial full text search support
+      hash: caa7d78f6dc575ae92da2bac2d8b6a7a864731d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.34.15
+  date: 2020-05-28T11:37:24.474Z
+- commits:
     - subject: 'patch: bump eslint from 4.19.1 to 7.1.0'
       hash: 8d0b6b86155b35e14faab53fede385612401cfc6
       body: |
