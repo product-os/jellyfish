@@ -10,7 +10,6 @@ import {
 	Txt,
 	DropDownButton
 } from 'rendition'
-import _ from 'lodash'
 import styled from 'styled-components'
 import {
 	userDisplayName,
@@ -39,6 +38,7 @@ export default class CardOwner extends React.Component {
 		this.assign = this.assign.bind(this)
 		this.handover = this.handover.bind(this)
 		this.openOwnerChannel = this.openOwnerChannel.bind(this)
+		this.handleButtonClick = this.handleButtonClick.bind(this)
 	}
 
 	async assignToMe () {
@@ -102,14 +102,28 @@ export default class CardOwner extends React.Component {
 		this.handover(false)
 	}
 
-	openOwnerChannel (event) {
+	openOwnerChannel () {
 		const {
 			cardOwner,
 			history
 		} = this.props
+
+		history.push(path.join(window.location.pathname, cardOwner.slug))
+	}
+
+	handleButtonClick (event) {
 		event.preventDefault()
 		event.stopPropagation()
-		history.push(path.join(window.location.pathname, cardOwner.slug))
+
+		const {
+			cardOwner
+		} = this.props
+
+		if (cardOwner) {
+			this.openOwnerChannel()
+		} else {
+			this.assignToMe()
+		}
 	}
 
 	render () {
@@ -123,62 +137,62 @@ export default class CardOwner extends React.Component {
 		const cardTypeName = getType(card.type, types).name
 
 		return (
-			<React.Fragment>
-				<DropDownButton
-					data-test="card-owner-dropdown"
-					mr={3}
-					tertiary={cardOwner && (cardOwner.id === user.id)}
-					quartenary={cardOwner && (cardOwner.id !== user.id)}
-					label={cardOwner ? (
-						<OwnerTxt
-							bold
-							data-test="card-owner-dropdown__label--assigned"
-							onClick={this.openOwnerChannel}
-							tooltip={{
-								text: `${userDisplayName(cardOwner)} owns this ${cardTypeName}`,
-								placement: 'bottom'
-							}}
-						>
-							{userDisplayName(cardOwner)}
-						</OwnerTxt>
-					) : (
-						<OwnerTxt
-							bold
-							italic
-							data-test="card-owner-dropdown__label--unassigned"
-							tooltip={{
-								text: `This ${cardTypeName} is unassigned`,
-								placement: 'bottom'
-							}}
-						>
-						Unassigned
-						</OwnerTxt>
-					)}
-				>
+			<DropDownButton
+				data-test="card-owner-dropdown"
+				mr={3}
+				tertiary={cardOwner && (cardOwner.id === user.id)}
+				quartenary={cardOwner && (cardOwner.id !== user.id)}
+				onClick={this.handleButtonClick}
+				label={cardOwner ? (
+					<OwnerTxt
+						bold
+						data-test="card-owner-dropdown__label--assigned"
+						tooltip={{
+							text: `${userDisplayName(cardOwner)} owns this ${cardTypeName}`,
+							placement: 'bottom'
+						}}
+					>
+						{userDisplayName(cardOwner)}
+					</OwnerTxt>
+				) : (
+					<OwnerTxt
+						bold
+						italic
+						data-test="card-owner-dropdown__label--assign-to-me"
+						tooltip={{
+							text: `This ${cardTypeName} is unassigned. Assign it to me`,
+							placement: 'bottom'
+						}}
+					>
+						Assign to me
+					</OwnerTxt>
+				)}
+			>
+				{cardOwner && cardOwner.id !== user.id && (
 					<ActionLink
-						disabled={Boolean(cardOwner && (cardOwner.id === user.id))}
-						onClick={!cardOwner || (cardOwner.id !== user.id) ? this.assignToMe : _.noop}
+						onClick={this.assignToMe}
 						data-test="card-owner-menu__assign-to-me"
 					>
-					Assign to me
+						Assign to me
 					</ActionLink>
+				)}
 
+				{cardOwner && (
 					<ActionLink
-						disabled={!cardOwner}
-						onClick={cardOwner ? () => { this.unassign(false) } : _.noop}
+						onClick={this.unassign}
 						data-test="card-owner-menu__unassign"
 					>
-					Unassign
+						Unassign
 					</ActionLink>
+				)}
 
-					<ActionLink
-						onClick={this.assign}
-						data-test="card-owner-menu__assign"
-					>
+				<ActionLink
+					onClick={this.assign}
+					data-test="card-owner-menu__assign"
+				>
 					Assign to someone else
-					</ActionLink>
-				</DropDownButton>
-			</React.Fragment>
+				</ActionLink>
+			</DropDownButton>
 		)
 	}
 }

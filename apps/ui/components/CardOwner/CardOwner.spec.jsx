@@ -13,9 +13,17 @@ import {
 import React from 'react'
 import CardOwner from './CardOwner'
 
-const user = {
+const user1 = {
+	id: 1,
 	name: 'User 1',
 	slug: 'user1',
+	type: 'user@1.0.0'
+}
+
+const user2 = {
+	id: 2,
+	name: 'User 2',
+	slug: 'user2',
 	type: 'user@1.0.0'
 }
 
@@ -76,37 +84,56 @@ ava('CardOwner should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<CardOwner
-				user={user}
+				user={user1}
 				types={types}
 				actions={getActions()}
 				card={card}
-				cardOwner={user}
-				sdk={getSdk(user)}
+				cardOwner={user1}
+				sdk={getSdk(user1)}
 			/>
 		)
 	})
 })
 
-ava('\'Assign to me\' is disabled if I am the owner', async (test) => {
-	const cardOwner = await shallow(
+ava('When I\'m the owner', (test) => {
+	const cardOwner = shallow(
 		<CardOwner
-			user={user}
+			user={user1}
 			types={types}
 			actions={getActions()}
 			card={card}
-			cardOwner={user}
-			sdk={getSdk(user)}
+			cardOwner={user1}
+			sdk={getSdk(user1)}
 		/>
 	)
 	cardOwner.update()
-	test.true(cardOwner.find('[data-test="card-owner-menu__assign-to-me"]').props().disabled)
-	test.false(cardOwner.find('[data-test="card-owner-menu__unassign"]').props().disabled)
+
+	test.is(
+		shallow(cardOwner.props().label).text(),
+		user1.name,
+		'my name is displayed as a label'
+	)
+
+	test.false(
+		cardOwner.find('[data-test="card-owner-menu__assign-to-me"]').exists(),
+		'"Assign to me" menu item is not rendered'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
+		'"Unassign" menu item is displayed'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
+		'"Assign to someone else" menu item is displayed'
+	)
 })
 
-ava('\'Unassign\' is disabled if there is no owner', async (test) => {
+ava('If there is no owner', async (test) => {
 	const cardOwner = await shallow(
 		<CardOwner
-			user={user}
+			user={user1}
 			types={types}
 			actions={getActions()}
 			card={card}
@@ -115,6 +142,60 @@ ava('\'Unassign\' is disabled if there is no owner', async (test) => {
 		/>
 	)
 	cardOwner.update()
-	test.false(cardOwner.find('[data-test="card-owner-menu__assign-to-me"]').props().disabled)
-	test.true(cardOwner.find('[data-test="card-owner-menu__unassign"]').props().disabled)
+
+	test.is(
+		shallow(cardOwner.props().label).text(),
+		'Assign to me',
+		'"Assign to me" text is displayed as a label'
+	)
+
+	test.false(
+		cardOwner.find('[data-test="card-owner-menu__assign-to-me"]').exists(),
+		'"Assign to me" menu item is not rendered'
+	)
+
+	test.false(
+		cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
+		'"Unassign" menu item is not rendered'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
+		'"Assign to someone else" menu item is displayed'
+	)
+})
+
+ava('If other user is an owner', async (test) => {
+	const cardOwner = await shallow(
+		<CardOwner
+			user={user1}
+			types={types}
+			actions={getActions()}
+			card={card}
+			cardOwner={user2}
+			sdk={getSdk(user2)}
+		/>
+	)
+	cardOwner.update()
+
+	test.is(
+		shallow(cardOwner.props().label).text(),
+		user2.name,
+		'owner\'s name is displayed as a label'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__assign-to-me"]').exists(),
+		'"Assign to me" menu item is displayed'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
+		'"Unassign" menu item is displayed'
+	)
+
+	test.true(
+		cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
+		'"Assign to someone else" menu item is displayed'
+	)
 })
