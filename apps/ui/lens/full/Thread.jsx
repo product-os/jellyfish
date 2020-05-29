@@ -16,7 +16,7 @@ import {
 	Box,
 	Txt
 } from 'rendition'
-import CardFields from '../../../../lib/ui-components/CardFields'
+import CardFields from '../../../../lib/ui-components/shame/CardFields'
 import Collapsible from '../../../../lib/ui-components/Collapsible'
 import {
 	TagList

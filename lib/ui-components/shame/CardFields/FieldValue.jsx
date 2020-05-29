@@ -12,7 +12,7 @@ import {
 import {
 	Mermaid
 } from 'rendition/dist/extra/Mermaid'
-import * as helpers from '../services/helpers'
+import * as helpers from '../../services/helpers'
 
 export default function FieldValue ({
 	fieldValue, fieldKey, schema, parentKey, ...props
@@ -25,11 +25,6 @@ export default function FieldValue ({
 
 	if (_.get(schema, [ 'format' ]) === 'mermaid') {
 		return <Mermaid {...props} value={value}/>
-	}
-
-	if (parentKey === 'mirrors' && _.includes(fieldValue, 'frontapp.com')) {
-		const id = fieldValue.split('/').pop()
-		value = `https://app.frontapp.com/open/${id}`
 	}
 
 	return <Markdown {...props}>{value.toString()}</Markdown>

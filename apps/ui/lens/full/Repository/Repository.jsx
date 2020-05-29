@@ -21,7 +21,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import Segment from '../SingleCard/Segment'
-import CardFields from '../../../../../lib/ui-components/CardFields'
+import CardFields from '../../../../../lib/ui-components/shame/CardFields'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 import {

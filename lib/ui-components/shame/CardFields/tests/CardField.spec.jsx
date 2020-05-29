@@ -6,18 +6,19 @@
 
 import {
 	getWrapper
-} from '../../../../test/ui-setup'
+} from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount,
 	shallow
 } from 'enzyme'
+import * as _ from 'lodash'
 import React from 'react'
 import supportThread from './fixtures/support-thread.json'
 import CardField from '../CardField'
 import {
 	slugify
-} from '../../services/helpers'
+} from '../../../services/helpers'
 
 const wrappingComponent = getWrapper().wrapper
 
@@ -33,10 +34,6 @@ const shallowCardField = (props) => {
 
 const findCardFieldComponent = (wrapper, section, key) => {
 	return wrapper.find(`[data-test="card-field__${section}--${slugify(key.toString())}"]`).first()
-}
-
-const findTitleComponent = (wrapper, key) => {
-	return findCardFieldComponent(wrapper, 'title', key)
 }
 
 const findLabelComponent = (wrapper, key) => {
@@ -58,18 +55,25 @@ ava('CardField renders a complex nested object', async (test) => {
 	})
 })
 
-ava('CardField renders null if the field starts with $$', async (test) => {
+ava('CardField accepts a custom field renderer', async (test) => {
 	const props = {
 		field: '$$links',
 		payload: {
 			$$links: {
 				'is attached to': []
 			}
+		},
+		renderers: {
+			$$links: {
+				value: _.constant('FooBar'),
+				title: _.constant('BazBuzz')
+			}
 		}
 	}
 	const component = shallowCardField(props)
 
-	test.falsy(component.get(0))
+	test.true(component.html().includes('FooBar'))
+	test.true(component.html().includes('BazBuzz'))
 })
 
 ava('CardField renders null if the field value is undefined', async (test) => {
@@ -101,7 +105,7 @@ ava('CardField renders an array item without a label', async (test) => {
 	test.is(valueComponent.props().fieldValue, props.payload[props.field])
 })
 
-ava('CardField renders a primitive item with a label', async (test) => {
+ava('CardField does not render a title if it is not specified in the schema', async (test) => {
 	const props = {
 		field: 'id',
 		payload: {
@@ -111,7 +115,27 @@ ava('CardField renders a primitive item with a label', async (test) => {
 	const component = shallowCardField(props)
 
 	const labelComponent = findLabelComponent(component, props.field)
-	test.is(labelComponent.props().children, props.field)
+	test.falsy(labelComponent.get(0))
+
+	const valueComponent = findValueComponent(component, props.field)
+	test.is(valueComponent.props().fieldValue, props.payload[props.field])
+})
+
+ava('CardField renders a title if it is specified in the schema', async (test) => {
+	const props = {
+		field: 'id',
+		payload: {
+			id: 'test'
+		},
+		schema: {
+			title: 'Test',
+			type: 'string'
+		}
+	}
+	const component = shallowCardField(props)
+
+	const labelComponent = findLabelComponent(component, props.field)
+	test.is(labelComponent.props().children, props.schema.title)
 
 	const valueComponent = findValueComponent(component, props.field)
 	test.is(valueComponent.props().fieldValue, props.payload[props.field])

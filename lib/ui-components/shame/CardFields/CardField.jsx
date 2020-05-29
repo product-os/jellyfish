@@ -6,7 +6,7 @@
 
 import _ from 'lodash'
 import React from 'react'
-import * as helpers from '../services/helpers'
+import * as helpers from '../../services/helpers'
 import FieldValue from './FieldValue'
 import {
 	Heading
@@ -15,13 +15,8 @@ import {
 const MARGIN = 2
 
 const CardField = ({
-	field, payload, schema, parentKey, depth = 0
+	field, payload, schema, parentKey, depth = 0, renderers = {}
 }) => {
-	// If the field starts with '$$' it is metaData and shouldn't be displayed
-	if (_.startsWith(field, '$$')) {
-		return null
-	}
-
 	const fieldValue = payload[field]
 
 	if (typeof fieldValue === 'undefined') {
@@ -38,21 +33,44 @@ const CardField = ({
 		Header = Heading.h6
 	}
 
-	const title = _.get(schema, [ 'title' ]) || field
+	const title = _.get(schema, [ 'title' ])
 
 	const fieldId = helpers.slugify(field.toString())
 
+	const CustomFieldRenderer = _.get(renderers, [ field, 'value' ])
+	const CustomTitleRenderer = _.get(renderers, [ field, 'title' ])
+
 	return (
 		<React.Fragment>
-			{!_.isArray(payload) && (
+			{Boolean(CustomTitleRenderer) && (
+				<CustomTitleRenderer
+					fieldValue={fieldValue}
+					fieldKey={field}
+					parentKey={parentKey}
+					schema={schema}
+				/>
+			)}
+
+			{Boolean(title) && !CustomTitleRenderer && !_.isArray(payload) && (
 				<Header mt={MARGIN} data-test={`card-field__label--${fieldId}`}>
 					{title}
 				</Header>
 			)}
 
-			{_.isObject(fieldValue) && _.map(fieldValue, (item, key) => {
+			{Boolean(CustomFieldRenderer) && (
+				<CustomFieldRenderer
+					fieldValue={fieldValue}
+					fieldKey={field}
+					parentKey={parentKey}
+					schema={schema}
+					data-test={`card-field__value--${fieldId}`}
+				/>
+			)}
+
+			{!CustomFieldRenderer && _.isObject(fieldValue) && _.map(fieldValue, (item, key) => {
 				return (
 					<CardField
+						key={key}
 						field={key}
 						depth={depth + 1}
 						payload={fieldValue}
@@ -62,9 +80,8 @@ const CardField = ({
 				)
 			})}
 
-			{!_.isObject(fieldValue) && (
+			{!CustomFieldRenderer && !_.isObject(fieldValue) && (
 				<FieldValue
-					depth={depth + 1}
 					fieldValue={fieldValue}
 					fieldKey={field}
 					parentKey={parentKey}
