@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump immutability-helper from 3.0.1 to 3.0.2'
+      hash: d5ce352741f02967daeb178b9f4640b539f4f1cd
+      body: >
+        Bumps
+        [immutability-helper](https://github.com/kolodny/immutability-helper)
+        from 3.0.1 to 3.0.2.
+
+        - [Release
+        notes](https://github.com/kolodny/immutability-helper/releases)
+
+        -
+        [Commits](https://github.com/kolodny/immutability-helper/compare/v3.0.1...v3.0.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.36.2
+  date: 2020-05-29T14:09:30.446Z
+- commits:
     - subject: 'patch: [security] bump acorn from 5.7.3 to 5.7.4'
       hash: 929a5b27dce8df35e0621e7daf83388d87c491c2
       body: >
