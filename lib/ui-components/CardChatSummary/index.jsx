@@ -135,6 +135,7 @@ export class CardChatSummary extends React.Component {
 			active,
 			to,
 			theme,
+			highlightedFields,
 			...rest
 		} = this.props
 
@@ -167,8 +168,10 @@ export class CardChatSummary extends React.Component {
 			>
 				<Flex justifyContent="space-between" mb={3}>
 					<Flex alignItems="flex-start" flexWrap="wrap">
-						<ColorHashPill value={_.get(card, [ 'data', 'inbox' ])} mr={2} mb={1} />
-						<ColorHashPill value={_.get(card, [ 'data', 'status' ])} mr={2} mb={1} />
+						{_.map(highlightedFields, (keypath) => {
+							return <ColorHashPill value={_.get(card, keypath)} mr={2} mb={1} />
+						})}
+
 						<TagList
 							tags={card.tags.filter((tag) => { return !tag.includes('pending') })}
 							blacklist={[ 'status', 'summary' ]}
@@ -182,9 +185,11 @@ export class CardChatSummary extends React.Component {
 						/>
 					</Flex>
 
-					<Txt color="text.light" fontSize={12}>
-						Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}
-					</Txt>
+					{_.get(card.links, [ 'has attached element' ], []).length > 0 && (
+						<Txt color="text.light" fontSize={12}>
+							Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}
+						</Txt>
+					)}
 				</Flex>
 
 				<Flex justifyContent="space-between" mb={1}>

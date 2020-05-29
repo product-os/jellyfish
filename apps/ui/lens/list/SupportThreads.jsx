@@ -291,6 +291,7 @@ export class SupportThreads extends React.Component {
 												}
 												card={card}
 												timeline={timeline}
+												highlightedFields={[ 'data.status', 'data.inbox' ]}
 												to={helpers.appendToChannelPath(this.props.channel, card)}
 											/>
 										)
