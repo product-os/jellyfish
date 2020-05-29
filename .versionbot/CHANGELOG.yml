@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use full text search feature for inbox search
+      hash: 662fe1278a55d8f9372250540f8d2c5668b91194
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.36.0
+  date: 2020-05-29T00:24:04.800Z
+- commits:
     - subject: Remove hash fragment from sync links
       hash: 653ecc21f90223206a7fdf7dd22b0b94c336ed4b
       body: |
