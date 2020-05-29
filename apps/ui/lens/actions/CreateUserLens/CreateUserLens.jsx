@@ -20,39 +20,58 @@ import {
 } from 'rendition/dist/unstable'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
-import {
-	sdk
-} from '../../../core'
 
-const SCHEMA = {
+const FORM_SCHEMA = {
 	type: 'object',
-	required: [ 'data' ],
+	required: [ 'email', 'username' ],
 	properties: {
-		data: {
-			type: 'object',
-			required: [ 'email', 'username' ],
-			properties: {
-				username: {
-					type: 'string'
-				},
-				email: {
-					type: 'string',
-					format: 'email'
-				}
-			}
+		username: {
+			type: 'string'
+		},
+		email: {
+			type: 'string',
+			format: 'email'
 		}
 	}
 }
 
+// TODO autogenerate this based on user creation action card
 class CreateUserLens extends React.Component {
 	constructor (props) {
 		super(props)
 
+		const {
+			actions,
+			user
+		} = this.props
+
+		const orgs = _.filter(_.get(user, [ 'links', 'is member of' ], []), {
+			type: 'org@1.0.0'
+		})
+
+		if (!orgs.length) {
+			actions.addNotification('danger', 'You must belong to an organisation to add new users')
+		}
+
+		const formSchema = _.set(_.clone(FORM_SCHEMA), [ 'properties', 'organisation' ], {
+			type: 'string',
+			anyOf: _.map(orgs, (org) => {
+				return {
+					title: org.name,
+					const: org.slug
+				}
+			}).concat({
+				title: 'No organisation',
+				const: null
+			})
+		})
+
 		this.state = {
-			org: null,
+			orgs,
 			submitting: false,
-			newCard: this.props.channel.data.head.seed,
-			cardIsValid: false
+			formData: {},
+			cardIsValid: false,
+			formSchema
 		}
 
 		this.bindMethods([
@@ -68,25 +87,27 @@ class CreateUserLens extends React.Component {
 		})
 	}
 
-	handleInputChange (data) {
+	handleInputChange ({
+		formData
+	}) {
 		const {
-			seed
-		} = this.props.channel.data.head
-		const newCard = Object.assign({}, seed, data.formData)
+			formSchema
+		} = this.state
 		this.setState({
-			newCard,
-			cardIsValid: skhema.isValid(SCHEMA, helpers.removeUndefinedArrayItems(newCard))
+			formData,
+			cardIsValid: skhema.isValid(formSchema, helpers.removeUndefinedArrayItems(formData))
 		})
 	}
 
 	handleOnSubmit (event) {
 		event.preventDefault()
+
 		const {
-			org,
-			newCard: {
-				data
-			}
+			formData,
+			orgs
 		} = this.state
+
+		console.log('submitting', formData)
 
 		const {
 			actions
@@ -96,8 +117,11 @@ class CreateUserLens extends React.Component {
 			submitting: true
 		}, async () => {
 			const success = await actions.addUser({
-				org,
-				...data
+				username: formData.username,
+				email: formData.email,
+				org: _.find(orgs, {
+					slug: formData.organisation
+				})
 			})
 			this.setState({
 				submitting: false
@@ -112,36 +136,12 @@ class CreateUserLens extends React.Component {
 		this.props.actions.removeChannel(this.props.channel)
 	}
 
-	componentDidMount () {
-		const {
-			card,
-			actions
-		} = this.props
-		const markers = card.seed.markers
-		const orgSlug = _.find(markers, (marker) => {
-			const match = marker.search(/org-[a-z-]*/)
-			return match === 0
-		})
-		if (orgSlug) {
-			sdk.getBySlug(orgSlug).then((org) => {
-				if (org) {
-					this.setState({
-						org
-					})
-				} else {
-					actions.addNotification('danger', 'Could not find your organisation')
-				}
-			})
-		} else {
-			actions.addNotification('danger', 'You must belong to an organisation to add new users')
-		}
-	}
-
 	render () {
 		const {
-			org,
-			newCard,
-			cardIsValid
+			orgs,
+			formData,
+			cardIsValid,
+			formSchema
 		} = this.state
 
 		const {
@@ -165,8 +165,8 @@ class CreateUserLens extends React.Component {
 			>
 				<Box px={3} pb={3}>
 					<Form
-						schema={SCHEMA}
-						value={newCard}
+						schema={formSchema}
+						value={formData}
 						onFormChange={this.handleInputChange}
 						hideSubmitButton={true}
 					>
@@ -186,7 +186,7 @@ class CreateUserLens extends React.Component {
 							primary
 							type="submit"
 							onClick={this.handleOnSubmit}
-							disabled={!cardIsValid || !org}
+							disabled={!cardIsValid || !orgs.length}
 							data-test="create-user-lens__submit"
 						>
 							{this.state.submitting ? <Icon spin name="cog"/> : 'Submit' }

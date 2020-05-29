@@ -1,0 +1,21 @@
+{
+  "data": {
+    "head": {
+      "action": "create",
+      "types": {
+        "id": "dbd7a3e0-bf19-4710-9e31-62366cea6c6c",
+        "slug": "user",
+        "type": "type@1.0.0",
+        "active": true,
+        "version": "1.0.0",
+        "name": "Jellyfish User",
+        "tags": [],
+        "markers": [],
+        "created_at": "2020-04-21T00:00:22.603Z",
+        "links": {},
+        "requires": [],
+        "capabilities": []
+      }
+    }
+  }
+}
