@@ -1,4 +1,30 @@
 - commits:
+    - subject: Refactor CardField component to be more generic
+      hash: de4b3c7a631bdfcc53fdeea0f9eedd4717c4e2ff
+      body: |
+        The component can now take a set of override renderers, instead of
+        hardcoding information about Jellyfish UI into the component itself.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: 'ui-components: Improve display of card fields'
+      hash: 2e4f323de02f3d91e6244380311170135a3b79e2
+      body: >
+        Arrays are rendered one item per line without index keys. String values
+        are rendered using the Markdown component as standard (this gives us
+        auto-linkification of URLs and email addresses etc).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Graham McCulloch
+  version: 30.37.0
+  date: 2020-05-31T05:59:49.352Z
+- commits:
     - subject: 'patch: bump immutability-helper from 3.0.1 to 3.0.2'
       hash: d5ce352741f02967daeb178b9f4640b539f4f1cd
       body: >
