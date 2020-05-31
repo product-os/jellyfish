@@ -14,7 +14,7 @@ import {
 	Flex,
 	Txt
 } from 'rendition'
-import CardFields from '../../../../../lib/ui-components/CardFields'
+import CardFields from '../../../../../lib/ui-components/shame/CardFields'
 import Link from '../../../../../lib/ui-components/Link'
 import {
 	TagList

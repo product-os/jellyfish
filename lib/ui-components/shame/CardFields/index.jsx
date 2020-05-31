@@ -8,12 +8,16 @@ import _ from 'lodash'
 import React from 'react'
 import {
 	getLocalSchema
-} from '../services/helpers'
-import CardField from '../CardField'
+} from '../../services/helpers'
+import CardField from './CardField'
+import {
+	Markdown
+} from 'rendition/dist/extra/Markdown'
 
 export default function CardFields (props) {
 	const {
 		card,
+		depth,
 		fieldOrder,
 		type,
 		omit
@@ -39,12 +43,36 @@ export default function CardFields (props) {
 		...(omit || [])
 	])
 
+	const renderers = {
+		mirrors: {
+			value: ({
+				fieldValue
+			}) => {
+				return _.map(fieldValue, (value) => {
+					if (_.includes(value, 'frontapp.com')) {
+						const id = value.split('/').pop()
+						return <Markdown>{`https://app.frontapp.com/open/${id}`}</Markdown>
+					}
+					return <Markdown>{value.toString()}</Markdown>
+				})
+			}
+		},
+
+		// Never render local schema meta data
+		$$localSchema: {
+			value: _.constant(null),
+			title: _.constant(null)
+		}
+	}
+
 	return (
 		<React.Fragment>
 			{_.map(keys, (key) => {
 				return payload[key]
 					? <CardField
+						renderers={renderers}
 						key={key}
+						depth={depth}
 						field={key}
 						payload={payload}
 						schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
