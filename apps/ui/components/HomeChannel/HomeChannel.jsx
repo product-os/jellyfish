@@ -43,6 +43,88 @@ import {
 // Slide-in delay in seconds
 const DELAY = 0.6
 
+// TODO replace this with a declartive system based on repo.yml / loop cards
+const BALENA_COMMS = {
+	components: [
+		'open-balena-haproxy',
+		'device-monitor',
+		'marketing-proxy',
+		'balena-postgres-exporter',
+		'balena-vault',
+		'balena-node-exporter',
+		'balena-cloudwatch-exporter',
+		'balena-alertmanager',
+		'open-balena-api',
+		'balena-supervisor',
+		'open-balena-registry',
+		'open-balena-s3',
+		'open-balena-db',
+		'balena-redis',
+		'balena-supervisor-base',
+		'open-balena-vpn',
+		'balena-proxy',
+		'balena-delta',
+		'balena-git',
+		'balena-builder',
+		'balena-img',
+		'balena-sentry',
+		'balena-monitor',
+		'migrate',
+		'balena-patterns-engine',
+		'testbot',
+		'analytics-backend',
+		'resin-blog'
+	],
+	environments: [
+		'environment-staging'
+	],
+	features: [
+		'balena-ui-feature',
+		'balena-core-feature',
+		'balena-buildpipeline-feature',
+		'balena-provisioning-feature',
+		'balena-networking-feature',
+		'balena-delta-feature'
+	],
+	frameworks: [
+		'doxx',
+		'capitano',
+		'pinejs',
+		'valletta',
+		'pensieve',
+		'contrato'
+	],
+	interfaces: [
+		'balena-sdk-python',
+		'balena-sdk',
+		'balena-cli',
+		'balena-ui',
+		'balena-admin',
+		'balena-api'
+	],
+	modules: [
+		'qemu',
+		'sshproxy',
+		'arm-builder-kernels',
+		'kanoe',
+		'balena-metrics-guard-base',
+		'balena-stress-tester',
+		'balena-base-ui'
+	],
+	overlays: [
+		'e2e',
+		'docs',
+		'resin-site'
+	],
+	products: [
+		'balena-io',
+		'etcher',
+		'balena-fin',
+		'etcher-pro',
+		'balena-cloud'
+	]
+}
+
 const HomeChannelWrapper = styled(Flex) `
 	&.collapsed {
 		position: absolute;
@@ -278,7 +360,7 @@ export default class HomeChannel extends React.Component {
 			groups.main.children.push(starredViewsTree)
 		}
 
-		// Add the productOS comms rooms to the top of the sidebar
+		// Add the productOS and balena comms rooms to the the sidebar
 		// TODO: Replace this with a fully fledged loop mapping once the loop
 		// structure becomes concrete.
 		groups.main.children.push({
@@ -316,6 +398,31 @@ export default class HomeChannel extends React.Component {
 				}))
 			}
 		})
+
+		const balenaGroup = _.find(groups.main.children, {
+			key: 'org-balena'
+		})
+
+		if (balenaGroup && this.state.balenaIO) {
+			_.map(BALENA_COMMS, (repos, classification) => {
+				balenaGroup.children.push({
+					name: classification,
+					key: classification,
+					isStarred: false,
+					children: this.state.balenaIO.filter((item) => {
+						return repos.includes(item.name.split('/').pop())
+					}).map((item) => {
+						return {
+							name: item.name,
+							key: item.slug,
+							card: item,
+							isStarred: false,
+							children: []
+						}
+					})
+				})
+			})
+		}
 
 		return groups
 	}
@@ -415,13 +522,17 @@ export default class HomeChannel extends React.Component {
 					const: 'repository@1.0.0'
 				},
 				name: {
-					pattern: '^product-os'
+					pattern: '^product-os|^balena-io/'
 				}
 			}
 		})
 			.then((results) => {
+				const [ productOS, balenaIO ] = _.partition(results, (repo) => {
+					return repo.name.match(/^product-os/)
+				})
 				this.setState({
-					productOS: results
+					productOS,
+					balenaIO
 				})
 			})
 	}
