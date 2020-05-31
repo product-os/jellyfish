@@ -18,6 +18,7 @@ import {
 	Fixed,
 	Flex,
 	Link,
+	Search,
 	Txt
 } from 'rendition'
 import {
@@ -283,6 +284,7 @@ export default class HomeChannel extends React.Component {
 			showDrawer: false,
 			sliding: false,
 			showMenu: false,
+			searchTerm: '',
 			tail: null,
 			messages: []
 		}
@@ -298,6 +300,7 @@ export default class HomeChannel extends React.Component {
 		this.isExpanded = this.isExpanded.bind(this)
 		this.openCreateViewChannel = this.openCreateViewChannel.bind(this)
 		this.openChatWidget = this.openChatWidget.bind(this)
+		this.setSearchTerm = this.setSearchTerm.bind(this)
 
 		if (this.props.channel.data.head) {
 			this.props.actions.loadViewResults(this.props.channel.data.head)
@@ -305,6 +308,12 @@ export default class HomeChannel extends React.Component {
 		}
 
 		this.wrapper = React.createRef()
+	}
+
+	setSearchTerm (event) {
+		this.setState({
+			searchTerm: event.target.value
+		})
 	}
 
 	openCreateViewChannel () {
@@ -326,6 +335,12 @@ export default class HomeChannel extends React.Component {
 	}
 
 	groupViews (tail) {
+		const {
+			searchTerm,
+			productOS,
+			balenaIO
+		} = this.state
+
 		const groups = {
 			defaults: [],
 			main: {
@@ -333,6 +348,28 @@ export default class HomeChannel extends React.Component {
 				key: 'root',
 				children: []
 			}
+		}
+
+		if (searchTerm) {
+			groups.main.children = _.sortBy(tail
+				.concat(productOS || [])
+				.concat(balenaIO || [])
+				.filter((card) => {
+					return (card.name || card.slug).toLowerCase().includes(searchTerm.toLowerCase())
+				})
+				.map((item) => {
+					return {
+						name: item.name,
+						key: item.slug,
+						card: item,
+						isStarred: false,
+						children: []
+					}
+				}),
+			'name'
+			)
+
+			return groups
 		}
 
 		const userStarredViews = getStarredViews(this.props.user)
@@ -349,7 +386,7 @@ export default class HomeChannel extends React.Component {
 				starredViews.push(view)
 			}
 		}
-		_.forEach(this.state.productOS, addToStarredViewsIfStarred)
+		_.forEach(productOS, addToStarredViewsIfStarred)
 		_.forEach(tail, addToStarredViewsIfStarred)
 
 		if (starredViews.length) {
@@ -366,7 +403,7 @@ export default class HomeChannel extends React.Component {
 		groups.main.children.push({
 			name: 'productOS',
 			key: 'product-os',
-			children: (this.state.productOS || []).map((item) => {
+			children: (productOS || []).map((item) => {
 				return {
 					name: item.name,
 					key: item.slug,
@@ -403,7 +440,7 @@ export default class HomeChannel extends React.Component {
 			key: 'org-balena'
 		})
 
-		if (balenaGroup && this.state.balenaIO) {
+		if (balenaGroup && balenaIO) {
 			_.map(BALENA_COMMS, (repos, classification) => {
 				balenaGroup.children.push({
 					name: classification,
@@ -591,7 +628,8 @@ export default class HomeChannel extends React.Component {
 		const {
 			showDrawer,
 			sliding,
-			tail
+			tail,
+			searchTerm
 		} = this.state
 		const activeChannel = channels.length > 1 ? channels[1] : null
 		const username = user ? (user.name || user.slug.replace(/user-/, '')) : null
@@ -786,6 +824,12 @@ export default class HomeChannel extends React.Component {
 							{!tail && (
 								<Box p={3}>
 									<Icon spin name="cog"/>
+								</Box>
+							)}
+
+							{Boolean(tail) && (
+								<Box mx={2} mb={2}>
+									<Search value={searchTerm} onChange={this.setSearchTerm} />
 								</Box>
 							)}
 
