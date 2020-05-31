@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
+import '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	shallow
@@ -13,7 +13,7 @@ import React from 'react'
 import FieldValue from '../FieldValue'
 import {
 	slugify
-} from '../../services/helpers'
+} from '../../../services/helpers'
 
 const mountFieldValue = (props) => {
 	return shallow(<FieldValue {...props} data-test={`card-field__value--${slugify(props.fieldKey)}`} />)
@@ -67,16 +67,4 @@ ava('FieldValue uses Mermaid if the schema specifies it', async (test) => {
 	const valueComponent = findValueComponent(component, props.fieldKey)
 
 	test.is(valueComponent.name(), 'Mermaid')
-})
-
-ava('FieldValue converts frontapp.com URLs in mirrors', async (test) => {
-	const props = {
-		parentKey: 'mirrors',
-		fieldValue: 'https://frontapp.com/id1',
-		fieldKey: 'the key'
-	}
-	const component = await mountFieldValue(props)
-	const valueComponent = findValueComponent(component, props.fieldKey)
-
-	test.is(valueComponent.props().children, 'https://app.frontapp.com/open/id1')
 })
