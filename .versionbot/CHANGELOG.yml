@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump @octokit/rest from 17.1.4 to 17.9.2'
+      hash: b126f5adb378c94d0289658507a771857164b2c9
+      body: >
+        Bumps [@octokit/rest](https://github.com/octokit/rest.js) from 17.1.4 to
+        17.9.2.
+
+        - [Release notes](https://github.com/octokit/rest.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/rest.js/compare/v17.1.4...v17.9.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.39.2
+  date: 2020-06-01T05:57:23.736Z
+- commits:
     - subject: 'patch: bump @babel/preset-react from 7.8.3 to 7.10.1'
       hash: 09c5789e3bdcf474e1da155399e58849452f61ac
       body: >
