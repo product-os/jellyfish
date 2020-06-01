@@ -13,7 +13,8 @@ import {
 	Box,
 	Divider,
 	Tab,
-	Tabs
+	Tabs,
+	Theme
 } from 'rendition'
 import styled from 'styled-components'
 import Segment from './Segment'
@@ -69,6 +70,7 @@ export default class SingleCardFull extends React.Component {
 			types,
 			actionItems
 		} = this.props
+
 		const type = _.find(types, {
 			slug: card.type.split('@')[0]
 		})
@@ -96,7 +98,9 @@ export default class SingleCardFull extends React.Component {
 					onActive={this.setActiveIndex}
 				>
 					<Tab title="Info">
-						<Box p={3}>
+						<Box p={3} style={{
+							maxWidth: Theme.breakpoints[2]
+						}}>
 							<CardFields
 								card={card}
 								fieldOrder={fieldOrder}
