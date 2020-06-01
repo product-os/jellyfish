@@ -114,6 +114,8 @@ class MessageList extends React.Component {
 			tail.reverse()
 		}
 
+		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+
 		return (
 			<Column
 				flex="1"
@@ -141,7 +143,7 @@ class MessageList extends React.Component {
 									card={card}
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
-									addNotification={this.props.actions.addNotification}
+									actions={eventActions}
 									menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 										<ActionLink
 											data-cardid={card.id}

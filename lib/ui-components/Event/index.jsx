@@ -5,12 +5,16 @@
  */
 
 import React from 'react'
+import {
+	compose
+} from 'redux'
 import Event from './Event'
 import {
 	getMessage
 } from './EventBody'
 import CardLoader from '../CardLoader'
 import * as helpers from '../services/helpers'
+import withCardUpdater from '../HOC/with-card-updater'
 import {
 	withSetup
 } from '../SetupProvider'
@@ -37,4 +41,7 @@ const EventWithActor = (props) => {
 	)
 }
 
-export default withSetup(EventWithActor)
+export default compose(
+	withSetup,
+	withCardUpdater(true)
+)(EventWithActor)

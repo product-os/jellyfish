@@ -24,7 +24,7 @@ import {
 	FilesInput
 } from '../FileUploader'
 
-const PlainAutocompleteTextarea = styled(AutocompleteTextarea) `
+export const PlainAutocompleteTextarea = styled(AutocompleteTextarea) `
 	border: 0 !important;
 	background-color: transparent !important;
 	box-shadow: none !important;

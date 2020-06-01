@@ -285,6 +285,8 @@ class SupportThreadBase extends React.Component {
 		const mirrors = _.get(card, [ 'data', 'mirrors' ])
 		const isMirrored = !_.isEmpty(mirrors)
 
+		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+
 		return (
 			<CardLayout
 				card={card}
@@ -466,7 +468,7 @@ class SupportThreadBase extends React.Component {
 												user={this.props.user}
 												selectCard={selectors.getCard}
 												getCard={this.props.actions.getCard}
-												addNotification={this.props.actions.addNotification}
+												actions={eventActions}
 												mb={1}
 												threadIsMirrored={isMirrored}
 											/>

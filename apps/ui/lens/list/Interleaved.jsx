@@ -242,6 +242,8 @@ export class Interleaved extends BaseLens {
 
 		tail = _.sortBy(tail, 'created_at')
 
+		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+
 		return (
 			<Column
 				flex="1"
@@ -280,7 +282,7 @@ export class Interleaved extends BaseLens {
 									firstInThread={isFirstInThread(card, firstMessagesByThreads)}
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
-									addNotification={this.props.actions.addNotification}
+									actions={eventActions}
 								/>
 							</Box>
 						)

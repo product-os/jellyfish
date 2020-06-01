@@ -41,8 +41,15 @@ const MessageContainer = styled(Box) `
 		background-color: #f6f8fa;
 	}
 	${({
-		card, actor, theme
+		card, actor, theme, editing
 	}) => {
+		if (editing) {
+			return `
+				border: solid 0.5px ${theme.colors.gray.main};
+				background: ${theme.colors.gray.light};
+				color: ${theme.colors.text.main};
+			`
+		}
 		if (card.type === 'whisper' || card.type === 'whisper@1.0.0') {
 			return `
 				background: ${theme.colors.secondary.main};

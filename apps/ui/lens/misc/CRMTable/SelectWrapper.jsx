@@ -11,7 +11,7 @@ import {
 	Badge
 } from 'rendition'
 import styled from 'styled-components'
-import withCardUpdater from '../../../components/HOC/with-card-updater'
+import withCardUpdater from '../../../../../lib/ui-components/HOC/with-card-updater'
 
 const SingleLineSpan = styled.span `
 	whiteSpace: 'nowrap'
@@ -42,4 +42,4 @@ const SelectWrapper = ({
 	)
 }
 
-export default withCardUpdater(SelectWrapper)
+export default withCardUpdater()(SelectWrapper)
