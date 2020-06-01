@@ -17,6 +17,8 @@ const {
 	createSupportThreadAndNavigate
 } = guidedFlowUtils
 
+const unassignedButtonText = 'Assign to me'
+
 const context = {
 	context: {
 		id: `UI-INTEGRATION-TEST-${uuid()}`,
@@ -55,13 +57,14 @@ const openCardOwnerDropdown = async (page) => {
 const verifyCardOwner = async (test, page, isAssigned, expectedOwnerText) => {
 	const dataTestAttribute = isAssigned
 		? 'card-owner-dropdown__label--assigned'
-		: 'card-owner-dropdown__label--unassigned'
+		: 'card-owner-dropdown__label--assign-to-me'
 	const selector = `//*[@data-test="${dataTestAttribute}"][text()="${expectedOwnerText}"]`
 	const cardOwner = await page.waitForXPath(selector)
 	const text = await page.evaluate((ele) => {
 		return ele.textContent
 	}, cardOwner)
 	test.is(text, expectedOwnerText)
+	return cardOwner
 }
 
 const getWhisperText = async (page) => {
@@ -110,13 +113,10 @@ ava.serial('You can assign an unassigned thread to yourself', async (test) => {
 	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
-	await verifyCardOwner(test, page, false, 'Unassigned')
-
-	await openCardOwnerDropdown(page)
-	await page.waitForSelector(`${selectors.ddUnassign}[disabled]`)
+	const cardOwnerButton = await verifyCardOwner(test, page, false, unassignedButtonText)
 
 	// Assign the thread to ourselves
-	await macros.waitForThenClickSelector(page, selectors.ddAssignToMe)
+	cardOwnerButton.click()
 
 	// Verify the new owner is me!
 	await verifyCardOwner(test, page, true, currentUserSlug)
@@ -138,7 +138,7 @@ ava.serial('You can assign an unassigned thread to another user', async (test) =
 	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
-	await verifyCardOwner(test, page, false, 'Unassigned')
+	await verifyCardOwner(test, page, false, unassignedButtonText)
 
 	// Open the Guided Handover Flow
 	await openCardOwnerDropdown(page)
@@ -189,7 +189,6 @@ ava.serial('You can unassign a thread that was assigned to you', async (test) =>
 
 	// Open the Guided Handover Flow
 	await openCardOwnerDropdown(page)
-	await page.waitForSelector(`${selectors.ddAssignToMe}[disabled]`)
 	await macros.waitForThenClickSelector(page, selectors.ddUnassign)
 
 	// Ensure the 'Unassign' option is selected
@@ -208,7 +207,7 @@ ava.serial('You can unassign a thread that was assigned to you', async (test) =>
 	await action(page)
 
 	// Verify its now unassigned
-	await verifyCardOwner(test, page, false, 'Unassigned')
+	await verifyCardOwner(test, page, false, unassignedButtonText)
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
@@ -251,7 +250,7 @@ ava.serial('You can unassign a thread that was assigned to another user', async 
 	await action(page)
 
 	// Verify its now unassigned
-	await verifyCardOwner(test, page, false, 'Unassigned')
+	await verifyCardOwner(test, page, false, unassignedButtonText)
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
