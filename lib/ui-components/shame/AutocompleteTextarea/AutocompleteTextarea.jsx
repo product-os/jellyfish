@@ -48,6 +48,7 @@ const SubAuto = (props) => {
 		innerRef,
 		onClickOutside,
 		enableAutocomplete,
+		autoFocus,
 		types,
 		sdk,
 		user,
@@ -67,6 +68,16 @@ const SubAuto = (props) => {
 		'placeholder'
 	])
 	const [ textareaRef, setTextareaRef ] = React.useState(null)
+
+	if (autoFocus) {
+		React.useEffect(() => {
+			if (textareaRef) {
+				textareaRef.focus()
+				// eslint-disable-next-line no-multi-assign
+				textareaRef.selectionStart = textareaRef.selectionEnd = 10000
+			}
+		}, [ textareaRef ])
+	}
 
 	const innerRefCallback = (ref) => {
 		setTextareaRef(ref)
