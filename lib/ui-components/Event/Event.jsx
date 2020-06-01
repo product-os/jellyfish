@@ -20,7 +20,9 @@ import Avatar from '../shame/Avatar'
 import Icon from '../shame/Icon'
 import EventWrapper from './EventWrapper'
 import EventHeader from './EventHeader'
-import EventBody from './EventBody'
+import EventBody, {
+	getMessage
+} from './EventBody'
 
 const MESSAGE_COLLAPSED_HEIGHT = 400
 
@@ -84,11 +86,56 @@ export default class Event extends React.Component {
 			}
 		}
 
+		this.onStartEditing = () => {
+			this.setState({
+				editedMessage: getMessage(this.props.card)
+			})
+		}
+
+		this.onStopEditing = () => {
+			this.setState({
+				editedMessage: null,
+				updating: false
+			})
+		}
+
+		this.updateEditedMessage = (event) => {
+			this.setState({
+				editedMessage: event.target.value
+			})
+		}
+
+		this.saveEditedMessage = () => {
+			const {
+				card,
+				onUpdateCard
+			} = this.props
+			if (this.state.editedMessage === getMessage(card)) {
+				// No change - just finish editing now
+				this.onStopEditing()
+			} else {
+				this.setState({
+					updating: true
+				}, async () => {
+					onUpdateCard(this.props.card, 'data.payload.message', this.state.editedMessage)
+						.then(this.onStopEditing)
+						.catch(() => {
+							this.setState({
+								updating: false
+							})
+						})
+				})
+			}
+		}
+
 		this.state = {
+			editedMessage: null,
+			updating: false,
 			messageHeight: null
 		}
 
 		this.handleVisibilityChange = this.handleVisibilityChange.bind(this)
+		this.processText = this.processText.bind(this)
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -159,6 +206,10 @@ export default class Event extends React.Component {
 
 	render () {
 		const {
+			types,
+			enableAutocomplete,
+			sendCommand,
+			user,
 			card,
 			actor,
 			sdk,
@@ -166,15 +217,16 @@ export default class Event extends React.Component {
 			menuOptions,
 			threadIsMirrored,
 			openChannel,
-			actions
+			onCardVisible,
+			onUpdateCard,
+			actions,
+			...rest
 		} = this.props
-		const props = _.omit(this.props, [
-			'card',
-			'menuOptions',
-			'onCardVisible',
-			'openChannel',
-			'actions'
-		])
+
+		const {
+			editedMessage,
+			updating
+		} = this.state
 
 		const typeBase = card.type.split('@')[0]
 		const isMessage = typeBase === 'message' || typeBase === 'whisper'
@@ -184,7 +236,7 @@ export default class Event extends React.Component {
 
 		return (
 			<VisibilitySensor onChange={this.handleVisibilityChange}>
-				<EventWrapper {...props} className={`event-card--${typeBase}`}>
+				<EventWrapper {...rest} className={`event-card--${typeBase}`}>
 					<EventButton
 						onClick={this.openChannel}
 						style={{
@@ -225,7 +277,11 @@ export default class Event extends React.Component {
 							card={card}
 							threadIsMirrored={threadIsMirrored}
 							menuOptions={menuOptions}
-							isMessage={isMessage} />
+							isMessage={isMessage}
+							onEditMessage={this.onStartEditing}
+							updating={updating}
+							user={user}
+						/>
 						<EventBody
 							card={card}
 							sdk={sdk}
@@ -235,6 +291,14 @@ export default class Event extends React.Component {
 							addNoticication={actions.addNotification}
 							setMessageElement={this.setMessageElement}
 							messageCollapsedHeight={MESSAGE_COLLAPSED_HEIGHT}
+							enableAutocomplete={enableAutocomplete}
+							sendCommand={sendCommand}
+							types={types}
+							user={user}
+							editedMessage={editedMessage}
+							updating={updating}
+							onUpdateDraft={this.updateEditedMessage}
+							onSaveEditedMessage={this.saveEditedMessage}
 						/>
 					</Box>
 				</EventWrapper>

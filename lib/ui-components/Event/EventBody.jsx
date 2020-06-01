@@ -22,6 +22,15 @@ import {
 import Icon from '../shame/Icon'
 import AuthenticatedImage from '../AuthenticatedImage'
 import MessageContainer from './MessageContainer'
+import {
+	PlainAutocompleteTextarea
+} from '../Timeline/MessageInput'
+
+const MESSAGE_Y_SPACE = '3px'
+
+const EditingAutocompleteTextarea = styled(PlainAutocompleteTextarea) `
+	margin: ${MESSAGE_Y_SPACE} 0;
+`
 
 const FRONT_MARKDOWN_IMG_RE = /\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g
 const FRONT_HTML_IMG_RE = /\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g
@@ -131,10 +140,18 @@ export default class EventBody extends React.Component {
 
 	render () {
 		const {
+			enableAutocomplete,
+			sendCommand,
+			types,
+			user,
 			sdk,
 			card,
 			actor,
 			isMessage,
+			editedMessage,
+			updating,
+			onUpdateDraft,
+			onSaveEditedMessage,
 			addNotification,
 			messageOverflows,
 			setMessageElement,
@@ -200,26 +217,42 @@ export default class EventBody extends React.Component {
 							ref={setMessageElement}
 							card={card}
 							actor={actor}
+							editing={Boolean(editedMessage)}
 							py={2}
 							px={3}
 							mr={1}
 						>
-							<Markdown
-								py="3px"
-								style={{
-									fontSize: 'inherit',
-									overflow: messageOverflows ? 'hidden' : 'initial',
-									maxHeight:
-					!this.state.expanded && messageOverflows
-						? messageCollapsedHeight
-						: 'none'
-								}}
-								data-test={card.pending ? '' : 'event-card__message'}
-								flex={0}
-							>
-								{message}
-							</Markdown>
-
+							{editedMessage && !updating ? (
+								<EditingAutocompleteTextarea
+									data-test="event__textarea"
+									enableAutocomplete={enableAutocomplete}
+									sdk={sdk}
+									types={types}
+									user={user}
+									autoFocus
+									sendCommand={sendCommand}
+									value={editedMessage}
+									onChange={onUpdateDraft}
+									onSubmit={onSaveEditedMessage}
+									onClickOutside={onSaveEditedMessage}
+								/>
+							) : (
+								<Markdown
+									py={MESSAGE_Y_SPACE}
+									style={{
+										fontSize: 'inherit',
+										overflow: messageOverflows ? 'hidden' : 'initial',
+										maxHeight:
+						!this.state.expanded && messageOverflows
+							? messageCollapsedHeight
+							: 'none'
+									}}
+									data-test={card.pending || updating ? 'event-card__message-draft' : 'event-card__message'}
+									flex={0}
+								>
+									{updating ? editedMessage : message}
+								</Markdown>
+							)}
 							{messageOverflows && (
 								<OverflowButton
 									className="event-card__expand"

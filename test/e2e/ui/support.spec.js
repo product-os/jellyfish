@@ -677,3 +677,57 @@ ava.serial('My Participation shows only support threads that the logged-in user 
 	)
 	test.is(actualMessageText2, messageText2)
 })
+
+ava.serial.only('A user can edit their own message', async (test) => {
+	const {
+		page
+	} = context
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messageTextBefore = 'Message before'
+	const messageSuffix = ' - edited'
+	const messageTextAfter = `${messageTextBefore}${messageSuffix}`
+
+	const messageEvent = {
+		target: supportThread,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: messageTextBefore
+		}
+	}
+
+	await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent)
+
+	// Navigate to the thread and wait for the message event to be displayed
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	const eventSelector = '.column--support-thread .event-card--message'
+	await page.waitForSelector(eventSelector)
+
+	// Open the event actions menu and select the 'Edit Message' button
+	await macros.waitForThenClickSelector(page, `${eventSelector} button.event-card--actions`)
+	await macros.waitForThenClickSelector(page, `${eventSelector} [data-test="event-header__link--edit-message"]`)
+
+	// Type into the textarea to update the message text
+	await page.waitForSelector(`${eventSelector} textarea`)
+	await page.type(`${eventSelector} textarea`, messageSuffix)
+
+	// Click anywhere outside the textarea to save the edited message
+	await macros.waitForThenClickSelector(page, '.column--support-thread')
+
+	// Wait for the message to be updated and verify the message text
+	const newMessageText = await macros.getElementText(page, `${eventSelector} [data-test="event-card__message"]`)
+	test.is(newMessageText.trim(), messageTextAfter)
+})

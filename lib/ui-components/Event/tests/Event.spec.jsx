@@ -33,17 +33,21 @@ const actor = {
 	card: {}
 }
 
-const actions = {
-	getActor: async () => {
-		return actor
-	}
-}
-
 const {
 	wrapper
 } = getWrapper()
 
 const sandbox = sinon.createSandbox()
+
+const actions = {
+	addNotification: sandbox.fake()
+}
+
+const commonProps = {
+	actions,
+	user,
+	actor
+}
 
 ava.afterEach(() => {
 	sandbox.restore()
@@ -53,7 +57,7 @@ ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<Event
-				actions={actions}
+				{...commonProps}
 				card={card}
 			/>
 		)
@@ -63,10 +67,8 @@ ava('It should render', (test) => {
 ava('It should display the actor\'s details', (test) => {
 	const event = mount(
 		<Event
-			actions={actions}
+			{...commonProps}
 			card={card}
-			actor={actor}
-			user={user}
 		/>, {
 			wrappingComponent: wrapper
 		}
@@ -100,10 +102,8 @@ ava('An AuthenticatedImage is displayed when an image is attached', (test) => {
 	}
 	const event = mount(
 		<Event
-			actions={actions}
+			{...commonProps}
 			card={cardWithAttachments}
-			actor={actor}
-			user={user}
 			sdk={sdk}
 		/>, {
 			wrappingComponent: wrapper
@@ -133,10 +133,8 @@ ava('A download button is displayed for an attachment when it is not an image', 
 	}
 	const event = mount(
 		<Event
-			actions={actions}
+			{...commonProps}
 			card={cardWithAttachments}
-			actor={actor}
-			user={user}
 		/>, {
 			wrappingComponent: wrapper
 		}
@@ -166,10 +164,8 @@ ava('A download button is displayed for each image when there is three or more i
 	}
 	const event = mount(
 		<Event
-			actions={actions}
+			{...commonProps}
 			card={cardWithAttachments}
-			actor={actor}
-			user={user}
 		/>, {
 			wrappingComponent: wrapper
 		}
@@ -194,10 +190,8 @@ ava('A markdown message is displayed when the card is a message', async (test) =
 	}
 	const event = mount(
 		<Event
-			actions={actions}
+			{...commonProps}
 			card={messageCard}
-			actor={actor}
-			user={user}
 		/>, {
 			wrappingComponent: wrapper
 		}

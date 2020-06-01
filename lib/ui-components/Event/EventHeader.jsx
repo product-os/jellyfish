@@ -86,9 +86,12 @@ export default class EventHeader extends React.Component {
 
 	render () {
 		const {
-			isMessage, actor, card, threadIsMirrored, menuOptions
+			isMessage, actor, card, threadIsMirrored, menuOptions, user, updating, onEditMessage
 		} = this.props
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+
+		const isOwnMessage = user.id === _.get(card, [ 'data', 'actor' ])
+
 		return (
 			<Flex justifyContent="space-between" mb={1}>
 				<Flex
@@ -124,9 +127,9 @@ export default class EventHeader extends React.Component {
 							{formatTimestamp(timestamp, true)}
 						</Txt>
 					)}
-					{card.pending ? (
-						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
-				sending...
+					{card.pending || updating ? (
+						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px" data-test="event-header__status">
+							{ updating ? 'updating...' : 'sending...' }
 							<Icon
 								style={{
 									marginLeft: 6
@@ -147,6 +150,7 @@ export default class EventHeader extends React.Component {
 					<span>
 						<Button
 							className="event-card--actions"
+							data-test="event-header__context-menu-trigger"
 							px={2}
 							plain
 							onClick={this.toggleMenu}
@@ -156,25 +160,35 @@ export default class EventHeader extends React.Component {
 						{this.state.showMenu && (
 							<ContextMenu position="bottom" onClose={this.toggleMenu}>
 								<React.Fragment>
+									{isOwnMessage && !card.pending && !updating && (
+										<ActionLink
+											data-test="event-header__link--edit-message"
+											onClick={onEditMessage}>
+											Edit message
+										</ActionLink>
+									)}
+
 									<ActionLink
+										data-test="event-header__link--copy-json"
 										onClick={this.copyJSON}
 										tooltip={{
 											text: 'JSON copied!',
 											trigger: 'click'
 										}}
 									>
-					Copy as JSON
+										Copy as JSON
 									</ActionLink>
 
 									{isMessage && (
 										<ActionLink
+											data-test="event-header__link--copy-raw"
 											onClick={this.copyRawMessage}
 											tooltip={{
 												text: 'Message copied!',
 												trigger: 'click'
 											}}
 										>
-						Copy raw message
+											Copy raw message
 										</ActionLink>
 									)}
 
