@@ -1,4 +1,55 @@
 - commits:
+    - subject: Add support for editing your own messages
+      hash: 10ba5a9f45e0c5e77f07a76947ee73406dc5157d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Add support for auto-focus of AutocompleteTextarea'
+      hash: a08b8fd943fbbe631d3be02505160df3aa7a9b0b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Add optional onClickOutside prop to AutocompleteTextarea'
+      hash: 8a804cda67e9a953e72b9a4c4f3da93dd7c3fba1
+      body: >
+        This will be useful when triggering an action (like saving the textarea
+        value) when the user clicks outside of the textarea.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Add useOnClickOutside hook'
+      hash: 59c600b8d8a2e4d89df00f8f40c1c41e3a9a4bee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add ability for Event component to update it's card
+      hash: 52c9d7b5a0fa5316d696bccad7548b60e330d084
+      body: |
+        This will be used when submitting an edit to the event's message.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.42.0
+  date: 2020-06-01T22:52:04.613Z
+- commits:
     - subject: Autopopulate handover status text
       hash: ee8b0520f728bf081a3e1afe94e2a8e1b489a0bb
       body: ''
