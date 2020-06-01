@@ -5,6 +5,7 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 import path from 'path'
 import {
 	Txt,
@@ -85,8 +86,10 @@ export default class CardOwner extends React.Component {
 		const flowState = {
 			isOpen: true,
 			card,
-			unassigned
+			unassigned,
+			statusDescription: _.get(card, [ 'data', 'statusDescription' ], '')
 		}
+
 		if (unassigned) {
 			flowState.newOwner = null
 			flowState.userError = null
