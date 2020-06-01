@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump bluebird from 3.7.1 to 3.7.2'
+      hash: 8495fdb6c9d7d6e153fd6e799c59689dc08c4b5d
+      body: >
+        Bumps [bluebird](https://github.com/petkaantonov/bluebird) from 3.7.1 to
+        3.7.2.
+
+        - [Release notes](https://github.com/petkaantonov/bluebird/releases)
+
+        -
+        [Commits](https://github.com/petkaantonov/bluebird/compare/v3.7.1...v3.7.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.38.1
+  date: 2020-06-01T01:17:25.575Z
+- commits:
     - subject: Add new group card
       hash: 5d8c1ce77e4a5414faa05e74c9c5f4630ffc03a5
       body: ''
