@@ -1,4 +1,16 @@
 - commits:
+    - subject: Apply a sane maximum width to rendered card fields
+      hash: 9c0659fef24fbe297e3281b25c41ba9bc31639d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.39.4
+  date: 2020-06-01T08:52:18.000Z
+- commits:
     - subject: 'patch: bump eslint-plugin-promise from 3.8.0 to 4.2.1'
       hash: bf46652af6494ccb6703bacd548cef2d7d06e129
       body: >
