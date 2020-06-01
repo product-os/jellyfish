@@ -18,6 +18,7 @@ import Link from '../../Link'
 import * as helpers from '../../services/helpers'
 import Icon from '../Icon'
 import Container from './Container'
+import useOnClickOutside from '../../hooks/use-onclickoutside'
 import {
 	getTrigger
 } from './triggers'
@@ -44,6 +45,8 @@ const Loader = () => {
 
 const SubAuto = (props) => {
 	const {
+		innerRef,
+		onClickOutside,
 		enableAutocomplete,
 		types,
 		sdk,
@@ -57,10 +60,24 @@ const SubAuto = (props) => {
 	const rest = _.omit(props, [
 		'value',
 		'className',
+		'innerRef',
+		'onClickOutside',
 		'onChange',
 		'onKeyPress',
 		'placeholder'
 	])
+	const [ textareaRef, setTextareaRef ] = React.useState(null)
+
+	const innerRefCallback = (ref) => {
+		setTextareaRef(ref)
+		if (innerRef) {
+			innerRef(ref)
+		}
+	}
+
+	if (onClickOutside) {
+		useOnClickOutside(textareaRef, React.useCallback(onClickOutside))
+	}
 
 	// ReactTextareaAutocomplete autocompletion doesn't work with JSDom, so disable
 	// it during testing
@@ -68,6 +85,7 @@ const SubAuto = (props) => {
 	return (
 		<Container {...rest}>
 			<ReactTextareaAutocomplete
+				innerRef={innerRefCallback}
 				textAreaComponent={{
 					component: TextareaAutosize,
 					ref: 'inputRef'
