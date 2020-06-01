@@ -1,4 +1,16 @@
 - commits:
+    - subject: Bump jellyfish-client-sdk to v0.5.0
+      hash: 18ee78890d265f3ce50ee26a885f3ff468f9ce40
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.39.0
+  date: 2020-06-01T04:04:43.885Z
+- commits:
     - subject: 'patch: bump bluebird from 3.7.1 to 3.7.2'
       hash: 8495fdb6c9d7d6e153fd6e799c59689dc08c4b5d
       body: >
