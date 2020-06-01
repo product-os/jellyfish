@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix e2e tests for Guided Handover Flow
+      hash: fa39b5198b95335dd9a97ec0ae3f53db587178d6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Display assign to self if card is unassigned
+      hash: 1b1c7ddf8da8620da99999e7ba3c96c2afd5e0db
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3910'
+        connects-to: '#3910'
+      author: Kakhaber
+  version: 30.40.0
+  date: 2020-06-01T12:39:15.176Z
+- commits:
     - subject: Apply a sane maximum width to rendered card fields
       hash: 9c0659fef24fbe297e3281b25c41ba9bc31639d9
       body: ''
