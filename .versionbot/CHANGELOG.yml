@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add new group card
+      hash: 5d8c1ce77e4a5414faa05e74c9c5f4630ffc03a5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.38.0
+  date: 2020-06-01T00:24:49.805Z
+- commits:
     - subject: Refactor CardField component to be more generic
       hash: de4b3c7a631bdfcc53fdeea0f9eedd4717c4e2ff
       body: |
