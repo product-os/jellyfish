@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/preset-react from 7.8.3 to 7.10.1'
+      hash: 09c5789e3bdcf474e1da155399e58849452f61ac
+      body: >
+        Bumps
+        [@babel/preset-react](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-react)
+        from 7.8.3 to 7.10.1.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.1/packages/babel-preset-react)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.39.1
+  date: 2020-06-01T04:54:34.596Z
+- commits:
     - subject: Bump jellyfish-client-sdk to v0.5.0
       hash: 18ee78890d265f3ce50ee26a885f3ff468f9ce40
       body: ''
