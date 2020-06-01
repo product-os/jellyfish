@@ -518,3 +518,176 @@ ava('.setTriggers() should throw if arguments is not an object', (test) => {
 		instanceOf: test.context.worker.errors.WorkerInvalidTrigger
 	})
 })
+
+ava('.upsertTrigger() should be able to add a trigger', (test) => {
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			slug: 'triggered-action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
+			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		}
+	])
+
+	test.context.worker.upsertTrigger(test.context.context, {
+		id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+		slug: 'triggered-action-foo-baz',
+		action: 'action-foo-bar@1.0.0',
+		target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+		type: 'card@1.0.0',
+		filter: {
+			type: 'object'
+		},
+		arguments: {
+			foo: 'baz'
+		}
+	})
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			slug: 'triggered-action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
+			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		},
+		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			slug: 'triggered-action-foo-baz',
+			action: 'action-foo-bar@1.0.0',
+			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'baz'
+			}
+		}
+	])
+})
+
+ava('.upsertTrigger() should be able to modify an existing trigger', (test) => {
+	test.context.worker.setTriggers(test.context.context, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			slug: 'triggered-action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
+			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		},
+		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			slug: 'triggered-action-foo-baz',
+			action: 'action-foo-bar@1.0.0',
+			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			type: 'card@1.0.0',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'baz'
+			}
+		}
+	])
+
+	test.context.worker.upsertTrigger(test.context.context, {
+		id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+		slug: 'triggered-action-foo-baz',
+		action: 'action-foo-bar@1.0.0',
+		target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+		type: 'card@1.0.0',
+		filter: {
+			type: 'object'
+		},
+		arguments: {
+			baz: 'buzz'
+		}
+	})
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			slug: 'triggered-action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
+			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		},
+		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			slug: 'triggered-action-foo-baz',
+			action: 'action-foo-bar@1.0.0',
+			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				baz: 'buzz'
+			}
+		}
+	])
+})
+
+ava('.removeTrigger() should be able to remove an existing trigger', (test) => {
+	const cards = [
+		{
+			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			slug: 'triggered-action-foo-bar',
+			action: 'action-foo-bar@1.0.0',
+			target: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'bar'
+			}
+		},
+		{
+			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			slug: 'triggered-action-foo-baz',
+			action: 'action-foo-bar@1.0.0',
+			target: 'a13474e4-7b44-453b-9f3e-aa783b8f37ea',
+			type: 'card@1.0.0',
+			filter: {
+				type: 'object'
+			},
+			arguments: {
+				foo: 'baz'
+			}
+		}
+	]
+
+	test.context.worker.setTriggers(test.context.context, cards)
+
+	test.context.worker.removeTrigger(test.context.context, cards[1].slug)
+
+	const triggers = test.context.worker.getTriggers()
+
+	test.deepEqual(triggers, [
+		cards[0]
+	])
+})

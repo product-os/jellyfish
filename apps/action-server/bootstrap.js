@@ -40,6 +40,30 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 	}))
 }
 
+const transformTriggerCard = (trigger) => {
+	const object = {
+		id: trigger.id,
+		slug: trigger.slug,
+		action: trigger.data.action,
+		target: trigger.data.target,
+		arguments: trigger.data.arguments
+	}
+
+	if (trigger.data.filter) {
+		object.filter = trigger.data.filter
+	}
+
+	if (trigger.data.interval) {
+		object.interval = trigger.data.interval
+	}
+
+	if (trigger.data.mode) {
+		object.mode = trigger.data.mode
+	}
+
+	return object
+}
+
 const SCHEMA_ACTIVE_TRIGGERS = {
 	type: 'object',
 	properties: {
@@ -89,41 +113,6 @@ const bootstrap = async (context, library, options) => {
 	await worker.initialize(context)
 
 	let run = true
-	let refreshingTriggers = Bluebird.resolve()
-
-	const refreshTriggers = async () => {
-		refreshingTriggers = jellyfish.query(
-			context, session, SCHEMA_ACTIVE_TRIGGERS)
-		const triggers = await refreshingTriggers
-
-		logger.info(context, 'Refreshing triggers', {
-			triggers: triggers.length
-		})
-
-		worker.setTriggers(context, triggers.map((trigger) => {
-			const object = {
-				id: trigger.id,
-				slug: trigger.slug,
-				action: trigger.data.action,
-				target: trigger.data.target,
-				arguments: trigger.data.arguments
-			}
-
-			if (trigger.data.filter) {
-				object.filter = trigger.data.filter
-			}
-
-			if (trigger.data.interval) {
-				object.interval = trigger.data.interval
-			}
-
-			if (trigger.data.mode) {
-				object.mode = trigger.data.mode
-			}
-
-			return object
-		}))
-	}
 
 	const triggerStream = await jellyfish.stream(
 		context, session, SCHEMA_ACTIVE_TRIGGERS)
@@ -133,7 +122,6 @@ const bootstrap = async (context, library, options) => {
 		await consumer.cancel()
 		triggerStream.removeAllListeners()
 		await triggerStream.close()
-		await refreshingTriggers
 		await jellyfish.disconnect(context)
 		if (cache) {
 			await cache.disconnect()
@@ -148,11 +136,31 @@ const bootstrap = async (context, library, options) => {
 	}
 
 	triggerStream.once('error', errorHandler)
-	triggerStream.on('data', () => {
-		refreshTriggers().catch(errorHandler)
+
+	// On a stream event, update the stored triggers in the worker
+	triggerStream.on('data', (data) => {
+		if (data.type === 'update' || data.type === 'insert') {
+			// If `after` is null, the card is no longer available: most likely it has
+			// been soft-deleted, having its `active` state set to false
+			if (data.after === null) {
+				worker.removeTrigger(context, data.before.slug)
+			} else {
+				worker.upsertTrigger(context, transformTriggerCard(data.after))
+			}
+		}
+
+		if (data.type === 'delete') {
+			worker.removeTrigger(context, data.before.slug)
+		}
 	})
 
-	await refreshTriggers()
+	const triggers = await jellyfish.query(context, session, SCHEMA_ACTIVE_TRIGGERS)
+
+	logger.info(context, 'Loading triggers', {
+		triggers: triggers.length
+	})
+
+	worker.setTriggers(context, triggers.map(transformTriggerCard))
 
 	// FIXME we should really have 2 workers, the consuming worker and the tick worker
 	if (options.onLoop) {
