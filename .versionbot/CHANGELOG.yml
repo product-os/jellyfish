@@ -1,4 +1,16 @@
 - commits:
+    - subject: Autopopulate handover status text
+      hash: ee8b0520f728bf081a3e1afe94e2a8e1b489a0bb
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3917'
+        connects-to: '#3917'
+      author: Kakhaber
+  version: 30.41.0
+  date: 2020-06-01T15:39:24.140Z
+- commits:
     - subject: Fix e2e tests for Guided Handover Flow
       hash: fa39b5198b95335dd9a97ec0ae3f53db587178d6
       body: ''
