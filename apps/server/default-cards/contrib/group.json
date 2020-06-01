@@ -1,0 +1,40 @@
+{
+  "slug": "group",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "name": "Group",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "namespace": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Members",
+          "link": "has group member",
+          "type": "user"
+        }
+      ]
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}

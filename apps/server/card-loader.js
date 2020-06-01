@@ -82,6 +82,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/whisper.json'),
 		await loadCard('contrib/workflow.json'),
 		await loadCard('contrib/web-push-subscription.json'),
+		await loadCard('contrib/group.json'),
 
 		// Triggered actions
 		await loadCard('contrib/triggered-action-github-issue-link.json'),
