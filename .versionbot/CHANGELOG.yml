@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'service-worker: Handle web push notifications'
+      hash: 9ae8904eaea872ed67deeeab22908beaf0269190
+      body: |
+        Handle the 'push' and 'notificationclick' events.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.44.0
+  date: 2020-06-02T15:03:05.745Z
+- commits:
     - subject: Restructure group type card schema
       hash: 60dedc03bc7a42528b12e66dde6b618de72757a7
       body: |
