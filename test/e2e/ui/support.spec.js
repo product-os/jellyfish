@@ -731,3 +731,71 @@ ava.serial('A user can edit their own message', async (test) => {
 	const newMessageText = await macros.getElementText(page, `${eventSelector} [data-test="event-card__message"]`)
 	test.is(newMessageText.trim(), messageTextAfter)
 })
+
+ava.serial('You can select a user and a group from the auto-complete options', async (test) => {
+	const {
+		page
+	} = context
+
+	const uuid1 = uuid()
+	const username = `${uuid1}-test-user`
+	const uuid2 = uuid()
+	const groupName = `${uuid2}-test-group`
+
+	const testUser = await context.createUser({
+		username,
+		email: `test-user-${uuid()}@example.com`,
+		password: 'password'
+	})
+
+	await context.addUserToBalenaOrg(testUser.id)
+
+	await page.evaluate((name) => {
+		return window.sdk.card.create({
+			type: 'group@1.0.0',
+			name
+		})
+	}, groupName)
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread and wait for the thread to be displayed
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	const threadSelector = '.column--support-thread'
+	await page.waitForSelector(threadSelector)
+
+	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
+
+	// Use auto-complete to find a user
+	await page.type('textarea', `@${uuid1}`)
+	await page.waitForSelector('.rta__autocomplete .rta__item')
+	const userMatches = await page.$$('.rta__autocomplete .rta__item')
+	test.is(userMatches.length, 1)
+	const userMatch = await macros.getElementText(page, '.rta__autocomplete .rta__item:first-child')
+	test.is(userMatch.trim().substr(1), username)
+
+	// Select the first item from the auto-complete suggestions (note: this also appends a space to the message)
+	await page.keyboard.press('Enter')
+
+	// Now user auto-complete to find a group
+	await page.type('textarea', `@@${uuid2}`)
+	await page.waitForSelector('.rta__autocomplete .rta__item')
+	const groupMatches = await page.$$('.rta__autocomplete .rta__item')
+	test.is(groupMatches.length, 1)
+	const groupMatch = await macros.getElementText(page, '.rta__autocomplete .rta__item:first-child')
+	test.is(groupMatch.trim().substr(2), groupName)
+
+	// Select the first item from the auto-complete suggestions
+	await page.keyboard.press('Enter')
+
+	const textareaText = await macros.getElementText(page, 'textarea')
+	test.is(textareaText.trim(), `@${username} @@${groupName}`)
+})

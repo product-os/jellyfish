@@ -14,17 +14,25 @@
         "name": {
           "type": "string"
         },
-        "description": {
-          "type": "string"
-        },
-        "namespace": {
-          "type": "string"
+        "data": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "namespace": {
+              "type": "string"
+            }
+          }
         }
       },
       "required": [
         "name"
       ]
     },
+    "indexed_fields": [
+      [ "name" ]
+    ],
     "meta": {
       "relationships": [
         {
