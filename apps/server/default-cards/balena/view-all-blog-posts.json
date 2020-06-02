@@ -1,6 +1,6 @@
 {
   "slug": "view-all-blog-posts",
-  "name": "Checkins",
+  "name": "Blog posts",
   "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
