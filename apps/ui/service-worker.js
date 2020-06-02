@@ -34,6 +34,50 @@ self.addEventListener('message', (event) => {
 	}
 })
 
+self.addEventListener('push', (event) => {
+	try {
+		const payload = JSON.parse(event.data.text())
+		const title = 'Jellyfish'
+		const options = {
+			icon: '/icons/jellyfish.png',
+			body: payload.message || '',
+			data: {
+				url: payload.url || self.location.origin
+			}
+		}
+		event.waitUntil(self.registration.showNotification(title, options))
+	} catch (error) {
+		console.error('Failed to handle web push notification', error)
+	}
+})
+
+self.addEventListener('notificationclick', (event) => {
+	try {
+		event.notification.close()
+
+		// Get all the Window clients
+		event.waitUntil(self.clients.matchAll({
+			type: 'window'
+		}).then((clientsArr) => {
+			// Check if there's a Window tab matching the targeted URL
+			const matchingWindowClient = clientsArr.find((clientWindow) => {
+				return clientWindow.url === event.notification.data.url
+			})
+
+			if (matchingWindowClient) {
+				matchingWindowClient.focus()
+			} else {
+				// There's no window open to that URL so open a new tab to the applicable URL and focus it.
+				self.clients
+					.openWindow(event.notification.data.url)
+					.then((windowClient) => (windowClient ? windowClient.focus() : null))
+			}
+		}))
+	} catch (error) {
+		console.error('Failed to handle notification click', error)
+	}
+})
+
 // Notes:
 // 1. The JF_DEBUG_SW environment variable allows us to explicitly enable
 // dev logs while in development mode.
