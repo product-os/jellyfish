@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'test: Ensure all support e2e tests are run'
+      hash: 4270c3ed407b7e45e0460a7d0e30bc9d3638aeeb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.42.2
+  date: 2020-06-02T04:21:54.404Z
+- commits:
     - subject: 'patch: bump mixpanel-browser from 2.30.1 to 2.37.0'
       hash: 44c34162bde336e0d9d1708552feab1786c6bda0
       body: >
