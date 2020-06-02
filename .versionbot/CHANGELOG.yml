@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump geoip-lite from 1.3.8 to 1.4.2'
+      hash: 515ef29b42dc85b3e4abb2523676f63f7673ab80
+      body: >
+        Bumps [geoip-lite](https://github.com/geoip-lite/node-geoip) from 1.3.8
+        to 1.4.2.
+
+        - [Release notes](https://github.com/geoip-lite/node-geoip/releases)
+
+        -
+        [Commits](https://github.com/geoip-lite/node-geoip/compare/v1.3.8...v1.4.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.44.1
+  date: 2020-06-02T19:43:54.491Z
+- commits:
     - subject: 'service-worker: Handle web push notifications'
       hash: 9ae8904eaea872ed67deeeab22908beaf0269190
       body: |
