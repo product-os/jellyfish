@@ -753,10 +753,7 @@ ava.serial('You can select a user and a group from the auto-complete options', a
 	await page.evaluate((name) => {
 		return window.sdk.card.create({
 			type: 'group@1.0.0',
-			name: 'test-1',
-			data: {
-				name
-			}
+			name
 		})
 	}, groupName)
 

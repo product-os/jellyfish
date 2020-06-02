@@ -62,17 +62,11 @@ const getGroups = async (sdk, value) => {
 			type: {
 				const: 'group@1.0.0'
 			},
-			data: {
-				properties: {
-					name: {
-						pattern: `^${value}`
-					}
-				},
-				required: [ 'name' ],
-				additionalProperties: true
+			name: {
+				pattern: `^${value}`
 			}
 		},
-		required: [ 'type' ],
+		required: [ 'type', 'name' ],
 		additionalProperties: true
 	}, {
 		limit: 10,
@@ -154,7 +148,7 @@ export const getTrigger = _.memoize((allTypes, sdk, user) => {
 				}
 				const groups = await getGroups(sdk, token.replace(/^@+/, ''))
 				return groups.map((group) => {
-					return `@@${group.data.name}`
+					return `@@${group.name}`
 				})
 			}, AUTOCOMPLETE_DEBOUNCE),
 			component: ({
@@ -173,7 +167,7 @@ export const getTrigger = _.memoize((allTypes, sdk, user) => {
 				}
 				const groups = await getGroups(sdk, token.replace(/^!+/, ''))
 				return groups.map((group) => {
-					return `!!${group.data.name}`
+					return `!!${group.name}`
 				})
 			}, AUTOCOMPLETE_DEBOUNCE),
 			component: ({
