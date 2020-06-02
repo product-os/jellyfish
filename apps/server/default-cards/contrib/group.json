@@ -25,6 +25,9 @@
         "name"
       ]
     },
+    "indexed_fields": [
+      [ "data.name" ]
+    ],
     "meta": {
       "relationships": [
         {

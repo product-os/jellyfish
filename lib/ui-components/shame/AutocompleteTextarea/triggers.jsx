@@ -53,6 +53,35 @@ const getUsers = async (user, sdk, value) => {
 	return results
 }
 
+const getGroups = async (sdk, value) => {
+	// Return all matching user groups
+	// TODO: limit this by organisation
+	const results = await sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'group@1.0.0'
+			},
+			data: {
+				properties: {
+					name: {
+						pattern: `^${value}`
+					}
+				},
+				required: [ 'name' ],
+				additionalProperties: true
+			}
+		},
+		required: [ 'type' ],
+		additionalProperties: true
+	}, {
+		limit: 10,
+		sortBy: 'slug'
+	})
+
+	return results
+}
+
 const EmojiItem = ({
 	entity
 }) => {
@@ -117,6 +146,44 @@ export const getTrigger = _.memoize((allTypes, sdk, user) => {
 				entity
 			}) => { return <div>{entity}</div> },
 			output: (item) => { return item }
+		},
+		'@@': {
+			dataProvider: debounce(async (token) => {
+				if (!token) {
+					return []
+				}
+				const groups = await getGroups(sdk, token.replace(/^@+/, ''))
+				return groups.map((group) => {
+					return `@@${group.data.name}`
+				})
+			}, AUTOCOMPLETE_DEBOUNCE),
+			component: ({
+				entity
+			}) => {
+				return <div>{entity}</div>
+			},
+			output: (item) => {
+				return item
+			}
+		},
+		'!!': {
+			dataProvider: debounce(async (token) => {
+				if (!token) {
+					return []
+				}
+				const groups = await getGroups(sdk, token.replace(/^!+/, ''))
+				return groups.map((group) => {
+					return `!!${group.data.name}`
+				})
+			}, AUTOCOMPLETE_DEBOUNCE),
+			component: ({
+				entity
+			}) => {
+				return <div>{entity}</div>
+			},
+			output: (item) => {
+				return item
+			}
 		},
 		'?': {
 			dataProvider: (token) => {
