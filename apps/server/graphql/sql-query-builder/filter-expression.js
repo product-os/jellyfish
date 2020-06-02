@@ -1,6 +1,5 @@
 /* eslint-disable lodash/prefer-constant */
 /* eslint-disable class-methods-use-this */
-const format = require('pg-format')
 const Expression = require('./expression')
 
 module.exports = class FilterExpression extends Expression {
@@ -13,7 +12,7 @@ module.exports = class FilterExpression extends Expression {
 		return true
 	}
 
-	toQuery () {
-		return this.expression.toQuery()
+	formatAsSql (wrap) {
+		return this.expression.formatAsSql(wrap)
 	}
 }

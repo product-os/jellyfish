@@ -17,6 +17,7 @@ const isFragment = (ast) => {
 // Returns an instance of `SqlQueryBuilder` containing a SQL `SELECT` query.
 module.exports = class CardQueryResolver {
 	constructor (source, context, astRoot, builder = new CardQueryBuilder()) {
+		console.dir([ 'context', context ])
 		this.source = source
 		this.context = context
 		this.astRoot = astRoot

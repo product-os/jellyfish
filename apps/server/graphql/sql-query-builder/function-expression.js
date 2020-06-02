@@ -8,22 +8,10 @@ module.exports = class FunctionExpression extends Expression {
 		this.args = args
 	}
 
-	isQueryable () {
-		return this
-			.args
-			.some((arg) => { return arg.isQueryable() })
-	}
-
-	isSelectable () {
-		return this
-			.args
-			.some((arg) => { return arg.isSelectable() })
-	}
-
-	toQuery () {
+	formatAsSql (_wrap) {
 		const args = this
 			.args
-			.map((arg) => { return arg.toQuery() })
+			.map((arg) => { return arg.formatAsSql(false) })
 			.join(', ')
 
 		return format('%s(%s)', this.name, args)

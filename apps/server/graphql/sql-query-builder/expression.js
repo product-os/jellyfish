@@ -14,7 +14,19 @@ module.exports = class Expression {
 		return false
 	}
 
-	toQuery () {
-		throw new Error('Expressions must implement toQuery')
+	isField () {
+		return false
+	}
+
+	isFrom () {
+		return false
+	}
+
+	isJoin () {
+		return false
+	}
+
+	formatAsSql (_wrap) {
+		throw new Error('Expressions must implement formatAsSql')
 	}
 }

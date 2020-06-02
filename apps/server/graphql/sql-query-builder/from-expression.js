@@ -1,19 +1,24 @@
 /* eslint-disable lodash/prefer-constant */
 /* eslint-disable class-methods-use-this */
 const Expression = require('./expression')
-const format = require('pg-format')
 
 module.exports = class FromExpression extends Expression {
-	constructor (tableName) {
+	constructor (expressions) {
 		super()
-		this.tableName = tableName
+		this.expressions = expressions
+	}
+
+	isFrom () {
+		return true
 	}
 
 	isQueryable () {
 		return true
 	}
 
-	toQuery () {
-		return format('%I', this.tableName)
+	formatAsSql (wrap) {
+		return this.expressions
+			.map((expression) => { return expression.formatAsSql(wrap) })
+			.join(', ')
 	}
 }

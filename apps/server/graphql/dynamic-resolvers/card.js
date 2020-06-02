@@ -9,7 +9,7 @@ module.exports = async (source, args, context, astRoot) => {
 		const resolver = new CardQueryResolver(source, context, astRoot)
 		resolver.handleArgs(args)
 		const query = resolver.resolve()
-		const sql = query.toQuery()
+		const sql = query.formatAsSql()
 
 		console.dir([ 'generated query', query, sql ], {
 			depth: null

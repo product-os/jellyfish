@@ -1,22 +1,14 @@
+const DelegatedExpression = require('./delegated-expression')
 const format = require('pg-format')
-const Expression = require('./expression')
 
-module.exports = class AliasExpression extends Expression {
+module.exports = class AliasExpression extends DelegatedExpression {
 	constructor (inner, alias) {
-		super()
+		super('inner')
 		this.inner = inner
 		this.alias = alias
 	}
 
-	isSelectable () {
-		return this.inner.isSelectable()
-	}
-
-	isQueryable () {
-		return this.inner.isQueryable()
-	}
-
-	toQuery () {
-		return format('%s AS %I', this.inner.toQuery(), this.alias)
+	formatAsSql (_wrap) {
+		return format('%s AS %I', this.inner.formatAsSql(true), this.alias)
 	}
 }

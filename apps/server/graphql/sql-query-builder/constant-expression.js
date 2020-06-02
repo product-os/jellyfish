@@ -13,7 +13,7 @@ module.exports = class ConstantExpression extends Expression {
 		return true
 	}
 
-	toQuery () {
+	formatAsSql (_wrap) {
 		return format('%L', this.value)
 	}
 }

@@ -9,7 +9,8 @@ module.exports = class InfixExpression extends Expression {
 		this.rhs = rhs
 	}
 
-	toQuery () {
-		return format('%s %s %s', this.lhs.toQuery(), this.op, this.rhs.toQuery())
+	formatAsSql (wrap) {
+		const formatString = wrap ? '(%s %s %s)' : '%s %s %s'
+		return format(formatString, this.lhs.formatAsSql(true), this.op, this.rhs.formatAsSql(true))
 	}
 }
