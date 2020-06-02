@@ -1,4 +1,26 @@
 - commits:
+    - subject: Restructure group type card schema
+      hash: 60dedc03bc7a42528b12e66dde6b618de72757a7
+      body: |
+        No groups will have been created yet so this refactor is safe.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add auto-completion of groups when writing messages.
+      hash: 664c301bc3a22dd727eb5c153edb1410c956ffbd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.43.0
+  date: 2020-06-02T12:07:50.311Z
+- commits:
     - subject: 'patch: bump howler from 2.1.3 to 2.2.0'
       hash: 9c883237556cf020f93165d51f09180a9bc9b258
       body: >
