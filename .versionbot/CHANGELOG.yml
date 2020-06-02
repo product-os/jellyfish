@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump random-words from 1.1.0 to 1.1.1'
+      hash: 37f02276e3b9a248619d003d95118ddde6a6eba5
+      body: >
+        Bumps [random-words](https://github.com/punkave/random-words) from 1.1.0
+        to 1.1.1.
+
+        - [Release notes](https://github.com/punkave/random-words/releases)
+
+        -
+        [Changelog](https://github.com/punkave/random-words/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/punkave/random-words/compare/1.1.0...1.1.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.42.3
+  date: 2020-06-02T05:15:35.189Z
+- commits:
     - subject: 'test: Ensure all support e2e tests are run'
       hash: 4270c3ed407b7e45e0460a7d0e30bc9d3638aeeb
       body: ''
