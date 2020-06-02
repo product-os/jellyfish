@@ -12,9 +12,12 @@
 
 const _ = require('lodash')
 const Bluebird = require('bluebird')
+const {
+	throttling
+} = require('@octokit/plugin-throttling')
 const Octokit = require('@octokit/rest').Octokit.plugin(
 	require('@octokit/plugin-retry'),
-	require('@octokit/plugin-throttling')
+	throttling
 )
 
 const moment = require('moment')
