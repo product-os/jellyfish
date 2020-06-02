@@ -107,8 +107,6 @@ class CreateUserLens extends React.Component {
 			orgs
 		} = this.state
 
-		console.log('submitting', formData)
-
 		const {
 			actions
 		} = this.props
