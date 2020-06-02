@@ -678,7 +678,7 @@ ava.serial('My Participation shows only support threads that the logged-in user 
 	test.is(actualMessageText2, messageText2)
 })
 
-ava.serial.only('A user can edit their own message', async (test) => {
+ava.serial('A user can edit their own message', async (test) => {
 	const {
 		page
 	} = context
