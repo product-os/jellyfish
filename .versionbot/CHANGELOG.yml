@@ -1,4 +1,36 @@
 - commits:
+    - subject: Improve performance when keeping trigger data up to date in workers
+      hash: 7280bf217f252235479b22a1f62158782d028183
+      body: >
+        Previously, when a triggered-action was upserted into the DB, every
+        worker would
+
+        load every triggered-action again. With this change, individual
+        triggered-action
+
+        are extracted from the stream event payload, and updated individually,
+
+        allowing us to avoid querying the jellyfish core.
+      footer:
+        Connects-to: '#3931'
+        connects-to: '#3931'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Fix incorrect name in blog posts view
+      hash: ec517d2f83f8707c478f03f2c272c01e71a22f90
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.42.4
+  date: 2020-06-02T06:43:42.951Z
+- commits:
     - subject: 'patch: bump random-words from 1.1.0 to 1.1.1'
       hash: 37f02276e3b9a248619d003d95118ddde6a6eba5
       body: >
