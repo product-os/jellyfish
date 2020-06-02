@@ -85,7 +85,7 @@ async (test) => {
 	await sdk.auth.login(externalSupportUserDetails)
 
 	// Create thread with different product
-	let error = await test.throwsAsync(test.context.sdk.card.create({
+	let error = await test.throwsAsync(sdk.card.create({
 		type: 'support-thread',
 		name: 'test subject',
 		markers: [ `${externalSupportUser.slug}+org-balena` ],

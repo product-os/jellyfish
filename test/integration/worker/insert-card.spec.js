@@ -23,6 +23,7 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			slug: 'triggered-action-foo-bar',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -77,6 +78,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			slug: 'triggered-action-foo-bar',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],

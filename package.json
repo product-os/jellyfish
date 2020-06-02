@@ -39,7 +39,7 @@
     ]
   },
   "ava": {
-    "timeout": "1m",
+    "timeout": "2m",
     "verbose": true,
     "serial": true,
     "failWithoutAssertions": true,

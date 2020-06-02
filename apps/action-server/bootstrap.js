@@ -61,6 +61,13 @@ const transformTriggerCard = (trigger) => {
 		object.mode = trigger.data.mode
 	}
 
+	// Triggered actions default to being asynchronous
+	if (_.has(trigger.data, [ 'async' ])) {
+		object.async = trigger.data.async
+	} else {
+		object.async = true
+	}
+
 	return object
 }
 

@@ -692,7 +692,10 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 					Object.assign({}, targetUser, {
 						links: results[0].links['is attached to'][0].links,
 						linked_at: results[0].links['is attached to'][0].linked_at,
-						data: _.omit(targetUser.data, [ 'hash', 'roles', 'profile' ])
+						updated_at: results[0].links['is attached to'][0].updated_at,
+						data: Object.assign(_.omit(targetUser.data, [ 'hash', 'roles', 'profile' ]), {
+							avatar: null
+						})
 					})
 				]
 			},

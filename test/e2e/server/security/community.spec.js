@@ -90,10 +90,9 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	const newUser = await test.context.sdk.card.get(newUserId)
 
 	test.truthy(newUser.data.hash)
-	test.deepEqual(newUser.data, {
+	test.deepEqual(_.omit(newUser.data, 'avatar'), {
 		email: newUserDetails.email,
 		hash: newUser.data.hash,
-		avatar: null,
 		roles: [ 'user-community' ]
 	})
 
@@ -129,7 +128,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
 	const newUserAfter = await test.context.sdk.card.get(newUser.id)
-	test.deepEqual(newUserAfter.data, newUser.data)
+	test.deepEqual(_.omit(newUserAfter.data, 'avatar'), _.omit(newUser.data, 'avatar'))
 })
 
 ava.serial('a community user should not be able to reset other user\'s passwords given an incorrect password', async (test) => {
@@ -175,10 +174,9 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	const newUser = await test.context.sdk.card.get(newUserId)
 	test.truthy(newUser.data.hash)
-	test.deepEqual(newUser.data, {
+	test.deepEqual(_.omit(newUser.data, 'avatar'), {
 		email: newUserDetails.email,
 		hash: newUser.data.hash,
-		avatar: null,
 		roles: [ 'user-community' ]
 	})
 
@@ -200,7 +198,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
 	const newUserAfter = await test.context.sdk.card.get(newUser.id)
-	test.deepEqual(newUserAfter.data, newUser.data)
+	test.deepEqual(_.omit(newUserAfter.data, 'avatar'), _.omit(newUser.data, 'avatar'))
 })
 
 ava.serial('a community user should not be able to reset other user\'s passwords given no password', async (test) => {
@@ -246,10 +244,9 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 
 	const newUser = await test.context.sdk.card.get(newUserId)
 	test.truthy(newUser.data.hash)
-	test.deepEqual(newUser.data, {
+	test.deepEqual(_.omit(newUser.data, 'avatar'), {
 		email: newUserDetails.email,
 		hash: newUser.data.hash,
-		avatar: null,
 		roles: [ 'user-community' ]
 	})
 
@@ -271,7 +268,7 @@ ava.serial('a community user should not be able to reset other user\'s passwords
 	test.is(result3.response.data.name, 'WorkerAuthenticationError')
 
 	const newUserAfter = await test.context.sdk.card.get(newUser.id)
-	test.deepEqual(newUserAfter.data, newUser.data)
+	test.deepEqual(_.omit(newUserAfter.data, 'avatar'), _.omit(newUser.data, 'avatar'))
 })
 
 ava.serial('a community user should not be able to set a first time password to another user', async (test) => {
@@ -313,11 +310,10 @@ ava.serial('a community user should not be able to set a first time password to 
 	})
 
 	const newUserCard = await test.context.sdk.card.get(newUser.id)
-	test.deepEqual(newUserCard.data, {
+	test.deepEqual(_.omit(newUserCard.data, 'avatar'), {
 		email: newUserDetails.email,
 		hash: 'PASSWORDLESS',
-		roles: [ 'user-community' ],
-		avatar: null
+		roles: [ 'user-community' ]
 	})
 
 	const result2 = await test.context.http(
@@ -339,11 +335,10 @@ ava.serial('a community user should not be able to set a first time password to 
 
 	const newUserAfter = await test.context.sdk.card.get(newUser.id)
 
-	test.deepEqual(newUserAfter.data, {
+	test.deepEqual(_.omit(newUserAfter.data, 'avatar'), {
 		email: newUserDetails.email,
 		hash: 'PASSWORDLESS',
-		roles: [ 'user-community' ],
-		avatar: null
+		roles: [ 'user-community' ]
 	})
 })
 

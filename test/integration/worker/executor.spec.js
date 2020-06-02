@@ -48,6 +48,18 @@ ava.serial.before(async (test) => {
 			}, object)
 		}
 	}
+
+	test.context.waitForMatch = async (waitQuery, times = 20) => {
+		if (times === 0) {
+			throw new Error('The wait query did not resolve')
+		}
+		const results = await test.context.jellyfish.query(test.context.context, test.context.session, waitQuery)
+		if (results.length > 0) {
+			return results[0]
+		}
+		await Promise.delay(500)
+		return test.context.waitForMatch(waitQuery, times - 1)
+	}
 })
 
 ava.serial.after(helpers.jellyfish.after)
@@ -607,7 +619,8 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 				properties: {
 					slug: command
 				}
-			}
+			},
+			async: false
 		}
 	]
 
@@ -656,6 +669,7 @@ ava('.insertCard() should be able to override a triggered action originator', as
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -729,6 +743,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -813,6 +828,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 	const command = test.context.generateRandomSlug()
 	const triggers = [
 		{
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -873,6 +889,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -900,6 +917,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -968,6 +986,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -995,6 +1014,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
+			async: false,
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -1369,7 +1389,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 		}
 	})
 
-	const triggers = await test.context.jellyfish.query(test.context.context, test.context.session, {
+	const trigger = await test.context.waitForMatch({
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'active', 'type' ],
@@ -1395,31 +1415,30 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 		}
 	})
 
-	test.deepEqual(triggers, [
-		{
-			created_at: triggers[0].created_at,
-			updated_at: null,
-			linked_at: triggers[0].linked_at,
-			id: triggers[0].id,
-			slug: `triggered-action-${slug}-data-mentions`,
-			type: triggers[0].type,
-			version: '1.0.0',
-			name: null,
-			active: true,
-			links: {},
-			tags: [],
-			markers: [],
-			requires: [],
-			capabilities: [],
-			data: {
-				type: triggers[0].data.type,
-				target: triggers[0].data.target,
-				action: triggers[0].data.action,
-				arguments: triggers[0].data.arguments,
-				filter: triggers[0].data.filter
-			}
+	test.deepEqual(trigger, {
+		created_at: trigger.created_at,
+		updated_at: null,
+		linked_at: trigger.linked_at,
+		id: trigger.id,
+		slug: `triggered-action-${slug}-data-mentions`,
+		type: trigger.type,
+		version: '1.0.0',
+		name: null,
+		active: true,
+		links: {},
+		tags: [],
+		markers: [],
+		requires: [],
+		capabilities: [],
+		data: {
+			async: true,
+			type: trigger.data.type,
+			target: trigger.data.target,
+			action: trigger.data.action,
+			arguments: trigger.data.arguments,
+			filter: trigger.data.filter
 		}
-	])
+	})
 })
 
 ava('.insertCard() should pre-register a triggered action if using AGGREGATE', async (test) => {
@@ -1468,6 +1487,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 
 	test.deepEqual(localTriggers, [
 		{
+			async: true,
 			id: localTriggers[0].id,
 			slug: `triggered-action-${slug}-data-mentions`,
 			action: 'action-set-add@1.0.0',

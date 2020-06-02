@@ -312,6 +312,7 @@ ava('.getTypeTriggers() should report back watchers when aggregating events', as
 			links: {},
 			markers: [],
 			data: {
+				async: true,
 				type: 'thread@1.0.0',
 				action: 'action-set-add@1.0.0',
 				target: {

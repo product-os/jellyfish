@@ -53,6 +53,7 @@ ava.serial('should be able to run high privilege triggers in response to common 
 		data: {
 			action: 'action-create-card@1.0.0',
 			mode: 'insert',
+			async: false,
 			filter: {
 				type: 'object',
 				properties: {
@@ -656,9 +657,11 @@ ava.serial('should fail to query with an invalid query object', async (test) => 
 })
 
 ava.serial('should get all elements by type', async (test) => {
+	const token = test.context.sdk.getAuthToken()
+
 	const result = await test.context.http(
 		'GET', '/api/v2/type/user', null, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 200)
@@ -673,8 +676,11 @@ ava.serial('should get all elements by type', async (test) => {
 				const: 'user@1.0.0'
 			}
 		}
+	}, {
+		limit: 100
 	})
 
+	test.is(result.response.length, users.length)
 	test.deepEqual(result.response, users)
 })
 
