@@ -15,6 +15,13 @@ import debounce from 'debounce-promise'
 
 const AUTOCOMPLETE_DEBOUNCE = 250
 
+const getFullName = (data) => {
+	const firstName = _.get(data, [ 'profile', 'name', 'first' ])
+	const lastName = _.get(data, [ 'profile', 'name', 'last' ])
+	const fullName = _.join([ firstName, lastName ], ' ').trim()
+	return _.isEmpty(fullName) ? '' : `(${fullName})`
+}
+
 const getUsers = async (user, sdk, value) => {
 	// Get the current user's organisations
 	const orgs = _.map(user.links['is member of'], 'slug')
@@ -32,18 +39,60 @@ const getUsers = async (user, sdk, value) => {
 			}
 		},
 		type: 'object',
-		properties: {
-			type: {
-				const: 'user@1.0.0'
-			},
-			slug: {
-				regexp: {
-					pattern: `^user-${value}`,
-					flags: 'i'
+		anyOf: [ {
+			required: [ 'slug' ],
+			properties: {
+				slug: {
+					regexp: {
+						pattern: `^user-${value}`,
+						flags: 'i'
+					}
 				}
 			}
-		},
-		required: [ 'type', 'slug' ],
+		}, {
+			required: [ 'type', 'data' ],
+			properties: {
+				type: {
+					const: 'user@1.0.0'
+				},
+				data: {
+					type: 'object',
+					required: [ 'profile' ],
+					properties: {
+						profile: {
+							type: 'object',
+							required: [ 'name' ],
+							properties: {
+								name: {
+									type: 'object',
+									anyOf: [ {
+										required: [ 'first' ],
+										properties: {
+											first: {
+												regexp: {
+													pattern: `^${value}`,
+													flags: 'i'
+												}
+											}
+										}
+									}, {
+										required: [ 'last' ],
+										properties: {
+											last: {
+												regexp: {
+													pattern: `^${value}`,
+													flags: 'i'
+												}
+											}
+										}
+									} ]
+								}
+							}
+						}
+					}
+				}
+			}
+		} ],
 		additionalProperties: true
 	}, {
 		limit: 10,
@@ -91,6 +140,24 @@ const EmojiItem = ({
 	)
 }
 
+const userTrigger = async (user, sdk, token, tag) => {
+	if (!token) {
+		return []
+	}
+	const users = await getUsers(user, sdk, token)
+	const usernames = users.map(({
+		slug,
+		data
+	}) => {
+		return {
+			tag: `${tag}${slug.replace(/^user-/, '')}`,
+			name: getFullName(data)
+		}
+	})
+
+	return usernames
+}
+
 export const getTrigger = _.memoize((allTypes, sdk, user) => {
 	return {
 		':': {
@@ -105,36 +172,23 @@ export const getTrigger = _.memoize((allTypes, sdk, user) => {
 		},
 		'@': {
 			dataProvider: debounce(async (token) => {
-				if (!token) {
-					return []
-				}
-				const users = await getUsers(user, sdk, token)
-				const usernames = users.map(({
-					slug
-				}) => {
-					return `@${slug.replace(/^user-/, '')}`
-				})
-
-				return usernames
+				return userTrigger(user, sdk, token, '@')
 			}, AUTOCOMPLETE_DEBOUNCE),
 			component: ({
-				entity
-			}) => { return <div>{entity}</div> },
-			output: (item) => { return item }
+				entity: {
+					tag,
+					name
+				}
+			}) => {
+				return <div>{`${tag} ${name}`.trim()}</div>
+			},
+			output: (item) => {
+				return item.tag
+			}
 		},
 		'!': {
 			dataProvider: debounce(async (token) => {
-				if (!token) {
-					return []
-				}
-				const users = await getUsers(user, sdk, token)
-				const usernames = users.map(({
-					slug
-				}) => {
-					return `!${slug.replace(/^user-/, '')}`
-				})
-
-				return usernames
+				return userTrigger(user, sdk, token, '!')
 			}, AUTOCOMPLETE_DEBOUNCE),
 			component: ({
 				entity

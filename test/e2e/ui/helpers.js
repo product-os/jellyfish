@@ -85,6 +85,19 @@ exports.browser = {
 			return test.context.sdk.card.get(result.id)
 		}
 
+		test.context.updateUser = async (userId, patch) => {
+			await test.context.sdk.action({
+				card: userId,
+				type: 'user@1.0.0',
+				action: 'action-update-card@1.0.0',
+				arguments: {
+					reason: 'for testing',
+					patch
+				}
+			})
+			return test.context.sdk.card.get(userId)
+		}
+
 		test.context.addUserToBalenaOrg = async (userId) => {
 			const userCard = await test.context.sdk.card.get(userId)
 			const balenaOrgCard = await test.context.sdk.card.get('org-balena')
