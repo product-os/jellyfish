@@ -1,4 +1,46 @@
 - commits:
+    - subject: 'Add support for skipping, limiting, and sorting linked cards in a query'
+      hash: fc5f6183fea9ca39a957386200014c747977cf68
+      body: |
+        This commit adds support for an additional key `links` in the `options`
+        argument for `Kernel.query()` and `jsonschema2sql`. `links` is a map
+        from link type to an `options` object for that link type. For example,
+        passing the following as `options`:
+
+        ```
+        {
+          skip: 20,
+          limit: 10,
+          sortBy: 'updated_at',
+          sortDir: 'desc',
+          links: {
+            'has attachment': {
+                skip: 100,
+                limit: 500,
+                sortBy: 'created_at',
+                sortDir: 'desc',
+            }
+          }
+        }
+        ```
+
+        Root `skip`, `limit`, `sortBy`, and `sortDir` are the usual accepted
+        keys for `options`, while the same keys inside `links['has attachment']`
+        will only apply to the `has attachment` linked cards.
+
+        This is implemented through windowing functions over a list of linked
+        card IDs, so overhead should not be significant.
+
+        Closes #3949
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.46.0
+  date: 2020-06-03T17:24:13.121Z
+- commits:
     - subject: Refactor user creation lens to be more versatile
       hash: d0bfbba2526d5cb2a0d60de174dc222cba4fe59a
       body: ''
