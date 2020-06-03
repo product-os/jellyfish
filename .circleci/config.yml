@@ -81,10 +81,10 @@ jobs:
           command: make compose-build
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
+          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY"
+          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID"
       - run:
           name: Compose Down
           command: make compose-stop
