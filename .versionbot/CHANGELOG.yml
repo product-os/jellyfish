@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump @octokit/plugin-throttling from 2.7.0 to 3.2.1'
+      hash: c167cc1caaa1381b001c01f01c7cf5f5912eb358
+      body: >
+        Bumps
+        [@octokit/plugin-throttling](https://github.com/octokit/plugin-throttling.js)
+        from 2.7.0 to 3.2.1.
+
+        - [Release
+        notes](https://github.com/octokit/plugin-throttling.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/plugin-throttling.js/compare/v2.7.0...v3.2.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.44.3
+  date: 2020-06-03T01:35:34.464Z
+- commits:
     - subject: 'patch: bump morgan from 1.9.1 to 1.10.0'
       hash: 9e1a0c72c9d11a41c9a32f1f43cb088523d2c22e
       body: >
