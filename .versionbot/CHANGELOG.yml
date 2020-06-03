@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update import of @oktokit/plugin-throttling
+      hash: 31f3603f9a6ef1a4dad8bf4c71ada173eb242fc2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.44.5
+  date: 2020-06-03T03:51:54.400Z
+- commits:
     - subject: 'patch: bump eslint-plugin-jsdoc from 25.4.3 to 27.0.0'
       hash: 0d0dd29c5e0cf191768c1a33c74000ed12c3fbdd
       body: >
