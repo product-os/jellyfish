@@ -4,52 +4,103 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
+import {
+	getWrapper,
+	flushPromises
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
-	shallow
+	mount
 } from 'enzyme'
 import React from 'react'
+import sinon from 'sinon'
 import AuthenticatedImage from '../index'
+import Icon from '../../shame/Icon'
 
-// Borrowed from https://gist.github.com/nolanlawson/0eac306e4dac2114c752
-const getFile = async () => {
-	const base64 =
-		'iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAB1klEQVR42n2TzytEURTHv3e8N1joRhZG' +
-		'zJsoCjsLhcw0jClKWbHwY2GnLGUlIfIP2IjyY2djZTHSMJNQSilFNkz24z0/Ms2MrnvfvMu8mcfZvPvu' +
-		'Pfdzz/mecwgKLNYKb0cFEgXbRvwV2s2HuWazCbzKA5LvNecDXayBjv9NL7tEpSNgbYzQ5kZmAlSXgsGG' +
-		'XmS+MjhKxDHgC+quyaPKQtoPYMQPOh5U9H6tBxF+Icy/aolqAqLP5wjWd5r/Ip3YXVILrF4ZRYAxDhCO' +
-		'J/yCwiMI+/xgjOEzmzIhAio04GeGayIXjQ0wGoAuQ5cmIjh8jNo0GF78QwNhpyvV1O9tdxSSR6PLl51F' +
-		'nIK3uQ4JJQME4sCxCIRxQbMwPNSjqaobsfskm9l4Ky6jvCzWEnDKU1ayQPe5BbN64vYJ2vwO7CIeLIi3' +
-		'ciYAoby0M4oNYBrXgdgAbC/MhGCRhyhCZwrcEz1Ib3KKO7f+2I4iFvoVmIxHigGiZHhPIb0bL1bQApFS' +
-		'9U/AC0ulSXrrhMotka/lQy0Ic08FDeIiAmDvA2HX01W05TopS2j2/H4T6FBVbj4YgV5+AecyLk+Ctvms' +
-		'QWK8WZZ+Hdf7QGu7fobMuZHyq1DoJLvUqQrfM966EU/qYGwAAAAASUVORK5CYII='
+const {
+	wrapper
+} = getWrapper()
 
-	const bin = atob(base64)
-	const length = bin.length
-	const buf = new ArrayBuffer(length)
-	const arr = new Uint8Array(buf)
-	for (let index = 0; index < length; index++) {
-		arr[index] = bin.charCodeAt(index)
+const sandbox = sinon.createSandbox()
+
+ava.beforeEach((test) => {
+	const imageSrc = 'https://jel.ly.fish/icons/jellyfish.svg'
+	const createObjectURL = sandbox.stub()
+	createObjectURL.returns(imageSrc)
+	global.URL.createObjectURL = createObjectURL
+
+	const getFile = sandbox.stub()
+	getFile.resolves()
+
+	const openFile = sandbox.stub()
+	openFile.resolves()
+	global.window.open = openFile
+
+	test.context = {
+		...test.context,
+		imageSrc,
+		sdk: {
+			getFile
+		}
 	}
-	const blob = new Blob([ buf ], {
-		type: 'image/png'
-	})
+})
 
-	return blob
-}
+ava.afterEach(() => {
+	sandbox.restore()
+})
 
-ava('It should render', (test) => {
-	test.notThrows(() => {
-		shallow(
-			<AuthenticatedImage
-				actions={{
-					getFile,
-					addNotification: console.log
-				}}
-				cardId="b8af2157-a496-4f3f-8240-fd3a2bcb79dc"
-				fileName="0eac306e4dac2114c752"
-			/>
-		)
+ava('Renders the spinning icon when the image has not loaded', (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const component = mount(
+		<AuthenticatedImage
+			sdk={sdk}
+		/>, {
+			wrappingComponent: wrapper
+		})
+	const icon = component.find(Icon)
+	test.is(icon.prop('name'), 'cog')
+	test.is(icon.prop('spin'), true)
+})
+
+ava('An error message is rendered when the getFile commands returns an error', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	sdk.getFile.rejects(new Error('Could not retrieve image'))
+
+	const component = mount(
+		<AuthenticatedImage
+			sdk={sdk}
+			data-test='generic-error-message'
+		/>, {
+			wrappingComponent: wrapper
+		})
+	await flushPromises()
+	component.update()
+
+	const genericMessage = component.find('span[data-test="generic-error-message"]')
+	test.is(genericMessage.text(), 'An error occurred whilst loading image')
+})
+
+ava('Renders the image returned by the sdk.getFile function', async (test) => {
+	const {
+		imageSrc,
+		sdk
+	} = test.context
+	const component = mount(<
+		AuthenticatedImage
+		sdk={sdk}
+	/>, {
+		wrappingComponent: wrapper
 	})
+	await flushPromises()
+	component.update()
+
+	const img = component.find('img')
+	test.is(img.length, 1)
+	test.is(img.prop('src'), imageSrc)
 })

@@ -15,13 +15,17 @@ import {
 import Collapsible from '../Collapsible'
 import Icon from '../shame/Icon'
 
-const ResponsiveImg = styled.img `
-	height: auto;
-	max-width: 100%;
-	border-radius: 6px;
-	border-top-left-radius: 0;
-	display: block;
-`
+const ResponsiveImg = styled.img(({
+	maxImageSize
+}) => {
+	return {
+		maxWidth: `min(${maxImageSize}, 100%)`,
+		maxHeight: maxImageSize,
+		borderRadius: '6px',
+		borderTopLeftRadius: 0,
+		display: 'block'
+	}
+})
 
 class AuthenticatedImage extends React.Component {
 	constructor (props) {
@@ -60,12 +64,17 @@ class AuthenticatedImage extends React.Component {
 			imageSrc,
 			error
 		} = this.state
+		const {
+			maxImageSize
+		} = this.props
 
 		if (error) {
 			const detail = `\`\`\`\n${error}\n\`\`\``
 			return (
 				<div>
-					<span><em>An error occurred whilst loading image</em></span>
+					<span
+						data-test={this.props['data-test']}
+					><em>An error occurred whilst loading image</em></span>
 					<Collapsible
 						title="Details"
 						maxContentHeight="70vh"
@@ -89,6 +98,7 @@ class AuthenticatedImage extends React.Component {
 			<ResponsiveImg
 				src={imageSrc}
 				data-test={this.props['data-test']}
+				maxImageSize={maxImageSize}
 			/>
 		)
 	}
