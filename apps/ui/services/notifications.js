@@ -20,17 +20,16 @@ const sound = new Howl({
 
 let canUseNotifications = false
 
-export const registerForNotifications = () => {
+export const registerForNotifications = async () => {
 	if (typeof window !== 'undefined') {
 		canUseNotifications = window.Notification && Notification.permission === 'granted'
 
 		if (window.Notification && Notification.permission !== 'denied') {
-			Notification.requestPermission((status) => {
-			// Status is "granted", if accepted by user
-				canUseNotifications = status === 'granted'
-			})
+			const status = await Notification.requestPermission()
+			canUseNotifications = status === 'granted'
 		}
 	}
+	return canUseNotifications
 }
 
 export const createNotification = ({

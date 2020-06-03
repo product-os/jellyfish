@@ -7,59 +7,228 @@
 import {
 	Workbox
 } from 'workbox-window'
+import jsonpatch from 'fast-json-patch'
 import {
-	pwa,
-	isProduction
-} from './environment'
+	deepEqual
+} from 'fast-equals'
+import _ from 'lodash'
+import * as environment from './environment'
+import {
+	urlBase64ToUint8Array
+} from '../../lib/ui-components/services/helpers'
+import {
+	errorReporter
+} from './core'
 
 const SERVICE_WORKER_URL = '/service-worker.js'
 
-export default class PWA {
+const parsePushSubscription = (pushSubscription) => {
+	const pushSubscriptionResult = pushSubscription.toJSON()
+	return {
+		endpoint: pushSubscriptionResult.endpoint,
+		auth: pushSubscriptionResult.keys.auth,
+		token: pushSubscriptionResult.keys.p256dh
+	}
+}
+
+const buildExistingSubscriptionQuery = (userId, endpoint) => {
+	return {
+		$$links: {
+			'is subscribed for': {
+				type: 'object',
+				required: [ 'id' ],
+				additionalProperties: false,
+				properties: {
+					id: {
+						const: userId
+					}
+				}
+			}
+		},
+		description: `Get web push subscription for ${userId}`,
+		type: 'object',
+		properties: {
+			id: {
+				type: 'string'
+			},
+			type: {
+				const: 'web-push-subscription@1.0.0'
+			},
+			data: {
+				type: 'object',
+				required: [ 'endpoint', 'auth', 'token' ],
+				additionalProperties: false,
+				properties: {
+					endpoint: {
+						const: endpoint
+					}
+				}
+			},
+			links: {
+				type: 'object'
+			}
+		},
+		additionalProperties: false,
+		required: [ 'id', 'type', 'data' ]
+	}
+}
+
+const getMatchingSubscription = async (userId, endpoint, sdk) => {
+	const [ matchingSubscription ] = await sdk.query(
+		buildExistingSubscriptionQuery(userId, endpoint),
+		{
+			limit: 1
+		}
+	)
+	return matchingSubscription
+}
+
+export class PWA {
 	constructor () {
 		this.isInitialized = false
 		this.wb = null
 		this.registration = null
+		this.pushSubscription = null
+		this.postActivationTasks = []
 	}
 
-	init () {
+	init (options) {
 		if (this.isInitialized) {
 			return
 		}
-		if (!isProduction() && !pwa.debugSW()) {
-			console.log('Service Worker registration skipped. Set the JF_DEBUG_SW environment variable to override this.')
+		if (!environment.isProduction() && !options.debugServiceWorker) {
+			console.log('PWA: service worker registration skipped. Set the JF_DEBUG_SW environment variable to override this.')
 			return
 		}
+		this.options = options
+
 		if ('serviceWorker' in navigator) {
-			window.addEventListener('load', () => {
-				this.wb = new Workbox(SERVICE_WORKER_URL)
+			this.wb = options.workbox || new Workbox(SERVICE_WORKER_URL)
 
-				// Fires when the registered service worker has installed but is waiting to activate.
-				this.wb.addEventListener('waiting', (event) => {
-					// eslint-disable-next-line no-alert
-					if (window.confirm('New version of Jellyfish available. Update now?')) {
-						// Set up a listener that will reload the page as soon as the previously waiting
-						// service worker has taken control.
-						this.wb.addEventListener('controlling', () => {
-							window.location.reload()
-						})
+			// Fires when the registered service worker has installed but is waiting to activate.
+			this.wb.addEventListener('waiting', () => {
+				// eslint-disable-next-line no-alert
+				if (window.confirm('New version of Jellyfish available. Update now?')) {
+					// Set up a listener that will reload the page as soon as the previously waiting
+					// service worker has taken control.
+					this.wb.addEventListener('controlling', () => {
+						window.location.reload()
+					})
 
-						// Send a message telling the service worker to skip waiting.
-						// This will trigger the `controlling` event handler above.
-						this.wb.messageSW({
-							type: 'SKIP_WAITING'
-						})
-					}
-				})
-
-				// Register the service worker after event listeners have been added.
-				this.wb.register().then((registration) => {
-					this.registration = registration
-					console.log('Service worker registered: ', registration)
-				}).catch((registrationError) => {
-					console.warn('Service worker registration failed: ', registrationError)
-				})
+					// Send a message telling the service worker to skip waiting.
+					// This will trigger the `controlling` event handler above.
+					this.wb.messageSW({
+						type: 'SKIP_WAITING'
+					})
+				}
 			})
+
+			// When the SW is activated, call any tasks that require an active SW
+			this.wb.addEventListener('activated', () => {
+				let task = null
+				if (!this.registration) {
+					errorReporter.reportException(new Error('Workbox received activated event but registration not complete'))
+					return
+				}
+				while ((task = this.postActivationTasks.pop())) {
+					task(this.registration)
+				}
+			})
+
+			// Register the service worker after event listeners have been added.
+			// Note: By default this waits until the window is loaded before attempting to register the SW
+			this.wb.register()
+				.then((registration) => {
+					this.registration = registration
+				})
+				.catch((registrationError) => {
+					errorReporter.reportException(registrationError, {
+						message: 'Failed to register service worker'
+					})
+				})
 		}
 		this.isInitialized = true
 	}
+
+	subscribeToPushNotifications (user, sdk, {
+		vapidPublicKey,
+		onSubscribed
+	}) {
+		if (!this.isInitialized) {
+			const initializationExpected = environment.isProduction() || _.get(this, [ 'options', 'debugServiceWorker' ])
+			if (initializationExpected) {
+				throw new Error('PWA: Cannot subscribe to push notifications until service worker has been initialized')
+			}
+			console.log('PWA: Skipping web-push notification subscription as PWA is not initialized')
+			return
+		}
+
+		if (!this.options.enableWebPush) {
+			return
+		}
+
+		if (!vapidPublicKey) {
+			errorReporter.reportException(
+				new Error('No VAPID public key provided. Make sure you have set the VAPID_PUBLIC_KEY environment variable!'))
+			return
+		}
+
+		this.subscriptionOptions = {
+			userVisibleOnly: true,
+			applicationServerKey: urlBase64ToUint8Array(vapidPublicKey)
+		}
+
+		const subscribeToPushManager = async (registration) => {
+			try {
+				this.pushSubscription = await registration.pushManager.subscribe(this.subscriptionOptions)
+				const pushSubscriptionData = parsePushSubscription(this.pushSubscription)
+
+				const matchingSubscription = await getMatchingSubscription(user.id, pushSubscriptionData.endpoint, sdk)
+
+				if (matchingSubscription) {
+					if (!deepEqual(matchingSubscription.data, pushSubscriptionData)) {
+						// Update the existing card with the new push subscription data
+						const updatedSubscription = _.defaultsDeep({
+							data: pushSubscriptionData
+						}, matchingSubscription)
+						const patches = jsonpatch.compare(matchingSubscription, updatedSubscription)
+						await sdk.card.update(matchingSubscription.id, matchingSubscription.type, patches)
+					}
+					if (onSubscribed) {
+						onSubscribed()
+					}
+					return
+				}
+
+				// Create a new web-push-subscription card to store the subscription details
+				const newSubscription = await sdk.card.create({
+					type: 'web-push-subscription@1.0.0',
+					data: pushSubscriptionData
+				})
+
+				// ... and link it to the authenticated user
+				await sdk.card.link(user, newSubscription, 'is subscribed with')
+				if (onSubscribed) {
+					onSubscribed()
+				}
+			} catch (error) {
+				errorReporter.reportException(error, {
+					message: 'Failed to subscribe to web push notifications',
+					userId: user.id
+				})
+			}
+		}
+
+		// If we're active, we can subscribe now
+		if (_.get(this, [ 'registration', 'active' ])) {
+			subscribeToPushManager(this.registration)
+		} else {
+			// ...otherwise just add this to the list of tasks to do after activation
+			this.postActivationTasks.push((registration) => {
+				subscribeToPushManager(registration)
+			})
+		}
+	}
 }
+
+export default new PWA()
