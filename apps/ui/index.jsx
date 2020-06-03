@@ -42,10 +42,12 @@ import {
 	SetupProvider
 } from '../../lib/ui-components/SetupProvider'
 import * as environment from './environment'
-import PWA from './pwa'
+import pwa from './pwa'
 
-export const pwa = new PWA()
-pwa.init()
+pwa.init({
+	debugServiceWorker: environment.pwa.debugSW(),
+	enableWebPush: environment.pwa.enableWebPush
+})
 
 const GlobalStyle = createGlobalStyle `
   * {

@@ -100,6 +100,8 @@ const config = mergeConfig(baseConfig, {
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI),
 				MIXPANEL_TOKEN_UI: JSON.stringify(process.env.MIXPANEL_TOKEN_UI),
 				JF_DEBUG_SW: JSON.stringify(process.env.JF_DEBUG_SW),
+				JF_WEB_PUSH: JSON.stringify(process.env.JF_WEB_PUSH),
+				VAPID_PUBLIC_KEY: JSON.stringify(process.env.VAPID_PUBLIC_KEY),
 
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)

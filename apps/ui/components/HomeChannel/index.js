@@ -16,6 +16,7 @@ import {
 	withTheme
 } from 'styled-components'
 import {
+	sdk,
 	actionCreators,
 	selectors
 } from '../../core'
@@ -28,6 +29,7 @@ const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
 	const user = selectors.getCurrentUser(state)
 	return {
+		sdk,
 		channels: selectors.getChannels(state),
 		codename: selectors.getAppCodename(state),
 		orgs: selectors.getOrgs(state),

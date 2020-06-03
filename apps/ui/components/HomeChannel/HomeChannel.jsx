@@ -36,9 +36,13 @@ import {
 	swallowEvent,
 	isiOS
 } from '../../../../lib/ui-components/services/helpers'
+import pwa from '../../pwa'
 import {
 	registerForNotifications
 } from '../../services/notifications'
+import {
+	pwa as pwaEnv
+} from '../../environment'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
@@ -390,6 +394,8 @@ export default class HomeChannel extends React.Component {
 
 	componentDidMount () {
 		const {
+			user,
+			sdk,
 			actions,
 			location,
 			history,
@@ -401,9 +407,15 @@ export default class HomeChannel extends React.Component {
 			}
 		}
 
-		// Register for desktop notifications now that we're safely logged in
+		// Register for notifications now that we're safely logged in
 		// (This keeps Firefox happy)
-		registerForNotifications()
+		registerForNotifications().then((canUseNotifications) => {
+			if (canUseNotifications && pwaEnv.enableWebPush) {
+				pwa.subscribeToPushNotifications(user, sdk, {
+					vapidPublicKey: pwaEnv.vapidPublicKey
+				})
+			}
+		})
 
 		// TODO: Replace this with parsing loop cards to define the chat room
 		// structure
