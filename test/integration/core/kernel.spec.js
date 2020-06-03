@@ -2286,6 +2286,420 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 	test.deepEqual(results, [ result2 ])
 })
 
+ava('.query() should be able to sort linked cards', async (test) => {
+	const parent = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0'
+		})
+
+	const child1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 1
+			}
+		})
+
+	const child2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 0
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child1.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child1.id,
+					type: child1.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child2.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child2.id,
+					type: child2.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			type: 'object',
+			$$links: {
+				'has child': true
+			},
+			properties: {
+				id: {
+					const: parent.id
+				}
+			}
+		}, {
+			links: {
+				'has child': {
+					sortBy: [ 'data', 'sequence' ]
+				}
+			}
+		})
+
+	test.deepEqual(
+		results.map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: parent.id
+		} ]
+	)
+	test.deepEqual(
+		results[0].links['has child'].map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: child2.id
+		}, {
+			id: child1.id
+		} ]
+	)
+})
+
+ava('.query() should be able to skip linked cards', async (test) => {
+	const parent = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0'
+		})
+
+	const child1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 1
+			}
+		})
+
+	const child2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 0
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child1.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child1.id,
+					type: child1.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child2.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child2.id,
+					type: child2.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			type: 'object',
+			$$links: {
+				'has child': true
+			},
+			properties: {
+				id: {
+					const: parent.id
+				}
+			}
+		}, {
+			links: {
+				'has child': {
+					skip: 1,
+					sortBy: [ 'data', 'sequence' ]
+				}
+			}
+		})
+
+	test.deepEqual(
+		results.map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: parent.id
+		} ]
+	)
+	test.deepEqual(
+		results[0].links['has child'].map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: child1.id
+		} ]
+	)
+})
+
+ava('.query() should be able to limit linked cards', async (test) => {
+	const parent = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0'
+		})
+
+	const child1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 1
+			}
+		})
+
+	const child2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 0
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child1.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child1.id,
+					type: child1.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child2.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child2.id,
+					type: child2.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			type: 'object',
+			$$links: {
+				'has child': true
+			},
+			properties: {
+				id: {
+					const: parent.id
+				}
+			}
+		}, {
+			links: {
+				'has child': {
+					limit: 1,
+					sortBy: [ 'data', 'sequence' ]
+				}
+			}
+		})
+
+	test.deepEqual(
+		results.map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: parent.id
+		} ]
+	)
+	test.deepEqual(
+		results[0].links['has child'].map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: child2.id
+		} ]
+	)
+})
+
+ava('.query() should be able to skip and limit linked cards', async (test) => {
+	const parent = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0'
+		})
+
+	const child1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 1
+			}
+		})
+
+	const child2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			data: {
+				sequence: 0
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child1.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child1.id,
+					type: child1.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${child2.slug}-is-child-of-${parent.slug}`,
+			type: 'link@1.0.0',
+			name: 'is child of',
+			data: {
+				inverseName: 'has child',
+				from: {
+					id: child2.id,
+					type: child2.type
+				},
+				to: {
+					id: parent.id,
+					type: parent.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context, context.kernel.sessions.admin, {
+			type: 'object',
+			$$links: {
+				'has child': true
+			},
+			properties: {
+				id: {
+					const: parent.id
+				}
+			}
+		}, {
+			links: {
+				'has child': {
+					skip: 1,
+					limit: 1,
+					sortBy: [ 'data', 'sequence' ]
+				}
+			}
+		})
+
+	test.deepEqual(
+		results.map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: parent.id
+		} ]
+	)
+	test.deepEqual(
+		results[0].links['has child'].map((card) => {
+			return {
+				id: card.id
+			}
+		}),
+		[ {
+			id: child1.id
+		} ]
+	)
+})
+
 ava('.query() should return the cards that match a schema', async (test) => {
 	const result1 = await context.kernel.insertCard(
 		context.context, context.kernel.sessions.admin, {
