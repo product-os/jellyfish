@@ -161,7 +161,7 @@ module.exports = class QueryBuilder {
 		this._assertAtLeast(2)
 		const on = this.expressions.pop()
 		const table = this.expressions.pop()
-		this.expressions.push(new JoinExpression(table, on, 'LEFT'))
+		this.expressions.push(new JoinExpression(table, on, 'LEFT JOIN'))
 		return this
 	}
 

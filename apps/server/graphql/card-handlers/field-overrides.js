@@ -51,11 +51,8 @@ const OVERRIDES = {
 
 	links () {
 		return {
-			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.getType('Link'))),
-			resolve: (source) => {
-				console.dir([ 'links, source was', source ])
-				return []
-			}
+			type: graphql.GraphQLNonNull(new graphql.GraphQLList(this.getType('Link')))
+
 		}
 	},
 

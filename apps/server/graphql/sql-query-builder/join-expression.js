@@ -4,11 +4,11 @@ const Expression = require('./expression')
 const format = require('pg-format')
 
 module.exports = class JoinExpression extends Expression {
-	constructor (table, on, attributes = null) {
+	constructor (table, on, joinName = 'JOIN') {
 		super()
 		this.table = table
 		this.on = on
-		this.attributes = attributes
+		this.joinName = joinName
 	}
 
 	isJoin () {
@@ -16,11 +16,7 @@ module.exports = class JoinExpression extends Expression {
 	}
 
 	formatAsSql (wrap) {
-		if (this.attributes) {
-			const formatString = wrap ? '(%s JOIN %s ON %s)' : '%s JOIN %s ON %s'
-			return format(formatString, this.attributes, this.table.formatAsSql(), this.on.formatAsSql())
-		}
-		const formatString = wrap ? '(JOIN %s ON %s)' : 'JOIN %s ON %s'
-		return format(formatString, this.table.formatAsSql(), this.on.formatAsSql())
+		const formatString = wrap ? '(%s %s ON %s)' : '%s %s ON %s'
+		return format(formatString, this.joinName, this.table.formatAsSql(), this.on.formatAsSql())
 	}
 }
