@@ -1,4 +1,40 @@
 - commits:
+    - subject: Refactor user creation lens to be more versatile
+      hash: d0bfbba2526d5cb2a0d60de174dc222cba4fe59a
+      body: ''
+      footer:
+        Connects-to: '#3932'
+        connects-to: '#3932'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Ensure that add and link buttons are always visible on segment
+      hash: 8ecff4a93e97ed65125ddef0270365af8d98889b
+      body: ''
+      footer:
+        Connects-to: '#3932'
+        connects-to: '#3932'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Generalise the CardChatSummary component to work with more card types
+      hash: 29ae8a5a5b6e8826051b5dcf30ea5f83d3aeb72e
+      body: ''
+      footer:
+        Connects-to: '#3932'
+        connects-to: '#3932'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.45.0
+  date: 2020-06-03T05:10:01.530Z
+- commits:
     - subject: Update import of @oktokit/plugin-throttling
       hash: 31f3603f9a6ef1a4dad8bf4c71ada173eb242fc2
       body: ''
