@@ -1,0 +1,49 @@
+{
+  "links": {
+    "is member of": [
+      {
+        "links": {},
+        "id": "9a18681d-258a-4312-97a6-e179c90eb3ed",
+        "data": {},
+        "name": "Balena",
+        "slug": "org-balena",
+        "tags": [],
+        "type": "org@1.0.0",
+        "active": true,
+        "markers": [],
+        "requires": [],
+        "linked_at": {
+          "has member": "2020-05-14T09:19:47.628Z"
+        },
+        "created_at": "2020-05-13T10:19:30.209Z",
+        "updated_at": "2020-06-01T15:31:29.637Z",
+        "capabilities": [],
+        "version": "1.0.0"
+      }
+    ]
+  },
+  "id": "dd3957f7-c51e-469b-9545-fe9efe5a173b",
+  "slug": "user-jellyfish",
+  "type": "user@1.0.0",
+  "active": true,
+  "version": "1.0.0",
+  "name": "Test User",
+  "tags": [],
+  "markers": [],
+  "created_at": "2020-05-14T09:19:47.387Z",
+  "requires": [],
+  "capabilities": [],
+  "data": {
+    "hash": "$2b$12$GJm0iQcRjxZU0oqr7LWvl.QTbh38OfFZwgqb/QimrCWAhv3nCAIey",
+    "email": "test@jel.ly.fish",
+    "roles": [
+      "user-test"
+    ]
+  },
+  "updated_at": "2020-06-01T15:31:30.082Z",
+  "linked_at": {
+    "has contact": "2020-05-14T09:20:46.080Z",
+    "is member of": "2020-05-14T09:19:47.628Z",
+    "has attached element": "2020-05-14T09:20:45.597Z"
+  }
+}

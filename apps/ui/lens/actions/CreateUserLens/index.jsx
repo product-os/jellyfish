@@ -10,10 +10,17 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import {
-	actionCreators
+	actionCreators,
+	selectors
 } from '../../../core'
 
 import CreateUserLens from './CreateUserLens'
+
+const mapStateToProps = (state, ownProps) => {
+	return {
+		user: selectors.getCurrentUser(state)
+	}
+}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -34,7 +41,7 @@ export default {
 	version: '1.0.0',
 	name: 'Create user lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CreateUserLens),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateUserLens),
 		icon: 'address-card',
 		type: '*',
 		action: {

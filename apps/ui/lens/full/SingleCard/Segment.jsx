@@ -175,12 +175,18 @@ export default class Segment extends React.Component {
 		const lens = getLens('list', results)
 
 		return (
-			<React.Fragment>
-				{Boolean(results.length) && (
-					<lens.data.renderer
-						tail={results}
-					/>
-				)}
+			<Flex flexDirection='column' style={{
+				height: '100%'
+			}}>
+				<Box felx={1} style={{
+					minHeight: 0
+				}}>
+					{Boolean(results.length) && (
+						<lens.data.renderer
+							tail={results}
+						/>
+					)}
+				</Box>
 
 				{results.length === 0 && (
 					<Box px={3} mt={2}>
@@ -189,7 +195,7 @@ export default class Segment extends React.Component {
 				)}
 
 				{segment.link && (
-					<Flex px={3} flexWrap="wrap">
+					<Flex px={3} pb={2} flexWrap="wrap">
 
 						{!onSave &&
 							<Button
@@ -225,7 +231,7 @@ export default class Segment extends React.Component {
 						onSaved={this.getData}
 					/>
 				)}
-			</React.Fragment>
+			</Flex>
 		)
 	}
 }
