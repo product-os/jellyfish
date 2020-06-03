@@ -101,7 +101,7 @@
     "js-combinatorics": "^0.5.5",
     "js-yaml": "^3.13.1",
     "mermaid.cli": "^0.5.1",
-    "morgan": "^1.9.1",
+    "morgan": "^1.10.0",
     "nock": "^10.0.0",
     "puppeteer": "^3.0.2",
     "request": "^2.88.0",
