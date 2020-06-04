@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Pass all GitHub env vars to GitHub mirror test call'
+      hash: 2e0969cef5f6bf01bd4ff397f243d534ce3ea7ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.46.2
+  date: 2020-06-04T01:09:55.123Z
+- commits:
     - subject: 'patch: bump js-yaml from 3.13.1 to 3.14.0'
       hash: 653ed67b811cd793a6f6e1da750d727b9b56e6ce
       body: >
