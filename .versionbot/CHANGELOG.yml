@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Update queue integration tests to use a shared backend'
+      hash: a22a2b1c7829c2473744938b760c82ec457753c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.46.6
+  date: 2020-06-04T09:06:51.460Z
+- commits:
     - subject: >-
         Add mime-type to attached image blobs so browser can make sensible
         decisions about how to render them
