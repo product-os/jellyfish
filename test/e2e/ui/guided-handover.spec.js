@@ -113,10 +113,10 @@ ava.serial('You can assign an unassigned thread to yourself', async (test) => {
 	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
-	const cardOwnerButton = await verifyCardOwner(test, page, false, unassignedButtonText)
+	await verifyCardOwner(test, page, false, unassignedButtonText)
 
 	// Assign the thread to ourselves
-	cardOwnerButton.click()
+	await macros.waitForThenClickSelector(page, 'button[data-test="card-owner-dropdown"]:first-child')
 
 	// Verify the new owner is me!
 	await verifyCardOwner(test, page, true, currentUserSlug)
