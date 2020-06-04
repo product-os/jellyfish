@@ -5,7 +5,6 @@
  */
 
 import '@babel/polyfill'
-import 'circular-std'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {

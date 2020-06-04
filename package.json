@@ -139,7 +139,6 @@
     "body-parser": "^1.18.2",
     "change-case": "^4.1.1",
     "chart.js": "^2.8.0",
-    "circular-std": "^1.0.3",
     "classnames": "^2.2.6",
     "color-hash": "^1.0.3",
     "common-tags": "^1.8.0",
