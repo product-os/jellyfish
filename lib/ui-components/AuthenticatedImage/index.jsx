@@ -33,9 +33,17 @@ class AuthenticatedImage extends React.Component {
 	}
 
 	componentDidMount () {
-		this.props.sdk.getFile(this.props.cardId, this.props.fileName)
+		const {
+			sdk,
+			cardId,
+			fileName,
+			mimeType
+		} = this.props
+		sdk.getFile(cardId, fileName)
 			.then((data) => {
-				const blob = new Blob([ data ])
+				const blob = new Blob([ data ], {
+					type: mimeType
+				})
 				this.setState({
 					imageSrc: URL.createObjectURL(blob)
 				})
