@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add mime-type to attached image blobs so browser can make sensible
+        decisions about how to render them
+      hash: bc9e378b24dc4e50ff3b8512a6d85a5a310d4f43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.46.5
+  date: 2020-06-04T06:22:45.184Z
+- commits:
     - subject: 'patch: bump webpack-bundle-analyzer from 3.6.0 to 3.8.0'
       hash: 4eb2e41d529e3685f7902e78641bac5aa9fb3aaa
       body: >
