@@ -11,7 +11,6 @@ const request = require('request')
 const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
-const utils = require('../../../lib/sync/integrations/utils')
 const randomWords = require('random-words')
 const TOKEN = environment.integration.discourse
 
@@ -337,9 +336,7 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 	test.not(test.context.username, lastPost.username)
 	test.is(environment.integration.discourse.username, lastPost.username)
 	const baseUrl = 'https://forums.balena.io'
-	test.is(utils.parseHTML(lastPost.cooked, {
-		baseUrl
-	}), [
+	test.is(lastPost.cooked, [
 		`(${test.context.username}) ${content}`,
 		'',
 		'* * *',
@@ -375,7 +372,7 @@ avaTest('should send a message as a non moderator user', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), content)
+	test.is(lastPost.cooked, content)
 	test.is(lastPost.post_type, 1)
 
 	await helpers.mirror.afterEach(test)
@@ -738,7 +735,7 @@ avaTest('should send a whisper', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), content)
+	test.is(lastPost.cooked, content)
 	test.is(lastPost.post_type, 4)
 })
 
@@ -769,7 +766,7 @@ avaTest('should update a whisper', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), newContent)
+	test.is(lastPost.cooked, newContent)
 	test.is(lastPost.post_type, 4)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })
@@ -790,7 +787,7 @@ avaTest('should send a message', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), content)
+	test.is(lastPost.cooked, content)
 	test.is(lastPost.post_type, 1)
 })
 
@@ -821,7 +818,7 @@ avaTest('should update a message', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(utils.parseHTML(lastPost.cooked), newContent)
+	test.is(lastPost.cooked, newContent)
 	test.is(lastPost.post_type, 1)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })

@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test test test 12345"
+          "message": "<p>Test test test 12345</p>"
         }
       }
     },

@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Supervisor Version 88888888888"
+          "message": "<p>Supervisor Version 88888888888</p>"
         }
       }
     },
@@ -99,7 +99,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Emoji whisper <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/smiley.png?v=9\" title=\":smiley:\" class=\"emoji\" alt=\":smiley:\">"
+          "message": "<p>Emoji whisper <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/smiley.png?v=9\" title=\":smiley:\" class=\"emoji\" alt=\":smiley:\"></p>"
+
         }
       }
     }

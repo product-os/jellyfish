@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Foo Bar baz test test test"
+          "message": "<p>Foo Bar baz test test test</p>"
         }
       }
     },
@@ -99,7 +99,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "My file attachment[pcasm-book.pdf](https://forums.balena.io/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf) (1.0 MB)"
+          "message": "<p>My file attachment<a class=\"attachment\" href=\"https://forums.balena.io/uploads/balena/original/2X/1/1179cf7f41c08ea5f3c31b200b8002a77f44269d.pdf\" rel=\"nofollow noopener\">pcasm-book.pdf</a> (1.0 MB)</p>"
+
         }
       }
     }

@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test test test 123456789"
+          "message": "<p>Test test test 123456789</p>"
         }
       }
     },
@@ -99,7 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Edit reply"
+          "message": "<p>Edit reply</p>"
         }
       }
     }
