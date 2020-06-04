@@ -11,8 +11,9 @@ const Consumer = require('../../../lib/queue').Consumer
 const Producer = require('../../../lib/queue').Producer
 const actionLibrary = require('../../../lib/action-library')
 const queueErrors = require('../../../lib/queue/errors')
+const utils = require('../utils')
 
-exports.beforeEach = async (test, options) => {
+exports.before = async (test, options) => {
 	await helpers.beforeEach(test, options && {
 		suffix: options.suffix
 	})
@@ -82,9 +83,11 @@ exports.beforeEach = async (test, options) => {
 		test.context.session)
 
 	await test.context.queue.producer.initialize(test.context.context)
+	test.context.generateRandomSlug = utils.generateRandomSlug
+	test.context.generateRandomID = utils.generateRandomID
 }
 
-exports.afterEach = async (test) => {
+exports.after = async (test) => {
 	if (test.context.queue) {
 		await test.context.queue.consumer.cancel()
 	}

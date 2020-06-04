@@ -4,18 +4,9 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
 const helpers = require('./backend/helpers')
 const Kernel = require('../../../lib/core/kernel')
-
-const generateRandomSlug = (options = {}) => {
-	const suffix = uuid()
-	if (options.prefix) {
-		return `${options.prefix}-${suffix}`
-	}
-
-	return suffix
-}
+const utils = require('../utils')
 
 exports.beforeEach = async (test, options = {}) => {
 	await helpers.beforeEach(test, {
@@ -30,7 +21,7 @@ exports.beforeEach = async (test, options = {}) => {
 
 	test.context.kernel = new Kernel(test.context.backend)
 	await test.context.kernel.initialize(test.context.context)
-	test.context.generateRandomSlug = generateRandomSlug
+	test.context.generateRandomSlug = utils.generateRandomSlug
 }
 
 exports.afterEach = async (test) => {
