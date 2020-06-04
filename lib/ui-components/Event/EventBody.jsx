@@ -188,6 +188,7 @@ export default class EventBody extends React.Component {
 										fileName={attachment.slug}
 										addNotification={addNotification}
 										sdk={sdk}
+										mimeType={attachment.mime}
 									/>
 								</MessageContainer>
 							)
