@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'test: Fix e2e test that was failing intermittently'
+      hash: e1ff63495d04a5f705e0321dedc424f6efdb5278
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.46.3
+  date: 2020-06-04T03:13:21.290Z
+- commits:
     - subject: 'ci: Pass all GitHub env vars to GitHub mirror test call'
       hash: 2e0969cef5f6bf01bd4ff397f243d534ce3ea7ee
       body: ''
