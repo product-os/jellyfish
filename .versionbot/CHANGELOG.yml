@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump webpack-bundle-analyzer from 3.6.0 to 3.8.0'
+      hash: 4eb2e41d529e3685f7902e78641bac5aa9fb3aaa
+      body: >
+        Bumps
+        [webpack-bundle-analyzer](https://github.com/webpack-contrib/webpack-bundle-analyzer)
+        from 3.6.0 to 3.8.0.
+
+        - [Release
+        notes](https://github.com/webpack-contrib/webpack-bundle-analyzer/releases)
+
+        -
+        [Changelog](https://github.com/webpack-contrib/webpack-bundle-analyzer/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack-contrib/webpack-bundle-analyzer/compare/v3.6.0...v3.8.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.46.4
+  date: 2020-06-04T04:56:52.032Z
+- commits:
     - subject: 'test: Fix e2e test that was failing intermittently'
       hash: e1ff63495d04a5f705e0321dedc424f6efdb5278
       body: ''
