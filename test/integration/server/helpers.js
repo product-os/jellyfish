@@ -14,6 +14,7 @@ const {
 const environment = require('../../../lib/environment')
 const bootstrap = require('../../../apps/server/bootstrap')
 const actionServer = require('../../../apps/action-server/bootstrap')
+const utils = require('../utils')
 
 const workerOptions = {
 	metricsPort: 9100,
@@ -81,14 +82,7 @@ module.exports = {
 		await test.context.server.close()
 	},
 	beforeEach: (test) => {
-		test.context.generateRandomSlug = (options) => {
-			const suffix = uuid()
-			if (options.prefix) {
-				return `${options.prefix}-${suffix}`
-			}
-
-			return suffix
-		}
+		test.context.generateRandomSlug = utils.generateRandomSlug
 
 		test.context.http = (method, uri, payload, headers, options = {}) => {
 			return new Bluebird((resolve, reject) => {
