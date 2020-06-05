@@ -76,7 +76,7 @@
     "@babel/preset-env": "^7.3.1",
     "@babel/preset-react": "^7.10.1",
     "@babel/register": "^7.10.1",
-    "@json-schema-org/tests": "^1.0.0",
+    "@json-schema-org/tests": "^2.0.0",
     "ava": "^3.8.2",
     "babel-loader": "^8.1.0",
     "browser-env": "^3.3.0",
