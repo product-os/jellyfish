@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Update puppeteer to 3.3.0'
+      hash: 5ea310eb001ef16c17c2681ed383e7114bbb3f8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.46.8
+  date: 2020-06-05T01:51:54.171Z
+- commits:
     - subject: Update Octokit plugin-retry require
       hash: 8aa7b030cd42c8b041d0e44c0c8c8ff08c302642
       body: ''
