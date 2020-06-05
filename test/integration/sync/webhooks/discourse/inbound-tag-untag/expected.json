@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Foo bar baz 12345678"
+          "message": "<p>Foo bar baz 12345678</p>"
         }
       }
     },
