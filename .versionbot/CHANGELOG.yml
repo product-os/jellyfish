@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: bump ava from 3.5.0 to 3.8.2'
+      hash: 4ed22652f6a80538e9441787de19ab46a410b08e
+      body: |
+        Bumps [ava](https://github.com/avajs/ava) from 3.5.0 to 3.8.2.
+        - [Release notes](https://github.com/avajs/ava/releases)
+        - [Commits](https://github.com/avajs/ava/compare/v3.5.0...v3.8.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.46.9
+  date: 2020-06-05T02:47:35.797Z
+- commits:
     - subject: 'ci: Update puppeteer to 3.3.0'
       hash: 5ea310eb001ef16c17c2681ed383e7114bbb3f8c
       body: ''
