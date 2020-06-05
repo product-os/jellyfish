@@ -32,6 +32,7 @@ import Notifications from './components/HOC/Notifications'
 import RouteHandler from './components/RouteHandler'
 import Oauth from './components/HOC/Oauth'
 import Login from './components/HOC/Login'
+import CountFavicon from './components/CountFavicon'
 import RequestPasswordReset from './components/HOC/RequestPasswordReset'
 import CompletePasswordReset from './components/HOC/CompletePasswordReset'
 import CompleteFirstTimeLogin from './components/HOC/CompleteFirstTimeLogin'
@@ -125,6 +126,7 @@ class JellyfishUI extends React.Component {
 				<Flex flex="1" style={{
 					height: '100%'
 				}}>
+					<CountFavicon baseIcon="/icons/jellyfish.svg" />
 					<HomeChannel channel={home}/>
 
 					<Switch>
