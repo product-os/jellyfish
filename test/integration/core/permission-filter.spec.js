@@ -9,8 +9,8 @@ const permissionFilter = require('../../../lib/core/permission-filter')
 const errors = require('../../../lib/core/errors')
 const helpers = require('./helpers')
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.before(helpers.before)
+ava.serial.after(helpers.after)
 
 ava('.getSessionUser() should throw if the session is invalid', async (test) => {
 	await test.throwsAsync(permissionFilter.getSessionUser(
@@ -45,7 +45,9 @@ ava('.getSessionUser() should throw if the session actor is invalid', async (tes
 ava('.getSessionUser() should get the session user given the session did not expire', async (test) => {
 	const result = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {
@@ -83,7 +85,9 @@ ava('.getSessionUser() should get the session user given the session did not exp
 ava('.getSessionUser() should throw if the session expired', async (test) => {
 	const user = await test.context.kernel.insertCard(
 		test.context.context, test.context.kernel.sessions.admin, {
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'user@1.0.0',
 			version: '1.0.0',
 			data: {

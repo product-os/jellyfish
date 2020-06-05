@@ -17,13 +17,13 @@ const context = {
 }
 
 ava.serial.before(async () => {
-	return helpers.beforeEach({
+	return helpers.before({
 		context
 	})
 })
 
 ava.serial.after(async () => {
-	return helpers.afterEach({
+	return helpers.after({
 		context
 	})
 })

@@ -9,8 +9,9 @@ const Backend = require('../../../../lib/core/backend')
 const environment = require('../../../../lib/environment')
 const Cache = require('../../../../lib/core/cache')
 const errors = require('../../../../lib/core/errors')
+const utils = require('../../utils')
 
-exports.beforeEach = async (test, options = {}) => {
+exports.before = async (test, options = {}) => {
 	const suffix = options.suffix || uuid()
 	const dbName = `test_${suffix.replace(/-/g, '_')}`
 
@@ -39,9 +40,11 @@ exports.beforeEach = async (test, options = {}) => {
 	}
 
 	await test.context.backend.connect(test.context.context)
+	test.context.generateRandomSlug = utils.generateRandomSlug
+	test.context.generateRandomID = utils.generateRandomID
 }
 
-exports.afterEach = async (test) => {
+exports.after = async (test) => {
 	/*
 	 * We can just disconnect and not destroy the whole
 	 * database as test databases are destroyed before

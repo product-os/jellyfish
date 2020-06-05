@@ -8,8 +8,8 @@ const helpers = require('./backend/helpers')
 const Kernel = require('../../../lib/core/kernel')
 const utils = require('../utils')
 
-exports.beforeEach = async (test, options = {}) => {
-	await helpers.beforeEach(test, {
+exports.before = async (test, options = {}) => {
+	await helpers.before(test, {
 		skipConnect: true,
 		suffix: options.suffix
 	})
@@ -24,8 +24,8 @@ exports.beforeEach = async (test, options = {}) => {
 	test.context.generateRandomSlug = utils.generateRandomSlug
 }
 
-exports.afterEach = async (test) => {
+exports.after = async (test) => {
 	await test.context.backend.drop(test.context.context)
 	await test.context.kernel.disconnect(test.context.context)
-	await helpers.afterEach(test)
+	await helpers.after(test)
 }

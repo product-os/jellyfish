@@ -14,7 +14,7 @@ const queueErrors = require('../../../lib/queue/errors')
 const utils = require('../utils')
 
 exports.before = async (test, options) => {
-	await helpers.beforeEach(test, options && {
+	await helpers.before(test, options && {
 		suffix: options.suffix
 	})
 	test.context.jellyfish = test.context.kernel
@@ -93,6 +93,6 @@ exports.after = async (test) => {
 	}
 
 	if (test.context.jellyfish) {
-		await helpers.afterEach(test)
+		await helpers.after(test)
 	}
 }
