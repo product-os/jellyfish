@@ -15,8 +15,11 @@ const Bluebird = require('bluebird')
 const {
 	throttling
 } = require('@octokit/plugin-throttling')
+const {
+	retry
+} = require('@octokit/plugin-retry')
 const Octokit = require('@octokit/rest').Octokit.plugin(
-	require('@octokit/plugin-retry'),
+	retry,
 	throttling
 )
 
