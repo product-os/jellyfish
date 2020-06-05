@@ -37,6 +37,7 @@ const QuickSearchPanel = styled(Card) `
 `
 
 const LoaderSpan = styled.span `
+	color: ${(props) => { return props.theme.colors.text.main }};
 	background-color: ${(props) => { return props.theme.colors.background }};
 `
 
