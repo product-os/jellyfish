@@ -9,11 +9,11 @@ const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('.tick() should not enqueue actions if there are no triggers', async (test) => {
 	test.context.worker.setTriggers(test.context.context, [])
@@ -252,6 +252,9 @@ ava('.tick() should not enqueue an action using a past timestamp', async (test) 
 ava('.tick() should enqueue two actions if there are two time triggers with a past start dates', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
+
+	const slug1 = test.context.generateRandomSlug()
+	const slug2 = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		test.context.jellyfish.defaults({
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -266,7 +269,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo'
+					slug: slug1
 				}
 			}
 		}),
@@ -283,7 +286,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'bar'
+					slug: slug2
 				}
 			}
 		})
@@ -302,6 +305,28 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 				type: {
 					type: 'string',
 					const: 'action-request@1.0.0'
+				},
+				data: {
+					type: 'object',
+					required: [ 'arguments' ],
+					properties: {
+						arguments: {
+							type: 'object',
+							required: [ 'properties' ],
+							properties: {
+								properties: {
+									type: 'object',
+									required: [ 'slug' ],
+									properties: {
+										slug: {
+											type: 'string',
+											enum: [ slug1, slug2 ]
+										}
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 		}), (actionRequest) => {
@@ -330,7 +355,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					reason: null,
 					properties: {
 						version: '1.0.0',
-						slug: 'bar'
+						slug: slug2
 					}
 				}
 			}
@@ -356,7 +381,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					reason: null,
 					properties: {
 						version: '1.0.0',
-						slug: 'foo'
+						slug: slug1
 					}
 				}
 			}

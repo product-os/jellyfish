@@ -45,8 +45,59 @@ const createOrgLinkAction = async ({
 	}
 }
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+// Create new user and link to test org
+const createUser = async (test, withPassword) => {
+	let user
+	if (withPassword) {
+		const createUserAction = await test.context.worker.pre(test.context.session, {
+			action: 'action-create-user@1.0.0',
+			context: test.context.context,
+			card: test.context.userCard.id,
+			type: test.context.userCard.type,
+			arguments: {
+				email: 'test@test.com',
+				password: 'a-very-dumb-password',
+				username: test.context.generateRandomSlug({
+					prefix: 'user'
+				})
+			}
+		})
+		user = await test.context.processAction(test.context.session, createUserAction)
+	} else {
+		user = await test.context.processAction(test.context.session, {
+			action: 'action-create-card@1.0.0',
+			context: test.context.context,
+			card: test.context.userCard.id,
+			type: test.context.userCard.type,
+			arguments: {
+				reason: 'for testing',
+				properties: {
+					slug: test.context.generateRandomSlug({
+						prefix: 'user'
+					}),
+					data: {
+						email: 'test@test.com',
+						hash: 'PASSWORDLESS',
+						roles: [ 'user-community' ]
+					}
+				}
+			}
+		})
+	}
+
+	// Link new user to test org
+	const userOrgLinkAction = await createOrgLinkAction({
+		toId: user.data.id,
+		fromId: test.context.org.data.id,
+		context: test.context.context
+	})
+	await test.context.processAction(test.context.session, userOrgLinkAction)
+
+	return user
+}
+
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 	const {
 		session,
 		jellyfish,
@@ -63,30 +114,10 @@ ava.beforeEach(async (test) => {
 		})
 		.reply(200)
 
-	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
-
-	const user = await processAction(session, {
-		action: 'action-create-card@1.0.0',
-		context,
-		card: userCard.id,
-		type: userCard.type,
-		arguments: {
-			reason: 'for testing',
-			properties: {
-				slug: 'user-johndoe',
-				data: {
-					email: 'test@test.com',
-					hash: 'PASSWORDLESS',
-					roles: [ 'user-community' ]
-				}
-			}
-		}
-	})
-
-	// Creates org
 	const orgCard = await jellyfish.getCardBySlug(context, session, 'org@latest')
+	test.context.userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
 
-	const org = await processAction(session, {
+	test.context.org = await processAction(session, {
 		action: 'action-create-card@1.0.0',
 		context,
 		card: orgCard.id,
@@ -99,36 +130,17 @@ ava.beforeEach(async (test) => {
 		}
 	})
 
-	// Links user to org
-	const userOrgLinkAction = await createOrgLinkAction({
-		toId: user.data.id,
-		fromId: org.data.id,
-		context
-	})
-
-	await processAction(session, userOrgLinkAction)
-
-	// Gets admin user and links org to it
+	// Get admin user and link to org
 	const adminUser = await jellyfish.getCardBySlug(context, session, 'user-admin@1.0.0')
-
 	const adminOrgLinkAction = await createOrgLinkAction({
 		toId: adminUser.id,
-		fromId: org.data.id,
+		fromId: test.context.org.data.id,
 		context
 	})
-
 	await processAction(session, adminOrgLinkAction)
-
-	test.context = {
-		...test.context,
-		user,
-		org,
-		processAction,
-		userCard
-	}
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should update the user\'s password when the firstTimeLoginToken is valid', async (test) => {
 	const {
@@ -136,9 +148,10 @@ ava('should update the user\'s password when the firstTimeLoginToken is valid', 
 		context,
 		processAction,
 		jellyfish,
-		user,
 		worker
 	} = test.context
+
+	const user = await createUser(test, false)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -205,9 +218,10 @@ ava('should fail when the first-time login does not match a valid card', async (
 		session,
 		context,
 		worker,
-		processAction,
-		user
+		processAction
 	} = test.context
+
+	const user = await createUser(test, false)
 
 	const fakeToken = await uuid.random()
 
@@ -232,9 +246,10 @@ ava('should fail when the first-time login token has expired', async (test) => {
 		session,
 		context,
 		worker,
-		processAction,
-		user
+		processAction
 	} = test.context
+
+	const user = await createUser(test, false)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -246,10 +261,22 @@ ava('should fail when the first-time login token has expired', async (test) => {
 
 	const [ firstTimeLogin ] = await jellyfish.query(context, session, {
 		type: 'object',
+		additionalProperties: true,
 		properties: {
 			type: {
 				type: 'string',
 				const: 'first-time-login@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
 			}
 		}
 	})
@@ -296,9 +323,9 @@ ava('should fail when the first-time login is not active', async (test) => {
 		session,
 		context,
 		worker,
-		processAction,
-		user
+		processAction
 	} = test.context
+	const user = await createUser(test, false)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -346,11 +373,10 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		session,
 		context,
 		processAction,
-		user,
-		username,
 		worker,
 		jellyfish
 	} = test.context
+	const user = await createUser(test, false)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -358,7 +384,7 @@ ava('should fail if the user becomes inactive between requesting and completing 
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			username
+			username: user.data.slug
 		}
 	})
 
@@ -402,10 +428,10 @@ ava('should invalidate the first-time-login card', async (test) => {
 		session,
 		context,
 		processAction,
-		user,
 		worker,
 		jellyfish
 	} = test.context
+	const user = await createUser(test, false)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -421,6 +447,17 @@ ava('should invalidate the first-time-login card', async (test) => {
 			type: {
 				type: 'string',
 				const: 'first-time-login@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
 			}
 		}
 	})
@@ -464,32 +501,9 @@ ava('should throw an error when the user already has a password set', async (tes
 		context,
 		processAction,
 		worker,
-		jellyfish,
-		userCard,
-		org
+		jellyfish
 	} = test.context
-
-	const createUserAction = await worker.pre(session, {
-		action: 'action-create-user@1.0.0',
-		context,
-		card: userCard.id,
-		type: userCard.type,
-		arguments: {
-			email: 'test@test.com',
-			password: 'a-very-dumb-password',
-			username: 'user-janedoe'
-		}
-	})
-
-	const user = await processAction(session, createUserAction)
-
-	const orgLinkAction = await createOrgLinkAction({
-		toId: user.data.id,
-		fromId: org.data.id,
-		context
-	})
-
-	await processAction(session, orgLinkAction)
+	const user = await createUser(test, true)
 
 	await processAction(session, {
 		action: 'action-send-first-time-login-link@1.0.0',
@@ -505,6 +519,17 @@ ava('should throw an error when the user already has a password set', async (tes
 			type: {
 				type: 'string',
 				const: 'first-time-login@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
 			}
 		}
 	})

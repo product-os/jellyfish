@@ -9,7 +9,7 @@ const helpers = require('../queue/helpers')
 const errio = require('errio')
 
 exports.jellyfish = {
-	beforeEach: async (test) => {
+	before: async (test) => {
 		await helpers.before(test)
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
@@ -20,13 +20,13 @@ exports.jellyfish = {
 			require('../../../lib/worker/cards/triggered-action'))
 	},
 
-	afterEach: async (test) => {
+	after: async (test) => {
 		await helpers.after(test)
 	}
 }
 
 exports.worker = {
-	beforeEach: async (test, actionLibrary, options = {}) => {
+	before: async (test, actionLibrary, options = {}) => {
 		await helpers.before(test, {
 			suffix: options.suffix
 		})
@@ -83,5 +83,5 @@ exports.worker = {
 			return test.context.queue.producer.waitResults(test.context, createRequest)
 		}
 	},
-	afterEach: helpers.after
+	after: helpers.after
 }

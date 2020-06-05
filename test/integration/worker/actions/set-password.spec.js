@@ -8,11 +8,11 @@ const ava = require('ava')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should not store the passwords in the queue when using action-set-password', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(
@@ -25,7 +25,9 @@ ava('should not store the passwords in the queue when using action-set-password'
 		type: userCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'foobarbaz'
 		}
 	})
@@ -66,7 +68,9 @@ ava('should not store the passwords in the queue when using action-set-password'
 ava('should change the password of a password-less user given no password', async (test) => {
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',
@@ -126,7 +130,9 @@ ava('should change a user password', async (test) => {
 		type: userCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'foobarbaz'
 		}
 	})
@@ -200,7 +206,9 @@ ava('should not change a user password given invalid current password', async (t
 		type: userCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'foobarbaz'
 		}
 	})
@@ -238,7 +246,9 @@ ava('should not change a user password given a null current password', async (te
 		type: userCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'foobarbaz'
 		}
 	})
@@ -323,7 +333,9 @@ ava('should change the hash when updating a user password', async (test) => {
 ava('should not store the passwords when using action-set-password on a first time password', async (test) => {
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',
@@ -357,7 +369,9 @@ ava('should not store the passwords when using action-set-password on a first ti
 ava('should not change the password of a password-less user given a password', async (test) => {
 	const userCard = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'user@1.0.0',
 			data: {
 				email: 'johndoe@example.com',

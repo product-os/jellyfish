@@ -12,11 +12,11 @@ const actionLibrary = require('../../../lib/action-library')
 const Worker = require('../../../lib/worker')
 const uuid = require('../../../lib/uuid')
 
-ava.serial.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.serial.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.serial.afterEach(helpers.worker.afterEach)
+ava.serial.after(helpers.worker.after)
 
 ava('.getId() should preserve the same id during its lifetime', async (test) => {
 	const id1 = test.context.worker.getId()
@@ -61,6 +61,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
+	const slug = test.context.generateRandomSlug()
 	await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
@@ -70,7 +71,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'foo',
+					slug,
 					version: '1.0.0',
 					data: {
 						foo: 'bar'
@@ -87,7 +88,7 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 			data: {
 				id: await uuid.random(),
 				type: 'card@1.0.0',
-				slug: 'foo'
+				slug
 			}
 		})
 
@@ -105,6 +106,7 @@ ava('should evaluate a simple computed property on insertion', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -113,14 +115,14 @@ ava('should evaluate a simple computed property on insertion', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -184,7 +186,7 @@ ava('should evaluate a simple computed property on insertion', async (test) => {
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -198,6 +200,7 @@ ava('should evaluate a simple SUM property on a insertAction', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -206,14 +209,14 @@ ava('should evaluate a simple SUM property on a insertAction', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -284,7 +287,7 @@ ava('should evaluate a simple SUM property on a insertAction', async (test) => {
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -300,6 +303,7 @@ ava('should evaluate a simple computed property on a JSON Patch move', async (te
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -308,14 +312,14 @@ ava('should evaluate a simple computed property on a JSON Patch move', async (te
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -404,7 +408,7 @@ ava('should evaluate a simple computed property on a JSON Patch move', async (te
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -419,6 +423,7 @@ ava('should evaluate a simple computed property on a JSON Patch copy', async (te
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -427,14 +432,14 @@ ava('should evaluate a simple computed property on a JSON Patch copy', async (te
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -523,7 +528,7 @@ ava('should evaluate a simple computed property on a JSON Patch copy', async (te
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -538,6 +543,7 @@ ava('should evaluate a simple computed property on a JSON Patch replace', async 
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -546,14 +552,14 @@ ava('should evaluate a simple computed property on a JSON Patch replace', async 
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -641,7 +647,7 @@ ava('should evaluate a simple computed property on a JSON Patch replace', async 
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -655,6 +661,7 @@ ava('should evaluate a simple computed property on a JSON Patch addition', async
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -663,14 +670,14 @@ ava('should evaluate a simple computed property on a JSON Patch addition', async
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -756,7 +763,7 @@ ava('should evaluate a simple computed property on a JSON Patch addition', async
 		linked_at: card.linked_at,
 		updated_at: card.updated_at,
 		created_at: card.created_at,
-		type: 'test-type@1.0.0',
+		type: `${slug}@1.0.0`,
 		active: true,
 		links: {},
 		tags: [],
@@ -770,6 +777,7 @@ ava('should throw if the result of the formula is incompatible with the given ty
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const typeAction = {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -778,14 +786,14 @@ ava('should throw if the result of the formula is incompatible with the given ty
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-type',
+				slug,
 				data: {
 					schema: {
 						type: 'object',
 						properties: {
 							type: {
 								type: 'string',
-								pattern: '^test-type@'
+								pattern: `^${slug}@`
 							},
 							data: {
 								type: 'object',
@@ -902,7 +910,9 @@ ava('should be able to login as a user with a password', async (test) => {
 		type: typeCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'foobarbaz'
 		}
 	})
@@ -960,7 +970,9 @@ ava('should not be able to login as a password-less user', async (test) => {
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				email: 'johndoe@example.com',
 				hash: 'PASSWORDLESS',
@@ -989,7 +1001,9 @@ ava('should not be able to login as a password-less user given a random password
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				email: 'johndoe@example.com',
 				hash: 'PASSWORDLESS',
@@ -1015,7 +1029,9 @@ ava('should not be able to login as a password-less non-disallowed user', async 
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				disallowLogin: false,
 				email: 'johndoe@example.com',
@@ -1045,7 +1061,9 @@ ava('should not be able to login as a password-less disallowed user', async (tes
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-johndoe',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				disallowLogin: true,
 				email: 'johndoe@example.com',
@@ -1081,7 +1099,9 @@ ava('should fail if signing up with the wrong password', async (test) => {
 		type: typeCard.type,
 		arguments: {
 			email: 'johndoe@example.com',
-			username: 'user-johndoe',
+			username: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			password: 'xxxxxxxxxxxx'
 		}
 	})
@@ -1127,10 +1147,11 @@ ava('should post an error execute event if logging in as a disallowed user', asy
 
 ava('a triggered action can update a dynamic list of cards (ids as array of strings)', async (test) => {
 	const cardIds = []
+	const slug = test.context.generateRandomSlug()
 	await Bluebird.each([ 1, 2, 3 ], async (idx) => {
 		const card = await test.context.jellyfish.insertCard(
 			test.context.context, test.context.session, {
-				slug: `foo${idx}`,
+				slug: `${slug}${idx}`,
 				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
@@ -1207,17 +1228,18 @@ ava('a triggered action can update a dynamic list of cards (ids as array of stri
 
 	await Bluebird.each([ 1, 2, 3 ], async (idx) => {
 		const card = await test.context.jellyfish.getCardBySlug(
-			test.context.context, test.context.session, `foo${idx}@latest`)
+			test.context.context, test.context.session, `${slug}${idx}@latest`)
 		test.true(card.data.updated)
 	})
 })
 
 ava('a triggered action can update a dynamic list of cards (ids as array of objects with field id)', async (test) => {
 	const cardsWithId = []
+	const slug = test.context.generateRandomSlug()
 	await Bluebird.each([ 1, 2, 3 ], async (idx) => {
 		const card = await test.context.jellyfish.insertCard(
 			test.context.context, test.context.session, {
-				slug: `foo${idx}`,
+				slug: `${slug}${idx}`,
 				type: 'card@1.0.0',
 				version: '1.0.0',
 				data: {
@@ -1305,7 +1327,7 @@ ava('a triggered action can update a dynamic list of cards (ids as array of obje
 
 	await Bluebird.each([ 1, 2, 3 ], async (idx) => {
 		const card = await test.context.jellyfish.getCardBySlug(
-			test.context.context, test.context.session, `foo${idx}@latest`)
+			test.context.context, test.context.session, `${slug}${idx}@latest`)
 		test.true(card.data.updated)
 	})
 })
@@ -1356,7 +1378,7 @@ ava('should fail when attempting to insert a triggered-action card with duplicat
 ava('should fail to set a trigger when the list of card ids contains duplicates', async (test) => {
 	const card = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			slug: 'foo1',
+			slug: test.context.generateRandomSlug(),
 			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
@@ -1409,7 +1431,9 @@ ava('should fail to set a trigger when the list of card ids contains duplicates'
 ava('trigger should update card if triggered by a user not owning the card', async (test) => {
 	const card = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
-			slug: 'foo-admin',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			type: 'card@1.0.0',
 			version: '1.0.0',
 			data: {
@@ -1476,7 +1500,9 @@ ava('trigger should update card if triggered by a user not owning the card', asy
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-john-doe-user',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				email: 'accounts+jellyfish@resin.io',
 				roles: [ 'user-community' ],
@@ -1488,7 +1514,7 @@ ava('trigger should update card if triggered by a user not owning the card', asy
 		test.context.context, test.context.session, {
 			type: 'session@1.0.0',
 			version: '1.0.0',
-			slug: 'session-john-doe-user',
+			slug: `session-${userJohnDoe.slug}`,
 			data: {
 				actor: userJohnDoe.id
 			}
@@ -1521,7 +1547,12 @@ ava('trigger should update card if triggered by a user not owning the card', asy
 	test.true(result.data.updated)
 })
 
-ava('.getTriggers() should initially be an empty array', (test) => {
-	const triggers = test.context.worker.getTriggers()
+ava('.getTriggers() should initially be an empty array', async (test) => {
+	const newInstance = {
+		context: {}
+	}
+	await helpers.worker.before(newInstance, actionLibrary)
+
+	const triggers = newInstance.context.worker.getTriggers()
 	test.deepEqual(triggers, [])
 })

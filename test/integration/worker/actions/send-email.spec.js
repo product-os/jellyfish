@@ -13,12 +13,12 @@ const environment = require('../../../../lib/environment')
 
 const MAILGUN = environment.mail
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(async (test) => {
-	helpers.worker.afterEach(test)
+ava.after(async (test) => {
+	helpers.worker.after(test)
 	nock.cleanAll()
 })
 

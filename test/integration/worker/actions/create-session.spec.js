@@ -9,11 +9,11 @@ const Bluebird = require('bluebird')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should not store the password in the queue when using action-create-session', async (test) => {
 	const userCard = await test.context.jellyfish.getCardBySlug(

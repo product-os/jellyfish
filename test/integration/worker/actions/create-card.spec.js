@@ -8,11 +8,11 @@ const ava = require('ava')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should fail to create an event with an action-create-card', async (test) => {
 	const cardType = await test.context.jellyfish.getCardBySlug(
@@ -71,7 +71,7 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 			reason: null,
 			properties: {
 				version: '1.0.0',
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				data: {
 					mentions: []
 				}
@@ -126,7 +126,7 @@ ava('should create a new card along with a reason', async (test) => {
 			arguments: {
 				reason: 'My new card',
 				properties: {
-					slug: 'foo',
+					slug: test.context.generateRandomSlug(),
 					version: '1.0.0'
 				}
 			}
@@ -204,6 +204,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -212,7 +213,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0',
 				data
 			}
@@ -229,7 +230,7 @@ ava('should be able to insert a deeply nested card', async (test) => {
 			type: createResult.data.type
 		})
 
-	test.deepEqual(card.slug, 'foo')
+	test.deepEqual(card.slug, slug)
 	test.deepEqual(card.version, '1.0.0')
 	test.deepEqual(card.data, data)
 })
