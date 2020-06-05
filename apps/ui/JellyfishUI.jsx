@@ -44,10 +44,6 @@ import {
 	selectors
 } from './core'
 import {
-	DragDropContext
-} from 'react-dnd'
-import ReactDndHtml5Backend from 'react-dnd-html5-backend'
-import {
 	Route,
 	Redirect,
 	Switch
@@ -169,6 +165,4 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default DragDropContext(ReactDndHtml5Backend)(
-	connect(mapStateToProps, mapDispatchToProps)(JellyfishUI)
-)
+export default connect(mapStateToProps, mapDispatchToProps)(JellyfishUI)

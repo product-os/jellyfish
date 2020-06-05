@@ -16,6 +16,12 @@ import {
 	Theme
 } from 'rendition'
 import {
+	DndProvider
+} from 'react-dnd'
+import {
+	HTML5Backend
+} from 'react-dnd-html5-backend'
+import {
 	createGlobalStyle
 } from 'styled-components'
 import {
@@ -95,7 +101,9 @@ ReactDOM.render(
 							<GlobalStyle />
 
 							<ErrorBoundary>
-								<JellyfishUI />
+								<DndProvider backend={HTML5Backend}>
+									<JellyfishUI />
+								</DndProvider>
 							</ErrorBoundary>
 						</ConnectedRouter>
 					</Provider>
