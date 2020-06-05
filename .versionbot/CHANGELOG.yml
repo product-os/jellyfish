@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'HOTFIX: Remove unnecessary html parsing function'
+      hash: bebf42729a4a0deb3c01971cae8ee9e3ac53aa54
+      body: |
+        This function causes action workers to OOM when parsing deeply nested
+        HTML. This function is actually unnecessary as the Markdown renderer in
+        the UI can also safely display HTML strings.
+
+        A follow up PR will be made to update the front and discourse test
+        suites.
+      footer:
+        Connects-to: '#3968'
+        connects-to: '#3968'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.46.13
+  date: 2020-06-05T13:55:06.928Z
+- commits:
     - subject: 'core: Fix query for Sales and Support meta relationships on user card'
       hash: dec3fe7644953789b4ee7f5fbe10e80ac3b6df74
       body: ''
