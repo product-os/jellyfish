@@ -118,10 +118,18 @@ export default class Event extends React.Component {
 				this.setState({
 					updating: true
 				}, async () => {
+					const {
+						mentionsUser,
+						alertsUser,
+						tags
+					} = helpers.getMessageMetaData(this.state.editedMessage)
 					const patch = jsonpatch.compare(this.props.card, _.defaultsDeep({
+						tags,
 						data: {
 							payload: {
-								message: this.state.editedMessage
+								message: this.state.editedMessage,
+								mentionsUser,
+								alertsUser
 							}
 						}
 					}, this.props.card))
