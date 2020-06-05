@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'core: Fix query for Sales and Support meta relationships on user card'
+      hash: dec3fe7644953789b4ee7f5fbe10e80ac3b6df74
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.46.12
+  date: 2020-06-05T08:22:48.795Z
+- commits:
     - subject: Update react-dnd to v11
       hash: 244371518c8f3c702e8088409232c84c9d041710
       body: ''
