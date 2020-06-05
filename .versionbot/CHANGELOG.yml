@@ -1,4 +1,31 @@
 - commits:
+    - subject: Update Octokit plugin-retry require
+      hash: 8aa7b030cd42c8b041d0e44c0c8c8ff08c302642
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump @octokit/plugin-retry from 2.2.0 to 3.0.2'
+      hash: a48519701faeea4bc71095db63d07e5250c0f856
+      body: >
+        Bumps
+        [@octokit/plugin-retry](https://github.com/octokit/plugin-retry.js) from
+        2.2.0 to 3.0.2.
+
+        - [Release notes](https://github.com/octokit/plugin-retry.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/plugin-retry.js/compare/v2.2.0...v3.0.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.46.7
+  date: 2020-06-04T10:00:17.318Z
+- commits:
     - subject: 'ci: Update queue integration tests to use a shared backend'
       hash: a22a2b1c7829c2473744938b760c82ec457753c7
       body: ''
