@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update react-dnd to v11
+      hash: 244371518c8f3c702e8088409232c84c9d041710
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.46.11
+  date: 2020-06-05T07:18:54.773Z
+- commits:
     - subject: 'patch: bump moment from 2.24.0 to 2.26.0'
       hash: d38b41c74ea3d6414ad9a1e4375ab23defacb98e
       body: >
