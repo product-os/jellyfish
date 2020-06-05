@@ -8,6 +8,7 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import _ from 'lodash'
+import * as jsonpatch from 'fast-json-patch'
 import Mark from 'mark.js'
 import React from 'react'
 import VisibilitySensor from 'react-visibility-sensor'
@@ -117,7 +118,14 @@ export default class Event extends React.Component {
 				this.setState({
 					updating: true
 				}, async () => {
-					onUpdateCard(this.props.card, 'data.payload.message', this.state.editedMessage)
+					const patch = jsonpatch.compare(this.props.card, _.defaultsDeep({
+						data: {
+							payload: {
+								message: this.state.editedMessage
+							}
+						}
+					}, this.props.card))
+					onUpdateCard(this.props.card, patch)
 						.then(this.onStopEditing)
 						.catch(() => {
 							this.setState({

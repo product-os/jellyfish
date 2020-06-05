@@ -11,6 +11,9 @@ import {
 	Badge
 } from 'rendition'
 import styled from 'styled-components'
+import {
+	patchPath
+} from '../../../../../lib/ui-components/services/helpers.js'
 import withCardUpdater from '../../../../../lib/ui-components/HOC/with-card-updater'
 
 const SingleLineSpan = styled.span `
@@ -23,7 +26,8 @@ const SelectWrapper = ({
 	const setValue = ({
 		option
 	}) => {
-		onUpdateCard(card, [ 'data', 'status' ], option)
+		const patch = patchPath(card, [ 'data', 'status' ], option)
+		onUpdateCard(card, patch)
 	}
 
 	const label = _.get(card, [ 'data', 'status' ])
