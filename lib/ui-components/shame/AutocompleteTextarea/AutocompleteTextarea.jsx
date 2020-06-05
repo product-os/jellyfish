@@ -23,11 +23,12 @@ import {
 	getTrigger
 } from './triggers'
 
-const QUICK_SEARCH_RE = /^\s*\?[\w_-]+/
+const QUICK_SEARCH_RE = /^\s*\?[\w_-]+\s+[\w_-]+/
 
 const QuickSearchPanel = styled(Card) `
 	position: fixed;
 	background: white;
+	color: ${(props) => { return props.theme.colors.text.main }};
 	bottom: 80px;
 	right: 10px;
 	width: 400px;
@@ -146,7 +147,7 @@ class QuickSearchItem extends React.Component {
 			card, connectDragSource
 		} = this.props
 		return connectDragSource(<span>
-			<Link append={card.slug || card.id}>
+			<Link append={card.slug || card.id} data-test="quick-search__result">
 				{card.name || card.slug || card.id}
 			</Link>
 		</span>)
@@ -177,7 +178,7 @@ class AutoCompleteArea extends React.Component {
 		const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value)
 		_.set(filter, [ 'properties', 'type' ], {
 			type: 'string',
-			enum: `${typeCard.slug}@${typeCard.version}`
+			const: `${typeCard.slug}@${typeCard.version}`
 		})
 		this.props.sdk.query(filter, {
 			limit: 20,

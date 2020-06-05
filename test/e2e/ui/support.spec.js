@@ -29,8 +29,8 @@ ava.serial.before(async () => {
 	})
 
 	// Create user and log in to the web browser client
-	const communityUser = await context.createUser(user)
-	await context.addUserToBalenaOrg(communityUser.id)
+	context.communityUser = await context.createUser(user)
+	await context.addUserToBalenaOrg(context.communityUser.id)
 	await macros.loginUser(context.page, user)
 })
 
@@ -730,6 +730,45 @@ ava.serial('A user can edit their own message', async (test) => {
 	// Wait for the message to be updated and verify the message text
 	const newMessageText = await macros.getElementText(page, `${eventSelector} [data-test="event-card__message"]`)
 	test.is(newMessageText.trim(), messageTextAfter)
+})
+
+ava.serial('You can trigger a quick search for cards from the message input', async (test) => {
+	const {
+		page
+	} = context
+
+	const searchResultSelector = '[data-test="quick-search__result"]'
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread and wait for the thread to be displayed
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	const threadSelector = '.column--support-thread'
+	await page.waitForSelector(threadSelector)
+
+	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
+
+	// Type in a quick search trigger
+	await page.type('textarea', ` ?user ${context.communityUser.slug.replace('user-', '')}`)
+
+	// Verify the quick search results
+	await page.waitForSelector(searchResultSelector)
+	const searchMatches = await page.$$(searchResultSelector)
+	test.is(searchMatches.length, 1)
+	const userCardMatch = await macros.getElementText(page, searchResultSelector)
+	test.is(userCardMatch.trim(), context.communityUser.slug)
+
+	// Now click on the quick search result and verify the corresponding card is loaded in a new channel
+	await macros.waitForThenClickSelector(page, searchResultSelector)
+	await page.waitForSelector(`.column--slug-${context.communityUser.slug}`)
 })
 
 ava.serial('You can select a user and a group from the auto-complete options', async (test) => {
