@@ -1,4 +1,21 @@
 - commits:
+    - subject: Fix skipped translate tests
+      hash: 17403e69cb999424171d65f8e6cd0b13f822e080
+      body: |
+        Front and discourse translate tests were skipped so that we could
+        release https://github.com/product-os/jellyfish/pull/4000 to production.
+        This PR fixes the tests and re-enables them
+      footer:
+        Connects-to: '#3968'
+        connects-to: '#3968'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.46.14
+  date: 2020-06-06T17:04:00.694Z
+- commits:
     - subject: 'HOTFIX: Remove unnecessary html parsing function'
       hash: bebf42729a4a0deb3c01971cae8ee9e3ac53aa54
       body: |
