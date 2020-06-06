@@ -13,7 +13,7 @@ const TOKEN = environment.integration.front
 ava.serial.beforeEach(scenario.beforeEach)
 ava.serial.afterEach.always(scenario.afterEach)
 
-scenario.run(ava.skip, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/front'),
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 50),

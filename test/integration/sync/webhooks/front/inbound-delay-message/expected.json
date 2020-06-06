@@ -39,7 +39,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Hello"
+          "message": "<div>Hello</div>\n"
         }
       }
     },
@@ -119,8 +119,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message":"<div>Hey there!</div>\n<div class=\"front-signature fa-uid_08dbba14523ca30f8679c237594b5e21\">—\nJuan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin\\\\\\_io</div></div>\n\n> On Wed, Oct 10, 2018 at 10:39 pm, <[juan@resin.io](mailto:juan@resin.io)\\> Juan Cruz Viotti wrote:\n> <div id=\"fae_1y9fb8z-ftkyv6\"><div>Hello</div></div>"
-
+          "message": "<div>Hey there!</div><br><div class=\"front-signature fa-uid_08dbba14523ca30f8679c237594b5e21\">—<br />Juan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin_io</div></div><br><blockquote type=\"cite\" class=\"front-blockquote\">On Wed, Oct 10, 2018 at 10:39 pm,  &lt;<a href=\"mailto:juan@resin.io\" target=\"_blank\" rel=\"noopener noreferrer\">juan@resin.io</a>&gt; Juan Cruz Viotti wrote:<br /><br /><div id=\"fae_1y9fb8z-ftkyv6\"><div>Hello</div>\n</div></blockquote>"
         }
       }
     },

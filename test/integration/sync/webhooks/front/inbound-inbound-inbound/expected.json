@@ -74,7 +74,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message":"<div>One</div>\n<div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\[juan@resin.io\\](mailto:juan@resin.io)\\\\&gt; wrote:</div></div>"
+          "message": "<div>One</div><br /><div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;<a href=\"mailto:juan@resin.io\" target=\"_blank\" rel=\"noopener noreferrer\">juan@resin.io</a>&gt; wrote:<br /></div><blockquote class=\"gmail_quote front-blockquote\" style=\"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex\"><div><br /></div>\n</blockquote></div>\n"
 
         }
       }
@@ -120,7 +120,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message":"<div>Two</div>\n<div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\[juan@resin.io\\](mailto:juan@resin.io)\\\\&gt; wrote:</div>\n\n&gt; <div>One</div>\n&gt; <div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;\\\\\\\\\\\\\\[juan@resin.io\\\\\\\\\\\\\\](mailto:juan@resin.io)\\\\\\\\\\\\\\\\&gt; wrote:</div></div></div>"
+          "message": "<div>Two</div><br /><div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;<a href=\"mailto:juan@resin.io\" target=\"_blank\" rel=\"noopener noreferrer\">juan@resin.io</a>&gt; wrote:<br /></div><blockquote class=\"gmail_quote front-blockquote\" style=\"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex\"><div>One</div><br /><div class=\"gmail_quote\"><div>On Mon, Oct 8, 2018 at 7:39 PM Juan Cruz Viotti &lt;<a href=\"mailto:juan@resin.io\" target=\"_blank\" rel=\"noopener noreferrer\">juan@resin.io</a>&gt; wrote:<br /></div><blockquote class=\"gmail_quote front-blockquote\" style=\"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex\"><div><br /></div>\n</blockquote></div></blockquote></div>\n"
 
         }
       }

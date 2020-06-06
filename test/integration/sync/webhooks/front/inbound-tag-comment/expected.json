@@ -4,7 +4,9 @@
     "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "testTag" ],
+    "tags": [
+      "testTag"
+    ],
     "requires": [],
     "capabilities": [],
     "data": {
@@ -101,7 +103,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Foo"
+          "message": "<div>Foo</div>\n"
         }
       }
     },

@@ -101,7 +101,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by \"pushing\" the older commit but it doesn't seem to be working for me right now"
+          "message": "<div><p>Hi, is there a quick and easy way to revert to an older release? I've done it succesfully by &quot;pushing&quot; the older commit but it doesn't seem to be working for me right now</p>\n</div>"
         }
       }
     },
@@ -147,7 +147,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Never mind I think I've gotten that to work again.. lol"
+          "message": "<div><p>Never mind I think I've gotten that to work again.. lol</p>\n</div>"
         }
       }
     },
@@ -170,7 +170,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Is this something I can do on the balena dashboard for future reference?"
+          "message": "<div><p>Is this something I can do on the balena dashboard for future reference?</p>\n</div>"
         }
       }
     },
@@ -193,7 +193,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: [https://github.com/balena-io-projects/staged-releases](https://github.com/balena-io-projects/staged-releases)"
+          "message": "<div><p>Hey, it's not actually implemented on the dashboard side, but you can use staged releases, with the code found in examples here: <a href=\"https://github.com/balena-io-projects/staged-releases\">https://github.com/balena-io-projects/staged-releases</a></p>\n</div>"
         }
       }
     },
@@ -216,7 +216,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "I meant to say it's not implemented _yet_, but it is coming."
+          "message": "<div><p>I meant to say it's not implemented <em>yet</em>, but it is coming.</p>\n</div>"
         }
       }
     },
@@ -262,7 +262,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "Sounds good, thanks!"
+          "message": "<div><p>Sounds good, thanks!</p>\n</div>"
         }
       }
     },

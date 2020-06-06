@@ -73,7 +73,7 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
-          "message": "No worries. I've worked around it for now by pinning to an older base image."
+          "message": "<div><p>No worries. I've worked around it for now by pinning to an older base image.</p>\n</div>"
         },
         "timestamp": "2018-12-18T18:32:53.000Z"
       }

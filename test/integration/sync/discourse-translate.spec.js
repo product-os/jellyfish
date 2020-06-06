@@ -168,7 +168,7 @@ ava('should add a new e-mail to a user', async (test) => {
 	})
 })
 
-scenario.run(ava.skip, {
+scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/discourse'),
 	scenarios: require('./webhooks/discourse'),
 	baseUrl: 'https://forums.balena.io',

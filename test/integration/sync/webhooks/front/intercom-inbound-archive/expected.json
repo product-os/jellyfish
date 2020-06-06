@@ -39,7 +39,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test test 2"
+          "message": "<div><p>Test test 2</p>\n</div>"
         }
       }
     },
