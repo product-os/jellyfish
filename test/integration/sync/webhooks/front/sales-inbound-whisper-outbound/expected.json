@@ -47,7 +47,7 @@
               "url": "https://api2.frontapp.com/download/fil_691uv7n"
             }
           ],
-          "message": "Test\n\\--\nJuan Cruz Viotti\nSoftware Engineer\n[https://www.jviotti.com](https://www.jviotti.com)"
+          "message": "Test<br><br>-- <br>Juan Cruz Viotti<br>Software Engineer<br><a href=\"https://www.jviotti.com\" target=\"_blank\" rel=\"noopener noreferrer\">https://www.jviotti.com</a><br>"
         }
       }
     },
@@ -197,7 +197,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<div>Test email reply</div>\n<div class=\"front-signature fa-uid_3ceb624a81164f46da606d90470c85fb\"><div>—</div><div>Juan Cruz Viotti,</div><div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin\\\\\\_io</div></div>\n\n> On July 19, 2019, 1:20 PM GMT+1 [jv@jviotti.com](mailto:jv@jviotti.com) wrote:\n> <div id=\"fae_44t177n-n94dtz\">Test\n> \\--\n> Juan Cruz Viotti\n> Software Engineer\n> [https://www.jviotti.com](https://www.jviotti.com/)</div>"
+          "message": "<div>Test email reply</div><br><div class=\"front-signature fa-uid_3ceb624a81164f46da606d90470c85fb\"><div>—</div><div>Juan Cruz Viotti,</div><div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin_io</div></div><br><blockquote type=\"cite\" class=\"front-blockquote\">On July 19, 2019, 1:20 PM GMT+1 <a href=\"mailto:jv@jviotti.com\" target=\"_blank\" rel=\"noopener noreferrer\">jv@jviotti.com</a> wrote:<br /><br /><div id=\"fae_44t177n-n94dtz\">Test<br /><br />-- <br />Juan Cruz Viotti<br />Software Engineer<br /><a rel=\"noopener noreferrer\" href=\"https://www.jviotti.com/\" target=\"_blank\">https://www.jviotti.com</a><br /></div></blockquote>"
         }
       }
     },

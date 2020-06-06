@@ -9,7 +9,9 @@
     "capabilities": [],
     "data": {
       "environment": "production",
-      "tags": [ "wifi" ],
+      "tags": [
+        "wifi"
+      ],
       "inbox": "Sandbox",
       "mirrors": [
         "https://forums.balena.io/t/6084"
@@ -44,7 +46,9 @@
           "capabilities": [],
           "data": {
             "environment": "production",
-            "tags": [ "wifi" ],
+            "tags": [
+              "wifi"
+            ],
             "inbox": "Sandbox",
             "mirrors": [
               "https://forums.balena.io/t/6084"
@@ -76,7 +80,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Foo 3333333333333333333"
+          "message": "<p>Foo 3333333333333333333</p>"
         }
       }
     }

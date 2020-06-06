@@ -9,7 +9,10 @@
     "capabilities": [],
     "data": {
       "environment": "production",
-      "tags": [ "support", "docker" ],
+      "tags": [
+        "support",
+        "docker"
+      ],
       "inbox": "Sandbox",
       "mirrors": [
         "https://forums.balena.io/t/6085"
@@ -44,7 +47,10 @@
           "capabilities": [],
           "data": {
             "environment": "production",
-            "tags": [ "support", "docker" ],
+            "tags": [
+              "support",
+              "docker"
+            ],
             "inbox": "Sandbox",
             "mirrors": [
               "https://forums.balena.io/t/6085"
@@ -76,7 +82,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "777777777777777777777777777"
+          "message": "<p>777777777777777777777777777</p>"
         }
       }
     }

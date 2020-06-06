@@ -42,7 +42,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Hello"
+          "message": "<div>Hello</div>\n"
+
         }
       }
     },

@@ -4,7 +4,9 @@
     "type": "support-thread@1.0.0",
     "version": "1.0.0",
     "active": true,
-    "tags": [ "Needs audit" ],
+    "tags": [
+      "Needs audit"
+    ],
     "requires": [],
     "capabilities": [],
     "data": {
@@ -39,7 +41,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "Test test"
+          "message": "<div><p>Test test</p>\n</div>"
         }
       }
     },

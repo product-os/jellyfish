@@ -89,7 +89,7 @@
       "capabilities": [],
       "data": {
         "actor": {
-          "active": false,
+          "active": true,
           "slug": "user-jviotti"
         },
         "mirrors": [

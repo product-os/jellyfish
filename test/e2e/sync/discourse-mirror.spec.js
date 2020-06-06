@@ -335,18 +335,17 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 
 	test.not(test.context.username, lastPost.username)
 	test.is(environment.integration.discourse.username, lastPost.username)
-	const baseUrl = 'https://forums.balena.io'
 	test.is(lastPost.cooked, [
-		`(${test.context.username}) ${content}`,
-		'',
-		'* * *',
-		'',
+		`<p>(${test.context.username}) ${content}</p>`,
+		'<hr>',
+		'<blockquote>',
 		[
-			'> This message was posted as',
-			`[@${lastPost.username}](${baseUrl}/u/${lastPost.username}) because`,
-			`[@${test.context.username}](${baseUrl}/u/${test.context.username})`,
-			'is not a Discourse moderator'
-		].join(' ')
+			'<p>This message was posted as',
+			`<a class="mention" href="/u/${lastPost.username}">@${lastPost.username}</a> because`,
+			`<a class="mention" href="/u/${test.context.username}">@${test.context.username}</a>`,
+			'is not a Discourse moderator</p>'
+		].join(' '),
+		'</blockquote>'
 	].join('\n'))
 	test.is(lastPost.post_type, 4)
 
@@ -372,7 +371,7 @@ avaTest('should send a message as a non moderator user', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, content)
+	test.is(lastPost.cooked, `<p>${content}</p>`)
 	test.is(lastPost.post_type, 1)
 
 	await helpers.mirror.afterEach(test)
@@ -735,7 +734,7 @@ avaTest('should send a whisper', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, content)
+	test.is(lastPost.cooked, `<p>${content}</p>`)
 	test.is(lastPost.post_type, 4)
 })
 
@@ -766,7 +765,7 @@ avaTest('should update a whisper', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, newContent)
+	test.is(lastPost.cooked, `<p>${newContent}</p>`)
 	test.is(lastPost.post_type, 4)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })
@@ -787,7 +786,7 @@ avaTest('should send a message', async (test) => {
 	const lastPost = _.last(topic.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, content)
+	test.is(lastPost.cooked, `<p>${content}</p>`)
 	test.is(lastPost.post_type, 1)
 })
 
@@ -818,7 +817,7 @@ avaTest('should update a message', async (test) => {
 	const lastPost = _.last(topicAfter.post_stream.posts)
 
 	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, newContent)
+	test.is(lastPost.cooked, `<p>${newContent}</p>`)
 	test.is(lastPost.post_type, 1)
 	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
 })

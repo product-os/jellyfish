@@ -74,8 +74,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message":"<div>Hello</div>\n<div class=\"front-signature fa-uid_3261ad35206a43895d965cefeb9a22c2\">—\nJuan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin\\\\\\_io</div></div>"
-
+          "message": "<div>Hello</div><br><div class=\"front-signature fa-uid_3261ad35206a43895d965cefeb9a22c2\">—<br />Juan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin_io</div></div>"
         }
       }
     }
