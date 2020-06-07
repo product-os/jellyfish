@@ -1,4 +1,36 @@
 - commits:
+    - subject: Fix color of Loader placeholder
+      hash: 261a04395abc39013e9aee0fa16b34bdaba2821c
+      body: |
+        This will ensure it displays correctly even when within a whisper.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Fix Quick Search Results behaviour on the AutocompleteTextarea component
+      hash: 3ca010d0b0ee187da4aaf4088c36e139d383fdea
+      body: |
+        Note - previously this was broken and would never trigger any results.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add key prop to ColorHashPill components in CardChatSummary
+      hash: 9c767e05f5054bb5653e2259279e0f5660e88bc1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.48.0
+  date: 2020-06-07T02:20:45.012Z
+- commits:
     - subject: Overlay favicon with mentions count
       hash: 9493ba7d2a564855b78ff410945dd28a1758d0e8
       body: ''
