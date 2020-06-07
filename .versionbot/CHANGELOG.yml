@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump immutability-helper from 3.0.2 to 3.1.1'
+      hash: 7e88fcf28fdce85bb7a76d0518f3163d92b4d37c
+      body: >
+        Bumps
+        [immutability-helper](https://github.com/kolodny/immutability-helper)
+        from 3.0.2 to 3.1.1.
+
+        - [Release
+        notes](https://github.com/kolodny/immutability-helper/releases)
+
+        -
+        [Commits](https://github.com/kolodny/immutability-helper/compare/v3.0.2...v3.1.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.48.2
+  date: 2020-06-07T16:05:34.758Z
+- commits:
     - subject: 'patch: bump @octokit/auth-app from 2.4.4 to 2.4.6'
       hash: 761067c6e7997ac8b1997de9cb860d07b3148dc8
       body: >
