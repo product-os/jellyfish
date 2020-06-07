@@ -4,18 +4,20 @@
  * Proprietary and confidential.
  */
 
+const _ = require('lodash')
 const ava = require('ava')
+const CardCard = require('../../../../../../lib/core/cards/card')
 const CardHandler = require('../../../../../../apps/server/graphql/card-handlers/card-handler')
 const graphql = require('graphql')
-const CardCard = require('../../../../../../lib/core/cards/card')
-const fieldOverrides = require('../../../../../../apps/server/graphql/card-handlers/field-overrides')
-const _ = require('lodash')
+const {
+	camelCase
+} = require('change-case')
 const {
 	fakeContext
 } = require('../graphql-spec-helpers')
 const {
-	camelCase
-} = require('change-case')
+	OVERRIDES
+} = require('../../../../../../apps/server/graphql/card-handlers/field-overrides')
 
 const card = {
 	slug: 'time-machine',
@@ -73,7 +75,7 @@ ava('`generateTypeName` generates a sensible name', (test) => {
 
 ava('`children` returns the schema of each property minus overriden fields', (test) => {
 	const handler = new CardHandler(card, 0, getContext())
-	const expectedChildren = Object.values(_.omit(CardCard.data.schema.properties, Object.keys(fieldOverrides)))
+	const expectedChildren = Object.values(_.omit(CardCard.data.schema.properties, Object.keys(OVERRIDES)))
 
 	test.deepEqual(handler.children(), expectedChildren)
 })

@@ -9,7 +9,7 @@ const graphql = require('graphql')
 const handlers = require('./card-handlers')
 const HardCodedTypes = require('./types')
 const Resolvers = require('./resolvers')
-const GeneratorContext = require('./generator-context')
+const GeneratorContext = require('./schema-generator-context')
 const {
 	camelCase
 } = require('change-case')

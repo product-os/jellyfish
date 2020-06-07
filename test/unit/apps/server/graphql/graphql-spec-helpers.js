@@ -7,7 +7,7 @@
 const ava = require('ava')
 const graphql = require('graphql')
 const Types = require('../../../../../apps/server/graphql/types')
-const GeneratorContext = require('../../../../../apps/server/graphql/generator-context')
+const SchemaGeneratorContext = require('../../../../../apps/server/graphql/schema-generator-context')
 const baseCards = require('../../../../../lib/core/cards')
 const {
 	camelCase
@@ -176,7 +176,7 @@ const sharedObjectSpecs = (type, expectedTypeName = null, expectedFields = []) =
 }
 
 const fakeContext = (extraTypes) => {
-	return new GeneratorContext(Object.assign({}, Types, extraTypes), baseCards, console, '')
+	return new SchemaGeneratorContext(Object.assign({}, Types, extraTypes), baseCards, console, '')
 }
 
 module.exports = {

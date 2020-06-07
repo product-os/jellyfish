@@ -9,7 +9,9 @@ const CardHandler = require('../../../../../../apps/server/graphql/card-handlers
 const CardInterfaceHandler = require('../../../../../../apps/server/graphql/card-handlers/card-interface-handler')
 const CardCard = require('../../../../../../lib/core/cards/card')
 const Types = require('../../../../../../apps/server/graphql/types')
-const fieldOverrides = require('../../../../../../apps/server/graphql/card-handlers/field-overrides')
+const {
+	OVERRIDES
+} = require('../../../../../../apps/server/graphql/card-handlers/field-overrides')
 const graphql = require('graphql')
 const {
 	fakeContext
@@ -61,7 +63,7 @@ ava('`children` returns the schema of each property minus overriden fields and `
 	const handler = new CardInterfaceHandler(CardCard, 0, fakeContext())
 	const expectedChildren = Object.values(_.omit(
 		CardCard.data.schema.properties,
-		Object.keys(fieldOverrides).concat([ 'data' ])
+		Object.keys(OVERRIDES).concat([ 'data' ])
 	))
 
 	test.deepEqual(handler.children(), expectedChildren)
