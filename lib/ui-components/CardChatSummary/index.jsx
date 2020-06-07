@@ -169,7 +169,7 @@ export class CardChatSummary extends React.Component {
 				<Flex justifyContent="space-between" mb={3}>
 					<Flex alignItems="flex-start" flexWrap="wrap">
 						{_.map(highlightedFields, (keypath) => {
-							return <ColorHashPill value={_.get(card, keypath)} mr={2} mb={1} />
+							return <ColorHashPill key={keypath} value={_.get(card, keypath)} mr={2} mb={1} />
 						})}
 
 						<TagList
