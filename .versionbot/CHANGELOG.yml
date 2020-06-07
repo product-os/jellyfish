@@ -1,4 +1,16 @@
 - commits:
+    - subject: Overlay favicon with mentions count
+      hash: 9493ba7d2a564855b78ff410945dd28a1758d0e8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.47.0
+  date: 2020-06-07T00:58:54.209Z
+- commits:
     - subject: Fix skipped translate tests
       hash: 17403e69cb999424171d65f8e6cd0b13f822e080
       body: |
