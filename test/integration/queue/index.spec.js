@@ -178,6 +178,38 @@ ava('.enqueue() should set a present timestamp', async (test) => {
 	test.true(new Date(request.data.timestamp) >= currentDate)
 })
 
+const deprioritizedActions = [
+	'action-integration-discourse-mirror-event',
+	'action-integration-front-mirror-event',
+	'action-integration-github-mirror-event',
+	'action-integration-import-event',
+	'action-integration-outreach-mirror-event'
+]
+for (const slug of deprioritizedActions) {
+	const action = `${slug}@1.0.0`
+	ava(`.enqueue() should deprioritize ${slug}`, async (test) => {
+		const typeCard = await test.context.jellyfish.getCardBySlug(
+			test.context.context, test.context.session, 'card@latest')
+		await test.context.queue.producer.enqueue(test.context.queueActor, test.context.session, {
+			action,
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {}
+		})
+		await test.context.queue.producer.enqueue(test.context.queueActor, test.context.session, {
+			action: 'action-create-card@1.0.0',
+			context: test.context.context,
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {}
+		})
+
+		const request = await test.context.dequeue()
+		test.deepEqual(request.data.action, 'action-create-card@1.0.0')
+	})
+}
+
 ava('.enqueue() should throw if the type is a slug and was not found', async (test) => {
 	await test.throwsAsync(test.context.queue.producer.enqueue(
 		test.context.queueActor, test.context.session, {

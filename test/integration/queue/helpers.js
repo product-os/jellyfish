@@ -49,6 +49,16 @@ exports.before = async (test, options) => {
 		actionLibrary['action-delete-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-send-email'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-integration-discourse-mirror-event'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-integration-front-mirror-event'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-integration-github-mirror-event'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-integration-import-event'].card)
+	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+		actionLibrary['action-integration-outreach-mirror-event'].card)
 
 	test.context.queue = {}
 	test.context.queue.errors = queueErrors
