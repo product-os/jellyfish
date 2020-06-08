@@ -1,4 +1,17 @@
 - commits:
+    - subject: Expand matching of pending* tags to work with discourse HTML
+      hash: fa67f6c2d2de15e8fc9a2980fa04fc0b916902d6
+      body: |
+        Fixes product-os/jellyfish#4016
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.49.1
+  date: 2020-06-08T13:58:40.450Z
+- commits:
     - subject: Add support for full-text-search queries on existing search boxes
       hash: 97af253cdf76365337f6cceb6f0158f48f423ee2
       body: >
