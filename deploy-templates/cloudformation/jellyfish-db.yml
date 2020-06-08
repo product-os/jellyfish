@@ -8,13 +8,20 @@ Parameters:
     MinValue: '5'
     MaxValue: '1024'
     ConstraintDescription: must be between 5 and 1024Gb.
+  JellyfishDBMaxAllocatedStorage:
+    Default: '1024'
+    Description: The maximum storage auto-scale size of the Jellyfish database (Gb)
+    Type: Number
+    MinValue: '5'
+    MaxValue: '10240'
+    ConstraintDescription: must be between 5 and 10240Gb.
   MultiAZ:
     Description: Enable MultiAZ database deployment
     Type: String
-    Default: false
+    Default: 'false'
     AllowedValues:
-      - true
-      - false
+      - 'true'
+      - 'false'
   DBInstanceClass:
     Description: The database instance type
     Type: String
@@ -107,6 +114,7 @@ Conditions:
   HasIdentifier: !Not [ !Equals [ '', !Ref JellyfishDBInstanceIdentifier ]]
   HasSnapshot: !Not [ !Equals [ '', !Ref JellyfishDBSnapshotIdentifier ]]
   HasIOPS: !Not [ !Equals [ '', !Ref JellyfishDBStorageIops ]]
+  HasMultiAZEnabled: !Equals [ 'true', !Ref MultiAZ ]
 Mappings:
   EngineMap:
     postgres10:
@@ -164,6 +172,7 @@ Resources:
         wal_keep_segments: '256'
   JellyfishDB:
     Type: AWS::RDS::DBInstance
+    DeletionPolicy: Retain
     Properties:
       DBInstanceIdentifier: !If
         - HasIdentifier
@@ -177,6 +186,7 @@ Resources:
         - !Ref AWS::NoValue
       AllocatedStorage:
         Ref: JellyfishDBAllocatedStorage
+      MaxAllocatedStorage: !Ref JellyfishDBMaxAllocatedStorage
       DBInstanceClass:
         Ref: DBInstanceClass
       Engine: postgres
@@ -193,7 +203,10 @@ Resources:
         Ref: JellyfishDBSubnetGroup
       DBSecurityGroups:
         - Ref: JellyfishDBSecurityGroup
-      MultiAZ: false
+      MultiAZ: !If 
+        - HasMultiAZEnabled
+        - true
+        - false
       MonitoringInterval: 30
       MonitoringRoleArn:
         Fn::GetAtt:
