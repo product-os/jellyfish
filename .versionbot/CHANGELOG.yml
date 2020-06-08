@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump static-eval from 2.0.2 to 2.0.5'
+      hash: c59932d9bc384915d631e1d0a8ca2895a1c5395b
+      body: >
+        Bumps [static-eval](https://github.com/browserify/static-eval) from
+        2.0.2 to 2.0.5.
+
+        - [Release notes](https://github.com/browserify/static-eval/releases)
+
+        -
+        [Changelog](https://github.com/browserify/static-eval/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/browserify/static-eval/compare/v2.0.2...v2.0.5)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.48.3
+  date: 2020-06-08T00:05:20.926Z
+- commits:
     - subject: 'patch: bump immutability-helper from 3.0.2 to 3.1.1'
       hash: 7e88fcf28fdce85bb7a76d0518f3163d92b4d37c
       body: >
