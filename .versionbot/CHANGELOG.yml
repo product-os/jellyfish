@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add support for full-text-search queries on existing search boxes
+      hash: 97af253cdf76365337f6cceb6f0158f48f423ee2
+      body: >
+        This change covers the CreateView, AutoCompleteCardSelect and
+        AutocompleteTextarea components.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.49.0
+  date: 2020-06-08T07:26:32.976Z
+- commits:
     - subject: 'patch: [security] bump websocket-extensions from 0.1.3 to 0.1.4'
       hash: 8c6ab81dc899b7a98fd525c4cf2683ba08f5094b
       body: >
