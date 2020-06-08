@@ -147,13 +147,13 @@ export class SupportThreads extends React.Component {
 				if (typeBase === 'message' || typeBase === 'whisper') {
 					// If the message contains the 'pendingagentresponse' tag, then we are
 					// waiting on a response from the agent and can break out of the loop
-					if (event.data.payload.message && event.data.payload.message.match(/#pendingagentresponse/gi)) {
+					if (event.data.payload.message && event.data.payload.message.match(/#(<span>)?pendingagentresponse/gi)) {
 						break
 					}
 
 					// If the message contains the 'pendinguserresponse' tag, then we are
 					// waiting on a response from the user and can break out of the loop
-					if (event.data.payload.message && event.data.payload.message.match(/#pendinguserresponse/gi)) {
+					if (event.data.payload.message && event.data.payload.message.match(/#(<span>)?pendinguserresponse/gi)) {
 						isPendingUserResponse = true
 						break
 					}
@@ -164,7 +164,7 @@ export class SupportThreads extends React.Component {
 					if (
 						!hasEngineerResponse &&
 						event.data.payload.message &&
-						event.data.payload.message.match(/#pendingengineerresponse/gi) &&
+						event.data.payload.message.match(/#(<span>)?pendingengineerresponse/gi) &&
 						new Date(event.data.timestamp).getTime() + ENGINEER_RESPONSE_TIMEOUT > Date.now()
 					) {
 						isPendingEngineerResponse = true
