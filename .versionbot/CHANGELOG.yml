@@ -1,4 +1,17 @@
 - commits:
+    - subject: Do not display mentions count overlay on favicon if no mentions
+      hash: 1a4dd0194e534c3d01a4c1825acdb58624de2bfb
+      body: |
+        Also tweak the position to ensure the letters are not clipped.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.48.5
+  date: 2020-06-08T02:19:14.450Z
+- commits:
     - subject: 'patch: bump @sentry/node from 5.15.5 to 5.16.1'
       hash: 9aa6bc249475a8e338531cba54e7501eb40db38a
       body: >
