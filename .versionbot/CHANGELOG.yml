@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: [security] bump websocket-extensions from 0.1.3 to 0.1.4'
+      hash: 8c6ab81dc899b7a98fd525c4cf2683ba08f5094b
+      body: >
+        Bumps
+        [websocket-extensions](https://github.com/faye/websocket-extensions-node)
+        from 0.1.3 to 0.1.4. **This update includes a security fix.**
+
+        - [Release
+        notes](https://github.com/faye/websocket-extensions-node/releases)
+
+        -
+        [Changelog](https://github.com/faye/websocket-extensions-node/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/faye/websocket-extensions-node/compare/0.1.3...0.1.4)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.48.7
+  date: 2020-06-08T06:24:05.415Z
+- commits:
     - subject: 'patch: bump @babel/register from 7.9.0 to 7.10.1'
       hash: 0822a6b3ee672aad6e399de14c19397e20fb07e7
       body: >
