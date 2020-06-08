@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/register from 7.9.0 to 7.10.1'
+      hash: 0822a6b3ee672aad6e399de14c19397e20fb07e7
+      body: >
+        Bumps
+        [@babel/register](https://github.com/babel/babel/tree/HEAD/packages/babel-register)
+        from 7.9.0 to 7.10.1.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.1/packages/babel-register)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.48.6
+  date: 2020-06-08T03:50:15.285Z
+- commits:
     - subject: Do not display mentions count overlay on favicon if no mentions
       hash: 1a4dd0194e534c3d01a4c1825acdb58624de2bfb
       body: |
