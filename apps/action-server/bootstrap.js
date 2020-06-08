@@ -202,12 +202,11 @@ exports.worker = async (context, options) => {
 		enablePriorityBuffer: true,
 		onError: options.onError,
 		onActionRequest: async (serverContext, jellyfish, worker, queue, session, actionRequest, errorHandler) => {
+			metrics.markActionRequest(actionRequest.data.action.split('@')[0])
 			return getActorKey(serverContext, jellyfish, session, actionRequest.data.actor)
 				.then((key) => {
 					actionRequest.data.context.worker = serverContext.id
-					return metrics.measureActionRequestExecution(actionRequest, async () => {
-						return worker.execute(key.id, actionRequest)
-					})
+					return worker.execute(key.id, actionRequest)
 				})
 				.catch(errorHandler)
 		}
