@@ -24,6 +24,7 @@ import {
 	Filters,
 	Flex,
 	SchemaSieve,
+	Search,
 	Select,
 	Theme
 } from 'rendition'
@@ -48,6 +49,8 @@ import Collapsible from '../../../../lib/ui-components/Collapsible'
 import {
 	withResponsiveContext
 } from '../../../../lib/ui-components/hooks/ResponsiveProvider'
+
+const FULL_TEXT_SEARCH_TITLE = 'full_text_search'
 
 const USER_FILTER_NAME = 'user-generated-filter'
 
@@ -141,7 +144,7 @@ const createSyntheticViewCard = (view, filters) => {
 		// $$link queries don't work with full text search as they `anyOf` logic
 		// can't express the query on timeline elements, so the subschema has to be
 		// stripped from the full text search query schema
-		if (schema.title === 'full_text_search') {
+		if (schema.title === FULL_TEXT_SEARCH_TITLE) {
 			schema.anyOf[0].anyOf = schema.anyOf[0].anyOf.filter((item) => {
 				return !item.properties.$$links
 			})
@@ -156,12 +159,24 @@ const createSyntheticViewCard = (view, filters) => {
 	return syntheticViewCard
 }
 
+const createSearchFilter = (schema, term) => {
+	return term ? {
+		anyOf: [
+			helpers.createFullTextSearchFilter(schema, term)
+		],
+		title: FULL_TEXT_SEARCH_TITLE,
+		$id: FULL_TEXT_SEARCH_TITLE
+	} : null
+}
+
 class ViewRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 
 		this.state = {
 			redirectTo: null,
+			searchTerm: '',
+			searchFilter: null,
 			filters: [],
 			ready: false,
 			tailType: null,
@@ -180,6 +195,8 @@ class ViewRenderer extends React.Component {
 			'setPage',
 			'setSlice',
 			'updateView',
+			'updateSearch',
+			'updateFiltersFromSummary',
 			'updateFilters'
 		]
 		methods.forEach((method) => {
@@ -212,15 +229,45 @@ class ViewRenderer extends React.Component {
 			})
 	}
 
+	updateFiltersFromSummary (filters) {
+		// Separate out the search filter from the other filters
+		const [ searchFilters, filtersWithoutSearch ] = _.partition(filters, {
+			title: FULL_TEXT_SEARCH_TITLE
+		})
+
+		if (searchFilters.length) {
+			this.updateFilters(filtersWithoutSearch)
+		} else {
+			// If the search filter has been removed by the Filters summary,
+			// update our component state accordingly before updating filters
+			this.setState({
+				searchFilter: null,
+				searchTerm: ''
+			}, () => {
+				this.updateFilters(filtersWithoutSearch)
+			})
+		}
+	}
+
 	updateFilters (filters) {
 		const {
 			head
 		} = this.props.channel.data
 		if (head) {
-			this.loadViewWithFilters(head, filters)
+			this.loadViewWithFilters(head, _.compact([ ...filters, this.state.searchFilter ]))
 		}
 		this.setState({
 			filters
+		})
+	}
+
+	updateSearch (event) {
+		const schema = _.get(this.state, [ 'tailType', 'data', 'schema' ])
+		this.setState({
+			searchFilter: createSearchFilter(schema, event.target.value),
+			searchTerm: event.target.value
+		}, () => {
+			this.updateFilters(this.state.filters)
 		})
 	}
 
@@ -390,7 +437,7 @@ class ViewRenderer extends React.Component {
 					anyOf: [ filter ]
 				})
 			}
-			this.loadViewWithFilters(head, filters)
+			this.loadViewWithFilters(head, _.compact([ ...filters, this.state.searchFilter ]))
 		} else {
 			const queryOptions = this.getQueryOptions(activeLens)
 			this.props.actions.streamView(head.id, queryOptions)
@@ -592,6 +639,8 @@ class ViewRenderer extends React.Component {
 		// Only render filters in compact mode for the first breakpoint
 		const FiltersBreakpointSettings = _.sortBy(Theme.breakpoints).map((breakpoint, index) => Boolean(index <= 0))
 
+		const summaryFilters = _.compact([ ...this.state.filters, this.state.searchFilter ])
+
 		return (
 			<Flex
 				flex={this.props.flex}
@@ -647,26 +696,32 @@ class ViewRenderer extends React.Component {
 								</Flex>
 								<Box flex="1">
 									{useFilters && (
-										<Box mt={0} flex="1 0 auto">
+										<Flex mt={0} flex="1 0 auto" justifyContent="space-between">
 											<Filters
 												schema={schemaForFilters}
 												filters={this.state.filters}
 												onFiltersUpdate={this.updateFilters}
 												onViewsUpdate={this.saveView}
 												compact={FiltersBreakpointSettings}
-												renderMode={[ 'add', 'search' ]}
+												renderMode={[ 'add' ]}
 											/>
-										</Box>
+											<Box mb={3} flex="0 1 500px">
+												<Search
+													value={this.state.searchTerm}
+													onChange={this.updateSearch}
+												/>
+											</Box>
+										</Flex>
 									)}
 								</Box>
 							</Flex>
 
-							{useFilters && this.state.filters.length > 0 && (
+							{useFilters && summaryFilters.length > 0 && (
 								<Box flex="1 0 auto" mt={-3}>
 									<Filters
 										schema={schemaForFilters}
-										filters={this.state.filters}
-										onFiltersUpdate={this.updateFilters}
+										filters={summaryFilters}
+										onFiltersUpdate={this.updateFiltersFromSummary}
 										onViewsUpdate={this.saveView}
 										renderMode={[ 'summary' ]}
 									/>
