@@ -13,7 +13,7 @@ import {
 import CountFavicon from './CountFavicon'
 
 const getMentionsCount = (mentions) => {
-	if (!mentions) {
+	if (!mentions || !mentions.length) {
 		return null
 	}
 	if (mentions.length > 99) {

@@ -30,8 +30,8 @@ const defaults = {
 
 const getCoords = (options) => {
 	return {
-		x: options.align.toLowerCase() === 'left' ? 0 : options.width,
-		y: options.valign.toLowerCase() === 'top' ? 0 : options.height
+		x: options.align.toLowerCase() === 'left' ? 0 : options.width - options.lineWidth,
+		y: options.valign.toLowerCase() === 'top' ? 0 : options.height + options.lineWidth
 	}
 }
 
