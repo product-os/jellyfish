@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'SRE: Increase workers count from 12 to 32.'
+      hash: b2ae49c523c75bf76e87c0f1113a13fe7e1c7cef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.49.2
+  date: 2020-06-08T16:34:15.641Z
+- commits:
     - subject: Expand matching of pending* tags to work with discourse HTML
       hash: fa67f6c2d2de15e8fc9a2980fa04fc0b916902d6
       body: |
