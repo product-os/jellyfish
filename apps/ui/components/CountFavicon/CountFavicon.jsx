@@ -13,15 +13,34 @@ import {
 } from '../../hooks'
 
 export default function CountFavicon ({
-	label, baseIcon
+	label, baseIcons
 }) {
-	const href = useLabeledImage(label, baseIcon, {
-		fontSize: label && label.length > 2 ? 9 : 10
+	// Sizes are proportional to the overall image size
+	const baseFontSize = label && label.length > 2 ? 0.5 : 0.625
+	const baseLineWidth = 0.125
+	const labeledIcons = baseIcons.map(({
+		size, src
+	}) => {
+		return {
+			size,
+			href: useLabeledImage(label, src, {
+				width: size,
+				height: size,
+				fontSize: baseFontSize * size,
+				lineWidth: baseLineWidth * size
+			})
+		}
 	})
 
 	return (
-		<Helmet>
-			<link rel="shortcut icon" href={href} type="image/x-icon"/>
-		</Helmet>
+		<React.Fragment>
+			<Helmet>
+				{labeledIcons.map(({
+					size, href
+				}) => (
+					<link key={size} rel="shortcut icon" href={href} type="image/x-icon" sizes={`${size}x${size}`} />
+				))}
+			</Helmet>
+		</React.Fragment>
 	)
 }
