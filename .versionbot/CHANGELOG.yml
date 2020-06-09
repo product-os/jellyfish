@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'SRE: Sets CloudFormation template to use RDS storage auto-scaling.'
+      hash: 42415bea52d9ef825442a17a7a2f593a0ac253a6
+      body: |
+        RDS doesn't seem to fully support enabling the auto-scaling using
+        CloudFormation but the storage size can be set there.
+
+        This template also sets the database DeletionPolicy to 'Retain' to
+        allow faster replacement in the future if needed.
+
+        The template is already deployed into production.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.49.3
+  date: 2020-06-08T23:17:02.611Z
+- commits:
     - subject: 'SRE: Increase workers count from 12 to 32.'
       hash: b2ae49c523c75bf76e87c0f1113a13fe7e1c7cef
       body: ''
