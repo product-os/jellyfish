@@ -13,7 +13,6 @@ import '@babel/polyfill'
 import {
 	getSdk
 } from '@balena/jellyfish-client-sdk'
-import 'circular-std'
 import {
 	Alert,
 	Provider as ThemeProvider
