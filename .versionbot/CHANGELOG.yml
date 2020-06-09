@@ -1,4 +1,36 @@
 - commits:
+    - subject: Add unit test for editing a message
+      hash: 1e54bb6a83041a91c4b47ceaf8a64736b5e00c5c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'Update mentions, alerts and tags when editing messsages'
+      hash: d9687531fc82211ac11a5d30b7be93f7fcd6c194
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui-components: Update withCardUpdater to accept a patch'
+      hash: 1ef13d9452af230befaa7fa2ad691d60a1b99a9e
+      body: >
+        This allows the caller to send multiple patches to the onUpdateCard
+        method.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.50.1
+  date: 2020-06-09T13:15:45.682Z
+- commits:
     - subject: Update Rendition dependency to v15
       hash: 906ef4bff1e8e10f4812239dfc53e4bf759738f7
       body: ''
