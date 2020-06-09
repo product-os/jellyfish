@@ -707,6 +707,7 @@ class ViewRenderer extends React.Component {
 											/>
 											<Box mb={3} flex="0 1 500px">
 												<Search
+													className="view__search"
 													value={this.state.searchTerm}
 													onChange={this.updateSearch}
 												/>
@@ -717,7 +718,7 @@ class ViewRenderer extends React.Component {
 							</Flex>
 
 							{useFilters && summaryFilters.length > 0 && (
-								<Box flex="1 0 auto" mt={-3}>
+								<Box flex="1 0 auto" mt={-3} data-test="view__filters-summary-wrapper">
 									<Filters
 										schema={schemaForFilters}
 										filters={summaryFilters}
