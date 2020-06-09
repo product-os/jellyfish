@@ -202,7 +202,7 @@
     "react-icons": "^3.10.0",
     "react-redux": "^7.2.0",
     "react-resize-observer": "^1.1.1",
-    "react-router-dom": "^5.0.1",
+    "react-router-dom": "^5.2.0",
     "react-select": "^3.1.0",
     "react-swipeable": "^5.5.1",
     "react-textarea-autosize": "^7.1.2",
