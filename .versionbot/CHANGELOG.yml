@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Fix queue saturation metrics call placement'
+      hash: 9c0bca5b72e0384a9ac14a3b205ae4b309ce95c5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.49.6
+  date: 2020-06-09T08:11:24.624Z
+- commits:
     - subject: Allow queue concurrency to be set using an env var
       hash: 9ee3b974e377736994a11007b29075b7e49fedea
       body: |
