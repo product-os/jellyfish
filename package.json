@@ -146,7 +146,7 @@
     "connected-react-router": "^6.8.0",
     "copy-to-clipboard": "^3.0.8",
     "css-loader": "^2.1.1",
-    "d3": "^5.9.2",
+    "d3": "^5.16.0",
     "debounce-promise": "^3.1.0",
     "deep-copy": "^1.4.2",
     "detect-ua": "^1.0.0",
