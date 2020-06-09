@@ -1,4 +1,21 @@
 - commits:
+    - subject: Improve favicon rendering
+      hash: c21999195cf88fcbb314abfefa7d98fa7d499bed
+      body: >
+        Firefox does not work with a source svg file unless the width and height
+        are specified. So we use separate png files of the correct sizes
+        instead. We also now define multiple sizes of favicons (at the moment 16
+        and 32). The font is also now a bit bolder so that it still renders well
+        on Firefox on Windows.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.49.7
+  date: 2020-06-09T09:16:05.536Z
+- commits:
     - subject: 'backend: Fix queue saturation metrics call placement'
       hash: 9c0bca5b72e0384a9ac14a3b205ae4b309ce95c5
       body: ''
