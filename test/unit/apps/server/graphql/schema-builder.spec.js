@@ -49,7 +49,7 @@ const FakeCard = {
 	capabilities: []
 }
 
-const InstrospectionQuery = graphql.parse(graphql.introspectionQuery)
+const InstrospectionQuery = graphql.parse(graphql.getIntrospectionQuery())
 
 ava('it builds a valid GraphQL schema', async (test) => {
 	const context = {
