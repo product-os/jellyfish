@@ -30,15 +30,15 @@ const defaults = {
 
 const getCoords = (options) => {
 	return {
-		x: options.align.toLowerCase() === 'left' ? 0 : options.width - options.lineWidth,
-		y: options.valign.toLowerCase() === 'top' ? 0 : options.height + options.lineWidth
+		x: options.align.toLowerCase() === 'left' ? 0 : options.width - 2,
+		y: options.valign.toLowerCase() === 'top' ? 0 : options.height + 2
 	}
 }
 
 const drawLabel = (canvas, label, options) => {
 	const context = canvas.getContext('2d')
 	const coords = getCoords(options)
-	context.font = `${options.fontSize}px monospace`
+	context.font = `700 ${options.fontSize}px monospace`
 	context.fillStyle = options.color
 	context.textAlign = options.align
 	context.textBaseline = options.valign

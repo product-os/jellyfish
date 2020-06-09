@@ -126,7 +126,16 @@ class JellyfishUI extends React.Component {
 				<Flex flex="1" style={{
 					height: '100%'
 				}}>
-					<CountFavicon baseIcon="/icons/jellyfish.svg" />
+					<CountFavicon
+						baseIcons={[
+							{
+								size: 16, src: '/icons/jellyfish-16.png'
+							},
+							{
+								size: 32, src: '/icons/jellyfish-32.png'
+							}
+						]}
+					/>
 					<HomeChannel channel={home}/>
 
 					<Switch>
