@@ -350,11 +350,11 @@ class Timeline extends React.Component {
 			messageSymbol: false
 		})
 		this.props.setTimelineMessage(this.props.card.id, '')
-		const mentions = helpers.getUserSlugsByPrefix('@', newMessage)
-		const alerts = helpers.getUserSlugsByPrefix('!', newMessage)
-		const tags = helpers.findWordsByPrefix('#', newMessage).map((tag) => {
-			return tag.slice(1).toLowerCase()
-		})
+		const {
+			mentionsUser,
+			alertsUser,
+			tags
+		} = helpers.getMessageMetaData(newMessage)
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
 		const message = {
 			target: this.props.card,
@@ -362,8 +362,8 @@ class Timeline extends React.Component {
 			slug: `${whisper ? 'whisper' : 'message'}-${uuid()}`,
 			tags,
 			payload: {
-				mentionsUser: mentions,
-				alertsUser: alerts,
+				mentionsUser,
+				alertsUser,
 				message: helpers.replaceEmoji(newMessage.replace(messageSymbolRE, ''))
 			}
 		}
