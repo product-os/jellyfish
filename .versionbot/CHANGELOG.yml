@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump d3 from 5.12.0 to 5.16.0'
+      hash: 51d0492de92d4464421d99b2564e9b9edde29cf4
+      body: |
+        Bumps [d3](https://github.com/d3/d3) from 5.12.0 to 5.16.0.
+        - [Release notes](https://github.com/d3/d3/releases)
+        - [Changelog](https://github.com/d3/d3/blob/master/CHANGES.md)
+        - [Commits](https://github.com/d3/d3/compare/v5.12.0...v5.16.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.49.4
+  date: 2020-06-09T03:38:24.724Z
+- commits:
     - subject: 'SRE: Sets CloudFormation template to use RDS storage auto-scaling.'
       hash: 42415bea52d9ef825442a17a7a2f593a0ac253a6
       body: |
