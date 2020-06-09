@@ -1,4 +1,37 @@
 - commits:
+    - subject: Update Rendition dependency to v15
+      hash: 906ef4bff1e8e10f4812239dfc53e4bf759738f7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Remove references to Ubuntu+Mono font
+      hash: 97758845aabf447ac8f948592377d936a2e96b34
+      body: |
+        This will be referenced by Rendition.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Remove references to CircularStd font
+      hash: 8c5dfc0bfd3dc7282c2f43a0b897bd447ea3c331
+      body: >
+        Also remove references to Nunito font which will also be replaced by
+        Source Sans Pro in Rendition.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.50.0
+  date: 2020-06-09T10:38:15.273Z
+- commits:
     - subject: Improve favicon rendering
       hash: c21999195cf88fcbb314abfefa7d98fa7d499bed
       body: >
