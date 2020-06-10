@@ -1,4 +1,18 @@
 - commits:
+    - subject: Optimize `pg-live-select`'s database trigger
+      hash: 6347b4a33d8b331b6958bcaea742df7cc5db5c96
+      body: |
+        Pretty much reworked how the module works to reduce overhead and use a
+        better `NOTIFY` payload encoding.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.51.2
+  date: 2020-06-10T17:12:45.461Z
+- commits:
     - subject: 'docs: Update metrics doc with more detailed information'
       hash: 1f264be3d3284e5377fcdf230a6aab7de7510daa
       body: ''
