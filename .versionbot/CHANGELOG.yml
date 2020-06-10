@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix flaky My Participation e2e test
+      hash: c165f249e5324233a1f430493fcad23e691a9fb0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.50.4
+  date: 2020-06-10T03:31:25.022Z
+- commits:
     - subject: 'backend: Add translate metrics'
       hash: 2446995e5d9ac25b7351c8b853ef98ed5432b433
       body: ''
