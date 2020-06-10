@@ -1,0 +1,427 @@
+{
+  "post_stream": {
+    "posts": [
+      {
+        "id": 36125,
+        "name": "Juan Cruz Viotti",
+        "username": "jviotti",
+        "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+        "created_at": "2019-04-30T17:23:33.356Z",
+        "cooked": "<p>Foo Bar <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/grinning.png?v=9\" title=\":grinning:\" class=\"emoji\" alt=\":grinning:\"> baz <img src=\"https://sjc1.discourse-cdn.com/business5/images/emoji/apple/sweat_smile.png?v=9\" title=\":sweat_smile:\" class=\"emoji\" alt=\":sweat_smile:\"></p>",
+        "post_number": 1,
+        "post_type": 1,
+        "updated_at": "2019-04-30T17:23:33.356Z",
+        "reply_count": 0,
+        "reply_to_post_number": null,
+        "quote_count": 0,
+        "avg_time": null,
+        "incoming_link_count": 0,
+        "reads": 1,
+        "score": 0.2,
+        "yours": false,
+        "topic_id": 6895,
+        "topic_slug": "topic-example-with-emojis",
+        "display_username": "Juan Cruz Viotti",
+        "primary_group_name": "balena",
+        "primary_group_flair_url": "https://sjc1.discourse-cdn.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+        "primary_group_flair_bg_color": "",
+        "primary_group_flair_color": "",
+        "version": 1,
+        "can_edit": true,
+        "can_delete": false,
+        "can_recover": null,
+        "can_wiki": true,
+        "read": false,
+        "user_title": "Software Engineer",
+        "actions_summary": [
+          {
+            "id": 2,
+            "can_act": true
+          },
+          {
+            "id": 3,
+            "can_act": true
+          },
+          {
+            "id": 4,
+            "can_act": true
+          },
+          {
+            "id": 8,
+            "can_act": true
+          },
+          {
+            "id": 6,
+            "can_act": true
+          },
+          {
+            "id": 7,
+            "can_act": true
+          }
+        ],
+        "moderator": true,
+        "admin": true,
+        "staff": true,
+        "user_id": 4,
+        "hidden": false,
+        "trust_level": 4,
+        "deleted_at": null,
+        "user_deleted": false,
+        "edit_reason": null,
+        "can_view_edit_history": true,
+        "wiki": false,
+        "user_created_at": "2014-09-16T11:51:11.580Z",
+        "user_date_of_birth": null,
+        "can_accept_answer": false,
+        "can_unaccept_answer": false,
+        "accepted_answer": false,
+        "raw": "Foo Bar :grinning: baz :sweat_smile:"
+      }
+    ],
+    "stream": [
+      36125
+    ]
+  },
+  "timeline_lookup": [
+    [
+      1,
+      0
+    ]
+  ],
+  "suggested_topics": [
+    {
+      "id": 6784,
+      "title": "New issue title 7cf43116-e8cb-492c-a417-e94cebdf617b",
+      "fancy_title": "New issue title 7cf43116-e8cb-492c-a417-e94cebdf617b",
+      "slug": "new-issue-title-7cf43116-e8cb-492c-a417-e94cebdf617b",
+      "posts_count": 2,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-30T09:15:08.930Z",
+      "last_posted_at": "2019-04-30T09:21:15.201Z",
+      "bumped": true,
+      "bumped_at": "2019-04-30T09:21:15.201Z",
+      "unseen": false,
+      "last_read_post_number": 1,
+      "unread": 0,
+      "new_posts": 1,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "notification_level": 3,
+      "bookmarked": false,
+      "liked": false,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 2,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": null,
+          "description": "Original Poster",
+          "user": {
+            "id": 2188,
+            "username": "jellyfish",
+            "name": "",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/j/a3d4f5/{size}.png"
+          }
+        },
+        {
+          "extras": "latest",
+          "description": "Most Recent Poster",
+          "user": {
+            "id": 36,
+            "username": "imrehg",
+            "name": "Gergely Imreh",
+            "avatar_template": "/user_avatar/forums.balena.io/imrehg/{size}/36_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6480,
+      "title": "New issue title 431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "fancy_title": "New issue title 431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "slug": "new-issue-title-431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "posts_count": 2,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-25T09:45:17.379Z",
+      "last_posted_at": "2019-04-25T10:19:42.718Z",
+      "bumped": true,
+      "bumped_at": "2019-04-25T10:19:42.718Z",
+      "unseen": false,
+      "last_read_post_number": 1,
+      "unread": 0,
+      "new_posts": 1,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "notification_level": 3,
+      "bookmarked": false,
+      "liked": false,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 3,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": null,
+          "description": "Original Poster",
+          "user": {
+            "id": 2188,
+            "username": "jellyfish",
+            "name": "",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/j/a3d4f5/{size}.png"
+          }
+        },
+        {
+          "extras": "latest",
+          "description": "Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6897,
+      "title": "Inbound topic test 12345",
+      "fancy_title": "Inbound topic test 12345",
+      "slug": "inbound-topic-test-12345",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-30T17:24:42.708Z",
+      "last_posted_at": "2019-04-30T17:24:42.758Z",
+      "bumped": true,
+      "bumped_at": "2019-04-30T17:24:42.758Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 1,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6896,
+      "title": "Topic example with emoji whisper",
+      "fancy_title": "Topic example with emoji whisper",
+      "slug": "topic-example-with-emoji-whisper",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 1,
+      "image_url": null,
+      "created_at": "2019-04-30T17:24:18.438Z",
+      "last_posted_at": "2019-04-30T17:24:18.533Z",
+      "bumped": true,
+      "bumped_at": "2019-04-30T17:24:18.533Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 1,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6894,
+      "title": "Topic example with a couple of emojis",
+      "fancy_title": "Topic example with a couple of emojis",
+      "slug": "topic-example-with-a-couple-of-emojis",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 1,
+      "image_url": null,
+      "created_at": "2019-04-30T17:22:44.217Z",
+      "last_posted_at": "2019-04-30T17:22:44.275Z",
+      "bumped": true,
+      "bumped_at": "2019-04-30T17:22:44.275Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 1,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    }
+  ],
+  "tags": [],
+  "id": 6895,
+  "title": "Topic example with emojis",
+  "fancy_title": "Topic example with emojis",
+  "posts_count": 1,
+  "created_at": "2019-04-30T17:23:33.269Z",
+  "views": 1,
+  "reply_count": 0,
+  "like_count": 0,
+  "last_posted_at": "2019-04-30T17:23:33.356Z",
+  "visible": true,
+  "closed": false,
+  "archived": false,
+  "has_summary": false,
+  "archetype": "regular",
+  "slug": "topic-example-with-emojis",
+  "category_id": 44,
+  "word_count": 5,
+  "deleted_at": null,
+  "user_id": 4,
+  "featured_link": null,
+  "pinned_globally": false,
+  "pinned_at": null,
+  "pinned_until": null,
+  "draft": null,
+  "draft_key": "topic_6895",
+  "draft_sequence": 0,
+  "unpinned": null,
+  "pinned": false,
+  "current_post_number": 1,
+  "highest_post_number": 1,
+  "deleted_by": null,
+  "has_deleted": false,
+  "actions_summary": [
+    {
+      "id": 4,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 8,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 7,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    }
+  ],
+  "chunk_size": 20,
+  "bookmarked": null,
+  "topic_timer": null,
+  "private_topic_timer": null,
+  "message_bus_last_id": 2,
+  "participant_count": 1,
+  "queued_posts_count": 0,
+  "can_vote": false,
+  "vote_count": null,
+  "user_voted": false,
+  "details": {
+    "notification_level": 1,
+    "can_move_posts": true,
+    "can_edit": true,
+    "can_delete": true,
+    "can_remove_allowed_users": true,
+    "can_create_post": true,
+    "can_reply_as_new_topic": true,
+    "can_flag_topic": true,
+    "can_convert_topic": true,
+    "can_remove_self_id": 2188,
+    "participants": [
+      {
+        "id": 4,
+        "username": "jviotti",
+        "name": "Juan Cruz Viotti",
+        "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+        "post_count": 1,
+        "primary_group_name": "balena",
+        "primary_group_flair_url": "https://sjc1.discourse-cdn.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+        "primary_group_flair_color": "",
+        "primary_group_flair_bg_color": ""
+      }
+    ],
+    "created_by": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    },
+    "last_poster": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    }
+  },
+  "pending_posts": []
+}

@@ -80,7 +80,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Foo 3333333333333333333</p>"
+          "message": "Foo 3333333333333333333"
         }
       }
     }

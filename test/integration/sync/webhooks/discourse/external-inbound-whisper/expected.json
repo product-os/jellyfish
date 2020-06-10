@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>My whisper test 8888888888888</p>"
+          "message": "My whisper test 8888888888888"
         }
       }
     },
@@ -99,7 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>My whisper</p>"
+          "message": "My whisper"
         }
       }
     }

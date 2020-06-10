@@ -35,15 +35,21 @@ ava('should not change the same user email', async (test) => {
 	nock('https://forums.balena.io')
 		.get('/t/6061.json')
 		.query({
-			print: true
+			print: true,
+			include_raw: 1
 		})
 		.reply(200,
-			require('./webhooks/discourse/inbound-tag-tag/stubs/1/t-6061-json-print-true.json'))
+			require('./webhooks/discourse/inbound-tag-tag/stubs/1/t-6061-json-print-true-include-raw-1.json'))
 
 	nock('https://forums.balena.io')
 		.get('/categories.json')
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/categories-json.json'))
+
+	nock('https://forums.balena.io')
+		.get('/posts/33998.json')
+		.reply(200,
+			require('./webhooks/discourse/inbound-tag-tag/stubs/1/posts-33998-json.json'))
 
 	for (const externalEvent of [
 		Object.assign({}, require('./webhooks/discourse/inbound-tag-tag/01.json'), {
@@ -112,15 +118,21 @@ ava('should add a new e-mail to a user', async (test) => {
 	nock('https://forums.balena.io')
 		.get('/t/6061.json')
 		.query({
-			print: true
+			print: true,
+			include_raw: 1
 		})
 		.reply(200,
-			require('./webhooks/discourse/inbound-tag-tag/stubs/1/t-6061-json-print-true.json'))
+			require('./webhooks/discourse/inbound-tag-tag/stubs/1/t-6061-json-print-true-include-raw-1.json'))
 
 	nock('https://forums.balena.io')
 		.get('/categories.json')
 		.reply(200,
 			require('./webhooks/discourse/inbound-tag-tag/stubs/1/categories-json.json'))
+
+	nock('https://forums.balena.io')
+		.get('/posts/33998.json')
+		.reply(200,
+			require('./webhooks/discourse/inbound-tag-tag/stubs/1/posts-33998-json.json'))
 
 	for (const externalEvent of [
 		Object.assign({}, require('./webhooks/discourse/inbound-tag-tag/01.json'), {

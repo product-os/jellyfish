@@ -76,8 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p><div class=\"lightbox-wrapper\"><a class=\"lightbox\" href=\"https://forums.balena.io/uploads/balena/original/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b.png\" data-download-href=\"https://forums.balena.io/uploads/balena/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b\" title=\"Screenshot 2019-04-16 at 16.41.46.png\" rel=\"nofollow noopener\"><img src=\"https://forums.balena.io/uploads/balena/optimized/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b_2_690x431.png\" alt=\"46\" width=\"690\" height=\"431\" srcset=\"https://forums.balena.io/uploads/balena/optimized/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b_2_690x431.png, https://forums.balena.io/uploads/balena/optimized/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b_2_1035x646.png 1.5x, https://forums.balena.io/uploads/balena/optimized/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b_2_1380x862.png 2x\" data-small-upload=\"https://forums.balena.io/uploads/balena/optimized/2X/1/1105c95e7f862b9b5372d1691f9f5e9cd434eb5b_2_10x10.png\"><div class=\"meta\">\n<svg class=\"fa d-icon d-icon-far-image svg-icon\" aria-hidden=\"true\"><use xlink:href=\"#far-image\"></use></svg><span class=\"filename\">Screenshot 2019-04-16 at 16.41.46.png</span><span class=\"informations\">2880×1800 385 KB</span><svg class=\"fa d-icon d-icon-discourse-expand svg-icon\" aria-hidden=\"true\"><use xlink:href=\"#discourse-expand\"></use></svg>\n</div></a></div></p>"
-
+          "message": "![46|690x431](upload://2qAvUBRQMYZk8JUlNa5v0rtAEwH.png)"
         }
       }
     }

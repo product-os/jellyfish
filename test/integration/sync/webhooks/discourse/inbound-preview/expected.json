@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Foo Bar Baz xxxxxxxxx</p>"
+          "message": "Foo Bar Baz xxxxxxxxx"
         }
       }
     },
@@ -99,8 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Test with preview</p>\n<aside class=\"quote\" data-post=\"1\" data-topic=\"6949\">\n  <div class=\"title\">\n    <div class=\"quote-controls\"></div>\n    <img alt=\"\" width=\"20\" height=\"20\" src=\"https://avatars.discourse.org/v2/letter/j/a3d4f5/40.png\" class=\"avatar\">\n    <a href=\"https://forums.balena.io/t/my-issue-76c3d3a9-c85c-4805-95ae-94bee4150b31/6949\">My Issue 76c3d3a9-c85c-4805-95ae-94bee4150b31</a> <a class=\"badge-wrapper  bullet\" href=\"/c/sandbox\"><span class=\"badge-category-bg\" style=\"background-color: #AB9364;\"></span><span style=\"\" data-drop-close=\"true\" class=\"badge-category clear-badge\" title=\"This category is for general messing about with the Discourse feature set.\">Sandbox</span></a>\n  </div>\n  <blockquote>\n    Foo Bar c2760be2-22a2-47a0-8466-b137c46b0065\n  </blockquote>\n</aside>\n"
-
+          "message": "Test with preview\n\nhttps://forums.balena.io/t/my-issue-76c3d3a9-c85c-4805-95ae-94bee4150b31/6949"
         }
       }
     }

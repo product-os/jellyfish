@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Issue description foo bar baz</p>"
+          "message": "Issue description foo bar baz"
         }
       }
     },
@@ -99,7 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>My message</p>"
+          "message": "My message"
         }
       }
     },
@@ -122,7 +122,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>My whisper</p>"
+          "message": "My whisper"
         }
       }
     }

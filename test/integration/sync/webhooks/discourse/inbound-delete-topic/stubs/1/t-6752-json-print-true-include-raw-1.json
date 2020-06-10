@@ -1,0 +1,462 @@
+{
+  "post_stream": {
+    "posts": [
+      {
+        "id": 35734,
+        "name": "Juan Cruz Viotti",
+        "username": "jviotti",
+        "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+        "created_at": "2019-04-29T16:21:14.014Z",
+        "cooked": "<p>Device Type:<br>\nOS version:<br>\nSupervisor Version:</p>",
+        "post_number": 1,
+        "post_type": 1,
+        "updated_at": "2019-04-29T16:21:14.014Z",
+        "reply_count": 0,
+        "reply_to_post_number": null,
+        "quote_count": 0,
+        "avg_time": null,
+        "incoming_link_count": 0,
+        "reads": 1,
+        "score": 0.2,
+        "yours": false,
+        "topic_id": 6752,
+        "topic_slug": "topic-deletion-test-take-2",
+        "display_username": "Juan Cruz Viotti",
+        "primary_group_name": "balena",
+        "primary_group_flair_url": "https://discourse-cdn-sjc1.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+        "primary_group_flair_bg_color": "",
+        "primary_group_flair_color": "",
+        "version": 1,
+        "can_edit": true,
+        "can_delete": false,
+        "can_recover": {
+          "id": 4,
+          "username": "jviotti",
+          "created_at": "2014-09-16T11:51:11.580Z",
+          "updated_at": "2019-04-29T16:21:52.733Z",
+          "name": "Juan Cruz Viotti",
+          "seen_notification_id": 1284,
+          "last_posted_at": "2019-04-29T16:20:23.380Z",
+          "password_hash": "979414e0ba27c14fba584f79683b0f0cef0a5916b08b70988d2795a85d5b39be",
+          "salt": "956f127c1b70882d255fb16592bc3098",
+          "active": true,
+          "username_lower": "jviotti",
+          "last_seen_at": "2019-04-29T16:22:48.403Z",
+          "admin": true,
+          "last_emailed_at": "2019-04-16T12:46:29.460Z",
+          "trust_level": 4,
+          "approved": false,
+          "approved_by_id": null,
+          "approved_at": null,
+          "previous_visit_at": "2019-04-29T13:40:15.353Z",
+          "suspended_at": null,
+          "suspended_till": null,
+          "date_of_birth": null,
+          "views": 0,
+          "flag_level": 0,
+          "ip_address": {
+            "family": 2,
+            "addr": 1366188449,
+            "mask_addr": 4294967295
+          },
+          "moderator": true,
+          "title": "Software Engineer",
+          "uploaded_avatar_id": 220,
+          "locale": "en",
+          "primary_group_id": 41,
+          "registration_ip_address": {
+            "family": 2,
+            "addr": 1366073521,
+            "mask_addr": 4294967295
+          },
+          "staged": false,
+          "first_seen_at": "2016-09-14T15:06:55.751Z",
+          "silenced_till": null,
+          "group_locked_trust_level": null,
+          "manual_locked_trust_level": 4
+        },
+        "can_wiki": true,
+        "read": false,
+        "user_title": "Software Engineer",
+        "actions_summary": [
+          {
+            "id": 3,
+            "can_act": true
+          },
+          {
+            "id": 4,
+            "can_act": true
+          },
+          {
+            "id": 8,
+            "can_act": true
+          },
+          {
+            "id": 7,
+            "can_act": true
+          }
+        ],
+        "moderator": true,
+        "admin": true,
+        "staff": true,
+        "user_id": 4,
+        "hidden": false,
+        "trust_level": 4,
+        "deleted_at": null,
+        "user_deleted": false,
+        "edit_reason": null,
+        "can_view_edit_history": true,
+        "wiki": false,
+        "user_created_at": "2014-09-16T11:51:11.580Z",
+        "user_date_of_birth": null,
+        "can_accept_answer": false,
+        "can_unaccept_answer": false,
+        "accepted_answer": false,
+        "raw": "Device Type:\nOS version:\nSupervisor Version:"
+      }
+    ],
+    "stream": [
+      35734
+    ]
+  },
+  "timeline_lookup": [
+    [
+      1,
+      0
+    ]
+  ],
+  "suggested_topics": [
+    {
+      "id": 6480,
+      "title": "New issue title 431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "fancy_title": "New issue title 431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "slug": "new-issue-title-431ddca7-e16a-46c5-aafe-18e279d6dd71",
+      "posts_count": 2,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-25T09:45:17.379Z",
+      "last_posted_at": "2019-04-25T10:19:42.718Z",
+      "bumped": true,
+      "bumped_at": "2019-04-25T10:19:42.718Z",
+      "unseen": false,
+      "last_read_post_number": 1,
+      "unread": 0,
+      "new_posts": 1,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "notification_level": 3,
+      "bookmarked": false,
+      "liked": false,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 3,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": null,
+          "description": "Original Poster",
+          "user": {
+            "id": 2188,
+            "username": "jellyfish",
+            "name": "",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/j/a3d4f5/{size}.png"
+          }
+        },
+        {
+          "extras": "latest",
+          "description": "Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6751,
+      "title": "Topic deletion test 1234567",
+      "fancy_title": "Topic deletion test 1234567",
+      "slug": "topic-deletion-test-1234567",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 1,
+      "image_url": null,
+      "created_at": "2019-04-29T16:20:23.296Z",
+      "last_posted_at": "2019-04-29T16:20:23.380Z",
+      "bumped": true,
+      "bumped_at": "2019-04-29T16:20:23.380Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 1,
+      "category_id": 44,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6753,
+      "title": "Adding new graphs to Dashboard",
+      "fancy_title": "Adding new graphs to Dashboard",
+      "slug": "adding-new-graphs-to-dashboard",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-29T16:23:51.668Z",
+      "last_posted_at": "2019-04-29T16:23:51.763Z",
+      "bumped": true,
+      "bumped_at": "2019-04-29T16:23:51.763Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 3,
+      "category_id": 42,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 2205,
+            "username": "hemanthsingh_in",
+            "name": "Heman",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/h/f05b48/{size}.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6736,
+      "title": "Flashing a micro SD drastically reduces the size",
+      "fancy_title": "Flashing a micro SD drastically reduces the size",
+      "slug": "flashing-a-micro-sd-drastically-reduces-the-size",
+      "posts_count": 1,
+      "reply_count": 0,
+      "highest_post_number": 2,
+      "image_url": null,
+      "created_at": "2019-04-29T15:06:21.005Z",
+      "last_posted_at": "2019-04-29T15:06:21.090Z",
+      "bumped": true,
+      "bumped_at": "2019-04-29T15:06:21.090Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [
+        "support",
+        "raspberrypi3"
+      ],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 5,
+      "category_id": 32,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": "latest single",
+          "description": "Original Poster, Most Recent Poster",
+          "user": {
+            "id": 2232,
+            "username": "KMTech",
+            "name": "",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/k/46a35a/{size}.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 6587,
+      "title": "Writing error failed",
+      "fancy_title": "Writing error failed",
+      "slug": "writing-error-failed",
+      "posts_count": 3,
+      "reply_count": 0,
+      "highest_post_number": 6,
+      "image_url": null,
+      "created_at": "2019-04-28T06:00:47.630Z",
+      "last_posted_at": "2019-04-29T13:33:57.388Z",
+      "bumped": true,
+      "bumped_at": "2019-04-29T13:33:57.388Z",
+      "unseen": true,
+      "pinned": false,
+      "unpinned": null,
+      "visible": true,
+      "closed": false,
+      "archived": false,
+      "bookmarked": null,
+      "liked": null,
+      "tags": [
+        "summary"
+      ],
+      "archetype": "regular",
+      "like_count": 0,
+      "views": 28,
+      "category_id": 32,
+      "featured_link": null,
+      "has_accepted_answer": false,
+      "posters": [
+        {
+          "extras": null,
+          "description": "Original Poster",
+          "user": {
+            "id": 2227,
+            "username": "BlueIris",
+            "name": "",
+            "avatar_template": "https://avatars.discourse.org/v2/letter/b/ecd19e/{size}.png"
+          }
+        },
+        {
+          "extras": "latest",
+          "description": "Most Recent Poster",
+          "user": {
+            "id": 4,
+            "username": "jviotti",
+            "name": "Juan Cruz Viotti",
+            "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+          }
+        }
+      ]
+    }
+  ],
+  "tags": [],
+  "id": 6752,
+  "title": "Topic deletion test take 2",
+  "fancy_title": "Topic deletion test take 2",
+  "posts_count": 0,
+  "created_at": "2019-04-29T16:21:13.909Z",
+  "views": 1,
+  "reply_count": 0,
+  "like_count": 0,
+  "last_posted_at": null,
+  "visible": true,
+  "closed": false,
+  "archived": false,
+  "has_summary": false,
+  "archetype": "regular",
+  "slug": "topic-deletion-test-take-2",
+  "category_id": 44,
+  "word_count": 6,
+  "deleted_at": null,
+  "user_id": 4,
+  "featured_link": null,
+  "pinned_globally": false,
+  "pinned_at": null,
+  "pinned_until": null,
+  "draft": null,
+  "draft_key": "topic_6752",
+  "draft_sequence": 0,
+  "unpinned": null,
+  "pinned": false,
+  "current_post_number": 1,
+  "highest_post_number": 1,
+  "has_deleted": false,
+  "actions_summary": [
+    {
+      "id": 4,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 8,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    },
+    {
+      "id": 7,
+      "count": 0,
+      "hidden": false,
+      "can_act": true
+    }
+  ],
+  "chunk_size": 20,
+  "bookmarked": null,
+  "topic_timer": null,
+  "private_topic_timer": null,
+  "message_bus_last_id": 2,
+  "participant_count": 1,
+  "queued_posts_count": 0,
+  "can_vote": false,
+  "vote_count": null,
+  "user_voted": false,
+  "details": {
+    "notification_level": 1,
+    "can_move_posts": true,
+    "can_edit": true,
+    "can_recover": true,
+    "can_remove_allowed_users": true,
+    "can_reply_as_new_topic": true,
+    "can_flag_topic": true,
+    "can_remove_self_id": 2188,
+    "participants": [
+      {
+        "id": 4,
+        "username": "jviotti",
+        "name": "Juan Cruz Viotti",
+        "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+        "post_count": 1,
+        "primary_group_name": "balena",
+        "primary_group_flair_url": "https://discourse-cdn-sjc1.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+        "primary_group_flair_color": "",
+        "primary_group_flair_bg_color": ""
+      }
+    ],
+    "created_by": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    },
+    "last_poster": {
+      "id": 4,
+      "username": "jviotti",
+      "name": "Juan Cruz Viotti",
+      "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png"
+    }
+  },
+  "pending_posts": []
+}
