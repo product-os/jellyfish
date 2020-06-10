@@ -8,46 +8,53 @@ const ava = require('ava')
 const payload = require(
 	'../../../../../../lib/core/backend/postgres/pg-live-select/payload')
 
+const ID_LEN = 20
+const SEPARATOR = ':'
+
 ava('.parse() should parse a simple object', (test) => {
-	const data = '9BB58F26192E4BA00F01E2E7B136BBD8:1:1:{"foo":"bar"}'
-	const result = payload.parse(data)
+	const buffer = Buffer.from('{"foo":"bar"}')
+	const data = `aaaaaaaaaaaaaaaaaaaa1:1:${buffer.toString('base64')}`
+	const result = payload.parse(data, ID_LEN, SEPARATOR)
 	test.deepEqual(result, {
-		checksum: '9BB58F26192E4BA00F01E2E7B136BBD8',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 1,
 		currentPage: 1,
-		message: '{"foo":"bar"}'
+		message: buffer
 	})
 })
 
 ava('.parse() should parse an incomplete object', (test) => {
-	const data = 'D60FDC24F620015A6FC7127D820C2DCA:1:1:{"foo":"bar","baz":'
-	const result = payload.parse(data)
+	const buffer = Buffer.from('{"foo":"bar","baz":')
+	const data = `aaaaaaaaaaaaaaaaaaaa1:1:${buffer.toString('base64')}`
+	const result = payload.parse(data, ID_LEN, SEPARATOR)
 	test.deepEqual(result, {
-		checksum: 'D60FDC24F620015A6FC7127D820C2DCA',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 1,
 		currentPage: 1,
-		message: '{"foo":"bar","baz":'
+		message: buffer
 	})
 })
 
 ava('.parse() should a chunk of a bigger message', (test) => {
-	const data = '9BB58F26192E4BA00F01E2E7B136BBD8:3:2:{"foo":"bar"}'
-	const result = payload.parse(data)
+	const buffer = Buffer.from('{"foo":"bar"}')
+	const data = `aaaaaaaaaaaaaaaaaaaa3:2:${buffer.toString('base64')}`
+	const result = payload.parse(data, ID_LEN, SEPARATOR)
 	test.deepEqual(result, {
-		checksum: '9BB58F26192E4BA00F01E2E7B136BBD8',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 3,
 		currentPage: 2,
-		message: '{"foo":"bar"}'
+		message: buffer
 	})
 })
 
 ava('.reconstruct() should reconstruct a one page simple object', (test) => {
+	const buffer = Buffer.from('{"after":{"foo":"bar"}}')
 	const cache = {}
 	const result = payload.reconstruct(cache, {
-		checksum: '25BBCD9E75E32643EF9012384B8D8D38',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 1,
 		currentPage: 1,
-		message: '{"after":{"foo":"bar"}}'
+		message: buffer
 	})
 
 	test.deepEqual(cache, {})
@@ -60,16 +67,20 @@ ava('.reconstruct() should reconstruct a one page simple object', (test) => {
 })
 
 ava('.reconstruct() should store a partial chunk', (test) => {
+	const buffer = Buffer.from('{"after":{"foo"')
 	const cache = {}
 	const result = payload.reconstruct(cache, {
-		checksum: '757F699B576B977266F83B0F4F1FE4DD',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 2,
 		currentPage: 1,
-		message: '{"after":{"foo"'
+		message: buffer
 	})
 
 	test.deepEqual(cache, {
-		'757F699B576B977266F83B0F4F1FE4DD': [ '{"after":{"foo"', null ]
+		aaaaaaaaaaaaaaaaaaaa: {
+			slices: [ buffer, null ],
+			pendingPages: 1
+		}
 	})
 
 	test.deepEqual(result, null)
@@ -79,17 +90,17 @@ ava('.reconstruct() should re-assemble a two parts message', (test) => {
 	const cache = {}
 
 	const result1 = payload.reconstruct(cache, {
-		checksum: '757F699B576B977266F83B0F4F1FE4DD',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 2,
 		currentPage: 1,
-		message: '{"after":{"foo"'
+		message: Buffer.from('{"after":{"foo"')
 	})
 
 	const result2 = payload.reconstruct(cache, {
-		checksum: '757F699B576B977266F83B0F4F1FE4DD',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 2,
 		currentPage: 2,
-		message: ':"bar"}}'
+		message: Buffer.from(':"bar"}}')
 	})
 
 	test.deepEqual(cache, {})
@@ -106,17 +117,17 @@ ava('.reconstruct() should re-assemble an out of order two parts message', (test
 	const cache = {}
 
 	const result1 = payload.reconstruct(cache, {
-		checksum: '757F699B576B977266F83B0F4F1FE4DD',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 2,
 		currentPage: 2,
-		message: ':"bar"}}'
+		message: Buffer.from(':"bar"}}')
 	})
 
 	const result2 = payload.reconstruct(cache, {
-		checksum: '757F699B576B977266F83B0F4F1FE4DD',
+		identity: 'aaaaaaaaaaaaaaaaaaaa',
 		totalPages: 2,
 		currentPage: 1,
-		message: '{"after":{"foo"'
+		message: Buffer.from('{"after":{"foo"')
 	})
 
 	test.deepEqual(cache, {})
@@ -134,10 +145,10 @@ ava('.reconstruct() should throw given an invalid object', (test) => {
 
 	test.throws(() => {
 		payload.reconstruct(cache, {
-			checksum: '25BBCD9E75E32643EF9012384B8D8D38',
+			identity: 'aaaaaaaaaaaaaaaaaaaa',
 			totalPages: 1,
 			currentPage: 1,
-			message: '{"after":'
+			message: Buffer.from('{"after":')
 		})
 	}, {
 		message: 'Invalid notification: {"after":'
