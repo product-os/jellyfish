@@ -1,4 +1,14 @@
 - commits:
+    - subject: 'MessageInput: Allow pasting files'
+      hash: 462ddfeec07a405376d3fa28434dc26a121fc7dd
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+  version: 30.51.0
+  date: 2020-06-10T09:25:36.216Z
+- commits:
     - subject: 'backend: Move queue metric calls'
       hash: dbfb4ef4f57b43fa99cc66f78b4f544f007e69fc
       body: ''
