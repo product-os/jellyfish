@@ -1,4 +1,18 @@
 - commits:
+    - subject: '[graphql] Fix UTC-offset bug in GraphQL DateTime spec.'
+      hash: 664c9284e003b86d37ca818866043f9ade1c3d1b
+      body: >
+        I didn't notice this because I run my tests in a container which has
+        it's TZ set to `UTC`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 30.51.3
+  date: 2020-06-10T20:52:35.099Z
+- commits:
     - subject: Optimize `pg-live-select`'s database trigger
       hash: 6347b4a33d8b331b6958bcaea742df7cc5db5c96
       body: |
