@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Move queue metric calls'
+      hash: dbfb4ef4f57b43fa99cc66f78b4f544f007e69fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.50.6
+  date: 2020-06-10T08:10:15.890Z
+- commits:
     - subject: 'SRE: Scale out Jellyfish APIs from 10 to 16 for better performance.'
       hash: e7bc4044551010ba6b7e82a685646568bb6c7dfe
       body: ''
