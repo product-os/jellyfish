@@ -107,6 +107,15 @@ const MessageInput = React.memo(({
 }) => {
 	const theme = useTheme()
 
+	const handlePaste = React.useCallback((event) => {
+		const copiedFiles = Array.from(event.clipboardData.files)
+
+		if (copiedFiles.length) {
+			event.preventDefault()
+			onFileChange(copiedFiles)
+		}
+	}, [ onFileChange ])
+
 	const textInput = (
 		<InputWrapper
 			bubble={whisper}
@@ -136,6 +145,7 @@ const MessageInput = React.memo(({
 				value={value}
 				onChange={onChange}
 				onSubmit={onSubmit}
+				onPaste={handlePaste}
 				placeholder={placeholder}
 			/>
 		</InputWrapper>

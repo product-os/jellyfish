@@ -32,7 +32,7 @@ configure({
 })
 
 const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement', 'NodeFilter', 'NodeList' ])
+browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement', 'NodeFilter', 'NodeList', 'File', 'Blob' ])
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
