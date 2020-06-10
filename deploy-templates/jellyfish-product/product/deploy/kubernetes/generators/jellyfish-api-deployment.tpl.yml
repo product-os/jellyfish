@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: jellyfish
-  replicas: 10
+  replicas: 16
   template:
     metadata:
       labels:
