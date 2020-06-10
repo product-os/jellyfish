@@ -14,6 +14,18 @@ const {
 	DateTime
 } = Types
 
+const generateKnownUTCTime = () => {
+	const date = new Date()
+	date.setUTCFullYear(1985)
+	date.setUTCMonth(9)
+	date.setUTCDate(26)
+	date.setUTCHours(8)
+	date.setUTCMinutes(20)
+	date.setUTCSeconds(0)
+	date.setUTCMilliseconds(0)
+	return date
+}
+
 assertTypeIsScalar(DateTime)
 assertTypeNamed(DateTime, 'DateTime')
 
@@ -22,11 +34,11 @@ ava('`parseValue` rejects non-ISO8601 strings', (test) => {
 })
 
 ava('`parseValue` correctly parses ISO8601 strings', (test) => {
-	const expectedDate = new Date(1985, 9, 26, 8, 20, 0)
+	const expectedDate = generateKnownUTCTime()
 	test.deepEqual(expectedDate, DateTime.parseValue('1985-10-26T01:20:00-07:00'))
 })
 
 ava('`serialize` correctly serialises into ISO8601 strings', (test) => {
 	const expectedValue = '1985-10-26T08:20:00.000Z'
-	test.is(expectedValue, DateTime.serialize(new Date(1985, 9, 26, 8, 20, 0)))
+	test.is(expectedValue, DateTime.serialize(generateKnownUTCTime()))
 })
