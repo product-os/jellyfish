@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'SRE: Scale out Jellyfish APIs from 10 to 16 for better performance.'
+      hash: e7bc4044551010ba6b7e82a685646568bb6c7dfe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+  version: 30.50.5
+  date: 2020-06-10T07:01:44.940Z
+- commits:
     - subject: Fix flaky My Participation e2e test
       hash: c165f249e5324233a1f430493fcad23e691a9fb0
       body: ''
