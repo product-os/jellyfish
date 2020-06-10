@@ -194,6 +194,12 @@ export INTEGRATION_OUTREACH_SIGNATURE_KEY
 INTEGRATION_TYPEFORM_SIGNATURE_KEY ?=
 export INTEGRATION_TYPEFORM_SIGNATURE_KEY
 
+# Service Worker
+JF_WEB_PUSH ?=
+export JF_WEB_PUSH
+VAPID_PUBLIC_KEY ?=
+export VAPID_PUBLIC_KEY
+
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
