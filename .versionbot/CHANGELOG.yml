@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'docs: Update metrics doc with more detailed information'
+      hash: 1f264be3d3284e5377fcdf230a6aab7de7510daa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.51.1
+  date: 2020-06-10T12:55:14.878Z
+- commits:
     - subject: 'MessageInput: Allow pasting files'
       hash: 462ddfeec07a405376d3fa28434dc26a121fc7dd
       body: ''
