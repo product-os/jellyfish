@@ -98,3 +98,7 @@ properties:
     type: string?
   QUEUE_CONCURRENCY:
     type: number
+  JF_WEB_PUSH:
+    type: string?
+  VAPID_PUBLIC_KEY:
+    type: string?

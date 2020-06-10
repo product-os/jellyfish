@@ -46,6 +46,16 @@ spec:
             secretKeyRef:
               key: NODE_ENV
               name: node-env
+        - name: JF_WEB_PUSH
+          valueFrom:
+            secretKeyRef:
+              key: JF_WEB_PUSH
+              name: jf-web-push
+        - name: VAPID_PUBLIC_KEY
+          valueFrom:
+            secretKeyRef:
+              key: VAPID_PUBLIC_KEY
+              name: vapid-public-key
         ports:
         - containerPort: 80
       imagePullSecrets:
