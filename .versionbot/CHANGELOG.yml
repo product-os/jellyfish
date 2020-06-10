@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Add translate metrics'
+      hash: 2446995e5d9ac25b7351c8b853ef98ed5432b433
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.50.3
+  date: 2020-06-09T16:34:25.585Z
+- commits:
     - subject: 'backend: Fix metrics job add typo'
       hash: fdc00ae5161d22ef58354c8c9a79e23d78b6d8fc
       body: ''
