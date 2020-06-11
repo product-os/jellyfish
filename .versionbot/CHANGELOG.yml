@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add index for endpoint field of a web-push-subscription
+      hash: c3a19508a98d517a6ff00a1517dca480e3e97749
+      body: >
+        We will want to query web-push-subscriptions by endpoint when checking
+        for existing subscriptions.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.51.9
+  date: 2020-06-11T07:47:21.518Z
+- commits:
     - subject: 'ci: Update core integration tests to use a shared backend'
       hash: 5785fff268c4885fdfd3ad097e7129644e56592b
       body: ''
