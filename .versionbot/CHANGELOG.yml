@@ -1,4 +1,26 @@
 - commits:
+    - subject: Only reopen a support thread linked to an issue on the "closed" event
+      hash: cc879f4c5492be4c25a1ea07f328f08d261c05bf
+      body: |
+        The triggered action that re-opens a support thread when an issue it's
+        attached to is closed has been changed so that it will only trigger when
+        an update event that closes the issue is created.
+        Previously the trigger would run on every worker job that matched the
+        state where an issue and a support thread are linked and they are both
+        closed. This had the side effect of triggering the action when you link
+        to an issue that is already closed, or if you edit a field of a closed
+        issue.
+      footer:
+        Connects-to: '#4039'
+        connects-to: '#4039'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.51.5
+  date: 2020-06-11T00:43:05.047Z
+- commits:
     - subject: Add queue concurrency env var to deploy templates
       hash: 9914bed7d03c3978cdfaa8e4b02a6bc245eca259
       body: ''
