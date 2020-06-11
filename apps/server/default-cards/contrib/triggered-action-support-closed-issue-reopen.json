@@ -9,13 +9,41 @@
   "data": {
     "filter": {
       "$$links": {
-        "issue has attached support thread": {
+        "is attached to": {
+          "$$links": {
+            "issue has attached support thread": {
+              "type": "object",
+              "required": [ "type", "data" ],
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "const": "support-thread@1.0.0"
+                },
+                "data": {
+                  "type": "object",
+                  "required": [ "status" ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "not": {
+                        "const": "open"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
           "type": "object",
-          "required": [ "type", "data" ],
+          "required": [ "active", "type", "data" ],
           "properties": {
+            "active": {
+              "type": "boolean",
+              "const": true
+            },
             "type": {
               "type": "string",
-              "const": "support-thread@1.0.0"
+              "const": "issue@1.0.0"
             },
             "data": {
               "type": "object",
@@ -23,9 +51,7 @@
               "properties": {
                 "status": {
                   "type": "string",
-                  "not": {
-                    "const": "open"
-                  }
+                  "const": "closed"
                 }
               }
             }
@@ -41,15 +67,32 @@
         },
         "type": {
           "type": "string",
-          "const": "issue@1.0.0"
+          "const": "update@1.0.0"
         },
         "data": {
           "type": "object",
-          "required": [ "status" ],
+          "required": [ "payload" ],
           "properties": {
-            "status": {
-              "type": "string",
-              "const": "closed"
+            "payload": {
+              "type": "array",
+              "contains": {
+                "type": "object",
+                "required": [ "op", "path", "value" ],
+                "properties": {
+                  "op": {
+                    "type": "string",
+                    "const": "replace"
+                  },
+                  "path": {
+                    "type": "string",
+                    "const": "/data/status"
+                  },
+                  "value": {
+                    "type": "string",
+                    "const": "closed"
+                  }
+                }
+              }
             }
           }
         }
@@ -58,7 +101,7 @@
     "action": "action-update-card@1.0.0",
     "target": {
       "$map": {
-        "$eval": "source.links['issue has attached support thread'][0:]"
+        "$eval": "source.links['is attached to'][0].links['issue has attached support thread'][0:]"
       },
       "each(link)": {
         "$eval": "link.id"
