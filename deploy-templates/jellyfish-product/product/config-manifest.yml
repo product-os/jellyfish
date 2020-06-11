@@ -94,3 +94,5 @@ properties:
     type: string?
   RESET_PASSWORD_SECRET_TOKEN:
     type: string?
+  QUEUE_CONCURRENCY:
+    type: number

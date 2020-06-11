@@ -216,6 +216,11 @@ spec:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
+        - name: QUEUE_CONCURRENCY
+          valueFrom:
+            secretKeyRef:
+              key: QUEUE_CONCURRENCY
+              name: queue-concurrency
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a
