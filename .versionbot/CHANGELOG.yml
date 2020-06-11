@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-react from 7.16.0 to 7.20.0'
+      hash: 4ef10295a8a734b7abf76cc22d6da2fac31a2183
+      body: >
+        Bumps
+        [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)
+        from 7.16.0 to 7.20.0.
+
+        - [Release
+        notes](https://github.com/yannickcr/eslint-plugin-react/releases)
+
+        -
+        [Changelog](https://github.com/yannickcr/eslint-plugin-react/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/yannickcr/eslint-plugin-react/compare/v7.16.0...v7.20.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.51.6
+  date: 2020-06-11T01:36:51.444Z
+- commits:
     - subject: Only reopen a support thread linked to an issue on the "closed" event
       hash: cc879f4c5492be4c25a1ea07f328f08d261c05bf
       body: |
