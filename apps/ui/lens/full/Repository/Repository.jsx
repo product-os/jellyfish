@@ -67,24 +67,21 @@ export default class RepositoryFull extends React.Component {
 		}
 
 		this.setActiveIndex = this.setActiveIndex.bind(this)
-		this.setPage = _.debounce(this.setPage.bind(this), 250, {
-			leading: true
-		})
+		this.setPage = this.setPage.bind(this)
+		this.isLoadingPage = false
 	}
 
-	getQueryOptions () {
-		return {
-			page: this.state.options.page,
+	async loadThreadData (page) {
+		const query = getContextualThreadsQuery(this.props.card.id)
+
+		const options = {
+			page,
 			limit: LIMIT,
 			sortBy: 'created_at',
 			sortDir: 'desc'
 		}
-	}
 
-	loadThreadData () {
-		const query = getContextualThreadsQuery(this.props.card.id)
-		const options = this.getQueryOptions()
-		this.props.actions.loadViewResults(query, options)
+		return this.props.actions.loadViewResults(query, options)
 			.then((results) => {
 				if (results.length < LIMIT) {
 					this.setState((state) => {
@@ -104,12 +101,11 @@ export default class RepositoryFull extends React.Component {
 	}
 
 	componentDidMount () {
-		// Trigger a query and stream for this cards contextual threads. They will
-		// be attached using redux as the `threads` prop
+		// Trigger a query and stream for this cards contextual thread messages.
+		// They will be attached using redux as the `messages` prop
 		const query = getContextualThreadsQuery(this.props.card.id)
-		const options = this.getQueryOptions()
-		this.loadThreadData()
-		this.props.actions.streamView(query, options)
+		this.loadThreadData(this.state.options.page)
+		this.props.actions.streamView(query)
 	}
 
 	setActiveIndex (activeIndex) {
@@ -118,18 +114,28 @@ export default class RepositoryFull extends React.Component {
 		})
 	}
 
-	setPage (page) {
-		if (page + 1 >= this.state.options.totalPages) {
-			return null
+	async setPage (page) {
+		if (this.isLoadingPage) {
+			return
 		}
+
+		if (page + 1 >= this.state.options.totalPages) {
+			return
+		}
+
+		this.isLoadingPage = true
+
 		const options = Object.assign({}, this.state.options, {
 			page
 		})
+
+		await this.loadThreadData(options.page)
+
 		this.setState({
 			options
-		}, () => this.loadThreadData())
+		})
 
-		return options
+		this.isLoadingPage = false
 	}
 
 	componentWillUnmount () {
