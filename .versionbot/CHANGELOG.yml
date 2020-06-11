@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump react-chartjs-2 from 2.8.0 to 2.9.0'
+      hash: 7367957993c31996c5e6f32cfd93fff49169118e
+      body: >
+        Bumps [react-chartjs-2](https://github.com/jerairrest/react-chartjs-2)
+        from 2.8.0 to 2.9.0.
+
+        - [Release
+        notes](https://github.com/jerairrest/react-chartjs-2/releases)
+
+        -
+        [Commits](https://github.com/jerairrest/react-chartjs-2/compare/2.8.0...2.9.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.51.7
+  date: 2020-06-11T02:48:05.608Z
+- commits:
     - subject: 'patch: bump eslint-plugin-react from 7.16.0 to 7.20.0'
       hash: 4ef10295a8a734b7abf76cc22d6da2fac31a2183
       body: >
