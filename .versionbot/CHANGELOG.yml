@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Update core integration tests to use a shared backend'
+      hash: 5785fff268c4885fdfd3ad097e7129644e56592b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.51.8
+  date: 2020-06-11T06:46:05.073Z
+- commits:
     - subject: 'patch: bump react-chartjs-2 from 2.8.0 to 2.9.0'
       hash: 7367957993c31996c5e6f32cfd93fff49169118e
       body: >
