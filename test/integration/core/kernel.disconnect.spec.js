@@ -12,8 +12,8 @@ const helpers = require('./helpers')
  * seperated from other kernel tests, as each test requires a new connection to
  * be established
  */
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.beforeEach(helpers.before)
+ava.serial.afterEach(helpers.after)
 
 ava('should be able to disconnect the kernel multiple times without errors', async (test) => {
 	await test.notThrowsAsync(async () => {
