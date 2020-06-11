@@ -1,0 +1,101 @@
+{
+  "slug": "link",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "oneOf": [
+        {
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "has member"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "inverseName": {
+                  "type": "string",
+                  "const": "is member of"
+                },
+                "from": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "org@1.0.0"
+                    }
+                  }
+                },
+                "to": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "user@1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "properties": {
+            "name": {
+              "type": "string",
+              "const": "executes"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "inverseName": {
+                  "type": "string",
+                  "const": "is executed by"
+                },
+                "from": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "execute@1.0.0"
+                    }
+                  }
+                },
+                "to": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "const": "action-request@1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "required": [
+        "name",
+        "type",
+        "links",
+        "data"
+      ]
+    },
+    "indexed_fields": [
+      [
+        "data.from.id",
+        "name",
+        "data.to.id"
+      ]
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

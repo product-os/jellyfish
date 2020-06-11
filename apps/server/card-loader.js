@@ -5,6 +5,7 @@
  */
 
 const Bluebird = require('bluebird')
+const _ = require('lodash')
 const path = require('path')
 const $RefParser = require('json-schema-ref-parser')
 const logger = require('../../lib/logger').getLogger(__filename)
@@ -60,6 +61,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/feedback-item.json'),
 		await loadCard('contrib/form-response.json'),
 		await loadCard('contrib/issue.json'),
+		await loadCard('contrib/link.json'),
 		await loadCard('contrib/message.json'),
 		await loadCard('contrib/first-time-login.json'),
 		await loadCard('contrib/opportunity.json'),
@@ -156,6 +158,22 @@ module.exports = async (context, jellyfish, worker, session) => {
 			slug: card.slug,
 			type: card.type
 		})
+
+		// Allow pre-defined card types to be augmented
+		if (card.type === 'type@1.0.0') {
+			// Try and load the card type from the database
+			const existingCard = await jellyfish.getCardBySlug(
+				context,
+				session,
+				`${card.slug}@${card.version}`
+			)
+
+			// If the card exists, merge the existing card data with the card data we
+			// are trying to load
+			if (existingCard) {
+				card.data = _.merge({}, existingCard.data, card.data)
+			}
+		}
 
 		await worker.replaceCard(context, session, typeCard, {
 			attachEvents: false
