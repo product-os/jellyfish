@@ -1,4 +1,27 @@
 - commits:
+    - subject: Drop 3 useless indexes
+      hash: e13cb85f39ba1ed07726a0e4ef0a31b72b28c3a6
+      body: |
+        The indexes are:
+
+        - `data_cards_idx`: index on `cards.data`. Largest index by far but
+          never actually used due to `jsonschema2sql` (both old and new) never
+          actually generating queries in the right format to take advantage of
+          it. The mechanism introduced in PR#3450 is a far superior mechanism
+          anyway.
+        - `idx_link_from`: index on `links.fromid`. Fully contained in the
+          `idx_links_fromid_name` index and thus redundant.
+        - `idx_link_to`: index on `links.toid`. Same thing as above except it's
+          contained in `idx_links_toid_inversename`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.51.13
+  date: 2020-06-12T17:26:21.069Z
+- commits:
     - subject: 'patch: bump monaco-editor from 0.19.0 to 0.20.0'
       hash: f1aaa5dee2c10f2e6a8809b98e223c73494623d6
       body: >
