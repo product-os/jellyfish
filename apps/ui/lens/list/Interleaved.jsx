@@ -268,13 +268,15 @@ export class Interleaved extends BaseLens {
 						</Box>
 					)}
 
-					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
+					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card, index) => {
 						if (messagesOnly && isHiddenEventType(card.type)) {
 							return null
 						}
 						return (
 							<Box key={card.id}>
 								<Event
+									previousEvent={tail[index - 1]}
+									nextEvent={tail[index + 1]}
 									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
 									user={this.props.user}

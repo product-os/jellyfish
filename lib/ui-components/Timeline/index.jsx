@@ -478,6 +478,9 @@ class Timeline extends React.Component {
 			menuOptions: eventMenuOptions
 		}
 
+		const pagedTail = (Boolean(sortedTail) && sortedTail.length > 0)
+			? sortedTail.slice(0 - (PAGE_SIZE * this.state.page)) : null
+
 		return (
 			<Column>
 				<Flex m={2}>
@@ -560,8 +563,7 @@ class Timeline extends React.Component {
 						<Icon spin name="cog"/>
 					</Box>)}
 
-					{(Boolean(sortedTail) && sortedTail.length > 0) &&
-					_.map(sortedTail.slice(0 - (PAGE_SIZE * this.state.page)), (card) => {
+					{pagedTail && _.map(pagedTail, (card, index) => {
 						if (hideWhispers && (card.type === 'whisper' || card.type === 'whisper@1.0.0')) {
 							return null
 						}
@@ -591,6 +593,8 @@ class Timeline extends React.Component {
 							<Box key={card.id}>
 								<Event
 									{...eventProps}
+									previousEvent={pagedTail[index - 1]}
+									nextEvent={pagedTail[index + 1]}
 									card={card}
 									user={this.props.user}
 								/>

@@ -140,6 +140,8 @@ export default class EventBody extends React.Component {
 
 	render () {
 		const {
+			squashTop,
+			squashBottom,
 			enableAutocomplete,
 			sendCommand,
 			types,
@@ -178,7 +180,9 @@ export default class EventBody extends React.Component {
 									key={`${attachment.slug}-${index}`}
 									card={card}
 									actor={actor}
-									py={2}
+									squashTop={squashTop}
+									squashBottom={squashBottom}
+									pt={2}
 									px={3}
 									mr={1}
 								>
@@ -219,6 +223,8 @@ export default class EventBody extends React.Component {
 							card={card}
 							actor={actor}
 							editing={Boolean(editedMessage)}
+							squashTop={squashTop}
+							squashBottom={squashBottom}
 							py={2}
 							px={3}
 							mr={1}

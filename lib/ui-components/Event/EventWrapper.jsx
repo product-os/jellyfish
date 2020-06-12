@@ -19,6 +19,7 @@ const EventWrapper = styled(Flex) `
 	word-break: break-word;
 	.event-card--actions {
 		opacity: 0;
+		transition: 150ms ease-in-out opacity;
 	}
 	&:hover {
 		.event-card--actions {
@@ -43,6 +44,22 @@ const EventWrapper = styled(Flex) `
     right: -4px;
     font-size: 10px;
 	}
+
+	${({
+		squashTop
+	}) => {
+		return squashTop ? `
+			.event-card--timestamp {
+				opacity: 0;
+				transition: 150ms ease-in-out opacity;
+			}
+			&:hover {
+				.event-card--timestamp {
+					opacity: 1;
+				}
+			}
+		` : ''
+	}}
 `
 
 export default EventWrapper
