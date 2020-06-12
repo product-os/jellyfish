@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump monaco-editor from 0.19.0 to 0.20.0'
+      hash: f1aaa5dee2c10f2e6a8809b98e223c73494623d6
+      body: >
+        Bumps [monaco-editor](https://github.com/Microsoft/monaco-editor) from
+        0.19.0 to 0.20.0.
+
+        - [Release notes](https://github.com/Microsoft/monaco-editor/releases)
+
+        -
+        [Changelog](https://github.com/microsoft/monaco-editor/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/Microsoft/monaco-editor/compare/v0.19.0...v0.20.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.51.12
+  date: 2020-06-12T13:24:01.082Z
+- commits:
     - subject: Use raw discourse posts instead of the "cooked" HTML versions.
       hash: 57e62f867b44a4b5d81c2c08bdd1eeec78e9e845
       body: |
