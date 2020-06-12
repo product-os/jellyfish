@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Device Type:<br>\nOS version:<br>\nSupervisor Version:</p>"
+          "message": "Device Type:\nOS version:\nSupervisor Version:"
         }
       }
     },

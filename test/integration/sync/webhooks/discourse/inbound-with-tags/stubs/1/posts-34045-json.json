@@ -1,0 +1,68 @@
+{
+  "id": 34045,
+  "name": "Juan Cruz Viotti",
+  "username": "jviotti",
+  "avatar_template": "/user_avatar/forums.balena.io/jviotti/{size}/220_2.png",
+  "created_at": "2019-04-16T18:10:47.680Z",
+  "cooked": "<p>777777777777777777777777777</p>",
+  "post_number": 1,
+  "post_type": 1,
+  "updated_at": "2019-04-16T18:10:47.680Z",
+  "reply_count": 0,
+  "reply_to_post_number": null,
+  "quote_count": 0,
+  "avg_time": null,
+  "incoming_link_count": 0,
+  "reads": 1,
+  "score": 0.2,
+  "yours": true,
+  "topic_id": 6085,
+  "topic_slug": "conversation-with-multiple-tags",
+  "display_username": "Juan Cruz Viotti",
+  "primary_group_name": "balena",
+  "primary_group_flair_url": "https://discourse-cdn-sjc1.com/business5/uploads/balena/original/2X/b/bf13cc92e2146553f9a44cf00cdf95c977f74ab5.png",
+  "primary_group_flair_bg_color": "",
+  "primary_group_flair_color": "",
+  "version": 1,
+  "can_edit": true,
+  "can_delete": false,
+  "can_recover": null,
+  "can_wiki": true,
+  "read": true,
+  "user_title": "Software Engineer",
+  "actions_summary": [
+    {
+      "id": 3,
+      "can_act": true
+    },
+    {
+      "id": 4,
+      "can_act": true
+    },
+    {
+      "id": 8,
+      "can_act": true
+    },
+    {
+      "id": 7,
+      "can_act": true
+    }
+  ],
+  "moderator": true,
+  "admin": true,
+  "staff": true,
+  "user_id": 4,
+  "hidden": false,
+  "trust_level": 4,
+  "deleted_at": null,
+  "user_deleted": false,
+  "edit_reason": null,
+  "can_view_edit_history": true,
+  "wiki": false,
+  "user_created_at": "2014-09-16T11:51:11.580Z",
+  "user_date_of_birth": null,
+  "can_accept_answer": false,
+  "can_unaccept_answer": false,
+  "accepted_answer": false,
+  "raw": "777777777777777777777777777"
+}

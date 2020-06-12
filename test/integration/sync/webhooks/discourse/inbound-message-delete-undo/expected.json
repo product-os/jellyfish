@@ -76,7 +76,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Device Type Supervisor Version</p>"
+          "message": "Device Type Supervisor Version"
         }
       }
     },
@@ -99,7 +99,7 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
-          "message": "<p>Test reply</p>"
+          "message": "Test reply"
         }
       }
     }
