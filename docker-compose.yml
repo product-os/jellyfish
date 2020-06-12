@@ -414,6 +414,7 @@ services:
       io.balena.features.supervisor-api: '1'
     environment:
       MDNS_TLD: ly.fish.local
+      MDNS_API_TOKEN: 2Lany30pgr1SsQm4X6ZouA9uX7q8xpHe
       MDNS_SUBDOMAINS: >-
         ["jel", "livechat", "api"]
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
