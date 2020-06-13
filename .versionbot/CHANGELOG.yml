@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump socket.io-redis from 5.2.0 to 5.3.0'
+      hash: b9eec0331bb3417783e3f03686fff66d721b3979
+      body: >
+        Bumps [socket.io-redis](https://github.com/socketio/socket.io-redis)
+        from 5.2.0 to 5.3.0.
+
+        - [Release notes](https://github.com/socketio/socket.io-redis/releases)
+
+        -
+        [Changelog](https://github.com/socketio/socket.io-redis/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/socketio/socket.io-redis/compare/5.2.0...5.3.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.51.14
+  date: 2020-06-13T06:10:01.934Z
+- commits:
     - subject: Drop 3 useless indexes
       hash: e13cb85f39ba1ed07726a0e4ef0a31b72b28c3a6
       body: |
