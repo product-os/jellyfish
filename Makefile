@@ -249,8 +249,13 @@ export CI
 VISUAL ?=
 export VISUAL
 
+DOCKER_COMPOSE_FILES = --file docker-compose.yml
+ifdef MONITOR
+DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
+endif
+
 DOCKER_COMPOSE_OPTIONS = \
-	--file docker-compose.yml \
+	$(DOCKER_COMPOSE_FILES) \
 	--project-name $(NAME) \
 	--compatibility
 ifeq ($(DETACH),1)

@@ -1,0 +1,22 @@
+version: '2.1'
+
+services:
+  prometheus:
+    build:
+      context: ./prometheus
+      dockerfile: Dockerfile
+    command: "--config.file=/etc/prometheus/prometheus.yaml"
+    ports:
+      - '9090:9090'
+    restart: always
+    networks:
+      - internal
+  grafana:
+    build:
+      context: ./grafana
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    restart: always
+    networks:
+      - internal
