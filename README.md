@@ -74,6 +74,12 @@ Open `http://jel.ly.fish.local` and login as:
 - Username: `jellyfish`
 - Password: `jellyfish`
 
+To include instances of Prometheus and Grafana, build and start your cluster with `MONITOR=1`:
+```
+make compose-build MONITOR=1
+make compose-up MONITOR=1
+```
+
 Prometheus can be accessed at `http://localhost:9090`.
 Grafana is available at `http://localhost:3000` with the Jellyfish graphs located under the `standard` folder.
 
