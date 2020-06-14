@@ -1,4 +1,16 @@
 - commits:
+    - subject: Move Prometheus and Grafana into separate compose config
+      hash: f3d4566a1efbe9dcca22154e39fccba767d9c134
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.51.15
+  date: 2020-06-14T16:28:22.028Z
+- commits:
     - subject: 'patch: bump socket.io-redis from 5.2.0 to 5.3.0'
       hash: b9eec0331bb3417783e3f03686fff66d721b3979
       body: >
