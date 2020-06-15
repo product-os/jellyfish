@@ -4,9 +4,11 @@
  * Proprietary and confidential.
  */
 const ava = require('ava')
+const _ = require('lodash')
 const actions = require('./actions').default
 const {
-	reducer
+	reducer,
+	getDefaultState
 } = require('./reducer')
 
 // //////////////////////////////////////////////
@@ -32,50 +34,19 @@ ava('SET_VIEW_DATA action updates the specified view data', (test) => {
 ava('reducer should create a default state if one is not provided', (test) => {
 	const initialState = reducer()
 
-	test.deepEqual(initialState.core, {
-		status: 'initializing',
-		channels: [
-			{
-				id: initialState.core.channels[0].id,
-				created_at: initialState.core.channels[0].created_at,
-				slug: initialState.core.channels[0].slug,
-				type: 'channel',
-				version: '1.0.0',
-				tags: [],
-				markers: [],
-				links: {},
-				requires: [],
-				capabilities: [],
-				active: true,
-				data: {
-					target: 'view-all-views',
-					cardType: 'view'
-				}
-			}
-		],
-		types: [],
-		session: null,
-		notifications: [],
-		viewNotices: {},
-		cards: {},
-		orgs: [],
-		config: {},
-		ui: {
-			flows: {},
-			sidebar: {
-				expanded: []
-			},
-			timelines: {},
-			chatWidget: {
-				open: false
-			}
-		}
+	const {
+		core,
+		views
+	} = getDefaultState()
+
+	// Hard-wire the values that are dynamically set
+	core.channels[0] = _.merge(core.channels[0], {
+		created_at: initialState.core.channels[0].created_at,
+		id: initialState.core.channels[0].id,
+		slug: initialState.core.channels[0].slug
 	})
-	test.deepEqual(initialState.views, {
-		activeView: null,
-		viewData: {},
-		subscriptions: {}
-	})
+	test.deepEqual(initialState.core, core)
+	test.deepEqual(initialState.views, views)
 })
 
 ava('REMOVE_VIEW_DATA_ITEM action should do nothing if there is no view data', (test) => {
@@ -634,5 +605,51 @@ ava('REMOVE_FLOW removes flow state', (test) => {
 
 	test.deepEqual(newState.core.ui.flows, {
 		[flowId]: {}
+	})
+})
+
+ava('SET_GROUPS identifies groups that the given user is part of', (test) => {
+	const userSlug = 'user-1'
+	const groups = [
+		{
+			name: 'group1',
+			links: {
+				'has group member': [
+					{
+						slug: userSlug
+					}
+				]
+			}
+		},
+		{
+			name: 'group2',
+			links: {
+				'has group member': [
+					{
+						slug: 'another-user'
+					}
+				]
+			}
+		}
+	]
+	const initialState = reducer()
+	const newState = reducer(initialState, {
+		type: actions.SET_GROUPS,
+		value: {
+			groups,
+			userSlug
+		}
+	})
+	test.deepEqual(newState.core.groups, {
+		group1: {
+			name: 'group1',
+			users: [ userSlug ],
+			isMine: true
+		},
+		group2: {
+			name: 'group2',
+			users: [ 'another-user' ],
+			isMine: false
+		}
 	})
 })
