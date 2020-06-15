@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'graphql: Tidy up runtime typing.'
+      hash: 055e496b10a99a8353f0e8e28a21f71a66c55c8d
+      body: |
+        Adds field and type resolvers to allow runtime typing of cards.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 30.51.16
+  date: 2020-06-15T00:07:51.238Z
+- commits:
     - subject: Move Prometheus and Grafana into separate compose config
       hash: f3d4566a1efbe9dcca22154e39fccba767d9c134
       body: ''
