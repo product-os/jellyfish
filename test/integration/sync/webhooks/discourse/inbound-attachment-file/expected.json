@@ -76,6 +76,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "[pcasm-book.pdf|attachment](upload://2uB5SFjOWt1LwPVZ2gqNTa4261n.pdf) (1.0 MB)"
         }
       }

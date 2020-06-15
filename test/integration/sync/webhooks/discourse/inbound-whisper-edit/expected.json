@@ -76,6 +76,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Test 0000000000000000"
         }
       }
@@ -99,6 +101,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Edited whisper"
         }
       }

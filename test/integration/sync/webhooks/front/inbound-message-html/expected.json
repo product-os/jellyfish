@@ -39,6 +39,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Hey there <foo>!"
         }
       }
@@ -119,6 +121,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "<div>Response!</div><br><div class=\"front-signature fa-uid_a8aee144305bcb9048143583437fe7f7\">—<br />Juan Cruz Viotti,<div>Software Engineer, Resin.io (https://resin.io)</div><div>twt: @resin_io</div></div><br><blockquote type=\"cite\" class=\"front-blockquote\">On Wed, Oct 10, 2018 at 11:13 pm,  &lt;<a href=\"mailto:juan@resin.io\" target=\"_blank\" rel=\"noopener noreferrer\">juan@resin.io</a>&gt; Juan Cruz Viotti wrote:<br /><br /><div id=\"fae_1y9l9g3b7xo8r\"><div>Hey there!</div>\n</div></blockquote>"
         }
       }

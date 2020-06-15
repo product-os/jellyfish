@@ -76,6 +76,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Updated description 8888"
         }
       }

@@ -39,6 +39,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "<div>Hello</div>\n"
         }
       }

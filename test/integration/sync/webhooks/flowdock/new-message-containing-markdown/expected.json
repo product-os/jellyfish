@@ -67,7 +67,9 @@
         "payload": {
           "message": "## Getting started\n\n- Sign up on [balena.io](https://balena.io/) and follow our [Getting Started Guide](https://balena.io/docs/learn/getting-started).\n- Clone this repository to your local workspace.",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/O7YhZxp_HVWEQoG7_X3rbPmaqGv/messages/113644"

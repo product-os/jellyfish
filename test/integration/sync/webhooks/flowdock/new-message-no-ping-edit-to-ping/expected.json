@@ -67,7 +67,9 @@
         "payload": {
           "message": "hello @testbot",
           "mentionsUser": ["testbot"],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/W2nMNAI98F-gDqKqJIkolkn2H86/messages/113671"

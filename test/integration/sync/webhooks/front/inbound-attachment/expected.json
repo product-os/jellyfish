@@ -74,6 +74,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "<div><p>Attachment test</p>\n</div>"
         }
       }
@@ -97,6 +99,8 @@
         "payload": {
           "alertsUser": [],
           "mentionsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "This is mirrored in [flowdock premium thread i2wIK9GpIvbofyoxnxENgGO1Jas](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/i2wIK9GpIvbofyoxnxENgGO1Jas)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=i2wIK9GpIvbofyoxnxENgGO1Jas&hmac=9ca94355a429a9ac18672da643178c325bb27f6a008cd9229455ff7ea9c4b7c0)"
         }
       }
@@ -143,6 +147,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "attachments": [
             {
               "url": "https://api2.frontapp.com/download/fil_375dw9f",
@@ -197,6 +203,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "attachments": [
             {
               "url": "https://api2.frontapp.com/download/fil_375dxfn",

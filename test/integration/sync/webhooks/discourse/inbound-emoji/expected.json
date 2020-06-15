@@ -76,6 +76,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Foo Bar :grinning: baz :sweat_smile:"
         }
       }

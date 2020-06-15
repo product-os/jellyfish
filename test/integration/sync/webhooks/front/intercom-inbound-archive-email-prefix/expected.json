@@ -39,6 +39,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "<div><p>Test test 2</p>\n</div>"
         }
       }
@@ -97,6 +99,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "This is mirrored in [flowdock premium thread 3o8hhRVDQOwJwh-u9_2Sq7cMYi4](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/3o8hhRVDQOwJwh-u9_2Sq7cMYi4)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=3o8hhRVDQOwJwh-u9_2Sq7cMYi4&hmac=18535b24330510d884ec4bd6c4327d2cc20a9971bbf12e9a6c96c4ee994a42dc)"
         }
       }

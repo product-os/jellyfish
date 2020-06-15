@@ -78,8 +78,10 @@
         ],
         "timestamp": "2019-04-16T18:09:57.756Z",
         "payload": {
-          "mentionsUser": [],
           "alertsUser": [],
+          "mentionsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Foo 3333333333333333333"
         }
       }

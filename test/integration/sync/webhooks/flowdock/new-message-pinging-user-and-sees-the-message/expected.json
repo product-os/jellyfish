@@ -68,6 +68,8 @@
           "message": "hi @testbot ",
           "mentionsUser": ["testbot"],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "readBy": ["testbot"]
         },
         "mirrors": [

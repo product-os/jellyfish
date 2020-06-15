@@ -67,7 +67,9 @@
         "payload": {
           "message": "[foo.txt](https://www.flowdock.com/rest/files/151242/0Tv27r-WlBBemOGdBpkX8A/foo.txt)",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/CMT86r2XsbzFE4XjMrhMkOJJgBE/messages/113580"

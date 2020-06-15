@@ -68,6 +68,8 @@
           "message": "@mbalamat, ",
           "mentionsUser": ["mbalamat"],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "readBy": ["mbalamat"]
         },
         "mirrors": [

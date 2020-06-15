@@ -67,7 +67,9 @@
         "payload": {
           "message": "foo",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113564"
@@ -90,7 +92,9 @@
         "payload": {
           "message": "baz",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/qqzY819nJ8xakOiBipnZAQqiGWD/messages/113566"

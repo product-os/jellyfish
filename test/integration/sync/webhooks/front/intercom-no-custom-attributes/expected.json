@@ -39,6 +39,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "<div><p>JF test, please ignore</p>\n</div>"
         }
       }
@@ -97,6 +99,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "This is mirrored in [flowdock premium thread bH_y1MpNztvrG4oEUbZfPVqiMJg](https://www.flowdock.com/app/rulemotion/public-s-premium/threads/bH_y1MpNztvrG4oEUbZfPVqiMJg)\n[](https://www.balena-cloud.com?hidden=murmur&source=flowdock&flow=rulemotion/public-s-premium&thread=bH_y1MpNztvrG4oEUbZfPVqiMJg&hmac=73f3e2d8c0e6acf0cd24bb7c0760cfc65157c6ef13551e45dba93e65e18070d0)"
         }
       }
