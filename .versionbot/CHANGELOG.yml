@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'ui: Cache groups as part of bootstrap actions'
+      hash: 49bdfb7ae2e8dec92685cb62ae4cd5e5792d2965
+      body: >
+        The groups are saved in the redux state, with the list of group users
+        and a boolean flag indicating whether the authenticated user is part of
+        that group (for efficient querying of groups that the user is part of).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Simplify unit test for redux reducer initial state
+      hash: 5c7622d4e1d1282df421ec6adb4be4873b439de7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.52.0
+  date: 2020-06-15T07:56:15.151Z
+- commits:
     - subject: >-
         Update getUser trigger to find users by firstname and lastname, as well
         as slug
