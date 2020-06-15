@@ -1,4 +1,18 @@
 - commits:
+    - subject: Combine npm ci steps into production of a single layer
+      hash: 32fc1710ad0aee502dac4cff76099a4c4cea6f6a
+      body: >
+        The previous implementation was creating layers with NPM token
+        persisted.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Roman Mazur <roman@balena.io>
+        signed-off-by: Roman Mazur <roman@balena.io>
+      author: Roman Mazur
+  version: 30.52.1
+  date: 2020-06-15T11:09:00.981Z
+- commits:
     - subject: 'ui: Cache groups as part of bootstrap actions'
       hash: 49bdfb7ae2e8dec92685cb62ae4cd5e5792d2965
       body: >
