@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'ci: Remove unnecessary output from CI skip test script'
+      hash: 5f02bc145a66e347793e6aafa83a309887b668df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'ci: Update worker integration tests to use a shared backend'
+      hash: c0a4d615c37b047a7d627c0518ddf61a3f18d2ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.52.2
+  date: 2020-06-15T12:27:45.371Z
+- commits:
     - subject: Combine npm ci steps into production of a single layer
       hash: 32fc1710ad0aee502dac4cff76099a4c4cea6f6a
       body: >
