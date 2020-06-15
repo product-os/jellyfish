@@ -9,11 +9,11 @@ const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('.execute() should execute an action', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
@@ -26,7 +26,7 @@ ava('.execute() should execute an action', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -49,6 +49,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -63,7 +64,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -76,12 +77,13 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
 	])
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
@@ -91,10 +93,10 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'foo',
+					slug,
 					version: '1.0.0',
 					data: {
-						command: 'foo-bar-baz'
+						command
 					}
 				}
 			}
@@ -106,13 +108,13 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 	test.false(result.error)
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@latest')
+		test.context.context, test.context.session, `${command}@latest`)
 	test.truthy(card)
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo@latest')
+		test.context.context, test.context.session, `${slug}@latest`)
 
-	test.is(resultCard.data.command, 'foo-bar-baz')
+	test.is(resultCard.data.command, command)
 })
 
 ava('.execute() should not execute a triggered action given a non matching mode', async (test) => {
@@ -121,6 +123,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -135,7 +138,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -148,12 +151,13 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
 	])
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
@@ -163,10 +167,10 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'foo',
+					slug,
 					version: '1.0.0',
 					data: {
-						command: 'foo-bar-baz'
+						command
 					}
 				}
 			}
@@ -178,13 +182,13 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 	test.false(result.error)
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@latest')
+		test.context.context, test.context.session, `${command}@latest`)
 	test.falsy(card)
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo@latest')
+		test.context.context, test.context.session, `${slug}@latest`)
 
-	test.is(resultCard.data.command, 'foo-bar-baz')
+	test.is(resultCard.data.command, command)
 })
 
 ava('.execute() should not execute a triggered action with a future start date', async (test) => {
@@ -193,6 +197,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -207,7 +212,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -220,12 +225,13 @@ ava('.execute() should not execute a triggered action with a future start date',
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
 	])
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
@@ -234,10 +240,10 @@ ava('.execute() should not execute a triggered action with a future start date',
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0',
 				data: {
-					command: 'foo-bar-baz'
+					command
 				}
 			}
 		}
@@ -248,7 +254,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 		test.context.context, request)
 	test.false(result.error)
 
-	const card = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, 'foo-bar-baz@latest')
+	const card = await test.context.jellyfish.getCardBySlug(test.context.context, test.context.session, `${command}@latest`)
 	test.falsy(card)
 })
 
@@ -258,6 +264,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -274,7 +281,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 								properties: {
 									command: {
 										type: 'string',
-										const: 'foo-bar-baz'
+										const: command
 									}
 								}
 							}
@@ -295,12 +302,13 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
 	])
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
@@ -310,9 +318,9 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 			reason: null,
 			properties: {
 				version: '1.0.0',
-				slug: 'foo',
+				slug,
 				data: {
-					command: 'foo-bar-baz'
+					command
 				}
 			}
 		}
@@ -324,7 +332,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 	test.false(result.error)
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@latest')
+		test.context.context, test.context.session, `${command}@latest`)
 	test.truthy(card)
 })
 
@@ -334,6 +342,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: `${actionCard.slug}@${actionCard.version}`,
 		context: test.context.context,
@@ -343,7 +352,7 @@ ava('.execute() should add a create event when creating a card', async (test) =>
 			reason: null,
 			properties: {
 				version: '1.0.0',
-				slug: 'foo',
+				slug,
 				data: {
 					foo: 'bar'
 				}
@@ -383,6 +392,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: 'action-create-card@1.0.0',
@@ -392,7 +402,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'test-thread',
+					slug,
 					version: '1.0.0',
 					data: {
 						schema: {
@@ -400,7 +410,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 							properties: {
 								type: {
 									type: 'string',
-									const: 'test-thread@1.0.0'
+									const: `${slug}@1.0.0`
 								},
 								data: {
 									type: 'object',
@@ -436,7 +446,7 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo',
+					slug: test.context.generateRandomSlug(),
 					data: {
 						mentions: []
 					}
@@ -499,6 +509,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -507,7 +518,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-thread',
+				slug,
 				version: '1.0.0',
 				data: {
 					schema: {
@@ -515,7 +526,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread@1.0.0'
+								const: `${slug}@1.0.0`
 							},
 							data: {
 								type: 'object',
@@ -549,7 +560,7 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0',
 				data: {}
 			}
@@ -589,6 +600,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -597,7 +609,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-thread',
+				slug,
 				version: '1.0.0',
 				data: {
 					schema: {
@@ -605,7 +617,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread@1.0.0'
+								const: `${slug}@1.0.0`
 							},
 							data: {
 								type: 'object',
@@ -639,7 +651,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0',
 				data: {
 					$$mentions: []
@@ -657,7 +669,7 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		action: 'action-create-event@1.0.0',
 		card: threadResult.data.id,
 		context: test.context.context,
-		type: 'test-thread',
+		type: slug,
 		arguments: {
 			type: 'message',
 			tags: [],
@@ -682,6 +694,7 @@ ava('.execute() should create a message with tags', async (test) => {
 	const typeType = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'type@latest')
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -690,7 +703,7 @@ ava('.execute() should create a message with tags', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'test-thread',
+				slug,
 				version: '1.0.0',
 				data: {
 					schema: {
@@ -698,7 +711,7 @@ ava('.execute() should create a message with tags', async (test) => {
 						properties: {
 							type: {
 								type: 'string',
-								const: 'test-thread@1.0.0'
+								const: `${slug}@1.0.0`
 							}
 						},
 						additionalProperties: true,
@@ -722,7 +735,7 @@ ava('.execute() should create a message with tags', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0'
 			}
 		}
@@ -775,7 +788,7 @@ ava('.execute() should add an execution event to the action request', async (tes
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -818,6 +831,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -832,7 +846,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -844,12 +858,13 @@ ava('.execute() should execute a triggered action', async (test) => {
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
 	])
 
+	const slug = test.context.generateRandomSlug()
 	const request = await test.context.queue.producer.enqueue(
 		test.context.worker.getId(), test.context.session, {
 			action: `${actionCard.slug}@${actionCard.version}`,
@@ -859,10 +874,10 @@ ava('.execute() should execute a triggered action', async (test) => {
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'foo',
+					slug,
 					version: '1.0.0',
 					data: {
-						command: 'foo-bar-baz'
+						command
 					}
 				}
 			}
@@ -874,11 +889,11 @@ ava('.execute() should execute a triggered action', async (test) => {
 	test.false(result.error)
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@latest')
+		test.context.context, test.context.session, `${command}@latest`)
 	test.truthy(card)
 
 	const resultCard = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo@latest')
+		test.context.context, test.context.session, `${slug}@latest`)
 
-	test.is(resultCard.data.command, 'foo-bar-baz')
+	test.is(resultCard.data.command, command)
 })

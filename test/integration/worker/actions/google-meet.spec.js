@@ -13,8 +13,8 @@ const actionLibrary = require('../../../../lib/action-library')
 
 const GOOGLE_MEET_URL = 'https://meet.google.com/some-fake-room'
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 
 	// Fake the Google APIs calls
 	const auth = {
@@ -48,7 +48,7 @@ ava.beforeEach(async (test) => {
 	}
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should return a conference URL', async (test) => {
 	const {

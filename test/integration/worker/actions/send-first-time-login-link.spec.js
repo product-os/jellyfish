@@ -51,14 +51,33 @@ const createOrgLinkAction = async ({
 	}
 }
 
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
+	const {
+		jellyfish,
+		context,
+		session
+	} = test.context
+
+	test.context = {
+		...test.context,
+		userEmail: 'test@test.com',
+		userCard: await jellyfish.getCardBySlug(context, session, 'user@latest'),
+		orgCard: await jellyfish.getCardBySlug(context, session, 'org@latest'),
+		adminUser: await jellyfish.getCardBySlug(context, session, 'user-admin@1.0.0')
+	}
+})
+
 ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
 	const {
 		worker,
 		session,
 		context,
-		jellyfish,
-		processAction
+		processAction,
+		userCard,
+		orgCard,
+		adminUser,
+		userEmail
 	} = test.context
 
 	const nockRequest = (fn) => {
@@ -74,11 +93,8 @@ ava.beforeEach(async (test) => {
 			})
 	}
 
-	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
-
-	const userEmail = 'test@test.com'
-	const username = 'johndoe'
-
+	// Create user
+	const username = test.context.generateRandomSlug()
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
 		context,
@@ -90,13 +106,9 @@ ava.beforeEach(async (test) => {
 			email: userEmail
 		}
 	})
-
 	const user = await processAction(session, createUserAction)
 
-	// Creates org
-
-	const orgCard = await jellyfish.getCardBySlug(context, session, 'org@latest')
-
+	// Create org
 	const org = await processAction(session, {
 		action: 'action-create-card@1.0.0',
 		context,
@@ -110,44 +122,45 @@ ava.beforeEach(async (test) => {
 		}
 	})
 
-	// Links user to org
-
+	// Link user to org
 	const userOrgLinkAction = await createOrgLinkAction({
 		toId: user.data.id,
 		fromId: org.data.id,
 		context
 	})
-
 	await processAction(session, userOrgLinkAction)
 
-	// Gets admin user and links org to it
-
-	const adminUser = await jellyfish.getCardBySlug(context, session, 'user-admin@1.0.0')
-
+	// Link admin user to org
 	const adminOrgLinkAction = await createOrgLinkAction({
 		toId: adminUser.id,
 		fromId: org.data.id,
 		context
 	})
-
 	const adminOrgLink = await processAction(session, adminOrgLinkAction)
 
 	test.context = {
 		...test.context,
 		user,
-		userEmail,
 		username,
-		userCard,
-		orgCard,
 		org,
-		adminOrgLink,
-		nockRequest
+		nockRequest,
+		adminOrgLink
 	}
 })
 
 ava.afterEach(async (test) => {
 	nock.cleanAll()
-	await helpers.worker.afterEach(test)
+	await test.context.processAction(test.context.session, {
+		action: 'action-delete-card@1.0.0',
+		context: test.context.context,
+		card: test.context.adminOrgLink.data.id,
+		type: test.context.adminOrgLink.data.type,
+		arguments: {}
+	})
+})
+
+ava.after(async (test) => {
+	await helpers.worker.after(test)
 })
 
 ava('should create a first-time login card and user link for a user', async (test) => {
@@ -248,6 +261,17 @@ ava('should send a first-time-login email to a user', async (test) => {
 					}
 				}
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
+			}
 		}
 	}, {
 		limit: 1
@@ -339,6 +363,17 @@ ava('should invalidate previous first-time logins', async (test) => {
 				type: 'string',
 				const: 'first-time-login@1.0.0'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
+			}
 		}
 	}, {
 		sortBy: 'created_at'
@@ -416,6 +451,17 @@ ava('should not invalidate previous first-time logins from other users', async (
 			active: {
 				type: 'boolean'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						enum: [ user.data.id, otherUser.data.id ]
+					}
+				}
+			}
 		}
 	}, {
 		sortBy: 'created_at'
@@ -445,7 +491,7 @@ ava('successfully sends an email to a user with an array of emails', async (test
 
 	const firstEmail = 'first@email.com'
 	const secondEmail = 'second@email.com'
-	const newUsername = 'janedoe'
+	const newUsername = test.context.generateRandomSlug()
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -519,7 +565,9 @@ ava('throws an error when the first-time-login user has no org', async (test) =>
 
 	nockRequest()
 
-	const userSlug = 'user-janedoe'
+	const userSlug = test.context.generateRandomSlug({
+		prefix: 'user'
+	})
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -594,7 +642,9 @@ ava('throws an error when the first-time-login user does not belong to the reque
 
 	nockRequest()
 
-	const userSlug = 'user-janedoe'
+	const userSlug = test.context.generateRandomSlug({
+		prefix: 'user'
+	})
 	const userPassword = 'foobarbaz'
 
 	const createUserAction = await worker.pre(session, {
@@ -667,7 +717,9 @@ ava('a community role is added to a supplied user with no role set', async (test
 		arguments: {
 			reason: 'for testing',
 			properties: {
-				slug: 'user-janedoe',
+				slug: test.context.generateRandomSlug({
+					prefix: 'user'
+				}),
 				data: {
 					hash: 'fake-hash',
 					email: 'fake@email.com',

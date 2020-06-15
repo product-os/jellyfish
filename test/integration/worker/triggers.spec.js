@@ -10,8 +10,8 @@ const triggers = require('../../../lib/worker/triggers')
 const errors = require('../../../lib/worker/errors')
 const Promise = require('bluebird')
 
-ava.serial.beforeEach(helpers.jellyfish.beforeEach)
-ava.serial.afterEach(helpers.jellyfish.afterEach)
+ava.serial.before(helpers.jellyfish.before)
+ava.serial.after(helpers.jellyfish.after)
 
 ava('.getRequest() should return null if the filter only has a type but there is no match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
@@ -793,6 +793,8 @@ ava('.getTypeTriggers() should return a trigger card with a matching type', asyn
 ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+
+	const typeSlug = test.context.generateRandomSlug()
 	const cards = [
 		{
 			type: 'triggered-action@1.0.0',
@@ -802,7 +804,7 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 			version: '1.0.0',
 			active: false,
 			data: {
-				type: 'foo@1.0.0',
+				type: `${typeSlug}@1.0.0`,
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -845,7 +847,7 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 	const result = await triggers.getTypeTriggers(
 		test.context.context,
 		test.context.jellyfish,
-		test.context.session, 'foo@1.0.0')
+		test.context.session, `${typeSlug}@1.0.0`)
 
 	test.deepEqual(result, [])
 })
@@ -853,6 +855,8 @@ ava('.getTypeTriggers() should not return inactive cards', async (test) => {
 ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+
+	const typeSlug = test.context.generateRandomSlug()
 	const cards = [
 		{
 			type: 'triggered-action@1.0.0',
@@ -861,7 +865,7 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 			}),
 			version: '1.0.0',
 			data: {
-				type: 'foo@1.0.0',
+				type: `${typeSlug}@1.0.0`,
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -944,7 +948,7 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 	const result = await triggers.getTypeTriggers(
 		test.context.context,
 		test.context.jellyfish,
-		test.context.session, 'foo@1.0.0')
+		test.context.session, `${typeSlug}@1.0.0`)
 
 	const updatedCard = await test.context.jellyfish.getCardById(
 		test.context.context, test.context.session, insertedCards[0].id)
@@ -959,6 +963,8 @@ ava('.getTypeTriggers() should ignore non-matching cards', async (test) => {
 ava('.getTypeTriggers() should ignore cards that are not triggered actions', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+
+	const typeSlug = test.context.generateRandomSlug()
 	const cards = [
 		{
 			type: 'triggered-action@1.0.0',
@@ -967,7 +973,7 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 			}),
 			version: '1.0.0',
 			data: {
-				type: 'foo@1.0.0',
+				type: `${typeSlug}@1.0.0`,
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -1007,7 +1013,7 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 			}),
 			version: '1.0.0',
 			data: {
-				type: 'foo@1.0.0',
+				type: `${typeSlug}@1.0.0`,
 				filter: {
 					type: 'object',
 					required: [ 'data' ],
@@ -1050,7 +1056,7 @@ ava('.getTypeTriggers() should ignore cards that are not triggered actions', asy
 	const result = await triggers.getTypeTriggers(
 		test.context.context,
 		test.context.jellyfish,
-		test.context.session, 'foo@1.0.0')
+		test.context.session, `${typeSlug}@1.0.0`)
 
 	const updatedCard = await test.context.jellyfish.getCardById(
 		test.context.context, test.context.session, insertedCards[0].id)
@@ -1115,7 +1121,7 @@ ava('.getTypeTriggers() should not return triggered actions not associated with 
 	const result = await triggers.getTypeTriggers(
 		test.context.context,
 		test.context.jellyfish,
-		test.context.session, 'foo@1.0.0')
+		test.context.session, `${test.context.generateRandomSlug()}@1.0.0`)
 	test.deepEqual(result, [])
 })
 

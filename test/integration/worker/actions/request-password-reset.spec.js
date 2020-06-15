@@ -18,22 +18,35 @@ const checkForKeyValue = (key, value, text) => {
 	return regex !== -1
 }
 
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
+	const {
+		jellyfish,
+		context,
+		session
+	} = test.context
+
+	test.context = {
+		...test.context,
+		userEmail: 'test@test.com',
+		userPassword: 'foobarbaz',
+		userCard: await jellyfish.getCardBySlug(context, session, 'user@latest')
+	}
+})
+
 ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
 	const {
 		worker,
 		session,
 		context,
-		jellyfish,
-		processAction
+		processAction,
+		userCard,
+		userEmail,
+		userPassword
 	} = test.context
 
-	const userCard = await jellyfish.getCardBySlug(context, session, 'user@latest')
-
-	const username = 'johndoe'
-	const userEmail = 'test@test.com'
-	const userPassword = 'foobarbaz'
-
+	// Create user
+	const username = test.context.generateRandomSlug()
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
 		context,
@@ -46,6 +59,7 @@ ava.beforeEach(async (test) => {
 		}
 	})
 
+	// Nock Mailgun
 	const nockRequest = (fn) => {
 		nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
 			.persist()
@@ -63,16 +77,16 @@ ava.beforeEach(async (test) => {
 		...test.context,
 		user: await processAction(session, createUserAction),
 		username,
-		userEmail,
-		userPassword,
-		userCard,
 		nockRequest
 	}
 })
 
 ava.afterEach(async (test) => {
 	nock.cleanAll()
-	await helpers.worker.afterEach(test)
+})
+
+ava.after(async (test) => {
+	await helpers.worker.after(test)
 })
 
 ava('should create a password reset card and user link when arguments match a valid user', async (test) => {
@@ -180,6 +194,17 @@ ava('should send a password-reset email when the username in the argument matche
 					}
 				}
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
+			}
 		}
 	}, {
 		limit: 1
@@ -218,7 +243,7 @@ ava('should fail silently if the username does not match a user', async (test) =
 		card: user.data.id,
 		type: user.data.type,
 		arguments: {
-			username: 'madeup'
+			username: test.context.generateRandomSlug()
 		}
 	}
 
@@ -233,6 +258,17 @@ ava('should fail silently if the username does not match a user', async (test) =
 			type: {
 				type: 'string',
 				const: 'password-reset@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
 			}
 		}
 	}, {
@@ -287,6 +323,17 @@ ava('should fail silently if the user is inactive', async (test) => {
 			type: {
 				type: 'string',
 				const: 'password-reset@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
 			}
 		}
 	}, {
@@ -349,6 +396,17 @@ ava('should fail silently if the user does not have a hash', async (test) => {
 				type: 'string',
 				const: 'password-reset@1.0.0'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
+			}
 		}
 	}, {
 		limit: 1
@@ -395,6 +453,17 @@ ava('should invalidate previous password reset requests', async (test) => {
 				type: 'string',
 				const: 'password-reset@1.0.0'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						const: user.data.id
+					}
+				}
+			}
 		}
 	}, {
 		sortBy: 'created_at'
@@ -420,7 +489,7 @@ ava('should not invalidate previous password reset requests from other users', a
 
 	nockRequest()
 
-	const otherUsername = 'janedoe'
+	const otherUsername = test.context.generateRandomSlug()
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -471,6 +540,17 @@ ava('should not invalidate previous password reset requests from other users', a
 			active: {
 				type: 'boolean'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						enum: [ user.data.id, otherUser.data.id ]
+					}
+				}
+			}
 		}
 	}, {
 		sortBy: 'created_at'
@@ -496,7 +576,7 @@ ava('accounts with the same password have different request tokens', async (test
 
 	nockRequest
 
-	const newUsername = 'janedoe'
+	const newUsername = test.context.generateRandomSlug()
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -548,6 +628,17 @@ ava('accounts with the same password have different request tokens', async (test
 				type: 'string',
 				const: 'password-reset@1.0.0'
 			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string',
+						enum: [ user.data.id, secondUser.data.id ]
+					}
+				}
+			}
 		}
 	}, {
 		sortBy: 'created_at'
@@ -575,7 +666,7 @@ ava('successfully sends an email to a user with an array of emails', async (test
 
 	const firstEmail = 'first@email.com'
 	const secondEmail = 'second@email.com'
-	const newUsername = 'janedoe'
+	const newUsername = test.context.generateRandomSlug()
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',

@@ -16,9 +16,11 @@ const {
 	resetPasswordSecretToken
 } = environment.actions
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
+})
 
+ava.beforeEach(async (test) => {
 	const {
 		worker,
 		session,
@@ -31,7 +33,7 @@ ava.beforeEach(async (test) => {
 
 	const userEmail = 'test@test.com'
 	const userPassword = 'original-password'
-	const username = 'johndoe'
+	const username = test.context.generateRandomSlug()
 
 	const createUserAction = await worker.pre(session, {
 		action: 'action-create-user@1.0.0',
@@ -72,7 +74,7 @@ ava.beforeEach(async (test) => {
 	}
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should replace the user password when the requestToken is valid', async (test) => {
 	const {

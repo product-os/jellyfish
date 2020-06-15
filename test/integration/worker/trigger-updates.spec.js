@@ -8,11 +8,11 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('.setTriggers() should be able to set a trigger with a start date', (test) => {
 	test.context.worker.setTriggers(test.context.context, [

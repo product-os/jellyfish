@@ -8,16 +8,17 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('.insertCard() should pass a triggered action originator', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -32,7 +33,7 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -42,7 +43,7 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 			target: typeCard.id,
 			arguments: {
 				properties: {
-					slug: 'foo-bar-baz',
+					slug: command,
 					version: '1.0.0'
 				}
 			}
@@ -55,15 +56,15 @@ ava('.insertCard() should pass a triggered action originator', async (test) => {
 			actor: test.context.actor.id,
 			attachEvents: true
 		}, {
-			slug: 'foo',
+			slug: test.context.generateRandomSlug(),
 			version: '1.0.0',
 			data: {
-				command: 'foo-bar-baz'
+				command
 			}
 		})
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@1.0.0')
+		test.context.context, test.context.session, `${command}@1.0.0`)
 	test.is(card.data.originator, 'cb3523c5-b37d-41c8-ae32-9e7cc9309165')
 })
 
@@ -71,6 +72,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
+	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
@@ -85,7 +87,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 						properties: {
 							command: {
 								type: 'string',
-								const: 'foo-bar-baz'
+								const: command
 							}
 						}
 					}
@@ -95,7 +97,7 @@ ava('.insertCard() should take an originator option', async (test) => {
 			target: typeCard.id,
 			arguments: {
 				properties: {
-					slug: 'foo-bar-baz'
+					slug: command
 				}
 			}
 		}
@@ -108,14 +110,14 @@ ava('.insertCard() should take an originator option', async (test) => {
 			originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			attachEvents: true
 		}, {
-			slug: 'foo',
+			slug: test.context.generateRandomSlug(),
 			version: '1.0.0',
 			data: {
-				command: 'foo-bar-baz'
+				command
 			}
 		})
 
 	const card = await test.context.jellyfish.getCardBySlug(
-		test.context.context, test.context.session, 'foo-bar-baz@latest')
+		test.context.context, test.context.session, `${command}@latest`)
 	test.is(card.data.originator, '4a962ad9-20b5-4dd8-a707-bf819593cc84')
 })

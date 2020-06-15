@@ -9,18 +9,18 @@ const _ = require('lodash')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should post a broadcast message to an empty thread', async (test) => {
 	const thread = await test.context.jellyfish.insertCard(
 		test.context.context, test.context.session, {
 			type: 'card@1.0.0',
 			version: '1.0.0',
-			slug: 'thread-1',
+			slug: test.context.generateRandomSlug(),
 			data: {}
 		})
 
@@ -93,7 +93,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 		test.context.context, test.context.session, {
 			type: 'card@1.0.0',
 			version: '1.0.0',
-			slug: 'thread-1',
+			slug: test.context.generateRandomSlug(),
 			data: {}
 		})
 
@@ -201,7 +201,7 @@ ava('should not broadcast the same message twice', async (test) => {
 		test.context.context, test.context.session, {
 			type: 'card@1.0.0',
 			version: '1.0.0',
-			slug: 'thread-1',
+			slug: test.context.generateRandomSlug(),
 			data: {}
 		})
 
@@ -325,7 +325,7 @@ ava('should broadcast different messages', async (test) => {
 		test.context.context, test.context.session, {
 			type: 'card@1.0.0',
 			version: '1.0.0',
-			slug: 'thread-1',
+			slug: test.context.generateRandomSlug(),
 			data: {}
 		})
 
@@ -463,7 +463,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 		test.context.context, test.context.session, {
 			type: 'card@1.0.0',
 			version: '1.0.0',
-			slug: 'thread-1',
+			slug: test.context.generateRandomSlug(),
 			data: {}
 		})
 
@@ -471,7 +471,9 @@ ava('should broadcast the same message twice given different actors', async (tes
 		test.context.context, test.context.session, {
 			type: 'user@1.0.0',
 			version: '1.0.0',
-			slug: 'user-admin-fake-test',
+			slug: test.context.generateRandomSlug({
+				prefix: 'user'
+			}),
 			data: {
 				email: 'accounts+jellyfish@resin.io',
 				hash: 'PASSWORDLESS',
@@ -483,7 +485,9 @@ ava('should broadcast the same message twice given different actors', async (tes
 		test.context.context, test.context.session, {
 			type: 'session@1.0.0',
 			version: '1.0.0',
-			slug: 'session-rogue-user-test',
+			slug: test.context.generateRandomSlug({
+				prefix: 'session'
+			}),
 			data: {
 				actor: rogueUser.id
 			}

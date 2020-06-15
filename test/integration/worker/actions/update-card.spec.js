@@ -8,11 +8,11 @@ const ava = require('ava')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 
-ava.beforeEach(async (test) => {
-	await helpers.worker.beforeEach(test, actionLibrary)
+ava.before(async (test) => {
+	await helpers.worker.before(test, actionLibrary)
 })
 
-ava.afterEach(helpers.worker.afterEach)
+ava.after(helpers.worker.after)
 
 ava('should fail to update a card if the schema does not match', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
@@ -25,7 +25,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug: test.context.generateRandomSlug(),
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -66,6 +66,7 @@ ava('should fail to update a card if the schema does not match', async (test) =>
 ava('should update a card to add an extra property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -74,7 +75,7 @@ ava('should update a card to add an extra property', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0',
 				data: {
 					foo: 'bar'
@@ -122,7 +123,7 @@ ava('should update a card to add an extra property', async (test) => {
 		updated_at: updateCard.updated_at,
 		linked_at: card.linked_at,
 		id: updateResult.data.id,
-		slug: 'foo',
+		slug,
 		name: null,
 		version: '1.0.0',
 		type: 'card@1.0.0',
@@ -137,6 +138,7 @@ ava('should update a card to add an extra property', async (test) => {
 ava('should update a card to set active to false', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -145,7 +147,7 @@ ava('should update a card to set active to false', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0'
 			}
 		}
@@ -187,7 +189,7 @@ ava('should update a card to set active to false', async (test) => {
 		id: updateResult.data.id,
 		version: '1.0.0',
 		name: null,
-		slug: 'foo',
+		slug,
 		type: 'card@1.0.0',
 		active: false,
 		links: card.links
@@ -206,7 +208,7 @@ ava('should update a card along with a reason', async (test) => {
 			arguments: {
 				reason: null,
 				properties: {
-					slug: 'foo',
+					slug: test.context.generateRandomSlug(),
 					version: '1.0.0'
 				}
 			}
@@ -333,6 +335,7 @@ ava('should update a card to set active to false using the card slug as input', 
 ava('should update a card to override an array property', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -341,7 +344,7 @@ ava('should update a card to override an array property', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0',
 				data: {
 					roles: [ 'guest' ]
@@ -388,7 +391,7 @@ ava('should update a card to override an array property', async (test) => {
 		id: updateResult.data.id,
 		type: 'card@1.0.0',
 		name: null,
-		slug: 'foo',
+		slug,
 		version: '1.0.0',
 		links: card.links,
 		data: {
@@ -400,6 +403,7 @@ ava('should update a card to override an array property', async (test) => {
 ava('should add an update event if updating a card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -408,7 +412,7 @@ ava('should add an update event if updating a card', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0',
 				data: {
 					foo: 1
@@ -481,7 +485,7 @@ ava('should add an update event if updating a card', async (test) => {
 				target: createResult.data.id,
 				timestamp: timeline[0].data.timestamp,
 				payload: {
-					slug: 'foo',
+					slug,
 					type: 'card@1.0.0',
 					version: '1.0.0',
 					data: {
@@ -519,6 +523,7 @@ ava('should add an update event if updating a card', async (test) => {
 ava('should delete a card using action-update-card', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
+	const slug = test.context.generateRandomSlug()
 	const createRequest = await test.context.queue.producer.enqueue(test.context.worker.getId(), test.context.session, {
 		action: 'action-create-card@1.0.0',
 		context: test.context.context,
@@ -527,7 +532,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		arguments: {
 			reason: null,
 			properties: {
-				slug: 'foo',
+				slug,
 				version: '1.0.0'
 			}
 		}
@@ -570,7 +575,7 @@ ava('should delete a card using action-update-card', async (test) => {
 		id: updateResult.data.id,
 		name: null,
 		type: 'card@1.0.0',
-		slug: 'foo',
+		slug,
 		version: '1.0.0',
 		active: false,
 		links: card.links
