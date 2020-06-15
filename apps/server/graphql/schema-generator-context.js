@@ -4,34 +4,12 @@
  * Proprietary and confidential.
  */
 
+const LogWrapper = require('./helpers/log-wrapper')
 const graphql = require('graphql')
 const _ = require('lodash')
 const {
 	pascalCase
 } = require('change-case')
-
-// This is just a wrapper around the logger/context combo so that I don't have
-// to pass `context` to everything, especially given the fact that there would
-// be multiple objects with the name "context" floating around the system.
-class Logger {
-	constructor (logger, context) {
-		this.logger = logger
-		this.context = context
-	}
-
-	debug (message, data) {
-		this.logger.debug(this.context, message, data)
-	}
-	error (message, data) {
-		this.logger.error(this.context, message, data)
-	}
-	info (message, data) {
-		this.logger.info(this.context, message, data)
-	}
-	warn (message, data) {
-		this.logger.warn(this.context, message, data)
-	}
-}
 
 // `SchemaGeneratorContext` is a shared, mutable object used to store
 // information about and side-effects of the schema generation process.
@@ -47,7 +25,7 @@ module.exports = class SchemaGeneratorContext {
 		this.typeRegistry = baseTypes
 		this.baseCards = baseCards
 		this.nameStack = []
-		this.logger = new Logger(logger, logContext)
+		this.logger = new LogWrapper(logger, logContext)
 		this.anonymousTypeCounters = {}
 	}
 

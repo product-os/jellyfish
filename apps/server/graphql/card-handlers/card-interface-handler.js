@@ -8,13 +8,15 @@
 /* eslint-disable lodash/prefer-constant */
 
 const _ = require('lodash')
-const FIELD_OVERRIDES = require('./field-overrides')
 const graphql = require('graphql')
 const skhema = require('skhema')
 const TypeObjectHandler = require('./type-object-handler')
 const {
 	pascalCase
 } = require('change-case')
+const {
+	applyOverridesToFields, OVERRIDES
+} = require('./field-overrides')
 
 // Build the `Card` interface which is implemented by all card types.
 //
@@ -60,14 +62,8 @@ module.exports = class CardInterfaceHandler extends TypeObjectHandler {
 			name,
 			fields: () => {
 				let fields = this.buildFields(childResults)
-				fields = Object
-					.keys(FIELD_OVERRIDES)
-					.reduce((result, key) => {
-						result[key] = Reflect.apply(FIELD_OVERRIDES[key], this, [])
-						return result
-					}, fields)
-
 				fields = this.fieldTypesToFields(fields)
+				fields = applyOverridesToFields(fields, this.context)
 				fields = this.markRequiredFieldsAsNonNull(fields)
 				fields = this.cameliseKeys(fields)
 				return fields
@@ -89,7 +85,7 @@ module.exports = class CardInterfaceHandler extends TypeObjectHandler {
 
 	// Don't bother trying to build types for fields we're overriding.
 	getProperties () {
-		const dropFields = [ 'data', ...Object.keys(FIELD_OVERRIDES) ]
+		const dropFields = [ 'data', ...Object.keys(OVERRIDES) ]
 		return _.omit(this.chunk.data.schema.properties || {}, dropFields)
 	}
 

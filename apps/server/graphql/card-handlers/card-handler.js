@@ -9,13 +9,15 @@
 /* eslint-disable no-underscore-dangle */
 
 const _ = require('lodash')
-const FIELD_OVERRIDES = require('./field-overrides')
 const graphql = require('graphql')
 const skhema = require('skhema')
 const TypeObjectHandler = require('./type-object-handler')
 const {
 	pascalCase
 } = require('change-case')
+const {
+	applyOverridesToFields, OVERRIDES
+} = require('./field-overrides')
 
 // Build a card type.
 //
@@ -67,6 +69,7 @@ module.exports = class CardHandler extends TypeObjectHandler {
 
 	process (childResults) {
 		const name = this.generateTypeName()
+		const typeValue = `${this.chunk.slug}@${this.chunk.version}`
 
 		const type = new graphql.GraphQLObjectType({
 			name,
@@ -74,17 +77,14 @@ module.exports = class CardHandler extends TypeObjectHandler {
 			fields: () => {
 				let fields = this.buildFields(childResults)
 
-				fields = Object
-					.keys(FIELD_OVERRIDES)
-					.reduce((result, key) => {
-						result[key] = Reflect.apply(FIELD_OVERRIDES[key], this, [])
-						return result
-					}, fields)
-
 				fields = this.fieldTypesToFields(fields)
+				fields = applyOverridesToFields(fields, this.context)
 				fields = this.markRequiredFieldsAsNonNull(fields)
 				fields = this.cameliseKeys(fields)
 				return fields
+			},
+			isTypeOf (value) {
+				return value.type === typeValue
 			}
 		})
 
@@ -94,7 +94,7 @@ module.exports = class CardHandler extends TypeObjectHandler {
 	}
 
 	getProperties () {
-		return _.omit(this.mergedSchema().properties || {}, Object.keys(FIELD_OVERRIDES))
+		return _.omit(this.mergedSchema().properties || {}, Object.keys(OVERRIDES))
 	}
 
 	getRequired () {
