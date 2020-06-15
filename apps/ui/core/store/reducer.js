@@ -17,7 +17,7 @@ import {
 import actions from './actions'
 import history from '../../services/history'
 
-const getDefaultState = () => {
+export const getDefaultState = () => {
 	return {
 		core: {
 			status: 'initializing',
