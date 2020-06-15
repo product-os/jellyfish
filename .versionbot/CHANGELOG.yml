@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Handle init db duplicate errors'
+      hash: dc08f1f5e10afec69ea3b8ce1ed0293ac2e25a2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.51.17
+  date: 2020-06-15T03:09:24.016Z
+- commits:
     - subject: 'graphql: Tidy up runtime typing.'
       hash: 055e496b10a99a8353f0e8e28a21f71a66c55c8d
       body: |
