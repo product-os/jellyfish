@@ -163,6 +163,8 @@ ava.serial('the message sent by external support user should be only visible for
 		payload: {
 			mentionsUser: [],
 			alertsUser: [],
+			mentionsGroup: [],
+			alertsGroup: [],
 			message: 'test message'
 		}
 	})

@@ -144,6 +144,8 @@ exports.insertAgentReply = async (context, thread, message) => {
 		payload: {
 			mentionsUser: [],
 			alertsUser: [],
+			mentionsGroup: [],
+			alertsGroup: [],
 			message
 		}
 	})

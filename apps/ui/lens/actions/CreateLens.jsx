@@ -302,7 +302,9 @@ class CreateLens extends React.Component {
 			'properties.data.properties.participants',
 			'properties.data.properties.mentionsUser',
 			'properties.data.properties.totalValue',
-			'properties.data.properties.alertsUser'
+			'properties.data.properties.alertsUser',
+			'properties.data.properties.mentionsGroup',
+			'properties.data.properties.alertsGroup'
 		])
 		const uiSchema = _.get(schema, [ 'properties', 'name' ])
 			? {
