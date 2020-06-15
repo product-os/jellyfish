@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Update getUser trigger to find users by firstname and lastname, as well
+        as slug
+      hash: d69e7af251ad7d4d40d85be3e12a697f54483912
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.51.18
+  date: 2020-06-15T04:16:12.277Z
+- commits:
     - subject: 'backend: Handle init db duplicate errors'
       hash: dc08f1f5e10afec69ea3b8ce1ed0293ac2e25a2a
       body: ''
