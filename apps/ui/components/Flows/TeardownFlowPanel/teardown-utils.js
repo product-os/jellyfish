@@ -5,17 +5,29 @@
  */
 
 import uuid from 'uuid/v4'
+import {
+	getMessageMetaData
+} from '../../../../../lib/ui-components/services/helpers'
 
 export const generateTeardownWhisper = (card, cardTypeName, problem, solution) => {
 	const message = `${cardTypeName} closed.\n\n**User's problem**\n>${problem}\n\n**Solution**\n>${solution}`
+	const {
+		mentionsUser,
+		alertsUser,
+		mentionsGroup,
+		alertsGroup,
+		tags
+	} = getMessageMetaData(message)
 	return {
 		target: card,
 		type: 'whisper',
 		slug: `whisper-${uuid()}`,
-		tags: [],
+		tags,
 		payload: {
-			mentionsUser: [],
-			alertsUser: [],
+			mentionsUser,
+			alertsUser,
+			mentionsGroup,
+			alertsGroup,
 			message
 		}
 	}

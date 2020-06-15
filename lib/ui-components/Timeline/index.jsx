@@ -347,6 +347,8 @@ class Timeline extends React.Component {
 		const {
 			mentionsUser,
 			alertsUser,
+			mentionsGroup,
+			alertsGroup,
 			tags
 		} = helpers.getMessageMetaData(newMessage)
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
@@ -358,6 +360,8 @@ class Timeline extends React.Component {
 			payload: {
 				mentionsUser,
 				alertsUser,
+				mentionsGroup,
+				alertsGroup,
 				message: helpers.replaceEmoji(newMessage.replace(messageSymbolRE, ''))
 			}
 		}

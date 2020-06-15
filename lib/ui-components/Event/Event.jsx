@@ -138,6 +138,8 @@ export default class Event extends React.Component {
 					const {
 						mentionsUser,
 						alertsUser,
+						mentionsGroup,
+						alertsGroup,
 						tags
 					} = helpers.getMessageMetaData(this.state.editedMessage)
 					const patch = jsonpatch.compare(this.props.card, _.defaultsDeep({
@@ -146,7 +148,9 @@ export default class Event extends React.Component {
 							payload: {
 								message: this.state.editedMessage,
 								mentionsUser,
-								alertsUser
+								alertsUser,
+								mentionsGroup,
+								alertsGroup
 							}
 						}
 					}, this.props.card))

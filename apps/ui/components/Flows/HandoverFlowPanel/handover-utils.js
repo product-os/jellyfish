@@ -7,7 +7,7 @@
 import _ from 'lodash'
 import uuid from 'uuid/v4'
 import {
-	getUserSlugsByPrefix
+	getMessageMetaData
 } from '../../../../../lib/ui-components/services/helpers'
 
 /**
@@ -68,17 +68,24 @@ export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason
 	let whisper = null
 	const message = generateWhisperMessage(currentOwner, newOwner, reason)
 	if (message) {
-		const mentions = getUserSlugsByPrefix('@', message)
-		const alerts = getUserSlugsByPrefix('!', message)
+		const {
+			mentionsUser,
+			alertsUser,
+			mentionsGroup,
+			alertsGroup,
+			tags
+		} = getMessageMetaData(message)
 
 		whisper = {
 			target: card,
 			type: 'whisper',
 			slug: `whisper-${uuid()}`,
-			tags: [],
+			tags,
 			payload: {
-				mentionsUser: mentions,
-				alertsUser: alerts,
+				mentionsUser,
+				alertsUser,
+				mentionsGroup,
+				alertsGroup,
 				message
 			}
 		}
