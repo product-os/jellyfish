@@ -41,6 +41,7 @@ export const getDefaultState = () => {
 				}
 			],
 			types: [],
+			groups: {},
 			session: null,
 			notifications: [],
 			viewNotices: {},
@@ -282,6 +283,27 @@ const coreReducer = (state, action) => {
 			return update(state, {
 				types: {
 					$set: action.value
+				}
+			})
+		}
+		case actions.SET_GROUPS: {
+			const {
+				groups,
+				userSlug
+			} = action.value
+			const newGroups = _.reduce(groups, (acc, group) => {
+				const groupUsers = _.map(group.links['has group member'], 'slug')
+				const groupSummary = {
+					name: group.name,
+					users: groupUsers,
+					isMine: groupUsers.includes(userSlug)
+				}
+				acc[group.name] = groupSummary
+				return acc
+			}, {})
+			return update(state, {
+				groups: {
+					$set: newGroups
 				}
 			})
 		}

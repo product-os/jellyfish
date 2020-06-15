@@ -37,6 +37,29 @@ const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
 const asyncDispatchQueue = getQueue()
 
+const allGroupsWithUsersQuery = {
+	type: 'object',
+	description: 'Get all groups with member user slugs',
+	required: [ 'type', 'name' ],
+	$$links: {
+		'has group member': {
+			type: 'object',
+			required: [ 'slug' ],
+			properties: {
+				slug: {
+					type: 'string'
+				}
+			},
+			additionalProperties: false
+		}
+	},
+	properties: {
+		type: {
+			const: 'group@1.0.0'
+		}
+	}
+}
+
 const createChannel = (data = {}) => {
 	const id = uuid()
 	if (!data.hasOwnProperty('canonical')) {
@@ -131,6 +154,7 @@ export const selectors = {
 		return _.get(state.core, [ 'ui', 'chatWidget', 'open' ])
 	},
 	getTypes: (state) => { return state.core.types },
+	getGroups: (state) => { return state.core.groups },
 	getUIState: (state) => { return state.core.ui },
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.core.ui, [ 'lensState', lensSlug, cardId ], {})
@@ -221,6 +245,7 @@ export default class ActionCreator {
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
+			'setGroups',
 			'setUIState',
 			'setLensState',
 			'setUser',
@@ -706,10 +731,11 @@ export default class ActionCreator {
 				user: this.sdk.auth.whoami(),
 				orgs: this.sdk.card.getAllByType('org'),
 				types: this.sdk.card.getAllByType('type'),
+				groups: this.sdk.query(allGroupsWithUsersQuery),
 				config: this.sdk.getConfig()
 			})
 				.then(async ({
-					user, types, orgs, config
+					user, types, groups, orgs, config
 				}) => {
 					if (!user) {
 						throw new Error('Could not retrieve user')
@@ -721,6 +747,7 @@ export default class ActionCreator {
 						dispatch(this.setUser(user))
 						dispatch(this.setTypes(types))
 						dispatch(this.setOrgs(orgs))
+						dispatch(this.setGroups(groups, user))
 						dispatch({
 							type: actions.SET_CONFIG,
 							value: config
@@ -964,6 +991,16 @@ export default class ActionCreator {
 		return {
 			type: actions.SET_TYPES,
 			value: types
+		}
+	}
+
+	setGroups (groups, user) {
+		return {
+			type: actions.SET_GROUPS,
+			value: {
+				groups,
+				userSlug: user.slug
+			}
 		}
 	}
 

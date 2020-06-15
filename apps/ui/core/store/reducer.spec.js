@@ -607,3 +607,49 @@ ava('REMOVE_FLOW removes flow state', (test) => {
 		[flowId]: {}
 	})
 })
+
+ava('SET_GROUPS identifies groups that the given user is part of', (test) => {
+	const userSlug = 'user-1'
+	const groups = [
+		{
+			name: 'group1',
+			links: {
+				'has group member': [
+					{
+						slug: userSlug
+					}
+				]
+			}
+		},
+		{
+			name: 'group2',
+			links: {
+				'has group member': [
+					{
+						slug: 'another-user'
+					}
+				]
+			}
+		}
+	]
+	const initialState = reducer()
+	const newState = reducer(initialState, {
+		type: actions.SET_GROUPS,
+		value: {
+			groups,
+			userSlug
+		}
+	})
+	test.deepEqual(newState.core.groups, {
+		group1: {
+			name: 'group1',
+			users: [ userSlug ],
+			isMine: true
+		},
+		group2: {
+			name: 'group2',
+			users: [ 'another-user' ],
+			isMine: false
+		}
+	})
+})
