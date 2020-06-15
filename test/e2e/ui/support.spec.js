@@ -833,3 +833,79 @@ ava.serial('You can select a user and a group from the auto-complete options', a
 	const textareaText = await macros.getElementText(page, 'textarea')
 	test.is(textareaText.trim(), `@${username} @@${groupName}`)
 })
+
+ava.serial('Only users with a name matching the search string are returned by the autocomplete', async (test) => {
+	const {
+		page
+	} = context
+
+	const matchingUsername = `${uuid()}-test-user`
+
+	const matchingUser = await context.createUser({
+		username: matchingUsername,
+		email: `test-user-${uuid()}@example.com`,
+		password: 'password'
+	})
+
+	const matchingFirstname = `matching-${uuid()}`
+
+	await context.updateUser(matchingUser.id, [ {
+		op: 'add',
+		path: '/data/profile',
+		value: {
+			name: {
+				first: matchingFirstname
+			}
+		}
+	} ])
+
+	await context.addUserToBalenaOrg(matchingUser.id)
+
+	const nonMatchingUser = await context.createUser({
+		username: `${uuid()}-test-user`,
+		email: `test-user-${uuid()}@example.com`,
+		password: 'password'
+	})
+
+	await context.updateUser(nonMatchingUser.id, [ {
+		op: 'add',
+		path: '/data/profile',
+		value: {
+			name: {
+				first: uuid()
+			}
+		}
+	} ])
+
+	await context.addUserToBalenaOrg(nonMatchingUser.id)
+
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the thread and wait for the thread to be displayed
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	const threadSelector = '.column--support-thread'
+	await page.waitForSelector(threadSelector)
+
+	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
+
+	// Use auto-complete to find a user by firstname
+	await page.type('textarea', `@${matchingFirstname}`)
+	await page.waitForSelector('.rta__autocomplete .rta__item')
+	const userMatches = await page.$$('.rta__autocomplete .rta__item')
+	test.is(userMatches.length, 1)
+	const userMatch = await macros.getElementText(page, '.rta__autocomplete .rta__item')
+	test.is(userMatch.trim().substr(1), matchingUsername)
+
+	// Select the first item from the auto-complete suggestions (note: this also appends a space to the message)
+	await page.keyboard.press('Enter')
+	const textareaText = await macros.getElementText(page, 'textarea')
+	test.is(textareaText.trim(), `@${matchingUsername}`)
+})
