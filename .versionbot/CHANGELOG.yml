@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump googleapis from 51.0.0 to 52.1.0'
+      hash: d2750dd2f9cae1441f86914c27d3443677024ca2
+      body: >
+        Bumps
+        [googleapis](https://github.com/googleapis/google-api-nodejs-client)
+        from 51.0.0 to 52.1.0.
+
+        - [Release
+        notes](https://github.com/googleapis/google-api-nodejs-client/releases)
+
+        -
+        [Changelog](https://github.com/googleapis/google-api-nodejs-client/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/googleapis/google-api-nodejs-client/compare/v51.0.0...v52.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.53.7
+  date: 2020-06-16T19:21:52.061Z
+- commits:
     - subject: Don't concatenate messages and whispers together
       hash: a1d0ab5f668d9b70c2cf0a401155a64b125a5b3e
       body: |
