@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-import from 2.18.2 to 2.21.2'
+      hash: 7a1c7fac130ed699e4483f5d5932dce4b680f421
+      body: >
+        Bumps
+        [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import)
+        from 2.18.2 to 2.21.2.
+
+        - [Release
+        notes](https://github.com/benmosher/eslint-plugin-import/releases)
+
+        -
+        [Changelog](https://github.com/benmosher/eslint-plugin-import/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/benmosher/eslint-plugin-import/compare/v2.18.2...v2.21.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.53.3
+  date: 2020-06-16T03:42:05.454Z
+- commits:
     - subject: 'patch: bump copy-webpack-plugin from 5.1.1 to 6.0.2'
       hash: 01181f4651685605eeeb06ec75c17b3d3616d912
       body: >
