@@ -98,6 +98,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/triggered-action-support-summary.json'),
 		await loadCard('contrib/triggered-action-support-reopen.json'),
 		await loadCard('contrib/triggered-action-support-closed-issue-reopen.json'),
+		await loadCard('contrib/triggered-action-sync-thread-post-link-whisper.json'),
 
 		// User facing views
 		await loadCard('contrib/view-all-views.json'),
