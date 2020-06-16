@@ -57,3 +57,13 @@ export const updateThreadChannels = (targetId, card, allChannels) => {
 	})
 	return updatedChannels
 }
+
+export const mentionsUser = (card, user, groups) => {
+	if (_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug)) {
+		return true
+	}
+	const groupMentions = _.get(card, [ 'data', 'payload', 'mentionsGroup' ], [])
+	return _.some(groupMentions, (groupName) => {
+		return _.get(groups, [ groupName, 'isMine' ])
+	})
+}

@@ -29,6 +29,7 @@ import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
+	mentionsUser,
 	updateThreadChannels
 } from '../helpers'
 
@@ -800,6 +801,7 @@ export default class ActionCreator {
 								type
 							} = card
 							const allChannels = selectors.getChannels(getState())
+							const groupsState = selectors.getGroups(getState())
 
 							const baseType = type.split('@')[0]
 
@@ -807,7 +809,7 @@ export default class ActionCreator {
 							if (
 								update.type === 'insert' &&
 								(baseType === 'message' || baseType === 'whisper') &&
-								_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug) &&
+								mentionsUser(card, user, groupsState) &&
 								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
 							) {
 								this.notify({
