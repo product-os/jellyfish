@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't concatenate messages and whispers together
+      hash: a1d0ab5f668d9b70c2cf0a401155a64b125a5b3e
+      body: |
+        Messages and whispers should be visually seperated
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.53.6
+  date: 2020-06-16T14:18:25.673Z
+- commits:
     - subject: 'patch: bump monaco-editor-webpack-plugin from 1.8.1 to 1.9.0'
       hash: a3c154d7c5c02738c612a859a87d709f8fa6fa8b
       body: >
