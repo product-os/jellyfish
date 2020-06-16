@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Clean up build step Dockerfile'
+      hash: 1ac87f2f189ee8e7eb947253d50f3195a5d5f6a0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.53.1
+  date: 2020-06-16T00:38:25.555Z
+- commits:
     - subject: Concatenate messages from the same user on the same thread
       hash: f71341d666c51297b5829bd96bbb70f7515de15c
       body: |
