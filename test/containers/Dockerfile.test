@@ -1,22 +1,18 @@
-FROM resinci/jellyfish-test
+FROM resinci/jellyfish-test:v1.3.9
 
 WORKDIR /usr/src/jellyfish
-
-COPY scripts ./scripts
-
-COPY package.json package-lock.json ./
-
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-# --unsafe-perm flag allows the postinstall script to run correctly
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm
-RUN rm -f ~/.npmrc
 
+# Install npm packages, --unsafe-perm flag allows the postinstall script to run correctly
+COPY package.json package-lock.json ./
+COPY scripts ./scripts
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm && \
+	rm -f ~/.npmrc
+
+# Copy in source and run catch-uncommitted, lint, and unit tests
 COPY . ./
-
-# Run catch-uncommitted.
 RUN make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml && \
-	npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
-
-# Run lint and unit tests.
-RUN make lint && make test-unit COVERAGE=0
+	npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/ && \
+	make lint && \
+	make test-unit COVERAGE=0
