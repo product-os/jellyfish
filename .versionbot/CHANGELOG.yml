@@ -1,4 +1,17 @@
 - commits:
+    - subject: Concatenate messages from the same user on the same thread
+      hash: f71341d666c51297b5829bd96bbb70f7515de15c
+      body: |
+        Fixes #3964
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.53.0
+  date: 2020-06-15T15:12:41.341Z
+- commits:
     - subject: 'ci: Remove unnecessary output from CI skip test script'
       hash: 5f02bc145a66e347793e6aafa83a309887b668df
       body: ''
