@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump graphql from 14.6.0 to 15.1.0'
+      hash: b3c0186af8dae9b15f51a4622f9714ec57b5135d
+      body: >
+        Bumps [graphql](https://github.com/graphql/graphql-js) from 14.6.0 to
+        15.1.0.
+
+        - [Release notes](https://github.com/graphql/graphql-js/releases)
+
+        -
+        [Commits](https://github.com/graphql/graphql-js/compare/v14.6.0...v15.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.53.4
+  date: 2020-06-16T09:32:00.721Z
+- commits:
     - subject: 'patch: bump eslint-plugin-import from 2.18.2 to 2.21.2'
       hash: 7a1c7fac130ed699e4483f5d5932dce4b680f421
       body: >
