@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump copy-webpack-plugin from 5.1.1 to 6.0.2'
+      hash: 01181f4651685605eeeb06ec75c17b3d3616d912
+      body: >
+        Bumps
+        [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin)
+        from 5.1.1 to 6.0.2.
+
+        - [Release
+        notes](https://github.com/webpack-contrib/copy-webpack-plugin/releases)
+
+        -
+        [Changelog](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack-contrib/copy-webpack-plugin/compare/v5.1.1...v6.0.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.53.2
+  date: 2020-06-16T02:38:25.399Z
+- commits:
     - subject: 'ci: Clean up build step Dockerfile'
       hash: 1ac87f2f189ee8e7eb947253d50f3195a5d5f6a0
       body: ''
