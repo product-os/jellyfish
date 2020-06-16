@@ -161,7 +161,7 @@
     "formulajs": "^1.0.8",
     "front-sdk": "^0.7.1",
     "geoip-lite": "^1.4.2",
-    "googleapis": "^51.0.0",
+    "googleapis": "^52.1.0",
     "graphile-worker": "^0.5.0",
     "graphql": "^15.1.0",
     "howler": "^2.2.0",
