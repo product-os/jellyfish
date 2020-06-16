@@ -65,26 +65,28 @@ const config = mergeConfig(baseConfig, {
 	},
 
 	plugins: [
-		new CopyWebpackPlugin([
-			{
-				from: iconsFolderPath,
-				to: 'icons'
-			},
-			{
-				from: audioFolderPath,
-				to: 'audio'
-			},
-			{
-				from: faviconPath
-			},
-			{
-				from: manifestPath
-			},
-			{
-				from: uiComponentsIconsFolderPath,
-				to: 'icons'
-			}
-		]),
+		new CopyWebpackPlugin({
+			patterns: [
+				{
+					from: iconsFolderPath,
+					to: 'icons'
+				},
+				{
+					from: audioFolderPath,
+					to: 'audio'
+				},
+				{
+					from: faviconPath
+				},
+				{
+					from: manifestPath
+				},
+				{
+					from: uiComponentsIconsFolderPath,
+					to: 'icons'
+				}
+			]
+		}),
 
 		new HtmlWebpackPlugin({
 			template: indexFilePath
