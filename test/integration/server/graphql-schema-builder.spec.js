@@ -23,7 +23,7 @@ ava.serial.after(async (test) => {
 	test.context.server.close()
 })
 
-const InstrospectionQuery = graphql.parse(graphql.introspectionQuery)
+const InstrospectionQuery = graphql.parse(graphql.getIntrospectionQuery())
 
 ava('it generates a valid schema on server startup', async (test) => {
 	const schema = await schemaBuilder(test.context.context, {
