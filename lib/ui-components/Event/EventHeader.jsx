@@ -86,14 +86,22 @@ export default class EventHeader extends React.Component {
 
 	render () {
 		const {
-			isMessage, actor, card, threadIsMirrored, menuOptions, user, updating, onEditMessage
+			isMessage,
+			actor,
+			card,
+			threadIsMirrored,
+			menuOptions,
+			user,
+			updating,
+			onEditMessage,
+			squashTop
 		} = this.props
 		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
 		const isOwnMessage = user.id === _.get(card, [ 'data', 'actor' ])
 
 		return (
-			<Flex justifyContent="space-between" mb={1}>
+			<Flex justifyContent="space-between" mb={1} mt={squashTop ? 1 : 0}>
 				<Flex
 					mt={isMessage ? 0 : 1}
 					alignItems="center"
@@ -101,7 +109,7 @@ export default class EventHeader extends React.Component {
 						lineHeight: 1.75
 					}}
 				>
-					{isMessage && (
+					{(!squashTop && isMessage) && (
 						<Txt
 							data-test="event__actor-label"
 							tooltip={actor ? actor.email : 'loading...'}
@@ -120,10 +128,15 @@ export default class EventHeader extends React.Component {
 						</Txt>
 					)}
 
-					{!isMessage && this.getTimelineElement(card)}
+					{(!squashTop && !isMessage) && this.getTimelineElement(card)}
 
 					{Boolean(card.data) && Boolean(timestamp) && (
-						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px">
+						<Txt
+							className="event-card--timestamp"
+							color={Theme.colors.text.light}
+							fontSize={1}
+							ml="6px"
+						>
 							{formatTimestamp(timestamp, true)}
 						</Txt>
 					)}

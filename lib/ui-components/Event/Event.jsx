@@ -39,6 +39,7 @@ const EventButton = styled.button `
 	padding: 8px;
 	border-left-style: solid;
 	border-left-width: 3px;
+	width: 43px;
 `
 
 const getTargetId = (card) => {
@@ -236,6 +237,8 @@ export default class Event extends React.Component {
 			onCardVisible,
 			onUpdateCard,
 			actions,
+			previousEvent,
+			nextEvent,
 			...rest
 		} = this.props
 
@@ -250,40 +253,54 @@ export default class Event extends React.Component {
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 		const threadColor = helpers.colorHash(getTargetId(card))
 
+		// Squash the top of the message if the previous event has the same target
+		// and actor
+		const squashTop = previousEvent &&
+			previousEvent.data.target === card.data.target && previousEvent.data.actor === card.data.actor
+
+		// Squash the bottom of the message if the next event has the same target
+		// and actor
+		const squashBottom = nextEvent &&
+			(nextEvent.data.target === card.data.target && nextEvent.data.actor === card.data.actor)
+
 		return (
 			<VisibilitySensor onChange={this.handleVisibilityChange}>
-				<EventWrapper {...rest} className={`event-card--${typeBase}`}>
+				<EventWrapper {...rest} squashTop={squashTop} className={`event-card--${typeBase}`}>
 					<EventButton
 						onClick={this.openChannel}
 						style={{
 							borderLeftColor: threadColor
 						}}
 					>
-						<Avatar
-							small
-							name={actor ? actor.name : null}
-							url={actor ? actor.avatarUrl : null}
-							userStatus={_.get(actor, [ 'card', 'data', 'status' ])}
-						/>
-
-						{openChannel && (
-							<Box
-								tooltip={{
-									placement: 'bottom',
-									text: `Open ${card.type.split('@')[0]}`
-								}}
-							>
-								<MessageIcon
-									threadColor={threadColor}
-									firstInThread={firstInThread}
+						{!squashTop && (
+							<React.Fragment>
+								<Avatar
+									small
+									name={actor ? actor.name : null}
+									url={actor ? actor.avatarUrl : null}
+									userStatus={_.get(actor, [ 'card', 'data', 'status' ])}
 								/>
-							</Box>
+
+								{openChannel && (
+									<Box
+										tooltip={{
+											placement: 'bottom',
+											text: `Open ${card.type.split('@')[0]}`
+										}}
+									>
+										<MessageIcon
+											threadColor={threadColor}
+											firstInThread={firstInThread}
+										/>
+									</Box>
+								)}
+							</React.Fragment>
 						)}
 					</EventButton>
 					<Box
-						pt={2}
+						pt={squashTop ? 0 : 2}
 						flex="1"
-						pb={messageOverflows ? 0 : 2}
+						pb={squashBottom || messageOverflows ? 0 : 2}
 						style={{
 							minWidth: 0
 						}}
@@ -297,8 +314,11 @@ export default class Event extends React.Component {
 							onEditMessage={this.onStartEditing}
 							updating={updating}
 							user={user}
+							squashTop={squashTop}
 						/>
 						<EventBody
+							squashTop={squashTop}
+							squashBottom={squashBottom}
 							card={card}
 							sdk={sdk}
 							actor={actor}
