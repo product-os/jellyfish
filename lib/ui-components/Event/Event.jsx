@@ -256,12 +256,16 @@ export default class Event extends React.Component {
 		// Squash the top of the message if the previous event has the same target
 		// and actor
 		const squashTop = previousEvent &&
-			previousEvent.data.target === card.data.target && previousEvent.data.actor === card.data.actor
+			previousEvent.type === card.type &&
+			previousEvent.data.target === card.data.target &&
+			previousEvent.data.actor === card.data.actor
 
 		// Squash the bottom of the message if the next event has the same target
 		// and actor
 		const squashBottom = nextEvent &&
-			(nextEvent.data.target === card.data.target && nextEvent.data.actor === card.data.actor)
+			nextEvent.type === card.type &&
+			nextEvent.data.target === card.data.target &&
+			nextEvent.data.actor === card.data.actor
 
 		return (
 			<VisibilitySensor onChange={this.handleVisibilityChange}>
