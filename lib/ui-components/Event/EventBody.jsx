@@ -11,42 +11,42 @@ import {
 	Button, Txt
 } from 'rendition'
 import {
-	saveAs
-} from 'file-saver'
-import {
-	Markdown
+	Markdown,
+	defaultSanitizerOptions
 } from 'rendition/dist/extra/Markdown'
 import {
 	HIDDEN_ANCHOR
 } from '../Timeline'
 import Icon from '../shame/Icon'
-import AuthenticatedImage from '../AuthenticatedImage'
 import MessageContainer from './MessageContainer'
 import {
 	PlainAutocompleteTextarea
 } from '../Timeline/MessageInput'
+import Attachments from './Attachments'
 
 const MESSAGE_Y_SPACE = '3px'
+const MAX_IMAGE_SIZE = '500px'
 
 const EditingAutocompleteTextarea = styled(PlainAutocompleteTextarea) `
 	margin: ${MESSAGE_Y_SPACE} 0;
 `
 
+const StyledMarkdown = styled(Markdown)(({
+	messageOverflows,
+	messageCollapsedHeight,
+	expanded
+}) => {
+	return {
+		fontSize: 'inherit',
+		maxHeight: !expanded && messageOverflows
+			? `${messageCollapsedHeight}px`
+			: 'none',
+		overflow: messageOverflows ? 'hidden' : 'initial'
+	}
+})
+
 const FRONT_MARKDOWN_IMG_RE = /\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g
 const FRONT_HTML_IMG_RE = /\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g
-
-const downloadFile = async (sdk, cardId, file) => {
-	const {
-		slug, name, mime
-	} = file
-
-	const data = await sdk.getFile(cardId, slug)
-	const blob = new Blob([ data ], {
-		type: mime
-	})
-
-	saveAs(blob, name)
-}
 
 const OverflowButton = styled(Button) `
 	color: inherit;
@@ -89,24 +89,25 @@ export const getMessage = (card) => {
 		.join('\n')
 }
 
-const getAttachments = (card) => {
-	// Start by mapping sync attachments
-	const attachments = _.get(card, [ 'data', 'payload', 'attachments' ], []).map(
-		(attachment) => {
+const sanitizerOptions = {
+	...defaultSanitizerOptions,
+	allowedAttributes: {
+		img: [ 'src', 'alt', 'style' ]
+	},
+	transformTags: {
+		img: (tagName, attribs) => {
 			return {
-				slug: attachment.url.split('/').pop(),
-				mime: attachment.mime,
-				name: attachment.name
+				tagName,
+				attribs: {
+					...attribs,
+					style: `
+					max-width: min(${MAX_IMAGE_SIZE}, 100%);
+					max-height: ${MAX_IMAGE_SIZE};
+					`
+				}
 			}
 		}
-	)
-
-	// Attach files directly uploaded in Jellyfish
-	if (_.get(card, [ 'data', 'payload', 'file' ])) {
-		attachments.push(card.data.payload.file)
 	}
-
-	return attachments
 }
 
 export default class EventBody extends React.Component {
@@ -121,20 +122,6 @@ export default class EventBody extends React.Component {
 			this.setState({
 				expanded: !this.state.expanded
 			})
-		}
-
-		this.downloadAttachments = (event) => {
-			const attachments = getAttachments(this.props.card)
-			const attachmentSlug = event.currentTarget.dataset.attachmentslug
-			const attachment = _.find(attachments, {
-				slug: attachmentSlug
-			})
-
-			try {
-				downloadFile(this.props.sdk, this.props.card.id, attachment)
-			} catch (error) {
-				this.props.addNotification('danger', error.message || error)
-			}
 		}
 	}
 
@@ -159,63 +146,23 @@ export default class EventBody extends React.Component {
 			setMessageElement,
 			messageCollapsedHeight
 		} = this.props
+		const {
+			expanded
+		} = this.state
 
 		const message = getMessage(card)
-		const attachments = getAttachments(card)
 
 		return (
 			<React.Fragment>
-				{
-					attachments.length > 0 && _.map(attachments, (attachment, index) => {
-						// If the mime type is of an image, display the file as an image
-						// Additionally, if there are many attachments, skip trying to
-						// render them
-						if (
-							attachments.length < 3 &&
-					attachment.mime &&
-					attachment.mime.match(/image\//)
-						) {
-							return (
-								<MessageContainer
-									key={`${attachment.slug}-${index}`}
-									card={card}
-									actor={actor}
-									squashTop={squashTop}
-									squashBottom={squashBottom}
-									pt={2}
-									px={3}
-									mr={1}
-								>
-									<AuthenticatedImage
-										data-test="event-card__image"
-										cardId={card.id}
-										fileName={attachment.slug}
-										addNotification={addNotification}
-										sdk={sdk}
-										mimeType={attachment.mime}
-									/>
-								</MessageContainer>
-							)
-						}
-
-						return (
-							<Button
-								key={`${attachment.url}-${index}`}
-								data-attachmentslug={attachment.slug}
-								onClick={this.downloadAttachments}
-								secondary={card.type.split('@')[0] === 'whisper'}
-								data-test="event-card__file"
-								mr={2}
-								mb={2}
-							>
-								<Icon name="file-download" />
-								<Txt monospace ml={2}>
-									{attachment.name}
-								</Txt>
-							</Button>
-						)
-					})
-				}
+				<Attachments
+					card={card}
+					actor={actor}
+					sdk={sdk}
+					addNotification={addNotification}
+					maxImageSize={MAX_IMAGE_SIZE}
+					squashTop={squashTop}
+					squashBottom={squashBottom}
+				/>
 				{
 					isMessage && Boolean(message) && (
 						<MessageContainer
@@ -244,21 +191,17 @@ export default class EventBody extends React.Component {
 									onClickOutside={onSaveEditedMessage}
 								/>
 							) : (
-								<Markdown
+								<StyledMarkdown
+									expanded={expanded}
+									messageOverflows={messageOverflows}
+									messageCollapsedHeight={messageCollapsedHeight}
 									py={MESSAGE_Y_SPACE}
-									style={{
-										fontSize: 'inherit',
-										overflow: messageOverflows ? 'hidden' : 'initial',
-										maxHeight:
-						!this.state.expanded && messageOverflows
-							? messageCollapsedHeight
-							: 'none'
-									}}
 									data-test={card.pending || updating ? 'event-card__message-draft' : 'event-card__message'}
 									flex={0}
+									sanitizerOptions={sanitizerOptions}
 								>
 									{updating ? editedMessage : message}
-								</Markdown>
+								</StyledMarkdown>
 							)}
 							{messageOverflows && (
 								<OverflowButton
@@ -267,9 +210,9 @@ export default class EventBody extends React.Component {
 									width="100%"
 									py={1}
 									onClick={this.expand}
-									expanded={this.state.expanded}
+									expanded={expanded}
 								>
-									<Icon name={`chevron-${this.state.expanded ? 'up' : 'down'}`} />
+									<Icon name={`chevron-${expanded ? 'up' : 'down'}`} />
 								</OverflowButton>
 							)}
 						</MessageContainer>
