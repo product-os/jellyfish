@@ -37,7 +37,7 @@ ava('MirrorIcon identifies mirror source in tooltip', (test) => {
 	for (const {
 		name, mirrors
 	} of mirrorTests) {
-		const mirrorIcon = shallow(<MirrorIcon threadIsMirrored mirrors={mirrors} />)
+		const mirrorIcon = shallow(<MirrorIcon mirrors={mirrors} />)
 		const wrapper = mirrorIcon.find('[data-test="mirror-icon"]')
 
 		test.is(wrapper.props().className, 'synced')
@@ -58,18 +58,8 @@ ava('ThreadMirrorIcon identifies mirror source in tooltip and displays mirror ic
 })
 
 ava('MirrorIcon indicates if the mirror is not synced', (test) => {
-	const mirrorIcon = shallow(<MirrorIcon threadIsMirrored mirrors={[]} />)
+	const mirrorIcon = shallow(<MirrorIcon mirrors={[]} />)
 	const wrapper = mirrorIcon.find('[data-test="mirror-icon"]')
 	test.is(wrapper.props().className, 'unsynced')
 	test.is(wrapper.props().tooltip, 'Not yet synced')
-})
-
-ava('MirrorIcon is hidden if thread is not mirrored', (test) => {
-	const mirrorIcon = shallow(
-		<MirrorIcon
-			threadIsMirrored={false}
-			mirrors={[ 'https://github.com/balena-io/etcher/issues/2020' ]}
-		/>
-	)
-	test.falsy(mirrorIcon.get(0))
 })

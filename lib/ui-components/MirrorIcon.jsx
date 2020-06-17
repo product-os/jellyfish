@@ -88,11 +88,8 @@ const MirrorIconWrapper = styled(Flex) `
 `
 
 export const MirrorIcon = ({
-	threadIsMirrored, mirrors
+	mirrors
 }) => {
-	if (!threadIsMirrored) {
-		return null
-	}
 	const synced = !_.isEmpty(mirrors)
 	const handler = getMirrorHandler(mirrors)
 	const displayName = handler ? handler.name : ''

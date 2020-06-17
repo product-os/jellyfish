@@ -123,15 +123,15 @@ class MessageList extends React.Component {
 					position: 'relative'
 				}}
 			>
-				<div
+				<Box
+					py={2}
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					data-test={'messageList-ListWrapper'}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
-						borderTop: '1px solid #eee',
-						paddingTop: 8
+						borderTop: '1px solid #eee'
 					}}
 				>
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
@@ -163,7 +163,7 @@ class MessageList extends React.Component {
 							</Box>
 						)
 					})}
-				</div>
+				</Box>
 			</Column>
 		)
 	}

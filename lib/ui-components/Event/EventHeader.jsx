@@ -5,24 +5,17 @@
  */
 
 import React from 'react'
-import copy from 'copy-to-clipboard'
 import _ from 'lodash'
 import styled from 'styled-components'
 import {
-	Theme, Flex, Txt, Button
+	Theme, Flex, Txt
 } from 'rendition'
-import {
-	ActionLink
-} from '../shame/ActionLink'
-import {
-	formatTimestamp
-} from '../services/helpers'
-import Icon from '../shame/Icon'
 import Link from '../Link'
-import ContextMenu from '../ContextMenu'
-import {
-	MirrorIcon
-} from '../MirrorIcon'
+import EventContext from './EventContext'
+
+const HeaderWrapper = styled(Flex) `
+	position: relative;
+`
 
 const ActorPlaceholder = styled.span `
 	width: 80px;
@@ -35,28 +28,6 @@ const ActorPlaceholder = styled.span `
 export default class EventHeader extends React.Component {
 	constructor (props) {
 		super(props)
-
-		this.state = {
-			showMenu: false
-		}
-
-		this.toggleMenu = () => {
-			this.setState({
-				showMenu: !this.state.showMenu
-			})
-		}
-
-		this.copyJSON = (event) => {
-			event.preventDefault()
-			event.stopPropagation()
-			copy(JSON.stringify(this.props.card, null, 2))
-		}
-
-		this.copyRawMessage = (event) => {
-			event.preventDefault()
-			event.stopPropagation()
-			copy(this.props.card.data.payload.message)
-		}
 
 		this.getTimelineElement = (card) => {
 			const targetCard = _.get(card, [ 'links', 'is attached to', '0' ], card)
@@ -96,12 +67,11 @@ export default class EventHeader extends React.Component {
 			onEditMessage,
 			squashTop
 		} = this.props
-		const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
 
 		const isOwnMessage = user.id === _.get(card, [ 'data', 'actor' ])
 
 		return (
-			<Flex justifyContent="space-between" mb={1} mt={squashTop ? 1 : 0}>
+			<HeaderWrapper justifyContent="space-between">
 				<Flex
 					mt={isMessage ? 0 : 1}
 					alignItems="center"
@@ -129,89 +99,18 @@ export default class EventHeader extends React.Component {
 					)}
 
 					{(!squashTop && !isMessage) && this.getTimelineElement(card)}
-
-					{Boolean(card.data) && Boolean(timestamp) && (
-						<Txt
-							className="event-card--timestamp"
-							color={Theme.colors.text.light}
-							fontSize={1}
-							ml="6px"
-						>
-							{formatTimestamp(timestamp, true)}
-						</Txt>
-					)}
-					{card.pending || updating ? (
-						<Txt color={Theme.colors.text.light} fontSize={1} ml="6px" data-test="event-header__status">
-							{ updating ? 'updating...' : 'sending...' }
-							<Icon
-								style={{
-									marginLeft: 6
-								}}
-								spin
-								name="cog"
-							/>
-						</Txt>
-					) : (
-						<MirrorIcon
-							mirrors={_.get(card, [ 'data', 'mirrors' ])}
-							threadIsMirrored={threadIsMirrored}
-						/>
-					)}
 				</Flex>
 
-				{menuOptions !== false && (
-					<span>
-						<Button
-							className="event-card--actions"
-							data-test="event-header__context-menu-trigger"
-							px={2}
-							plain
-							onClick={this.toggleMenu}
-							icon={<Icon name="ellipsis-v" />}
-						/>
-
-						{this.state.showMenu && (
-							<ContextMenu position="bottom" onClose={this.toggleMenu}>
-								<React.Fragment>
-									{isOwnMessage && !card.pending && !updating && (
-										<ActionLink
-											data-test="event-header__link--edit-message"
-											onClick={onEditMessage}>
-											Edit message
-										</ActionLink>
-									)}
-
-									<ActionLink
-										data-test="event-header__link--copy-json"
-										onClick={this.copyJSON}
-										tooltip={{
-											text: 'JSON copied!',
-											trigger: 'click'
-										}}
-									>
-										Copy as JSON
-									</ActionLink>
-
-									{isMessage && (
-										<ActionLink
-											data-test="event-header__link--copy-raw"
-											onClick={this.copyRawMessage}
-											tooltip={{
-												text: 'Message copied!',
-												trigger: 'click'
-											}}
-										>
-											Copy raw message
-										</ActionLink>
-									)}
-
-									{menuOptions}
-								</React.Fragment>
-							</ContextMenu>
-						)}
-					</span>
-				)}
-			</Flex>
+				<EventContext
+					card={card}
+					menuOptions={menuOptions}
+					onEditMessage={onEditMessage}
+					isOwnMessage={isOwnMessage}
+					isMessage={isMessage}
+					updating={updating}
+					threadIsMirrored={threadIsMirrored}
+				/>
+			</HeaderWrapper>
 		)
 	}
 }

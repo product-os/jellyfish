@@ -168,14 +168,14 @@ export default class EventBody extends React.Component {
 							ref={setMessageElement}
 							card={card}
 							actor={actor}
-							editing={Boolean(editedMessage)}
+							editing={editedMessage !== null}
 							squashTop={squashTop}
 							squashBottom={squashBottom}
 							py={2}
 							px={3}
 							mr={1}
 						>
-							{editedMessage && !updating ? (
+							{editedMessage !== null && !updating ? (
 								<EditingAutocompleteTextarea
 									data-test="event__textarea"
 									enableAutocomplete={enableAutocomplete}
