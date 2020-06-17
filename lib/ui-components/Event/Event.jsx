@@ -254,6 +254,7 @@ export default class Event extends React.Component {
 			actions,
 			previousEvent,
 			nextEvent,
+			getActorHref,
 			...rest
 		} = this.props
 
@@ -334,6 +335,7 @@ export default class Event extends React.Component {
 							updating={updating}
 							user={user}
 							squashTop={squashTop}
+							getActorHref={getActorHref}
 						/>
 						<EventBody
 							squashTop={squashTop}

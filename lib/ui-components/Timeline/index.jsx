@@ -419,7 +419,8 @@ class Timeline extends React.Component {
 			tail,
 			usersTyping,
 			wide,
-			headerOptions
+			headerOptions,
+			getActorHref
 		} = this.props
 		const whisper = allowWhispers && this.state.messageSymbol ? false : this.state.whisper
 		const {
@@ -475,7 +476,8 @@ class Timeline extends React.Component {
 				addNotification
 			},
 			threadIsMirrored: isMirrored,
-			menuOptions: eventMenuOptions
+			menuOptions: eventMenuOptions,
+			getActorHref
 		}
 
 		const pagedTail = (Boolean(sortedTail) && sortedTail.length > 0)

@@ -13,7 +13,8 @@ import {
 	withRouter
 } from 'react-router-dom'
 import {
-	bindActionCreators
+	bindActionCreators,
+	compose
 } from 'redux'
 import {
 	Box
@@ -28,6 +29,9 @@ import {
 } from '../../../../lib/ui-components/shame/ActionLink'
 import Column from '../../../../lib/ui-components/shame/Column'
 import Event from '../../../../lib/ui-components/Event'
+import {
+	withDefaultGetActorHref
+} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
 
 class MessageList extends React.Component {
 	constructor (props) {
@@ -144,6 +148,7 @@ class MessageList extends React.Component {
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
 									actions={eventActions}
+									getActorHref={this.props.getActorHref}
 									menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 										<ActionLink
 											data-cardid={card.id}
@@ -187,4 +192,8 @@ const mapDispatchToProps = (dispatch) => {
 	}
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(MessageList))
+export default compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps),
+	withDefaultGetActorHref()
+)(MessageList)

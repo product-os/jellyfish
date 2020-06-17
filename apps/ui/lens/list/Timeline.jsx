@@ -22,6 +22,9 @@ import Timeline from '../../../../lib/ui-components/Timeline'
 import {
 	withResponsiveContext
 } from '../../../../lib/ui-components/hooks/ResponsiveProvider'
+import {
+	withDefaultGetActorHref
+} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
@@ -61,7 +64,8 @@ const lens = {
 		icon: 'address-card',
 		renderer: compose(
 			withResponsiveContext,
-			connect(mapStateToProps, mapDispatchToProps)
+			connect(mapStateToProps, mapDispatchToProps),
+			withDefaultGetActorHref()
 		)(Timeline),
 
 		// This lens can display event-like objects

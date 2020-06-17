@@ -25,6 +25,7 @@ const ActorPlaceholder = styled.span `
 	border-radius: 10px;
 	text-align: center;
 `
+
 export default class EventHeader extends React.Component {
 	constructor (props) {
 		super(props)
@@ -65,7 +66,8 @@ export default class EventHeader extends React.Component {
 			user,
 			updating,
 			onEditMessage,
-			squashTop
+			squashTop,
+			getActorHref
 		} = this.props
 
 		const isOwnMessage = user.id === _.get(card, [ 'data', 'actor' ])
@@ -84,11 +86,17 @@ export default class EventHeader extends React.Component {
 							data-test="event__actor-label"
 							tooltip={actor ? actor.email : 'loading...'}
 						>
-							{Boolean(actor) && Boolean(actor.card) && (
-								<Link color="black" append={actor.card.slug}>
-									<Txt.span>{actor.name}</Txt.span>
-								</Link>
-							)}
+							{Boolean(actor) && Boolean(actor.card) && (() => {
+								const text = <Txt.span color="black">{actor.name}</Txt.span>
+
+								if (getActorHref) {
+									return (
+										<Link to={getActorHref(actor)}>{text}</Link>
+									)
+								}
+
+								return text
+							})()}
 
 							{Boolean(actor) && !actor.card && (
 								<Txt.span>Unknown user</Txt.span>
