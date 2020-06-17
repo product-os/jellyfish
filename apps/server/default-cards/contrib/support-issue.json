@@ -93,9 +93,6 @@
         "name"
       ]
     },
-    "slices": [
-      "properties.data.properties.severity"
-    ],
     "fieldOrder": [
       "name",
       "tags",
