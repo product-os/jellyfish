@@ -1,6 +1,6 @@
 {
   "slug": "discussion-topic-is-attached-to-issue",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Discussion topic is attached to GitHub issue",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "is attached to",
     "reverse": "has attached",
     "types": [

@@ -1,6 +1,6 @@
 {
   "slug": "support-thread-is-attached-to-support-issue",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Support thread is attached to support issue",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "support thread is attached to support issue",
     "reverse": "support issue has attached support thread",
     "types": [

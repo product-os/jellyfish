@@ -1,6 +1,6 @@
 {
   "slug": "contact-is-attached-to-user",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Contact is attached to user",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "is attached to",
     "reverse": "has attached contact",
     "types": [

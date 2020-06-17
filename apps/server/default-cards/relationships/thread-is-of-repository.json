@@ -1,6 +1,6 @@
 {
   "slug": "thread-is-of-repository",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Thread is of repository",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "is of",
     "reverse": "has",
     "types": [

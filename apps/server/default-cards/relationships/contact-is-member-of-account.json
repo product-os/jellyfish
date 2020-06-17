@@ -1,6 +1,6 @@
 {
   "slug": "contact-is-member-of-account",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Contact is member of account",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "is member of",
     "reverse": "has",
     "types": [

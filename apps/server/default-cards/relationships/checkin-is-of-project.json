@@ -1,6 +1,6 @@
 {
   "slug": "checkin-is-of-project",
-  "type": "relationship@1.0.0",
+  "type": "type@1.0.0",
   "name": "Checkin is of project",
   "version": "1.0.0",
   "markers": [],
@@ -8,6 +8,7 @@
   "links": {},
   "active": true,
   "data": {
+    "is_link": true,
     "forward": "is of",
     "reverse": "has",
     "types": [

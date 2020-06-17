@@ -9,6 +9,7 @@ const path = require('path')
 const $RefParser = require('json-schema-ref-parser')
 const logger = require('../../lib/logger').getLogger(__filename)
 const environment = require('../../lib/environment')
+const schemaForLinkType = require('../../lib/core/links/schema-for-link-type')
 
 const loadCard = async (cardPath) => {
 	return $RefParser.dereference(path.join(__dirname, 'default-cards', cardPath))
@@ -196,6 +197,12 @@ module.exports = async (context, jellyfish, worker, session) => {
 			slug: card.slug,
 			type: card.type
 		})
+
+		// This is awful, but I really don't want to type out all the schemas
+		// manually.
+		if (card.data.is_link && !card.data.schema) {
+			card.data.schema = schemaForLinkType(card)
+		}
 
 		await worker.replaceCard(context, session, typeCard, {
 			attachEvents: false
