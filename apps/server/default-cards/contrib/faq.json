@@ -12,17 +12,20 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "fullTextSearch": true
         },
         "data": {
           "type": "object",
           "properties": {
             "topic": {
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "answer": {
               "type": "string",
-              "format": "markdown"
+              "format": "markdown",
+              "fullTextSearch": true
             }
           }
         }
