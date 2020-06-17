@@ -78,7 +78,7 @@
     "@babel/register": "^7.10.1",
     "@json-schema-org/tests": "^1.0.0",
     "ava": "^3.8.2",
-    "babel-loader": "^8.0.6",
+    "babel-loader": "^8.1.0",
     "browser-env": "^3.3.0",
     "canvas": "^2.6.1",
     "cli-spinner": "^0.2.8",
