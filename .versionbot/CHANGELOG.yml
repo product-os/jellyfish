@@ -1,4 +1,41 @@
 - commits:
+    - subject: Remove "slices" definition from support issues
+      hash: 0187244981245781fc6c0f3f22fa9f94dae73153
+      body: |
+        The current implementation of the "slices" functionality impedes the
+        usefulness of the support issues, as it preselects high severity issues,
+        which is not what is wanted by support agents. The "slices" concept most
+        likely needs to be rethought, but for the time being, removing the
+        annotation from the support issue card type will provide a good
+        quality-of-life improvement for support agents looking through support
+        issues.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add full text search fields to FAQ card type
+      hash: 878f920e241e197ea46442a24cfaad9ddca7f9bc
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: Add full text search fields to support issues
+      hash: 0410e9bec5bd66ba215c1a551e4bf4b73ec06153
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.57.0
+  date: 2020-06-17T15:58:55.674Z
+- commits:
     - subject: 'Livechat: Fix actor click navigating to blank page'
       hash: 065ce63d6927cff13995bf02a3cbec96767e489c
       body: ''
