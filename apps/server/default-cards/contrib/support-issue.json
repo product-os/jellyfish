@@ -12,7 +12,8 @@
       "type": "object",
       "properties": {
         "name": {
-          "type": "string"
+          "type": "string",
+          "fullTextSearch": true
         },
         "tags": {
           "type": "array",
@@ -67,7 +68,8 @@
             },
             "category": {
               "title": "Category",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "shareable": {
               "title": "Shareable",
@@ -76,11 +78,13 @@
             },
             "Problem": {
               "type": "string",
-              "format": "markdown"
+              "format": "markdown",
+              "fullTextSearch": true
             },
             "Solution": {
               "type": "string",
-              "format": "markdown"
+              "format": "markdown",
+              "fullTextSearch": true
             }
           }
         }
