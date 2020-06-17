@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Add prop to optionally set the max width and heightof attachment images
+        Also refactors Attachments code from EventBody into `Attachements` and
+        `AttachmentButton` components
+      hash: 8aee8f5922c83c98f908fef065e3c8917e675abc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.54.5
+  date: 2020-06-17T07:00:44.947Z
+- commits:
     - subject: 'patch: bump copy-to-clipboard from 3.2.0 to 3.3.1'
       hash: 9ff77e37fc7d842b1e98a82a9314332c7535aa0a
       body: >
