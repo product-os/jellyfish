@@ -1,0 +1,20 @@
+{
+  "slug": "support-thread-is-source-for-feedback-item",
+  "type": "relationship@1.0.0",
+  "name": "Support thread is source for feedback item",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is source for",
+    "reverse": "is feedback for",
+    "types": [
+      "support-thread",
+      "feedback-item"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

@@ -143,7 +143,42 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-security-support-threads.json'),
 		await loadCard('balena/view-support-threads-pending-update.json'),
 		await loadCard('balena/view-support-threads-to-audit.json'),
-		await loadCard('balena/view-workflows.json')
+		await loadCard('balena/view-workflows.json'),
+
+		// Relationships
+		await loadCard('relationships/account-is-owned-by-user.json'),
+		await loadCard('relationships/checkin-is-attended-by-user.json'),
+		await loadCard('relationships/checkin-is-of-project.json'),
+		await loadCard('relationships/contact-is-attached-to-user.json'),
+		await loadCard('relationships/contact-is-member-of-account.json'),
+		await loadCard('relationships/contact-is-owned-by-user.json'),
+		await loadCard('relationships/discussion-topic-appears-in-agenda.json'),
+		await loadCard('relationships/discussion-topic-is-attached-to-issue.json'),
+		await loadCard('relationships/discussion-topic-is-source-for-specification.json'),
+		await loadCard('relationships/feedback-item-is-feedback-for-user.json'),
+		await loadCard('relationships/opportunity-is-attached-to-account.json'),
+		await loadCard('relationships/opportunity-is-owned-by-user.json'),
+		await loadCard('relationships/product-improvement-is-attached-to-discussion-topic.json'),
+		await loadCard('relationships/project-is-contributed-to-by-user.json'),
+		await loadCard('relationships/project-is-guided-by-user.json'),
+		await loadCard('relationships/project-is-observed-by-user.json'),
+		await loadCard('relationships/project-is-owned-by-user.json'),
+		await loadCard('relationships/sales-thread-is-attached-to-opportunity.json'),
+		await loadCard('relationships/sales-thread-is-owned-by-user.json'),
+		await loadCard('relationships/specification-is-source-for-issue.json'),
+		await loadCard('relationships/support-thread-is-attached-to-issue.json'),
+		await loadCard('relationships/support-thread-is-attached-to-product-improvement.json'),
+		await loadCard('relationships/support-thread-is-attached-to-support-issue.json'),
+		await loadCard('relationships/support-thread-is-owned-by-user.json'),
+		await loadCard('relationships/support-thread-is-source-for-feedback-item.json'),
+		await loadCard('relationships/thread-is-of-repository.json'),
+		await loadCard('relationships/user-is-backup-owner-of-account.json'),
+		await loadCard('relationships/user-is-backup-owner-of-contact.json'),
+		await loadCard('relationships/user-is-backup-owner-of-opportunity.json'),
+		await loadCard('relationships/user-is-group-member-of-group.json'),
+		await loadCard('relationships/user-is-member-of-org.json'),
+		await loadCard('relationships/user-is-member-of-project.json'),
+		await loadCard('relationships/web-push-subscription-is-subscribed-for-user.json')
 	], async (card) => {
 		if (!card) {
 			return
@@ -151,6 +186,11 @@ module.exports = async (context, jellyfish, worker, session) => {
 
 		const typeCard = await jellyfish.getCardBySlug(
 			context, session, `${card.type}@${card.version}`)
+
+		if (!typeCard) {
+			logger.error(context, `Couldn't load typecard ${card.type}@${card.version}`)
+			return
+		}
 
 		logger.info(context, 'Inserting default card using worker', {
 			slug: card.slug,

@@ -1,0 +1,26 @@
+{
+  "slug": "project-is-contributed-to-by-user",
+  "type": "relationship@1.0.0",
+  "name": "Project is contributed to by user",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is contributed to by",
+    "reverse": "contributes to",
+    "types": [
+      {
+        "name": "project",
+        "title": "Project contribution"
+      },
+      {
+        "name": "user",
+        "title": "Contributor"
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

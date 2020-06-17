@@ -1,0 +1,20 @@
+{
+  "slug": "product-improvement-is-attached-to-discussion-topic",
+  "type": "relationship@1.0.0",
+  "name": "Product improvement is attached to discussion topic",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is attached to",
+    "reverse": "has attached",
+    "types": [
+      "product-improvement",
+      "discussion-topic"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

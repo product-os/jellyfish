@@ -1,0 +1,23 @@
+{
+  "slug": "web-push-subscription-is-subscribed-for-user",
+  "type": "relationship@1.0.0",
+  "name": "Web push subscription is subscribed for user",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is subscribed for",
+    "reverse": "is subscribed with",
+    "types": [
+      "web-push-subscription",
+      {
+        "name": "user",
+        "title": "Web push subscription user"
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

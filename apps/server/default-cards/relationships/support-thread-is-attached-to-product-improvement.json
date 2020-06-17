@@ -1,0 +1,20 @@
+{
+  "slug": "support-thread-is-attached-to-product-improvement",
+  "type": "relationship@1.0.0",
+  "name": "Support thread is attached to product improvement",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is attached to",
+    "reverse": "has attached",
+    "types": [
+      "support-thread",
+      "product-improvement"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

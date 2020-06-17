@@ -1,0 +1,20 @@
+{
+  "slug": "specification-is-source-for-issue",
+  "type": "relationship@1.0.0",
+  "name": "Specification is source for issue",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is source for",
+    "reverse": "comes from",
+    "types": [
+      "specification",
+      "issue"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

@@ -1,0 +1,20 @@
+{
+  "slug": "discussion-topic-appears-in-agenda",
+  "type": "relationship@1.0.0",
+  "name": "Discussion topic appears in agenda",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "appears in",
+    "reverse": "has",
+    "types": [
+      "discussion-topic",
+      "agenda"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

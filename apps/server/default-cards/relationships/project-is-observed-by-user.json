@@ -1,0 +1,26 @@
+{
+  "slug": "project-is-observed-by-user",
+  "type": "relationship@1.0.0",
+  "name": "Project is observed by user",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is observed by",
+    "reverse": "observes",
+    "types": [
+      {
+        "name": "project",
+        "title": "Project observation"
+      },
+      {
+        "name": "user",
+        "title": "Observer"
+      }
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

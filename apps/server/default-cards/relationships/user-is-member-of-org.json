@@ -1,0 +1,23 @@
+{
+  "slug": "user-is-member-of-org",
+  "type": "relationship@1.0.0",
+  "name": "User is member of org",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is member of",
+    "reverse": "has member",
+    "types": [
+      {
+        "name": "user",
+        "title": "Member"
+      },
+      "org"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

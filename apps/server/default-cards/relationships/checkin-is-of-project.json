@@ -1,0 +1,20 @@
+{
+  "slug": "checkin-is-of-project",
+  "type": "relationship@1.0.0",
+  "name": "Checkin is of project",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is of",
+    "reverse": "has",
+    "types": [
+      "checkin",
+      "project"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

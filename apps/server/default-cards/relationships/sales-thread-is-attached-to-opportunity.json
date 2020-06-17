@@ -1,0 +1,20 @@
+{
+  "slug": "sales-thread-is-attached-to-opportunity",
+  "type": "relationship@1.0.0",
+  "name": "Sales thread is attached to opportunity",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is attached to",
+    "reverse": "has attached",
+    "types": [
+      "sales-thread",
+      "opportunity"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}

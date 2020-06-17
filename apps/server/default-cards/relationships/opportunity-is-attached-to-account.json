@@ -1,0 +1,20 @@
+{
+  "slug": "opportunity-is-attached-to-account",
+  "type": "relationship@1.0.0",
+  "name": "Opportunity is attached to account",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "forward": "is attached to",
+    "reverse": "has attached",
+    "types": [
+      "opportunity",
+      "account"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
