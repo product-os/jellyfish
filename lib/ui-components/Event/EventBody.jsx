@@ -89,10 +89,9 @@ export const getMessage = (card) => {
 		.join('\n')
 }
 
-const sanitizerOptions = {
-	...defaultSanitizerOptions,
+const sanitizerOptions = _.defaultsDeep({
 	allowedAttributes: {
-		img: [ 'src', 'alt', 'style' ]
+		img: _.get(defaultSanitizerOptions, [ 'allowedAttributes', 'img' ], []).concat('style')
 	},
 	transformTags: {
 		img: (tagName, attribs) => {
@@ -108,7 +107,7 @@ const sanitizerOptions = {
 			}
 		}
 	}
-}
+}, defaultSanitizerOptions)
 
 export default class EventBody extends React.Component {
 	constructor (props) {
