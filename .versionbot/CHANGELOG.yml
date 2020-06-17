@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/cli from 7.8.4 to 7.10.1'
+      hash: c112b9fd4ffe1788dee58a76f90d3ce691f01480
+      body: >
+        Bumps
+        [@babel/cli](https://github.com/babel/babel/tree/HEAD/packages/babel-cli)
+        from 7.8.4 to 7.10.1.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.1/packages/babel-cli)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.54.1
+  date: 2020-06-17T01:05:36.523Z
+- commits:
     - subject: Add e2e test for searching within a view
       hash: ab97518ddf5f41a4bedf2f86cef1e1586fbca047
       body: ''
