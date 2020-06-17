@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump copy-to-clipboard from 3.2.0 to 3.3.1'
+      hash: 9ff77e37fc7d842b1e98a82a9314332c7535aa0a
+      body: >
+        Bumps [copy-to-clipboard](https://github.com/sudodoki/copy-to-clipboard)
+        from 3.2.0 to 3.3.1.
+
+        - [Release
+        notes](https://github.com/sudodoki/copy-to-clipboard/releases)
+
+        -
+        [Commits](https://github.com/sudodoki/copy-to-clipboard/compare/v3.2.0...v3.3.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.54.4
+  date: 2020-06-17T06:15:52.393Z
+- commits:
     - subject: 'patch: bump babel-loader from 8.0.6 to 8.1.0'
       hash: 8589b5a8d60c356a53a69e9f15c74657ba634d3d
       body: >
