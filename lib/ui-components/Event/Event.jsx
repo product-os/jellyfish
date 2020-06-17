@@ -29,9 +29,16 @@ const MESSAGE_COLLAPSED_HEIGHT = 400
 
 const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
 const EventButton = styled.button `
-	cursor: pointer;
+	cursor: ${(props) => { return props.openChannel ? 'pointer' : 'default' }};
+	${(props) => {
+		return props.openChannel ? '' : `
+		  &:focus {
+				outline:0;
+			}
+		`
+	}}
 	border: 0;
-	background: none;
+	background: transparent;
 	display: block;
 	display: flex;
 	flex-direction: column;
@@ -40,6 +47,14 @@ const EventButton = styled.button `
 	border-left-style: solid;
 	border-left-width: 3px;
 	width: 43px;
+`
+
+const MessageIconWrapper = styled(Box) `
+	transition: 150ms ease-in-out transform, 150ms ease-in-out filter;
+	.event-card:hover & {
+		filter: brightness(85%);
+		transform: scale(1.2);
+	}
 `
 
 const getTargetId = (card) => {
@@ -269,8 +284,9 @@ export default class Event extends React.Component {
 
 		return (
 			<VisibilitySensor onChange={this.handleVisibilityChange}>
-				<EventWrapper {...rest} squashTop={squashTop} className={`event-card--${typeBase}`}>
+				<EventWrapper {...rest} squashTop={squashTop} className={`event-card event-card--${typeBase}`}>
 					<EventButton
+						openChannel={openChannel}
 						onClick={this.openChannel}
 						style={{
 							borderLeftColor: threadColor
@@ -286,7 +302,7 @@ export default class Event extends React.Component {
 								/>
 
 								{openChannel && (
-									<Box
+									<MessageIconWrapper
 										tooltip={{
 											placement: 'bottom',
 											text: `Open ${card.type.split('@')[0]}`
@@ -296,7 +312,7 @@ export default class Event extends React.Component {
 											threadColor={threadColor}
 											firstInThread={firstInThread}
 										/>
-									</Box>
+									</MessageIconWrapper>
 								)}
 							</React.Fragment>
 						)}

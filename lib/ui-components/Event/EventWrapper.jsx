@@ -15,6 +15,11 @@ import {
 // Min-width is used to stop text from overflowing the flex container, see
 // https://css-tricks.com/flexbox-truncated-text/ for a nice explanation
 const EventWrapper = styled(Flex) `
+	background: transparent;
+	transition: 150ms ease-in-out background;
+	&:hover {
+		background: #dde1f080;
+	}
 	min-width: 0;
 	word-break: break-word;
 	.event-card--actions {
