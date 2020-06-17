@@ -1,4 +1,29 @@
 - commits:
+    - subject: Update front/discourse mirror tests to account for JF link whispers
+      hash: 05133a9559463a66e9ed91edb1819851539649e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: >-
+        When a synced support thread is created, post a whisper containg a link
+        to JF
+      hash: 856c85cf3bc9242c26e884a6f0429eb28f9ce9a5
+      body: |
+        This change makes it easier to find the corresponding Jellyfish thread
+        when viewing an external resource like Front, Discourse or Flowdock
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.55.0
+  date: 2020-06-17T08:29:49.813Z
+- commits:
     - subject: >-
         Add prop to optionally set the max width and heightof attachment images
         Also refactors Attachments code from EventBody into `Attachements` and
