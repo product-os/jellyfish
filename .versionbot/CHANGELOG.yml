@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add e2e test for searching within a view
+      hash: ab97518ddf5f41a4bedf2f86cef1e1586fbca047
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add support for full-text-search in views
+      hash: 0bae091f1b5f041b35abab2f23b16a6704d3982b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.54.0
+  date: 2020-06-17T00:23:25.101Z
+- commits:
     - subject: 'patch: bump googleapis from 51.0.0 to 52.1.0'
       hash: d2750dd2f9cae1441f86914c27d3443677024ca2
       body: >
