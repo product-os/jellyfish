@@ -9,6 +9,7 @@ const uuid = require('uuid/v4')
 const helpers = require('./helpers')
 const macros = require('./macros')
 const Bluebird = require('bluebird')
+const environment = require('../../../lib/environment')
 
 const context = {
 	context: {
@@ -210,4 +211,84 @@ ava.serial('should let users create new opportunities and directly link existing
 	}, name)
 
 	test.is(results[0].links['is attached to'].length, 1)
+})
+
+ava.serial('the filter summary displays the search term correctly', async (test) => {
+	const {
+		page,
+		sdk
+	} = context
+	const device = `device-${uuid()}`
+	const searchTerm = 'test'
+	const searchInputSelector = '.view__search input'
+	const filterButtonText = `Any field contains ${searchTerm}`
+	const clearAllButtonSelector = '//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "Clear all")]'
+	const filterButtonSelector = `//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "${filterButtonText}")]`
+	const closeFilterButtonSelector = `${filterButtonSelector}/following-sibling::button`
+
+	const account = await sdk.card.create({
+		type: 'account@1.0.0',
+		name: `account-${uuid()}`,
+		data: {
+			type: 'Lead'
+		}
+	})
+
+	const opportunity = await sdk.card.create({
+		type: 'opportunity@1.0.0',
+		data: {
+			device,
+			status: 'Created'
+		}
+	})
+
+	await sdk.card.link(opportunity, account, 'is attached to')
+
+	const opportunityCardSelector = `[data-test-id="snippet-card-${opportunity.id}"]`
+
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-all-opportunities`)
+	await page.waitForSelector('.view__search')
+
+	// The created opportunity is displayed as we have no active filter
+	await page.waitForSelector(opportunityCardSelector)
+
+	// Enter a search term
+	await macros.setInputValue(page, searchInputSelector, searchTerm)
+
+	// Check that the search term appears in the filters summary
+	await page.waitForXPath(filterButtonSelector)
+
+	// The created opportunity should now be hidden as it doesn't match the search term
+	await macros.waitForSelectorToDisappear(page, opportunityCardSelector)
+
+	// Click the 'x' button next to the search filter summary item to remove the search filter
+	const closeButton = await page.waitForXPath(closeFilterButtonSelector)
+	await closeButton.click()
+
+	// The search term has now been cleared from the search input
+	let searchText = await macros.getElementText(page, searchInputSelector)
+	test.is(searchText.trim(), '')
+
+	// ...and the created opportunity is displayed once again
+	await page.waitForSelector(opportunityCardSelector)
+
+	// Enter the search term again
+	await macros.setInputValue(page, searchInputSelector, searchTerm)
+
+	// Check that the search term appears in the filters summary again
+	await page.waitForXPath(filterButtonSelector)
+
+	// ... and that the created opportunity should be hidden again
+	await macros.waitForSelectorToDisappear(page, opportunityCardSelector)
+
+	// This time click the 'Clear all' button to remove all filters
+	const clearAllButton = await page.waitForXPath(clearAllButtonSelector)
+	await clearAllButton.click()
+
+	// The search term has been cleared again from the search input
+	searchText = await macros.getElementText(page, searchInputSelector)
+	test.is(searchText.trim(), '')
+
+	// ...and the created opportunity is displayed once again
+	await page.waitForSelector(opportunityCardSelector)
 })
