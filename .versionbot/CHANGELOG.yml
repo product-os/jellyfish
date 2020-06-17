@@ -1,4 +1,69 @@
 - commits:
+    - subject: Prevent user saving an empty edited message
+      hash: d9d2795b6177ef4fab0a93c67550faf6af0d66d5
+      body: >
+        Also prevent automatically stopping editing when deleting all message
+        text.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Fix coloring of message when editing a whisper
+      hash: 19565879cb7a1b8d7dd06adaa947aa750d1372ca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Move event meta info into panel that displays on hover
+      hash: 3ba8d02cd2cc91e64607dd898b0d5dcced6e3fc1
+      body: >
+        This lets consecutive messages from the same user take up less vertical
+        space as the event header is collapsed completely.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Improve event styling on hover and focus
+      hash: 8ff24a9b7b3df5bce22349b8d8a53ea897cf7b38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Remove bottom padding from message
+      hash: 582edbd3b8feb9c1455e22fbaa25eb991ef201b4
+      body: >
+        Not needed between messages. Extra padding added to the bottom of event
+        container elements instead so that the top and bottom padding of an
+        event container is the same.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Bump rendition dependency to 15.1.4
+      hash: 927eb65b247a5033581d3f91cad7097d2fc93f52
+      body: |
+        Adds fix for markdown formatting.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.56.0
+  date: 2020-06-17T11:41:37.918Z
+- commits:
     - subject: Fix sanitizer options on message markdown
       hash: d67fb18dbc40802906949a1247d4117a78d20776
       body: ''
