@@ -558,7 +558,7 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 			return elements.length > 0
 		})
 
-	test.is(comments.length, 1)
+	test.is(comments.length, 2)
 	test.is(comments[0].body, 'First comment')
 	test.is(comments[0].author.username.replace(/_/g, '-'),
 		test.context.username)

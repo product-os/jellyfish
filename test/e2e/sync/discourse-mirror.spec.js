@@ -277,7 +277,7 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 	test.falsy(thread.data.mirrors)
 
 	const topic = await test.context.getTopic(topicId)
-	test.is(topic.post_stream.posts.length, 1)
+	test.is(topic.post_stream.posts.length, 2)
 })
 
 avaTest('should send, but not sync, a message to a deleted thread', async (test) => {
@@ -312,7 +312,7 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 	test.falsy(thread.data.mirrors)
 
 	const topic = await test.context.getTopic(topicId)
-	test.is(topic.post_stream.posts.length, 1)
+	test.is(topic.post_stream.posts.length, 2)
 })
 
 avaTest('should send a whisper as a non moderator user', async (test) => {
