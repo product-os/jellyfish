@@ -580,18 +580,17 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 				}
 			]))
 		}
-
-		updates.push(
-			window.sdk.card.update(id, 'support-thread@1.0.0', [
-				{
-					op: 'replace',
-					path: '/data/status',
-					value: 'closed'
-				}
-			])
-		)
-
 		return window.Promise.all(updates)
+	}, supportThread.id)
+
+	await page.evaluate((id) => {
+		return window.sdk.card.update(id, 'support-thread@1.0.0', [
+			{
+				op: 'replace',
+				path: '/data/status',
+				value: 'closed'
+			}
+		])
 	}, supportThread.id)
 
 	await macros.waitForSelectorToDisappear(page, summarySelector, 150)
