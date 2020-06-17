@@ -46,6 +46,9 @@ import {
 import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 import {
+	withDefaultGetActorHref
+} from '../../../../../lib/ui-components/HOC/with-default-get-actor-href'
+import {
 	FLOW_IDS,
 	TeardownFlowPanel
 } from '../../../components/Flows'
@@ -262,7 +265,8 @@ class SupportThreadBase extends React.Component {
 		const {
 			card,
 			channel,
-			fieldOrder
+			fieldOrder,
+			getActorHref
 		} = this.props
 		const {
 			linkedSupportIssues,
@@ -471,6 +475,7 @@ class SupportThreadBase extends React.Component {
 												actions={eventActions}
 												mb={1}
 												threadIsMirrored={isMirrored}
+												getActorHref={getActorHref}
 											/>
 										)
 									})}
@@ -548,7 +553,10 @@ export default {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadBase),
+		renderer: redux.compose(
+			connect(mapStateToProps, mapDispatchToProps),
+			withDefaultGetActorHref()
+		)(SupportThreadBase),
 		filter: {
 			type: 'object',
 			properties: {

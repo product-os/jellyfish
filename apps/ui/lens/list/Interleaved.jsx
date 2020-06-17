@@ -15,6 +15,7 @@ import {
 } from 'react-router-dom'
 import ReactResizeObserver from 'react-resize-observer'
 import {
+	compose,
 	bindActionCreators
 } from 'redux'
 import {
@@ -34,6 +35,9 @@ import {
 } from '../../core'
 import Column from '../../../../lib/ui-components/shame/Column'
 import Icon from '../../../../lib/ui-components/shame/Icon'
+import {
+	withDefaultGetActorHref
+} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
@@ -285,6 +289,7 @@ export class Interleaved extends BaseLens {
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
 									actions={eventActions}
+									getActorHref={this.props.getActorHref}
 								/>
 							</Box>
 						)
@@ -341,7 +346,11 @@ const lens = {
 	data: {
 		icon: 'list',
 		format: 'list',
-		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Interleaved)),
+		renderer: compose(
+			withRouter,
+			connect(mapStateToProps, mapDispatchToProps),
+			withDefaultGetActorHref()
+		)(Interleaved),
 		filter: {
 			type: 'array',
 			items: {
