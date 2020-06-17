@@ -54,7 +54,7 @@ const MessageContainer = styled(Box) `
 			return `
 				background: ${theme.colors.secondary.main};
 				color: white;
-
+				border: solid 0.5px ${theme.colors.tertiary.main};
 				blockquote {
 					color: lightgray;
 				}
@@ -92,6 +92,7 @@ const MessageContainer = styled(Box) `
 			? `
 				border-bottom-right-radius: 0;
 				border-bottom-left-radius: 0;
+				border-bottom-color: transparent;
 			` : ''
 	}
 }}
