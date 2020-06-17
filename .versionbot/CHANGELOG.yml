@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Fix flaky e2e support test'
+      hash: 8fe6d64e24992f56d736972138b1875401333798
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.54.2
+  date: 2020-06-17T04:09:50.744Z
+- commits:
     - subject: 'patch: bump @babel/cli from 7.8.4 to 7.10.1'
       hash: c112b9fd4ffe1788dee58a76f90d3ce691f01480
       body: >
