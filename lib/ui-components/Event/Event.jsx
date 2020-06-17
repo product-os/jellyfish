@@ -304,7 +304,6 @@ export default class Event extends React.Component {
 					<Box
 						pt={squashTop ? 0 : 2}
 						flex="1"
-						pb={squashBottom || messageOverflows ? 0 : 2}
 						style={{
 							minWidth: 0
 						}}

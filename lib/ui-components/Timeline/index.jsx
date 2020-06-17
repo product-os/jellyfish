@@ -555,7 +555,7 @@ class Timeline extends React.Component {
 				</Flex>
 
 				<EventsContainer
-					pt={2}
+					py={2}
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 				>

@@ -252,14 +252,14 @@ export class Interleaved extends BaseLens {
 				}}
 			>
 				<ReactResizeObserver onResize={this.scrollToBottom}/>
-				<div
+				<Box
+					py={2}
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
 						flex: 1,
 						overflowY: 'auto',
-						borderTop: '1px solid #eee',
-						paddingTop: 8
+						borderTop: '1px solid #eee'
 					}}
 				>
 					{this.props.totalPages > this.props.page + 1 && (
@@ -289,7 +289,7 @@ export class Interleaved extends BaseLens {
 							</Box>
 						)
 					})}
-				</div>
+				</Box>
 
 				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' && (
 					<Flex
