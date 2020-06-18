@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump react-dom from 16.11.0 to 16.13.1'
+      hash: 0384e04a533915744e4415ef32beef30d03b6f4e
+      body: >
+        Bumps
+        [react-dom](https://github.com/facebook/react/tree/HEAD/packages/react-dom)
+        from 16.11.0 to 16.13.1.
+
+        - [Release notes](https://github.com/facebook/react/releases)
+
+        -
+        [Changelog](https://github.com/facebook/react/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/facebook/react/commits/v16.13.1/packages/react-dom)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.3
+  date: 2020-06-18T02:08:25.827Z
+- commits:
     - subject: 'patch: bump static-eval from 2.0.5 to 2.1.0'
       hash: e3727c530d718f7e6c82ebc74e51d92fe4c642f9
       body: >
