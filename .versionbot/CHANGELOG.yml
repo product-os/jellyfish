@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump static-eval from 2.0.5 to 2.1.0'
+      hash: e3727c530d718f7e6c82ebc74e51d92fe4c642f9
+      body: >
+        Bumps [static-eval](https://github.com/browserify/static-eval) from
+        2.0.5 to 2.1.0.
+
+        - [Release notes](https://github.com/browserify/static-eval/releases)
+
+        -
+        [Changelog](https://github.com/browserify/static-eval/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/browserify/static-eval/compare/v2.0.5...v2.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.2
+  date: 2020-06-18T01:27:55.453Z
+- commits:
     - subject: 'patch: bump localforage from 1.7.3 to 1.7.4'
       hash: c01e371a10e4c2d0cc27e701b5900c68470dfdd8
       body: >
