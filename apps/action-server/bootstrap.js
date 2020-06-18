@@ -198,6 +198,7 @@ const bootstrap = async (context, library, options) => {
 
 exports.worker = async (context, options) => {
 	metrics.startServer(context, options.metricsPort)
+	metrics.markQueueConcurrency()
 	return bootstrap(context, actionLibrary, {
 		enablePriorityBuffer: true,
 		onError: options.onError,
