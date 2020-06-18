@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update Grafana dashboard definition
+      hash: 24a7f94c0a1ef07b3da2421b5a93e518caaa522f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowing <josh@balena.io>
+        signed-off-by: Josh Bowing <josh@balena.io>
+      author: Josh Bowling
+  version: 30.57.5
+  date: 2020-06-18T06:30:32.149Z
+- commits:
     - subject: 'ci: Update to jellyfish-test and jellyfish-sidecar v1.3.10'
       hash: bd24a9c07abfb8fd3afad95fa8b07b5b0b773ebb
       body: ''
