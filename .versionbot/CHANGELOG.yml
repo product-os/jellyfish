@@ -1,4 +1,19 @@
 - commits:
+    - subject: Correctly handle Front API rate limiting errors in try...catch blocks
+      hash: 596edfdedd70638b3150212b17eeebac96334193
+      body: |
+        Previously, because the API call was not awaited, the promis would be
+        returned immediately and any resulting error would not be caught in
+        a try catch block.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.57.6
+  date: 2020-06-18T14:06:41.579Z
+- commits:
     - subject: Update Grafana dashboard definition
       hash: 24a7f94c0a1ef07b3da2421b5a93e518caaa522f
       body: ''
