@@ -43,17 +43,18 @@ const EventButton = styled.button `
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 8px;
+	padding: 4px 8px;
 	border-left-style: solid;
 	border-left-width: 3px;
 	width: 43px;
 `
 
 const MessageIconWrapper = styled(Box) `
+	transform: scale(0.8);
 	transition: 150ms ease-in-out transform, 150ms ease-in-out filter;
 	.event-card:hover & {
 		filter: brightness(85%);
-		transform: scale(1.2);
+		transform: scale(1);
 	}
 `
 
@@ -70,7 +71,7 @@ const MessageIcon = ({
 			style={{
 				marginLeft: 6,
 				marginTop: 16,
-				fontSize: '18px',
+				fontSize: '21px',
 				transform: 'scale(1, -1)',
 				color: threadColor
 			}}
@@ -319,7 +320,8 @@ export default class Event extends React.Component {
 						)}
 					</EventButton>
 					<Box
-						pt={squashTop ? 0 : 2}
+						pt={squashTop ? 0 : 1}
+						pb={squashBottom ? 0 : 1}
 						flex="1"
 						style={{
 							minWidth: 0
