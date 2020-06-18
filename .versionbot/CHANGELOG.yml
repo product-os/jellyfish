@@ -1,4 +1,30 @@
 - commits:
+    - subject: 'ci: Update to jellyfish-test and jellyfish-sidecar v1.3.10'
+      hash: bd24a9c07abfb8fd3afad95fa8b07b5b0b773ebb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump puppeteer from 3.3.0 to 4.0.0'
+      hash: d3fd4e46106bf028b39154b986402288b80740e9
+      body: >
+        Bumps [puppeteer](https://github.com/puppeteer/puppeteer) from 3.3.0 to
+        4.0.0.
+
+        - [Release notes](https://github.com/puppeteer/puppeteer/releases)
+
+        -
+        [Commits](https://github.com/puppeteer/puppeteer/compare/v3.3.0...v4.0.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.4
+  date: 2020-06-18T03:42:37.577Z
+- commits:
     - subject: 'patch: bump react-dom from 16.11.0 to 16.13.1'
       hash: 0384e04a533915744e4415ef32beef30d03b6f4e
       body: >
