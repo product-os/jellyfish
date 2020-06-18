@@ -103,7 +103,7 @@
     "mermaid.cli": "^0.5.1",
     "morgan": "^1.10.0",
     "nock": "^10.0.0",
-    "puppeteer": "^3.3.0",
+    "puppeteer": "^4.0.0",
     "request": "^2.88.0",
     "scripts-template": "file:scripts/template",
     "sinon": "^8.1.1",

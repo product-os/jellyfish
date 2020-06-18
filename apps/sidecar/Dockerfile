@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-sidecar:v1.3.9
+FROM resinci/jellyfish-sidecar:v1.3.10
 
 WORKDIR /usr/src/jellyfish
 
