@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump localforage from 1.7.3 to 1.7.4'
+      hash: c01e371a10e4c2d0cc27e701b5900c68470dfdd8
+      body: >
+        Bumps [localforage](https://github.com/localForage/localForage) from
+        1.7.3 to 1.7.4.
+
+        - [Release notes](https://github.com/localForage/localForage/releases)
+
+        -
+        [Changelog](https://github.com/localForage/localForage/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/localForage/localForage/compare/1.7.3...1.7.4)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.1
+  date: 2020-06-17T17:03:47.221Z
+- commits:
     - subject: Remove "slices" definition from support issues
       hash: 0187244981245781fc6c0f3f22fa9f94dae73153
       body: |
