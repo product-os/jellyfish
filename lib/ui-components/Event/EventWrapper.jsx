@@ -40,6 +40,13 @@ const EventWrapper = styled(Flex) `
     right: -4px;
     font-size: 10px;
 	}
+	.rendition-tag--read-by:after {
+		content: attr(data-read-by-count);
+		position: absolute;
+    top: -4px;
+    right: -4px;
+    font-size: 10px;
+	}
 `
 
 export default EventWrapper

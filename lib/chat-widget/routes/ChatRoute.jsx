@@ -91,6 +91,9 @@ export const ChatRoute = () => {
 								enableAutocomplete={!environment.isTest()}
 								sdk={sdk}
 								types={types}
+
+								// TODO: #4229 add support for correctly identifying and formatting group mentions in the chat widget
+								groups={null}
 								wide={false}
 								allowWhispers={false}
 								card={thread}

@@ -279,6 +279,7 @@ export class Interleaved extends BaseLens {
 									onCardVisible={this.handleCardVisible}
 									openChannel={this.openChannel}
 									user={this.props.user}
+									groups={this.props.groups}
 									card={card}
 									firstInThread={isFirstInThread(card, firstMessagesByThreads)}
 									selectCard={selectors.getCard}
@@ -317,6 +318,7 @@ export class Interleaved extends BaseLens {
 
 const mapStateToProps = (state) => {
 	return {
+		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state)
 	}
 }

@@ -9,6 +9,7 @@ import {
 } from '../../../../test/ui-setup'
 import ava from 'ava'
 import sinon from 'sinon'
+import _ from 'lodash'
 import {
 	shallow,
 	mount
@@ -25,6 +26,14 @@ import {
 const user = {
 	slug: 'user-johndoe'
 }
+
+const otherUser = {
+	slug: 'user-johndoe1'
+}
+
+const myGroup = 'group1'
+const otherGroup = 'group11'
+const tag = 'johndoe'
 
 const actor = {
 	name: 'johndoe',
@@ -47,6 +56,70 @@ const commonProps = {
 	actions,
 	user,
 	actor
+}
+
+const tagRegex = ({
+	prefix, token, isPersonal
+}) => {
+	return new RegExp(
+		`<span.+?class=".?rendition-tag--hl.?${isPersonal ? 'rendition-tag--personal.?' : ''}">${prefix}${token}</span>`
+	)
+}
+
+const getMessageHtml = async (test) => {
+	const author = {
+		...user,
+		id: card.data.actor
+	}
+	const groups = {
+		[myGroup]: {
+			users: [ user.slug ],
+			name: myGroup,
+			isMine: true
+		},
+		[otherGroup]: {
+			users: [ otherUser.slug ],
+			name: otherGroup
+		}
+	}
+	const message = [
+		'Test',
+		`@${user.slug.slice(5)}`,
+		`@${otherUser.slug.slice(5)}`,
+		`!${user.slug.slice(5)}`,
+		`!${otherUser.slug.slice(5)}`,
+		`@@${myGroup}`,
+		`@@${otherGroup}`,
+		`!!${myGroup}`,
+		`!!${otherGroup}`,
+		`#${tag}`
+	].join(' ')
+
+	const event = await mount(
+		<Event
+			{...commonProps}
+			user={author}
+			groups={groups}
+			card={_.defaultsDeep({
+				tags: [ tag ],
+				data: {
+					payload: {
+						mentionsUser: [ user.slug, otherUser.slug ],
+						alertsUser: [ user.slug, otherUser.slug ],
+						mentionsGroup: [ myGroup, otherGroup ],
+						alertsGroup: [ myGroup, otherGroup ],
+						message
+					}
+				}
+			}, card)}
+		/>, {
+			wrappingComponent: wrapper
+		}
+	)
+
+	const messageBody = event.find('div[data-test="event-card__message"]')
+	test.is(messageBody.text().trim(), message)
+	return messageBody.html()
 }
 
 ava.afterEach(() => {
@@ -111,7 +184,6 @@ ava('Editing a message will update the mentions, alerts, tags and message', asyn
 	const alertSlug = 'paul'
 	const mentionGroup = 'group1'
 	const alertGroup = 'group2'
-	const tag = 'ringo'
 	const newMessage = `Test @${mentionSlug} !${alertSlug} @@${mentionGroup} !!${alertGroup} #${tag}`
 	const expectedPatches = {
 		'/tags/0': {
@@ -187,4 +259,103 @@ ava('Editing a message will update the mentions, alerts, tags and message', asyn
 		return acc
 	}, {})
 	test.deepEqual(updatePatches, expectedPatches)
+})
+
+ava('If user mention matches the authenticated user it is identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '@',
+			token: user.slug.slice(5),
+			isPersonal: true
+		})
+	)
+})
+
+ava('If user mention does not match the authenticated user it is not identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '@',
+			token: otherUser.slug.slice(5),
+			isPersonal: false
+		})
+	)
+})
+
+ava('If user alert matches the authenticated user it is identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '!',
+			token: user.slug.slice(5),
+			isPersonal: true
+		})
+	)
+})
+
+ava('If user alert does not match the authenticated user it is not identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '!',
+			token: otherUser.slug.slice(5),
+			isPersonal: false
+		})
+	)
+})
+
+ava('If group mention matches the authenticated user it is identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '@@',
+			token: myGroup,
+			isPersonal: true
+		})
+	)
+})
+
+ava('If group mention does not match the authenticated user it is not identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '@@',
+			token: otherGroup,
+			isPersonal: false
+		})
+	)
+})
+
+ava('If group alert matches the authenticated user it is identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '!!',
+			token: myGroup,
+			isPersonal: true
+		})
+	)
+})
+
+ava('If group alert does not match the authenticated user it is not identified as \'personal\'', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '!!',
+			token: otherGroup,
+			isPersonal: false
+		})
+	)
+})
+
+ava('Tags in messages are highlighted', async (test) => {
+	test.regex(
+		await getMessageHtml(test),
+		tagRegex({
+			prefix: '#',
+			token: tag,
+			isPersonal: false
+		})
+	)
 })

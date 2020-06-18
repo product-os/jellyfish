@@ -35,6 +35,7 @@ const mapStateToProps = (state, ownProps) => {
 		enableAutocomplete: !environment.isTest(),
 		sdk,
 		types: selectors.getTypes(state),
+		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state),
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
 		timelineMessage: selectors.getTimelineMessage(state, card.id)

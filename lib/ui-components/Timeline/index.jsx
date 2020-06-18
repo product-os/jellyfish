@@ -413,6 +413,7 @@ class Timeline extends React.Component {
 			addNotification,
 			sdk,
 			types,
+			groups,
 			allowWhispers,
 			tail,
 			usersTyping,
@@ -464,6 +465,7 @@ class Timeline extends React.Component {
 
 		const eventProps = {
 			types,
+			groups,
 			enableAutocomplete,
 			sendCommand,
 			onCardVisible: this.handleCardVisible,
