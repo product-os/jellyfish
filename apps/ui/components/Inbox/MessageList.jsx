@@ -32,6 +32,7 @@ import Event from '../../../../lib/ui-components/Event'
 import {
 	withDefaultGetActorHref
 } from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
+import EventsContainer from '../../../../lib/ui-components/EventsContainer'
 
 class MessageList extends React.Component {
 	constructor (props) {
@@ -127,16 +128,10 @@ class MessageList extends React.Component {
 					position: 'relative'
 				}}
 			>
-				<Box
-					py={2}
+				<EventsContainer
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					data-test={'messageList-ListWrapper'}
-					style={{
-						flex: 1,
-						overflowY: 'auto',
-						borderTop: '1px solid #eee'
-					}}
 				>
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
 						return (
@@ -168,7 +163,7 @@ class MessageList extends React.Component {
 							</Box>
 						)
 					})}
-				</Box>
+				</EventsContainer>
 			</Column>
 		)
 	}

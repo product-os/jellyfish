@@ -40,6 +40,7 @@ import MessageInput from './MessageInput'
 import {
 	withSetup
 } from '../SetupProvider'
+import EventsContainer from '../EventsContainer'
 
 const messageSymbolRE = /^\s*%\s*/
 
@@ -61,13 +62,6 @@ const TypingNotice = styled.div `
 		padding: 0 5px;
 		box-shadow: rgba(0,0,0,0.25) 0px 0px 3px;
 	}
-`
-
-const EventsContainer = styled(Box) `
-	flex: 1;
-	overflow-y: auto;
-	border-top: 1px solid #eee;
-	background-color: ${(props) => { return props.theme.colors.quartenary.light }}
 `
 
 const getSendCommand = (user) => {
@@ -557,7 +551,6 @@ class Timeline extends React.Component {
 				</Flex>
 
 				<EventsContainer
-					py={2}
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 				>
