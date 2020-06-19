@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update rendition version to 15.2.0
+      hash: 27875f2abc9cfe1a9b0b854462ff95f5d736362d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#4145'
+        connects-to: '#4145'
+      author: Kakhaber
+  version: 30.58.0
+  date: 2020-06-19T13:12:15.943Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.569.0 to 2.700.0'
       hash: a3c225cc1e66104ec888780547c9f2ded7ab3fcb
       body: >
