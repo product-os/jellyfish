@@ -19,5 +19,13 @@ module.exports = {
 	},
 	afterEach: async (test) => {
 		await helpers.worker.after(test)
+	},
+	save: async (test) => {
+		await test.context.jellyfish.backend.connection.any('CREATE TABLE cards_copy AS TABLE cards')
+	},
+	restore: async (test) => {
+		await test.context.jellyfish.backend.connection.any('DELETE FROM links')
+		await test.context.jellyfish.backend.connection.any('DELETE FROM cards')
+		await test.context.jellyfish.backend.connection.any('INSERT INTO cards SELECT * FROM cards_copy')
 	}
 }

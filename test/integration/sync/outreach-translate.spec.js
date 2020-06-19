@@ -9,9 +9,7 @@ const _ = require('lodash')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.outreach
-
-ava.serial.beforeEach(scenario.beforeEach)
-ava.serial.afterEach.always(scenario.afterEach)
+const helpers = require('./helpers')
 
 const OAUTH_DETAILS = {
 	access_token: 'MTQ0NjJkZmQ5OTM2NDE1ZTZjNGZmZjI3',
@@ -20,6 +18,38 @@ const OAUTH_DETAILS = {
 	refresh_token: 'IwOGYzYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
 	scope: 'create'
 }
+
+ava.serial.before(async (test) => {
+	await scenario.before(test)
+
+	const userCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context,
+		test.context.jellyfish.sessions.admin,
+		`user-${environment.integration.default.user}@latest`)
+
+	await test.context.jellyfish.patchCardBySlug(
+		test.context.context,
+		test.context.jellyfish.sessions.admin,
+		`${userCard.slug}@${userCard.version}`, [
+			{
+				op: 'add',
+				path: '/data/oauth',
+				value: {}
+			},
+			{
+				op: 'add',
+				path: '/data/oauth/outreach',
+				value: OAUTH_DETAILS
+			}
+		], {
+			type: 'user'
+		})
+
+	await helpers.save(test)
+})
+
+ava.serial.after.always(scenario.after)
+ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
 	integration: require('../../../lib/sync/integrations/outreach'),
@@ -30,30 +60,6 @@ scenario.run(ava, {
 	source: 'outreach',
 	options: {
 		token: TOKEN
-	},
-	pre: async (test) => {
-		const userCard = await test.context.jellyfish.getCardBySlug(
-			test.context.context,
-			test.context.jellyfish.sessions.admin,
-			`user-${environment.integration.default.user}@latest`)
-
-		await test.context.jellyfish.patchCardBySlug(
-			test.context.context,
-			test.context.jellyfish.sessions.admin,
-			`${userCard.slug}@${userCard.version}`, [
-				{
-					op: 'add',
-					path: '/data/oauth',
-					value: {}
-				},
-				{
-					op: 'add',
-					path: '/data/oauth/outreach',
-					value: OAUTH_DETAILS
-				}
-			], {
-				type: 'user'
-			})
 	},
 	isAuthorized: (self, request) => {
 		return request.headers.authorization === `Bearer ${OAUTH_DETAILS.access_token}`

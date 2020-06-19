@@ -10,10 +10,13 @@ const jwt = require('jsonwebtoken')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.github
+const helpers = require('./helpers')
 
+ava.serial.before(async (test) => {
+	await scenario.before(test)
+	await helpers.save(test)
+})
 ava.serial.beforeEach(async (test) => {
-	await scenario.beforeEach(test)
-
 	if (TOKEN.api && TOKEN.key) {
 		await nock('https://api.github.com')
 			.persist()
@@ -44,6 +47,7 @@ ava.serial.beforeEach(async (test) => {
 	}
 })
 
+ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {

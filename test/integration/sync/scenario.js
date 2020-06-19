@@ -11,6 +11,7 @@ const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
 const syncHelpers = require('../../integration/sync/helpers')
+const helpers = require('./helpers')
 
 const TRANSLATE_PREFIX = uuid()
 
@@ -336,7 +337,7 @@ const getObjDifference = (expected, obtained) => {
 }
 
 module.exports = {
-	beforeEach: async (test) => {
+	before: async (test) => {
 		await syncHelpers.beforeEach(test, {
 			suffix: TRANSLATE_PREFIX
 		})
@@ -367,10 +368,12 @@ module.exports = {
 		nock.cleanAll()
 		nock.disableNetConnect()
 	},
-	afterEach: async (test) => {
+	after: async (test) => {
 		await syncHelpers.afterEach(test)
-
+	},
+	afterEach: async (test) => {
 		nock.cleanAll()
+		await helpers.restore(test)
 	},
 
 	run: async (ava, suite) => {

@@ -14,8 +14,14 @@ const uuid = require('uuid/v4')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration['balena-api']
+const helpers = require('./helpers')
 
-ava.serial.beforeEach(scenario.beforeEach)
+ava.serial.before(async (test) => {
+	await scenario.before(test)
+	await helpers.save(test)
+})
+
+ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 const prepareEvent = async (event) => {
