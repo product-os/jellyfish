@@ -59,6 +59,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/faq.json'),
 		await loadCard('contrib/feedback-item.json'),
 		await loadCard('contrib/form-response.json'),
+		await loadCard('contrib/form-response-curation.json'),
 		await loadCard('contrib/issue.json'),
 		await loadCard('contrib/message.json'),
 		await loadCard('contrib/first-time-login.json'),

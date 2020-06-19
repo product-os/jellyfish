@@ -1,0 +1,59 @@
+{
+  "slug": "form-response-curation",
+  "name": "Form response curation",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "origin": {
+              "title": "Curated Origin",
+              "type": "string"
+            },
+            "originDetail": {
+              "title": "Curated Origin Detail",
+              "type": "string"
+            },
+            "role": {
+              "title": "Curated Role",
+              "type": "string"
+            },
+            "useCaseDetail": {
+              "title": "Curated Use Case Detail",
+              "type": "string"
+            },
+            "experienceEvaluation": {
+              "title": "Curated Experierience Evaluation",
+              "type": "string"
+            },
+            "issuesWants": {
+              "title": "Curated Issues/Wants",
+              "type": "string"
+            },
+            "highlights": {
+              "title": "Curated Highlights",
+              "type": "string"
+            },
+            "projectPurpose": {
+              "title": "Curated Project Purpose",
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
