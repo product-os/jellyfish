@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.569.0 to 2.700.0'
+      hash: a3c225cc1e66104ec888780547c9f2ded7ab3fcb
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.569.0 to
+        2.700.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.569.0...v2.700.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.12
+  date: 2020-06-19T08:08:05.666Z
+- commits:
     - subject: 'metrics: add queue concurrency metric & label by worker id'
       hash: c4f3300b0180eb53d8101f7c162f99563da96a35
       body: ''
