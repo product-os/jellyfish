@@ -8,7 +8,6 @@
 
 set -e
 MODULES="$*"
-set -u
 
 if [ -z "$MODULES" ]; then
 	echo "Usage: $0 <modules...>" 1>&2
@@ -21,9 +20,15 @@ fi
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 
+# Check if specified file, if set, is in the list of modified files
+MODIFIED_FILES="$(git diff --name-only master..."$CURRENT_BRANCH")"
+if [[ "$CHECK_FOR" && "$MODIFIED_FILES" == *"$CHECK_FOR"* ]]; then
+	exit 1
+fi
+
 # A list of the affected modules from lib/ and apps/
 # that the current branch is modifying
-AFFECTED_MODULES="$(git diff --name-only master..."$CURRENT_BRANCH" \
+AFFECTED_MODULES="$(echo "$MODIFIED_FILES" \
 	| grep -E "^(lib|apps)" \
 	| cut -d / -f 2 \
 	| sort \

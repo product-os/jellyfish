@@ -10,17 +10,17 @@ set -e
 source "$(dirname $0)/helpers.sh"
 
 # Run Outreach translate tests.
-./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+CHECK_FOR=outreach-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Outreach Translate Tests" test FILES=./test/integration/sync/outreach-translate.spec.js
 
 # Run Balena API translate tests.
-./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+CHECK_FOR=balena-api-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Balena API Translate Tests" test FILES=./test/integration/sync/balena-api-translate.spec.js
 
 # Run GitHub translate tests.
-./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+CHECK_FOR=github-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "GitHub Translate Tests" test FILES=./test/integration/sync/github-translate.spec.js
 
 # Run Flowdock translate tests.
-./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+CHECK_FOR=flowdock-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Flowdock Translate Tests" test FILES=./test/integration/sync/flowdock-translate.spec.js
