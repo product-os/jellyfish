@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'ci: Modify skip check script to look for specified file'
+      hash: ca33c0d07f4651547db08e683ef7a7e5dfcc88a7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'ci: Speed up translate tests by using shared backend'
+      hash: fc2624129bbd0abfe52f462cecd2486d96999d8b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.58.1
+  date: 2020-06-19T14:40:20.620Z
+- commits:
     - subject: Update rendition version to 15.2.0
       hash: 27875f2abc9cfe1a9b0b854462ff95f5d736362d
       body: ''
