@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'metrics: add queue concurrency metric & label by worker id'
+      hash: c4f3300b0180eb53d8101f7c162f99563da96a35
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dt-rush <nickp@balena.io>
+        signed-off-by: dt-rush <nickp@balena.io>
+      author: dt-rush
+  version: 30.57.11
+  date: 2020-06-19T07:25:24.959Z
+- commits:
     - subject: 'patch: bump object-hash from 1.3.1 to 2.0.3'
       hash: 5da854ce56477388df75a5420dd6d32bd6a0412b
       body: >
