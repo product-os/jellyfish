@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use common styling for all events container elements
+      hash: 11adab662db7634a854c1fe777b3370e51e77bca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.57.9
+  date: 2020-06-19T05:31:05.916Z
+- commits:
     - subject: 'patch: bump @octokit/plugin-retry from 3.0.2 to 3.0.3'
       hash: 0666265fb9fb040491ed4136f4ee032978c2101c
       body: >
