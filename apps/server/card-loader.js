@@ -108,6 +108,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('contrib/view-my-conversations.json'),
 		await loadCard('contrib/view-all-by-type.json'),
 		await loadCard('contrib/view-all-pull-requests.json'),
+		await loadCard('contrib/view-typeform-responses.json'),
 
 		// Balena org cards
 		await loadCard('balena/org-balena.json'),

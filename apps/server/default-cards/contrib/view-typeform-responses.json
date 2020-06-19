@@ -1,0 +1,34 @@
+{
+  "slug": "view-typeform-responses",
+  "name": "Form Response Cards",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "Form Response Cards",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "form-response"
+            }
+          },
+          "required": [
+            "type"
+          ],
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-default-list"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
