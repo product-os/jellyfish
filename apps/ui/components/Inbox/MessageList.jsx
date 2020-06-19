@@ -64,7 +64,7 @@ class MessageList extends React.Component {
 			id
 		})
 
-		sdk.card.markAsRead(this.props.user.slug, card)
+		sdk.card.markAsRead(this.props.user.slug, card, _.map(_.filter(this.props.groups, 'isMine'), 'name'))
 			.catch((error) => {
 				console.error(error)
 			})

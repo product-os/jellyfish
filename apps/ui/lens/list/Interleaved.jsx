@@ -202,7 +202,7 @@ export class Interleaved extends BaseLens {
 	}
 
 	handleCardVisible (card) {
-		sdk.card.markAsRead(this.props.user.slug, card)
+		sdk.card.markAsRead(this.props.user.slug, card, _.map(_.filter(this.props.groups, 'isMine'), 'name'))
 			.catch((error) => {
 				console.error(error)
 			})
