@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump object-hash from 1.3.1 to 2.0.3'
+      hash: 5da854ce56477388df75a5420dd6d32bd6a0412b
+      body: >
+        Bumps [object-hash](https://github.com/puleos/object-hash) from 1.3.1 to
+        2.0.3.
+
+        - [Release notes](https://github.com/puleos/object-hash/releases)
+
+        -
+        [Commits](https://github.com/puleos/object-hash/compare/v1.3.1...v2.0.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.57.10
+  date: 2020-06-19T06:08:55.258Z
+- commits:
     - subject: Use common styling for all events container elements
       hash: 11adab662db7634a854c1fe777b3370e51e77bca
       body: ''
