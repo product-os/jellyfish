@@ -38,6 +38,7 @@ import Icon from '../../../../lib/ui-components/shame/Icon'
 import {
 	withDefaultGetActorHref
 } from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
+import EventsContainer from '../../../../lib/ui-components/EventsContainer'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
@@ -256,15 +257,9 @@ export class Interleaved extends BaseLens {
 				}}
 			>
 				<ReactResizeObserver onResize={this.scrollToBottom}/>
-				<Box
-					py={2}
+				<EventsContainer
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
-					style={{
-						flex: 1,
-						overflowY: 'auto',
-						borderTop: '1px solid #eee'
-					}}
 				>
 					{this.props.totalPages > this.props.page + 1 && (
 						<Box p={3}>
@@ -294,7 +289,7 @@ export class Interleaved extends BaseLens {
 							</Box>
 						)
 					})}
-				</Box>
+				</EventsContainer>
 
 				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' && (
 					<Flex
