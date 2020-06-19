@@ -1,4 +1,33 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-jsdoc from 27.0.0 to 27.1.2'
+      hash: 9949e0bf01e6a62c080ba3b64eb4ce0162b2a8e0
+      body: >
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        27.0.0 to 27.1.2.
+
+        - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
+
+        -
+        [Commits](https://github.com/gajus/eslint-plugin-jsdoc/compare/v27.0.0...v27.1.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+    - subject: Minor message style tweaks
+      hash: 80a9180425aac1ab8ace20bcdda54c4e2d6448fc
+      body: |
+        Ensure animated icon isn't blurry.
+        Equal padding above and below a message.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.57.7
+  date: 2020-06-19T02:14:53.397Z
+- commits:
     - subject: Correctly handle Front API rate limiting errors in try...catch blocks
       hash: 596edfdedd70638b3150212b17eeebac96334193
       body: |
