@@ -224,7 +224,7 @@
     "socket.io-prometheus-metrics": "^1.0.5",
     "socket.io-redis": "^5.3.0",
     "static-eval": "^2.1.0",
-    "styled-components": "^5.0.1",
+    "styled-components": "^5.1.1",
     "traverse": "^0.6.6",
     "typed-errors": "^1.1.0",
     "use-debounce": "^3.1.0",
