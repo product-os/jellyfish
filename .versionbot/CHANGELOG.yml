@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/core from 7.8.4 to 7.10.3'
+      hash: 58071f96d2f048dd8bcef824eff2f3315f1c935e
+      body: >
+        Bumps
+        [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core)
+        from 7.8.4 to 7.10.3.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.3/packages/babel-core)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.4
+  date: 2020-06-20T10:35:57.073Z
+- commits:
     - subject: 'patch: bump react-helmet from 6.0.0 to 6.1.0'
       hash: cd5a00364c7aa5e35cb8ac9dd7ec38521ff927e9
       body: >
