@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump webpack-cli from 3.3.11 to 3.3.12'
+      hash: 6e98eb67cacec5b08334b93ef7dd55c67c959902
+      body: >
+        Bumps [webpack-cli](https://github.com/webpack/webpack-cli) from 3.3.11
+        to 3.3.12.
+
+        - [Release notes](https://github.com/webpack/webpack-cli/releases)
+
+        -
+        [Changelog](https://github.com/webpack/webpack-cli/blob/v3.3.12/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack/webpack-cli/compare/v3.3.11...v3.3.12)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.9
+  date: 2020-06-20T21:41:06.808Z
+- commits:
     - subject: 'patch: bump @octokit/auth-app from 2.4.6 to 2.4.7'
       hash: b5c003e98dca8e0c8e139bf1c29faa3ab5d5257d
       body: >
