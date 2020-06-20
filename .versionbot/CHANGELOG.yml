@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump eslint from 7.1.0 to 7.3.0'
+      hash: 4a5fc990af9433be0ac2f8aaab22fcc9817382ff
+      body: |
+        Bumps [eslint](https://github.com/eslint/eslint) from 7.1.0 to 7.3.0.
+        - [Release notes](https://github.com/eslint/eslint/releases)
+        - [Changelog](https://github.com/eslint/eslint/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/eslint/eslint/compare/v7.1.0...v7.3.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.5
+  date: 2020-06-20T14:55:05.956Z
+- commits:
     - subject: 'patch: bump @babel/core from 7.8.4 to 7.10.3'
       hash: 58071f96d2f048dd8bcef824eff2f3315f1c935e
       body: >
