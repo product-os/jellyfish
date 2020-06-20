@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump react-helmet from 6.0.0 to 6.1.0'
+      hash: cd5a00364c7aa5e35cb8ac9dd7ec38521ff927e9
+      body: >
+        Bumps [react-helmet](https://github.com/nfl/react-helmet) from 6.0.0 to
+        6.1.0.
+
+        - [Release notes](https://github.com/nfl/react-helmet/releases)
+
+        -
+        [Changelog](https://github.com/nfl/react-helmet/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/nfl/react-helmet/compare/6.0.0...6.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.3
+  date: 2020-06-20T09:40:47.660Z
+- commits:
     - subject: Fix codepath where private data could be leaked in an error message.
       hash: 79c7cd1f95e22cc014214b340744c12a2841b6b0
       body: |
