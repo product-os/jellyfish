@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix codepath where private data could be leaked in an error message.
+      hash: 79c7cd1f95e22cc014214b340744c12a2841b6b0
+      body: |
+        Fixes #4144
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.58.2
+  date: 2020-06-20T08:55:25.826Z
+- commits:
     - subject: 'ci: Modify skip check script to look for specified file'
       hash: ca33c0d07f4651547db08e683ef7a7e5dfcc88a7
       body: ''
