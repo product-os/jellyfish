@@ -769,3 +769,78 @@ ava.serial('users with the "user-community" role cannot send a first-time login 
 		}
 	})
 })
+
+ava.serial('users should not be able to expose private data using an invalid update', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const targetUserDetails = createUserDetails()
+
+	const targetUser = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${targetUserDetails.username}`,
+			email: targetUserDetails.email,
+			password: targetUserDetails.password
+		}
+	})
+
+	const communityUserDetails = createUserDetails()
+	const communityUser = await sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${communityUserDetails.username}`,
+			email: communityUserDetails.email,
+			password: communityUserDetails.password
+		}
+	})
+
+	const session = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: `${communityUser.slug}@${communityUser.version}`,
+			type: 'user',
+			action: 'action-create-session@1.0.0',
+			arguments: {
+				password: communityUserDetails.password
+			}
+		})
+
+	const token = session.response.data.id
+
+	const result = await test.context.http('POST', '/api/v2/action', {
+		card: targetUser.id,
+		type: 'user@1.0.0',
+		action: 'action-update-card@1.0.0',
+		arguments: {
+			reason: null,
+			patch: [
+				{
+					op: 'add',
+					path: '/data/status',
+
+					// The value for the status is intentionally set to fail validation
+					value: {
+						title: 'Foo',
+						value: 'Bar'
+					}
+				}
+			]
+		}
+	}, {
+		Authorization: `Bearer ${token}`
+	})
+
+	// Check that there is no hash value present in the error message
+	test.deepEqual(result.response, {
+		error: true,
+		data: {
+			name: 'JellyfishSchemaMismatch',
+			message: 'The updated card is invalid'
+		}
+	})
+})
