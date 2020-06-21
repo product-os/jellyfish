@@ -2,11 +2,6 @@ version: 1
 update_configs:
   - package_manager: "javascript"
     directory: "/"
-    update_schedule: "daily"
+    update_schedule: "live"
     commit_message:
       prefix: "patch"
-    automerged_updates:
-          # Automerge any @balena/ prefixed dependency that is a minor or patch update
-          - match:
-              dependency_name: "@balena/*"
-              update_type: "semver:minor"
