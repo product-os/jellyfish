@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'patch: bump chart.js from 2.9.2 to 2.9.3'
+      hash: 96e6b76060e89a144403acd0d3c9ab39f8fc2854
+      body: >
+        Bumps [chart.js](https://github.com/chartjs/Chart.js) from 2.9.2 to
+        2.9.3.
+
+        - [Release notes](https://github.com/chartjs/Chart.js/releases)
+
+        - [Commits](https://github.com/chartjs/Chart.js/compare/v2.9.2...v2.9.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.11
+  date: 2020-06-21T01:35:12.425Z
+- commits:
     - subject: Update open-balena-base to 9.4.1
       hash: faa9d2226f18a4a6b5ea398ab548d7e6755d2568
       body: |
