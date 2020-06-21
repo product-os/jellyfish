@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump webpack-dev-server from 3.10.3 to 3.11.0'
+      hash: d0585f200ee0348039b1569e326358663eee5c82
+      body: >
+        Bumps
+        [webpack-dev-server](https://github.com/webpack/webpack-dev-server) from
+        3.10.3 to 3.11.0.
+
+        - [Release
+        notes](https://github.com/webpack/webpack-dev-server/releases)
+
+        -
+        [Changelog](https://github.com/webpack/webpack-dev-server/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack/webpack-dev-server/compare/v3.10.3...v3.11.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.13
+  date: 2020-06-21T06:28:16.428Z
+- commits:
     - subject: 'patch: bump styled-components from 5.0.1 to 5.1.1'
       hash: 5c15fde35ccfa0b5ccbe9a7bcd4e589cc57841d9
       body: >
