@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump node-jose from 1.1.3 to 1.1.4'
+      hash: 8481899361de832470ac2b6eff9afdb5e859ce16
+      body: >
+        Bumps [node-jose](https://github.com/cisco/node-jose) from 1.1.3 to
+        1.1.4.
+
+        - [Release notes](https://github.com/cisco/node-jose/releases)
+
+        -
+        [Changelog](https://github.com/cisco/node-jose/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/cisco/node-jose/compare/1.1.3...1.1.4)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.22
+  date: 2020-06-21T16:02:55.644Z
+- commits:
     - subject: Remove dependabot automerge in favor of versionbot
       hash: e8c86fd5794dada0f55e972149a06fc22ba2e8b0
       body: |
