@@ -130,7 +130,7 @@
     "@octokit/plugin-throttling": "^3.2.1",
     "@octokit/rest": "^17.9.2",
     "@sentry/browser": "^5.15.5",
-    "@sentry/node": "^5.16.1",
+    "@sentry/node": "^5.17.0",
     "@webscopeio/react-textarea-autocomplete": "^4.6.3",
     "aws-sdk": "^2.700.0",
     "bcrypt": "^4.0.1",
