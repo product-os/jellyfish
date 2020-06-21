@@ -185,7 +185,7 @@
     "native-url": "^0.3.2",
     "node-emoji": "^1.10.0",
     "node-hook": "^1.0.0",
-    "node-jose": "^1.1.3",
+    "node-jose": "^1.1.4",
     "object-hash": "^2.0.3",
     "pg-format": "^1.0.4",
     "pg-promise": "^10.4.0",
