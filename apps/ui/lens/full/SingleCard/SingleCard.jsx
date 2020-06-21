@@ -26,10 +26,12 @@ import {
 } from '../../../../../lib/ui-components/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
-	flex: 1
-
+	flex: 1;
+	> [ role="tablist"]{
+	  height: 100%;
+	}
 	> [role="tabpanel"] {
-		flex: 1
+		flex: 1;
 	}
 `
 

@@ -38,7 +38,7 @@ ava('Only messages and whispers are displayed when the messagesOnly field is set
 		<EventsList
 			{...props}
 			messagesOnly
-			sortedTail={tail}
+			sortedEvents={tail}
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
@@ -72,7 +72,7 @@ ava('Whispers are not shown if hideWhispers is set', async (test) => {
 			{...props}
 			hideWhispers
 			messagesOnly
-			sortedTail={tail}
+			sortedEvents={tail}
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
@@ -103,7 +103,7 @@ ava('All events are shown if messagesOnly and hideWhispers are not set', async (
 	const eventsList = await mount(
 		<EventsList
 			{...props}
-			sortedTail={tail}
+			sortedEvents={tail}
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
