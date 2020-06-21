@@ -1,4 +1,78 @@
 - commits:
+    - subject: Update open-balena-base to 9.4.1
+      hash: faa9d2226f18a4a6b5ea398ab548d7e6755d2568
+      body: |
+        Update open-balena-base from 9.2.1 to 9.4.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Update nodejs to 12.18.1
+              hash: 94c1803d479d80d3f9c1450bf0c3ea0d4639478b
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: open-balena-base-9.4.1
+          date: 2020-06-19T13:51:47.608Z
+        - commits:
+            - subject: Update nodejs to 12.18.0
+              hash: f7bf6f487ea64af6ffce821974ccddc5646bb6d8
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Pagan Gazzard
+          version: open-balena-base-9.4.0
+          date: 2020-06-08T11:55:53.921Z
+        - commits:
+            - subject: Update nodejs to 12.17.0 and npm to 6.14.5
+              hash: 66675b45ed52a14775a1d0d01bcf6658ee9f0aca
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Pagan Gazzard
+          version: open-balena-base-9.3.0
+          date: 2020-05-29T17:40:11.727Z
+        - commits:
+            - subject: Update nodejs to 12.16.3
+              hash: 069780c6c88a8247c684a574e57bf885c3b45be9
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: open-balena-base-9.2.4
+          date: 2020-04-30T15:10:28.844Z
+        - commits:
+            - subject: Forward log from journald to console by default
+              hash: 60d85f6207929eb0426979fb56e5238439a3a5b8
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Trong Nghia Nguyen <nghiant2710@gmail.com>
+                signed-off-by: Trong Nghia Nguyen <nghiant2710@gmail.com>
+              author: Trong Nghia Nguyen
+          version: open-balena-base-9.2.3
+          date: 2020-04-15T10:39:48.849Z
+        - commits:
+            - subject: 'Update nodejs to 12.16.2, npm to 6.14.4'
+              hash: 116bbb6bf4f9a548a68b959c39d54c8abc2d5bd7
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: open-balena-base-9.2.2
+          date: 2020-04-09T12:42:03.658Z
+  version: 30.58.10
+  date: 2020-06-21T00:34:15.654Z
+- commits:
     - subject: 'patch: bump webpack-cli from 3.3.11 to 3.3.12'
       hash: 6e98eb67cacec5b08334b93ef7dd55c67c959902
       body: >
