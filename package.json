@@ -176,7 +176,7 @@
     "lru-cache": "^5.1.1",
     "mark.js": "^8.11.1",
     "marked": "^0.7.0",
-    "mixpanel-browser": "^2.37.0",
+    "mixpanel-browser": "^2.38.0",
     "mkdirp-promise": "^5.0.1",
     "moment": "^2.26.0",
     "monaco-editor": "^0.20.0",
