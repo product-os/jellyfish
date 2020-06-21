@@ -5,34 +5,16 @@
  */
 
 import {
-	commaListsAnd,
-	html
-} from 'common-tags'
-import {
 	circularDeepEqual
 } from 'fast-equals'
-import {
-	saveAs
-} from 'file-saver'
 import _ from 'lodash'
-import moment from 'moment'
 import React from 'react'
 import {
-	Box,
-	Button,
-	Flex,
-	Txt
+	Box
 } from 'rendition'
-import styled from 'styled-components'
 import {
 	v4 as uuid
 } from 'uuid'
-import Event, {
-	getMessage
-} from '../Event'
-import Update, {
-	generateJSONPatchDescription
-} from '../Update'
 import * as helpers from '../services/helpers'
 import Column from '../shame/Column'
 import Icon from '../shame/Icon'
@@ -40,6 +22,10 @@ import MessageInput from './MessageInput'
 import {
 	withSetup
 } from '../SetupProvider'
+import Header from './Header'
+import EventsList from './EventsList'
+import PendingMessages from './PendingMessages'
+import TypingNotice from './TypingNotice'
 import EventsContainer from '../EventsContainer'
 
 const messageSymbolRE = /^\s*%\s*/
@@ -50,19 +36,6 @@ const messageSymbolRE = /^\s*%\s*/
  */
 export const HIDDEN_ANCHOR = '#jellyfish-hidden'
 export const FILE_PROXY_MESSAGE = `[](${HIDDEN_ANCHOR})A file has been uploaded using Jellyfish:`
-
-const TypingNotice = styled.div `
-	background: white;
-	transform: translateY(-10px);
-	height: 0;
-	overflow: visible;
-	> * {
-		display: inline-block;
-		border-radius: 3px;
-		padding: 0 5px;
-		box-shadow: rgba(0,0,0,0.25) 0px 0px 3px;
-	}
-`
 
 const getSendCommand = (user) => {
 	return _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
@@ -139,55 +112,6 @@ class Timeline extends React.Component {
 		this.setState({
 			messagesOnly: !this.state.messagesOnly
 		})
-	}
-
-	async handleDownloadConversation (events) {
-		let text = this.props.card.name
-		let activeDate = null
-
-		for (const event of events) {
-			const typeBase = event.type.split('@')[0]
-			let content = ''
-
-			if (typeBase === 'update') {
-				if (_.some(event.data.payload, 'op')) {
-					content = generateJSONPatchDescription(event.data.payload)
-				} else {
-					content = event.name
-				}
-			} else if (typeBase === 'message' || typeBase === 'whisper') {
-				content = (typeBase === 'whisper' ? '**whisper** ' : '') + getMessage(event)
-			} else {
-				continue
-			}
-
-			const actorCard = await this.props.getActor(event.data.actor)
-			const actorName = actorCard.name || ''
-
-			const timestamp = moment(_.get(event, [ 'data', 'timestamp' ]) || event.created_at)
-			const time = timestamp.format('HH:mm')
-			let date = ''
-
-			// Show message date if it's different from previous message date
-			if (!activeDate || !timestamp.isSame(activeDate, 'day')) {
-				date = timestamp.format('YYYY - MM - DD')
-				activeDate = timestamp
-			}
-
-			text += '\n\n'
-			text += html `
-                ${date}
-                ${time} ${actorName}
-
-                    ${content}
-			`
-		}
-
-		const blob = new Blob([ text ], {
-			type: 'text/plain'
-		})
-
-		saveAs(blob, `${this.props.card.name}.txt`)
 	}
 
 	handleWhisperToggle () {
@@ -406,6 +330,8 @@ class Timeline extends React.Component {
 	render () {
 		const {
 			user,
+			card,
+			getActor,
 			selectCard,
 			getCard,
 			enableAutocomplete,
@@ -425,43 +351,16 @@ class Timeline extends React.Component {
 		const {
 			messagesOnly,
 			pendingMessages,
-			hideWhispers
+			hideWhispers,
+			page
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
 		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
 
-		// Remove non-message and non-whisper cards and update cards that don't have
-		// a "name" field. Update cards with a "name" field provide a human readable
-		// reason for the change in the "name" field, so should typically be
-		// displayed by default
-		if (messagesOnly) {
-			_.remove(sortedTail, (card) => {
-				const typeBase = card.type.split('@')[0]
-				if (typeBase === 'update' && Boolean(card.name)) {
-					return false
-				}
-				return typeBase !== 'message' && typeBase !== 'whisper'
-			})
-		}
+		const sendCommand = getSendCommand(user)
 
-		let typingMessage = null
-
-		if (usersTyping.length === 1) {
-			typingMessage = `${usersTyping[0].slice(5)} is typing...`
-		} else if (usersTyping.length > 1) {
-			const typing = usersTyping.map((slug) => {
-				return slug.slice(5)
-			})
-
-			typingMessage = commaListsAnd `${typing} are typing...`
-		}
-
-		const sendCommand = getSendCommand(this.props.user)
-
-		const isMirrored = !_.isEmpty(_.get(this.props.card, [ 'data', 'mirrors' ]))
-
-		const headerTitle = _.get(headerOptions, [ 'title' ])
+		const isMirrored = !_.isEmpty(_.get(card, [ 'data', 'mirrors' ]))
 
 		const eventProps = {
 			types,
@@ -480,81 +379,19 @@ class Timeline extends React.Component {
 			getActorHref
 		}
 
-		const pagedTail = (Boolean(sortedTail) && sortedTail.length > 0)
-			? sortedTail.slice(0 - (PAGE_SIZE * this.state.page)) : null
-
 		return (
 			<Column>
-				<Flex m={2}>
-					{headerTitle && (
-						<Box flex={1} mr={2} style={{
-							minWidth: 0,
-							overflow: 'hidden',
-							textOverflow: 'ellipsis',
-							whiteSpace: 'nowrap'
-						}}>
-							<Txt.span tooltip={headerTitle}>{headerTitle}</Txt.span>
-						</Box>
-					)}
-					<Box style={{
-						marginLeft: 'auto'
-					}}>
-						<Button
-							plain
-							tooltip={{
-								placement: 'left',
-								text: 'Jump to first message'
-							}}
-							ml={2}
-							onClick={this.handleJumpToTop}
-							icon={<Icon name="chevron-circle-up"/>}
-						/>
-
-						{_.get(headerOptions, [ 'buttons', 'toggleWhispers' ]) !== false && (
-							<Button
-								plain
-								tooltip={{
-									placement: 'left',
-									text: `${hideWhispers ? 'Show' : 'Hide'} whispers`
-								}}
-								style={{
-									opacity: hideWhispers ? 0.5 : 1
-								}}
-								ml={2}
-								onClick={this.handleWhisperToggle}
-								icon={<Icon name="user-secret"/>}
-							/>
-						)}
-
-						{_.get(headerOptions, [ 'buttons', 'toggleEvents' ]) !== false && (
-							<Button
-								plain
-								tooltip={{
-									placement: 'left',
-									text: `${messagesOnly ? 'Show' : 'Hide'} create and update events`
-								}}
-								style={{
-									opacity: messagesOnly ? 0.5 : 1
-								}}
-								className="timeline__checkbox--additional-info"
-								ml={2}
-								onClick={this.handleEventToggle}
-								icon={<Icon name="stream"/>}
-							/>
-						)}
-
-						<Button
-							plain
-							tooltip={{
-								placement: 'left',
-								text: 'Download conversation'
-							}}
-							ml={2}
-							onClick={() => { return this.handleDownloadConversation(sortedTail) }}
-							icon={<Icon name="download"/>}
-						/>
-					</Box>
-				</Flex>
+				<Header
+					headerOptions={headerOptions}
+					hideWhispers={hideWhispers}
+					messagesOnly={messagesOnly}
+					sortedTail={sortedTail}
+					handleJumpToTop={this.handleJumpToTop}
+					handleWhisperToggle={this.handleWhisperToggle}
+					handleEventToggle={this.handleEventToggle}
+					card={card}
+					getActor={getActor}
+				/>
 
 				<EventsContainer
 					ref={this.bindScrollArea}
@@ -563,71 +400,32 @@ class Timeline extends React.Component {
 					{!sortedTail && (<Box p={3}>
 						<Icon spin name="cog"/>
 					</Box>)}
-
-					{pagedTail && _.map(pagedTail, (card, index) => {
-						if (hideWhispers && (card.type === 'whisper' || card.type === 'whisper@1.0.0')) {
-							return null
-						}
-
-						if (_.includes(this.state.uploadingFiles, card.slug)) {
-							return (
-								<Box key={card.slug} p={3}>
-									<Icon name="cog" spin /><em>{' '}Uploading file...</em>
-								</Box>
-							)
-						}
-
-						if (card.type === 'update' || card.type === 'update@1.0.0') {
-							return (
-								<Box key={card.id}>
-									<Update
-										onCardVisible={this.handleCardVisible}
-										card={card}
-										user={this.props.user}
-										getActor={this.props.getActor}
-									/>
-								</Box>
-							)
-						}
-
-						return (
-							<Box key={card.id}>
-								<Event
-									{...eventProps}
-									previousEvent={pagedTail[index - 1]}
-									nextEvent={pagedTail[index + 1]}
-									card={card}
-									user={this.props.user}
-								/>
-							</Box>
-						)
-					})}
-
-					{Boolean(pendingMessages.length) && _.map(pendingMessages, (item) => {
-						return (
-							<Box key={item.slug}>
-								<Event
-									{...eventProps}
-									card={item}
-								/>
-							</Box>
-						)
-					})}
+					<EventsList
+						{ ...eventProps }
+						getActor={getActor}
+						hideWhispers={hideWhispers}
+						sortedTail={sortedTail}
+						uploadingFiles={this.state.uploadingFiles}
+						handleCardVisible={this.handleCardVisible}
+						messagesOnly={messagesOnly}
+						page={page}
+						pageSize={PAGE_SIZE}
+						user={user}
+						eventMenuOptions={eventMenuOptions}
+					/>
+					<PendingMessages
+						{ ...eventProps }
+						pendingMessages={pendingMessages}
+					/>
 				</EventsContainer>
 
-				{typingMessage && (
-					<TypingNotice data-test="typing-notice">
-						<Box bg="white" ml={3}>
-							<em>{typingMessage}</em>
-						</Box>
-					</TypingNotice>
-				)}
+				<TypingNotice usersTyping={usersTyping} />
 
 				<MessageInput
 					enableAutocomplete={enableAutocomplete}
 					sdk={sdk}
 					types={types}
-					user={this.props.user}
+					user={user}
 					wide={wide}
 					style={{
 						borderTop: '1px solid #eee'
