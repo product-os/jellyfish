@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump mixpanel-browser from 2.37.0 to 2.38.0'
+      hash: 563932ff35e3c2597265e05124ea1724796503ab
+      body: >
+        Bumps [mixpanel-browser](https://github.com/mixpanel/mixpanel-js) from
+        2.37.0 to 2.38.0.
+
+        - [Release notes](https://github.com/mixpanel/mixpanel-js/releases)
+
+        -
+        [Changelog](https://github.com/mixpanel/mixpanel-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/mixpanel/mixpanel-js/compare/v2.37.0...v2.38.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.17
+  date: 2020-06-21T12:18:05.464Z
+- commits:
     - subject: 'patch: bump ava from 3.8.2 to 3.9.0'
       hash: 3e86b73587c97cc76e939849c6b0051d9edeb14b
       body: |
