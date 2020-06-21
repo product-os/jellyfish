@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: bump ava from 3.8.2 to 3.9.0'
+      hash: 3e86b73587c97cc76e939849c6b0051d9edeb14b
+      body: |
+        Bumps [ava](https://github.com/avajs/ava) from 3.8.2 to 3.9.0.
+        - [Release notes](https://github.com/avajs/ava/releases)
+        - [Commits](https://github.com/avajs/ava/compare/v3.8.2...v3.9.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.16
+  date: 2020-06-21T11:04:15.371Z
+- commits:
     - subject: 'patch: bump request from 2.88.0 to 2.88.2'
       hash: 2816d14fea487c795e212b8e71bf13c6050873cd
       body: >
