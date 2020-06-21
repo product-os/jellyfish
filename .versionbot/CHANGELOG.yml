@@ -1,4 +1,27 @@
 - commits:
+    - subject: Remove dependabot automerge in favor of versionbot
+      hash: e8c86fd5794dada0f55e972149a06fc22ba2e8b0
+      body: |
+        Dependabot will only automerge when the PR gets approved. This is the
+        same behaviour versionbot has. For consistentcy we should use versionbot
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: Set Dependabot update schedule to instant updates
+      hash: d7ff44baeabd4ca1e6ef72e0ba68d27bcbd84045
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+  version: 30.58.21
+  date: 2020-06-21T15:24:35.555Z
+- commits:
     - subject: 'patch: bump native-url from 0.3.1 to 0.3.2'
       hash: aed0aba1c9327d6d750dbbe7f03f042b7a83a073
       body: >
