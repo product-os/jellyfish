@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump request from 2.88.0 to 2.88.2'
+      hash: 2816d14fea487c795e212b8e71bf13c6050873cd
+      body: >
+        Bumps [request](https://github.com/request/request) from 2.88.0 to
+        2.88.2.
+
+        - [Release notes](https://github.com/request/request/releases)
+
+        -
+        [Changelog](https://github.com/request/request/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/request/request/commits)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.15
+  date: 2020-06-21T09:43:45.640Z
+- commits:
     - subject: 'patch: bump @babel/preset-env from 7.7.1 to 7.10.3'
       hash: 1b098ccbbb4023f339043196ff37c8c212c78af2
       body: >
