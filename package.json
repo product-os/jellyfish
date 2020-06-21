@@ -190,7 +190,7 @@
     "pg-format": "^1.0.4",
     "pg-promise": "^10.4.0",
     "pluralize": "^8.0.0",
-    "query-string": "^6.7.0",
+    "query-string": "^6.13.1",
     "random-words": "^1.1.1",
     "randomstring": "^1.1.5",
     "react": "^16.13.1",
