@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/preset-env from 7.7.1 to 7.10.3'
+      hash: 1b098ccbbb4023f339043196ff37c8c212c78af2
+      body: >
+        Bumps
+        [@babel/preset-env](https://github.com/babel/babel/tree/HEAD/packages/babel-preset-env)
+        from 7.7.1 to 7.10.3.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.3/packages/babel-preset-env)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.14
+  date: 2020-06-21T08:47:25.945Z
+- commits:
     - subject: 'patch: bump webpack-dev-server from 3.10.3 to 3.11.0'
       hash: d0585f200ee0348039b1569e326358663eee5c82
       body: >
