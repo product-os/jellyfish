@@ -98,7 +98,7 @@
     "eslint-plugin-standard": "^3.0.1",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^3.0.6",
-    "js-combinatorics": "^0.5.5",
+    "js-combinatorics": "^0.6.1",
     "js-yaml": "^3.14.0",
     "mermaid.cli": "^0.5.1",
     "morgan": "^1.10.0",
