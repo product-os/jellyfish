@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump styled-components from 5.0.1 to 5.1.1'
+      hash: 5c15fde35ccfa0b5ccbe9a7bcd4e589cc57841d9
+      body: >
+        Bumps
+        [styled-components](https://github.com/styled-components/styled-components)
+        from 5.0.1 to 5.1.1.
+
+        - [Release
+        notes](https://github.com/styled-components/styled-components/releases)
+
+        -
+        [Changelog](https://github.com/styled-components/styled-components/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/styled-components/styled-components/compare/v5.0.1...v5.1.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.12
+  date: 2020-06-21T03:09:08.713Z
+- commits:
     - subject: 'patch: bump chart.js from 2.9.2 to 2.9.3'
       hash: 96e6b76060e89a144403acd0d3c9ab39f8fc2854
       body: >
