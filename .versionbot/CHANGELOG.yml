@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump rendition from 15.2.0 to 15.2.1'
+      hash: a719f44b3053c7f4c479a72972ef4a1c4bbd0016
+      body: >
+        Bumps [rendition](https://github.com/balena-io-modules/rendition) from
+        15.2.0 to 15.2.1.
+
+        - [Release
+        notes](https://github.com/balena-io-modules/rendition/releases)
+
+        -
+        [Changelog](https://github.com/balena-io-modules/rendition/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/balena-io-modules/rendition/compare/v15.2.0...v15.2.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.19
+  date: 2020-06-21T13:50:15.942Z
+- commits:
     - subject: 'patch: bump @sentry/node from 5.16.1 to 5.17.0'
       hash: 5cc0cd1462f6110b87a2522af4207d6bb07917b1
       body: >
