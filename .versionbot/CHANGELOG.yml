@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update Dependabot config file
+      hash: 3cc28b7bb834cff5762f037103fba058cb6da4eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: 'dependabot-preview[bot]'
+  version: 30.60.1
+  date: 2020-06-22T14:18:32.623Z
+- commits:
     - subject: Mark as read after editing a message
       hash: 6c11189cd121010cb74eef28b9e9f8d864fdc9c6
       body: ''
