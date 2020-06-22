@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/polyfill from 7.8.7 to 7.10.1'
+      hash: a6ba66af6a83ef6650b9542a9909d7b98cb0ef68
+      body: >
+        Bumps
+        [@babel/polyfill](https://github.com/babel/babel/tree/HEAD/packages/babel-polyfill)
+        from 7.8.7 to 7.10.1.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.1/packages/babel-polyfill)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.24
+  date: 2020-06-22T00:13:16.160Z
+- commits:
     - subject: 'patch: bump js-combinatorics from 0.5.5 to 0.6.1'
       hash: eedc6ace74a2997c434fc7204f7d0acd2df797c2
       body: >
