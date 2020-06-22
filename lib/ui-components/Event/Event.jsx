@@ -114,6 +114,8 @@ export default class Event extends React.Component {
 			this.setState({
 				editedMessage: null,
 				updating: false
+			}, () => {
+				this.processText()
 			})
 		}
 
@@ -155,7 +157,9 @@ export default class Event extends React.Component {
 						}
 					}, this.props.card))
 					onUpdateCard(this.props.card, patch)
-						.then(this.onStopEditing)
+						.then(() => {
+							this.onStopEditing()
+						})
 						.catch(() => {
 							this.setState({
 								updating: false
