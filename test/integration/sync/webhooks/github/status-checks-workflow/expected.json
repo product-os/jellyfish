@@ -58,7 +58,7 @@
             "base": {
               "branch": "master",
               "sha": "5010ab1bb94c923f3f589cc8d8d2de237976a245"
-            }, 
+            },
             "statusChecks": {},
             "mirrors": [
               "https://api.github.com/repos/loop-os/test/pulls/4"

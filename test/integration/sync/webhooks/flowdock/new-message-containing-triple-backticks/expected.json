@@ -67,7 +67,9 @@
         "payload": {
           "message": "```\nvar x = 1;\nvar y = 1;\nconsole.log(x + y);\n```",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/7h-fUcc8suRvNRu6PcQq9vAiMPU/messages/113684"

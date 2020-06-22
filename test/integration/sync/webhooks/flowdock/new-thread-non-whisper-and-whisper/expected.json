@@ -67,7 +67,9 @@
         "payload": {
           "message": "This is NOT a secret message",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/KvxgRzRSwG1272qT56q1Lf4uui1/messages/113871"
@@ -90,7 +92,9 @@
         "payload": {
           "message": "this is a whisper",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/KvxgRzRSwG1272qT56q1Lf4uui1/messages/113873"

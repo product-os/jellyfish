@@ -81,6 +81,8 @@ ava('should post a broadcast message to an empty thread', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test'
 				}
 			}
@@ -189,6 +191,8 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test'
 				}
 			}
@@ -301,6 +305,8 @@ ava('should not broadcast the same message twice', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test'
 				}
 			}
@@ -425,6 +431,8 @@ ava('should broadcast different messages', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test 1'
 				}
 			}
@@ -451,6 +459,8 @@ ava('should broadcast different messages', async (test) => {
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test 2'
 				}
 			}
@@ -585,6 +595,8 @@ ava('should broadcast the same message twice given different actors', async (tes
 				payload: {
 					alertsUser: [],
 					mentionsUser: [],
+					alertsGroup: [],
+					mentionsGroup: [],
 					message: 'Broadcast test'
 				}
 			}

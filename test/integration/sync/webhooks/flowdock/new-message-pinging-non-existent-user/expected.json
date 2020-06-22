@@ -67,7 +67,9 @@
         "payload": {
           "message": "@notAuser hello",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/9dnOwMoN32F9ImxVJ42zD2m5HbG/messages/112934"

@@ -67,7 +67,9 @@
         "payload": {
           "message": "![Screenshot 2019-09-23 at 17.01.48.png](https://www.flowdock.com/rest/files/151242/K9XxJNPNdgafnXIigYTkRA/Screenshot 2019-09-23 at 17.01.48.png)",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/U1h0s7fqGVqIxYj1euzRTZm-KFM/messages/113579"

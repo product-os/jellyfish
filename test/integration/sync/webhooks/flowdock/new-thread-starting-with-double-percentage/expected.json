@@ -67,7 +67,9 @@
         "payload": {
           "message": "fizz baz bar foo",
           "mentionsUser": [],
-          "alertsUser": []
+          "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": []
         },
         "mirrors": [
           "https://api.flowdock.com/flows/rulemotion/testing/threads/EWA5CIiHHrpszkMZsbun8KGz2rt/messages/113867"

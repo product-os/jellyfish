@@ -109,26 +109,36 @@ ava('Editing a message will update the mentions, alerts, tags and message', asyn
 	}
 	const mentionSlug = 'john'
 	const alertSlug = 'paul'
+	const mentionGroup = 'group1'
+	const alertGroup = 'group2'
 	const tag = 'ringo'
-	const newMessage = `Test @${mentionSlug} !${alertSlug} #${tag}`
-	const expectedPatchSet = new Set([
-		{
+	const newMessage = `Test @${mentionSlug} !${alertSlug} @@${mentionGroup} !!${alertGroup} #${tag}`
+	const expectedPatches = {
+		'/tags/0': {
 			op: 'add', path: '/tags/0', value: tag
 		},
-		{
+		'/data/payload/mentionsUser/0': {
 			op: 'add',
 			path: '/data/payload/mentionsUser/0',
 			value: `user-${mentionSlug}`
 		},
-		{
+		'/data/payload/alertsUser/0': {
 			op: 'add', path: '/data/payload/alertsUser/0', value: `user-${alertSlug}`
 		},
-		{
+		'/data/payload/mentionsGroup/0': {
+			op: 'add',
+			path: '/data/payload/mentionsGroup/0',
+			value: mentionGroup
+		},
+		'/data/payload/alertsGroup/0': {
+			op: 'add', path: '/data/payload/alertsGroup/0', value: alertGroup
+		},
+		'/data/payload/message': {
 			op: 'replace',
 			path: '/data/payload/message',
 			value: newMessage
 		}
-	])
+	}
 
 	const onUpdateCard = sandbox.stub().resolves(null)
 
@@ -172,6 +182,9 @@ ava('Editing a message will update the mentions, alerts, tags and message', asyn
 	test.is(onUpdateCard.getCall(0).args[0].id, card.id)
 
 	// Use a Set here as we can't be sure of the order of patches in the patch array
-	const updatePatchSet = new Set(onUpdateCard.getCall(0).args[1])
-	test.deepEqual(updatePatchSet, expectedPatchSet)
+	const updatePatches = onUpdateCard.getCall(0).args[1].reduce((acc, patch) => {
+		acc[patch.path] = patch
+		return acc
+	}, {})
+	test.deepEqual(updatePatches, expectedPatches)
 })

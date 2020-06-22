@@ -76,6 +76,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "Foo Bar baz test test test"
         }
       }
@@ -99,6 +101,8 @@
         "payload": {
           "mentionsUser": [],
           "alertsUser": [],
+          "mentionsGroup": [],
+          "alertsGroup": [],
           "message": "My file attachment[pcasm-book.pdf|attachment](upload://2uB5SFjOWt1LwPVZ2gqNTa4261n.pdf) (1.0 MB)"
         }
       }

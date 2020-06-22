@@ -78,7 +78,9 @@ ava('It should change the actor after an update', async (test) => {
 			payload: {
 				message: 'x',
 				alertsUser: [],
-				mentionsUser: []
+				mentionsUser: [],
+				alertsGroup: [],
+				mentionsGroup: []
 			},
 			timestamp: '2019-05-31T13:45:00.300Z'
 		},
