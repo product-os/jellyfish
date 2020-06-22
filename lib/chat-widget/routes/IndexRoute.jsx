@@ -9,6 +9,9 @@ import {
 	useSelector
 } from 'react-redux'
 import {
+	useHistory
+} from 'react-router-dom'
+import {
 	Box,
 	Flex
 } from 'rendition'
@@ -25,14 +28,11 @@ import {
 	ThreadListItem
 } from '../components/ThreadListItem'
 import {
-	useRouter
-} from '../hooks'
-import {
 	selectThreads
 } from '../store/selectors'
 
 export const IndexRoute = () => {
-	const router = useRouter()
+	const history = useHistory()
 	const threads = useSelector(selectThreads())
 	const isInCreateThreadMode = React.useMemo(() => {
 		return !threads.length
@@ -41,7 +41,7 @@ export const IndexRoute = () => {
 	const handleCreateThreadSuccess = React.useCallback(({
 		thread
 	}) => {
-		router.history.push(`/chat/${thread.id}`)
+		history.push(`/chat/${thread.id}`)
 	}, [])
 
 	if (isInCreateThreadMode) {

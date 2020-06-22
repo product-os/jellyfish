@@ -9,8 +9,8 @@ import {
 	Button
 } from 'rendition'
 import {
-	useRouter
-} from '../hooks'
+	useHistory
+} from 'react-router-dom'
 
 /*
  * It would be better to just use <Button as={Link}></Button>,
@@ -19,11 +19,11 @@ import {
 export const ButtonLink = ({
 	onClick, to, ...rest
 }) => {
-	const router = useRouter()
+	const history = useHistory()
 
 	const handleClick = React.useCallback(() => {
-		router.history.push(to)
-	}, [ router, to ])
+		history.push(to)
+	}, [ history, to ])
 
 	return (
 		<Button onClick={handleClick} {...rest} />

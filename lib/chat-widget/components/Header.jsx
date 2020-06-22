@@ -6,6 +6,9 @@
 
 import * as React from 'react'
 import {
+	useHistory
+} from 'react-router-dom'
+import {
 	FaAngleLeft, FaTimes
 } from 'react-icons/fa'
 import {
@@ -15,9 +18,6 @@ import {
 	Box, Button, Flex, Txt, Img, useTheme
 } from 'rendition'
 import * as logoSrc from '../assets/images/support-logo.svg'
-import {
-	useRouter
-} from '../hooks'
 import {
 	AvailabilityStatus
 } from './AvailabilityStatus'
@@ -31,14 +31,14 @@ const Separator = () => {
 export const Header = ({
 	onClose
 }) => {
-	const router = useRouter()
+	const history = useHistory()
 	const theme = useTheme()
 	const productTitle = useSelector((state) => {
 		return state.productTitle
 	})
 
 	const handleBackButtonClick = React.useCallback(() => {
-		router.history.goBack()
+		history.goBack()
 	}, [])
 
 	return (
@@ -53,7 +53,7 @@ export const Header = ({
 			<Img src={logoSrc} />
 			<Separator />
 
-			{router.history.canGo(-1) && (
+			{history.canGo(-1) && (
 				<Button
 					ml="12px"
 					plain

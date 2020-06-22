@@ -10,6 +10,9 @@ import {
 	useSelector
 } from 'react-redux'
 import {
+	useParams
+} from 'react-router-dom'
+import {
 	Box
 } from 'rendition'
 import Timeline from '../../ui-components/Timeline'
@@ -21,7 +24,6 @@ import {
 } from '../components/Task'
 import {
 	useActions,
-	useRouter,
 	useTask
 } from '../hooks'
 import {
@@ -38,15 +40,15 @@ export const ChatRoute = () => {
 		sdk,
 		environment
 	} = useSetup()
-	const router = useRouter()
+	const params = useParams()
 	const actions = useActions()
 	const fetchThreadTask = useTask(actions.fetchThread)
 	const currentUser = useSelector(selectCurrentUser())
-	const thread = useSelector(selectCardById(router.match.params.thread))
-	const messages = useSelector(selectMessages(router.match.params.thread))
+	const thread = useSelector(selectCardById(params.thread))
+	const messages = useSelector(selectMessages(params.thread))
 
 	React.useEffect(() => {
-		fetchThreadTask.exec(router.match.params.thread)
+		fetchThreadTask.exec(params.thread)
 	}, [])
 
 	// ToDo: implement this

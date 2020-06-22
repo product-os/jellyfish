@@ -6,6 +6,9 @@
 
 import React from 'react'
 import {
+	useHistory
+} from 'react-router-dom'
+import {
 	Box,
 	Flex
 } from 'rendition'
@@ -15,17 +18,14 @@ import {
 import {
 	Heading
 } from '../components/Heading'
-import {
-	useRouter
-} from '../hooks'
 
 export const NewThreadRoute = () => {
-	const router = useRouter()
+	const history = useHistory()
 
 	const handleSuccess = React.useCallback(({
 		thread
 	}) => {
-		router.history.replace(`/chat/${thread.id}`)
+		history.replace(`/chat/${thread.id}`)
 	}, [])
 
 	return (
