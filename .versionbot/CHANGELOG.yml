@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump react-trello from 2.2.3 to 2.2.6'
+      hash: 0df49573f951a4d48e062b56c11ca97af4454a95
+      body: >
+        Bumps [react-trello](https://github.com/rcdexta/react-trello) from 2.2.3
+        to 2.2.6.
+
+        - [Release notes](https://github.com/rcdexta/react-trello/releases)
+
+        -
+        [Changelog](https://github.com/rcdexta/react-trello/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/rcdexta/react-trello/compare/v2.2.3...v2.2.6)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.25
+  date: 2020-06-22T01:38:21.070Z
+- commits:
     - subject: 'patch: bump @babel/polyfill from 7.8.7 to 7.10.1'
       hash: a6ba66af6a83ef6650b9542a9909d7b98cb0ef68
       body: >
