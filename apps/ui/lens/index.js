@@ -113,8 +113,12 @@ export const getContextualThreadsQuery = (id) => {
 					}
 				},
 				type: 'object',
-				required: [ 'type' ],
+				required: [ 'type', 'active' ],
 				properties: {
+					active: {
+						type: 'boolean',
+						const: true
+					},
 					type: {
 						type: 'string',
 						const: 'thread@1.0.0'
