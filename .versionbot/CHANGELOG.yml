@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump js-combinatorics from 0.5.5 to 0.6.1'
+      hash: eedc6ace74a2997c434fc7204f7d0acd2df797c2
+      body: >
+        Bumps [js-combinatorics](https://github.com/dankogai/js-combinatorics)
+        from 0.5.5 to 0.6.1.
+
+        - [Release notes](https://github.com/dankogai/js-combinatorics/releases)
+
+        -
+        [Commits](https://github.com/dankogai/js-combinatorics/compare/0.5.5...0.6.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.23
+  date: 2020-06-21T23:30:30.065Z
+- commits:
     - subject: 'patch: bump node-jose from 1.1.3 to 1.1.4'
       hash: 8481899361de832470ac2b6eff9afdb5e859ce16
       body: >
