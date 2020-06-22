@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump query-string from 6.8.3 to 6.13.1'
+      hash: 07df538ed2fa677b0980c2618e0bd228d190384e
+      body: >
+        Bumps [query-string](https://github.com/sindresorhus/query-string) from
+        6.8.3 to 6.13.1.
+
+        - [Release notes](https://github.com/sindresorhus/query-string/releases)
+
+        -
+        [Commits](https://github.com/sindresorhus/query-string/compare/v6.8.3...v6.13.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.30
+  date: 2020-06-22T07:30:18.363Z
+- commits:
     - subject: 'patch: bump graphile-worker from 0.5.0 to 0.6.0'
       hash: 9f47fd41bc49d4610e071787b03df1279f53c534
       body: >
