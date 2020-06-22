@@ -1,4 +1,50 @@
 - commits:
+    - subject: Mark as read after editing a message
+      hash: 6c11189cd121010cb74eef28b9e9f8d864fdc9c6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Ensure tokens always re-highlighted after card changes
+      hash: cbc1e3eecc6ecd1f5bbbdc8ca52490de0250eb40
+      body: >
+        This change ensures that whenever the card changes we re-process the
+        message text, re-applying the token highlighting so it stays up-to-date
+        with the message/card.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Use save and cancel edit butons when editing messages
+      hash: db9558b2dd0e2e45f18ca260b9af8cb193f68bf7
+      body: >
+        This makes the save more 'intentional' and makes it obvious how to save
+        (and cancel) your edits. The 'click-outside to save changes'
+        functionality has been removed but you can still press the 'send cmd' to
+        save your changes.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Ensure message is re-formatted after editing
+      hash: 641add42a872fd3e4099138503ecb5c6783de0f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.60.0
+  date: 2020-06-22T12:22:32.791Z
+- commits:
     - subject: Add mentionsGroup and alertsGroup to integration test expected data
       hash: 3441d48a484487084e747df8e7ec31f06d0a0042
       body: ''
