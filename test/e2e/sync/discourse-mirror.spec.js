@@ -134,7 +134,7 @@ ava.serial.before(async (test) => {
 				method: 'GET',
 				baseUrl: 'https://forums.balena.io',
 				json: true,
-				uri: `/t/${id}.json`,
+				uri: `/t/${id}.json?include_raw=1`,
 				headers: {
 					'Api-Key': TOKEN.api,
 					'Api-Username': TOKEN.username
@@ -259,6 +259,8 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 	const topicId = _.last(mirrorId.split('/'))
 	await test.context.deleteTopic(topicId)
 
+	const message = '#summary Foo Bar'
+
 	const eventResponse = await test.context.sdk.event.create({
 		slug: test.context.getWhisperSlug(),
 		target: supportThread,
@@ -266,7 +268,7 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 		payload: {
 			mentionsUser: [],
 			alertsUser: [],
-			message: '#summary Foo Bar'
+			message
 		}
 	})
 
@@ -277,7 +279,9 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 	test.falsy(thread.data.mirrors)
 
 	const topic = await test.context.getTopic(topicId)
-	test.is(topic.post_stream.posts.length, 2)
+	test.false(_.some(topic.post_stream.posts, {
+		raw: message
+	}))
 })
 
 avaTest('should send, but not sync, a message to a deleted thread', async (test) => {
@@ -294,6 +298,8 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 	const topicId = _.last(mirrorId.split('/'))
 	await test.context.deleteTopic(topicId)
 
+	const message = 'Test message'
+
 	const eventResponse = await test.context.sdk.event.create({
 		slug: test.context.getMessageSlug(),
 		target: supportThread,
@@ -301,7 +307,7 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 		payload: {
 			mentionsUser: [],
 			alertsUser: [],
-			message: 'Test message'
+			message
 		}
 	})
 
@@ -312,7 +318,9 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 	test.falsy(thread.data.mirrors)
 
 	const topic = await test.context.getTopic(topicId)
-	test.is(topic.post_stream.posts.length, 2)
+	test.false(_.some(topic.post_stream.posts, {
+		raw: message
+	}))
 })
 
 avaTest('should send a whisper as a non moderator user', async (test) => {
@@ -416,16 +424,33 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	test.false(topicBefore.closed)
 	test.true(topicBefore.visible)
 
-	await test.context.sdk.card.update(issue.id, issue.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
+	// Close the issue, and then wait for the support thread to be re-opened
+	const newSupportThread = await test.context.executeThenWait(async () => {
+		return test.context.sdk.card.update(issue.id, issue.type, [
+			{
+				op: 'replace',
+				path: '/data/status',
+				value: 'closed'
+			}
+		])
+	}, {
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'open'
+					}
+				}
+			}
 		}
-	])
-
-	const newSupportThread =
-		await test.context.sdk.card.get(supportThread.id)
+	})
 
 	test.is(newSupportThread.data.status, 'open')
 

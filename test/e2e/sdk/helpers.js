@@ -43,6 +43,10 @@ exports.before = async (test) => {
 		await Bluebird.delay(1000)
 		return test.context.executeThenWait(null, waitQuery, times - 1)
 	}
+
+	test.context.waitForMatch = async (query) => {
+		return test.context.executeThenWait(null, query)
+	}
 }
 
 exports.after = async (test) => {

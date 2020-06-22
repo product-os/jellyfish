@@ -287,10 +287,28 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 
 	test.is(supportThread.data.status, 'open')
 
-	await test.context.createComment(supportThread,
-		test.context.getWhisperSlug(), '#summary Foo Bar')
-
-	const thread = await test.context.sdk.getById(supportThread.id)
+	// Send a message and then wait for the thread to close
+	const thread = await test.context.executeThenWait(async () => {
+		return test.context.createComment(supportThread,
+			test.context.getWhisperSlug(), '#summary Foo Bar')
+	}, {
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'closed'
+					}
+				}
+			}
+		}
+	})
 	test.true(thread.active)
 	test.is(thread.data.status, 'closed')
 
@@ -355,6 +373,9 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 		}
 	])
 
+	// Give the sync pipeline time to run
+	await Bluebird.delay(3000)
+
 	const remoteConversationBefore = await retryWhile429(() => {
 		return test.context.front.conversation.get({
 			conversation_id: conversationId
@@ -363,16 +384,33 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 
 	test.is(remoteConversationBefore.status, 'archived')
 
-	await test.context.sdk.card.update(issue.id, issue.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
+	// Close the issue, and then wait for the support thread to be re-opened
+	const newSupportThread = await test.context.executeThenWait(async () => {
+		return test.context.sdk.card.update(issue.id, issue.type, [
+			{
+				op: 'replace',
+				path: '/data/status',
+				value: 'closed'
+			}
+		])
+	}, {
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'open'
+					}
+				}
+			}
 		}
-	])
-
-	const newSupportThread =
-		await test.context.sdk.card.get(supportThread.id)
+	})
 
 	test.is(newSupportThread.data.status, 'open')
 
@@ -476,8 +514,10 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 		`Foo Bar ${uuid()}`,
 		test.context.inboxes[0])
 
+	const message = '```Foo\nBar```'
+
 	await test.context.createComment(supportThread,
-		test.context.getWhisperSlug(), '```Foo\nBar```')
+		test.context.getWhisperSlug(), message)
 
 	const comments = await test.context.getFrontCommentsUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
@@ -485,8 +525,13 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 		})
 
 	test.true(comments.length > 0)
-	test.is(comments[0].body, '```Foo\nBar```')
-	test.is(comments[0].author.username.replace(/_/g, '-'),
+
+	// Verify that the comments returned contain the expected value
+	const comment = _.find(comments, {
+		body: message
+	})
+	test.truthy(comment)
+	test.is(comment.author.username.replace(/_/g, '-'),
 		test.context.username)
 })
 
@@ -558,10 +603,12 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 			return elements.length > 0
 		})
 
-	test.is(comments.length, 2)
-	test.is(comments[0].body, 'First comment')
-	test.is(comments[0].author.username.replace(/_/g, '-'),
-		test.context.username)
+	// Verify that the comments returned contain the expected value
+	const comment = _.find(comments, {
+		body: 'First comment'
+	})
+	test.truthy(comment)
+	test.is(comment.author.username.replace(/_/g, '-'), test.context.username)
 })
 
 avaTest('should be able to close an inbound message', async (test) => {

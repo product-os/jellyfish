@@ -808,8 +808,16 @@ ava.serial.only('should merge and relink a diverging contact with a matching slu
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(
-		slug.replace(/^user-/, 'contact-'))
+	const contact = await test.context.waitForMatch({
+		type: 'object',
+		required: [ 'slug' ],
+		properties: {
+			slug: {
+				type: 'string',
+				const: slug.replace(/^user-/, 'contact-')
+			}
+		}
+	})
 
 	const contactCard = await test.context.sdk.card.update(contact.id, contact.type, [
 		{
