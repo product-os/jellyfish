@@ -1,4 +1,34 @@
 - commits:
+    - subject: Add mentionsGroup and alertsGroup to integration test expected data
+      hash: 3441d48a484487084e747df8e7ec31f06d0a0042
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Populate mentionsGroup and alertsGroup fields when creating messages
+      hash: 07794bf066f274c67e7c2ef97107f6912149f0f8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add mentionsGroup and alertsGroup to message and whisper cards
+      hash: f5eda6f4b87feac7778d26aebad3c30c04097073
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.59.0
+  date: 2020-06-22T10:36:16.448Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 5.15.5 to 5.17.0'
       hash: 000830f45ba82b3e32f2c8521d85214f73088428
       body: >
