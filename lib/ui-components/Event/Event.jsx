@@ -114,8 +114,6 @@ export default class Event extends React.Component {
 			this.setState({
 				editedMessage: null,
 				updating: false
-			}, () => {
-				this.processText()
 			})
 		}
 
@@ -187,6 +185,12 @@ export default class Event extends React.Component {
 		this.processText()
 	}
 
+	componentDidUpdate (prevProps) {
+		if (prevProps.card !== this.props.card) {
+			this.processText()
+		}
+	}
+
 	processText () {
 		if (!this.messageElement) {
 			return
@@ -198,6 +202,7 @@ export default class Event extends React.Component {
 			node.setAttribute('target', '_blank')
 		})
 		const instance = new Mark(this.messageElement)
+		instance.unmark()
 
 		const readBy = this.props.card.data.readBy || []
 		const userSlug = this.props.user.slug
