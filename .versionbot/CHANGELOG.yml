@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump react-icons from 3.9.0 to 3.10.0'
+      hash: 9ba7293ce770977c35ca71b8df714770dfd92ce2
+      body: >
+        Bumps [react-icons](https://github.com/react-icons/react-icons) from
+        3.9.0 to 3.10.0.
+
+        - [Release notes](https://github.com/react-icons/react-icons/releases)
+
+        -
+        [Commits](https://github.com/react-icons/react-icons/compare/v3.9.0...v3.10.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.58.28
+  date: 2020-06-22T04:36:36.100Z
+- commits:
     - subject: 'patch: bump moment from 2.26.0 to 2.27.0'
       hash: 20aa6091e96ad63336a94fb014db05df88adfa01
       body: >
