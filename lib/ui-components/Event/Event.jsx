@@ -342,7 +342,10 @@ export default class Event extends React.Component {
 							menuOptions={menuOptions}
 							isMessage={isMessage}
 							onEditMessage={this.onStartEditing}
+							onCommitEdit={this.saveEditedMessage}
+							onCancelEdit={this.onStopEditing}
 							updating={updating}
+							editing={editedMessage !== null}
 							user={user}
 							squashTop={squashTop}
 							getActorHref={getActorHref}

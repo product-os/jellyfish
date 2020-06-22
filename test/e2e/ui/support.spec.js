@@ -718,8 +718,7 @@ ava.serial('A user can edit their own message', async (test) => {
 	await page.waitForSelector(`${eventSelector} textarea`)
 	await page.type(`${eventSelector} textarea`, messageSuffix)
 
-	// Click anywhere outside the textarea to save the edited message
-	await macros.waitForThenClickSelector(page, '.column--support-thread')
+	await macros.waitForThenClickSelector(page, '[data-test="event-header__btn--save-edit"]')
 
 	// Wait for the message to be updated and verify the message text
 	const newMessageText = await macros.getElementText(page, `${eventSelector} [data-test="event-card__message"]`)
