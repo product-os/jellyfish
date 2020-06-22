@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add options for triggered actions to be sync or async
+      hash: c5549a824de040c4dd80ad4c1b92a106dc31f085
+      body: |
+        This change allows for triggered-actions to be evaluated and executed
+        asynchronously, resulting in a big performance boost when processing
+        actions. Triggered action cards default to being asynchronous.
+      footer:
+        Connects-to: '#3697'
+        connects-to: '#3697'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.61.0
+  date: 2020-06-22T22:53:37.213Z
+- commits:
     - subject: Update Dependabot config file
       hash: 3cc28b7bb834cff5762f037103fba058cb6da4eb
       body: ''
