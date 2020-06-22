@@ -1,4 +1,16 @@
 - commits:
+    - subject: Exclude messages in inactive threads in repository lens
+      hash: 588f906df4aafeb25b696f97e1c04e3455f96737
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.58.26
+  date: 2020-06-22T02:19:37.754Z
+- commits:
     - subject: 'patch: bump react-trello from 2.2.3 to 2.2.6'
       hash: 0df49573f951a4d48e062b56c11ca97af4454a95
       body: >
