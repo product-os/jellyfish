@@ -1,16 +1,17 @@
 {
   "slug": "view-typeform-responses",
-  "name": "Form Response Cards",
+  "name": "All Users' Feedback",
   "version": "1.0.0",
   "type": "view@1.0.0",
-  "markers": [],
+  "markers": [ "org-balena" ],
   "tags": [],
   "links": {},
   "active": true,
   "data": {
+    "namespace": "User Feedback",
     "allOf": [
       {
-        "name": "Form Response Cards",
+        "name": "All Users' Feedback",
         "schema": {
           "type": "object",
           "properties": {
@@ -26,7 +27,8 @@
       }
     ],
     "lenses": [
-      "lens-default-list"
+      "lens-list",
+      "lens-kanban"
     ]
   },
   "requires": [],
