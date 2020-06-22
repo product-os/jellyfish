@@ -90,7 +90,10 @@ const createTestContext = (test, sandbox) => {
 		user,
 		getActor,
 		getWithTimeline,
+<<<<<<< HEAD
 		tail,
+=======
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		sdk: {
 			card: {
 				getWithTimeline

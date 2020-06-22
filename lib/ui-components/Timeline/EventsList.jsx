@@ -26,20 +26,15 @@ export default class EventsList extends React.Component {
 		const {
 			getActor,
 			hideWhispers,
-			sortedTail,
+			sortedEvents,
 			uploadingFiles,
 			handleCardVisible,
 			messagesOnly,
 			user,
-			page,
-			pageSize,
-			eventMenuOptions,
 			...eventProps
 		} = this.props
-		const pagedTail = (Boolean(sortedTail) && sortedTail.length > 0)
-			? sortedTail.slice(0 - (pageSize * page)) : null
-		if (pagedTail) {
-			return _.map(pagedTail, (event, index) => {
+		if (sortedEvents && sortedEvents.length > 0) {
+			return _.map(sortedEvents, (event, index) => {
 				if (_.includes(uploadingFiles, event.slug)) {
 					return (
 						<Box key={event.slug} p={3}>
@@ -47,7 +42,6 @@ export default class EventsList extends React.Component {
 						</Box>
 					)
 				}
-
 				const pureType = event.type.split('@')[0]
 
 				if (messagesOnly && isNotMessage(pureType)) {
@@ -77,9 +71,10 @@ export default class EventsList extends React.Component {
 						data-test={event.id}
 						key={event.id}>
 						<Event
-							{...eventProps}
-							previousEvent={pagedTail[index - 1]}
-							nextEvent={pagedTail[index + 1]}
+							{...eventProps }
+							user={user}
+							previousEvent={sortedEvents[index - 1]}
+							nextEvent={sortedEvents[index + 1]}
 							card={event}
 							user={user}
 						/>

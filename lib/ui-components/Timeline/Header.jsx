@@ -49,7 +49,6 @@ export default class Header extends React.Component {
 
 		this.handleDownloadConversation = this.handleDownloadConversation.bind(this)
 	}
-
 	async handleDownloadConversation (events) {
 		const {
 			card,
@@ -94,7 +93,7 @@ export default class Header extends React.Component {
 			headerOptions,
 			hideWhispers,
 			messagesOnly,
-			sortedTail,
+			sortedEvents,
 			handleJumpToTop,
 			handleWhisperToggle,
 			handleEventToggle
@@ -156,7 +155,7 @@ export default class Header extends React.Component {
 							text: 'Download conversation'
 						}}
 						ml={2}
-						onClick={() => { return this.handleDownloadConversation(sortedTail) }}
+						onClick={() => { return this.handleDownloadConversation(sortedEvents) }}
 						icon={<Icon name="download"/>}
 					/>
 				</Box>

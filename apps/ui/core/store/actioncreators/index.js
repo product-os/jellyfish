@@ -520,7 +520,23 @@ export default class ActionCreator {
 				}
 
 				return this.sdk.card.getWithTimeline(target, {
-					type: cardType
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								const: cardType
+							}
+						}
+					},
+					queryOptions: {
+						links: {
+							'has attached element': {
+								limit: 20,
+								sortBy: 'created_at',
+								sortDir: 'desc'
+							}
+						}
+					}
 				})
 					.then((result) => {
 						if (!result) {

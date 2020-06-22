@@ -24,10 +24,15 @@ ava.before((test) => {
 
 ava('Only messages and whispers are displayed when the messagesOnly field is set', async (test) => {
 	const {
+<<<<<<< HEAD
 		eventProps: {
 			tail,
 			...props
 		},
+=======
+		eventProps,
+		tail,
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		createEvent,
 		whisperEvent,
 		messageEvent,
@@ -36,14 +41,24 @@ ava('Only messages and whispers are displayed when the messagesOnly field is set
 
 	const eventsList = await mount(
 		<EventsList
+<<<<<<< HEAD
 			{...props}
 			messagesOnly
 			sortedTail={tail}
+=======
+			messagesOnly
+			sortedEvents={tail}
+			{ ...eventProps }
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
 			wrappingComponentProps: {
+<<<<<<< HEAD
 				sdk: props.sdk
+=======
+				sdk: eventProps.sdk
+>>>>>>> Implement reverse scrolling in InfiniteList.
 			}
 		})
 	const messages = eventsList.find(`div[data-test="${messageEvent.id}"]`)
@@ -59,25 +74,41 @@ ava('Only messages and whispers are displayed when the messagesOnly field is set
 
 ava('Whispers are not shown if hideWhispers is set', async (test) => {
 	const {
+<<<<<<< HEAD
 		eventProps: {
 			tail,
 			...props
 		},
+=======
+		eventProps,
+		tail,
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		whisperEvent,
 		messageEvent
 	} = test.context
 
 	const eventsList = await mount(
 		<EventsList
+<<<<<<< HEAD
 			{...props}
 			hideWhispers
 			messagesOnly
 			sortedTail={tail}
+=======
+			{ ...eventProps }
+			hideWhispers
+			messagesOnly
+			sortedEvents={tail}
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
 			wrappingComponentProps: {
+<<<<<<< HEAD
 				sdk: props.sdk
+=======
+				sdk: eventProps.sdk
+>>>>>>> Implement reverse scrolling in InfiniteList.
 			}
 		})
 
@@ -90,10 +121,15 @@ ava('Whispers are not shown if hideWhispers is set', async (test) => {
 
 ava('All events are shown if messagesOnly and hideWhispers are not set', async (test) => {
 	const {
+<<<<<<< HEAD
 		eventProps: {
 			tail,
 			...props
 		},
+=======
+		eventProps,
+		tail,
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		whisperEvent,
 		messageEvent,
 		updateEvent,
@@ -102,13 +138,22 @@ ava('All events are shown if messagesOnly and hideWhispers are not set', async (
 
 	const eventsList = await mount(
 		<EventsList
+<<<<<<< HEAD
 			{...props}
 			sortedTail={tail}
+=======
+			sortedEvents={tail}
+			{...eventProps}
+>>>>>>> Implement reverse scrolling in InfiniteList.
 		/>,
 		{
 			wrappingComponent: wrapperWithSetup,
 			wrappingComponentProps: {
+<<<<<<< HEAD
 				sdk: props.sdk
+=======
+				sdk: eventProps.sdk
+>>>>>>> Implement reverse scrolling in InfiniteList.
 			}
 		})
 

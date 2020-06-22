@@ -28,6 +28,8 @@ import PendingMessages from './PendingMessages'
 import TypingNotice from './TypingNotice'
 import EventsContainer from '../EventsContainer'
 
+const PAGE_SIZE = 20
+
 const messageSymbolRE = /^\s*%\s*/
 
 /*
@@ -41,15 +43,11 @@ const getSendCommand = (user) => {
 	return _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
 }
 
-const PAGE_SIZE = 20
-
 class Timeline extends React.Component {
 	constructor (props) {
 		super(props)
-		this.shouldScroll = true
-
 		this.state = {
-			page: 1,
+			reachedBeginningOfTimeline: false,
 			hideWhispers: false,
 			messageSymbol: false,
 			messagesOnly: true,
@@ -57,16 +55,19 @@ class Timeline extends React.Component {
 			pendingMessages: [],
 			showNewCardModal: false,
 			whisper: Boolean(this.props.allowWhispers),
-			uploadingFiles: []
+			uploadingFiles: [],
+			eventSkip: PAGE_SIZE,
+			events: []
 		}
 
-		this.bindScrollArea = this.bindScrollArea.bind(this)
+		this.scrollToBottom = this.scrollToBottom.bind(this)
+		this.handleScrollBeginning = this.handleScrollBeginning.bind(this)
+		this.bindMessageEnd = this.bindMessageEnd.bind(this)
 		this.bindFileInput = this.bindFileInput.bind(this)
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.toggleWhisper = this.toggleWhisper.bind(this)
 		this.handleFileChange = this.handleFileChange.bind(this)
 		this.handleEventToggle = this.handleEventToggle.bind(this)
-		this.handleJumpToTop = this.handleJumpToTop.bind(this)
 		this.handleNewMessageSubmit = this.handleNewMessageSubmit.bind(this)
 		this.handleNewMessageChange = _.debounce(this.handleNewMessageChange.bind(this), 100)
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this)
@@ -78,17 +79,62 @@ class Timeline extends React.Component {
 		this.preserveMessage = _.debounce((newMessage) => {
 			this.props.setTimelineMessage(this.props.card.id, newMessage)
 		}, 1500)
-
-		this.handleScroll = this.handleScroll.bind(this)
 	}
 
-	handleJumpToTop (event) {
-		event.preventDefault()
-
+	componentDidMount () {
+		const {
+			tail
+		} = this.props
 		this.setState({
-			page: Infinity
+			events: tail
 		}, () => {
-			this.scrollArea.scrollTop = 0
+			this.scrollToBottom()
+		})
+	}
+
+	shouldComponentUpdate (nextProps, nextState) {
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+	}
+
+	componentDidUpdate (prevProps, prevState) {
+		this.setState({
+			events: this.props.tail
+		})
+	}
+
+	handleScrollBeginning () {
+		const {
+			sdk,
+			card
+		} = this.props
+		const {
+			events,
+			eventSkip
+		} = this.state
+		return sdk.card.getWithTimeline(card.slug, {
+			queryOptions: {
+				links: {
+					'has attached element': {
+						sortBy: 'created_at',
+						limit: PAGE_SIZE,
+						skip: eventSkip,
+						sortDir: 'desc'
+					}
+				}
+			}
+		}).then((results) => {
+			const newEvents = _.get(results, [ 'links', 'has attached element' ])
+			const validEvents = _.compact(newEvents)
+			if (validEvents.length === 0) {
+				this.setState({
+					reachedBeginningOfTimeline: true
+				})
+			} else {
+				this.setState({
+					events: _.concat(events, validEvents),
+					eventSkip: eventSkip + PAGE_SIZE
+				})
+			}
 		})
 	}
 
@@ -161,85 +207,6 @@ class Timeline extends React.Component {
 			})
 	}
 
-	shouldComponentUpdate (nextProps, nextState) {
-		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
-	}
-
-	componentDidMount () {
-		this.shouldScroll = true
-		this.scrollToBottom()
-	}
-
-	getSnapshotBeforeUpdate (nextProps, nextState) {
-		if (this.scrollArea) {
-			// Only set the scroll flag if the scroll area is already at the bottom
-			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
-		}
-
-		const {
-			tail
-		} = this.props
-
-		const {
-			pendingMessages
-		} = this.state
-
-		if (tail.length !== nextProps.tail.length) {
-			return pendingMessages.filter((item) => {
-				const match = _.find(nextProps.tail, {
-					slug: item.slug
-				})
-				return match
-			})
-		}
-
-		return null
-	}
-
-	componentDidUpdate (prevProps, prevState, snapshot) {
-		// Scroll to bottom if the component has been updated with new items
-		this.scrollToBottom()
-		if (
-			this.scrollArea &&
-			this.scrollBottomOffset &&
-			this.scrollBottomOffset !== this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
-		) {
-			this.scrollArea.scrollTop = this.scrollArea.scrollHeight - (this.scrollArea.offsetHeight + this.scrollBottomOffset)
-			this.scrollBottomOffset = this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
-		}
-
-		if (snapshot) {
-			this.setState({
-				pendingMessages: snapshot
-			})
-		}
-	}
-
-	scrollToBottom () {
-		if (!this.scrollArea) {
-			return
-		}
-		if (this.shouldScroll) {
-			this.scrollArea.scrollTop = this.scrollArea.scrollHeight
-		}
-	}
-
-	handleScroll (event) {
-		if (this.scrollArea) {
-			this.scrollBottomOffset = this.scrollArea.scrollHeight - this.scrollArea.offsetHeight - this.scrollArea.scrollTop
-		}
-
-		if (
-			this.scrollArea &&
-			this.scrollArea.scrollTop < 250 &&
-			this.state.page * PAGE_SIZE < this.props.tail.length
-		) {
-			this.setState({
-				page: this.state.page + 1
-			})
-		}
-	}
-
 	handleCardVisible (card) {
 		this.props.sdk.card.markAsRead(this.props.user.slug, card, _.map(_.filter(this.props.groups, 'isMine'), 'name'))
 			.catch((error) => {
@@ -304,6 +271,8 @@ class Timeline extends React.Component {
 					target: this.props.card.id
 				}
 			})
+		}, () => {
+			this.scrollToBottom()
 		})
 
 		this.props.sdk.event.create(message)
@@ -319,12 +288,18 @@ class Timeline extends React.Component {
 			})
 	}
 
-	bindScrollArea (ref) {
-		this.scrollArea = ref
-	}
-
 	bindFileInput (ref) {
 		this.fileInputElement = ref
+	}
+
+	bindMessageEnd (ref) {
+		this.messageEnd = ref
+	}
+
+	scrollToBottom () {
+		this.messageEnd.scrollIntoView({
+			behavior: 'smooth'
+		})
 	}
 
 	render () {
@@ -341,7 +316,6 @@ class Timeline extends React.Component {
 			types,
 			groups,
 			allowWhispers,
-			tail,
 			usersTyping,
 			wide,
 			headerOptions,
@@ -352,11 +326,12 @@ class Timeline extends React.Component {
 			messagesOnly,
 			pendingMessages,
 			hideWhispers,
-			page
+			events,
+			reachedBeginningOfTimeline
 		} = this.state
 
-		// Due to a bug in syncing, sometimes there can be duplicate cards in tail
-		const sortedTail = _.uniqBy(_.sortBy(tail, 'data.timestamp'), 'id')
+		// Due to a bug in syncing, sometimes there can be duplicate cards in events
+		const sortedEvents = _.uniqBy(_.sortBy(events, 'data.timestamp'), 'id')
 
 		const sendCommand = getSendCommand(user)
 
@@ -393,30 +368,33 @@ class Timeline extends React.Component {
 					getActor={getActor}
 				/>
 
-				<EventsContainer
-					ref={this.bindScrollArea}
-					onScroll={this.handleScroll}
-				>
-					{!sortedTail && (<Box p={3}>
+				<EventsContainer>
+					{!sortedEvents && (<Box p={3}>
 						<Icon spin name="cog"/>
 					</Box>)}
-					<EventsList
-						{ ...eventProps }
-						getActor={getActor}
-						hideWhispers={hideWhispers}
-						sortedTail={sortedTail}
-						uploadingFiles={this.state.uploadingFiles}
-						handleCardVisible={this.handleCardVisible}
-						messagesOnly={messagesOnly}
-						page={page}
-						pageSize={PAGE_SIZE}
-						user={user}
-						eventMenuOptions={eventMenuOptions}
-					/>
-					<PendingMessages
-						{ ...eventProps }
-						pendingMessages={pendingMessages}
-					/>
+					<InfiniteList
+						fillMaxArea
+						onScrollBeginning={!reachedBeginningOfTimeline && this.handleScrollBeginning}
+					>
+						<TimelineStart
+							reachedBeginningOfTimeline={sortedEvents.length < PAGE_SIZE || reachedBeginningOfTimeline}
+						/>
+						<EventsList
+							{ ...eventProps }
+							getActor={getActor}
+							hideWhispers={hideWhispers}
+							sortedEvents={sortedEvents}
+							uploadingFiles={this.state.uploadingFiles}
+							handleCardVisible={this.handleCardVisible}
+							messagesOnly={messagesOnly}
+							user={user}
+						/>
+						<PendingMessages
+							{ ...eventProps }
+							pendingMessages={pendingMessages}
+						/>
+						<div ref={this.bindMessageEnd} />
+					</InfiniteList>
 				</EventsContainer>
 
 				<TypingNotice usersTyping={usersTyping} />
