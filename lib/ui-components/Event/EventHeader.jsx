@@ -59,15 +59,12 @@ export default class EventHeader extends React.Component {
 	render () {
 		const {
 			isMessage,
+			user,
 			actor,
 			card,
-			threadIsMirrored,
-			menuOptions,
-			user,
-			updating,
-			onEditMessage,
 			squashTop,
-			getActorHref
+			getActorHref,
+			...contextProps
 		} = this.props
 
 		const isOwnMessage = user.id === _.get(card, [ 'data', 'actor' ])
@@ -111,12 +108,9 @@ export default class EventHeader extends React.Component {
 
 				<EventContext
 					card={card}
-					menuOptions={menuOptions}
-					onEditMessage={onEditMessage}
+					{...contextProps}
 					isOwnMessage={isOwnMessage}
 					isMessage={isMessage}
-					updating={updating}
-					threadIsMirrored={threadIsMirrored}
 				/>
 			</HeaderWrapper>
 		)

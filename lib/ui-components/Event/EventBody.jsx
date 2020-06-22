@@ -187,7 +187,6 @@ export default class EventBody extends React.Component {
 									value={editedMessage}
 									onChange={onUpdateDraft}
 									onSubmit={onSaveEditedMessage}
-									onClickOutside={onSaveEditedMessage}
 								/>
 							) : (
 								<StyledMarkdown

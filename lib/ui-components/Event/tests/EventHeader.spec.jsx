@@ -41,7 +41,7 @@ ava.afterEach(() => {
 	sandbox.restore()
 })
 
-ava('\'updating...\' is displayed if card is updating', async (test) => {
+ava('\'updating...\' is displayed if card is updating and editing', async (test) => {
 	const {
 		commonProps
 	} = test.context
@@ -49,6 +49,7 @@ ava('\'updating...\' is displayed if card is updating', async (test) => {
 		<EventHeader
 			{...commonProps}
 			updating
+			editing
 		/>
 	), {
 		wrappingComponent

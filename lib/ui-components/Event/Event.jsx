@@ -125,6 +125,8 @@ export default class Event extends React.Component {
 
 		this.saveEditedMessage = () => {
 			const {
+				sdk,
+				user,
 				card,
 				onUpdateCard
 			} = this.props
@@ -155,7 +157,14 @@ export default class Event extends React.Component {
 						}
 					}, this.props.card))
 					onUpdateCard(this.props.card, patch)
-						.then(this.onStopEditing)
+						.then(async () => {
+							this.onStopEditing()
+
+							// If the edit happens to add a mention of the current user,
+							// we need to mark this message as read!
+							const updatedCard = await sdk.card.get(card.id)
+							sdk.card.markAsRead(user.slug, updatedCard)
+						})
 						.catch(() => {
 							this.setState({
 								updating: false
@@ -183,6 +192,12 @@ export default class Event extends React.Component {
 		this.processText()
 	}
 
+	componentDidUpdate (prevProps) {
+		if (prevProps.card !== this.props.card) {
+			this.processText()
+		}
+	}
+
 	processText () {
 		if (!this.messageElement) {
 			return
@@ -194,6 +209,7 @@ export default class Event extends React.Component {
 			node.setAttribute('target', '_blank')
 		})
 		const instance = new Mark(this.messageElement)
+		instance.unmark()
 
 		const readBy = this.props.card.data.readBy || []
 		const userSlug = this.props.user.slug
@@ -338,7 +354,10 @@ export default class Event extends React.Component {
 							menuOptions={menuOptions}
 							isMessage={isMessage}
 							onEditMessage={this.onStartEditing}
+							onCommitEdit={this.saveEditedMessage}
+							onCancelEdit={this.onStopEditing}
 							updating={updating}
+							editing={editedMessage !== null}
 							user={user}
 							squashTop={squashTop}
 							getActorHref={getActorHref}

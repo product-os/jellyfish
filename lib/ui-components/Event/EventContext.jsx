@@ -32,7 +32,7 @@ const ContextWrapper = styled(Flex) `
  	right: 16px;
  	bottom: -6px;
  	background: #fff;
-	opacity: ${(props) => { return props.card.pending || props.updating ? 1 : 0 }};
+	opacity: ${(props) => { return props.card.pending || props.updating || props.editing ? 1 : 0 }};
 	transition: 150ms ease-in-out opacity, 150ms ease-in-out width;
 	.event-card:hover & {
 		opacity: 1;
@@ -43,10 +43,13 @@ export default function EventContext ({
 	card,
 	menuOptions,
 	updating,
+	editing,
 	isOwnMessage,
 	isMessage,
 	threadIsMirrored,
-	onEditMessage
+	onEditMessage,
+	onCommitEdit,
+	onCancelEdit
 }) {
 	const [ showMenu, setShowMenu ] = React.useState(false)
 	const toggleMenu = () => {
@@ -67,12 +70,65 @@ export default function EventContext ({
 		copy(card.data.payload.message)
 	}
 
+	const wrapperProps = {
+		alignItems: 'center',
+		card,
+		updating,
+		editing
+	}
+
+	const txtProps = {
+		color: Theme.colors.text.light,
+		fontSize: 1
+	}
+
+	if (editing) {
+		return (
+			<ContextWrapper {...wrapperProps}>
+				{updating && (
+					<Txt {...txtProps} ml={1} data-test="event-header__status">
+						<Icon spin name="cog" />
+						<Txt.span ml={1}>updating...</Txt.span>
+					</Txt>
+				)}
+				<Button
+					px={2}
+					py={1}
+					plain
+					primary
+					data-test="event-header__btn--save-edit"
+					icon={<Icon name="check"/>}
+					onClick={onCommitEdit}
+					disabled={updating}
+					tooltip={{
+						placement: 'left',
+						text: 'Save changes'
+					}}
+				/>
+				<Button
+					px={2}
+					py={1}
+					plain
+					tertiary
+					data-test="event-header__btn--cancel-edit"
+					icon={<Icon name="undo"/>}
+					onClick={onCancelEdit}
+					disabled={updating}
+					tooltip={{
+						placement: 'left',
+						text: 'Cancel changes'
+					}}
+				/>
+			</ContextWrapper>
+		)
+	}
+
 	return (
-		<ContextWrapper alignItems="center" card={card} updating={updating}>
-			{(card.pending || updating) && (
-				<Txt color={Theme.colors.text.light} fontSize={1} ml="6px" data-test="event-header__status">
+		<ContextWrapper {...wrapperProps}>
+			{(card.pending) && (
+				<Txt {...txtProps} ml={1} data-test="event-header__status">
 					<Icon spin name="cog" />
-					<Txt.span ml={1}>{ updating ? 'updating...' : 'sending...' }</Txt.span>
+					<Txt.span ml={1}>sending...</Txt.span>
 				</Txt>
 			)}
 			{ threadIsMirrored && <MirrorIcon mirrors={_.get(card, [ 'data', 'mirrors' ])} /> }
@@ -92,6 +148,7 @@ export default function EventContext ({
 						className="event-card--actions"
 						data-test="event-header__context-menu-trigger"
 						px={2}
+						py={1}
 						ml={1}
 						plain
 						onClick={toggleMenu}
