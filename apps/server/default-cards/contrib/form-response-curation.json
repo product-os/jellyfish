@@ -19,35 +19,43 @@
           "properties": {
             "origin": {
               "title": "Curated Origin",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "originDetail": {
               "title": "Curated Origin Detail",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "role": {
               "title": "Curated Role",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "useCaseDetail": {
               "title": "Curated Use Case Detail",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "experienceEvaluation": {
               "title": "Curated Experierience Evaluation",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "issuesWants": {
               "title": "Curated Issues/Wants",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "highlights": {
               "title": "Curated Highlights",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             },
             "projectPurpose": {
               "title": "Curated Project Purpose",
-              "type": "string"
+              "type": "string",
+              "fullTextSearch": true
             }
           }
         }
