@@ -158,9 +158,5 @@ ava('.getTypeFields should return title of flattend object when title is defined
 		title: 'Discount percentage'
 	}
 
-	console.log(result)
-
-	// Console.log(account.data.schema.properties.data)
-
 	test.deepEqual(result['data.discountPercentage'], expectedResult.title)
 })
