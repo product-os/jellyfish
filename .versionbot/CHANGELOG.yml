@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump use-debounce from 3.1.0 to 3.4.2'
+      hash: cac5d76520c5929bde0546eef6048c8954dee8b6
+      body: >
+        Bumps [use-debounce](https://github.com/xnimorz/use-debounce) from 3.1.0
+        to 3.4.2.
+
+        - [Release notes](https://github.com/xnimorz/use-debounce/releases)
+
+        -
+        [Changelog](https://github.com/xnimorz/use-debounce/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/xnimorz/use-debounce/commits)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.61.1
+  date: 2020-06-22T23:56:16.674Z
+- commits:
     - subject: Add options for triggered actions to be sync or async
       hash: c5549a824de040c4dd80ad4c1b92a106dc31f085
       body: |
