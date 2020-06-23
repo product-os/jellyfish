@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: bump marked from 0.7.0 to 1.1.0'
+      hash: 97e423c7500c7eacfcd4f77d1cac77809a2750ef
+      body: |
+        Bumps [marked](https://github.com/markedjs/marked) from 0.7.0 to 1.1.0.
+        - [Release notes](https://github.com/markedjs/marked/releases)
+        - [Commits](https://github.com/markedjs/marked/compare/v0.7.0...v1.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.61.2
+  date: 2020-06-23T01:25:46.225Z
+- commits:
     - subject: 'patch: bump use-debounce from 3.1.0 to 3.4.2'
       hash: cac5d76520c5929bde0546eef6048c8954dee8b6
       body: >
