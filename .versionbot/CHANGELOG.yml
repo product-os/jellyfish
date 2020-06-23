@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'jsonschema2sql: have `SqlQuery.toSqlSelect()` use builder objects'
+      hash: 629421537b129f77a5c1aa9802ffcb59e9b0e896
+      body: |
+        The `links` property of the root card is now built SQL-side to bring it
+        in line with what was already being done with nested links.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.62.3
+  date: 2020-06-23T16:54:32.364Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.700.0 to 2.701.0'
       hash: 294e267d1a49b358e89723fc8a049d5121795a28
       body: >
