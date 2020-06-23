@@ -89,39 +89,6 @@ jobs:
           name: Compose Down
           command: make compose-stop
 
-  sync_tests_front_translate:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - run:
-          name: Reset master branch
-          command: git fetch origin && git checkout master && git reset --hard origin/master && git checkout $CIRCLE_BRANCH
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: |
-            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              exit 0
-            fi
-
-            make test FILES=./test/integration/sync/front-translate.spec.js INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
-
   sync_tests_front_mirror:
     <<: *job_defaults
 
@@ -179,39 +146,6 @@ jobs:
       - run:
           name: Compose Down
           command: make compose-stop
-
-  sync_tests_discourse_translate:
-    <<: *job_defaults
-
-    steps:
-      - checkout
-
-      - run:
-          name: Authenticate with registry
-          command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-
-      - run:
-          name: Reset master branch
-          command: git fetch origin && git checkout master && git reset --hard origin/master && git checkout $CIRCLE_BRANCH
-
-      - attach_workspace:
-          at: .
-
-      - run:
-          name: Start PostgreSQL
-          command: service postgresql start && su - postgres -c "psql -U postgres -d postgres -c \"alter user postgres with password 'postgres';\""
-      - run:
-          name: Start Redis
-          command: service redis-server start
-
-      - run:
-          name: Sync Tests
-          command: |
-            if ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat; then
-              exit 0
-            fi
-
-            make test FILES=./test/integration/sync/discourse-translate.spec.js INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
 
   e2e_tests_server: &e2e_tests_server
     <<: *job_defaults
@@ -394,16 +328,6 @@ workflows:
                   - build
                 <<: *workflow_filter
 
-            - sync_tests_front_translate:
-                requires:
-                  - build
-                <<: *workflow_filter
-
-            - sync_tests_discourse_translate:
-                requires:
-                  - build
-                <<: *workflow_filter
-
             - sync_tests_discourse_mirror:
                 requires:
                   - build
@@ -419,8 +343,6 @@ workflows:
                   - e2e_tests_server
                   - e2e_tests_server_previous_dump
                   - s3_file_upload
-                  - sync_tests_front_translate
-                  - sync_tests_discourse_translate
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
