@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.700.0 to 2.701.0'
+      hash: 294e267d1a49b358e89723fc8a049d5121795a28
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.700.0 to
+        2.701.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.700.0...v2.701.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.2
+  date: 2020-06-23T09:45:59.327Z
+- commits:
     - subject: 'ci: Remove debug log from ui unit test'
       hash: f0372831298bb97a86db905812b4c96e5120e975
       body: ''
