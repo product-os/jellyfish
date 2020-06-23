@@ -7,6 +7,7 @@ const ava = require('ava')
 const uuid = require('uuid').v4
 const update = require('immutability-helper')
 const {
+	mentionsUser,
 	updateThreadChannels
 } = require('./helpers')
 
@@ -60,4 +61,70 @@ ava('updateThreadChannels updates the corresponding channel', (test) => {
 	// - the second event in the updated channel now has the mirrors field set
 	const mirrors = updatedChannels[0].data.head.links['has attached element'][1].data.mirrors
 	test.deepEqual(mirrors, [ 'www.google.com' ])
+})
+
+ava('mentionsUser returns true if user in mentionsUser array', (test) => {
+	const user = {
+		slug: 'user-1'
+	}
+	const card = {
+		data: {
+			payload: {
+				mentionsUser: [ user.slug ],
+				mentionsGroup: [ 'group1' ]
+			}
+		}
+	}
+	const groups = {
+		group1: {
+			name: 'group1',
+			users: [ 'some-other-user' ],
+			isMine: false
+		}
+	}
+	test.true(mentionsUser(card, user, groups))
+})
+
+ava('mentionsUser returns true if user in a group in the mentionsGroup array', (test) => {
+	const user = {
+		slug: 'user-1'
+	}
+	const card = {
+		data: {
+			payload: {
+				mentionsUser: [ 'some-other-user' ],
+				mentionsGroup: [ 'group1' ]
+			}
+		}
+	}
+	const groups = {
+		group1: {
+			name: 'group1',
+			users: [ user.slug ],
+			isMine: true
+		}
+	}
+	test.true(mentionsUser(card, user, groups))
+})
+
+ava('mentionsUser returns false if user not in mentionsUser array or in any group in mentionsGroup', (test) => {
+	const user = {
+		slug: 'user-1'
+	}
+	const card = {
+		data: {
+			payload: {
+				mentionsUser: [ 'some-other-user' ],
+				mentionsGroup: [ 'group1' ]
+			}
+		}
+	}
+	const groups = {
+		group1: {
+			name: 'group1',
+			users: [ 'some-other-user' ],
+			isMine: false
+		}
+	}
+	test.false(mentionsUser(card, user, groups))
 })
