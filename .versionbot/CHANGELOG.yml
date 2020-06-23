@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump react-redux from 7.1.3 to 7.2.0'
+      hash: 43693f18b8916d75b0e39c12026eb68241694cd6
+      body: >
+        Bumps [react-redux](https://github.com/reduxjs/react-redux) from 7.1.3
+        to 7.2.0.
+
+        - [Release notes](https://github.com/reduxjs/react-redux/releases)
+
+        -
+        [Changelog](https://github.com/reduxjs/react-redux/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/reduxjs/react-redux/compare/v7.1.3...v7.2.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.61.3
+  date: 2020-06-23T04:54:56.609Z
+- commits:
     - subject: 'patch: bump marked from 0.7.0 to 1.1.0'
       hash: 97e423c7500c7eacfcd4f77d1cac77809a2750ef
       body: |
