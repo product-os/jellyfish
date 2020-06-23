@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Notify user on streamed message based on mentionsGroup'
+      hash: c0901db55fc43b5535f22f7af516c0e6b53987bd
+      body: >
+        We now check the mentionsGroup field as well as the mentionsUser field
+        to see if the message should create a notification for the user.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.62.0
+  date: 2020-06-23T08:01:46.722Z
+- commits:
     - subject: 'patch: bump @octokit/rest from 17.9.2 to 18.0.0'
       hash: 7c74e778ff2c54551a2299a356415269fa1ceace
       body: >
