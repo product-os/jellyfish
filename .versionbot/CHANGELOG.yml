@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Remove debug log from ui unit test'
+      hash: f0372831298bb97a86db905812b4c96e5120e975
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.1
+  date: 2020-06-23T08:55:46.379Z
+- commits:
     - subject: 'ui: Notify user on streamed message based on mentionsGroup'
       hash: c0901db55fc43b5535f22f7af516c0e6b53987bd
       body: >
