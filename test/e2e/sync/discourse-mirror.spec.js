@@ -260,7 +260,7 @@ ava.serial.beforeEach(async (test) => {
 ava.serial.afterEach.always(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Discourse token
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.skip : ava.serial
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.skip : ava.serial
 
 avaTest('should send, but not sync, a whisper to a deleted thread', async (test) => {
 	const supportThread = await test.context.startSupportThread(

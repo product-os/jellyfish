@@ -146,6 +146,7 @@
     "debounce-promise": "^3.1.0",
     "deep-copy": "^1.4.2",
     "detect-ua": "^1.0.0",
+    "dotenv": "^8.2.0",
     "errio": "^1.2.2",
     "esprima": "^4.0.0",
     "express": "^4.16.2",

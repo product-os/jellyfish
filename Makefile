@@ -14,7 +14,8 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github
+	clean-github \
+	merge-dotenv
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -131,70 +132,13 @@ export MAILGUN_DOMAIN
 MAILGUN_BASE_URL = https://api.mailgun.net/v3
 export MAILGUN_BASE_URL
 
-# Front
-INTEGRATION_INTERCOM_TOKEN ?=
-export INTEGRATION_INTERCOM_TOKEN
-INTEGRATION_FRONT_TOKEN ?=
-export INTEGRATION_FRONT_TOKEN
-
 # GitHub
-INTEGRATION_GITHUB_TOKEN ?=
-export INTEGRATION_GITHUB_TOKEN
-INTEGRATION_GITHUB_SIGNATURE_KEY ?=
-export INTEGRATION_GITHUB_SIGNATURE_KEY
 INTEGRATION_GITHUB_APP_ID ?=
 export INTEGRATION_GITHUB_APP_ID
 
 # The base64 encoded PEM key
 INTEGRATION_GITHUB_PRIVATE_KEY ?=
 export INTEGRATION_GITHUB_PRIVATE_KEY
-
-# Balena API
-INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION ?=
-export INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING ?=
-export INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING
-INTEGRATION_BALENA_API_PRIVATE_KEY ?=
-export INTEGRATION_BALENA_API_PRIVATE_KEY
-INTEGRATION_BALENA_API_APP_ID ?=
-export INTEGRATION_BALENA_API_APP_ID
-INTEGRATION_BALENA_API_APP_SECRET ?=
-export INTEGRATION_BALENA_API_APP_SECRET
-INTEGRATION_BALENA_API_OAUTH_BASE_URL ?= https://api.balena-cloud.com
-export INTEGRATION_BALENA_API_OAUTH_BASE_URL
-
-# Google APIs (Google Meet)
-INTEGRATION_GOOGLE_MEET_CREDENTIALS ?= "{}"
-export INTEGRATION_GOOGLE_MEET_CREDENTIALS
-
-# A Discourse API token
-INTEGRATION_DISCOURSE_TOKEN ?=
-export INTEGRATION_DISCOURSE_TOKEN
-# The Discourse username the API token belongs to, as
-# we need to pass that alongside the token every time.
-INTEGRATION_DISCOURSE_USERNAME ?=
-export INTEGRATION_DISCOURSE_USERNAME
-# The secret set when configuring the webhooks
-INTEGRATION_DISCOURSE_SIGNATURE_KEY ?=
-export INTEGRATION_DISCOURSE_SIGNATURE_KEY
-
-# Flowdock
-INTEGRATION_FLOWDOCK_SIGNATURE_KEY ?=
-export INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-INTEGRATION_FLOWDOCK_TOKEN ?=
-export INTEGRATION_FLOWDOCK_TOKEN
-
-# Outreach
-INTEGRATION_OUTREACH_APP_ID ?=
-export INTEGRATION_OUTREACH_APP_ID
-INTEGRATION_OUTREACH_APP_SECRET ?=
-export INTEGRATION_OUTREACH_APP_SECRET
-INTEGRATION_OUTREACH_SIGNATURE_KEY ?=
-export INTEGRATION_OUTREACH_SIGNATURE_KEY
-
-# Typeform
-INTEGRATION_TYPEFORM_SIGNATURE_KEY ?=
-export INTEGRATION_TYPEFORM_SIGNATURE_KEY
 
 # -----------------------------------------------
 # Test Runtime Configuration
@@ -222,6 +166,19 @@ NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal
+
+# Set dotenv-related variables for local development/testing
+DOTENV_PATH =
+LOCAL_DOTENV = local.env
+CUSTOM_DOTENV = custom.env
+MERGED_DOTENV = merged.env
+ifndef CI
+	NODE_ARGS += -r dotenv/config
+	DOTENV_PATH = dotenv_config_path=$(LOCAL_DOTENV)
+endif
+ifneq ("$(wildcard $(CUSTOM_DOTENV))","")
+	DOTENV_PATH = dotenv_config_path=$(MERGED_DOTENV)
+endif
 
 ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x
@@ -341,14 +298,17 @@ lint:
 	./scripts/lint/check-deployable-lib.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,dotenv'
 
 scrub:
 	$(SCRUB_COMMAND)
 
+merge-dotenv:
+	./scripts/merge-dotenv.sh $(LOCAL_DOTENV) $(CUSTOM_DOTENV) $(MERGED_DOTENV)
+
 test: LOGLEVEL = warning
-test: scrub
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+test: scrub merge-dotenv
+	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES) $(DOTENV_PATH)
 
 test-unit:
 	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
@@ -402,16 +362,16 @@ node:
 # -----------------------------------------------
 
 start-server: LOGLEVEL = info
-start-server:
-	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js
+start-server: merge-dotenv
+	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js $(DOTENV_PATH)
 
 start-worker: LOGLEVEL = info
-start-worker:
-	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
+start-worker: merge-dotenv
+	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js $(DOTENV_PATH)
 
 start-tick: LOGLEVEL = info
-start-tick:
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
+start-tick: merge-dotenv
+	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js $(DOTENV_PATH)
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

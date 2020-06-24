@@ -127,7 +127,7 @@ ava.serial.beforeEach(async (test) => {
 ava.serial.afterEach.always(helpers.mirror.afterEach)
 
 // Skip all tests if there is no GitHub token
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.serial.skip : ava.serial
 
 avaTest('should be able to create an issue with a comment and update the comment after remote deletion', async (test) => {
 	const issueSlug = test.context.getIssueSlug()
