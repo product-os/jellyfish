@@ -212,11 +212,11 @@ ava.serial('full-text search should match queries for card data->object->string 
 							'payload'
 						],
 						properties: {
-							type: 'object',
-							required: [
-								'message'
-							],
 							payload: {
+								type: 'object',
+								required: [
+									'message'
+								],
 								properties: {
 									message: {
 										type: 'string',
@@ -364,11 +364,11 @@ ava.serial('full-text search should not match on card data->object->string field
 							'payload'
 						],
 						properties: {
-							type: 'object',
-							required: [
-								'message'
-							],
 							payload: {
+								type: 'object',
+								required: [
+									'message'
+								],
 								properties: {
 									message: {
 										type: 'string',

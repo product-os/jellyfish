@@ -37,7 +37,7 @@ ava('when performing full-text searches we use to_tsvector and to_tsquery functi
 		}
 	}
 
-	const query = jsonschema2sql('cards', payload.query, payload.options)
+	const query = jsonschema2sql('cards', {}, payload.query, payload.options)
 	test.truthy(query.includes('to_tsvector'))
 	test.truthy(query.includes('to_tsquery'))
 })

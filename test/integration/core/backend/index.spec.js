@@ -60,7 +60,7 @@ ava('.disconnect() should gracefully close streams', async (test) => {
 	}
 	await helpers.before(local)
 	await test.notThrowsAsync(async () => {
-		await local.context.backend.stream(local.context.context, {
+		await local.context.backend.stream(local.context.context, {}, {
 			type: 'object'
 		})
 		await local.context.backend.disconnect(local.context.context)
@@ -943,7 +943,7 @@ ava('.upsertElement() should not insert an element with a non-matching id nor sl
 
 ava('.query() should correctly take string contraints on the uuid', async (test) => {
 	const results = await test.context.backend.query(
-		test.context.context, {
+		test.context.context, {}, {
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'id' ],
@@ -1016,7 +1016,7 @@ ava('.query() should query the database using JSON schema', async (test) => {
 		active: true
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1052,6 +1052,12 @@ ava('.query() should query the database using JSON schema', async (test) => {
 ava('.query() should escape malicious query keys', async (test) => {
 	await test.notThrowsAsync(async () => {
 		await test.context.backend.query(test.context.context, {
+			data: {
+				'Robert\'); DROP TABLE cards; --': {
+					'Robert\'); DROP TABLE cards; --': {}
+				}
+			}
+		}, {
 			type: 'object',
 			properties: {
 				data: {
@@ -1078,6 +1084,8 @@ ava('.query() should escape malicious query values', async (test) => {
 	const injection = 'id FROM cards; DROP TABLE cards; COMMIT; SELECT *'
 	const error = await test.throwsAsync(() => {
 		return test.context.backend.query(test.context.context, {
+			[injection]: {}
+		}, {
 			type: 'object',
 			properties: {
 				[injection]: {
@@ -1093,6 +1101,8 @@ ava('.query() should escape malicious query values', async (test) => {
 
 	await test.notThrowsAsync(async () => {
 		await test.context.backend.query(test.context.context, {
+			slug: {}
+		}, {
 			type: 'object',
 			properties: {
 				slug: {
@@ -1106,6 +1116,8 @@ ava('.query() should escape malicious query values', async (test) => {
 
 	await test.notThrowsAsync(async () => {
 		await test.context.backend.query(test.context.context, {
+			name: {}
+		}, {
 			type: 'object',
 			properties: {
 				name: {
@@ -1147,10 +1159,10 @@ ava('.query() should survive a deep schema', async (test) => {
 		}
 	}
 
-	const results1 = await test.context.backend.query(test.context.context, generate(50, [ 'foo', 'bar' ]))
+	const results1 = await test.context.backend.query(test.context.context, {}, generate(50, [ 'foo', 'bar' ]))
 	test.deepEqual(results1, [])
 
-	const results2 = await test.context.backend.query(test.context.context, generate(80, [ 'foo', 'bar' ]))
+	const results2 = await test.context.backend.query(test.context.context, {}, generate(80, [ 'foo', 'bar' ]))
 	test.deepEqual(results2, [])
 })
 
@@ -1173,7 +1185,7 @@ ava('.query() should query an element by its id', async (test) => {
 		active: true
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -1207,7 +1219,7 @@ ava('.query() should fail to query an element by its id', async (test) => {
 	const otherId = test.context.generateRandomID()
 	test.not(result.id, otherId)
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -1240,7 +1252,7 @@ ava('.query() should query an element by its slug', async (test) => {
 		active: true
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			slug: {
@@ -1275,6 +1287,8 @@ ava('.query() should fail to query an element by its slug', async (test) => {
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		slug: {}
+	}, {
 		type: 'object',
 		properties: {
 			slug: {
@@ -1310,7 +1324,7 @@ ava('.query() should handle integer float limits', async (test) => {
 		})
 	}
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1328,7 +1342,7 @@ ava('.query() should handle integer float limits', async (test) => {
 })
 
 ava('.query() should throw given float limits', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1367,7 +1381,7 @@ ava('.query() should apply a maximum limit by default', async (test) => {
 		})
 	}
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1404,7 +1418,7 @@ ava('.query() return nothing given a zero limit', async (test) => {
 		})
 	}
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1443,7 +1457,7 @@ ava('.query() should apply a maximum limit by default given sortBy', async (test
 		})
 	}
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1461,7 +1475,7 @@ ava('.query() should apply a maximum limit by default given sortBy', async (test
 })
 
 ava('.query() should throw if limit is negative', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1479,7 +1493,7 @@ ava('.query() should throw if limit is negative', async (test) => {
 })
 
 ava('.query() should throw if limit is too large', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1497,7 +1511,7 @@ ava('.query() should throw if limit is too large', async (test) => {
 })
 
 ava('.query() should throw if limit is Infinity', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1515,7 +1529,7 @@ ava('.query() should throw if limit is Infinity', async (test) => {
 })
 
 ava('.query() should throw if limit is -Infinity', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1533,7 +1547,7 @@ ava('.query() should throw if limit is -Infinity', async (test) => {
 })
 
 ava('.query() should throw if limit is NaN', async (test) => {
-	await test.throwsAsync(test.context.backend.query(test.context.context, {
+	await test.throwsAsync(test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1614,7 +1628,7 @@ ava('.query() should be able to limit the results', async (test) => {
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1700,7 +1714,7 @@ ava('.query() should be able to skip the results', async (test) => {
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -1743,6 +1757,8 @@ ava('.query() should be able to skip the results of a one-element query', async 
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		id: {}
+	}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -1779,6 +1795,8 @@ ava('.query() should not skip the results of a one-element query if skip is set 
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		id: {}
+	}, {
 		type: 'object',
 		additionalProperties: false,
 		properties: {
@@ -1820,6 +1838,8 @@ ava('.query() should be able to limit the results of a one-element query to 0', 
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		id: {}
+	}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -1856,6 +1876,8 @@ ava('.query() should not omit the results of a one-element query if limit is set
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		id: {}
+	}, {
 		type: 'object',
 		additionalProperties: false,
 		properties: {
@@ -1940,7 +1962,7 @@ ava('.query() should be able to limit and skip the results', async (test) => {
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2041,7 +2063,7 @@ ava('.query() should be able to sort the query using a key', async (test) => {
 		data: {}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2131,7 +2153,7 @@ ava('.query() should be able to sort the query in descending order', async (test
 		data: {}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2226,7 +2248,7 @@ ava('.query() should be able to sort the query using an array of keys', async (t
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2316,7 +2338,7 @@ ava('.query() should apply sort before skip', async (test) => {
 		data: {}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2407,7 +2429,7 @@ ava('.query() should apply sort before limit', async (test) => {
 		data: {}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		properties: {
@@ -2432,7 +2454,7 @@ ava('.query() should apply sort before limit', async (test) => {
 ava('.query() should escape malicious sortBy statements', async (test) => {
 	const injection = 'created_at; DROP TABLE cards; --'
 	const error = await test.throwsAsync(() => {
-		return test.context.backend.query(test.context.context, {
+		return test.context.backend.query(test.context.context, {}, {
 			type: 'object',
 			additionalProperties: true,
 			properties: {
@@ -2488,6 +2510,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	})
 
 	const results1 = await test.context.backend.query(test.context.context, {
+		slug: {},
+		type: {}
+	}, {
 		type: 'object',
 		anyOf: [
 			{
@@ -2511,6 +2536,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	})
 
 	const results2 = await test.context.backend.query(test.context.context, {
+		type: {},
+		slug: {}
+	}, {
 		type: 'object',
 		anyOf: [
 			{
@@ -2534,6 +2562,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	})
 
 	const results3 = await test.context.backend.query(test.context.context, {
+		type: {},
+		slug: {}
+	}, {
 		type: 'object',
 		anyOf: [
 			{
@@ -2558,6 +2589,9 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	})
 
 	const results4 = await test.context.backend.query(test.context.context, {
+		type: {},
+		slug: {}
+	}, {
 		type: 'object',
 		anyOf: [
 			{
@@ -2583,9 +2617,11 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 
 	test.deepEqual(_.sortBy(results1, 'slug'), [
 		{
+			slug: user2.slug,
 			type: 'user@1.0.0'
 		},
 		{
+			slug: user1.slug,
 			type: 'user@1.0.0'
 		}
 	])
@@ -2600,9 +2636,11 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 	])
 	test.deepEqual(_.sortBy(results4, 'slug'), [
 		{
+			slug: user2.slug,
 			type: 'user@1.0.0'
 		},
 		{
+			slug: user1.slug,
 			type: 'user@1.0.0'
 		}
 	])
@@ -2687,7 +2725,7 @@ ava('.query() should resolve "limit" after resolving links', async (test) => {
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		additionalProperties: true,
 		required: [ 'type', 'slug' ],
@@ -2794,7 +2832,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -2825,7 +2863,7 @@ ava('adding a link should update the linked_at field', async (test) => {
 		version: '1.0.0'
 	})
 
-	const results2 = await test.context.backend.query(test.context.context, {
+	const results2 = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -2960,7 +2998,7 @@ ava('adding a link should augment an existing linked_at field', async (test) => 
 		}
 	})
 
-	const results = await test.context.backend.query(test.context.context, {
+	const results = await test.context.backend.query(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			id: {
@@ -3181,6 +3219,16 @@ ava('.query() should be able to query using links', async (test) => {
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		type: {},
+		links: {
+			'is attached to': {
+				id: {},
+				type: {},
+				slug: {}
+			}
+		},
+		data: {}
+	}, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		$$links: {
@@ -3347,6 +3395,13 @@ ava('.query() should be able to query using links when getting an element by id'
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		links: {
+			'is attached to': {}
+		},
+		id: {},
+		data: {},
+		type: {}
+	}, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		$$links: {
@@ -3476,6 +3531,13 @@ ava('.query() should be able to query using links when getting an element by slu
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		slug: {},
+		type: {},
+		links: {
+			'is attached to': {}
+		},
+		data: {}
+	}, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		$$links: {
@@ -3654,6 +3716,13 @@ ava('.query() should be able to query using links and an inverse name', async (t
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		id: {},
+		type: {},
+		links: {
+			'has attached element': {}
+		},
+		data: {}
+	}, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		$$links: {
@@ -3872,6 +3941,12 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 	})
 
 	const results = await test.context.backend.query(test.context.context, {
+		type: {},
+		data: {},
+		links: {
+			'is attached to': {}
+		}
+	}, {
 		type: 'object',
 		required: [ 'type', 'links', 'data' ],
 		$$links: {
@@ -3947,6 +4022,9 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 
 ava.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream(test.context.context, {
+		type: {},
+		data: {}
+	}, {
 		type: 'object',
 		additionalProperties: false,
 		properties: {
@@ -4071,6 +4149,10 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 		})
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
+			slug: {},
+			type: {},
+			data: {}
+		}, {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
@@ -4192,6 +4274,10 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 		}
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
+			slug: {},
+			type: {},
+			data: {}
+		}, {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
@@ -4282,6 +4368,8 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 
 ava.cb('.stream() should close without finding anything', (test) => {
 	test.context.backend.stream(test.context.context, {
+		slug: {}
+	}, {
 		type: 'object',
 		properties: {
 			slug: {
@@ -4317,6 +4405,10 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 		}
 	}).then((emitter) => {
 		return test.context.backend.stream(test.context.context, {
+			slug: {},
+			type: {},
+			data: {}
+		}, {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
@@ -4409,6 +4501,10 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 		}
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
+			slug: {},
+			type: {},
+			data: {}
+		}, {
 			type: 'object',
 			additionalProperties: false,
 			properties: {
@@ -4507,7 +4603,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 })
 
 ava('.stream() should throw if the schema is invalid', async (test) => {
-	await test.throwsAsync(test.context.backend.stream(test.context.context, {
+	await test.throwsAsync(test.context.backend.stream(test.context.context, {}, {
 		type: 'object',
 		properties: {
 			type: {
@@ -4554,7 +4650,7 @@ ava('.upsertElement() should handle multiple parallel insertions on the same slu
 			test.true(error instanceof errors.JellyfishElementAlreadyExists)
 		}
 
-		const results = await test.context.backend.query(test.context.context, {
+		const results = await test.context.backend.query(test.context.context, {}, {
 			type: 'object',
 			required: [ 'type' ],
 			properties: {
@@ -4601,7 +4697,7 @@ ava('.insertElement() should handle multiple parallel insertions on the same slu
 			test.true(error instanceof errors.JellyfishElementAlreadyExists)
 		}
 
-		const results = await test.context.backend.query(test.context.context, {
+		const results = await test.context.backend.query(test.context.context, {}, {
 			type: 'object',
 			required: [ 'type', 'slug' ],
 			properties: {
