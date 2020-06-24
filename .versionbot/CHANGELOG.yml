@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unnecessary handling of links in Markdown
+      hash: 56e47e456ad9d6945bc4160d2dc3e338a6cbd92d
+      body: >
+        Rendition already sets all links to be `target="_blank"` so this code is
+        unnecessary.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.62.10
+  date: 2020-06-24T08:19:25.096Z
+- commits:
     - subject: 'ci: Run Typeform translate tests on balenaCI'
       hash: 5ac755e1d03071b51c934d650be1ec86ed1bbaad
       body: ''
