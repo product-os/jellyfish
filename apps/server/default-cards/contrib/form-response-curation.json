@@ -1,0 +1,67 @@
+{
+  "slug": "form-response-curation",
+  "name": "Form response curation",
+  "type": "type@1.0.0",
+  "version": "1.0.0",
+  "markers": [],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "origin": {
+              "title": "Curated Origin",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "originDetail": {
+              "title": "Curated Origin Detail",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "role": {
+              "title": "Curated Role",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "useCaseDetail": {
+              "title": "Curated Use Case Detail",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "experienceEvaluation": {
+              "title": "Curated Experierience Evaluation",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "issuesWants": {
+              "title": "Curated Issues/Wants",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "highlights": {
+              "title": "Curated Highlights",
+              "type": "string",
+              "fullTextSearch": true
+            },
+            "projectPurpose": {
+              "title": "Curated Project Purpose",
+              "type": "string",
+              "fullTextSearch": true
+            }
+          }
+        }
+      }
+    }
+  },
+  "requires": [],
+  "capabilities": []
+}
