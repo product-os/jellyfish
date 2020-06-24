@@ -1,4 +1,16 @@
 - commits:
+    - subject: Change Google Meet credentials default to a valid value
+      hash: 0d0553a40d229a4dd90576ba146953592795815d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.6
+  date: 2020-06-24T04:01:27.053Z
+- commits:
     - subject: Add descriptions for each metric
       hash: e29634c590cfe478f7cc130de2ddccb49d64bf93
       body: ''
