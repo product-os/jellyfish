@@ -24,3 +24,8 @@ CHECK_FOR=github-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-comp
 # Run Flowdock translate tests.
 CHECK_FOR=flowdock-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Flowdock Translate Tests" test FILES=./test/integration/sync/flowdock-translate.spec.js
+
+# Run Typeform translate tests.
+CHECK_FOR=typeform-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+	run_test "Typeform Translate Tests" test FILES=./test/integration/sync/typeform-translate.spec.js
+

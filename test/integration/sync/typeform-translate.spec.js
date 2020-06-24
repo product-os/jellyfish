@@ -6,8 +6,12 @@
 
 const ava = require('ava')
 const scenario = require('./scenario')
+const helpers = require('./helpers')
 
-ava.serial.beforeEach(scenario.beforeEach)
+ava.serial.before(async (test) => {
+	await scenario.before(test)
+	await helpers.save(test)
+})
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
