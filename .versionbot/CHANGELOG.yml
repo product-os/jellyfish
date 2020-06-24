@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.701.0 to 2.702.0'
+      hash: 8db26753a15c181d3312fda0d387d4dde991097c
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.701.0 to
+        2.702.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.701.0...v2.702.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.8
+  date: 2020-06-24T05:32:16.765Z
+- commits:
     - subject: 'patch: bump html-webpack-plugin from 3.2.0 to 4.3.0'
       hash: 94808fca6a43ecf2d625e7c6bc1452d8d79e568e
       body: >
