@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add descriptions for each metric
+      hash: e29634c590cfe478f7cc130de2ddccb49d64bf93
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.5
+  date: 2020-06-24T03:10:25.853Z
+- commits:
     - subject: 'contrib/form-response-curation: Add fullTextSearch on fields'
       hash: 92f1067f8ec4785072a0e7468a11d8594ea1d158
       body: ''
