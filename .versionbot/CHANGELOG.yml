@@ -1,4 +1,16 @@
 - commits:
+    - subject: Randomize metrics port number on collision
+      hash: d6df4a617b01220c6965de182f3176f6a3f5fab0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.11
+  date: 2020-06-24T23:03:54.403Z
+- commits:
     - subject: Remove unnecessary handling of links in Markdown
       hash: 56e47e456ad9d6945bc4160d2dc3e338a6cbd92d
       body: >
