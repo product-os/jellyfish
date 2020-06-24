@@ -4276,6 +4276,778 @@ ava('.query() should be able to query $$links inside $$links', async (test) => {
 	test.deepEqual(results[0].links['is child of'][0].links['is child of'][0].links['believes in'][0].id, santa.id)
 })
 
+ava.skip('.query() should be able to query $$links inside an allOf', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: true
+			}
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: false
+			}
+		})
+
+	const worker3 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker2.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker2.id,
+					type: worker2.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker3.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker3.id,
+					type: worker3.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'id', 'links' ],
+			allOf: [
+				{
+					$$links: {
+						'works at': {
+							additionalProperties: false,
+							properties: {
+								id: {
+									const: office.id
+								}
+							}
+						}
+					}
+				},
+				{
+					properties: {
+						data: {
+							properties: {
+								isStressed: {
+									const: true
+								}
+							}
+						}
+					}
+				}
+			]
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker1.id,
+			links: {
+				'works at': [
+					{
+						id: office.id
+					}
+				]
+			},
+			data: {
+				isStressed: true
+			}
+		}
+	])
+})
+
+ava('.query() should be able to query $$links inside an anyOf', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: false
+			}
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: true
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: false
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'id', 'links' ],
+			anyOf: [
+				{
+					$$links: {
+						'works at': {
+							additionalProperties: false,
+							properties: {
+								id: {
+									const: office.id
+								}
+							}
+						}
+					}
+				},
+				{
+					required: [ 'data' ],
+					properties: {
+						data: {
+							required: [ 'isStressed' ],
+							properties: {
+								isStressed: {
+									const: true
+								}
+							}
+						}
+					}
+				}
+			]
+		},
+		{
+			sortBy: [ 'data', 'isStressed' ]
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker1.id,
+			links: {
+				'works at': [
+					{
+						id: office.id
+					}
+				]
+			},
+			data: {}
+		},
+		{
+			id: worker2.id,
+			links: {},
+			data: {
+				isStressed: true
+			}
+		}
+	])
+})
+
+ava('.query() should be able to query $$links inside a contains', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				stressedDays: [ 1, 3, 5 ]
+			}
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				stressedDays: [ 1, 2, 4 ]
+			}
+		})
+
+	const worker3 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker2.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker2.id,
+					type: worker2.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker3.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker3.id,
+					type: worker3.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'id', 'links', 'data' ],
+			properties: {
+				data: {
+					required: [ 'stressedDays' ],
+					properties: {
+						stressedDays: {
+							type: 'array',
+							contains: {
+								$$links: {
+									'works at': {
+										additionalProperties: false,
+										properties: {
+											id: {
+												const: office.id
+											}
+										}
+									}
+								},
+								const: 5
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			sortBy: [ 'data', 'stressedDays' ]
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker1.id,
+			links: {
+				'works at': [
+					{
+						id: office.id
+					}
+				]
+			},
+			data: {
+				stressedDays: [ 1, 3, 5 ]
+			}
+		}
+	])
+})
+
+ava('.query() should be able to query $$links inside an items', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				stressedDays: [ 1, 3, 5 ]
+			}
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				stressedDays: [ 1, 'INVALID DAY', 4 ]
+			}
+		})
+
+	const worker3 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker2.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker2.id,
+					type: worker2.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker3.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker3.id,
+					type: worker3.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'id', 'links', 'data' ],
+			properties: {
+				data: {
+					required: [ 'stressedDays' ],
+					properties: {
+						stressedDays: {
+							type: 'array',
+							items: {
+								$$links: {
+									'works at': {
+										additionalProperties: false,
+										properties: {
+											id: {
+												const: office.id
+											}
+										}
+									}
+								},
+								type: 'integer'
+							}
+						}
+					}
+				}
+			}
+		},
+		{
+			sortBy: [ 'data', 'stressedDays' ]
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker1.id,
+			links: {
+				'works at': [
+					{
+						id: office.id
+					}
+				]
+			},
+			data: {
+				stressedDays: [ 1, 3, 5 ]
+			}
+		}
+	])
+})
+
+ava('.query() should be able to query $$links inside a not', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'links' ],
+			not: {
+				$$links: {
+					'works at': {
+						additionalProperties: false,
+						properties: {
+							id: {
+								const: office.id
+							}
+						}
+					}
+				}
+			},
+			properties: {
+				id: {
+					enum: [ worker1.id, worker2.id ]
+				}
+			}
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker2.id,
+			links: {}
+		}
+	])
+})
+
+ava('.query() should be able to query $$links inside a property', async (test) => {
+	const office = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	const worker1 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: true
+			}
+		})
+
+	const worker2 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				isStressed: false
+			}
+		})
+
+	const worker3 = await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: context.generateRandomSlug(),
+			type: 'card@1.0.0',
+			version: '1.0.0'
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker1.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker1.id,
+					type: worker1.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker2.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker2.id,
+					type: worker2.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	await context.kernel.insertCard(
+		context.context, context.kernel.sessions.admin, {
+			slug: `link-${worker3.slug}-works-at-${office.slug}`,
+			type: 'link@1.0.0',
+			version: '1.0.0',
+			name: 'works at',
+			data: {
+				inverseName: 'has worker',
+				from: {
+					id: worker3.id,
+					type: worker3.type
+				},
+				to: {
+					id: office.id,
+					type: office.type
+				}
+			}
+		})
+
+	const results = await context.kernel.query(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			required: [ 'id', 'links', 'data' ],
+			properties: {
+				data: {
+					required: [ 'isStressed' ],
+					properties: {
+						isStressed: {
+							$$links: {
+								'works at': {
+									additionalProperties: false,
+									properties: {
+										id: {
+											const: office.id
+										}
+									}
+								}
+							},
+							const: true
+						}
+					}
+				}
+			}
+		},
+		{
+			sortBy: ['data', 'isStressed']
+		}
+	)
+
+	test.deepEqual(results, [
+		{
+			id: worker1.id,
+			links: {
+				'works at': [
+					{
+						id: office.id
+					}
+				]
+			},
+			data: {
+				isStressed: true
+			}
+		}
+	])
+})
+
 ava.cb('.stream() should include data if additionalProperties true', (test) => {
 	const slug = context.generateRandomSlug({
 		prefix: 'card'
