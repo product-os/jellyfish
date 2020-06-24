@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'ci: Run Typeform translate tests on balenaCI'
+      hash: 5ac755e1d03071b51c934d650be1ec86ed1bbaad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'ci: Fix Typeform translate test setup'
+      hash: 8771ed273317364fa773f1e38d990ee7c1e73056
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.9
+  date: 2020-06-24T07:22:30.069Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.701.0 to 2.702.0'
       hash: 8db26753a15c181d3312fda0d387d4dde991097c
       body: >
