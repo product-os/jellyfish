@@ -1,4 +1,43 @@
 - commits:
+    - subject: 'contrib/form-response-curation: Add fullTextSearch on fields'
+      hash: 92f1067f8ec4785072a0e7468a11d8594ea1d158
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'default-cards: Move typeform responses view to balena'
+      hash: fd706b3a622afcf2f1ae7341be73d6b7c4a7fbe2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'defaults-cards: Add form response view card and load it'
+      hash: 10c7b64c49f370a0cbc97345d3627302abf03ca5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'default-cards/contrib: Add form response curation card and load it'
+      hash: 715e65b58300d23bc7b390ff8ca1eae6e7485419
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.62.4
+  date: 2020-06-24T00:56:12.986Z
+- commits:
     - subject: 'jsonschema2sql: have `SqlQuery.toSqlSelect()` use builder objects'
       hash: 629421537b129f77a5c1aa9802ffcb59e9b0e896
       body: |
