@@ -59,6 +59,7 @@ ava.beforeEach((test) => {
 	environment.isProduction = _.constant(true)
 	test.context.pwa = new PWA()
 	test.context.pushSubscription = {
+		unsubscribe: sandbox.fake.returns(true),
 		toJSON: sandbox.fake.returns(pushSubscriptionData)
 	}
 })
@@ -383,4 +384,133 @@ ava('Push notification subscription is queued up if service worker not yet activ
 		vapidPublicKey
 	})
 	test.is(pwa.postActivationTasks.length, 1)
+})
+
+ava('Push notification unsubscribe throws an error if PWA is not initialized', (test) => {
+	const {
+		pwa
+	} = test.context
+	test.throws(() => {
+		test.false(pwa.isInitialized)
+		pwa.unsubscribeFromPushNotifications({}, {}, {})
+	}, {
+		message: 'PWA: Cannot unsubscribe from push notifications until service worker has been initialized'
+	})
+})
+
+ava('Push notification unsubscribe removes matching subscription if found', async (test) => {
+	const {
+		pwa,
+		pushSubscription
+	} = test.context
+
+	const unsubscribed = getPromiseResolver()
+
+	pwa.isInitialized = true
+	pwa.options = options
+	pwa.registration = {
+		active: {},
+		pushManager: {
+			getSubscription: sandbox.fake.resolves(pushSubscription)
+		}
+	}
+
+	const sdk = {
+		card: {
+			remove: sandbox.fake(),
+			unlink: sandbox.fake()
+		},
+		query: sandbox.fake.resolves([ {
+			id: pushSubscriptionCardId,
+			type: 'web-push-subscription',
+			data: pushSubscriptionData
+		} ])
+	}
+
+	pwa.unsubscribeFromPushNotifications(user, sdk, {
+		onUnsubscribed: () => {
+			unsubscribed.resolver()
+		}
+	})
+
+	await unsubscribed.promise
+	test.true(pwa.registration.pushManager.getSubscription.calledOnce)
+	test.true(sdk.query.calledOnce)
+	test.true(sdk.card.unlink.calledOnce)
+	test.true(sdk.card.remove.calledOnce)
+})
+
+ava('Push notification unsubscribe skips server interaction if no subscription details available', async (test) => {
+	const {
+		pwa
+	} = test.context
+
+	const unsubscribed = getPromiseResolver()
+
+	pwa.isInitialized = true
+	pwa.options = options
+	pwa.registration = {
+		active: {},
+		pushManager: {
+			getSubscription: sandbox.fake.resolves(null)
+		}
+	}
+
+	const sdk = {
+		card: {
+			remove: sandbox.fake(),
+			unlink: sandbox.fake()
+		},
+		query: sandbox.fake()
+	}
+
+	pwa.unsubscribeFromPushNotifications(user, sdk, {
+		onUnsubscribed: () => {
+			unsubscribed.resolver()
+		}
+	})
+
+	await unsubscribed.promise
+	test.true(pwa.registration.pushManager.getSubscription.calledOnce)
+	test.true(sdk.query.notCalled)
+	test.true(sdk.card.unlink.notCalled)
+	test.true(sdk.card.remove.notCalled)
+})
+
+ava('Push notification unsubscribe skips card unlinking and removal if no matching subscription found', async (test) => {
+	const {
+		pwa,
+		pushSubscription
+	} = test.context
+
+	const unsubscribed = getPromiseResolver()
+
+	pwa.isInitialized = true
+	pwa.options = options
+	pwa.registration = {
+		active: {},
+		pushManager: {
+			getSubscription: sandbox.fake.resolves(pushSubscription)
+		}
+	}
+
+	const sdk = {
+		card: {
+			remove: sandbox.fake(),
+			unlink: sandbox.fake()
+		},
+		query: sandbox.fake.resolves([])
+	}
+
+	pwa.unsubscribeFromPushNotifications(user, sdk, {
+		onUnsubscribed: () => {
+			unsubscribed.resolver()
+		}
+	})
+
+	await unsubscribed.promise
+	test.true(pwa.registration.pushManager.getSubscription.calledOnce)
+	test.true(sdk.query.calledOnce)
+	test.true(sdk.card.unlink.notCalled)
+	test.true(sdk.card.remove.notCalled)
 })

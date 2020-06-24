@@ -229,6 +229,55 @@ export class PWA {
 			})
 		}
 	}
+
+	unsubscribeFromPushNotifications (user, sdk, {
+		onUnsubscribed
+	}) {
+		if (!this.isInitialized) {
+			const initializationExpected = environment.isProduction() || _.get(this, [ 'options', 'debugServiceWorker' ])
+			if (initializationExpected) {
+				throw new Error('PWA: Cannot unsubscribe from push notifications until service worker has been initialized')
+			}
+			console.log('PWA: Skipping web-push notification unsubscribe as PWA is not initialized')
+			return
+		}
+
+		const unsubscribeFromPushManager = async (registration) => {
+			try {
+				const pushSubscription = this.pushSubscription || (await registration.pushManager.getSubscription())
+				if (pushSubscription) {
+					await pushSubscription.unsubscribe()
+					const pushSubscriptionData = parsePushSubscription(pushSubscription)
+					const matchingSubscription = await getMatchingSubscription(user.id, pushSubscriptionData.endpoint, sdk)
+					if (matchingSubscription) {
+						// Unlink it from the authenticated user
+						await sdk.card.unlink(user, matchingSubscription, 'is subscribed with')
+
+						// ...and then remove the web-push-subscription card
+						await sdk.card.remove(matchingSubscription.id, matchingSubscription.type)
+					}
+				}
+				if (typeof onUnsubscribed === 'function') {
+					onUnsubscribed()
+				}
+			} catch (error) {
+				errorReporter.reportException(error, {
+					message: 'Failed to unsubscribe from web push notifications',
+					userId: user.id
+				})
+			}
+		}
+
+		// If we're active, we can unsubscribe now
+		if (_.get(this, [ 'registration', 'active' ])) {
+			unsubscribeFromPushManager(this.registration)
+		} else {
+			// ...otherwise just add this to the list of tasks to do after activation
+			this.postActivationTasks.push((registration) => {
+				unsubscribeFromPushManager(registration)
+			})
+		}
+	}
 }
 
 export default new PWA()

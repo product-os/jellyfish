@@ -38,7 +38,7 @@ import {
 } from '../../../../lib/ui-components/services/helpers'
 import pwa from '../../pwa'
 import {
-	registerForNotifications
+	registerForNotifications, listenForNotificationChanges
 } from '../../services/notifications'
 import {
 	pwa as pwaEnv
@@ -407,14 +407,25 @@ export default class HomeChannel extends React.Component {
 			}
 		}
 
+		const onNotificationRegistrationChange = (canUseNotifications) => {
+			if (!pwaEnv.enableWebPush) {
+				return
+			}
+			const webPushOptions = {
+				vapidPublicKey: pwaEnv.vapidPublicKey
+			}
+			if (canUseNotifications) {
+				pwa.subscribeToPushNotifications(user, sdk, webPushOptions)
+			} else {
+				pwa.unsubscribeFromPushNotifications(user, sdk, webPushOptions)
+			}
+		}
+
 		// Register for notifications now that we're safely logged in
 		// (This keeps Firefox happy)
 		registerForNotifications().then((canUseNotifications) => {
-			if (canUseNotifications && pwaEnv.enableWebPush) {
-				pwa.subscribeToPushNotifications(user, sdk, {
-					vapidPublicKey: pwaEnv.vapidPublicKey
-				})
-			}
+			onNotificationRegistrationChange(canUseNotifications)
+			listenForNotificationChanges(onNotificationRegistrationChange)
 		})
 
 		// TODO: Replace this with parsing loop cards to define the chat room

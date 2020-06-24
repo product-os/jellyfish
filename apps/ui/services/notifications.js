@@ -32,6 +32,22 @@ export const registerForNotifications = async () => {
 	return canUseNotifications
 }
 
+export const listenForNotificationChanges = (callback) => {
+	if ('permissions' in navigator && 'query' in navigator.permissions) {
+		navigator.permissions.query({
+			name: 'notifications'
+		}).then((permissionStatus) => {
+			permissionStatus.onchange = () => {
+				canUseNotifications = permissionStatus.state === 'granted'
+				if (typeof callback === 'function') {
+					// eslint-disable-next-line callback-return
+					callback(canUseNotifications)
+				}
+			}
+		})
+	}
+}
+
 export const createNotification = ({
 	historyPush,
 	title,
