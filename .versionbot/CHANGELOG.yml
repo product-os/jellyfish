@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump @babel/register from 7.10.1 to 7.10.3'
+      hash: a3639a41973860eb240583ae54ea3e1dabd82919
+      body: >
+        Bumps
+        [@babel/register](https://github.com/babel/babel/tree/HEAD/packages/babel-register)
+        from 7.10.1 to 7.10.3.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.3/packages/babel-register)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.17
+  date: 2020-06-25T05:10:34.073Z
+- commits:
     - subject: 'patch: bump @babel/cli from 7.10.1 to 7.10.3'
       hash: 24b7109e0fbbc3aecab89e133a652ef80e3a8d34
       body: >
