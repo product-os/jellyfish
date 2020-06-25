@@ -1,4 +1,36 @@
 - commits:
+    - subject: Pass user groups to markAsRead SDK calls
+      hash: 939f86db16f03fd4f4e2140a715f70a54fd800e2
+      body: >
+        This ensures that the card is marked as read if the message mentions one
+        of the user's groups.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Bumped jellyfish-client-sdk dependency to v1.1.0
+      hash: 9c9ddada60a0311bbe71e75265e554cc1780ee55
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Format group mentions in message body
+      hash: ce333e828c3a4a8b12c058a2397433297b2b7932
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.63.0
+  date: 2020-06-25T11:11:41.935Z
+- commits:
     - subject: 'patch: bump winston from 3.2.1 to 3.3.3'
       hash: 7a401567ff1ab0512df039f0cd4b30a1a69b5cba
       body: >
