@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Add INTEGRATION_TYPEFORM_SIGNATURE_KEY var'
+      hash: 9d53c18fc01cef4125abc80bf0981a1971c9785e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.63.1
+  date: 2020-06-25T12:29:48.525Z
+- commits:
     - subject: Pass user groups to markAsRead SDK calls
       hash: 939f86db16f03fd4f4e2140a715f70a54fd800e2
       body: >
