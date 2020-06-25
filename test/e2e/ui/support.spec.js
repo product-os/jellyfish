@@ -45,9 +45,11 @@ ava.serial('Updates to support threads should be reflected in the support thread
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-all-support-threads"]'
+	])
 
 	await page.waitForSelector('.column--view-all-support-threads')
 

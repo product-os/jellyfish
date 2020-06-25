@@ -192,3 +192,22 @@ exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => 
 exports.waitForThenDismissAlert = async (page, alertType) => {
 	await exports.waitForThenClickSelector(page, `[data-test="alert--${alertType}"] button`)
 }
+
+exports.navigateToHomeChannelItem = async (page, menuStack) => {
+	while (menuStack.length) {
+		const itemSelector = menuStack.shift()
+		const menuItem = await page.waitForSelector(itemSelector)
+		const isExpanded = await page.evaluate(
+			(item) => { return item.getAttribute('data-expanded') },
+			menuItem
+		)
+		if (isExpanded === 'false') {
+			// Need to expand this item
+			await exports.waitForThenClickSelector(page, itemSelector)
+		} else if (menuStack.length === 0) {
+			// We've reached the end of the menu stack.
+			// Click the final item to navigate to the view
+			await exports.waitForThenClickSelector(page, itemSelector)
+		}
+	}
+}

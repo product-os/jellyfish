@@ -44,9 +44,12 @@ ava.serial('should let users create new accounts', async (test) => {
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Sales"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-customers"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Sales"]',
+		'[data-test="home-channel__item--view-all-customers"]'
+	])
+
 	await macros.waitForThenClickSelector(page, '.btn--add-account')
 
 	const name = `test account ${uuid()}`
