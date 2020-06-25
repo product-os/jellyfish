@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump winston from 3.2.1 to 3.3.3'
+      hash: 7a401567ff1ab0512df039f0cd4b30a1a69b5cba
+      body: >
+        Bumps [winston](https://github.com/winstonjs/winston) from 3.2.1 to
+        3.3.3.
+
+        - [Release notes](https://github.com/winstonjs/winston/releases)
+
+        -
+        [Changelog](https://github.com/winstonjs/winston/blob/master/CHANGELOG.md)
+
+        - [Commits](https://github.com/winstonjs/winston/compare/3.2.1...v3.3.3)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.19
+  date: 2020-06-25T07:33:16.387Z
+- commits:
     - subject: 'backend: Fix stream saturation metric description'
       hash: 75a0943e5847c9eb3cb4cb735aa16d6dc4b7f5a4
       body: ''
