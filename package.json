@@ -219,7 +219,7 @@
     "response-time": "^2.3.2",
     "semver": "^7.3.2",
     "skhema": "^5.3.0",
-    "slugify": "^1.4.0",
+    "slugify": "^1.4.2",
     "socket.io": "^2.1.0",
     "socket.io-prometheus-metrics": "^1.0.5",
     "socket.io-redis": "^5.3.0",
