@@ -173,7 +173,7 @@ ava.serial('should let users create new opportunities and directly link existing
 	await page.type('.jellyfish-async-select__input input', 'test')
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')
-	await page.click('[data-test="card-linker--existing__submit"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
 	await page.waitForSelector('[data-test="segment-card--account"] [data-test-component="card-chat-summary"]')
 
