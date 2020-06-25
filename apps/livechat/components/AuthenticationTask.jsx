@@ -13,6 +13,7 @@ import {
 } from '../../../lib/chat-widget/components/Task'
 
 const authenticate = async (sdk, userSlug, oauthUrl) => {
+	return
 	const user = await sdk.auth.whoami()
 
 	if (!user || user.slug !== userSlug) {

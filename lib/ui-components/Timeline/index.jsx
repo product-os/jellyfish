@@ -403,6 +403,32 @@ class Timeline extends React.Component {
 		this.fileInputElement = ref
 	}
 
+	getSuggestions() {
+		const {
+			getSuggestions,
+			user,
+			tail
+		} = this.props
+
+		if (!getSuggestions) {
+			return []
+		}
+
+		const lastMessage = _.chain(tail)
+			.filter((card) => {
+				return card.type.split('@')[0] === 'message'
+			})
+			.sortBy('data.timestamp')
+			.last()
+			.value()
+
+		if (!lastMessage || user.id === lastMessage.data.actor) {
+			return []
+		}
+		
+		return getSuggestions(lastMessage)
+	}
+
 	render () {
 		const {
 			user,
@@ -612,6 +638,18 @@ class Timeline extends React.Component {
 						)
 					})}
 				</EventsContainer>
+				<Flex px={3} justifyContent="center">
+					{this.getSuggestions().map((suggestion) => {
+						return (
+							<Button
+								m={1}
+								key={suggestion.action}
+								onClick={suggestion.handler}>
+								{suggestion.text}
+							</Button>
+						)
+					})}
+				</Flex>
 
 				{typingMessage && (
 					<TypingNotice data-test="typing-notice">

@@ -38,6 +38,7 @@ const Livechat = ({
 	userSlug,
 	oauthUrl,
 	oauthProvider,
+	suggestions,
 	...rest
 }) => {
 	const analytics = React.useMemo(() => {
@@ -68,12 +69,38 @@ const Livechat = ({
 		)
 	}, [])
 
+	const getSuggestions = React.useCallback((card) => {
+		const results = []
+
+		for (let { matcher, action, ...rest } of suggestions) {
+			const match = new RegExp(matcher, 'i').exec(card.data.payload.message)
+
+			if (match) {
+				results.push({
+					...rest,
+					handler: () => {
+						window.top.postMessage({
+							type: 'accept-suggestion',
+							payload: {
+								match,
+								action  
+							}
+						}, '*')
+					}
+				})
+			}
+		}
+
+		return results
+	}, [ suggestions ])
+
 	return (
 		<SetupProvider
 			environment={environment}
 			sdk={sdk}
 			analytics={analytics}
-			errorReporter={errorReporter}>
+			errorReporter={errorReporter}
+			getSuggestions={getSuggestions}>
 			<ThemeProvider style={{
 				height: '100%', display: 'flex', flexDirection: 'column'
 			}}>
