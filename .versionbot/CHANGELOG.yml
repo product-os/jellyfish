@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'lib/sync/integrations/typeform: Fix isEventValid function'
+      hash: 84b7acfcdfc86685cfb445b8d1536c0833da87e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.63.3
+  date: 2020-06-25T19:57:26.653Z
+- commits:
     - subject: 'deploy-templates: Fix Optional var''s nesting level'
       hash: a429df8c04224f62d1513e33fb5c04aff0dbe6dc
       body: ''
