@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump eslint from 7.3.0 to 7.3.1'
+      hash: e9e55eac72a51115131796f90c28838a55da3389
+      body: |
+        Bumps [eslint](https://github.com/eslint/eslint) from 7.3.0 to 7.3.1.
+        - [Release notes](https://github.com/eslint/eslint/releases)
+        - [Changelog](https://github.com/eslint/eslint/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/eslint/eslint/compare/v7.3.0...v7.3.1)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.15
+  date: 2020-06-25T03:25:22.330Z
+- commits:
     - subject: 'patch: bump slugify from 1.4.0 to 1.4.2'
       hash: b959a2be322975f8451af9627ad1a3daf971ea80
       body: |
