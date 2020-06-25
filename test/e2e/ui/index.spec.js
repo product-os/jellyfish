@@ -265,7 +265,7 @@ ava.serial.skip('card actions: should let users delete a card', async (test) => 
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	test.pass()
 })
@@ -303,7 +303,7 @@ ava.serial('card actions: should let users add a custom field to a card', async 
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	// Check that the card now has the expected value
 	const updatedCard = await context.sdk.card.get(card.id)
@@ -456,7 +456,7 @@ ava.serial('user profile: You should be able to change the send command to "ente
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="enter"]')
 
@@ -503,7 +503,7 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
 	// TODO: Fix this test so it works

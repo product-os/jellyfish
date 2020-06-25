@@ -498,7 +498,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	// Add a small delay to allow for the link creation to occur
 	// TODO: Add a "wait" method to the SDK that will resolve once a matching
@@ -528,7 +528,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 	await Bluebird.delay(2000)
 	const archivedThread = await page.evaluate((id) => {
 		return window.sdk.card.get(id)
