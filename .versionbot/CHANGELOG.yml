@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'deploy-templates: Fix Optional var''s nesting level'
+      hash: a429df8c04224f62d1513e33fb5c04aff0dbe6dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.63.2
+  date: 2020-06-25T16:56:15.958Z
+- commits:
     - subject: 'deploy-templates: Add INTEGRATION_TYPEFORM_SIGNATURE_KEY var'
       hash: 9d53c18fc01cef4125abc80bf0981a1971c9785e
       body: ''
