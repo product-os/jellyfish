@@ -1,4 +1,4 @@
-FROM jellyfish-base
+FROM scratch AS preface
 
 COPY ./lib/action-library ./lib/action-library
 COPY ./lib/assert ./lib/assert
@@ -14,5 +14,9 @@ COPY ./lib/metrics ./lib/metrics
 
 # Production debugging scripts
 COPY ./scripts/production ./scripts/production
+
+FROM jellyfish-base
+
+COPY --from=preface . .
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish

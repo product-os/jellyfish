@@ -2,9 +2,13 @@
 # Base
 ###########################################################
 
-FROM jellyfish-ui-base AS base
+FROM scratch AS preface
 
 COPY apps/livechat ./apps/livechat
+
+FROM jellyfish-ui-base AS base
+
+COPY --from=preface . .
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
