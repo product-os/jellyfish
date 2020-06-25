@@ -156,6 +156,12 @@ spec:
             secretKeyRef:
               key: INTEGRATION_FLOWDOCK_SIGNATURE_KEY
               name: integration-flowdock-signature-key
+        - name: INTEGRATION_TYPEFORM_SIGNATURE_KEY
+          valueFrom:
+            secretKeyRef:
+              key: INTEGRATION_TYPEFORM_SIGNATURE_KEY
+              name: integration-typeform-signature-key
+          optional: true
         - name: INTEGRATION_DISCOURSE_TOKEN
           valueFrom:
             secretKeyRef:
