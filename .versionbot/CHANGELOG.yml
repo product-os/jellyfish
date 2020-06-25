@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'backend: Fix stream saturation metric description'
+      hash: 75a0943e5847c9eb3cb4cb735aa16d6dc4b7f5a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'backend: Fix worker saturation description'
+      hash: 16f7e7593f73671efe43fe36d2c194f5d9a62125
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.62.18
+  date: 2020-06-25T06:52:46.990Z
+- commits:
     - subject: 'patch: bump @babel/register from 7.10.1 to 7.10.3'
       hash: a3639a41973860eb240583ae54ea3e1dabd82919
       body: >
