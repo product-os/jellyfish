@@ -194,7 +194,7 @@ spec:
             secretKeyRef:
               key: INTEGRATION_TYPEFORM_SIGNATURE_KEY
               name: integration-typeform-signature-key
-          optional: true
+              optional: true
         - name: INTEGRATION_DISCOURSE_TOKEN
           valueFrom:
             secretKeyRef:
