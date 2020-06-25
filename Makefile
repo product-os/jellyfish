@@ -253,6 +253,9 @@ DOCKER_COMPOSE_FILES = --file docker-compose.yml
 ifdef MONITOR
 DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
 endif
+ifdef SIDECAR
+DOCKER_COMPOSE_FILES += --file docker-compose.sidecar.yml
+endif
 
 DOCKER_COMPOSE_OPTIONS = \
 	$(DOCKER_COMPOSE_FILES) \
@@ -436,6 +439,9 @@ build-livechat:
 # -----------------------------------------------
 # Development
 # -----------------------------------------------
+
+docker-exec-%:
+	docker exec $(subst docker-exec-,,$@) $(COMMAND) $(ARGS)
 
 compose-exec-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \

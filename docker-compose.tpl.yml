@@ -110,43 +110,6 @@ services:
     restart: always
     networks:
       - internal
-  sidecar:
-    build:
-      context: .
-      dockerfile: apps/sidecar/Dockerfile
-      args:
-        - NPM_TOKEN
-    depends_on:
-      - api
-      - livechat
-      - postgres
-      - ui
-      - balena-mdns-publisher
-    environment:
-      DATABASE: {{DATABASE}}
-      LIVECHAT_HOST: http://livechat
-      LIVECHAT_PORT: 80
-      NODE_ENV: {{NODE_ENV}}
-      POSTGRES_DATABASE: {{POSTGRES_DATABASE}}
-      POSTGRES_HOST: postgres
-      POSTGRES_PASSWORD: docker
-      POSTGRES_USER: docker
-      SERVER_HOST: http://api
-      SERVER_PORT: {{SERVER_PORT}}
-      UI_HOST: http://ui
-      UI_PORT: 80
-    networks:
-      - internal
-    healthcheck:
-      interval: 10s
-      retries: 10
-      test:
-        - CMD
-        - curl
-        - --fail
-        - http://api:8000/ping
-      timeout: 10s
-    restart: always
   tick:
     image: balena/jellyfish-tick-server
     build:
@@ -316,7 +279,6 @@ services:
       {{/workers}}
       - ui
       - tick
-      - sidecar
       - livechat
       - api
       - balena-mdns-publisher

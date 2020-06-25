@@ -78,13 +78,13 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID
+          command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID"
       - run:
           name: Compose Down
           command: make compose-stop
@@ -142,13 +142,13 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
+          command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
       - run:
           name: Compose Down
           command: make compose-stop
@@ -169,13 +169,13 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
+          command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync Tests
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
       - run:
           name: Compose Down
           command: make compose-stop
@@ -233,13 +233,13 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_TYPEFORM_SIGNATURE_KEY=$TYPEFORM_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
+          command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_TYPEFORM_SIGNATURE_KEY=$TYPEFORM_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
       - run:
           name: End To End Tests (Server)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_TYPEFORM_SIGNATURE_KEY=$TYPEFORM_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY INTEGRATION_TYPEFORM_SIGNATURE_KEY=$TYPEFORM_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Postgres Dump
           command: docker exec jellyfish_postgres_1 bash -c 'PGPASSWORD="${POSTGRES_PASSWORD}" pg_dump --username="${POSTGRES_USER}" jellyfish' | gzip -9 > dump-server.gz
@@ -272,19 +272,19 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
+          command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish
       - run:
           name: Fetch Old Postgres Dump
           command: ./scripts/ci/postgres-get-previous-dump.sh server && ls -l && gunzip dump.gz
       - run:
           name: Import Postgres Dump
-          command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make compose-exec-sidecar COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
+          command: docker cp dump jellyfish_sidecar_1:/usr/src/jellyfish/dump && make docker-exec-jellyfish_sidecar_1 COMMAND="./scripts/ci/postgres-import-snapshot.sh" ARGS="/usr/src/jellyfish/dump"
       - run:
           name: End To End Tests (Server)
-          command: make compose-exec-sidecar COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test-e2e-server SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish"
       - run:
           name: Docker Compose Down
           command: make compose-stop
@@ -309,13 +309,13 @@ jobs:
           command: cd scripts/template && npm install
       - run:
           name: Compose Build
-          command: make compose-build
+          command: make compose-build SIDECAR=1
       - run:
           name: Docker Compose Up
-          command: make compose-up DETACH=1 FS_DRIVER=s3FS
+          command: make compose-up SIDECAR=1 DETACH=1 FS_DRIVER=s3FS
       - run:
           name: S3 File Upload Tests
-          command: make compose-exec-sidecar COMMAND="/bin/bash -c \". /root/.bashrc && make test FILES=./test/e2e/ui/file-upload.spec.js\""
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="/bin/bash -c \". /root/.bashrc && make test FILES=./test/e2e/ui/file-upload.spec.js\""
       - run:
           name: Docker Compose Down
           command: make compose-stop

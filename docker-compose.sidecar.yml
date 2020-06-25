@@ -1,0 +1,40 @@
+version: '2.1'
+
+services:
+  sidecar:
+    build:
+      context: .
+      dockerfile: apps/sidecar/Dockerfile
+      args:
+        - NPM_TOKEN
+    depends_on:
+      - api
+      - livechat
+      - postgres
+      - ui
+      - balena-mdns-publisher
+    environment:
+      DATABASE: postgres
+      LIVECHAT_HOST: http://livechat
+      LIVECHAT_PORT: 80
+      NODE_ENV: test
+      POSTGRES_DATABASE: jellyfish
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      SERVER_HOST: http://api
+      SERVER_PORT: 8000
+      UI_HOST: http://ui
+      UI_PORT: 80
+    networks:
+      - internal
+    healthcheck:
+      interval: 10s
+      retries: 10
+      test:
+        - CMD
+        - curl
+        - --fail
+        - http://api:8000/ping
+      timeout: 10s
+    restart: always
