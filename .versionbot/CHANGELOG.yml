@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: bump slugify from 1.4.0 to 1.4.2'
+      hash: b959a2be322975f8451af9627ad1a3daf971ea80
+      body: |
+        Bumps [slugify](https://github.com/simov/slugify) from 1.4.0 to 1.4.2.
+        - [Release notes](https://github.com/simov/slugify/releases)
+        - [Commits](https://github.com/simov/slugify/compare/v1.4.0...v1.4.2)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.14
+  date: 2020-06-25T02:37:28.170Z
+- commits:
     - subject: 'patch: bump rendition from 15.2.1 to 15.2.4'
       hash: 52e47eecd960e4b21936bc5f02e44e7abd791058
       body: >
