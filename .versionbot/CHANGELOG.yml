@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.702.0 to 2.703.0'
+      hash: 4a8b26eac94931de034089af678dd5ecef614749
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.702.0 to
+        2.703.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.702.0...v2.703.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.12
+  date: 2020-06-25T00:43:02.786Z
+- commits:
     - subject: Randomize metrics port number on collision
       hash: d6df4a617b01220c6965de182f3176f6a3f5fab0
       body: ''
