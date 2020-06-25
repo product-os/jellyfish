@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump rendition from 15.2.1 to 15.2.4'
+      hash: 52e47eecd960e4b21936bc5f02e44e7abd791058
+      body: >
+        Bumps [rendition](https://github.com/balena-io-modules/rendition) from
+        15.2.1 to 15.2.4.
+
+        - [Release
+        notes](https://github.com/balena-io-modules/rendition/releases)
+
+        -
+        [Changelog](https://github.com/balena-io-modules/rendition/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/balena-io-modules/rendition/compare/v15.2.1...v15.2.4)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.62.13
+  date: 2020-06-25T01:41:46.556Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.702.0 to 2.703.0'
       hash: 4a8b26eac94931de034089af678dd5ecef614749
       body: >
