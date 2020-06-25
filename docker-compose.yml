@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: apps/server/Dockerfile
-      args:
-        - NPM_TOKEN
     networks:
       - internal
     depends_on:
@@ -89,7 +87,6 @@ services:
       args:
         - SERVER_HOST=http://api.ly.fish.local
         - SERVER_PORT=80
-        - NPM_TOKEN
       context: .
       dockerfile: apps/livechat/Dockerfile
     depends_on:
@@ -115,8 +112,6 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.tick
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
@@ -172,7 +167,6 @@ services:
         - SENTRY_DSN_UI='0'
         - SERVER_HOST=http://api.ly.fish.local
         - SERVER_PORT=80
-        - NPM_TOKEN
       context: .
       dockerfile: apps/ui/Dockerfile
     depends_on:
@@ -188,8 +182,6 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
@@ -246,8 +238,6 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
@@ -304,8 +294,6 @@ services:
     build:
       context: .
       dockerfile: apps/action-server/Dockerfile.worker
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
