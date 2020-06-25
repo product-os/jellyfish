@@ -447,7 +447,7 @@ compose-build: docker-compose.yml
 	docker build . --build-arg NPM_TOKEN="${NPM_TOKEN}" -f Dockerfile.base -t jellyfish-base
 	echo server ui | \
 		xargs -n 1 -P 2 bash -c 'docker build . -t jellyfish-$$0-base -f Dockerfile.$$0'
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) build \
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) build --parallel \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 compose-exec-%: docker-compose.yml
