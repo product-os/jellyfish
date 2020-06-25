@@ -5,6 +5,7 @@
  */
 
 import * as Bluebird from 'bluebird'
+import _ from 'lodash'
 import React, {
 	useCallback,
 	useEffect,
@@ -57,6 +58,8 @@ const DebouncedSearch = (props) => {
 export default (props) => {
 	const user = useSelector(selectors.getCurrentUser)
 
+	const groups = useSelector(selectors.getGroups)
+
 	// State controller for managing canonical data from the API
 	const [ results, setResults ] = useState([])
 
@@ -88,7 +91,7 @@ export default (props) => {
 		setIsMarkingAllAsRead(true)
 
 		await Bluebird.map(results, (card) => {
-			return sdk.card.markAsRead(user.slug, card)
+			return sdk.card.markAsRead(user.slug, card, _.map(_.filter(groups, 'isMine'), 'name'))
 		}, {
 			concurrency: 10
 		})

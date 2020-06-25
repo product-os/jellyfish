@@ -27,7 +27,10 @@ import EventBody, {
 
 const MESSAGE_COLLAPSED_HEIGHT = 400
 
-const tagMatchRE = helpers.createPrefixRegExp('@|#|!')
+const prefixOptions = '@{1,2}|#|!{1,2}'
+const prefixRE = new RegExp(`^(${prefixOptions})`)
+const tagMatchRE = helpers.createPrefixRegExp(prefixOptions)
+
 const EventButton = styled.button `
 	cursor: ${(props) => { return props.openChannel ? 'pointer' : 'default' }};
 	${(props) => {
@@ -209,25 +212,37 @@ export default class Event extends React.Component {
 		const readBy = this.props.card.data.readBy || []
 		const userSlug = this.props.user.slug
 		const username = userSlug.slice(5)
+		const groups = this.props.groups || []
 
 		instance.markRegExp(tagMatchRE, {
 			element: 'span',
 			className: 'rendition-tag--hl',
 			ignoreGroups: 1,
 			each (element) {
-				const text = element.innerText
+				const text = element.innerText || element.textContent
 				if (text.charAt(0) === '#') {
 					return
 				}
 
-				const trimmed = text.slice(1).toLowerCase()
+				const trimmed = text.replace(prefixRE, '').toLowerCase()
+				const group = groups[trimmed]
 
-				if (trimmed === username) {
+				if (group && group.isMine) {
+					element.className += ' rendition-tag--personal'
+				} else if (trimmed === username) {
 					element.className += ' rendition-tag--personal'
 				}
+
 				if (!readBy.length) {
 					return
 				}
+
+				if (group) {
+					const readByCount = _.intersection(readBy, group.users).length
+					element.setAttribute('data-read-by-count', readByCount)
+					element.className += ' rendition-tag--read-by'
+				}
+
 				if (_.includes(readBy, `user-${trimmed}`)) {
 					element.className += ' rendition-tag--read'
 				}

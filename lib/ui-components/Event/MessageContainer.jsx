@@ -21,11 +21,16 @@ const MessageContainer = styled(Box) `
 	.rendition-tag--personal {
 		background: #FFF1C2;
 		color: #333;
-		&.rendition-tag--read:after {
+		&.rendition-tag--read:after,
+		&.rendition-tag--read-by:after {
 			background: #FFC19B;
-			border-radius: 5px;
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			line-height: 1.5em;
+			vertical-align: middle;
+			text-align: center;
 			font-size: 8px;
-			padding: 2px;
 		}
 	}
 	img {

@@ -64,7 +64,7 @@ class MessageList extends React.Component {
 			id
 		})
 
-		sdk.card.markAsRead(this.props.user.slug, card)
+		sdk.card.markAsRead(this.props.user.slug, card, _.map(_.filter(this.props.groups, 'isMine'), 'name'))
 			.catch((error) => {
 				console.error(error)
 			})
@@ -138,6 +138,7 @@ class MessageList extends React.Component {
 							<Box key={card.id}>
 								<Event
 									user={this.props.user}
+									groups={this.props.groups}
 									openChannel={this.openChannel}
 									card={card}
 									selectCard={selectors.getCard}
@@ -171,6 +172,7 @@ class MessageList extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state)
 	}
 }

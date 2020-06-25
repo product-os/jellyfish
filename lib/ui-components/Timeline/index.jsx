@@ -317,7 +317,7 @@ class Timeline extends React.Component {
 	}
 
 	handleCardVisible (card) {
-		this.props.sdk.card.markAsRead(this.props.user.slug, card)
+		this.props.sdk.card.markAsRead(this.props.user.slug, card, _.map(_.filter(this.props.groups, 'isMine'), 'name'))
 			.catch((error) => {
 				console.error(error)
 			})
@@ -413,6 +413,7 @@ class Timeline extends React.Component {
 			addNotification,
 			sdk,
 			types,
+			groups,
 			allowWhispers,
 			tail,
 			usersTyping,
@@ -464,6 +465,7 @@ class Timeline extends React.Component {
 
 		const eventProps = {
 			types,
+			groups,
 			enableAutocomplete,
 			sendCommand,
 			onCardVisible: this.handleCardVisible,
