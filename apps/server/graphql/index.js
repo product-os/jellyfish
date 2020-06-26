@@ -6,7 +6,7 @@
 
 const graphqlHTTP = require('express-graphql')
 const _ = require('lodash')
-const uuid = require('../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const schemaBuilder = require('./schema-builder')
 
 module.exports = (cards) => {

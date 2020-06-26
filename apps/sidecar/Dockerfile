@@ -17,7 +17,6 @@ COPY ./lib/core ./lib/core
 COPY ./lib/chat-widget ./lib/chat-widget
 COPY ./lib/environment ./lib/environment
 COPY ./lib/sync ./lib/sync
-COPY ./lib/uuid ./lib/uuid
 COPY ./lib/mail ./lib/mail
 
 COPY ./test ./test

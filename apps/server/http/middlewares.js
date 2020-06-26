@@ -8,7 +8,7 @@ const _ = require('lodash')
 const bodyParser = require('body-parser')
 const responseTime = require('response-time')
 const logger = require('../../../lib/logger').getLogger(__filename)
-const uuid = require('../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../package.json')
 
 module.exports = (rootContext, application, jellyfish, options) => {

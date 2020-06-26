@@ -7,7 +7,7 @@
 const ava = require('ava')
 const nock = require('nock')
 const helpers = require('../helpers')
-const uuid = require('../../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const actionLibrary = require('../../../../lib/action-library')
 const environment = require('../../../../lib/environment')
 

@@ -20,7 +20,6 @@ COPY webpack.config.base.js .
 COPY apps/ui ./apps/ui
 COPY lib/ui-components ./lib/ui-components
 COPY lib/chat-widget ./lib/chat-widget
-COPY lib/uuid ./lib/uuid
 COPY Makefile .
 
 ARG SERVER_HOST=https://api.ly.fish

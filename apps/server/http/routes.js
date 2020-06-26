@@ -14,7 +14,7 @@ const logger = require('../../../lib/logger').getLogger(__filename)
 const environment = require('../../../lib/environment')
 const metrics = require('../../../lib/metrics')
 const sync = require('../../../lib/sync')
-const uuid = require('../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../package.json')
 const facades = require('./facades')
 
