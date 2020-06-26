@@ -16,7 +16,7 @@
           "type": "object",
           "properties": {
             "type": {
-              "const": "form-response"
+              "const": "form-response@1.0.0"
             }
           },
           "required": [
