@@ -18,8 +18,8 @@ import {
 	v4 as uuid
 } from 'uuid'
 import {
-	isUUID
-} from '../../../../../lib/uuid'
+	v4 as isUUID
+} from 'is-uuid'
 import actions from '../actions'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import {
