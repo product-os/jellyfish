@@ -117,6 +117,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-all-agendas.json'),
 		await loadCard('balena/view-all-blog-posts.json'),
 		await loadCard('balena/view-typeform-responses.json'),
+		await loadCard('balena/view-curate-typeform-responses.json'),
 		await loadCard('balena/view-all-checkins.json'),
 		await loadCard('balena/view-all-contacts.json'),
 		await loadCard('balena/view-all-customers.json'),
