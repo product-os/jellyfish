@@ -249,7 +249,7 @@ export CI
 VISUAL ?=
 export VISUAL
 
-DOCKER_COMPOSE_FILES = --file docker-compose.yml
+DOCKER_COMPOSE_FILES = --file docker-compose.nobase.yml
 ifdef MONITOR
 DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
 endif
@@ -299,7 +299,12 @@ endif
 .tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
 	node scripts/template $< > $@
 
+docker-compose.nobase.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
+	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
+		node scripts/template $< > $@
+
 docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
+	BASE_IMAGES=1 \
 	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
 		node scripts/template $< > $@
 
@@ -443,27 +448,27 @@ build-livechat:
 docker-exec-%:
 	docker exec $(subst docker-exec-,,$@) $(COMMAND) $(ARGS)
 
-compose-build: docker-compose.yml
+compose-build: docker-compose.nobase.yml docker-compose.yml
 	docker build . --build-arg NPM_TOKEN="${NPM_TOKEN}" -f Dockerfile.base -t jellyfish-base
 	echo server ui | \
 		xargs -n 1 -P 2 bash -c 'docker build . -t jellyfish-$$0-base -f Dockerfile.$$0'
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) build --parallel \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-compose-exec-%: docker-compose.yml
+compose-exec-%: docker-compose.nobase.yml docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-compose-up-%: docker-compose.yml
+compose-up-%: docker-compose.nobase.yml docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
 
-compose-logs-%: docker-compose.yml
+compose-logs-%: docker-compose.nobase.yml docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
 		logs $(subst compose-logs-,,$@) $(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-compose-%: docker-compose.yml
+compose-%: docker-compose.nobase.yml docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 

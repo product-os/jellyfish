@@ -1,6 +1,25 @@
 version: '2.1'
 
 services:
+  {{#BASE_IMAGES}}
+  base:
+    image: jellyfish-base
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+      args:
+        - NPM_TOKEN
+  server-base:
+    image: jellyfish-server-base
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+  ui-base:
+    image: jellyfish-ui-base
+    build:
+      context: .
+      dockerfile: Dockerfile.ui
+  {{/BASE_IMAGES}}
   api:
     image: balena/jellyfish
     build:
