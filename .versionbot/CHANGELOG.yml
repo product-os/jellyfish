@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'view: Add view-curate-typeform-respoonses'
+      hash: 4ce208692fb4c546054c12522fd9084a063c2087
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.63.6
+  date: 2020-06-26T16:53:05.482Z
+- commits:
     - subject: 'view-typeform-responses: Add version in type'
       hash: 11d2254fa1387d2e88312aa6abcdb83c57e20c8c
       body: ''
