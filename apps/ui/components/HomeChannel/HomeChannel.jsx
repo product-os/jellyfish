@@ -458,6 +458,7 @@ export default class HomeChannel extends React.Component {
 	isExpanded (name) {
 		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
 	}
+
 	render () {
 		const {
 			isMobile,

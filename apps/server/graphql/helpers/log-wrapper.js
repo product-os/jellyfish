@@ -17,12 +17,15 @@ module.exports = class LogWrapper {
 	debug (message, data) {
 		this.logger.debug(this.context, message, data)
 	}
+
 	error (message, data) {
 		this.logger.error(this.context, message, data)
 	}
+
 	info (message, data) {
 		this.logger.info(this.context, message, data)
 	}
+
 	warn (message, data) {
 		this.logger.warn(this.context, message, data)
 	}

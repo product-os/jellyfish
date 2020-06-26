@@ -61,26 +61,31 @@ outreachTest('A user should be able to connect their account to outreach', async
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(4)')
 
 	// Wait for the outreach API redirect to occur before continuing
-	await new Promise(async (resolve) => {
-		const requestListener = (req) => {
-			if (
-				req.isNavigationRequest() &&
-				req.frame() === page.mainFrame() &&
-				req.url().includes('https://accounts.outreach.io/oauth/authorize')
-			) {
-				req.abort('aborted')
-				page.removeListener('request', requestListener)
-				resolve()
-			} else {
-				req.continue()
+	// eslint-disable-next-line no-async-promise-executor
+	await new Promise(async (resolve, reject) => {
+		try {
+			const requestListener = (req) => {
+				if (
+					req.isNavigationRequest() &&
+					req.frame() === page.mainFrame() &&
+					req.url().includes('https://accounts.outreach.io/oauth/authorize')
+				) {
+					req.abort('aborted')
+					page.removeListener('request', requestListener)
+					resolve()
+				} else {
+					req.continue()
+				}
 			}
+
+			page.on('request', requestListener)
+
+			await page.setRequestInterception(true)
+
+			await macros.waitForThenClickSelector(page, '[data-test="integration-connection--outreach"]')
+		} catch (error) {
+			reject(error)
 		}
-
-		page.on('request', requestListener)
-
-		await page.setRequestInterception(true)
-
-		await macros.waitForThenClickSelector(page, '[data-test="integration-connection--outreach"]')
 	})
 
 	await page.setRequestInterception(false)

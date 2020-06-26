@@ -162,9 +162,7 @@ ava('should post a broadcast message to a non empty thread', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
-		return card.data.timestamp
-	}), (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, 'data.timestamp'), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	})
 
@@ -288,9 +286,7 @@ ava('should not broadcast the same message twice', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
-		return card.data.timestamp
-	}), (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, 'data.timestamp'), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	})
 
@@ -414,9 +410,7 @@ ava('should broadcast different messages', async (test) => {
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
-		return card.data.timestamp
-	}), (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, 'data.timestamp'), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	})
 
@@ -566,9 +560,7 @@ ava('should broadcast the same message twice given different actors', async (tes
 
 	const timeline = threadWithLinks[0].links['has attached element']
 
-	const sortedTimeline = _.map(_.sortBy(timeline, (card) => {
-		return card.data.timestamp
-	}), (card) => {
+	const sortedTimeline = _.map(_.sortBy(timeline, 'data.timestamp'), (card) => {
 		return _.pick(card, [ 'type', 'slug', 'data' ])
 	})
 
