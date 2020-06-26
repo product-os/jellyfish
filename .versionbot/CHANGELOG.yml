@@ -1,4 +1,16 @@
 - commits:
+    - subject: Switch to third-party library for UUID validation
+      hash: 65cabd9c3c89f015ad466a0d50de68411e38ecfd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.63.4
+  date: 2020-06-26T01:58:03.663Z
+- commits:
     - subject: 'lib/sync/integrations/typeform: Fix isEventValid function'
       hash: 84b7acfcdfc86685cfb445b8d1536c0833da87e7
       body: ''
