@@ -17,9 +17,11 @@ const actionServer = require('../../../apps/action-server/bootstrap')
 const utils = require('../utils')
 
 const workerOptions = {
-	metricsPort: 9100,
 	onError: (context, error) => {
 		throw error
+	},
+	database: {
+		database: `test_${uuid().replace(/-/g, '_')}`
 	}
 }
 
@@ -29,7 +31,9 @@ module.exports = {
 			id: `SERVER-TEST-${uuid()}`
 		}
 
-		test.context.server = await bootstrap(test.context.context)
+		test.context.server = await bootstrap(test.context.context, {
+			database: workerOptions.database
+		})
 		test.context.actionWorker = await actionServer.worker(
 			test.context.context, workerOptions)
 

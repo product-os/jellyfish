@@ -19,6 +19,4 @@ run_test "Queue Integration Tests" test-integration-queue
 run_test "Worker Integration Tests" test-integration-worker
 
 # Run server integration tests.
-run_test "Server Integration Tests" test-integration-server \
-	SERVER_HOST=http://localhost \
-	POSTGRES_DATABASE=test_$(cat /proc/sys/kernel/random/uuid | cut -d - -f 1)
+run_test "Server Integration Tests" test-integration-server SERVER_HOST=http://localhost
