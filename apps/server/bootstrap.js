@@ -19,7 +19,7 @@ const http = require('./http')
 const socket = require('./socket')
 const graphql = require('./graphql')
 
-module.exports = async (context) => {
+module.exports = async (context, options) => {
 	logger.info(context, 'Configuring HTTP server')
 	const webServer = await http(context, {
 		port: environment.http.port,
@@ -39,8 +39,10 @@ module.exports = async (context) => {
 	}
 
 	logger.info(context, 'Instantiating core library')
+	const backendOptions = (options && options.database) ? Object.assign({}, environment.database.options, options.database)
+		: environment.database.options
 	const jellyfish = await core.create(context, cache, {
-		backend: environment.database.options
+		backend: backendOptions
 	})
 
 	metrics.startServer(context, environment.metrics.ports.app)
