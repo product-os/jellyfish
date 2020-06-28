@@ -14,7 +14,17 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github
+	clean-github \
+	compose-build \
+	compose-build-base \
+	compose-build-server-base \
+	compose-build-api \
+	compose-build-tick \
+	compose-build-worker \
+	compose-build-ui-base \
+	compose-build-livechat \
+	compose-build-ui \
+	compose-build-sidecar
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -448,12 +458,58 @@ build-livechat:
 docker-exec-%:
 	docker exec $(subst docker-exec-,,$@) $(COMMAND) $(ARGS)
 
-compose-build: docker-compose.nobase.yml docker-compose.yml
-	docker build . --build-arg NPM_TOKEN="${NPM_TOKEN}" -f Dockerfile.base -t jellyfish-base
-	echo server ui | \
-		xargs -n 1 -P 2 bash -c 'docker build . -t jellyfish-$$0-base -f Dockerfile.$$0'
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) build --parallel \
-		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
+compose-build-base:
+	docker build . \
+		--build-arg NPM_TOKEN="${NPM_TOKEN}" \
+		-f Dockerfile.base \
+		-t jellyfish-base
+
+compose-build-server-base: compose-build-base
+	docker build . \
+		-t jellyfish-server-base \
+		-f Dockerfile.server
+
+compose-build-api: compose-build-server-base
+	docker build . \
+		-t balena/jellyfish \
+		-f apps/server/Dockerfile
+
+compose-build-tick: compose-build-server-base
+	docker build . \
+		-t balena/jellyfish-tick-server \
+		-f apps/action-server/Dockerfile.tick
+
+compose-build-worker: compose-build-server-base
+	docker build . \
+		-t balena/jellyfish-action-server \
+		-f apps/action-server/Dockerfile.worker
+
+compose-build-ui-base: compose-build-base
+	docker build . \
+		-t jellyfish-ui-base \
+		-f Dockerfile.ui
+
+compose-build-livechat: compose-build-ui-base
+	docker build . \
+		--build-arg SERVER_HOST=http://api.ly.fish.local \
+		--build-arg SERVER_PORT=80 \
+		-t jellyfish_livechat \
+		-f apps/livechat/Dockerfile
+
+compose-build-ui: compose-build-ui-base
+	docker build . \
+		--build-arg SENTRY_DSN_UI=0 \
+        --build-arg SERVER_HOST=http://api.ly.fish.local \
+        --build-arg SERVER_PORT=80 \
+		-t jellyfish_ui \
+		-f apps/ui/Dockerfile
+
+compose-build: \
+	compose-build-api \
+	compose-build-tick \
+	compose-build-worker \
+	compose-build-livechat \
+	compose-build-ui
 
 compose-exec-%: docker-compose.nobase.yml docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
