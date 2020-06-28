@@ -2,14 +2,13 @@ FROM balena/open-balena-base:v9.4.1
 
 WORKDIR /usr/src/jellyfish
 
-COPY package.json package-lock.json /usr/src/jellyfish/
-RUN mkdir -p scripts
-COPY scripts/check_node_version.js /usr/src/jellyfish/scripts
+COPY scripts/check_node_version.js scripts/check_node_version.js
+COPY package.json package-lock.json ./
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN cat ~/.npmrc
-RUN env
-RUN NODE_ENV=production npm ci
-RUN rm -f ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+    cat ~/.npmrc && \
+    env && \
+    NODE_ENV=production npm ci && \
+    rm -f ~/.npmrc
 
 COPY Makefile .

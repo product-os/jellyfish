@@ -1,14 +1,12 @@
 FROM scratch AS preface
 
 COPY webpack.config.base.js .
-COPY lib/chat-widget ./lib/chat-widget
-COPY lib/ui-components ./lib/ui-components
+COPY lib/chat-widget lib/chat-widget
+COPY lib/ui-components lib/ui-components
 
 FROM jellyfish-base
 
 COPY --from=preface . .
 
-RUN mkdir -p scripts/template
-COPY scripts/template/package*.json \
-       /usr/src/jellyfish/scripts/template/
+COPY scripts/template/package*.json scripts/template/
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm i --no-package-lock

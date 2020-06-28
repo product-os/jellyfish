@@ -1,6 +1,6 @@
 FROM scratch AS preface
 
-COPY ./apps/action-server ./apps/action-server
+COPY apps/action-server apps/action-server
 
 FROM jellyfish-server-base
 

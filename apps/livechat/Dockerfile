@@ -4,7 +4,7 @@
 
 FROM scratch AS preface
 
-COPY apps/livechat ./apps/livechat
+COPY apps/livechat apps/livechat
 
 FROM jellyfish-ui-base AS base
 
@@ -23,6 +23,8 @@ RUN make build-livechat \
 ###########################################################
 
 FROM nginx:1.15
+
 WORKDIR /usr/src/jellyfish
+
 COPY --from=base /usr/src/jellyfish/dist/livechat /usr/share/nginx/html
 COPY apps/livechat/conf/nginx.conf /etc/nginx/conf.d/default.conf

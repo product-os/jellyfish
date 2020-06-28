@@ -4,7 +4,7 @@
 
 FROM scratch AS preface
 
-COPY apps/ui ./apps/ui
+COPY apps/ui apps/ui
 
 FROM jellyfish-ui-base AS base
 
@@ -26,6 +26,8 @@ RUN make build-ui \
 ###########################################################
 
 FROM nginx:1.15
+
 WORKDIR /usr/src/jellyfish
+
 COPY --from=base /usr/src/jellyfish/dist/ui /usr/share/nginx/html
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
