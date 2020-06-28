@@ -189,7 +189,7 @@
     "node-jose": "^1.1.4",
     "object-hash": "^2.0.3",
     "pg-format": "^1.0.4",
-    "pg-promise": "^10.4.0",
+    "pg-promise": "^10.5.7",
     "pluralize": "^8.0.0",
     "query-string": "^6.13.1",
     "random-words": "^1.1.1",
