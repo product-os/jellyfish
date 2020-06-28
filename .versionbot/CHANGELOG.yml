@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump native-url from 0.3.2 to 0.3.3'
+      hash: 78809555ad768bba01a933b20d6fef9c5de23dbf
+      body: >
+        Bumps [native-url](https://github.com/GoogleChromeLabs/native-url) from
+        0.3.2 to 0.3.3.
+
+        - [Release
+        notes](https://github.com/GoogleChromeLabs/native-url/releases)
+
+        -
+        [Commits](https://github.com/GoogleChromeLabs/native-url/compare/0.3.2...0.3.3)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.63.9
+  date: 2020-06-28T10:38:14.135Z
+- commits:
     - subject: Update Dockerfiles to use jellyfish-test and jellyfish-sidecar v1.3.11
       hash: 5879530c679b03e528dccf8e52a1110bab7f4cfc
       body: ''
