@@ -1,4 +1,30 @@
 - commits:
+    - subject: Update Dockerfiles to use jellyfish-test and jellyfish-sidecar v1.3.11
+      hash: 5879530c679b03e528dccf8e52a1110bab7f4cfc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump puppeteer from 4.0.0 to 4.0.1'
+      hash: c63420d19d29731a1634af235ec52dce21ff7cd4
+      body: >
+        Bumps [puppeteer](https://github.com/puppeteer/puppeteer) from 4.0.0 to
+        4.0.1.
+
+        - [Release notes](https://github.com/puppeteer/puppeteer/releases)
+
+        -
+        [Commits](https://github.com/puppeteer/puppeteer/compare/v4.0.0...v4.0.1)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.63.8
+  date: 2020-06-28T09:54:23.691Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.703.0 to 2.705.0'
       hash: e60d4382bcd5431cb4746484327dbef1adb2072e
       body: >
