@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump css-loader from 2.1.1 to 3.6.0'
+      hash: ee4e29e85e76e7f6c35b2999c532e3ecd3254414
+      body: >
+        Bumps [css-loader](https://github.com/webpack-contrib/css-loader) from
+        2.1.1 to 3.6.0.
+
+        - [Release
+        notes](https://github.com/webpack-contrib/css-loader/releases)
+
+        -
+        [Changelog](https://github.com/webpack-contrib/css-loader/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack-contrib/css-loader/compare/v2.1.1...v3.6.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.63.12
+  date: 2020-06-28T14:48:46.146Z
+- commits:
     - subject: 'patch: bump pg-promise from 10.4.0 to 10.5.7'
       hash: 23c7201e0c9f6afe528314ea520891e1aaff2622
       body: >
