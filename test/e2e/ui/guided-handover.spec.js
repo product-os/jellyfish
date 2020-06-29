@@ -28,7 +28,7 @@ const context = {
 }
 
 const selectors = {
-	threadMoreButton: '[data-test="support-thread-details__header"]',
+	statusDescription: '[data-test="support-thread__status-description"]',
 	rbTeam: 'label[for="rb-ghf-team"]',
 	rbUnassign: 'label[for="rb-ghf-unassign"]',
 	ddAssignToMe: '[data-test="card-owner-menu__assign-to-me"]',
@@ -73,7 +73,7 @@ const getWhisperText = async (page) => {
 }
 
 const verifyThreadStatus = async (test, page, expectedStatus) => {
-	const statusDescription = await macros.getElementText(page, '[data-test="card-field__value--statusdescription"]')
+	const statusDescription = await macros.getElementText(page, selectors.statusDescription)
 	test.is(statusDescription.trim(), expectedStatus)
 }
 
@@ -110,7 +110,6 @@ ava.serial('You can assign an unassigned thread to yourself', async (test) => {
 
 	// Create a new support thread
 	await createSupportThreadAndNavigate(page)
-	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
 	await verifyCardOwner(test, page, false, unassignedButtonText)
@@ -135,7 +134,6 @@ ava.serial('You can assign an unassigned thread to another user', async (test) =
 
 	// Create a new support thread
 	await createSupportThreadAndNavigate(page)
-	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently unassigned
 	await verifyCardOwner(test, page, false, unassignedButtonText)
@@ -187,7 +185,6 @@ ava.serial('You can unassign a thread that was assigned to you', async (test) =>
 
 	// Create a new support thread (assigned to ourselves)
 	await createSupportThreadAndNavigate(page, currentUser)
-	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to us
 	await verifyCardOwner(test, page, true, currentUserSlug)
@@ -235,7 +232,6 @@ ava.serial('You can unassign a thread that was assigned to another user', async 
 
 	// Create a new support thread (assigned to the other user)
 	await createSupportThreadAndNavigate(page, otherCommunityUser)
-	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to the other user
 	await verifyCardOwner(test, page, true, otherCommunityUserSlug)
@@ -285,7 +281,6 @@ ava.serial('You can reassign a thread from yourself to another user', async (tes
 
 	// Create a new support thread (assigned to ourselves)
 	await createSupportThreadAndNavigate(page, currentUser)
-	await macros.waitForThenClickSelector(page, selectors.threadMoreButton)
 
 	// Verify its currently assigned to us
 	await verifyCardOwner(test, page, true, currentUserSlug)
