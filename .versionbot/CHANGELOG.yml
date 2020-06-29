@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Add optional database to worker options'
+      hash: 2411a79030c4fb771eb4a3f18a7571bbbf6be070
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.63.17
+  date: 2020-06-29T05:26:30.391Z
+- commits:
     - subject: 'patch: bump @sentry/node from 5.17.0 to 5.18.1'
       hash: 01c1394f3a9b86f9bce2f26c74172816960e582c
       body: >
