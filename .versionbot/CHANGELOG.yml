@@ -1,4 +1,28 @@
 - commits:
+    - subject: Sort productOS repositories by name.
+      hash: 10c801d80605d908e2031f4cac169ec6abd31325
+      body: >
+        This ensures we display them in the same order each time on the Home
+        Channel menu.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add index to repository card
+      hash: b9debefc0b1de13ec84c5ad484310aace3ab129c
+      body: |
+        We filter and sort by the data.name field on repositories.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.64.0
+  date: 2020-06-29T07:55:37.123Z
+- commits:
     - subject: 'backend: Add optional database to worker options'
       hash: 2411a79030c4fb771eb4a3f18a7571bbbf6be070
       body: ''
