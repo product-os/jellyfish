@@ -32,7 +32,10 @@
       "required": [
         "data"
       ]
-    }
+    },
+    "indexed_fields": [
+      [ "data.name" ]
+    ]
   },
   "requires": [],
   "capabilities": []
