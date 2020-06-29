@@ -31,21 +31,23 @@ export const schemaSupportsStatusText = (types, card) => {
  * @param {Object} currentOwner - the user currently assigned to the card (null if not currently assigned)
  * @param {Object} newOwner - the user about to be assigned to the card (null if unassigning)
  * @param {String} reason - the reason for the reassignment
+ * @param {String} status - the current status of the thread
  *
  * @returns {String} The whisper message
  */
-export const generateWhisperMessage = (currentOwner, newOwner, reason) => {
-	const reasonSuffix = reason ? `\n\n>${reason}` : ''
+export const generateWhisperMessage = (currentOwner, newOwner, reason, status) => {
+	const reasonSuffix = reason ? `\n\n**Reason:**\n${reason}` : ''
+	const statusSuffix = status ? `\n\n**Current Status:**\n${status}` : ''
 	const currentOwnerSlug = currentOwner ? currentOwner.slug.replace('user-', '') : null
 	const newOwnerSlug = newOwner ? newOwner.slug.replace('user-', '') : null
 	if (currentOwner) {
 		if (newOwner) {
-			return `Reassigned from @${currentOwnerSlug} to @${newOwnerSlug}${reasonSuffix}`
+			return `Reassigned from @${currentOwnerSlug} to @${newOwnerSlug}${reasonSuffix}${statusSuffix}`
 		}
-		return `Unassigned from @${currentOwnerSlug}${reasonSuffix}`
+		return `Unassigned from @${currentOwnerSlug}${reasonSuffix}${statusSuffix}`
 	}
 	if (newOwner) {
-		return `Assigned to @${newOwnerSlug}${reasonSuffix}`
+		return `Assigned to @${newOwnerSlug}${reasonSuffix}${statusSuffix}`
 	}
 
 	// Note: we should never get here as it indicates we're trying to unassign
@@ -61,12 +63,13 @@ export const generateWhisperMessage = (currentOwner, newOwner, reason) => {
  * @param {Object} currentOwner - the user currently assigned to the card (null if not currently assigned)
  * @param {Object} newOwner - the user about to be assigned to the card (null if unassigning)
  * @param {String} reason - the reason for the reassignment
+ * @param {String} status - the current status of the thread
  *
  * @returns {Object} - the whisper card
  */
-export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason) => {
+export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason, status) => {
 	let whisper = null
-	const message = generateWhisperMessage(currentOwner, newOwner, reason)
+	const message = generateWhisperMessage(currentOwner, newOwner, reason, status)
 	if (message) {
 		const {
 			mentionsUser,

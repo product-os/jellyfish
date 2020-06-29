@@ -76,7 +76,9 @@ export default function HandoverFlowPanel ({
 			}
 
 			// Create a whisper
-			const whisper = handoverUtils.getHandoverWhisperEventCard(card, cardOwner, newOwner, reason.trim())
+			const whisper = handoverUtils.getHandoverWhisperEventCard(
+				card, cardOwner, newOwner, reason.trim(), statusDescription.trim()
+			)
 			if (whisper) {
 				linkActions.push(sdk.event.create(whisper))
 			}

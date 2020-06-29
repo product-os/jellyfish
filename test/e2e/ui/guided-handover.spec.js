@@ -168,7 +168,12 @@ ava.serial('You can assign an unassigned thread to another user', async (test) =
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
-	test.is(whisperText, `Assigned to @${otherCommunityUserSlug}\n\n${context.context.reason}`)
+	test.is(
+		whisperText,
+		`Assigned to @${otherCommunityUserSlug}\n` +
+		`Reason:${context.context.reason}\n` +
+		`Current Status:${context.context.statusDescription}`
+	)
 
 	await verifyThreadStatus(test, page, context.context.statusDescription)
 })
@@ -211,7 +216,12 @@ ava.serial('You can unassign a thread that was assigned to you', async (test) =>
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
-	test.is(whisperText, `Unassigned from @${currentUserSlug}\n\n${context.context.reason}`)
+	test.is(
+		whisperText,
+		`Unassigned from @${currentUserSlug}\n` +
+		`Reason:${context.context.reason}\n` +
+		`Current Status:${context.context.statusDescription}`
+	)
 
 	await verifyThreadStatus(test, page, context.context.statusDescription)
 })
@@ -254,7 +264,12 @@ ava.serial('You can unassign a thread that was assigned to another user', async 
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
-	test.is(whisperText, `Unassigned from @${otherCommunityUserSlug}\n\n${context.context.reason}`)
+	test.is(
+		whisperText,
+		`Unassigned from @${otherCommunityUserSlug}\n` +
+		`Reason:${context.context.reason}\n` +
+		`Current Status:${context.context.statusDescription}`
+	)
 
 	await verifyThreadStatus(test, page, context.context.statusDescription)
 })
@@ -303,7 +318,12 @@ ava.serial('You can reassign a thread from yourself to another user', async (tes
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
-	test.is(whisperText, `Reassigned from @${currentUserSlug} to @${otherCommunityUserSlug}\n\n${context.context.reason}`)
+	test.is(
+		whisperText,
+		`Reassigned from @${currentUserSlug} to @${otherCommunityUserSlug}\n` +
+		`Reason:${context.context.reason}\n` +
+		`Current Status:${context.context.statusDescription}`
+	)
 
 	// Verify the thread's status
 	await verifyThreadStatus(test, page, context.context.statusDescription)
@@ -332,7 +352,10 @@ ava.serial('You can reassign a thread from another user to yourself', async (tes
 
 	// Check the whisper
 	const whisperText = await getWhisperText(page)
-	test.is(whisperText, `Reassigned from @${otherCommunityUserSlug} to @${currentUserSlug}`)
+	test.is(
+		whisperText,
+		`Reassigned from @${otherCommunityUserSlug} to @${currentUserSlug}`
+	)
 })
 
 ava.serial('You cannot assign a thread to its existing owner', async (test) => {
