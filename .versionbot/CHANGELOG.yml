@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add support thread current status to handover whisper
+      hash: d895a49c1e55f1d25bb657f3f016f11257bbb074
+      body: |
+        Refactored whisper markdown slightly as well.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.65.0
+  date: 2020-06-29T13:14:47.298Z
+- commits:
     - subject: Sort productOS repositories by name.
       hash: 10c801d80605d908e2031f4cac169ec6abd31325
       body: >
