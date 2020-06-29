@@ -64,7 +64,9 @@ export default class CardOwner extends React.Component {
 			actions.addNotification('success', `${cardTypeName} assigned to me`)
 
 			// Now generate a whisper in this card's timeline to detail the self-assignment
-			const whisper = handoverUtils.getHandoverWhisperEventCard(card, cardOwner, user)
+			const whisper = handoverUtils.getHandoverWhisperEventCard(
+				card, cardOwner, user, null, _.get(card, [ 'data', 'statusDescription' ])
+			)
 			if (whisper) {
 				await sdk.event.create(whisper)
 					.catch((err) => {
