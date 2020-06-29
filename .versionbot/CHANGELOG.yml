@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump @octokit/plugin-throttling from 3.2.1 to 3.3.0'
+      hash: 1e393168667e52175f220af6456c1cb8806ac955
+      body: >
+        Bumps
+        [@octokit/plugin-throttling](https://github.com/octokit/plugin-throttling.js)
+        from 3.2.1 to 3.3.0.
+
+        - [Release
+        notes](https://github.com/octokit/plugin-throttling.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/plugin-throttling.js/compare/v3.2.1...v3.3.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.63.14
+  date: 2020-06-29T01:03:57.578Z
+- commits:
     - subject: 'patch: bump eslint-plugin-standard from 3.1.0 to 4.0.1'
       hash: 6ad210424d1237dbcce34039211ae79c0dd50cf1
       body: >
