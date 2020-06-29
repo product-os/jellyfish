@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Randomize database name in setup for server integration tests'
+      hash: e5f95d14bf774d09ce33d22ff1a69f6fc74a4ede
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.65.1
+  date: 2020-06-29T14:08:49.300Z
+- commits:
     - subject: Add support thread current status to handover whisper
       hash: d895a49c1e55f1d25bb657f3f016f11257bbb074
       body: |
