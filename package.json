@@ -132,7 +132,7 @@
     "@sentry/browser": "^5.17.0",
     "@sentry/node": "^5.18.1",
     "@webscopeio/react-textarea-autocomplete": "^4.6.3",
-    "aws-sdk": "^2.705.0",
+    "aws-sdk": "^2.706.0",
     "bcrypt": "^4.0.1",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.16.0",
