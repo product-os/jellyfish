@@ -104,8 +104,10 @@ const bootstrap = async (context, library, options) => {
 	}
 
 	logger.info(context, 'Instantiating core library')
+	const backendOptions = (options && options.database) ? Object.assign({}, environment.database.options, options.database)
+		: environment.database.options
 	const jellyfish = await core.create(context, cache, {
-		backend: environment.database.options
+		backend: backendOptions
 	})
 
 	const session = jellyfish.sessions.admin
@@ -217,7 +219,8 @@ exports.worker = async (context, options) => {
 					return worker.execute(key.id, actionRequest)
 				})
 				.catch(errorHandler)
-		}
+		},
+		database: options.database
 	})
 }
 
