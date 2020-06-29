@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Add optional options parameter to server bootstrap'
+      hash: 87c73d232425ed50a0a4b5e48b7fa2cc525189c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.63.15
+  date: 2020-06-29T01:50:53.415Z
+- commits:
     - subject: 'patch: bump @octokit/plugin-throttling from 3.2.1 to 3.3.0'
       hash: 1e393168667e52175f220af6456c1cb8806ac955
       body: >
