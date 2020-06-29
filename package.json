@@ -227,7 +227,7 @@
     "traverse": "^0.6.6",
     "typed-errors": "^1.1.0",
     "use-debounce": "^3.4.2",
-    "uuid": "^3.2.1",
+    "uuid": "^8.2.0",
     "winston": "^3.3.3"
   }
 }
