@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-standard from 3.1.0 to 4.0.1'
+      hash: 6ad210424d1237dbcce34039211ae79c0dd50cf1
+      body: >
+        Bumps
+        [eslint-plugin-standard](https://github.com/standard/eslint-plugin-standard)
+        from 3.1.0 to 4.0.1.
+
+        - [Release
+        notes](https://github.com/standard/eslint-plugin-standard/releases)
+
+        -
+        [Commits](https://github.com/standard/eslint-plugin-standard/compare/v3.1.0...v4.0.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.63.13
+  date: 2020-06-28T23:36:26.740Z
+- commits:
     - subject: 'patch: bump css-loader from 2.1.1 to 3.6.0'
       hash: ee4e29e85e76e7f6c35b2999c532e3ecd3254414
       body: >
