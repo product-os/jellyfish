@@ -418,6 +418,8 @@ export default class HomeChannel extends React.Component {
 					pattern: '^product-os'
 				}
 			}
+		}, {
+			sortBy: [ 'data', 'name' ]
 		})
 			.then((results) => {
 				this.setState({
@@ -458,6 +460,7 @@ export default class HomeChannel extends React.Component {
 	isExpanded (name) {
 		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
 	}
+
 	render () {
 		const {
 			isMobile,
