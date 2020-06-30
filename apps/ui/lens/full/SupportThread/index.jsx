@@ -291,6 +291,8 @@ class SupportThreadBase extends React.Component {
 
 		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
 
+		const statusDescription = _.get(card, [ 'data', 'statusDescription' ])
+
 		return (
 			<CardLayout
 				card={card}
@@ -437,67 +439,85 @@ class SupportThreadBase extends React.Component {
 						})}
 					</Flex>
 
-					<Flex alignItems="center" mb={1} >
-						<ThreadMirrorIcon mirrors={mirrors} mr={2}/>
-						{Boolean(actor) && (
-							<Txt tooltip={actor.email}>
-								Conversation with <strong>{actor.name}</strong>
+					<Collapsible
+						mt={1}
+						maxContentHeight='50vh'
+						title={(
+							<Flex alignItems="center" flexWrap="wrap" >
+								<ThreadMirrorIcon mirrors={mirrors} mr={2}/>
+								{Boolean(actor) && (
+									<Txt.span tooltip={actor.email}>
+										Conversation with <Txt.span bold>{actor.name}</Txt.span>
+										{Boolean(card.name) && <Txt.span mr={2}>:</Txt.span>}
+									</Txt.span>
+								)}
+								{Boolean(card.name) && <Txt.span bold>{card.name}</Txt.span>}
+							</Flex>
+						)}
+						defaultCollapsed={false}
+						data-test="support-thread__collapse-status"
+					>
+						{statusDescription && (
+							<Txt color="text.light" data-test="support-thread__status-description">
+								{statusDescription}
 							</Txt>
 						)}
-					</Flex>
+						<Collapsible
+							mt={1}
+							title="Details"
+							maxContentHeight='50vh'
+							lazyLoadContent
+							data-test="support-thread-details"
+						>
+							<Flex mt={1} justifyContent="space-between">
+								<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
+								<Txt>
+									<em>
+										Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}
+									</em>
+								</Txt>
+							</Flex>
 
-					{Boolean(card.name) && (
-						<Box mb={1}>
-							<Txt bold>{card.name}</Txt>
-						</Box>
-					)}
+							{highlights.length > 0 && (
+								<Collapsible mt={1} title="Highlights" lazyLoadContent data-test="support-thread-highlights">
+									<Extract py={2}>
+										{_.map(highlights, (statusEvent) => {
+											return (
+												<Event
+													key={statusEvent.id}
+													card={statusEvent}
+													user={this.props.user}
+													groups={this.props.groups}
+													selectCard={selectors.getCard}
+													getCard={this.props.actions.getCard}
+													actions={eventActions}
+													mb={1}
+													threadIsMirrored={isMirrored}
+													getActorHref={getActorHref}
+												/>
+											)
+										})}
+									</Extract>
+								</Collapsible>
+							)}
 
-					<Collapsible title="Details" maxContentHeight='50vh' lazyLoadContent data-test="support-thread-details">
-						<Flex mt={1} justifyContent="space-between">
-							<Txt><em>Created {helpers.formatTimestamp(card.created_at)}</em></Txt>
-
-							<Txt>
-								<em>Updated {helpers.timeAgo(_.get(helpers.getLastUpdate(card), [ 'data', 'timestamp' ]))}</em>
-							</Txt>
-						</Flex>
-
-						{highlights.length > 0 && (
-							<Collapsible mt={1} title="Highlights" lazyLoadContent data-test="support-thread-highlights">
-								<Extract py={2}>
-									{_.map(highlights, (statusEvent) => {
-										return (
-											<Event
-												key={statusEvent.id}
-												card={statusEvent}
-												user={this.props.user}
-												groups={this.props.groups}
-												selectCard={selectors.getCard}
-												getCard={this.props.actions.getCard}
-												actions={eventActions}
-												mb={1}
-												threadIsMirrored={isMirrored}
-												getActorHref={getActorHref}
-											/>
-										)
-									})}
-								</Extract>
-							</Collapsible>
-						)}
-
-						<CardFields
-							card={card}
-							fieldOrder={fieldOrder}
-							type={typeCard}
-							omit={[
-								'category',
-								'status',
-								'inbox',
-								'origin',
-								'environment',
-								'translateDate'
-							]}
-						/>
+							<CardFields
+								card={card}
+								fieldOrder={fieldOrder}
+								type={typeCard}
+								omit={[
+									'statusDescription',
+									'category',
+									'status',
+									'inbox',
+									'origin',
+									'environment',
+									'translateDate'
+								]}
+							/>
+						</Collapsible>
 					</Collapsible>
+
 				</Box>
 				<Box flex="1" style={{
 					minHeight: 0
