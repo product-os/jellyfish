@@ -84,7 +84,7 @@ jobs:
           command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID
       - run:
           name: Sync Tests
-          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/github-mirror.spec.js SCRUB=0 INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY INTEGRATION_GITHUB_PRIVATE_KEY=$GITHUB_PRIVATE_KEY INTEGRATION_GITHUB_APP_ID=$GITHUB_APP_ID AVA_OPTS='-T 10m'"
       - run:
           name: Compose Down
           command: make compose-stop
@@ -148,7 +148,7 @@ jobs:
           command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN
       - run:
           name: Sync Tests
-          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/front-mirror.spec.js SCRUB=0 INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN AVA_OPTS='-T 10m'"
       - run:
           name: Compose Down
           command: make compose-stop
@@ -175,7 +175,7 @@ jobs:
           command: make compose-up SIDECAR=1 DETACH=1 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME
       - run:
           name: Sync Tests
-          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME"
+          command: make docker-exec-jellyfish_sidecar_1 COMMAND="make" ARGS="test FILES=./test/e2e/sync/discourse-mirror.spec.js SCRUB=0 INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME AVA_OPTS='-T 10m'"
       - run:
           name: Compose Down
           command: make compose-stop
