@@ -300,11 +300,6 @@ along with a set of integrations with third party services.
 This module is a collection of re-usable React component that Jellyfish uses to
 build all its official user interfaces.
 
-### [`lib/uuid`](https://github.com/balena-io/jellyfish/tree/master/lib/uuid)
-
-UUIDs are the standard identifiers in the Jellyfish world. This module aims to
-provide Node.js and browser friendly UUID related utilities.
-
 ### [`lib/worker`](https://github.com/balena-io/jellyfish/tree/master/lib/worker)
 
 Jellyfish workers are in charge of consuming action requests from the queue,
