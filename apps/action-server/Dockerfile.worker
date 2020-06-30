@@ -18,7 +18,6 @@ COPY ./lib/logger ./lib/logger
 COPY ./lib/jellyscript ./lib/jellyscript
 COPY ./lib/sync ./lib/sync
 COPY ./lib/queue ./lib/queue
-COPY ./lib/uuid ./lib/uuid
 COPY ./lib/worker ./lib/worker
 COPY ./lib/mail ./lib/mail
 COPY ./lib/metrics ./lib/metrics

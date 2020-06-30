@@ -13,7 +13,7 @@ const Consumer = require('../../lib/queue').Consumer
 const Producer = require('../../lib/queue').Producer
 const core = require('../../lib/core')
 const environment = require('../../lib/environment')
-const uuid = require('../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('../../lib/metrics')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {

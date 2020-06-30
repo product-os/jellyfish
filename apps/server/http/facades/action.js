@@ -6,7 +6,7 @@
 
 const _ = require('lodash')
 const logger = require('../../../../lib/logger').getLogger(__filename)
-const uuid = require('../../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 
 module.exports = class ActionFacade {
 	constructor (worker, producer, fileStore) {

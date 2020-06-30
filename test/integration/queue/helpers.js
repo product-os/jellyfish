@@ -5,7 +5,7 @@
  */
 
 const Bluebird = require('bluebird')
-const uuid = require('../../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const helpers = require('../core/helpers')
 const Consumer = require('../../../lib/queue').Consumer
 const Producer = require('../../../lib/queue').Producer
