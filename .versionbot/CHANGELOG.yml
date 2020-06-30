@@ -1,4 +1,17 @@
 - commits:
+    - subject: Increase ava timeout for mirror tests to account for rate limiting
+      hash: 5d15a6631d890e607c5af6e384d28e01b6cdbc65
+      body: |
+        Fixes #4291
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+  version: 30.66.4
+  date: 2020-06-30T15:23:57.241Z
+- commits:
     - subject: 'patch: bump slugify from 1.4.2 to 1.4.4'
       hash: 5c4c3f931ef4a35ffd8e804e589f058513294d66
       body: |
