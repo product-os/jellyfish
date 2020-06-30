@@ -59,6 +59,7 @@ const TreeMenu = (props) => {
 					px={3}
 					my={2}
 					data-groupname={node.name}
+					data-expanded={isExpanded}
 					data-test={`home-channel__group-toggle--${node.key}`}
 					onClick={props.toggleExpandGroup}
 				>

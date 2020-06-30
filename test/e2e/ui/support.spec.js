@@ -45,9 +45,11 @@ ava.serial('Updates to support threads should be reflected in the support thread
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Support"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-all-support-threads"]'
+	])
 
 	await page.waitForSelector('.column--view-all-support-threads')
 
@@ -224,25 +226,13 @@ ava.serial('You should be able to link support threads to existing support issue
 	)
 	supportIssueOption.click()
 
-	// TODO: this is a hack, because waiting for the async-select option is really
-	// flakey for some reason
-	await macros.retry(5, async () => {
-		await Bluebird.delay(1000)
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"] input')
 
-		// Clicking the type input here will ensure that the target input gets cleared if this
-		// is executing in a retry loop
-		await macros.waitForThenClickSelector(page, '[data-test="card-linker--type__input"]')
+	await page.type('.jellyfish-async-select__input input', name)
 
-		await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await macros.waitForThenClickSelector(page, '.jellyfish-async-select__option--is-focused')
 
-		await page.type('.jellyfish-async-select__input input', name)
-
-		await page.waitForSelector('.jellyfish-async-select__option--is-focused')
-	})
-
-	await page.keyboard.press('Enter')
-
-	await page.click('[data-test="card-linker--existing__submit"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
 	await macros.waitForThenClickSelector(page, '[data-test="support-thread-details__header"]')
 
@@ -496,7 +486,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	// Add a small delay to allow for the link creation to occur
 	// TODO: Add a "wait" method to the SDK that will resolve once a matching
@@ -526,7 +516,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 	await Bluebird.delay(2000)
 	const archivedThread = await page.evaluate((id) => {
 		return window.sdk.card.get(id)

@@ -44,9 +44,12 @@ ava.serial('should let users create new accounts', async (test) => {
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--org-balena"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--Sales"]')
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-customers"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Sales"]',
+		'[data-test="home-channel__item--view-all-customers"]'
+	])
+
 	await macros.waitForThenClickSelector(page, '.btn--add-account')
 
 	const name = `test account ${uuid()}`
@@ -78,7 +81,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	const results = await page.evaluate((nameParam) => {
 		return window.sdk.query({
@@ -170,7 +173,7 @@ ava.serial('should let users create new opportunities and directly link existing
 	await page.type('.jellyfish-async-select__input input', 'test')
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')
-	await page.click('[data-test="card-linker--existing__submit"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
 	await page.waitForSelector('[data-test="segment-card--account"] [data-test-component="card-chat-summary"]')
 
@@ -179,7 +182,7 @@ ava.serial('should let users create new opportunities and directly link existing
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await page.waitForSelector('[data-test="alert--success"]')
+	await macros.waitForThenDismissAlert(page, 'success')
 
 	// We wait for the db to catch up on the linking
 	await Bluebird.delay(1000)

@@ -111,7 +111,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	await page.type('.jellyfish-async-select__input input', productImprovement1Name)
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')
-	await page.click('[data-test="card-linker--existing__submit"]')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
 	const pi1CardChatSummary = `[data-test-component="card-chat-summary"][data-test-id="${productImprovement1.id}"]`
 	await page.waitForSelector(`[data-test="segment-card--product-improvements"] ${pi1CardChatSummary}`)
