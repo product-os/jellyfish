@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const _ = require('lodash')
 const Bluebird = require('bluebird')
 const path = require('path')
 const $RefParser = require('json-schema-ref-parser')
@@ -150,6 +151,15 @@ module.exports = async (context, jellyfish, worker, session) => {
 		await loadCard('balena/view-workflows.json')
 	], async (card) => {
 		if (!card) {
+			return
+		}
+
+		// Skip cards that already exist and do not need updating
+		// Need to update omitted list if any similar fields are added to the schema
+		card.name = (card.name) ? card.name : null
+		const currentCard = await jellyfish.getCardBySlug(context, session, `${card.slug}@${card.version}`)
+		if (currentCard && _.isEqual(card,
+			_.omit(currentCard, [ 'id', 'created_at', 'updated_at', 'linked_at', 'new_created_at', 'new_updated_at' ]))) {
 			return
 		}
 
