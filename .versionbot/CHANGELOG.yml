@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ci: Move sidecar to separate compose config'
+      hash: 91a46de8e7b994206969d478fced504fd33cdacc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.65.2
+  date: 2020-06-29T23:57:41.939Z
+- commits:
     - subject: 'ci: Randomize database name in setup for server integration tests'
       hash: e5f95d14bf774d09ce33d22ff1a69f6fc74a4ede
       body: ''
