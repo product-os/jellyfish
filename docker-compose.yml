@@ -85,6 +85,7 @@ services:
       - 80
     restart: always
   livechat:
+    image: balena/jellyfish-livechat
     build:
       args:
         - SERVER_HOST=http://api.ly.fish.local
@@ -167,6 +168,7 @@ services:
     networks:
       - internal
   ui:
+    image: balena/jellyfish-ui
     build:
       args:
         - SENTRY_DSN_UI='0'
