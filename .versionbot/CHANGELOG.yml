@@ -1,4 +1,16 @@
 - commits:
+    - subject: Replace lib/uuid with private package
+      hash: 5495dc7bb6e21b4dc2b99397ee7ea7359c87175d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.65.4
+  date: 2020-06-30T03:25:55.646Z
+- commits:
     - subject: 'test: Fix flaky LinkModal test code'
       hash: 19054f6024cb978f6b84cb6b1df6eec0ceb0c3f3
       body: >
