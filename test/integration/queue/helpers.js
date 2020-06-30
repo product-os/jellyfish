@@ -7,6 +7,7 @@
 const Bluebird = require('bluebird')
 const uuid = require('@balena/jellyfish-uuid')
 const helpers = require('../core/helpers')
+const defaultCards = require('../../../apps/server/default-cards')
 const Consumer = require('../../../lib/queue').Consumer
 const Producer = require('../../../lib/queue').Producer
 const actionLibrary = require('../../../lib/action-library')
@@ -26,13 +27,13 @@ exports.before = async (test, options) => {
 		test.context.context, test.context.session, session.data.actor)
 
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		require('../../../apps/server/default-cards/contrib/message.json'))
+		defaultCards.message)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		require('../../../apps/server/default-cards/contrib/role-user-community.json'))
+		defaultCards.roleUserCommunity)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		require('../../../apps/server/default-cards/contrib/password-reset.json'))
+		defaultCards.passwordReset)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		require('../../../apps/server/default-cards/contrib/first-time-login.json'))
+		defaultCards.firstTimeLogin)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-create-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,

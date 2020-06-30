@@ -10,6 +10,7 @@ const Bluebird = require('bluebird')
 const uuid = require('uuid/v4')
 const path = require('path')
 const _ = require('lodash')
+const defaultCards = require('../../../apps/server/default-cards')
 const syncHelpers = require('../../integration/sync/helpers')
 const helpers = require('./helpers')
 
@@ -343,27 +344,27 @@ module.exports = {
 		})
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/external-event.json'))
+			defaultCards.externalEvent)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/issue.json'))
+			defaultCards.issue)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/pull-request.json'))
+			defaultCards.pullRequest)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/email-sequence.json'))
+			defaultCards.emailSequence)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/form-response.json'))
+			defaultCards.formResponse)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/repository.json'))
+			defaultCards.repository)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/push.json'))
+			defaultCards.push)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/support-thread.json'))
+			defaultCards.supportThread)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/sales-thread.json'))
+			defaultCards.salesThread)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/thread.json'))
+			defaultCards.thread)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../apps/server/default-cards/contrib/whisper.json'))
+			defaultCards.whisper)
 
 		nock.cleanAll()
 		nock.disableNetConnect()
