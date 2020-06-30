@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update jellyfish-uuid version
+      hash: c490fc9ec1bbe7b605327bac7f6e675888435666
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.66.5
+  date: 2020-06-30T20:18:07.041Z
+- commits:
     - subject: Increase ava timeout for mirror tests to account for rate limiting
       hash: 5d15a6631d890e607c5af6e384d28e01b6cdbc65
       body: |
