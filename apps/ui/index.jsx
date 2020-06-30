@@ -45,7 +45,7 @@ import * as environment from './environment'
 import pwa from './pwa'
 
 pwa.init({
-	debugServiceWorker: environment.pwa.debugSW(),
+	debugServiceWorker: environment.pwa.debugServiceWorker,
 	enableWebPush: environment.pwa.enableWebPush
 })
 

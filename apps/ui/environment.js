@@ -34,7 +34,5 @@ export const version = (typeof env === 'undefined') ? 'v1.0.0' : (env.VERSION ||
 export const pwa = {
 	vapidPublicKey: (typeof env === 'undefined') ? null : env.VAPID_PUBLIC_KEY,
 	enableWebPush: (typeof env === 'undefined') ? false : (env.JF_WEB_PUSH === '1'),
-	debugSW: () => {
-		return (typeof env === 'undefined') ? false : (env.JF_DEBUG_SW === '1')
-	}
+	debugServiceWorker: (typeof env === 'undefined') ? false : (env.JF_DEBUG_SW === '1')
 }

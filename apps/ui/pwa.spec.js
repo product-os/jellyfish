@@ -75,7 +75,14 @@ ava('PWA skips initialization if already initialized', (test) => {
 	test.notThrows(() => {
 		// This would throw an exception if it tried to call any methods
 		// on the window or Workbox objects
-		pwa.init(options)
+		const workbox = {
+			addEventListener: sandbox.fake()
+		}
+		pwa.init({
+			...options,
+			workbox
+		})
+		test.true(workbox.addEventListener.notCalled)
 	})
 })
 
@@ -181,8 +188,8 @@ ava('Push notification subscription throws an error if PWA is not initialized', 
 	const {
 		pwa
 	} = test.context
+	test.false(pwa.isInitialized)
 	test.throws(() => {
-		test.false(pwa.isInitialized)
 		pwa.subscribeToPushNotifications({}, {}, {
 			vapidPublicKey
 		})
