@@ -1,4 +1,35 @@
 - commits:
+    - subject: Update architecture document to remove lib/uuid description
+      hash: 24bae502461dcde38de06f6dc446e92f69a42001
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+    - subject: 'patch: bump eslint-plugin-import from 2.21.2 to 2.22.0'
+      hash: 843bec9ec184ebecd83bdcbc062744201d61bbc6
+      body: >
+        Bumps
+        [eslint-plugin-import](https://github.com/benmosher/eslint-plugin-import)
+        from 2.21.2 to 2.22.0.
+
+        - [Release
+        notes](https://github.com/benmosher/eslint-plugin-import/releases)
+
+        -
+        [Changelog](https://github.com/benmosher/eslint-plugin-import/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/benmosher/eslint-plugin-import/compare/v2.21.2...v2.22.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.66.1
+  date: 2020-06-30T10:32:12.737Z
+- commits:
     - subject: Display support thread status in thread header
       hash: d261f932a3a732ec7651eb2bc8a1b69dfe7e3681
       body: >
