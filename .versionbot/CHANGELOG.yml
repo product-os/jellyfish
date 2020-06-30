@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: bump slugify from 1.4.2 to 1.4.4'
+      hash: 5c4c3f931ef4a35ffd8e804e589f058513294d66
+      body: |
+        Bumps [slugify](https://github.com/simov/slugify) from 1.4.2 to 1.4.4.
+        - [Release notes](https://github.com/simov/slugify/releases)
+        - [Commits](https://github.com/simov/slugify/compare/v1.4.2...v1.4.4)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.66.3
+  date: 2020-06-30T14:05:17.490Z
+- commits:
     - subject: 'patch: bump native-url from 0.3.3 to 0.3.4'
       hash: 8776fbb88ef01bbb143f2bf207a1c2139bcdbe96
       body: >
