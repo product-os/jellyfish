@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump native-url from 0.3.3 to 0.3.4'
+      hash: 8776fbb88ef01bbb143f2bf207a1c2139bcdbe96
+      body: >
+        Bumps [native-url](https://github.com/GoogleChromeLabs/native-url) from
+        0.3.3 to 0.3.4.
+
+        - [Release
+        notes](https://github.com/GoogleChromeLabs/native-url/releases)
+
+        -
+        [Commits](https://github.com/GoogleChromeLabs/native-url/compare/0.3.3...0.3.4)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.66.2
+  date: 2020-06-30T12:52:20.849Z
+- commits:
     - subject: Update architecture document to remove lib/uuid description
       hash: 24bae502461dcde38de06f6dc446e92f69a42001
       body: ''
