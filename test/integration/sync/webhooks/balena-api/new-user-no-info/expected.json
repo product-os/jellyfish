@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": null,
+    "name": "johndoe",
     "slug": "user-johndoe",
     "type": "user@1.0.0",
     "version": "1.0.0",
@@ -37,6 +37,7 @@
           "active": true,
           "tags": [],
           "requires": [],
+          "name": "johndoe",
           "capabilities": [],
           "data": {
             "email": "johndoe@souvlakitek.com",

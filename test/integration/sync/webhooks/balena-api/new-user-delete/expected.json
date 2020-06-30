@@ -1,6 +1,6 @@
 {
   "head": {
-    "name": null,
+    "name": "johndoe",
     "slug": "user-johndoe",
     "type": "user@1.0.0",
     "version": "1.0.0",
@@ -12,7 +12,9 @@
       "email": "johndoe@souvlakitek.com",
       "roles": [ "user-external-support" ],
       "hash": "PASSWORDLESS",
-      "mirrors": [],
+      "mirrors": [
+        "https://api.balena-cloud.com/v5/user(999)"
+      ],
       "profile": {
         "type": "professional",
         "company": "Souvlaki Tek",
@@ -38,6 +40,7 @@
         },
         "timestamp": "2019-04-17T15:24:08.731Z",
         "payload": {
+          "name": "johndoe",
           "type": "user@1.0.0",
           "version": "1.0.0",
           "active": true,
@@ -81,10 +84,6 @@
             "op": "replace",
             "path": "/data/translateDate",
             "value": "2019-04-17T15:28:45.893Z"
-          },
-          {
-            "op": "remove",
-            "path": "/data/mirrors/0"
           },
           {
             "op": "replace",
