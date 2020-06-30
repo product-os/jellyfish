@@ -124,7 +124,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
     "@balena/jellyfish-client-sdk": "^1.1.0",
-    "@balena/jellyfish-uuid": "0.0.2-copy-over-code-e63cee487e6fef8bf28a0926ffcc983e7940b418",
+    "@balena/jellyfish-uuid": "0.0.2",
     "@balena/node-metrics-gatherer": "^5.7.0",
     "@octokit/auth-app": "^2.4.7",
     "@octokit/plugin-retry": "^3.0.3",
