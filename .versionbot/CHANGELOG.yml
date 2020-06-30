@@ -1,4 +1,51 @@
 - commits:
+    - subject: 'test: Fix flaky LinkModal test code'
+      hash: 19054f6024cb978f6b84cb6b1df6eec0ceb0c3f3
+      body: >
+        Click on the Select option rather than clicking 'Enter' to select the
+        Select option.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'test: only click Link Modal submit button once enabled'
+      hash: 88471a7e0b46d795b24e2084280bc8be998c37d1
+      body: >
+        Avoid the situation where we click on the Submit button before it is
+        enabled.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'test: Ensure toast notification is dismissed as part of test step'
+      hash: c92a6394548a7411467f6630510a2e6487484990
+      body: >
+        This mitigates the situation where the notification blocks the item we
+        are trying to click on next.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'test: improve home channel navigation logic'
+      hash: ad9b469705143b3d50f123833f202de720635738
+      body: >
+        Use a helper method to ensure that expandable menu items are only
+        clicked on if they are not expanded.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.65.3
+  date: 2020-06-30T02:07:13.823Z
+- commits:
     - subject: 'ci: Move sidecar to separate compose config'
       hash: 91a46de8e7b994206969d478fced504fd33cdacc
       body: ''
