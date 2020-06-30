@@ -8,7 +8,9 @@ const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const request = require('request')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')
 const randomWords = require('random-words')

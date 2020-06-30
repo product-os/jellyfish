@@ -10,7 +10,9 @@ const Bluebird = require('bluebird')
 const request = require('request')
 const _ = require('lodash')
 const nock = require('nock')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const outreachMock = require('./outreach-mock')
 const environment = require('../../../lib/environment')
 const helpers = require('./helpers')

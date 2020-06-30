@@ -6,7 +6,9 @@
 
 const ava = require('ava')
 const bootstrap = require('../../../apps/server/bootstrap')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const schemaBuilder = require('../../../apps/server/graphql/schema-builder')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const baseCards = require('../../../lib/core/cards')

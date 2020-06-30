@@ -7,7 +7,9 @@
 const ava = require('ava')
 const errors = require('../../../../../lib/core/errors')
 const cards = require('../../../../../lib/core/backend/postgres/cards')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 
 ava.before((test) => {
 	test.context.context = {

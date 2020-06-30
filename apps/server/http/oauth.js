@@ -5,7 +5,9 @@
  */
 
 const errio = require('errio')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const logger = require('../../../lib/logger').getLogger(__filename)
 const sync = require('../../../lib/sync')
 const environment = require('../../../lib/environment')

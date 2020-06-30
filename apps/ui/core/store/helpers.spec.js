@@ -4,7 +4,9 @@
  * Proprietary and confidential.
  */
 const ava = require('ava')
-const uuid = require('uuid').v4
+const {
+	v4: uuid
+} = require('uuid')
 const update = require('immutability-helper')
 const {
 	mentionsUser,

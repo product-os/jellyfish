@@ -5,7 +5,9 @@
  */
 
 const puppeteer = require('puppeteer')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const environment = require('../../../lib/environment')
 const helpers = require('../sdk/helpers')
 

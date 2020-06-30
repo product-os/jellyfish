@@ -7,7 +7,9 @@
 const combinatorics = require('js-combinatorics')
 const nock = require('nock')
 const Bluebird = require('bluebird')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const path = require('path')
 const _ = require('lodash')
 const defaultCards = require('../../../apps/server/default-cards')

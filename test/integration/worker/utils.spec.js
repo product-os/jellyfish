@@ -7,7 +7,9 @@
 const ava = require('ava')
 const helpers = require('./helpers')
 const utils = require('../../../lib/worker/utils')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 
 ava.serial.before(helpers.jellyfish.before)
 ava.serial.after(helpers.jellyfish.after)

@@ -8,7 +8,9 @@ const ava = require('ava')
 const _ = require('lodash')
 const nock = require('nock')
 const querystring = require('querystring')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
 const environment = require('../../../lib/environment')

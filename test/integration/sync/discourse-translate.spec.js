@@ -6,7 +6,9 @@
 
 const ava = require('ava')
 const nock = require('nock')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration.discourse

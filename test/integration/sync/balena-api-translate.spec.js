@@ -10,7 +10,9 @@ const randomstring = require('randomstring')
 const url = require('native-url')
 const jose = require('node-jose')
 const jws = require('jsonwebtoken')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const scenario = require('./scenario')
 const environment = require('../../../lib/environment')
 const TOKEN = environment.integration['balena-api']
