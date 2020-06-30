@@ -1,4 +1,21 @@
 - commits:
+    - subject: Display support thread status in thread header
+      hash: d261f932a3a732ec7651eb2bc8a1b69dfe7e3681
+      body: >
+        Refactored header elements a bit to help reduce wasted vertical space.
+        Thread name is now displayed on the same line as the 'Conversation
+        with...' text and this acts as the title of the (default open)
+        collapsible section containing the status description and the
+        (collapsed) 'Details' section.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.66.0
+  date: 2020-06-30T07:16:44.638Z
+- commits:
     - subject: Replace lib/uuid with private package
       hash: 5495dc7bb6e21b4dc2b99397ee7ea7359c87175d
       body: ''
