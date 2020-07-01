@@ -4,7 +4,7 @@ You can add a new type to Jellyfish by following these steps.
 
 ## Add a new type definition card
 
-New type cards should be added in the `default-cards` directory here https://github.com/balena-io/jellyfish/tree/master/apps/server/default-cards/contrib 
+New type cards should be added in the `default-cards` directory here https://github.com/product-os/jellyfish/tree/master/apps/server/default-cards/contrib
 
 A type card consists of the standard contract fields and a JSON schema that defines the shape of the new type. For example, a new type card that defines a Pokémon would look like this
 
@@ -90,7 +90,7 @@ For the sake of keeping things organised, the name of the file should match the
 ## Load the type card when the server starts
 
 Now that the card has been added, it needs to be loaded when the server starts.
-This is done by adding a line to this file https://github.com/balena-io/jellyfish/blob/master/apps/server/card-loader.js#L48
+This is done by adding a line to this file https://github.com/product-os/jellyfish/blob/master/apps/server/card-loader.js#L48
 
 Continuing with the Pokèmon card type example, the line would look like this:
 
@@ -103,7 +103,7 @@ await loadCard('contrib/pokemon.json')
 At this point, users with the `community` role will have CRUD access to the
 Pokèmon card type via the API but it will not show up in the web browser client.
 The easiest way to make this happen is to create a new view to list Pokèmon cards.
-As before, the new view card should be added in the `default-cards` directory here https://github.com/balena-io/jellyfish/tree/master/apps/server/default-cards/contrib
+As before, the new view card should be added in the `default-cards` directory here https://github.com/product-os/jellyfish/tree/master/apps/server/default-cards/contrib
 Here is an example view that displays all Pokèmon cards:
 
 ```
@@ -149,7 +149,7 @@ Here is an example view that displays all Pokèmon cards:
 }
 ```
 
-As before, this view needs to be loaded when the server starts, by adding a line to this file https://github.com/balena-io/jellyfish/blob/master/apps/server/card-loader.js#L48
+As before, this view needs to be loaded when the server starts, by adding a line to this file https://github.com/product-os/jellyfish/blob/master/apps/server/card-loader.js#L48
 
 The line would look like this:
 

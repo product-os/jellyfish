@@ -15,10 +15,10 @@ as a cross between Slack and Excel!
 ***
 
 - **Contributing**
-	- [**Architecture overview**](https://github.com/balena-io/jellyfish/blob/master/ARCHITECTURE.md)
-	- [**Working with the frontend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/frontend.markdown)
-	- [**Working with the backend**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/backend.markdown)
-	- [**Adding a new type**](https://github.com/balena-io/jellyfish/blob/master/docs/developing/add-new-type.markdown)
+	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
+	- [**Working with the frontend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/frontend.markdown)
+	- [**Working with the backend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/backend.markdown)
+	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-on-balena.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish/blob/master/docs/developing/adding-metrics.markdown)
 - **Links**
@@ -27,9 +27,9 @@ as a cross between Slack and Excel!
 	- [**New Relic**](https://synthetics.newrelic.com/accounts/2054842/monitors/8bf2b38d-7c2a-4d71-9629-7cbf05b6bd21)
 	- [**Metrics**](https://monitor.balena-cloud.com/d/jellyfish/jellyfish?orgId=1)
 - **Services**
-	- [**Using New Relic**](https://github.com/balena-io/jellyfish/blob/master/docs/newrelic.markdown)
-	- [**Using Balena CI**](https://github.com/balena-io/jellyfish/blob/master/docs/balenaci.markdown)
-	- [**Using Sentry**](https://github.com/balena-io/jellyfish/blob/master/docs/sentry.markdown)
+	- [**Using New Relic**](https://github.com/product-os/jellyfish/blob/master/docs/newrelic.markdown)
+	- [**Using Balena CI**](https://github.com/product-os/jellyfish/blob/master/docs/balenaci.markdown)
+	- [**Using Sentry**](https://github.com/product-os/jellyfish/blob/master/docs/sentry.markdown)
 
 Getting private package access
 ------------------------------
@@ -150,15 +150,15 @@ make test FILES=./test/unit/worker/utils.spec.js # Run a specific unit test file
 
 Some suites may provide or require various options. Consult the corresponding
 ["Developing"
-guides](https://github.com/balena-io/jellyfish/tree/master/docs/developing) or
-the [`Makefile`](https://github.com/balena-io/jellyfish/blob/master/Makefile)
+guides](https://github.com/product-os/jellyfish/tree/master/docs/developing) or
+the [`Makefile`](https://github.com/product-os/jellyfish/blob/master/Makefile)
 if unsure.
 
 Reporting problems
 ------------------
 
 If you're having any problem, please [raise an
-issue](https://github.com/balena-io/jellyfish/issues/new) on GitHub and the
+issue](https://github.com/product-os/jellyfish/issues/new) on GitHub and the
 Jellyfish team will be happy to help.
 
 License

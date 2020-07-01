@@ -47,25 +47,25 @@ services as needed using actions.
 
 ## Deployable Components
 
-### [`apps/action-server`](https://github.com/balena-io/jellyfish/tree/master/apps/action-server)
+### [`apps/action-server`](https://github.com/product-os/jellyfish/tree/master/apps/action-server)
 
 The action server worker, which dequeues action requests from the database
 and executes them with the configured action library.
 
-### [`apps/livechat`](https://github.com/balena-io/jellyfish/tree/master/apps/livechat)
+### [`apps/livechat`](https://github.com/product-os/jellyfish/tree/master/apps/livechat)
 
 This is the demo project for developing chat-widget.
 
-### [`apps/server`](https://github.com/balena-io/jellyfish/tree/master/apps/server)
+### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.
 
-### [`apps/sidecar`](https://github.com/balena-io/jellyfish/tree/master/apps/sidecar)
+### [`apps/sidecar`](https://github.com/product-os/jellyfish/tree/master/apps/sidecar)
 
 A utility container to run tests against the other
 containers.
 
-### [`apps/ui`](https://github.com/balena-io/jellyfish/tree/master/apps/ui)
+### [`apps/ui`](https://github.com/product-os/jellyfish/tree/master/apps/ui)
 
 This is the main Jellyfish web user interface, and what most people will
 interact with.
@@ -74,12 +74,12 @@ interact with.
 
 A set of re-usable libraries that the top level components use.
 
-### [`lib/action-library`](https://github.com/balena-io/jellyfish/tree/master/lib/action-library)
+### [`lib/action-library`](https://github.com/product-os/jellyfish/tree/master/lib/action-library)
 
 The action library consists of a set of actions with which the system
 provisions workers.
 
-### [`lib/assert`](https://github.com/balena-io/jellyfish/tree/master/lib/assert)
+### [`lib/assert`](https://github.com/product-os/jellyfish/tree/master/lib/assert)
 
 The Jellyfish system distinguishes between two types of errors:
 
@@ -91,12 +91,12 @@ This module provides a handy set of functions to write concise assertions for
 both types of errors, and remove the amount of error handling `if` conditionals
 throughout the code
 
-### [`lib/chat-widget`](https://github.com/balena-io/jellyfish/tree/master/lib/chat-widget)
+### [`lib/chat-widget`](https://github.com/product-os/jellyfish/tree/master/lib/chat-widget)
 
 The chat widget is an embeddable component to allow external clients to send
 and receive messages using the Jellyfish system.
 
-### [`lib/core`](https://github.com/balena-io/jellyfish/tree/master/lib/core)
+### [`lib/core`](https://github.com/product-os/jellyfish/tree/master/lib/core)
 
 The Jellyfish core is a low-level internal SDK to interact with cards in the
 database, providing functions like `.getCardById()` or `.insertCard()`. The
@@ -134,7 +134,7 @@ of. Card type definitions are indicated by having a `type` of `type`, e.g.
 These "type" cards contain model definitions in the form of a JSON schema. The
 slug of a type card is the value used in the type property of instances of the
 type.
-As an example, you can look at the [type card for a "message"](https://github.com/balena-io/jellyfish/blob/master/apps/server/default-cards/contrib/message.json). You can see that under the `data` key, there is a `schema` value that defines the shape of a card of type "message".
+As an example, you can look at the [type card for a "message"](https://github.com/product-os/jellyfish/blob/master/apps/server/default-cards/contrib/message.json). You can see that under the `data` key, there is a `schema` value that defines the shape of a card of type "message".
 We follow the JSON schema spec, so if the schema allows, additional fields can
 be added to a card that are not defined in the type schema.
 
@@ -238,18 +238,18 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/environment`](https://github.com/balena-io/jellyfish/tree/master/lib/environment)
+### [`lib/environment`](https://github.com/product-os/jellyfish/tree/master/lib/environment)
 
 This module aims to be the startup system configuration hub, and it exposes any
 runtime settings to the remainingg of the system. Its the only place in the
 codebase that should ever read environment variables.
 
-### [`lib/jellyscript`](https://github.com/balena-io/jellyfish/tree/master/lib/jellyscript)
+### [`lib/jellyscript`](https://github.com/product-os/jellyfish/tree/master/lib/jellyscript)
 
 Jellyscript is a tiny embeddable language to define
 computed properties in Jellyfish card types.
 
-### [`lib/logger`](https://github.com/balena-io/jellyfish/tree/master/lib/logger)
+### [`lib/logger`](https://github.com/product-os/jellyfish/tree/master/lib/logger)
 
 The Jellyfish backend strongly discourages the use of `console.log()`. This
 module provides a set of functions that the backend uses for logging purposes.
@@ -264,15 +264,15 @@ module provides a set of functions that the backend uses for logging purposes.
 - The logger is able to pipe logs to a central location when running in
 	production
 
-### [`lib/mail`](https://github.com/balena-io/jellyfish/tree/master/lib/mail)
+### [`lib/mail`](https://github.com/product-os/jellyfish/tree/master/lib/mail)
 
 The mail library consists of a mailgun integration which can be used to send emails to jellyfish users
 
-### [`lib/metrics`](https://github.com/balena-io/jellyfish/tree/master/lib/metrics)
+### [`lib/metrics`](https://github.com/product-os/jellyfish/tree/master/lib/metrics)
 
 This library gathers Prometheus metrics and exposes them on `:8888/app_metrics`.
 
-### [`lib/queue`](https://github.com/balena-io/jellyfish/tree/master/lib/queue)
+### [`lib/queue`](https://github.com/product-os/jellyfish/tree/master/lib/queue)
 
 The Jellyfish system processes incoming action requests and adds them to a
 queue. The system can dequeue the next action request, execute it, and post the
@@ -290,17 +290,17 @@ this module.
 - The queue aims to be the source of truth of how action requests are marked as
 	executed and how action requests results are propagated back
 
-### [`lib/sync`](https://github.com/balena-io/jellyfish/tree/master/lib/sync)
+### [`lib/sync`](https://github.com/product-os/jellyfish/tree/master/lib/sync)
 
 This module contains an integration syncing engine built on top of Jellyfish,
 along with a set of integrations with third party services.
 
-### [`lib/ui-components`](https://github.com/balena-io/jellyfish/tree/master/lib/ui-components)
+### [`lib/ui-components`](https://github.com/product-os/jellyfish/tree/master/lib/ui-components)
 
 This module is a collection of re-usable React component that Jellyfish uses to
 build all its official user interfaces.
 
-### [`lib/worker`](https://github.com/balena-io/jellyfish/tree/master/lib/worker)
+### [`lib/worker`](https://github.com/product-os/jellyfish/tree/master/lib/worker)
 
 Jellyfish workers are in charge of consuming action requests from the queue,
 executing them, and reporting back the results. This module provides an lower

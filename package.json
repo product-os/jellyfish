@@ -4,10 +4,10 @@
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
-  "homepage": "https://github.com/balena-io/jellyfish",
+  "homepage": "https://github.com/product-os/jellyfish",
   "repository": {
     "type": "git",
-    "url": "git@github.com:balena-io/jellyfish.git"
+    "url": "git@github.com:product-os/jellyfish.git"
   },
   "engineStrict": true,
   "engines": {
