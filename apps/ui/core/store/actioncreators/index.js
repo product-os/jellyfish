@@ -136,7 +136,7 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
-	getFlow: (flowId, cardId) => (state) => { return _.get(state.core, [ 'ui', 'flows', flowId, cardId ]) || null },
+	getFlow: (flowId, cardId) => (state) => { return _.get(state.ui, [ 'flows', flowId, cardId ]) || null },
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
@@ -149,16 +149,16 @@ export const selectors = {
 	getSessionToken: (state) => { return _.get(state.core, [ 'session', 'authToken' ]) || null },
 	getStatus: (state) => { return state.core.status },
 	getTimelineMessage: (state, target) => {
-		return _.get(state.core, [ 'ui', 'timelines', target, 'message' ], '')
+		return _.get(state.ui, [ 'timelines', target, 'message' ], '')
 	},
 	getChatWidgetOpen: (state) => {
-		return _.get(state.core, [ 'ui', 'chatWidget', 'open' ])
+		return _.get(state.ui, [ 'chatWidget', 'open' ])
 	},
 	getTypes: (state) => { return state.core.types },
 	getGroups: (state) => { return state.core.groups },
-	getUIState: (state) => { return state.core.ui },
+	getUIState: (state) => { return state.ui },
 	getLensState: (state, lensSlug, cardId) => {
-		return _.get(state.core.ui, [ 'lensState', lensSlug, cardId ], {})
+		return _.get(state.ui, [ 'lensState', lensSlug, cardId ], {})
 	},
 	getViewNotices: (state) => { return state.core.viewNotices },
 	getUsersTypingOnCard: (state, card) => {
@@ -712,7 +712,7 @@ export default class ActionCreator {
 
 	setChatWidgetOpen (open) {
 		return (dispatch, getState) => {
-			const uiState = getState().core.ui
+			const uiState = getState().ui
 
 			dispatch({
 				type: actions.SET_UI_STATE,

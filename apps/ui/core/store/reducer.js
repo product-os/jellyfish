@@ -47,16 +47,16 @@ export const getDefaultState = () => {
 			viewNotices: {},
 			cards: {},
 			orgs: [],
-			config: {},
-			ui: {
-				flows: {},
-				sidebar: {
-					expanded: []
-				},
-				timelines: {},
-				chatWidget: {
-					open: false
-				}
+			config: {}
+		},
+		ui: {
+			flows: {},
+			sidebar: {
+				expanded: []
+			},
+			timelines: {},
+			chatWidget: {
+				open: false
 			}
 		},
 		views: {
@@ -145,6 +145,78 @@ const viewsReducer = (state, action) => {
 				}
 			})
 		}
+		default:
+			return state
+	}
+}
+
+const uiReducer = (state, action) => {
+	if (!state) {
+		return getDefaultState().ui
+	}
+
+	switch (action.type) {
+		case actions.SET_UI_STATE: {
+			return action.value
+		}
+		case actions.SET_LENS_STATE: {
+			return update(state, {
+				lensState: (lensState) => update(lensState || {}, {
+					[action.value.lens]: (lens) => update(lens || {}, {
+						[action.value.cardId]: (lensCard) => update(lensCard || {}, {
+							$merge: action.value.state
+						})
+					})
+				})
+			})
+		}
+		case actions.SET_TIMELINE_MESSAGE: {
+			const {
+				target,
+				message
+			} = action.value
+			return update(state, {
+				timelines: {
+					[target]: (tgt) => update(tgt || {}, {
+						message: {
+							$set: message
+						}
+					})
+				}
+			})
+		}
+		case actions.SET_FLOW: {
+			const {
+				flowId,
+				cardId,
+				flowState
+			} = action.value
+			return update(state, {
+				flows: {
+					[flowId]: (flowsById) => update(flowsById || {}, {
+						[cardId]: {
+							$apply: (existingFlowState) => {
+								return _.merge({}, existingFlowState || {}, flowState)
+							}
+						}
+					})
+				}
+			})
+		}
+		case actions.REMOVE_FLOW: {
+			const {
+				flowId,
+				cardId
+			} = action.value
+			return update(state, {
+				flows: {
+					[flowId]: (flowsById) => update(flowsById || {}, {
+						$unset: [ cardId ]
+					})
+				}
+			})
+		}
+
 		default:
 			return state
 	}
@@ -262,23 +334,6 @@ const coreReducer = (state, action) => {
 				})
 			})
 		}
-		case actions.SET_TIMELINE_MESSAGE: {
-			const {
-				target,
-				message
-			} = action.value
-			return update(state, {
-				ui: {
-					timelines: {
-						[target]: (tgt) => update(tgt || {}, {
-							message: {
-								$set: message
-							}
-						})
-					}
-				}
-			})
-		}
 		case actions.SET_TYPES: {
 			return update(state, {
 				types: {
@@ -367,26 +422,6 @@ const coreReducer = (state, action) => {
 				}
 			})
 		}
-		case actions.SET_UI_STATE: {
-			return update(state, {
-				ui: {
-					$set: action.value
-				}
-			})
-		}
-		case actions.SET_LENS_STATE: {
-			return update(state, {
-				ui: {
-					lensState: (lensState) => update(lensState || {}, {
-						[action.value.lens]: (lens) => update(lens || {}, {
-							[action.value.cardId]: (lensCard) => update(lensCard || {}, {
-								$merge: action.value.state
-							})
-						})
-					})
-				}
-			})
-		}
 		case actions.USER_STARTED_TYPING: {
 			return update(state, {
 				usersTyping: (usersTyping) => update(usersTyping || {}, {
@@ -407,41 +442,6 @@ const coreReducer = (state, action) => {
 				})
 			})
 		}
-		case actions.SET_FLOW: {
-			const {
-				flowId,
-				cardId,
-				flowState
-			} = action.value
-			return update(state, {
-				ui: {
-					flows: {
-						[flowId]: (flowsById) => update(flowsById || {}, {
-							[cardId]: {
-								$apply: (existingFlowState) => {
-									return _.merge({}, existingFlowState || {}, flowState)
-								}
-							}
-						})
-					}
-				}
-			})
-		}
-		case actions.REMOVE_FLOW: {
-			const {
-				flowId,
-				cardId
-			} = action.value
-			return update(state, {
-				ui: {
-					flows: {
-						[flowId]: (flowsById) => update(flowsById || {}, {
-							$unset: [ cardId ]
-						})
-					}
-				}
-			})
-		}
 
 		default:
 			return state
@@ -451,5 +451,6 @@ const coreReducer = (state, action) => {
 export const reducer = redux.combineReducers({
 	router: connectRouter(history),
 	core: coreReducer,
+	ui: uiReducer,
 	views: viewsReducer
 })
