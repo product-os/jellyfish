@@ -4,8 +4,6 @@
  * Proprietary and confidential.
  */
 
-import localForage from 'localforage'
-import * as _ from 'lodash'
 import Analytics from '../../../lib/ui-components/services/analytics'
 import ErrorReporter from '../../../lib/ui-components/services/error-reporter'
 import * as environment from '../environment'
@@ -24,8 +22,6 @@ export const constants = {
 	LINKS: sdk.LINKS
 }
 
-const STORAGE_KEY = 'jellyfish_store'
-
 export const analytics = new Analytics({
 	token: environment.analytics.mixpanel.token
 })
@@ -39,64 +35,13 @@ export const errorReporter = new ErrorReporter({
 const bundle = setupStore({
 	analytics,
 	errorReporter,
-	sdk,
-	storageKey: STORAGE_KEY
+	sdk
 })
 
 export const selectors = bundle.selectors
 export const store = bundle.store
+export const persistor = bundle.persistor
 export const actionCreators = bundle.actionCreators
-
-localForage.getItem(STORAGE_KEY)
-	.then(async (state) => {
-		if (state) {
-			// Remove notifications
-			_.set(state, [ 'core', 'notifications' ], [])
-
-			// Remove view data
-			_.set(state, [ 'views', 'viewData' ], {})
-
-			// Remove cached card data
-			_.set(state, [ 'core', 'cards' ], {})
-
-			_.set(state, [ 'core', 'channels' ], _.get(state, [ 'core', 'channels' ], []).slice(0, 1))
-
-			// Typing notices should be removed on reload, otherwise you can end up
-			// with a situation where the notice is added, and the page is reloaded
-			// before the notice can be removed.
-			_.set(state, [ 'core', 'usersTyping' ], {})
-
-			// Ensure that the stored state has a safe structure buy merging it with
-			// the default state. This helps gaurd against situations where the
-			// defaultstate changes or localStorage becomes corrupted.
-			// Additionally, 'status' is always set back to 'initializing', so that the
-			// session is re-checked on load, and the UI bootstrapping process
-			// functions in the correct order
-			store.dispatch(
-				actionCreators.setCoreState(
-					_.merge({}, store.getState().core, state.core, {
-						status: 'initializing'
-					})
-				)
-			)
-			store.dispatch(
-				actionCreators.setUIState(
-					_.merge({}, store.getState().ui, state.ui)
-				)
-			)
-		}
-
-		const token = selectors.getSessionToken(store.getState())
-
-		if (token) {
-			await store.dispatch(actionCreators.loginWithToken(token))
-		} else {
-			await store.dispatch(actionCreators.setStatus('unauthorized'))
-		}
-	})
-	.catch((error) => {
-		console.error(error)
-	})
 
 if (typeof window !== 'undefined') {
 	window.sdk = sdk

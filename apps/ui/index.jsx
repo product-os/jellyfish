@@ -8,6 +8,9 @@ import '@babel/polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {
+	PersistGate
+} from 'redux-persist/integration/react'
+import {
 	Provider
 } from 'react-redux'
 import {
@@ -27,6 +30,7 @@ import {
 	analytics,
 	errorReporter,
 	sdk,
+	persistor,
 	store
 } from './core'
 import history from './services/history'
@@ -96,15 +100,17 @@ ReactDOM.render(
 			<ResponsiveProvider>
 				<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
 					<Provider store={store}>
-						<ConnectedRouter history={history}>
-							<GlobalStyle />
+						<PersistGate loading={null} persistor={persistor}>
+							<ConnectedRouter history={history}>
+								<GlobalStyle />
 
-							<ErrorBoundary>
-								<DndProvider backend={HTML5Backend}>
-									<JellyfishUI />
-								</DndProvider>
-							</ErrorBoundary>
-						</ConnectedRouter>
+								<ErrorBoundary>
+									<DndProvider backend={HTML5Backend}>
+										<JellyfishUI />
+									</DndProvider>
+								</ErrorBoundary>
+							</ConnectedRouter>
+						</PersistGate>
 					</Provider>
 				</SetupProvider>
 			</ResponsiveProvider>

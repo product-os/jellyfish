@@ -6,6 +6,10 @@
 
 import clone from 'deep-copy'
 import update from 'immutability-helper'
+import storage from 'localforage'
+import {
+	persistReducer
+} from 'redux-persist'
 import {
 	connectRouter
 } from 'connected-react-router'
@@ -16,6 +20,14 @@ import {
 } from 'uuid'
 import actions from './actions'
 import history from '../../services/history'
+
+// Set localStorage as the backend driver, as it is a little easier to work
+// with.
+// In memory storage should be used as a fallback if localStorage isn't
+// available for some reason.
+if (global.localStorage) {
+	storage.setDriver(storage.LOCALSTORAGE)
+}
 
 export const defaultState = {
 	core: {
@@ -221,9 +233,6 @@ const coreReducer = (state = defaultState.core, action = {}) => {
 					$set: 'unauthorized'
 				}
 			})
-		}
-		case actions.SET_CORE_STATE: {
-			return action.value
 		}
 		case actions.UPDATE_CHANNEL: {
 			const existingChannelIndex = _.findIndex(state.channels, {
@@ -435,9 +444,42 @@ const coreReducer = (state = defaultState.core, action = {}) => {
 	}
 }
 
-export const reducer = redux.combineReducers({
+// Note: redux-persist blacklists are 'shallow' - to blacklist a nested
+// field you need to blacklist each part of the path to it.
+
+const commonConfig = {
+	storage
+}
+
+const rootPersistConfig = {
+	...commonConfig,
+	key: 'root',
+	blacklist: [ 'core', 'views' ]
+}
+
+const corePersistConfig = {
+	...commonConfig,
+	key: 'core',
+	blacklist: [ 'status', 'cards', 'notifications', 'channels', 'usersTyping' ]
+}
+
+const uiPersistConfig = {
+	...commonConfig,
+	key: 'ui',
+	blacklist: [ 'flows' ]
+}
+
+const viewsPersistConfig = {
+	...commonConfig,
+	key: 'views',
+	blacklist: [ 'viewData' ]
+}
+
+const rootReducer = redux.combineReducers({
 	router: connectRouter(history),
-	core: coreReducer,
-	ui: uiReducer,
-	views: viewsReducer
+	core: persistReducer(corePersistConfig, coreReducer),
+	ui: persistReducer(uiPersistConfig, uiReducer),
+	views: persistReducer(viewsPersistConfig, viewsReducer)
 })
+
+export const reducer = persistReducer(rootPersistConfig, rootReducer)
