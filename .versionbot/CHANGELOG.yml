@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Conform metric names to Prometheus naming conventions'
+      hash: 2ce6a8465a417643cabff09021013999addafd20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.67.1
+  date: 2020-07-01T04:32:27.028Z
+- commits:
     - subject: 'ui: Notify user on streamed message that mentions them in a marker'
       hash: 9fa6792ff8ea98098ec97c2641d74bfaa4c5d6c5
       body: ''
