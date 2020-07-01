@@ -11,10 +11,10 @@ import {
 } from 'rendition'
 import {
 	App
-} from '../../lib/chat-widget'
+} from '../../../lib/chat-widget'
 import {
-	useSetup
-} from './SetupProvider'
+	sdk
+} from '../core'
 
 const Container = styled(Box) `
     display: flex;
@@ -36,10 +36,6 @@ const Container = styled(Box) `
 export const ChatWidgetSidebar = ({
 	onClose
 }) => {
-	const {
-		sdk
-	} = useSetup()
-
 	return (
 		<Container
 			width={[ 'calc(100% - 20px)', 'calc(100% - 20px)', '376px' ]}

@@ -26,7 +26,7 @@ import {
 } from 'file-saver'
 import {
 	ChatWidgetSidebar
-} from '../../lib/ui-components/ChatWidgetSidebar'
+} from './components/ChatWidgetSidebar'
 import HomeChannel from './components/HomeChannel'
 import Notifications from './components/HOC/Notifications'
 import RouteHandler from './components/RouteHandler'
