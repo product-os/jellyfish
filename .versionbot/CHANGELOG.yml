@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: Skip card loader upserts when possible'
+      hash: df5612059ec6324e2ed7227a9caf13e852068927
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.66.6
+  date: 2020-07-01T01:04:54.483Z
+- commits:
     - subject: Update jellyfish-uuid version
       hash: c490fc9ec1bbe7b605327bac7f6e675888435666
       body: ''
