@@ -71,10 +71,15 @@ localForage.getItem(STORAGE_KEY)
 			// session is re-checked on load, and the UI bootstrapping process
 			// functions in the correct order
 			store.dispatch(
-				actionCreators.setState(
+				actionCreators.setCoreState(
 					_.merge(store.getState().core, state.core, {
 						status: 'initializing'
 					})
+				)
+			)
+			store.dispatch(
+				actionCreators.setUIState(
+					_.merge(store.getState().ui, state.ui)
 				)
 			)
 		}

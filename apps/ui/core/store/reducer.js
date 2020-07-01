@@ -235,7 +235,7 @@ const coreReducer = (state, action) => {
 				}
 			})
 		}
-		case actions.SET_STATE: {
+		case actions.SET_CORE_STATE: {
 			return action.value
 		}
 		case actions.UPDATE_CHANNEL: {

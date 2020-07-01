@@ -242,7 +242,7 @@ export default class ActionCreator {
 			'setOrgs',
 			'setPassword',
 			'setSendCommand',
-			'setState',
+			'setCoreState',
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
@@ -442,9 +442,9 @@ export default class ActionCreator {
 		}
 	}
 
-	setState (state) {
+	setCoreState (state) {
 		return {
-			type: actions.SET_STATE,
+			type: actions.SET_CORE_STATE,
 			value: state
 		}
 	}
