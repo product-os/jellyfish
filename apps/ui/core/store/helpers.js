@@ -58,10 +58,19 @@ export const updateThreadChannels = (targetId, card, allChannels) => {
 	return updatedChannels
 }
 
+// Note: once we switch to sending notifications using Web Push, this
+// function should be removed as it is a temporary and sub-optimal approach
+// to determining if a user should be notified about a card.
 export const mentionsUser = (card, user, groups) => {
 	if (_.includes(_.get(card, [ 'data', 'payload', 'mentionsUser' ]), user.slug)) {
 		return true
 	}
+
+	if (card.type.split('@')[0] === 'message' &&
+	_.some(_.invokeMap(_.get(card, [ 'markers' ], []), 'includes', user.slug))) {
+		return true
+	}
+
 	const groupMentions = _.get(card, [ 'data', 'payload', 'mentionsGroup' ], [])
 	return _.some(groupMentions, (groupName) => {
 		return _.get(groups, [ groupName, 'isMine' ])

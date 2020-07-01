@@ -68,9 +68,35 @@ ava('mentionsUser returns true if user in mentionsUser array', (test) => {
 		slug: 'user-1'
 	}
 	const card = {
+		type: 'message',
+		markers: [],
 		data: {
 			payload: {
 				mentionsUser: [ user.slug ],
+				mentionsGroup: [ 'group1' ]
+			}
+		}
+	}
+	const groups = {
+		group1: {
+			name: 'group1',
+			users: [ 'some-other-user' ],
+			isMine: false
+		}
+	}
+	test.true(mentionsUser(card, user, groups))
+})
+
+ava('mentionsUser returns true if card type is \'message\' and user in one of the markers', (test) => {
+	const user = {
+		slug: 'user-1'
+	}
+	const card = {
+		type: 'message',
+		markers: [ `org-1+${user.slug}` ],
+		data: {
+			payload: {
+				mentionsUser: [ 'some-other-user' ],
 				mentionsGroup: [ 'group1' ]
 			}
 		}
@@ -90,6 +116,8 @@ ava('mentionsUser returns true if user in a group in the mentionsGroup array', (
 		slug: 'user-1'
 	}
 	const card = {
+		type: 'message',
+		markers: [],
 		data: {
 			payload: {
 				mentionsUser: [ 'some-other-user' ],
@@ -107,11 +135,13 @@ ava('mentionsUser returns true if user in a group in the mentionsGroup array', (
 	test.true(mentionsUser(card, user, groups))
 })
 
-ava('mentionsUser returns false if user not in mentionsUser array or in any group in mentionsGroup', (test) => {
+ava('mentionsUser returns false if user not in mentionsUser array or in any group in mentionsGroup or in any markers', (test) => {
 	const user = {
 		slug: 'user-1'
 	}
 	const card = {
+		type: 'message',
+		markers: [ 'some-other-user' ],
 		data: {
 			payload: {
 				mentionsUser: [ 'some-other-user' ],
