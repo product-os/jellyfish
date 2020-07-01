@@ -10,7 +10,7 @@ const Consumer = require('../../lib/queue').Consumer
 const Worker = require('../../lib/worker')
 const actionLibrary = require('../../lib/action-library')
 const environment = require('../../lib/environment')
-const assert = require('../../lib/assert')
+const assert = require('@balena/jellyfish-assert')
 const logger = require('../../lib/logger').getLogger(__filename)
 const metrics = require('../../lib/metrics')
 

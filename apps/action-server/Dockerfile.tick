@@ -13,7 +13,6 @@ RUN NODE_ENV=production npm ci
 RUN rm -f ~/.npmrc
 
 COPY ./lib/action-library ./lib/action-library
-COPY ./lib/assert ./lib/assert
 COPY ./lib/core ./lib/core
 COPY ./lib/environment ./lib/environment
 COPY ./lib/logger ./lib/logger
