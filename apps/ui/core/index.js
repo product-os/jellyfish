@@ -72,14 +72,14 @@ localForage.getItem(STORAGE_KEY)
 			// functions in the correct order
 			store.dispatch(
 				actionCreators.setCoreState(
-					_.merge(store.getState().core, state.core, {
+					_.merge({}, store.getState().core, state.core, {
 						status: 'initializing'
 					})
 				)
 			)
 			store.dispatch(
 				actionCreators.setUIState(
-					_.merge(store.getState().ui, state.ui)
+					_.merge({}, store.getState().ui, state.ui)
 				)
 			)
 		}

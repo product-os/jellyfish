@@ -17,60 +17,55 @@ import {
 import actions from './actions'
 import history from '../../services/history'
 
-export const getDefaultState = () => {
-	return {
-		core: {
-			status: 'initializing',
-			channels: [
-				{
-					id: uuid(),
-					created_at: new Date().toISOString(),
-					slug: `channel-${uuid()}`,
-					type: 'channel',
-					version: '1.0.0',
-					tags: [],
-					markers: [],
-					links: {},
-					requires: [],
-					capabilities: [],
-					active: true,
-					data: {
-						target: 'view-all-views',
-						cardType: 'view'
-					}
+export const defaultState = {
+	core: {
+		status: 'initializing',
+		channels: [
+			{
+				id: uuid(),
+				created_at: new Date().toISOString(),
+				slug: `channel-${uuid()}`,
+				type: 'channel',
+				version: '1.0.0',
+				tags: [],
+				markers: [],
+				links: {},
+				requires: [],
+				capabilities: [],
+				active: true,
+				data: {
+					target: 'view-all-views',
+					cardType: 'view'
 				}
-			],
-			types: [],
-			groups: {},
-			session: null,
-			notifications: [],
-			viewNotices: {},
-			cards: {},
-			orgs: [],
-			config: {}
-		},
-		ui: {
-			flows: {},
-			sidebar: {
-				expanded: []
-			},
-			timelines: {},
-			chatWidget: {
-				open: false
 			}
+		],
+		types: [],
+		groups: {},
+		session: null,
+		notifications: [],
+		viewNotices: {},
+		cards: {},
+		orgs: [],
+		config: {}
+	},
+	ui: {
+		flows: {},
+		sidebar: {
+			expanded: []
 		},
-		views: {
-			viewData: {},
-			subscriptions: {},
-			activeView: null
+		timelines: {},
+		chatWidget: {
+			open: false
 		}
+	},
+	views: {
+		viewData: {},
+		subscriptions: {},
+		activeView: null
 	}
 }
 
-const viewsReducer = (state, action) => {
-	if (!state) {
-		return getDefaultState().views
-	}
+const viewsReducer = (state = defaultState.views, action = {}) => {
 	switch (action.type) {
 		case actions.SET_VIEW_DATA: {
 			return update(state, {
@@ -150,11 +145,7 @@ const viewsReducer = (state, action) => {
 	}
 }
 
-const uiReducer = (state, action) => {
-	if (!state) {
-		return getDefaultState().ui
-	}
-
+const uiReducer = (state = defaultState.ui, action = {}) => {
 	switch (action.type) {
 		case actions.SET_UI_STATE: {
 			return action.value
@@ -222,14 +213,10 @@ const uiReducer = (state, action) => {
 	}
 }
 
-const coreReducer = (state, action) => {
-	if (!state) {
-		return getDefaultState().core
-	}
-
+const coreReducer = (state = defaultState.core, action = {}) => {
 	switch (action.type) {
 		case actions.LOGOUT: {
-			return update(getDefaultState().core, {
+			return update(defaultState.core, {
 				status: {
 					$set: 'unauthorized'
 				}

@@ -8,14 +8,14 @@ const _ = require('lodash')
 const actions = require('./actions').default
 const {
 	reducer,
-	getDefaultState
+	defaultState
 } = require('./reducer')
 
 // //////////////////////////////////////////////
 // Views Reducer Tests
 
 ava('SET_VIEW_DATA action updates the specified view data', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const value = {
 		id: 12345,
 		data: {
@@ -32,12 +32,12 @@ ava('SET_VIEW_DATA action updates the specified view data', (test) => {
 })
 
 ava('reducer should create a default state if one is not provided', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 
 	const {
 		core,
 		views
-	} = getDefaultState()
+	} = _.cloneDeep(defaultState)
 
 	// Hard-wire the values that are dynamically set
 	core.channels[0] = _.merge(core.channels[0], {
@@ -50,7 +50,7 @@ ava('reducer should create a default state if one is not provided', (test) => {
 })
 
 ava('REMOVE_VIEW_DATA_ITEM action should do nothing if there is no view data', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 
 	const newState = reducer(initialState, {
 		type: actions.REMOVE_VIEW_DATA_ITEM,
@@ -59,11 +59,11 @@ ava('REMOVE_VIEW_DATA_ITEM action should do nothing if there is no view data', (
 		}
 	})
 
-	test.deepEqual(initialState, newState)
+	test.deepEqual(initialState.views, newState.views)
 })
 
 ava('REMOVE_VIEW_DATA_ITEM action removes the specified view data item', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const viewId = 12345
 	const dataToRemove = {
 		id: 21
@@ -88,7 +88,7 @@ ava('REMOVE_VIEW_DATA_ITEM action removes the specified view data item', (test) 
 })
 
 ava('UPSERT_VIEW_DATA_ITEM action adds the specified view data item if not already in list', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const viewId = 12345
 	const initialViewDataItem = {
 		id: 'bar'
@@ -113,7 +113,7 @@ ava('UPSERT_VIEW_DATA_ITEM action adds the specified view data item if not alrea
 })
 
 ava('UPSERT_VIEW_DATA_ITEM action updates the specified view data item if already in list', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const viewId = 12345
 	const initialViewDataItem = {
 		id: 'bar',
@@ -140,7 +140,7 @@ ava('UPSERT_VIEW_DATA_ITEM action updates the specified view data item if alread
 })
 
 ava('APPEND_VIEW_DATA_ITEM action appends the specified view data item', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const viewId = 12345
 	const initialViewDataItem = {
 		id: 'bar'
@@ -165,7 +165,7 @@ ava('APPEND_VIEW_DATA_ITEM action appends the specified view data item', (test) 
 })
 
 ava('APPEND_VIEW_DATA_ITEM action ignores the specified view data item if it already exists', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const viewId = 12345
 	const initialViewDataItem = {
 		id: 'bar',
@@ -195,7 +195,7 @@ ava('APPEND_VIEW_DATA_ITEM action ignores the specified view data item if it alr
 // Core Reducer Tests
 
 ava('UPDATE_CHANNEL action overrides the specified channel if found', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.channels = [
 		{
 			id: 1,
@@ -216,7 +216,7 @@ ava('UPDATE_CHANNEL action overrides the specified channel if found', (test) => 
 })
 
 ava('UPDATE_CHANNEL action does nothing if channel not found in state', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.channels = [
 		{
 			id: 1,
@@ -237,7 +237,7 @@ ava('UPDATE_CHANNEL action does nothing if channel not found in state', (test) =
 })
 
 ava('ADD_CHANNEL action adds channel and trims non-parent channels', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.channels = [
 		{
 			id: 1,
@@ -271,7 +271,7 @@ ava('ADD_CHANNEL action adds channel and trims non-parent channels', (test) => {
 })
 
 ava('REMOVE_CHANNEL action removes the specified channel', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.channels = [
 		{
 			id: 1
@@ -296,7 +296,7 @@ ava('REMOVE_CHANNEL action removes the specified channel', (test) => {
 })
 
 ava('SET_CARD action merges the specified card', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.cards = {
 		user: {
 			1: {
@@ -363,7 +363,7 @@ ava('SET_CARD action merges the specified card', (test) => {
 })
 
 ava('SET_USER action sets the authToken to null if not already set', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 
 	test.is(initialState.core.session, null)
 
@@ -379,7 +379,7 @@ ava('SET_USER action sets the authToken to null if not already set', (test) => {
 })
 
 ava('SET_TIMELINE_MESSAGE action sets the message of the specified timeline', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 
 	const newState = reducer(initialState, {
 		type: actions.SET_TIMELINE_MESSAGE,
@@ -397,7 +397,7 @@ ava('SET_TIMELINE_MESSAGE action sets the message of the specified timeline', (t
 })
 
 ava('ADD_NOTIFICATION action limits notifications to two', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.notifications = [
 		{
 			id: 1
@@ -424,7 +424,7 @@ ava('ADD_NOTIFICATION action limits notifications to two', (test) => {
 })
 
 ava('REMOVE_NOTIFICATION action removes the corresponding notification', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.notifications = [
 		{
 			id: 1
@@ -446,7 +446,7 @@ ava('REMOVE_NOTIFICATION action removes the corresponding notification', (test) 
 })
 
 ava('SET_LENS_STATE action merges the specified lens state', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const lens = 1
 	const cardId = 2
 	initialState.ui.lensState = {
@@ -481,7 +481,7 @@ ava('SET_LENS_STATE action merges the specified lens state', (test) => {
 })
 
 ava('USER_STARTED_TYPING action adds the user to the usersTyping for that card', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const newState = reducer(initialState, {
 		type: actions.USER_STARTED_TYPING,
 		value: {
@@ -498,7 +498,7 @@ ava('USER_STARTED_TYPING action adds the user to the usersTyping for that card',
 })
 
 ava('USER_STOPPED_TYPING action removes the user from the usersTyping for that card', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	initialState.core.usersTyping = {
 		2: {
 			test1: true,
@@ -521,7 +521,7 @@ ava('USER_STOPPED_TYPING action removes the user from the usersTyping for that c
 })
 
 ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const flowId = 'HANDOVER'
 	const cardId = '3'
 	const flowStateUpdates = {
@@ -547,7 +547,7 @@ ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
 })
 
 ava('SET_FLOW merges an existing flow state', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const flowId = 'HANDOVER'
 	const cardId = '3'
 	const flowState = {
@@ -583,7 +583,7 @@ ava('SET_FLOW merges an existing flow state', (test) => {
 })
 
 ava('REMOVE_FLOW removes flow state', (test) => {
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const flowId = 'HANDOVER'
 	const cardId = '3'
 	const flowState = {
@@ -632,7 +632,7 @@ ava('SET_GROUPS identifies groups that the given user is part of', (test) => {
 			}
 		}
 	]
-	const initialState = reducer()
+	const initialState = _.cloneDeep(defaultState)
 	const newState = reducer(initialState, {
 		type: actions.SET_GROUPS,
 		value: {
