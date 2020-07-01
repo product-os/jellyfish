@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix increment tag triggered action card slug
+      hash: 6da4f88bb9c312e9f276ac4266660d02be6574ed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: Add missing name field to cards
+      hash: 80039798d6f7daca76515485d5db507658fc71cb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.67.2
+  date: 2020-07-01T05:17:46.448Z
+- commits:
     - subject: 'backend: Conform metric names to Prometheus naming conventions'
       hash: 2ce6a8465a417643cabff09021013999addafd20
       body: ''
