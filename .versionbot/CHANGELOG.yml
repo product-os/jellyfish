@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-react from 7.20.0 to 7.20.2'
+      hash: 04196e4fd39137d9c981ab86702de5dfacd79a88
+      body: >
+        Bumps
+        [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)
+        from 7.20.0 to 7.20.2.
+
+        - [Release
+        notes](https://github.com/yannickcr/eslint-plugin-react/releases)
+
+        -
+        [Changelog](https://github.com/yannickcr/eslint-plugin-react/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/yannickcr/eslint-plugin-react/compare/v7.20.0...v7.20.2)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.67.6
+  date: 2020-07-01T09:49:49.498Z
+- commits:
     - subject: Move ChatWidgetSidebar into apps/ui
       hash: b60e11d8ac227f54e77bab0477ac516c944cf861
       body: >
