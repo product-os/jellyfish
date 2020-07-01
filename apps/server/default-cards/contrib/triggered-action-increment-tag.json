@@ -1,7 +1,8 @@
 {
-  "slug": "triggered-action-hangouts-link",
+  "slug": "triggered-action-increment-tag",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for incrementing count value of a tag",
   "markers": [],
   "tags": [],
   "links": {},

@@ -2,6 +2,7 @@
   "slug": "triggered-action-user-contact",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for maintaining user contact information",
   "markers": [],
   "tags": [],
   "links": {},

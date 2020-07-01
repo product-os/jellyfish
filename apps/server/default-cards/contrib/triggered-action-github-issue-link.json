@@ -2,6 +2,7 @@
   "slug": "triggered-action-github-issue-link",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for broadcasting links from a support thread to GitHub issue or pull request",
   "markers": [],
   "tags": [],
   "links": {},

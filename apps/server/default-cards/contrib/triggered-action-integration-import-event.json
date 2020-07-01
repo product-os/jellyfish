@@ -2,6 +2,7 @@
   "slug": "triggered-action-integration-import-event",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for external service import events",
   "tags": [],
   "markers": [],
   "links": {},

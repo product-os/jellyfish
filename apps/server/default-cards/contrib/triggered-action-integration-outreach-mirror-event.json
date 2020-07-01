@@ -2,6 +2,7 @@
   "slug": "triggered-action-integration-outreach-mirror-event",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for Outreach mirrors",
   "tags": [],
   "markers": [],
   "links": {},
