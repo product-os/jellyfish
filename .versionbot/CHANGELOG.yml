@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Notify user on streamed message that mentions them in a marker'
+      hash: 9fa6792ff8ea98098ec97c2641d74bfaa4c5d6c5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.67.0
+  date: 2020-07-01T02:57:56.779Z
+- commits:
     - subject: Allow the webpack dev server to listen on all local interfaces.
       hash: a2ef8adfc29efb9cf721280d2d8d708043f8352d
       body: >
