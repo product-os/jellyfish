@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Add missing capabilities and requires to first-time-login and
+        password-reset cards
+      hash: 3eed8ebc77b3536da658e148d25783303847d576
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.67.3
+  date: 2020-07-01T06:18:47.231Z
+- commits:
     - subject: Fix increment tag triggered action card slug
       hash: 6da4f88bb9c312e9f276ac4266660d02be6574ed
       body: ''
