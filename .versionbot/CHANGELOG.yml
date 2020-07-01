@@ -1,5 +1,24 @@
 - commits:
     - subject: >-
+        Change references to `balena-io/jellyfish` to `product-os/jellyfish` in
+        documentation and links.
+      hash: aa6651a852c3bf9e5652b9ba48cca71997859054
+      body: |
+        Does not change:
+
+          * Existing items in `CHANGELOG.md`.
+          * Anything in the `.versionbot` folder.
+          * Anything in `deploy-templates`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 30.67.4
+  date: 2020-07-01T07:05:57.224Z
+- commits:
+    - subject: >-
         Add missing capabilities and requires to first-time-login and
         password-reset cards
       hash: 3eed8ebc77b3536da658e148d25783303847d576
