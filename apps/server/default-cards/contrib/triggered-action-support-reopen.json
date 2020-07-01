@@ -2,6 +2,7 @@
   "slug": "triggered-action-support-reopen",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for reopening support threads because of activity",
   "markers": [],
   "tags": [],
   "links": {},

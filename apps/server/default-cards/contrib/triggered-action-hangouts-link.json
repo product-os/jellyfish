@@ -2,6 +2,7 @@
   "slug": "triggered-action-hangouts-link",
   "type": "triggered-action@1.0.0",
   "version": "1.0.0",
+  "name": "Triggered action for creating messages with Hangouts link",
   "markers": [],
   "tags": [],
   "links": {},
