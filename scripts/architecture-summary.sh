@@ -63,7 +63,7 @@ echo "## Deployable Components"
 echo ""
 for app in $APPS; do
 	echo "Processing app $app" 1>&2
-	URL="https://github.com/balena-io/jellyfish/tree/master/$app"
+	URL="https://github.com/product-os/jellyfish/tree/master/$app"
 	echo "### [\`$app\`]($URL)"
 	echo ""
 	cat "$CWD/$app/DESCRIPTION.markdown"
@@ -75,7 +75,7 @@ echo "A set of re-usable libraries that the top level components use."
 echo ""
 for module in $MODULES; do
 	echo "Processing module $module" 1>&2
-	URL="https://github.com/balena-io/jellyfish/tree/master/$module"
+	URL="https://github.com/product-os/jellyfish/tree/master/$module"
 	echo "### [\`$module\`]($URL)"
 	echo ""
 	cat "$CWD/$module/DESCRIPTION.markdown"

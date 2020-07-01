@@ -34,7 +34,7 @@ of. Card type definitions are indicated by having a `type` of `type`, e.g.
 These "type" cards contain model definitions in the form of a JSON schema. The
 slug of a type card is the value used in the type property of instances of the
 type.
-As an example, you can look at the [type card for a "message"](https://github.com/balena-io/jellyfish/blob/master/apps/server/default-cards/contrib/message.json). You can see that under the `data` key, there is a `schema` value that defines the shape of a card of type "message".
+As an example, you can look at the [type card for a "message"](https://github.com/product-os/jellyfish/blob/master/apps/server/default-cards/contrib/message.json). You can see that under the `data` key, there is a `schema` value that defines the shape of a card of type "message".
 We follow the JSON schema spec, so if the schema allows, additional fields can
 be added to a card that are not defined in the type schema.
 

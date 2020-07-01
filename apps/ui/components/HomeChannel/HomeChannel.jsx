@@ -731,7 +731,7 @@ export default class HomeChannel extends React.Component {
 						<Link
 							p={2}
 							fontSize={1}
-							href='https://github.com/balena-io/jellyfish/blob/master/CHANGELOG.md'
+							href='https://github.com/product-os/jellyfish/blob/master/CHANGELOG.md'
 							blank
 						>
 							<Txt monospace>
