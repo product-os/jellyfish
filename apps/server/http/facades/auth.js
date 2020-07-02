@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const assert = require('../../../../lib/assert')
+const assert = require('@balena/jellyfish-assert')
 const QueryFacade = require('./query')
 
 module.exports = class AuthFacade extends QueryFacade {

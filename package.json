@@ -29,9 +29,7 @@
       "lib/jellyscript",
       "lib/logger",
       "lib/queue",
-      "lib/assert",
       "lib/ui-components",
-      "lib/uuid",
       "lib/sync",
       "lib/worker",
       "lib/mail",
@@ -123,6 +121,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.1",
+    "@balena/jellyfish-assert": "0.0.2",
     "@balena/jellyfish-client-sdk": "^1.1.0",
     "@balena/jellyfish-uuid": "0.0.2",
     "@balena/node-metrics-gatherer": "^5.7.1",

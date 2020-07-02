@@ -79,18 +79,6 @@ A set of re-usable libraries that the top level components use.
 The action library consists of a set of actions with which the system
 provisions workers.
 
-### [`lib/assert`](https://github.com/product-os/jellyfish/tree/master/lib/assert)
-
-The Jellyfish system distinguishes between two types of errors:
-
-- Internal errors, which are unexpected and should be fixed as soon as possible
-- User errors, which are the responsibility of the user and are usually the
-	result of bad user usage of the system
-
-This module provides a handy set of functions to write concise assertions for
-both types of errors, and remove the amount of error handling `if` conditionals
-throughout the code
-
 ### [`lib/chat-widget`](https://github.com/product-os/jellyfish/tree/master/lib/chat-widget)
 
 The chat widget is an embeddable component to allow external clients to send

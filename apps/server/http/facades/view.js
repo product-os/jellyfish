@@ -7,7 +7,7 @@
 const _ = require('lodash')
 const jsone = require('json-e')
 const skhema = require('skhema')
-const assert = require('../../../../lib/assert')
+const assert = require('@balena/jellyfish-assert')
 
 module.exports = class ViewFacade {
 	constructor (jellyfish, queryFacade) {
