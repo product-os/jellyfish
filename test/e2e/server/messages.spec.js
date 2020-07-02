@@ -7,7 +7,21 @@
 const ava = require('ava')
 const helpers = require('../sdk/helpers')
 
-ava.serial.before(helpers.before)
+ava.serial.before(async (test) => {
+	await helpers.before(test)
+	test.context.waitForTag = (tagName) => {
+		return test.context.waitForMatch({
+			type: 'object',
+			required: [ 'slug' ],
+			properties: {
+				slug: {
+					type: 'string',
+					const: tagName
+				}
+			}
+		})
+	}
+})
 ava.serial.after(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
@@ -50,7 +64,7 @@ ava.serial('should sanely handle line breaks before tags in messages/whispers', 
 			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag = await test.context.sdk.card.get(`tag-${tagName}`)
+	const tag = await test.context.waitForTag(`tag-${tagName}`)
 
 	test.deepEqual(tag, {
 		created_at: tag.created_at,
@@ -118,9 +132,9 @@ ava.serial('should sanely handle multiple tags in messages/whispers', async (tes
 			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag1 = await test.context.sdk.card.get(`tag-${tagName1}`)
-	const tag2 = await test.context.sdk.card.get(`tag-${tagName2}`)
-	const tag3 = await test.context.sdk.card.get(`tag-${tagName3}`)
+	const tag1 = await test.context.waitForTag(`tag-${tagName1}`)
+	const tag2 = await test.context.waitForTag(`tag-${tagName2}`)
+	const tag3 = await test.context.waitForTag(`tag-${tagName3}`)
 
 	test.deepEqual(tag1, {
 		created_at: tag1.created_at,
@@ -220,7 +234,7 @@ ava.serial('should create a new tag when one is found in a message', async (test
 			Authorization: `Bearer ${test.context.token}`
 		})
 
-	const tag = await test.context.sdk.card.get(`tag-${tagName}`)
+	const tag = await test.context.waitForTag(`tag-${tagName}`)
 
 	test.deepEqual(tag, {
 		created_at: tag.created_at,
