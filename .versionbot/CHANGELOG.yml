@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'backend: do not default `additionalProperties: false` for the root card'
+      hash: d07bcb089d00d0cafe8eddde3ca1278a3440f05d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.68.6
+  date: 2020-07-02T12:11:47.470Z
+- commits:
     - subject: 'ui: Use static initial state in redux store'
       hash: b5bb5c31e0c4b3e8073719c4a6fd41e7e317905d
       body: >
