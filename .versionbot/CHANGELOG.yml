@@ -1,4 +1,48 @@
 - commits:
+    - subject: 'package: Bump @balena/jellyfish-client-sdk to v1.1.1'
+      hash: 525202f53ecb2500ee6e834140204505f33cbf08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: Add keys to mirror values in CardFields
+      hash: 30227e1b1f5ab9e95cb8d066961ed22d659e74de
+      body: >
+        This ensures React can correctly detect when a mirror value should be
+        re-rendered.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: >-
+        default-cards/form-response-curation: Add useCaseSegment field, add
+        field order, enum in experienceEvaluation
+      hash: e74c5b827f1f1fb2fd16803bd63dc1c4f241b4f1
+      body: |
+        As discussed with Jasmine.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+    - subject: 'default-cards/form-response: Add is curated by relationship'
+      hash: 9d897ee19ca621c998a9737764deb263336df514
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+  version: 30.68.8
+  date: 2020-07-02T16:56:57.116Z
+- commits:
     - subject: 'patch: bump @sentry/node from 5.18.1 to 5.19.0'
       hash: e26b7ff13d7a20af32c6b0de6d71a06cf7bb182a
       body: >
