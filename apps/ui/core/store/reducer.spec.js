@@ -389,7 +389,7 @@ ava('SET_TIMELINE_MESSAGE action sets the message of the specified timeline', (t
 		}
 	})
 
-	test.deepEqual(newState.core.ui.timelines, {
+	test.deepEqual(newState.ui.timelines, {
 		2: {
 			message: 'test'
 		}
@@ -449,7 +449,7 @@ ava('SET_LENS_STATE action merges the specified lens state', (test) => {
 	const initialState = reducer()
 	const lens = 1
 	const cardId = 2
-	initialState.core.ui.lensState = {
+	initialState.ui.lensState = {
 		[lens]: {
 			[cardId]: {
 				var1: 'value1',
@@ -469,7 +469,7 @@ ava('SET_LENS_STATE action merges the specified lens state', (test) => {
 		}
 	})
 
-	test.deepEqual(newState.core.ui.lensState, {
+	test.deepEqual(newState.ui.lensState, {
 		[lens]: {
 			[cardId]: {
 				var1: 'value1New',
@@ -537,7 +537,7 @@ ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
 		}
 	})
 
-	test.deepEqual(newState.core.ui.flows, {
+	test.deepEqual(newState.ui.flows, {
 		[flowId]: {
 			[cardId]: {
 				someItem: 'someValue'
@@ -554,7 +554,7 @@ ava('SET_FLOW merges an existing flow state', (test) => {
 		isOpen: true,
 		valA: 'initial'
 	}
-	initialState.core.ui.flows = {
+	initialState.ui.flows = {
 		[flowId]: {
 			[cardId]: flowState
 		}
@@ -572,7 +572,7 @@ ava('SET_FLOW merges an existing flow state', (test) => {
 		}
 	})
 
-	test.deepEqual(newState.core.ui.flows, {
+	test.deepEqual(newState.ui.flows, {
 		[flowId]: {
 			[cardId]: {
 				isOpen: true,
@@ -589,7 +589,7 @@ ava('REMOVE_FLOW removes flow state', (test) => {
 	const flowState = {
 		isOpen: true
 	}
-	initialState.core.ui.flows = {
+	initialState.ui.flows = {
 		[flowId]: {
 			[cardId]: flowState
 		}
@@ -603,7 +603,7 @@ ava('REMOVE_FLOW removes flow state', (test) => {
 		}
 	})
 
-	test.deepEqual(newState.core.ui.flows, {
+	test.deepEqual(newState.ui.flows, {
 		[flowId]: {}
 	})
 })
