@@ -1,4 +1,16 @@
 - commits:
+    - subject: Replace lib/assert with private package
+      hash: fad1e3922b18db7b769e1ba339ea22bde2728664
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.68.4
+  date: 2020-07-02T06:11:38.622Z
+- commits:
     - subject: 'docs: Add note about metric/label naming'
       hash: cd8b6441d5af7e7863d3f7f5dea35a2db28db34a
       body: ''
