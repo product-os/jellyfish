@@ -32,6 +32,11 @@
               "type": "string",
               "fullTextSearch": true
             },
+            "useCaseSegment": {
+              "title": "Curated Use Case Segment",
+              "type": "string",
+              "fullTextSearch": true
+            },
             "useCaseDetail": {
               "title": "Curated Use Case Detail",
               "type": "string",
@@ -40,7 +45,14 @@
             "experienceEvaluation": {
               "title": "Curated Experierience Evaluation",
               "type": "string",
-              "fullTextSearch": true
+              "fullTextSearch": true,
+              "enum": [
+                "Very Positive",
+                "Somewhat Positive",
+                "Neutral",
+                "Somewhat Negative",
+                "Very Negative"
+              ]
             },
             "issuesWants": {
               "title": "Curated Issues/Wants",
@@ -51,16 +63,21 @@
               "title": "Curated Highlights",
               "type": "string",
               "fullTextSearch": true
-            },
-            "projectPurpose": {
-              "title": "Curated Project Purpose",
-              "type": "string",
-              "fullTextSearch": true
             }
           }
         }
       }
-    }
+    },
+    "fieldOrder": [
+      "origin",
+      "originDetail",
+      "role",
+      "useCaseSegment",
+      "useCaseDetail",
+      "experienceEvaluation",
+      "issuesWants",
+      "highlights"
+    ]
   },
   "requires": [],
   "capabilities": []

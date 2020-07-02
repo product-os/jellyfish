@@ -80,6 +80,15 @@
           }
         }
       }
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Curation",
+          "link": "is curated by",
+          "type": "form-response-curation"
+        }
+      ]
     }
   },
   "requires": [],

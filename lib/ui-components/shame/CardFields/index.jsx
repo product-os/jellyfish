@@ -7,6 +7,7 @@
 import _ from 'lodash'
 import React from 'react'
 import {
+	slugify,
 	getLocalSchema
 } from '../../services/helpers'
 import CardField from './CardField'
@@ -51,9 +52,9 @@ export default function CardFields (props) {
 				return _.map(fieldValue, (value) => {
 					if (_.includes(value, 'frontapp.com')) {
 						const id = value.split('/').pop()
-						return <Markdown>{`https://app.frontapp.com/open/${id}`}</Markdown>
+						return <Markdown key={id}>{`https://app.frontapp.com/open/${id}`}</Markdown>
 					}
-					return <Markdown>{value.toString()}</Markdown>
+					return <Markdown key={slugify(value)}>{value.toString()}</Markdown>
 				})
 			}
 		},
