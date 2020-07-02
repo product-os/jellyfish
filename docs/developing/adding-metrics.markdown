@@ -14,6 +14,10 @@ to gather and expose metrics data. `lib/metrics/index.js` uses this library to d
 Jellyfish-specific logic and wrappers for the rest of the system to use. This setup makes it quite
 easy for anyone to add new metrics to Jellyfish, usually with only a couple of lines.
 
+When adding metrics and/or labels, please make sure to adhere to [Prometheus naming conventions](https://prometheus.io/docs/practices/naming/).
+Also be sure to add a detailed description to each metric as this becomes a quite useful tooltip in Grafana.
+Example descriptions can be found in `lib/metrics/index.js`.
+
 Take a look through the following docs and past pull requests to get started:
 - [balena-io-modules/node-metrics-gatherer](https://github.com/balena-io-modules/node-metrics-gatherer)
 - [Prometheus Metric Types](https://prometheus.io/docs/concepts/metric_types/)
