@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Use static initial state in redux store'
+      hash: b5bb5c31e0c4b3e8073719c4a6fd41e7e317905d
+      body: >
+        This is a more efficient and conventional way of handling the initial
+        state of the redux store.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.5
+  date: 2020-07-02T06:50:17.470Z
+- commits:
     - subject: Replace lib/assert with private package
       hash: fad1e3922b18db7b769e1ba339ea22bde2728664
       body: ''
