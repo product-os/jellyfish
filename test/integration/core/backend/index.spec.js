@@ -1154,84 +1154,6 @@ ava('.query() should survive a deep schema', async (test) => {
 	test.deepEqual(results2, [])
 })
 
-ava('.query() should give the same results when omitting additionalProperties and additionalProperties:false', async (test) => {
-	const card1 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
-		slug: test.context.generateRandomSlug(),
-		version: '1.0.0',
-		links: {},
-		tags: [],
-		data: {},
-		markers: [],
-		requires: [],
-		linked_at: {},
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		active: true
-	})
-
-	const card2 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'test',
-		slug: test.context.generateRandomSlug(),
-		version: '1.0.0',
-		links: {},
-		data: {},
-		tags: [],
-		markers: [],
-		linked_at: {},
-		requires: [],
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		active: true
-	})
-
-	const card3 = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
-		slug: test.context.generateRandomSlug(),
-		links: {},
-		version: '1.0.0',
-		tags: [],
-		markers: [],
-		requires: [],
-		linked_at: {},
-		data: {},
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		active: true
-	})
-
-	const results1 = await test.context.backend.query(test.context.context, {
-		type: 'object',
-		properties: {
-			id: {
-				type: 'string'
-			},
-			slug: {
-				type: 'string',
-				enum: [ card1.slug, card2.slug, card3.slug ]
-			}
-		},
-		required: [ 'id', 'slug' ]
-	})
-
-	const results2 = await test.context.backend.query(test.context.context, {
-		type: 'object',
-		properties: {
-			id: {
-				type: 'string'
-			},
-			slug: {
-				type: 'string',
-				enum: [ card1.slug, card2.slug, card3.slug ]
-			}
-		},
-		required: [ 'id', 'slug' ],
-		additionalProperties: false
-	})
-
-	test.deepEqual(results1, results2)
-})
-
 ava('.query() should query an element by its id', async (test) => {
 	const result = await test.context.backend.upsertElement(test.context.context, {
 		type: 'example@1.0.0',
@@ -1364,48 +1286,6 @@ ava('.query() should fail to query an element by its slug', async (test) => {
 	})
 
 	test.deepEqual(results, [])
-})
-
-ava('.query() should not return unspecified properties', async (test) => {
-	const slug = test.context.generateRandomSlug()
-	const result = await test.context.backend.upsertElement(test.context.context, {
-		type: 'example',
-		active: true,
-		version: '1.0.0',
-		tags: [],
-		links: {},
-		markers: [],
-		data: {
-			test: 1
-		},
-		requires: [],
-		linked_at: {},
-		capabilities: [],
-		created_at: new Date().toISOString(),
-		updated_at: null,
-		slug
-	})
-
-	const results = await test.context.backend.query(test.context.context, {
-		type: 'object',
-		properties: {
-			id: {
-				type: 'string'
-			},
-			slug: {
-				type: 'string',
-				const: slug
-			}
-		},
-		required: [ 'id', 'slug' ]
-	})
-
-	test.deepEqual(results, [
-		{
-			id: result.id,
-			slug
-		}
-	])
 })
 
 ava('.query() should handle integer float limits', async (test) => {
@@ -1900,6 +1780,7 @@ ava('.query() should not skip the results of a one-element query if skip is set 
 
 	const results = await test.context.backend.query(test.context.context, {
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			id: {
 				type: 'string',
@@ -1976,6 +1857,7 @@ ava('.query() should not omit the results of a one-element query if limit is set
 
 	const results = await test.context.backend.query(test.context.context, {
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			id: {
 				type: 'string',
@@ -2619,6 +2501,7 @@ ava('.query() should correctly honour top level additionalProperties: true', asy
 			}
 		],
 		required: [ 'type' ],
+		additionalProperties: false,
 		properties: {
 			type: {
 				type: 'string',
@@ -3320,6 +3203,7 @@ ava('.query() should be able to query using links', async (test) => {
 				additionalProperties: false
 			}
 		},
+		additionalProperties: false,
 		properties: {
 			type: {
 				type: 'string',
@@ -3471,6 +3355,7 @@ ava('.query() should be able to query using links when getting an element by id'
 				additionalProperties: true
 			}
 		},
+		additionalProperties: false,
 		properties: {
 			links: {
 				type: 'object',
@@ -3599,6 +3484,7 @@ ava('.query() should be able to query using links when getting an element by slu
 				additionalProperties: true
 			}
 		},
+		additionalProperties: false,
 		properties: {
 			links: {
 				type: 'object',
@@ -3776,6 +3662,7 @@ ava('.query() should be able to query using links and an inverse name', async (t
 				additionalProperties: true
 			}
 		},
+		additionalProperties: false,
 		properties: {
 			links: {
 				type: 'object',
@@ -4003,6 +3890,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 				}
 			}
 		},
+		additionalProperties: false,
 		properties: {
 			type: {
 				type: 'string',
@@ -4060,6 +3948,7 @@ ava('.query() should omit a result if a link does not match', async (test) => {
 ava.cb('.stream() should report back new elements that match a certain type', (test) => {
 	test.context.backend.stream(test.context.context, {
 		type: 'object',
+		additionalProperties: false,
 		properties: {
 			type: {
 				type: 'string',
@@ -4183,6 +4072,7 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
 			type: 'object',
+			additionalProperties: false,
 			properties: {
 				slug: {
 					type: 'string',
@@ -4303,6 +4193,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
 			type: 'object',
+			additionalProperties: false,
 			properties: {
 				slug: {
 					type: 'string',
@@ -4427,6 +4318,7 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 	}).then((emitter) => {
 		return test.context.backend.stream(test.context.context, {
 			type: 'object',
+			additionalProperties: false,
 			properties: {
 				slug: {
 					type: 'string',
@@ -4518,6 +4410,7 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 	}).then(() => {
 		return test.context.backend.stream(test.context.context, {
 			type: 'object',
+			additionalProperties: false,
 			properties: {
 				slug: {
 					type: 'string',
