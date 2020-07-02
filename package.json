@@ -125,7 +125,7 @@
     "@babel/polyfill": "^7.10.1",
     "@balena/jellyfish-client-sdk": "^1.1.0",
     "@balena/jellyfish-uuid": "0.0.2",
-    "@balena/node-metrics-gatherer": "^5.7.0",
+    "@balena/node-metrics-gatherer": "^5.7.1",
     "@octokit/auth-app": "^2.4.7",
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
