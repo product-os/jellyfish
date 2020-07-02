@@ -1,4 +1,36 @@
 - commits:
+    - subject: 'test: wait for async triggered action'
+      hash: 3400ef29cac703fa82b8bc63fbf76d76a96ed506
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Make use of withEvents card mixin
+      hash: 2f2075a0127ffb69da3489a32b0d9e402cc07647
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Add withEvents card mixin
+      hash: 6412de7d7b9c64b794f47fdf09ec06c64e618b3a
+      body: >
+        This mixin defines the schema elements required by any card that has
+        attached elements (i.e. a timeline).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.0
+  date: 2020-07-02T01:04:27.076Z
+- commits:
     - subject: 'patch: bump @balena/node-metrics-gatherer from 5.7.0 to 5.7.1'
       hash: 4b29599843ce3df8b56d3a12ddbbe9558e99d068
       body: >
