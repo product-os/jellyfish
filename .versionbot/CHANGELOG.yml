@@ -1,4 +1,34 @@
 - commits:
+    - subject: Set ui redux state from localStorage on startup
+      hash: 4ba1172d157eacb089f8c28d962552584a37e3ed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Move ui up to top level of redux state
+      hash: 62beea74092ba68d0e63db06a1f13f6fc65cf5f1
+      body: >
+        Flattening out the redux state structure will make it much simpler to
+        manage what parts of the state are persisted by redux-persist (using
+        whitelist/blacklist).
+
+
+        Note - this will cause some persisted state to be lost when this version
+        is deployed, notably the current expanded items in the sidebar and
+        whether the chat widget is open or not. But this is probably not worth
+        creating a migration for!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.2
+  date: 2020-07-02T03:43:48.058Z
+- commits:
     - subject: 'patch: bump @babel/preset-env from 7.10.3 to 7.10.4'
       hash: 4c25bbd98de6bc69eef7c4585d0238b405bd46ed
       body: >
