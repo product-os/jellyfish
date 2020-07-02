@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'docs: Add note about metric/label naming'
+      hash: cd8b6441d5af7e7863d3f7f5dea35a2db28db34a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.68.3
+  date: 2020-07-02T05:04:06.639Z
+- commits:
     - subject: Set ui redux state from localStorage on startup
       hash: 4ba1172d157eacb089f8c28d962552584a37e3ed
       body: ''
