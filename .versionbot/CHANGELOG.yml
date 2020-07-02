@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump @balena/node-metrics-gatherer from 5.7.0 to 5.7.1'
+      hash: 4b29599843ce3df8b56d3a12ddbbe9558e99d068
+      body: >
+        Bumps
+        [@balena/node-metrics-gatherer](https://github.com/balena-io-modules/node-metrics-gatherer)
+        from 5.7.0 to 5.7.1.
+
+        - [Release
+        notes](https://github.com/balena-io-modules/node-metrics-gatherer/releases)
+
+        -
+        [Changelog](https://github.com/balena-io-modules/node-metrics-gatherer/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/balena-io-modules/node-metrics-gatherer/compare/v5.7.0...v5.7.1)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.67.7
+  date: 2020-07-01T23:38:57.992Z
+- commits:
     - subject: 'patch: bump eslint-plugin-react from 7.20.0 to 7.20.2'
       hash: 04196e4fd39137d9c981ab86702de5dfacd79a88
       body: >
