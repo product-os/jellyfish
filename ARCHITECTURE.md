@@ -232,11 +232,6 @@ This module aims to be the startup system configuration hub, and it exposes any
 runtime settings to the remainingg of the system. Its the only place in the
 codebase that should ever read environment variables.
 
-### [`lib/jellyscript`](https://github.com/product-os/jellyfish/tree/master/lib/jellyscript)
-
-Jellyscript is a tiny embeddable language to define
-computed properties in Jellyfish card types.
-
 ### [`lib/logger`](https://github.com/product-os/jellyfish/tree/master/lib/logger)
 
 The Jellyfish backend strongly discourages the use of `console.log()`. This
