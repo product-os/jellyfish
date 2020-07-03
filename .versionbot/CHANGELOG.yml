@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'jsonschema2sql: only select what the original query is asking'
+      hash: 72dd1d71a799ca3b5c47c8a9cd6f50ad7247e7e2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+  version: 30.68.17
+  date: 2020-07-03T17:11:17.914Z
+- commits:
     - subject: 'patch: bump @babel/polyfill from 7.10.1 to 7.10.4'
       hash: aeebd07fef80a368412c2619a91c767e8829b01e
       body: >
