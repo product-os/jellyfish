@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump graphql from 15.1.0 to 15.2.0'
+      hash: e87832cda8a6a851b876d72965bf5ebe671b11e1
+      body: >
+        Bumps [graphql](https://github.com/graphql/graphql-js) from 15.1.0 to
+        15.2.0.
+
+        - [Release notes](https://github.com/graphql/graphql-js/releases)
+
+        -
+        [Commits](https://github.com/graphql/graphql-js/compare/v15.1.0...v15.2.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.68.11
+  date: 2020-07-03T03:05:07.917Z
+- commits:
     - subject: 'patch: bump sinon from 8.1.1 to 9.0.2'
       hash: 8671af3d456a0a168f2e56733eb70f8b6d736bdd
       body: |
