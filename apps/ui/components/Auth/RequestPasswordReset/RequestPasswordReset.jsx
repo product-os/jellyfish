@@ -12,10 +12,10 @@ import {
 	Divider,
 	Heading,
 	Input,
-	Link,
 	Txt
 } from 'rendition'
-import Icon from '../../shame/Icon'
+import Link from '../../../../../lib/ui-components/Link'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 const StyledLink = styled(Link) `
 	float: right;

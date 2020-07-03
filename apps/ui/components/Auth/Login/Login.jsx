@@ -12,10 +12,10 @@ import {
 	Divider,
 	Heading,
 	Input,
-	Link,
 	Txt
 } from 'rendition'
-import Icon from '../../shame/Icon'
+import Link from '../../../../../lib/ui-components/Link'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
 const StyledLink = styled(Link) `
 	float: right;
@@ -125,7 +125,7 @@ export default class Login extends React.Component {
 				</form>
 				<StyledLink
 					mt={3}
-					href="/request_password_reset"
+					to="/request_password_reset"
 				>
 					Forgot Password?
 				</StyledLink>

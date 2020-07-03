@@ -10,7 +10,7 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import Login from '../Login'
+import Login from './Login'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
