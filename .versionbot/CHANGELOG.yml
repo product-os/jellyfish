@@ -1,4 +1,19 @@
 - commits:
+    - subject: Move Auth components to UI app
+      hash: c46fe592bfb98fd6d30dc202394984638a8f30b4
+      body: >
+        These are not shared by the chat-widget. Moving to apps/ui cleans up the
+        code as the higher-order-components can sit next to the corresponding
+        presentational components.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.13
+  date: 2020-07-03T04:43:01.799Z
+- commits:
     - subject: >-
         Refactor Timeline component to help with ease of development. Work
         includes:
