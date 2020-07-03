@@ -1,4 +1,35 @@
 - commits:
+    - subject: >-
+        Refactor Timeline component to help with ease of development. Work
+        includes:
+      hash: efb94f61839b482af753d1aecf3c597065ed4dfe
+      body: >
+        - Moving header-related code into its own component (Header) - this
+        could be broken-down further but I've left this for future work
+
+        - Moving pending-message-related code into its own component
+        (PendingMessages)
+
+        - Moving userTyping code into its own component (TypingNotice)
+
+        - Refactoring how we figure out which events to display. Previously we
+        were looping through the list to remove the updates/create events and
+        then doing another loop to check to see if the whisper should be
+        removed. I've moved all the event code into a component called EventList
+        which does one loop and makes decisions about how to render the card
+        within that loop. It also compartmentalises this code into one place.
+        I've added some tests to make sure this is correct.
+
+        - Small fix to download thread to give it a sensible filename
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+  version: 30.68.12
+  date: 2020-07-03T03:43:17.421Z
+- commits:
     - subject: 'patch: bump graphql from 15.1.0 to 15.2.0'
       hash: e87832cda8a6a851b876d72965bf5ebe671b11e1
       body: >
