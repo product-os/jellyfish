@@ -7,21 +7,12 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
-	Container,
-	Box,
-	Flex,
-	Img
+	Flex
 } from 'rendition'
 
-const AuthBox = styled(Box) `
-	max-width: 470px;
-`
-const ShadowBox = styled(Flex) `
-	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-`
-
-const Icon = styled(Img) `
-  height: 70;
+const AuthWrapper = styled(Flex) `
+	height: 100%;
+	background: ${(props) => { return props.theme.colors.tertiary.main }};
 `
 
 const AuthContainer = (props) => {
@@ -29,26 +20,12 @@ const AuthContainer = (props) => {
 		children
 	} = props
 	return (
-		<React.Fragment>
-			<ShadowBox
-				justifyContent="space-between"
-				align="center"
-			>
-				<Box>
-					<Icon
-						width={70}
-						pl={2}
-						p={10}
-						src="/icons/jellyfish-icon.svg"
-					/>
-				</Box>
-			</ShadowBox>
-			<Container mt={4}>
-				<AuthBox mx="auto">
-					{ children }
-				</AuthBox>
-			</Container>
-		</React.Fragment>
+		<AuthWrapper
+			justifyContent={[ 'stretch', 'center' ]}
+			alignItems={[ 'stretch', 'center' ]}
+		>
+			{ children }
+		</AuthWrapper>
 	)
 }
 
