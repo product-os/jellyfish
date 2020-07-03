@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump sinon from 8.1.1 to 9.0.2'
+      hash: 8671af3d456a0a168f2e56733eb70f8b6d736bdd
+      body: |
+        Bumps [sinon](https://github.com/sinonjs/sinon) from 8.1.1 to 9.0.2.
+        - [Release notes](https://github.com/sinonjs/sinon/releases)
+        - [Changelog](https://github.com/sinonjs/sinon/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/sinonjs/sinon/compare/v8.1.1...v9.0.2)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.68.10
+  date: 2020-07-03T01:23:37.358Z
+- commits:
     - subject: Replace lib/jellyscript with private package
       hash: 0aceefac7d4fcb352752daab06f2b9f4c86a9814
       body: ''
