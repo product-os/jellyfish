@@ -3133,8 +3133,7 @@ ava('.query() should ignore queries to properties not whitelisted by a role', as
 	test.deepEqual(results, [
 		{
 			type: 'type@1.0.0',
-			slug: 'user',
-			markers: []
+			slug: 'user'
 		}
 	])
 })
@@ -3208,7 +3207,6 @@ ava('.query() should ignore $id properties in roles', async (test) => {
 	test.deepEqual(results, [
 		{
 			type: 'type@1.0.0',
-			markers: [],
 			slug: 'user'
 		}
 	])
@@ -3277,7 +3275,6 @@ ava('.query() should ignore queries to disallowed properties with additionalProp
 
 	test.deepEqual(results, [
 		{
-			markers: [],
 			type: 'type@1.0.0',
 			slug: 'user'
 		}
