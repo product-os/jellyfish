@@ -15,8 +15,10 @@ import {
 import {
 	setupStore
 } from './store'
+import * as QUERIES from './queries'
 
 export const sdk = SDK
+export const queries = QUERIES
 
 export const constants = {
 	LINKS: sdk.LINKS

@@ -5,7 +5,6 @@
  */
 
 import * as Bluebird from 'bluebird'
-import _ from 'lodash'
 import React, {
 	useCallback,
 	useEffect,
@@ -58,7 +57,7 @@ const DebouncedSearch = (props) => {
 export default (props) => {
 	const user = useSelector(selectors.getCurrentUser)
 
-	const groups = useSelector(selectors.getGroups)
+	const groupNames = useSelector(selectors.getMyGroupNames)
 
 	// State controller for managing canonical data from the API
 	const [ results, setResults ] = useState([])
@@ -91,7 +90,7 @@ export default (props) => {
 		setIsMarkingAllAsRead(true)
 
 		await Bluebird.map(results, (card) => {
-			return sdk.card.markAsRead(user.slug, card, _.map(_.filter(groups, 'isMine'), 'name'))
+			return sdk.card.markAsRead(user.slug, card, groupNames)
 		}, {
 			concurrency: 10
 		})
@@ -100,7 +99,7 @@ export default (props) => {
 	}, [ user.id, results ])
 
 	const loadResults = (term, pageNumber) => {
-		const query = props.getQuery(user, term)
+		const query = props.getQuery(user, groupNames, term)
 		return sdk.query(query, {
 			...options,
 			limit: options.limit * pageNumber
@@ -131,7 +130,7 @@ export default (props) => {
 		let stream = null
 		let canceled = false
 		const setupStream = async () => {
-			const query = props.getQuery(user, searchTerm)
+			const query = props.getQuery(user, groupNames, searchTerm)
 			stream = await sdk.stream(query)
 			if (canceled) {
 				stream.close()

@@ -32,6 +32,9 @@ import {
 	mentionsUser,
 	updateThreadChannels
 } from '../helpers'
+import {
+	getUnreadQuery
+} from '../../queries'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -156,6 +159,7 @@ export const selectors = {
 	},
 	getTypes: (state) => { return state.core.types },
 	getGroups: (state) => { return state.core.groups },
+	getMyGroupNames: (state) => { return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name') },
 	getUIState: (state) => { return state.ui },
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.ui, [ 'lensState', lensSlug, cardId ], {})
@@ -183,6 +187,15 @@ export const selectors = {
 	getHomeView: (state) => {
 		const user = selectors.getCurrentUser(state)
 		return _.get(user, [ 'data', 'profile', 'homeView' ], null)
+	},
+	getInboxQuery: (state) => {
+		const user = selectors.getCurrentUser(state)
+		const groupNames = selectors.getMyGroupNames(state)
+		return getUnreadQuery(user, groupNames)
+	},
+	getInboxViewData: (state) => {
+		const query = selectors.getInboxQuery(state)
+		return selectors.getViewData(state, query)
 	}
 }
 
@@ -880,11 +893,10 @@ export default class ActionCreator {
 					})
 
 					// Load unread message pings
-					// TODO Get the Inbox component to use data from the redux store,
-					// rather than generating its own queries, allowing us to de-duplicate
-					// this schema.
-					this.loadViewResults('view-my-inbox')(dispatch, getState)
-					this.streamView('view-my-inbox')(dispatch, getState)
+					const groupNames = selectors.getMyGroupNames(getState())
+					const unreadQuery = getUnreadQuery(user, groupNames)
+					this.loadViewResults(unreadQuery)(dispatch, getState)
+					this.streamView(unreadQuery)(dispatch, getState)
 
 					return user
 				})

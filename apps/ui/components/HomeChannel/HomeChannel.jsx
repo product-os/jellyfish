@@ -635,7 +635,8 @@ export default class HomeChannel extends React.Component {
 
 										// The inbox view is only used to easily facilitate streaming of
 										// mentions
-										// TODO find a more elegant way to handle this
+										// TODO Remove this once the `view-my-inbox` card has been removed
+										// from Jellyfish
 										if (card.slug === 'view-my-inbox') {
 											return null
 										}
@@ -650,7 +651,6 @@ export default class HomeChannel extends React.Component {
 													card={card}
 													isActive={isActive}
 													activeSlice={activeSlice}
-													update={card.slug === 'view-my-inbox' ? (mentions && mentions.length) : 0}
 													open={this.open}
 												/>
 											</Box>

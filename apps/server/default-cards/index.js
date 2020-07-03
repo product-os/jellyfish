@@ -84,7 +84,6 @@ module.exports = {
 
 	// User facing views
 	viewAllViews: require('./contrib/view-all-views.json'),
-	viewMyInbox: require('./contrib/view-my-inbox.json'),
 	viewMyOrgs: require('./contrib/view-my-orgs.json'),
 	viewMyConversations: require('./contrib/view-my-conversations.json'),
 	viewAllByType: require('./contrib/view-all-by-type.json'),

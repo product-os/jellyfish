@@ -124,7 +124,7 @@ export default class ViewLink extends React.Component {
 									<Icon name="home" />
 								</Box>
 							)}
-							{Boolean(update) && card.slug === 'view-my-inbox' && (
+							{Boolean(update) && (
 								<MentionsCount mr={2}>{update}</MentionsCount>
 							)}
 						</Flex>
