@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Consolidate auth UI components'
+      hash: 3168fcb8be6925357abfb340bbb394c313b619c5
+      body: >
+        Better responsive layout, refreshed the style with a card effect for
+        desktop views.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.15
+  date: 2020-07-03T06:58:13.216Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 5.17.0 to 5.18.1'
       hash: a9d896cd0d652c5cb401197786d8892bb973c6d1
       body: >
