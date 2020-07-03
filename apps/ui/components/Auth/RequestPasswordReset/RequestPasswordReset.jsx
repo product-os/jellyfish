@@ -5,21 +5,10 @@
  */
 
 import React from 'react'
-import styled from 'styled-components'
-import {
-	Box,
-	Button,
-	Divider,
-	Heading,
-	Input,
-	Txt
-} from 'rendition'
-import Link from '../../../../../lib/ui-components/Link'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
-
-const StyledLink = styled(Link) `
-	float: right;
-`
+import {
+	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton, AuthLink
+} from '../AuthUtil'
 
 export default class RequestPasswordReset extends React.Component {
 	constructor (props) {
@@ -74,49 +63,32 @@ export default class RequestPasswordReset extends React.Component {
 		} = this.state
 
 		return (
-			<React.Fragment>
-				<Txt align="center" mb={4}>
-					<Heading.h2 mb={2}>Request a password reset</Heading.h2>
-					<span>Enter your username below</span>
-				</Txt>
-
-				<Divider color="#eee" mb={4}/>
-
-				<form
+			<AuthCard>
+				<AuthHeading title="Request a password reset" subtitle="Enter your username below" />
+				<AuthForm
 					onSubmit={this.requestPasswordReset}
 					data-test="requestPasswordReset-page__form"
 				>
-					<Txt fontSize={1} mb={1}>Username</Txt>
-					<Input
+					<AuthField
+						name="username"
+						label="Username"
+						tabIndex={1}
 						data-test="requestPasswordReset-page__username"
-						mb={5}
-						width="100%"
-						emphasized={true}
 						placeholder="Username"
 						autoComplete="username"
 						value={username}
 						onChange={this.handleUsernameChange}
 					/>
-					<Box>
-						<Button
-							data-test="requestPasswordReset-page__submit"
-							width="100%"
-							primary={true}
-							emphasized={true}
-							type="submit"
-							disabled={!username || requestingPasswordReset}
-						>
-							{requestingPasswordReset ? <Icon spin name="cog"/> : 'Submit'}
-						</Button>
-					</Box>
-				</form>
-				<StyledLink
-					mt={3}
-					href="/"
-				>
-					Return to login?
-				</StyledLink>
-			</React.Fragment>
+					<AuthButton
+						tabIndex={2}
+						data-test="requestPasswordReset-page__submit"
+						disabled={!username || requestingPasswordReset}
+					>
+						{requestingPasswordReset ? <Icon spin name="cog"/> : 'Submit'}
+					</AuthButton>
+				</AuthForm>
+				<AuthLink to="/" tabIndex={3}>Return to login</AuthLink>
+			</AuthCard>
 		)
 	}
 }

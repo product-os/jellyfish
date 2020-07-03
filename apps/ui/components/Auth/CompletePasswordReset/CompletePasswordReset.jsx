@@ -7,16 +7,14 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-	Box,
-	Button,
-	Divider,
-	Heading,
-	Input,
-	Txt
+	Input
 } from 'rendition'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
+import {
+	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton
+} from '../AuthUtil'
 
-class CompletePasswordReset extends React.Component {
+export default class CompletePasswordReset extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -70,62 +68,44 @@ class CompletePasswordReset extends React.Component {
 		const username = _.get(this.props, [ 'match', 'params', 'username' ], '')
 
 		return (
-			<React.Fragment>
-				<Txt align="center" mb={4}>
-					<Heading.h2 mb={2}>Reset Password</Heading.h2>
-					<span>{'Enter your new password below'}</span>
-				</Txt>
-
-				<Divider color="#eee" mb={4}/>
-
-				<form
+			<AuthCard>
+				<AuthHeading title="Reset Password" subtitle="Enter your new password below" />
+				<AuthForm
 					data-test="completePasswordReset-page__form"
-					onSubmit={this.completePasswordReset}>
-
+					onSubmit={this.completePasswordReset}
+				>
 					<Input display="none" name="username" autoComplete="username" value={username} />
-
-					<Txt fontSize={1} mb={1}>Password</Txt>
-					<Input
-						data-test="completePasswordReset-page__password"
-						mb={5}
-						width="100%"
-						emphasized={true}
+					<AuthField
 						name="password"
+						label="Password"
+						data-test="completePasswordReset-page__password"
+						tabIndex={1}
 						placeholder="New Password"
 						type="password"
 						autoComplete="new-password"
 						value={password}
 						onChange={this.handleInputChange}
 					/>
-					<Txt fontSize={1} mb={1}>Password Confirmation</Txt>
-					<Input
-						data-test="completePasswordReset-page__password-confirmation"
-						mb={5}
-						width="100%"
-						emphasized={true}
+					<AuthField
 						name="passwordConfirmation"
+						label="Password Confirmation"
+						data-test="completePasswordReset-page__password-confirmation"
+						tabIndex={2}
 						placeholder="Password Confirmation"
 						type="password"
 						autoComplete="new-password"
 						value={passwordConfirmation}
 						onChange={this.handleInputChange}
 					/>
-					<Box>
-						<Button
-							data-test="completePasswordReset-page__submit"
-							width="100%"
-							primary={true}
-							emphasized={true}
-							type="submit"
-							disabled={!password || passwordConfirmation !== password || completingPasswordReset}
-						>
-							{completingPasswordReset ? <Icon spin name="cog"/> : 'Reset password'}
-						</Button>
-					</Box>
-				</form>
-			</React.Fragment>
+					<AuthButton
+						tabIndex={3}
+						data-test="completePasswordReset-page__submit"
+						disabled={!password || passwordConfirmation !== password || completingPasswordReset}
+					>
+						{completingPasswordReset ? <Icon spin name="cog"/> : 'Reset password'}
+					</AuthButton>
+				</AuthForm>
+			</AuthCard>
 		)
 	}
 }
-
-export default CompletePasswordReset

@@ -5,21 +5,10 @@
  */
 
 import React from 'react'
-import styled from 'styled-components'
-import {
-	Box,
-	Button,
-	Divider,
-	Heading,
-	Input,
-	Txt
-} from 'rendition'
-import Link from '../../../../../lib/ui-components/Link'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
-
-const StyledLink = styled(Link) `
-	float: right;
-`
+import {
+	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton, AuthLink
+} from '../AuthUtil'
 
 export default class Login extends React.Component {
 	constructor (props) {
@@ -76,60 +65,40 @@ export default class Login extends React.Component {
 		} = this.state
 
 		return (
-			<div className='login-page'>
-				<Txt align="center" mb={4}>
-					<Heading.h2 mb={2}>Login to Jellyfish</Heading.h2>
-					<span>Enter your details below</span>
-				</Txt>
-
-				<Divider color="#eee" mb={4}/>
-
-				<form onSubmit={this.login}>
-					<Txt fontSize={1} mb={1}>Username</Txt>
-					<Input
+			<AuthCard className='login-page'>
+				<AuthHeading title="Login to Jellyfish" subtitle="Enter your details below" />
+				<AuthForm onSubmit={this.login}>
+					<AuthField
+						tabIndex={1}
+						name="username"
+						label="Username"
 						className="login-page__input--username"
-						mb={5}
-						width="100%"
-						emphasized={true}
 						placeholder="Username"
 						autoComplete="username"
 						value={username}
 						onChange={this.handleUsernameChange}
 					/>
-
-					<Txt fontSize={1} mb={1}>Password</Txt>
-					<Input
+					<AuthField
+						tabIndex={2}
+						name="password"
+						label="Password"
 						className="login-page__input--password"
-						mb={5}
-						width="100%"
-						emphasized={true}
 						placeholder="Password"
 						type="password"
 						autoComplete="current-password"
 						value={password}
 						onChange={this.handlePasswordChange}
 					/>
-
-					<Box>
-						<Button
-							className="login-page__submit--login"
-							width="100%"
-							primary={true}
-							emphasized={true}
-							type="submit"
-							disabled={!username || !password || loggingIn}
-						>
-							{loggingIn ? <Icon spin name="cog"/> : 'Log in'}
-						</Button>
-					</Box>
-				</form>
-				<StyledLink
-					mt={3}
-					to="/request_password_reset"
-				>
-					Forgot Password?
-				</StyledLink>
-			</div>
+					<AuthButton
+						tabIndex={3}
+						className="login-page__submit--login"
+						disabled={!username || !password || loggingIn}
+					>
+						{loggingIn ? <Icon spin name="cog"/> : 'Log in'}
+					</AuthButton>
+				</AuthForm>
+				<AuthLink to="/request_password_reset" tabIndex={4}>Forgot Password?</AuthLink>
+			</AuthCard>
 		)
 	}
 }
