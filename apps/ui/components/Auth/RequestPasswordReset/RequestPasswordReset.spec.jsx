@@ -7,7 +7,7 @@
 import {
 	flushPromises,
 	getWrapper
-} from '../../../../test/ui-setup'
+} from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount

@@ -13,8 +13,8 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../core'
-import CompletePasswordReset from '../../../../lib/ui-components/Auth/CompletePasswordReset'
+} from '../../../core'
+import CompletePasswordReset from './CompletePasswordReset'
 
 const mapDispatchToProps = (dispatch) => {
 	return {

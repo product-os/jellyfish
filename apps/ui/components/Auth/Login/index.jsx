@@ -13,17 +13,17 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../core'
-import RequestPasswordReset from '../../../../lib/ui-components/Auth/RequestPasswordReset'
+} from '../../../core'
+import Login from './Login'
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addNotification',
-				'requestPasswordReset'
+				'login'
 			]), dispatch)
 	}
 }
 
-export default connect(null, mapDispatchToProps)(RequestPasswordReset)
+export default connect(null, mapDispatchToProps)(Login)

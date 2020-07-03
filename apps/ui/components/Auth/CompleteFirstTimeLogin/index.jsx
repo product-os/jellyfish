@@ -13,8 +13,8 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../core'
-import CompleteFirstTimeLogin from '../../../../lib/ui-components/Auth/CompleteFirstTimeLogin'
+} from '../../../core'
+import CompleteFirstTimeLogin from './CompleteFirstTimeLogin'
 
 const mapDispatchToProps = (dispatch) => {
 	return {

@@ -5,7 +5,7 @@
  */
 
 import React from 'react'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import {
 	Box,
 	Button,
@@ -14,9 +14,9 @@ import {
 	Input,
 	Txt
 } from 'rendition'
-import Icon from '../../shame/Icon'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 
-class CompletePasswordReset extends React.Component {
+class CompleteFirstTimeLogin extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -26,7 +26,7 @@ class CompletePasswordReset extends React.Component {
 		}
 
 		this.handleInputChange = this.handleInputChange.bind(this)
-		this.completePasswordReset = this.completePasswordReset.bind(this)
+		this.completeFirstTimeLogin = this.completeFirstTimeLogin.bind(this)
 	}
 
 	handleInputChange (event) {
@@ -35,26 +35,26 @@ class CompletePasswordReset extends React.Component {
 		})
 	}
 
-	completePasswordReset (event) {
+	completeFirstTimeLogin (event) {
 		event.preventDefault()
 		const {
 			password
 		} = this.state
 
 		this.setState({
-			completingPasswordReset: true
+			completingFirstTimeLogin: true
 		}, async () => {
 			try {
-				await this.props.actions.completePasswordReset({
+				await this.props.actions.completeFirstTimeLogin({
 					password,
-					resetToken: this.props.match.params.resetToken
+					firstTimeLoginToken: this.props.match.params.firstTimeLoginToken
 				})
-				this.props.actions.addNotification('success', 'Successfully reset password')
+				this.props.actions.addNotification('success', 'Successfully set password')
 				this.props.history.push('/')
 			} catch (error) {
 				this.props.actions.addNotification('danger', error.message || error)
 				this.setState({
-					completePasswordReset: false
+					completingFirstTimeLogin: false
 				})
 			}
 		})
@@ -64,7 +64,7 @@ class CompletePasswordReset extends React.Component {
 		const {
 			password,
 			passwordConfirmation,
-			completingPasswordReset
+			completingFirstTimeLogin
 		} = this.state
 
 		const username = _.get(this.props, [ 'match', 'params', 'username' ], '')
@@ -72,21 +72,21 @@ class CompletePasswordReset extends React.Component {
 		return (
 			<React.Fragment>
 				<Txt align="center" mb={4}>
-					<Heading.h2 mb={2}>Reset Password</Heading.h2>
-					<span>{'Enter your new password below'}</span>
+					<Heading.h2 mb={2}>Set Password</Heading.h2>
+					<span>{'Enter your password below'}</span>
 				</Txt>
 
 				<Divider color="#eee" mb={4}/>
 
 				<form
-					data-test="completePasswordReset-page__form"
-					onSubmit={this.completePasswordReset}>
+					data-test="completeFirstTimeLogin-page__form"
+					onSubmit={this.completeFirstTimeLogin}>
 
 					<Input display="none" name="username" autoComplete="username" value={username} />
 
 					<Txt fontSize={1} mb={1}>Password</Txt>
 					<Input
-						data-test="completePasswordReset-page__password"
+						data-test="completeFirstTimeLogin-page__password"
 						mb={5}
 						width="100%"
 						emphasized={true}
@@ -99,7 +99,7 @@ class CompletePasswordReset extends React.Component {
 					/>
 					<Txt fontSize={1} mb={1}>Password Confirmation</Txt>
 					<Input
-						data-test="completePasswordReset-page__password-confirmation"
+						data-test="completeFirstTimeLogin-page__password-confirmation"
 						mb={5}
 						width="100%"
 						emphasized={true}
@@ -112,14 +112,14 @@ class CompletePasswordReset extends React.Component {
 					/>
 					<Box>
 						<Button
-							data-test="completePasswordReset-page__submit"
+							data-test="completeFirstTimeLogin-page__submit"
 							width="100%"
 							primary={true}
 							emphasized={true}
 							type="submit"
-							disabled={!password || passwordConfirmation !== password || completingPasswordReset}
+							disabled={!password || passwordConfirmation !== password || completingFirstTimeLogin}
 						>
-							{completingPasswordReset ? <Icon spin name="cog"/> : 'Reset password'}
+							{completingFirstTimeLogin ? <Icon spin name="cog"/> : 'Set password'}
 						</Button>
 					</Box>
 				</form>
@@ -128,4 +128,4 @@ class CompletePasswordReset extends React.Component {
 	}
 }
 
-export default CompletePasswordReset
+export default CompleteFirstTimeLogin
