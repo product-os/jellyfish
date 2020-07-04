@@ -65,11 +65,10 @@
       "$eval": "source.links['is attached to'][0].id"
     },
     "arguments": {
-      "reason": null,
       "payload": {
         "message": "[This thread is synced to Jellyfish](https://jel.ly.fish/${source.links['is attached to'][0].id})"
       },
-      "type": "whisper@1.0.0"
+      "type": "whisper"
     }
   },
   "requires": [],

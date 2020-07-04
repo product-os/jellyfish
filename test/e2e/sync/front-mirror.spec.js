@@ -209,7 +209,7 @@ ava.serial.before(async (test) => {
 			prefix: 'support-thread'
 		})
 
-		return test.context.executeThenWait(async () => {
+		const supportThread = await test.context.executeThenWait(async () => {
 			return test.context.sdk.card.create({
 				name: title,
 				slug,
@@ -227,6 +227,10 @@ ava.serial.before(async (test) => {
 				}
 			})
 		}, getMirrorWaitSchema(slug))
+
+		await test.context.waitForThreadSyncWhisper(supportThread.id)
+
+		return supportThread
 	}
 
 	const listResourceUntil = async (fn, id, predicate, retries = 10) => {
