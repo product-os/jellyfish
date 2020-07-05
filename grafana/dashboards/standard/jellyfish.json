@@ -1,3018 +1,5043 @@
 {
-  "annotations":{
-    "list":[
+  "annotations": {
+    "list": [
       {
-        "builtIn":1,
-        "datasource":"-- Grafana --",
-        "enable":true,
-        "hide":true,
-        "iconColor":"rgba(0, 211, 255, 1)",
-        "name":"Annotations & Alerts",
-        "type":"dashboard"
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
       }
     ]
   },
-  "editable":true,
-  "gnetId":null,
-  "graphTooltip":1,
-  "id":454494,
-  "iteration":1591758847901,
-  "links":[],
-  "panels":[
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 1,
+  "id": 454512,
+  "iteration": 1593744412975,
+  "links": [],
+  "panels": [
     {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":0
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
       },
-      "id":61,
-      "panels":[],
-      "title":"jsonschema2sql",
-      "type":"row"
+      "id": 61,
+      "panels": [],
+      "title": "SQL",
+      "type": "row"
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":8,
-        "w":12,
-        "x":0,
-        "y":1
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
       },
-      "hiddenSeries":false,
-      "id":74,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 0,
+        "y": 1
       },
-      "percentage":false,
-      "pointradius":2,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 74,
+      "interval": "",
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
         {
-          "expr":"avg (increase(jf_sql_gen_ms[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(increase(jf_sql_gen_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{le}}",
+          "refId": "B"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Avg Compilation Time (ms)",
-      "tooltip":{
-        "shared":true,
-        "sort":0,
-        "value_type":"individual"
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Compilation Time",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "tooltipDecimals": null,
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
       },
-      "yaxes":[
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 12,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 120,
+      "interval": "",
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "expr": "sum(increase(jf_query_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "intervalFactor": 1,
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Query Time",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "tooltipDecimals": null,
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 13
+      },
+      "id": 18,
+      "panels": [],
+      "title": "Cards",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 14
+      },
+      "hiddenSeries": false,
+      "id": 3,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum (increase(jf_card_insert_total[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Card Insert Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":8,
-        "w":12,
-        "x":12,
-        "y":1
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 14
       },
-      "hiddenSeries":false,
-      "id":78,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "hiddenSeries": false,
+      "id": 7,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "percentage":false,
-      "pointradius":2,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"max (increase(jf_sql_gen_ms[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum (increase(jf_card_upsert_total[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Max Compilation Time (ms)",
-      "tooltip":{
-        "shared":true,
-        "sort":0,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Card Upsert Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":8,
-        "w":12,
-        "x":0,
-        "y":9
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 22
       },
-      "hiddenSeries":false,
-      "id":76,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "hiddenSeries": false,
+      "id": 6,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "percentage":false,
-      "pointradius":2,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"avg (increase(jf_query_ms[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum (increase(jf_card_read_total[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Avg Query Time (ms)",
-      "tooltip":{
-        "shared":true,
-        "sort":0,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Card Read Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":8,
-        "w":12,
-        "x":12,
-        "y":9
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 30
       },
-      "hiddenSeries":false,
-      "id":80,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "id": 16,
+      "panels": [],
+      "title": "Mirrors",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 31
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "hiddenSeries": false,
+      "id": 5,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "percentage":false,
-      "pointradius":2,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"max (increase(jf_query_ms[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(increase(jf_mirror_total{type=~\"$integration_type\"}[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Max Query Time (ms)",
-      "tooltip":{
-        "shared":true,
-        "sort":0,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Mirror Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "decimals": 0,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":8,
-        "w":12,
-        "x":0,
-        "y":17
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
       },
-      "hiddenSeries":false,
-      "id":82,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 39
       },
-      "percentage":false,
-      "pointradius":2,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 10,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": "integration_type",
+      "repeatDirection": "h",
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "integration_type": {
+          "selected": false,
+          "text": "github",
+          "value": "github"
+        }
+      },
+      "targets": [
         {
-          "expr":"sum (increase(jf_compiler_mismatch_total[$__interval])) by (type)",
-          "interval":"1m",
-          "refId":"A"
+          "expr": "sum(increase(jf_mirror_duration_seconds_bucket{type=\"$integration_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Old/New Mismatches (count per min)",
-      "tooltip":{
-        "shared":true,
-        "sort":0,
-        "value_type":"individual"
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $integration_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
       },
-      "yaxes":[
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 39
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 272,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 10,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "integration_type": {
+          "selected": false,
+          "text": "front",
+          "value": "front"
+        }
+      },
+      "targets": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "expr": "sum(increase(jf_mirror_duration_seconds_bucket{type=\"$integration_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $integration_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 49
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 273,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 10,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "integration_type": {
+          "selected": false,
+          "text": "discourse",
+          "value": "discourse"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_mirror_duration_seconds_bucket{type=\"$integration_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $integration_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 49
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 274,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 10,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "integration_type": {
+          "selected": false,
+          "text": "outreach",
+          "value": "outreach"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_mirror_duration_seconds_bucket{type=\"$integration_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $integration_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 59
+      },
+      "id": 94,
+      "panels": [],
+      "title": "Translates",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "description": "",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 60
+      },
+      "hiddenSeries": false,
+      "id": 106,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": true,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_translate_total{type=~\"$translate_type\"}[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Translate Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "none",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":25
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
       },
-      "id":18,
-      "panels":[],
-      "title":"Cards",
-      "type":"row"
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 68
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 118,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": "translate_type",
+      "repeatDirection": "h",
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "translate_type": {
+          "selected": false,
+          "text": "discourse",
+          "value": "discourse"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_translate_duration_seconds_bucket{type=\"$translate_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $translate_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":26
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
       },
-      "hiddenSeries":false,
-      "id":3,
-      "legend":{
-        "alignAsTable":true,
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "hideZero":false,
-        "max":false,
-        "min":false,
-        "rightSide":true,
-        "show":true,
-        "total":false,
-        "values":false
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 68
       },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 275,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 118,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "translate_type": {
+          "selected": false,
+          "text": "github",
+          "value": "github"
+        }
+      },
+      "targets": [
         {
-          "expr":"sum (increase(jf_card_insert_total[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(increase(jf_translate_duration_seconds_bucket{type=\"$translate_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Card Insert (count per min)",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $translate_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
       },
-      "yaxes":[
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 78
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 276,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 118,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "translate_type": {
+          "selected": false,
+          "text": "front",
+          "value": "front"
+        }
+      },
+      "targets": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "expr": "sum(increase(jf_translate_duration_seconds_bucket{type=\"$translate_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $translate_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 78
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 277,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 118,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "translate_type": {
+          "selected": false,
+          "text": "balena-api",
+          "value": "balena-api"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_translate_duration_seconds_bucket{type=\"$translate_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Duration: $translate_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 88
+      },
+      "id": 14,
+      "panels": [],
+      "title": "Action Request Workers",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 89
+      },
+      "hiddenSeries": false,
+      "id": 9,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_action_request_total{type=~\"$action_request_type\"}[$__interval])) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Action Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":12,
-        "y":26
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 89
       },
-      "hiddenSeries":false,
-      "id":7,
-      "legend":{
-        "alignAsTable":true,
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "max":false,
-        "min":false,
-        "rightSide":true,
-        "show":true,
-        "total":false,
-        "values":false
+      "hiddenSeries": false,
+      "id": 8,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum (increase(jf_card_upsert_total[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(jf_worker_saturation{type=~\"$action_request_type\"}) by (type)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Card Upsert (count per min)",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Worker Queue Length",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "decimals":0,
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":32
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
       },
-      "hiddenSeries":false,
-      "id":6,
-      "legend":{
-        "alignAsTable":true,
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "max":false,
-        "min":false,
-        "rightSide":true,
-        "show":true,
-        "total":false,
-        "values":false
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 97
       },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 21,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": "action_request_type",
+      "repeatDirection": "h",
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-ping",
+          "value": "action-ping"
+        }
+      },
+      "targets": [
         {
-          "expr":"sum (increase(jf_card_read_total[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Card Read (count per min)",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
       },
-      "yaxes":[
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 97
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 278,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-create-card",
+          "value": "action-create-card"
+        }
+      },
+      "targets": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 107
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 279,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-oauth-associate",
+          "value": "action-oauth-associate"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 107
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 280,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-oauth-authorize",
+          "value": "action-oauth-authorize"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 117
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 281,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-create-event",
+          "value": "action-create-event"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 117
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 282,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-integration-import-event",
+          "value": "action-integration-import-event"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 0,
+        "y": 127
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 283,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-create-session",
+          "value": "action-create-session"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 12,
+        "x": 12,
+        "y": 127
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 284,
+      "legend": {
+        "show": false
+      },
+      "maxPerRow": 2,
+      "options": {},
+      "repeat": null,
+      "repeatDirection": "h",
+      "repeatIteration": 1593744412975,
+      "repeatPanelId": 21,
+      "reverseYBuckets": false,
+      "scopedVars": {
+        "action_request_type": {
+          "selected": false,
+          "text": "action-update-card",
+          "value": "action-update-card"
+        }
+      },
+      "targets": [
+        {
+          "expr": "sum(increase(jf_worker_job_duration_seconds_bucket{type=\"$action_request_type\"}[$__interval])) by (le)",
+          "format": "heatmap",
+          "instant": false,
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "A"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Average Duration: $action_request_type",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 137
+      },
+      "id": 34,
+      "panels": [],
+      "title": "Socket.IO",
+      "type": "row"
+    },
+    {
+      "aliasColors": {
+        "closed": "dark-orange",
+        "opened": "dark-green"
+      },
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 138
+      },
+      "hiddenSeries": false,
+      "id": 45,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(socket_io_connect_total{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "opened",
+          "refId": "A"
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "expr": "sum(increase(socket_io_disconnect_total{app=\"jellyfish\"}[$__interval]))",
+          "hide": false,
+          "interval": "1m",
+          "legendFormat": "closed",
+          "refId": "B"
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Connections Opened",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":38
+      "aliasColors": {
+        "connected": "dark-green"
       },
-      "id":16,
-      "panels":[],
-      "title":"Mirrors",
-      "type":"row"
-    },
-    {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "description":"",
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":39
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 138
       },
-      "hiddenSeries":false,
-      "id":5,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "hideZero":true,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
+      "hiddenSeries": false,
+      "id": 32,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(jf_mirror_total{type=~\"$integration_type\"}[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
+          "expr": "sum(socket_io_connected{app=\"jellyfish\"})",
+          "interval": "1m",
+          "legendFormat": "connected",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Mirror Calls",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Connected (instantaneous at scrape)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "decimals":0,
-          "format":"none",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
+      "aliasColors": {
+        "errors": "dark-red",
+        "received": "dark-purple",
+        "sent": "dark-blue"
       },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 144
       },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":39
+      "hiddenSeries": false,
+      "id": 48,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":119,
-      "legend":{
-        "show":false
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":10,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "integration_type":{
-          "selected":false,
-          "text":"discourse",
-          "value":"discourse"
-        }
-      },
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [
         {
-          "expr":"sum(increase(jf_mirror_duration_ms_bucket{type=\"$integration_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
+          "alias": "errors",
+          "yaxis": 1
         }
       ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$integration_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":45
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":10,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":"integration_type",
-      "repeatDirection":"h",
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "integration_type":{
-          "selected":false,
-          "text":"front",
-          "value":"front"
-        }
-      },
-      "targets":[
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(jf_mirror_duration_ms_bucket{type=\"$integration_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$integration_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":46
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":121,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":10,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "integration_type":{
-          "selected":false,
-          "text":"github",
-          "value":"github"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_mirror_duration_ms_bucket{type=\"$integration_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$integration_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":52
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":120,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":10,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "integration_type":{
-          "selected":false,
-          "text":"outreach",
-          "value":"outreach"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_mirror_duration_ms_bucket{type=\"$integration_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$integration_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":59
-      },
-      "id":94,
-      "panels":[],
-      "title":"Translates",
-      "type":"row"
-    },
-    {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "description":"",
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":60
-      },
-      "hiddenSeries":false,
-      "id":106,
-      "legend":{
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "hideZero":true,
-        "max":false,
-        "min":false,
-        "show":true,
-        "total":false,
-        "values":false
-      },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
-        {
-          "expr":"sum(increase(jf_translate_total{type=~\"$translate_type\"}[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
-        }
-      ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Translate Calls",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
-      },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
-      },
-      "yaxes":[
-        {
-          "decimals":0,
-          "format":"none",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "expr": "sum(increase(socket_io_events_received_total{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "received",
+          "refId": "A"
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "expr": "sum(increase(socket_io_events_sent_total{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "sent",
+          "refId": "B"
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Events",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
+      "aliasColors": {
+        "errors": "dark-red"
       },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 144
       },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":60
+      "hiddenSeries": false,
+      "id": 46,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":122,
-      "legend":{
-        "show":false
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":118,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "translate_type":{
-          "selected":false,
-          "text":"balena-api",
-          "value":"balena-api"
-        }
-      },
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(jf_translate_duration_ms_bucket{type=\"$translate_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
+          "expr": "sum(increase(socket_io_errors_total{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "errors",
+          "refId": "A"
         }
       ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$translate_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Errors",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":66
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":118,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":"translate_type",
-      "repeatDirection":"h",
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "translate_type":{
-          "selected":false,
-          "text":"github",
-          "value":"github"
-        }
-      },
-      "targets":[
+      "yaxes": [
         {
-          "expr":"sum(increase(jf_translate_duration_ms_bucket{type=\"$translate_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$translate_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":67
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":124,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":118,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "translate_type":{
-          "selected":false,
-          "text":"discourse",
-          "value":"discourse"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_translate_duration_ms_bucket{type=\"$translate_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$translate_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":73
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":123,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":118,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "translate_type":{
-          "selected":false,
-          "text":"front",
-          "value":"front"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_translate_duration_ms_bucket{type=\"$translate_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$translate_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":80
-      },
-      "id":14,
-      "panels":[],
-      "title":"Action Request Workers",
-      "type":"row"
-    },
-    {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":81
-      },
-      "hiddenSeries":false,
-      "id":9,
-      "legend":{
-        "alignAsTable":true,
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "max":false,
-        "min":false,
-        "rightSide":true,
-        "show":true,
-        "total":false,
-        "values":false
-      },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_action_request_total{type=~\"$action_request_type\"}[$__interval])) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
-        }
-      ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Action Requests",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
-      },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
-      },
-      "yaxes":[
-        {
-          "decimals":0,
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{},
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":12,
-        "y":81
+      "aliasColors": {
+        "RX": "dark-purple",
+        "TX": "dark-blue"
       },
-      "hiddenSeries":false,
-      "id":8,
-      "legend":{
-        "alignAsTable":true,
-        "avg":false,
-        "current":false,
-        "hideEmpty":true,
-        "hideZero":false,
-        "max":false,
-        "min":false,
-        "rightSide":true,
-        "show":true,
-        "total":false,
-        "values":false
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 150
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
+      "hiddenSeries": false,
+      "id": 47,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": true,
+        "max": true,
+        "min": true,
+        "rightSide": true,
+        "show": true,
+        "sort": "avg",
+        "sortDesc": true,
+        "total": false,
+        "values": true
       },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(jf_worker_saturation{type=~\"$action_request_type\"}) by (type)",
-          "interval":"1m",
-          "legendFormat":"{{type}}",
-          "refId":"A"
-        }
-      ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Worker Queue Length",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
-      },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
-      },
-      "yaxes":[
-        {
-          "decimals":0,
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "expr": "sum(increase(socket_io_transmit_bytes{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "TX",
+          "refId": "A"
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "expr": "-sum(increase(socket_io_recieve_bytes{app=\"jellyfish\"}[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "RX",
+          "refId": "B"
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "TX/RX",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "bytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 156
       },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
+      "id": 135,
+      "panels": [],
+      "title": "Streams",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 157
       },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":87
+      "hiddenSeries": false,
+      "id": 150,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":21,
-      "legend":{
-        "show":false
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":"action_request_type",
-      "repeatDirection":"h",
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-create-card",
-          "value":"action-create-card"
-        }
-      },
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
+          "expr": "sum by(actor) (jf_streams_saturation)",
+          "interval": "1m",
+          "legendFormat": "{{actor}}",
+          "refId": "A"
         }
       ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Saturation (by actor)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":87
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":125,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-ping",
-          "value":"action-ping"
-        }
-      },
-      "targets":[
+      "yaxes": [
         {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":94
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":126,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-create-event",
-          "value":"action-create-event"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":94
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":127,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-update-card",
-          "value":"action-update-card"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":101
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":128,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-oauth-authorize",
-          "value":"action-oauth-authorize"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":101
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":129,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-oauth-associate",
-          "value":"action-oauth-associate"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":0,
-        "y":108
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":130,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-integration-import-event",
-          "value":"action-integration-import-event"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "cards":{
-        "cardPadding":null,
-        "cardRound":null
-      },
-      "color":{
-        "cardColor":"#b4ff00",
-        "colorScale":"sqrt",
-        "colorScheme":"interpolateOranges",
-        "exponent":0.9,
-        "mode":"opacity"
-      },
-      "dataFormat":"timeseries",
-      "datasource":null,
-      "gridPos":{
-        "h":7,
-        "w":12,
-        "x":12,
-        "y":108
-      },
-      "heatmap":{},
-      "hideZeroBuckets":true,
-      "highlightCards":true,
-      "id":131,
-      "legend":{
-        "show":false
-      },
-      "maxPerRow":2,
-      "options":{},
-      "repeat":null,
-      "repeatDirection":"h",
-      "repeatIteration":1591758847901,
-      "repeatPanelId":21,
-      "reverseYBuckets":false,
-      "scopedVars":{
-        "action_request_type":{
-          "selected":false,
-          "text":"action-create-session",
-          "value":"action-create-session"
-        }
-      },
-      "targets":[
-        {
-          "expr":"sum(increase(jf_worker_job_duration_ms_bucket{type=\"$action_request_type\"}[$__interval]))",
-          "format":"heatmap",
-          "instant":false,
-          "interval":"1m",
-          "legendFormat":"",
-          "refId":"A"
-        }
-      ],
-      "timeFrom":null,
-      "timeShift":null,
-      "title":"$action_request_type Duration (ms avg)",
-      "tooltip":{
-        "show":true,
-        "showHistogram":true
-      },
-      "type":"heatmap",
-      "xAxis":{
-        "show":true
-      },
-      "xBucketNumber":null,
-      "xBucketSize":null,
-      "yAxis":{
-        "decimals":null,
-        "format":"ms",
-        "logBase":1,
-        "max":null,
-        "min":null,
-        "show":true,
-        "splitFactor":null
-      },
-      "yBucketBound":"auto",
-      "yBucketNumber":null,
-      "yBucketSize":null
-    },
-    {
-      "collapsed":false,
-      "datasource":null,
-      "gridPos":{
-        "h":1,
-        "w":24,
-        "x":0,
-        "y":115
-      },
-      "id":34,
-      "panels":[],
-      "title":"Socket.IO",
-      "type":"row"
-    },
-    {
-      "aliasColors":{
-        "closed":"dark-orange",
-        "opened":"dark-green"
-      },
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":116
-      },
-      "hiddenSeries":false,
-      "id":45,
-      "legend":{
-        "alignAsTable":true,
-        "avg":true,
-        "current":false,
-        "hideEmpty":true,
-        "max":true,
-        "min":true,
-        "rightSide":true,
-        "show":true,
-        "sort":"avg",
-        "sortDesc":true,
-        "total":false,
-        "values":true
-      },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
-        {
-          "expr":"sum(increase(socket_io_connect_total{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"opened",
-          "refId":"A"
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "expr":"sum(increase(socket_io_disconnect_total{app=\"jellyfish\"}[$__interval]))",
-          "hide":false,
-          "interval":"1m",
-          "legendFormat":"closed",
-          "refId":"B"
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Connections Opened",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
-      },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
-      },
-      "yaxes":[
-        {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
-        },
-        {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
-        }
-      ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{
-        "connected":"dark-green"
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 157
       },
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":12,
-        "y":116
+      "hiddenSeries": false,
+      "id": 152,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "hiddenSeries":false,
-      "id":32,
-      "legend":{
-        "alignAsTable":true,
-        "avg":true,
-        "current":false,
-        "hideEmpty":true,
-        "max":true,
-        "min":true,
-        "rightSide":true,
-        "show":true,
-        "sort":"avg",
-        "sortDesc":true,
-        "total":false,
-        "values":true
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(socket_io_connected{app=\"jellyfish\"})",
-          "interval":"1m",
-          "legendFormat":"connected",
-          "refId":"A"
+          "expr": "sum by(table) (jf_streams_saturation)",
+          "interval": "1m",
+          "legendFormat": "{{table}}",
+          "refId": "B"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Connected (instantaneous at scrape)",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Saturation (by table)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{
-        "errors":"dark-red",
-        "received":"dark-purple",
-        "sent":"dark-blue"
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 163
       },
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":122
+      "hiddenSeries": false,
+      "id": 154,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "hiddenSeries":false,
-      "id":48,
-      "legend":{
-        "alignAsTable":true,
-        "avg":true,
-        "current":false,
-        "hideEmpty":true,
-        "max":true,
-        "min":true,
-        "rightSide":true,
-        "show":true,
-        "sort":"avg",
-        "sortDesc":true,
-        "total":false,
-        "values":true
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "alias":"errors",
-          "yaxis":1
+          "expr": "sum by(actor) (jf_streams_link_query_total)",
+          "hide": false,
+          "interval": "1m",
+          "legendFormat": "{{actor}}",
+          "refId": "A"
         }
       ],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Link Query Total (by actor)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
         {
-          "expr":"sum(increase(socket_io_events_received_total{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"received",
-          "refId":"A"
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "expr":"sum(increase(socket_io_events_sent_total{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"sent",
-          "refId":"B"
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Events",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
-      },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
-      },
-      "yaxes":[
-        {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
-        },
-        {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
-        }
-      ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{
-        "errors":"dark-red"
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 163
       },
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":12,
-        "y":122
+      "hiddenSeries": false,
+      "id": 156,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "hiddenSeries":false,
-      "id":46,
-      "legend":{
-        "alignAsTable":true,
-        "avg":true,
-        "current":false,
-        "hideEmpty":true,
-        "max":true,
-        "min":true,
-        "rightSide":true,
-        "show":true,
-        "sort":"avg",
-        "sortDesc":true,
-        "total":false,
-        "values":true
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":true,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(socket_io_errors_total{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"errors",
-          "refId":"A"
+          "expr": "sum by(type) (jf_streams_link_query_total)",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "B"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"Errors",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Link Query Total (by change type)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":"0",
-          "show":true
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"short",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
     },
     {
-      "aliasColors":{
-        "RX":"dark-purple",
-        "TX":"dark-blue"
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 169
       },
-      "bars":false,
-      "dashLength":10,
-      "dashes":false,
-      "datasource":null,
-      "fill":1,
-      "fillGradient":0,
-      "gridPos":{
-        "h":6,
-        "w":12,
-        "x":0,
-        "y":128
+      "hiddenSeries": false,
+      "id": 158,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
       },
-      "hiddenSeries":false,
-      "id":47,
-      "legend":{
-        "alignAsTable":true,
-        "avg":true,
-        "current":false,
-        "hideEmpty":true,
-        "max":true,
-        "min":true,
-        "rightSide":true,
-        "show":true,
-        "sort":"avg",
-        "sortDesc":true,
-        "total":false,
-        "values":true
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
       },
-      "lines":true,
-      "linewidth":1,
-      "nullPointMode":"null",
-      "options":{
-        "dataLinks":[]
-      },
-      "percentage":false,
-      "pointradius":0.5,
-      "points":false,
-      "renderer":"flot",
-      "seriesOverrides":[],
-      "spaceLength":10,
-      "stack":false,
-      "steppedLine":false,
-      "targets":[
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
         {
-          "expr":"sum(increase(socket_io_transmit_bytes{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"TX",
-          "refId":"A"
-        },
-        {
-          "expr":"-sum(increase(socket_io_recieve_bytes{app=\"jellyfish\"}[$__interval]))",
-          "interval":"1m",
-          "legendFormat":"RX",
-          "refId":"B"
+          "expr": "sum by(card) (jf_streams_link_query_total)",
+          "interval": "1m",
+          "legendFormat": "{{card}}",
+          "refId": "A"
         }
       ],
-      "thresholds":[],
-      "timeFrom":null,
-      "timeRegions":[],
-      "timeShift":null,
-      "title":"TX/RX",
-      "tooltip":{
-        "shared":true,
-        "sort":2,
-        "value_type":"individual"
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Link Query Total (by card type)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
       },
-      "type":"graph",
-      "xaxis":{
-        "buckets":null,
-        "mode":"time",
-        "name":null,
-        "show":true,
-        "values":[]
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
       },
-      "yaxes":[
+      "yaxes": [
         {
-          "format":"bytes",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":true
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
         },
         {
-          "format":"bytes",
-          "label":null,
-          "logBase":1,
-          "max":null,
-          "min":null,
-          "show":false
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
         }
       ],
-      "yaxis":{
-        "align":false,
-        "alignLevel":null
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
       }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 169
+      },
+      "hiddenSeries": false,
+      "id": 160,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by(table) (jf_streams_link_query_total)",
+          "interval": "1m",
+          "legendFormat": "{{table}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Link Query Total (by table)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "decimals": 0,
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 175
+      },
+      "hiddenSeries": false,
+      "id": 162,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by(actor) (jf_streams_error_total)",
+          "interval": "1m",
+          "legendFormat": "{{actor}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Errors (by actor)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 175
+      },
+      "hiddenSeries": false,
+      "id": 164,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum by(table) (jf_streams_error_total)",
+          "interval": "1m",
+          "legendFormat": "{{table}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Stream Errors (by table)",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 181
+      },
+      "id": 166,
+      "panels": [],
+      "title": "/query Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 182
+      },
+      "hiddenSeries": false,
+      "id": 181,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_query_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 182
+      },
+      "hiddenSeries": false,
+      "id": 183,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_query_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 188
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 185,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_query_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 198
+      },
+      "id": 187,
+      "panels": [],
+      "title": "/action Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 199
+      },
+      "hiddenSeries": false,
+      "id": 202,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_action_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 199
+      },
+      "hiddenSeries": false,
+      "id": 204,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_action_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 205
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 206,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_action_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": 1,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 215
+      },
+      "id": 208,
+      "panels": [],
+      "title": "/slug Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 216
+      },
+      "hiddenSeries": false,
+      "id": 223,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_slug_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 216
+      },
+      "hiddenSeries": false,
+      "id": 225,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_slug_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 222
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 227,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_slug_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 232
+      },
+      "id": 229,
+      "panels": [],
+      "title": "/id Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 233
+      },
+      "hiddenSeries": false,
+      "id": 244,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_id_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 233
+      },
+      "hiddenSeries": false,
+      "id": 246,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_id_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 239
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 248,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_id_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 249
+      },
+      "id": 250,
+      "panels": [],
+      "title": "/type Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 250
+      },
+      "hiddenSeries": false,
+      "id": 265,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_type_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 250
+      },
+      "hiddenSeries": false,
+      "id": 267,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_type_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 256
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 269,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_api_type_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 266
+      },
+      "id": 271,
+      "panels": [],
+      "title": "/whoami Requests",
+      "type": "row"
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 267
+      },
+      "hiddenSeries": false,
+      "id": 286,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_whoami_query_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Request Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 267
+      },
+      "hiddenSeries": false,
+      "id": 288,
+      "legend": {
+        "alignAsTable": true,
+        "avg": false,
+        "current": false,
+        "hideEmpty": true,
+        "hideZero": false,
+        "max": false,
+        "min": false,
+        "rightSide": true,
+        "show": false,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 0.5,
+      "points": true,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_whoami_query_failure_total[$__interval]))",
+          "interval": "1m",
+          "legendFormat": "{{type}}",
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Failure Count",
+      "tooltip": {
+        "shared": true,
+        "sort": 2,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": "0",
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "cards": {
+        "cardPadding": null,
+        "cardRound": null
+      },
+      "color": {
+        "cardColor": "#73BF69",
+        "colorScale": "sqrt",
+        "colorScheme": "interpolateOranges",
+        "exponent": 0.2,
+        "mode": "opacity"
+      },
+      "dataFormat": "tsbuckets",
+      "datasource": null,
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 273
+      },
+      "heatmap": {},
+      "hideZeroBuckets": true,
+      "highlightCards": true,
+      "id": 290,
+      "legend": {
+        "show": false
+      },
+      "options": {},
+      "reverseYBuckets": false,
+      "targets": [
+        {
+          "expr": "sum(increase(jf_http_whoami_query_duration_seconds_bucket[$__interval])) by (le)",
+          "format": "heatmap",
+          "interval": "1m",
+          "legendFormat": "{{le}}",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Request Duration",
+      "tooltip": {
+        "show": true,
+        "showHistogram": false
+      },
+      "type": "heatmap",
+      "xAxis": {
+        "show": true
+      },
+      "xBucketNumber": null,
+      "xBucketSize": null,
+      "yAxis": {
+        "decimals": null,
+        "format": "s",
+        "logBase": 1,
+        "max": null,
+        "min": null,
+        "show": true,
+        "splitFactor": null
+      },
+      "yBucketBound": "auto",
+      "yBucketNumber": null,
+      "yBucketSize": null
     }
   ],
-  "refresh":"1m",
-  "schemaVersion":22,
-  "style":"dark",
-  "tags":[
-    "standard"
-  ],
-  "templating":{
-    "list":[
+  "refresh": "1m",
+  "schemaVersion": 22,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": [
       {
-        "allValue":null,
-        "current":{
-          "text":"All",
-          "value":[
+        "allValue": null,
+        "current": {
+          "text": "All",
+          "value": [
             "$__all"
           ]
         },
-        "datasource":"prometheus",
-        "definition":"label_values(jf_mirror_total, type)",
-        "hide":0,
-        "includeAll":true,
-        "label":null,
-        "multi":true,
-        "name":"integration_type",
-        "options":[],
-        "query":"label_values(jf_mirror_total, type)",
-        "refresh":2,
-        "regex":"",
-        "skipUrlSync":false,
-        "sort":0,
-        "tagValuesQuery":"",
-        "tags":[],
-        "tagsQuery":"",
-        "type":"query",
-        "useTags":false
+        "datasource": "prometheus",
+        "definition": "label_values(jf_mirror_total, type)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": null,
+        "multi": true,
+        "name": "integration_type",
+        "options": [],
+        "query": "label_values(jf_mirror_total, type)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       },
       {
-        "allValue":null,
-        "current":{
-          "text":"All",
-          "value":[
+        "allValue": null,
+        "current": {
+          "text": "All",
+          "value": [
             "$__all"
           ]
         },
-        "datasource":"prometheus",
-        "definition":"label_values(jf_worker_action_request_total, type)",
-        "hide":0,
-        "includeAll":true,
-        "label":null,
-        "multi":true,
-        "name":"action_request_type",
-        "options":[],
-        "query":"label_values(jf_worker_action_request_total, type)",
-        "refresh":2,
-        "regex":"",
-        "skipUrlSync":false,
-        "sort":0,
-        "tagValuesQuery":"",
-        "tags":[],
-        "tagsQuery":"",
-        "type":"query",
-        "useTags":false
+        "datasource": "prometheus",
+        "definition": "label_values(jf_worker_action_request_total, type)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": null,
+        "multi": true,
+        "name": "action_request_type",
+        "options": [],
+        "query": "label_values(jf_worker_action_request_total, type)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       },
       {
-        "allValue":null,
-        "current":{
-          "text":"All",
-          "value":[
+        "allValue": null,
+        "current": {
+          "text": "All",
+          "value": [
             "$__all"
           ]
         },
-        "datasource":"prometheus",
-        "definition":"label_values(jf_translate_total, type)",
-        "hide":0,
-        "includeAll":true,
-        "label":null,
-        "multi":true,
-        "name":"translate_type",
-        "options":[],
-        "query":"label_values(jf_translate_total, type)",
-        "refresh":2,
-        "regex":"",
-        "skipUrlSync":false,
-        "sort":0,
-        "tagValuesQuery":"",
-        "tags":[],
-        "tagsQuery":"",
-        "type":"query",
-        "useTags":false
+        "datasource": "prometheus",
+        "definition": "label_values(jf_translate_total, type)",
+        "hide": 0,
+        "includeAll": true,
+        "index": -1,
+        "label": null,
+        "multi": true,
+        "name": "translate_type",
+        "options": [],
+        "query": "label_values(jf_translate_total, type)",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
       }
     ]
   },
-  "time":{
-    "from":"now-1h",
-    "to":"now"
+  "time": {
+    "from": "now-1h",
+    "to": "now"
   },
-  "timepicker":{
-    "refresh_intervals":[
+  "timepicker": {
+    "refresh_intervals": [
       "5s",
       "10s",
       "30s",
@@ -3025,8 +5050,8 @@
       "1d"
     ]
   },
-  "timezone":"utc",
-  "title":"Jellyfish",
-  "uid":"jellyfish",
-  "version":7
+  "timezone": "utc",
+  "title": "Jellyfish (Test)",
+  "uid": "w3y8wAmGk1",
+  "version": 12
 }
