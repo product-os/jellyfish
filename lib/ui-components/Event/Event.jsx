@@ -235,6 +235,10 @@ export default class Event extends React.Component {
 					element.className += ' rendition-tag--personal'
 				}
 
+				if (text.charAt(0) === '!') {
+					element.className += ' rendition-tag--alert'
+				}
+
 				if (!readBy.length) {
 					return
 				}

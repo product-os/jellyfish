@@ -55,8 +55,33 @@ const EventWrapper = styled(Flex) `
 		border-color: inherit;
 	}
 	.rendition-tag--personal {
-		background: #FFF1C2;
-		border-color: #FFC19B;
+		background: ${(props) => { return props.theme.colors.warning.light }};
+		border-color: ${(props) => { return props.theme.colors.warning.main }};
+		color: ${(props) => { return props.theme.colors.warning.dark }};
+
+		&.rendition-tag--alert {
+			background: ${(props) => { return props.theme.colors.danger.light }};
+			border-color: ${(props) => { return props.theme.colors.danger.main }};
+			color: ${(props) => { return props.theme.colors.danger.dark }};
+
+			&.rendition-tag--read:after,
+			&.rendition-tag--read-by:after {
+				background: ${(props) => { return props.theme.colors.danger.main }};
+				color: ${(props) => { return props.theme.colors.danger.light }};
+			}
+		}
+		&.rendition-tag--read:after,
+		&.rendition-tag--read-by:after {
+			background: ${(props) => { return props.theme.colors.warning.main }};
+			color: ${(props) => { return props.theme.colors.warning.light }};
+			width: 1.5em;
+			height: 1.5em;
+			border-radius: 50%;
+			line-height: 1.5em;
+			vertical-align: middle;
+			text-align: center;
+			font-size: 8px;
+		}
 	}
 	.rendition-tag--read:after {
 		content: '✔';
