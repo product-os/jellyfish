@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update uuid imports for v8.x.x
+      hash: 4dd618e05929ff8b69c6e9b16e44deb7fe51975a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'patch: bump uuid from 3.3.3 to 8.2.0'
+      hash: 8beddbf72f27a1c6ede5bde36fdda391db58b98b
+      body: |
+        Bumps [uuid](https://github.com/uuidjs/uuid) from 3.3.3 to 8.2.0.
+        - [Release notes](https://github.com/uuidjs/uuid/releases)
+        - [Changelog](https://github.com/uuidjs/uuid/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/uuidjs/uuid/compare/v3.3.3...v8.2.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.68.30
+  date: 2020-07-05T11:29:17.363Z
+- commits:
     - subject: 'patch: bump eslint-plugin-react from 7.20.2 to 7.20.3'
       hash: 6f496c89b0b21e218bbe9974544d6e912a49f5ef
       body: >
