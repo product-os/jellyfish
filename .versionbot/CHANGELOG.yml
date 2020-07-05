@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump @balena/node-metrics-gatherer from 5.7.1 to 5.7.2'
+      hash: 746464e2390c970157081e593d7db720136c3b4f
+      body: >
+        Bumps
+        [@balena/node-metrics-gatherer](https://github.com/balena-io-modules/node-metrics-gatherer)
+        from 5.7.1 to 5.7.2.
+
+        - [Release
+        notes](https://github.com/balena-io-modules/node-metrics-gatherer/releases)
+
+        -
+        [Changelog](https://github.com/balena-io-modules/node-metrics-gatherer/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/balena-io-modules/node-metrics-gatherer/compare/v5.7.1...v5.7.2)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.68.19
+  date: 2020-07-05T00:53:14.553Z
+- commits:
     - subject: 'backend: Convert metric durations from milliseconds to seconds'
       hash: 6fd2670e1b34cd94261a95100fa0da938c8f2a30
       body: ''
