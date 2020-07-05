@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'backend: Convert metric durations from milliseconds to seconds'
+      hash: 6fd2670e1b34cd94261a95100fa0da938c8f2a30
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'backend: Update metrics descriptions from ms to seconds'
+      hash: bd8b24652e578fde2dda806a9e60c2b1f367e0ba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.68.18
+  date: 2020-07-05T00:15:52.676Z
+- commits:
     - subject: 'jsonschema2sql: only select what the original query is asking'
       hash: 72dd1d71a799ca3b5c47c8a9cd6f50ad7247e7e2
       body: ''
