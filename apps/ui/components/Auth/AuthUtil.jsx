@@ -7,21 +7,26 @@
 import React from 'react'
 import styled from 'styled-components'
 import {
-	Flex, Heading, Input, Button, Img
+	Flex, Heading, Input, Button, Img, Card
 } from 'rendition'
 import Link from '../../../../lib/ui-components/Link'
+import {
+	px
+} from '../../../../lib/ui-components/services/helpers'
+
+const StyledCard = styled(Card) `
+	@media (max-width: ${(props) => { return px(props.theme.breakpoints[0]) }}) {
+		border: none;
+		border-radius: 0;
+		flex: 1;
+	}
+`
 
 const Label = styled.label `
 	font-size: 1;
 `
 const Form = styled.form `
 	align-self: stretch;
-`
-
-const FlexCard = styled(Flex) `
-	background: white;
-	border-radius: 2px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `
 
 const HeadingFlex = styled(Flex) `
@@ -33,21 +38,21 @@ export const AuthCard = ({
 	...props
 }) => {
 	return (
-		<FlexCard
-			p={4}
-			flex={[ '1 auto', '0 auto' ]}
-			width={[ '100%', '470px' ]}
-			flexDirection="column"
-			alignItems="center"
-			{...props}
-		>
-			<Img
-				width="70px"
-				height="70px"
-				src="/icons/jellyfish-icon.svg"
-			/>
-			{children}
-		</FlexCard>
+		<StyledCard width={[ '100%', '470px' ]} p={4}>
+			<Flex
+				flex={[ '1 auto', '0 auto' ]}
+				flexDirection="column"
+				alignItems="center"
+				{...props}
+			>
+				<Img
+					width="70px"
+					height="70px"
+					src="/icons/jellyfish-icon.svg"
+				/>
+				{children}
+			</Flex>
+		</StyledCard>
 	)
 }
 
