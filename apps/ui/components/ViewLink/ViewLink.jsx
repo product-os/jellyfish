@@ -90,6 +90,7 @@ export default class ViewLink extends React.Component {
 
 	render () {
 		const {
+			label,
 			isHomeView,
 			activeSlice,
 			card,
@@ -118,7 +119,7 @@ export default class ViewLink extends React.Component {
 						to={`/${card.slug || card.id}`}
 					>
 						<Flex justifyContent="space-between" alignItems="center">
-							{card.name}
+							{label || card.name}
 							{isHomeView && (
 								<Box fontSize="80%" color="gray.dark" mx={2} tooltip="Default view">
 									<Icon name="home" />
