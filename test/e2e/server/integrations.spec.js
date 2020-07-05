@@ -7,7 +7,9 @@
 const ava = require('ava')
 const crypto = require('crypto')
 const jose = require('node-jose')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const randomstring = require('randomstring')
 const jws = require('jsonwebtoken')
 const _ = require('lodash')

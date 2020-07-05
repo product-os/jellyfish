@@ -7,7 +7,9 @@
 const ava = require('ava')
 const sinon = require('sinon')
 const google = require('googleapis').google
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 

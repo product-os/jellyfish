@@ -7,7 +7,9 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
 const environment = require('../../../lib/environment')

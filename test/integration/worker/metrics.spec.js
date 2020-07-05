@@ -9,7 +9,9 @@ const Bluebird = require('bluebird')
 const environment = require('../../../lib/environment')
 const request = require('request')
 const actionServer = require('../../../apps/action-server/bootstrap')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 
 ava.serial.before(async (test) => {
 	test.context.actionWorker = await actionServer.worker({

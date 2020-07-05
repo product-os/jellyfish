@@ -4,7 +4,9 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const Bluebird = require('bluebird')
 const request = require('request')
 const _ = require('lodash')

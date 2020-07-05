@@ -6,7 +6,9 @@
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
 const environment = require('../../../lib/environment')

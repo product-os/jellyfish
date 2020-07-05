@@ -7,7 +7,9 @@
 const ava = require('ava')
 const md5 = require('blueimp-md5')
 const nock = require('nock')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const helpers = require('../sdk/helpers')
 
 ava.serial.before(helpers.before)

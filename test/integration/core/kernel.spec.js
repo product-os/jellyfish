@@ -7,7 +7,9 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')

@@ -5,7 +5,11 @@
  */
 
 const ava = require('ava')
-const uuid = require('uuid/v4')
+
+// Const { v4: uuid } = require('uuid')
+const {
+	v4: uuid
+} = require('uuid')
 const environment = require('../../../lib/environment')
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT

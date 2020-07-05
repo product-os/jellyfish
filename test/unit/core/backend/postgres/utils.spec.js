@@ -6,7 +6,9 @@
 
 const ava = require('ava')
 const utils = require('../../../../../lib/core/backend/postgres/utils')
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 
 ava.before((test) => {
 	test.context.context = {

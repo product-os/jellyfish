@@ -4,7 +4,9 @@
  * Proprietary and confidential.
  */
 
-const uuid = require('uuid/v4')
+const {
+	v4: uuid
+} = require('uuid')
 const Backend = require('../../../../lib/core/backend')
 const environment = require('../../../../lib/environment')
 const Cache = require('../../../../lib/core/cache')
