@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'patch: bump copy-webpack-plugin from 6.0.2 to 6.0.3'
+      hash: c4eddc49e2b0e3a10304fa962af0859a16c573a8
+      body: >
+        Bumps
+        [copy-webpack-plugin](https://github.com/webpack-contrib/copy-webpack-plugin)
+        from 6.0.2 to 6.0.3.
+
+        - [Release
+        notes](https://github.com/webpack-contrib/copy-webpack-plugin/releases)
+
+        -
+        [Changelog](https://github.com/webpack-contrib/copy-webpack-plugin/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/webpack-contrib/copy-webpack-plugin/compare/v6.0.2...v6.0.3)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.68.27
+  date: 2020-07-05T08:45:13.562Z
+- commits:
     - subject: 'patch: bump @babel/cli from 7.10.3 to 7.10.4'
       hash: b3f58487d8beb08f5715c16658d0209eb991694c
       body: >
