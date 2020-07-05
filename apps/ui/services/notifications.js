@@ -34,6 +34,7 @@ export const registerForNotifications = () => {
 }
 
 export const createNotification = ({
+	tag,
 	historyPush,
 	title,
 	body,
@@ -44,6 +45,7 @@ export const createNotification = ({
 	}
 
 	const notice = new Notification(title, {
+		tag,
 		body,
 		icon: '/icons/jellyfish.png'
 	})
