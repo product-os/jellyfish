@@ -1,4 +1,30 @@
 - commits:
+    - subject: Update jellyfish-test and jellyfish-sidecar images to v1.3.13
+      hash: ac46d11651e92270736986dc760922c34d2e9b83
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump puppeteer from 4.0.1 to 5.0.0'
+      hash: 2d6677f24ac0d4094e532bc93f226b50e744d128
+      body: >
+        Bumps [puppeteer](https://github.com/puppeteer/puppeteer) from 4.0.1 to
+        5.0.0.
+
+        - [Release notes](https://github.com/puppeteer/puppeteer/releases)
+
+        -
+        [Commits](https://github.com/puppeteer/puppeteer/compare/v4.0.1...v5.0.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.68.20
+  date: 2020-07-05T01:53:45.202Z
+- commits:
     - subject: 'patch: bump @balena/node-metrics-gatherer from 5.7.1 to 5.7.2'
       hash: 746464e2390c970157081e593d7db720136c3b4f
       body: >
