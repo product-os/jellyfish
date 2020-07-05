@@ -823,6 +823,7 @@ export default class ActionCreator {
 							if (
 								update.type === 'insert' &&
 								(baseType === 'message' || baseType === 'whisper') &&
+								_.get(card, [ 'data', 'actor' ]) !== user.id &&
 								mentionsUser(card, user, groupsState) &&
 								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
 							) {
