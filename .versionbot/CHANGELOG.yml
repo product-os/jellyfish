@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump bcrypt from 4.0.1 to 5.0.0'
+      hash: 304f7365b9bbb207e6eb73d689df829147a56891
+      body: >
+        Bumps [bcrypt](https://github.com/kelektiv/node.bcrypt.js) from 4.0.1 to
+        5.0.0.
+
+        - [Release notes](https://github.com/kelektiv/node.bcrypt.js/releases)
+
+        -
+        [Changelog](https://github.com/kelektiv/node.bcrypt.js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/kelektiv/node.bcrypt.js/compare/v4.0.1...v5.0.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.68.32
+  date: 2020-07-05T15:29:43.309Z
+- commits:
     - subject: 'patch: bump @babel/preset-react from 7.10.1 to 7.10.4'
       hash: dad8ed12fa7df31088f5fc4d65a6e41945573167
       body: >
