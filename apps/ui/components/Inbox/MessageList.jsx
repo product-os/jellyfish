@@ -16,6 +16,7 @@ import {
 	bindActionCreators,
 	compose
 } from 'redux'
+import styled from 'styled-components'
 import {
 	Box
 } from 'rendition'
@@ -33,6 +34,12 @@ import {
 	withDefaultGetActorHref
 } from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
 import EventsContainer from '../../../../lib/ui-components/EventsContainer'
+
+const MessageListColumn = styled(Column) `
+	position: relative;
+	min-height: 0;
+	height: auto;
+`
 
 class MessageList extends React.Component {
 	constructor (props) {
@@ -122,12 +129,7 @@ class MessageList extends React.Component {
 		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
 
 		return (
-			<Column
-				flex="1"
-				style={{
-					position: 'relative'
-				}}
-			>
+			<MessageListColumn flex="1">
 				<EventsContainer
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
@@ -165,7 +167,7 @@ class MessageList extends React.Component {
 						)
 					})}
 				</EventsContainer>
-			</Column>
+			</MessageListColumn>
 		)
 	}
 }

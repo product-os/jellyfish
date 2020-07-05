@@ -8,6 +8,7 @@ import _ from 'lodash'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import styled from 'styled-components'
 import React, {
 	useState
 } from 'react'
@@ -22,6 +23,13 @@ import InboxTab from './InboxTab'
 import {
 	queries
 } from '../../core'
+
+const InboxColumn = styled(Column) `
+	[role="tabpanel"] {
+		display: flex;
+  	flex-direction: column;
+	}
+`
 
 const getReadQuery = (user, groupNames, searchTerm) => {
 	return _.merge(queries.getPingQuery(user, groupNames, searchTerm), {
@@ -78,7 +86,7 @@ export default React.memo((props) => {
 	const [ currentTab, setCurrentTab ] = useState(0)
 
 	return (
-		<Column>
+		<InboxColumn>
 			<Flex p={3} justifyContent="space-between">
 				<Heading.h4>
 					Inbox
@@ -105,6 +113,6 @@ export default React.memo((props) => {
 					<InboxTab key={currentTab} getQuery={getSentQuery} />
 				</Tab>
 			</Tabs>
-		</Column>
+		</InboxColumn>
 	)
 }, circularDeepEqual)

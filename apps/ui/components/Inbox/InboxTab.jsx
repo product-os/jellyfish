@@ -184,7 +184,7 @@ export default (props) => {
 		<Flex
 			flexDirection="column"
 			style={{
-				height: '100%'
+				minHeight: 0
 			}}
 		>
 			<Flex p={3}>
