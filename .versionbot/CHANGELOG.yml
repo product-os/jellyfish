@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump json-e from 2.7.1 to 4.1.0'
+      hash: ff333218bf5680ea64d8b39d76616787de0ba5ac
+      body: >
+        Bumps [json-e](https://github.com/taskcluster/json-e) from 2.7.1 to
+        4.1.0.
+
+        - [Release notes](https://github.com/taskcluster/json-e/releases)
+
+        -
+        [Changelog](https://github.com/taskcluster/json-e/blob/master/CHANGELOG.rst)
+
+        -
+        [Commits](https://github.com/taskcluster/json-e/compare/v2.7.1...v4.1.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.68.33
+  date: 2020-07-05T16:18:37.405Z
+- commits:
     - subject: 'patch: bump bcrypt from 4.0.1 to 5.0.0'
       hash: 304f7365b9bbb207e6eb73d689df829147a56891
       body: >
