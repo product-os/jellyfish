@@ -1,4 +1,16 @@
 - commits:
+    - subject: Use Rendition card for auth pages
+      hash: 9a18b66c987f6f546b93133ac042724f16372840
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.68.22
+  date: 2020-07-05T03:23:47.787Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 5.18.1 to 5.19.0'
       hash: 792837fab4a6b49bdb31686e5f2b404fc7163fd0
       body: >
