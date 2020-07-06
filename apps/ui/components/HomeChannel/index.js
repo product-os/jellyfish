@@ -33,7 +33,7 @@ const mapStateToProps = (state, ownProps) => {
 		orgs: selectors.getOrgs(state),
 		tail: target ? selectors.getViewData(state, target) : null,
 		types: selectors.getTypes(state),
-		mentions: selectors.getViewData(state, 'view-my-inbox'),
+		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
 		uiState: selectors.getUIState(state),
 		user,

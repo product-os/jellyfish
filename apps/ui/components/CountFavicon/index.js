@@ -23,7 +23,7 @@ const getMentionsCount = (mentions) => {
 }
 
 const mapStateToProps = (state) => {
-	const mentions = selectors.getViewData(state, 'view-my-inbox')
+	const mentions = selectors.getInboxViewData(state)
 	return {
 		label: getMentionsCount(mentions)
 	}

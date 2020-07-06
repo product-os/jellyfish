@@ -19,105 +19,12 @@ import {
 } from 'rendition'
 import Column from '../../../../lib/ui-components/shame/Column'
 import InboxTab from './InboxTab'
+import {
+	queries
+} from '../../core'
 
-const mergeWithUniqConcatArrays = (objValue, srcValue) => {
-	if (_.isArray(objValue)) {
-		return _.uniq(objValue.concat(srcValue))
-	}
-	// eslint-disable-next-line no-undefined
-	return undefined
-}
-
-const withSearch = (query, searchTerm) => {
-	if (searchTerm) {
-		return _.mergeWith(query, {
-			properties: {
-				data: {
-					properties: {
-						payload: {
-							properties: {
-								message: {
-									type: 'string',
-									fullTextSearch: {
-										term: searchTerm
-									}
-								}
-							},
-							required: [ 'message' ]
-						}
-					}
-				}
-			}
-		}, mergeWithUniqConcatArrays)
-	}
-	return query
-}
-
-// Generates a basic query that matches messages against a user slug
-const getBasePingQuery = (user, searchTerm) => {
-	const query = {
-		type: 'object',
-		required: [ 'data', 'type' ],
-		properties: {
-			type: {
-				type: 'string',
-				enum: [
-					'message@1.0.0',
-					'whisper@1.0.0'
-				]
-			},
-			data: {
-				type: 'object',
-				required: [ 'payload' ],
-				properties: {
-					payload: {
-						type: 'object',
-						properties: {
-							mentionsUser: {
-								type: 'array',
-								contains: {
-									const: user.slug
-								}
-							}
-						},
-						required: [
-							'mentionsUser'
-						],
-						additionalProperties: true
-					}
-				},
-				additionalProperties: true
-			}
-		},
-		additionalProperties: true
-	}
-
-	return withSearch(query, searchTerm)
-}
-
-const getUnreadQuery = (user, searchTerm) => {
-	return _.merge(getBasePingQuery(user, searchTerm), {
-		type: 'object',
-		properties: {
-			data: {
-				type: 'object',
-				properties: {
-					readBy: {
-						type: 'array',
-						not: {
-							contains: {
-								const: user.slug
-							}
-						}
-					}
-				}
-			}
-		}
-	})
-}
-
-const getReadQuery = (user, searchTerm) => {
-	return _.merge(getBasePingQuery(user, searchTerm), {
+const getReadQuery = (user, groupNames, searchTerm) => {
+	return _.merge(queries.getPingQuery(user, groupNames, searchTerm), {
 		type: 'object',
 		properties: {
 			data: {
@@ -140,8 +47,8 @@ const getReadQuery = (user, searchTerm) => {
 	})
 }
 
-const getSentQuery = (user, searchTerm) => {
-	return withSearch({
+const getSentQuery = (user, groupNames, searchTerm) => {
+	return queries.withSearch({
 		type: 'object',
 		properties: {
 			type: {
@@ -185,7 +92,7 @@ export default React.memo((props) => {
 				<Tab title="Unread">
 					<InboxTab
 						key={currentTab}
-						getQuery={getUnreadQuery}
+						getQuery={queries.getUnreadQuery}
 						canMarkAsRead
 					/>
 				</Tab>
