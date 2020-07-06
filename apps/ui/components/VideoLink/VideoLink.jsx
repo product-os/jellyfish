@@ -68,7 +68,7 @@ export default function VideoLink ({
 		<Link
 			{...rest}
 			color={conferenceUrl ? theme.colors.text.main : theme.colors.gray.dark}
-			onClick={openGoogleMeet}
+			onClick={conferenceUrl ? null : openGoogleMeet }
 			href={conferenceUrl}
 			blank
 			tooltip={{
