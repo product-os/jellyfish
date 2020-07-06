@@ -329,9 +329,7 @@ ava('.tick() should enqueue two actions if there are two time triggers with a pa
 					}
 				}
 			}
-		}), (actionRequest) => {
-		return actionRequest.data.originator
-	})
+		}), 'data.originator')
 
 	test.deepEqual(actionRequests, [
 		test.context.jellyfish.defaults({
