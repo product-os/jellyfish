@@ -77,7 +77,7 @@ ava.serial.beforeEach(async (test) => {
 		.persist()
 		.get('/api/v2/prospects')
 		.query((object) => {
-			return object.filter && object.filter.emails
+			return object['filter[emails]']
 		})
 		.reply((uri, body, callback) => {
 			const params = querystring.parse(_.last(uri.split('?')))
