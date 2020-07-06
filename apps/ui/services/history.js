@@ -10,7 +10,7 @@ import {
 } from 'history'
 import {
 	isProduction
-} from '../environment'
+} from '@balena/jellyfish-environment'
 
 // Because we use connected-react-router we need to explicitly create
 // our history instance

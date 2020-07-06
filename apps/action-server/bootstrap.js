@@ -12,7 +12,7 @@ const Worker = require('../../lib/worker')
 const Consumer = require('../../lib/queue').Consumer
 const Producer = require('../../lib/queue').Producer
 const core = require('../../lib/core')
-const environment = require('../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('../../lib/metrics')
 

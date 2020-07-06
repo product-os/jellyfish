@@ -8,7 +8,7 @@ const logger = require('../../lib/logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')
-const environment = require('../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 const DEFAULT_CONTEXT = {
 	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`

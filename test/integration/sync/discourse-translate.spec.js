@@ -10,7 +10,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const scenario = require('./scenario')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.discourse
 const helpers = require('./helpers')
 

@@ -8,7 +8,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const Backend = require('../../../../lib/core/backend')
-const environment = require('../../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const Cache = require('../../../../lib/core/cache')
 const errors = require('../../../../lib/core/errors')
 const utils = require('../../utils')

@@ -12,7 +12,7 @@ const {
 } = require('uuid')
 const Front = require('front-sdk').Front
 const helpers = require('./helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.front
 
 // Because Front might take a while to process

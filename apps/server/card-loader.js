@@ -8,7 +8,7 @@ const _ = require('lodash')
 const Bluebird = require('bluebird')
 const $RefParser = require('json-schema-ref-parser')
 const logger = require('../../lib/logger').getLogger(__filename)
-const environment = require('../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const defaultCards = require('./default-cards')
 
 const loadCard = async (card) => {

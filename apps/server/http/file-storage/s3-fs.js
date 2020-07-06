@@ -7,7 +7,7 @@
 const AWS = require('aws-sdk')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const environment = require('../../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const logger = require('../../../../lib/logger').getLogger(__filename)
 
 module.exports = class S3FS {

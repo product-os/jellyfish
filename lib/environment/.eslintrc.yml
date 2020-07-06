@@ -1,5 +1,0 @@
-rules:
-  # This is the only module allowed to access
-  # the environment
-  no-process-env:
-    - off

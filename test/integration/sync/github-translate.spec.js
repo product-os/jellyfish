@@ -8,7 +8,7 @@ const ava = require('ava')
 const nock = require('nock')
 const jwt = require('jsonwebtoken')
 const scenario = require('./scenario')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.github
 const helpers = require('./helpers')
 

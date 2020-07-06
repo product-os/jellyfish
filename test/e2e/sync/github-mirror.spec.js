@@ -18,7 +18,7 @@ const Octokit = require('@octokit/rest').Octokit.plugin(
 
 const packageJSON = require('../../../package.json')
 const helpers = require('./helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.github
 
 const getMirrorWaitSchema = (slug) => {

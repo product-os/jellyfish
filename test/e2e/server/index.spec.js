@@ -11,7 +11,7 @@ const {
 } = require('uuid')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const packageJson = require('../../../package.json')
 
 ava.serial.before(helpers.before)

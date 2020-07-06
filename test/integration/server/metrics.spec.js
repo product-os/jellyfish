@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const Bluebird = require('bluebird')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const request = require('request')
 const bootstrap = require('../../../apps/server/bootstrap')
 const {

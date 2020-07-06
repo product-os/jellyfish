@@ -12,7 +12,7 @@ const {
 } = require('uuid')
 const pgp = require('../../../../../../lib/core/backend/postgres/pg-promise')
 const streams = require('../../../../../../lib/core/backend/postgres/streams')
-const environment = require('../../../../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 ava.serial.beforeEach(async (test) => {
 	const id = uuid()

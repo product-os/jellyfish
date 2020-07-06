@@ -5,7 +5,7 @@
  */
 
 const puppeteer = require('puppeteer')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
 const uiHelpers = require('../ui/helpers')
 
