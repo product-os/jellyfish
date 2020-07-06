@@ -1,4 +1,16 @@
 - commits:
+    - subject: Replace lib/environment with private package
+      hash: c4bcf51b472d7b819a09a88c3558ebf3c16c2216
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.69.5
+  date: 2020-07-06T10:20:27.843Z
+- commits:
     - subject: 'ci: Fix nock setup for Outreach mirror tests'
       hash: ba10405b62b1aef633ed81722e5bd90498720089
       body: ''
