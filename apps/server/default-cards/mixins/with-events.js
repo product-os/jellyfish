@@ -31,6 +31,14 @@ module.exports = {
 						alertsUser: {
 							type: 'array',
 							$$formula: 'AGGREGATE($events, \'data.payload.alertsUser\')'
+						},
+						mentionsGroup: {
+							type: 'array',
+							$$formula: 'AGGREGATE($events, \'data.payload.mentionsGroup\')'
+						},
+						alertsGroup: {
+							type: 'array',
+							$$formula: 'AGGREGATE($events, \'data.payload.alertsGroup\')'
 						}
 					}
 				}
