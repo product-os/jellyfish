@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'patch: bump eslint from 7.3.1 to 7.4.0'
+      hash: b19addd0b834f9f6ca3c8f07b5480b2f9b6fe484
+      body: |
+        Bumps [eslint](https://github.com/eslint/eslint) from 7.3.1 to 7.4.0.
+        - [Release notes](https://github.com/eslint/eslint/releases)
+        - [Changelog](https://github.com/eslint/eslint/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/eslint/eslint/compare/v7.3.1...v7.4.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.70.2
+  date: 2020-07-06T14:34:17.507Z
+- commits:
     - subject: 'patch: bump use-debounce from 3.4.2 to 3.4.3'
       hash: de35517ec33ad17c79afb85b34eba99e9f0a311d
       body: >
