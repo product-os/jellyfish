@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'ci: Fix nock setup for Outreach mirror tests'
+      hash: ba10405b62b1aef633ed81722e5bd90498720089
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump nock from 10.0.6 to 12.0.3'
+      hash: 4912636196d43ae426cd8be0548d320e5209f04f
+      body: |
+        Bumps [nock](https://github.com/nock/nock) from 10.0.6 to 12.0.3.
+        - [Release notes](https://github.com/nock/nock/releases)
+        - [Changelog](https://github.com/nock/nock/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/nock/nock/compare/v10.0.6...v12.0.3)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.69.4
+  date: 2020-07-06T07:56:53.180Z
+- commits:
     - subject: Fix eslint issues
       hash: 21e9f58d48d264755cbd568ff2ff584288a2a3a6
       body: ''
