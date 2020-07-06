@@ -79,6 +79,7 @@ export default class CardActions extends React.Component {
 			showMenu: false
 		}
 	}
+
 	render () {
 		const supportsOwnership = supportsLink(this.props.card.type, 'is owned by')
 		return (
