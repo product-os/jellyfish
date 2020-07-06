@@ -63,7 +63,7 @@ outreachTest('A user should be able to connect their account to outreach', async
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(4)')
 
 	// Wait for the outreach API redirect to occur before continuing
-	await new Promise(async (resolve) => {
+	await new Promise((resolve) => {
 		const requestListener = (req) => {
 			if (
 				req.isNavigationRequest() &&
@@ -80,9 +80,9 @@ outreachTest('A user should be able to connect their account to outreach', async
 
 		page.on('request', requestListener)
 
-		await page.setRequestInterception(true)
-
-		await macros.waitForThenClickSelector(page, '[data-test="integration-connection--outreach"]')
+		page.setRequestInterception(true).then(() => {
+			macros.waitForThenClickSelector(page, '[data-test="integration-connection--outreach"]')
+		})
 	})
 
 	await page.setRequestInterception(false)
