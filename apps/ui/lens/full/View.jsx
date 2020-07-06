@@ -651,7 +651,9 @@ class ViewRenderer extends React.Component {
 				}}
 			>
 				{Boolean(head) && (
-					<Flex alignItems="flex-start" mx={3} mt={3}>
+					<Flex alignItems="flex-start" mx={3} mt={3} style={{
+						flexShrink: 0
+					}}>
 						<Collapsible
 							title="Filters and Lenses"
 							maxContentHeight="70vh"
