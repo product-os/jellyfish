@@ -14,7 +14,7 @@ const randomstring = require('randomstring')
 const jws = require('jsonwebtoken')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 ava.serial.before(helpers.before)
 ava.serial.after(helpers.after)

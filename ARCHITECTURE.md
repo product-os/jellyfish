@@ -226,12 +226,6 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/environment`](https://github.com/product-os/jellyfish/tree/master/lib/environment)
-
-This module aims to be the startup system configuration hub, and it exposes any
-runtime settings to the remainingg of the system. Its the only place in the
-codebase that should ever read environment variables.
-
 ### [`lib/logger`](https://github.com/product-os/jellyfish/tree/master/lib/logger)
 
 The Jellyfish backend strongly discourages the use of `console.log()`. This

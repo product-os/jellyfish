@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const scenario = require('./scenario')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.flowdock
 const helpers = require('./helpers')
 

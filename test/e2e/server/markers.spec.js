@@ -9,7 +9,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const helpers = require('../sdk/helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 const users = {
 	community: {

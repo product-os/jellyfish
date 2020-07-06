@@ -10,7 +10,7 @@ const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const helpers = require('./helpers')
 const macros = require('./macros')
 

@@ -12,7 +12,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const helpers = require('./helpers')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const randomWords = require('random-words')
 const TOKEN = environment.integration.discourse
 

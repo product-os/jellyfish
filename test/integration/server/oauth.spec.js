@@ -11,7 +11,7 @@ const querystring = require('querystring')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const {
 	slugify
 } = require('../../../lib/sync/integrations/utils')

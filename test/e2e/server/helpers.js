@@ -10,7 +10,7 @@ const {
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const request = require('request')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 const waitForServer = async (test, retries = 50) => {
 	try {

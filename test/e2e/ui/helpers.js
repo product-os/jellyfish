@@ -8,7 +8,7 @@ const puppeteer = require('puppeteer')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
 
 exports.generateUserDetails = () => {

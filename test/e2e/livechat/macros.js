@@ -10,7 +10,7 @@ const {
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 exports.createThreads = async (context, start, count) => {
 	const threads = []

@@ -7,7 +7,7 @@
 const ava = require('ava')
 const _ = require('lodash')
 const scenario = require('./scenario')
-const environment = require('../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 const TOKEN = environment.integration.outreach
 const helpers = require('./helpers')
 

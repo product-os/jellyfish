@@ -9,7 +9,7 @@ const nock = require('nock')
 const helpers = require('../helpers')
 const uuid = require('@balena/jellyfish-uuid')
 const actionLibrary = require('../../../../lib/action-library')
-const environment = require('../../../../lib/environment')
+const environment = require('@balena/jellyfish-environment')
 
 const MAILGUN = environment.mail
 
