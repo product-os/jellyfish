@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Include group pings in inbox and mentions count'
+      hash: c9d96fadf3a919571d8f62104fb593e27c661b3e
+      body: |
+        The 'view-my-inbox' view has been removed as it is now redundant.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.70.0
+  date: 2020-07-06T11:42:27.726Z
+- commits:
     - subject: Replace lib/environment with private package
       hash: c4bcf51b472d7b819a09a88c3558ebf3c16c2216
       body: ''
