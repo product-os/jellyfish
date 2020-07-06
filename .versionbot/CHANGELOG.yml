@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add mentionsGroup and alertsGroup to withEvents card mixin
+      hash: cc0f0f36726ac8e3ac7fc637d8d3d516276a9eb1
+      body: >
+        This allows us to query for group pings on any card with an associated
+        timeline.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.69.0
+  date: 2020-07-06T00:35:26.769Z
+- commits:
     - subject: 'patch: bump json-e from 2.7.1 to 4.1.0'
       hash: ff333218bf5680ea64d8b39d76616787de0ba5ac
       body: >
