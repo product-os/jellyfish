@@ -137,6 +137,20 @@ ava('It should render', (test) => {
 	})
 })
 
+ava('The event is marked as \'focused\' if the card\'s ID matches the \'event\' url param', (test) => {
+	global.location.search = `?event=${card.id}`
+	const event = mount(
+		<Event
+			{...commonProps}
+			card={card}
+		/>, {
+			wrappingComponent: wrapper
+		}
+	)
+	const eventWrapper = event.find(`div#event-${card.id}`)
+	test.true(eventWrapper.hasClass('event--focused'))
+})
+
 ava('It should display the actor\'s details', (test) => {
 	const event = mount(
 		<Event
