@@ -1,4 +1,35 @@
 - commits:
+    - subject: Fix eslint issues
+      hash: 21e9f58d48d264755cbd568ff2ff584288a2a3a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+    - subject: 'patch: bump eslint-config-standard from 10.2.1 to 14.1.1'
+      hash: 9fd3ac7286d28eb73474e85ad3a7181099d1766f
+      body: >
+        Bumps
+        [eslint-config-standard](https://github.com/standard/eslint-config-standard)
+        from 10.2.1 to 14.1.1.
+
+        - [Release
+        notes](https://github.com/standard/eslint-config-standard/releases)
+
+        -
+        [Changelog](https://github.com/standard/eslint-config-standard/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/standard/eslint-config-standard/compare/v10.2.1...v14.1.1)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+  version: 30.69.3
+  date: 2020-07-06T06:32:48.060Z
+- commits:
     - subject: 'ui: Prevent video link button opening two tabs'
       hash: 987ce96cad6cc3ad67a854f98a9759aa6e1971f5
       body: >
