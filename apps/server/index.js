@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const logger = require('../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../package.json')
 const bootstrap = require('./bootstrap')

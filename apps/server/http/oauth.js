@@ -8,7 +8,7 @@ const errio = require('errio')
 const {
 	v4: uuid
 } = require('uuid')
-const logger = require('../../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const sync = require('../../../lib/sync')
 const environment = require('@balena/jellyfish-environment')
 

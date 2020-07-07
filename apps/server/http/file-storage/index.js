@@ -6,7 +6,7 @@
 
 const LocalFS = require('./local-fs')
 const S3FS = require('./s3-fs')
-const logger = require('../../../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 
 module.exports = class Storage {
 	/**

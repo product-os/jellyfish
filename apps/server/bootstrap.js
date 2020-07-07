@@ -11,7 +11,7 @@ const Worker = require('../../lib/worker')
 const actionLibrary = require('../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
-const logger = require('../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const metrics = require('../../lib/metrics')
 
 const cardLoader = require('./card-loader')
