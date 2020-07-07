@@ -249,9 +249,7 @@ class Timeline extends React.Component {
 
 	addMessage (event) {
 		event.preventDefault()
-		const {
-			newMessage
-		} = this.state
+		const newMessage = event.target.value || this.state.newMessage
 		const {
 			allowWhispers
 		} = this.props
