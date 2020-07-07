@@ -298,6 +298,7 @@ export default class ActionCreator {
 					title,
 					body,
 					target,
+					tag: card.id,
 					historyPush: (path, pathState) => dispatch(push(path, pathState))
 				})
 			}
