@@ -127,7 +127,7 @@ class Timeline extends React.Component {
 	}
 
 	handleFileChange (files) {
-		const type = this.props.allowWhispers ? 'whisper' : 'message'
+		const type = this.state.whisper ? 'whisper' : 'message'
 		const file = _.first(files)
 		const message = {
 			target: this.props.card,
