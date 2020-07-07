@@ -1,4 +1,18 @@
 - commits:
+    - subject: Ensure group names can only contain certain characters
+      hash: 4001df062106d22139f55e6a9c087c225cf7c906
+      body: >
+        We want to ensure that group names don't contain any spaces or other odd
+        characters. 
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.71.0
+  date: 2020-07-07T08:16:18.659Z
+- commits:
     - subject: 'ui: Ensure full message text is always sent'
       hash: a493976bf903993a95c4a1fb2e11a6d5dcfd1301
       body: >
