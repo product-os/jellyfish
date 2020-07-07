@@ -13,6 +13,7 @@ const express = require('express')
 const http = require('http')
 const basicAuth = require('express-basic-auth')
 const prometheus = require('socket.io-prometheus-metrics')
+const packageJSON = require('../../../package.json')
 
 module.exports = (jellyfish, server) => {
 	const socketServer = socketIo(server, {
@@ -38,7 +39,7 @@ module.exports = (jellyfish, server) => {
 
 			return uuid.random().then((id) => {
 				const context = {
-					id: `SOCKET-REQUEST-${id}`
+					id: `SOCKET-REQUEST-${packageJSON.version}-${id}`
 				}
 
 				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {

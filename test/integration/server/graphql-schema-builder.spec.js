@@ -10,7 +10,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const schemaBuilder = require('../../../apps/server/graphql/schema-builder')
-const logger = require('../../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const baseCards = require('../../../lib/core/cards')
 const graphql = require('graphql')
 

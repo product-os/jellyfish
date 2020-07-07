@@ -7,7 +7,7 @@
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const actionLibrary = require('../../lib/action-library')
-const logger = require('../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const Worker = require('../../lib/worker')
 const Consumer = require('../../lib/queue').Consumer
 const Producer = require('../../lib/queue').Producer
@@ -15,6 +15,7 @@ const core = require('../../lib/core')
 const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('../../lib/metrics')
+const packageJSON = require('../../package.json')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`
@@ -232,7 +233,7 @@ exports.tick = async (context, options) => {
 		onLoop: async (serverContext, worker, session) => {
 			const id = await uuid.random()
 			return worker.tick({
-				id: `TICK-REQUEST-${id}`,
+				id: `TICK-REQUEST-${packageJSON.version}-${id}`,
 				worker: serverContext.id
 			}, session, {
 				currentDate: new Date()

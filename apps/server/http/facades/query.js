@@ -6,7 +6,7 @@
 
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const logger = require('../../../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 
 module.exports = class QueryFacade {
 	constructor (jellyfish) {

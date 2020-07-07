@@ -25,7 +25,6 @@
       "lib/core",
       "lib/action-library",
       "lib/chat-widget",
-      "lib/logger",
       "lib/queue",
       "lib/ui-components",
       "lib/sync",
@@ -123,6 +122,7 @@
     "@balena/jellyfish-client-sdk": "^1.1.1",
     "@balena/jellyfish-environment": "0.0.3",
     "@balena/jellyfish-jellyscript": "0.0.4",
+    "@balena/jellyfish-logger": "0.0.4",
     "@balena/jellyfish-uuid": "0.0.2",
     "@balena/node-metrics-gatherer": "^5.7.2",
     "@octokit/auth-app": "^2.4.7",
@@ -130,7 +130,6 @@
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^18.0.0",
     "@sentry/browser": "^5.19.0",
-    "@sentry/node": "^5.19.0",
     "@webscopeio/react-textarea-autocomplete": "^4.7.0",
     "aws-sdk": "^2.709.0",
     "bcrypt": "^5.0.0",
@@ -171,7 +170,6 @@
     "json-e": "^4.1.0",
     "json-schema-ref-parser": "^9.0.1",
     "jsonwebtoken": "^8.5.1",
-    "le_node": "^1.8.0",
     "localforage": "^1.7.4",
     "lodash": "^4.17.15",
     "lru-cache": "^5.1.1",
@@ -227,7 +225,6 @@
     "traverse": "^0.6.6",
     "typed-errors": "^1.1.0",
     "use-debounce": "^3.4.3",
-    "uuid": "^8.2.0",
-    "winston": "^3.3.3"
+    "uuid": "^8.2.0"
   }
 }

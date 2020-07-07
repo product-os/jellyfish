@@ -226,21 +226,6 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/logger`](https://github.com/product-os/jellyfish/tree/master/lib/logger)
-
-The Jellyfish backend strongly discourages the use of `console.log()`. This
-module provides a set of functions that the backend uses for logging purposes.
-
-#### Goals
-
-- The logger takes a request ID parameter to easily filter down logss that
-	correspond to a single system request
-- The logger is able to log uncaught exceptions
-- The logger is able to send logs using different priority levels
-- The logger is able to preserve rich object logs
-- The logger is able to pipe logs to a central location when running in
-	production
-
 ### [`lib/mail`](https://github.com/product-os/jellyfish/tree/master/lib/mail)
 
 The mail library consists of a mailgun integration which can be used to send emails to jellyfish users

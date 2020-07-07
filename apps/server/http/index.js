@@ -9,7 +9,7 @@ const errio = require('errio')
 const http = require('http')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
-const logger = require('../../../lib/logger').getLogger(__filename)
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const metrics = require('../../../lib/metrics')
 
 module.exports = (context, configuration) => {

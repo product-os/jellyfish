@@ -8,11 +8,12 @@ const graphqlHTTP = require('express-graphql')
 const _ = require('lodash')
 const uuid = require('@balena/jellyfish-uuid')
 const schemaBuilder = require('./schema-builder')
+const packageJSON = require('../../../package.json')
 
 module.exports = (cards) => {
 	return async (uri = '/graphql', application, context = {}) => {
 		const EXECUTION_CONTEXT = {
-			id: `GRAPHQL-SERVER-STARTUP-${await uuid.random()}`
+			id: `GRAPHQL-SERVER-STARTUP-${packageJSON.version}-${await uuid.random()}`
 		}
 
 		context.baseCards = cards
