@@ -1,4 +1,16 @@
 - commits:
+    - subject: Switch to using a private package for lib/logger
+      hash: a1350169263c45538aa25672ccf900107da4afeb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.72.1
+  date: 2020-07-07T12:28:45.471Z
+- commits:
     - subject: 'ui: Strip repo org from name in Home Channel menu'
       hash: 155f22fbdfd618b0e5ee8c9973ec2c677ae37a08
       body: >
