@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update webpack-merge imports
+      hash: 3308928a769602fdddbda29d8d041cf6973e9c1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+    - subject: 'patch: bump webpack-merge from 4.2.2 to 5.0.8'
+      hash: 55c0a210fe333342ecd8ce9ec6a5ebd128d312b8
+      body: >
+        Bumps [webpack-merge](https://github.com/survivejs/webpack-merge) from
+        4.2.2 to 5.0.8.
+
+        - [Release notes](https://github.com/survivejs/webpack-merge/releases)
+
+        -
+        [Changelog](https://github.com/survivejs/webpack-merge/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/survivejs/webpack-merge/compare/v4.2.2...v5.0.8)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.73.1
+  date: 2020-07-07T20:59:58.673Z
+- commits:
     - subject: 'ui: Do not notify the message author'
       hash: cc2f8fadca29f453d05686d82b318a62ebb8435d
       body: ''
