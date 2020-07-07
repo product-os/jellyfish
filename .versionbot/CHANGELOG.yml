@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'ui: Do not notify the message author'
+      hash: cc2f8fadca29f453d05686d82b318a62ebb8435d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.73.0
+  date: 2020-07-07T13:38:07.523Z
+- commits:
     - subject: Switch to using a private package for lib/logger
       hash: a1350169263c45538aa25672ccf900107da4afeb
       body: ''
