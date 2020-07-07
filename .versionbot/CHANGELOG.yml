@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'ui: Strip repo org from name in Home Channel menu'
+      hash: 155f22fbdfd618b0e5ee8c9973ec2c677ae37a08
+      body: >
+        Instead of displaying 'product-os/jellyfish' we'll just display
+        'jellyfish'. The 'product-os' org is shown in the parent menu item so
+        the context is clear and the item is still unique.
+
+
+        Closes #4075
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.72.0
+  date: 2020-07-07T10:15:57.697Z
+- commits:
     - subject: Ensure group names can only contain certain characters
       hash: 4001df062106d22139f55e6a9c087c225cf7c906
       body: >
