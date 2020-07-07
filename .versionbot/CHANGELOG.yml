@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'ui: Ensure full message text is always sent'
+      hash: a493976bf903993a95c4a1fb2e11a6d5dcfd1301
+      body: >
+        The `newMessage` state is set on a 100ms debounced callback. If the user
+        enters the 'Send Command' within 100ms of typing the last characters of
+        their message, those characters were not getting sent. This change uses
+        the current value of the DOM input element rather than the value cached
+        in the `Timeline`'s state.
+
+
+        Closes #3896
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.70.5
+  date: 2020-07-07T06:34:47.358Z
+- commits:
     - subject: Use notification tag field to de-duplicate notifications
       hash: eb8033fca5d36daa6c7d3daff6096c66c5b99be9
       body: ''
