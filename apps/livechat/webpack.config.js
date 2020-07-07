@@ -10,7 +10,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const mergeConfig = require('webpack-merge')
+const {
+	merge
+} = require('webpack-merge')
 const baseConfig = require('../../webpack.config.base.js')
 
 const root = path.resolve(__dirname, '..', '..')
@@ -25,7 +27,7 @@ const outDir = path.join(root, 'dist/livechat')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
-const config = mergeConfig(baseConfig, {
+const config = merge(baseConfig, {
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
