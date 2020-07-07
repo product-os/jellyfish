@@ -286,7 +286,7 @@ export default class HomeChannel extends React.Component {
 			key: 'product-os',
 			children: (this.state.productOS || []).map((item) => {
 				return {
-					name: item.name,
+					name: item.name.replace(/^.*\//, ''),
 					key: item.slug,
 					card: item,
 					isStarred: false,

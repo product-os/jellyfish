@@ -38,6 +38,7 @@ const TreeMenu = (props) => {
 				actions={actions}
 				key={card.id}
 				card={card}
+				label={node.name}
 				isActive={isActive}
 				isStarred={node.isStarred}
 				activeSlice={activeSlice}
