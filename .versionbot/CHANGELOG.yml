@@ -1,4 +1,42 @@
 - commits:
+    - subject: 'test: Add unit test for focused event'
+      hash: 3d34837f49c48a6ca834595094dc17213c87b075
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'ui: Add support for linking to a message within a thread'
+      hash: 1828b35baea8e95fe0877576e593b6bc65db64c6
+      body: >
+        New `Copy link to this message` context menu item. The event's ID is
+        added to the URL as a query param.
+
+
+        When the timeline is loaded, if there is an `event` query param in the
+        URL, we scroll to that event. The focused event pulses the CSS outline
+        property 3 times when it is displayed.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: Fix margin on attachment buttons
+      hash: 22d9a1f98e0dc42c98f9fbdc09375da3b38202f0
+      body: |
+        Closes #4237
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.75.0
+  date: 2020-07-08T01:15:47.676Z
+- commits:
     - subject: 'ui: Enable file uploads as messages'
       hash: 0bafea7b592b9875d8b05dc0190fe7a1814dc9e8
       body: >
