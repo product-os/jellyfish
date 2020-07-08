@@ -98,6 +98,12 @@ ava.serial.before(async () => {
 	context.currentUserSlug = context.currentUser.slug.replace('user-', '')
 })
 
+ava.serial.afterEach.always(async (test) => {
+	await helpers.afterEach({
+		context, test
+	})
+})
+
 ava.serial.after.always(async () => {
 	await helpers.browser.afterEach({
 		context
