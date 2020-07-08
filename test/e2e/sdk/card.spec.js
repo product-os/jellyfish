@@ -47,7 +47,7 @@ ava.before(async () => {
 	})
 })
 
-ava.after(async () => {
+ava.after.always(async () => {
 	await helpers.after({
 		context
 	})
@@ -59,7 +59,7 @@ ava.beforeEach(async () => {
 	})
 })
 
-ava.afterEach(async () => {
+ava.afterEach.always(async () => {
 	await helpers.afterEach({
 		context
 	})

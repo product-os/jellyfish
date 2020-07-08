@@ -11,10 +11,10 @@ const {
 const helpers = require('../sdk/helpers')
 
 ava.serial.before(helpers.before)
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 ava.serial('should return 404 given a non existent attachment in a card', async (test) => {
 	const result = await test.context.http(

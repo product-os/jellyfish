@@ -22,10 +22,10 @@ ava.serial.before(async (test) => {
 		})
 	}
 })
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 ava.serial('should sanely handle line breaks before tags in messages/whispers', async (test) => {
 	const thread = await test.context.sdk.card.create({

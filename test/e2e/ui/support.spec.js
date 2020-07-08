@@ -36,7 +36,13 @@ ava.serial.before(async () => {
 	await macros.loginUser(context.page, user)
 })
 
-ava.serial.after(async () => {
+ava.serial.afterEach.always(async (test) => {
+	await helpers.afterEach({
+		context, test
+	})
+})
+
+ava.serial.after.always(async () => {
 	await helpers.browser.afterEach({
 		context
 	})
@@ -228,7 +234,7 @@ ava.serial('You should be able to link support threads to existing support issue
 	)
 	supportIssueOption.click()
 
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"] input')
+	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"] input:not(:disabled)')
 
 	await page.type('.jellyfish-async-select__input input', name)
 
@@ -592,20 +598,21 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 
 ava.serial('My Participation shows only support threads that the logged-in user has participated in', async (test) => {
 	const {
-		sdk,
 		page
 	} = context
 
 	// Add a support thread and message that should _not_ appear in the new user's My Participation view
-	const supportThread1 = await sdk.card.create({
-		type: 'support-thread@1.0.0',
-		data: {
-			inbox: 'S/Paid_Support',
-			status: 'open'
-		}
+	const supportThread1 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
 	})
 
-	await sdk.event.create({
+	const messageEvent1 = {
 		target: supportThread1,
 		slug: `message-${uuid()}`,
 		tags: [],
@@ -613,7 +620,11 @@ ava.serial('My Participation shows only support threads that the logged-in user 
 		payload: {
 			message: uuid()
 		}
-	})
+	}
+
+	await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent1)
 
 	// Create a new user and login as that user
 	const otherUser = helpers.generateUserDetails()

@@ -10,6 +10,7 @@ const {
 } = require('uuid')
 const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
+const macros = require('./macros')
 
 exports.generateUserDetails = () => {
 	return {
@@ -38,6 +39,14 @@ exports.addPageHandlers = (page, headless = true) => {
 				console.log(`${msg.args()[index]}`)
 			}
 		})
+	}
+}
+
+exports.afterEach = async ({
+	context, test
+}) => {
+	if (!test.passed) {
+		await macros.screenshot(context, test.title)
 	}
 }
 

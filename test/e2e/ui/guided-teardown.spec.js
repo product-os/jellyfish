@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const {
 	v4: uuid
 } = require('uuid')
@@ -51,7 +52,13 @@ ava.serial.before(async () => {
 	context.currentUserSlug = context.currentUser.slug.replace('user-', '')
 })
 
-ava.serial.after(async () => {
+ava.serial.afterEach.always(async (test) => {
+	await helpers.afterEach({
+		context, test
+	})
+})
+
+ava.serial.after.always(async () => {
 	await helpers.browser.afterEach({
 		context
 	})
@@ -82,6 +89,10 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 
 	// Create a new support thread
 	await guidedFlowUtils.createSupportThreadAndNavigate(page)
+
+	await page.waitForSelector('[data-test="support-thread__collapse-status"]')
+
+	await Bluebird.delay(1000)
 
 	await macros.waitForThenClickSelector(page, selectors.closeThreadBtn)
 

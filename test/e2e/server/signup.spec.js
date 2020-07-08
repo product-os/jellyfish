@@ -8,10 +8,10 @@ const ava = require('ava')
 const helpers = require('../sdk/helpers')
 
 ava.before(helpers.before)
-ava.after(helpers.after)
+ava.after.always(helpers.after)
 
 ava.beforeEach(helpers.beforeEach)
-ava.afterEach(helpers.afterEach)
+ava.afterEach.always(helpers.afterEach)
 
 ava.serial('/signup should not allow requests without username parameter', async (test) => {
 	const result = await test.context.http(

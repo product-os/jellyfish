@@ -8,10 +8,10 @@ const ava = require('ava')
 const helpers = require('../../sdk/helpers')
 
 ava.serial.before(helpers.before)
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 ava.serial('should increment a card value using action-increment', async (test) => {
 	const admin = await test.context.sdk.card.get('user-admin')
