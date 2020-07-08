@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Enable file uploads as messages'
+      hash: 0bafea7b592b9875d8b05dc0190fe7a1814dc9e8
+      body: >
+        Previously file uploads would always be saved as whispers if whispers
+        were allowed on a thread.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.74.0
+  date: 2020-07-07T23:04:38.211Z
+- commits:
     - subject: Update webpack-merge imports
       hash: 3308928a769602fdddbda29d8d041cf6973e9c1f
       body: ''
