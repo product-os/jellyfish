@@ -36,7 +36,7 @@ ava.serial.before(async () => {
 	await macros.loginUser(context.page, user)
 })
 
-ava.serial.after(async () => {
+ava.serial.after.always(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

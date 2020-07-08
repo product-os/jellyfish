@@ -17,10 +17,10 @@ const helpers = require('../sdk/helpers')
 const environment = require('@balena/jellyfish-environment')
 
 ava.serial.before(helpers.before)
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.isEmpty)
 	? ava.skip

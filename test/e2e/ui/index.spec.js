@@ -76,7 +76,7 @@ ava.serial.before(async () => {
 	await context.addUserToBalenaOrg(user.id)
 })
 
-ava.serial.after(async () => {
+ava.serial.after.always(async () => {
 	await helpers.browser.afterEach({
 		context
 	})

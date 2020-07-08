@@ -12,10 +12,10 @@ const {
 } = require('uuid')
 
 ava.serial.before(helpers.before)
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 ava.serial.before(async (test) => {
 	// Create support-thread card to execute full-text search tests against.

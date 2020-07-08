@@ -270,13 +270,13 @@ ava.serial.before(async (test) => {
 	}
 })
 
-ava.serial.after(helpers.mirror.after)
+ava.serial.after.always(helpers.mirror.after)
 ava.serial.beforeEach(async (test) => {
 	test.timeout(1000 * 60 * 5)
 	await helpers.mirror.beforeEach(test, test.context.teammate.replace(/_/g, '-'))
 })
 
-ava.serial.afterEach(helpers.mirror.afterEach)
+ava.serial.afterEach.always(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial

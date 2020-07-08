@@ -34,10 +34,10 @@ ava.serial.before(async (test) => {
 	})
 })
 
-ava.serial.after(helpers.after)
+ava.serial.after.always(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach(helpers.afterEach)
+ava.serial.afterEach.always(helpers.afterEach)
 
 const createUserDetails = () => {
 	return {
