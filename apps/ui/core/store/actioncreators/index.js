@@ -26,6 +26,9 @@ import {
 	createNotification
 } from '../../../services/notifications'
 import {
+	modules
+} from '../modules'
+import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
@@ -136,6 +139,7 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
+	...modules.groups.selectors,
 	getFlow: (flowId, cardId) => (state) => { return _.get(state.core, [ 'ui', 'flows', flowId, cardId ]) || null },
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
@@ -155,7 +159,6 @@ export const selectors = {
 		return _.get(state.core, [ 'ui', 'chatWidget', 'open' ])
 	},
 	getTypes: (state) => { return state.core.types },
-	getGroups: (state) => { return state.core.groups },
 	getUIState: (state) => { return state.core.ui },
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.core.ui, [ 'lensState', lensSlug, cardId ], {})
@@ -200,6 +203,13 @@ export default class ActionCreator {
 		this.errorReporter = context.errorReporter
 		this.analytics = context.analytics
 		this.tokenRefreshInterval = null
+
+		// Add redux module actions
+		Object.values(modules).forEach(($module) => {
+			Object.keys($module.actionCreators).forEach((key) => {
+				this[key] = $module.actionCreators[key]
+			})
+		})
 
 		this.bindMethods([
 			'addChannel',
@@ -246,7 +256,6 @@ export default class ActionCreator {
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
-			'setGroups',
 			'setUIState',
 			'setLensState',
 			'setUser',
@@ -993,16 +1002,6 @@ export default class ActionCreator {
 		return {
 			type: actions.SET_TYPES,
 			value: types
-		}
-	}
-
-	setGroups (groups, user) {
-		return {
-			type: actions.SET_GROUPS,
-			value: {
-				groups,
-				userSlug: user.slug
-			}
 		}
 	}
 

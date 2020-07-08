@@ -16,6 +16,9 @@ import {
 } from 'uuid'
 import actions from './actions'
 import history from '../../services/history'
+import {
+	modules
+} from './modules'
 
 export const getDefaultState = () => {
 	return {
@@ -41,7 +44,7 @@ export const getDefaultState = () => {
 				}
 			],
 			types: [],
-			groups: {},
+			groups: modules.groups.defaultState,
 			session: null,
 			notifications: [],
 			viewNotices: {},
@@ -286,27 +289,6 @@ const coreReducer = (state, action) => {
 				}
 			})
 		}
-		case actions.SET_GROUPS: {
-			const {
-				groups,
-				userSlug
-			} = action.value
-			const newGroups = _.reduce(groups, (acc, group) => {
-				const groupUsers = _.map(group.links['has group member'], 'slug')
-				const groupSummary = {
-					name: group.name,
-					users: groupUsers,
-					isMine: groupUsers.includes(userSlug)
-				}
-				acc[group.name] = groupSummary
-				return acc
-			}, {})
-			return update(state, {
-				groups: {
-					$set: newGroups
-				}
-			})
-		}
 		case actions.SET_ORGS: {
 			return update(state, {
 				orgs: {
@@ -444,7 +426,10 @@ const coreReducer = (state, action) => {
 		}
 
 		default:
-			return state
+			return {
+				...state,
+				groups: modules.groups.reducer(state.groups, action)
+			}
 	}
 }
 

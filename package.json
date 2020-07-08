@@ -25,6 +25,7 @@
       "lib/core",
       "lib/action-library",
       "lib/chat-widget",
+      "lib/redux-modules",
       "lib/environment",
       "lib/jellyscript",
       "lib/logger",
