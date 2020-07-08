@@ -59,10 +59,13 @@ const commonProps = {
 }
 
 const tagRegex = ({
-	prefix, token, isPersonal
+	prefix, token, isPersonal, isAlert
 }) => {
+	const hlTag = 'rendition-tag--hl.?'
+	const personalTag = isPersonal ? 'rendition-tag--personal.?' : ''
+	const alertTag = isAlert ? 'rendition-tag--alert.?' : ''
 	return new RegExp(
-		`<span.+?class=".?rendition-tag--hl.?${isPersonal ? 'rendition-tag--personal.?' : ''}">${prefix}${token}</span>`
+		`<span.+?class=".?${hlTag}${personalTag}${alertTag}">${prefix}${token}</span>`
 	)
 }
 
@@ -303,7 +306,8 @@ ava('If user alert matches the authenticated user it is identified as \'personal
 		tagRegex({
 			prefix: '!',
 			token: user.slug.slice(5),
-			isPersonal: true
+			isPersonal: true,
+			isAlert: true
 		})
 	)
 })
@@ -314,7 +318,8 @@ ava('If user alert does not match the authenticated user it is not identified as
 		tagRegex({
 			prefix: '!',
 			token: otherUser.slug.slice(5),
-			isPersonal: false
+			isPersonal: false,
+			isAlert: true
 		})
 	)
 })
@@ -347,7 +352,8 @@ ava('If group alert matches the authenticated user it is identified as \'persona
 		tagRegex({
 			prefix: '!!',
 			token: myGroup,
-			isPersonal: true
+			isPersonal: true,
+			isAlert: true
 		})
 	)
 })
@@ -358,7 +364,8 @@ ava('If group alert does not match the authenticated user it is not identified a
 		tagRegex({
 			prefix: '!!',
 			token: otherGroup,
-			isPersonal: false
+			isPersonal: false,
+			isAlert: true
 		})
 	)
 })
