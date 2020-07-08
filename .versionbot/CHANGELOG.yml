@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'test: Improve e2e test reliability'
+      hash: fe707ccbd92f5bceaf6191aa57f96079a794eb06
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'test: Take a screenshot of any failed test'
+      hash: 7abe3e619436236a17fa25e22a87b715bf7af8fe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+    - subject: 'test: Always run after and afterEach hooks'
+      hash: ec806e67e924c185239657176c136517cc04413f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.75.2
+  date: 2020-07-08T13:50:47.985Z
+- commits:
     - subject: 'patch: bump rendition from 15.2.4 to 15.3.0'
       hash: 42bf568a51cd9bc525a577a113f18b5846ebbcf0
       body: >
