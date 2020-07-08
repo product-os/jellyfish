@@ -185,7 +185,7 @@
     "node-hook": "^1.0.0",
     "node-jose": "^1.1.4",
     "pg-format": "^1.0.4",
-    "pg-promise": "^10.5.7",
+    "pg-promise": "^10.5.8",
     "pluralize": "^8.0.0",
     "query-string": "^6.13.1",
     "random-words": "^1.1.1",
