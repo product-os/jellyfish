@@ -4,11 +4,13 @@
  * Proprietary and confidential.
  */
 
-const graphqlHTTP = require('express-graphql')
 const _ = require('lodash')
-const uuid = require('@balena/jellyfish-uuid')
-const schemaBuilder = require('./schema-builder')
 const packageJSON = require('../../../package.json')
+const schemaBuilder = require('./schema-builder')
+const uuid = require('@balena/jellyfish-uuid')
+const {
+	graphqlHTTP
+} = require('express-graphql')
 
 module.exports = (cards) => {
 	return async (uri = '/graphql', application, context = {}) => {
