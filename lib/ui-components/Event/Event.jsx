@@ -7,7 +7,9 @@
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import classnames from 'classnames'
 import _ from 'lodash'
+import queryString from 'query-string'
 import * as jsonpatch from 'fast-json-patch'
 import Mark from 'mark.js'
 import React from 'react'
@@ -314,9 +316,20 @@ export default class Event extends React.Component {
 			nextEvent.data.target === card.data.target &&
 			nextEvent.data.actor === card.data.actor
 
+		const {
+			event: focusedEvent
+		} = queryString.parse(_.get(location, [ 'search' ], ''))
+
 		return (
 			<VisibilitySensor onChange={this.handleVisibilityChange}>
-				<EventWrapper {...rest} squashTop={squashTop} className={`event-card event-card--${typeBase}`}>
+				<EventWrapper
+					{...rest}
+					squashTop={squashTop}
+					className={classnames(`event-card event-card--${typeBase}`, {
+						'event--focused': focusedEvent === card.id
+					})}
+					id={`event-${card.id}`}
+				>
 					<EventButton
 						openChannel={openChannel}
 						onClick={this.openChannel}

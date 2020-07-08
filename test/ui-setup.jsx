@@ -46,6 +46,9 @@ global.Howl = Howl
 class Sound {}
 global.Sound = Sound
 
+class Location {}
+global.location = Location
+
 export const flushPromises = () => {
 	return new Promise((resolve) => {
 		// eslint-disable-next-line no-undef

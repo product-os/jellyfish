@@ -6,6 +6,7 @@
 
 import React from 'react'
 import _ from 'lodash'
+import queryString from 'query-string'
 import copy from 'copy-to-clipboard'
 import styled from 'styled-components'
 import {
@@ -24,6 +25,7 @@ import {
 import ContextMenu from '../ContextMenu'
 
 const ContextWrapper = styled(Flex) `
+	z-index: 2;
 	padding: 2px 4px 2px 2px;
  	border-radius: 6px;
 	box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -68,6 +70,16 @@ export default function EventContext ({
 		event.preventDefault()
 		event.stopPropagation()
 		copy(card.data.payload.message)
+	}
+
+	const copyLink = (event) => {
+		event.preventDefault()
+		event.stopPropagation()
+		const urlParams = queryString.stringify({
+			...queryString.parse(_.get(location, [ 'search' ], '')),
+			event: card.id
+		})
+		copy(`${_.get(location, [ 'origin' ])}/${card.data.target}?${urlParams}`)
 	}
 
 	const wrapperProps = {
@@ -189,6 +201,17 @@ export default function EventContext ({
 									Copy raw message
 									</ActionLink>
 								)}
+
+								<ActionLink
+									data-test="event-header__link--copy-link"
+									onClick={copyLink}
+									tooltip={{
+										text: 'Link copied!',
+										trigger: 'click'
+									}}
+								>
+									{`Copy link to this ${card.type.split('@')[0]}`}
+								</ActionLink>
 
 								{menuOptions}
 							</React.Fragment>

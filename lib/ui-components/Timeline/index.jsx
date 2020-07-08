@@ -7,6 +7,7 @@
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import queryString from 'query-string'
 import _ from 'lodash'
 import React from 'react'
 import {
@@ -49,6 +50,7 @@ class Timeline extends React.Component {
 		this.shouldScroll = true
 
 		this.state = {
+			scrollToEvent: null,
 			page: 1,
 			hideWhispers: false,
 			messageSymbol: false,
@@ -168,6 +170,14 @@ class Timeline extends React.Component {
 	componentDidMount () {
 		this.shouldScroll = true
 		this.scrollToBottom()
+		const {
+			event
+		} = queryString.parse(window.location.search)
+		if (event) {
+			this.setState({
+				scrollToEvent: event
+			})
+		}
 	}
 
 	getSnapshotBeforeUpdate (nextProps, nextState) {
@@ -197,8 +207,22 @@ class Timeline extends React.Component {
 	}
 
 	componentDidUpdate (prevProps, prevState, snapshot) {
-		// Scroll to bottom if the component has been updated with new items
-		this.scrollToBottom()
+		if (this.state.scrollToEvent && _.find(this.props.tail, {
+			id: this.state.scrollToEvent
+		})) {
+			const messageElement = document.getElementById(`event-${this.state.scrollToEvent}`)
+			if (messageElement) {
+				messageElement.scrollIntoView({
+					behavior: 'smooth'
+				})
+				this.setState({
+					scrollToEvent: null
+				})
+			}
+		} else {
+			// Scroll to bottom if the component has been updated with new items
+			this.scrollToBottom()
+		}
 		if (
 			this.scrollArea &&
 			this.scrollBottomOffset &&
