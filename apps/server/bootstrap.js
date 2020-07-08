@@ -12,7 +12,7 @@ const actionLibrary = require('../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const metrics = require('../../lib/metrics')
+const metrics = require('@balena/jellyfish-metrics')
 
 const cardLoader = require('./card-loader')
 const http = require('./http')

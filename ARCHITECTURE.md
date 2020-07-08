@@ -230,10 +230,6 @@ improving query speed.
 
 The mail library consists of a mailgun integration which can be used to send emails to jellyfish users
 
-### [`lib/metrics`](https://github.com/product-os/jellyfish/tree/master/lib/metrics)
-
-This library gathers Prometheus metrics and exposes them on `:8888/app_metrics`.
-
 ### [`lib/queue`](https://github.com/product-os/jellyfish/tree/master/lib/queue)
 
 The Jellyfish system processes incoming action requests and adds them to a
