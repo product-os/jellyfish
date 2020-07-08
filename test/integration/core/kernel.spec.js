@@ -5027,7 +5027,7 @@ ava('.query() should be able to query $$links inside a property', async (test) =
 			}
 		},
 		{
-			sortBy: ['data', 'isStressed']
+			sortBy: [ 'data', 'isStressed' ]
 		}
 	)
 
