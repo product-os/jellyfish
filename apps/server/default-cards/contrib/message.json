@@ -102,6 +102,10 @@
                 }
               }
             },
+            "edited_at": {
+              "type": "string",
+              "format": "date-time"
+            },
             "readBy": {
               "description": "Users that have seen this message",
               "type": "array",
