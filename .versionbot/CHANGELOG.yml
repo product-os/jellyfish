@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'patch: bump pg-promise from 10.5.7 to 10.5.8'
+      hash: edde524549a1b9790a4132f14993ae9eb9cbf7c8
+      body: >
+        Bumps [pg-promise](https://github.com/vitaly-t/pg-promise) from 10.5.7
+        to 10.5.8.
+
+        - [Release notes](https://github.com/vitaly-t/pg-promise/releases)
+
+        -
+        [Commits](https://github.com/vitaly-t/pg-promise/compare/10.5.7...10.5.8)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.75.8
+  date: 2020-07-09T05:03:04.166Z
+- commits:
     - subject: >-
         Be more expressive with error logs when unable to retrieve attachments
         from Front.
