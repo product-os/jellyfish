@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: bump react-trello from 2.2.6 to 2.2.7'
+      hash: 918902718fb3ec1a5b912d75a5691cd3b4dba449
+      body: >
+        Bumps [react-trello](https://github.com/rcdexta/react-trello) from 2.2.6
+        to 2.2.7.
+
+        - [Release notes](https://github.com/rcdexta/react-trello/releases)
+
+        -
+        [Changelog](https://github.com/rcdexta/react-trello/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/rcdexta/react-trello/compare/v2.2.6...v2.2.7)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+  version: 30.75.10
+  date: 2020-07-09T14:54:18.229Z
+- commits:
     - subject: 'patch: bump rendition from 15.3.0 to 15.4.0'
       hash: eb84de9beea723ab01d38b5addc52c809f6cbf3d
       body: >
