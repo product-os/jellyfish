@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Fix logic for determining focused event'
+      hash: 22a8d993ec3370fbaf68f06a0501eddd3eb3a886
+      body: >
+        Pending messages do not have an `id` yet so they are showing up as
+        'focused'!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+  version: 30.75.5
+  date: 2020-07-09T01:32:08.870Z
+- commits:
     - subject: 'patch: bump lodash from 4.17.15 to 4.17.17'
       hash: f9b6def696e584cdd012116373f6d5fe6b708dc8
       body: >
