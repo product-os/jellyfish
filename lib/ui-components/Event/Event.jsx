@@ -326,7 +326,7 @@ export default class Event extends React.Component {
 					{...rest}
 					squashTop={squashTop}
 					className={classnames(`event-card event-card--${typeBase}`, {
-						'event--focused': focusedEvent === card.id
+						'event--focused': focusedEvent && (focusedEvent === card.id)
 					})}
 					id={`event-${card.id}`}
 				>
