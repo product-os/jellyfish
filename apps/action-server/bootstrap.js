@@ -14,7 +14,7 @@ const Producer = require('../../lib/queue').Producer
 const core = require('../../lib/core')
 const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
-const metrics = require('../../lib/metrics')
+const metrics = require('@balena/jellyfish-metrics')
 const packageJSON = require('../../package.json')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {

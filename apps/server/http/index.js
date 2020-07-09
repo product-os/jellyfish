@@ -10,7 +10,7 @@ const http = require('http')
 const middlewares = require('./middlewares')
 const routes = require('./routes')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const metrics = require('../../../lib/metrics')
+const metrics = require('@balena/jellyfish-metrics')
 
 module.exports = (context, configuration) => {
 	const application = metrics.initExpress(context)
