@@ -16,8 +16,7 @@ const guidedFlowUtils = require('./guided-flow-utils')
 const context = {
 	context: {
 		id: `UI-INTEGRATION-TEST-${uuid()}`,
-		problem: 'This is the problem',
-		solution: 'This is the solution'
+		summary: 'This is the problem and the solution'
 	}
 }
 
@@ -29,9 +28,8 @@ const selectors = {
 	linkProductImprovement: '[data-test="link-to-product-improvement"]',
 	linkedProductImprovements: '[data-test="segment-card--product-improvements"] [data-test-component="card-chat-summary"]',
 	summaryProductImprovements: '[data-test="summary--product-improvements"] ul li',
-	problemTextArea: '[data-test="gf__ta-problem"]',
-	solutionTextArea: '[data-test="gf__ta-solution"]',
-	whisper: '.event-card--whisper [data-test="event-card__message"]'
+	summaryTextArea: '[data-test="gf__ta-summary"]',
+	summary: '.event-card--summary [data-test="event-card__message"]'
 }
 
 const user = helpers.generateUserDetails()
@@ -68,8 +66,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	const {
 		page,
 		context: {
-			problem,
-			solution
+			summary
 		}
 	} = context
 
@@ -96,15 +93,9 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 
 	await macros.waitForThenClickSelector(page, selectors.closeThreadBtn)
 
-	// Enter a problem
-	await page.waitForSelector(selectors.problemTextArea)
-	await page.type(selectors.problemTextArea, problem)
-
-	await guidedFlowUtils.nextStep(page)
-
-	// Enter a solution
-	await page.waitForSelector(selectors.solutionTextArea)
-	await page.type(selectors.solutionTextArea, solution)
+	// Enter a summary
+	await page.waitForSelector(selectors.summaryTextArea)
+	await page.type(selectors.summaryTextArea, summary)
 
 	await guidedFlowUtils.nextStep(page)
 
@@ -141,8 +132,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	// Check that the thread is now closed
 	await page.waitForSelector(selectors.archiveThreadBtn)
 
-	// Check the whisper
-	const whisperText = await macros.getElementText(page, selectors.whisper)
-	test.true(whisperText.includes(problem))
-	test.true(whisperText.includes(solution))
+	// Check the summary
+	const summaryText = await macros.getElementText(page, selectors.summary)
+	test.true(summaryText.includes(summary))
 })

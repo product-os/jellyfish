@@ -61,6 +61,7 @@ module.exports = {
 	workflow: require('./contrib/workflow.json'),
 	webPushSubscription: require('./contrib/web-push-subscription.json'),
 	group: require('./contrib/group.json'),
+	summary: require('./contrib/summary.json'),
 
 	// Triggered actions
 	triggeredActionGitHubIssueLink: require('./contrib/triggered-action-github-issue-link.json'),

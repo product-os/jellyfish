@@ -16,9 +16,10 @@ import Event from '../Event'
 const MESSAGE = 'message'
 const WHISPER = 'whisper'
 const UPDATE = 'update'
+const SUMMARY = 'summary'
 
 const isNotMessage = (type) => {
-	return !_.includes([ MESSAGE, WHISPER ], type)
+	return !_.includes([ MESSAGE, WHISPER, SUMMARY ], type)
 }
 
 export default class EventsList extends React.Component {
