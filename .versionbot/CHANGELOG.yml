@@ -1,4 +1,16 @@
 - commits:
+    - subject: Replace lib/metrics with private package
+      hash: 4f7125d723591336fe9bbdc646be734a11ec4c92
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+  version: 30.75.6
+  date: 2020-07-09T02:40:33.924Z
+- commits:
     - subject: 'ui: Fix logic for determining focused event'
       hash: 22a8d993ec3370fbaf68f06a0501eddd3eb3a886
       body: >
