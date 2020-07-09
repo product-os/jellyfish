@@ -1,4 +1,18 @@
 - commits:
+    - subject: >-
+        Be more expressive with error logs when unable to retrieve attachments
+        from Front.
+      hash: 0c90b772c65ef8a69b2e48dd6f2a853209607ae8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: James Harton <jamesh@balena.io>
+        signed-off-by: James Harton <jamesh@balena.io>
+      author: James Harton
+  version: 30.75.7
+  date: 2020-07-09T03:34:47.912Z
+- commits:
     - subject: Replace lib/metrics with private package
       hash: 4f7125d723591336fe9bbdc646be734a11ec4c92
       body: ''
