@@ -28,8 +28,7 @@
       "lib/queue",
       "lib/ui-components",
       "lib/sync",
-      "lib/worker",
-      "lib/mail"
+      "lib/worker"
     ]
   },
   "ava": {
@@ -119,9 +118,10 @@
     "@babel/polyfill": "^7.10.4",
     "@balena/jellyfish-assert": "0.0.9",
     "@balena/jellyfish-client-sdk": "^1.1.1",
-    "@balena/jellyfish-environment": "^0.1.0",
+    "@balena/jellyfish-environment": "^1.0.0",
     "@balena/jellyfish-jellyscript": "0.0.4",
     "@balena/jellyfish-logger": "0.0.8",
+    "@balena/jellyfish-mail": "0.0.3",
     "@balena/jellyfish-metrics": "0.0.6",
     "@balena/jellyfish-uuid": "0.0.9",
     "@octokit/auth-app": "^2.4.7",

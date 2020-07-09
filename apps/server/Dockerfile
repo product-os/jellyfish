@@ -15,7 +15,6 @@ COPY ./lib/core ./lib/core
 COPY ./lib/sync ./lib/sync
 COPY ./lib/queue ./lib/queue
 COPY ./lib/worker ./lib/worker
-COPY ./lib/mail ./lib/mail
 
 COPY ./apps/server ./apps/server
 COPY Makefile .

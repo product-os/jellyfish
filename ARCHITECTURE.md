@@ -226,10 +226,6 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/mail`](https://github.com/product-os/jellyfish/tree/master/lib/mail)
-
-The mail library consists of a mailgun integration which can be used to send emails to jellyfish users
-
 ### [`lib/queue`](https://github.com/product-os/jellyfish/tree/master/lib/queue)
 
 The Jellyfish system processes incoming action requests and adds them to a

@@ -11,7 +11,7 @@ const actionLibrary = require('../../../../lib/action-library')
 const uuid = require('@balena/jellyfish-uuid')
 const environment = require('@balena/jellyfish-environment')
 
-const MAILGUN = environment.mail
+const MAIL_OPTIONS = environment.mail.options
 
 const createOrgLinkAction = async ({
 	fromId,
@@ -105,12 +105,12 @@ ava.before(async (test) => {
 		processAction
 	} = test.context
 
-	nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
+	nock(`${MAIL_OPTIONS.baseUrl}/${MAIL_OPTIONS.domain}`)
 		.persist()
 		.post('/messages')
 		.basicAuth({
 			user: 'api',
-			pass: MAILGUN.TOKEN
+			pass: MAIL_OPTIONS.TOKEN
 		})
 		.reply(200)
 

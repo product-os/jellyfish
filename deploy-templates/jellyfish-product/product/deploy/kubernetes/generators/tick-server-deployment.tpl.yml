@@ -171,6 +171,8 @@ spec:
             secretKeyRef:
               key: INTEGRATION_GOOGLE_MEET_CREDENTIALS
               name: integration-google-meet-credentials
+        - name: MAIL
+          value: 'mailgun'
         - name: MAILGUN_TOKEN
           valueFrom:
             secretKeyRef:

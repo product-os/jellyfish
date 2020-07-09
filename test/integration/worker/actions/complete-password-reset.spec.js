@@ -11,7 +11,7 @@ const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
 
-const MAILGUN = environment.mail
+const MAIL_OPTIONS = environment.mail.options
 const {
 	resetPasswordSecretToken
 } = environment.actions
@@ -54,12 +54,12 @@ ava.beforeEach(async (test) => {
 		.update(user.data.hash)
 		.digest('hex')
 
-	nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
+	nock(`${MAIL_OPTIONS.baseUrl}/${MAIL_OPTIONS.domain}`)
 		.persist()
 		.post('/messages')
 		.basicAuth({
 			user: 'api',
-			pass: MAILGUN.TOKEN
+			pass: MAIL_OPTIONS.TOKEN
 		})
 		.reply(200)
 
