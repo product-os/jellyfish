@@ -58,7 +58,7 @@ exports.getElementValue = async (page, selector) => {
 exports.loginUser = async (page, user) => {
 	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 
-	await page.waitForSelector('.login-page')
+	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 
 	await page.type('.login-page__input--username', user.username)
 	await page.type('.login-page__input--password', user.password)
@@ -124,6 +124,7 @@ exports.logout = async (page) => {
 			})
 		})
 	}
+	await bluebird.delay(1000)
 }
 
 exports.waitForThenClickSelector = async (page, selector) => {
