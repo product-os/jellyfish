@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'patch: bump json-schema-ref-parser from 9.0.1 to 9.0.2'
+      hash: c79c9356c0e2010f0e6dd04a747d0ca21c7b9c23
+      body: >
+        Bumps
+        [json-schema-ref-parser](https://github.com/APIDevTools/json-schema-ref-parser)
+        from 9.0.1 to 9.0.2.
+
+        - [Release
+        notes](https://github.com/APIDevTools/json-schema-ref-parser/releases)
+
+        -
+        [Changelog](https://github.com/APIDevTools/json-schema-ref-parser/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/APIDevTools/json-schema-ref-parser/compare/v9.0.1...v9.0.2)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.76.5
+  date: 2020-07-10T07:42:38.863Z
+- commits:
     - subject: 'test: Re-instate skipped e2e tests'
       hash: f82f31033a5f98e6fd9b196cab0b4ada4ec18984
       body: ''
