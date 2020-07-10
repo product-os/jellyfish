@@ -726,6 +726,10 @@ ava.serial('A user can edit their own message', async (test) => {
 	// Wait for the message to be updated and verify the message text
 	const newMessageText = await macros.getElementText(page, `${eventSelector} [data-test="event-card__message"]`)
 	test.is(newMessageText.trim(), messageTextAfter)
+
+	// Verify the event context shows that it has been edited
+	await page.hover(eventSelector)
+	await page.waitForSelector(`${eventSelector} [data-test="event-card--edited-at"]`)
 })
 
 ava.serial('You can trigger a quick search for cards from the message input', async (test) => {

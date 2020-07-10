@@ -81,6 +81,7 @@ module.exports = {
 	triggeredActionSupportClosedIssueReopen: require('./contrib/triggered-action-support-closed-issue-reopen.json'),
 	triggeredActionSyncThreadPostLinkWhisper: require(
 		'./contrib/triggered-action-sync-thread-post-link-whisper.json'),
+	triggeredActionUpdateEventEditedAt: require('./contrib/triggered-action-update-event-edited-at.json'),
 
 	// User facing views
 	viewAllViews: require('./contrib/view-all-views.json'),
