@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Exclude messages you wrote from your inbox'
+      hash: 505ea8fdfa23ef0e74b4c6083e39f13f815f16b1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.1
+  date: 2020-07-10T09:05:58.444Z
+- commits:
     - subject: 'ui: Show when a message has been edited'
       hash: 9b7b2ba78e61998278656c413007df948917f41f
       body: >
