@@ -1,4 +1,44 @@
 - commits:
+    - subject: 'ui: Show when a message has been edited'
+      hash: 9b7b2ba78e61998278656c413007df948917f41f
+      body: >
+        The event context (displayed when you hover over a message) now displays
+        the text `(edited)` if a message has been edited. Hovering over the
+        `(edited)` text displays a tooltip with the timestamp of when it was
+        edited.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add new triggered action to update edited_at field
+      hash: bc5ae8c238d53cf0e5727a4b3b4e147aabcca6bb
+      body: >
+        When any field in the message payload is modified, an
+        'action-update-card' action is triggered to set the /data/edited_at
+        field to the value of the card's updated_at field.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add 'edited_at' field to message and whisper cards
+      hash: 3ac0d58c51734d2fa11ec90008f1578a2021ed55
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.0
+  date: 2020-07-10T08:23:08.974Z
+- commits:
     - subject: 'patch: bump json-schema-ref-parser from 9.0.1 to 9.0.2'
       hash: c79c9356c0e2010f0e6dd04a747d0ca21c7b9c23
       body: >
