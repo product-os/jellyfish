@@ -4,13 +4,14 @@
  * Proprietary and confidential.
  */
 
-import localForage from 'localforage'
 import * as redux from 'redux'
 import reduxThunk from 'redux-thunk'
 import {
 	routerMiddleware
 } from 'connected-react-router'
-import _ from 'lodash'
+import {
+	persistStore
+} from 'redux-persist'
 import {
 	isProduction
 } from '../../environment'
@@ -23,38 +24,11 @@ import ActionCreator, {
 } from './actioncreators'
 import history from '../../services/history'
 
-// Set localStorage as the backend driver, as it is a little easier to work
-// with.
-// In memory storage should be used as a fallback if localStorage isn't
-// available for some reason. This functionality is waiting on:
-// https://github.com/localForage/localForage/pull/721
-localForage.setDriver(localForage.LOCALSTORAGE)
-
 export const setupStore = ({
 	sdk,
 	analytics,
-	errorReporter,
-	storageKey
+	errorReporter
 }) => {
-	const save = (state) => {
-		// Only save the core state to prevent localStorage from filling up with view data
-		// Don't save cached (user) cards - these should be refetched to ensure we have
-		// the latest version
-		localForage.setItem(storageKey, {
-			core: _.omit(state.core, [ 'cards' ]),
-			ui: _.omit(state.ui, [ 'flows' ])
-		})
-	}
-
-	const reducerWrapper = (state, action) => {
-		const firstRun = !state
-		const newState = reducer(state, action)
-		if (!firstRun) {
-			save(newState)
-		}
-		return newState
-	}
-
 	const composeEnhancers = (
 		typeof window !== 'undefined' &&
 		!isProduction() &&
@@ -67,15 +41,34 @@ export const setupStore = ({
 		reduxThunk
 	]
 
+	const store = redux.createStore(reducer, composeEnhancers(redux.applyMiddleware(...middleware)))
+
+	const actionCreators = new ActionCreator({
+		sdk,
+		analytics,
+		errorReporter,
+		selectors
+	})
+
+	const onHydrated = async () => {
+		const token = selectors.getSessionToken(store.getState())
+		try {
+			if (token) {
+				await store.dispatch(actionCreators.loginWithToken(token))
+			} else {
+				await store.dispatch(actionCreators.setStatus('unauthorized'))
+			}
+		} catch (error) {
+			console.error(error)
+		}
+	}
+
+	const persistor = persistStore(store, null, onHydrated)
 	return {
-		store: redux.createStore(reducerWrapper, composeEnhancers(redux.applyMiddleware(...middleware))),
+		store,
+		persistor,
 		actions,
-		actionCreators: new ActionCreator({
-			sdk,
-			analytics,
-			errorReporter,
-			selectors
-		}),
+		actionCreators,
 		selectors
 	}
 }
