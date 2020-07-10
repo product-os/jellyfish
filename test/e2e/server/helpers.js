@@ -14,7 +14,7 @@ const environment = require('@balena/jellyfish-environment')
 
 const waitForServer = async (test, retries = 50) => {
 	try {
-		await test.context.http('GET', '/ping')
+		await test.context.http('GET', '/readiness')
 	} catch (error) {
 		if (retries > 0 &&
 			(error.code === 'ECONNREFUSED' || error.code === 'ECONNRESET')) {

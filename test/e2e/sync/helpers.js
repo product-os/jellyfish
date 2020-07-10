@@ -12,6 +12,46 @@ const helpers = require('../sdk/helpers')
 exports.mirror = {
 	before: async (test) => {
 		await helpers.before(test)
+
+		test.context.waitForThreadSyncWhisper = async (threadId) => {
+			return test.context.waitForMatch({
+				type: 'object',
+				required: [ 'type', 'data' ],
+				properties: {
+					data: {
+						type: 'object',
+						required: [ 'target', 'payload' ],
+						additionalProperties: false,
+						properties: {
+							target: {
+								const: threadId
+							},
+							mirrors: {
+								type: 'array',
+								items: {
+									type: 'string',
+									pattern: '^https:\\/\\/forums\\.balena\\.io'
+								}
+							},
+							payload: {
+								type: 'object',
+								required: [ 'message' ],
+								additionalProperties: false,
+								properties: {
+									message: {
+										type: 'string',
+										pattern: 'This thread is synced to Jellyfish'
+									}
+								}
+							}
+						}
+					},
+					type: {
+						const: 'whisper@1.0.0'
+					}
+				}
+			})
+		}
 	},
 	after: async (test) => {
 		await helpers.after(test)
