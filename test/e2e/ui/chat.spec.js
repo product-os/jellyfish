@@ -394,6 +394,17 @@ ava.serial('Only messages that ping a user or one of their groups should appear 
 
 	await macros.createChatMessage(page, columnSelector, msg)
 
+	// And send a message to our own group
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await incognitoPage.waitForSelector(columnSelector)
+
+	const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`
+
+	await incognitoPage.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(incognitoPage, columnSelector, ownGroupMsg)
+
 	// Navigate to the inbox page
 	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
@@ -414,6 +425,11 @@ ava.serial('Only messages that ping a user or one of their groups should appear 
 			const text = await incognitoPage.evaluate((ele) => {
 				return ele.textContent
 			}, child)
+
+			const eventId = await macros.getElementAttribute(incognitoPage, child, 'id')
+			if (eventId === ownGroupMsg.id) {
+				test.fail('Message to own group found in inbox')
+			}
 
 			const mentionsGroup = (groupName) => {
 				return text.includes(groupName)

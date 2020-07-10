@@ -55,6 +55,13 @@ exports.getElementValue = async (page, selector) => {
 	return value
 }
 
+exports.getElementAttribute = async (page, element, attributeName) => {
+	return page.evaluate(
+		(item, attr) => { return item.getAttribute(attr) },
+		element, attributeName
+	)
+}
+
 exports.loginUser = async (page, user) => {
 	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
 
