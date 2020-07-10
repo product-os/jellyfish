@@ -16,6 +16,19 @@ const environment = require('@balena/jellyfish-environment')
 const randomWords = require('random-words')
 const TOKEN = environment.integration.discourse
 
+// Filter out the sync notice that is created when a new support thread is
+// created. The notice is created by an async triggered action and causes
+// disruption to these tests as it is not predictable where in the list of posts
+// it will appear.
+// TODO: remove this code once sync tests are run in isolation. This code is
+// a symptom of our e2e tests "bleeding" into each other, instead of being
+// tested as seperate units.
+const withoutSyncNotice = (posts) => {
+	return posts.filter((post) => {
+		return !_.includes(post.raw, 'This thread is synced to Jellyfish')
+	})
+}
+
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
@@ -343,7 +356,7 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topic.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
 
 	test.not(test.context.username, lastPost.username)
 	test.is(environment.integration.discourse.username, lastPost.username)
@@ -380,7 +393,7 @@ avaTest('should send a message as a non moderator user', async (test) => {
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topic.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -483,7 +496,7 @@ avaTest('should not update a post by posting a #summary whisper', async (test) =
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const firstPost = topic.post_stream.posts[0]
+	const firstPost = withoutSyncNotice(topic.post_stream.posts)[0]
 	test.is(firstPost.updated_at, firstPost.created_at)
 })
 
@@ -508,7 +521,7 @@ avaTest('should not update a post by defining no new tags', async (test) => {
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	test.deepEqual(topic.tags, [])
-	const firstPost = topic.post_stream.posts[0]
+	const firstPost = withoutSyncNotice(topic.post_stream.posts)[0]
 	test.is(firstPost.updated_at, firstPost.created_at)
 })
 
@@ -760,7 +773,7 @@ avaTest('should send a whisper', async (test) => {
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topic.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -791,12 +804,12 @@ avaTest('should update a whisper', async (test) => {
 	])
 
 	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topicAfter.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topicAfter.post_stream.posts))
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${newContent}</p>`)
 	test.is(lastPost.post_type, 4)
-	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
+	test.is(withoutSyncNotice(topicBefore.post_stream.posts).length, withoutSyncNotice(topicAfter.post_stream.posts).length)
 })
 
 avaTest('should send a message', async (test) => {
@@ -812,7 +825,7 @@ avaTest('should send a message', async (test) => {
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topic.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -843,12 +856,12 @@ avaTest('should update a message', async (test) => {
 	])
 
 	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(topicAfter.post_stream.posts)
+	const lastPost = _.last(withoutSyncNotice(topicAfter.post_stream.posts))
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${newContent}</p>`)
 	test.is(lastPost.post_type, 1)
-	test.is(topicBefore.post_stream.posts.length, topicAfter.post_stream.posts.length)
+	test.is(withoutSyncNotice(topicBefore.post_stream.posts).length, withoutSyncNotice(topicAfter.post_stream.posts).length)
 })
 
 avaTest('should update the thread title', async (test) => {
