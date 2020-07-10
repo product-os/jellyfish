@@ -10,7 +10,7 @@ const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
 
-const MAILGUN = environment.mail
+const MAIL_OPTIONS = environment.mail.options
 
 const checkForKeyValue = (key, value, text) => {
 	const pattern = new RegExp(`name="${key}"\\s*${value}`, 'm')
@@ -59,14 +59,14 @@ ava.beforeEach(async (test) => {
 		}
 	})
 
-	// Nock Mailgun
+	// Nock mail integration
 	const nockRequest = (fn) => {
-		nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
+		nock(`${MAIL_OPTIONS.baseUrl}/${MAIL_OPTIONS.domain}`)
 			.persist()
 			.post('/messages')
 			.basicAuth({
 				user: 'api',
-				pass: MAILGUN.TOKEN
+				pass: MAIL_OPTIONS.TOKEN
 			})
 			.reply(200, (uri, requestBody) => {
 				fn ? fn(requestBody) : null

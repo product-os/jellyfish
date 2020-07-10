@@ -11,7 +11,7 @@ const helpers = require('../helpers')
 const actionLibrary = require('../../../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
 
-const MAILGUN = environment.mail
+const MAIL_OPTIONS = environment.mail.options
 
 ava.before(async (test) => {
 	await helpers.worker.before(test, actionLibrary)
@@ -22,7 +22,7 @@ ava.after(async (test) => {
 	nock.cleanAll()
 })
 
-const avaTest = _.some(_.values(MAILGUN), _.isEmpty) ? ava.skip : ava.serial
+const avaTest = _.some(_.values(MAIL_OPTIONS), _.isEmpty) ? ava.skip : ava.serial
 
 const checkForKeyValue = (key, value, text) => {
 	const pattern = new RegExp(`name="${key}"\\s*${value}`, 'm')
@@ -30,17 +30,17 @@ const checkForKeyValue = (key, value, text) => {
 	return regex !== -1
 }
 
-ava.serial('action send-email should send an email through the mailgun integration', async (test) => {
+ava.serial('action send-email should send an email', async (test) => {
 	let actualBody
 
-	nock(`${MAILGUN.baseUrl}/${MAILGUN.domain}`)
+	nock(`${MAIL_OPTIONS.baseUrl}/${MAIL_OPTIONS.domain}`)
 		.post('/messages', (body) => {
 			actualBody = body
 			return body
 		})
 		.basicAuth({
 			user: 'api',
-			pass: MAILGUN.token
+			pass: MAIL_OPTIONS.token
 		})
 		.reply(200)
 
@@ -85,7 +85,7 @@ ava.serial('action send-email should send an email through the mailgun integrati
 	test.true(textIsInBody)
 })
 
-avaTest('live: action send-email should send an email through the mailgun integration', async (test) => {
+avaTest('live: action send-email should send an email', async (test) => {
 	const requestPasswordResetCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		version: '1.0.0',

@@ -16,7 +16,6 @@ RUN rm -f ~/.npmrc
 COPY ./lib/core ./lib/core
 COPY ./lib/chat-widget ./lib/chat-widget
 COPY ./lib/sync ./lib/sync
-COPY ./lib/mail ./lib/mail
 
 COPY ./test ./test
 COPY ./Makefile ./Makefile
