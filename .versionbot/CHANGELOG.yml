@@ -1,4 +1,52 @@
 - commits:
+    - subject: 'test: Add unit and e2e tests for message alerts'
+      hash: 1b96b3ba2cf6df7518d33b13096dc571ee401b38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Style ''alert'' tags in messages with a red background'
+      hash: e89e26ee1c7e1a8c10cc34afbf6eea8ba28951d6
+      body: |
+        This helps to distinguish them from mentions.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Include alerts in Inbox query'
+      hash: 158a722d2eb36197b7d4bc6d7d11a23499a6da65
+      body: >
+        Messages that alert the user via the `alertsUser` or `alertsGroup`
+        property now appear in the Inbox (and mentions count).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Fix layout of Inbox'
+      hash: e683820e3c9f562ad96cd15c466dfed2d2fae000
+      body: >
+        Gets rid of the 'double scrollbar' when viewing an Inbox tab with a lot
+        of messages in it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.76.0
+  date: 2020-07-10T01:36:19.576Z
+- commits:
     - subject: 'patch: bump lodash from 4.17.17 to 4.17.19'
       hash: dbeb3097bb1d14bd862fa86d6b39e019a062d91f
       body: >
