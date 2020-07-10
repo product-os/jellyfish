@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/mail with private package
+      hash: f5ff26678754c3fd153329d0e7e4c6a7005fe10c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.76.3
+  date: 2020-07-10T05:07:54.518Z
+- commits:
     - subject: 'test: Increase timeout for waiting on login page'
       hash: 23301ceccac9fe0a68675bbcc6faea20cfd03227
       body: ''
