@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'test: Wait for readiness endpoint before running tests'
+      hash: 249980fd62cee6d8e77997fa400bd38ad3a63ebf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'test: wait for thread sync whisper after creating support-thread'
+      hash: 84c01394be55569a21bd00b4eab5158f2ff14b8c
+      body: >
+        This should fix the race condition seen where sometimes the first 'test'
+        message in a thread is saved before the 'sync whisper' that is created
+        by the asynchronous triggered action. This makes it hard to determine
+        which event will be the 'last' in the list of events. Hopefully by
+        waiting for the sync whisper before posting any test message to the
+        thread, we ensure the sync message will always be the first one in the
+        thread.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.76.1
+  date: 2020-07-10T03:16:39.470Z
+- commits:
     - subject: 'test: Add unit and e2e tests for message alerts'
       hash: 1b96b3ba2cf6df7518d33b13096dc571ee401b38
       body: ''
