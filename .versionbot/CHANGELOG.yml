@@ -1,4 +1,44 @@
 - commits:
+    - subject: 'test: Increase timeout for waiting on login page'
+      hash: 23301ceccac9fe0a68675bbcc6faea20cfd03227
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Persist redux state using redux-persist'
+      hash: 0cf207f79d4d8e300fa6736b8b4500932243ef81
+      body: >
+        We still use localForage as the storage engine. Persist and
+        're-hydration' logic is now greatly simplified and handled automatically
+        by the redux-persist config and the `persistStore` callback (
+        `onHydrated`).
+
+
+        The `setCoreState` action creator is no longer used/needed so it has
+        been removed.
+
+
+        The `PersistGate` component prevents the child components from rendering
+        until the redux state has been re-hydrated. In practice this delay is so
+        short as to be undetectable.
+
+
+        Note - when this change is deployed, all users will have to login again
+        as location of the cached session token will have changed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.76.2
+  date: 2020-07-10T04:22:34.346Z
+- commits:
     - subject: 'test: Wait for readiness endpoint before running tests'
       hash: 249980fd62cee6d8e77997fa400bd38ad3a63ebf
       body: ''
