@@ -792,7 +792,7 @@ ava.serial('should not remove a property from an existing linked contact', async
 	})
 })
 
-ava.serial.only('should merge and relink a diverging contact with a matching slug', async (test) => {
+ava.serial('should merge and relink a diverging contact with a matching slug', async (test) => {
 	const slug = test.context.generateRandomSlug({
 		prefix: 'user'
 	})
