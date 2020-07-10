@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'test: Re-instate skipped e2e tests'
+      hash: f82f31033a5f98e6fd9b196cab0b4ada4ec18984
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.76.4
+  date: 2020-07-10T05:53:18.720Z
+- commits:
     - subject: Replace lib/mail with private package
       hash: f5ff26678754c3fd153329d0e7e4c6a7005fe10c
       body: ''
