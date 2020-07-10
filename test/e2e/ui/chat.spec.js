@@ -160,7 +160,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	test.pass()
 })
 
-ava.serial('Messages that ping a user should appear in their inbox', async (test) => {
+ava.serial('Messages that mention a user should appear in their inbox', async (test) => {
 	const {
 		user2,
 		page,
@@ -195,7 +195,42 @@ ava.serial('Messages that ping a user should appear in their inbox', async (test
 	test.pass()
 })
 
-ava.serial('Messages that ping a user\'s group should appear in their inbox', async (test) => {
+ava.serial('Messages that alert a user should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `!${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Messages that mention a user\'s group should appear in their inbox', async (test) => {
 	const {
 		user2,
 		page,
@@ -228,6 +263,54 @@ ava.serial('Messages that ping a user\'s group should appear in their inbox', as
 	await page.waitForSelector(columnSelector)
 
 	const msg = `@@${groupName} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Messages that alert a user\'s group should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Create a group and add the user to it
+	const groupName = `group-${uuid()}`
+	const group = await page.evaluate((name) => {
+		return window.sdk.card.create({
+			type: 'group@1.0.0',
+			name
+		})
+	}, groupName)
+
+	await page.evaluate((grp, usr) => {
+		return window.sdk.card.link(grp, usr, 'has group member')
+	}, group, user2)
+
+	// Navigate to the thread page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `!!${groupName} ${uuid()}`
 
 	await page.waitForSelector('.new-message-input')
 

@@ -14,6 +14,20 @@ const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 	return undefined
 }
 
+const propertySchema = (propertyName, isEnum, searchTerm) => {
+	return {
+		properties: {
+			[propertyName]: {
+				type: 'array',
+				contains: {
+					[isEnum ? 'enum' : 'const']: searchTerm
+				}
+			}
+		},
+		required: [ propertyName ]
+	}
+}
+
 export const withSearch = (query, searchTerm) => {
 	if (searchTerm) {
 		return _.mergeWith(query, {
@@ -41,18 +55,15 @@ export const withSearch = (query, searchTerm) => {
 
 // Generates a basic query that matches messages against a user slug or group names
 export const getPingQuery = (user, groupNames, searchTerm) => {
-	const mentionsUserSchema = {
-		properties: {
-			mentionsUser: {
-				type: 'array',
-				contains: {
-					const: user.slug
-				}
-			}
-		},
-		required: [
-			'mentionsUser'
-		]
+	const anyOf = [
+		propertySchema('mentionsUser', false, user.slug),
+		propertySchema('alertsUser', false, user.slug)
+	]
+	if (groupNames && groupNames.length) {
+		anyOf.push(
+			propertySchema('mentionsGroup', true, groupNames),
+			propertySchema('alertsGroup', true, groupNames)
+		)
 	}
 	const query = {
 		type: 'object',
@@ -71,28 +82,9 @@ export const getPingQuery = (user, groupNames, searchTerm) => {
 				properties: {
 					// If there are no groupNames, don't create a schema fragment looking for groups,
 					// as that would create an `enum` with no values, which is invalid
-					payload: groupNames.length ? {
+					payload: {
 						type: 'object',
-						anyOf: [
-							mentionsUserSchema,
-							{
-								properties: {
-									mentionsGroup: {
-										type: 'array',
-										contains: {
-											enum: groupNames
-										}
-									}
-								},
-								required: [
-									'mentionsGroup'
-								]
-							}
-						],
-						additionalProperties: true
-					} : {
-						...mentionsUserSchema,
-						type: 'object',
+						anyOf,
 						additionalProperties: true
 					}
 				},

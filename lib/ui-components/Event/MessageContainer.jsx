@@ -17,22 +17,6 @@ const MessageContainer = styled(Box) `
 		color: inherit;
 		text-decoration: underline;
 	}
-	a .rendition-tag--personal,
-	.rendition-tag--personal {
-		background: #FFF1C2;
-		color: #333;
-		&.rendition-tag--read:after,
-		&.rendition-tag--read-by:after {
-			background: #FFC19B;
-			width: 1.5em;
-			height: 1.5em;
-			border-radius: 50%;
-			line-height: 1.5em;
-			vertical-align: middle;
-			text-align: center;
-			font-size: 8px;
-		}
-	}
 	img {
 		background-color: transparent !important;
 		&.emoji {
