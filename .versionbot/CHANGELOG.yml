@@ -1,4 +1,17 @@
 - commits:
+    - subject: Cleanup balena api translate integration
+      hash: 77435da39973e860d82f00e222231b8440736e7e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.77.3
+  date: 2020-07-10T10:31:41.263Z
+- commits:
     - subject: Improve reliability of discourse mirror tests
       hash: 6f03d0dfb746cfdeac1c739d958fad28108a430b
       body: ''
