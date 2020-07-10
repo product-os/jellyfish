@@ -59,6 +59,7 @@ export default function EventContext ({
 	}
 
 	const timestamp = _.get(card, [ 'data', 'timestamp' ]) || card.created_at
+	const editedAt = _.get(card, [ 'data', 'edited_at' ])
 
 	const copyJSON = (event) => {
 		event.preventDefault()
@@ -146,12 +147,27 @@ export default function EventContext ({
 			{ threadIsMirrored && <MirrorIcon mirrors={_.get(card, [ 'data', 'mirrors' ])} /> }
 			{Boolean(card.data) && Boolean(timestamp) && (
 				<Txt
-					className="event-card--timestamp"
+					data-test="event-card--timestamp"
 					color={Theme.colors.text.light}
 					fontSize={1}
 					ml={1}
 				>
 					{formatTimestamp(timestamp, true)}
+				</Txt>
+			)}
+			{Boolean(editedAt) && (
+				<Txt
+					data-test="event-card--edited-at"
+					color={Theme.colors.text.light}
+					fontSize={1}
+					italic
+					ml={1}
+					tooltip={{
+						placement: 'top',
+						text: formatTimestamp(editedAt, true)
+					}}
+				>
+					(edited)
 				</Txt>
 			)}
 			{menuOptions !== false && (
