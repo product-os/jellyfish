@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump webpack-merge from 5.0.8 to 5.0.9'
+      hash: 47897f2fa6c16bcbb8cc0364f32a880e15bd516f
+      body: >
+        Bumps [webpack-merge](https://github.com/survivejs/webpack-merge) from
+        5.0.8 to 5.0.9.
+
+        - [Release notes](https://github.com/survivejs/webpack-merge/releases)
+
+        -
+        [Changelog](https://github.com/survivejs/webpack-merge/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/survivejs/webpack-merge/compare/v5.0.8...v5.0.9)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.4
+  date: 2020-07-10T12:10:18.980Z
+- commits:
     - subject: Cleanup balena api translate integration
       hash: 77435da39973e860d82f00e222231b8440736e7e
       body: ''
