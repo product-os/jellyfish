@@ -78,7 +78,7 @@ export const getPingQuery = (user, groupNames, searchTerm) => {
 			},
 			data: {
 				type: 'object',
-				required: [ 'payload' ],
+				required: [ 'payload', 'actor' ],
 				properties: {
 					// If there are no groupNames, don't create a schema fragment looking for groups,
 					// as that would create an `enum` with no values, which is invalid
@@ -86,6 +86,11 @@ export const getPingQuery = (user, groupNames, searchTerm) => {
 						type: 'object',
 						anyOf,
 						additionalProperties: true
+					},
+					actor: {
+						not: {
+							const: user.id
+						}
 					}
 				},
 				additionalProperties: true
