@@ -19,7 +19,7 @@ ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/flowdock'),
+	integration: require('@balena/jellyfish-sync').INTEGRATIONS.flowdock,
 	scenarios: require('./webhooks/flowdock'),
 	baseUrl: 'https://api.flowdock.com',
 	stubRegex: /.*/,

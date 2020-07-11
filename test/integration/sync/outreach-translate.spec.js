@@ -52,7 +52,7 @@ ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/outreach'),
+	integration: require('@balena/jellyfish-sync').INTEGRATIONS.outreach,
 	scenarios: require('./webhooks/outreach'),
 	slices: _.range(0, 50),
 	baseUrl: 'https://api.outreach.io',

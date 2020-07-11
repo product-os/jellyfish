@@ -15,7 +15,7 @@ ava.serial.before(async (test) => {
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/typeform'),
+	integration: require('@balena/jellyfish-sync').INTEGRATIONS.typeform,
 	scenarios: require('./webhooks/typeform'),
 	baseUrl: 'https://api.typeform.com',
 	stubRegex: /.*/,

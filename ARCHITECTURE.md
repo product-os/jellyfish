@@ -226,10 +226,23 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/sync`](https://github.com/product-os/jellyfish/tree/master/lib/sync)
+### [`lib/queue`](https://github.com/product-os/jellyfish/tree/master/lib/queue)
 
-This module contains an integration syncing engine built on top of Jellyfish,
-along with a set of integrations with third party services.
+The Jellyfish system processes incoming action requests and adds them to a
+queue. The system can dequeue the next action request, execute it, and post the
+results back. This module provides a small set of functions to perform any
+action request queue-related operations.
+
+No module that interacts with the action request queue should try to bypass
+this module.
+
+#### Goals
+
+- The queue aims to be fast
+- The queue aims to be a layer on top of the core to effectively manage action
+	requests
+- The queue aims to be the source of truth of how action requests are marked as
+	executed and how action requests results are propagated back
 
 ### [`lib/ui-components`](https://github.com/product-os/jellyfish/tree/master/lib/ui-components)
 

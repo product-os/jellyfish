@@ -12,7 +12,8 @@ RUN rm -f ~/.npmrc
 
 COPY ./lib/action-library ./lib/action-library
 COPY ./lib/core ./lib/core
-COPY ./lib/sync ./lib/sync
+COPY ./lib/queue ./lib/queue
+COPY ./lib/worker ./lib/worker
 
 COPY ./apps/server ./apps/server
 COPY Makefile .

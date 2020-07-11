@@ -20,7 +20,7 @@ ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/front'),
+	integration: require('@balena/jellyfish-sync').INTEGRATIONS.front,
 	scenarios: require('./webhooks/front'),
 	slices: _.range(0, 50),
 	baseUrl: /(api2.frontapp.com|api.intercom.io)(:443)?$/,
