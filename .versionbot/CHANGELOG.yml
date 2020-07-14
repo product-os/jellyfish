@@ -1,4 +1,32 @@
 - commits:
+    - subject: Update sidecar and test image tags
+      hash: 501f51e100608d8e802b2b9800d8bef357f0e277
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: bump puppeteer from 5.0.0 to 5.1.0'
+      hash: 545ed52c715fcf2cb13f7e6ef14452cb4ae0399d
+      body: >
+        Bumps [puppeteer](https://github.com/puppeteer/puppeteer) from 5.0.0 to
+        5.1.0.
+
+        - [Release notes](https://github.com/puppeteer/puppeteer/releases)
+
+        -
+        [Commits](https://github.com/puppeteer/puppeteer/compare/v5.0.0...v5.1.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.10
+  date: 2020-07-14T05:44:37.986Z
+- commits:
     - subject: 'patch: bump json-schema-ref-parser from 9.0.2 to 9.0.3'
       hash: 605de7ce02d3a81c7db981d91063450b933af26a
       body: >
