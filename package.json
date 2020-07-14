@@ -171,7 +171,7 @@
     "jsonwebtoken": "^8.5.1",
     "localforage": "^1.7.4",
     "lodash": "^4.17.19",
-    "lru-cache": "^5.1.1",
+    "lru-cache": "^6.0.0",
     "mark.js": "^8.11.1",
     "marked": "^1.1.0",
     "mixpanel-browser": "^2.38.0",
