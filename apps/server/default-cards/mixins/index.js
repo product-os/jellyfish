@@ -16,6 +16,8 @@ const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 
 module.exports = {
 	withEvents: require('./with-events'),
+	generateRelationshipSchema: require('./generate-relationship-schema'),
+	sensibleDefaults: require('./sensible-defaults'),
 
 	mixin: (...mixins) => {
 		return (base) => {

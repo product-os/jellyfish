@@ -133,5 +133,33 @@ module.exports = {
 	viewSecuritySupportThreads: require('./balena/view-security-support-threads.json'),
 	viewSupportThreadsPendingUpdate: require('./balena/view-support-threads-pending-update.json'),
 	viewSupportThreadsToAudit: require('./balena/view-support-threads-to-audit.json'),
-	viewWorkflows: require('./balena/view-workflows.json')
+	viewWorkflows: require('./balena/view-workflows.json'),
+
+	// Relationship type cards
+	relationshipAppearsInHas: require('./relationships/relationship-appears-in-has')(mixins),
+	relationshipIsAttachedToHasAttached: require('./relationships/relationship-is-attached-to-has-attached')(mixins),
+	relationshipIsAttachedToHasAttachedContact:
+		require('./relationships/relationship-is-attached-to-has-attached-contact')(mixins),
+	relationshipIsAttendedByAttended: require('./relationships/relationship-is-attended-by-attended')(mixins),
+	relationshipIsBackupOwnerOfHasBackupOwner:
+		require('./relationships/relationship-is-backup-owner-of-has-backup-owner')(mixins),
+	relationshipIsContributedToByContribuesTo:
+		require('./relationships/relationship-is-contributed-to-by-contributes-to')(mixins),
+	relationshipIsFeedbackForIsReviewedWith: require('./relationships/relationship-is-feedback-for-is-reviewed-with')(mixins),
+	relationshipIsGroupMemberOfHasMember: require('./relationships/relationship-is-group-member-of-has-member')(mixins),
+	relationshipIsGuidedByGuides: require('./relationships/relationship-is-guided-by-guides')(mixins),
+	relationshipIsMemberOfHas: require('./relationships/relationship-is-member-of-has')(mixins),
+	relationshipIsObservedByObserves: require('./relationships/relationship-is-observed-by-observes')(mixins),
+	relationshipIsOwnedByIsOwnerOf: require('./relationships/relationship-is-owned-by-is-owner-of')(mixins),
+	relationshipIsOwnedByOwns: require('./relationships/relationship-is-owned-by-owns')(mixins),
+	relationshipIsSourceForComesFrom: require('./relationships/relationship-is-source-for-comes-from')(mixins),
+	relationshipIsSourceForIsFeedbackFor: require('./relationships/relationship-is-source-for-is-feedback-for')(mixins),
+	relationshipIsSubscribedForIsSubscribedWith:
+		require('./relationships/relationship-is-subscribed-for-is-subscribed-with')(mixins),
+	relationshipRelationshipIsOfHas: require('./relationships/relationship-is-of-has')(mixins),
+	relationshipSupportThreadIsAttachedToIssueIssueHasAttachedSupportThread:
+		require('./relationships/relationship-support-thread-is-attached-to-issue-issue-has-attached-support-thread')(mixins),
+	relationshipSupportThreadIsAttachedToSupportIssueSupportIssuesHasAttachedSupportThread:
+		// eslint-disable-next-line max-len
+		require('./relationships/relationship-support-thread-is-attached-to-support-issue-support-issue-has-attached-support-thread')(mixins)
 }
