@@ -1,4 +1,17 @@
 - commits:
+    - subject: Handle attached events after triggers
+      hash: 54325b9337739a589250f3d1774530016c053009
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.11
+  date: 2020-07-14T07:53:08.485Z
+- commits:
     - subject: Update sidecar and test image tags
       hash: 501f51e100608d8e802b2b9800d8bef357f0e277
       body: ''
