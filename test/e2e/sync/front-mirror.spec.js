@@ -505,12 +505,15 @@ avaTest('should be able to post a complex code comment', async (test) => {
 
 	const comments = await test.context.getFrontCommentsUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
-			return elements.length > 0
+			return elements.length > 1
 		})
 
-	test.true(comments.length > 0)
-	test.is(comments[0].body, message)
-	test.is(comments[0].author.username.replace(/_/g, '-'),
+	test.true(comments.length > 1)
+	const comment = _.find(comments, {
+		body: message
+	})
+	test.is(comment.body, message)
+	test.is(comment.author.username.replace(/_/g, '-'),
 		test.context.username)
 })
 
@@ -527,10 +530,10 @@ avaTest('should be able to comment using triple backticks', async (test) => {
 
 	const comments = await test.context.getFrontCommentsUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
-			return elements.length > 0
+			return elements.length > 1
 		})
 
-	test.true(comments.length > 0)
+	test.true(comments.length > 1)
 
 	// Verify that the comments returned contain the expected value
 	const comment = _.find(comments, {
@@ -551,12 +554,14 @@ avaTest('should be able to comment using brackets', async (test) => {
 		test.context.getWhisperSlug(), 'Hello <world> foo <bar>')
 	const comments = await test.context.getFrontCommentsUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
-			return elements.length > 0
+			return elements.length > 1
 		})
 
-	test.true(comments.length > 0)
-	test.is(comments[0].body, 'Hello <world> foo <bar>')
-	test.is(comments[0].author.username.replace(/_/g, '-'),
+	test.true(comments.length > 1)
+	const comment = _.find(comments, {
+		body: 'Hello <world> foo <bar>'
+	})
+	test.is(comment.author.username.replace(/_/g, '-'),
 		test.context.username)
 })
 
@@ -606,7 +611,7 @@ avaTest('should be able to comment on an inbound message', async (test) => {
 		test.context.getWhisperSlug(), 'First comment')
 	const comments = await test.context.getFrontCommentsUntil(
 		_.last(supportThread.data.mirrors[0].split('/')), (elements) => {
-			return elements.length > 0
+			return elements.length > 1
 		})
 
 	// Verify that the comments returned contain the expected value
