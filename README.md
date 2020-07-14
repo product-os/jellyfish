@@ -2,6 +2,8 @@
 	<img src="./banner.png" height="160" />
 </p>
 
+🍩
+
 Jellyfish is a social knowledge database that the team uses to collaborate,
 without being blocked by departmental or hierarchal divisions. Jellyfish
 gathers all information company wide and makes it a platform to implement
