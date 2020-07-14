@@ -21,6 +21,7 @@ as a cross between Slack and Excel!
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-on-balena.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
+	- [**Working with dependencies**](https://github.com/product-os/jellyfish/blob/master/docs/developing/working-with-dependencies.markdown)
 - **Links**
 	- [**Rapid7**](https://eu.ops.insight.rapid7.com/op/8306227C3C134F65ACF1#/search?logs=%5B%225df30105-2e0a-4e5a-b76a-baa5fc997b36%22%5D&range=Last%2020%20Minutes)
 	- [**Sentry**](https://sentry.io/organizations/balena/issues/?project=1366139)
