@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.709.0 to 2.710.0'
+      hash: 3d068593982e8681af7a394d598690278e3b14e5
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.709.0 to
+        2.710.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.709.0...v2.710.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.7
+  date: 2020-07-14T01:32:19.198Z
+- commits:
     - subject: 'patch: bump eslint-plugin-jsdoc from 28.6.1 to 29.2.0'
       hash: 3765d80361d635967f7d667d36d037cd61ae30b9
       body: >
