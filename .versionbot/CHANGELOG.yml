@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: bump eslint-plugin-jsdoc from 28.6.1 to 29.2.0'
+      hash: 3765d80361d635967f7d667d36d037cd61ae30b9
+      body: >
+        Bumps
+        [eslint-plugin-jsdoc](https://github.com/gajus/eslint-plugin-jsdoc) from
+        28.6.1 to 29.2.0.
+
+        - [Release notes](https://github.com/gajus/eslint-plugin-jsdoc/releases)
+
+        -
+        [Commits](https://github.com/gajus/eslint-plugin-jsdoc/compare/v28.6.1...v29.2.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.6
+  date: 2020-07-14T00:20:28.654Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 5.19.0 to 5.19.1'
       hash: c1f2fc84906acd7151e7ca3a99e615785e6b6518
       body: >
