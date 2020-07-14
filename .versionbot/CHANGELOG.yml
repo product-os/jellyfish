@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix logic for wrapping whispers in Discourse
+      hash: f6caefb7aab844375b104bb2e7ee9724bd8d157a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.12
+  date: 2020-07-14T08:38:09.116Z
+- commits:
     - subject: Handle attached events after triggers
       hash: 54325b9337739a589250f3d1774530016c053009
       body: ''
