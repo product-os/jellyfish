@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'test: Exclude sync whisper when testing front messages'
+      hash: 333000535aa204468c6f5c57392acb58ce12fb01
+      body: >
+        Make sure we wait until the sync whisper _and_ the message in question
+        have been mirrored before testing that the message content is correct.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.13
+  date: 2020-07-14T10:16:39.190Z
+- commits:
     - subject: Fix logic for wrapping whispers in Discourse
       hash: f6caefb7aab844375b104bb2e7ee9724bd8d157a
       body: ''
