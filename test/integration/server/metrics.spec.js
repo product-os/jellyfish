@@ -24,11 +24,11 @@ ava.serial.after(async (test) => {
 	test.context.server.close()
 })
 
-const getMetrics = async (port) => {
+const getMetrics = async () => {
 	return new Bluebird((resolve, reject) => {
 		const requestOptions = {
 			method: 'GET',
-			baseUrl: `http://localhost:${port}`,
+			baseUrl: `http://localhost:${environment.metrics.ports.socket}`,
 			url: '/metrics',
 			auth: {
 				user: 'monitor',
@@ -50,16 +50,8 @@ const getMetrics = async (port) => {
 	})
 }
 
-ava.serial('App metrics endpoint should return app metrics data', async (test) => {
-	const result = await getMetrics(environment.metrics.ports.app)
-
-	test.is(result.code, 200)
-	test.truthy(result.response.includes('jf_card_upsert_total'))
-	test.truthy(result.response.includes('jf_card_read_total'))
-})
-
 ava.serial('Socket metrics endpoint should return websocket metrics data', async (test) => {
-	const result = await getMetrics(environment.metrics.ports.socket)
+	const result = await getMetrics()
 
 	test.is(result.code, 200)
 	test.truthy(result.response.includes('socket_io'))
