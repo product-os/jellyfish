@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'docs: Add npm link doc'
+      hash: 486a3658a520af2af0e8bfd9cb01de4a4b92722f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.77.19
+  date: 2020-07-15T03:02:44.990Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.710.0 to 2.713.0'
       hash: c49b825d5710bac1368a619cfd8f9e2973ff9c93
       body: >
