@@ -124,7 +124,7 @@
     "@balena/jellyfish-mail": "0.0.3",
     "@balena/jellyfish-metrics": "0.0.6",
     "@balena/jellyfish-uuid": "0.0.9",
-    "@octokit/auth-app": "^2.4.7",
+    "@octokit/auth-app": "^2.4.8",
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^18.0.0",
