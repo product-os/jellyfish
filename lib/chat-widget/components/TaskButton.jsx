@@ -18,7 +18,7 @@ import {
 export const TaskButton = ({
 	task, children, ...rest
 }) => {
-	const icon = task.started && <Loader color="white" />
+	const icon = task.started ? <Loader color="white" /> : null
 
 	return (
 		<React.Fragment>
