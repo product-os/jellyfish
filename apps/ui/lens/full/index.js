@@ -11,6 +11,7 @@ import SupportThread from './SupportThread'
 import Thread from './Thread'
 import View from './View'
 import User from './User'
+import FormResponse from './FormResponse'
 
 export default [
 	MyUser,
@@ -19,5 +20,6 @@ export default [
 	SupportThread,
 	User,
 	Thread,
-	View
+	View,
+	FormResponse
 ]
