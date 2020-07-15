@@ -85,6 +85,7 @@ export default class CardActions extends React.Component {
 		return (
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
+					{this.props.inlineActionItems}
 					{supportsOwnership && (
 						<CardOwner
 							user={this.props.user}
