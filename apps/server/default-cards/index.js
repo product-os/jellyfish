@@ -41,6 +41,7 @@ module.exports = {
 	firstTimeLogin: require('./contrib/first-time-login.json'),
 	opportunity: require('./contrib/opportunity.json'),
 	passwordReset: require('./contrib/password-reset.json'),
+	pattern: require('./contrib/pattern.js')(mixins),
 	ping: require('./contrib/ping.json'),
 	pipeline: require('./contrib/pipeline.json'),
 	productImprovement: require('./contrib/product-improvement')(mixins),
