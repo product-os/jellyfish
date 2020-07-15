@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove /metrics endpoint test
+      hash: 4077c600ce5c50c3adab33361a4900550cb02215
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.77.21
+  date: 2020-07-15T04:26:44.922Z
+- commits:
     - subject: 'patch: bump graphql from 15.2.0 to 15.3.0'
       hash: a2daf885a99b08235b395d719330e6499dab388f
       body: >
