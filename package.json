@@ -128,7 +128,7 @@
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^18.0.0",
-    "@sentry/browser": "^5.19.1",
+    "@sentry/browser": "^5.19.2",
     "@webscopeio/react-textarea-autocomplete": "^4.7.0",
     "aws-sdk": "^2.710.0",
     "bcrypt": "^5.0.0",
