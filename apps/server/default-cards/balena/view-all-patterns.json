@@ -1,0 +1,37 @@
+{
+  "slug": "view-all-patterns",
+  "name": "Patterns",
+  "version": "1.0.0",
+  "type": "view@1.0.0",
+  "markers": [
+    "org-balena"
+  ],
+  "tags": [],
+  "links": {},
+  "active": true,
+  "data": {
+    "allOf": [
+      {
+        "name": "All patterns",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "pattern@1.0.0"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ]
+  },
+  "requires": [],
+  "capabilities": []
+}
