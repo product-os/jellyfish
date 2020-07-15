@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.710.0 to 2.713.0'
+      hash: c49b825d5710bac1368a619cfd8f9e2973ff9c93
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.710.0 to
+        2.713.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.710.0...v2.713.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.18
+  date: 2020-07-15T01:23:58.725Z
+- commits:
     - subject: 'patch: bump @sentry/browser from 5.19.1 to 5.19.2'
       hash: ae653f7e32b722ef79869f0d244ceacfee927626
       body: >
