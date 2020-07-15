@@ -90,8 +90,8 @@ export default class Attachments extends React.Component {
 				if (tooManyAttachments || !attachmentIsImage) {
 					return (
 						<AttachmentButton
+							key={attachment.slug || attachment.url}
 							attachment={attachment}
-							index={index}
 							card={card}
 							downloadAttachments={this.downloadAttachments}
 						/>
@@ -99,7 +99,7 @@ export default class Attachments extends React.Component {
 				}
 				return (
 					<MessageContainer
-						key={`${attachment.slug}-${index}`}
+						key={attachment.slug || attachment.url}
 						card={card}
 						actor={actor}
 						squashTop={squashTop}
