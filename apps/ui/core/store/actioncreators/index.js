@@ -170,8 +170,8 @@ export const selectors = {
 	},
 
 	// View specific selectors
-	getViewData: (state, query) => {
-		const tail = state.views.viewData[getViewId(query)]
+	getViewData: (state, query, options = {}) => {
+		const tail = state.views.viewData[options.viewId || getViewId(query)]
 		return tail ? tail.slice() : null
 	},
 	getSubscription: (state, id) => {
@@ -1252,7 +1252,7 @@ export default class ActionCreator {
 	// View specific action creators
 	loadViewResults (query, options = {}) {
 		return async (dispatch, getState) => {
-			const id = getViewId(query)
+			const id = options.viewId || getViewId(query)
 			const requestTimestamp = Date.now()
 			pendingLoadRequests[id] = requestTimestamp
 
@@ -1279,10 +1279,11 @@ export default class ActionCreator {
 
 				// Only update the store if this request is still the most recent once
 				if (pendingLoadRequests[id] === requestTimestamp) {
+					const commonOptions = _.pick(options, 'viewId')
 					if (options.page) {
-						dispatch(this.appendViewData(query, data))
+						dispatch(this.appendViewData(query, data, commonOptions))
 					} else {
-						dispatch(this.setViewData(query, data))
+						dispatch(this.setViewData(query, data, commonOptions))
 					}
 				}
 
@@ -1296,8 +1297,8 @@ export default class ActionCreator {
 		}
 	}
 
-	clearViewData (query) {
-		const id = getViewId(query)
+	clearViewData (query, options = {}) {
+		const id = options.viewId || getViewId(query)
 		if (streams[id]) {
 			streams[id].close()
 			Reflect.deleteProperty(streams, id)
@@ -1341,8 +1342,9 @@ export default class ActionCreator {
 
 	streamView (query, options = {}) {
 		return (dispatch, getState) => {
+			const commonOptions = _.pick(options, 'viewId')
 			const user = selectors.getCurrentUser(getState())
-			const viewId = getViewId(query)
+			const viewId = options.viewId || getViewId(query)
 			return loadSchema(this.sdk, query, user)
 				.then(async (rawSchema) => {
 					if (!rawSchema) {
@@ -1377,7 +1379,7 @@ export default class ActionCreator {
 								if (beforeValid) {
 									// If after is null, the item has been removed from the result set
 									if (!after || !afterValid) {
-										return this.removeViewDataItem(query, before)
+										return this.removeViewDataItem(query, before, commonOptions)
 									}
 
 									const card = await this.getCardWithLinks(schema, after)
@@ -1389,7 +1391,7 @@ export default class ActionCreator {
 									return this.upsertViewData(query, {
 										...after,
 										links: card.links
-									})
+									}, commonOptions)
 								}
 								if (!before && afterValid) {
 									// Otherwise, if before is null, this is a new item
@@ -1402,7 +1404,7 @@ export default class ActionCreator {
 									return this.appendViewData(query, {
 										...after,
 										links: card.links
-									})
+									}, commonOptions)
 								}
 							})(), dispatch)
 						}
@@ -1475,8 +1477,8 @@ export default class ActionCreator {
 		}
 	}
 
-	removeViewDataItem (query, data) {
-		const id = getViewId(query)
+	removeViewDataItem (query, data, options = {}) {
+		const id = options.viewId || getViewId(query)
 		return {
 			type: actions.REMOVE_VIEW_DATA_ITEM,
 			value: {
@@ -1486,8 +1488,8 @@ export default class ActionCreator {
 		}
 	}
 
-	setViewData (query, data) {
-		const id = getViewId(query)
+	setViewData (query, data, options = {}) {
+		const id = options.viewId || getViewId(query)
 		return {
 			type: actions.SET_VIEW_DATA,
 			value: {
@@ -1497,8 +1499,8 @@ export default class ActionCreator {
 		}
 	}
 
-	upsertViewData (query, data) {
-		const id = getViewId(query)
+	upsertViewData (query, data, options = {}) {
+		const id = options.viewId || getViewId(query)
 		return {
 			type: actions.UPSERT_VIEW_DATA_ITEM,
 			value: {
@@ -1508,8 +1510,8 @@ export default class ActionCreator {
 		}
 	}
 
-	appendViewData (query, data) {
-		const id = getViewId(query)
+	appendViewData (query, data, options = {}) {
+		const id = options.viewId || getViewId(query)
 
 		return {
 			type: actions.APPEND_VIEW_DATA_ITEM,
