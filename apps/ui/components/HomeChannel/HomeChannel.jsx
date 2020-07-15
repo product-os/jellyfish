@@ -194,6 +194,11 @@ const viewsToTree = (starredViews, views, root = {}, namespaced = true) => {
 	return result
 }
 
+const cleanPath = (location) => {
+	// React-router sometimes appends a stray '.' to the end of the pathname!
+	return location.pathname.replace(/\.$/, '')
+}
+
 export default class HomeChannel extends React.Component {
 	constructor (props) {
 		super(props)
@@ -352,13 +357,11 @@ export default class HomeChannel extends React.Component {
 	}
 
 	hideDrawer () {
-		if (this.state.showDrawer) {
-			this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)'
-			this.setState({
-				showDrawer: false,
-				sliding: false
-			})
-		}
+		this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)'
+		this.setState({
+			showDrawer: false,
+			sliding: false
+		})
 	}
 
 	toggleDrawerIOS () {
@@ -434,15 +437,21 @@ export default class HomeChannel extends React.Component {
 			this.props.actions.streamView(this.props.channel.data.head)
 		}
 		if (this.props.isMobile) {
-			if (prevProps.channels !== this.props.channels && this.state.showDrawer) {
-				this.hideDrawer()
-			}
-			if (prevProps.channels.length === 2 && this.props.channels.length === 1) {
-				// If we close the last channel, reset the home channel transform
-				this.wrapper.current.style.transform = 'translate3d(0, 0, 0)'
-			} else if (prevProps.channels.length === 1 && this.props.channels.length === 2) {
-				// When we open the first channel, transform the home channel off-screen to the left
-				this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)'
+			if (this.wrapper.current) {
+				const prevPath = cleanPath(prevProps.location)
+				const currentPath = cleanPath(this.props.location)
+				if (
+					(prevProps.channels.length === 2 && this.props.channels.length === 1) ||
+					(prevPath !== '/' && currentPath === '/') ||
+					(currentPath === '/' && prevProps.uiState.chatWidget.open && !this.props.uiState.chatWidget.open)
+				) {
+					this.showDrawer()
+				} else if (
+					(prevPath !== currentPath) ||
+					(this.props.uiState.chatWidget.open && !prevProps.uiState.chatWidget.open)
+				) {
+					this.hideDrawer()
+				}
 			}
 		}
 	}
@@ -472,6 +481,7 @@ export default class HomeChannel extends React.Component {
 					head
 				}
 			},
+			location,
 			user,
 			uiState,
 			mentions
@@ -503,7 +513,7 @@ export default class HomeChannel extends React.Component {
 		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
-		const collapsed = (channels.length > 1 || uiState.chatWidget.open) && isMobile
+		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || uiState.chatWidget.open)
 
 		const grabHandleProps = isiOS() ? {
 			onClick: this.toggleDrawerIOS
