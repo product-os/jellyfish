@@ -48,19 +48,29 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 				properties: {
 					from: {
 						type: 'object',
-						required: [ 'type' ],
+						required: [ 'type', 'id' ],
 						properties: {
+							id: {
+								type: 'string',
+								format: 'uuid'
+							},
 							type: {
-								const: 'time-machine'
+								type: 'string',
+								pattern: '^time-machine@'
 							}
 						}
 					},
 					to: {
 						type: 'object',
-						required: [ 'type' ],
+						required: [ 'type', 'id' ],
 						properties: {
+							id: {
+								type: 'string',
+								format: 'uuid'
+							},
 							type: {
-								const: 'driver'
+								type: 'string',
+								pattern: '^driver@'
 							}
 						}
 					},
@@ -83,19 +93,29 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 				properties: {
 					from: {
 						type: 'object',
-						required: [ 'type' ],
+						required: [ 'type', 'id' ],
 						properties: {
+							id: {
+								type: 'string',
+								format: 'uuid'
+							},
 							type: {
-								const: 'driver'
+								type: 'string',
+								pattern: '^driver@'
 							}
 						}
 					},
 					to: {
 						type: 'object',
-						required: [ 'type' ],
+						required: [ 'type', 'id' ],
 						properties: {
+							id: {
+								type: 'string',
+								format: 'uuid'
+							},
 							type: {
-								const: 'time-machine'
+								type: 'string',
+								pattern: '^time-machine@'
 							}
 						}
 					},
@@ -140,6 +160,6 @@ ava('`generateRelationshipSchema` correctly extracts type names from types with 
 		}
 	})
 
-	test.is(card.data.schema.oneOf[0].properties.data.properties.from.properties.type.const, 'time-machine')
-	test.is(card.data.schema.oneOf[0].properties.data.properties.to.properties.type.const, 'user')
+	test.is(card.data.schema.oneOf[0].properties.data.properties.from.properties.type.pattern, '^time-machine@')
+	test.is(card.data.schema.oneOf[0].properties.data.properties.to.properties.type.pattern, '^user@')
 })

@@ -145,10 +145,11 @@ module.exports = {
 		require('./relationships/relationship-is-backup-owner-of-has-backup-owner')(mixins),
 	relationshipIsContributedToByContribuesTo:
 		require('./relationships/relationship-is-contributed-to-by-contributes-to')(mixins),
+	relationshipIsExecutedByExecutes: require('./relationships/relationship-is-executed-by-executes')(mixins),
 	relationshipIsFeedbackForIsReviewedWith: require('./relationships/relationship-is-feedback-for-is-reviewed-with')(mixins),
 	relationshipIsGroupMemberOfHasMember: require('./relationships/relationship-is-group-member-of-has-member')(mixins),
 	relationshipIsGuidedByGuides: require('./relationships/relationship-is-guided-by-guides')(mixins),
-	relationshipIsMemberOfHas: require('./relationships/relationship-is-member-of-has')(mixins),
+	relationshipIsMemberOfHasMember: require('./relationships/relationship-is-member-of-has-member')(mixins),
 	relationshipIsObservedByObserves: require('./relationships/relationship-is-observed-by-observes')(mixins),
 	relationshipIsOwnedByIsOwnerOf: require('./relationships/relationship-is-owned-by-is-owner-of')(mixins),
 	relationshipIsOwnedByOwns: require('./relationships/relationship-is-owned-by-owns')(mixins),

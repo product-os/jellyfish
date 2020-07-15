@@ -7,22 +7,16 @@
 module.exports = ({
 	generateRelationshipSchema, sensibleDefaults
 }) => {
-	const userAsMember = {
-		name: 'user', title: 'Member'
-	}
-
 	return generateRelationshipSchema(sensibleDefaults({
-		slug: 'relationship-is-member-of-has',
+		slug: 'relationship-is-executed-by-executes',
 		type: 'type@1.0.0',
-		name: 'Relationship: is member of/has',
+		name: 'Relationship: is executed by/executes',
 		data: {
 			is_link: true,
-			forward: 'is member of',
-			reverse: 'has',
+			forward: 'is executed by',
+			reverse: 'executes',
 			type_pairs: [
-				[ 'contact', 'account' ],
-				[ userAsMember, 'org' ],
-				[ userAsMember, 'project' ]
+				[ 'action-request', 'execute' ]
 			]
 		}
 	}))

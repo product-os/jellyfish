@@ -24,19 +24,30 @@ const branchSchema = (sourceType, targetType, forwardName, reverseName) => {
 						type: 'object',
 						properties: {
 							type: {
-								const: sourceType
+								type: 'string',
+								pattern: `^${sourceType}@`
+							},
+							id: {
+								type: 'string',
+								format: 'uuid'
 							}
+
 						},
-						required: [ 'type' ]
+						required: [ 'type', 'id' ]
 					},
 					to: {
 						type: 'object',
 						properties: {
 							type: {
-								const: targetType
+								type: 'string',
+								pattern: `^${targetType}@`
+							},
+							id: {
+								type: 'string',
+								format: 'uuid'
 							}
 						},
-						required: [ 'type' ]
+						required: [ 'type', 'id' ]
 					},
 					inverseName: {
 						const: reverseName
