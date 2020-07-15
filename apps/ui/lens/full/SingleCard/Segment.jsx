@@ -178,7 +178,7 @@ export default class Segment extends React.Component {
 			<Flex flexDirection='column' style={{
 				height: '100%'
 			}}>
-				<Box felx={1} style={{
+				<Box flex={1} style={{
 					minHeight: 0
 				}}>
 					{Boolean(results.length) && (
