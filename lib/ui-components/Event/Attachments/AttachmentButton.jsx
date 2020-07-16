@@ -13,13 +13,11 @@ import Icon from '../../shame/Icon'
 
 const AttachmentButton = ({
 	attachment,
-	index,
 	downloadAttachments,
 	card
 }) => {
 	return (
 		<Button
-			key={`${attachment.url}-${index}`}
 			data-attachmentslug={attachment.slug}
 			onClick={downloadAttachments}
 			secondary={card.type.split('@')[0] === 'whisper'}

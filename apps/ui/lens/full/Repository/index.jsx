@@ -25,7 +25,9 @@ const mapStateToProps = (state, ownProps) => {
 
 	return {
 		types: selectors.getTypes(state),
-		messages: selectors.getViewData(state, query)
+		messages: selectors.getViewData(state, query, {
+			viewId: ownProps.card.id
+		})
 	}
 }
 

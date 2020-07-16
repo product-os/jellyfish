@@ -34,6 +34,7 @@ import {
 
 const CardLayout = (props) => {
 	const {
+		inlineActionItems,
 		actionItems,
 		card,
 		channel,
@@ -80,7 +81,7 @@ const CardLayout = (props) => {
 					</Flex>
 					<Flex alignSelf={[ 'flex-end', 'flex-end', 'flex-start' ]}>
 						{!noActions && (
-							<CardActions card={card}>
+							<CardActions card={card} inlineActionItems={inlineActionItems}>
 								{actionItems}
 							</CardActions>
 						)}
