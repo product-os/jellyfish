@@ -30,7 +30,7 @@ scenario.run(ava, {
 		token: TOKEN
 	},
 	isAuthorized: (self, request) => {
-		return request.headers.authorization === `Bearer ${self.options.token.api}` ||
-			request.headers.authorization.startsWith('Basic')
+		return request.options.headers.authorization === `Bearer ${self.options.token.api}` ||
+		request.options.headers.authorization.startsWith('Basic')
 	}
 })
