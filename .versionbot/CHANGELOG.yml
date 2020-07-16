@@ -1,4 +1,35 @@
 - commits:
+    - subject: Add a context menu item to search patterns
+      hash: ec9e4f74f66796bde0961616ab108df2bd778e29
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Depends-on: '#4424'
+        depends-on: '#4424'
+      author: Kakhaber
+      nested: []
+    - subject: Surface pattern cards in the UI
+      hash: 01eb76fbb420499ba8811d8bd25c81005b4b3339
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Depends-on: '#4419'
+        depends-on: '#4419'
+      author: Kakhaber
+      nested: []
+    - subject: Define pattern card type
+      hash: 487bbf80b31bf1e7e0ad8170767c5b203863df0b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 30.78.0
+  date: 2020-07-16T07:49:14.094Z
+- commits:
     - subject: Replace lib/queue with private package
       hash: fa8429d917820b9e4ccd785f31901d26fa7d8b33
       body: ''
