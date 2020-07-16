@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add support summary event card
+      hash: f73991946cb4a8ec1c2e145bf3bbc32a967b3b76
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#3907'
+        connects-to: '#3907'
+      author: Kakhaber
+      nested: []
+  version: 30.80.0
+  date: 2020-07-16T13:24:28.563Z
+- commits:
     - subject: Replace lib/worker with private package
       hash: a974939b210f2f16af6b58201e56055f0fa87fdf
       body: ''
