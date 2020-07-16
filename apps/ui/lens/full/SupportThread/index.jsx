@@ -385,6 +385,10 @@ class SupportThreadBase extends React.Component {
 						<RouterLink append="view-all-issues">
 							Search GitHub issues
 						</RouterLink>
+
+						<RouterLink append="view-all-patterns">
+							Search patterns
+						</RouterLink>
 					</React.Fragment>
 				)}
 			>
