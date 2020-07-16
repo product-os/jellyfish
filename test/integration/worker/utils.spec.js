@@ -6,7 +6,7 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const utils = require('../../../lib/worker/utils')
+const utils = require('@balena/jellyfish-worker').utils
 const {
 	v4: uuid
 } = require('uuid')

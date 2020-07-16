@@ -9,7 +9,7 @@ const helpers = require('./helpers')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const actionLibrary = require('../../../lib/action-library')
-const Worker = require('../../../lib/worker')
+const Worker = require('@balena/jellyfish-worker').Worker
 const uuid = require('@balena/jellyfish-uuid')
 
 ava.serial.before(async (test) => {

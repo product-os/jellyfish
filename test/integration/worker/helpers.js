@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const Worker = require('../../../lib/worker')
+const Worker = require('@balena/jellyfish-worker').Worker
 const helpers = require('../queue/helpers')
 const errio = require('errio')
 
@@ -13,11 +13,11 @@ exports.jellyfish = {
 		await helpers.before(test)
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../lib/worker/cards/update'))
+			require('@balena/jellyfish-worker').CARDS.update)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../lib/worker/cards/create'))
+			require('@balena/jellyfish-worker').CARDS.create)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			require('../../../lib/worker/cards/triggered-action'))
+			require('@balena/jellyfish-worker').CARDS['triggered-action'])
 	},
 
 	after: async (test) => {

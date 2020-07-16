@@ -6,8 +6,10 @@
 
 const ava = require('ava')
 const helpers = require('./helpers')
-const triggers = require('../../../lib/worker/triggers')
-const errors = require('../../../lib/worker/errors')
+const {
+	triggers,
+	errors
+} = require('@balena/jellyfish-worker')
 const Promise = require('bluebird')
 
 ava.serial.before(helpers.jellyfish.before)

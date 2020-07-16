@@ -8,9 +8,11 @@ const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('../../../lib/action-library')
-const errors = require('../../../lib/worker/errors')
-const executor = require('../../../lib/worker/executor')
-const utils = require('../../../lib/worker/utils')
+const {
+	errors,
+	executor,
+	utils
+} = require('@balena/jellyfish-worker')
 const Promise = require('bluebird')
 
 ava.serial.before(async (test) => {
