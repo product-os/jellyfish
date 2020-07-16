@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Move front/discourse translate tests to balenaCI'
+      hash: 72184690a355766cd8059ecb3c95cd93faf9a371
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.79.1
+  date: 2020-07-16T10:10:40.201Z
+- commits:
     - subject: 'ui: Add full text search to repository view'
       hash: 4107b325157f398acd8b2dea6bc7a791452f70bf
       body: ''
