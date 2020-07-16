@@ -75,6 +75,7 @@ export default class RepositoryFull extends React.Component {
 		const query = getContextualThreadsQuery(this.props.card.id)
 
 		const options = {
+			viewId: this.props.card.id,
 			page,
 			limit: LIMIT,
 			sortBy: 'created_at',
@@ -105,7 +106,9 @@ export default class RepositoryFull extends React.Component {
 		// They will be attached using redux as the `messages` prop
 		const query = getContextualThreadsQuery(this.props.card.id)
 		this.loadThreadData(this.state.options.page)
-		this.props.actions.streamView(query)
+		this.props.actions.streamView(query, {
+			viewId: this.props.card.id
+		})
 	}
 
 	setActiveIndex (activeIndex) {
@@ -141,7 +144,9 @@ export default class RepositoryFull extends React.Component {
 	componentWillUnmount () {
 		// Clean up store data on unmount
 		const query = getContextualThreadsQuery(this.props.card.id)
-		this.props.actions.clearViewData(query)
+		this.props.actions.clearViewData(query, {
+			viewId: this.props.card.id
+		})
 	}
 
 	render () {
