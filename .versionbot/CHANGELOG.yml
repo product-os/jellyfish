@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/queue with private package
+      hash: fa8429d917820b9e4ccd785f31901d26fa7d8b33
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.77.29
+  date: 2020-07-16T05:32:28.047Z
+- commits:
     - subject: 'patch: bump @babel/core from 7.10.4 to 7.10.5'
       hash: 5e698deca0e87d9664457fcf01b39d1893d9942e
       body: >
