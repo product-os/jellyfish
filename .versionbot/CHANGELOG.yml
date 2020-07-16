@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'test: Fix headers retrieval in Front integration tests'
+      hash: e4b4b1adfc45f1c0d2b30a08b87eb00737b4d14d
+      body: >
+        For some reason on every other request the request.headers prop is not
+        set - but request.options.headers is always set.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.25
+  date: 2020-07-16T02:17:14.718Z
+- commits:
     - subject: 'patch: bump @octokit/auth-app from 2.4.7 to 2.4.8'
       hash: dc634e09455a0f15b6b8a8b7fd12140c98f3dc34
       body: >
