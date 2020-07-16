@@ -1,4 +1,28 @@
 - commits:
+    - subject: 'ui: Ensure home channel drawer opens and closes correctly'
+      hash: 55bd5ac7915465cb45c93c9b720c0a1f886f47c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'chat-widget: ensure icon prop set correctly'
+      hash: 5e09019df555634d0d162d0ca1654c602e45f530
+      body: |
+        This prevents the icon being set to `false` if `task.started` is false.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.77.26
+  date: 2020-07-16T02:57:16.458Z
+- commits:
     - subject: 'test: Fix headers retrieval in Front integration tests'
       hash: e4b4b1adfc45f1c0d2b30a08b87eb00737b4d14d
       body: >
