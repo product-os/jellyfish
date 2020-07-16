@@ -15,6 +15,7 @@ import {
 	Divider,
 	Flex,
 	Heading,
+	Search,
 	Tab,
 	Tabs,
 	Txt
@@ -29,7 +30,9 @@ import {
 	getLensBySlug
 } from '../../'
 import {
-	colorHash
+	colorHash,
+	createFullTextSearchFilter,
+	getType
 } from '../../../../../lib/ui-components/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
@@ -60,20 +63,29 @@ export default class RepositoryFull extends React.Component {
 				page: 0,
 				totalPages: Infinity
 			},
+			searchTerm: '',
 			relationship: {
 				target: this.props.card,
 				name: 'is of'
 			}
 		}
 
+		const messageType = getType('message', this.props.types)
+		this.eventSchema = messageType.data.schema
+
 		this.setActiveIndex = this.setActiveIndex.bind(this)
 		this.setPage = this.setPage.bind(this)
+		this.onSearchTermChange = this.onSearchTermChange.bind(this)
+		this.refreshQuery = _.debounce(this.refreshQuery, 350)
 		this.isLoadingPage = false
 	}
 
-	async loadThreadData (page) {
+	async loadThreadData (page, searchTerm = '') {
 		const query = getContextualThreadsQuery(this.props.card.id)
-
+		if (searchTerm) {
+			const searchQuery = createFullTextSearchFilter(this.eventSchema, searchTerm)
+			query.anyOf = (query.anyOf || []).concat(searchQuery.anyOf)
+		}
 		const options = {
 			viewId: this.props.card.id,
 			page,
@@ -105,7 +117,7 @@ export default class RepositoryFull extends React.Component {
 		// Trigger a query and stream for this cards contextual thread messages.
 		// They will be attached using redux as the `messages` prop
 		const query = getContextualThreadsQuery(this.props.card.id)
-		this.loadThreadData(this.state.options.page)
+		this.loadThreadData(this.state.options.page, this.state.searchTerm)
 		this.props.actions.streamView(query, {
 			viewId: this.props.card.id
 		})
@@ -132,13 +144,25 @@ export default class RepositoryFull extends React.Component {
 			page
 		})
 
-		await this.loadThreadData(options.page)
+		await this.loadThreadData(options.page, this.state.searchTerm)
 
 		this.setState({
 			options
 		})
 
 		this.isLoadingPage = false
+	}
+
+	onSearchTermChange (event) {
+		this.setState({
+			searchTerm: event.target.value
+		}, () => {
+			this.refreshQuery()
+		})
+	}
+
+	refreshQuery () {
+		this.loadThreadData(this.state.options.page, this.state.searchTerm)
 	}
 
 	componentWillUnmount () {
@@ -158,6 +182,7 @@ export default class RepositoryFull extends React.Component {
 			types
 		} = this.props
 		const {
+			searchTerm,
 			expanded
 		} = this.state
 		const type = _.find(types, {
@@ -174,6 +199,15 @@ export default class RepositoryFull extends React.Component {
 				overflowY
 				card={card}
 				channel={channel}
+				inlineActionItems={(
+					<Box mr={3} data-test="repository__search">
+						<Search
+							value={searchTerm}
+							onChange={this.onSearchTermChange}
+							placeholder="Search..."
+						/>
+					</Box>
+				)}
 				title={
 					<Flex>
 						<Button
