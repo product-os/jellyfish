@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump @babel/core from 7.10.4 to 7.10.5'
+      hash: 5e698deca0e87d9664457fcf01b39d1893d9942e
+      body: >
+        Bumps
+        [@babel/core](https://github.com/babel/babel/tree/HEAD/packages/babel-core)
+        from 7.10.4 to 7.10.5.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.5/packages/babel-core)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.28
+  date: 2020-07-16T04:43:39.102Z
+- commits:
     - subject: 'patch: bump @babel/register from 7.10.4 to 7.10.5'
       hash: 24b9ac003bbb77f709725388b900ddf139354d55
       body: >
