@@ -9,5 +9,9 @@
 set -e
 source "$(dirname $0)/helpers.sh"
 
-# Run pipeline sync tests.
-run_test "Pipeline Sync Tests" test FILES=./test/integration/sync/pipeline.spec.js
+# Run Front mirror tests.
+run_test "Front Mirror Tests" test \
+	FILES=./test/e2e/sync/front-mirror.spec.js \
+	INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN \
+	INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN \
+	AVA_OPTS='-T 10m'
