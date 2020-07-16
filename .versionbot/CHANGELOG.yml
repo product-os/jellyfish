@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump @babel/register from 7.10.4 to 7.10.5'
+      hash: 24b9ac003bbb77f709725388b900ddf139354d55
+      body: >
+        Bumps
+        [@babel/register](https://github.com/babel/babel/tree/HEAD/packages/babel-register)
+        from 7.10.4 to 7.10.5.
+
+        - [Release notes](https://github.com/babel/babel/releases)
+
+        - [Changelog](https://github.com/babel/babel/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/babel/babel/commits/v7.10.5/packages/babel-register)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.77.27
+  date: 2020-07-16T03:36:49.166Z
+- commits:
     - subject: 'ui: Ensure home channel drawer opens and closes correctly'
       hash: 55bd5ac7915465cb45c93c9b720c0a1f886f47c7
       body: ''
