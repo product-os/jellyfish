@@ -1,4 +1,61 @@
 - commits:
+    - subject: 'ui: Add full text search to repository view'
+      hash: 4107b325157f398acd8b2dea6bc7a791452f70bf
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Use repository ID as view ID'
+      hash: 1ba7ba91093a249bb9992b6ee3dc7a606e29d11a
+      body: >
+        This way the same view data is updated even if the search filter
+        changes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add support for explicitly setting the view data ID
+      hash: 45615666076c4ba8bb867ef62dd5e167caf0aece
+      body: >
+        This will be useful for queries that cannot have IDs or slugs but can be
+        uniquely identified. For example the query on Repository messages.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Fix keys on attachment buttons'
+      hash: ef84257da40e47f3db1aa29bafb576883b8176d6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Add support for inline card actions'
+      hash: ce66804973d11b3a106144ffabe5d02abb133ffc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.79.0
+  date: 2020-07-16T08:55:29.379Z
+- commits:
     - subject: Add a context menu item to search patterns
       hash: ec9e4f74f66796bde0961616ab108df2bd778e29
       body: ''
