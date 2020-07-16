@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/worker with private package
+      hash: a974939b210f2f16af6b58201e56055f0fa87fdf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.79.2
+  date: 2020-07-16T12:30:45.827Z
+- commits:
     - subject: 'ci: Move front/discourse translate tests to balenaCI'
       hash: 72184690a355766cd8059ecb3c95cd93faf9a371
       body: ''
