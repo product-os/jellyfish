@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'patch: bump googleapis from 54.0.0 to 54.1.0'
+      hash: 5356f976e9d35586760d59ccb1c705ce03c7dc60
+      body: >
+        Bumps
+        [googleapis](https://github.com/googleapis/google-api-nodejs-client)
+        from 54.0.0 to 54.1.0.
+
+        - [Release
+        notes](https://github.com/googleapis/google-api-nodejs-client/releases)
+
+        -
+        [Changelog](https://github.com/googleapis/google-api-nodejs-client/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/googleapis/google-api-nodejs-client/compare/v54.0.0...v54.1.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.80.2
+  date: 2020-07-16T20:30:20.077Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.713.0 to 2.714.0'
       hash: e4adaba24ec2be93e2ee356faa6f4070a0d28e2e
       body: >
