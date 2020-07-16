@@ -6,7 +6,7 @@
 
 const Bluebird = require('bluebird')
 const ava = require('ava')
-const errors = require('../../../lib/queue/errors')
+const errors = require('@balena/jellyfish-queue').errors
 const helpers = require('./helpers')
 
 ava.serial.before(helpers.before)

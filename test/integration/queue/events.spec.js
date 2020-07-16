@@ -8,7 +8,7 @@ const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const helpers = require('./helpers')
-const events = require('../../../lib/queue/events')
+const events = require('@balena/jellyfish-queue').events
 
 ava.serial.before(helpers.before)
 ava.serial.after(helpers.after)

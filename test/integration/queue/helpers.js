@@ -8,10 +8,10 @@ const Bluebird = require('bluebird')
 const uuid = require('@balena/jellyfish-uuid')
 const helpers = require('../core/helpers')
 const defaultCards = require('../../../apps/server/default-cards')
-const Consumer = require('../../../lib/queue').Consumer
-const Producer = require('../../../lib/queue').Producer
+const Consumer = require('@balena/jellyfish-queue').Consumer
+const Producer = require('@balena/jellyfish-queue').Producer
 const actionLibrary = require('../../../lib/action-library')
-const queueErrors = require('../../../lib/queue/errors')
+const queueErrors = require('@balena/jellyfish-queue').errors
 const utils = require('../utils')
 
 exports.before = async (test, options) => {
