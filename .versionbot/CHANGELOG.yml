@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.713.0 to 2.714.0'
+      hash: e4adaba24ec2be93e2ee356faa6f4070a0d28e2e
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.713.0 to
+        2.714.0.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.713.0...v2.714.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.80.1
+  date: 2020-07-16T14:44:08.964Z
+- commits:
     - subject: Add support summary event card
       hash: f73991946cb4a8ec1c2e145bf3bbc32a967b3b76
       body: ''
