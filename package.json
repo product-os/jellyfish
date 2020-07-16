@@ -25,7 +25,6 @@
       "lib/core",
       "lib/action-library",
       "lib/chat-widget",
-      "lib/queue",
       "lib/ui-components",
       "lib/sync",
       "lib/worker"
@@ -122,7 +121,8 @@
     "@balena/jellyfish-jellyscript": "0.0.4",
     "@balena/jellyfish-logger": "0.0.8",
     "@balena/jellyfish-mail": "0.0.3",
-    "@balena/jellyfish-metrics": "0.0.6",
+    "@balena/jellyfish-metrics": "0.0.11",
+    "@balena/jellyfish-queue": "0.0.3",
     "@balena/jellyfish-uuid": "0.0.9",
     "@octokit/auth-app": "^2.4.8",
     "@octokit/plugin-retry": "^3.0.3",

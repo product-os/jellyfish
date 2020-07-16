@@ -5,8 +5,8 @@
  */
 
 const core = require('../../lib/core')
-const Producer = require('../../lib/queue').Producer
-const Consumer = require('../../lib/queue').Consumer
+const Producer = require('@balena/jellyfish-queue').Producer
+const Consumer = require('@balena/jellyfish-queue').Consumer
 const Worker = require('../../lib/worker')
 const actionLibrary = require('../../lib/action-library')
 const environment = require('@balena/jellyfish-environment')
