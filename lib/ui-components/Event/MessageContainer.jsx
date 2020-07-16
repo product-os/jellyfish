@@ -43,7 +43,8 @@ const MessageContainer = styled(Box) `
 				color: ${theme.colors.text.main};
 			`
 		}
-		if (card.type === 'whisper' || card.type === 'whisper@1.0.0') {
+		if (card.type === 'whisper' || card.type === 'whisper@1.0.0' ||
+			card.type === 'summary' || card.type === 'summary@1.0.0') {
 			return `
 				background: ${theme.colors.secondary.main};
 				color: white;

@@ -18,9 +18,30 @@ import {
 	PersistStep,
 	FinishStep
 } from './Steps'
-import {
-	generateTeardownWhisper
-} from './teardown-utils'
+
+const getSummaryEvent = (target, summary) => {
+	const messageSymbolRE = /^\s*%\s*/
+	const {
+		mentionsUser,
+		alertsUser,
+		mentionsGroup,
+		alertsGroup,
+		tags
+	} = helpers.getMessageMetaData(summary)
+
+	return {
+		target,
+		type: 'summary',
+		tags,
+		payload: {
+			mentionsUser,
+			alertsUser,
+			mentionsGroup,
+			alertsGroup,
+			message: helpers.replaceEmoji(summary.replace(messageSymbolRE, ''))
+		}
+	}
+}
 
 export default function TeardownFlowPanel ({
 	flowId,
@@ -40,31 +61,25 @@ export default function TeardownFlowPanel ({
 	}
 	const teardown = async () => {
 		const {
-			problem,
-			solution
+			summary
 		} = flowState
-		const cardTypeName = helpers.getType(card.type, types).name
 
 		try {
 			const linkActions = []
 
 			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'closed')
-
 			linkActions.push(sdk.card.update(card.id, card.type, patch))
 
-			// Create a whisper
-			const whisper = generateTeardownWhisper(card, cardTypeName, problem, solution)
-			linkActions.push(sdk.event.create(whisper))
+			const summaryEvent = getSummaryEvent(card, summary)
+			linkActions.push(sdk.event.create(summaryEvent))
 
 			await Bluebird.all(linkActions)
 
-			if (whisper) {
-				analytics.track('element.create', {
-					element: {
-						type: whisper.type
-					}
-				})
-			}
+			analytics.track('element.create', {
+				element: {
+					type: summaryEvent.type
+				}
+			})
 		} catch (error) {
 			console.error('Failed to tear-down card', error)
 			actions.addNotification('danger', 'Teardown failed. Refresh the page and try again.')
@@ -78,15 +93,13 @@ export default function TeardownFlowPanel ({
 	}
 
 	const {
-		problem,
-		solution
+		summary
 	} = flowState
 
 	const cardTypeName = helpers.getType(card.type, types).name
 
 	const completed = {
-		problem: Boolean(problem),
-		solution: Boolean(solution),
+		summary: Boolean(summary),
 		persist: true
 	}
 
@@ -98,19 +111,10 @@ export default function TeardownFlowPanel ({
 			onDone={teardown}
 			onClose={onClose}
 		>
-			<StepsFlow.Step label="Problem" title="Describe the user's problem" status={stepStatus(completed.problem)}>
+			<StepsFlow.Step label="Summary" title="Summarize the problem and the solution" status={stepStatus(completed.summary)}>
 				<TextareaStep
-					placeholder="Describe the problem that the user had"
-					flowStatePropName="problem"
-					rows={6}
-					flowState={flowState}
-					setFlow={setFlow}
-				/>
-			</StepsFlow.Step>
-			<StepsFlow.Step label="Solution" title="Summarize the solution" status={stepStatus(completed.solution)}>
-				<TextareaStep
-					placeholder="Summarize the solution that solved the user's problem"
-					flowStatePropName="solution"
+					placeholder="Describe the problem that the user had and the solution to that problem"
+					flowStatePropName="summary"
 					rows={6}
 					flowState={flowState}
 					setFlow={setFlow}

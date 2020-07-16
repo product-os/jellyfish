@@ -110,16 +110,45 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
-		this.close = () => {
+		this.close = async () => {
 			const {
 				card,
 				actions: {
 					setFlow
 				}
 			} = this.props
+
+			const [ summaryCard ] = await sdk.query({
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						const: 'summary@1.0.0'
+					}
+				},
+				$$links: {
+					'is attached to': {
+						type: 'object',
+						additionalProperties: false,
+						required: [ 'id' ],
+						properties: {
+							id: {
+								type: 'string',
+								const: card.id
+							}
+						}
+					}
+				}
+			}, {
+				limit: 1,
+				sortBy: [ 'data', 'timestamp' ],
+				sortDir: 'desc'
+			})
+
 			const flowState = {
 				isOpen: true,
-				card
+				card,
+				summary: _.get(summaryCard, [ 'data', 'payload', 'message' ], '')
 			}
 			setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState)
 		}

@@ -27,10 +27,8 @@ export default function FinishStep ({
 			support thread.</Txt>
 			<Flex flexDirection="row">
 				<Card small flex={1} mr={2}>
-					<Heading.h5>Problem</Heading.h5>
-					<Txt>{flowState.problem}</Txt>
-					<Heading.h5 mt={2}>Solution</Heading.h5>
-					<Txt>{flowState.solution}</Txt>
+					<Heading.h5>Summary</Heading.h5>
+					<Txt>{flowState.summary}</Txt>
 				</Card>
 				<Card small flex={1} ml={2}>
 					<Heading.h5>Support thread artifacts</Heading.h5>

@@ -262,7 +262,7 @@ export default class Event extends React.Component {
 		} = this.props
 
 		const typeBase = card.type.split('@')[0]
-		const isMessage = typeBase === 'message' || typeBase === 'whisper'
+		const isMessage = typeBase === 'message' || typeBase === 'whisper' || typeBase === 'summary'
 
 		if (
 			isMessage &&
@@ -301,7 +301,7 @@ export default class Event extends React.Component {
 		} = this.state
 
 		const typeBase = card.type.split('@')[0]
-		const isMessage = typeBase === 'message' || typeBase === 'whisper'
+		const isMessage = typeBase === 'message' || typeBase === 'whisper' || typeBase === 'summary'
 
 		const messageOverflows = this.state.messageHeight >= MESSAGE_COLLAPSED_HEIGHT
 		const threadColor = helpers.colorHash(getTargetId(card))

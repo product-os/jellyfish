@@ -63,7 +63,8 @@ const getSentQuery = (user, groupNames, searchTerm) => {
 				type: 'string',
 				enum: [
 					'message@1.0.0',
-					'whisper@1.0.0'
+					'whisper@1.0.0',
+					'summary@1.0.0'
 				]
 			},
 			data: {
