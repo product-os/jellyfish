@@ -67,6 +67,36 @@ export const userType = {
 										},
 										first: {
 											type: 'string'
+										},
+										preffered: {
+											type: 'string'
+										},
+										pronouns: {
+											type: 'string'
+										}
+									}
+								},
+								birthday: {
+									type: 'string',
+									pattern: '^(0[1-9]|1[0-2])/(0[1-9]|1[0-9]|2[0-9]|3[01])$'
+								},
+								about: {
+									type: 'object',
+									properties: {
+										aboutMe: {
+											type: 'string'
+										},
+										askMeAbout: {
+											type: 'array',
+											items: {
+												type: 'string'
+											}
+										},
+										externalLinks: {
+											type: 'array',
+											items: {
+												type: 'string'
+											}
 										}
 									}
 								},
@@ -76,7 +106,14 @@ export const userType = {
 								company: {
 									type: 'string'
 								},
+								startDate: {
+									type: 'string',
+									format: 'date'
+								},
 								country: {
+									type: 'string'
+								},
+								timezone: {
 									type: 'string'
 								},
 								homeView: {
