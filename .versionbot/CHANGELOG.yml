@@ -1,4 +1,40 @@
 - commits:
+    - subject: 'patch: bump aws-sdk from 2.714.0 to 2.714.2'
+      hash: 754812ecd3d300fb09bde72b437b48bb1cd9c1b0
+      body: >
+        Bumps [aws-sdk](https://github.com/aws/aws-sdk-js) from 2.714.0 to
+        2.714.2.
+
+        - [Release notes](https://github.com/aws/aws-sdk-js/releases)
+
+        -
+        [Changelog](https://github.com/aws/aws-sdk-js/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/aws/aws-sdk-js/compare/v2.714.0...v2.714.2)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+    - subject: 'patch: bump puppeteer from 5.1.0 to 5.2.0'
+      hash: 4ac006402af021accd56a608f6b00ee65490e827
+      body: >
+        Bumps [puppeteer](https://github.com/puppeteer/puppeteer) from 5.1.0 to
+        5.2.0.
+
+        - [Release notes](https://github.com/puppeteer/puppeteer/releases)
+
+        -
+        [Commits](https://github.com/puppeteer/puppeteer/compare/v5.1.0...v5.2.0)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.80.3
+  date: 2020-07-17T14:44:38.796Z
+- commits:
     - subject: 'patch: bump googleapis from 54.0.0 to 54.1.0'
       hash: 5356f976e9d35586760d59ccb1c705ce03c7dc60
       body: >
