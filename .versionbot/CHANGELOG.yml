@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add more field to settings/profile
+      hash: 23d74065420369b894d0f4e6640aaa66e34ac590
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Fernandez Ridano <juanfr@balena.io>
+        signed-off-by: Juan Fernandez Ridano <juanfr@balena.io>
+      author: JuanFRidano
+      nested: []
+  version: 30.80.4
+  date: 2020-07-18T08:55:48.404Z
+- commits:
     - subject: 'patch: bump aws-sdk from 2.714.0 to 2.714.2'
       hash: 754812ecd3d300fb09bde72b437b48bb1cd9c1b0
       body: >
