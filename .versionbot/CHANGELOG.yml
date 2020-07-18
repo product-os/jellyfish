@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump @octokit/rest from 18.0.0 to 18.0.1'
+      hash: cc9ea3e2602669da14564b9e0902524d198c3d8e
+      body: >
+        Bumps [@octokit/rest](https://github.com/octokit/rest.js) from 18.0.0 to
+        18.0.1.
+
+        - [Release notes](https://github.com/octokit/rest.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/rest.js/compare/v18.0.0...v18.0.1)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.80.5
+  date: 2020-07-18T15:51:48.408Z
+- commits:
     - subject: Add more field to settings/profile
       hash: 23d74065420369b894d0f4e6640aaa66e34ac590
       body: ''
