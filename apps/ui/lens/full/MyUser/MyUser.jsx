@@ -6,6 +6,9 @@
 
 import * as jsonpatch from 'fast-json-patch'
 import * as _ from 'lodash'
+import {
+	tz
+} from 'moment-timezone'
 import React from 'react'
 import {
 	Box,
@@ -51,8 +54,16 @@ export default class MyUser extends React.Component {
 		const userProfileSchema = _.pick(userTypeCard.data.schema, [
 			'properties.data.type',
 			'properties.data.properties.avatar',
-			'properties.data.properties.profile.properties.name'
+			'properties.data.properties.profile.properties.name',
+			'properties.data.properties.profile.properties.startDate',
+			'properties.data.properties.profile.properties.birthday',
+			'properties.data.properties.profile.properties.about',
+			'properties.data.properties.profile.properties.timezone',
+			'properties.data.properties.profile.properties.city',
+			'properties.data.properties.profile.properties.country'
 		])
+
+		userProfileSchema.properties.data.properties.profile.properties.timezone.enum = tz.names()
 
 		this.state = {
 			updatingSendCommand: false,
@@ -165,10 +176,32 @@ export default class MyUser extends React.Component {
 
 		const emails = Array.isArray(user.data.email) ? user.data.email.join(', ') : user.data.email
 
+		const userProfileUiSchema = {
+			data: {
+				profile: {
+					about: {
+						aboutMe: {
+							'ui:widget': 'textarea',
+							'ui:options': {
+								rows: 5
+							}
+						}
+					},
+					timezone: {
+						'ui:widget': 'select'
+					},
+					birthday: {
+						'ui:placeholder': 'mm/dd'
+					}
+				}
+			}
+		}
+
 		return (
 			<CardLayout
 				data-test={`lens--${SLUG}`}
 				card={user}
+				overflowY
 				channel={this.props.channel}
 				noActions
 				title={(
@@ -201,9 +234,9 @@ export default class MyUser extends React.Component {
 
 							<Form
 								schema={this.state.userProfileSchema}
+								uiSchema={userProfileUiSchema}
 								onFormSubmit={this.handleProfileFormSubmit}
-								value={this.state.userProfileData}
-							/>
+								value={this.state.userProfileData}/>
 						</Box>
 					</Tab>
 
