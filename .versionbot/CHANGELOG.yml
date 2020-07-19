@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'patch: bump @octokit/auth-app from 2.4.8 to 2.4.10'
+      hash: e1de665504da99df501ab7905ca1497089fdbef8
+      body: >
+        Bumps [@octokit/auth-app](https://github.com/octokit/auth-app.js) from
+        2.4.8 to 2.4.10.
+
+        - [Release notes](https://github.com/octokit/auth-app.js/releases)
+
+        -
+        [Commits](https://github.com/octokit/auth-app.js/compare/v2.4.8...v2.4.10)
+      footer:
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 30.80.6
+  date: 2020-07-18T20:52:58.491Z
+- commits:
     - subject: 'patch: bump @octokit/rest from 18.0.0 to 18.0.1'
       hash: cc9ea3e2602669da14564b9e0902524d198c3d8e
       body: >
