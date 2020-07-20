@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use MAIL_TYPE instead of MAIL to avoid collision
+      hash: ee5ec986c26311ca80937636a4bdff08dafbb789
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.80.7
+  date: 2020-07-20T04:26:04.812Z
+- commits:
     - subject: 'patch: bump @octokit/auth-app from 2.4.8 to 2.4.10'
       hash: e1de665504da99df501ab7905ca1497089fdbef8
       body: >
