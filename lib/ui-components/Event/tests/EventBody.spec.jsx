@@ -7,11 +7,14 @@
 import '../../../../test/ui-setup'
 import ava from 'ava'
 import sinon from 'sinon'
+import _ from 'lodash'
 import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import EventBody from '../EventBody'
+import EventBody, {
+	getMessage
+} from '../EventBody'
 import {
 	card
 } from './fixtures'
@@ -43,6 +46,32 @@ ava.beforeEach((test) => {
 
 ava.afterEach(() => {
 	sandbox.restore()
+})
+
+ava('getMessage detects a message that only contains an image url and wraps it', (test) => {
+	const jpgURL = 'http://test.com/image.jpg?some-data=2'
+	const pngURL = 'http://test.co.uk/image%20again.png?some-data=+2'
+	const gifURL = 'https://wwww.test.com/image.gif'
+	const imageMessage = (url) => {
+		return `![image](${url})`
+	}
+	const getMessageInCard = (message) => {
+		const newCard = _.merge(card, {
+			data: {
+				payload: {
+					message
+				}
+			}
+		})
+		return getMessage(newCard)
+	}
+	test.is(getMessageInCard(jpgURL), imageMessage(jpgURL))
+	test.is(getMessageInCard(pngURL), imageMessage(pngURL))
+	test.is(getMessageInCard(gifURL), imageMessage(gifURL))
+	test.is(getMessageInCard(` ${jpgURL}`), imageMessage(jpgURL))
+	test.is(getMessageInCard(`${jpgURL} `), imageMessage(jpgURL))
+	test.not(getMessageInCard(`>${jpgURL}`), imageMessage(jpgURL))
+	test.not(getMessageInCard(`${jpgURL}!`), imageMessage(jpgURL))
 })
 
 ava('Auto-complete textarea is shown if message is being edited', (test) => {
