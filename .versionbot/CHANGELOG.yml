@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'patch: bump json-schema-ref-parser from 9.0.3 to 9.0.5'
+      hash: ccaca653477e8426c9dbe7bd6b488ca194140ec6
+      body: >
+        Bumps
+        [json-schema-ref-parser](https://github.com/APIDevTools/json-schema-ref-parser)
+        from 9.0.3 to 9.0.5.
+
+        - [Release
+        notes](https://github.com/APIDevTools/json-schema-ref-parser/releases)
+
+        -
+        [Changelog](https://github.com/APIDevTools/json-schema-ref-parser/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/APIDevTools/json-schema-ref-parser/compare/v9.0.3...v9.0.5)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+      nested: []
+  version: 30.80.11
+  date: 2020-07-20T11:34:39.812Z
+- commits:
     - subject: 'patch: bump @balena/jellyfish-metrics from 0.0.11 to 0.0.18'
       hash: a77ed743f7f29e7044e0b4c51d5f5e375799aa28
       body: |
