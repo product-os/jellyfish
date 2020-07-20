@@ -114,7 +114,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "@balena/jellyfish-assert": "0.0.9",
+    "@balena/jellyfish-assert": "0.0.16",
     "@balena/jellyfish-client-sdk": "^1.1.1",
     "@balena/jellyfish-environment": "^2.0.3",
     "@balena/jellyfish-logger": "0.0.8",
