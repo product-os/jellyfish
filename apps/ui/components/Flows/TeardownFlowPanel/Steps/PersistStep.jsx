@@ -11,7 +11,7 @@ import {
 	Card,
 	Txt
 } from 'rendition'
-import Segment from '../../../../lens/full/SingleCard/Segment'
+import Segment from '../../../../lens/common/Segment'
 import * as helpers from '../../../../../../lib/ui-components/services/helpers'
 
 const cardLinks = [

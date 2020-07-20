@@ -19,7 +19,7 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import Segment from './Segment'
+import Segment from '../../common/Segment'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {
@@ -137,6 +137,7 @@ export default class SingleResponseFull extends React.Component {
 									segment={segment}
 									types={types}
 									actions={actions}
+									showLinkToExistingElementButton={false}
 								/>
 							</Tab>
 						)

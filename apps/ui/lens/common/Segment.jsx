@@ -18,13 +18,13 @@ import {
 } from 'rendition'
 import {
 	getLens
-} from '../../../lens'
+} from '../../lens'
 import {
 	evalSchema,
 	getRelationshipTargetType
-} from '../../../../../lib/ui-components/services/helpers'
-import LinkModal from '../../../components/LinkModal'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+} from '../../../../lib/ui-components/services/helpers'
+import LinkModal from '../../components/LinkModal'
+import Icon from '../../../../lib/ui-components/shame/Icon'
 
 export default class Segment extends React.Component {
 	constructor (props) {
@@ -96,7 +96,7 @@ export default class Segment extends React.Component {
 		} = this.props
 
 		if (segment.link) {
-			const results = await actions.getLinks(card, segment.link)
+			const results = await	actions.getLinks(card, segment.link)
 			this.updateResults(results)
 		} else if (segment.query) {
 			let context = [ card ]
@@ -157,7 +157,8 @@ export default class Segment extends React.Component {
 			card,
 			segment,
 			types,
-			onSave
+			onSave,
+			showLinkToExistingElementButton = true
 		} = this.props
 
 		const type = _.find(types, {
@@ -208,6 +209,17 @@ export default class Segment extends React.Component {
 								Add new {type.name || type.slug}
 							</Button>
 						}
+
+						{showLinkToExistingElementButton && (
+							<Button
+								outline
+								mt={2}
+								data-test={`link-to-${type.slug}`}
+								onClick={this.openLinkModal}
+							>
+								Link to an existing {type.name || type.slug}
+							</Button>
+						)}
 					</Flex>
 				)}
 

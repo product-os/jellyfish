@@ -17,7 +17,7 @@ import {
 	Theme
 } from 'rendition'
 import styled from 'styled-components'
-import Segment from './Segment'
+import Segment from '../../common/Segment'
 import CardFields from '../../../../../lib/ui-components/shame/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
