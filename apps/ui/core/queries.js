@@ -14,20 +14,6 @@ const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 	return undefined
 }
 
-const propertySchema = (propertyName, isEnum, searchTerm) => {
-	return {
-		properties: {
-			[propertyName]: {
-				type: 'array',
-				contains: {
-					[isEnum ? 'enum' : 'const']: searchTerm
-				}
-			}
-		},
-		required: [ propertyName ]
-	}
-}
-
 export const withSearch = (query, searchTerm) => {
 	if (searchTerm) {
 		return _.mergeWith(query, {
@@ -53,50 +39,75 @@ export const withSearch = (query, searchTerm) => {
 	return query
 }
 
+const oneToOneProperties = (userSlug) => ({
+	required: [ 'markers' ],
+	properties: {
+		markers: {
+			type: 'array',
+			contains: {
+				pattern: userSlug
+			}
+		}
+	}
+})
+
+const payloadProperties = (propertyName, isEnum, searchTerm) => ({
+	required: [ 'data' ],
+	properties: {
+		data: {
+			type: 'object',
+			required: [ 'payload' ],
+			properties: {
+				payload: {
+					type: 'object',
+					required: [ propertyName ],
+					properties: {
+						[propertyName]: {
+							type: 'array',
+							contains: {
+								[isEnum ? 'enum' : 'const']: searchTerm
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+})
+
 // Generates a basic query that matches messages against a user slug or group names
 export const getPingQuery = (user, groupNames, searchTerm) => {
 	const anyOf = [
-		propertySchema('mentionsUser', false, user.slug),
-		propertySchema('alertsUser', false, user.slug)
+		oneToOneProperties(user.slug),
+		payloadProperties('mentionsUser', false, user.slug),
+		payloadProperties('alertsUser', false, user.slug)
 	]
 	if (groupNames && groupNames.length) {
 		anyOf.push(
-			propertySchema('mentionsGroup', true, groupNames),
-			propertySchema('alertsGroup', true, groupNames)
+			payloadProperties('mentionsGroup', true, groupNames),
+			payloadProperties('alertsGroup', true, groupNames)
 		)
 	}
 	const query = {
 		type: 'object',
-		required: [ 'data', 'type' ],
 		properties: {
 			type: {
 				type: 'string',
-				enum: [
-					'message@1.0.0',
-					'whisper@1.0.0',
-					'summary@1.0.0'
-				]
+				enum: [ 'message@1.0.0', 'whisper@1.0.0', 'summary@1.0.0' ]
 			},
 			data: {
 				type: 'object',
-				required: [ 'payload', 'actor' ],
+				required: [ 'actor' ],
 				properties: {
-					// If there are no groupNames, don't create a schema fragment looking for groups,
-					// as that would create an `enum` with no values, which is invalid
-					payload: {
-						type: 'object',
-						anyOf,
-						additionalProperties: true
-					},
 					actor: {
 						not: {
 							const: user.id
 						}
 					}
-				},
-				additionalProperties: true
+				}
 			}
 		},
+		anyOf,
 		additionalProperties: true
 	}
 
