@@ -120,7 +120,7 @@
     "@balena/jellyfish-logger": "0.0.8",
     "@balena/jellyfish-mail": "0.0.9",
     "@balena/jellyfish-metrics": "0.0.18",
-    "@balena/jellyfish-queue": "0.0.3",
+    "@balena/jellyfish-queue": "0.0.9",
     "@balena/jellyfish-uuid": "0.0.9",
     "@balena/jellyfish-worker": "0.0.3",
     "@octokit/auth-app": "^2.4.10",
