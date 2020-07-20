@@ -122,7 +122,7 @@
     "@balena/jellyfish-metrics": "0.0.18",
     "@balena/jellyfish-queue": "0.0.3",
     "@balena/jellyfish-uuid": "0.0.9",
-    "@balena/jellyfish-worker": "0.0.3",
+    "@balena/jellyfish-worker": "0.0.8",
     "@octokit/auth-app": "^2.4.10",
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
