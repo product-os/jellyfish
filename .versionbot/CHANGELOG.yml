@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'patch: bump @balena/jellyfish-environment from 2.0.0 to 2.0.3'
+      hash: 2be47847cd6a60253eff8e248b3163b743bd5b3e
+      body: >
+        Bumps
+        [@balena/jellyfish-environment](https://github.com/product-os/jellyfish-environment)
+        from 2.0.0 to 2.0.3.
+
+        - [Release
+        notes](https://github.com/product-os/jellyfish-environment/releases)
+
+        -
+        [Changelog](https://github.com/product-os/jellyfish-environment/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/product-os/jellyfish-environment/compare/v2.0.0...v2.0.3)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+      nested: []
+  version: 30.80.9
+  date: 2020-07-20T08:47:45.648Z
+- commits:
     - subject: Switch to Dependabot Preview
       hash: e03dec764d9d53fefb360890150308bc50340a88
       body: ''
