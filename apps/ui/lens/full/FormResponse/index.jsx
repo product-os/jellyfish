@@ -46,7 +46,13 @@ const lens = {
 		icon: 'address-card',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SingleResponse),
 		filter: {
-			type: 'object'
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'form-response@1.0.0'
+				}
+			}
 		}
 	}
 }

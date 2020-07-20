@@ -68,12 +68,6 @@ export const getLenses = (format, data, user) => {
 }
 
 export const getLens = (format, data, user) => {
-	if (format === 'snippet' && data.type === 'form-response@1.0.0') {
-		return getLensBySlug('lens-snippet-form-response')
-	}
-	if (format !== 'snippet' && data.type === 'form-response-curation@1.0.0') {
-		return getLensBySlug('lens-full-default')
-	}
 	if (data.action === 'visualize-links') {
 		return LinksGraphLens
 	}
