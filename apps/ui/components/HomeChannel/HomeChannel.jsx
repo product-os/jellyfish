@@ -349,19 +349,23 @@ export default class HomeChannel extends React.Component {
 	}
 
 	showDrawer () {
-		this.wrapper.current.style.transform = 'translate3d(0, 0, 0)'
-		this.setState({
-			showDrawer: true,
-			sliding: false
-		})
+		if (this.props.isMobile) {
+			this.wrapper.current.style.transform = 'translate3d(0, 0, 0)'
+			this.setState({
+				showDrawer: true,
+				sliding: false
+			})
+		}
 	}
 
 	hideDrawer () {
-		this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)'
-		this.setState({
-			showDrawer: false,
-			sliding: false
-		})
+		if (this.props.isMobile) {
+			this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)'
+			this.setState({
+				showDrawer: false,
+				sliding: false
+			})
+		}
 	}
 
 	toggleDrawerIOS () {
