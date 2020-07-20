@@ -1,4 +1,17 @@
 - commits:
+    - subject: Switch to Dependabot Preview
+      hash: e03dec764d9d53fefb360890150308bc50340a88
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.80.8
+  date: 2020-07-20T06:32:48.411Z
+- commits:
     - subject: Use MAIL_TYPE instead of MAIL to avoid collision
       hash: ee5ec986c26311ca80937636a4bdff08dafbb789
       body: ''
