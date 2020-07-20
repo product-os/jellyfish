@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: bump @balena/jellyfish-client-sdk from 1.1.1 to 1.2.0'
+      hash: 01b343ef641398d78d81d5733293e653ee796ce3
+      body: |
+        Bumps @balena/jellyfish-client-sdk from 1.1.1 to 1.2.0.
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+      nested: []
+  version: 30.80.12
+  date: 2020-07-20T13:49:59.268Z
+- commits:
     - subject: 'patch: bump json-schema-ref-parser from 9.0.3 to 9.0.5'
       hash: ccaca653477e8426c9dbe7bd6b488ca194140ec6
       body: >
