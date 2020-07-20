@@ -122,8 +122,8 @@ export TEST_USER_ROLE
 TEST_USER_ORGANIZATION ?= balena
 export TEST_USER_ORGANIZATION
 
-MAIL ?= mailgun
-export MAIL
+MAIL_TYPE ?= mailgun
+export MAIL_TYPE
 MAILGUN_TOKEN ?=
 export MAILGUN_TOKEN
 MAILGUN_DOMAIN ?= mail.ly.fish
