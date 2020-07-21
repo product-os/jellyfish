@@ -1,4 +1,23 @@
 - commits:
+    - subject: Update user community roles to see other user data
+      hash: b9ed9e49943a7e3876f5fea0334b8fc845967aaf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Juan Fernandez Ridano <juanfr@balena.io>
+        signed-off-by: Juan Fernandez Ridano <juanfr@balena.io>
+      author: JuanFRidano
+      nested: []
+    - subject: patch Update dependency googleapis to v55
+      hash: 138164fee361e592e60156d7fdd16b596baf61ad
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.83.1
+  date: 2020-07-21T16:13:59.619Z
+- commits:
     - subject: Update Timeline component to use queries for pagination
       hash: 03fb5fb5e86f19c40377cce89428b48a597d8a1b
       body: ''
