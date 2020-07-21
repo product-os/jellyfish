@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: bump localforage from 1.7.4 to 1.8.0'
+      hash: 07d0e41c736f614801e442b0978a49da6b2eb998
+      body: >
+        Bumps [localforage](https://github.com/localForage/localForage) from
+        1.7.4 to 1.8.0.
+
+        - [Release notes](https://github.com/localForage/localForage/releases)
+
+        -
+        [Changelog](https://github.com/localForage/localForage/blob/master/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/localForage/localForage/compare/1.7.4...1.8.0)
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+      nested: []
+  version: 30.80.14
+  date: 2020-07-20T22:46:09.385Z
+- commits:
     - subject: 'patch: bump eslint-plugin-jsdoc from 29.2.0 to 30.0.1'
       hash: 279811517caaf0ea01c23fee2937e4ec521e2329
       body: >
