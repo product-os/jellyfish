@@ -12,11 +12,12 @@ import {
 import Icon from '../shame/Icon'
 import Update from '../Update'
 import Event from '../Event'
-
-const MESSAGE = 'message'
-const WHISPER = 'whisper'
-const UPDATE = 'update'
-const SUMMARY = 'summary'
+import {
+	MESSAGE,
+	WHISPER,
+	UPDATE,
+	SUMMARY
+} from './constants'
 
 const isNotMessage = (type) => {
 	return !_.includes([ MESSAGE, WHISPER, SUMMARY ], type)
@@ -27,20 +28,17 @@ export default class EventsList extends React.Component {
 		const {
 			getActor,
 			hideWhispers,
-			sortedTail,
+			sortedEvents,
 			uploadingFiles,
 			handleCardVisible,
 			messagesOnly,
 			user,
-			page,
-			pageSize,
 			eventMenuOptions,
 			...eventProps
 		} = this.props
-		const pagedTail = (Boolean(sortedTail) && sortedTail.length > 0)
-			? sortedTail.slice(0 - (pageSize * page)) : null
-		if (pagedTail) {
-			return _.map(pagedTail, (event, index) => {
+
+		if (sortedEvents && sortedEvents.length > 0) {
+			return _.map(sortedEvents, (event, index) => {
 				if (_.includes(uploadingFiles, event.slug)) {
 					return (
 						<Box key={event.slug} p={3}>
@@ -79,8 +77,8 @@ export default class EventsList extends React.Component {
 						key={event.id}>
 						<Event
 							{...eventProps}
-							previousEvent={pagedTail[index - 1]}
-							nextEvent={pagedTail[index + 1]}
+							previousEvent={sortedEvents[index - 1]}
+							nextEvent={sortedEvents[index + 1]}
 							card={event}
 							user={user}
 						/>

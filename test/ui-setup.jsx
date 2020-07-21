@@ -5,6 +5,7 @@
  */
 
 import React from 'react'
+import _ from 'lodash'
 import {
 	Provider
 } from 'rendition'
@@ -48,6 +49,9 @@ global.Sound = Sound
 
 class Location {}
 global.location = Location
+
+// eslint-disable-next-line no-undef
+window.HTMLElement.prototype.scrollIntoView = _.noop
 
 export const flushPromises = () => {
 	return new Promise((resolve) => {
