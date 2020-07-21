@@ -4,7 +4,7 @@
   "description": "",
   "main": "template.js",
   "dependencies": {
-    "mustache": "^3.1.0"
+    "mustache": "^3.2.1"
   },
   "private": true
 }
