@@ -96,3 +96,7 @@ tmp/
 # Cryptographic keys used for testing
 *.p8
 *.pem
+
+# Optional custom dotenv file
+custom.env
+merged.env

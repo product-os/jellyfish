@@ -47,7 +47,8 @@ ava.serial.after.always(async () => {
 
 const outreachTest =
 	environment.integration.outreach.appId &&
-	environment.integration.outreach.appSecret
+	environment.integration.outreach.appSecret &&
+	!environment.test.integration.skip
 		? ava.serial
 		: ava.serial.skip
 

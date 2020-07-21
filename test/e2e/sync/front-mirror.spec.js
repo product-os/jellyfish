@@ -283,7 +283,7 @@ ava.serial.beforeEach(async (test) => {
 ava.serial.afterEach.always(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Front token
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.serial.skip : ava.serial
 
 avaTest('should close a thread with a #summary whisper', async (test) => {
 	const supportThread = await test.context.startSupportThread(

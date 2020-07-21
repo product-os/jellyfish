@@ -47,10 +47,12 @@ services:
       - INTEGRATION_OUTREACH_SIGNATURE_KEY=buzzbaz
       - INTEGRATION_FRONT_TOKEN=foobar
       - INTEGRATION_TYPEFORM_SIGNATURE_KEY=foobar
+      - INTEGRATION_GOOGLE_MEET_CREDENTIALS="{}"
       - SCRUB=0
       - COVERAGE=0
       - METRICS_PORT=9000
       - SOCKET_METRICS_PORT=9001
       - MONITOR_SECRET_TOKEN=TEST
+      - CI
     networks:
       - internal
