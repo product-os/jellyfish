@@ -1,0 +1,37 @@
+{
+  "extends": [
+    "config:base"
+  ],
+  "enabledManagers": [
+    "npm"
+  ],
+  "rangeStrategy": "bump",
+  "commitMessagePrefix": "patch",
+  "prHourlyLimit": 0,
+  "labels": [
+    "dependencies"
+  ],
+  "packageRules": [
+    {
+      "groupName": "non-major",
+      "updateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
+    },
+    {
+      "groupName": "dev-major",
+      "depTypeList": [
+        "devDependencies"
+      ],
+      "updateTypes": [
+        "major"
+      ],
+      "automerge": true
+    }
+  ],
+  "encrypted": {
+    "npmToken": "vDPwvJKwTov0qGsio60oGYnAgYYDgUgSLu3Ttm2sDa3JmOn7y6yjcvuO2+iFFuE9QO9lBa1L9sKN+Bl+tZXo+U9I2osJc+eoNfAJPzqUO1VIdnRne7q5StFI8GGfdq7+sL7O4hyIAXPKH4zn+KVJKbwfKMsys8K+ccjvKnCwl59ef00BZpFnAOBrUPdPSPWlYrEOhBFQlurPfsRRWUFGC/1aHCCvleTX1uIsOXiu1r6u6WQ9/d89DLiY9+3NM07Q34HFD7QY71PI/QAzjYDx22vVq0vbDG1FJg9IgzFudkGzF4kK3FWl30KPon8sO0YeDomYaTxQTKAWgfkn5NcLzg=="
+  }
+}
