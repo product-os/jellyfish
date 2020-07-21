@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: bump @balena/jellyfish-uuid from 0.0.9 to 0.0.16'
+      hash: 74dcb9afb8fa4f469a7dffab596196b3070d8c93
+      body: |
+        Bumps @balena/jellyfish-uuid from 0.0.9 to 0.0.16.
+      footer:
+        Signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+        signed-off-by: 'dependabot-preview[bot] <support@dependabot.com>'
+      author: 'dependabot-preview[bot]'
+      nested: []
+  version: 30.83.2
+  date: 2020-07-21T17:07:04.595Z
+- commits:
     - subject: Update user community roles to see other user data
       hash: b9ed9e49943a7e3876f5fea0334b8fc845967aaf
       body: ''
