@@ -47,6 +47,7 @@ const StyledMarkdown = styled(Markdown)(({
 
 const FRONT_MARKDOWN_IMG_RE = /\[\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+\]/g
 const FRONT_HTML_IMG_RE = /\/api\/1\/companies\/resin_io\/attachments\/[a-z0-9]+\?resource_link_id=\d+/g
+const IMAGE_URL_RE = /^https?:\/\/.*\.(?:png|jpg|gif)(?:\?\S*)*$/
 
 const OverflowButton = styled(Button) `
 	color: inherit;
@@ -62,6 +63,10 @@ const OverflowButton = styled(Button) `
 
 export const getMessage = (card) => {
 	const message = _.get(card, [ 'data', 'payload', 'message' ], '')
+
+	if (message.trim().match(IMAGE_URL_RE)) {
+		return `![image](${message.trim()})`
+	}
 
 	// Fun hack to extract attached images embedded in HTML from synced front messages
 	if (message.includes('<img src="/api/1/companies/resin_io/attachments')) {
