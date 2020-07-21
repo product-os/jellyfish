@@ -119,7 +119,7 @@
     "@balena/jellyfish-logger": "0.0.22",
     "@balena/jellyfish-metrics": "0.0.22",
     "@balena/jellyfish-queue": "0.0.14",
-    "@balena/jellyfish-sync": "^0.0.23",
+    "@balena/jellyfish-sync": "0.0.24-github-orgs-aa78b3e72c93d09f50dbf54e2c64641f4dcd8255",
     "@balena/jellyfish-uuid": "0.0.21",
     "@balena/jellyfish-worker": "0.0.12",
     "@octokit/plugin-retry": "^3.0.3",

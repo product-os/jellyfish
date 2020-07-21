@@ -36,6 +36,7 @@ module.exports = {
 	feedbackItem: require('./contrib/feedback-item.json'),
 	formResponse: require('./contrib/form-response.json'),
 	formResponseCuration: require('./contrib/form-response-curation.json'),
+	gitHubOrg: require('./contrib/github-org.js')(mixins),
 	issue: require('./contrib/issue.js')(mixins),
 	message: require('./contrib/message.json'),
 	firstTimeLogin: require('./contrib/first-time-login.json'),
