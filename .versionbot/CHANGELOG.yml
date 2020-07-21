@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: handle messages that just contain a URL to an image'
+      hash: 8e815150e7d5757715d861a0c1cd66844a1b7c2c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.82.0
+  date: 2020-07-21T02:59:39.337Z
+- commits:
     - subject: Bump test/sidecar tags to v1.3.15
       hash: 96d60b83787467d92fddfd50547ce9b909870363
       body: ''
