@@ -18,9 +18,6 @@ import {
 } from 'redux'
 import styled from 'styled-components'
 import {
-	Box
-} from 'rendition'
-import {
 	actionCreators,
 	selectors,
 	sdk
@@ -137,33 +134,32 @@ class MessageList extends React.Component {
 				>
 					{(Boolean(tail) && tail.length > 0) && _.map(tail, (card) => {
 						return (
-							<Box key={card.id}>
-								<Event
-									user={this.props.user}
-									groups={this.props.groups}
-									openChannel={this.openChannel}
-									card={card}
-									selectCard={selectors.getCard}
-									getCard={this.props.actions.getCard}
-									actions={eventActions}
-									getActorHref={this.props.getActorHref}
-									menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
-										<ActionLink
-											data-cardid={card.id}
-											onClick={this.handleCardUnread}
-										>
-											Mark as unread
-										</ActionLink>
-									) : (
-										<ActionLink
-											data-cardid={card.id}
-											onClick={this.handleCardRead}
-										>
-											Mark as read
-										</ActionLink>
-									)}
-								/>
-							</Box>
+							<Event
+								key={card.id}
+								user={this.props.user}
+								groups={this.props.groups}
+								openChannel={this.openChannel}
+								card={card}
+								selectCard={selectors.getCard}
+								getCard={this.props.actions.getCard}
+								actions={eventActions}
+								getActorHref={this.props.getActorHref}
+								menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
+									<ActionLink
+										data-cardid={card.id}
+										onClick={this.handleCardUnread}
+									>
+										Mark as unread
+									</ActionLink>
+								) : (
+									<ActionLink
+										data-cardid={card.id}
+										onClick={this.handleCardRead}
+									>
+										Mark as read
+									</ActionLink>
+								)}
+							/>
 						)
 					})}
 				</EventsContainer>

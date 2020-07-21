@@ -326,107 +326,144 @@ ava.serial('Messages that alert a user\'s group should appear in their inbox', a
 	test.pass()
 })
 
-ava.serial('Only messages that ping a user or one of their groups should appear in their inbox', async (test) => {
+ava.serial('One-to-one messages to a user should appear in their inbox', async (test) => {
 	const {
+		user1,
 		user2,
 		page,
 		incognitoPage
 	} = context
 
-	const userGroups = await page.evaluate((usr) => {
-		return window.sdk.query({
-			type: 'object',
-			required: [ 'type', 'name' ],
-			$$links: {
-				'has group member': {
-					type: 'object',
-					required: [ 'slug' ],
-					properties: {
-						slug: {
-							const: usr.slug
-						}
-					},
-					additionalProperties: false
-				}
-			},
-			properties: {
-				type: {
-					const: 'group@1.0.0'
-				}
-			}
-		})
-	}, user2)
-
-	const userGroupNames = _.map(userGroups, 'name')
-
-	// Do things with the SDK to trigger the "status messages"
-	// like getting refresh tokens
-	await page.evaluate(() => {
-		return window.sdk.auth.refreshToken()
-	})
-
-	await page.evaluate(() => {
-		return window.sdk.auth.refreshToken()
-	})
-
-	await page.evaluate(() => {
-		return window.sdk.auth.refreshToken()
-	})
-
-	// Making a thread
-	const thread = await page.evaluate(() => {
+	const thread = await page.evaluate((u1, u2) => {
 		return window.sdk.card.create({
-			type: 'thread@1.0.0'
+			type: 'thread@1.0.0',
+			markers: [ `${u1.slug}+${u2.slug}` ]
 		})
-	})
+	}, user1, user2)
 
-	// Then we send 2 tagged messages to the user
+	// Navigate to the thread page
 	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
 
-	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+	const msg = `1-to-1 ${uuid()}`
 
 	await page.waitForSelector('.new-message-input')
 
 	await macros.createChatMessage(page, columnSelector, msg)
 
-	await macros.createChatMessage(page, columnSelector, msg)
-
-	// And send a message to our own group
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-
-	await incognitoPage.waitForSelector(columnSelector)
-
-	const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`
-
-	await incognitoPage.waitForSelector('.new-message-input')
-
-	await macros.createChatMessage(incognitoPage, columnSelector, ownGroupMsg)
-
 	// Navigate to the inbox page
 	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
-	await Bluebird.delay(10000)
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
-	// Get all children of the messageList-ListWrapper
-	// These should be all messages
-	const children = await incognitoPage.$$('[data-test="messageList-ListWrapper"] > div')
+	test.is(messageText.trim(), msg)
 
-	const messagesWithUser = []
+	test.pass()
+})
 
-	// Loop throught all the children to get the labels
-	for (const key in children) {
-		if (children.hasOwnProperty(key)) {
-			const child = children[key]
+ava.serial(
+	'Only messages that ping a user or one of their groups or their 1-to-1 conversations should appear in their inbox',
+	async (test) => {
+		const {
+			user2,
+			page,
+			incognitoPage
+		} = context
 
+		const userGroups = await page.evaluate((usr) => {
+			return window.sdk.query({
+				type: 'object',
+				required: [ 'type', 'name' ],
+				$$links: {
+					'has group member': {
+						type: 'object',
+						required: [ 'slug' ],
+						properties: {
+							slug: {
+								const: usr.slug
+							}
+						},
+						additionalProperties: false
+					}
+				},
+				properties: {
+					type: {
+						const: 'group@1.0.0'
+					}
+				}
+			})
+		}, user2)
+
+		const userGroupNames = _.map(userGroups, 'name')
+
+		// Do things with the SDK to trigger the "status messages"
+		// like getting refresh tokens
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		// Making a thread
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Then we send 2 tagged messages to the user
+		await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+		const columnSelector = `.column--slug-${thread.slug}`
+		await page.waitForSelector(columnSelector)
+
+		const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+		await page.waitForSelector('.new-message-input')
+
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		// And send a message to our own group
+		await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+		await incognitoPage.waitForSelector(columnSelector)
+
+		const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`
+
+		await incognitoPage.waitForSelector('.new-message-input')
+
+		await macros.createChatMessage(incognitoPage, columnSelector, ownGroupMsg)
+
+		// Navigate to the inbox page
+		await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+		await Bluebird.delay(10000)
+
+		// Get all children of the messageList-ListWrapper
+		// These should be all messages
+		const children = await incognitoPage.$$('[data-test="messageList-ListWrapper"] > div')
+
+		const messagesWithUser = []
+
+		// Loop throught all the children to get the labels
+		for (const child of children) {
 			// Get the labels
 			const text = await incognitoPage.evaluate((ele) => {
 				return ele.textContent
 			}, child)
 
-			const eventId = await macros.getElementAttribute(incognitoPage, child, 'id')
+			const eventId = (await macros.getElementAttribute(incognitoPage, child, 'id')).replace(/^event-/, '')
+			console.log('eventId', eventId)
 			if (eventId === ownGroupMsg.id) {
 				test.fail('Message to own group found in inbox')
 			}
@@ -440,18 +477,26 @@ ava.serial('Only messages that ping a user or one of their groups should appear 
 				// Push all texts to an array
 				messagesWithUser.push(true)
 			} else {
-				messagesWithUser.push(false)
+				// Check if it is a 1-to-1 message that includes user2
+				const event = await incognitoPage.evaluate((id) => {
+					return window.sdk.card.get(id)
+				}, eventId)
+				const userInMarkerRegExp = new RegExp(`(\\+|^)${user2.slug}(\\+|$)`)
+				if (_.some(_.invokeMap(event.markers, 'match', userInMarkerRegExp))) {
+					messagesWithUser.push(true)
+				} else {
+					messagesWithUser.push(false)
+				}
 			}
 		}
-	}
 
-	// Check if array is Expected length
-	test.is(messagesWithUser.every((currentValue) => {
-		return currentValue === true
-	}), true)
+		// Check if array is Expected length
+		test.is(messagesWithUser.every((currentValue) => {
+			return currentValue === true
+		}), true)
 
-	test.pass()
-})
+		test.pass()
+	})
 
 ava.serial.skip('When having two chats side-by-side both should update with new messages', async (test) => {
 	const {
