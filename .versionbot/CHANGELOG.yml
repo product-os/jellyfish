@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Ensure 1-to-1 messages appear in the user''s inbox'
+      hash: 8a5421a8f3c1cf6c076cab086f0f232e9d61f202
+      body: |
+        And also in the mention count!
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.81.0
+  date: 2020-07-21T01:00:20.009Z
+- commits:
     - subject: 'patch: bump localforage from 1.7.4 to 1.8.0'
       hash: 07d0e41c736f614801e442b0978a49da6b2eb998
       body: >
