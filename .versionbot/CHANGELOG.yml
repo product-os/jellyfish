@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update Timeline component to use queries for pagination
+      hash: 03fb5fb5e86f19c40377cce89428b48a597d8a1b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+  version: 30.83.0
+  date: 2020-07-21T11:27:42.078Z
+- commits:
     - subject: Switch from dependabot to renovate
       hash: 3fc7fa85f0c49445f57983e6f9a6fc7107e5e928
       body: ''
