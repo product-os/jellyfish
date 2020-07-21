@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump test/sidecar tags to v1.3.15
+      hash: 96d60b83787467d92fddfd50547ce9b909870363
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.81.1
+  date: 2020-07-21T01:50:00.691Z
+- commits:
     - subject: 'ui: Ensure 1-to-1 messages appear in the user''s inbox'
       hash: 8a5421a8f3c1cf6c076cab086f0f232e9d61f202
       body: |
