@@ -13,13 +13,13 @@ import {
 	Table,
 	Txt
 } from 'rendition'
+import {
+	getPathsInSchema
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
 import Link from '@balena/jellyfish-ui-components/lib/Link'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
-import {
-	getTypeFields
-} from './helpers'
 
 const PAGE_SIZE = 25
 
@@ -30,6 +30,17 @@ const RENDERERS = {
 	}
 }
 
+// Do not include markdown or mermaid fields in our table, as well as those with the pattern key
+const OMISSIONS = [ {
+	key: 'pattern'
+}, {
+	key: 'format',
+	value: 'markdown'
+}, {
+	key: 'format',
+	value: 'mermaid'
+} ]
+
 export default class CardTable extends BaseLens {
 	constructor (props) {
 		super(props)
@@ -38,18 +49,24 @@ export default class CardTable extends BaseLens {
 	}
 
 	generateTableColumns () {
-		// GenerateTableColumns generates the default table columns
-		// First, we get all the typeFields we want.
-		const typeFields = getTypeFields(this.props.type)
+		const {
+			type: {
+				data: {
+					schema
+				}
+			}
+		} = this.props
 
-		// Second, we create and return the tableColumns array
-		return _.map(typeFields, (value, key) => {
-			const render = RENDERERS[key]
+		const paths = getPathsInSchema(schema, OMISSIONS)
 
-			// Return the column object, with formatted title, sortable and optional render function
+		return _.map(paths, ({
+			title, path
+		}) => {
+			const field = _.join(path, '.')
+			const render = RENDERERS[field]
 			return {
-				label: value,
-				field: key,
+				label: title,
+				field,
 				sortable: true,
 				render
 			}

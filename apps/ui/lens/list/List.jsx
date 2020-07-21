@@ -44,6 +44,11 @@ class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
 
+		this.state = {
+			// eslint-disable-next-line no-undefined
+			scrollToIndex: undefined
+		}
+
 		this.clearCellCache = () => {
 			this.cache.clearAll()
 		}
@@ -104,16 +109,39 @@ class CardList extends BaseLens {
 		})
 	}
 
-	componentWillUpdate ({
-		tail
+	getSnapshotBeforeUpdate ({
+		tail: prevTail
 	}) {
-		const nextTail = tail
-		const prevTail = this.props.tail
+		const nextTail = this.props.tail
 
 		// Only clear CellCache if already rendered tail data has changed
-		const isPreviousTailDataChanged = !circularDeepEqual(prevTail, nextTail.slice(0, prevTail.length))
-		if (isPreviousTailDataChanged) {
+		const previousTailDataChanged = !circularDeepEqual(prevTail, nextTail.slice(0, prevTail.length))
+		if (previousTailDataChanged) {
 			this.clearCellCache()
+		}
+		return previousTailDataChanged
+	}
+
+	componentDidUpdate ({
+		tail: prevTail,
+		pageOptions: {
+			sortBy: previousSortBy
+		}
+	}, prevState, previousTailDataChanged) {
+		const currentSortBy = this.props.pageOptions.sortBy
+
+		// If sort-by value changes (such that the tail order also changes),
+		// scroll to the top row and then immediately reset to undefined.
+		// This is so we can scroll up again when/if the sort-by changes again
+		if (previousSortBy !== currentSortBy && previousTailDataChanged) {
+			this.setState({
+				scrollToIndex: 0
+			}, () => {
+				this.setState({
+					// eslint-disable-next-line no-undefined
+					scrollToIndex: undefined
+				})
+			})
 		}
 	}
 
@@ -121,13 +149,18 @@ class CardList extends BaseLens {
 		const {
 			tail,
 			pageOptions,
-			totalPages
+			totalPages,
+			type
 		} = this.props
 
 		// TODO: remove this logic when totalPage returns a usefull number
 		// We can't get the totalPage of a schema.
 		// Until then we should assume we want atleast 1 page more than our current page.
 		const rowCount = (totalPages === Infinity) ? (tail.length + pageOptions.limit) : totalPages
+
+		// Passing sortBy to the list ensures that it re-renders on sort, since
+		// by default all react-virtualized components use shallowCompare (https://github.com/bvaughn/react-virtualized/blob/master/README.md#pass-thru-props)
+		const sortBy = _.last(pageOptions.sortBy)
 
 		return (
 			<Column flex="1" overflowY>
@@ -159,6 +192,8 @@ class CardList extends BaseLens {
 												overscanRowCount={3}
 												rowHeight={this.cache.rowHeight}
 												rowRenderer={this.rowRenderer}
+												sortBy={sortBy}
+												scrollToIndex={this.state.scrollToIndex}
 											/>
 										)
 									}}
@@ -183,10 +218,10 @@ class CardList extends BaseLens {
 						>
 							<Button
 								success={true}
-								className={`btn--add-${this.props.type.slug}`}
+								className={`btn--add-${type.slug}`}
 								onClick={this.openCreateChannel}
 							>
-								Add {this.props.type.name || this.props.type.slug}
+								Add {type.name || type.slug}
 							</Button>
 						</Flex>
 					</React.Fragment>
