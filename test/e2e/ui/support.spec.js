@@ -907,7 +907,7 @@ ava.serial('Only users with a name matching the search string are returned by th
 	const userMatches = await page.$$('.rta__autocomplete .rta__item')
 	test.is(userMatches.length, 1)
 	const userMatch = await macros.getElementText(page, '.rta__autocomplete .rta__item')
-	test.is(userMatch.trim().substr(1), matchingUsername)
+	test.true(userMatch.trim().substr(1).includes(matchingUsername))
 
 	// Select the first item from the auto-complete suggestions (note: this also appends a space to the message)
 	await page.keyboard.press('Enter')

@@ -239,6 +239,33 @@
                 "email": {
                   "type": [ "string", "array" ]
                 },
+                "profile": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "type": "object"
+                    },
+                    "about": {
+                      "type": "object"
+                    },
+                    "birthday": {
+                      "type": "string"
+                    },
+                    "startDate": {
+                      "type": "string"
+                    },
+                    "country": {
+                      "type": "string"
+                    },
+                    "city": {
+                      "type": "string"
+                    },
+                    "timezone": {
+                      "type": "string"
+                    }
+                  }
+                },
                 "avatar": {
                   "type": [ "string", "null" ]
                 }
