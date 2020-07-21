@@ -19,14 +19,8 @@ import {
 import * as redux from 'redux'
 import {
 	Box,
-	Button,
-	ButtonGroup,
-	Filters,
 	Flex,
-	SchemaSieve,
-	Search,
-	Select,
-	Theme
+	SchemaSieve
 } from 'rendition'
 import {
 	v4 as uuid
@@ -36,25 +30,23 @@ import {
 	analytics,
 	selectors,
 	sdk
-} from '../../core'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+} from '../../../core'
+import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import {
 	getLensBySlug
-} from '../'
-import {
-	CloseButton
-} from '../../../../lib/ui-components/shame/CloseButton'
-import Icon from '../../../../lib/ui-components/shame/Icon'
-import Collapsible from '../../../../lib/ui-components/Collapsible'
+} from '../../'
+import Icon from '../../../../../lib/ui-components/shame/Icon'
 import {
 	withResponsiveContext
-} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
+} from '../../../../../lib/ui-components/hooks/ResponsiveProvider'
+import Header from './Header'
+import Content from './Content'
 
-const FULL_TEXT_SEARCH_TITLE = 'full_text_search'
-
-const USER_FILTER_NAME = 'user-generated-filter'
-
-const TIMELINE_FILTER_PROP = '$$links'
+import {
+	USER_FILTER_NAME,
+	FULL_TEXT_SEARCH_TITLE,
+	TIMELINE_FILTER_PROP
+} from './constants'
 
 const createSliceFilter = (slice) => {
 	const filter = {
@@ -197,7 +189,8 @@ class ViewRenderer extends React.Component {
 			'updateView',
 			'updateSearch',
 			'updateFiltersFromSummary',
-			'updateFilters'
+			'updateFilters',
+			'getQueryOptions'
 		]
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this)
@@ -523,10 +516,11 @@ class ViewRenderer extends React.Component {
 	}
 
 	createView (view) {
-		const newView = clone(this.props.channel.data.head)
 		const {
-			user
+			user,
+			channel
 		} = this.props
+		const newView = clone(channel.data.head)
 		newView.name = view.name
 		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(view.name)}`
 		if (!newView.data.allOf) {
@@ -561,14 +555,26 @@ class ViewRenderer extends React.Component {
 
 	render () {
 		const {
+			channel,
+			isMobile,
+			tail
+		} = this.props
+
+		const {
 			head
-		} = this.props.channel.data
+		} = channel.data
 
 		const {
 			tailType,
 			activeLens,
 			ready,
-			redirectTo
+			redirectTo,
+			filters,
+			sliceOptions,
+			activeSlice,
+			options,
+			searchFilter,
+			searchTerm
 		} = this.state
 
 		if (!ready || !head || _.isEmpty(head.data)) {
@@ -583,63 +589,9 @@ class ViewRenderer extends React.Component {
 			return <Redirect push to={redirectTo} />
 		}
 
-		const options = this.getQueryOptions(activeLens)
-
-		const tail = this.props.tail && _.sortBy(this.props.tail, options.sortBy)
-
-		if (tail && options.sortDir === 'desc') {
-			tail.reverse()
-		}
-
-		const lenses = this.lenses
-		const useFilters = Boolean(tailType) && tailType.slug !== 'view'
-		const lens = _.find(lenses, {
+		const lens = _.find(this.lenses, {
 			slug: activeLens
-		}) || lenses[0]
-
-		// Always expose the created_at and updated_at field for filtering
-		const schemaForFilters = _.get(clone(tailType), [ 'data', 'schema' ], {})
-		_.set(schemaForFilters, [ 'properties', 'created_at' ], {
-			title: 'Created at',
-			type: 'string',
-			format: 'date-time'
-		})
-		_.set(schemaForFilters, [ 'properties', 'updated_at' ], {
-			title: 'Last updated',
-			type: 'string',
-			format: 'date-time'
-		})
-
-		const sliceOptions = this.state.sliceOptions
-
-		// Add the timeline link prop to spoof the filters component into generating
-		// subschemas for the $$links property - see the createSyntheticViewCard()
-		// method for how we unpack the filters
-		_.set(schemaForFilters, [ 'properties', TIMELINE_FILTER_PROP ], {
-			title: 'Timeline',
-			type: 'object',
-			properties: {
-				data: {
-					type: 'object',
-					properties: {
-						payload: {
-							type: 'object',
-							properties: {
-								message: {
-									title: 'Timeline message',
-									type: 'string'
-								}
-							}
-						}
-					}
-				}
-			}
-		})
-
-		// Only render filters in compact mode for the first breakpoint
-		const FiltersBreakpointSettings = _.sortBy(Theme.breakpoints).map((breakpoint, index) => Boolean(index <= 0))
-
-		const summaryFilters = _.compact([ ...this.state.filters, this.state.searchFilter ])
+		}) || this.lenses[0]
 
 		return (
 			<Flex
@@ -650,115 +602,35 @@ class ViewRenderer extends React.Component {
 					height: '100%', overflowY: 'auto', position: 'relative'
 				}}
 			>
-				{Boolean(head) && (
-					<Flex alignItems="flex-start" mx={3} mt={3} style={{
-						flexShrink: 0
-					}}>
-						<Collapsible
-							title="Filters and Lenses"
-							maxContentHeight="70vh"
-							flex={1}
-							collapsible={this.props.isMobile}
-							data-test="filters-and-lense"
-						>
-							<Flex
-								mt={[ 2, 2, 0 ]}
-								flexWrap={[ 'wrap', 'wrap', 'nowrap' ]}
-								flexDirection="row-reverse"
-								alignItems={[ 'flex-start', 'flex-start', 'center' ]}
-							>
-								<Flex mb={3} alignItems="center" justifyContent="flex-end" minWidth={[ '100%', '100%', 'auto' ]}>
-									{sliceOptions && sliceOptions.length && (
-										<Select
-											ml={3}
-											options={sliceOptions}
-											value={this.state.activeSlice}
-											labelKey='title'
-											onChange={this.setSlice}
-										/>
-									)}
-
-									{this.lenses.length > 1 && Boolean(lens) && (
-										<ButtonGroup ml={3}>
-											{_.map(this.lenses, (item) => {
-												return (
-													<Button
-														key={item.slug}
-														active={lens && lens.slug === item.slug}
-														data-test={`lens-selector--${item.slug}`}
-														data-slug={item.slug}
-														onClick={this.setLens}
-														pt={11}
-														icon={<Icon name={item.data.icon}/>}
-													/>
-												)
-											})}
-										</ButtonGroup>
-									)}
-								</Flex>
-								<Box flex="1">
-									{useFilters && (
-										<Flex mt={0} flex="1 0 auto" justifyContent="space-between">
-											<Filters
-												schema={schemaForFilters}
-												filters={this.state.filters}
-												onFiltersUpdate={this.updateFilters}
-												onViewsUpdate={this.saveView}
-												compact={FiltersBreakpointSettings}
-												renderMode={[ 'add' ]}
-											/>
-											<Box mb={3} flex="0 1 500px">
-												<Search
-													className="view__search"
-													value={this.state.searchTerm}
-													onChange={this.updateSearch}
-												/>
-											</Box>
-										</Flex>
-									)}
-								</Box>
-							</Flex>
-
-							{useFilters && summaryFilters.length > 0 && (
-								<Box flex="1 0 auto" mt={-3} data-test="view__filters-summary-wrapper">
-									<Filters
-										schema={schemaForFilters}
-										filters={summaryFilters}
-										onFiltersUpdate={this.updateFiltersFromSummary}
-										onViewsUpdate={this.saveView}
-										renderMode={[ 'summary' ]}
-									/>
-								</Box>
-							)}
-						</Collapsible>
-						<CloseButton
-							flex={0}
-							p={3}
-							py={2}
-							mr={-3}
-							mt={[ -2, -2, 0 ]}
-							channel={this.props.channel}
-						/>
-					</Flex>
-				)}
-
-				<Flex height="100%" minHeight="0" mt={this.state.filters.length ? 0 : 3}>
-					{!tail && (
-						<Box p={3}>
-							<Icon spin name="cog"/>
-						</Box>
-					)}
-					{Boolean(tail) && Boolean(lens) && (
-						<lens.data.renderer
-							channel={this.props.channel}
-							tail={tail}
-							setPage={this.setPage}
-							pageOptions={this.state.options}
-							page={this.state.options.page}
-							totalPages={this.state.options.totalPages}
-							type={tailType}
-						/>
-					)}
+				<Header
+					isMobile={isMobile}
+					sliceOptions={sliceOptions}
+					activeSlice={activeSlice}
+					setSlice={this.setSlice}
+					lenses={this.lenses}
+					setLens={this.setLens}
+					lens={lens}
+					filters={filters}
+					tailType={tailType}
+					updateFilters={this.updateFilters}
+					saveView={this.saveView}
+					channel={channel}
+					searchFilter={searchFilter}
+					searchTerm={searchTerm}
+					updateSearch={this.updateSearch}
+					updateFiltersFromSummary={this.updateFiltersFromSummary}
+				/>
+				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>
+					<Content
+						lens={lens}
+						activeLens={activeLens}
+						tail={tail}
+						channel={channel}
+						getQueryOptions={this.getQueryOptions}
+						tailType={tailType}
+						setPage={this.setPage}
+						pageOptions={options}
+					/>
 				</Flex>
 			</Flex>
 		)
