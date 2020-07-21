@@ -1,4 +1,17 @@
 - commits:
+    - subject: Switch from dependabot to renovate
+      hash: 3fc7fa85f0c49445f57983e6f9a6fc7107e5e928
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.82.3
+  date: 2020-07-21T10:10:55.475Z
+- commits:
     - subject: Move env vars used for local dev/testing to dotenv file
       hash: 198202e7e50f500e5b5a35d2e97506c26a32761b
       body: ''
