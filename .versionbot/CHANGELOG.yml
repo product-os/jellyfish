@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Ensure home channel drawer actions restricted to mobile view'
+      hash: 07609e3cd51d74a4eecae9475a2203eb864fa635
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.82.1
+  date: 2020-07-21T03:59:29.226Z
+- commits:
     - subject: 'ui: handle messages that just contain a URL to an image'
       hash: 8e815150e7d5757715d861a0c1cd66844a1b7c2c
       body: ''
