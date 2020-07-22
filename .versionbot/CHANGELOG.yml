@@ -1,4 +1,21 @@
 - commits:
+    - subject: Link cards search with multiple types
+      hash: 1b6df9f7efb4ab109034296dd3c38c4f554fa983
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+    - subject: patch Update non-major
+      hash: 6d479d76de5e303ee6ec4f9b00661a3cbd708958
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.84.0
+  date: 2020-07-22T15:41:43.166Z
+- commits:
     - subject: 'ci: Move S3 upload tests to balenaCI'
       hash: 61f8afc25eb4ef58298c2d8fa4300687cd9d0319
       body: ''
