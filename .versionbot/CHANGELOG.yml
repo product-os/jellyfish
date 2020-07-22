@@ -1,4 +1,83 @@
 - commits:
+    - subject: 'test/e2e/ui: Add form-response e2e test'
+      hash: 3abe34a7faa891fed6787a0495663f9d6156275a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'ui/lens/snippet/SingleResponse: Remove Flex with single child'
+      hash: 9bedb63452098e858a150293940f7967b5e2e2e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'ui: Move Segment component to lens/common and reuse it'
+      hash: 8ba593dfaf198578af24ab20461f910783157a77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'ui: Use filter property to select form-response renderers'
+      hash: f38df97aaba05105de4201e52cdc1f3c219f3911
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'ui/lens: Add FormResponse lens'
+      hash: bd4e00521e61ec0781c9f7ea359e66c3c6e6d29b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'ui/lens/SingleCard/Segment: Fix flex typo'
+      hash: 5fcc677b9b481066b5806cf9624169be5c1c61f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'chat-widget: Fix react-router imports'
+      hash: 0102d3e766d67a2e073444f7304b28f194d96f07
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: patch Update non-major
+      hash: a698116479d82da83bf1acb18ffb171e00476045
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.83.3
+  date: 2020-07-22T06:44:18.781Z
+- commits:
     - subject: 'patch: bump @balena/jellyfish-uuid from 0.0.9 to 0.0.16'
       hash: 74dcb9afb8fa4f469a7dffab596196b3070d8c93
       body: |
