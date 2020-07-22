@@ -181,9 +181,8 @@ ava('getWithTimeline is used to get all the events for the timeline when' +
 			}
 		})
 
-	// GetWithTimeline should only be called once by JSDom is playing up and calling the handleScrollBeginning before the component is mounted
-	test.is(getWithTimeline.callCount, 2)
-	test.deepEqual(getWithTimeline.args[1], [ 'fake-card', {
+	test.is(getWithTimeline.callCount, 1)
+	test.deepEqual(getWithTimeline.args, [ [ 'fake-card', {
 		queryOptions: {
 			links: {
 				'has attached element': {
@@ -192,5 +191,5 @@ ava('getWithTimeline is used to get all the events for the timeline when' +
 				}
 			}
 		}
-	} ])
+	} ] ])
 })
