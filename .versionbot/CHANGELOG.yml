@@ -1,4 +1,22 @@
 - commits:
+    - subject: Scale down replicas
+      hash: ae772b1c5c711537848cb9b0712efa17381a2efc
+      body: |
+        * reduces action-server from 32 to 24
+        * reduces jellyfish(api) from 16 to 12
+        * allows scaling down of x4 default nodegroup to x3
+        * saves AWS costs
+        * increases utilisation on the default nodegroup
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+  version: 30.84.1
+  date: 2020-07-22T17:22:24.561Z
+- commits:
     - subject: Link cards search with multiple types
       hash: 1b6df9f7efb4ab109034296dd3c38c4f554fa983
       body: ''
