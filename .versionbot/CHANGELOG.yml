@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'ci: Move S3 upload tests to balenaCI'
+      hash: 61f8afc25eb4ef58298c2d8fa4300687cd9d0319
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: patch Update dependency mustache to v4
+      hash: 62fbb6bdc6c6326c61ec3bb47a67e5e1677eb8fe
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.83.4
+  date: 2020-07-22T09:08:13.978Z
+- commits:
     - subject: 'test/e2e/ui: Add form-response e2e test'
       hash: 3abe34a7faa891fed6787a0495663f9d6156275a
       body: ''
