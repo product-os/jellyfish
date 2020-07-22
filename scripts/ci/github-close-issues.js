@@ -7,7 +7,7 @@
 
 /*
  * This script looks through a GitHub repository and closes issues that were created two or more days ago.
- * Usage: GITHUB_TOKEN=<...> GITHUB_REPO=<...> node ./scripts/ci/github-close-issues.js
+ * Usage: node ./scripts/ci/github-close-issues.js INTEGRATION_GITHUB_TOKEN=<...>
  */
 
 const _ = require('lodash')
@@ -22,6 +22,7 @@ const Octokit = require('@octokit/rest').Octokit.plugin(
 	retry,
 	throttling
 )
+const environment = require('@balena/jellyfish-environment')
 
 const moment = require('moment')
 const packageJSON = require('../../package.json')
@@ -64,12 +65,15 @@ const closeIssues = async (options) => {
 
 	while (true) {
 		// Search for old test issues.
-		const results = await context.octokit.search.issuesAndPullRequests({
-			q: query,
-			per_page: 100
-		}).catch((err) => {
-			console.error(err)
-		})
+		let results = {}
+		try {
+			results = await context.octokit.search.issuesAndPullRequests({
+				q: query,
+				per_page: 100
+			})
+		} catch (err) {
+			handleError(err, 0)
+		}
 
 		// Break loop if no issues were found.
 		if (!_.get(results, [ 'data', 'items', 'length' ])) {
@@ -78,6 +82,8 @@ const closeIssues = async (options) => {
 
 		await Bluebird.each(results.data.items, async (issue) => {
 			await closeIssue(context, issue)
+			context.closed.push(issue.number)
+			await Bluebird.delay(DELAY)
 		})
 	}
 
@@ -96,17 +102,16 @@ const closeIssue = async (context, issue) => {
 		return
 	}
 	console.log(`Closing issue ${issue.title} (${issue.number})`)
-	await context.octokit.issues.update({
-		owner: context.owner,
-		repo: context.repo,
-		issue_number: issue.number,
-		state: 'closed'
-	}).then(() => {
-		context.closed.push(issue.number)
-	}).catch((err) => {
-		console.error(err)
-	})
-	await Bluebird.delay(DELAY)
+	try {
+		await context.octokit.issues.update({
+			owner: context.owner,
+			repo: context.repo,
+			issue_number: issue.number,
+			state: 'closed'
+		})
+	} catch (err) {
+		handleError(err, 0)
+	}
 }
 
 /**
@@ -118,12 +123,12 @@ const closeIssue = async (context, issue) => {
 const validate = (options) => {
 	// Check that the GitHub token is set.
 	if (!options.token) {
-		handleError('Must set GITHUB_TOKEN')
+		handleError('Must set INTEGRATION_GITHUB_TOKEN', 1)
 	}
 
 	// Check that the GitHub test repository name is set.
 	if (!options.repo) {
-		handleError('Must set GITHUB_REPO')
+		handleError('Must set TEST_INTEGRATION_GITHUB_REPO', 1)
 	}
 }
 
@@ -132,16 +137,17 @@ const validate = (options) => {
  * @function
  *
  * @param {String} msg - error message
+ * @param {Number} code - code to exit with
  */
-const handleError = (msg) => {
+const handleError = (msg, code) => {
 	console.error(msg)
-	process.exit(1)
+	process.exit(code)
 }
 
 // Set required options and validate them.
 const options = {
-	token: process.env.GITHUB_TOKEN,
-	repo: process.env.GITHUB_REPO
+	token: environment.integration.github.api,
+	repo: environment.test.integration.github.repo
 }
 validate(options)
 
