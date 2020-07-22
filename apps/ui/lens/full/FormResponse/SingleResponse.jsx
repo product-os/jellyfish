@@ -12,13 +12,14 @@ import React from 'react'
 import {
 	Box,
 	Divider,
+	Heading,
 	Tab,
 	Tabs,
-	Theme
+	Theme,
+	Txt
 } from 'rendition'
 import styled from 'styled-components'
 import Segment from '../../common/Segment'
-import CardFields from '../../../../../lib/ui-components/shame/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {
@@ -26,16 +27,14 @@ import {
 } from '../../../../../lib/ui-components/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
-	flex: 1;
-	> [ role="tablist"]{
-	  height: 100%;
-	}
+	flex: 1
+
 	> [role="tabpanel"] {
-		flex: 1;
+		flex: 1
 	}
 `
 
-export default class SingleCardFull extends React.Component {
+export default class SingleResponseFull extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -54,7 +53,7 @@ export default class SingleCardFull extends React.Component {
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
-		return	!circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+		return !circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
 	}
 
 	setActiveIndex (activeIndex) {
@@ -68,7 +67,6 @@ export default class SingleCardFull extends React.Component {
 			actions,
 			card,
 			channel,
-			fieldOrder,
 			types,
 			actionItems
 		} = this.props
@@ -89,6 +87,7 @@ export default class SingleCardFull extends React.Component {
 		return (
 			<CardLayout
 				overflowY
+				title={`${card.data.user}'s feedback`}
 				card={card}
 				channel={channel}
 				actionItems={actionItems}
@@ -103,16 +102,25 @@ export default class SingleCardFull extends React.Component {
 						<Box p={3} style={{
 							maxWidth: Theme.breakpoints[2]
 						}}>
-							<CardFields
-								card={card}
-								fieldOrder={fieldOrder}
-								type={type}
-							/>
+							<Heading.h5>Username</Heading.h5>
+							<Txt>{card.data.user}</Txt>
+							<br/>
+							{
+								_.map(card.data.responses, (response, index) => {
+									return (
+										<Box key={index}>
+											<Heading.h5>{response.question}</Heading.h5>
+											<Txt>{response.answer.value}</Txt>
+											<br />
+										</Box>
+									)
+								})
+							}
 						</Box>
 					</Tab>
 
 					{displayTimeline && (
-						<Tab title="Timeline">
+						<Tab title="Internal Discussion">
 							<Timeline.data.renderer
 								card={card}
 								allowWhispers
@@ -129,6 +137,7 @@ export default class SingleCardFull extends React.Component {
 									segment={segment}
 									types={types}
 									actions={actions}
+									showLinkToExistingElementButton={false}
 								/>
 							</Tab>
 						)

@@ -41,7 +41,7 @@ import {
 } from '../../core'
 import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
 import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
-import Segment from '../full/SingleCard/Segment'
+import Segment from '../common/Segment'
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
