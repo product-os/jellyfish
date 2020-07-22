@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: jellyfish-action-server
 spec:
-  replicas: 32
+  replicas: 24
   selector:
     matchLabels:
       app: action-server
