@@ -9,6 +9,9 @@
 import _ from 'lodash'
 import React from 'react'
 import AsyncSelect from 'react-select/async'
+import {
+	Badge, Flex, Txt
+} from 'rendition'
 import * as helpers from '../services/helpers'
 
 export default class AutoCompleteCardSelect extends React.Component {
@@ -32,7 +35,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 	componentDidUpdate (prevProps) {
 		// If the card type is changed, we should reset
-		if (prevProps.cardType !== this.props.cardType) {
+		if (!_.isEqual(prevProps.cardType, this.props.cardType)) {
 			this.setState({
 				results: []
 			})
@@ -53,35 +56,42 @@ export default class AutoCompleteCardSelect extends React.Component {
 	async getTargets (value) {
 		const {
 			cardFilter,
-			cardType,
+			cardType: cardTypes,
 			types,
 			sdk
 		} = this.props
 
-		// Retrieve the target type of the selected link
-		const typeCard = _.find(types, {
-			slug: cardType.split('@')[0]
-		})
+		const queryFilter = {
+			type: 'object',
+			anyOf: [].concat(cardTypes).map((cardType) => {
+				// Retrieve the target type of the selected link
+				const typeCard = _.find(types, {
+					slug: cardType.split('@')[0]
+				})
 
-		// Create full text search query based on the target type and search term
-		const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value)
+				// Create full text search query based on the target type and search term
+				const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value)
 
-		// Additionally, restrict the query to only filter for cards of the chosen
-		// type
-		_.set(filter, [ 'properties', 'type' ], {
-			type: 'string',
-			const: `${typeCard.slug}@${typeCard.version}`
-		})
+				// Additionally, restrict the query to only filter for cards of the chosen
+				// type
+				_.set(filter, [ 'properties', 'type' ], {
+					type: 'string',
+					const: `${typeCard.slug}@${typeCard.version}`
+				})
 
-		// Merge with the provided filter (if given)
-		_.merge(filter, cardFilter)
+				// Merge with the provided filter (if given)
+				return _.merge(filter, cardFilter)
+			})
+		}
 
 		// Query the API for results and set them to state so they can be accessed
 		// when an option is selected
-		const results = await sdk.query(filter)
+		const results = await sdk.query(queryFilter, {
+			limit: 50
+		})
 
 		// If the card type was changed while the request was in-flight, we should discard these results
-		if (cardType !== this.props.cardType) {
+		if (!_.isEqual(cardTypes, this.props.cardType)) {
 			return []
 		}
 
@@ -93,9 +103,15 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 		// Return the results in a format understood by the AsyncSelect component
 		return results.map((card) => {
+			const typeCardIndex = _.findIndex(types, {
+				slug: card.type.split('@')[0]
+			})
+
 			return {
 				label: card.name || card.slug || card.id,
-				value: card.id
+				value: card.id,
+				type: types[typeCardIndex].name,
+				shade: typeCardIndex
 			}
 		})
 	}
@@ -129,6 +145,21 @@ export default class AutoCompleteCardSelect extends React.Component {
 							...base, zIndex: 100
 						}
 					}
+				}}
+				formatOptionLabel={(option) => {
+					return (
+						<Flex alignItems="center" justifyContent="center">
+							{option.type && (
+								<Badge shade={option.shade} mr={2}>{option.type}</Badge>
+							)}
+							<Txt style={{
+								flex: 1,
+								whiteSpace: 'nowrap',
+								overflow: 'hidden',
+								textOverflow: 'ellipsis'
+							}}>{option.label}</Txt>
+						</Flex>
+					)
 				}}
 				{...rest}
 			/>
