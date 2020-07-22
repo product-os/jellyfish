@@ -10,8 +10,8 @@ import {
 	Box,
 	Modal,
 	Flex,
-	Txt,
-	Select
+	Select,
+	Txt
 } from 'rendition'
 import {
 	constraints as LINKS
@@ -71,38 +71,40 @@ export default class LinkModal extends React.Component {
 		}
 
 		const {
-			card,
-			linkVerb,
-			types,
 			target
 		} = props
-
-		const fromType = this.getFromType(card)
-		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
-		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
-		const linkType = linkTypeTargets.length === 1 ? linkTypeTargets[0] : null
 
 		this.state = {
 			submitting: false,
 			selectedTarget: target || null,
-			linkType
+			linkType: this.getLinkType(target)
 		}
 
 		this.handleTargetSelect = this.handleTargetSelect.bind(this)
-		this.handleLinkTypeSelect = this.handleLinkTypeSelect.bind(this)
 		this.linkToExisting = this.linkToExisting.bind(this)
+	}
+
+	getLinkTypeTargets (target) {
+		const {
+			card,
+			linkVerb,
+			types
+		} = this.props
+
+		const fromType = this.getFromType(card)
+		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
+		return this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
+	}
+
+	getLinkType (target) {
+		const linkTypeTargets = this.getLinkTypeTargets(target)
+		return linkTypeTargets.length === 1 ? linkTypeTargets[0] : null
 	}
 
 	handleTargetSelect (target) {
 		this.setState({
-			selectedTarget: target
-		})
-	}
-
-	async handleLinkTypeSelect (payload) {
-		this.setState({
-			linkType: payload.option,
-			selectedTarget: this.props.target || null
+			selectedTarget: target,
+			linkType: this.getLinkType(target)
 		})
 	}
 
@@ -123,6 +125,7 @@ export default class LinkModal extends React.Component {
 		if (!linkType || !selectedTarget) {
 			return
 		}
+
 		this.setState({
 			submitting: true
 		}, async () => {
@@ -161,7 +164,7 @@ export default class LinkModal extends React.Component {
 
 		const fromType = this.getFromType(card)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
-		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
+		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, selectedTarget, fromType)
 
 		if (!linkTypeTargets.length) {
 			console.error(`No matching link types for ${fromType}`)
@@ -175,10 +178,23 @@ export default class LinkModal extends React.Component {
 		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
 			? linkTypeTargets[0].title : 'another element'}`
 
-		const selectedTargetValue = selectedTarget ? {
-			value: selectedTarget.id,
-			label: selectedTarget.name || selectedTarget.slug
-		} : null
+		// Selected target display
+		let selectedTargetValue = null
+
+		if (selectedTarget) {
+			const selectedTargetCardTypeIndex = _.findIndex(types, {
+				slug: selectedTarget.type.split('@')[0]
+			})
+
+			selectedTargetValue = {
+				value: selectedTarget.id,
+				label: selectedTarget.name || selectedTarget.slug,
+				type: types[selectedTargetCardTypeIndex].name,
+				shade: selectedTargetCardTypeIndex
+			}
+		}
+
+		const allLinkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, null, fromType)
 
 		return (
 			<Modal
@@ -191,38 +207,47 @@ export default class LinkModal extends React.Component {
 				action={submitting ? <Icon spin name="cog"/> : 'OK'}
 				done={this.linkToExisting}
 			>
-				<Flex alignItems={[ 'flex-start', 'flex-start', 'center' ]} flexDirection={[ 'column', 'column', 'row' ]}>
-					{linkTypeTargets.length > 1 && (
-						<Txt>
-							Link this {typeName} to{' '}
-						</Txt>
-					)}
-					{linkTypeTargets.length > 1 && (
-						<Select ml={2} my={2}
-							id="card-linker--type-select"
-							value={linkType || ''}
-							onChange={this.handleLinkTypeSelect}
-							labelKey="title"
-							valueKey="slug"
-							options={linkTypeTargets}
-							data-test="card-linker--type__input"
-						/>
-					)}
+				<Flex flexDirection="column">
+					<Txt>
+						Look for the card types: {allLinkTypeTargets.map((linkTypeTarget) => {
+							return linkTypeTarget.title
+						}).join(', ')}
+					</Txt>
 					<Box
-						flex="1"
-						ml={2}
 						my={2}
 						alignSelf={[ 'stretch', 'stretch', 'auto' ]}
 						data-test="card-linker--existing__input"
 					>
 						<AutoCompleteCardSelect
 							value={selectedTargetValue}
-							cardType={_.get(linkType, [ 'data', 'to' ])}
+							cardType={_.map(allLinkTypeTargets, (linkTypeTarget) => {
+								return _.get(linkTypeTarget, [ 'data', 'to' ])
+							})}
 							types={types}
-							isDisabled={Boolean(target) || !linkType}
+							isDisabled={Boolean(target)}
 							onChange={this.handleTargetSelect}
 						/>
 					</Box>
+					{selectedTarget && linkTypeTargets.length > 1 && (
+						<React.Fragment>
+							<Txt>
+								Select link type
+							</Txt>
+							<Box
+								my={2}
+							>
+								<Select
+									id="card-linker--type-select"
+									value={linkType || ''}
+									onChange={this.handleLinkTypeSelect}
+									labelKey="title"
+									valueKey="slug"
+									options={linkTypeTargets}
+									data-test="card-linker--type__input"
+								/>
+							</Box>
+						</React.Fragment>
+					)}
 				</Flex>
 			</Modal>
 		)

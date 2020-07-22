@@ -226,14 +226,6 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker-action--existing"]')
 
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--type__input"]')
-
-	// Select the 'Support issue' option from the dropdown
-	const supportIssueOption = await page.waitForXPath(
-		'//*[@id="card-linker--type-select__select-drop"]//span[text()="Support issue"]'
-	)
-	supportIssueOption.click()
-
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"] input:not(:disabled)')
 
 	await page.type('.jellyfish-async-select__input input', name)
