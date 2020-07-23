@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move upload tests into same job as other e2e ui tests
+      hash: a137667d2e299588dac4206caf56f2f53809781c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.84.3
+  date: 2020-07-23T04:20:52.631Z
+- commits:
     - subject: 'ci: Move test data cleanup jobs to balenaCI'
       hash: 5c91b2c0a1809096a99a8463cce45df1b6a6e25f
       body: ''
