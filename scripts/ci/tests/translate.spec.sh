@@ -19,7 +19,8 @@ CHECK_FOR=balena-api-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-
 
 # Run GitHub translate tests.
 CHECK_FOR=github-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
-	run_test "GitHub Translate Tests" test FILES=./test/integration/sync/github-translate.spec.js
+	run_test "GitHub Translate Tests" test FILES=./test/integration/sync/github-translate.spec.js \
+		INTEGRATION_GITHUB_PRIVATE_KEY=
 
 # Run Flowdock translate tests.
 CHECK_FOR=flowdock-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
