@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump sidecar and test base images to v1.3.16
+      hash: 9be233130d3f3ae001ef2beb2bff6d9152124f42
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.84.4
+  date: 2020-07-23T05:16:44.144Z
+- commits:
     - subject: Move upload tests into same job as other e2e ui tests
       hash: a137667d2e299588dac4206caf56f2f53809781c
       body: ''
