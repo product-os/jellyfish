@@ -24,6 +24,7 @@ import {
 	FLOW_IDS
 } from '../../components/Flows/flow-utils'
 import HandoverFlowPanel from '../../components/Flows/HandoverFlowPanel'
+import Markers from '../../components/Markers'
 import {
 	LinksProvider
 } from '../../../../lib/ui-components/LinksProvider'
@@ -92,6 +93,8 @@ const CardLayout = (props) => {
 						/>
 					</Flex>
 				</Flex>
+
+				<Markers card={card} />
 
 				{children}
 				<SlideInFlowPanel
