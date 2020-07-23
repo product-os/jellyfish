@@ -469,6 +469,7 @@ class Timeline extends React.Component {
 						<PendingMessages
 							{ ...eventProps }
 							pendingMessages={pendingMessages}
+							sortedEvents={sortedEvents}
 						/>
 						<div ref={this.timelineEnd} />
 					</InfiniteList>

@@ -13,9 +13,14 @@ import Event from '../Event'
 
 const PendingMessages = ({
 	pendingMessages,
+	sortedEvents,
 	...eventProps
 }) => {
 	return _.map(pendingMessages, (message) => {
+		const noLongerPending = _.find(sortedEvents, [ 'slug', message.slug ])
+		if (noLongerPending) {
+			return null
+		}
 		return (
 			<Box key={message.slug}>
 				<Event
