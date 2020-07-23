@@ -1,4 +1,17 @@
 - commits:
+    - subject: Refactor View Lens
+      hash: 16b3246998e7788dd1d31aaa117a0b2c7b379db9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+  version: 30.84.5
+  date: 2020-07-23T08:23:13.310Z
+- commits:
     - subject: Bump sidecar and test base images to v1.3.16
       hash: 9be233130d3f3ae001ef2beb2bff6d9152124f42
       body: ''
