@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update balena-api integration to support organisations
+      hash: cb924bce9dd4d3e08d89bf7d2e788878ae574687
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.85.0
+  date: 2020-07-23T13:41:57.193Z
+- commits:
     - subject: Handle trailing whitespace in integration env vars
       hash: e5b1c618f20d03b66819d0f56869124a0dd4a719
       body: |
