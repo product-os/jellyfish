@@ -1,5 +1,21 @@
 - commits:
     - subject: >-
+        Update InfiniteList to only call beginning or end pagination code when
+        not processing another request. Also update Timeline to wait for
+        scrollToBottom before paginating more
+      hash: 43de5145bf99814a71aabc30627e7e95b9cdce71
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+  version: 30.85.2
+  date: 2020-07-23T15:47:33.161Z
+- commits:
+    - subject: >-
         Ensure messages are not rendered as pending between the stream and
         action returning
       hash: 549deaf382ba98b089eb59a962037bd53ad59f7a
