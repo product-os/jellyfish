@@ -258,18 +258,6 @@ jobs:
           name: Post PR Summary
           command: GITHUB_TOKEN=$GITHUB_TOKEN node scripts/ci/github-pr-summary.js $CIRCLE_PULL_REQUEST ./SUMMARY
 
-  clean_old_test_data:
-    <<: *job_defaults
-    steps:
-      - checkout
-      - attach_workspace:
-          at: .
-      - run:
-          name: Clean up old test data
-          command: |
-            make clean-github
-            make clean-front
-
 workflows:
     version: 2
     build:
@@ -309,9 +297,4 @@ workflows:
                   - sync_tests_front_mirror
                   - sync_tests_discourse_mirror
                   - sync_tests_github_mirror
-                <<: *workflow_filter
-
-            - clean_old_test_data:
-                requires:
-                  - build
                 <<: *workflow_filter
