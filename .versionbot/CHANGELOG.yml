@@ -1,4 +1,19 @@
 - commits:
+    - subject: Handle trailing whitespace in integration env vars
+      hash: e5b1c618f20d03b66819d0f56869124a0dd4a719
+      body: |
+        The latest version of the environment module trims whitespace from the
+        integration env vars.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 30.84.6
+  date: 2020-07-23T11:58:33.620Z
+- commits:
     - subject: Refactor View Lens
       hash: 16b3246998e7788dd1d31aaa117a0b2c7b379db9
       body: ''
