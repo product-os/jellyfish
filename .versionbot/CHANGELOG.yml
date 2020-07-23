@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'ci: Move test data cleanup jobs to balenaCI'
+      hash: 5c91b2c0a1809096a99a8463cce45df1b6a6e25f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: patch Update dependency aws-sdk to ^2.718.0
+      hash: e1c54d34f72e550d2c3a344b549fae75e573a371
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.84.2
+  date: 2020-07-23T01:28:38.490Z
+- commits:
     - subject: Scale down replicas
       hash: ae772b1c5c711537848cb9b0712efa17381a2efc
       body: |
