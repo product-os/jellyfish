@@ -10,5 +10,6 @@ set -e
 source "$(dirname $0)/helpers.sh"
 
 # Run Front translate tests.
-CHECK_FOR=front-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
-	run_test "Front Translate Tests" test FILES=./test/integration/sync/front-translate.spec.js
+#CHECK_FOR=front-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+run_test "Front Translate Tests" test FILES=./test/integration/sync/front-translate.spec.js \
+	INTEGRATION_FRONT_TOKEN=foobar

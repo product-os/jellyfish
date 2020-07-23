@@ -10,5 +10,5 @@ set -e
 source "$(dirname $0)/helpers.sh"
 
 # Run Discourse translate tests.
-CHECK_FOR=discourse-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
+#CHECK_FOR=discourse-translate.spec.js ./scripts/ci/skip_tests_if_only.sh ui ui-components chat-widget livechat || \
 	run_test "Discourse Translate Tests" test FILES=./test/integration/sync/discourse-translate.spec.js
