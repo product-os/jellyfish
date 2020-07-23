@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Ensure messages are not rendered as pending between the stream and
+        action returning
+      hash: 549deaf382ba98b089eb59a962037bd53ad59f7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+  version: 30.85.1
+  date: 2020-07-23T15:05:23.641Z
+- commits:
     - subject: Update balena-api integration to support organisations
       hash: cb924bce9dd4d3e08d89bf7d2e788878ae574687
       body: ''
