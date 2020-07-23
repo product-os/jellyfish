@@ -43,7 +43,10 @@ export class InfiniteList extends React.Component {
 		}
 	}
 
-	queryForMoreIfNecessary () {
+	async queryForMoreIfNecessary () {
+		if (this.processing) {
+			return
+		}
 		const {
 			onScrollBeginning,
 			onScrollEnding
@@ -55,10 +58,14 @@ export class InfiniteList extends React.Component {
 		const noScrollBar = clientHeight === scrollHeight
 		if (noScrollBar) {
 			if (onScrollBeginning) {
-				onScrollBeginning()
+				this.processing = true
+				await onScrollBeginning()
+				this.processing = false
 			}
 			if (onScrollEnding) {
-				onScrollEnding()
+				this.processing = true
+				await onScrollEnding()
+				this.processing = false
 			}
 		}
 	}

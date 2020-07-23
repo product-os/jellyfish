@@ -7,6 +7,7 @@
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import * as Bluebird from 'bluebird'
 import _ from 'lodash'
 import React from 'react'
 import queryString from 'query-string'
@@ -18,12 +19,12 @@ import {
 } from 'uuid'
 import * as helpers from '../services/helpers'
 import Column from '../shame/Column'
-import Icon from '../shame/Icon'
 import MessageInput from './MessageInput'
 import {
 	withSetup
 } from '../SetupProvider'
 import Header from './Header'
+import Loading from './Loading'
 import TimelineStart from './TimelineStart'
 import EventsList from './EventsList'
 import PendingMessages from './PendingMessages'
@@ -74,7 +75,9 @@ class Timeline extends React.Component {
 			uploadingFiles: [],
 			eventSkip: PAGE_SIZE,
 			events: this.props.tail,
-			reachedBeginningOfTimeline: this.props.tail < PAGE_SIZE
+			reachedBeginningOfTimeline: this.props.tail < PAGE_SIZE,
+			loadingMoreEvents: false,
+			ready: false
 		}
 
 		this.timelineStart = React.createRef()
@@ -103,14 +106,20 @@ class Timeline extends React.Component {
 		}, 1500)
 	}
 
-	componentDidMount () {
+	async componentDidMount () {
 		const {
 			event
 		} = queryString.parse(window.location.search)
 		if (event) {
 			this.scrollToEvent(event)
 		} else {
+			// Timeout required to ensure the timeline has loaded before we scroll to the bottom
+			await Bluebird.delay(2000)
 			this.scrollToBottom()
+			await Bluebird.delay(500)
+			this.setState({
+				ready: true
+			})
 		}
 	}
 
@@ -150,34 +159,39 @@ class Timeline extends React.Component {
 	}
 
 	handleScrollBeginning () {
-		const {
-			sdk,
-			card
-		} = this.props
-		const {
-			events,
-			eventSkip
-		} = this.state
-		return getWithTimeline(sdk, card, {
-			links: {
-				'has attached element': {
-					sortBy: 'created_at',
-					limit: PAGE_SIZE,
-					skip: eventSkip,
-					sortDir: 'desc'
+		return new Promise((resolve, reject) => {
+			const {
+				sdk,
+				card
+			} = this.props
+			const {
+				events,
+				eventSkip
+			} = this.state
+			this.setState({
+				loadingMoreEvents: true
+			}, () => {
+				return getWithTimeline(sdk, card, {
+					links: {
+						'has attached element': {
+							sortBy: 'created_at',
+							limit: PAGE_SIZE,
+							skip: eventSkip,
+							sortDir: 'desc'
+						}
+					}
+				}).then((newEvents) => {
+					const receivedNewEvents = newEvents.length === 0
+					this.setState({
+						events: _.concat(events, newEvents),
+						eventSkip: receivedNewEvents ? eventSkip : eventSkip + PAGE_SIZE,
+						loadingMoreEvents: false,
+						reachedBeginningOfTimeline: receivedNewEvents
+					})
+					resolve()
 				}
-			}
-		}).then((newEvents) => {
-			if (newEvents.length === 0) {
-				this.setState({
-					reachedBeginningOfTimeline: true
-				})
-			} else {
-				this.setState({
-					events: _.concat(events, newEvents),
-					eventSkip: eventSkip + PAGE_SIZE
-				})
-			}
+				)
+			})
 		})
 	}
 
@@ -406,7 +420,9 @@ class Timeline extends React.Component {
 			messagesOnly,
 			pendingMessages,
 			hideWhispers,
-			reachedBeginningOfTimeline
+			loadingMoreEvents,
+			reachedBeginningOfTimeline,
+			ready
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in events
@@ -449,14 +465,15 @@ class Timeline extends React.Component {
 
 				<EventsContainer>
 					{!sortedEvents && (<Box p={3}>
-						<Icon spin name="cog"/>
+						<Loading />
 					</Box>)}
 					<InfiniteList
 						fillMaxArea
-						onScrollBeginning={!reachedBeginningOfTimeline && this.handleScrollBeginning}
+						onScrollBeginning={!reachedBeginningOfTimeline && ready && this.handleScrollBeginning}
 					>
 						<div ref={this.timelineStart} />
 						{ reachedBeginningOfTimeline && <TimelineStart />}
+						{ loadingMoreEvents && <Loading />}
 						<EventsList
 							{ ...eventProps }
 							user={user}
