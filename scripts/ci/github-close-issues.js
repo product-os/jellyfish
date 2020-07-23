@@ -39,11 +39,9 @@ const SINCE = moment.utc().subtract(2, 'days').format('YYYY-MM-DD')
  * @returns {Promise<Number>} number of issues closed
  */
 const closeIssues = async (options) => {
-	const context = {
-		closed: [],
-		owner: options.repo.split('/')[0],
-		repo: options.repo.split('/')[1],
-		octokit: new Octokit({
+	let octokit = {}
+	try {
+		octokit = new Octokit({
 			request: {
 				retries: RETRY_COUNT
 			},
@@ -58,6 +56,15 @@ const closeIssues = async (options) => {
 				}
 			}
 		})
+	} catch (err) {
+		handleError(err)
+	}
+
+	const context = {
+		closed: [],
+		owner: options.repo.split('/')[0],
+		repo: options.repo.split('/')[1],
+		octokit
 	}
 
 	// Search for old issues.
@@ -72,7 +79,7 @@ const closeIssues = async (options) => {
 				per_page: 100
 			})
 		} catch (err) {
-			handleError(err, 0)
+			handleError(err)
 		}
 
 		// Break loop if no issues were found.
@@ -101,7 +108,6 @@ const closeIssue = async (context, issue) => {
 	if (_.includes(context.closed, issue.number)) {
 		return
 	}
-	console.log(`Closing issue ${issue.title} (${issue.number})`)
 	try {
 		await context.octokit.issues.update({
 			owner: context.owner,
@@ -110,7 +116,7 @@ const closeIssue = async (context, issue) => {
 			state: 'closed'
 		})
 	} catch (err) {
-		handleError(err, 0)
+		handleError(err)
 	}
 }
 
@@ -123,12 +129,12 @@ const closeIssue = async (context, issue) => {
 const validate = (options) => {
 	// Check that the GitHub token is set.
 	if (!options.token) {
-		handleError('Must set INTEGRATION_GITHUB_TOKEN', 1)
+		handleError('Must set INTEGRATION_GITHUB_TOKEN')
 	}
 
 	// Check that the GitHub test repository name is set.
 	if (!options.repo) {
-		handleError('Must set TEST_INTEGRATION_GITHUB_REPO', 1)
+		handleError('Must set TEST_INTEGRATION_GITHUB_REPO')
 	}
 }
 
@@ -137,11 +143,10 @@ const validate = (options) => {
  * @function
  *
  * @param {String} msg - error message
- * @param {Number} code - code to exit with
  */
-const handleError = (msg, code) => {
+const handleError = (msg) => {
 	console.error(msg)
-	process.exit(code)
+	process.exit(0)
 }
 
 // Set required options and validate them.
@@ -154,7 +159,7 @@ validate(options)
 // Close old issues using provided options.
 closeIssues(options)
 	.then((total) => {
-		console.log(`Successfully closed ${total} issues`)
+		console.log(`Closed ${total} issues`)
 	})
 	.catch((err) => {
 		console.error(err)

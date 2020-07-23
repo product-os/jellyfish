@@ -16,8 +16,9 @@ const Front = require('front-sdk').Front
 const moment = require('moment')
 const environment = require('@balena/jellyfish-environment')
 
-const BEFORE = moment.utc().subtract(1, 'days').hours(0).minutes(0).seconds(0).unix()
+const BEFORE = moment.utc().subtract(2, 'hours').unix()
 const CONVERSATION_LIMIT = 100
+const CONVERSATION_CHECK_LIMIT = 10000
 const DELAY = 500
 
 /**
@@ -30,6 +31,7 @@ const DELAY = 500
  */
 const deleteConversations = async (options) => {
 	const context = {
+		checked: 0,
 		deleted: [],
 		front: new Front(options.token)
 	}
@@ -37,10 +39,9 @@ const deleteConversations = async (options) => {
 
 	// Loop through all test inboxes, getting old conversations.
 	await Bluebird.each(options.inboxes, async (inbox) => {
-		console.log(`Looking through ${inbox}...`)
 		let pageToken = null
 		while (true) {
-			console.log('Getting conversations...')
+			console.log(`Getting conversations for ${inbox}...`)
 			let conversations = {}
 			try {
 				conversations = await context.front.inbox.listConversations({
@@ -49,7 +50,7 @@ const deleteConversations = async (options) => {
 					page_token: pageToken
 				})
 			} catch (err) {
-				handleError(err, 0)
+				handleError(err)
 			}
 
 			// Set next page token for subsequent search.
@@ -62,16 +63,12 @@ const deleteConversations = async (options) => {
 
 			// Check if conversation is old enough to delete.
 			await Bluebird.each(conversations._results, async (conversation) => {
-				await deleteConversation(context, {
-					id: conversation.id,
-					inbox
-				})
-				context.deleted.push(conversation.id)
-				await Bluebird.delay(DELAY)
+				await deleteConversation(context, inbox, conversation)
 			})
+			context.checked += conversations._results.length
 
 			// Break loop if no more conversations are left to delete.
-			if (!conversations._pagination.next) {
+			if (!conversations._pagination.next || context.checked >= CONVERSATION_CHECK_LIMIT) {
 				break
 			}
 		}
@@ -84,25 +81,26 @@ const deleteConversations = async (options) => {
  * @summary Delete a single Front conversation
  * @function
  *
- * @param {Object} context - Process context
- * @param {Object} conversation - ID and inbox ID of conversation to delete
+ * @param {Object} context - process context
+ * @param {String} inbox - inbox ID
+ * @param {Object} conversation - conversation to delete
  */
-const deleteConversation = async (context, conversation) => {
+const deleteConversation = async (context, inbox, conversation) => {
 	if (_.includes(context.deleted, conversation.id)) {
 		return
 	}
-	console.log(`Checking ${conversation.inbox}:${conversation.id}...`)
 	if (conversation.created_at <= BEFORE && conversation.status !== 'deleted') {
-		console.log(`Deleting ${conversation.inbox}:${conversation.id}..`)
 		try {
 			await context.front.conversation.update({
-				inbox_id: conversation.inbox,
+				inbox_id: inbox,
 				conversation_id: conversation.id,
 				status: 'deleted'
 			})
 		} catch (err) {
-			handleError(err, 0)
+			handleError(err)
 		}
+		context.deleted.push(conversation.id)
+		await Bluebird.delay(DELAY)
 	}
 }
 
@@ -115,12 +113,12 @@ const deleteConversation = async (context, conversation) => {
 const validate = (options) => {
 	// Check that the Front token is set.
 	if (!options.token) {
-		handleError('Must set INTEGRATION_FRONT_TOKEN', 1)
+		handleError('Must set INTEGRATION_FRONT_TOKEN')
 	}
 
 	// Check that Front inbox IDs are set.
 	if (options.inboxes.length === 0) {
-		handleError('Must set TEST_INTEGRATION_FRONT_INBOX_1 and/or TEST_INTEGRATION_FRONT_INBOX_2', 1)
+		handleError('Must set TEST_INTEGRATION_FRONT_INBOX_1 and/or TEST_INTEGRATION_FRONT_INBOX_2')
 	}
 }
 
@@ -129,11 +127,10 @@ const validate = (options) => {
  * @function
  *
  * @param {String} msg - error message
- * @param {Number} code - code to exit with
  */
-const handleError = (msg, code) => {
+const handleError = (msg) => {
 	console.error(msg)
-	process.exit(code)
+	process.exit(0)
 }
 
 // Set required options and validate them.
@@ -146,7 +143,7 @@ validate(options)
 // Delete old conversations using provided options.
 deleteConversations(options)
 	.then((total) => {
-		console.log(`Successfully deleted ${total} conversations`)
+		console.log(`Deleted ${total} conversations`)
 	})
 	.catch((err) => {
 		console.error(err)
