@@ -116,7 +116,7 @@
     "@babel/polyfill": "^7.10.4",
     "@balena/jellyfish-assert": "0.0.19",
     "@balena/jellyfish-client-sdk": "^1.3.0",
-    "@balena/jellyfish-environment": "^2.0.6",
+    "@balena/jellyfish-environment": "2.0.7-trim-front-token-48255d66138e98ed590fbb971d1ef21a3dd385b1",
     "@balena/jellyfish-logger": "0.0.20",
     "@balena/jellyfish-mail": "0.0.13",
     "@balena/jellyfish-metrics": "0.0.20",
