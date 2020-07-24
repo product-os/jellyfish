@@ -30,7 +30,7 @@ RUN make build-ui \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT \
 	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
-	NODE_OPTIONS=--max-old-space-size=2048
+	NODE_OPTIONS=--max-old-space-size=3072
 ###########################################################
 # Runtime
 ###########################################################
