@@ -6,7 +6,6 @@
 # Proprietary and confidential.
 ###
 
-set -e
 source "$(dirname $0)/helpers.sh"
 
 # Clean old Front test data.
