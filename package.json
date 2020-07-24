@@ -115,7 +115,7 @@
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
     "@balena/jellyfish-assert": "0.0.19",
-    "@balena/jellyfish-client-sdk": "^1.4.0",
+    "@balena/jellyfish-client-sdk": "^1.5.0",
     "@balena/jellyfish-environment": "^2.0.8",
     "@balena/jellyfish-logger": "0.0.20",
     "@balena/jellyfish-mail": "0.0.13",
@@ -167,7 +167,7 @@
     "intercom-client": "^2.11.0",
     "is-uuid": "^1.0.2",
     "json-e": "^4.1.0",
-    "json-schema-ref-parser": "^9.0.5",
+    "json-schema-ref-parser": "^9.0.6",
     "jsonwebtoken": "^8.5.1",
     "localforage": "^1.8.1",
     "lodash": "^4.17.19",
