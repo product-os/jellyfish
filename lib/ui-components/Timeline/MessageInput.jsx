@@ -76,7 +76,7 @@ const InputWrapper = styled(Box) `
 
 const getMessageInputDefaultPlaceholder = (allowWhispers, whisper) => {
 	if (!allowWhispers) {
-		return 'Type your messsage...'
+		return 'Type your message...'
 	}
 
 	if (whisper) {
