@@ -38,6 +38,15 @@ module.exports = ({
 				required: [
 					'name'
 				]
+			},
+			meta: {
+				relationships: [
+					{
+						title: 'Product improvements',
+						link: 'has attached',
+						type: 'product-improvement'
+					}
+				]
 			}
 		},
 		requires: [],

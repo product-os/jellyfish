@@ -31,18 +31,64 @@ module.exports = ({
 								type: 'string',
 								format: 'markdown'
 							},
-							status: {
-								title: 'Status',
+							specification: {
 								type: 'string',
-								default: 'open',
-								enum: [
-									'open',
-									'closed'
+								format: 'markdown'
+							},
+							phase: {
+								title: 'Phase',
+								type: 'string',
+								default: 'proposed',
+								oneOf: [
+									{
+										title: 'Proposed',
+										const: 'proposed'
+									},
+									{
+										title: 'Waiting',
+										const: 'waiting'
+									},
+									{
+										title: 'Researching (Drafting Spec)',
+										const: 'researching'
+									},
+									{
+										title: 'Candidate spec',
+										const: 'candidate-spec'
+									},
+									{
+										title: 'Assigned resources',
+										const: 'assigned-resources'
+									},
+									{
+										title: 'Implementation',
+										const: 'implementation'
+									},
+									{
+										title: 'All milestones completed',
+										const: 'all-milestones-completed'
+									},
+									{
+										title: 'Finalising and testing',
+										const: 'finalising-and-testing'
+									},
+									{
+										title: 'Merged',
+										const: 'merged'
+									},
+									{
+										title: 'Released',
+										const: 'released'
+									},
+									{
+										title: 'Denied or Failed',
+										const: 'denied-or-failed'
+									}
 								]
 							}
 						},
 						required: [
-							'status'
+							'phase'
 						]
 					}
 				},
@@ -51,9 +97,6 @@ module.exports = ({
 					'data'
 				]
 			},
-			slices: [
-				'properties.data.properties.status'
-			],
 			meta: {
 				relationships: [
 					{
@@ -65,6 +108,11 @@ module.exports = ({
 						title: 'Support threads',
 						link: 'has attached',
 						type: 'support-thread'
+					},
+					{
+						title: 'Patterns',
+						link: 'is attached to',
+						type: 'pattern'
 					}
 				]
 			}
