@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'ci: Fix Front test data cleanup script'
+      hash: 3f2f02e5a3d65bab28b3136a37c240493f580c66
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: patch Update non-major
+      hash: c73af96f210d41fd4be8aea5cca83159375f488e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.85.3
+  date: 2020-07-24T07:38:26.288Z
+- commits:
     - subject: >-
         Update InfiniteList to only call beginning or end pagination code when
         not processing another request. Also update Timeline to wait for
