@@ -10,7 +10,7 @@ import {
 	stepStatus
 } from '../flow-utils'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
-import StepsFlow from '../../../../../lib/ui-components/StepsFlow'
+import StepsFlow from '../../StepsFlow'
 import {
 	TextareaStep
 } from '../Steps'

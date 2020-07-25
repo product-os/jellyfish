@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
@@ -14,18 +15,24 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Notifications from '../../../../lib/ui-components/Notifications'
+import Oauth from './Oauth'
 
 const mapStateToProps = (state) => {
 	return {
-		notifications: selectors.getNotifications(state)
+		channels: selectors.getChannels(state),
+		status: selectors.getStatus(state),
+		user: selectors.getCurrentUser(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: bindActionCreators(actionCreators, dispatch)
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'authorizeIntegration',
+				'setChannels'
+			]), dispatch)
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Notifications)
+export default connect(mapStateToProps, mapDispatchToProps)(Oauth)

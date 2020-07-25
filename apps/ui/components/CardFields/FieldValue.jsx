@@ -12,7 +12,7 @@ import {
 import {
 	Mermaid
 } from 'rendition/dist/extra/Mermaid'
-import * as helpers from '../../services/helpers'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
 
 export default function FieldValue ({
 	fieldValue, fieldKey, schema, parentKey, ...props

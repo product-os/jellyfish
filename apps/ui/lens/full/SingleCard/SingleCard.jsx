@@ -18,7 +18,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import Segment from '../../common/Segment'
-import CardFields from '../../../../../lib/ui-components/shame/CardFields'
+import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {

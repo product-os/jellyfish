@@ -16,7 +16,7 @@ import AutoCompleteCardSelect from './AutoCompleteCardSelect'
 // behaviour with the @emotion dependency if imported first!
 import {
 	flushPromises
-} from '../../../test/ui-setup'
+} from '../../../../test/ui-setup'
 
 const types = [
 	{
