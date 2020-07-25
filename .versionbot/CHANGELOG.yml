@@ -1,4 +1,43 @@
 - commits:
+    - subject: Fix product improvement card creation in test
+      hash: 3b2499e85a4e2da9d8ce4d4d31bdacf8ffe93693
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Modify product improvement card
+      hash: ae54bf9231f854b274344a440fe858bb1921f1de
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+    - subject: patch Update dependency googleapis to v56
+      hash: 2a9a649b279006af2b88d30f6add371ef620386f
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: patch Update non-major
+      hash: f4ae0ca7448796890a582641d3aa1bf59c03dc13
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: patch Update non-major
+      hash: 4a991c6a8786d25359230c0faed686d976d11c97
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.86.0
+  date: 2020-07-25T14:31:28.165Z
+- commits:
     - subject: 'ui: Fix typo'
       hash: 390cceb21b0bed4bbc7af4aba287f54be048934b
       body: ''
