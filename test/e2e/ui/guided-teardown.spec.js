@@ -79,7 +79,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 			type: 'product-improvement@1.0.0',
 			name,
 			data: {
-				status: 'open'
+				phase: 'proposed'
 			}
 		})
 	}, productImprovement1Name)
