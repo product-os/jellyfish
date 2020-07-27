@@ -19,11 +19,9 @@ import {
 	Box,
 	Button,
 	Flex,
-	Heading
-} from 'rendition'
-import {
+	Heading,
 	Form
-} from 'rendition/dist/unstable'
+} from 'rendition'
 import CardLayout from '../../layouts/CardLayout'
 import * as helpers from '../../../../lib/ui-components/services/helpers'
 import * as skhema from 'skhema'

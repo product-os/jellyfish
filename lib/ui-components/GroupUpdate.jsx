@@ -12,11 +12,9 @@ import {
 	Modal,
 	ProgressBar,
 	SchemaSieve,
-	Select
-} from 'rendition'
-import {
+	Select,
 	Form
-} from 'rendition/dist/unstable'
+} from 'rendition'
 import {
 	patchPath
 } from './services/helpers'

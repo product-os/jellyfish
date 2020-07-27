@@ -13,11 +13,9 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Flex
-} from 'rendition'
-import {
+	Flex,
 	Form
-} from 'rendition/dist/unstable'
+} from 'rendition'
 import {
 	MarkdownWidget
 } from 'rendition/dist/extra/Form/markdown'

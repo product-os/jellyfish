@@ -21,11 +21,9 @@ import {
 	Tab,
 	Tabs,
 	Divider,
-	Link
-} from 'rendition'
-import {
+	Link,
 	Form
-} from 'rendition/dist/unstable'
+} from 'rendition'
 import * as skhema from 'skhema'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
