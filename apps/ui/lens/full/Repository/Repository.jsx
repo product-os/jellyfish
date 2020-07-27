@@ -23,7 +23,7 @@ import {
 import styled from 'styled-components'
 import Segment from '../../common/Segment'
 import CardFields from '../../../components/CardFields'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 import {
 	getContextualThreadsQuery,
@@ -33,7 +33,7 @@ import {
 	colorHash,
 	createFullTextSearchFilter,
 	getType
-} from '../../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1

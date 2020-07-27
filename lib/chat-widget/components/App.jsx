@@ -13,7 +13,7 @@ import {
 } from 'react-router-dom'
 import {
 	useSetup
-} from '../../ui-components/SetupProvider'
+} from '@balena/jellyfish-ui-components/SetupProvider'
 import {
 	IndexRoute,
 	ChatRoute,

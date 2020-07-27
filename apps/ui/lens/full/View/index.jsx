@@ -31,14 +31,14 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	getLensBySlug
 } from '../../'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	withResponsiveContext
-} from '../../../../../lib/ui-components/hooks/ResponsiveProvider'
+} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import Header from './Header'
 import Content from './Content'
 

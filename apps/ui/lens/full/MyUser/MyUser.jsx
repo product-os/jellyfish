@@ -27,10 +27,10 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import * as skhema from 'skhema'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
-import Avatar from '../../../../../lib/ui-components/shame/Avatar'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const SLUG = 'lens-my-user'
 

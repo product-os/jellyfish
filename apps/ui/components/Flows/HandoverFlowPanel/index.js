@@ -7,6 +7,6 @@
 import HandoverFlowPanel from './HandoverFlowPanel'
 import {
 	withLink
-} from '../../../../../lib/ui-components/LinksProvider'
+} from '@balena/jellyfish-ui-components/lib/LinksProvider'
 
 export default withLink('is owned by', 'cardOwner')(HandoverFlowPanel)

@@ -22,9 +22,9 @@ import {
 import {
 	evalSchema,
 	getRelationshipTargetType
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import LinkModal from '../../components/LinkModal'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class Segment extends React.Component {
 	constructor (props) {

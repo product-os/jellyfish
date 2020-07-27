@@ -21,7 +21,7 @@ import {
 } from '../../core'
 import {
 	withResponsiveContext
-} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
+} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import HomeChannel from './HomeChannel'
 
 const mapStateToProps = (state, ownProps) => {

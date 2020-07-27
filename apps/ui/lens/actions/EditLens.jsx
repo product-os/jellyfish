@@ -25,15 +25,15 @@ import {
 	Form
 } from 'rendition/dist/unstable'
 import CardLayout from '../../layouts/CardLayout'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import * as skhema from 'skhema'
 import {
 	actionCreators,
 	analytics,
 	sdk
 } from '../../core'
-import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
-import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
+import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 
 class EditLens extends React.Component {
 	constructor (props) {

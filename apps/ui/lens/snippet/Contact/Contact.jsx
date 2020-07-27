@@ -13,7 +13,7 @@ import {
 	Box,
 	Flex
 } from 'rendition'
-import Link from '../../../../../lib/ui-components/Link'
+import Link from '@balena/jellyfish-ui-components/Link'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

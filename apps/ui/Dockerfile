@@ -18,7 +18,6 @@ RUN rm -f ~/.npmrc
 
 COPY webpack.config.base.js .
 COPY apps/ui ./apps/ui
-COPY lib/ui-components ./lib/ui-components
 COPY lib/chat-widget ./lib/chat-widget
 COPY Makefile .
 

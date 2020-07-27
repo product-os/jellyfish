@@ -15,10 +15,10 @@ import styled from 'styled-components'
 import {
 	userDisplayName,
 	getType
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	ActionLink
-} from '../../../../lib/ui-components/shame/ActionLink'
+} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
 import {
 	FLOW_IDS
 } from '../Flows/flow-utils'

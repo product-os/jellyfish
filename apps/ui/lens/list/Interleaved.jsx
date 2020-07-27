@@ -26,19 +26,19 @@ import {
 import {
 	v4 as uuid
 } from 'uuid'
-import Event from '../../../../lib/ui-components/Event'
+import Event from '@balena/jellyfish-ui-components/lib/Event'
 import {
 	actionCreators,
 	analytics,
 	sdk,
 	selectors
 } from '../../core'
-import Column from '../../../../lib/ui-components/shame/Column'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	withDefaultGetActorHref
-} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
-import EventsContainer from '../../../../lib/ui-components/EventsContainer'
+} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
+import EventsContainer from '@balena/jellyfish-ui-components/lib/EventsContainer'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [

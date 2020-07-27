@@ -9,7 +9,7 @@ import _ from 'lodash'
 import {
 	Input
 } from 'rendition'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton
 } from '../AuthUtil'

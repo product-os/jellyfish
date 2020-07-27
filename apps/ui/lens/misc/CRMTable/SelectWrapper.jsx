@@ -13,8 +13,8 @@ import {
 import styled from 'styled-components'
 import {
 	patchPath
-} from '../../../../../lib/ui-components/services/helpers.js'
-import withCardUpdater from '../../../../../lib/ui-components/HOC/with-card-updater'
+} from '@balena/jellyfish-ui-components/lib/services/helpers.js'
+import withCardUpdater from '@balena/jellyfish-ui-components/lib/HOC/with-card-updater'
 
 const SingleLineSpan = styled.span `
 	whiteSpace: 'nowrap'

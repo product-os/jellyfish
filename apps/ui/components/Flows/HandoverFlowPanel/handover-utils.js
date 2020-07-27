@@ -10,7 +10,7 @@ import {
 } from 'uuid'
 import {
 	getMessageMetaData
-} from '../../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 /**
  * Checks if the given card's type defines the statusDescription field

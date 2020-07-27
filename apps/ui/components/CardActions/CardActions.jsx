@@ -15,14 +15,14 @@ import {
 	supportsLink
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import CardLinker from '../CardLinker'
-import ContextMenu from '../../../../lib/ui-components/ContextMenu'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	ActionLink
-} from '../../../../lib/ui-components/shame/ActionLink'
+} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
 import CardOwner from '../CardOwner'
 import VideoLink from '../VideoLink'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class CardActions extends React.Component {
 	constructor (props) {

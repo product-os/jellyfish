@@ -21,7 +21,7 @@ import {
 	v4 as isUUID
 } from 'is-uuid'
 import actions from '../actions'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	createNotification
 } from '../../../services/notifications'

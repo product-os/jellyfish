@@ -25,8 +25,8 @@ import {
 	Select,
 	Txt
 } from 'rendition'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import Icon from '@balena/jellyfish-ui-components/shame/Icon'
 import CardLayout from '../../layouts/CardLayout'
 import {
 	Form
@@ -39,8 +39,8 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
-import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
+import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import Segment from '../common/Segment'
 
 // 'Draft' links are stored in a map in the component's state,

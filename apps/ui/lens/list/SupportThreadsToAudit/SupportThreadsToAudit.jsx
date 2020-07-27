@@ -12,10 +12,10 @@ import * as React from 'react'
 import {
 	Box
 } from 'rendition'
-import Column from '../../../../../lib/ui-components/shame/Column'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
-import CardChatSummary from '../../../../../lib/ui-components/CardChatSummary'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import CardChatSummary from '@balena/jellyfish-ui-components/lib/CardChatSummary'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 export const SLUG = 'lens-support-threads-to-audit'
 
