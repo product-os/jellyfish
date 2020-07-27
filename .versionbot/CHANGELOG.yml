@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Deployment Templates: Scaled up API replica count to 16.'
+      hash: 85cbd02b9d8babef71f72dd3729a692bb9b270e8
+      body: |
+        Scales up the API from 12 to 16 to avoid persistently running at 100%
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 30.87.1
+  date: 2020-07-27T14:28:34.375Z
+- commits:
     - subject: 'UI: Surface card markers as text when viewing a card'
       hash: bbbd7c282f551abbe14ca3c5f216794b9a0d905d
       body: |
