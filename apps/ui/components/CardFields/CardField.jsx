@@ -6,7 +6,7 @@
 
 import _ from 'lodash'
 import React from 'react'
-import * as helpers from '../../services/helpers'
+import * as helpers from '../../../../lib/ui-components/services/helpers'
 import FieldValue from './FieldValue'
 import {
 	Heading

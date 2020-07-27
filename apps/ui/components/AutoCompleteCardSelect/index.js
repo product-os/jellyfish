@@ -7,6 +7,6 @@
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
 import {
 	withSetup
-} from '../SetupProvider'
+} from '../../../../lib/ui-components/SetupProvider'
 
 export default withSetup(AutoCompleteCardSelect)

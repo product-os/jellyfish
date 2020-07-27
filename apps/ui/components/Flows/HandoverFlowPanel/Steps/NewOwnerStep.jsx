@@ -13,7 +13,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import * as helpers from '../../../../../../lib/ui-components/services/helpers'
-import AutoCompleteCardSelect from '../../../../../../lib/ui-components/AutoCompleteCardSelect'
+import AutoCompleteCardSelect from '../../../AutoCompleteCardSelect'
 
 const UserSelect = styled(AutoCompleteCardSelect) `
 	min-width: 180px;

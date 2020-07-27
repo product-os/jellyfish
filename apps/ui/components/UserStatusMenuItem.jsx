@@ -13,11 +13,11 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import _ from 'lodash'
-import Icon from './shame/Icon'
+import Icon from '../../../lib/ui-components/shame/Icon'
 import {
 	patchPath,
 	getUserStatuses
-} from './services/helpers'
+} from '../../../lib/ui-components/services/helpers'
 
 const UserStatusButton = styled(Button) `
 	display: flex;

@@ -12,7 +12,7 @@ import {
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-import Icon from './shame/Icon'
+import Icon from '../../../../lib/ui-components/shame/Icon'
 
 export default class Oauth extends React.Component {
 	constructor (props) {

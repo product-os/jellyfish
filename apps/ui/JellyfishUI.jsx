@@ -28,9 +28,9 @@ import {
 	ChatWidgetSidebar
 } from './components/ChatWidgetSidebar'
 import HomeChannel from './components/HomeChannel'
-import Notifications from './components/HOC/Notifications'
+import Notifications from './components/Notifications'
 import RouteHandler from './components/RouteHandler'
-import Oauth from './components/HOC/Oauth'
+import Oauth from './components/Oauth'
 import Login from './components/Auth/Login'
 import CountFavicon from './components/CountFavicon'
 import RequestPasswordReset from './components/Auth/RequestPasswordReset'
@@ -38,8 +38,8 @@ import CompletePasswordReset from './components/Auth/CompletePasswordReset'
 import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin'
 import Inbox from './components/Inbox'
 import AuthContainer from './components/Auth'
-import MermaidEditor from '../../lib/ui-components/shame/MermaidEditor'
-import Splash from '../../lib/ui-components/Splash'
+import MermaidEditor from './components/MermaidEditor'
+import Splash from './components/Splash'
 import {
 	actionCreators,
 	selectors

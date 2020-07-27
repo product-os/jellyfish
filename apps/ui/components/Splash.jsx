@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components'
 import {
 	px
-} from './services/helpers'
+} from '../../../lib/ui-components/services/helpers'
 
 const SplashWrapper = styled(Box) `
 	width: 100%;

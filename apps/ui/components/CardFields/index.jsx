@@ -9,7 +9,7 @@ import React from 'react'
 import {
 	slugify,
 	getLocalSchema
-} from '../../services/helpers'
+} from '../../../../lib/ui-components/services/helpers'
 import CardField from './CardField'
 import {
 	Markdown

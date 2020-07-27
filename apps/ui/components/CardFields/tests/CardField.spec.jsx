@@ -18,7 +18,7 @@ import supportThread from './fixtures/support-thread.json'
 import CardField from '../CardField'
 import {
 	slugify
-} from '../../../services/helpers'
+} from '../../../../../lib/ui-components/services/helpers'
 
 const wrappingComponent = getWrapper().wrapper
 

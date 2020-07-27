@@ -26,7 +26,7 @@ import {
 import styled from 'styled-components'
 import MentionsCount from '../../../../lib/ui-components/MentionsCount'
 import TreeMenu from './TreeMenu'
-import UserStatusMenuItem from '../../../../lib/ui-components/UserStatusMenuItem'
+import UserStatusMenuItem from '../UserStatusMenuItem'
 import RouterLink from '../../../../lib/ui-components/Link'
 import ViewLink from '../ViewLink'
 import Avatar from '../../../../lib/ui-components/shame/Avatar'
