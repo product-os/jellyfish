@@ -1,4 +1,37 @@
 - commits:
+    - subject: >-
+        ui: Move a number of components from lib/ui-components to
+        apps/ui/components
+      hash: 89fbcb4ccc7ff24b090765a20c42738e271266fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: patch Update dependency slugify to ^1.4.5
+      hash: 302c09357e93ff7d84e0336fe335e13447bac7b8
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: patch Update dependency blueimp-md5 to ^2.17.0
+      hash: 3fa93b848705665b5b539b9a5adbc5f35b55045c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: patch Update non-major
+      hash: e680d280aa590bf85ec3c9f6d9f9fd0fcd948381
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.86.1
+  date: 2020-07-27T03:40:43.468Z
+- commits:
     - subject: Fix product improvement card creation in test
       hash: 3b2499e85a4e2da9d8ce4d4d31bdacf8ffe93693
       body: ''
