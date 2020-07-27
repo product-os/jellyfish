@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'UI: Surface card markers as text when viewing a card'
+      hash: bbbd7c282f551abbe14ca3c5f216794b9a0d905d
+      body: |
+        This change displays the marker permissions (if any) on a card in plain
+        english, making it easier to understand if a card is restricted by
+        marker permissions.
+      footer:
+        Connects-to: '#3966'
+        connects-to: '#3966'
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: patch Update dependency ava to ^3.11.0
+      hash: 77c1e94dbfb0dc7947559e3a5cc9801853842cf4
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: patch Update dependency eslint-plugin-react to ^7.20.4
+      hash: ff1881f70f7aac8c48dd2e940710727102748d3e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.87.0
+  date: 2020-07-27T13:35:14.402Z
+- commits:
     - subject: >-
         ui: Move a number of components from lib/ui-components to
         apps/ui/components
