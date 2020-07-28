@@ -93,7 +93,7 @@
     "js-yaml": "^3.14.0",
     "mermaid.cli": "^0.5.1",
     "morgan": "^1.10.0",
-    "nock": "^13.0.2",
+    "nock": "^13.0.3",
     "puppeteer": "^5.2.1",
     "request": "^2.88.2",
     "scripts-template": "file:scripts/template",
@@ -129,7 +129,7 @@
     "@octokit/rest": "^18.0.3",
     "@sentry/browser": "^5.20.1",
     "@webscopeio/react-textarea-autocomplete": "^4.7.0",
-    "aws-sdk": "^2.720.0",
+    "aws-sdk": "^2.721.0",
     "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.17.0",
@@ -227,6 +227,6 @@
     "traverse": "^0.6.6",
     "typed-errors": "^1.1.0",
     "use-debounce": "^3.4.3",
-    "uuid": "^8.2.0"
+    "uuid": "^8.3.0"
   }
 }
