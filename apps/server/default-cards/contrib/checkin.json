@@ -120,6 +120,30 @@
         "data"
       ]
     },
+    "uiSchema": {
+      "data": {
+        "unnecessary_attendees": {
+          "items": {
+            "ui:widget": "AutoCompleteWidget",
+            "ui:options": {
+              "resource": "user",
+              "keyPath": "slug"
+            }
+          }
+        },
+        "extra_attendees_needed": {
+          "items": {
+            "user": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user",
+                "keyPath": "slug"
+              }
+            }
+          }
+        }
+      }
+    },
 		"meta": {
 			"relationships": [
 				{

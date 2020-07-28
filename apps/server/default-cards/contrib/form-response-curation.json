@@ -68,16 +68,21 @@
         }
       }
     },
-    "fieldOrder": [
-      "origin",
-      "originDetail",
-      "role",
-      "useCaseSegment",
-      "useCaseDetail",
-      "experienceEvaluation",
-      "issuesWants",
-      "highlights"
-    ]
+    "uiSchema": {
+      "data": {
+        "ui:order": [
+          "origin",
+          "originDetail",
+          "role",
+          "useCaseSegment",
+          "useCaseDetail",
+          "experienceEvaluation",
+          "issuesWants",
+          "highlights",
+          "*"
+        ]
+      }
+    }
   },
   "requires": [],
   "capabilities": []

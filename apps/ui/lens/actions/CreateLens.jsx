@@ -39,9 +39,11 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
 import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
 import Segment from '../common/Segment'
+import {
+	getUiSchema
+} from '../ui-schema'
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
@@ -306,65 +308,14 @@ class CreateLens extends React.Component {
 			'properties.data.properties.mentionsGroup',
 			'properties.data.properties.alertsGroup'
 		])
-		const uiSchema = _.get(schema, [ 'properties', 'name' ])
-			? {
-				'ui:order': [ 'name', 'tags', '*' ]
-			}
-			: {}
+
+		const uiSchema = getUiSchema(selectedTypeTarget)
 
 		const relationships = _.get(selectedTypeTarget, [ 'data', 'meta', 'relationships' ], [])
 			.filter((relationship) => {
 				// We only support relationships that define a particular link
 				return typeof relationship.type !== 'undefined' && typeof relationship.link !== 'undefined'
 			})
-
-		// TODO: Encode these relationships in the type card, instead of hacking it
-		// into the UI
-		if (selectedTypeTarget.slug === 'issue') {
-			_.set(uiSchema, [ 'data', 'repository' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'issue',
-					keyPath: 'data.repository'
-				}
-			})
-		}
-
-		if (selectedTypeTarget.slug === 'checkin') {
-			_.set(uiSchema, [ 'data', 'unnecessary_attendees', 'items' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'user',
-					keyPath: 'slug'
-				}
-			})
-
-			_.set(uiSchema, [ 'data', 'extra_attendees_needed', 'items', 'user' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'user',
-					keyPath: 'slug'
-				}
-			})
-		}
-
-		if (selectedTypeTarget.slug === 'workflow') {
-			_.set(uiSchema, [ 'data', 'loop' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'workflow',
-					keyPath: 'data.loop'
-				}
-			})
-
-			_.set(uiSchema, [ 'data', 'lifecycle' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'workflow',
-					keyPath: 'data.lifecycle'
-				}
-			})
-		}
 
 		// Always show tags input
 		if (!schema.properties.tags) {
@@ -380,13 +331,6 @@ class CreateLens extends React.Component {
             skhema.isValid(localSchema, helpers.removeUndefinedArrayItems(freeFieldData))
 
 		const head = this.props.channel.data.head
-
-		if (selectedTypeTarget.slug === 'form-response-curation' && head.types.data.fieldOrder) {
-			const order = _.cloneDeep(head.types.data.fieldOrder).concat([ '*' ])
-			_.set(uiSchema, [ 'data' ], {
-				'ui:order': order
-			})
-		}
 
 		let linkTypeTargets = null
 

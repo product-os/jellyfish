@@ -32,8 +32,10 @@ import {
 	analytics,
 	sdk
 } from '../../core'
-import AutoCompleteWidget from '../../../../lib/ui-components/AutoCompleteWidget'
 import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import {
+	getUiSchema
+} from '../ui-schema'
 
 class EditLens extends React.Component {
 	constructor (props) {
@@ -148,6 +150,7 @@ class EditLens extends React.Component {
 		} = this.state
 		const localSchema = helpers.getLocalSchema(editModel)
 		const {
+			types,
 			card
 		} = this.props.channel.data.head
 
@@ -159,59 +162,9 @@ class EditLens extends React.Component {
 			return carry
 		}, {})
 
-		const uiSchema = _.get(this.state.schema, [ 'properties', 'name' ])
-			? {
-				'ui:order': [ 'name', '*' ]
-			}
-			: {}
+		const cardType = helpers.getType(card.type, types)
 
-		// TODO: Encode these relationships in the type card, instead of hacking it
-		// into the UI
-		if (card.type === 'issue') {
-			_.set(uiSchema, [ 'data', 'repository' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'issue',
-					keyPath: 'data.repository'
-				}
-			})
-		}
-
-		if (card.type === 'checkin') {
-			_.set(uiSchema, [ 'data', 'unnecessary_attendees', 'items' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'user',
-					keyPath: 'slug'
-				}
-			})
-
-			_.set(uiSchema, [ 'data', 'extra_attendees_needed', 'items', 'user' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'user',
-					keyPath: 'slug'
-				}
-			})
-		}
-
-		if (card.type === 'workflow') {
-			_.set(uiSchema, [ 'data', 'loop' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'workflow',
-					keyPath: 'data.loop'
-				}
-			})
-
-			_.set(uiSchema, [ 'data', 'lifecycle' ], {
-				'ui:widget': AutoCompleteWidget,
-				'ui:options': {
-					resource: 'workflow',
-					keyPath: 'data.lifecycle'
-				}
-			})
-		}
+		const uiSchema = getUiSchema(cardType)
 
 		const schema = this.state.schema
 

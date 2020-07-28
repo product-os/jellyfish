@@ -62,6 +62,17 @@ module.exports = ({
 					'data'
 				]
 			},
+			uiSchema: {
+				data: {
+					repository: {
+						'ui:widget': 'AutoCompleteWidget',
+						'ui:options': {
+							resource: 'issue',
+							keyPath: 'data.repository'
+						}
+					}
+				}
+			},
 			slices: [
 				'properties.data.properties.status'
 			]
