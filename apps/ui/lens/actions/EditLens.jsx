@@ -253,6 +253,9 @@ export default {
 	data: {
 		renderer: connect(null, mapDispatchToProps)(EditLens),
 		icon: 'pencil',
-		type: '*'
+		type: '*',
+		filter: {
+			type: 'object'
+		}
 	}
 }

@@ -129,7 +129,6 @@ export default class Segment extends React.Component {
 
 		addChannel({
 			head: {
-				action: 'create',
 				types: _.find(types, {
 					slug: segment.type.split('@')[0]
 				}),
@@ -142,6 +141,7 @@ export default class Segment extends React.Component {
 					callback: this.getData
 				}
 			},
+			format: 'create',
 			canonical: false
 		})
 	}

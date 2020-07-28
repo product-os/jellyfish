@@ -149,7 +149,7 @@ class ChannelRenderer extends React.Component {
 			)
 		}
 
-		const lens = getLens('full', head, user)
+		const lens = getLens(_.get(channel.data, [ 'format' ], 'full'), head, user)
 
 		return (
 			<ErrorBoundary style={style}>

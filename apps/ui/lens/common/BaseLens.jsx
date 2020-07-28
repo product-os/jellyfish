@@ -17,13 +17,13 @@ export default class BaseLens extends React.Component {
 	openCreateChannel () {
 		this.props.actions.addChannel({
 			head: {
-				action: 'create',
 				types: this.props.type,
 				seed: this.getSeedData(),
 				onDone: {
 					action: 'open'
 				}
 			},
+			format: 'create',
 			canonical: false
 		})
 	}

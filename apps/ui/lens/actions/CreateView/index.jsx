@@ -44,6 +44,9 @@ export default {
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateView),
 		icon: 'address-card',
-		type: '*'
+		type: '*',
+		filter: {
+			type: 'object'
+		}
 	}
 }

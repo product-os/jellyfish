@@ -365,15 +365,19 @@ class CreateLens extends React.Component {
 			>
 				<Box px={3} pb={3}>
 					{Boolean(linkOption) && (
-						<Flex alignItems="center" pb={3}>
+						<Flex alignItems="center" pb={3} mt={2}>
 							<Txt>Create a new</Txt>
 
 							<Select
 								ml={2}
-								value={linkOption.data.title}
+								value={linkOption}
 								onChange={this.handleLinkOptionSelect}
 								options={linkTypeTargets}
 								labelKey="title"
+								valueKey={{
+									key: 'slug',
+									reduce: false
+								}}
 							/>
 						</Flex>
 					)}
@@ -404,7 +408,7 @@ class CreateLens extends React.Component {
 								title={segment.title}
 							>
 								<Segment
-									card={card.types}
+									card={selectedTypeTarget}
 									segment={segment}
 									types={allTypes}
 									actions={actions}
@@ -466,6 +470,9 @@ export default {
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
-		type: '*'
+		type: '*',
+		filter: {
+			type: 'object'
+		}
 	}
 }

@@ -66,7 +66,6 @@ export default function AuditPanel (props) {
 	const createProductImprovement = () => {
 		props.actions.addChannel({
 			head: {
-				action: 'create',
 				types: _.find(props.types, {
 					slug: 'product-improvement'
 				}),
@@ -77,6 +76,7 @@ export default function AuditPanel (props) {
 					callback: skipStep
 				}
 			},
+			format: 'create',
 			canonical: false
 		})
 	}

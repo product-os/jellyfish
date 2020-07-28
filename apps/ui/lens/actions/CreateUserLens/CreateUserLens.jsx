@@ -177,6 +177,7 @@ class CreateUserLens extends React.Component {
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
 							onClick={this.close}
+							mr={2}
 						>
 							Cancel
 						</Button>

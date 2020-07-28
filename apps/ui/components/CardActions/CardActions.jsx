@@ -62,13 +62,13 @@ export default class CardActions extends React.Component {
 		this.openEditChannel = () => {
 			this.props.actions.addChannel({
 				head: {
-					action: 'edit',
 					types: this.props.types,
 					card: this.props.card,
 					onDone: {
 						action: 'close'
 					}
 				},
+				format: 'edit',
 				canonical: false
 			})
 		}

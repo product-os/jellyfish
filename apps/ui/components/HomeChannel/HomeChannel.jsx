@@ -233,11 +233,11 @@ export default class HomeChannel extends React.Component {
 	openCreateViewChannel () {
 		this.props.actions.addChannel({
 			head: {
-				action: 'create-view',
 				onDone: {
 					action: 'open'
 				}
 			},
+			format: 'createView',
 			canonical: false
 		})
 		this.hideDrawer()

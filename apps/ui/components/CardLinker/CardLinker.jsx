@@ -58,7 +58,6 @@ class CardLinker extends React.Component {
 	openCreateChannel () {
 		this.props.actions.addChannel({
 			head: {
-				action: 'create',
 				seed: {
 					markers: this.props.card.markers
 				},
@@ -67,6 +66,7 @@ class CardLinker extends React.Component {
 					target: this.props.card
 				}
 			},
+			format: 'create',
 			canonical: false
 		})
 	}
@@ -74,9 +74,9 @@ class CardLinker extends React.Component {
 	openVisualizeChannel () {
 		this.props.actions.addChannel({
 			head: {
-				action: 'visualize-links',
 				card: this.props.card
 			},
+			format: 'visualizeLinks',
 			canonical: false
 		})
 	}
