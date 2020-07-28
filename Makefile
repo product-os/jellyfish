@@ -167,19 +167,6 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal
 
-# Set dotenv-related variables for local development/testing
-DOTENV_PATH =
-LOCAL_DOTENV = local.env
-CUSTOM_DOTENV = custom.env
-MERGED_DOTENV = merged.env
-ifndef CI
-	NODE_ARGS += -r dotenv/config
-	DOTENV_PATH = dotenv_config_path=$(LOCAL_DOTENV)
-endif
-ifneq ("$(wildcard $(CUSTOM_DOTENV))","")
-	DOTENV_PATH = dotenv_config_path=$(MERGED_DOTENV)
-endif
-
 ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x
 NODE = 0x --open -- node
@@ -207,6 +194,19 @@ DETACH ?=
 export CI
 VISUAL ?=
 export VISUAL
+
+# Set dotenv-related variables for local development/testing
+DOTENV_PATH =
+LOCAL_DOTENV = local.env
+CUSTOM_DOTENV = custom.env
+MERGED_DOTENV = merged.env
+ifndef CI
+	NODE_ARGS += -r dotenv/config
+	DOTENV_PATH = dotenv_config_path=$(LOCAL_DOTENV)
+endif
+ifneq ("$(wildcard $(CUSTOM_DOTENV))","")
+	DOTENV_PATH = dotenv_config_path=$(MERGED_DOTENV)
+endif
 
 DOCKER_COMPOSE_FILES = --file docker-compose.yml
 ifdef MONITOR
@@ -304,7 +304,9 @@ scrub:
 	$(SCRUB_COMMAND)
 
 merge-dotenv:
+ifeq ($(CI),)
 	./scripts/merge-dotenv.sh $(LOCAL_DOTENV) $(CUSTOM_DOTENV) $(MERGED_DOTENV)
+endif
 
 test: LOGLEVEL = warning
 test: scrub merge-dotenv

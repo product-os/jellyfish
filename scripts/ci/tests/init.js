@@ -6,20 +6,37 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const childProcess = require('child_process')
-const fs = require('fs')
-
 /**
  * This script runs test scripts as background jobs, monitoring output and
  * restarting/killing non-responsive jobs as necessary.
  */
 
-const TIMEOUT = 120 * 1000
+const _ = require('lodash')
+const fs = require('fs')
+const moment = require('moment')
+const yaml = require('js-yaml')
+const {
+	exec,
+	execSync
+} = require('child_process')
+
+const RETRY_TIMEOUT = 120 * 1000
+const WATCH_TIMEOUT = 5 * 1000
 const RETRIES = 3
 const JF_DIR = '/usr/src/jellyfish'
 const SCRIPTS_DIR = `${JF_DIR}/scripts`
-const TESTS_DIR = `${SCRIPTS_DIR}/ci/tests`
+
+/**
+ * @summary Generates and returns the current unix timestamp
+ * @function
+ *
+ * @returns {Number} current unix timestamp
+ */
+const getTimestamp = () => {
+	return moment().utc().unix()
+}
+
+const START = getTimestamp()
 
 /**
  * @summary Checkout master to make it accessible as a local branch
@@ -27,19 +44,19 @@ const TESTS_DIR = `${SCRIPTS_DIR}/ci/tests`
  * @todo Remove this function once balenaCI checks out master after fetch
  */
 const checkoutMaster = () => {
-	const currentBranch = childProcess.execSync('git rev-parse --abbrev-ref HEAD', {
+	const currentBranch = execSync('git rev-parse --abbrev-ref HEAD', {
 		cwd: JF_DIR
 	})
-	childProcess.execSync('git config user.name "balena-ci" && git config user.email "balena-ci@balena.io"', {
+	execSync('git config user.name "balena-ci" && git config user.email "balena-ci@balena.io"', {
 		cwd: JF_DIR
 	})
-	childProcess.execSync('git stash && git checkout master', {
+	execSync('git stash && git checkout master', {
 		cwd: JF_DIR
 	})
-	childProcess.execSync(`git checkout ${currentBranch}`, {
+	execSync(`git checkout ${currentBranch}`, {
 		cwd: JF_DIR
 	})
-	childProcess.execSync('git stash pop', {
+	execSync('git stash pop', {
 		cwd: JF_DIR
 	})
 }
@@ -49,29 +66,34 @@ const checkoutMaster = () => {
  * @function
  */
 const installPackages = () => {
-	childProcess.execSync(`cd ${SCRIPTS_DIR}/template && npm install`)
+	execSync(`cd ${SCRIPTS_DIR}/template && npm install`)
+}
+
+const readConfig = () => {
+	return yaml.safeLoad(fs.readFileSync(`${SCRIPTS_DIR}/ci/tests/config.yml`, 'utf8'))
 }
 
 /**
  * @summary Start all *.spec.sh scripts as background jobs
  * @function
  *
+ * @param {Object} config - job config
+ *
  * @returns {Object} started jobs
  */
-const startJobs = () => {
-	const jobs = {}
-	fs.readdirSync(TESTS_DIR).forEach((name) => {
-		if (name.match(/\.spec\.sh$/)) {
-			jobs[name] = {
-				complete: false,
-				name,
-				outputLength: 0,
-				retries: RETRIES
-			}
-			startJob(jobs[name])
+const startJobs = (config) => {
+	for (const [ name, job ] of Object.entries(config.jobs)) {
+		job.name = name
+		job.running = false
+		job.complete = false
+		job.output = 0
+		job.retries = RETRIES
+		job.checked = getTimestamp()
+		if (!job.depends_on) {
+			startJob(job)
 		}
-	})
-	return jobs
+	}
+	return config.jobs
 }
 
 /**
@@ -82,18 +104,27 @@ const startJobs = () => {
  * @returns {Object} the job that was started
  */
 const startJob = (job) => {
-	job.process = childProcess.execFile(`${TESTS_DIR}/${job.name}`, (err, stdout, stderr) => {
+	const env = (job.environment) ? Object.assign({}, process.env, job.environment) : process.env
+	job.running = true
+	job.process = exec(job.command, {
+		cwd: JF_DIR,
+		env
+	}, (err, stdout, stderr) => {
+		job.running = true
 		if (err) {
-			console.error(`[${job.name}] Job exited with error: ${err}`)
+			console.error(`[${job.name}] Job exited with error ${err}`)
 			console.error(`[${job.name}] stderr: ${stderr}`)
-			process.exit(1)
+			if (job.required) {
+				process.exit(1)
+			}
+			job.result = 'fail'
+		} else {
+			job.result = 'pass'
 		}
 		job.complete = true
 	})
-
-	// Update jobs output length and make logs easier to parse.
 	job.process.stdout.on('data', (data) => {
-		job.outputLength += data.length
+		job.output += data.length
 		const line = data.replace(/\n/gm, '')
 		console.log(`[${job.name}] ${line}`)
 	})
@@ -111,23 +142,21 @@ const startJob = (job) => {
  * @param {Object} jobs - object of running jobs
  */
 const watchJobs = (jobs) => {
-	const previousOutputLengths = {}
+	const previousOutputs = {}
 	setInterval(() => {
 		// Exit if all jobs are complete
-		let incomplete = false
-		_.forOwn(jobs, (job) => {
-			if (!job.complete) {
-				incomplete = true
-			}
-		})
-		if (!incomplete) {
-			console.log('All tests complete')
+		if (!_.find(jobs, {
+			complete: false
+		})) {
+			console.log(`All tests complete: ${getTimestamp() - START} seconds`)
 			process.exit(0)
 		}
 
 		// Restart/kill a job if its output hasn't updated since last check
 		_.forOwn(jobs, (job, name) => {
-			if (previousOutputLengths[name] && previousOutputLengths[name] === job.outputLength && !job.complete) {
+			if (getTimestamp() - job.checked >= RETRY_TIMEOUT &&
+				!job.complete && job.required &&
+				previousOutputs[name] && previousOutputs[name] === job.output) {
 				if (job.retries > 0) {
 					restartJob(job)
 				} else {
@@ -137,9 +166,31 @@ const watchJobs = (jobs) => {
 			}
 
 			// Update previous output length data for next check
-			previousOutputLengths[name] = job.outputLength
+			previousOutputs[name] = job.output
 		})
-	}, TIMEOUT)
+
+		// Start jobs whose dependencies have completed and are not already started or complete
+		_.forOwn(jobs, (job) => {
+			if (job.depends_on && !job.complete && !job.running) {
+				let dependenciesComplete = true
+				let hasFailedDependency = false
+				job.depends_on.forEach((dependency) => {
+					if (!jobs[dependency].complete) {
+						dependenciesComplete = false
+					}
+					if (jobs[dependency].result && jobs[dependency].result === 'fail') {
+						hasFailedDependency = true
+					}
+				})
+				if (hasFailedDependency) {
+					job.complete = true
+					job.running = false
+				} else if (dependenciesComplete) {
+					startJob(job)
+				}
+			}
+		})
+	}, WATCH_TIMEOUT)
 }
 
 /**
@@ -152,7 +203,8 @@ const watchJobs = (jobs) => {
 const restartJob = (job) => {
 	console.log(`[${job.name}] No new output from job, restarting...`)
 	job.retries -= 1
-	job.outputLength = 0
+	job.output = 0
+	job.checked = getTimestamp()
 	job.process.kill(0)
 	Reflect.deleteProperty(job, 'process')
 	return startJob(job)
@@ -165,5 +217,6 @@ checkoutMaster()
 installPackages()
 
 // Start and watch jobs
-const jobs = startJobs()
+const config = readConfig()
+const jobs = startJobs(config)
 watchJobs(jobs)
