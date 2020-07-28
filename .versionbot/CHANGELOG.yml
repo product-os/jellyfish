@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Rebalance balenaCI tests to improve consistency'
+      hash: a5b4ebed89f5b555991e1eb5b9777764ee5669ba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.88.5
+  date: 2020-07-28T16:42:53.737Z
+- commits:
     - subject: Update open-balena-base to 9.4.3
       hash: 40719ab8262e4113060646c4253a6b26539a2d55
       body: |
