@@ -51,7 +51,7 @@ ava.serial.after.always(scenario.after)
 ava.serial.afterEach.always(scenario.afterEach)
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/github'),
+	integration: require('@balena/jellyfish-sync/lib/integrations/github'),
 	scenarios: require('./webhooks/github'),
 	baseUrl: 'https://api.github.com',
 	stubRegex: /.*/,

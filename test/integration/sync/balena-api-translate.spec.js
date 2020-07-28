@@ -51,7 +51,7 @@ const prepareEvent = async (event) => {
 }
 
 scenario.run(ava, {
-	integration: require('../../../lib/sync/integrations/balena-api'),
+	integration: require('@balena/jellyfish-sync/lib/integrations/balena-api'),
 	scenarios: require('./webhooks/balena-api'),
 	baseUrl: 'https://api.balena-cloud.com',
 	stubRegex: /.*/,

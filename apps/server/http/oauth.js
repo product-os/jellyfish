@@ -9,7 +9,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const sync = require('../../../lib/sync')
+const sync = require('@balena/jellyfish-sync')
 const environment = require('@balena/jellyfish-environment')
 
 exports.getRedirectUrl = (provider) => {

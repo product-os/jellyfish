@@ -226,11 +226,6 @@ Cards can be linked together by creating a card of type "link" that references b
 Requests for individual cards by id or slug are cached, reducing DB load and
 improving query speed.
 
-### [`lib/sync`](https://github.com/product-os/jellyfish/tree/master/lib/sync)
-
-This module contains an integration syncing engine built on top of Jellyfish,
-along with a set of integrations with third party services.
-
 ### [`lib/ui-components`](https://github.com/product-os/jellyfish/tree/master/lib/ui-components)
 
 This module is a collection of re-usable React component that Jellyfish uses to
