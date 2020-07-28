@@ -18,6 +18,8 @@ spec:
       - image: <<%&children.sw.containerized-application.jellyfish-tick-server.data.assets.image.url%>>
         name: tick-server
         env:
+        - name: UV_THREADPOOL_SIZE
+          value: '128'
         - name: DATABASE
           value: 'postgres'
         - name: POSTGRES_DATABASE
