@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'lens/actions/CreateLens: Order form response curation form'
+      hash: 406183a6ac204cb4c754b74225b1890fe1a8c80b
+      body: |
+        Based on the fieldOrder property that exists on the card type
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: patch Update non-major
+      hash: 928d70146d28c9d024a41539de7ae354530b27b4
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.87.2
+  date: 2020-07-28T02:23:02.499Z
+- commits:
     - subject: 'Deployment Templates: Scaled up API replica count to 16.'
       hash: 85cbd02b9d8babef71f72dd3729a692bb9b270e8
       body: |
