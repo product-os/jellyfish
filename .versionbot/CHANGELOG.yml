@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/sync with private package
+      hash: 851728de75a9d28529ca3250dce35db55246c7e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.88.1
+  date: 2020-07-28T06:04:28.590Z
+- commits:
     - subject: 'ui: Use uiSchema from type cards'
       hash: ec21e08d7eba1e3084c98b7b25d3d74f066dd668
       body: ''
