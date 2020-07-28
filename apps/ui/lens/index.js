@@ -30,6 +30,23 @@ const lenses = {
 	list: ListLenses,
 	snippet: SnippetLenses,
 
+	edit: [
+		EditLens
+	],
+
+	create: [
+		CreateLens,
+		CreateUserLens
+	],
+
+	createView: [
+		CreateViewLens
+	],
+
+	visualizeLinks: [
+		LinksGraphLens
+	],
+
 	// TODO: Find a more meaningful way to represent these lenses
 	misc: [
 		Kanban,
@@ -68,21 +85,6 @@ export const getLenses = (format, data, user) => {
 }
 
 export const getLens = (format, data, user) => {
-	if (data.action === 'visualize-links') {
-		return LinksGraphLens
-	}
-	if (data.action === 'create') {
-		if (_.get(data, [ 'types', 'slug' ]) === 'user') {
-			return CreateUserLens
-		}
-		return CreateLens
-	}
-	if (data.action === 'create-view') {
-		return CreateViewLens
-	}
-	if (data.action === 'edit') {
-		return EditLens
-	}
 	return _.first(getLenses(format, data, user))
 }
 

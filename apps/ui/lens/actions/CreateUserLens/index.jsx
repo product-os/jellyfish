@@ -47,6 +47,22 @@ export default {
 		action: {
 			type: 'string',
 			const: 'create'
+		},
+		filter: {
+			type: 'object',
+			required: [ 'types' ],
+			properties: {
+				types: {
+					type: 'object',
+					required: [ 'slug' ],
+					properties: {
+						slug: {
+							type: 'string',
+							const: 'user'
+						}
+					}
+				}
+			}
 		}
 	}
 }

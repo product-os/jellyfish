@@ -466,6 +466,9 @@ export default {
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
-		type: '*'
+		type: '*',
+		filter: {
+			type: 'object'
+		}
 	}
 }
