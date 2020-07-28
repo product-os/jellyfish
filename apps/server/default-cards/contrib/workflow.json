@@ -52,6 +52,24 @@
         }
       }
     },
+    "uiSchema": {
+      "data": {
+        "loop": {
+          "ui:widget": "AutoCompleteWidget",
+          "ui:options": {
+            "resource": "workflow",
+            "keyPath": "data.loop"
+          }
+        },
+        "lifecycle": {
+          "ui:widget": "AutoCompleteWidget",
+          "ui:options": {
+            "resource": "workflow",
+            "keyPath": "data.lifecycle"
+          }
+        }
+      }
+    },
     "slices": [
       "properties.data.properties.status"
     ]
