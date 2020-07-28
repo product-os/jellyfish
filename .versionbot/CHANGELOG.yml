@@ -1,4 +1,24 @@
 - commits:
+    - subject: Add a colon to renovate patch commit prefix
+      hash: fbeb0b2a75c525b6c2d0d9b38263c84e1beb35c1
+      body: |
+        The colon is required for versionbot compatibility.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: patch Update dependency googleapis to v57
+      hash: 8bf7286241dda8f0ecbd77f5fe6ba33bceb728c0
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.88.2
+  date: 2020-07-28T10:39:35.379Z
+- commits:
     - subject: Replace lib/sync with private package
       hash: 851728de75a9d28529ca3250dce35db55246c7e7
       body: ''
