@@ -6,7 +6,7 @@
     "npm"
   ],
   "rangeStrategy": "bump",
-  "commitMessagePrefix": "patch",
+  "commitMessagePrefix": "patch:",
   "prHourlyLimit": 0,
   "labels": [
     "dependencies"
