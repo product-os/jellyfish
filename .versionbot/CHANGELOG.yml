@@ -1,4 +1,39 @@
 - commits:
+    - subject: 'ui: Display bug-fixes'
+      hash: 4f5a30d285a23e6c99566b40a6f24b9b730d0fab
+      body: >
+        Ensure selected card type is displayed in the Select component when
+        creating a new card using the CreateLens component.
+
+
+        Fix linking to existing cards when creating a new card using the
+        CreateLens component. 
+
+
+        Cosmetic padding improvements.
+
+
+        Fixed component name of CreateView component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Use lens formats and filters to pick action lenses'
+      hash: f608786dbac70853e0dcb8550e0e28771cd0267b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.88.3
+  date: 2020-07-28T11:41:52.700Z
+- commits:
     - subject: Add a colon to renovate patch commit prefix
       hash: fbeb0b2a75c525b6c2d0d9b38263c84e1beb35c1
       body: |
