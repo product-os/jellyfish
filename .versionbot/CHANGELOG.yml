@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'ui: Use uiSchema from type cards'
+      hash: ec21e08d7eba1e3084c98b7b25d3d74f066dd668
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'server: Add uiSchema to type cards'
+      hash: 19cf9c6430e42a1b9a1524576593815f79c1a39d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.88.0
+  date: 2020-07-28T03:41:03.542Z
+- commits:
     - subject: 'lens/actions/CreateLens: Order form response curation form'
       hash: 406183a6ac204cb4c754b74225b1890fe1a8c80b
       body: |
