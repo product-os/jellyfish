@@ -381,6 +381,13 @@ class CreateLens extends React.Component {
 
 		const head = this.props.channel.data.head
 
+		if (selectedTypeTarget.slug === 'form-response-curation' && head.types.data.fieldOrder) {
+			const order = _.cloneDeep(head.types.data.fieldOrder).concat([ '*' ])
+			_.set(uiSchema, [ 'data' ], {
+				'ui:order': order
+			})
+		}
+
 		let linkTypeTargets = null
 
 		if (linkOption) {
