@@ -35,7 +35,7 @@ const UserRow = styled(Box) `
 	}
 `
 
-export default class CreateLens extends React.Component {
+export default class CreateView extends React.Component {
 	constructor (props) {
 		super(props)
 
