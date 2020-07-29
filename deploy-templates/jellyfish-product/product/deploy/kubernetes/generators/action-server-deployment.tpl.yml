@@ -20,6 +20,8 @@ spec:
       - image: <<%&children.sw.containerized-application.jellyfish-action-server.data.assets.image.url%>>
         name: action-server
         env:
+        - name: UV_THREADPOOL_SIZE
+          value: '128'
         - name: POD_NAME
           valueFrom:
             fieldRef:

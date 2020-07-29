@@ -36,6 +36,8 @@ spec:
           timeoutSeconds: 8
           failureThreshold: 30
         env:
+        - name: UV_THREADPOOL_SIZE
+          value: '128'
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
