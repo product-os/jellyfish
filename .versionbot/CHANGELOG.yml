@@ -1,4 +1,33 @@
 - commits:
+    - subject: Don't restrict the support thread inbox field for external support users
+      hash: 05b22bab0d5df708a77c2cef53b48b29dfce1b47
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Replace lib/action-library with private package
+      hash: 88f8253fc866cc725f564dd82c89c6be9ac1d956
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: a9941adf58dbc2734f339a178a14f92138c149d7
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.88.7
+  date: 2020-07-29T10:21:05.073Z
+- commits:
     - subject: Increase UV_THREADPOOL_SIZE to 128
       hash: 37e4b07be868dc54b8cea57160ebce1d6f75ea95
       body: ''
