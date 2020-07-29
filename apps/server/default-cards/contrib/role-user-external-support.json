@@ -86,8 +86,7 @@
                   "const": "balenaCloud"
                 },
                 "inbox": {
-                  "type": "string",
-                  "const": "S/Paid_Support"
+                  "type": "string"
                 }
               }
             }
