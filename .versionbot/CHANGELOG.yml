@@ -1,4 +1,18 @@
 - commits:
+    - subject: HTTP=>HTTPS redirect on AWS/ALB
+      hash: b4ea7e167bbdfdd29d51bd681ebb32cc54953547
+      body: |
+        * implements HTTP=>HTTPS redirect at the AWS ALB using ALB actions
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+  version: 30.88.8
+  date: 2020-07-29T18:05:14.119Z
+- commits:
     - subject: Don't restrict the support thread inbox field for external support users
       hash: 05b22bab0d5df708a77c2cef53b48b29dfce1b47
       body: ''
