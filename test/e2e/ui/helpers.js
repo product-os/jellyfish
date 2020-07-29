@@ -10,7 +10,7 @@ const {
 } = require('uuid')
 const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
-const macros = require('./macros')
+const screenshot = require('./screenshot')
 
 exports.generateUserDetails = () => {
 	return {
@@ -46,7 +46,7 @@ exports.afterEach = async ({
 	context, test
 }) => {
 	if (!test.passed) {
-		await macros.screenshot(context, test.title)
+		await screenshot.takeScreenshot(context, test.title)
 	}
 }
 

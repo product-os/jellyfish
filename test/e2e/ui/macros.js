@@ -7,31 +7,9 @@
 const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment')
-const fs = require('fs')
 
 exports.WAIT_OPTS = {
 	timeout: 60 * 1000
-}
-
-// Useful for debugging failed tests
-exports.screenshot = async (context, title) => {
-	const testTitle = title.replace(/^.*\shook\sfor\s/, '')
-	context.screenshots = (context.screenshots || 0) + 1
-
-	const dir = './tmp/test-results/screenshots'
-
-	// Make directory before using it
-	fs.mkdirSync(dir, {
-		recursive: true
-	}, (err) => {
-		if (err) throw err
-	})
-
-	const file = `${testTitle}.${context.screenshots}.png`
-	const path = `${dir}/${file}`
-	await context.page.screenshot({
-		path
-	})
 }
 
 exports.retry = async (times, functionToTry) => {
