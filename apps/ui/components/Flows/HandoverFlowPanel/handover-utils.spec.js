@@ -4,8 +4,8 @@
  * Proprietary and confidential.
  */
 
-const ava = require('ava')
-const handoverUtils = require('./handover-utils')
+import ava from 'ava'
+import * as handoverUtils from './handover-utils'
 
 ava('.generateWhisperMessage() works for unassignment', (test) => {
 	const currentOwner = {

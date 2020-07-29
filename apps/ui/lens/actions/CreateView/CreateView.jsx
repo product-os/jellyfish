@@ -48,9 +48,11 @@ export default class CreateView extends React.Component {
 		this.createView = this.createView.bind(this)
 		this.handleSearchTermChange = this.handleSearchTermChange.bind(this)
 
-		this.loadUsers()
-
 		this.loadUsers = _.debounce(this.loadUsers, 500)
+	}
+
+	componentDidMount () {
+		this.loadUsers()
 	}
 
 	async createView (event) {

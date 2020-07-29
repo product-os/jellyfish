@@ -48,6 +48,7 @@
       "apps/**/*.spec.{js,jsx}"
     ],
     "require": [
+      "./test/browser-setup",
       "./test/register",
       "./test/max-listeners"
     ]
@@ -122,6 +123,8 @@
     "@balena/jellyfish-sync": "^0.0.24",
     "@balena/jellyfish-uuid": "^0.0.21",
     "@balena/jellyfish-worker": "^0.0.12",
+    "@emotion/cache": "^10.0.29",
+    "@emotion/core": "^10.0.28",
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^18.0.3",

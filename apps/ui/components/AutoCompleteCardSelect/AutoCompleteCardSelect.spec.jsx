@@ -4,6 +4,10 @@
  * Proprietary and confidential.
  */
 
+import {
+	getWrapper,
+	flushPromises
+} from '../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount
@@ -12,11 +16,7 @@ import React from 'react'
 import sinon from 'sinon'
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
 
-// HACK: Import this after the other imports as it causes undesired
-// behaviour with the @emotion dependency if imported first!
-import {
-	flushPromises
-} from '../../../../test/ui-setup'
+const wrappingComponent = getWrapper().wrapper
 
 const types = [
 	{
@@ -75,14 +75,16 @@ ava('Results are cleared when card type changes', async (test) => {
 	const sdk = {
 		query
 	}
-	const autoComplete = mount(
+	const autoComplete = mount((
 		<AutoCompleteCardSelect
 			sdk={sdk}
 			cardType="user"
 			types={types}
 			onChange={onChange}
 		/>
-	)
+	), {
+		wrappingComponent
+	})
 
 	// Initially we've got no results but the SDK query has been called
 	test.deepEqual(autoComplete.state('results'), [])
