@@ -1,4 +1,21 @@
 - commits:
+    - subject: Increase UV_THREADPOOL_SIZE to 128
+      hash: 37e4b07be868dc54b8cea57160ebce1d6f75ea95
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: f9245143efa5f083c2df61f920d53d691e7d11e6
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.88.6
+  date: 2020-07-29T01:42:49.773Z
+- commits:
     - subject: 'ci: Rebalance balenaCI tests to improve consistency'
       hash: a5b4ebed89f5b555991e1eb5b9777764ee5669ba
       body: ''
