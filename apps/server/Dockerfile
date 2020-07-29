@@ -10,7 +10,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN NODE_ENV=production npm ci
 RUN rm -f ~/.npmrc
 
-COPY ./lib/action-library ./lib/action-library
 COPY ./lib/core ./lib/core
 
 COPY ./apps/server ./apps/server

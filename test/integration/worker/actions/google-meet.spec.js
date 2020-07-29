@@ -11,7 +11,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const helpers = require('../helpers')
-const actionLibrary = require('../../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 
 const GOOGLE_MEET_URL = 'https://meet.google.com/some-fake-room'
 

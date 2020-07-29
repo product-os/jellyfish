@@ -6,7 +6,7 @@
 
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const actionLibrary = require('../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const Worker = require('@balena/jellyfish-worker').Worker
 const Consumer = require('@balena/jellyfish-queue').Consumer

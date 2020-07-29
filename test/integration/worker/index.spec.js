@@ -8,7 +8,7 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const actionLibrary = require('../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 const Worker = require('@balena/jellyfish-worker').Worker
 const uuid = require('@balena/jellyfish-uuid')
 

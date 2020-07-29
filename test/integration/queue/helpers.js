@@ -10,7 +10,7 @@ const helpers = require('../core/helpers')
 const defaultCards = require('../../../apps/server/default-cards')
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
-const actionLibrary = require('../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 const queueErrors = require('@balena/jellyfish-queue').errors
 const utils = require('../utils')
 
