@@ -66,8 +66,8 @@ const createOrg = async (test) => {
 	})
 }
 
-ava.serial(`external support users should not be able to crete threads with product and inbox values
-other then balenaCloud and S/Paid_Support respectively`,
+ava.serial(`external support users should not be able to create threads with product values
+other then balenaCloud`,
 async (test) => {
 	const {
 		sdk
@@ -87,27 +87,13 @@ async (test) => {
 	await sdk.auth.login(externalSupportUserDetails)
 
 	// Create thread with different product
-	let error = await test.throwsAsync(sdk.card.create({
+	const error = await test.throwsAsync(sdk.card.create({
 		type: 'support-thread',
 		name: 'test subject',
 		markers: [ `${externalSupportUser.slug}+org-balena` ],
 		data: {
 			product: 'test-product',
 			inbox: 'S/Paid_Support',
-			status: 'open'
-		}
-	}))
-
-	test.is(error.name, 'JellyfishPermissionsError')
-
-	// Create thread with different inbox
-	error = await test.throwsAsync(test.context.sdk.card.create({
-		type: 'support-thread',
-		name: 'test subject',
-		markers: [ `${externalSupportUser.slug}+org-balena` ],
-		data: {
-			product: 'balenaCloud',
-			inbox: 'S/TestInbox',
 			status: 'open'
 		}
 	}))
