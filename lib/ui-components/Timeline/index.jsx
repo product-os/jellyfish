@@ -181,12 +181,12 @@ class Timeline extends React.Component {
 						}
 					}
 				}).then((newEvents) => {
-					const receivedNewEvents = newEvents.length === 0
+					const receivedNewEvents = newEvents.length > 0
 					this.setState({
 						events: _.concat(events, newEvents),
-						eventSkip: receivedNewEvents ? eventSkip : eventSkip + PAGE_SIZE,
+						eventSkip: receivedNewEvents ? eventSkip + PAGE_SIZE : eventSkip,
 						loadingMoreEvents: false,
-						reachedBeginningOfTimeline: receivedNewEvents
+						reachedBeginningOfTimeline: !receivedNewEvents
 					})
 					resolve()
 				}
