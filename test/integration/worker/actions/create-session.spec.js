@@ -7,7 +7,7 @@
 const ava = require('ava')
 const Bluebird = require('bluebird')
 const helpers = require('../helpers')
-const actionLibrary = require('../../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 
 ava.before(async (test) => {
 	await helpers.worker.before(test, actionLibrary)

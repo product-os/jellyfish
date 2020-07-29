@@ -74,11 +74,6 @@ interact with.
 
 A set of re-usable libraries that the top level components use.
 
-### [`lib/action-library`](https://github.com/product-os/jellyfish/tree/master/lib/action-library)
-
-The action library consists of a set of actions with which the system
-provisions workers.
-
 ### [`lib/chat-widget`](https://github.com/product-os/jellyfish/tree/master/lib/chat-widget)
 
 The chat widget is an embeddable component to allow external clients to send

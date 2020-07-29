@@ -7,7 +7,7 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const actionLibrary = require('../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 const {
 	errors,
 	executor,

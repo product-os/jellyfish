@@ -7,7 +7,7 @@
 const ava = require('ava')
 const nock = require('nock')
 const helpers = require('../helpers')
-const actionLibrary = require('../../../../lib/action-library')
+const actionLibrary = require('@balena/jellyfish-action-library')
 const environment = require('@balena/jellyfish-environment')
 
 const MAIL_OPTIONS = environment.mail.options

@@ -12,7 +12,6 @@ RUN env
 RUN NODE_ENV=production npm ci
 RUN rm -f ~/.npmrc
 
-COPY ./lib/action-library ./lib/action-library
 COPY ./lib/core ./lib/core
 
 COPY ./apps/action-server ./apps/action-server

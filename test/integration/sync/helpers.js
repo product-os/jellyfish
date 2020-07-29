@@ -5,8 +5,8 @@
  */
 
 const helpers = require('../worker/helpers')
-const actionLibrary = require('../../../lib/action-library')
-const syncContext = require('../../../lib/action-library/handlers/sync-context')
+const actionLibrary = require('@balena/jellyfish-action-library')
+const syncContext = require('@balena/jellyfish-action-library/lib/handlers/sync-context')
 
 module.exports = {
 	beforeEach: async (test, options) => {
