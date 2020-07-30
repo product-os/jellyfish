@@ -9,6 +9,9 @@
 const ava = require('ava')
 const helpers = require('../helpers')
 const errors = require('../../../../lib/core/errors')
+const {
+	assert
+} = require('sinon')
 
 const context = {
 	context: {}
@@ -205,4 +208,54 @@ ava('created links are present in the `links` table.', async (test) => {
 
 	const rows = await kernel.backend.connection.any(`SELECT * FROM links WHERE id = '${link.id}'`)
 	test.true(rows.length === 1)
+})
+
+ava('created links can be traversed in the normal fashion', async (test) => {
+	const {
+		kernel
+	} = context
+
+	await kernel.insertCard(context.context, kernel.sessions.admin, kernel.defaults(relationshipTypeCard))
+	await kernel.insertCard(context.context, kernel.sessions.admin, kernel.defaults(carTypeCard))
+
+	const cardA = await kernel.insertCard(context.context, kernel.sessions.admin, kernel.defaults({
+		slug: 'user-marty',
+		name: 'Marty McFly',
+		type: 'user@1.0.0',
+		data: {
+			roles: [],
+			hash: 'CHICKEN'
+		}
+	}))
+
+	const cardB = await kernel.insertCard(context.context, kernel.sessions.admin, kernel.defaults({
+		slug: 'delorean-dmc12',
+		name: 'Delorean DMC-12',
+		type: 'car@1.0.0'
+	}))
+
+	await kernel.linkCards(context.context, kernel.sessions.admin, cardB, cardA,
+		`${relationshipTypeCard.slug}@${relationshipTypeCard.version}`)
+
+	const result = await kernel.query(context.context, kernel.sessions.admin, {
+		type: 'object',
+		properties: {
+			id: {
+				const: cardA.id
+			}
+		},
+		$$links: {
+			'is driver of': {
+				type: 'object',
+				additionalProperties: true
+			}
+		}
+	})
+
+	test.is(result.length, 1)
+	test.is(result[0].id, cardA.id)
+	test.is(result[0].type, cardA.type)
+	test.is(result[0].links['is driver of'].length, 1)
+	test.is(result[0].links['is driver of'][0].id, cardB.id)
+	test.is(result[0].links['is driver of'][0].type, cardB.type)
 })
