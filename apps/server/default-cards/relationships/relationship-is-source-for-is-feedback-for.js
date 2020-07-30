@@ -14,7 +14,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is source for/is feedback for',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is source for',
 			reverse: 'is feedback for',
 			type_pairs: [

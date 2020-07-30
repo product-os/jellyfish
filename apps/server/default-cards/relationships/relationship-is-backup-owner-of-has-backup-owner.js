@@ -17,7 +17,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is backup owner of/has backup owner',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is backup owner of',
 			reverse: 'has backup owner',
 			type_pairs: [

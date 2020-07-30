@@ -12,7 +12,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is executed by/executes',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is executed by',
 			reverse: 'executes',
 			type_pairs: [

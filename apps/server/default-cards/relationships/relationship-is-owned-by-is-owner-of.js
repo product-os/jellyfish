@@ -14,7 +14,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is owned by/is owner of',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is owned by',
 			reverse: 'is owner of',
 			type_pairs: [

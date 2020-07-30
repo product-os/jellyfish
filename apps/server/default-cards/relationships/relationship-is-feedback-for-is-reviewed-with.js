@@ -12,7 +12,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is feedback for/is reviewed with',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is feedback for',
 			reverse: 'is reviewed with',
 			type_pairs: [

@@ -12,7 +12,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is attached to/has attached',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is attached to',
 			reverse: 'has attached',
 			type_pairs: [

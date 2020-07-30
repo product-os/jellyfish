@@ -16,7 +16,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is member of/has member',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is member of',
 			reverse: 'has member',
 			type_pairs: [

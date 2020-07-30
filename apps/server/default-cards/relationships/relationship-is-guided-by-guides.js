@@ -12,7 +12,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is guided by/guides',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is guided by',
 			reverse: 'guides',
 			type_pairs: [

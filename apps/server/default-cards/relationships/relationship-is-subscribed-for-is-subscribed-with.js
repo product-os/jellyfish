@@ -13,7 +13,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is subscribed for/is subscribed with',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is subscribed for',
 			reverse: 'is subscribed with',
 			type_pairs: [

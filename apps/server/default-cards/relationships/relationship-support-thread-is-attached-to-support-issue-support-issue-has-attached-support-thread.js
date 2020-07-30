@@ -14,7 +14,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: support thread is attached to support issue/support issue has attached support thread',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'support thread is attached to issue',
 			reverse: 'issue has attached support thread',
 			type_pairs: [

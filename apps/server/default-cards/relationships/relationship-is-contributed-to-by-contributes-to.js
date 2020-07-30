@@ -12,7 +12,7 @@ module.exports = ({
 		type: 'type@1.0.0',
 		name: 'Relationship: is contributed to by/contributes-to',
 		data: {
-			is_link: true,
+			is_relationship: true,
 			forward: 'is contributed to by',
 			reverse: 'contributes to',
 			type_pairs: [

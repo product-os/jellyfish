@@ -51,9 +51,12 @@ const branchSchema = (sourceType, targetType, forwardName, reverseName) => {
 					},
 					inverseName: {
 						const: reverseName
+					},
+					is_link: {
+						const: true
 					}
 				},
-				required: [ 'from', 'to', 'inverseName' ]
+				required: [ 'from', 'to', 'inverseName', 'is_link' ]
 			}
 		}
 	}

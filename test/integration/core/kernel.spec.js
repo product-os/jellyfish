@@ -51,7 +51,8 @@ ava('should only expose the required methods', (test) => {
 		'query',
 		'stream',
 		'defaults',
-		'getStatus'
+		'getStatus',
+		'linkCards'
 	])
 })
 
