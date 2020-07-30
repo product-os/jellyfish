@@ -107,7 +107,7 @@ ava('.linkCards() can link cards in forward direction when possible', async (tes
 	test.is(link.data.to.id, cardB.id)
 })
 
-ava('.linkCards() can link cards in reverse direction when possible', async (test) => {
+ava('.linkCards() link cards in reverse direction are normalised', async (test) => {
 	const {
 		kernel
 	} = context
@@ -134,13 +134,13 @@ ava('.linkCards() can link cards in reverse direction when possible', async (tes
 	const link = await kernel.linkCards(context.context, kernel.sessions.admin, cardB, cardA,
 		`${relationshipTypeCard.slug}@${relationshipTypeCard.version}`)
 
-	test.is(link.name, relationshipTypeCard.data.reverse)
-	test.is(link.data.inverseName, relationshipTypeCard.data.forward)
+	test.is(link.name, relationshipTypeCard.data.forward)
+	test.is(link.data.inverseName, relationshipTypeCard.data.reverse)
 	test.true(link.data.is_link)
-	test.is(link.data.from.type, cardB.type)
-	test.is(link.data.from.id, cardB.id)
-	test.is(link.data.to.type, cardA.type)
-	test.is(link.data.to.id, cardA.id)
+	test.is(link.data.from.type, cardA.type)
+	test.is(link.data.from.id, cardA.id)
+	test.is(link.data.to.type, cardB.type)
+	test.is(link.data.to.id, cardB.id)
 })
 
 ava('.linkCards() will refuse to create links when the types don\'t match the relationship definition', async (test) => {
