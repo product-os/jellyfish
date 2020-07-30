@@ -4,6 +4,9 @@
  * Proprietary and confidential.
  */
 
+const fs = require('fs')
+const DEFAULT_CONTENT = fs.readFileSync('apps/server/default-cards/contrib/product-improvement-default.md', 'utf-8')
+
 module.exports = ({
 	mixin, withEvents
 }) => {
@@ -33,7 +36,8 @@ module.exports = ({
 							},
 							specification: {
 								type: 'string',
-								format: 'markdown'
+								format: 'markdown',
+								default: DEFAULT_CONTENT
 							},
 							phase: {
 								title: 'Phase',
