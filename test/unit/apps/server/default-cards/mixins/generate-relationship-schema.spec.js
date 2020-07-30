@@ -44,7 +44,7 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 			},
 			data: {
 				type: 'object',
-				required: [ 'from', 'to', 'inverseName' ],
+				required: [ 'from', 'to', 'inverseName', 'is_link' ],
 				properties: {
 					from: {
 						type: 'object',
@@ -76,6 +76,9 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 					},
 					inverseName: {
 						const: 'drives'
+					},
+					is_link: {
+						const: true
 					}
 				}
 			}
@@ -89,7 +92,7 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 			},
 			data: {
 				type: 'object',
-				required: [ 'from', 'to', 'inverseName' ],
+				required: [ 'from', 'to', 'inverseName', 'is_link' ],
 				properties: {
 					from: {
 						type: 'object',
@@ -121,6 +124,9 @@ ava('`generateRelationshipSchema` generates forward and reverse schema branches'
 					},
 					inverseName: {
 						const: 'is driven by'
+					},
+					is_link: {
+						const: true
 					}
 				}
 			}

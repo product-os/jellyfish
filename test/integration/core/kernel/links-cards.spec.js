@@ -9,9 +9,6 @@
 const ava = require('ava')
 const helpers = require('../helpers')
 const errors = require('../../../../lib/core/errors')
-const {
-	assert
-} = require('sinon')
 
 const context = {
 	context: {}
