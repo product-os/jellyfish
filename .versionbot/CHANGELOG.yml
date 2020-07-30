@@ -1,4 +1,44 @@
 - commits:
+    - subject: Adds readinessGate check to JF API
+      hash: 37d0777703f36c41895defec5c2844d16db16ce6
+      body: |
+        * prevents JF from being scaled down if ALB targets aren't ready
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+    - subject: 'test: Ensure browser environment setup first for unit tests'
+      hash: 581e93194c691eb916109aeb6acd080263d60d65
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update Form import for Rendition V16.x
+      hash: d603bec51d3131f4bd3015862b9ce1197824fe86
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: patch Update dependency rendition to v16
+      hash: 558fcaab44da3d034137826f549da64bdc863831
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.88.11
+  date: 2020-07-30T17:59:03.289Z
+- commits:
     - subject: Spec template should be the default value for the product improvement
       hash: 9e5364ed3acaa225153c7e4e999a039d9da5ce27
       body: ''
