@@ -7,6 +7,7 @@
   ],
   "rangeStrategy": "bump",
   "commitMessagePrefix": "patch:",
+  "commitBody": "Change-type: patch",
   "prHourlyLimit": 0,
   "labels": [
     "dependencies"
