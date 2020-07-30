@@ -1,4 +1,45 @@
 - commits:
+    - subject: Restart balenaCI jobs when stuck
+      hash: 8fe2bce380f27bcb234149e6764fa9734f686af1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-metrics to ^0.0.23'
+      hash: 6b1df024eaed546d42a00f39542552cedbed4bc9
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: Unpin dependencies
+      hash: 31977fdfabec41907704fb7455ebee4376a96e31
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 3132c803f66974543e3662f084090f6e3e210b47
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 7abf46b4d3b3e186bc539975179b3d1a829a875b
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.88.9
+  date: 2020-07-30T10:00:29.656Z
+- commits:
     - subject: HTTP=>HTTPS redirect on AWS/ALB
       hash: b4ea7e167bbdfdd29d51bd681ebb32cc54953547
       body: |
