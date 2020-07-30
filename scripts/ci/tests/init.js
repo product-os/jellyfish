@@ -20,7 +20,7 @@ const {
 	execSync
 } = require('child_process')
 
-const RETRY_TIMEOUT = 120 * 1000
+const RETRY_TIMEOUT = 120
 const WATCH_TIMEOUT = 5 * 1000
 const RETRIES = 3
 const JF_DIR = '/usr/src/jellyfish'
@@ -88,7 +88,7 @@ const startJobs = (config) => {
 		job.complete = false
 		job.output = 0
 		job.retries = RETRIES
-		job.checked = getTimestamp()
+		job.updated = getTimestamp()
 		if (!job.depends_on) {
 			startJob(job)
 		}
@@ -154,7 +154,7 @@ const watchJobs = (jobs) => {
 
 		// Restart/kill a job if its output hasn't updated since last check
 		_.forOwn(jobs, (job, name) => {
-			if (getTimestamp() - job.checked >= RETRY_TIMEOUT &&
+			if (getTimestamp() - job.updated >= RETRY_TIMEOUT &&
 				!job.complete && job.required &&
 				previousOutputs[name] && previousOutputs[name] === job.output) {
 				if (job.retries > 0) {
@@ -165,7 +165,10 @@ const watchJobs = (jobs) => {
 				}
 			}
 
-			// Update previous output length data for next check
+			// Update previous output length and updated for next check
+			if (job.output > previousOutputs[name]) {
+				job.updated = getTimestamp()
+			}
 			previousOutputs[name] = job.output
 		})
 
@@ -204,7 +207,7 @@ const restartJob = (job) => {
 	console.log(`[${job.name}] No new output from job, restarting...`)
 	job.retries -= 1
 	job.output = 0
-	job.checked = getTimestamp()
+	job.updated = getTimestamp()
 	job.process.kill(0)
 	Reflect.deleteProperty(job, 'process')
 	return startJob(job)
