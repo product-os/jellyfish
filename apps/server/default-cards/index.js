@@ -44,6 +44,7 @@ module.exports = {
 	pattern: require('./contrib/pattern.js')(mixins),
 	ping: require('./contrib/ping.json'),
 	pipeline: require('./contrib/pipeline.json'),
+	milestone: require('./contrib/milestone.json'),
 	productImprovement: require('./contrib/product-improvement')(mixins),
 	product: require('./contrib/product.json'),
 	project: require('./contrib/project.json'),
