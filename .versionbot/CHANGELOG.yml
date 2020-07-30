@@ -1,4 +1,17 @@
 - commits:
+    - subject: Spec template should be the default value for the product improvement
+      hash: 9e5364ed3acaa225153c7e4e999a039d9da5ce27
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.88.10
+  date: 2020-07-30T10:59:00.204Z
+- commits:
     - subject: Restart balenaCI jobs when stuck
       hash: 8fe2bce380f27bcb234149e6764fa9734f686af1
       body: ''
