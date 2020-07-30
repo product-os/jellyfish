@@ -138,23 +138,11 @@ module.exports = async (context, options) => {
 			jellyfish.errors.JellyfishNoElement,
 			`Test org does not exist: ${environment.test.user.organization}`)
 
-		await jellyfish.replaceCard(
-			context, jellyfish.sessions.admin, {
-				type: 'link@1.0.0',
-				name: 'has member',
-				slug: `link-${orgCard.id}-has-member-${userCard.id}`,
-				data: {
-					inverseName: 'is member of',
-					from: {
-						id: orgCard.id,
-						type: orgCard.type
-					},
-					to: {
-						id: userCard.id,
-						type: userCard.type
-					}
-				}
-			})
+		await jellyfish.linkCards(context,
+			jellyfish.sessions.admin,
+			orgCard,
+			userCard,
+			'relationship-is-member-of-has-member@1.0.0')
 	}
 
 	logger.info(context, 'Configuring socket server')
