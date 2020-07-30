@@ -11,7 +11,7 @@ const BATCH_SIZE = 1000
 
 const relationshipCards = Object
 	.values(defaultCards)
-	.filter((card) => { return card.data.is_link === true })
+	.filter((card) => { return card.data.is_relationship === true })
 
 const SELECT_NEXT_BATCH_QUERY = `
 	SELECT
@@ -39,6 +39,9 @@ const updateQuery = (relationshipType, cardId) => {
 // Loop through the relationship cards and find a schema which matches the
 // provided card and return the subtype.
 const findMatchingRelationship = (card) => {
+	// Force the `is_link` property to true so that the schema can match.
+	card.data.is_link = true
+
 	const match = relationshipCards.find((relationship) => {
 		return skhema.isValid(relationship.data.schema, card)
 	})

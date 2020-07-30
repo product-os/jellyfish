@@ -140,6 +140,8 @@ module.exports = {
 	relationshipIsAttachedToHasAttached: require('./relationships/relationship-is-attached-to-has-attached')(mixins),
 	relationshipIsAttachedToHasAttachedContact:
 		require('./relationships/relationship-is-attached-to-has-attached-contact')(mixins),
+	relationshipIsAttachedToHasAttachedElement:
+		require('./relationships/relationship-is-attached-to-has-attached-element')(mixins),
 	relationshipIsAttendedByAttended: require('./relationships/relationship-is-attended-by-attended')(mixins),
 	relationshipIsBackupOwnerOfHasBackupOwner:
 		require('./relationships/relationship-is-backup-owner-of-has-backup-owner')(mixins),
