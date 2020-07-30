@@ -25,15 +25,18 @@ import {
 	MemoryRouter
 } from 'react-router-dom'
 import configureStore from 'redux-mock-store'
+import {
+	CacheProvider
+} from '@emotion/core'
+import createCache from '@emotion/cache'
 
 import Adapter from 'enzyme-adapter-react-16'
+
+const emotionCache = createCache({})
 
 configure({
 	adapter: new Adapter()
 })
-
-const browserEnv = require('browser-env')
-browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement', 'NodeFilter', 'NodeList', 'File', 'Blob' ])
 
 const middlewares = []
 const mockStore = configureStore(middlewares)
@@ -79,15 +82,17 @@ export const getWrapper = (initialState = {}) => {
 			children
 		}) => {
 			return (
-				<MemoryRouter>
-					<ReduxProvider store={store}>
-						<Provider>
-							<DndProvider backend={HTML5Backend}>
-								{children}
-							</DndProvider>
-						</Provider>
-					</ReduxProvider>
-				</MemoryRouter>
+				<CacheProvider value={emotionCache}>
+					<MemoryRouter>
+						<ReduxProvider store={store}>
+							<Provider>
+								<DndProvider backend={HTML5Backend}>
+									{children}
+								</DndProvider>
+							</Provider>
+						</ReduxProvider>
+					</MemoryRouter>
+				</CacheProvider>
 			)
 		}
 	}

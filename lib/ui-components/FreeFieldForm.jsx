@@ -14,11 +14,9 @@ import {
 	Flex,
 	Input,
 	Select,
-	Txt
-} from 'rendition'
-import {
+	Txt,
 	Form
-} from 'rendition/dist/unstable'
+} from 'rendition'
 
 // TODO: This ui-components -> ui import should not happen
 import Icon from './shame/Icon'

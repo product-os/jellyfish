@@ -48,6 +48,7 @@
       "apps/**/*.spec.{js,jsx}"
     ],
     "require": [
+      "./test/browser-setup",
       "./test/register",
       "./test/max-listeners"
     ]
@@ -122,6 +123,8 @@
     "@balena/jellyfish-sync": "^0.0.24",
     "@balena/jellyfish-uuid": "^0.0.21",
     "@balena/jellyfish-worker": "^0.0.12",
+    "@emotion/cache": "^10.0.29",
+    "@emotion/core": "^10.0.28",
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.0",
     "@octokit/rest": "^18.0.3",
@@ -209,7 +212,7 @@
     "redux-mock-store": "^1.5.4",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rendition": "^15.4.2",
+    "rendition": "^16.1.3",
     "response-time": "^2.3.2",
     "semver": "^7.3.2",
     "skhema": "^5.3.0",

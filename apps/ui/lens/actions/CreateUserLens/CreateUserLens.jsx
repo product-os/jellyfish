@@ -11,13 +11,11 @@ import {
 	Button,
 	Flex,
 	Heading,
-	Txt
+	Txt,
+	Form
 } from 'rendition'
 import * as helpers from '../../../../../lib/ui-components/services/helpers'
 import * as skhema from 'skhema'
-import {
-	Form
-} from 'rendition/dist/unstable'
 import Icon from '../../../../../lib/ui-components/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 
