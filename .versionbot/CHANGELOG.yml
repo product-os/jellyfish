@@ -1,4 +1,17 @@
 - commits:
+    - subject: Define milestone card
+      hash: 849416050db6d7147f37483a1dd3355726106657
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.89.0
+  date: 2020-07-30T18:51:20.704Z
+- commits:
     - subject: Adds readinessGate check to JF API
       hash: 37d0777703f36c41895defec5c2844d16db16ce6
       body: |
