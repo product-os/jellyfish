@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Livechat & UI: Adjust healthcheck interval.'
+      hash: ba133594f0c2277890b8c2f4a55e2d5ec2edc325
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 30.89.2
+  date: 2020-07-31T04:41:33.909Z
+- commits:
     - subject: Adds ALB ingress(s)
       hash: b965debc386ec4487965cf4399f0e4a7d6184628
       body: |
