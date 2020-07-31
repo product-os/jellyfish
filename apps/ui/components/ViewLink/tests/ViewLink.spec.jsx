@@ -25,7 +25,7 @@ ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
 			<ViewLink
-				user={user}
+				userSlug={user.slug}
 				card={view}
 			/>
 		)
@@ -39,7 +39,7 @@ ava('removeView action called when \'Delete this view\' button pressed and actio
 	const component =	await mount(
 		<ViewLink
 			isActive
-			user={user}
+			userSlug={user.slug}
 			card={customView}
 			actions={actions}
 		/>
@@ -67,7 +67,7 @@ ava('\'Delete this view\' button not shown if view is not a valid custom view', 
 	const component =	await mount(
 		<ViewLink
 			isActive
-			user={user}
+			userSlug={user.slug}
 			card={view}
 			actions={actions}
 		/>
@@ -90,7 +90,7 @@ ava('\'setDefault\' action called with view as arg when \'Set as default\' conte
 		<ViewLink
 			isActive
 			isHomeView={false}
-			user={user}
+			userSlug={user.slug}
 			card={customView}
 			actions={actions}
 		/>
@@ -117,7 +117,7 @@ ava('\'setDefault\' action called with null as arg when \'Unset as default\' con
 		<ViewLink
 			isActive
 			isHomeView
-			user={user}
+			userSlug={user.slug}
 			card={customView}
 			actions={actions}
 		/>

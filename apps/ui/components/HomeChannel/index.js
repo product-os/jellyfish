@@ -15,6 +15,7 @@ import {
 import {
 	withTheme
 } from 'styled-components'
+import memoize from 'memoize-one'
 import {
 	actionCreators,
 	selectors
@@ -24,8 +25,12 @@ import {
 } from '../../../../lib/ui-components/hooks/ResponsiveProvider'
 import HomeChannel from './HomeChannel'
 
+const getTarget = memoize((channel) => {
+	return _.get(channel, [ 'data', 'head', 'id' ])
+})
+
 const mapStateToProps = (state, ownProps) => {
-	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
+	const target = getTarget(ownProps.channel)
 	const user = selectors.getCurrentUser(state)
 	return {
 		channels: selectors.getChannels(state),
@@ -35,7 +40,7 @@ const mapStateToProps = (state, ownProps) => {
 		types: selectors.getTypes(state),
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
-		expandedItems: selectors.getSidebarExpandedItems(state),
+		starredViews: selectors.getStarredViews(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 		user,
 		homeView: selectors.getHomeView(state),

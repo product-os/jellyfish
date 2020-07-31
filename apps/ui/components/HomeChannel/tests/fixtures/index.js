@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import user from './user.json'
 export {
 	default as channel
 } from './channel.json'
@@ -16,3 +17,5 @@ export {
 export {
 	default as uiState
 } from './ui_state.json'
+
+export const starredViews = user.data.profile.starredViews

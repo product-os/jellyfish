@@ -162,7 +162,10 @@ export const selectors = {
 	getGroups: (state) => { return state.core.groups },
 	getMyGroupNames: (state) => { return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name') },
 	getUIState: (state) => { return state.ui },
-	getSidebarExpandedItems: (state) => { return _.get(state.ui, [ 'sidebar', 'expanded' ], []) },
+	getSidebarIsExpanded: (state, name) => {
+		const expandedItems = _.get(state.ui, [ 'sidebar', 'expanded' ], [])
+		return _.includes(expandedItems, name)
+	},
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.ui, [ 'lensState', lensSlug, cardId ], {})
 	},
@@ -174,13 +177,17 @@ export const selectors = {
 	// View specific selectors
 	getViewData: (state, query, options = {}) => {
 		const tail = state.views.viewData[options.viewId || getViewId(query)]
-		return tail ? tail.slice() : null
+		return tail || null
 	},
 	getSubscription: (state, id) => {
 		return state.views.subscriptions[id] || null
 	},
 	getSubscriptions: (state) => {
 		return state.views.subscriptions || {}
+	},
+	getStarredViews: (state) => {
+		const user = selectors.getCurrentUser(state)
+		return _.get(user, [ 'data', 'profile', 'starredViews' ], [])
 	},
 	getUsersViewLens: (state, viewId) => {
 		const user = selectors.getCurrentUser(state)
@@ -457,15 +464,18 @@ export default class ActionCreator {
 		}
 	}
 
-	setSidebarExpanded (expandedItems) {
+	setSidebarExpanded (name, isExpanded) {
 		return (dispatch, getState) => {
 			const uiState = selectors.getUIState(getState())
+			const newExpandedItems = isExpanded
+				? uiState.sidebar.expanded.concat([ name ])
+				: _.without(uiState.sidebar.expanded, name)
 			return dispatch({
 				type: actions.SET_UI_STATE,
 				value: immutableUpdate(uiState, {
 					sidebar: {
 						expanded: {
-							$set: expandedItems
+							$set: newExpandedItems
 						}
 					}
 				})
@@ -1081,7 +1091,7 @@ export default class ActionCreator {
 		return async (dispatch, getState) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
-				if (!helpers.isCustomView(view, user)) {
+				if (!helpers.isCustomView(view, user.slug)) {
 					dispatch(this.addNotification('danger', 'You do not have permission to delete this view'))
 					return
 				}
