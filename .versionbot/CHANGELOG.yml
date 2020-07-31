@@ -1,4 +1,17 @@
 - commits:
+    - subject: Removes legacy ELB services
+      hash: b0efe071f3f68e07fbf01a1a61dd6e309943bff8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+  version: 30.89.4
+  date: 2020-07-31T14:58:36.654Z
+- commits:
     - subject: Fix how we check whether we have recieved new events on timeline scroll
       hash: 5a5191a1c4dd1e3bf05cd8921c254f638523ff43
       body: ''
