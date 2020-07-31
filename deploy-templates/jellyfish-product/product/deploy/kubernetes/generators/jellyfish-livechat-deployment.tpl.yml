@@ -17,8 +17,7 @@ spec:
     spec:
       readinessGates:
       # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/
-      # (TBC) rename to target-health.alb.ingress.k8s.aws/jellyfish-livechat_jellyfish-livechat_80 after DNS change to ALB
-      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-livechat_jellyfish-livechat-clusterip_80
+      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-livechat_jellyfish-livechat_80
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-livechat.data.assets.image.url%>>
         name: jellyfish-livechat
