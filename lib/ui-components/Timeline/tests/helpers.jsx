@@ -67,7 +67,8 @@ const createTestContext = (test, sandbox) => {
 	}
 
 	const user = {
-		id: 'fake-user-id'
+		id: 'fake-user-id',
+		slug: 'user-fakeuser'
 	}
 
 	const getActor = sandbox.stub()

@@ -61,6 +61,12 @@ const getWithTimeline = async (sdk, card, queryOptions) => {
 	return _.compact(newEvents)
 }
 
+const getFreshPendingMessages = (tail, pendingMessages) => {
+	return _.filter(pendingMessages, (pending) => {
+		return !_.find(tail, [ 'slug', pending.slug ])
+	})
+}
+
 class Timeline extends React.Component {
 	constructor (props) {
 		super(props)
@@ -86,7 +92,6 @@ class Timeline extends React.Component {
 		this.scrollToBottom = this.scrollToBottom.bind(this)
 		this.scrollToEvent = this.scrollToEvent.bind(this)
 		this.handleScrollBeginning = this.handleScrollBeginning.bind(this)
-		this.refreshPendingMessages = this.refreshPendingMessages.bind(this)
 		this.retrieveFullTimelime = this.retrieveFullTimeline.bind(this)
 		this.handleCardVisible = this.handleCardVisible.bind(this)
 		this.toggleWhisper = this.toggleWhisper.bind(this)
@@ -124,10 +129,18 @@ class Timeline extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		const updatedEvents = !circularDeepEqual(prevProps.tail, this.props.tail)
+		const {
+			pendingMessages
+		} = this.state
+		const {
+			tail
+		} = this.props
+		const updatedEvents = !circularDeepEqual(prevProps.tail, tail)
+		const newMessages = tail.length > prevProps.tail.length
 		if (updatedEvents) {
 			this.setState({
-				events: this.props.tail
+				events: tail,
+				pendingMessages: newMessages ? getFreshPendingMessages(tail, pendingMessages) : pendingMessages
 			})
 		}
 	}
@@ -361,7 +374,6 @@ class Timeline extends React.Component {
 
 		this.props.sdk.event.create(message)
 			.then(() => {
-				this.refreshPendingMessages(message)
 				this.props.analytics.track('element.create', {
 					element: {
 						type: message.type
@@ -382,16 +394,6 @@ class Timeline extends React.Component {
 	scrollToBottom () {
 		this.timelineEnd.current.scrollIntoView({
 			behavior: 'smooth'
-		})
-	}
-
-	refreshPendingMessages (message) {
-		const {
-			pendingMessages
-		} = this.state
-		const cleanPendingMessages = _.remove(pendingMessages, message.slug === 'slug')
-		this.setState({
-			pendingMessages: cleanPendingMessages
 		})
 	}
 
