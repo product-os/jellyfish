@@ -17,8 +17,7 @@ spec:
     spec:
       readinessGates:
       # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/
-      # (TBC) rename to target-health.alb.ingress.k8s.aws/jellyfish-ui_jellyfish-ui_80 after DNS change to ALB
-      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-ui_jellyfish-ui-clusterip_80
+      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-ui_jellyfish-ui_80
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-ui.data.assets.image.url%>>
         name: jellyfish-ui
