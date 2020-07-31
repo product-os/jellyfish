@@ -1,3 +1,5 @@
+---
+# (TBC) remove jellyfish-livechat service after DNS change to ALB
 apiVersion: v1
 kind: Service
 metadata:
@@ -29,3 +31,19 @@ spec:
       targetPort: 80
       protocol: TCP
       name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    # (TBC) rename to jellyfish-livechat after DNS change to ALB
+    name: jellyfish-livechat-clusterip
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
+  # (TBC) rename to jellyfish-livechat after DNS change to ALB
+  name: jellyfish-livechat-clusterip
+spec:
+  selector:
+    app: jellyfish-livechat
+  ports:
+  - port: 80
+  sessionAffinity: ClientIP
