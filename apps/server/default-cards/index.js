@@ -106,6 +106,7 @@ module.exports = {
 	viewAllContacts: require('./balena/view-all-contacts.json'),
 	viewAllCustomers: require('./balena/view-all-customers.json'),
 	viewAllFaqs: require('./balena/view-all-faqs.json'),
+	viewAllGroups: require('./balena/view-all-groups.json'),
 	viewAllIssues: require('./balena/view-all-issues.json'),
 	viewAllJellyfishSupportThreads: require('./balena/view-all-jellyfish-support-threads.json'),
 	viewAllMessages: require('./balena/view-all-messages.json'),
