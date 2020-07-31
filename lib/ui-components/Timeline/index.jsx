@@ -422,7 +422,8 @@ class Timeline extends React.Component {
 			hideWhispers,
 			loadingMoreEvents,
 			reachedBeginningOfTimeline,
-			ready
+			ready,
+			uploadingFiles
 		} = this.state
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in events
@@ -470,6 +471,7 @@ class Timeline extends React.Component {
 					<InfiniteList
 						fillMaxArea
 						onScrollBeginning={!reachedBeginningOfTimeline && ready && this.handleScrollBeginning}
+						processing={loadingMoreEvents}
 					>
 						<div ref={this.timelineStart} />
 						{ reachedBeginningOfTimeline && <TimelineStart />}
@@ -480,7 +482,7 @@ class Timeline extends React.Component {
 							getActor={getActor}
 							hideWhispers={hideWhispers}
 							sortedEvents={sortedEvents}
-							uploadingFiles={this.state.uploadingFiles}
+							uploadingFiles={uploadingFiles}
 							messagesOnly={messagesOnly}
 						/>
 						<PendingMessages
