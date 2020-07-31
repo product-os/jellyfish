@@ -8,6 +8,7 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import classnames from 'classnames'
+import memoize from 'memoize-one'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -197,6 +198,11 @@ const cleanPath = (location) => {
 	// React-router sometimes appends a stray '.' to the end of the pathname!
 	return location.pathname.replace(/\.$/, '')
 }
+
+const viewLinkActionNames = [ 'setDefault', 'removeView', 'setViewStarred' ]
+const treeMenuActionNames = [ 'setDefault', 'removeView', 'setViewStarred' ]
+const pickViewLinkActions = memoize(_.pick)
+const pickTreeMenuActions = memoize(_.pick)
 
 export default class HomeChannel extends React.Component {
 	constructor (props) {
@@ -494,8 +500,8 @@ export default class HomeChannel extends React.Component {
 			mentions
 		} = this.props
 
-		const viewLinkActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
-		const treeMenuActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
+		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames)
+		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames)
 
 		const {
 			showDrawer,

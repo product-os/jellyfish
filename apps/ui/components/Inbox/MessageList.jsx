@@ -12,6 +12,7 @@ import {
 import {
 	withRouter
 } from 'react-router-dom'
+import memoize from 'memoize-one'
 import {
 	bindActionCreators,
 	compose
@@ -37,6 +38,9 @@ const MessageListColumn = styled(Column) `
 	min-height: 0;
 	height: auto;
 `
+
+const eventActionNames = [ 'addNotification' ]
+const pickEventActions = memoize(_.pick)
 
 class MessageList extends React.Component {
 	constructor (props) {
@@ -123,7 +127,7 @@ class MessageList extends React.Component {
 			tail.reverse()
 		}
 
-		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+		const eventActions = pickEventActions(this.props.actions, eventActionNames)
 
 		return (
 			<MessageListColumn flex="1">

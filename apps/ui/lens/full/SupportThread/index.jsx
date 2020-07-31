@@ -9,6 +9,7 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import * as _ from 'lodash'
+import memoize from 'memoize-one'
 import React from 'react'
 import {
 	connect
@@ -80,6 +81,9 @@ const getHighlights = (card) => {
 		return _.get(item, [ 'data', 'payload', 'message' ])
 	})
 }
+
+const eventActionNames = [ 'addNotification' ]
+const pickEventActions = memoize(_.pick)
 
 class SupportThreadBase extends React.Component {
 	constructor (props) {
@@ -318,7 +322,7 @@ class SupportThreadBase extends React.Component {
 		const mirrors = _.get(card, [ 'data', 'mirrors' ])
 		const isMirrored = !_.isEmpty(mirrors)
 
-		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+		const eventActions = pickEventActions(this.props.actions, eventActionNames)
 
 		const statusDescription = _.get(card, [ 'data', 'statusDescription' ])
 
