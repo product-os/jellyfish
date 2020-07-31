@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -327,13 +326,17 @@ export default class HomeChannel extends React.Component {
 
 	toggleExpandGroup (event) {
 		const name = event.currentTarget.dataset.groupname
-		const state = clone(this.props.uiState)
+		const {
+			actions: {
+				setSidebarExpanded
+			},
+			expandedItems
+		} = this.props
 		if (this.isExpanded(name)) {
-			state.sidebar.expanded = _.without(state.sidebar.expanded, name)
+			setSidebarExpanded(_.without(expandedItems, name))
 		} else {
-			state.sidebar.expanded.push(name)
+			setSidebarExpanded(expandedItems.concat([ name ]))
 		}
-		this.props.actions.setUIState(state)
 	}
 
 	showMenu () {
@@ -447,12 +450,12 @@ export default class HomeChannel extends React.Component {
 				if (
 					(prevProps.channels.length === 2 && this.props.channels.length === 1) ||
 					(prevPath !== '/' && currentPath === '/') ||
-					(currentPath === '/' && prevProps.uiState.chatWidget.open && !this.props.uiState.chatWidget.open)
+					(currentPath === '/' && prevProps.isChatWidgetOpen && !this.props.isChatWidgetOpen)
 				) {
 					this.showDrawer()
 				} else if (
 					(prevPath !== currentPath) ||
-					(this.props.uiState.chatWidget.open && !prevProps.uiState.chatWidget.open)
+					(this.props.isChatWidgetOpen && !prevProps.isChatWidgetOpen)
 				) {
 					this.hideDrawer()
 				}
@@ -471,7 +474,7 @@ export default class HomeChannel extends React.Component {
 	}
 
 	isExpanded (name) {
-		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
+		return _.includes(this.props.expandedItems, name)
 	}
 
 	render () {
@@ -487,7 +490,7 @@ export default class HomeChannel extends React.Component {
 			},
 			location,
 			user,
-			uiState,
+			isChatWidgetOpen,
 			mentions
 		} = this.props
 
@@ -517,7 +520,7 @@ export default class HomeChannel extends React.Component {
 		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
-		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || uiState.chatWidget.open)
+		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || isChatWidgetOpen)
 
 		const grabHandleProps = isiOS() ? {
 			onClick: this.toggleDrawerIOS

@@ -7,6 +7,7 @@
 /* eslint-disable class-methods-use-this */
 
 import * as Bluebird from 'bluebird'
+import immutableUpdate from 'immutability-helper'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
 import {
@@ -161,6 +162,7 @@ export const selectors = {
 	getGroups: (state) => { return state.core.groups },
 	getMyGroupNames: (state) => { return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name') },
 	getUIState: (state) => { return state.ui },
+	getSidebarExpandedItems: (state) => { return _.get(state.ui, [ 'sidebar', 'expanded' ], []) },
 	getLensState: (state, lensSlug, cardId) => {
 		return _.get(state.ui, [ 'lensState', lensSlug, cardId ], {})
 	},
@@ -259,7 +261,7 @@ export default class ActionCreator {
 			'setTimelineMessage',
 			'setTypes',
 			'setGroups',
-			'setUIState',
+			'setSidebarExpanded',
 			'setLensState',
 			'setUser',
 			'setViewData',
@@ -455,10 +457,19 @@ export default class ActionCreator {
 		}
 	}
 
-	setUIState (state) {
-		return {
-			type: actions.SET_UI_STATE,
-			value: state
+	setSidebarExpanded (expandedItems) {
+		return (dispatch, getState) => {
+			const uiState = selectors.getUIState(getState())
+			return dispatch({
+				type: actions.SET_UI_STATE,
+				value: immutableUpdate(uiState, {
+					sidebar: {
+						expanded: {
+							$set: expandedItems
+						}
+					}
+				})
+			})
 		}
 	}
 

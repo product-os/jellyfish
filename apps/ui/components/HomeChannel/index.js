@@ -35,7 +35,8 @@ const mapStateToProps = (state, ownProps) => {
 		types: selectors.getTypes(state),
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
-		uiState: selectors.getUIState(state),
+		expandedItems: selectors.getSidebarExpandedItems(state),
+		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 		user,
 		homeView: selectors.getHomeView(state),
 		version: selectors.getAppVersion(state),
@@ -56,7 +57,7 @@ const mapDispatchToProps = (dispatch) => {
 				'removeView',
 				'setChatWidgetOpen',
 				'setDefault',
-				'setUIState',
+				'setSidebarExpanded',
 				'setViewStarred',
 				'streamView'
 			]), dispatch)
