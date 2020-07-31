@@ -21,9 +21,8 @@ metadata:
     alb.ingress.kubernetes.io/ssl-policy: ELBSecurityPolicy-TLS-1-2-2017-01
     alb.ingress.kubernetes.io/target-group-attributes: deregistration_delay.timeout_seconds=60
     alb.ingress.kubernetes.io/target-type: ip
-    # (TBC) uncomment after DNS change to ALB
-    #external-dns.alpha.kubernetes.io/hostname: '{{{JELLYFISH_HOST}}}'
-    #external-dns.alpha.kubernetes.io/ttl: "120"
+    external-dns.alpha.kubernetes.io/hostname: '{{{JELLYFISH_HOST}}}'
+    external-dns.alpha.kubernetes.io/ttl: "120"
     kubernetes.io/ingress.class: alb
 spec:
   rules:
@@ -36,5 +35,5 @@ spec:
           servicePort: use-annotation
       - path: /*
         backend:
-          serviceName: jellyfish-ui-clusterip
+          serviceName: jellyfish-ui
           servicePort: 80
