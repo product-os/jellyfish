@@ -1,4 +1,23 @@
 - commits:
+    - subject: Fix how we check whether we have recieved new events on timeline scroll
+      hash: 5a5191a1c4dd1e3bf05cd8921c254f638523ff43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to v2'
+      hash: e507be5ba5dd7a44e2d34e45ce848197ab4aad3a
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.89.3
+  date: 2020-07-31T13:16:35.662Z
+- commits:
     - subject: 'Livechat & UI: Adjust healthcheck interval.'
       hash: ba133594f0c2277890b8c2f4a55e2d5ec2edc325
       body: ''
