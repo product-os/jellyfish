@@ -117,6 +117,11 @@ module.exports = ({
 						title: 'Patterns',
 						link: 'is attached to',
 						type: 'pattern'
+					},
+					{
+						title: 'Milestones',
+						link: 'has attached',
+						type: 'milestone'
 					}
 				]
 			}

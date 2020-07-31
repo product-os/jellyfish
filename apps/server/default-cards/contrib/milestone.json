@@ -17,6 +17,15 @@
         }
       },
       "required": ["name"]
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Product improvement",
+          "link": "is attached to",
+          "type": "product-improvement"
+        }
+      ]
     }
   },
   "requires": [],
