@@ -1,4 +1,20 @@
 - commits:
+    - subject: Adds ALB ingress(s)
+      hash: b965debc386ec4487965cf4399f0e4a7d6184628
+      body: |
+        * adds livechat AWS/ALB ingress
+        * adds ui AWS/ALB ingress
+        * adds temporary clusterIP services
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+  version: 30.89.1
+  date: 2020-07-30T21:57:13.879Z
+- commits:
     - subject: Define milestone card
       hash: 849416050db6d7147f37483a1dd3355726106657
       body: ''
