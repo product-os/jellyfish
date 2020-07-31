@@ -19,7 +19,6 @@ export class InfiniteList extends React.Component {
 	constructor (props, context) {
 		super(props, context)
 
-		this.processing = false
 		this.handleRef = this.handleRef.bind(this)
 		this.handleScroll = this.handleScroll.bind(this)
 		this.queryForMoreIfNecessary = this.queryForMoreIfNecessary.bind(this)
@@ -43,14 +42,15 @@ export class InfiniteList extends React.Component {
 		}
 	}
 
-	async queryForMoreIfNecessary () {
-		if (this.processing) {
-			return
-		}
+	queryForMoreIfNecessary () {
 		const {
 			onScrollBeginning,
-			onScrollEnding
+			onScrollEnding,
+			processing
 		} = this.props
+		if (processing) {
+			return
+		}
 		const {
 			clientHeight,
 			scrollHeight
@@ -58,26 +58,22 @@ export class InfiniteList extends React.Component {
 		const noScrollBar = clientHeight === scrollHeight
 		if (noScrollBar) {
 			if (onScrollBeginning) {
-				this.processing = true
-				await onScrollBeginning()
-				this.processing = false
+				onScrollBeginning()
 			}
 			if (onScrollEnding) {
-				this.processing = true
-				await onScrollEnding()
-				this.processing = false
+				onScrollEnding()
 			}
 		}
 	}
 
-	async handleScroll () {
+	handleScroll () {
 		const {
 			processing,
 			onScrollBeginning,
 			onScrollEnding,
 			triggerOffset
 		} = this.props
-		if (this.processing || processing) {
+		if (processing) {
 			return
 		}
 		const {
@@ -87,9 +83,7 @@ export class InfiniteList extends React.Component {
 		} = this.scrollArea
 
 		if (scrollTop < triggerOffset && onScrollBeginning) {
-			this.processing = true
-			await onScrollBeginning()
-			this.processing = false
+			onScrollBeginning()
 		}
 
 		const scrollOffset = scrollHeight - (scrollTop + offsetHeight)
@@ -99,9 +93,7 @@ export class InfiniteList extends React.Component {
 		}
 
 		if (onScrollEnding) {
-			this.processing = true
-			await onScrollEnding()
-			this.processing = false
+			onScrollEnding()
 		}
 	}
 
