@@ -1,4 +1,17 @@
 - commits:
+    - subject: Finish renaming readiness gates to match service names
+      hash: b3335870a246b0d898d136a73d31ff1c12728a94
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: ab77 <anton@balena.io>
+        signed-off-by: ab77 <anton@balena.io>
+      author: ab77
+      nested: []
+  version: 30.89.5
+  date: 2020-07-31T16:36:55.056Z
+- commits:
     - subject: Removes legacy ELB services
       hash: b0efe071f3f68e07fbf01a1a61dd6e309943bff8
       body: ''
