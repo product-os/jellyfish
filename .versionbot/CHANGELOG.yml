@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Add view to show all chat groups'
+      hash: 19c3f763485712f067429ed3dcceb6f9118494b1
+      body: |
+        Appears under the namespace 'Comms'
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.90.0
+  date: 2020-08-03T13:01:33.668Z
+- commits:
     - subject: Fix how we cleanup pending messages once the stream returns the message
       hash: 4588e2ef6a8514434d0d7b92177023242a09b560
       body: ''
