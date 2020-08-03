@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix how we cleanup pending messages once the stream returns the message
+      hash: 4588e2ef6a8514434d0d7b92177023242a09b560
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 30.89.7
+  date: 2020-08-03T10:13:02.153Z
+- commits:
     - subject: 'perf: Reduce re-renders within HomeChannel'
       hash: 0990e7445f53837ad32acd1511cfbf30db3acd78
       body: >
