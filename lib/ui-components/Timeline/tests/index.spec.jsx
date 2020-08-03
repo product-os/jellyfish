@@ -193,3 +193,56 @@ ava('getWithTimeline is used to get all the events for the timeline when' +
 		}
 	} ] ])
 })
+
+ava('A message is not removed from the pendingMessage list until it has been added to the tail', async (test) => {
+	const {
+		eventProps
+	} = test.context
+
+	const createMessage = sandbox.stub()
+	createMessage.resolves()
+
+	const addNotification = sandbox.stub()
+	addNotification.resolves()
+
+	const wrapper = await mount(
+		<Timeline
+			{...eventProps}
+			setTimelineMessage={_.noop}
+			tail={[]}
+			sdk={{
+				event: {
+					create: createMessage
+				}
+			}
+			}
+			addNotification={addNotification}
+		/>, {
+			wrappingComponent: wrapperWithSetup,
+			wrappingComponentProps: {
+				sdk: eventProps.sdk
+			}
+		})
+
+	const timeline = wrapper
+		.childAt(0)
+		.instance()
+
+	await timeline.addMessage({
+		preventDefault: _.noop,
+		target: {
+			value: 'Here is a new message'
+		}
+	})
+
+	const pendingMessages = timeline.state.pendingMessages
+	test.is(pendingMessages.length, 1)
+
+	// Simulate the stream returning the pending message as part of the tail
+	wrapper.setProps({
+		tail: [ pendingMessages[0] ]
+	})
+
+	const updatedPendingMessages = timeline.state.pendingMessages
+	test.is(updatedPendingMessages.length, 0)
+})
