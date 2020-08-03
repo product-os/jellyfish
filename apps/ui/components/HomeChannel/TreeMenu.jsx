@@ -7,34 +7,49 @@
 import * as _ from 'lodash'
 import React from 'react'
 import {
+	useSelector
+} from 'react-redux'
+import {
 	Box,
 	Button,
 	Flex
 } from 'rendition'
+import {
+	selectors
+} from '../../core'
 import ViewLink from '../ViewLink'
 import Icon from '../../../../lib/ui-components/shame/Icon'
 
-const TreeMenu = (props) => {
-	const {
-		subscriptions,
-		types,
-		user,
-		actions,
-		node
-	} = props
+const TreeMenu = ({
+	activeChannel,
+	viewNotices,
+	subscriptions,
+	userSlug,
+	open,
+	actions,
+	node
+}) => {
+	const isExpandedSelector = (state) => {
+		return selectors.getSidebarIsExpanded(state, node.name)
+	}
+	const isExpanded = node.key === 'root' || useSelector(isExpandedSelector)
+
+	const toggleExpandGroup = React.useCallback(() => {
+		actions.setSidebarExpanded(node.name, !isExpanded)
+	}, [ isExpanded, node.name, actions.setSidebarExpanded ])
+
 	if (!node.children.length && node.card) {
 		const card = node.card
 
-		const activeChannelTarget = _.get(props.activeChannel, [ 'data', 'target' ])
+		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const isActive = card.slug === activeChannelTarget ||
 			card.id === activeChannelTarget
-		const activeSlice = _.get(props.activeChannel, [ 'data', 'options', 'slice' ])
-		const update = props.viewNotices[card.id]
+		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
+		const update = viewNotices[card.id]
 		return (
 			<ViewLink
-				user={user}
+				userSlug={userSlug}
 				subscription={subscriptions[card.id] || null}
-				types={types}
 				actions={actions}
 				key={card.id}
 				card={card}
@@ -43,12 +58,10 @@ const TreeMenu = (props) => {
 				isStarred={node.isStarred}
 				activeSlice={activeSlice}
 				update={update}
-				open={props.open}
+				open={open}
 			/>
 		)
 	}
-
-	const isExpanded = node.key === 'root' || props.isExpanded(node.name)
 
 	return (
 		<Box key={node.key} data-test={`home-channel__group${node.key}`}>
@@ -62,7 +75,7 @@ const TreeMenu = (props) => {
 					data-groupname={node.name}
 					data-expanded={isExpanded}
 					data-test={`home-channel__group-toggle--${node.key}`}
-					onClick={props.toggleExpandGroup}
+					onClick={toggleExpandGroup}
 				>
 					<Flex width="100%" justifyContent="space-between" alignItems="center">
 						{node.name}
@@ -80,17 +93,14 @@ const TreeMenu = (props) => {
 				{node.children.map((child) => {
 					return (
 						<TreeMenu
-							user={user}
+							userSlug={userSlug}
 							subscriptions={subscriptions}
-							types={types}
 							actions={actions}
 							key={child.key}
 							node={child}
-							isExpanded={props.isExpanded}
-							toggleExpandGroup={props.toggleExpandGroup}
-							activeChannel={props.activeChannel}
-							viewNotices={props.viewNotices}
-							open={props.open}
+							activeChannel={activeChannel}
+							viewNotices={viewNotices}
+							open={open}
 						/>
 					)
 				})}

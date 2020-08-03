@@ -96,11 +96,11 @@ export default class ViewLink extends React.Component {
 			card,
 			isActive,
 			isStarred,
-			user,
+			userSlug,
 			update
 		} = this.props
 
-		const isCustomView = helpers.isCustomView(card, user)
+		const isCustomView = helpers.isCustomView(card, userSlug)
 
 		return (
 			<Box>

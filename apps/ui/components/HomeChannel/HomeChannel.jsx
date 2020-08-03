@@ -4,11 +4,11 @@
  * Proprietary and confidential.
  */
 
-import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
 import classnames from 'classnames'
+import memoize from 'memoize-one'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -140,9 +140,9 @@ const DEFAULT_VIEWS = [
 	'view-my-orgs'
 ]
 
-const getStarredViews = _.memoize((user) => {
+const getStarredViews = memoize((starredViews) => {
 	return _.reduce(
-		_.get(user, [ 'data', 'profile', 'starredViews' ], []),
+		starredViews,
 		(acc, viewSlug) => {
 			acc[viewSlug] = true
 			return acc
@@ -199,6 +199,89 @@ const cleanPath = (location) => {
 	return location.pathname.replace(/\.$/, '')
 }
 
+const groupViews = memoize((tail, usersStarredViews, userSlug, productOS, orgs) => {
+	const sortedTail = _.sortBy(tail, 'name')
+	const groups = {
+		defaults: [],
+		main: {
+			name: null,
+			key: 'root',
+			children: []
+		}
+	}
+
+	const userStarredViews = getStarredViews(usersStarredViews)
+
+	// Sorty by name, then sort the priority views to the top
+	const [ defaults, nonDefaults ] = _.partition(sortedTail, (view) => {
+		return _.includes(DEFAULT_VIEWS, view.slug)
+	})
+	groups.defaults = defaults
+
+	const starredViews = []
+	const addToStarredViewsIfStarred = (view) => {
+		if (userStarredViews[view.slug]) {
+			starredViews.push(view)
+		}
+	}
+	_.forEach(productOS, addToStarredViewsIfStarred)
+	_.forEach(sortedTail, addToStarredViewsIfStarred)
+
+	if (starredViews.length) {
+		const starredViewsTree = viewsToTree(userStarredViews, starredViews, {
+			name: 'Starred',
+			key: '__starredViews'
+		}, false)
+		groups.main.children.push(starredViewsTree)
+	}
+
+	// Add the productOS comms rooms to the top of the sidebar
+	// TODO: Replace this with a fully fledged loop mapping once the loop
+	// structure becomes concrete.
+	groups.main.children.push({
+		name: 'productOS',
+		key: 'product-os',
+		children: (productOS || []).map((item) => {
+			return {
+				name: item.name.replace(/^.*\//, ''),
+				key: item.slug,
+				card: item,
+				isStarred: false,
+				children: []
+			}
+		})
+	})
+
+	const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
+		return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, userSlug)
+	})
+	if (myViews.length) {
+		groups.main.children.push(viewsToTree(userStarredViews, myViews, {
+			name: 'My views',
+			key: '__myViews'
+		}))
+	}
+	const remaining = _.groupBy(otherViews, 'markers[0]')
+	_.forEach(remaining, (views, key) => {
+		if (key !== 'undefined') {
+			const org = _.find(orgs, {
+				slug: key
+			})
+			groups.main.children.push(viewsToTree(userStarredViews, views, {
+				name: org ? org.name : 'Unknown organisation',
+				key
+			}))
+		}
+	})
+
+	return groups
+})
+
+const viewLinkActionNames = [ 'setDefault', 'removeView', 'setViewStarred' ]
+const treeMenuActionNames = [ 'setDefault', 'removeView', 'setViewStarred', 'setSidebarExpanded' ]
+const pickViewLinkActions = memoize(_.pick)
+const pickTreeMenuActions = memoize(_.pick)
+
 export default class HomeChannel extends React.Component {
 	constructor (props) {
 		super(props)
@@ -206,7 +289,6 @@ export default class HomeChannel extends React.Component {
 			showDrawer: false,
 			sliding: false,
 			showMenu: false,
-			tail: null,
 			messages: []
 		}
 
@@ -217,8 +299,6 @@ export default class HomeChannel extends React.Component {
 		this.onGrabHandleSwiping = this.onGrabHandleSwiping.bind(this)
 		this.showMenu = this.showMenu.bind(this)
 		this.hideMenu = this.hideMenu.bind(this)
-		this.toggleExpandGroup = this.toggleExpandGroup.bind(this)
-		this.isExpanded = this.isExpanded.bind(this)
 		this.openCreateViewChannel = this.openCreateViewChannel.bind(this)
 		this.openChatWidget = this.openChatWidget.bind(this)
 
@@ -246,94 +326,6 @@ export default class HomeChannel extends React.Component {
 	openChatWidget () {
 		this.props.actions.setChatWidgetOpen(true)
 		this.hideDrawer()
-	}
-
-	groupViews (tail) {
-		const groups = {
-			defaults: [],
-			main: {
-				name: null,
-				key: 'root',
-				children: []
-			}
-		}
-
-		const userStarredViews = getStarredViews(this.props.user)
-
-		// Sorty by name, then sort the priority views to the top
-		const [ defaults, nonDefaults ] = _.partition(tail, (view) => {
-			return _.includes(DEFAULT_VIEWS, view.slug)
-		})
-		groups.defaults = defaults
-
-		const starredViews = []
-		const addToStarredViewsIfStarred = (view) => {
-			if (userStarredViews[view.slug]) {
-				starredViews.push(view)
-			}
-		}
-		_.forEach(this.state.productOS, addToStarredViewsIfStarred)
-		_.forEach(tail, addToStarredViewsIfStarred)
-
-		if (starredViews.length) {
-			const starredViewsTree = viewsToTree(userStarredViews, starredViews, {
-				name: 'Starred',
-				key: '__starredViews'
-			}, false)
-			groups.main.children.push(starredViewsTree)
-		}
-
-		// Add the productOS comms rooms to the top of the sidebar
-		// TODO: Replace this with a fully fledged loop mapping once the loop
-		// structure becomes concrete.
-		groups.main.children.push({
-			name: 'productOS',
-			key: 'product-os',
-			children: (this.state.productOS || []).map((item) => {
-				return {
-					name: item.name.replace(/^.*\//, ''),
-					key: item.slug,
-					card: item,
-					isStarred: false,
-					children: []
-				}
-			})
-		})
-
-		const [ myViews, otherViews ] = _.partition(nonDefaults, (view) => {
-			return _.startsWith(view.slug, 'view-121') || _.includes(view.markers, this.props.user.slug)
-		})
-		if (myViews.length) {
-			groups.main.children.push(viewsToTree(userStarredViews, myViews, {
-				name: 'My views',
-				key: '__myViews'
-			}))
-		}
-		const remaining = _.groupBy(otherViews, 'markers[0]')
-		_.forEach(remaining, (views, key) => {
-			if (key !== 'undefined') {
-				const org = _.find(this.props.orgs, {
-					slug: key
-				})
-				groups.main.children.push(viewsToTree(userStarredViews, views, {
-					name: org ? org.name : 'Unknown organisation',
-					key
-				}))
-			}
-		})
-
-		return groups
-	}
-
-	toggleExpandGroup (event) {
-		const name = event.currentTarget.dataset.groupname
-		const state = clone(this.props.uiState)
-		if (this.isExpanded(name)) {
-			state.sidebar.expanded = _.without(state.sidebar.expanded, name)
-		} else {
-			state.sidebar.expanded.push(name)
-		}
-		this.props.actions.setUIState(state)
 	}
 
 	showMenu () {
@@ -447,31 +439,17 @@ export default class HomeChannel extends React.Component {
 				if (
 					(prevProps.channels.length === 2 && this.props.channels.length === 1) ||
 					(prevPath !== '/' && currentPath === '/') ||
-					(currentPath === '/' && prevProps.uiState.chatWidget.open && !this.props.uiState.chatWidget.open)
+					(currentPath === '/' && prevProps.isChatWidgetOpen && !this.props.isChatWidgetOpen)
 				) {
 					this.showDrawer()
 				} else if (
 					(prevPath !== currentPath) ||
-					(this.props.uiState.chatWidget.open && !prevProps.uiState.chatWidget.open)
+					(this.props.isChatWidgetOpen && !prevProps.isChatWidgetOpen)
 				) {
 					this.hideDrawer()
 				}
 			}
 		}
-	}
-
-	static getDerivedStateFromProps (nextProps, nextState) {
-		const {
-			tail
-		} = nextProps
-
-		return tail ? {
-			tail: _.sortBy(tail, 'name')
-		} : null
-	}
-
-	isExpanded (name) {
-		return _.includes(_.get(this.props.uiState, [ 'sidebar', 'expanded' ], []), name)
 	}
 
 	render () {
@@ -487,17 +465,20 @@ export default class HomeChannel extends React.Component {
 			},
 			location,
 			user,
-			uiState,
+			orgs,
+			tail,
+			starredViews,
+			isChatWidgetOpen,
 			mentions
 		} = this.props
 
-		const viewLinkActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
-		const treeMenuActions = _.pick(actions, [ 'setDefault', 'removeView', 'setViewStarred' ])
+		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames)
+		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames)
 
 		const {
+			productOS,
 			showDrawer,
-			sliding,
-			tail
+			sliding
 		} = this.state
 		const activeChannel = channels.length > 1 ? channels[1] : null
 		const username = user ? (user.name || user.slug.replace(/user-/, '')) : null
@@ -511,13 +492,13 @@ export default class HomeChannel extends React.Component {
 				</Box>
 			)
 		}
-		const groupedViews = this.groupViews(tail)
+		const groupedViews = groupViews(tail, starredViews, user.slug, productOS, orgs)
 		const groups = groupedViews.main
 		const defaultViews = groupedViews.defaults
 		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
-		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || uiState.chatWidget.open)
+		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || isChatWidgetOpen)
 
 		const grabHandleProps = isiOS() ? {
 			onClick: this.toggleDrawerIOS
@@ -658,7 +639,7 @@ export default class HomeChannel extends React.Component {
 										return (
 											<Box mx={-3} key={card.id}>
 												<ViewLink
-													user={user}
+													userSlug={user.slug}
 													subscription={subscriptions[card.id] || null}
 													types={types}
 													actions={viewLinkActions}
@@ -697,13 +678,10 @@ export default class HomeChannel extends React.Component {
 
 							{Boolean(tail) && (
 								<TreeMenu
-									user={user}
+									userSlug={user.slug}
 									subscriptions={subscriptions}
-									types={types}
-									actions={treeMenuActions}
 									node={groups}
-									isExpanded={this.isExpanded}
-									toggleExpandGroup={this.toggleExpandGroup}
+									actions={treeMenuActions}
 									activeChannel={activeChannel}
 									viewNotices={this.props.viewNotices}
 								/>

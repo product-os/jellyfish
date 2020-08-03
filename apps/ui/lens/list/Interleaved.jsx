@@ -10,6 +10,7 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
+import memoize from 'memoize-one'
 import {
 	withRouter
 } from 'react-router-dom'
@@ -65,6 +66,9 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 	}
 	return false
 }
+
+const eventActionNames = [ 'addNotification' ]
+const pickEventActions = memoize(_.pick)
 
 export class Interleaved extends BaseLens {
 	constructor (props) {
@@ -247,7 +251,7 @@ export class Interleaved extends BaseLens {
 
 		tail = _.sortBy(tail, 'created_at')
 
-		const eventActions = _.pick(this.props.actions, [ 'addNotification' ])
+		const eventActions = pickEventActions(this.props.actions, eventActionNames)
 
 		return (
 			<Column

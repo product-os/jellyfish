@@ -29,9 +29,9 @@ ava.beforeEach(async () => {
 		'queryAPI',
 		'removeView',
 		'removeViewNotice',
-		'setChantWidgetOpen',
+		'setChatWidgetOpen',
 		'setDefault',
-		'setUIState',
+		'setSidebarExpanded',
 		'setViewStarred',
 		'streamView',
 		'updateUser'
