@@ -1,4 +1,55 @@
 - commits:
+    - subject: 'perf: Reduce re-renders within HomeChannel'
+      hash: 0990e7445f53837ad32acd1511cfbf30db3acd78
+      body: >
+        Various improvements to reduce the number of re-renders within
+        HomeChannel and its child components.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'perf: memoize the actions we pass to child components'
+      hash: dfcbf03c1e062daec1590c64d21bf5fba9e7d609
+      body: |
+        Prevent re-render of child components due to the actions prop changing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'perf: Don''t pass whole uiState to HomeChannel'
+      hash: f9185309be8bb2a5287225c78731e34d98cfa52a
+      body: >
+        uiState is updated whenever a timeline message is cached. We don't want
+        to re-render the whole HomeChannel whenever a timeline message is being
+        edited.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-sync to ^0.0.25'
+      hash: 0c080c26f1d20ea75ebc9c0dbbf0adaaf3124a5c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 156582c9779abd3183ce56062257be2c66701d6b
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.89.6
+  date: 2020-08-03T07:48:22.535Z
+- commits:
     - subject: Finish renaming readiness gates to match service names
       hash: b3335870a246b0d898d136a73d31ff1c12728a94
       body: ''
