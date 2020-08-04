@@ -12,7 +12,7 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as helpers from '../../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import AutoCompleteCardSelect from '../../../AutoCompleteCardSelect'
 
 const UserSelect = styled(AutoCompleteCardSelect) `

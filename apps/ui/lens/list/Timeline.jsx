@@ -18,13 +18,13 @@ import {
 	selectors
 } from '../../core'
 import * as environment from '../../environment'
-import Timeline from '../../../../lib/ui-components/Timeline'
+import Timeline from '@balena/jellyfish-ui-components/lib/Timeline'
 import {
 	withResponsiveContext
-} from '../../../../lib/ui-components/hooks/ResponsiveProvider'
+} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import {
 	withDefaultGetActorHref
-} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
+} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card

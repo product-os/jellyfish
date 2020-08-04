@@ -17,7 +17,7 @@ import {
 	constraints as LINKS
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {

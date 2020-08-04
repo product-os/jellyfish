@@ -26,7 +26,7 @@ const resourcesRoot = __dirname
 const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
-const uiComponentsPath = path.join(root, 'lib', 'ui-components')
+const uiComponentsPath = path.join(root, 'node_modules', '@balena', 'jellyfish-ui-components', 'lib')
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const iconsFolderPath = path.join(resourcesRoot, 'icons')
 const uiComponentsIconsFolderPath = path.join(uiComponentsPath, 'icons')

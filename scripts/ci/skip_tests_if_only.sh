@@ -14,7 +14,7 @@ if [ -z "$MODULES" ]; then
 	echo "" 1>&2
 	echo "Examples:" 1>&2
 	echo "" 1>&2
-	echo "  $0 ui livechat ui-components || ava ./test/integration/core/**/*.spec.js" 1>&2
+	echo "  $0 ui livechat || ava ./test/integration/core/**/*.spec.js" 1>&2
 	exit 1
 fi
 

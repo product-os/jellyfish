@@ -17,14 +17,14 @@ import {
 	Txt
 } from 'rendition'
 import CardFields from '../../components/CardFields'
-import Collapsible from '../../../../lib/ui-components/Collapsible'
+import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
 import {
 	TagList
-} from '../../../../lib/ui-components/Tag'
+} from '@balena/jellyfish-ui-components/lib/Tag'
 import {
 	selectors
 } from '../../core'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import Timeline from '../list/Timeline'
 import CardLayout from '../../layouts/CardLayout'
 

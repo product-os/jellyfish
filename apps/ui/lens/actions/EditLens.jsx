@@ -23,14 +23,14 @@ import {
 	Form
 } from 'rendition'
 import CardLayout from '../../layouts/CardLayout'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import * as skhema from 'skhema'
 import {
 	actionCreators,
 	analytics,
 	sdk
 } from '../../core'
-import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import {
 	getUiSchema
 } from '../ui-schema'

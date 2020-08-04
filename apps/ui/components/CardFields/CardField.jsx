@@ -6,7 +6,7 @@
 
 import _ from 'lodash'
 import React from 'react'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import FieldValue from './FieldValue'
 import {
 	Heading

@@ -15,15 +15,15 @@ import {
 import styled from 'styled-components'
 import SelectWrapper from './SelectWrapper'
 import BaseLens from '../../common/BaseLens'
-import Link from '../../../../../lib/ui-components/Link'
-import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
+import Link from '@balena/jellyfish-ui-components/lib/Link'
+import ColorHashPill from '@balena/jellyfish-ui-components/lib/shame/ColorHashPill'
 import {
 	appendToChannelPath
-} from '../../../../../lib/ui-components/services/helpers.js'
+} from '@balena/jellyfish-ui-components/lib/services/helpers.js'
 import {
 	formatCurrency,
 	formatDateLocal
-} from '../../../../../lib/ui-components/services/formatters'
+} from '@balena/jellyfish-ui-components/lib/services/formatters'
 import CardTable from '../Table/CardTable'
 
 const SingleLineSpan = styled.span `

@@ -9,7 +9,7 @@ import React from 'react'
 import {
 	slugify,
 	getLocalSchema
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import CardField from './CardField'
 import {
 	Markdown

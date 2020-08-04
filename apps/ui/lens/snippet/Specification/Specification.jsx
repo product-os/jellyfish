@@ -13,10 +13,10 @@ import {
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-import Link from '../../../../../lib/ui-components/Link'
+import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
 	TagList
-} from '../../../../../lib/ui-components/Tag'
+} from '@balena/jellyfish-ui-components/lib/Tag'
 
 export default function SingleCard (props) {
 	const {

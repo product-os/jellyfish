@@ -18,7 +18,7 @@ import {
 	selectors
 } from '../../core'
 import ViewLink from '../ViewLink'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const TreeMenu = ({
 	activeChannel,

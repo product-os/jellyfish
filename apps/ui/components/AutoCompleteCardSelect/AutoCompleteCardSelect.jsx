@@ -12,7 +12,7 @@ import AsyncSelect from 'react-select/async'
 import {
 	Badge, Flex, Txt
 } from 'rendition'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 export default class AutoCompleteCardSelect extends React.Component {
 	constructor (props) {

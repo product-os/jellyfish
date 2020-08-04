@@ -10,7 +10,7 @@ import {
 import path from 'path'
 import {
 	pathWithoutTarget
-} from '../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const TIMEOUT = 10 * 1000
 

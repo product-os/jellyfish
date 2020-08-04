@@ -26,8 +26,8 @@ import {
 	Txt,
 	Form
 } from 'rendition'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../layouts/CardLayout'
 import * as skhema from 'skhema'
 import {
@@ -37,7 +37,7 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import FreeFieldForm from '../../../../lib/ui-components/FreeFieldForm'
+import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import Segment from '../common/Segment'
 import {
 	getUiSchema

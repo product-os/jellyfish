@@ -25,13 +25,13 @@ import {
 } from '../../core'
 import {
 	ActionLink
-} from '../../../../lib/ui-components/shame/ActionLink'
-import Column from '../../../../lib/ui-components/shame/Column'
-import Event from '../../../../lib/ui-components/Event'
+} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
+import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import Event from '@balena/jellyfish-ui-components/lib/Event'
 import {
 	withDefaultGetActorHref
-} from '../../../../lib/ui-components/HOC/with-default-get-actor-href'
-import EventsContainer from '../../../../lib/ui-components/EventsContainer'
+} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
+import EventsContainer from '@balena/jellyfish-ui-components/lib/EventsContainer'
 
 const MessageListColumn = styled(Column) `
 	position: relative;

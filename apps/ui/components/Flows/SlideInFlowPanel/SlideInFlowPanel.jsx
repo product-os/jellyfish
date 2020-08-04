@@ -6,7 +6,7 @@
 
 import React from 'react'
 import _ from 'lodash'
-import SlideInPanel from '../../../../../lib/ui-components/SlideInPanel'
+import SlideInPanel from '@balena/jellyfish-ui-components/lib/SlideInPanel'
 
 export default function SlideInFlowPanel ({
 	flowId,

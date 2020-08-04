@@ -8,7 +8,7 @@ import React from 'react'
 import _ from 'lodash'
 import {
 	ActionLink
-} from '../../../../../lib/ui-components/shame/ActionLink'
+} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
 import singleCardLens from '../SingleCard'
 
 export default class User extends React.Component {

@@ -15,11 +15,11 @@ import {
 	Txt
 } from 'rendition'
 import CardFields from '../../../components/CardFields'
-import Link from '../../../../../lib/ui-components/Link'
+import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
 	TagList
-} from '../../../../../lib/ui-components/Tag'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+} from '@balena/jellyfish-ui-components/lib/Tag'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

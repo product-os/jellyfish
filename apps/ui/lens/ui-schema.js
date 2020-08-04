@@ -5,7 +5,7 @@
  */
 
 import _ from 'lodash'
-import AutoCompleteWidget from '../../../lib/ui-components/AutoCompleteWidget'
+import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
 
 // This object acts as a lookup for widgets by widget component name
 const Widgets = {

@@ -15,8 +15,8 @@ import {
 } from 'rendition'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
-import Link from '../../../../../lib/ui-components/Link'
-import Column from '../../../../../lib/ui-components/shame/Column'
+import Link from '@balena/jellyfish-ui-components/lib/Link'
+import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import {
 	getTypeFields
 } from './helpers'

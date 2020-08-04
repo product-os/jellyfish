@@ -12,7 +12,7 @@ import {
 	Txt
 } from 'rendition'
 import Segment from '../../../../lens/common/Segment'
-import * as helpers from '../../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const cardLinks = [
 	{
