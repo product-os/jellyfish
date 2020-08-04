@@ -12,7 +12,7 @@ import {
 import styled from 'styled-components'
 import {
 	px
-} from '../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const SplashWrapper = styled(Box) `
 	width: 100%;

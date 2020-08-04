@@ -11,11 +11,11 @@ import {
 	connect
 } from 'react-redux'
 import * as redux from 'redux'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	CloseButton
-} from '../../../../lib/ui-components/shame/CloseButton'
-import Column from '../../../../lib/ui-components/shame/Column'
+} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
+import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import {
 	actionCreators,
 	sdk

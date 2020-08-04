@@ -13,7 +13,6 @@ You can run the UI relevant unit and end to end test suites as follows:
 
 ```sh
 make test-unit-ui
-make test-unit-ui-components
 make build-ui test-e2e-ui VISUAL=1
 ```
 

@@ -329,8 +329,6 @@ test-unit-%:
 # and integration/e2e UI tests will still live under `test`.
 #
 # These Make rules override the above conventions for this case.
-test-unit-ui-components:
-	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-sdk:
 	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-chat-widget:

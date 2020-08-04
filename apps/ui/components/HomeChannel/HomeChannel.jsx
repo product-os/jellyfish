@@ -24,18 +24,18 @@ import {
 	Swipeable
 } from 'react-swipeable'
 import styled from 'styled-components'
-import MentionsCount from '../../../../lib/ui-components/MentionsCount'
+import MentionsCount from '@balena/jellyfish-ui-components/lib/MentionsCount'
 import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
-import RouterLink from '../../../../lib/ui-components/Link'
+import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
 import ViewLink from '../ViewLink'
-import Avatar from '../../../../lib/ui-components/shame/Avatar'
-import Icon from '../../../../lib/ui-components/shame/Icon'
-import MenuPanel from '../../../../lib/ui-components/shame/MenuPanel'
+import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import MenuPanel from '@balena/jellyfish-ui-components/lib/shame/MenuPanel'
 import {
 	swallowEvent,
 	isiOS
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	registerForNotifications
 } from '../../services/notifications'

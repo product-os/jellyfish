@@ -9,10 +9,10 @@ import _ from 'lodash'
 import {
 	Link
 } from 'rendition'
-import Icon from '../../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	getType
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 // The VideoLink component renders a button that lets the user open
 // a Google Meet URL (in a new tab) that is specific to the provided card.

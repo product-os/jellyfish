@@ -9,10 +9,10 @@ import styled from 'styled-components'
 import {
 	Flex, Heading, Input, Button, Img, Card
 } from 'rendition'
-import Link from '../../../../lib/ui-components/Link'
+import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
 	px
-} from '../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const StyledCard = styled(Card) `
 	@media (max-width: ${(props) => { return px(props.theme.breakpoints[0]) }}) {

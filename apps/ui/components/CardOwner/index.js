@@ -13,7 +13,7 @@ import {
 import CardOwner from './CardOwner'
 import {
 	withLink
-} from '../../../../lib/ui-components/LinksProvider'
+} from '@balena/jellyfish-ui-components/lib/LinksProvider'
 
 export default compose(
 	withRouter,

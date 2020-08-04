@@ -19,7 +19,7 @@ import {
 } from 'rendition'
 import _ from 'lodash'
 import styled from 'styled-components'
-import Icon from '../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const VALID_STEP_STATUSES = {
 	pending: true,

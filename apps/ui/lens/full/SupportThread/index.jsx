@@ -30,25 +30,25 @@ import {
 	sdk
 } from '../../../core'
 import SlideInFlowPanel from '../../../components/Flows/SlideInFlowPanel'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../components/CardFields'
-import Event from '../../../../../lib/ui-components/Event'
-import RouterLink from '../../../../../lib/ui-components/Link'
-import Collapsible from '../../../../../lib/ui-components/Collapsible'
+import Event from '@balena/jellyfish-ui-components/lib/Event'
+import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
+import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
 import {
 	TagList,
 	Tag
-} from '../../../../../lib/ui-components/Tag'
+} from '@balena/jellyfish-ui-components/lib/Tag'
 import {
 	ThreadMirrorIcon
-} from '../../../../../lib/ui-components/MirrorIcon'
-import ColorHashPill from '../../../../../lib/ui-components/shame/ColorHashPill'
-import Icon from '../../../../../lib/ui-components/shame/Icon'
+} from '@balena/jellyfish-ui-components/lib/MirrorIcon'
+import ColorHashPill from '@balena/jellyfish-ui-components/lib/shame/ColorHashPill'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	withDefaultGetActorHref
-} from '../../../../../lib/ui-components/HOC/with-default-get-actor-href'
+} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
 import {
 	FLOW_IDS,
 	TeardownFlowPanel

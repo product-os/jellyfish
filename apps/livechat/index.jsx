@@ -20,12 +20,12 @@ import {
 import {
 	App
 } from '../../lib/chat-widget'
-import Analytics from '../../lib/ui-components/services/analytics'
-import ErrorReporter from '../../lib/ui-components/services/error-reporter'
-import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
+import Analytics from '@balena/jellyfish-ui-components/lib/services/analytics'
+import ErrorReporter from '@balena/jellyfish-ui-components/lib/services/error-reporter'
+import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
 	SetupProvider
-} from '../../lib/ui-components/SetupProvider'
+} from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import {
 	OauthCallbackTask
 } from './components/OauthCallbackTask'

@@ -35,16 +35,16 @@ import {
 } from './core'
 import history from './services/history'
 import JellyfishUI from './JellyfishUI'
-import ErrorBoundary from '../../lib/ui-components/shame/ErrorBoundary'
+import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
 	ResponsiveProvider
-} from '../../lib/ui-components/hooks/ResponsiveProvider'
+} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import {
 	ConnectedRouter
 } from 'connected-react-router'
 import {
 	SetupProvider
-} from '../../lib/ui-components/SetupProvider'
+} from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import * as environment from './environment'
 import PWA from './pwa'
 

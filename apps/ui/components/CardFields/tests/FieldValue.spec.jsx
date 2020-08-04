@@ -13,7 +13,7 @@ import React from 'react'
 import FieldValue from '../FieldValue'
 import {
 	slugify
-} from '../../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const mountFieldValue = (props) => {
 	return shallow(<FieldValue {...props} data-test={`card-field__value--${slugify(props.fieldKey)}`} />)

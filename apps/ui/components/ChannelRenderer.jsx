@@ -15,11 +15,11 @@ import {
 	Flex
 } from 'rendition'
 import styled from 'styled-components'
-import ErrorBoundary from '../../../lib/ui-components/shame/ErrorBoundary'
-import Icon from '../../../lib/ui-components/shame/Icon'
+import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	CloseButton
-} from '../../../lib/ui-components/shame/CloseButton'
+} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
 import LinkModal from './LinkModal'
 
 const ErrorNotFound = styled.h1 `

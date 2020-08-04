@@ -9,7 +9,7 @@ import Bluebird from 'bluebird'
 import {
 	stepStatus
 } from '../flow-utils'
-import * as helpers from '../../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import StepsFlow from '../../StepsFlow'
 import * as handoverUtils from './handover-utils'
 import {

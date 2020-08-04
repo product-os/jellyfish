@@ -30,7 +30,7 @@ require('@babel/register')({
 		'@babel/preset-react'
 	],
 	only: [
-		/lib\/ui-components/,
+		/node_modules\/@balena\/jellyfish-ui-components/,
 		/lib\/chat-widget/,
 		/\.jsx$/,
 		/apps\/ui/,

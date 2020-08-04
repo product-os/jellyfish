@@ -13,11 +13,11 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import _ from 'lodash'
-import Icon from '../../../lib/ui-components/shame/Icon'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	patchPath,
 	getUserStatuses
-} from '../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const UserStatusButton = styled(Button) `
 	display: flex;

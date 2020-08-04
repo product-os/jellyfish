@@ -24,7 +24,7 @@ import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 import {
 	colorHash
-} from '../../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1

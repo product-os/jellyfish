@@ -18,7 +18,7 @@ import supportThread from './fixtures/support-thread.json'
 import CardField from '../CardField'
 import {
 	slugify
-} from '../../../../../lib/ui-components/services/helpers'
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const wrappingComponent = getWrapper().wrapper
 

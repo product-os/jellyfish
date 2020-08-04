@@ -28,7 +28,7 @@ import {
 	selectors,
 	sdk
 } from '../../core'
-import * as helpers from '../../../../lib/ui-components/services/helpers'
+import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import BaseLens from '../common/BaseLens'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
