@@ -1,4 +1,23 @@
 - commits:
+    - subject: Replace lib/ui-components with private package
+      hash: f0f0c52f1303fcf79ed2fb21a6cbd45e0dcd1058
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 2e1ada6fc529eead2673d7ebea014165492bcb26
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.91.1
+  date: 2020-08-04T12:24:05.564Z
+- commits:
     - subject: Take screenshots of failed e2e tests
       hash: bac1946d0e68ea29e77a2982cee838305ecd0e85
       body: ''
