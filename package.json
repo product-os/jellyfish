@@ -155,7 +155,7 @@
     "flat": "^5.0.2",
     "formulajs": "^1.0.8",
     "front-sdk": "^0.7.2",
-    "googleapis": "^57.0.0",
+    "googleapis": "^58.0.0",
     "graphile-worker": "^0.6.0",
     "graphql": "^15.3.0",
     "howler": "^2.2.0",
