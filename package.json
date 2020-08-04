@@ -203,7 +203,7 @@
     "react-router-dom": "^5.2.0",
     "react-select": "^3.1.0",
     "react-swipeable": "^5.5.1",
-    "react-textarea-autosize": "^7.1.2",
+    "react-textarea-autosize": "^8.2.0",
     "react-trello": "^2.2.8",
     "react-virtualized": "^9.21.2",
     "react-visibility-sensor": "^5.1.1",
