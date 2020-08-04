@@ -1,4 +1,33 @@
 - commits:
+    - subject: Take screenshots of failed e2e tests
+      hash: bac1946d0e68ea29e77a2982cee838305ecd0e85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 5bf866857848f856281dbd06face08542b843f8e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: Link milestones to product improvements
+      hash: acec9f88c9b32124e5107c5046c8d4794c1fa1b8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.91.0
+  date: 2020-08-04T06:20:20.118Z
+- commits:
     - subject: 'ui: Add view to show all chat groups'
       hash: 19c3f763485712f067429ed3dcceb6f9118494b1
       body: |
