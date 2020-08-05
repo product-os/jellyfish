@@ -18,7 +18,7 @@ const config = {
 		rules: [
 			{
 				test: /\.(js|jsx)$/,
-				exclude: /node_modules\/(?!(@balena\/jellyfish-ui-components)\/).*/,
+				exclude: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget))\/).*/,
 				use: [
 					{
 						loader: 'babel-loader',

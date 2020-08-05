@@ -11,7 +11,7 @@ import {
 } from 'rendition'
 import {
 	App
-} from '../../../lib/chat-widget'
+} from '@balena/jellyfish-chat-widget'
 import {
 	sdk
 } from '../core'

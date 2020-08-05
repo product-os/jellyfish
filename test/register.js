@@ -31,10 +31,10 @@ require('@babel/register')({
 	],
 	only: [
 		/node_modules\/@balena\/jellyfish-ui-components/,
-		/lib\/chat-widget/,
+		/node_modules\/@balena\/jellyfish-chat-widget/,
 		/\.jsx$/,
 		/apps\/ui/,
-		/apps\/chat-widget/,
+		/apps\/livechat/,
 		/node_modules\/dagre-d3-renderer/
 	]
 })
