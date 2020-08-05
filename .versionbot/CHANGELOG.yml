@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/chat-widget with private package
+      hash: dfcee930d25b2d93fbabc73e38836977ab5683e2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.91.2
+  date: 2020-08-05T04:33:23.702Z
+- commits:
     - subject: Replace lib/ui-components with private package
       hash: f0f0c52f1303fcf79ed2fb21a6cbd45e0dcd1058
       body: ''
