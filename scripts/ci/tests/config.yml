@@ -36,7 +36,7 @@ jobs:
       - e2e-livechat
   balena-api-translate:
     description: 'Balena API Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'balena-api-translate.spec.js'
@@ -46,7 +46,7 @@ jobs:
       - pipeline
   github-translate:
     description: 'GitHub Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'github-translate.spec.js'
@@ -56,7 +56,7 @@ jobs:
       - balena-api-translate
   flowdock-translate:
     description: 'Flowdock Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'flowdock-translate.spec.js'
@@ -65,7 +65,7 @@ jobs:
       - github-translate
   typeform-translate:
     description: 'Typeform Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'typeform-translate.spec.js'
@@ -101,7 +101,7 @@ jobs:
       - integration-server
   front-translate:
     description: 'Front Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'front-translate.spec.js'
@@ -113,7 +113,7 @@ jobs:
       - e2e-ui
   discourse-translate:
     description: 'Discourse Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui chat-widget livechat || make test'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
     required: true
     environment:
       CHECK_FOR: 'discourse-translate.spec.js'

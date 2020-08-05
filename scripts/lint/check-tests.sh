@@ -21,7 +21,7 @@ function assert_no_tests_in_directory () (
 	fi
 )
 
-UI_COMPONENTS="ui chat-widget sdk"
+UI_COMPONENTS="ui sdk"
 APPS="$(ls -1 apps)"
 NON_UI_APPS="$(echo "$APPS" | grep -v -w -F "$(echo "$UI_COMPONENTS" | tr ' ' '\n')")"
 

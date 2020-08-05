@@ -7,10 +7,10 @@
 import React from 'react'
 import {
 	useTask
-} from '../../../lib/chat-widget/hooks'
+} from '@balena/jellyfish-chat-widget/lib/hooks'
 import {
 	Task
-} from '../../../lib/chat-widget/components/Task'
+} from '@balena/jellyfish-chat-widget/lib/components/Task'
 
 const authenticate = async (sdk, userSlug, oauthUrl) => {
 	const user = await sdk.auth.whoami()

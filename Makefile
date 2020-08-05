@@ -331,8 +331,6 @@ test-unit-%:
 # These Make rules override the above conventions for this case.
 test-unit-sdk:
 	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
-test-unit-chat-widget:
-	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-ui:
 	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 

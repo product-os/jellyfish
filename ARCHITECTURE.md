@@ -74,11 +74,6 @@ interact with.
 
 A set of re-usable libraries that the top level components use.
 
-### [`lib/chat-widget`](https://github.com/product-os/jellyfish/tree/master/lib/chat-widget)
-
-The chat widget is an embeddable component to allow external clients to send
-and receive messages using the Jellyfish system.
-
 ### [`lib/core`](https://github.com/product-os/jellyfish/tree/master/lib/core)
 
 The Jellyfish core is a low-level internal SDK to interact with cards in the

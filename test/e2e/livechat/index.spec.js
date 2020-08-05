@@ -13,7 +13,7 @@ const {
 const environment = require('@balena/jellyfish-environment')
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
-} = require('../../../lib/chat-widget/constants')
+} = require('@balena/jellyfish-chat-widget/lib/constants')
 const {
 	createChatMessage,
 	waitForInnerText
