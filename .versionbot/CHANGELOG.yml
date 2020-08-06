@@ -1,4 +1,34 @@
 - commits:
+    - subject: 'ci: Removed check for WIP'
+      hash: 08d339a2195f12518150aa4349e72812f2e8acdb
+      body: |
+        This GitHub app has been removed now.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Display unread count in page title'
+      hash: 4d6dc39cd4706c7e9f10eac3cf514d460fbed93c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency css-loader to v4'
+      hash: 4cd23c4710252620ff5567fc01558ee40ffc034e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.92.0
+  date: 2020-08-06T00:00:21.396Z
+- commits:
     - subject: Replace lib/chat-widget with private package
       hash: dfcee930d25b2d93fbabc73e38836977ab5683e2
       body: ''
