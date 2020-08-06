@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'test: Fix flaky e2e server test'
+      hash: a3f85e10010ad13468c8f9025c8d63d9b5103602
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.92.1
+  date: 2020-08-06T04:58:05.366Z
+- commits:
     - subject: 'ci: Removed check for WIP'
       hash: 08d339a2195f12518150aa4349e72812f2e8acdb
       body: |
