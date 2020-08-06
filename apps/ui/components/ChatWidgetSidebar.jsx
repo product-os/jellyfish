@@ -12,6 +12,7 @@ import {
 import {
 	App
 } from '@balena/jellyfish-chat-widget'
+import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
 	sdk
 } from '../core'
@@ -40,12 +41,14 @@ export const ChatWidgetSidebar = ({
 		<Container
 			width={[ 'calc(100% - 20px)', 'calc(100% - 20px)', '376px' ]}
 		>
-			<App
-				sdk={sdk}
-				productTitle={'Jelly'}
-				product={'jellyfish'}
-				onClose={onClose}
-			/>
+			<ErrorBoundary>
+				<App
+					sdk={sdk}
+					productTitle={'Jelly'}
+					product={'jellyfish'}
+					onClose={onClose}
+				/>
+			</ErrorBoundary>
 		</Container>
 	)
 }
