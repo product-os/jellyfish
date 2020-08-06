@@ -31,6 +31,7 @@ import RouteHandler from './components/RouteHandler'
 import Oauth from './components/Oauth'
 import Login from './components/Auth/Login'
 import CountFavicon from './components/CountFavicon'
+import PageTitle from './components/PageTitle'
 import RequestPasswordReset from './components/Auth/RequestPasswordReset'
 import CompletePasswordReset from './components/Auth/CompletePasswordReset'
 import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin'
@@ -124,6 +125,7 @@ class JellyfishUI extends React.Component {
 				<Flex flex="1" style={{
 					height: '100%'
 				}}>
+					<PageTitle />
 					<CountFavicon
 						baseIcons={[
 							{
