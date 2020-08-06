@@ -10,7 +10,7 @@ const {
 } = require('uuid')
 const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
-const screenshot = require('./screenshot')
+const screenshot = require('../screenshot')
 
 exports.generateUserDetails = () => {
 	return {
