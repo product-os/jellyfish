@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Take screenshots of failed e2e livechat tests'
+      hash: 839bbce61a07cbbb6e90910ae83ab2d3f64a2e9d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.92.3
+  date: 2020-08-06T06:57:54.060Z
+- commits:
     - subject: 'core: apply permissions to `$$links` appearing anywhere in a schema'
       hash: 598218684af3a857fa13322a006e3ffb7bf51d82
       body: |
