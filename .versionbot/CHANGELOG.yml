@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'core: apply permissions to `$$links` appearing anywhere in a schema'
+      hash: 598218684af3a857fa13322a006e3ffb7bf51d82
+      body: |
+        This has no functional changes on `master`, but paves the way for PR
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 30.92.2
+  date: 2020-08-06T05:44:24.782Z
+- commits:
     - subject: 'test: Fix flaky e2e server test'
       hash: a3f85e10010ad13468c8f9025c8d63d9b5103602
       body: ''
