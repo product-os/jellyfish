@@ -8,6 +8,15 @@ const puppeteer = require('puppeteer')
 const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
 const uiHelpers = require('../ui/helpers')
+const screenshot = require('../screenshot')
+
+exports.afterEach = async ({
+	context, test
+}) => {
+	if (!test.passed) {
+		await screenshot.takeScreenshot(context, test.title)
+	}
+}
 
 exports.browser = {
 	beforeEach: async (test) => {
