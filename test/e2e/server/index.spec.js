@@ -455,8 +455,6 @@ ava.serial('should be able to resolve links', async (test) => {
 
 	await test.context.sdk.auth.login(userDetails)
 
-	const user = await test.context.sdk.auth.whoami()
-
 	const id = uuid()
 	const thread = await sdk.card.create({
 		type: 'thread',
@@ -495,7 +493,7 @@ ava.serial('should be able to resolve links', async (test) => {
 						const: 'thread@1.0.0'
 					},
 					data: {
-						additionalProperties: true,
+						additionalProperties: false,
 						required: [ 'uuid' ],
 						properties: {
 							uuid: {
@@ -550,7 +548,6 @@ ava.serial('should be able to resolve links', async (test) => {
 						id: thread.id,
 						type: thread.type,
 						data: {
-							participants: [ user.id ],
 							uuid: id
 						}
 					}
