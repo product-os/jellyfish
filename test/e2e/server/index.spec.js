@@ -496,11 +496,14 @@ ava.serial('should be able to resolve links', async (test) => {
 					},
 					data: {
 						additionalProperties: true,
-						required: [ 'uuid' ],
+						required: [ 'uuid', 'participants' ],
 						properties: {
 							uuid: {
 								type: 'string',
 								const: id
+							},
+							participants: {
+								type: 'array'
 							}
 						}
 					}
