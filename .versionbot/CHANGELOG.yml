@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Wrap chat widget with error boundary'
+      hash: ed0243616c249dbdc88970116fc879a840a11715
+      body: >
+        Ensure errors thrown by the chat widget do not bring down the whole of
+        Jellyfish!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.92.4
+  date: 2020-08-07T00:21:15.793Z
+- commits:
     - subject: 'ci: Take screenshots of failed e2e livechat tests'
       hash: 839bbce61a07cbbb6e90910ae83ab2d3f64a2e9d
       body: ''
