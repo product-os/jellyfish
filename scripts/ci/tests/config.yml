@@ -15,14 +15,14 @@ jobs:
       FILES: './test/integration/sync/pipeline.spec.js'
   s3-file-upload:
     description: 'S3 File Upload Tests'
-    command: 'make test'
+    command: 'env && make test'
     required: true
     environment:
       FILES: './test/e2e/ui/file-upload.spec.js'
       FS_DRIVER: 's3FS'
   e2e-livechat:
     description: 'E2E Livechat Tests'
-    command: 'make test-e2e-livechat'
+    command: 'env && make test-e2e-livechat'
     required: true
     depends_on:
       - s3-file-upload

@@ -98,6 +98,7 @@ ava.serial('Initial create conversation page', async (test) => {
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
+	test.fail()
 
 	await test.notThrowsAsync(
 		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
