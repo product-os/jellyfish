@@ -1,4 +1,63 @@
 - commits:
+    - subject: Update to latest ui-components package for perf improvements
+      hash: f605f5fddf61bd9c0f502c1186b25a13a25630a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 678bc8a4fb5dfb1e68e1b5c0f077378220f6f2a5
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-environment to ^2.1.2'
+      hash: cb017017929d5cf9ea8668eec06e16c189fd57ed
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency enzyme-adapter-react-16 to ^1.15.3'
+      hash: 1e36f5695ce7eb72154a823c77f676f2a975ea50
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 0f9117f68c5eb0f1d96a8e4c2b3fefb556b483bd
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: Update to jellyfish-action-library v1
+      hash: 1855940c390ff0626cc61e76157d770c2c0dc8a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency googleapis to v58'
+      hash: 2d9b46ef7bf0f151966aab27bcfcb2be06e44660
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 50aec71ceb80f67963c6e653e474ee299617958f
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.92.5
+  date: 2020-08-11T08:38:33.410Z
+- commits:
     - subject: 'ui: Wrap chat widget with error boundary'
       hash: ed0243616c249dbdc88970116fc879a840a11715
       body: >
