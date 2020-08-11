@@ -121,23 +121,33 @@
       ]
     },
     "uiSchema": {
-      "data": {
-        "unnecessary_attendees": {
-          "items": {
-            "ui:widget": "AutoCompleteWidget",
-            "ui:options": {
-              "resource": "user",
-              "keyPath": "slug"
-            }
-          }
-        },
-        "extra_attendees_needed": {
-          "items": {
-            "user": {
-              "ui:widget": "AutoCompleteWidget",
-              "ui:options": {
-                "resource": "user",
-                "keyPath": "slug"
+      "edit": {
+        "$ref": "#/data/uiSchema/definitions/form"
+      },
+      "create": {
+        "$ref": "#/data/uiSchema/edit"
+      },
+      "definitions": {
+        "form": {
+          "data": {
+            "unnecessary_attendees": {
+              "items": {
+                "ui:widget": "AutoCompleteWidget",
+                "ui:options": {
+                  "resource": "user",
+                  "keyPath": "slug"
+                }
+              }
+            },
+            "extra_attendees_needed": {
+              "items": {
+                "user": {
+                  "ui:widget": "AutoCompleteWidget",
+                  "ui:options": {
+                    "resource": "user",
+                    "keyPath": "slug"
+                  }
+                }
               }
             }
           }

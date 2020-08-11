@@ -63,12 +63,22 @@ module.exports = ({
 				]
 			},
 			uiSchema: {
-				data: {
-					repository: {
-						'ui:widget': 'AutoCompleteWidget',
-						'ui:options': {
-							resource: 'issue',
-							keyPath: 'data.repository'
+				edit: {
+					$ref: '#/data/uiSchema/definitions/form'
+				},
+				create: {
+					$ref: '#/data/uiSchema/edit'
+				},
+				definitions: {
+					form: {
+						data: {
+							repository: {
+								'ui:widget': 'AutoCompleteWidget',
+								'ui:options': {
+									resource: 'issue',
+									keyPath: 'data.repository'
+								}
+							}
 						}
 					}
 				}

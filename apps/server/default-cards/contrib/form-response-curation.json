@@ -69,8 +69,18 @@
       }
     },
     "uiSchema": {
-      "data": {
-        "ui:order": [
+      "edit": {
+        "data": {
+          "ui:order": {
+            "$ref": "#/data/uiSchema/definitions/uiOrder"
+          }
+        }
+      },
+      "create": {
+        "$ref": "#/data/uiSchema/edit"
+      },
+      "definitions": {
+        "uiOrder": [
           "origin",
           "originDetail",
           "role",

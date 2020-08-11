@@ -7,6 +7,13 @@
 import _ from 'lodash'
 import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
 
+export const UI_SCHEMA_MODE = {
+	edit: 'edit',
+	create: 'create',
+	full: 'full',
+	fields: 'fields'
+}
+
 // This object acts as a lookup for widgets by widget component name
 const Widgets = {
 	AutoCompleteWidget
@@ -20,9 +27,9 @@ const replaceWidgetsCustomizer = (value, key) => {
 	return undefined
 }
 
-export const getUiSchema = (cardType) => {
+export const getUiSchema = (cardType, mode = UI_SCHEMA_MODE.full) => {
 	const cardSchema = _.get(cardType, [ 'data', 'schema' ], {})
-	const cardUiSchema = _.get(cardType, [ 'data', 'uiSchema' ], {})
+	const cardUiSchema = _.get(cardType, [ 'data', 'uiSchema', mode ], {})
 	const uiSchema = _.cloneDeepWith(cardUiSchema, replaceWidgetsCustomizer)
 
 	if (!uiSchema['ui:order'] && _.get(cardSchema, [ 'properties', 'name' ])) {
