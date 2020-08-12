@@ -1,4 +1,24 @@
 - commits:
+    - subject: Upgrade to jellyfish-action-library v2
+      hash: f3a180e6d8dee4c7aa0e398e22acaef4960ece46
+      body: |
+        Pulls in googleapis v59 dependency
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency googleapis to v59'
+      hash: a4de948aa312c299c9d9f4d0cd931ba11e1bfd89
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.92.7
+  date: 2020-08-12T08:05:49.232Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: cda6a1419144eaad8eeeb6c1b4e1f4e36d075605
       body: ''
