@@ -4,33 +4,7 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
-import {
-	connect
-} from 'react-redux'
-import * as redux from 'redux'
-import {
-	actionCreators,
-	selectors
-} from '../../../core'
 import Chart from './Chart'
-
-const mapStateToProps = (state, ownProps) => {
-	return {
-		channels: selectors.getChannels(state)
-	}
-}
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'getActor'
-			]),
-			dispatch
-		)
-	}
-}
 
 const lens = {
 	slug: 'lens-chart',
@@ -40,7 +14,7 @@ const lens = {
 	data: {
 		icon: 'chart-bar',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Chart),
+		renderer: Chart,
 		filter: {
 			type: 'array',
 			items: {
