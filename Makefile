@@ -240,10 +240,7 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
-AVA_ARGS = $(AVA_OPTS)
-ifndef CI
-AVA_ARGS += --fail-fast
-endif
+AVA_ARGS = $(AVA_OPTS) --fail-fast
 ifdef MATCH
 AVA_ARGS += --match $(MATCH)
 endif
