@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: cda6a1419144eaad8eeeb6c1b4e1f4e36d075605
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 30.92.6
+  date: 2020-08-12T01:07:45.701Z
+- commits:
     - subject: Update to latest ui-components package for perf improvements
       hash: f605f5fddf61bd9c0f502c1186b25a13a25630a6
       body: ''
