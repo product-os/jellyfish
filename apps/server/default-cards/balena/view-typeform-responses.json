@@ -1,12 +1,8 @@
 {
   "slug": "view-typeform-responses",
   "name": "All Users' Feedback",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "User Feedback",
     "allOf": [
@@ -30,7 +26,5 @@
       "lens-list",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

@@ -1,12 +1,8 @@
 {
   "slug": "external-event",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "name": "External event",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -41,7 +37,5 @@
         "data"
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

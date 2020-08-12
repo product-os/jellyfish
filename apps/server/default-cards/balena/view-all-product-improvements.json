@@ -1,12 +1,8 @@
 {
   "slug": "view-all-product-improvements",
   "name": "Product improvements",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -35,7 +31,5 @@
       "lens-list",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

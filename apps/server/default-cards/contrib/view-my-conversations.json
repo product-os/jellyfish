@@ -1,12 +1,8 @@
 {
   "slug": "view-my-conversations",
   "name": "My conversations",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -45,7 +41,5 @@
       "lens-support-threads",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

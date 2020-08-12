@@ -4,9 +4,21 @@
  * Proprietary and confidential.
  */
 
-const mixins = require('./mixins')
+const _ = require('lodash')
+const {
+	mixin,
+	initialize,
+	...coreMixins
+} = require('../../../lib/core/cards/mixins')
+const defaultCardMixins = require('./mixins')
 
-module.exports = {
+const mixins = {
+	mixin,
+	...coreMixins,
+	...defaultCardMixins
+}
+
+const defaultCards = {
 	// Users
 	userGuest: require('./contrib/user-guest.json'),
 
@@ -135,3 +147,5 @@ module.exports = {
 	viewSupportThreadsToAudit: require('./balena/view-support-threads-to-audit.json'),
 	viewWorkflows: require('./balena/view-workflows.json')
 }
+
+module.exports = _.mapValues(defaultCards, initialize)

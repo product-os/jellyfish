@@ -31,7 +31,6 @@ _.each(CARDS, async (value, key) => {
 		const cardSchema = (await CARDS.card).data.schema
 		const typeSchema = (await CARDS[card.type.split('@')[0]]).data.schema
 		const cardWithCreation = addCreatedField(card)
-
 		test.true(skhema.isValid(cardSchema, cardWithCreation))
 		test.true(skhema.isValid(typeSchema, cardWithCreation))
 	})

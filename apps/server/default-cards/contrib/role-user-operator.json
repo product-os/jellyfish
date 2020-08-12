@@ -1,14 +1,8 @@
 {
   "slug": "role-user-operator",
   "name": "Operator role permissions",
-  "version": "1.0.0",
   "type": "role@1.0.0",
-  "tags": [],
   "markers": [],
-  "links": {},
-  "requires": [],
-  "capabilities": [],
-  "active": true,
   "data": {
     "read": {
 			"type": "object",
@@ -39,7 +33,7 @@
 					"properties": {
 						"slug": {
 							"type": "string",
-							"enum": [ 
+							"enum": [
 								"first-time-login",
 								"action-create-user"
 							]

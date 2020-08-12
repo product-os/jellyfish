@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-support-summary",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for support summaries",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -84,7 +80,5 @@
         }
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

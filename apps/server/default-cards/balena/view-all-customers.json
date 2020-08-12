@@ -1,12 +1,8 @@
 {
   "slug": "view-all-customers",
   "name": "All accounts",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Sales",
     "allOf": [
@@ -37,7 +33,5 @@
       "lens-list",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

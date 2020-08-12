@@ -6,20 +6,15 @@
 
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const $RefParser = require('json-schema-ref-parser')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment')
 const defaultCards = require('./default-cards')
-
-const loadCard = async (card) => {
-	return $RefParser.dereference(card)
-}
 
 module.exports = async (context, jellyfish, worker, session) => {
 	logger.info(context, 'Setting up guest user')
 
 	const guestUser = await jellyfish.replaceCard(
-		context, session, await loadCard(defaultCards.userGuest))
+		context, session, defaultCards.userGuest)
 
 	const guestUserSession = await jellyfish.replaceCard(
 		context, session, jellyfish.defaults({
@@ -46,7 +41,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 				return !cardsToSkip.includes(card.slug)
 			}
 		)
-		.map(loadCard)
 
 	await Bluebird.each(cardLoaders, async (card) => {
 		if (!card) {

@@ -7,7 +7,9 @@
 const ava = require('ava')
 const CardHandler = require('../../../../../../apps/server/graphql/card-handlers/card-handler')
 const CardInterfaceHandler = require('../../../../../../apps/server/graphql/card-handlers/card-interface-handler')
-const CardCard = require('../../../../../../lib/core/cards/card')
+const {
+	card: CardCard
+} = require('../../../../../../lib/core/cards')
 const Types = require('../../../../../../apps/server/graphql/types')
 const {
 	OVERRIDES

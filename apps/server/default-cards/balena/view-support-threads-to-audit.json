@@ -1,12 +1,8 @@
 {
   "slug": "view-support-threads-to-audit",
   "name": "To audit",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Support",
     "allOf": [
@@ -66,7 +62,5 @@
       "lens-kanban",
       "lens-support-audit-chart"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

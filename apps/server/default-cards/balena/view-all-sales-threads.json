@@ -1,12 +1,8 @@
 {
   "slug": "view-all-sales-threads",
   "name": "All sales threads",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Sales",
     "allOf": [
@@ -51,7 +47,5 @@
     "lenses": [
       "lens-support-threads"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

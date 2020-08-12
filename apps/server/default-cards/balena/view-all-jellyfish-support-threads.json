@@ -1,13 +1,9 @@
 {
     "slug": "view-all-jellyfish-support-threads",
     "name": "Jellyfish threads",
-    "version": "1.0.0",
-    "type": "view@1.0.0",
+      "type": "view@1.0.0",
     "markers": [ "org-balena" ],
-    "tags": [],
-    "links": {},
-    "active": true,
-    "data": {
+          "data": {
       "namespace": "Support",
       "allOf": [
         {

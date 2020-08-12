@@ -1,11 +1,8 @@
 {
   "slug": "view-support-knowledge-base",
   "name": "Support knowledge base",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
   "active": false,
   "data": {
     "namespace": "Support",
@@ -31,7 +28,5 @@
       "lens-list",
       "lens-support-issue-table"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

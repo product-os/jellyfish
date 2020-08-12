@@ -10,12 +10,8 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'os-test-result',
 		name: 'OS test result',
-		version: '1.0.0',
 		type: 'type@1.0.0',
 		markers: [ 'org-balena' ],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -64,8 +60,6 @@ module.exports = ({
 			slices: [
 				'properties.data.properties.status'
 			]
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

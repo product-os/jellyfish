@@ -1,12 +1,8 @@
 {
   "slug": "view-my-orgs",
   "name": "My organisations",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -37,7 +33,5 @@
     "lenses": [
       "lens-list"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

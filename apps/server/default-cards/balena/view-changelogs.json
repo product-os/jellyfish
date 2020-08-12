@@ -1,12 +1,8 @@
 {
   "slug": "view-changelogs",
   "name": "Changelogs",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -57,7 +53,5 @@
       "lens-table",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

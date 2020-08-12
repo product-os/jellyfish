@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-support-closed-issue-reopen",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for reopening support threads when issues are closed",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -119,7 +115,5 @@
         }
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

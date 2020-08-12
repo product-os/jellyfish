@@ -1,14 +1,8 @@
 {
   "slug": "product",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "name": "Product",
   "markers": [],
-  "requires": [],
-  "capabilities": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",

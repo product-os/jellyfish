@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-integration-front-mirror-event",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for Front mirrors",
-  "tags": [],
   "markers": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -54,7 +50,5 @@
       "$eval": "source.id"
     },
     "arguments": {}
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

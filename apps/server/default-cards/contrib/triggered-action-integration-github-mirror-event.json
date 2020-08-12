@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-integration-github-mirror-event",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for GitHub mirrors",
-  "tags": [],
   "markers": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -33,7 +29,5 @@
       "$eval": "source.id"
     },
     "arguments": {}
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

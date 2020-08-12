@@ -1,12 +1,8 @@
 {
   "slug": "view-non-executed-action-requests",
   "name": "Pending actions",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -80,7 +76,5 @@
       "lens-default-list",
       "lens-default-card"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

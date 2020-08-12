@@ -2,11 +2,7 @@
   "slug": "faq",
   "name": "F.A.Q",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -35,7 +31,5 @@
         "data"
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

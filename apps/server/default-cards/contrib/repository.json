@@ -1,12 +1,8 @@
 {
   "slug": "repository",
   "name": "Github Repository",
-  "version": "1.0.0",
   "type": "type@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -36,7 +32,5 @@
     "indexed_fields": [
       [ "data.name" ]
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

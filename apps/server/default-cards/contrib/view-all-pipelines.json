@@ -1,12 +1,8 @@
 {
   "slug": "view-all-pipelines",
   "name": "All pipelines",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Pipelines",
     "allOf": [
@@ -31,7 +27,5 @@
       "lens-list",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

@@ -1,12 +1,8 @@
 {
   "slug": "view-all-opportunities",
   "name": "All opportunities",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Sales",
     "allOf": [
@@ -48,7 +44,5 @@
       "lens-crm-table",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

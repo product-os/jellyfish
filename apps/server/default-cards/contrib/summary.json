@@ -1,12 +1,8 @@
 {
   "slug": "summary",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "name": "Summary",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -89,7 +85,5 @@
       [ "data.payload.mentionsGroup" ],
       [ "data.payload.alertsGroup" ]
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }
