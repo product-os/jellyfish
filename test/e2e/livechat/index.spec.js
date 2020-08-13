@@ -66,6 +66,9 @@ ava.serial.beforeEach(async () => {
 })
 
 ava.serial.after.always(async () => {
+	await helpers.after({
+		context
+	})
 	await helpers.browser.afterEach({
 		context
 	})
