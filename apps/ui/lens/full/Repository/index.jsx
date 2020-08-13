@@ -40,7 +40,8 @@ const mapDispatchToProps = (dispatch) => {
 				'clearViewData',
 				'createLink',
 				'getLinks',
-				'loadViewResults',
+				'loadViewData',
+				'loadMoreViewData',
 				'queryAPI',
 				'streamView'
 			]), dispatch)
