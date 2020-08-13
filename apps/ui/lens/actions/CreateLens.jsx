@@ -40,8 +40,8 @@ import {
 import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import Segment from '../common/Segment'
 import {
-	getUiSchema
-} from '../ui-schema'
+	getUiSchema, UI_SCHEMA_MODE
+} from '../schema-util'
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
@@ -307,7 +307,7 @@ class CreateLens extends React.Component {
 			'properties.data.properties.alertsGroup'
 		])
 
-		const uiSchema = getUiSchema(selectedTypeTarget)
+		const uiSchema = getUiSchema(selectedTypeTarget, UI_SCHEMA_MODE.create)
 
 		const relationships = _.get(selectedTypeTarget, [ 'data', 'meta', 'relationships' ], [])
 			.filter((relationship) => {

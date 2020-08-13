@@ -53,19 +53,29 @@
       }
     },
     "uiSchema": {
-      "data": {
-        "loop": {
-          "ui:widget": "AutoCompleteWidget",
-          "ui:options": {
-            "resource": "workflow",
-            "keyPath": "data.loop"
-          }
-        },
-        "lifecycle": {
-          "ui:widget": "AutoCompleteWidget",
-          "ui:options": {
-            "resource": "workflow",
-            "keyPath": "data.lifecycle"
+      "edit": {
+        "$ref": "#/data/uiSchema/definitions/form"
+      },
+      "create": {
+        "$ref": "#/data/uiSchema/edit"
+      },
+      "definitions": {
+        "form": {
+          "data": {
+            "loop": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "workflow",
+                "keyPath": "data.loop"
+              }
+            },
+            "lifecycle": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "workflow",
+                "keyPath": "data.lifecycle"
+              }
+            }
           }
         }
       }

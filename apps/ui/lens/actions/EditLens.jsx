@@ -32,8 +32,8 @@ import {
 } from '../../core'
 import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import {
-	getUiSchema
-} from '../ui-schema'
+	getUiSchema, UI_SCHEMA_MODE
+} from '../schema-util'
 
 class EditLens extends React.Component {
 	constructor (props) {
@@ -162,7 +162,7 @@ class EditLens extends React.Component {
 
 		const cardType = helpers.getType(card.type, types)
 
-		const uiSchema = getUiSchema(cardType)
+		const uiSchema = getUiSchema(cardType, UI_SCHEMA_MODE.edit)
 
 		const schema = this.state.schema
 
