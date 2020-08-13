@@ -11,27 +11,12 @@ import {
 } from 'react-dnd'
 import {
 	Alert,
-	Box,
-	Flex
+	Box
 } from 'rendition'
-import styled from 'styled-components'
 import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import {
-	CloseButton
-} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
 import LinkModal from './LinkModal'
-
-const ErrorNotFound = styled.h1 `
-	color: white;
-	background: url(/icons/jellyfish.svg) repeat;
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-	font-size: 200px;
-	background-size: 14px;
-	margin: 10% auto;
-	background-color: #c5edff;
-`
+import ChannelNotFound from './ChannelNotFound'
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component {
@@ -119,21 +104,7 @@ class ChannelRenderer extends React.Component {
 			if (head === null) {
 				return (
 					<div style={style}>
-						<Flex flexDirection='column' alignItems='center' flex={1}>
-							<Box
-								flex={0}
-								alignSelf='flex-end'
-								mr={3}
-								mt={3}
-							>
-								<CloseButton
-									channel={channel}
-								/>
-							</Box>
-							<ErrorNotFound flex={1}>
-							404
-							</ErrorNotFound>
-						</Flex>
+						<ChannelNotFound channel={channel} />
 					</div>
 				)
 			}
