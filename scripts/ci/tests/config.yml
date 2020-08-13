@@ -13,6 +13,7 @@ jobs:
     required: true
     environment:
       FILES: './test/integration/sync/pipeline.spec.js'
+      AVA_OPTS: '--fail-fast'
   s3-file-upload:
     description: 'S3 File Upload Tests'
     command: 'make test'
@@ -20,10 +21,13 @@ jobs:
     environment:
       FILES: './test/e2e/ui/file-upload.spec.js'
       FS_DRIVER: 's3FS'
+      AVA_OPTS: '--fail-fast'
   e2e-livechat:
     description: 'E2E Livechat Tests'
     command: 'make test-e2e-livechat'
     required: true
+    environment:
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - s3-file-upload
   e2e-ui:
@@ -32,6 +36,7 @@ jobs:
     required: true
     environment:
       INTEGRATION_OUTREACH_APP_ID: ''
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - e2e-livechat
   balena-api-translate:
@@ -41,6 +46,7 @@ jobs:
     environment:
       CHECK_FOR: 'balena-api-translate.spec.js'
       FILES: './test/integration/sync/balena-api-translate.spec.js'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - e2e-ui
       - pipeline
@@ -52,6 +58,7 @@ jobs:
       CHECK_FOR: 'github-translate.spec.js'
       FILES: './test/integration/sync/github-translate.spec.js'
       INTEGRATION_GITHUB_TOKEN: 'foobar'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - balena-api-translate
   flowdock-translate:
@@ -61,6 +68,7 @@ jobs:
     environment:
       CHECK_FOR: 'flowdock-translate.spec.js'
       FILES: './test/integration/sync/flowdock-translate.spec.js'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - github-translate
   typeform-translate:
@@ -70,12 +78,15 @@ jobs:
     environment:
       CHECK_FOR: 'typeform-translate.spec.js'
       FILES: './test/integration/sync/typeform-translate.spec.js'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - flowdock-translate
   integration-core:
     description: 'Core Integration Tests'
     command: 'make test-integration-core'
     required: true
+    environment:
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - e2e-ui
       - pipeline
@@ -83,6 +94,8 @@ jobs:
     description: 'Queue Integration Tests'
     command: 'make test-integration-queue'
     required: true
+    environment:
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - integration-core
   integration-server:
@@ -91,12 +104,15 @@ jobs:
     required: true
     environment:
       SERVER_HOST: 'http://localhost'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - integration-queue
   integration-worker:
     description: 'Worker Integration Tests'
     command: 'make test-integration-worker'
     required: true
+    environment:
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - integration-server
   front-translate:
@@ -107,6 +123,7 @@ jobs:
       CHECK_FOR: 'front-translate.spec.js'
       FILES: './test/integration/sync/front-translate.spec.js'
       INTEGRATION_FRONT_TOKEN: 'foobar'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - typeform-translate
       - integration-worker
@@ -118,6 +135,7 @@ jobs:
     environment:
       CHECK_FOR: 'discourse-translate.spec.js'
       FILES: './test/integration/sync/discourse-translate.spec.js'
+      AVA_OPTS: '--fail-fast'
     depends_on:
       - typeform-translate
       - integration-worker
