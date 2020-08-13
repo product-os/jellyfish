@@ -276,7 +276,7 @@ ava.serial.skip('card actions: should let users delete a card', async (test) => 
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	test.pass()
 })
@@ -314,7 +314,7 @@ ava.serial('card actions: should let users add a custom field to a card', async 
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	// Check that the card now has the expected value
 	const updatedCard = await context.sdk.card.get(card.id)
@@ -364,6 +364,7 @@ ava.serial('user status: You should be able to enable and disable Do Not Disturb
 	const {
 		page
 	} = context
+	const dndButtonSelector = '[data-test="button-dnd"]'
 
 	await ensureCommunityLogin(page)
 
@@ -371,28 +372,27 @@ ava.serial('user status: You should be able to enable and disable Do Not Disturb
 		// Open the user menu
 		await macros.waitForThenClickSelector(page, '.user-menu-toggle')
 
-		const doNotDisturbButton = await page.waitForSelector('[data-test="button-dnd"]')
+		await page.waitForSelector(dndButtonSelector)
 
 		// A 'check' icon implies 'Do Not Disturb' is ON
-		const checkIcon = await doNotDisturbButton.$('i')
+		const checkIcon = await page.$(`${dndButtonSelector} i`)
 		test.is(Boolean(checkIcon), expectedOn)
 
 		// The user's avatar should also have a status icon if 'Do Not Disturb' is ON
 		const statusIcon = await page.$('.user-menu-toggle .user-status-icon i')
 		test.is(Boolean(statusIcon), expectedOn)
-		return doNotDisturbButton
 	}
 
-	const toggleDnd = async (doNotDisturbButton) => {
-		doNotDisturbButton.click()
-		await macros.waitForThenDismissAlert(page, 'success')
+	const toggleDnd = async () => {
+		await macros.waitForThenClickSelector(page, dndButtonSelector)
+		await macros.waitForThenDismissAlert(page, 'Success!')
 	}
 
-	let dndButton = await verifyDndState(false)
-	await toggleDnd(dndButton)
-	dndButton = await verifyDndState(true)
-	await toggleDnd(dndButton)
-	dndButton = await verifyDndState(false)
+	await verifyDndState(false)
+	await toggleDnd()
+	await verifyDndState(true)
+	await toggleDnd()
+	await verifyDndState(false)
 
 	test.pass()
 })
@@ -467,7 +467,7 @@ ava.serial('user profile: You should be able to change the send command to "ente
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="enter"]')
 
@@ -514,7 +514,7 @@ ava.serial('user profile: You should be able to change the send command to "ctrl
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
 	// TODO: Fix this test so it works

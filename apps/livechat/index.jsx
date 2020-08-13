@@ -15,6 +15,7 @@ import {
 } from '@balena/jellyfish-client-sdk'
 import {
 	Alert,
+	NotificationsContainer,
 	Provider as ThemeProvider
 } from 'rendition'
 import {
@@ -77,6 +78,7 @@ const Livechat = ({
 			<ThemeProvider style={{
 				height: '100%', display: 'flex', flexDirection: 'column'
 			}}>
+				<NotificationsContainer />
 				<ErrorBoundary getErrorElement={getErrorElement}>
 					<Router>
 						<Switch>

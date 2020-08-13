@@ -114,8 +114,13 @@ exports.logout = async (page) => {
 
 exports.waitForThenClickSelector = async (page, selector) => {
 	await exports.retry(3, async () => {
-		await page.waitForSelector(selector)
-		await page.click(selector)
+		if (selector.startsWith('//')) {
+			const el = await page.waitForXPath(selector)
+			await el.click()
+		} else {
+			await page.waitForSelector(selector)
+			await page.click(selector)
+		}
 	})
 }
 
@@ -186,8 +191,10 @@ exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => 
 	})
 }
 
-exports.waitForThenDismissAlert = async (page, alertType) => {
-	await exports.waitForThenClickSelector(page, `[data-test="alert--${alertType}"] button`)
+exports.waitForThenDismissAlert = async (page, alertPrefix) => {
+	const notificationButtonSelector =
+		`//*[contains(@class, "notification-item")][//*[contains(text(), "${alertPrefix}")]]//button`
+	await exports.waitForThenClickSelector(page, notificationButtonSelector)
 }
 
 exports.navigateToHomeChannelItem = async (page, menuStack) => {

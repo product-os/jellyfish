@@ -33,6 +33,9 @@ import {
 } from '../../../core'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
 	getLensBySlug
 } from '../../'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
@@ -228,7 +231,7 @@ class ViewRenderer extends React.Component {
 				})
 			})
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message)
+				addNotification('danger', error.message)
 			})
 	}
 
@@ -679,7 +682,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'clearViewData',
 				'loadViewData',
 				'loadMoreViewData',

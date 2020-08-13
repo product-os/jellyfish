@@ -15,6 +15,7 @@ import {
 import sinon from 'sinon'
 import React from 'react'
 import VideoLink from './VideoLink'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 const sandbox = sinon.createSandbox()
 
@@ -54,12 +55,7 @@ ava.beforeEach(async (test) => {
 		})
 	}
 
-	const actions = {
-		addNotification: sandbox.stub()
-	}
-
 	test.context.commonProps = {
-		actions,
 		sdk,
 		theme,
 		types
@@ -109,14 +105,14 @@ ava('An error notification is shown if the google-meet action fails', async (tes
 		commonProps
 	} = test.context
 
-	// This technique lets us wait until we know for sure the addNotification method has
-	// been called and we have stored the type argment
 	let notificationType = null
-	const addNotification = getPromiseResolver()
-	commonProps.actions.addNotification = (type, text) => {
-		notificationType = type
-		addNotification.resolver(type)
-	}
+	const addNotificationPromise = getPromiseResolver()
+	sandbox
+		.stub(notifications, 'addNotification')
+		.callsFake((type, content, options) => {
+			notificationType = type
+			addNotificationPromise.resolver()
+		})
 
 	commonProps.sdk.action = sandbox.fake.rejects('TestError')
 
@@ -129,7 +125,6 @@ ava('An error notification is shown if the google-meet action fails', async (tes
 	videoLink.find('Link').simulate('click')
 
 	// Wait for the addNotification method to be called
-	await addNotification.promise
-
+	await addNotificationPromise.promise
 	test.is(notificationType, 'danger')
 })

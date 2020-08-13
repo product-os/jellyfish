@@ -26,7 +26,6 @@ import {
 	ChatWidgetSidebar
 } from './components/ChatWidgetSidebar'
 import HomeChannel from './components/HomeChannel'
-import Notifications from './components/Notifications'
 import RouteHandler from './components/RouteHandler'
 import Oauth from './components/Oauth'
 import Login from './components/Auth/Login'
@@ -110,7 +109,6 @@ class JellyfishUI extends React.Component {
 						<Route path='/first_time_login/:firstTimeLoginToken/:username?' component={CompleteFirstTimeLogin} />
 						<Route path="/*" component={Login} />
 					</Switch>
-					<Notifications />
 				</AuthContainer>
 			)
 		}
@@ -150,8 +148,6 @@ class JellyfishUI extends React.Component {
 						onClose={this.handleChatWidgetClose}
 					/>
 				)}
-
-				<Notifications />
 			</React.Fragment>
 		)
 	}

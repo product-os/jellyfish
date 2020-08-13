@@ -28,7 +28,6 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'createLink',
-				'addNotification',
 				'addChannel',
 				'getLinks',
 				'queryAPI'

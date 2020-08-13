@@ -92,7 +92,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	const results = await page.evaluate((nameParam) => {
 		return window.sdk.query({
@@ -193,7 +193,7 @@ ava.serial('should let users create new opportunities and directly link existing
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
-	await macros.waitForThenDismissAlert(page, 'success')
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	// We wait for the db to catch up on the linking
 	await Bluebird.delay(1000)

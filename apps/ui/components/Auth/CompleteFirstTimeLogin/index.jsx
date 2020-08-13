@@ -20,7 +20,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'completeFirstTimeLogin'
 			]), dispatch)
 	}

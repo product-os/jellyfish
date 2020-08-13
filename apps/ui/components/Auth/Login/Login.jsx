@@ -7,6 +7,9 @@
 import React from 'react'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
 	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton, AuthLink
 } from '../AuthUtil'
 
@@ -55,7 +58,7 @@ export default class Login extends React.Component {
 				this.setState({
 					loggingIn: false
 				})
-				this.props.actions.addNotification('danger', error.message || error)
+				addNotification('danger', error.message || error)
 			})
 	}
 

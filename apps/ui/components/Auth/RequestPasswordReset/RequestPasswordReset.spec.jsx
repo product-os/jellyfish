@@ -18,6 +18,7 @@ import {
 	Img
 } from 'rendition'
 import RequestPasswordReset from './RequestPasswordReset.jsx'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 const DATA_TEST_PREFIX = 'requestPasswordReset-page'
 
@@ -56,14 +57,12 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 	const requestPasswordResetAction = sandbox.stub()
 	requestPasswordResetAction.resolves(200)
 
-	const addNotification = sandbox.stub()
-	addNotification.resolves()
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	const requestPasswordReset = mount(
 		<RequestPasswordReset
 			actions={{
-				requestPasswordReset: requestPasswordResetAction,
-				addNotification
+				requestPasswordReset: requestPasswordResetAction
 			}}
 		/>, {
 			wrappingComponent
@@ -90,7 +89,8 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 
 	test.is(requestPasswordResetAction.callCount, 1)
 	test.is(addNotification.callCount, 1)
-	test.deepEqual(addNotification.args, [ [ 'success', 'Thanks! Please check your email for a link to reset your password' ] ])
+	test.deepEqual(addNotification.args,
+		[ [ 'success', 'Thanks! Please check your email for a link to reset your password' ] ])
 })
 
 ava('Sends a danger notification if the action throws an error', async (test) => {
@@ -101,14 +101,12 @@ ava('Sends a danger notification if the action throws an error', async (test) =>
 	const requestPasswordResetAction = sandbox.stub()
 	requestPasswordResetAction.rejects(new Error())
 
-	const addNotification = sandbox.stub()
-	addNotification.resolves()
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	const requestPasswordReset = mount(
 		<RequestPasswordReset
 			actions={{
-				requestPasswordReset: requestPasswordResetAction,
-				addNotification
+				requestPasswordReset: requestPasswordResetAction
 			}}
 		/>, {
 			wrappingComponent

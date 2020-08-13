@@ -27,6 +27,9 @@ import {
 import actions from '../actions'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
 	createNotification
 } from '../../../services/notifications'
 import {
@@ -152,7 +155,6 @@ export const selectors = {
 	getChannels: (state) => { return state.core.channels },
 	getCurrentUser: (state) => { return _.get(state.core, [ 'session', 'user' ]) || null },
 	getCurrentUserStatus: (state) => { return _.get(state.core, [ 'session', 'user', 'data', 'status' ]) || null },
-	getNotifications: (state) => { return state.core.notifications || [] },
 	getSessionToken: (state) => { return _.get(state.core, [ 'session', 'authToken' ]) || null },
 	getStatus: (state) => { return state.core.status },
 	getTimelineMessage: (state, target) => {
@@ -213,8 +215,6 @@ export const selectors = {
 
 const streams = {}
 
-const NOTIFICATION_LIFETIME = 7.5 * 1000
-
 let commsStream = null
 
 export default class ActionCreator {
@@ -226,7 +226,6 @@ export default class ActionCreator {
 
 		this.bindMethods([
 			'addChannel',
-			'addNotification',
 			'addSubscription',
 			'addViewNotice',
 			'addUser',
@@ -255,7 +254,6 @@ export default class ActionCreator {
 			'queryAPI',
 			'removeChannel',
 			'removeFlow',
-			'removeNotification',
 			'removeView',
 			'removeViewDataItem',
 			'removeViewNotice',
@@ -1062,42 +1060,12 @@ export default class ActionCreator {
 		}
 	}
 
-	addNotification (type, message) {
-		if (type === 'danger') {
-			console.error(message)
-		}
-		return (dispatch) => {
-			return Bluebird.try(() => {
-				const id = uuid()
-				dispatch({
-					type: actions.ADD_NOTIFICATION,
-					value: {
-						id,
-						type,
-						message,
-						timestamp: Date.now()
-					}
-				})
-				setTimeout(() => {
-					dispatch(this.removeNotification(id))
-				}, NOTIFICATION_LIFETIME)
-			})
-		}
-	}
-
-	removeNotification (id) {
-		return {
-			type: actions.REMOVE_NOTIFICATION,
-			value: id
-		}
-	}
-
 	removeView (view) {
 		return async (dispatch, getState) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
 				if (!helpers.isCustomView(view, user.slug)) {
-					dispatch(this.addNotification('danger', 'You do not have permission to delete this view'))
+					addNotification('danger', 'You do not have permission to delete this view')
 					return
 				}
 
@@ -1116,10 +1084,10 @@ export default class ActionCreator {
 				// Then remove the card via the SDK
 				await this.sdk.card.remove(view.id, view.type)
 
-				dispatch(this.addNotification('success', 'Successfully deleted view'))
+				addNotification('success', 'Successfully deleted view')
 			} catch (err) {
 				console.error('Failed to remove view', err)
-				dispatch(this.addNotification('danger', 'Could not remove view'))
+				addNotification('danger', 'Could not remove view')
 			}
 		}
 	}
@@ -1149,10 +1117,10 @@ export default class ActionCreator {
 
 				dispatch(this.setUser(updatedUser))
 				if (successNotification !== null) {
-					dispatch(this.addNotification('success', successNotification || 'Successfully updated user'))
+					addNotification('success', successNotification || 'Successfully updated user')
 				}
 			} catch (error) {
-				dispatch(this.addNotification('danger', error.message || error))
+				addNotification('danger', error.message || error)
 			}
 		}
 	}
@@ -1174,12 +1142,12 @@ export default class ActionCreator {
 					user
 				}))
 				if (loginLinkSent) {
-					dispatch(this.addNotification('success', 'Successfully created user'))
+					addNotification('success', 'Successfully created user')
 					return true
 				}
 				return false
 			} catch (error) {
-				dispatch(this.addNotification('danger', error.message))
+				addNotification('danger', error.message)
 				return false
 			}
 		}
@@ -1196,10 +1164,10 @@ export default class ActionCreator {
 					type: user.type,
 					arguments: {}
 				})
-				dispatch(this.addNotification('success', 'Sent first-time login token to user'))
+				addNotification('success', 'Sent first-time login token to user')
 				return true
 			} catch (error) {
-				dispatch(this.addNotification('danger', error.message))
+				addNotification('danger', error.message)
 				return false
 			}
 		}
@@ -1271,9 +1239,9 @@ export default class ActionCreator {
 					}
 				})
 
-				dispatch(this.addNotification('success', 'Successfully changed password'))
+				addNotification('success', 'Successfully changed password')
 			} catch (error) {
-				dispatch(this.addNotification('danger', error.message || error))
+				addNotification('danger', error.message || error)
 			}
 		}
 	}
@@ -1317,10 +1285,10 @@ export default class ActionCreator {
 					}
 				})
 				if (!options.skipSuccessMessage) {
-					dispatch(this.addNotification('success', 'Created new link'))
+					addNotification('success', 'Created new link')
 				}
 			} catch (error) {
-				dispatch(this.addNotification('danger', error.message))
+				addNotification('danger', error.message)
 			}
 		}
 	}
@@ -1659,7 +1627,7 @@ export default class ActionCreator {
 						})
 				})
 				.catch((error) => {
-					dispatch(this.addNotification('danger', error.message))
+					addNotification('danger', error.message)
 				})
 		}
 	}

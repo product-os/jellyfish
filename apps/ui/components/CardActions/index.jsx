@@ -30,7 +30,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'addChannel',
 				'setFlow',
 				'createLink',

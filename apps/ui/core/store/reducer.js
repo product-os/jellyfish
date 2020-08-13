@@ -54,7 +54,6 @@ export const defaultState = {
 		types: [],
 		groups: {},
 		session: null,
-		notifications: [],
 		viewNotices: {},
 		cards: {},
 		orgs: [],
@@ -365,29 +364,6 @@ const coreReducer = (state = defaultState.core, action = {}) => {
 				}
 			})
 		}
-		case actions.ADD_NOTIFICATION: {
-			return update(state, {
-				notifications: {
-					$apply: (notifications) => {
-						notifications.push(action.value)
-
-						// Keep at most 2 notifications
-						return notifications.slice(-2)
-					}
-				}
-			})
-		}
-		case actions.REMOVE_NOTIFICATION: {
-			return update(state, {
-				notifications: {
-					$apply: (notifications) => {
-						return _.reject(notifications, {
-							id: action.value
-						})
-					}
-				}
-			})
-		}
 		case actions.ADD_VIEW_NOTICE: {
 			return update(state, {
 				viewNotices: {
@@ -460,7 +436,7 @@ const rootPersistConfig = {
 const corePersistConfig = {
 	...commonConfig,
 	key: 'core',
-	blacklist: [ 'status', 'cards', 'notifications', 'channels', 'usersTyping' ]
+	blacklist: [ 'status', 'cards', 'channels', 'usersTyping' ]
 }
 
 const uiPersistConfig = {

@@ -22,6 +22,9 @@ import {
 	sdk
 } from '../../../core'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import Feedback from './Feedback'
 
 export default function AuditPanel (props) {
@@ -94,7 +97,7 @@ export default function AuditPanel (props) {
 			}
 		})
 			.then((result) => {
-				props.actions.addNotification('success', 'Created feedback item')
+				addNotification('success', 'Created feedback item')
 				return Bluebird.all([
 					sdk.card.link(
 						props.card,
@@ -109,7 +112,7 @@ export default function AuditPanel (props) {
 				])
 			})
 			.catch((error) => {
-				props.actions.addNotification('danger', error.message || error)
+				addNotification('danger', error.message || error)
 			})
 	}
 

@@ -15,6 +15,9 @@ import {
 	Form
 } from 'rendition'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import * as skhema from 'skhema'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
@@ -39,7 +42,6 @@ class CreateUserLens extends React.Component {
 		super(props)
 
 		const {
-			actions,
 			user
 		} = this.props
 
@@ -48,7 +50,7 @@ class CreateUserLens extends React.Component {
 		})
 
 		if (!orgs.length) {
-			actions.addNotification('danger', 'You must belong to an organisation to add new users')
+			addNotification('danger', 'You must belong to an organisation to add new users')
 		}
 
 		const formSchema = _.set(_.clone(FORM_SCHEMA), [ 'properties', 'organisation' ], {

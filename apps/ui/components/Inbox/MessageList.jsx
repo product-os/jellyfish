@@ -12,7 +12,6 @@ import {
 import {
 	withRouter
 } from 'react-router-dom'
-import memoize from 'memoize-one'
 import {
 	bindActionCreators,
 	compose
@@ -55,9 +54,6 @@ const MessageListColumn = styled(Column) `
 	position: relative;
 	min-height: 0;
 `
-
-const eventActionNames = [ 'addNotification' ]
-const pickEventActions = memoize(_.pick)
 
 class MessageList extends React.Component {
 	constructor (props) {
@@ -149,8 +145,6 @@ class MessageList extends React.Component {
 			tail.reverse()
 		}
 
-		const eventActions = pickEventActions(this.props.actions, eventActionNames)
-
 		// Todo: These date groupings should be replaced with a
 		// proper sectionlist component
 		// for example: https://github.com/lucasferreira/react-virtualized-sectionlist
@@ -211,7 +205,6 @@ class MessageList extends React.Component {
 										card={card}
 										selectCard={selectors.getCard}
 										getCard={this.props.actions.getCard}
-										actions={eventActions}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -254,7 +247,6 @@ class MessageList extends React.Component {
 										card={card}
 										selectCard={selectors.getCard}
 										getCard={this.props.actions.getCard}
-										actions={eventActions}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -297,7 +289,6 @@ class MessageList extends React.Component {
 										card={card}
 										selectCard={selectors.getCard}
 										getCard={this.props.actions.getCard}
-										actions={eventActions}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -340,7 +331,6 @@ class MessageList extends React.Component {
 										card={card}
 										selectCard={selectors.getCard}
 										getCard={this.props.actions.getCard}
-										actions={eventActions}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -413,7 +403,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'getCard'
 			]),
 			dispatch

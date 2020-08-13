@@ -10,6 +10,9 @@ import {
 	stepStatus
 } from '../flow-utils'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import StepsFlow from '../../StepsFlow'
 import * as handoverUtils from './handover-utils'
 import {
@@ -51,7 +54,7 @@ export default function HandoverFlowPanel ({
 			// Check we're not trying to reasssign the issue to the current owner
 			// (Note: the NewOwnerStep component should prevent this anyway)
 			if (cardOwner && newOwner && cardOwner.id === newOwner.id) {
-				actions.addNotification('danger', `${helpers.userDisplayName(cardOwner)} already owns this ${cardTypeName}`)
+				addNotification('danger', `${helpers.userDisplayName(cardOwner)} already owns this ${cardTypeName}`)
 				return
 			}
 
@@ -97,7 +100,7 @@ export default function HandoverFlowPanel ({
 			updateCardOwnerCache(newOwner || null)
 		} catch (error) {
 			console.error('Failed to assign card', error)
-			actions.addNotification('danger', 'Handover failed. Refresh the page and try again.')
+			addNotification('danger', 'Handover failed. Refresh the page and try again.')
 			return
 		}
 

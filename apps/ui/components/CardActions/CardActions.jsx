@@ -18,6 +18,9 @@ import CardLinker from '../CardLinker'
 import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
 	ActionLink
 } from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
 import CardOwner from '../CardOwner'
@@ -30,10 +33,10 @@ export default class CardActions extends React.Component {
 		this.delete = () => {
 			props.sdk.card.remove(this.props.card.id, this.props.card.type)
 				.then(() => {
-					this.props.actions.addNotification('success', 'Deleted card')
+					addNotification('success', 'Deleted card')
 				})
 				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
+					addNotification('danger', error.message)
 				})
 			this.setState({
 				showDeleteModal: false

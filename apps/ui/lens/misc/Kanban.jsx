@@ -29,6 +29,9 @@ import {
 	sdk
 } from '../../core'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import BaseLens from '../common/BaseLens'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
@@ -100,7 +103,7 @@ class Kanban extends BaseLens {
 				})
 			})
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message)
+				addNotification('danger', error.message)
 			})
 	}
 
@@ -227,8 +230,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
-				'addNotification'
+				'addChannel'
 			]),
 			dispatch
 		)

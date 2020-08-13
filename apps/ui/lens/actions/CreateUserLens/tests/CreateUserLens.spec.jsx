@@ -14,6 +14,7 @@ import {
 } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 import CreateUserLens from '../CreateUserLens'
 import CHANNEL from './fixtures/channel.json'
 import USER from './fixtures/user.json'
@@ -29,8 +30,7 @@ const sandbox = sinon.createSandbox()
 ava.beforeEach((test) => {
 	const actions = {
 		addUser: sinon.stub(),
-		removeChannel: sinon.stub(),
-		addNotification: sinon.stub()
+		removeChannel: sinon.stub()
 	}
 
 	const {
@@ -60,15 +60,16 @@ ava.beforeEach((test) => {
 	}
 })
 
-ava.afterEach(() => {
+ava.afterEach((test) => {
 	sandbox.restore()
 })
 
 ava.serial('Fires an error notification when the user\'s organisation cannot be found', async (test) => {
 	const {
-		mountComponent,
-		actions
+		mountComponent
 	} = test.context
+
+	const addNotification = sinon.stub(notifications, 'addNotification')
 
 	const lens = await mountComponent({
 		user: {}
@@ -77,8 +78,8 @@ ava.serial('Fires an error notification when the user\'s organisation cannot be 
 	await flushPromises()
 	lens.update()
 
-	test.is(actions.addNotification.callCount, 1)
-	test.deepEqual(actions.addNotification.args, [ [ 'danger', 'You must belong to an organisation to add new users' ] ])
+	test.is(addNotification.callCount, 1)
+	test.deepEqual(addNotification.args, [ [ 'danger', 'You must belong to an organisation to add new users' ] ])
 })
 
 ava.serial('Submit button is disabled if username is missing', async (test) => {
