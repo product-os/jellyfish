@@ -188,11 +188,11 @@ export class Interleaved extends BaseLens {
 		this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 	}
 
-	componentDidUpdate (nextProps) {
+	componentDidUpdate (prevProps) {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom()
-		if (nextProps.tail && this.props.tail &&
-            (nextProps.tail.length !== this.props.tail.length)) {
+		if (prevProps.tail && this.props.tail &&
+            (prevProps.tail.length !== this.props.tail.length)) {
 			window.requestAnimationFrame(() => {
 				const {
 					scrollArea
