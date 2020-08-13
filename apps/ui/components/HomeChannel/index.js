@@ -54,7 +54,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'loadViewResults',
+				'loadViewData',
 				'logout',
 				'removeViewNotice',
 				'updateUser',
@@ -63,8 +63,7 @@ const mapDispatchToProps = (dispatch) => {
 				'setChatWidgetOpen',
 				'setDefault',
 				'setSidebarExpanded',
-				'setViewStarred',
-				'streamView'
+				'setViewStarred'
 			]), dispatch)
 	}
 }
