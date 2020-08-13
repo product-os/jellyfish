@@ -36,8 +36,8 @@ export default class RouteHandler extends React.Component {
 		this.calcWidth(nextProps.channels)
 	}
 
-	componentDidUpdate (nextProps) {
-		if (nextProps.location.pathname !== this.props.location.pathname) {
+	componentDidUpdate (prevProps) {
+		if (prevProps.location.pathname !== this.props.location.pathname) {
 			this.setChannelsFromPath()
 		}
 	}

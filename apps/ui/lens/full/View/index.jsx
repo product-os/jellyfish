@@ -492,19 +492,19 @@ class ViewRenderer extends React.Component {
 		return null
 	}
 
-	componentDidUpdate (nextProps) {
-		if (this.props.channel.data.target !== nextProps.channel.data.target) {
+	componentDidUpdate (prevProps) {
+		if (this.props.channel.data.target !== prevProps.channel.data.target) {
 			this.setState({
 				ready: false
 			})
 		}
-		if (!circularDeepEqual(this.props.channel.data.target, nextProps.channel.data.target)) {
-			this.bootstrap(nextProps.channel)
+		if (!circularDeepEqual(this.props.channel.data.target, prevProps.channel.data.target)) {
+			this.bootstrap(this.props.channel)
 		}
-		if (!this.props.channel.data.head && nextProps.channel.data.head) {
+		if (!this.props.channel.data.head && prevProps.channel.data.head) {
 			// Convert jellyfish view into a format that rendition can understand
 			this.setState({
-				filters: _.map(_.filter(nextProps.channel.data.head.data.allOf, {
+				filters: _.map(_.filter(this.props.channel.data.head.data.allOf, {
 					name: USER_FILTER_NAME
 				}), (item) => {
 					return {

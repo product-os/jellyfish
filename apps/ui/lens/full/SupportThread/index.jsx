@@ -280,17 +280,17 @@ class SupportThreadBase extends React.Component {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
 	}
 
-	componentDidUpdate (nextProps) {
+	componentDidUpdate (prevProps) {
 		const verb1 = 'support thread is attached to support issue'
 		const verb2 = 'support thread is attached to issue'
 		const verb3 = 'support thread is attached to product improvement'
 		if (
-			(nextProps.card.id !== this.props.card.id) ||
-			(nextProps.card.linked_at[verb1] !== this.props.card.linked_at[verb1]) ||
-			(nextProps.card.linked_at[verb2] !== this.props.card.linked_at[verb2]) ||
-			(nextProps.card.linked_at[verb3] !== this.props.card.linked_at[verb3])
+			(prevProps.card.id !== this.props.card.id) ||
+			(prevProps.card.linked_at[verb1] !== this.props.card.linked_at[verb1]) ||
+			(prevProps.card.linked_at[verb2] !== this.props.card.linked_at[verb2]) ||
+			(prevProps.card.linked_at[verb3] !== this.props.card.linked_at[verb3])
 		) {
-			this.loadLinks(nextProps.card.id)
+			this.loadLinks(this.props.card.id)
 		}
 	}
 
