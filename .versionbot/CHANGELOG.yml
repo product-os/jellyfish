@@ -1,4 +1,22 @@
 - commits:
+    - subject: Add link to home from 404 view
+      hash: 5a5b7abf9655787cec87c8418b9dd7c02ed43949
+      body: >
+        Link to home is only displayed if the channel is the only one (apart
+        from the home channel). 
+
+
+        Refactored 404 view into it's own component.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.94.0
+  date: 2020-08-13T06:12:27.389Z
+- commits:
     - subject: Ensure component updates are handled correctly
       hash: 333fa5f28f3842f775a8a763a9e0366445fd2be0
       body: |
