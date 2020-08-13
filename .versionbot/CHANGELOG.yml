@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Enable --fail-fast for all CI tests'
+      hash: ee22aff266b425c88e9a2db518d5da37694105a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.94.1
+  date: 2020-08-13T09:18:40.680Z
+- commits:
     - subject: Add link to home from 404 view
       hash: 5a5b7abf9655787cec87c8418b9dd7c02ed43949
       body: >
