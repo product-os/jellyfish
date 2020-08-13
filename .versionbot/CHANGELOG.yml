@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add support for uiSchema 'modes'
+      hash: 8f31343a3d87ad0fed6cba7d6a7bbb01451878be
+      body: >
+        Refactor type cards that already use uiSchema so different UI schemas
+        can be defined for specific modes of use.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.93.0
+  date: 2020-08-12T09:19:58.263Z
+- commits:
     - subject: Upgrade to jellyfish-action-library v2
       hash: f3a180e6d8dee4c7aa0e398e22acaef4960ece46
       body: |
