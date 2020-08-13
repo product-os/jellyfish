@@ -18,8 +18,11 @@ const cardLoader = require('./card-loader')
 const http = require('./http')
 const socket = require('./socket')
 const graphql = require('./graphql')
+const loadDefaultCards = require('./default-cards')
 
 module.exports = async (context, options) => {
+	context.defaultCards = loadDefaultCards(core.cardMixins)
+
 	logger.info(context, 'Configuring HTTP server')
 	const webServer = await http(context, {
 		port: environment.http.port,
