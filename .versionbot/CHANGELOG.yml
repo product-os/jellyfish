@@ -1,4 +1,34 @@
 - commits:
+    - subject: Pass in core mixins to server default cards
+      hash: 545fdd6b9d41282a694ccd14bd679226501a4e2c
+      body: |
+        Keeps architecture clean and deplint happy!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Consolidate logic for loading all cards
+      hash: 6fb420a9bfb944693c56a4a630f396c47cff0935
+      body: >
+        All cards are (synchronously) de-referenced when loaded.
+
+        All cards are now initialized with 'sensible defaults' so these fields
+        do not need to explicitly appear in the card definition file.
+
+        All type cards are initialized with a base UI schema.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.95.0
+  date: 2020-08-14T02:59:23.286Z
+- commits:
     - subject: 'ci: Group failed e2e test screenshot comments'
       hash: ee0d84650f859f9d0cfbf24bc63222570eca4128
       body: ''
