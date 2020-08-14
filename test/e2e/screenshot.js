@@ -36,22 +36,23 @@ const GITHUB_REPO = 'jellyfish'
  * @param {String} title - test title
  *
  * @example
- * screenshot.takeScreenshot(context, test.tilte)
+ * screenshot.take(context, test.title)
  */
-exports.takeScreenshot = async (context, title) => {
-	const testTitle = title.replace(/^.*\shook\sfor\s/, '')
-	context.screenshots = (context.screenshots || 0) + 1
-
-	const dir = './tmp/test-results/screenshots'
+exports.take = async (context, title) => {
+	if (!context.screenshots) {
+		context.screenshots = []
+	}
 
 	// Make directory before using it
+	const dir = './tmp/test-results/screenshots'
 	fs.mkdirSync(dir, {
 		recursive: true
 	}, (err) => {
 		if (err) throw err
 	})
 
-	const file = `${testTitle}.${context.screenshots}.png`
+	const testTitle = title.replace(/^.*\shook\sfor\s/, '')
+	const file = `${testTitle}.${context.screenshots.length + 1}.png`
 	const path = `${dir}/${file}`
 	await context.page.screenshot({
 		path
@@ -62,7 +63,10 @@ exports.takeScreenshot = async (context, title) => {
 		const screenshotLink = await exports.upload(path)
 		if (!_.isEmpty(screenshotLink)) {
 			console.log(`Screenshot uploaded to: ${screenshotLink}`)
-			await exports.comment(testTitle, screenshotLink)
+			context.screenshots.push({
+				link: screenshotLink,
+				title: testTitle
+			})
 		}
 	} catch (err) {
 		console.error(`Error occurred during screenshot upload/comment: ${err}`)
@@ -105,21 +109,26 @@ exports.upload = async (path) => {
 }
 
 /**
- * @summary Comment on PR of failed test with error details and screenshot link
+ * @summary Comment on PR that had failed tests with test titles and screenshot links
  * @function
  *
- * @param {String} testTitle - title of failed test
- * @param {String} screenshotLink - link to uploaded screenshot
+ * @param {Array} screenshots - list of screenshots taken of failed tests
+ *
  * @example
- * await comment('example error message', 'http://example.com/my-file.png')
+ * const screenshots = []
+ * screenshots.push({
+ *   title: 'My Test',
+ *   link: 'http://example.com/screenshot.png'
+ * })
+ * await comment(screenshots)
  */
-exports.comment = async (testTitle, screenshotLink) => {
+exports.comment = async (screenshots) => {
 	if (_.isEmpty(environment.test.ci) || _.isEmpty(environment.integration.github.api)) {
 		console.log('Skipping screenshot PR comment, CI or GitHub API key environment variable not set')
 		return
 	}
 
-	console.log('Posting screenshot link as a comment on PR...')
+	console.log('Posting screenshot links as a comment on PR...')
 
 	// Set up octokit
 	const octokit = new Octokit({
@@ -152,11 +161,17 @@ exports.comment = async (testTitle, screenshotLink) => {
 		throw new Error(`Unable to find a single PR for branch "${branch}", skipping PR comment`)
 	}
 
+	// Build comment body
+	let body = ':x: **E2E Tests Failed**'
+	screenshots.forEach((screenshot) => {
+		body += `<br><br>Test: ${screenshot.title}<br>Screenshot: [Download](${screenshot.link})`
+	})
+
 	// Make new comment on found PR
 	await octokit.issues.createComment({
 		owner: GITHUB_OWNER,
 		repo: GITHUB_REPO,
 		issue_number: matches[0].number,
-		body: `:x: **E2E Test Failed**<br><br>Test: ${testTitle}<br>Screenshot: [Download](${screenshotLink})`
+		body
 	})
 }

@@ -14,7 +14,15 @@ exports.afterEach = async ({
 	context, test
 }) => {
 	if (!test.passed) {
-		await screenshot.takeScreenshot(context, test.title)
+		await screenshot.take(context, test.title)
+	}
+}
+
+exports.after = async ({
+	context
+}) => {
+	if (context.screenshots) {
+		await screenshot.comment(context.screenshots)
 	}
 }
 
