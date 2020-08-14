@@ -114,7 +114,7 @@
     "@balena/jellyfish-action-library": "^2.0.0",
     "@balena/jellyfish-assert": "^0.0.21",
     "@balena/jellyfish-chat-widget": "^0.0.11",
-    "@balena/jellyfish-client-sdk": "^2.1.0",
+    "@balena/jellyfish-client-sdk": "^2.1.1",
     "@balena/jellyfish-environment": "^2.1.2",
     "@balena/jellyfish-logger": "^0.0.24",
     "@balena/jellyfish-metrics": "^0.0.24",
