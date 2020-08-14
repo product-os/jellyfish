@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix issue where messages cannot be marked as read
+      hash: 4d07648cb1bd03e9a0d804ae9fa9e5a647590f61
+      body: |
+        Fixes #4599
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 30.95.1
+  date: 2020-08-14T16:15:11.269Z
+- commits:
     - subject: Pass in core mixins to server default cards
       hash: 545fdd6b9d41282a694ccd14bd679226501a4e2c
       body: |
