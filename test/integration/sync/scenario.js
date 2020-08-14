@@ -12,9 +12,11 @@ const {
 } = require('uuid')
 const path = require('path')
 const _ = require('lodash')
-const defaultCards = require('../../../apps/server/default-cards')
 const syncHelpers = require('../../integration/sync/helpers')
 const helpers = require('./helpers')
+const utils = require('../utils')
+
+const defaultCards = utils.loadDefaultCards()
 
 const TRANSLATE_PREFIX = uuid()
 

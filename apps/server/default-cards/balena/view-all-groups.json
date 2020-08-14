@@ -1,12 +1,8 @@
 {
   "slug": "view-all-groups",
   "name": "Chat groups",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "namespace": "Comms",
     "allOf": [
@@ -30,7 +26,5 @@
     "lenses": [
       "lens-list"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

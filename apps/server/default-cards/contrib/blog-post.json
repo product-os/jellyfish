@@ -1,12 +1,8 @@
 {
   "slug": "blog-post",
   "name": "Blog post",
-  "version": "1.0.0",
   "type": "type@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -257,7 +253,5 @@
       "content",
       "post_promo"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

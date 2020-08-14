@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-update-event-edited-at",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for updating the event's edited_at field when the payload is updated",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -78,7 +74,5 @@
         }
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

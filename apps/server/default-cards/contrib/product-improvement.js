@@ -13,12 +13,7 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'product-improvement',
 		name: 'Product improvement',
-		version: '1.0.0',
 		type: 'type@1.0.0',
-		markers: [],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -125,8 +120,6 @@ module.exports = ({
 					}
 				]
 			}
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

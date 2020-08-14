@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-set-user-avatar",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for user avatars",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "async": false,
     "filter": {
@@ -24,7 +20,5 @@
       "$eval": "source.id"
     },
     "arguments": {}
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

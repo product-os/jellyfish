@@ -10,12 +10,7 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'support-issue',
 		type: 'type@1.0.0',
-		version: '1.0.0',
 		name: 'Support Issue',
-		markers: [],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -95,8 +90,6 @@ module.exports = ({
 				'problem',
 				'solution'
 			]
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

@@ -10,12 +10,7 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'support-thread',
 		name: 'Support Thread',
-		version: '1.0.0',
 		type: 'type@1.0.0',
-		markers: [],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -96,8 +91,6 @@ module.exports = ({
 			indexed_fields: [
 				[ 'data.status', 'data.category', 'data.product' ]
 			]
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

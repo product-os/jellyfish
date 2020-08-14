@@ -1,12 +1,8 @@
 {
   "slug": "view-all-by-type",
   "name": "All cards by type",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -46,7 +42,5 @@
         }
       }
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

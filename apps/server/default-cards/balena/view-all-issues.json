@@ -1,12 +1,8 @@
 {
   "slug": "view-all-issues",
   "name": "All GitHub issues",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -51,7 +47,5 @@
       "lens-table",
       "lens-kanban"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

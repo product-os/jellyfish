@@ -1,12 +1,8 @@
 {
   "slug": "view-all-pull-requests",
   "name": "All pull requests",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -31,7 +27,5 @@
       "lens-kanban",
       "lens-pull-request-chart"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

@@ -10,12 +10,7 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'issue',
 		name: 'GitHub Issue',
-		version: '1.0.0',
 		type: 'type@1.0.0',
-		markers: [],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -86,8 +81,6 @@ module.exports = ({
 			slices: [
 				'properties.data.properties.status'
 			]
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

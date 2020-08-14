@@ -1,12 +1,8 @@
 {
   "slug": "discussion-topic",
   "name": "Discussion topic",
-  "version": "1.0.0",
   "type": "type@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -75,7 +71,5 @@
 				}
 			]
 		}
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

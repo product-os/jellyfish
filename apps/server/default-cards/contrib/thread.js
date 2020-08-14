@@ -10,12 +10,7 @@ module.exports = ({
 	return mixin(withEvents)({
 		slug: 'thread',
 		type: 'type@1.0.0',
-		version: '1.0.0',
 		name: 'Chat thread',
-		markers: [],
-		tags: [],
-		links: {},
-		active: true,
 		data: {
 			schema: {
 				type: 'object',
@@ -31,8 +26,6 @@ module.exports = ({
 					}
 				}
 			}
-		},
-		requires: [],
-		capabilities: []
+		}
 	})
 }

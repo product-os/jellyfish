@@ -162,7 +162,7 @@
     "immutability-helper": "^3.1.1",
     "is-uuid": "^1.0.2",
     "json-e": "^4.1.0",
-    "json-schema-ref-parser": "^9.0.6",
+    "json-schema-deref-sync": "github:cvent/json-schema-deref-sync#8bdbac1ff3e001a7b459e08229d3aa93f42b5f13",
     "jsonwebtoken": "^8.5.1",
     "localforage": "^1.9.0",
     "lodash": "^4.17.19",

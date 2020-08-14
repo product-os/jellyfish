@@ -6,7 +6,9 @@
 
 const _ = require('lodash')
 const ava = require('ava')
-const CardCard = require('../../../../../../lib/core/cards/card')
+const {
+	card: CardCard
+} = require('../../../../../../lib/core/cards')
 const CardHandler = require('../../../../../../apps/server/graphql/card-handlers/card-handler')
 const graphql = require('graphql')
 const {

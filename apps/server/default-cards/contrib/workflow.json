@@ -1,12 +1,8 @@
 {
   "slug": "workflow",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "name": "Workflow",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -83,7 +79,5 @@
     "slices": [
       "properties.data.properties.status"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

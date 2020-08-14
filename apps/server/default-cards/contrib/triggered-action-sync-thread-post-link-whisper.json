@@ -1,12 +1,8 @@
 {
   "slug": "triggered-action-sync-thread-post-link-whisper",
   "type": "triggered-action@1.0.0",
-  "version": "1.0.0",
   "name": "Triggered action for creating a whisper with link on thread sync",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "filter": {
       "title": "Support threads created with a 'mirrors' field",
@@ -70,7 +66,5 @@
       },
       "type": "whisper"
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

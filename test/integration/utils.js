@@ -7,6 +7,12 @@
 const {
 	v4: uuid
 } = require('uuid')
+const coreMixins = require('../../lib/core/cards/mixins')
+const loadDefaultCards = require('../../apps/server/default-cards')
+
+exports.loadDefaultCards = () => {
+	return loadDefaultCards(coreMixins)
+}
 
 exports.generateRandomID = () => {
 	return uuid()

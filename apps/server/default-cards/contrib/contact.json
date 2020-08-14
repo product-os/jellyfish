@@ -2,11 +2,7 @@
   "slug": "contact",
   "type": "type@1.0.0",
   "name": "Contact",
-  "version": "1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -150,7 +146,5 @@
         }
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

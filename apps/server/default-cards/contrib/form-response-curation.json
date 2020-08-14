@@ -2,11 +2,7 @@
   "slug": "form-response-curation",
   "name": "Form response curation",
   "type": "type@1.0.0",
-  "version": "1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -93,7 +89,5 @@
         ]
       }
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

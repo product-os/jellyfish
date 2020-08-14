@@ -1,12 +1,8 @@
 {
   "slug": "view-all-specifications",
   "name": "Specifications",
-  "version": "1.0.0",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "allOf": [
       {
@@ -50,7 +46,5 @@
     "lenses": [
       "lens-list"
     ]
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }

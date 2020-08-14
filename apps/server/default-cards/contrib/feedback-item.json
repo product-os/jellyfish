@@ -1,12 +1,8 @@
 {
   "slug": "feedback-item",
   "name": "Feedback item",
-  "version": "1.0.0",
   "type": "type@1.0.0",
   "markers": [],
-  "tags": [],
-  "links": {},
-  "active": true,
   "data": {
     "schema": {
       "type": "object",
@@ -82,7 +78,5 @@
         "data"
       ]
     }
-  },
-  "requires": [],
-  "capabilities": []
+  }
 }
