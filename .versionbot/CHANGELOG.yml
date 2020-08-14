@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Group failed e2e test screenshot comments'
+      hash: ee0d84650f859f9d0cfbf24bc63222570eca4128
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.94.2
+  date: 2020-08-14T02:07:04.697Z
+- commits:
     - subject: 'ci: Enable --fail-fast for all CI tests'
       hash: ee22aff266b425c88e9a2db518d5da37694105a5
       body: ''
