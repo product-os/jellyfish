@@ -123,8 +123,15 @@ exports.upload = async (path) => {
  * await comment(screenshots)
  */
 exports.comment = async (screenshots) => {
+	// Check that all required environment variables are set
 	if (_.isEmpty(environment.test.ci) || _.isEmpty(environment.integration.github.api)) {
 		console.log('Skipping screenshot PR comment, CI or GitHub API key environment variable not set')
+		return
+	}
+
+	// Make sure we have screenshot data to work with
+	if (_.isEmpty(screenshots)) {
+		console.log('Skipping screenshot PR comment, no screenshot data found')
 		return
 	}
 
