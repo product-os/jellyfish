@@ -17,6 +17,9 @@ import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 export default function FieldValue ({
 	fieldValue, fieldKey, schema, parentKey, ...props
 }) {
+	if (_.isNil(fieldValue)) {
+		return null
+	}
 	let value = fieldValue
 
 	if (_.get(schema, [ 'format' ]) === 'date-time') {
