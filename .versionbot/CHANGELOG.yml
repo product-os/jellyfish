@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Allow for null field values'
+      hash: 641a6f4f050c54daa95259cb5516a2e99ebf9e93
+      body: >
+        Prevents an unhandled exception when trying to call `toString()` on a
+        null value!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.95.3
+  date: 2020-08-17T02:52:20.023Z
+- commits:
     - subject: 'ci: Skip E2E GitHub comment if no screenshots were taken'
       hash: ecc17f76ee2371d6b2b5e18f47d6df95ed23b7d5
       body: ''
