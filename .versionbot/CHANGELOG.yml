@@ -1,4 +1,23 @@
 - commits:
+    - subject: Remove as much server info from nginx as possible without recompiling
+      hash: 342a897b85f4826bb833b8123bcec3f173f05e3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+    - subject: Enable gzip compression in nginx configs
+      hash: 47e71b90cc55f6ab3130869edc43f39f4c87aa9b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested: []
+  version: 30.95.4
+  date: 2020-08-17T16:19:16.021Z
+- commits:
     - subject: 'ui: Allow for null field values'
       hash: 641a6f4f050c54daa95259cb5516a2e99ebf9e93
       body: >
