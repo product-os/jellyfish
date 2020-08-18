@@ -9,64 +9,80 @@ const Bluebird = require('bluebird')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment')
 
-const attachCreateEventIfNotExists = async (context, jellyfish, worker, session, card) => {
-	const createEventCard = (await jellyfish.query(context, session, {
+const attachCreateEventIfNotExists = async (context, jellyfish, worker, session) => {
+	const triggeredActions = await jellyfish.query(context, session, {
 		type: 'object',
 		properties: {
 			type: {
-				const: 'create@1.0.0'
+				const: 'triggered-action@1.0.0'
+			},
+			active: {
+				const: true
 			}
 		},
-		required: [
-			'type'
-		],
-		$$links: {
-			'is attached to': {
-				type: 'object',
-				properties: {
-					id: {
-						const: card.id
-					}
-				},
-				required: [
-					'id'
-				]
+		required: [ 'type', 'active' ]
+	})
+
+	await Bluebird.map(triggeredActions, async (triggeredAction) => {
+		const createEventCard = (await jellyfish.query(context, session, {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'create@1.0.0'
+				}
+			},
+			required: [
+				'type',
+				'links'
+			],
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					properties: {
+						id: {
+							const: triggeredAction.id
+						}
+					},
+					required: [
+						'id'
+					]
+				}
+			}
+		}, {
+			limit: 1
+		}))[0]
+
+		if (createEventCard) {
+			return
+		}
+
+		const time = new Date()
+		const actionContext = worker.getActionContext(context)
+		const sessionCard = await jellyfish.getCardById(
+			context, jellyfish.sessions.admin, session)
+
+		const request = {
+			action: 'action-create-event@1.0.0',
+			card: triggeredAction,
+			actor: sessionCard.data.actor,
+			context,
+			timestamp: time.toISOString(),
+			epoch: time.valueOf(),
+			arguments: {
+				name: null,
+				type: 'create',
+				payload: triggeredAction,
+				tags: []
 			}
 		}
-	}, {
-		limit: 1
-	}))[0]
 
-	if (createEventCard) {
-		return
-	}
-
-	const time = new Date()
-	const actionContext = worker.getActionContext(context)
-	const sessionCard = await jellyfish.getCardById(
-		context, jellyfish.sessions.admin, session)
-
-	const request = {
-		action: 'action-create-event@1.0.0',
-		card,
-		actor: sessionCard.data.actor,
-		context,
-		timestamp: time.toISOString(),
-		epoch: time.valueOf(),
-		arguments: {
-			name: null,
-			type: 'create',
-			payload: card,
-			tags: []
-		}
-	}
-
-	await worker.library['action-create-event'].handler(
-		session,
-		actionContext,
-		card,
-		request
-	)
+		await worker.library['action-create-event'].handler(
+			session,
+			actionContext,
+			triggeredAction,
+			request
+		)
+	})
 }
 
 module.exports = async (context, jellyfish, worker, session) => {
@@ -84,6 +100,15 @@ module.exports = async (context, jellyfish, worker, session) => {
 				actor: guestUser.id
 			}
 		}))
+
+	// Make sure all loaded cards have create events attached.
+	// Remove this code as soon as migration is done.
+	await attachCreateEventIfNotExists(
+		context,
+		jellyfish,
+		worker,
+		session
+	)
 
 	logger.info(context, 'Done setting up guest session')
 	logger.info(context, 'Setting default cards')
@@ -110,19 +135,6 @@ module.exports = async (context, jellyfish, worker, session) => {
 		// Need to update omitted list if any similar fields are added to the schema
 		card.name = (card.name) ? card.name : null
 		const currentCard = await jellyfish.getCardBySlug(context, session, `${card.slug}@${card.version}`)
-
-		// Make sure all loaded cards have create events attached.
-		// Remove this code as soon as migration is done.
-		if (currentCard) {
-			await attachCreateEventIfNotExists(
-				context,
-				jellyfish,
-				worker,
-				session,
-				currentCard,
-				card
-			)
-		}
 
 		if (currentCard && _.isEqual(card,
 			_.omit(currentCard, [ 'id', 'created_at', 'updated_at', 'linked_at', 'new_created_at', 'new_updated_at' ]))) {
