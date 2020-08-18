@@ -13,7 +13,7 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import SupportAuditChart from './SupportAuditChart'
+import SupportAuditChartLazy from './SupportAuditChartLazy'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -40,7 +40,7 @@ const lens = {
 	data: {
 		icon: 'chart-bar',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportAuditChart),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportAuditChartLazy),
 		filter: {
 			type: 'array',
 			items: {

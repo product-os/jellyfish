@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import Chart from './Chart'
+import ChartLazy from './ChartLazy'
 
 const lens = {
 	slug: 'lens-chart',
@@ -14,7 +14,7 @@ const lens = {
 	data: {
 		icon: 'chart-bar',
 		format: 'list',
-		renderer: Chart,
+		renderer: ChartLazy,
 		filter: {
 			type: 'array',
 			items: {
