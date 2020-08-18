@@ -43,6 +43,58 @@ ava('.execute() should execute an action', async (test) => {
 	test.is(card.data.foo, 'bar')
 })
 
+/*
+ * Conostruct trigger card from trigger object
+ */
+const constructTriggerCard = (trigger) => {
+	const card = {
+		type: 'triggered-action@1.0.0',
+		version: '1.0.0',
+		slug: trigger.slug,
+		active: true,
+		markers: [],
+		tags: [],
+		links: {},
+		data: {
+			action: trigger.action,
+			target: trigger.target,
+			filter: trigger.filter,
+			arguments: trigger.arguments,
+			async: trigger.async !== false
+		},
+		requires: [],
+		capabilities: []
+	}
+
+	if (trigger.mode) {
+		card.data.mode = trigger.mode
+	}
+
+	return card
+}
+
+/*
+ * Transform trigger object and insert it into the database
+ */
+const insertTrigger = async (test, trigger, actor = test.context.actor) => {
+	const triggerCard = constructTriggerCard(trigger)
+
+	const typeCard = await test.context.jellyfish.getCardBySlug(
+		test.context.context, test.context.session, triggerCard.type)
+
+	const insertedTriggerCard = await test.context.worker.replaceCard(test.context.context, test.context.session, typeCard, {
+		attachEvents: true,
+		actor: actor.id
+	}, triggerCard)
+
+	return {
+		...trigger,
+		id: insertedTriggerCard.id,
+		actor: actor.id,
+		async: insertedTriggerCard.data.async
+	}
+}
+
 ava('.execute() should execute a triggered action given a matching mode', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
@@ -51,8 +103,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 
 	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
-		{
-			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		await insertTrigger(test, {
 			slug: 'triggered-action-foo-bar',
 			filter: {
 				type: 'object',
@@ -80,7 +131,7 @@ ava('.execute() should execute a triggered action given a matching mode', async 
 					slug: command
 				}
 			}
-		}
+		})
 	])
 
 	const slug = test.context.generateRandomSlug()
@@ -125,8 +176,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 
 	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
-		{
-			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		await insertTrigger(test, {
 			slug: 'triggered-action-foo-bar',
 			filter: {
 				type: 'object',
@@ -154,7 +204,7 @@ ava('.execute() should not execute a triggered action given a non matching mode'
 					slug: command
 				}
 			}
-		}
+		})
 	])
 
 	const slug = test.context.generateRandomSlug()
@@ -199,8 +249,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 
 	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
-		{
-			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
+		await insertTrigger(test, {
 			slug: 'triggered-action-foo-bar',
 			filter: {
 				type: 'object',
@@ -228,7 +277,7 @@ ava('.execute() should not execute a triggered action with a future start date',
 					slug: command
 				}
 			}
-		}
+		})
 	])
 
 	const slug = test.context.generateRandomSlug()
@@ -266,7 +315,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 
 	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
-		{
+		await insertTrigger(test, {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			slug: 'triggered-action-foo-bar',
 			filter: {
@@ -305,7 +354,7 @@ ava('.execute() should execute a triggered action with a top level anyOf', async
 					slug: command
 				}
 			}
-		}
+		})
 	])
 
 	const slug = test.context.generateRandomSlug()
@@ -833,7 +882,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 
 	const command = test.context.generateRandomSlug()
 	test.context.worker.setTriggers(test.context.context, [
-		{
+		await insertTrigger(test, {
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
 			slug: 'triggered-action-foo-bar',
 			filter: {
@@ -861,7 +910,7 @@ ava('.execute() should execute a triggered action', async (test) => {
 					slug: command
 				}
 			}
-		}
+		})
 	])
 
 	const slug = test.context.generateRandomSlug()
