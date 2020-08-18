@@ -77,6 +77,9 @@ export default (props) => {
 	const resultsRef = useRef(results)
 	resultsRef.current = results
 
+	// Setting up fetch as a ref so that we can avoid a stale closure
+	const fetchRef = useRef()
+
 	const {
 		sdk
 	} = useSetup()
@@ -88,6 +91,7 @@ export default (props) => {
 	}
 
 	const markAllAsRead = useCallback(async () => {
+		console.log('here')
 		setIsMarkingAllAsRead(true)
 
 		await Bluebird.map(results, (card) => {
@@ -101,11 +105,9 @@ export default (props) => {
 
 	// Setup a stream for updates to this query. Since stream creation is
 	// asynchronous we need to have a way of closing it using the cleanup return
-	// function from `useEffect`, hence the mutable variables at the top of this
-	// closure
-	let queryId = null
-	let fetch = null
+	// function from `useEffect`
 	useEffect(() => {
+		let queryId = null
 		let stream = null
 		let canceled = false
 		const setupStream = async () => {
@@ -184,11 +186,11 @@ export default (props) => {
 			}
 		}
 
-		fetch = setupStream()
+		fetchRef.current = setupStream()
 
 		return () => {
 			queryId = null
-			fetch = null
+			fetchRef.current = null
 
 			canceled = true
 			if (stream) {
@@ -201,7 +203,7 @@ export default (props) => {
 	// shown whilst the new query runs
 	useEffect(() => {
 		setResults(null)
-		fetch.then((fns) => {
+		fetchRef.current.then((fns) => {
 			return fns.loadResults(searchTerm, page)
 		})
 	}, [ searchTerm ])
@@ -241,7 +243,7 @@ export default (props) => {
 				<MessageList
 					page={page}
 					setPage={async () => {
-						return (await fetch).updatePage
+						return (await fetchRef.current).updatePage
 					}}
 					tail={results}
 				/>
