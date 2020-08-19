@@ -558,8 +558,8 @@ ava.serial('should be able to resolve links', async (test) => {
 	])
 })
 
-ava.serial('should display up to date information after resolving an action', async (test) => {
-	for (const time in _.range(0, 50)) {
+ava.only('should display up to date information after resolving an action', async (test) => {
+	await Bluebird.map(_.range(0, 20), async (time) => {
 		const card = await test.context.sdk.card.create({
 			type: 'card',
 			slug: test.context.generateRandomSlug({
@@ -574,7 +574,7 @@ ava.serial('should display up to date information after resolving an action', as
 		})
 
 		test.false(result.active)
-	}
+	})
 })
 
 ava.serial('should fail with a user error given no input card', async (test) => {
