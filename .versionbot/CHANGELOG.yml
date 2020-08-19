@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove compose config variable name mapping
+      hash: 4b50dc5058a721795e9ce0ba2334105471c441e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.95.8
+  date: 2020-08-19T05:50:06.509Z
+- commits:
     - subject: 'ci: Migrate mirror tests from CircleCI to balenaCI'
       hash: eb6b2630e40ce1d715a0c4025e9cd662ae004925
       body: ''
