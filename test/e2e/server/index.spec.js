@@ -559,7 +559,7 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('should display up to date information after resolving an action', async (test) => {
-	for (const time in _.range(0, 50)) {
+	for (const time in _.range(0, 30)) {
 		const card = await test.context.sdk.card.create({
 			type: 'card',
 			slug: test.context.generateRandomSlug({
