@@ -558,7 +558,7 @@ ava.serial('should be able to resolve links', async (test) => {
 	])
 })
 
-ava.only('should display up to date information after resolving an action', async (test) => {
+ava.serial('should display up to date information after resolving an action', async (test) => {
 	await Bluebird.map(_.range(0, 20), async (time) => {
 		const card = await test.context.sdk.card.create({
 			type: 'card',
