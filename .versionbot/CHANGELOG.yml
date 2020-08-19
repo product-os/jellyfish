@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Migrate mirror tests from CircleCI to balenaCI'
+      hash: eb6b2630e40ce1d715a0c4025e9cd662ae004925
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 30.95.7
+  date: 2020-08-19T00:18:44.617Z
+- commits:
     - subject: 'patch: Update dependency rendition to v17'
       hash: bf579849f2f093284d0478b087c656237f37643d
       body: ''
