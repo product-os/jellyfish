@@ -594,7 +594,10 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 })
 
 ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
-	for (const time of _.range(0, 101)) {
+	// This test will take much longer than others (setting 10 min timeout)
+	test.timeout(1000 * 60 * 10)
+
+	await Bluebird.map(_.range(0, 101), async (time) => {
 		await test.context.sdk.card.create({
 			type: 'card',
 			slug: test.context.generateRandomSlug({
@@ -603,7 +606,7 @@ ava.serial('should limit the amount of get elements by type endpoint', async (te
 			version: '1.0.0',
 			data: {}
 		})
-	}
+	})
 
 	const result = await test.context.http(
 		'GET', '/api/v2/type/card', null, {
