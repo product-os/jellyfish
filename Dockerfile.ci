@@ -12,6 +12,7 @@ COPY package.json package-lock.json /usr/src/jellyfish/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
+		npm install -g @balena/ci-task-runner@0.1.0 && \
     rm -f ~/.npmrc
 
 COPY ./apps ./apps
@@ -20,5 +21,4 @@ COPY ./test ./test
 COPY ./Makefile ./Makefile
 COPY ./.git ./.git
 
-# Run set test script
-CMD /bin/bash -c "source ~/.bashrc && /usr/src/jellyfish/scripts/ci/tests/init.js"
+CMD /bin/bash -c "ci-task-runner run --config /usr/src/jellyfish/test/ci-tasks.yml"

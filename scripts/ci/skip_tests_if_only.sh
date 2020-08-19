@@ -26,6 +26,18 @@ if [[ "$CHECK_FOR" && "$MODIFIED_FILES" == *"$CHECK_FOR"* ]]; then
 	exit 1
 fi
 
+# Check if any related jellyfish libs have been bumped in package.json
+if [[ "$MODIFIED_FILES" == *"package.json"* ]]; then
+	MODIFIED_BACKEND_LIBS="$(git diff -U0 "$CURRENT_BRANCH"..master -- package.json \
+		| grep "^+    \"@balena\\/jellyfish-" \
+		| cut -d'"' -f2 \
+		| grep -Ev "ui-components|chat-widget|client-sdk")"
+	if [[ -n "$MODIFIED_BACKEND_LIBS" ]]; then
+		echo "Affected backend libs: $(echo "$MODIFIED_BACKEND_LIBS" | tr '\n' ' ')"
+		exit 1
+	fi
+fi
+
 # A list of the affected modules from lib/ and apps/
 # that the current branch is modifying
 AFFECTED_MODULES="$(echo "$MODIFIED_FILES" \
@@ -43,7 +55,6 @@ fi
 
 # The set of modules that can cause the tests to be skipped
 INPUT_MODULES="$(echo "$MODULES" | tr ' ' '\n' | sort | uniq)"
-echo "INPUT_MODULES:$INPUT_MODULES"
 
 # Skip the tests if all the affected modules are a subset of the input modules
 echo "Affected modules: $(echo "$AFFECTED_MODULES" | tr '\n' ' ')"
