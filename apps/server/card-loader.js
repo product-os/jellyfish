@@ -32,8 +32,7 @@ const attachCreateEventIfNotExists = async (context, jellyfish, worker, session)
 				}
 			},
 			required: [
-				'type',
-				'links'
+				'type'
 			],
 			$$links: {
 				'is attached to': {
