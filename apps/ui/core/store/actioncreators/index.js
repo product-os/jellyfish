@@ -581,7 +581,7 @@ export default class ActionCreator {
 
 			const stream = await this.getStream(cards[0].id, query)
 
-			stream.once('dataset', ({
+			stream.on('dataset', ({
 				data: {
 					cards: channels
 				}
@@ -650,17 +650,18 @@ export default class ActionCreator {
 		target, query, queryOptions
 	}) {
 		return async (dispatch, getState) => {
-			let identifier = isUUID(target) ? 'id' : 'slug'
+			const identifierType = isUUID(target) ? 'id' : 'slug'
+			let cardIdentifier = target
 
-			if (identifier !== 'id') {
+			if (identifierType !== 'id') {
 				const card = await this.sdk.card.get(target)
 				if (_.isNil(card)) {
-					throw new Error(`Could not find card with ${identifier} ${target}`)
+					throw new Error(`Could not find card with ${identifierType} ${target}`)
 				}
-				identifier = card.id
+				cardIdentifier = card.id
 			}
 
-			const stream = streams[identifier]
+			const stream = streams[cardIdentifier]
 			if (!stream) {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
 			}

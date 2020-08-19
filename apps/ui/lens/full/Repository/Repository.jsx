@@ -94,7 +94,7 @@ export default class RepositoryFull extends React.Component {
 			sortDir: 'desc'
 		}
 
-		const loader = page === 0 ? this.props.actions.loadViewData : this.props.actions.loadMoreData
+		const loader = page === 0 ? this.props.actions.loadViewData : this.props.actions.loadMoreViewData
 
 		return loader(query, options)
 			.then((results) => {
