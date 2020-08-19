@@ -54,13 +54,11 @@ const config = merge(baseConfig, {
 	},
 
 	optimization: {
-		moduleIds: 'hashed',
-		runtimeChunk: 'single',
 		splitChunks: {
 			cacheGroups: {
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name: 'vendors',
+				monaco: {
+					test: /[\\/]monaco-editor[\\/]/,
+					name: 'monaco-editor',
 					chunks: 'all'
 				}
 			}

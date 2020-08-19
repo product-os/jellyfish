@@ -4,7 +4,12 @@
  * Proprietary and confidential.
  */
 
-import ChartLazy from './ChartLazy'
+import {
+	createLazyComponent
+} from '../../../components/SafeLazy'
+
+// eslint-disable-next-line
+const ChartLazy = createLazyComponent(() => import(/* webpackChunkName: "chart" */ './Chart'))
 
 const lens = {
 	slug: 'lens-chart',

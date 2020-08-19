@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
+import _ from 'lodash'
 import {
 	connect
 } from 'react-redux'
@@ -13,7 +13,12 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import SupportAuditChartLazy from './SupportAuditChartLazy'
+import {
+	createLazyComponent
+} from '../../../components/SafeLazy'
+
+// eslint-disable-next-line
+const SupportAuditChartLazy = createLazyComponent(() => import(/* webpackChunkName: "support-audit-chart" */ './SupportAuditChart'))
 
 const mapStateToProps = (state, ownProps) => {
 	return {
