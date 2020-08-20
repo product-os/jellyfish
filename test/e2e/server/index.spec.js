@@ -601,7 +601,7 @@ ava.serial('should limit the amount of get elements by type endpoint', async (te
 			version: '1.0.0',
 			data: {}
 		})
-		
+
 		test.truthy(card.id)
 	}
 
