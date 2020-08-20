@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix pagination on the default list lens
+      hash: 0882da4e4ecc20022fbe1700de1635676421352d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.95.9
+  date: 2020-08-19T15:58:58.011Z
+- commits:
     - subject: Remove compose config variable name mapping
       hash: 4b50dc5058a721795e9ce0ba2334105471c441e7
       body: ''
