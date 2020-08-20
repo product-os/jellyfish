@@ -12,14 +12,6 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
-import ReactResizeObserver from 'react-resize-observer'
-import {
-	AutoSizer,
-	List,
-	CellMeasurer,
-	CellMeasurerCache,
-	InfiniteLoader
-} from 'react-virtualized'
 import {
 	bindActionCreators
 } from 'redux'
@@ -27,7 +19,6 @@ import {
 	Flex,
 	Button,
 	Box,
-	Txt,
 	Divider
 } from 'rendition'
 import {
@@ -39,16 +30,43 @@ import {
 	getLens
 } from '../'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	InfiniteList
+} from '@balena/jellyfish-ui-components/lib/InfiniteList'
+
+const Row = (props) => {
+	const {
+		head,
+		card
+	} = props
+
+	// Don't continue if the card doesn't exist
+	if (!card) {
+		return null
+	}
+
+	const lens = getLens('snippet', card, {})
+
+	// Don't show the card if its the head, this can happen on view types
+	if (card.id === head.id) {
+		return null
+	}
+
+	return (
+		<Box key={card.id} px={3} pb={3}>
+			<lens.data.renderer card={card}/>
+			<Divider color="#eee" m={0} style={{
+				height: 1
+			}}/>
+		</Box>
+	)
+}
 
 class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
-
-		this.clearCellCache = () => {
-			this.cache.clearAll()
-		}
-
-		this.loadMore = async () => {
+		this.handleScrollEnding = async () => {
 			await this.props.setPage(this.props.page + 1)
 		}
 
@@ -57,51 +75,6 @@ class CardList extends BaseLens {
 		}) => {
 			return Boolean(this.props.tail[index])
 		}
-
-		this.rowRenderer = (rowProps) => {
-			const {
-				tail, channel: {
-					data: {
-						head
-					}
-				}
-			} = this.props
-			const card = tail[rowProps.index]
-
-			// Don't continue if the card doesn't exist
-			if (!card) {
-				return null
-			}
-
-			const lens = getLens('snippet', card, {})
-
-			// Don't show the card if its the head, this can happen on view types
-			if (card.id === head.id) {
-				return null
-			}
-
-			return (
-				<CellMeasurer
-					key={rowProps.key}
-					cache={this.cache}
-					parent={rowProps.parent}
-					columnIndex={0}
-					rowIndex={rowProps.index}
-				>
-					<Box px={3} pb={3} style={rowProps.style}>
-						<lens.data.renderer card={card}/>
-						<Divider color="#eee" m={0} style={{
-							height: 1
-						}}/>
-					</Box>
-				</CellMeasurer>
-			)
-		}
-
-		this.cache = new CellMeasurerCache({
-			defaultHeight: 300,
-			fixedWidth: true
-		})
 	}
 
 	componentWillUpdate ({
@@ -113,66 +86,55 @@ class CardList extends BaseLens {
 		// Only clear CellCache if already rendered tail data has changed
 		const isPreviousTailDataChanged = !circularDeepEqual(prevTail, nextTail.slice(0, prevTail.length))
 		if (isPreviousTailDataChanged) {
-			this.clearCellCache()
+			// This.clearCellCache()
 		}
 	}
 
 	render () {
 		const {
 			tail,
-			pageOptions,
-			totalPages
+			totalPages,
+			page,
+			type,
+			channel: {
+				data: {
+					head
+				}
+			}
 		} = this.props
 
-		// TODO: remove this logic when totalPage returns a usefull number
-		// We can't get the totalPage of a schema.
-		// Until then we should assume we want atleast 1 page more than our current page.
-		const rowCount = (totalPages === Infinity) ? (tail.length + pageOptions.limit) : totalPages
+		const typeName = type.name || type.slug
 
 		return (
-			<Column flex="1" overflowY>
-				<Box flex="1" style={{
-					position: 'relative'
-				}}>
-					<ReactResizeObserver onResize={this.clearCellCache}/>
-					{Boolean(tail) && tail.length > 0 && (
-						<InfiniteLoader
-							loadMoreRows={this.loadMore}
-							rowCount={rowCount}
-							isRowLoaded={this.isRowLoaded}
-						>
-							{({
-								onRowsRendered, registerChild
-							}) => (
-								<AutoSizer>
-									{({
-										width, height
-									}) => {
-										return (
-											<List
-												width={width}
-												height={height}
-												onRowsRendered={onRowsRendered}
-												ref={registerChild}
-												rowCount={tail.length}
-												deferredMeasurementCache={this.cache}
-												overscanRowCount={3}
-												rowHeight={this.cache.rowHeight}
-												rowRenderer={this.rowRenderer}
-											/>
-										)
-									}}
-								</AutoSizer>
-							)}
-						</InfiniteLoader>
+			<Column>
+				<InfiniteList
+					key={this.props.channel.id}
+					onScrollEnding={this.handleScrollEnding}
+					style={{
+						height: '100%',
+						paddingBottom: 16
+					}}
+				>
+					{!(totalPages > page + 1) && Boolean(tail) && tail.length === 0 && (
+						<Box p={3}>
+							<strong>
+								No {typeName}&apos;s found
+							</strong>
+						</Box>
 					)}
 
-					{Boolean(tail) && tail.length === 0 && (
-						<Txt.p p={3}>No results found</Txt.p>
-					)}
-				</Box>
+					{Boolean(tail) && tail.length > 0 && _.map(tail, (card) => {
+						return <Row key={card.id} card={card} head={head} />
+					})}
 
-				{Boolean(this.props.type) && (
+					{totalPages > page + 1 && (
+						<Box p={3}>
+							<Icon spin name="cog"/>
+						</Box>
+					)}
+				</InfiniteList>
+
+				{Boolean(type) && (
 					<React.Fragment>
 						<Flex
 							p={3}
@@ -183,10 +145,10 @@ class CardList extends BaseLens {
 						>
 							<Button
 								success={true}
-								className={`btn--add-${this.props.type.slug}`}
+								className={`btn--add-${type.slug}`}
 								onClick={this.openCreateChannel}
 							>
-								Add {this.props.type.name || this.props.type.slug}
+								Add {typeName}
 							</Button>
 						</Flex>
 					</React.Fragment>
