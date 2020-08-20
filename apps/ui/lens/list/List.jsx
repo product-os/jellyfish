@@ -17,7 +17,8 @@ import {
 	AutoSizer,
 	List,
 	CellMeasurer,
-	CellMeasurerCache
+	CellMeasurerCache,
+	InfiniteLoader
 } from 'react-virtualized'
 import {
 	bindActionCreators
@@ -42,9 +43,21 @@ import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
+
 		this.clearCellCache = () => {
 			this.cache.clearAll()
 		}
+
+		this.loadMore = async () => {
+			await this.props.setPage(this.props.page + 1)
+		}
+
+		this.isRowLoaded = ({
+			index
+		}) => {
+			return Boolean(this.props.tail[index])
+		}
+
 		this.rowRenderer = (rowProps) => {
 			const {
 				tail, channel: {
@@ -55,31 +68,33 @@ class CardList extends BaseLens {
 			} = this.props
 			const card = tail[rowProps.index]
 
+			// Don't continue if the card doesn't exist
+			if (!card) {
+				return null
+			}
+
 			const lens = getLens('snippet', card, {})
 
 			// Don't show the card if its the head, this can happen on view types
 			if (card.id === head.id) {
 				return null
 			}
+
 			return (
 				<CellMeasurer
+					key={rowProps.key}
 					cache={this.cache}
-					columnIndex={0}
-					key={card.id}
-					overscanRowCount={10}
 					parent={rowProps.parent}
+					columnIndex={0}
 					rowIndex={rowProps.index}
 				>
-					{() => {
-						return (
-							<Box px={3} pb={3} style={rowProps.style}>
-								<lens.data.renderer card={card}/>
-								<Divider color="#eee" m={0} style={{
-									height: 1
-								}}/>
-							</Box>
-						)
-					}}
+					<Box px={3} pb={3} style={rowProps.style}>
+						<h2>{rowProps.index}</h2>
+						<lens.data.renderer card={card}/>
+						<Divider color="#eee" m={0} style={{
+							height: 1
+						}}/>
+					</Box>
 				</CellMeasurer>
 			)
 		}
@@ -93,16 +108,28 @@ class CardList extends BaseLens {
 	componentWillUpdate ({
 		tail
 	}) {
-		// If tail data has changed, clear the cell cache
-		if (!circularDeepEqual(this.props.tail, tail)) {
+		const nextTail = tail
+		const prevTail = this.props.tail
+
+		// Only clear CellCache if already rendered tail data has changed
+		const isPreviousTailDataChanged = !circularDeepEqual(prevTail, nextTail.slice(0, prevTail.length))
+		if (isPreviousTailDataChanged) {
 			this.clearCellCache()
 		}
 	}
 
 	render () {
 		const {
-			tail
+			tail,
+			pageOptions,
+			totalPages
 		} = this.props
+
+		// TODO: remove this logic when totalPage returns a usefull number
+		// We can't get the totalPage of a schema.
+		// Until then we should assume we want atleast 1 page more than our current page.
+		const rowCount = (totalPages === Infinity) ? (tail.length + pageOptions.limit) : totalPages
+
 		return (
 			<Column flex="1" overflowY>
 				<Box flex="1" style={{
@@ -110,24 +137,35 @@ class CardList extends BaseLens {
 				}}>
 					<ReactResizeObserver onResize={this.clearCellCache}/>
 					{Boolean(tail) && tail.length > 0 && (
-						<AutoSizer>
+						<InfiniteLoader
+							loadMoreRows={this.loadMore}
+							rowCount={rowCount}
+							isRowLoaded={this.isRowLoaded}
+						>
 							{({
-								width, height
-							}) => {
-								return (
-									<List
-										width={width}
-										height={height}
-										deferredMeasurementCache={this.cache}
-										rowHeight={this.cache.rowHeight}
-										rowRenderer={this.rowRenderer}
-										rowCount={tail.length}
-										onResize={this.clearCellCache}
-										overscanRowCount={3}
-									/>
-								)
-							}}
-						</AutoSizer>
+								onRowsRendered, registerChild
+							}) => (
+								<AutoSizer>
+									{({
+										width, height
+									}) => {
+										return (
+											<List
+												width={width}
+												height={height}
+												onRowsRendered={onRowsRendered}
+												ref={registerChild}
+												rowCount={tail.length}
+												deferredMeasurementCache={this.cache}
+												overscanRowCount={3}
+												rowHeight={this.cache.rowHeight}
+												rowRenderer={this.rowRenderer}
+											/>
+										)
+									}}
+								</AutoSizer>
+							)}
+						</InfiniteLoader>
 					)}
 
 					{Boolean(tail) && tail.length === 0 && (
