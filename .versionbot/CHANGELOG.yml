@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove debug html tag from default list lens
+      hash: 63b979c95a0cfe8b7259c434b0b9b672e79ad7dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 30.95.10
+  date: 2020-08-20T10:27:12.412Z
+- commits:
     - subject: Fix pagination on the default list lens
       hash: 0882da4e4ecc20022fbe1700de1635676421352d
       body: ''
