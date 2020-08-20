@@ -559,22 +559,20 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('should display up to date information after resolving an action', async (test) => {
-	await Bluebird.map(_.range(0, 20), async (time) => {
-		const card = await test.context.sdk.card.create({
-			type: 'card',
-			slug: test.context.generateRandomSlug({
-				prefix: `card-${time}`
-			}),
-			version: '1.0.0'
-		})
-
-		await test.context.sdk.card.remove(card.id, card.type)
-		const result = await test.context.sdk.card.get(card.id, {
-			type: 'card'
-		})
-
-		test.false(result.active)
+	const card = await test.context.sdk.card.create({
+		type: 'card',
+		slug: test.context.generateRandomSlug({
+			prefix: `card-${uuid()}`
+		}),
+		version: '1.0.0'
 	})
+
+	await test.context.sdk.card.remove(card.id, card.type)
+	const result = await test.context.sdk.card.get(card.id, {
+		type: 'card'
+	})
+
+	test.false(result.active)
 })
 
 ava.serial('should fail with a user error given no input card', async (test) => {
@@ -594,11 +592,8 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 })
 
 ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
-	// This test will take much longer than others (setting 10 min timeout)
-	test.timeout(1000 * 60 * 10)
-
-	await Bluebird.map(_.range(0, 101), async (time) => {
-		await test.context.sdk.card.create({
+	for (const time of _.range(0, 101)) {
+		const card = await test.context.sdk.card.create({
 			type: 'card',
 			slug: test.context.generateRandomSlug({
 				prefix: `test-card-${time}`
@@ -606,7 +601,11 @@ ava.serial('should limit the amount of get elements by type endpoint', async (te
 			version: '1.0.0',
 			data: {}
 		})
-	})
+
+		// Don't over-stress the server
+		await Bluebird.delay(200)
+		test.truthy(card.id)
+	}
 
 	const result = await test.context.http(
 		'GET', '/api/v2/type/card', null, {
