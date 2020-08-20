@@ -89,7 +89,6 @@ class CardList extends BaseLens {
 					rowIndex={rowProps.index}
 				>
 					<Box px={3} pb={3} style={rowProps.style}>
-						<h2>{rowProps.index}</h2>
 						<lens.data.renderer card={card}/>
 						<Divider color="#eee" m={0} style={{
 							height: 1
