@@ -38,8 +38,8 @@ export const schemaSupportsStatusText = (types, card) => {
  * @returns {String} The whisper message
  */
 export const generateWhisperMessage = (currentOwner, newOwner, reason, status) => {
-	const reasonSuffix = reason ? `\n\n**Reason:**\n${reason}` : ''
-	const statusSuffix = status ? `\n\n**Current Status:**\n${status}` : ''
+	const reasonSuffix = reason ? `\n\n**Reason:** ${reason}` : ''
+	const statusSuffix = status ? `\n\n**Current Status:** ${status}` : ''
 	const currentOwnerSlug = currentOwner ? currentOwner.slug.replace('user-', '') : null
 	const newOwnerSlug = newOwner ? newOwner.slug.replace('user-', '') : null
 	if (currentOwner) {

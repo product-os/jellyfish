@@ -16,7 +16,7 @@ ava('.generateWhisperMessage() works for unassignment', (test) => {
 	const currentStatus = 'New status'
 	test.is(
 		handoverUtils.generateWhisperMessage(currentOwner, newOwner, reason, currentStatus),
-		'Unassigned from @Test1\n\n**Reason:**\nA reason\n\n**Current Status:**\nNew status')
+		'Unassigned from @Test1\n\n**Reason:** A reason\n\n**Current Status:** New status')
 })
 
 ava('.generateWhisperMessage() works for assignment', (test) => {
@@ -28,7 +28,7 @@ ava('.generateWhisperMessage() works for assignment', (test) => {
 	const currentStatus = 'New status'
 	test.is(
 		handoverUtils.generateWhisperMessage(currentOwner, newOwner, reason, currentStatus),
-		'Assigned to @Test2\n\n**Reason:**\nA reason\n\n**Current Status:**\nNew status')
+		'Assigned to @Test2\n\n**Reason:** A reason\n\n**Current Status:** New status')
 })
 
 ava('.generateWhisperMessage() works for reassignment', (test) => {
@@ -42,7 +42,7 @@ ava('.generateWhisperMessage() works for reassignment', (test) => {
 	const currentStatus = 'New status'
 	test.is(
 		handoverUtils.generateWhisperMessage(currentOwner, newOwner, reason, currentStatus),
-		'Reassigned from @Test1 to @Test2\n\n**Reason:**\nA reason\n\n**Current Status:**\nNew status')
+		'Reassigned from @Test1 to @Test2\n\n**Reason:** A reason\n\n**Current Status:** New status')
 })
 
 ava('.generateWhisperMessage() does not require a reason', (test) => {
@@ -54,7 +54,7 @@ ava('.generateWhisperMessage() does not require a reason', (test) => {
 	const currentStatus = 'New status'
 	test.is(
 		handoverUtils.generateWhisperMessage(currentOwner, newOwner, reason, currentStatus),
-		'Assigned to @Test2\n\n**Current Status:**\nNew status')
+		'Assigned to @Test2\n\n**Current Status:** New status')
 })
 
 ava('.generateWhisperMessage() does not require a status', (test) => {
@@ -65,5 +65,5 @@ ava('.generateWhisperMessage() does not require a status', (test) => {
 	const reason = 'A reason'
 	test.is(
 		handoverUtils.generateWhisperMessage(currentOwner, newOwner, reason),
-		'Assigned to @Test2\n\n**Reason:**\nA reason')
+		'Assigned to @Test2\n\n**Reason:** A reason')
 })

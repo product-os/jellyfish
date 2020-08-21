@@ -35,6 +35,9 @@ import {
 } from './core'
 import history from './services/history'
 import JellyfishUI from './JellyfishUI'
+import {
+	px
+} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
 	ResponsiveProvider
@@ -73,7 +76,15 @@ const GlobalStyle = createGlobalStyle `
 	input {
 		line-height: 1.5;
     font-family: ${Theme.font};
-  }
+	}
+
+	p {
+		margin-top: 0;
+		margin-bottom: ${(props) => { px(props.theme.space[2]) }};
+	}
+	p:last-child {
+		margin-bottom: 0;
+	}
 `
 
 const customTheme = {
