@@ -42,12 +42,17 @@ const getActorKey = async (context, jellyfish, session, actorId) => {
 }
 
 const transformTriggerCard = (trigger) => {
+	const createEventCard = _.find(trigger.links['has attached element'], (card) => {
+		return card.type.split('@')[0] === 'create'
+	})
+
 	const object = {
 		id: trigger.id,
 		slug: trigger.slug,
 		action: trigger.data.action,
 		target: trigger.data.target,
-		arguments: trigger.data.arguments
+		arguments: trigger.data.arguments,
+		actor: createEventCard.data.actor
 	}
 
 	if (trigger.data.filter) {
@@ -94,7 +99,31 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 			additionalProperties: true
 		}
 	},
-	required: [ 'id', 'slug', 'active', 'type', 'data' ]
+	required: [ 'id', 'slug', 'active', 'type', 'data' ],
+	$$links: {
+		'has attached element': {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'create@1.0.0'
+				},
+				data: {
+					type: 'object',
+					properties: {
+						actor: {
+							type: 'string'
+						}
+					},
+					required: [
+						'actor'
+					]
+				}
+			},
+			required: [
+				'data'
+			]
+		}
+	}
 }
 
 const bootstrap = async (context, library, options) => {
