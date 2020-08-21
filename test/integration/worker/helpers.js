@@ -56,7 +56,7 @@ exports.worker = {
 			const request = await test.context.dequeue()
 
 			if (!request) {
-				throw new Error('No message dequeued')
+				return
 			}
 
 			const result = await test.context.worker.execute(session, request)
@@ -71,6 +71,9 @@ exports.worker = {
 				error.stack = errio.fromObject(result.data).stack
 				throw error
 			}
+
+			// Rerun to flush actions caused by triggers
+			await test.context.flush(session)
 		}
 
 		test.context.processAction = async (session, action) => {

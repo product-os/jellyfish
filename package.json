@@ -122,7 +122,7 @@
     "@balena/jellyfish-sync": "^0.0.47",
     "@balena/jellyfish-ui-components": "^1.0.0",
     "@balena/jellyfish-uuid": "^0.0.29",
-    "@balena/jellyfish-worker": "^1.0.0",
+    "@balena/jellyfish-worker": "^1.1.0-triggered-action-e8e30b94a6894468ee0c562238defb43c2ea9a99",
     "@emotion/cache": "^10.0.29",
     "@emotion/core": "^10.0.34",
     "@octokit/plugin-retry": "^3.0.3",
