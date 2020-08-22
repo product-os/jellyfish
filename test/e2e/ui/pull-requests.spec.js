@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
@@ -52,20 +51,28 @@ ava.serial('Should be able to navigate to chart lens of pull requests', async (t
 		page
 	} = context
 
-	await macros.navigateToHomeChannelItem(page, [
-		'[data-test="home-channel__group-toggle--org-balena"]',
-		'[data-test="home-channel__item--view-all-pull-requests"]'
-	])
-
-	const pullRequests = require('./fixtures/pull-requests.json')
-	_.forEach(pullRequests, async (pullRequest) => {
-		await page.evaluate((data) => {
+	console.log(`PR: Node Version: ${process.version}`)
+	// eslint-disable-next-line max-statements-per-line
+	page.on('console', (msg) => { console.log('PAGE LOG:', msg.text()) })
+	const pullRequest = require('./fixtures/pull-requests.json')
+	try {
+		const card = await page.evaluate((data) => {
 			return window.sdk.card.create({
 				type: 'pull-request@1.0.0',
 				data
 			})
 		}, pullRequest)
-	})
+		console.log(card.slug)
+	} catch (err) {
+		console.log(`Pull Requests Test error: ${err}`)
+		test.fail()
+	}
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__item--view-all-pull-requests"]'
+	])
+
 	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-chart"]')
 	await page.waitForSelector('.plotly')
 	test.pass()
