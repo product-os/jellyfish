@@ -64,7 +64,7 @@ ava.serial('Should be able to navigate to chart lens of pull requests', async (t
 	test.pass()
 })
 
-ava.serial('Should be able to navigate to chart lens of pull requests and show the newly added datapoint', async (test) => {
+ava.skip('Should be able to navigate to chart lens of pull requests and show the newly added datapoint', async (test) => {
 	const {
 		page
 	} = context
