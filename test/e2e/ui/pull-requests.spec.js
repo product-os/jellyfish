@@ -54,6 +54,21 @@ ava.serial('Should be able to navigate to chart lens of pull requests', async (t
 		page
 	} = context
 
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__item--view-all-pull-requests"]'
+	])
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-chart"]')
+	await page.waitForSelector('.plotly')
+	test.pass()
+})
+
+ava.serial('Should be able to navigate to chart lens of pull requests and show the newly added datapoint', async (test) => {
+	const {
+		page
+	} = context
+
 	// eslint-disable-next-line max-statements-per-line
 	page.on('console', (msg) => { console.log('PAGE LOG:', msg.text()) })
 	const pullRequest = require('./fixtures/pull-requests.json')
