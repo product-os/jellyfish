@@ -94,9 +94,7 @@ export default class RepositoryFull extends React.Component {
 			sortDir: 'desc'
 		}
 
-		const loader = page === 0 ? this.props.actions.loadViewData : this.props.actions.loadMoreData
-
-		return loader(query, options)
+		return this.props.actions.loadViewResults(query, options)
 			.then((results) => {
 				if (results.length < LIMIT) {
 					this.setState((state) => {
@@ -116,7 +114,13 @@ export default class RepositoryFull extends React.Component {
 	}
 
 	componentDidMount () {
+		// Trigger a query and stream for this cards contextual thread messages.
+		// They will be attached using redux as the `messages` prop
+		const query = getContextualThreadsQuery(this.props.card.id)
 		this.loadThreadData(this.state.options.page, this.state.searchTerm)
+		this.props.actions.streamView(query, {
+			viewId: this.props.card.id
+		})
 	}
 
 	setActiveIndex (activeIndex) {

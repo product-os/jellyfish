@@ -24,6 +24,7 @@ const sandbox = sinon.createSandbox()
 ava.beforeEach(async () => {
 	context.actions = _.reduce([
 		'addChannel',
+		'loadViewResults',
 		'logout',
 		'queryAPI',
 		'removeView',
@@ -33,8 +34,7 @@ ava.beforeEach(async () => {
 		'setSidebarExpanded',
 		'setViewStarred',
 		'streamView',
-		'updateUser',
-		'loadViewData'
+		'updateUser'
 	], (acc, action) => {
 		acc[action] = sandbox.stub()
 		return acc

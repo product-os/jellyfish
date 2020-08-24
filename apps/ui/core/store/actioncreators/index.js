@@ -10,11 +10,11 @@ import * as Bluebird from 'bluebird'
 import immutableUpdate from 'immutability-helper'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
-import merge from 'deepmerge'
 import {
 	push
 } from 'connected-react-router'
 import * as _ from 'lodash'
+import * as skhema from 'skhema'
 import {
 	v4 as uuid
 } from 'uuid'
@@ -208,9 +208,11 @@ export const selectors = {
 	}
 }
 
+const pendingLoadRequests = {}
 const streams = {}
 
 const NOTIFICATION_LIFETIME = 7.5 * 1000
+const MAX_RETRIES = 4
 
 let commsStream = null
 
@@ -240,11 +242,8 @@ export default class ActionCreator {
 			'getCard',
 			'getCardWithLinks',
 			'getLinks',
-			'getStream',
 			'loadChannelData',
-			'loadMoreChannelData',
-			'loadViewData',
-			'loadMoreViewData',
+			'loadViewResults',
 			'login',
 			'loginWithToken',
 			'logout',
@@ -277,6 +276,7 @@ export default class ActionCreator {
 			'setViewStarred',
 			'signalTyping',
 			'signup',
+			'streamView',
 			'updateChannel',
 			'updateUser',
 			'upsertViewData'
@@ -533,105 +533,29 @@ export default class ActionCreator {
 	}
 
 	loadChannelData (channel) {
-		return async (dispatch, getState) => {
+		return (dispatch, getState) => {
 			if (channel.data.canonical === false) {
 				return
 			}
 			const {
-				target
+				target, cardType
 			} = channel.data
 
-			const identifier = isUUID(target) ? 'id' : 'slug'
-
-			let query = {
-				type: 'object',
-				properties: {
-					[identifier]: {
-						type: 'string',
-						const: target
-					}
-				},
-				$$links: {
-					'has attached element': {
-						type: 'object'
-					}
-				},
-				required: [ identifier ]
-			}
-
-			// TODO: Clean up when we have optional links
-			// OR make sure default cards have attached items
-			// Checks to see if we can query for the card with
-			// attached elements. If we can't, remove the
-			// $$links from the query
-			let cards = await this.sdk.query(query)
-
-			if (cards.length === 0) {
-				query = _.omit(query, [ '$$links' ])
-				cards = [ await this.sdk.card.get(target) ]
-			}
-
-			const [ card ] = cards
-			if (_.isNil(card)) {
-				throw new Error(`Could not find card with ${identifier} target`)
-			}
-
-			const streamHash = hashCode(cards[0].id)
-			const stream = await this.getStream(streamHash, query)
-
-			stream.once('dataset', ({
-				data: {
-					cards: channels
-				}
-			}) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id
-				})
-
-				const clonedChannel = clone(currentChannel)
-
-				if (channels.length > 0) {
-					// Merge required in the event that this is a pagination query
-					clonedChannel.data.head = merge(clonedChannel.data.head, channels[0])
-				}
-
-				dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel
-				})
-			})
-
-			stream.on('update', ({
-				data: {
-					after: newHead
-				}
-			}) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id
-				})
-				if (!currentChannel) {
-					return null
-				}
-				const clonedChannel = clone(currentChannel)
-
-				// Don't bother is the channel head card hasn't changed
-				if (newHead && fastEquals.deepEqual(clonedChannel.data.head, newHead)) {
+			const load = (retries = MAX_RETRIES) => {
+				if (!retries) {
 					return null
 				}
 
-				// If head is null, this indicates a 404 not found error
-				clonedChannel.data.head = newHead
-				return dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel
-				})
-			})
-
-			stream.emit('queryDataset', {
-				data: {
-					id: uuid(),
-					schema: query,
-					options: {
+				return this.sdk.card.getWithTimeline(target, {
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								const: cardType
+							}
+						}
+					},
+					queryOptions: {
 						links: {
 							'has attached element': {
 								limit: 20,
@@ -640,91 +564,123 @@ export default class ActionCreator {
 							}
 						}
 					}
-				}
-			})
-		}
-	}
+				})
+					.then((result) => {
+						if (!result) {
+							const currentChannel = _.find(selectors.getChannels(getState()), {
+								id: channel.id
+							})
+							if (!currentChannel) {
+								return null
+							}
 
-	loadMoreChannelData ({
-		target, query, queryOptions
-	}) {
-		return async (dispatch, getState) => {
-			let identifier = isUUID(target) ? 'id' : 'slug'
-
-			if (identifier !== 'id') {
-				const card = await this.sdk.card.get(target)
-				if (_.isNil(card)) {
-					throw new Error(`Could not find card with ${identifier} ${target}`)
-				}
-				identifier = card.id
+							// If a card can't be retrieved with its timeline, try to
+							// retrieve it on its own
+							return Bluebird.delay(500)
+								.then(() => {
+									return this.sdk.card.get(target, {
+										type: cardType
+									})
+								})
+								.then((standaloneCard) => {
+									if (standaloneCard) {
+										return standaloneCard
+									}
+									return load(retries - 1)
+								})
+						}
+						return result
+					})
+					.catch((error) => {
+						// TODO: make retries an optional feature of the SDK
+						// Retry in the event of network disruption
+						if (retries - 1) {
+							console.error(`Caught error loading ${target}: retrying now.`, error)
+							load(retries - 1)
+						} else {
+							throw error
+						}
+					})
 			}
-
-			const streamHash = hashCode(identifier)
-			const stream = streams[streamHash]
-			if (!stream) {
-				throw new Error('Stream not found: Did you forget to call loadChannelData?')
-			}
-			const queryId = uuid()
-			stream.emit('queryDataset', {
-				data: {
-					id: queryId,
-					schema: query,
-					options: queryOptions
-				}
-			})
-			return new Promise((resolve, reject) => {
-				const handler = ({
-					data
-				}) => {
-					if (data.id === queryId) {
-						resolve(data.cards)
-						stream.off('dataset', handler)
+			// eslint-disable-next-line consistent-return
+			return load()
+				.then((head) => {
+					const currentChannel = _.find(selectors.getChannels(getState()), {
+						id: channel.id
+					})
+					if (!currentChannel) {
+						return null
 					}
-				}
-				stream.on('dataset', handler)
-			})
-		}
-	}
+					const clonedChannel = clone(currentChannel)
 
-	loadMoreViewData (query, options) {
-		return async (dispatch, getState) => {
-			const viewId = options.viewId || getViewId(query)
-			const stream = streams[viewId]
-			if (!stream) {
-				throw new Error('Stream not found: Did you forget to call loadViewData?')
-			}
-			const queryId = uuid()
-
-			const queryOptions = {
-				limit: options.limit,
-				skip: options.limit * options.page,
-				sortBy: options.sortBy,
-				sortDir: options.sortDir
-			}
-
-			stream.emit('queryDataset', {
-				data: {
-					id: queryId,
-					schema: query,
-					options: queryOptions
-				}
-			})
-			return new Promise((resolve, reject) => {
-				const handler = ({
-					data: {
-						id,
-						cards
+					// Don't bother is the channel head card hasn't changed
+					if (head && fastEquals.deepEqual(clonedChannel.data.head, head)) {
+						return null
 					}
-				}) => {
-					const commonOptions = _.pick(options, 'viewId')
-					if (id === queryId) {
-						dispatch(this.appendViewData(query, cards, commonOptions))
-						resolve(cards)
-						stream.off('dataset', handler)
+
+					// If head is null, this indicates a 404 not found error
+					clonedChannel.data.head = head
+					return dispatch({
+						type: actions.UPDATE_CHANNEL,
+						value: clonedChannel
+					})
+				})
+				.then(async () => {
+					const identifier = isUUID(target) ? 'id' : 'slug'
+					const stream = await this.sdk.stream({
+						$$links: {
+							'has attached element': {
+								type: 'object'
+							}
+						},
+						type: 'object',
+						properties: {
+							[identifier]: {
+								type: 'string',
+								const: target
+							}
+						},
+						required: [ identifier ]
+					})
+
+					const hash = hashCode(target)
+
+					if (streams[hash]) {
+						streams[hash].close()
+						Reflect.deleteProperty(streams, hash)
 					}
-				}
-				stream.on('dataset', handler)
-			})
+					streams[hash] = stream
+
+					stream.on('update', async (payload) => {
+						const update = payload.data
+						if (update.after) {
+							const card = update.after
+							const currentChannel = _.find(selectors.getChannels(getState()), {
+								id: channel.id
+							})
+							if (currentChannel) {
+								const clonedChannel = clone(currentChannel)
+
+								// Don't bother is the channel head card hasn't changed
+								if (fastEquals.deepEqual(clonedChannel.data.head, card)) {
+									return
+								}
+								clonedChannel.data.head = card
+								dispatch({
+									type: actions.UPDATE_CHANNEL,
+									value: clonedChannel
+								})
+							}
+						}
+					})
+
+					stream.on('error', (error) => {
+						console.error('A stream error occurred', error)
+					})
+				})
+				.catch((error) => {
+					dispatch(this.addNotification('danger', error.message))
+				})
 		}
 	}
 
@@ -971,7 +927,8 @@ export default class ActionCreator {
 					// Load unread message pings
 					const groupNames = selectors.getMyGroupNames(getState())
 					const unreadQuery = getUnreadQuery(user, groupNames)
-					this.loadViewData(unreadQuery)(dispatch, getState)
+					this.loadViewResults(unreadQuery)(dispatch, getState)
+					this.streamView(unreadQuery)(dispatch, getState)
 
 					return user
 				})
@@ -1330,6 +1287,54 @@ export default class ActionCreator {
 		}
 	}
 
+	// View specific action creators
+	loadViewResults (query, options = {}) {
+		return async (dispatch, getState) => {
+			const id = options.viewId || getViewId(query)
+			const requestTimestamp = Date.now()
+			pendingLoadRequests[id] = requestTimestamp
+
+			const user = selectors.getCurrentUser(getState())
+
+			try {
+				const rawSchema = await loadSchema(this.sdk, query, user)
+				if (!rawSchema) {
+					return
+				}
+
+				const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
+
+				schema.description = schema.description || 'View action creators'
+
+				const queryOptions = _.isEmpty(options) ? {} : {
+					limit: options.limit,
+					skip: options.limit * options.page,
+					sortBy: options.sortBy,
+					sortDir: options.sortDir
+				}
+
+				const data = await this.sdk.query(schema, queryOptions)
+
+				// Only update the store if this request is still the most recent once
+				if (pendingLoadRequests[id] === requestTimestamp) {
+					const commonOptions = _.pick(options, 'viewId')
+					if (options.page) {
+						dispatch(this.appendViewData(query, data, commonOptions))
+					} else {
+						dispatch(this.setViewData(query, data, commonOptions))
+					}
+				}
+
+				// eslint-disable-next-line consistent-return
+				return data
+			} catch (error) {
+				console.error(error)
+				dispatch(this.addNotification('danger', error.message || error))
+				throw error
+			}
+		}
+	}
+
 	clearViewData (query, options = {}) {
 		const id = options.viewId || getViewId(query)
 		if (streams[id]) {
@@ -1373,100 +1378,79 @@ export default class ActionCreator {
 		}
 	}
 
-	getStream (streamId, query) {
-		if (streams[streamId]) {
-			streams[streamId].close()
-			Reflect.deleteProperty(streams, streamId)
-		}
-
-		return this.sdk.stream(query).then((stream) => {
-			streams[streamId] = stream
-			return stream
-		})
-	}
-
-	loadViewData (query, options = {}) {
-		return async (dispatch, getState) => {
+	streamView (query, options = {}) {
+		return (dispatch, getState) => {
 			const commonOptions = _.pick(options, 'viewId')
 			const user = selectors.getCurrentUser(getState())
 			const viewId = options.viewId || getViewId(query)
-
-			const rawSchema = await loadSchema(this.sdk, query, user)
-			if (!rawSchema) {
-				return
-			}
-
-			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
-			schema.description = schema.description || 'View action creators'
-
-			const stream = await this.getStream(viewId, schema)
-
-			stream.on(
-				'update',
-				/* eslint-disable consistent-return */
-				(response) => {
-					// Use the async dispatch queue here, as we want to ensure that
-					// each update causes a store update one at a time, to prevent
-					// race conditions. For example, removing a data item happens
-					// quicker then adding a data item as we don't need to load links
-					asyncDispatchQueue.enqueue((async () => {
-						const {
-							after, type, id
-						} = response.data
-
-						// If type is unmatch then the item has been removed
-						if (type === 'unmatch') {
-							return this.removeViewDataItem(query, id, commonOptions)
-						}
-
-						// If the type is insert, it is a new item
-						if (type === 'insert') {
-							const card = await this.getCardWithLinks(schema, after)
-							if (!card) {
-								return
-							}
-							return this.appendViewData(query, {
-								...after,
-								links: card.links
-							}, commonOptions)
-						}
-
-						// All other updates are an upsert
-						return this.upsertViewData(query, after, commonOptions)
-					})(), dispatch)
-				}
-			)
-			stream.once('dataset', ({
-				data: {
-					cards
-				}
-			}) => {
-				dispatch(this.setViewData(query, cards, commonOptions))
-			})
-
-			stream.emit('queryDataset', {
-				id: uuid(),
-				data: {
-					schema,
-					options: {
-						limit: options.limit,
-						skip: options.limit * options.page,
-						sortBy: options.sortBy,
-						sortDir: options.sortDir
+			return loadSchema(this.sdk, query, user)
+				.then(async (rawSchema) => {
+					if (!rawSchema) {
+						return
 					}
-				}
-			})
 
-			return new Promise((resolve, reject) => {
-				stream.once('dataset', ({
-					data: {
-						cards
+					const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
+
+					if (streams[viewId]) {
+						streams[viewId].close()
+						Reflect.deleteProperty(streams, viewId)
 					}
-				}) => {
-					dispatch(this.setViewData(query, cards, commonOptions))
-					resolve(cards)
+
+					streams[viewId] = await this.sdk.stream(schema)
+
+					streams[viewId].on(
+						'update',
+						/* eslint-disable consistent-return */
+						(response) => {
+							// Use the async dispatch queue here, as we want to ensure that
+							// each update causes a store update one at a time, to prevent
+							// race conditions. For example, removing a data item happens
+							// quicker then adding a data item as we don't need to load links
+							asyncDispatchQueue.enqueue((async () => {
+								const {
+									after, before
+								} = response.data
+								const afterValid = after && skhema.isValid(schema, after)
+								const beforeValid = before && skhema.isValid(schema, before)
+
+								// If before is non-null then the card has been updated
+								if (beforeValid) {
+									// If after is null, the item has been removed from the result set
+									if (!after || !afterValid) {
+										return this.removeViewDataItem(query, before, commonOptions)
+									}
+
+									const card = await this.getCardWithLinks(schema, after)
+
+									if (!card) {
+										return
+									}
+
+									return this.upsertViewData(query, {
+										...after,
+										links: card.links
+									}, commonOptions)
+								}
+								if (!before && afterValid) {
+									// Otherwise, if before is null, this is a new item
+									const card = await this.getCardWithLinks(schema, after)
+
+									if (!card) {
+										return
+									}
+
+									return this.appendViewData(query, {
+										...after,
+										links: card.links
+									}, commonOptions)
+								}
+							})(), dispatch)
+						}
+					)
 				})
-			})
+				.catch((error) => {
+					dispatch(this.addNotification('danger', error.message || error))
+				})
 		}
 	}
 
@@ -1531,13 +1515,13 @@ export default class ActionCreator {
 		}
 	}
 
-	removeViewDataItem (query, itemId, options = {}) {
+	removeViewDataItem (query, data, options = {}) {
 		const id = options.viewId || getViewId(query)
 		return {
 			type: actions.REMOVE_VIEW_DATA_ITEM,
 			value: {
 				id,
-				itemId
+				data
 			}
 		}
 	}

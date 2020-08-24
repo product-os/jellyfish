@@ -43,49 +43,14 @@ module.exports = (jellyfish, server) => {
 				}
 
 				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
-					socket.on('queryDataset', (queryPayload) => {
-						// TODO: maybe worth doing a more thorough check
-						if (
-							!('data' in queryPayload) ||
-							!('schema' in queryPayload.data) ||
-							!_.isPlainObject(queryPayload.data.schema)
-						) {
-							socket.emit({
-								error: true,
-								data: 'Malformed request for: queryDataset'
-							})
-						}
-
-						stream.emit('query', queryPayload.data)
-					})
-
-					socket.on('setSchema', (schemaPayload) => {
-						// TODO: maybe worth doing a more thorough check
-						if (!('data' in schemaPayload) || !('schema' in schemaPayload.data)) {
-							socket.emit({
-								error: true,
-								data: 'Malformed request for: setSchema'
-							})
-						}
-
-						stream.emit('setSchema', schemaPayload.data)
-					})
+					socket.emit('ready')
 
 					openStreams[context.id] = stream
 
-					socket.on('disconnect', () => {
+					const closeStream = () => {
 						stream.close()
 						Reflect.deleteProperty(openStreams, context.id)
-					})
-
-					socket.emit('ready')
-
-					stream.on('dataset', (data) => {
-						socket.emit('dataset', {
-							error: false,
-							data
-						})
-					})
+					}
 
 					stream.on('data', (results) => {
 						// The event name is changed to `update` to indicate that this is
@@ -94,6 +59,10 @@ module.exports = (jellyfish, server) => {
 							error: false,
 							data: results
 						})
+					})
+
+					socket.on('disconnect', () => {
+						closeStream()
 					})
 				})
 			}).catch((error) => {

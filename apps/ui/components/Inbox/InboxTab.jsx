@@ -31,7 +31,6 @@ import {
 	selectors
 } from '../../core'
 import MessageList from './MessageList'
-const uuid = require('@balena/jellyfish-uuid')
 
 const DebouncedSearch = (props) => {
 	const [ term, setTerm ] = useState('')
@@ -77,9 +76,6 @@ export default (props) => {
 	const resultsRef = useRef(results)
 	resultsRef.current = results
 
-	// Setting up fetch as a ref so that we can avoid a stale closure
-	const fetchRef = useRef()
-
 	const {
 		sdk
 	} = useSetup()
@@ -92,22 +88,45 @@ export default (props) => {
 
 	const markAllAsRead = useCallback(async () => {
 		setIsMarkingAllAsRead(true)
-		if (results) {
-			await Bluebird.map(results, (card) => {
-				return sdk.card.markAsRead(user.slug, card, groupNames)
-			}, {
-				concurrency: 10
-			})
-		}
+
+		await Bluebird.map(results, (card) => {
+			return sdk.card.markAsRead(user.slug, card, groupNames)
+		}, {
+			concurrency: 10
+		})
 
 		setIsMarkingAllAsRead(false)
-	}, [ user.id, results, groupNames ])
+	}, [ user.id, results ])
+
+	const loadResults = (term, pageNumber) => {
+		const query = props.getQuery(user, groupNames, term)
+		return sdk.query(query, {
+			...options,
+			limit: options.limit * pageNumber
+		})
+			.then((data) => {
+				setResults(data)
+			})
+	}
+
+	const updatePage = (newPage) => {
+		// If we haven't seen the maximum results, set the new page
+		// TODO: Fix this hack once we can fetch a count from the API
+		if (options.limit * page === results.length) {
+			setPage(newPage)
+
+			// If the search term or page changes, rerun the query
+			return loadResults(searchTerm, newPage)
+		}
+
+		return null
+	}
 
 	// Setup a stream for updates to this query. Since stream creation is
 	// asynchronous we need to have a way of closing it using the cleanup return
-	// function from `useEffect`
+	// function from `useEffect`, hence the mutable variables at the top of this
+	// closure
 	useEffect(() => {
-		let queryId = null
 		let stream = null
 		let canceled = false
 		const setupStream = async () => {
@@ -115,14 +134,8 @@ export default (props) => {
 			stream = await sdk.stream(query)
 			if (canceled) {
 				stream.close()
-				return null
+				return
 			}
-
-			stream.on('dataset', (payload) => {
-				if (payload.data.id === queryId) {
-					setResults(payload.data.cards)
-				}
-			})
 
 			stream.on('update', (update) => {
 				const currentResults = resultsRef.current
@@ -134,64 +147,25 @@ export default (props) => {
 
 				// If after is null, the card no longer appears in this query and should
 				// be removed from the results
-				if (update.data.after === null) {
+				if (update.data.before && update.data.after === null) {
 					const updatedResults = currentResults.filter((item) => {
-						return item.id !== update.data.id
+						return item.id !== update.data.before.id
 					})
 
 					setResults(updatedResults)
 				}
 
-				// If type is `insert`, a new card has been added and should
-				// appear in the results
-				if (update.data.type === 'insert') {
+				// If before is null, a new card has been added and should appear in the
+				// results
+				if (update.data.before === null && update.data.after) {
 					setResults([ update.data.after ].concat(currentResults))
 				}
 			})
-
-			const loadResults = async (term, pageNumber) => {
-				const termQuery = props.getQuery(user, groupNames, term)
-
-				// Reset `queryId` so that stale results will be ignored
-				queryId = await uuid.random()
-				stream.emit('queryDataset', {
-					error: false,
-					data: {
-						id: queryId,
-						schema: termQuery,
-						options: {
-							...options,
-							limit: options.limit * pageNumber
-						}
-					}
-				})
-			}
-
-			const updatePage = (newPage) => {
-				// If we haven't seen the maximum results, set the new page
-				// TODO: Fix this hack once we can fetch a count from the API
-				if (options.limit * page === results.length) {
-					setPage(newPage)
-
-					// If the search term or page changes, rerun the query
-					return loadResults(searchTerm, newPage)
-				}
-
-				return null
-			}
-
-			return {
-				loadResults,
-				updatePage
-			}
 		}
 
-		fetchRef.current = setupStream()
+		setupStream()
 
 		return () => {
-			queryId = null
-			fetchRef.current = null
-
 			canceled = true
 			if (stream) {
 				stream.close()
@@ -203,9 +177,7 @@ export default (props) => {
 	// shown whilst the new query runs
 	useEffect(() => {
 		setResults(null)
-		fetchRef.current.then((fns) => {
-			return fns.loadResults(searchTerm, page)
-		})
+		loadResults(searchTerm, page)
 	}, [ searchTerm ])
 
 	return (
@@ -242,9 +214,7 @@ export default (props) => {
 			{Boolean(results) && (
 				<MessageList
 					page={page}
-					setPage={async () => {
-						return (await fetchRef.current).updatePage
-					}}
+					setPage={updatePage}
 					tail={results}
 				/>
 			)}

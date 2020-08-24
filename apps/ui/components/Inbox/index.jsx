@@ -101,26 +101,17 @@ export default React.memo((props) => {
 				<Tab title="Unread">
 					<InboxTab
 						key={currentTab}
-						currentTab={currentTab}
 						getQuery={queries.getUnreadQuery}
 						canMarkAsRead
 					/>
 				</Tab>
 
 				<Tab title="Read">
-					<InboxTab
-						key={currentTab}
-						getQuery={getReadQuery}
-						currentTab={currentTab}
-					/>
+					<InboxTab key={currentTab} getQuery={getReadQuery} />
 				</Tab>
 
 				<Tab title="Sent">
-					<InboxTab
-						key={currentTab}
-						getQuery={getSentQuery}
-						currentTab={currentTab}
-					/>
+					<InboxTab key={currentTab} getQuery={getSentQuery} />
 				</Tab>
 			</Tabs>
 		</InboxColumn>
