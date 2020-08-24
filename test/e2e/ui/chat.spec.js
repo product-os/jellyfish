@@ -576,8 +576,6 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 		incognitoPage
 	} = context
 
-	const messageSelector = '[data-test="event-card__message"]'
-
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
 			type: 'thread@1.0.0'
@@ -599,17 +597,15 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	// Navigate to the inbox page
 	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
-	await incognitoPage.waitForSelector(messageSelector)
-
 	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
 
 	// Leave a small delay for the message to be marked as read and for the change
 	// to be propogated to the UI
 	await Bluebird.delay(10000)
 
-	await macros.waitForSelectorToDisappear(incognitoPage, messageSelector)
+	await macros.waitForSelectorToDisappear(incognitoPage, '[data-test="event-card__message"]')
 
-	const messages = await incognitoPage.$$(messageSelector)
+	const messages = await incognitoPage.$$('[data-test="event-card__message"]')
 
 	// Assert that there are no longer messages in the inbox
 	test.is(messages.length, 0)

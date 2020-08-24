@@ -91,17 +91,17 @@ export default (props) => {
 	}
 
 	const markAllAsRead = useCallback(async () => {
+		console.log('here')
 		setIsMarkingAllAsRead(true)
-		if (results) {
-			await Bluebird.map(results, (card) => {
-				return sdk.card.markAsRead(user.slug, card, groupNames)
-			}, {
-				concurrency: 10
-			})
-		}
+
+		await Bluebird.map(results, (card) => {
+			return sdk.card.markAsRead(user.slug, card, groupNames)
+		}, {
+			concurrency: 10
+		})
 
 		setIsMarkingAllAsRead(false)
-	}, [ user.id, results, groupNames ])
+	}, [ user.id, results ])
 
 	// Setup a stream for updates to this query. Since stream creation is
 	// asynchronous we need to have a way of closing it using the cleanup return
