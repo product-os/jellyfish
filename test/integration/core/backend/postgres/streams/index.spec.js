@@ -70,20 +70,23 @@ ava.serial.afterEach(async (test) => {
 
 ava('should be able to setup and teardown', async (test) => {
 	await test.notThrowsAsync(async () => {
-		const client = await streams.start(
-			null, test.context.connection, test.context.table, test.context.triggerColumns)
-		await client.close()
+		const instance = await streams.setup(
+			test.context.context, test.context.connection, test.context.table, test.context.triggerColumns)
+		await streams.teardown(
+			test.context.context, test.context.connection, instance)
 	})
 })
 
 ava('should be able to create two instances on the same connection', async (test) => {
 	await test.notThrowsAsync(async () => {
-		const client1 = await streams.start(
-			null, test.context.connection, test.context.table, test.context.triggerColumns)
-		const client2 = await streams.start(
-			null, test.context.connection, test.context.table, test.context.triggerColumns)
-		await client1.close()
-		await client2.close()
+		const instance1 = await streams.setup(
+			test.context.context, test.context.connection, test.context.table, test.context.triggerColumns)
+		const instance2 = await streams.setup(
+			test.context.context, test.context.connection, test.context.table, test.context.triggerColumns)
+		await streams.teardown(
+			test.context.context, test.context.connection, instance1)
+		await streams.teardown(
+			test.context.context, test.context.connection, instance2)
 	})
 })
 
@@ -92,12 +95,14 @@ ava('should be able to create two instances different connections', async (test)
 	const connection2 = await test.context.createConnection()
 
 	await test.notThrowsAsync(async () => {
-		const client1 = await streams.start(
-			null, connection1, test.context.table, test.context.triggerColumns)
-		const client2 = await streams.start(
-			null, connection2, test.context.table, test.context.triggerColumns)
-		await client1.close()
-		await client2.close()
+		const instance1 = await streams.setup(
+			test.context.context, connection1, test.context.table, test.context.triggerColumns)
+		const instance2 = await streams.setup(
+			test.context.context, connection2, test.context.table, test.context.triggerColumns)
+		await streams.teardown(
+			test.context.context, connection1, instance1)
+		await streams.teardown(
+			test.context.context, connection2, instance2)
 	})
 
 	await test.context.destroyConnection(connection1)
@@ -108,10 +113,11 @@ ava('should survive parallel setups', async (test) => {
 	const run = async () => {
 		await Bluebird.delay(_.random(0, 1000))
 		const connection = await test.context.createConnection()
-		const client = await streams.start(
-			null, connection, test.context.table, test.context.triggerColumns)
+		const instance = await streams.setup(
+			test.context.context, connection, test.context.table, test.context.triggerColumns)
 		await Bluebird.delay(_.random(0, 1000))
-		await client.close()
+		await streams.teardown(
+			test.context.context, connection, instance)
 		await Bluebird.delay(_.random(0, 1000))
 		await test.context.destroyConnection(connection)
 	}
