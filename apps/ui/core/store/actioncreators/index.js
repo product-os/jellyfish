@@ -564,24 +564,17 @@ export default class ActionCreator {
 			// Checks to see if we can query for the card with
 			// attached elements. If we can't, remove the
 			// $$links from the query
-			let cards = await this.sdk.query(query)
-
-			if (cards.length === 0) {
+			const [ cardWithLinks ] = await this.sdk.query(query)
+			if (!cardWithLinks) {
 				query = _.omit(query, [ '$$links' ])
-				cards = [ await this.sdk.card.get(target) ]
 			}
 
-			const [ card ] = cards
-			if (_.isNil(card)) {
-				throw new Error(`Could not find card with ${identifier} target`)
-			}
-
-			const streamHash = hashCode(cards[0].id)
+			const streamHash = hashCode(target)
 			const stream = await this.getStream(streamHash, query)
 
 			stream.once('dataset', ({
 				data: {
-					cards: channels
+					cards
 				}
 			}) => {
 				const currentChannel = _.find(selectors.getChannels(getState()), {
@@ -590,9 +583,9 @@ export default class ActionCreator {
 
 				const clonedChannel = clone(currentChannel)
 
-				if (channels.length > 0) {
+				if (cards.length > 0) {
 					// Merge required in the event that this is a pagination query
-					clonedChannel.data.head = merge(clonedChannel.data.head, channels[0])
+					clonedChannel.data.head = merge(clonedChannel.data.head, cards[0])
 				}
 
 				dispatch({
@@ -649,17 +642,7 @@ export default class ActionCreator {
 		target, query, queryOptions
 	}) {
 		return async (dispatch, getState) => {
-			let identifier = isUUID(target) ? 'id' : 'slug'
-
-			if (identifier !== 'id') {
-				const card = await this.sdk.card.get(target)
-				if (_.isNil(card)) {
-					throw new Error(`Could not find card with ${identifier} ${target}`)
-				}
-				identifier = card.id
-			}
-
-			const streamHash = hashCode(identifier)
+			const streamHash = hashCode(target)
 			const stream = streams[streamHash]
 			if (!stream) {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
