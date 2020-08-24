@@ -5,13 +5,21 @@
  */
 
 const IgnorePlugin = require('webpack/lib/IgnorePlugin')
+const path = require('path')
 
 const config = {
 	mode: 'development',
 	target: 'web',
 
 	resolve: {
-		extensions: [ '.js', '.jsx', '.json' ]
+		symlinks: false,
+		extensions: [ '.js', '.jsx', '.json' ],
+		alias: {
+			react$: path.resolve(`${__dirname}/node_modules/react`),
+			rendition: path.resolve(`${__dirname}/node_modules/rendition`),
+			'react-router-dom': path.resolve(`${__dirname}/node_modules/react-router-dom`),
+			'react-dom': path.resolve(`${__dirname}/node_modules/react-dom`)
+		}
 	},
 
 	module: {
