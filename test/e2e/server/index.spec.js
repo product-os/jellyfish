@@ -591,7 +591,7 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 	})
 })
 
-ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
+ava.only('should limit the amount of get elements by type endpoint', async (test) => {
 	for (const time of _.range(0, 101)) {
 		const card = await test.context.sdk.card.create({
 			type: 'card',
