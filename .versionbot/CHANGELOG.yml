@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Bump dependencies, minor and patch only'
+      hash: 287195df05af742243d48d17cc3a9595dad5c98e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 31.0.1
+  date: 2020-08-24T14:25:24.310Z
+- commits:
     - subject: Fix Inbox logic
       hash: 2b7474448daef5201d751e6430526890902f2be2
       body: ''
