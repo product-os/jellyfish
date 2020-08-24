@@ -28,7 +28,6 @@ import {
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
-
 	return {
 		wide: !ownProps.isMobile,
 		selectCard: selectors.getCard,
@@ -49,7 +48,8 @@ const mapDispatchToProps = (dispatch) => {
 			'setTimelineMessage',
 			'signalTyping',
 			'getCard',
-			'getActor'
+			'getActor',
+			'loadMoreChannelData'
 		]),
 		dispatch
 	)

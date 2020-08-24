@@ -41,13 +41,6 @@ SHELL_FILES="$(find . -name '*.sh' \
 	-and -not -path './.tmp/*')"
 
 for file in $JAVASCRIPT_FILES; do
-	# Exceptions
-	if [ "$file" = "./lib/core/backend/postgres/pg-live-select/trigger-sql.js" ] || \
-		[ "$file" = "./lib/core/backend/postgres/pg-live-select/index.js" ] || \
-		[ "$file" = "./lib/core/backend/postgres/pg-live-select/payload.js" ]; then
-		continue
-	fi
-
 	if [ "$(head -n 5 "$file")" != "$LICENSE_JS" ] && \
 		[ "$(head -n 7 "$file")" != "$LICENSE_SHEBANG_JS" ]; then
 		echo "Invalid license header: $file" 1>&2
