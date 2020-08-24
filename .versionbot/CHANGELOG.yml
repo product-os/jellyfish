@@ -1,4 +1,160 @@
 - commits:
+    - subject: >-
+        test/e2e/ui/pull-requests: Skip test that shows the newly added
+        datapoint
+      hash: 2f89b6f2713d1a9ebd13d2397686e280a67ffa0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/e2e/ui/pull-requests: Add e2e test to just go to chart lens'
+      hash: b238afffaae3fd0d38b90561a96834f7a0215956
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/e2e/ui/pull-requests: Add helpers.after in ava.serial.after.always'
+      hash: 42913f87917587217ec1f50aec0eae7c130fe10e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: >-
+        test/e2e/ui/pull-requests: Insert test card using context.sdk instead of
+        browser
+      hash: ed9558c8b59a58cb84cfed36e1c85a845404d3f0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/e2e/ui/pull-requests: Remove lodash'
+      hash: 622018743347f38b4361b9431e40fd9abf10e1af
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/e2e/ui/support: Type slower in flakey test case'
+      hash: 089f75af5f780d2d5af63567a869885e2f3cd488
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Tidy up lazy-loading components
+      hash: 46a1208611b969552960cff838fd6108594b308f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <marios@balena.io>
+        signed-off-by: Marios Balamatsias <marios@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'apps/ui/lens/misc/Chart: Lazily load Chart component'
+      hash: 03d4dc470099d9ef6cd0e4e59fba3d8fb0124546
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Replace chart.js with plotly.js
+      hash: 66ce6f04581fc6f57013059fbbe807625d06353c
+      body: |
+        Add dependencies of Chart lens
+        Only affects the SupportAuditChart component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <marios@balena.io>
+        signed-off-by: Marios Balamatsias <marios@balena.io>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/e2e/ui: Add e2e test for pull-requests'
+      hash: 968a109885a0cf03ae5adb19df9222921a40f93f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Do not load plotly in unit tests
+      hash: b0122627bbfada9a3ea5e8033a24eefcfdd76851
+      body: >
+        Plotly does not work outside of the browser environment and there's no
+        easy way to mock it.
+
+        Fixup Chart lens logic
+
+        Remove useEffect from Chart lens
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <marios@balena.io>
+        signed-off-by: Marios Balamatsias <marios@balena.io>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Fixup increase node memory limit
+      hash: b730bf7f3715dfe1583bd1689eade3f1b7d6dd0d
+      body: |
+        apps/ui/Dockerfile: Use 3072mb for max-old-space-size
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: StefKors
+      nested: []
+    - subject: 'webpack: Remove terser since it doesn''t reduce the size of the output'
+      hash: 564de5780dd3cf1327362c7f38cd269a9d570960
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Create a generic chart lens and use it for pull requests
+      hash: 0a113e2e3aeb47e4f7467469211dac936f0704f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 30.95.11
+  date: 2020-08-23T18:11:05.212Z
+- commits:
     - subject: Remove debug html tag from default list lens
       hash: 63b979c95a0cfe8b7259c434b0b9b672e79ad7dd
       body: ''
