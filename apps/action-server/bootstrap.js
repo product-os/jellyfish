@@ -153,14 +153,14 @@ const bootstrap = async (context, library, options) => {
 			// If `after` is null, the card is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
 			if (data.after === null) {
-				worker.removeTrigger(context, data.id)
+				worker.removeTrigger(context, data.before.slug)
 			} else {
 				worker.upsertTrigger(context, transformTriggerCard(data.after))
 			}
 		}
 
 		if (data.type === 'delete') {
-			worker.removeTrigger(context, data.id)
+			worker.removeTrigger(context, data.before.slug)
 		}
 	})
 

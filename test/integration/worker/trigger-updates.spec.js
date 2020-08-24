@@ -721,7 +721,7 @@ ava('.removeTrigger() should be able to remove an existing trigger', (test) => {
 
 	test.context.worker.setTriggers(test.context.context, cards)
 
-	test.context.worker.removeTrigger(test.context.context, cards[1].id)
+	test.context.worker.removeTrigger(test.context.context, cards[1].slug)
 
 	const triggers = test.context.worker.getTriggers()
 

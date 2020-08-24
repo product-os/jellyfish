@@ -596,7 +596,6 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'getActor',
 				'getCard',
-				'loadMoreViewData',
 				'setFlow',
 				'removeChannel'
 			]),

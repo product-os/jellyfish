@@ -4046,7 +4046,8 @@ ava.cb('.stream() should report back new elements that match a certain type', (t
 	}).then(async (emitter) => {
 		emitter.on('data', (change) => {
 			test.is(change.type, 'insert')
-			test.deepEqual(change.after, {
+			test.is(change.before, null)
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				type: 'foo@1.0.0',
 				data: {
 					test: 1
@@ -4182,7 +4183,15 @@ ava.cb('.stream() should report back changes to certain elements', (test) => {
 			}
 
 			test.is(change.type, 'update')
-			test.deepEqual(change.after, {
+			test.deepEqual(_.omit(change.before, [ 'id' ]), {
+				slug: slug1,
+				type: 'foo@1.0.0',
+				data: {
+					test: 1
+				}
+			})
+
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug: slug1,
 				type: 'foo@1.0.0',
 				data: {
@@ -4300,7 +4309,8 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			// and if so its fine to ignore, as it doesn't affect
 			// the semantics of the tests.
 			if (change.type === 'insert' &&
-				_.isEqual(change.after, {
+				_.isNull(change.before) &&
+				_.isEqual(_.omit(change.after, [ 'id' ]), {
 					slug,
 					type: 'foo@1.0.0',
 					data: {
@@ -4311,7 +4321,7 @@ ava.cb('.stream() should report back changes to large elements', (test) => {
 			}
 
 			test.is(change.type, 'update')
-			test.deepEqual(change.after, {
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug,
 				type: 'foo@1.0.0',
 				data: {
@@ -4424,7 +4434,8 @@ ava.cb('.stream() should set "before" to null if it previously did not match the
 		})
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.after, {
+			test.deepEqual(change.before, null)
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug,
 				type: 'foo@1.0.0',
 				data: {
@@ -4526,7 +4537,8 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 			// and if so its fine to ignore, as it doesn't affect
 			// the semantics of the tests.
 			if (change.type === 'insert' &&
-				_.isEqual(change.after, {
+				_.isNull(change.before) &&
+				_.isEqual(_.omit(change.after, [ 'id' ]), {
 					type: 'foo@1.0.0',
 					slug,
 					data: {
@@ -4536,7 +4548,15 @@ ava.cb('.stream() should filter the "before" section of a change', (test) => {
 				return
 			}
 
-			test.deepEqual(change.after, {
+			test.deepEqual(_.omit(change.before, [ 'id' ]), {
+				slug,
+				type: 'foo@1.0.0',
+				data: {
+					test: 1
+				}
+			})
+
+			test.deepEqual(_.omit(change.after, [ 'id' ]), {
 				slug,
 				type: 'foo@1.0.0',
 				data: {
