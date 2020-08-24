@@ -91,7 +91,7 @@ const viewsReducer = (state = defaultState.views, action = {}) => {
 		case actions.REMOVE_VIEW_DATA_ITEM: {
 			if (state.viewData[action.value.id]) {
 				const indexToRemove = _.findIndex(state.viewData[action.value.id] || [], {
-					id: action.value.data.id
+					id: action.value.itemId
 				})
 				if (indexToRemove !== -1) {
 					return update(state, {
