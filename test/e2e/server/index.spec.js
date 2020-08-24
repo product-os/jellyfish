@@ -559,20 +559,22 @@ ava.serial('should be able to resolve links', async (test) => {
 })
 
 ava.serial('should display up to date information after resolving an action', async (test) => {
-	const card = await test.context.sdk.card.create({
-		type: 'card',
-		slug: test.context.generateRandomSlug({
-			prefix: `card-${uuid()}`
-		}),
-		version: '1.0.0'
-	})
+	for (const time in _.range(0, 30)) {
+		const card = await test.context.sdk.card.create({
+			type: 'card',
+			slug: test.context.generateRandomSlug({
+				prefix: `card-${time}`
+			}),
+			version: '1.0.0'
+		})
 
-	await test.context.sdk.card.remove(card.id, card.type)
-	const result = await test.context.sdk.card.get(card.id, {
-		type: 'card'
-	})
+		await test.context.sdk.card.remove(card.id, card.type)
+		const result = await test.context.sdk.card.get(card.id, {
+			type: 'card'
+		})
 
-	test.false(result.active)
+		test.false(result.active)
+	}
 })
 
 ava.serial('should fail with a user error given no input card', async (test) => {
@@ -591,9 +593,9 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 	})
 })
 
-ava.only('should limit the amount of get elements by type endpoint', async (test) => {
+ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
 	for (const time of _.range(0, 101)) {
-		const card = await test.context.sdk.card.create({
+		await test.context.sdk.card.create({
 			type: 'card',
 			slug: test.context.generateRandomSlug({
 				prefix: `test-card-${time}`
@@ -601,8 +603,6 @@ ava.only('should limit the amount of get elements by type endpoint', async (test
 			version: '1.0.0',
 			data: {}
 		})
-		
-		test.truthy(card.id)
 	}
 
 	const result = await test.context.http(
