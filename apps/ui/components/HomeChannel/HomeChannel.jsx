@@ -303,7 +303,8 @@ export default class HomeChannel extends React.Component {
 		this.openChatWidget = this.openChatWidget.bind(this)
 
 		if (this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head)
+			this.props.actions.loadViewResults(this.props.channel.data.head)
+			this.props.actions.streamView(this.props.channel.data.head)
 		}
 
 		this.wrapper = React.createRef()
@@ -428,7 +429,8 @@ export default class HomeChannel extends React.Component {
 
 	componentDidUpdate (prevProps) {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head)
+			this.props.actions.loadViewResults(this.props.channel.data.head)
+			this.props.actions.streamView(this.props.channel.data.head)
 		}
 		if (this.props.isMobile) {
 			if (this.wrapper.current) {

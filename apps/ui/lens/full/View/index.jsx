@@ -283,7 +283,7 @@ class ViewRenderer extends React.Component {
 		const syntheticViewCard = createSyntheticViewCard(head, this.state.filters)
 
 		this.props.actions.clearViewData(head.id)
-		this.props.actions.loadViewData(
+		this.props.actions.loadViewResults(
 			syntheticViewCard,
 			this.getQueryOptions(lens.slug)
 		)
@@ -342,11 +342,14 @@ class ViewRenderer extends React.Component {
 		this.setState({
 			options
 		}, () => this.updateView(channel, this.state))
+
 		return options
 	}
 
 	updateView (channel, state) {
-		this.props.actions.loadMoreViewData(
+		// There is no need to catch the response here, as `loadViewResults` will
+		// show an error notification if anything goes wrong
+		this.props.actions.loadViewResults(
 			createSyntheticViewCard(channel.data.head, state.filters),
 			this.getQueryOptions(state.activeLens)
 		)
@@ -430,7 +433,8 @@ class ViewRenderer extends React.Component {
 			this.loadViewWithFilters(head, _.compact([ ...filters, this.state.searchFilter ]))
 		} else {
 			const queryOptions = this.getQueryOptions(activeLens)
-			this.props.actions.loadViewData(head.id, queryOptions)
+			this.props.actions.streamView(head.id, queryOptions)
+			this.props.actions.loadViewResults(head.id, queryOptions)
 		}
 
 		// Set default state
@@ -545,7 +549,8 @@ class ViewRenderer extends React.Component {
 		const syntheticViewCard = createSyntheticViewCard(view, filters)
 		const options = this.getQueryOptions(this.state.activeLens)
 		this.props.actions.clearViewData(syntheticViewCard)
-		this.props.actions.loadViewData(syntheticViewCard, options)
+		this.props.actions.streamView(syntheticViewCard, options)
+		return this.props.actions.loadViewResults(syntheticViewCard, options)
 	}
 
 	render () {
@@ -649,9 +654,9 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addNotification',
 				'clearViewData',
-				'loadViewData',
-				'loadMoreViewData',
-				'setViewLens'
+				'loadViewResults',
+				'setViewLens',
+				'streamView'
 			]), dispatch)
 	}
 }
