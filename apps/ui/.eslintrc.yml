@@ -1,7 +1,8 @@
 env:
   browser: true
   node: false
-
+parserOptions:
+  ecmaVersion: 11
 rules:
   arrow-body-style:
-    off
+    0

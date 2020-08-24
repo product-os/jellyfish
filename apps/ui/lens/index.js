@@ -19,7 +19,7 @@ import Kanban from './misc/Kanban'
 import SupportAuditChart from './misc/SupportAuditChart'
 import Table from './misc/Table'
 import CRMTable from './misc/CRMTable'
-import PullRequestChart from './misc/PullRequestChart'
+import Chart from './misc/Chart'
 
 import FullLenses from './full'
 import ListLenses from './list'
@@ -53,7 +53,7 @@ const lenses = {
 		SupportAuditChart,
 		Table,
 		CRMTable,
-		PullRequestChart
+		Chart
 	]
 }
 

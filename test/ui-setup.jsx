@@ -32,6 +32,8 @@ import createCache from '@emotion/cache'
 
 import Adapter from 'enzyme-adapter-react-16'
 
+window.isUnitTest = true
+
 const emotionCache = createCache({})
 
 configure({

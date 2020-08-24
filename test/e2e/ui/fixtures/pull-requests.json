@@ -1,0 +1,23 @@
+{
+  "base": {
+    "sha": "b3c85ff1921df396651472b4cd5a5838e15552f5",
+    "branch": "master"
+  },
+  "head": {
+    "sha": "0ad170b1965d13b5cef1061c84cf2fa7b5a6ad03",
+    "branch": "use-done-flag"
+  },
+  "status": "closed",
+  "mirrors": [
+    "https://github.com/product-os/ci-task-runner/pull/18"
+  ],
+  "archived": false,
+  "closed_at": null,
+  "merged_at": null,
+  "created_at": "2020-08-13T14:07:43.582Z",
+  "alertsUser": [],
+  "repository": "product-os/ci-task-runner",
+  "description": "Change-type: patch\r\nSigned-off-by: Josh Bowling <josh@balena.io>\r\n\r\n***\r\n\r\nAdd a new `done` flag used to denote when a task is complete. This is much cleaner and easier to understand than the previous strategy of using a combination of `running`, `passed`, and `failed` flags. This seems to fix at least one of the bugs that would cause the process to exit with `0` before all tasks were actually complete.",
+  "mentionsUser": [],
+  "participants": []
+}
