@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update preferred node version
+      hash: d123b2b7af783439faea076190d6d0480c73ff01
+      body: |
+        ...to match the version used by CI.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 30.95.12
+  date: 2020-08-24T00:34:44.880Z
+- commits:
     - subject: >-
         test/e2e/ui/pull-requests: Skip test that shows the newly added
         datapoint
