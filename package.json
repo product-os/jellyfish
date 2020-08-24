@@ -111,7 +111,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.10.4",
-    "@balena/jellyfish-action-library": "^2.0.2",
+    "@balena/jellyfish-action-library": "^2.0.3-increment-tag-fix-d27bd9b0fc52a45d06896c0c7bdaa353987a61e3",
     "@balena/jellyfish-assert": "^0.0.21",
     "@balena/jellyfish-chat-widget": "^1.0.3",
     "@balena/jellyfish-client-sdk": "^2.1.3",
@@ -122,7 +122,7 @@
     "@balena/jellyfish-sync": "^0.0.47",
     "@balena/jellyfish-ui-components": "^1.0.0",
     "@balena/jellyfish-uuid": "^0.0.29",
-    "@balena/jellyfish-worker": "^1.1.0-triggered-action-e8e30b94a6894468ee0c562238defb43c2ea9a99",
+    "@balena/jellyfish-worker": "^1.1.0-triggered-action-66bccac3a763b27290cfc61bb78db57fe13da1ca",
     "@emotion/cache": "^10.0.29",
     "@emotion/core": "^10.0.34",
     "@octokit/plugin-retry": "^3.0.3",

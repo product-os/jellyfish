@@ -65,7 +65,7 @@ ava.afterEach.always(async () => {
 	})
 })
 
-ava('If you call card.link twice with the same params you will get the same link card back', async (test) => {
+ava('If you call card.link twice with the same params you will get true as a result', async (test) => {
 	const {
 		sdk
 	} = context
@@ -76,13 +76,13 @@ ava('If you call card.link twice with the same params you will get the same link
 	const supportIssue = await createSupportIssue(sdk)
 
 	// Link the support thread to the support issue
-	const link1 = await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
+	await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
 
 	// Try to link the same support thread to the same support issue
 	const link2 = await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
 
 	// Verify the link ID is the same
-	test.is(link1.id, link2.id)
+	test.is(link2, true)
 })
 
 ava('card.link will create a new link if the previous one was deleted', async (test) => {
