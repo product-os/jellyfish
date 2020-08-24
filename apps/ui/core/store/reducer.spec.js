@@ -80,7 +80,7 @@ ava('REMOVE_VIEW_DATA_ITEM action removes the specified view data item', (test) 
 		type: actions.REMOVE_VIEW_DATA_ITEM,
 		value: {
 			id: viewId,
-			itemId: dataToRemove.id
+			data: dataToRemove
 		}
 	})
 
