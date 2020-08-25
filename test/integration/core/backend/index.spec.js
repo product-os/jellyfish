@@ -34,6 +34,7 @@ ava('should only expose the required methods', (test) => {
 		'getElementBySlug',
 		'getElementsById',
 		'query',
+		'prepareQueryForStream',
 		'stream',
 		'getStatus',
 		'createTypeIndex',
