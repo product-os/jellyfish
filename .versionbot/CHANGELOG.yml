@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to v18'
+      hash: 7c3261f3b7999d4c956d8be5d0ea37d73c3d58fe
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 31.0.3
+  date: 2020-08-25T16:56:54.057Z
+- commits:
     - subject: Bump dependencies
       hash: f5dbb7c045bd38f67cfd3ff81599c4e43ce39b88
       body: ''
