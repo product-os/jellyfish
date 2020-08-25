@@ -38,25 +38,58 @@
             },
             "discountPercentage": {
               "title": "Discount percentage",
-              "type": "string"
+              "description": "The percentage of discount for the current subscription. 0.1 will stand for 10% discount, -0.1 will stand for 10% surcharge",
+              "type": "number",
+              "readOnly": true
             },
             "billingCode": {
               "title": "Billing code",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
+            },
+            "billingCycle": {
+              "title": "Billing cycle",
+              "type": "string",
+              "readOnly": true
+            },
+            "canSelfServe": {
+              "title": "can self serve",
+              "type": "boolean",
+              "readOnly": true
+            },
+            "isLegacy": {
+              "title": "is Legacy",
+              "type": "boolean",
+              "readOnly": true
+            },
+            "monthlyPrice": {
+              "title": "Monthly price",
+              "description": "Monthly price without discounts or plan addons included",
+              "type": "number",
+              "readOnly": true
+            },
+            "annualPrice": {
+              "title": "Annual price",
+              "description": "Annual price without discounts or plan addons included",
+              "type": "number",
+              "readOnly": true
             },
             "startsOnDate": {
               "title": "Starts on date",
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "readOnly": true
             },
             "endsOnDate": {
               "title": "Ends on date",
               "type": "string",
-              "format": "date-time"
+              "format": "date-time",
+              "readOnly": true
             },
             "industry": {
               "title": "Industry",
-              "type": "string"
+              "type": "string",
+              "readOnly": true
             },
             "location": {
               "title": "Location",
@@ -70,6 +103,20 @@
               "title": "Description",
               "type": "string",
               "format": "markdown"
+            },
+            "SumMonthlyPrice": {
+              "title": "Sum Monthly price",
+              "description": "Calculated with the formula: monthlyPrice * (1 - discountPercentage). This number is excluding plan addons",
+              "type": "number",
+              "$$formula": "SUM(this.data.monthlyPrice * (1-this.data.discountPercentage))",
+              "readOnly": true
+            },
+            "SumAnnualPrice": {
+              "title": "Sum Annual price",
+              "description": "Calculated with the formula: annualPrice * (1 - discountPercentage). This number is excluding plan addons",
+              "type": "number",
+              "$$formula": "SUM(this.data.annualPrice * (1 - this.data.discountPercentage))",
+              "readOnly": true
             }
           }
         }
@@ -79,9 +126,9 @@
         "data"
       ]
     },
-		"slices": [
-			"properties.data.properties.profile.properties.status"
-		],
+    "slices": [
+      "properties.data.properties.profile.properties.status"
+    ],
     "meta": {
       "relationships": [
         {
