@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump dependencies
+      hash: f5dbb7c045bd38f67cfd3ff81599c4e43ce39b88
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 31.0.2
+  date: 2020-08-25T00:34:54.993Z
+- commits:
     - subject: 'Bump dependencies, minor and patch only'
       hash: 287195df05af742243d48d17cc3a9595dad5c98e
       body: ''
