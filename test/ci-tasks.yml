@@ -25,6 +25,7 @@ tasks:
     attempts: 1
     dependencies:
       - 'clean-github'
+      - 'front-mirror'
   - name: 'pipeline-sync'
     description: 'Pipeline Sync Tests'
     command: 'make test'
