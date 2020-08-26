@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        core: simplify the streaming subsystem by relying on the common
+        `query()` codepath
+      hash: 00f3540f972483588b15c3a4138735fa5ed68bdc
+      body: |
+        This also removes the `before` key on `data` events, and adds support
+        for querying through the stream object.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.0.0
+  date: 2020-08-26T01:46:34.707Z
+- commits:
     - subject: 'patch: Update dependency rendition to v18'
       hash: 7c3261f3b7999d4c956d8be5d0ea37d73c3d58fe
       body: ''
