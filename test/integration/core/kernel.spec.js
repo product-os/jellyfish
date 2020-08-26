@@ -13,6 +13,9 @@ const {
 const errors = require('../../../lib/core/errors')
 const CARDS = require('../../../lib/core/cards')
 const helpers = require('./helpers')
+const {
+	once
+} = require('events')
 
 const context = {
 	context: {}
@@ -4298,8 +4301,8 @@ ava.cb('.stream() should include data if additionalProperties true', (test) => {
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
 			test.deepEqual(change, {
+				id: change.after.id,
 				type: 'insert',
-				before: null,
 				after: {
 					id: change.after.id,
 					slug,
@@ -4386,8 +4389,7 @@ ava.cb('.stream() should report back new elements that match a certain slug', (t
 		required: [ 'slug' ]
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+			test.deepEqual(change.after, {
 				type: 'card@1.0.0',
 				slug,
 				active: true,
@@ -4466,8 +4468,7 @@ ava.cb('.stream() should report back elements of a certain type', (test) => {
 		let promise = Bluebird.resolve()
 
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+			test.deepEqual(change.after, {
 				slug,
 				type: 'card@1.0.0',
 				data: {
@@ -4578,7 +4579,6 @@ ava.cb('.stream() should be able to attach a large number of streams', (test) =>
 		test.deepEqual(results.map((result) => {
 			return _.omit(result, [ 'id' ])
 		}), _.times(times, _.constant({
-			before: null,
 			type: 'insert',
 			after: {
 				slug,
@@ -4624,8 +4624,7 @@ ava.cb('.stream() should report back action requests', (test) => {
 		required: [ 'type' ]
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+			test.deepEqual(change.after, {
 				type: 'action-request@1.0.0',
 				data: {
 					context: context.context,
@@ -4724,8 +4723,7 @@ ava.cb('.stream() should report back inactive elements', (test) => {
 		required: [ 'type' ]
 	}).then((emitter) => {
 		emitter.on('data', (change) => {
-			test.deepEqual(change.before, null)
-			test.deepEqual(_.omit(change.after, [ 'id' ]), {
+			test.deepEqual(change.after, {
 				type: 'card@1.0.0',
 				slug
 			})
@@ -4825,10 +4823,10 @@ ava.cb('.stream() should be able to resolve links on an update to the base card'
 					const: 'card@1.0.0'
 				}
 			},
-			required: [ 'type' ]
+			required: [ 'type', 'links' ]
 		}).then((emitter) => {
 			emitter.on('data', (change) => {
-				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				test.deepEqual(change.after, {
 					type: 'card@1.0.0',
 					slug,
 					links: {
@@ -4918,10 +4916,10 @@ ava.cb('.stream() should be able to resolve links when a new link is added', (te
 					const: 'card@1.0.0'
 				}
 			},
-			required: [ 'type' ]
+			required: [ 'type', 'links' ]
 		}).then((emitter) => {
 			emitter.on('data', (change) => {
-				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				test.deepEqual(change.after, {
 					type: 'card@1.0.0',
 					slug,
 					links: {
@@ -5041,7 +5039,7 @@ ava.cb.skip('.stream() should be able to resolve links on an update to the linke
 			required: [ 'type' ]
 		}).then((emitter) => {
 			emitter.on('data', (change) => {
-				test.deepEqual(_.omit(change.after, [ 'id' ]), {
+				test.deepEqual(change.after, {
 					type: 'card@1.0.0',
 					slug,
 					links: {
@@ -5080,6 +5078,170 @@ ava.cb.skip('.stream() should be able to resolve links on an update to the linke
 				})
 		})
 	}).catch(test.end)
+})
+
+ava('.stream() should send the unmatch event when a previously matching card does not match anymore', async (test) => {
+	const slug = context.generateRandomSlug()
+	const stream = await context.kernel.stream(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			properties: {
+				slug: {
+					const: slug
+				},
+				data: {
+					properties: {
+						status: {
+							const: 'open'
+						}
+					}
+				}
+			}
+		}
+	)
+
+	let id = null
+	let stage = 0
+	stream.on('data', async (change) => {
+		if (stage === 0) {
+			id = change.id
+			test.deepEqual(change, {
+				id,
+				type: 'insert',
+				after: {
+					slug,
+					data: {
+						status: 'open'
+					}
+				}
+			})
+
+			stage = 1
+			await context.kernel.patchCardBySlug(
+				context.context,
+				context.kernel.sessions.admin,
+				`${slug}@1.0.0`, [
+					{
+						op: 'replace',
+						path: '/data/status',
+						value: 'closed'
+					}
+				], {
+					type: 'card@1.0.0'
+				}
+			)
+		} else {
+			test.deepEqual(change, {
+				id,
+				type: 'unmatch',
+				after: null
+			})
+
+			stream.close()
+		}
+	})
+	const end = once(stream, 'closed')
+	await context.kernel.insertCard(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			slug,
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				status: 'open'
+			}
+		}
+	)
+	await end
+})
+
+ava('.stream() should send the dataset event on a query request and support the unmatch event for these cards', async (test) => {
+	const slug = context.generateRandomSlug()
+	const card = await context.kernel.insertCard(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			slug,
+			type: 'card@1.0.0',
+			version: '1.0.0',
+			data: {
+				status: 'open'
+			}
+		}
+	)
+
+	const stream = await context.kernel.stream(
+		context.context,
+		context.kernel.sessions.admin,
+		{
+			additionalProperties: false,
+			properties: {
+				slug: {
+					const: slug
+				},
+				data: {
+					properties: {
+						status: {
+							const: 'open'
+						}
+					}
+				}
+			}
+		}
+	)
+
+	let stage = 0
+	const queryId = await uuid()
+
+	stream.on('dataset', async (payload) => {
+		test.deepEqual(stage, 0)
+		test.deepEqual(payload, {
+			id: queryId,
+			cards: [ card ]
+		})
+
+		stage = 1
+		await context.kernel.patchCardBySlug(
+			context.context,
+			context.kernel.sessions.admin,
+			`${slug}@1.0.0`, [
+				{
+					op: 'replace',
+					path: '/data/status',
+					value: 'closed'
+				}
+			], {
+				type: 'card@1.0.0'
+			}
+		)
+	})
+
+	stream.on('data', (change) => {
+		test.deepEqual(stage, 1)
+		test.deepEqual(change, {
+			id: card.id,
+			type: 'unmatch',
+			after: null
+		})
+
+		stream.close()
+	})
+
+	stream.emit('query', {
+		id: queryId,
+		schema: {
+			properties: {
+				slug: {
+					const: slug
+				}
+			}
+		}
+	})
+
+	await once(stream, 'closed')
 })
 
 ava('.insertCard() should create a user with two email addressses', async (test) => {
