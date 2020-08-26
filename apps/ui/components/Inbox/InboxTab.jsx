@@ -167,16 +167,15 @@ export default (props) => {
 				})
 			}
 
-			const updatePage = (newPage) => {
-				// If we haven't seen the maximum results, set the new page
+			const updatePage = (oldPage) => {
+				// If we have been returned the maximum results, set the new page
 				// TODO: Fix this hack once we can fetch a count from the API
-				if (options.limit * page === results.length) {
-					setPage(newPage)
+				if (options.limit * oldPage === resultsRef.current.length) {
+					setPage(oldPage + 1)
 
 					// If the search term or page changes, rerun the query
-					return loadResults(searchTerm, newPage)
+					return loadResults(searchTerm, oldPage + 1)
 				}
-
 				return null
 			}
 
@@ -243,7 +242,7 @@ export default (props) => {
 				<MessageList
 					page={page}
 					setPage={async () => {
-						return (await fetchRef.current).updatePage
+						return (await fetchRef.current).updatePage(page)
 					}}
 					tail={results}
 				/>
