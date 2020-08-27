@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-uuid to v1'
+      hash: 66b410f9e9e60d8a391899c355e8c05a4c956449
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.2
+  date: 2020-08-27T03:54:40.083Z
+- commits:
     - subject: 'ci: Update existing e2e test screenshot comments'
       hash: 77040b5266854a060aaf6f2a17ae0db3bae2b1ab
       body: ''
