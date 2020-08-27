@@ -172,7 +172,7 @@ class CRMTable extends BaseLens {
 				Account: account,
 				'Due Date': _.get(opportunity, [ 'data', 'dueDate' ]),
 				Value: _.get(opportunity, [ 'data', 'value' ]),
-				'Estimated ARR': _.get(opportunity, [ 'data', 'arr' ]),
+				'Estimated ARR': _.get(opportunity, [ 'data', 'totalValue' ]),
 				Stage: opportunity,
 				'Account Status': _.get(account, [ 'data', 'status' ]),
 				Usecase: _.get(opportunity, [ 'data', 'usecase' ]),
