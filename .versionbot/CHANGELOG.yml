@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Update existing e2e test screenshot comments'
+      hash: 77040b5266854a060aaf6f2a17ae0db3bae2b1ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.0.1
+  date: 2020-08-27T02:42:16.228Z
+- commits:
     - subject: >-
         core: simplify the streaming subsystem by relying on the common
         `query()` codepath
