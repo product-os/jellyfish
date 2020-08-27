@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 1c265e123396fdfcc46209d1673105c24f6c6e04
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.3
+  date: 2020-08-27T05:28:14.772Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-uuid to v1'
       hash: 66b410f9e9e60d8a391899c355e8c05a4c956449
       body: ''
