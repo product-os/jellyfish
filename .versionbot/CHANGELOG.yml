@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'core: fix a race condition with the code that attaches a new stream'
+      hash: 8407d42eb4d7ee877daf15e7f494b5aeecf295e3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.0.6
+  date: 2020-08-27T12:50:06.802Z
+- commits:
     - subject: 'patch: Bump Rendition to v18.5.0'
       hash: 0ce012815631c56f4ccf09d2943e19964a2bf1a2
       body: ''
