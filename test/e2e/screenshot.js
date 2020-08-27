@@ -174,11 +174,37 @@ exports.comment = async (screenshots) => {
 		body += `<br><br>Test: ${screenshot.title}<br>Screenshot: [Download](${screenshot.link})`
 	})
 
-	// Make new comment on found PR
-	await octokit.issues.createComment({
+	// Get full list of comments on pull request
+	const comments = await octokit.issues.listComments({
 		owner: GITHUB_OWNER,
 		repo: GITHUB_REPO,
 		issue_number: matches[0].number,
-		body
+		per_page: 100
 	})
+
+	// Get comment written by current user
+	const authenticated = await octokit.users.getAuthenticated()
+	const username = authenticated.data.login
+	const prComment = comments.data.find((comment) => {
+		return comment.user.login === username
+	})
+
+	// Create/update comment
+	if (prComment) {
+		console.log(`Updating ${prComment.html_url}`)
+		await octokit.issues.updateComment({
+			owner: GITHUB_OWNER,
+			repo: GITHUB_REPO,
+			comment_id: prComment.id,
+			body
+		})
+	} else {
+		console.log('Creating new comment')
+		await octokit.issues.createComment({
+			owner: GITHUB_OWNER,
+			repo: GITHUB_REPO,
+			issue_number: matches[0].number,
+			body
+		})
+	}
 }
