@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'patch: Bump Rendition to v18.5.0'
+      hash: 0ce012815631c56f4ccf09d2943e19964a2bf1a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 32.0.5
+  date: 2020-08-27T11:02:05.438Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-assert to v1'
       hash: fea42da68ebdd81ca152455fe27d688ea8812ffe
       body: ''
