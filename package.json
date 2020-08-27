@@ -121,7 +121,7 @@
     "@balena/jellyfish-queue": "^0.0.47",
     "@balena/jellyfish-sync": "^0.0.56",
     "@balena/jellyfish-ui-components": "^1.0.3",
-    "@balena/jellyfish-uuid": "^0.0.31",
+    "@balena/jellyfish-uuid": "^1.0.2",
     "@balena/jellyfish-worker": "^1.0.0",
     "@emotion/cache": "^10.0.29",
     "@emotion/core": "^10.0.35",
