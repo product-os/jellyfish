@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update Rendition to v18
+      hash: fe79782643d256d20504fd76b5c80b273b48a483
+      body: |
+        New Markdown component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 32.0.7
+  date: 2020-08-28T07:37:10.641Z
+- commits:
     - subject: 'core: fix a race condition with the code that attaches a new stream'
       hash: 8407d42eb4d7ee877daf15e7f494b5aeecf295e3
       body: ''
