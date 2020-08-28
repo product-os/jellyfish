@@ -8,7 +8,7 @@ const _ = require('lodash')
 const ava = require('ava')
 const {
 	card: CardCard
-} = require('../../../../../../lib/core/cards')
+} = require('@balena/jellyfish-core/lib/cards')
 const CardHandler = require('../../../../../../apps/server/graphql/card-handlers/card-handler')
 const graphql = require('graphql')
 const {

@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-const core = require('../../lib/core')
+const core = require('@balena/jellyfish-core')
 const Producer = require('@balena/jellyfish-queue').Producer
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Worker = require('@balena/jellyfish-worker').Worker

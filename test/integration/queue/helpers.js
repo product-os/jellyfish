@@ -5,8 +5,8 @@
  */
 
 const Bluebird = require('bluebird')
+const helpers = require('../backend-helpers')
 const uuid = require('@balena/jellyfish-uuid')
-const helpers = require('../core/helpers')
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
 const actionLibrary = require('@balena/jellyfish-action-library')

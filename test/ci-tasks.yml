@@ -131,21 +131,11 @@ tasks:
         value: './test/integration/sync/typeform-translate.spec.js'
     dependencies:
       - 'flowdock-translate'
-  - name: 'integration-core'
-    description: 'Core Integration Tests'
-    command: 'make test-integration-core'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    dependencies:
-      - 'e2e-ui'
-      - 'pipeline-sync'
   - name: 'integration-queue'
     description: 'Queue Integration Tests'
     command: 'make test-integration-queue'
     cwd: '/usr/src/jellyfish'
     required: true
-    dependencies:
-      - 'integration-core'
   - name: 'integration-server'
     description: 'Server Integration Tests'
     command: 'make test-integration-server'

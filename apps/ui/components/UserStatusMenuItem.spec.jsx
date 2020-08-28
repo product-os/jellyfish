@@ -14,7 +14,7 @@ import sinon from 'sinon'
 import UserStatusMenuItem from './UserStatusMenuItem'
 import {
 	user
-} from '../../../lib/core/cards'
+} from '@balena/jellyfish-core/lib/cards'
 
 const DND = {
 	title: 'Do Not Disturb',

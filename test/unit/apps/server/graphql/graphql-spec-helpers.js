@@ -8,7 +8,7 @@ const ava = require('ava')
 const graphql = require('graphql')
 const Types = require('../../../../../apps/server/graphql/types')
 const SchemaGeneratorContext = require('../../../../../apps/server/graphql/schema-generator-context')
-const baseCards = require('../../../../../lib/core/cards')
+const baseCards = require('@balena/jellyfish-core/lib/cards')
 const {
 	camelCase
 } = require('change-case')

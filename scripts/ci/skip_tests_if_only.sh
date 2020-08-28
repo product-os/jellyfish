@@ -38,10 +38,10 @@ if [[ "$MODIFIED_FILES" == *"package.json"* ]]; then
 	fi
 fi
 
-# A list of the affected modules from lib/ and apps/
+# A list of the affected modules from apps/
 # that the current branch is modifying
 AFFECTED_MODULES="$(echo "$MODIFIED_FILES" \
-	| grep -E "^(lib|apps)" \
+	| grep -E "^apps" \
 	| cut -d / -f 2 \
 	| sort \
 	| uniq)"
