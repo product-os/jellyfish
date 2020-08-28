@@ -55,10 +55,13 @@ const DebouncedSearch = (props) => {
 	)
 }
 
-export default (props) => {
+const inboxTab = (props) => {
 	const user = useSelector(selectors.getCurrentUser)
 
 	const groupNames = useSelector(selectors.getMyGroupNames)
+
+	// Stae controller for loading state
+	const [ loading, setLoading ] = useState(true)
 
 	// State controller for managing canonical data from the API
 	const [ results, setResults ] = useState([])
@@ -120,7 +123,11 @@ export default (props) => {
 
 			stream.on('dataset', (payload) => {
 				if (payload.data.id === queryId) {
-					setResults(payload.data.cards)
+					const currentResults = resultsRef.current || []
+					setResults([ ...currentResults, ...payload.data.cards ])
+
+					// Stop loading spinner
+					setLoading(false)
 				}
 			})
 
@@ -145,12 +152,23 @@ export default (props) => {
 				// If type is `insert`, a new card has been added and should
 				// appear in the results
 				if (update.data.type === 'insert') {
-					setResults([ update.data.after ].concat(currentResults))
+					// Remove last item in results
+					currentResults.pop()
+
+					// Add new item at start of array and set results
+					setResults([ update.data.after, ...currentResults ])
+
+					// Stop loading spinner
+					setLoading(false)
 				}
 			})
 
 			const loadResults = async (term, pageNumber) => {
 				const termQuery = props.getQuery(user, groupNames, term)
+				const skip = options.limit * (pageNumber - 1)
+
+				// Start loading spinner
+				setLoading(true)
 
 				// Reset `queryId` so that stale results will be ignored
 				queryId = await uuid.random()
@@ -161,22 +179,21 @@ export default (props) => {
 						schema: termQuery,
 						options: {
 							...options,
-							limit: options.limit * pageNumber
+							skip
 						}
 					}
 				})
 			}
 
-			const updatePage = (newPage) => {
-				// If we haven't seen the maximum results, set the new page
+			const updatePage = (oldPage) => {
+				// If we have been returned the maximum results, set the new page
 				// TODO: Fix this hack once we can fetch a count from the API
-				if (options.limit * page === results.length) {
-					setPage(newPage)
+				if (options.limit * oldPage === resultsRef.current.length) {
+					setPage(oldPage + 1)
 
 					// If the search term or page changes, rerun the query
-					return loadResults(searchTerm, newPage)
+					return loadResults(searchTerm, oldPage + 1)
 				}
-
 				return null
 			}
 
@@ -233,21 +250,23 @@ export default (props) => {
 				)}
 			</Flex>
 
-			{!results && (
-				<Box p={3}>
-					<Icon name="cog" spin />
-				</Box>
-			)}
-
 			{Boolean(results) && (
 				<MessageList
 					page={page}
 					setPage={async () => {
-						return (await fetchRef.current).updatePage
+						return (await fetchRef.current).updatePage(page)
 					}}
 					tail={results}
 				/>
 			)}
+
+			{(loading || !results) && (
+				<Box p={3}>
+					<Icon name="cog" spin />
+				</Box>
+			)}
 		</Flex>
 	)
 }
+
+export default inboxTab
