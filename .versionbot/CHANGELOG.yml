@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency webpack-merge to ^5.1.3'
+      hash: ec98590b308d9a42245c475acb53ef48f2d61b88
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.11
+  date: 2020-08-30T06:33:41.204Z
+- commits:
     - subject: Include merged.env variables in makefile
       hash: 3f79cda529755e3b204221d6cb80031f5edd8ee4
       body: ''
