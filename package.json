@@ -85,7 +85,7 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-standard": "^4.0.1",
     "file-loader": "^6.0.0",
-    "html-webpack-plugin": "^4.3.0",
+    "html-webpack-plugin": "^4.4.1",
     "js-combinatorics": "^0.6.1",
     "js-yaml": "^3.14.0",
     "mermaid.cli": "^0.5.1",
