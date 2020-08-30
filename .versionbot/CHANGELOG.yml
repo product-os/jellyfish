@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: e4a99cd7004cc1fce67d110bf222e657e6d15edd
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.9
+  date: 2020-08-29T16:54:34.807Z
+- commits:
     - subject: >-
         Update limit and skip logic for steaming queries + add loading loading
         states
