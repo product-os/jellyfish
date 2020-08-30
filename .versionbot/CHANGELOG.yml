@@ -1,4 +1,17 @@
 - commits:
+    - subject: Include merged.env variables in makefile
+      hash: 3f79cda529755e3b204221d6cb80031f5edd8ee4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 32.0.10
+  date: 2020-08-30T02:44:35.583Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: e4a99cd7004cc1fce67d110bf222e657e6d15edd
       body: ''
