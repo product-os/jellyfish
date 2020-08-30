@@ -14,8 +14,7 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github \
-	merge-dotenv
+	clean-github
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -195,17 +194,19 @@ export CI
 VISUAL ?=
 export VISUAL
 
-# Set dotenv-related variables for local development/testing
-DOTENV_PATH =
-LOCAL_DOTENV = local.env
-CUSTOM_DOTENV = custom.env
-MERGED_DOTENV = merged.env
+# Set dotenv variables for local development/testing
 ifndef CI
-	NODE_ARGS += -r dotenv/config
-	DOTENV_PATH = dotenv_config_path=$(LOCAL_DOTENV)
-endif
-ifneq ("$(wildcard $(CUSTOM_DOTENV))","")
-	DOTENV_PATH = dotenv_config_path=$(MERGED_DOTENV)
+    # Defaults are set in local.env
+    ifneq ("$(wildcard local.env)","")
+        include local.env
+        export $(shell sed 's/=.*//' local.env)
+    endif
+
+    # Developers can override local.env with a custom.env
+    ifneq ("$(wildcard custom.env)","")
+        include custom.env
+        export $(shell sed 's/=.*//' custom.env)
+    endif
 endif
 
 DOCKER_COMPOSE_FILES = --file docker-compose.yml
@@ -298,19 +299,14 @@ lint:
 	./scripts/lint/check-deployable-lib.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,dotenv'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history'
 
 scrub:
 	$(SCRUB_COMMAND)
 
-merge-dotenv:
-ifeq ($(CI),)
-	./scripts/merge-dotenv.sh $(LOCAL_DOTENV) $(CUSTOM_DOTENV) $(MERGED_DOTENV)
-endif
-
 test: LOGLEVEL = warning
-test: scrub merge-dotenv
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES) $(DOTENV_PATH)
+test: scrub
+	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
 	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
@@ -360,16 +356,16 @@ node:
 # -----------------------------------------------
 
 start-server: LOGLEVEL = info
-start-server: merge-dotenv
-	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js $(DOTENV_PATH)
+start-server:
+	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js
 
 start-worker: LOGLEVEL = info
-start-worker: merge-dotenv
-	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js $(DOTENV_PATH)
+start-worker:
+	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
 
 start-tick: LOGLEVEL = info
-start-tick: merge-dotenv
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js $(DOTENV_PATH)
+start-tick:
+	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)
