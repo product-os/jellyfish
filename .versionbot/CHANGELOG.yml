@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: fd74727828b1611287e9609dc53d1aee90e47980
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.14
+  date: 2020-08-31T02:09:28.526Z
+- commits:
     - subject: 'ci: Update ci-task-runner'
       hash: 55672157d074603135571c051ab61b5e09886b87
       body: ''
