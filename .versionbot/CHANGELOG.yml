@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Remove renovate dev-major group'
+      hash: 14505f133f8f50104710ace50d163141f1100be2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.0.15
+  date: 2020-08-31T03:49:30.628Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: fd74727828b1611287e9609dc53d1aee90e47980
       body: ''
