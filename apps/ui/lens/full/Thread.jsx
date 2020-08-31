@@ -37,7 +37,6 @@ class Thread extends React.Component {
 		const {
 			card,
 			channel,
-			fieldOrder,
 			types
 		} = this.props
 
@@ -71,7 +70,6 @@ class Thread extends React.Component {
 
 					<CardFields
 						card={card}
-						fieldOrder={fieldOrder}
 						type={typeCard}
 					/>
 				</Collapsible>

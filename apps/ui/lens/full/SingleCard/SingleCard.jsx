@@ -68,7 +68,6 @@ export default class SingleCardFull extends React.Component {
 			actions,
 			card,
 			channel,
-			fieldOrder,
 			types,
 			actionItems
 		} = this.props
@@ -105,7 +104,6 @@ export default class SingleCardFull extends React.Component {
 						}}>
 							<CardFields
 								card={card}
-								fieldOrder={fieldOrder}
 								type={type}
 							/>
 						</Box>

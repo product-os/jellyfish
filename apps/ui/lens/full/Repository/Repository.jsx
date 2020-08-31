@@ -167,7 +167,6 @@ export default class RepositoryFull extends React.Component {
 			actions,
 			card,
 			channel,
-			fieldOrder,
 			types
 		} = this.props
 		const {
@@ -228,7 +227,6 @@ export default class RepositoryFull extends React.Component {
 							<Box p={3}>
 								<CardFields
 									card={card}
-									fieldOrder={fieldOrder}
 									type={type}
 								/>
 							</Box>

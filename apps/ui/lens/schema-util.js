@@ -7,6 +7,20 @@
 import _ from 'lodash'
 import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
 
+export const JF_FORMATS = [ {
+	name: 'markdown', format: '.*'
+}, {
+	name: 'mermaid', format: '.*'
+}, {
+	name: 'uri', format: '.*'
+}, {
+	name: 'email', format: '.*'
+}, {
+	name: 'currency', format: '.*'
+}, {
+	name: 'data-url', format: '.*'
+} ]
+
 export const UI_SCHEMA_MODE = {
 	edit: 'edit',
 	create: 'create',
@@ -36,4 +50,16 @@ export const getUiSchema = (cardType, mode = UI_SCHEMA_MODE.full) => {
 		uiSchema['ui:order'] = [ 'name', 'tags', '*' ]
 	}
 	return uiSchema
+}
+
+// These functions will be passed to the JsonSchemaRenderer component to provide
+// additional, Jellyfish-specific, context for use in evalulated values (using json-e).
+export const jsonSchemaFns = {
+	getMirror: (value) => {
+		if (_.includes(value, 'frontapp.com')) {
+			const id = value.split('/').pop()
+			return `https://app.frontapp.com/open/${id}`
+		}
+		return value
+	}
 }

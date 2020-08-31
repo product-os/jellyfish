@@ -28,8 +28,7 @@ export default class SingleCard extends React.Component {
 
 	render () {
 		const {
-			card,
-			fieldOrder
+			card
 		} = this.props
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0]
@@ -65,7 +64,6 @@ export default class SingleCard extends React.Component {
 
 				<CardFields
 					card={card}
-					fieldOrder={fieldOrder}
 					type={typeCard}
 				/>
 			</Box>
