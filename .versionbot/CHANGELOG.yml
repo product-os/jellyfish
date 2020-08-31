@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.743.0'
+      hash: d767003a1a7f0e122e749169cb5c53fc8e971e07
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.20
+  date: 2020-08-31T18:59:32.166Z
+- commits:
     - subject: 'patch: Update dependency copy-webpack-plugin to ^6.1.0'
       hash: 10f0a14205a5d17b33fdea14a077033723344602
       body: ''
