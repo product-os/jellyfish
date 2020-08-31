@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 6b1f7ca7723909822cab694d001db217d2a5dbb5
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.16
+  date: 2020-08-31T07:31:05.249Z
+- commits:
     - subject: 'ci: Remove renovate dev-major group'
       hash: 14505f133f8f50104710ace50d163141f1100be2
       body: ''
