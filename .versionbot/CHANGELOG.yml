@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency copy-webpack-plugin to ^6.1.0'
+      hash: 10f0a14205a5d17b33fdea14a077033723344602
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.19
+  date: 2020-08-31T16:39:01.925Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 2079dbebb1c2bcb11afeb04a9aa82c5e39f8cd7d
       body: ''
