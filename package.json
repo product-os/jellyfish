@@ -71,7 +71,7 @@
     "browser-env": "^3.3.0",
     "canvas": "^2.6.1",
     "cli-spinner": "^0.2.10",
-    "copy-webpack-plugin": "^6.0.4",
+    "copy-webpack-plugin": "^6.1.0",
     "depcheck": "^1.2.0",
     "deplint": "^1.1.2",
     "enzyme": "^3.11.0",
