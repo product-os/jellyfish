@@ -4,8 +4,10 @@
  * Proprietary and confidential.
  */
 
+/* eslint-disable no-template-curly-in-string */
+
 module.exports = ({
-	mixin, withEvents
+	mixin, withEvents, uiSchemaDef
 }) => {
 	return mixin(withEvents)({
 		slug: 'issue',
@@ -58,6 +60,28 @@ module.exports = ({
 				]
 			},
 			uiSchema: {
+				fields: {
+					data: {
+						mirrors: {
+							$ref: uiSchemaDef('mirrors')
+						},
+						status: {
+							'ui:widget': 'Badge'
+						},
+						repository: {
+							$ref: uiSchemaDef('repository')
+						},
+						archived: {
+							'ui:title': null,
+							'ui:widget': 'Badge',
+							'ui:value': {
+								$if: 'source',
+								then: 'Archived',
+								else: null
+							}
+						}
+					}
+				},
 				edit: {
 					$ref: '#/data/uiSchema/definitions/form'
 				},

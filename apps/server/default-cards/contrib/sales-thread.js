@@ -7,12 +7,13 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	mixin, withEvents, uiSchemaDef
+	uiSchemaDef
 }) => {
-	return mixin(withEvents)({
-		slug: 'support-thread',
-		name: 'Support Thread',
+	return {
+		slug: 'sales-thread',
+		name: 'Sales Thread',
 		type: 'type@1.0.0',
+		markers: [],
 		data: {
 			schema: {
 				type: 'object',
@@ -21,21 +22,16 @@ module.exports = ({
 						type: [ 'string', 'null' ],
 						fullTextSearch: true
 					},
+					tags: {
+						type: 'array',
+						items: {
+							type: 'string'
+						},
+						fullTextSearch: true
+					},
 					data: {
 						type: 'object',
 						properties: {
-							category: {
-								type: 'string',
-								default: 'general',
-								enum: [
-									'general',
-									'customer-success',
-									'devices',
-									'fleetops',
-									'security'
-								],
-								fullTextSearch: true
-							},
 							tags: {
 								type: 'array',
 								items: {
@@ -48,18 +44,6 @@ module.exports = ({
 								items: {
 									type: 'string'
 								}
-							},
-							environment: {
-								type: 'string',
-								enum: [
-									'production'
-								],
-								fullTextSearch: true
-							},
-							description: {
-								type: 'string',
-								format: 'markdown',
-								fullTextSearch: true
 							},
 							inbox: {
 								type: 'string',
@@ -78,7 +62,8 @@ module.exports = ({
 									'open',
 									'closed',
 									'archived'
-								]
+								],
+								fullTextSearch: true
 							}
 						}
 					}
@@ -90,27 +75,36 @@ module.exports = ({
 			uiSchema: {
 				fields: {
 					data: {
+						inbox: {
+							'ui:widget': 'HighlightedName'
+						},
 						tags: {
 							$ref: uiSchemaDef('badgeList')
 						},
 						mirrors: {
 							$ref: uiSchemaDef('mirrors')
 						},
-						statusDescription: null,
-						category: null,
-						status: null,
-						inbox: null,
-						origin: null,
-						environment: null
+						status: {
+							'ui:widget': 'Badge'
+						},
+						environment: {
+							'ui:widget': 'Badge'
+						}
 					}
 				}
 			},
 			slices: [
 				'properties.data.properties.status'
 			],
-			indexed_fields: [
-				[ 'data.status', 'data.category', 'data.product' ]
-			]
+			meta: {
+				relationships: [
+					{
+						title: 'Opportunity',
+						link: 'is attached to',
+						type: 'opportunity'
+					}
+				]
+			}
 		}
-	})
+	}
 }

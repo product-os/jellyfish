@@ -49,6 +49,18 @@
       }
     },
     "uiSchema": {
+      "fields": {
+        "data": {
+          "status": {
+            "ui:widget": "Badge"
+          },
+          "diagram": {
+            "ui:options": {
+              "flex": 1
+            }
+          }
+        }
+      },
       "edit": {
         "$ref": "#/data/uiSchema/definitions/form"
       },

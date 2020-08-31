@@ -96,6 +96,9 @@ module.exports = ({
 					'data'
 				]
 			},
+			uiSchema: {
+				'ui:order': [ 'phase', 'specification', 'description' ]
+			},
 			meta: {
 				relationships: [
 					{

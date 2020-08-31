@@ -31,12 +31,14 @@
               }
             },
             "user": {
+              "title": "Username",
               "type": [
                 "string",
                 "null"
               ]
             },
             "timestamp": {
+              "title": "Submitted at",
               "type": "string",
               "format": "date-time"
             },
@@ -70,6 +72,33 @@
                       }
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "uiSchema": {
+      "fields": {
+        "data": {
+          "timestamp": null,
+          "mirrors": null,
+          "responses": {
+            "ui:title": null,
+            "items": {
+              "question": {
+                "ui:title": null,
+                "ui:widget": "Heading",
+                "ui:options": {
+                  "size": 6
+                }
+              },
+              "answer": {
+                "ui:title": null,
+                "schema": null,
+                "value": {
+                  "ui:title": null
                 }
               }
             }

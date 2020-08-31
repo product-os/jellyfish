@@ -4,8 +4,10 @@
  * Proprietary and confidential.
  */
 
+/* eslint-disable no-template-curly-in-string */
+
 module.exports = ({
-	mixin, withEvents
+	mixin, withEvents, uiSchemaDef
 }) => {
 	return mixin(withEvents)({
 		slug: 'pull-request',
@@ -84,6 +86,50 @@ module.exports = ({
 				required: [
 					'data'
 				]
+			},
+			uiSchema: {
+				fields: {
+					data: {
+						mirrors: {
+							$ref: uiSchemaDef('mirrors')
+						},
+						status: {
+							'ui:widget': 'Badge'
+						},
+						archived: {
+							'ui:title': null,
+							'ui:widget': 'Badge',
+							'ui:value': {
+								$if: 'source',
+								then: 'Archived',
+								else: null
+							}
+						},
+						repository: {
+							$ref: uiSchemaDef('repository')
+						},
+						base: {
+							sha: null,
+							branch: {
+								'ui:title': null,
+								'ui:widget': 'Link',
+								'ui:options': {
+									href: 'https://github.com/${root.data.repository}/tree/${source}'
+								}
+							}
+						},
+						head: {
+							'ui:title': null,
+							sha: null,
+							branch: {
+								'ui:title': 'Branch',
+								'ui:options': {
+									href: 'https://github.com/${root.data.repository}/tree/${source}'
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	})
