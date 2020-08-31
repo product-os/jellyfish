@@ -454,7 +454,7 @@ ava.serial(
 
 		// Get all children of the messageList-ListWrapper
 		// These should be all messages
-		const children = await incognitoPage.$$('[data-test="messageList-ListWrapper"] > div')
+		const children = await incognitoPage.$$('[data-test="messageList-event"]')
 
 		const messagesWithUser = []
 
