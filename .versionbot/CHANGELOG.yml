@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 9d97a1de8b5c10351fdaa2e37d1a11020190e92d
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.0.21
+  date: 2020-08-31T23:10:38.198Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.743.0'
       hash: d767003a1a7f0e122e749169cb5c53fc8e971e07
       body: ''
