@@ -40,8 +40,7 @@
             },
             "howLikelyAreYouToRecommendBalenaCloud": {
               "title": "How likely are you to recommend balenaCloud to a friend or co-worker?",
-              "type": "number",
-              "fullTextSearch": true
+              "type": "number"
             },
             "origin": {
               "title": "Curated Origin",
