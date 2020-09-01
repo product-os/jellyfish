@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Add a sort by button to the View lens, allowing users to sort the list
+        of cards by fields on the card. Also updates the Table lens to use the
+        same helper code
+      hash: 4dfd1773fa2a0545641c8aec12d9dc38de7d8936
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+  version: 32.1.0
+  date: 2020-09-01T08:42:45.043Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 9d97a1de8b5c10351fdaa2e37d1a11020190e92d
       body: ''
