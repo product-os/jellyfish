@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'core: refactor the database initialization code'
+      hash: 57396cd5efe5daea55a17a816945a168f93d1162
+      body: |
+        - Use advisory locks to avoid deadlocks on initialization
+        - Agglutinate sequential initialization statements into a single
+          transaction
+        - Parallelize initialization as much as possible
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.1.1
+  date: 2020-09-01T14:11:12.120Z
+- commits:
     - subject: >-
         Add a sort by button to the View lens, allowing users to sort the list
         of cards by fields on the card. Also updates the Table lens to use the
