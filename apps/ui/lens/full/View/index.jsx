@@ -177,7 +177,8 @@ class ViewRenderer extends React.Component {
 			options: {
 				page: 0,
 				totalPages: Infinity,
-				limit: 30
+				limit: 30,
+				sortBy: [ 'created_at' ]
 			}
 		}
 
@@ -190,7 +191,8 @@ class ViewRenderer extends React.Component {
 			'updateSearch',
 			'updateFiltersFromSummary',
 			'updateFilters',
-			'getQueryOptions'
+			'getQueryOptions',
+			'setSortByField'
 		]
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this)
@@ -361,6 +363,27 @@ class ViewRenderer extends React.Component {
 			})
 	}
 
+	setSortByField (field) {
+		const {
+			options,
+			activeLens
+		} = this.state
+		const {
+			head
+		} = this.props.channel.data
+		this.setState({
+			options: {
+				...options,
+				page: 0,
+				totalPages: Infinity,
+				sortBy: field
+			}
+		}, () => {
+			const queryOptions = this.getQueryOptions(activeLens)
+			this.props.actions.loadViewData(head.id, queryOptions)
+		})
+	}
+
 	componentDidMount () {
 		this.bootstrap(this.props.channel)
 	}
@@ -466,6 +489,7 @@ class ViewRenderer extends React.Component {
 		)
 
 		options.page = this.state.options.page
+		options.sortBy = this.state.options.sortBy
 
 		// The backend will throw an error if you make a request with a "limit"
 		// higher than 1000, so normalize it here
@@ -479,7 +503,7 @@ class ViewRenderer extends React.Component {
 	static getDerivedStateFromProps (nextProps, prevState) {
 		if (nextProps.tail && nextProps.tail.length < 30) {
 			return {
-				options: Object.assign(prevState.options, {
+				options: Object.assign({}, prevState.options, {
 					totalPages: 1
 				})
 			}
@@ -614,6 +638,9 @@ class ViewRenderer extends React.Component {
 					searchTerm={searchTerm}
 					updateSearch={this.updateSearch}
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
+					pageOptions={options}
+					setSortByField={this.setSortByField}
+					timelineFilter={TIMELINE_FILTER_PROP}
 				/>
 				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>
 					<Content

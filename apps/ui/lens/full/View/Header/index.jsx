@@ -12,7 +12,7 @@ import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
 import {
 	CloseButton
 } from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
-import Markers from '../../../components/Markers'
+import Markers from '../../../../components/Markers'
 import LensSelection from './LensSelection'
 import SliceOptions from './SliceOptions'
 import ViewFilters from './ViewFilters'
@@ -35,7 +35,10 @@ export default class Header extends React.Component {
 			searchFilter,
 			searchTerm,
 			updateSearch,
-			updateFiltersFromSummary
+			updateFiltersFromSummary,
+			pageOptions,
+			setSortByField,
+			timelineFilter
 		} = this.props
 
 		if (!channel.data.head) {
@@ -82,6 +85,9 @@ export default class Header extends React.Component {
 							searchTerm={searchTerm}
 							updateSearch={updateSearch}
 							updateFiltersFromSummary={updateFiltersFromSummary}
+							pageOptions={pageOptions}
+							setSortByField={setSortByField}
+							timelineFilter={timelineFilter}
 						/>
 					</Collapsible>
 					<CloseButton
