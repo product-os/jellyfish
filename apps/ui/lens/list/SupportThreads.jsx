@@ -49,15 +49,15 @@ const THREAD_REOPEN_NAME = 'Re-opened because linked issue was closed'
 // One day in milliseconds
 const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 24
 
-const timestampSort = (cards) => {
-	return _.sortBy(cards, (element) => {
-		const timestamps = _.map(
-			_.get(element.links, [ 'has attached element' ], []),
+const sortThreadsFromMostToLeastStale = (threads) => {
+	return _.sortBy(threads, (thread) => {
+		const timelineTimestamps = _.map(
+			_.get(thread.links, [ 'has attached element' ], []),
 			'data.timestamp'
 		)
-		timestamps.sort()
-		return _.last(timestamps)
-	}).reverse()
+		const sortedTimelineTimestamps = timelineTimestamps.sort()
+		return _.last(sortedTimelineTimestamps)
+	})
 }
 
 export class SupportThreads extends React.Component {
@@ -93,7 +93,7 @@ export class SupportThreads extends React.Component {
 	}
 
 	async generateSegments () {
-		const tail = timestampSort(this.props.tail)
+		const tail = sortThreadsFromMostToLeastStale(this.props.tail)
 
 		const pendingAgentResponse = []
 		const pendingEngineerResponse = []
@@ -210,19 +210,19 @@ export class SupportThreads extends React.Component {
 			},
 			{
 				name: 'pending agent response',
-				cards: timestampSort(pendingAgentResponse)
+				cards: sortThreadsFromMostToLeastStale(pendingAgentResponse)
 			},
 			{
 				name: 'pending user response',
-				cards: timestampSort(pendingUserResponse)
+				cards: sortThreadsFromMostToLeastStale(pendingUserResponse)
 			},
 			{
 				name: 'pending engineer response',
-				cards: timestampSort(pendingEngineerResponse)
+				cards: sortThreadsFromMostToLeastStale(pendingEngineerResponse)
 			},
 			{
 				name: 'discussions',
-				cards: timestampSort(discussions)
+				cards: sortThreadsFromMostToLeastStale(discussions)
 			}
 		]
 
