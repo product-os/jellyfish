@@ -15,7 +15,6 @@ import {
 	useSelector
 } from 'react-redux'
 import {
-	Box,
 	Button,
 	Flex,
 	Search
@@ -59,9 +58,13 @@ const inboxTab = (props) => {
 	const user = useSelector(selectors.getCurrentUser)
 
 	const groupNames = useSelector(selectors.getMyGroupNames)
+	const inboxData = useSelector(selectors.getInboxViewData)
 
-	// Stae controller for loading state
+	// State controller for loading state
 	const [ loading, setLoading ] = useState(true)
+
+	// State controller for loading state
+	const [ allResults, setAllResults ] = useState(false)
 
 	// State controller for managing canonical data from the API
 	const [ results, setResults ] = useState([])
@@ -95,8 +98,9 @@ const inboxTab = (props) => {
 
 	const markAllAsRead = useCallback(async () => {
 		setIsMarkingAllAsRead(true)
-		if (results) {
-			await Bluebird.map(results, (card) => {
+
+		if (inboxData) {
+			await Bluebird.map(inboxData, (card) => {
 				return sdk.card.markAsRead(user.slug, card, groupNames)
 			}, {
 				concurrency: 10
@@ -104,7 +108,7 @@ const inboxTab = (props) => {
 		}
 
 		setIsMarkingAllAsRead(false)
-	}, [ user.id, results, groupNames ])
+	}, [ user.id, inboxData, groupNames ])
 
 	// Setup a stream for updates to this query. Since stream creation is
 	// asynchronous we need to have a way of closing it using the cleanup return
@@ -190,10 +194,13 @@ const inboxTab = (props) => {
 				// TODO: Fix this hack once we can fetch a count from the API
 				if (options.limit * oldPage === resultsRef.current.length) {
 					setPage(oldPage + 1)
+					setAllResults(false)
 
 					// If the search term or page changes, rerun the query
 					return loadResults(searchTerm, oldPage + 1)
 				}
+
+				setAllResults(true)
 				return null
 			}
 
@@ -229,7 +236,8 @@ const inboxTab = (props) => {
 		<Flex
 			flexDirection="column"
 			style={{
-				minHeight: 0
+				minHeight: 0,
+				flex: 1
 			}}
 		>
 			<Flex p={3}>
@@ -245,7 +253,7 @@ const inboxTab = (props) => {
 						data-test="inbox__mark-all-as-read"
 						icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
 					>
-						Mark all read
+						{`Mark ${inboxData ? inboxData.length : 'all'} as read`}
 					</Button>
 				)}
 			</Flex>
@@ -257,13 +265,9 @@ const inboxTab = (props) => {
 						return (await fetchRef.current).updatePage(page)
 					}}
 					tail={results}
+					loading={(loading || !results)}
+					loadedAllResults={allResults}
 				/>
-			)}
-
-			{(loading || !results) && (
-				<Box p={3}>
-					<Icon name="cog" spin />
-				</Box>
 			)}
 		</Flex>
 	)
