@@ -1,4 +1,58 @@
 - commits:
+    - subject: 'core: allow `$$links` to appear anywhere'
+      hash: cce28c5488db84692f8cf61be79bb8e16c7e1233
+      body: |
+        Allowed enclosing keywords (recursively):
+        - `$$links` (already allowed)
+        - `allOf`
+        - `anyOf`
+        - `contains`
+        - `items`
+        - `not`
+        - `properties`
+
+        This works almost like any other keyword that you could put in the same
+        place. That is, it constrains that specific schema. Inside `properties`
+        for example:
+
+        ```
+        {
+          properties: {
+            name: {
+              $$links {
+                'is part of': {
+                  properties: {
+                    slug: {
+                      const: 'org-balena'
+                    }
+                  }
+                }
+              },
+              pattern: '^Balenista .*'
+            }
+          }
+        }
+        ```
+
+        Cards returned through this query will meet the follwing two
+        requirements at the same time:
+
+        - If `name` exists, the card has an `is part of` link to another card
+        that has the `org-balena` slug
+        - If `name` exists, it must start with `Balenista `
+
+        Note that if `name` does not exist, this query may return *any* `is part
+        of` links.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.2.0
+  date: 2020-09-02T13:11:05.508Z
+- commits:
     - subject: >-
         core: use explicit locking for `CREATE FUNCTION`/`CREATE TYPE`
         statements
