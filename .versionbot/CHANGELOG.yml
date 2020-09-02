@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Inbox: Improve inbox states'
+      hash: b95e71efa47f4fbe2ad956044f9f5fc821a147c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 32.2.1
+  date: 2020-09-02T14:36:25.486Z
+- commits:
     - subject: 'core: allow `$$links` to appear anywhere'
       hash: cce28c5488db84692f8cf61be79bb8e16c7e1233
       body: |
