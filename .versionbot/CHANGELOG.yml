@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        core: use explicit locking for `CREATE FUNCTION`/`CREATE TYPE`
+        statements
+      hash: 0b558d2e4f6af2ccf7733cefe941071ae4aad27a
+      body: |
+        In Postgres these statements cannot be run concurrently.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.1.2
+  date: 2020-09-02T12:06:40.208Z
+- commits:
     - subject: 'core: refactor the database initialization code'
       hash: 57396cd5efe5daea55a17a816945a168f93d1162
       body: |
