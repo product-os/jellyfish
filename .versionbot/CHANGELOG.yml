@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fixup CRM table lens to reflect the totalValue from the opportunity card
+      hash: 711a87101df8e0e6ca8f80a4366a71835e7d894e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: Update account card schema to reflect updated balena-api sync code
+      hash: 25ac29cd354e3b61dd5e4d601f1e7d942a515152
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 32.2.4
+  date: 2020-09-03T11:50:45.774Z
+- commits:
     - subject: Replace lib/core with private package
       hash: e291ee547c53e51ef03074bb82b1637c2699c236
       body: ''
