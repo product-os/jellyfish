@@ -251,6 +251,7 @@ export default class ActionCreator {
 			'login',
 			'loginWithToken',
 			'logout',
+			'paginateStream',
 			'queryAPI',
 			'removeChannel',
 			'removeFlow',
@@ -271,6 +272,7 @@ export default class ActionCreator {
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
+			'setupStream',
 			'setGroups',
 			'setSidebarExpanded',
 			'setLensState',
@@ -687,48 +689,6 @@ export default class ActionCreator {
 		}
 	}
 
-	loadMoreViewData (query, options) {
-		return async (dispatch, getState) => {
-			const viewId = options.viewId || getViewId(query)
-			const stream = streams[viewId]
-			if (!stream) {
-				throw new Error('Stream not found: Did you forget to call loadViewData?')
-			}
-			const queryId = uuid()
-
-			const queryOptions = {
-				limit: options.limit,
-				skip: options.limit * options.page,
-				sortBy: options.sortBy,
-				sortDir: options.sortDir
-			}
-
-			stream.emit('queryDataset', {
-				data: {
-					id: queryId,
-					schema: query,
-					options: queryOptions
-				}
-			})
-			return new Promise((resolve, reject) => {
-				const handler = ({
-					data: {
-						id,
-						cards
-					}
-				}) => {
-					const commonOptions = _.pick(options, 'viewId')
-					if (id === queryId) {
-						dispatch(this.appendViewData(query, cards, commonOptions))
-						resolve(cards)
-						stream.off('dataset', handler)
-					}
-				}
-				stream.on('dataset', handler)
-			})
-		}
-	}
-
 	updateChannel (channel) {
 		return {
 			type: actions.UPDATE_CHANNEL,
@@ -972,6 +932,7 @@ export default class ActionCreator {
 					// Load unread message pings
 					const groupNames = selectors.getMyGroupNames(getState())
 					const unreadQuery = getUnreadQuery(user, groupNames)
+
 					this.loadViewData(unreadQuery)(dispatch, getState)
 
 					return user
@@ -1386,21 +1347,9 @@ export default class ActionCreator {
 		})
 	}
 
-	loadViewData (query, options = {}) {
+	setupStream (streamId, query, options, handlers) {
 		return async (dispatch, getState) => {
-			const commonOptions = _.pick(options, 'viewId')
-			const user = selectors.getCurrentUser(getState())
-			const viewId = options.viewId || getViewId(query)
-
-			const rawSchema = await loadSchema(this.sdk, query, user)
-			if (!rawSchema) {
-				return
-			}
-
-			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
-			schema.description = schema.description || 'View action creators'
-
-			const stream = await this.getStream(viewId, schema)
+			const stream = await this.getStream(streamId, query)
 
 			stream.on(
 				'update',
@@ -1412,28 +1361,23 @@ export default class ActionCreator {
 					// quicker then adding a data item as we don't need to load links
 					asyncDispatchQueue.enqueue((async () => {
 						const {
-							after, type, id
+							type,
+							id: cardId,
+							after: card
 						} = response.data
 
-						// If after is null then the item has been set to inactive or deleted
-						if (after === null) {
-							return this.removeViewDataItem(query, id, commonOptions)
+						// If card is null then it has been set to inactive or deleted
+						if (card === null) {
+							return handlers.remove(cardId)
 						}
 
 						// If the type is insert, it is a new item
 						if (type === 'insert') {
-							const card = await this.getCardWithLinks(schema, after)
-							if (!card) {
-								return
-							}
-							return this.appendViewData(query, {
-								...after,
-								links: card.links
-							}, commonOptions)
+							return handlers.append(card)
 						}
 
 						// All other updates are an upsert
-						return this.upsertViewData(query, after, commonOptions)
+						return handlers.upsert(card)
 					})(), dispatch)
 				}
 			)
@@ -1441,7 +1385,7 @@ export default class ActionCreator {
 			stream.emit('queryDataset', {
 				id: uuid(),
 				data: {
-					schema,
+					schema: query,
 					options: {
 						limit: options.limit,
 						skip: options.limit * options.page,
@@ -1456,8 +1400,82 @@ export default class ActionCreator {
 					cards
 				}
 			} ] = await once(stream, 'dataset')
-			await dispatch(this.setViewData(query, cards, commonOptions))
+			await handlers.set(cards)
 			return cards
+		}
+	}
+
+	paginateStream (viewId, query, options, appendHandler) {
+		return async (dispatch, getState) => {
+			const stream = streams[viewId]
+			if (!stream) {
+				throw new Error('Stream not found: Did you forget to call loadViewData?')
+			}
+			const queryId = uuid()
+
+			const queryOptions = {
+				limit: options.limit,
+				skip: options.limit * options.page,
+				sortBy: options.sortBy,
+				sortDir: options.sortDir
+			}
+
+			stream.emit('queryDataset', {
+				data: {
+					id: queryId,
+					schema: query,
+					options: queryOptions
+				}
+			})
+			return new Promise((resolve, reject) => {
+				const handler = ({
+					data: {
+						id,
+						cards
+					}
+				}) => {
+					if (id === queryId) {
+						appendHandler(cards)
+						resolve(cards)
+						stream.off('dataset', handler)
+					}
+				}
+				stream.on('dataset', handler)
+			})
+		}
+	}
+
+	loadViewData (query, options = {}) {
+		return async (dispatch, getState) => {
+			const commonOptions = _.pick(options, 'viewId')
+			const user = selectors.getCurrentUser(getState())
+			const viewId = options.viewId || getViewId(query)
+
+			const rawSchema = await loadSchema(this.sdk, query, user)
+			if (!rawSchema) {
+				return
+			}
+
+			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
+			schema.description = schema.description || 'View action creators'
+
+			const streamHandlers = {
+				remove: (cardId) => this.removeViewDataItem(query, cardId, commonOptions),
+				append: (card) => this.appendViewData(query, card, commonOptions),
+				upsert: (card) => this.upsertViewData(query, card, commonOptions),
+				set: (cards) => dispatch(this.setViewData(query, cards, commonOptions))
+			}
+
+			return this.setupStream(viewId, schema, options, streamHandlers)(dispatch, getState)
+		}
+	}
+
+	loadMoreViewData (query, options) {
+		return async (dispatch, getState) => {
+			const commonOptions = _.pick(options, 'viewId')
+			const appendHandler = (card) => dispatch(this.appendViewData(query, card, commonOptions))
+			const viewId = options.viewId || getViewId(query)
+			return this.paginateStream(viewId, query, options, appendHandler)
 		}
 	}
 

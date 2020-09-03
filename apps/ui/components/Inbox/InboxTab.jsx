@@ -3,8 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-
-import * as Bluebird from 'bluebird'
+import _ from 'lodash'
 import React, {
 	useCallback,
 	useEffect,
@@ -15,7 +14,6 @@ import {
 	useSelector
 } from 'react-redux'
 import {
-	Button,
 	Flex,
 	Search
 } from 'rendition'
@@ -23,14 +21,25 @@ import {
 	useDebouncedCallback
 } from 'use-debounce'
 import {
+	update
+} from 'immutability-helper'
+import {
 	useSetup
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	selectors
 } from '../../core'
+import MarkAsReadButton from './MarkAsReadButton'
 import MessageList from './MessageList'
-const uuid = require('@balena/jellyfish-uuid')
+
+const DEFAULT_OPTIONS = {
+	limit: 30,
+	sortBy: 'created_at',
+	sortDir: 'desc',
+	page: 0
+}
+
+const STREAM_ID = 'inbox'
 
 const DebouncedSearch = (props) => {
 	const [ term, setTerm ] = useState('')
@@ -54,183 +63,109 @@ const DebouncedSearch = (props) => {
 	)
 }
 
-const inboxTab = (props) => {
-	const user = useSelector(selectors.getCurrentUser)
-
-	const groupNames = useSelector(selectors.getMyGroupNames)
-	const inboxData = useSelector(selectors.getInboxViewData)
-
-	// State controller for loading state
-	const [ loading, setLoading ] = useState(true)
-
-	// State controller for loading state
-	const [ allResults, setAllResults ] = useState(false)
-
-	// State controller for managing canonical data from the API
-	const [ results, setResults ] = useState([])
-
-	// State controller for paginating over the results in each tab
-	const [ page, setPage ] = useState(1)
-
-	// State controller for search terms in each tab
-	const [ searchTerm, setSearchTerm ] = useState('')
-
-	// State controller for showing loading icon when marking all as read
-	const [ isMarkingAllAsRead, setIsMarkingAllAsRead ] = useState(false)
-
-	// A little awkward, but we want to access the referenced results value in the
-	// stream event handler below. See https://github.com/facebook/react/issues/16154
-	const resultsRef = useRef(results)
-	resultsRef.current = results
-
-	// Setting up fetch as a ref so that we can avoid a stale closure
-	const fetchRef = useRef()
-
+const InboxTab = ({
+	getQuery,
+	currentTab,
+	setupStream,
+	paginateStream,
+	canMarkAsRead
+}) => {
 	const {
 		sdk
 	} = useSetup()
 
-	const options = {
-		limit: 30,
-		sortBy: 'created_at',
-		sortDir: 'desc'
+	const user = useSelector(selectors.getCurrentUser)
+	const groupNames = useSelector(selectors.getMyGroupNames)
+	const inboxData = useSelector(selectors.getInboxViewData)
+
+	const [ loading, setLoading ] = useState(true)
+
+	const [ messages, setMessages ] = useState([])
+
+	const [ page, setPage ] = useState(DEFAULT_OPTIONS.page)
+
+	const [ searchTerm, setSearchTerm ] = useState('')
+
+	const [ loadedAllResults, setLoadedAllResults ] = useState(false)
+
+	// Set up messageRef so we do not have a stale closure
+	const messagesRef = useRef(messages)
+	messagesRef.current = messages
+
+	// Also setting up pageRef so we do not have a stale closure
+	const pageRef = useRef(page)
+	pageRef.current = page
+
+	const removeMessage = (id) => {
+		const updatedMessages = messagesRef.current.filter((item) => {
+			return item.id !== id
+		})
+		setMessages(updatedMessages)
 	}
 
-	const markAllAsRead = useCallback(async () => {
-		setIsMarkingAllAsRead(true)
-
-		if (inboxData) {
-			await Bluebird.map(inboxData, (card) => {
-				return sdk.card.markAsRead(user.slug, card, groupNames)
-			}, {
-				concurrency: 10
-			})
-		}
-
-		setIsMarkingAllAsRead(false)
-	}, [ user.id, inboxData, groupNames ])
-
-	// Setup a stream for updates to this query. Since stream creation is
-	// asynchronous we need to have a way of closing it using the cleanup return
-	// function from `useEffect`
-	useEffect(() => {
-		let queryId = null
-		let stream = null
-		let canceled = false
-		const setupStream = async () => {
-			const query = props.getQuery(user, groupNames, searchTerm)
-			stream = await sdk.stream(query)
-			if (canceled) {
-				stream.close()
-				return null
+	const updateMessage = (updatedMessage) => {
+		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
+		const updatedMessages = update(messages, {
+			[messageIndex]: {
+				$set: updatedMessage
 			}
-
-			stream.on('dataset', (payload) => {
-				if (payload.data.id === queryId) {
-					const currentResults = resultsRef.current || []
-					setResults([ ...currentResults, ...payload.data.cards ])
-
-					// Stop loading spinner
-					setLoading(false)
-				}
-			})
-
-			stream.on('update', (update) => {
-				const currentResults = resultsRef.current
-
-				// If there are no results to operate on, return early
-				if (!currentResults) {
-					return
-				}
-
-				// If after is null, the card no longer appears in this query and should
-				// be removed from the results
-				if (update.data.after === null) {
-					const updatedResults = currentResults.filter((item) => {
-						return item.id !== update.data.id
-					})
-
-					setResults(updatedResults)
-				}
-
-				// If type is `insert`, a new card has been added and should
-				// appear in the results
-				if (update.data.type === 'insert') {
-					// Remove last item in results
-					currentResults.pop()
-
-					// Add new item at start of array and set results
-					setResults([ update.data.after, ...currentResults ])
-
-					// Stop loading spinner
-					setLoading(false)
-				}
-			})
-
-			const loadResults = async (term, pageNumber) => {
-				const termQuery = props.getQuery(user, groupNames, term)
-				const skip = options.limit * (pageNumber - 1)
-
-				// Start loading spinner
-				setLoading(true)
-
-				// Reset `queryId` so that stale results will be ignored
-				queryId = await uuid.random()
-				stream.emit('queryDataset', {
-					error: false,
-					data: {
-						id: queryId,
-						schema: termQuery,
-						options: {
-							...options,
-							skip
-						}
-					}
-				})
-			}
-
-			const updatePage = (oldPage) => {
-				// If we have been returned the maximum results, set the new page
-				// TODO: Fix this hack once we can fetch a count from the API
-				if (options.limit * oldPage === resultsRef.current.length) {
-					setPage(oldPage + 1)
-					setAllResults(false)
-
-					// If the search term or page changes, rerun the query
-					return loadResults(searchTerm, oldPage + 1)
-				}
-
-				setAllResults(true)
-				return null
-			}
-
-			return {
-				loadResults,
-				updatePage
-			}
-		}
-
-		fetchRef.current = setupStream()
-
-		return () => {
-			queryId = null
-			fetchRef.current = null
-
-			canceled = true
-			if (stream) {
-				stream.close()
-			}
-		}
-	}, [ props.currentTab, searchTerm ])
-
-	// If the search term changes, clear the results so that a loading spinner is
-	// shown whilst the new query runs
-	useEffect(() => {
-		setResults(null)
-		fetchRef.current.then((fns) => {
-			return fns.loadResults(searchTerm, page)
 		})
-	}, [ searchTerm ])
+		setMessages(updatedMessages)
+	}
+
+	const viewHandlers = {
+		upsert: updateMessage,
+		append: (message) => setMessages([ ...messagesRef.current, message ]),
+		remove: (messageId) => removeMessage(messageId),
+
+		// Set is undefined because setupStream dispatches this handler
+		// and this is not a redux action. Instead we wait till the data
+		// is resolved from setupStream and set it manually in our useEffect
+		set: _.noop
+	}
+
+	const loadViewData = async () => {
+		setLoading(true)
+		const query = getQuery(user, groupNames, searchTerm)
+		const currentMessages = await setupStream(STREAM_ID, query, DEFAULT_OPTIONS, viewHandlers)
+		setMessages(currentMessages)
+		setLoading(false)
+	}
+
+	const loadMoreViewData = async () => {
+		setLoading(true)
+		const currentPage = pageRef.current
+		const query = getQuery(user, groupNames, searchTerm)
+		const options = {
+			...DEFAULT_OPTIONS,
+			page: currentPage
+		}
+		const newMessages = await paginateStream(STREAM_ID, query, options, _.noop)
+		setMessages([ ...messagesRef.current, ...newMessages ])
+
+		// Hack to determine if we have reached
+		// the beginning of the timeline.
+		// TODO replace with a check against count
+		// once we can retrieve a count with our
+		// query
+		if (newMessages.length === 0 || newMessages.length < DEFAULT_OPTIONS.limit) {
+			setLoadedAllResults(true)
+		}
+		setLoading(false)
+	}
+
+	const loadNextPage = async () => {
+		if (!loadedAllResults && !loading) {
+			await setPage(page + 1)
+			loadMoreViewData()
+		}
+	}
+
+	// If the searchTerm or currentTab changes
+	// then we need to reload the data
+	useEffect(() => {
+		loadViewData()
+	}, [ currentTab, searchTerm ])
 
 	return (
 		<Flex
@@ -244,33 +179,27 @@ const inboxTab = (props) => {
 				<DebouncedSearch
 					onChange={setSearchTerm}
 				/>
+				<MarkAsReadButton
+					inboxData={inboxData}
+					canMarkAsRead={canMarkAsRead}
+					user={user}
+					groupNames={groupNames}
+					sdk={sdk}
+				/>
 
-				{props.canMarkAsRead && (
-					<Button
-						ml={3}
-						disabled={isMarkingAllAsRead}
-						onClick={markAllAsRead}
-						data-test="inbox__mark-all-as-read"
-						icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
-					>
-						{`Mark ${inboxData ? inboxData.length : 'all'} as read`}
-					</Button>
-				)}
 			</Flex>
 
-			{Boolean(results) && (
+			{Boolean(messages) && (
 				<MessageList
 					page={page}
-					setPage={async () => {
-						return (await fetchRef.current).updatePage(page)
-					}}
-					tail={results}
-					loading={(loading || !results)}
-					loadedAllResults={allResults}
+					setPage={loadNextPage}
+					tail={messages}
+					loading={(loading || !messages)}
+					loadedAllResults={loadedAllResults}
 				/>
 			)}
 		</Flex>
 	)
 }
 
-export default inboxTab
+export default InboxTab
