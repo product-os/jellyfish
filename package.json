@@ -65,7 +65,7 @@
     "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.11.5",
     "@balena/ci-task-runner": "^0.2.4",
-    "@json-schema-org/tests": "^1.0.0",
+    "@json-schema-org/tests": "^2.0.0",
     "ava": "^3.12.1",
     "babel-loader": "^8.1.0",
     "browser-env": "^3.3.0",
