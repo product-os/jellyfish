@@ -35,12 +35,10 @@ module.exports = ({
 
 		// Types
 		account: require('./contrib/account.json'),
-		agenda: require('./contrib/agenda.json'),
 		blogPost: require('./contrib/blog-post.json'),
 		changelog: require('./contrib/changelog.json'),
 		checkin: require('./contrib/checkin.json'),
 		contract: require('./contrib/contact.json'),
-		discussionTopic: require('./contrib/discussion-topic.json'),
 		emailSequence: require('./contrib/email-sequence.json'),
 		externalEvent: require('./contrib/external-event.json'),
 		faq: require('./contrib/faq.json'),
@@ -109,7 +107,6 @@ module.exports = ({
 		osTestResult: require('./balena/os-test-result')(mixins),
 		productBalenaCloud: require('./balena/product-balena-cloud.json'),
 		productJellyfish: require('./balena/product-jellyfish.json'),
-		viewAllAgendas: require('./balena/view-all-agendas.json'),
 		viewAllBlogPosts: require('./balena/view-all-blog-posts.json'),
 		viewTypeformResponses: require('./balena/view-typeform-responses.json'),
 		viewCurateTypeformResponses: require('./balena/view-curate-typeform-responses.json'),
@@ -134,7 +131,6 @@ module.exports = ({
 		viewSupportThreadsParticipation: require('./balena/view-support-threads-participation.json'),
 		viewAllSupportThreads: require('./balena/view-all-support-threads.json'),
 		viewAllUsers: require('./balena/view-all-users.json'),
-		viewArchitectureCallTopics: require('./balena/view-architecture-call-topics.json'),
 		viewChangelogs: require('./balena/view-changelogs.json'),
 		viewCustomerSuccessSuppotThreads: require('./balena/view-customer-success-support-threads.json'),
 		viewDevicesSupportThreads: require('./balena/view-devices-support-threads.json'),
