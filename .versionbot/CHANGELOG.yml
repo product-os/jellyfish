@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace lib/core with private package
+      hash: e291ee547c53e51ef03074bb82b1637c2699c236
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.2.3
+  date: 2020-09-03T09:29:15.425Z
+- commits:
     - subject: 'Bump a number of dependencies, patch/minor'
       hash: cb2e03cc718033a5b56d1746e09efd8a127b9746
       body: ''
