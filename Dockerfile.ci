@@ -15,7 +15,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
     rm -f ~/.npmrc
 
 COPY ./apps ./apps
-COPY ./lib ./lib
 COPY ./test ./test
 COPY ./Makefile ./Makefile
 COPY ./.git ./.git

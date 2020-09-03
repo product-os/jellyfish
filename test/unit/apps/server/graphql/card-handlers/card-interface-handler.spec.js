@@ -9,7 +9,7 @@ const CardHandler = require('../../../../../../apps/server/graphql/card-handlers
 const CardInterfaceHandler = require('../../../../../../apps/server/graphql/card-handlers/card-interface-handler')
 const {
 	card: CardCard
-} = require('../../../../../../lib/core/cards')
+} = require('@balena/jellyfish-core/lib/cards')
 const Types = require('../../../../../../apps/server/graphql/types')
 const {
 	OVERRIDES

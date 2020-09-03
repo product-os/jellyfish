@@ -8,16 +8,13 @@
 
 set -eu
 
-MODULES="$(find lib -maxdepth 1 -mindepth 1 -type d | sort -g)"
 APPS="$(find apps -maxdepth 1 -mindepth 1 -type d | sort -g)"
 CWD="$(pwd)"
 
 echo "# Jellyfish Architecture"
 echo ""
-echo "The Jellyfish system is a multi-container application where all the code lives
-in a single repository. The \`apps\` directory contains deployable components
-while \`lib\` consists of re-usable internal libraries that the deployable
-components rely on.
+echo "The Jellyfish system is a multi-container application where all apps
+in a single repository. The \`apps\` directory contains the deployable components.
 
 The system consists a big bucket of JSON based data structures we call
 \"cards\" (the only entity in the system). Every card has a set of top level
@@ -67,17 +64,5 @@ for app in $APPS; do
 	echo "### [\`$app\`]($URL)"
 	echo ""
 	cat "$CWD/$app/DESCRIPTION.markdown"
-	echo ""
-done
-echo "## Internal Libraries"
-echo ""
-echo "A set of re-usable libraries that the top level components use."
-echo ""
-for module in $MODULES; do
-	echo "Processing module $module" 1>&2
-	URL="https://github.com/product-os/jellyfish/tree/master/$module"
-	echo "### [\`$module\`]($URL)"
-	echo ""
-	cat "$CWD/$module/DESCRIPTION.markdown"
 	echo ""
 done

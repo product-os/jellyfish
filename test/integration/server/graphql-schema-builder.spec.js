@@ -11,7 +11,7 @@ const {
 } = require('uuid')
 const schemaBuilder = require('../../../apps/server/graphql/schema-builder')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const baseCards = require('../../../lib/core/cards')
+const baseCards = require('@balena/jellyfish-core/lib/cards')
 const graphql = require('graphql')
 
 ava.serial.before(async (test) => {

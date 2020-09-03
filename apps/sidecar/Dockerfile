@@ -13,8 +13,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 RUN rm -f ~/.npmrc
 
-COPY ./lib/core ./lib/core
-
 COPY ./test ./test
 COPY ./Makefile ./Makefile
 

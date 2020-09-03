@@ -278,7 +278,7 @@ docs/assets/architecture.png: docs/diagrams/architecture.mmd
 	./node_modules/.bin/mmdc -i $< -o $@ -w 2560 -H 1600
 
 ARCHITECTURE.md: scripts/architecture-summary.sh \
-	lib/*/DESCRIPTION.markdown apps/*/DESCRIPTION.markdown \
+	apps/*/DESCRIPTION.markdown \
 	docs/assets/architecture.png
 	./$< > $@
 
@@ -290,13 +290,12 @@ postgres_data:
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
-		lib apps scripts test *.js
+		apps scripts test *.js
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
 	./scripts/lint/check-licenses.sh
 	./scripts/lint/check-apps.sh
-	./scripts/lint/check-deployable-lib.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history'
@@ -309,7 +308,7 @@ test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES="'./{test/unit,lib,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	FILES="'./{test/unit,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -325,8 +324,6 @@ test-unit-%:
 # and integration/e2e UI tests will still live under `test`.
 #
 # These Make rules override the above conventions for this case.
-test-unit-sdk:
-	FILES="'./lib/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 test-unit-ui:
 	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
 

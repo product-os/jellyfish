@@ -8,7 +8,7 @@ const ava = require('ava')
 const schemaBuilder = require('../../../../../apps/server/graphql/schema-builder')
 const sinon = require('sinon')
 const graphql = require('graphql')
-const baseCards = require('../../../../../lib/core/cards')
+const baseCards = require('@balena/jellyfish-core/lib/cards')
 
 const FakeJellyfish = {
 	sessions: {

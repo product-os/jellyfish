@@ -5,7 +5,7 @@
  */
 
 const request = require('request')
-const uuid = require('../../lib/uuid')
+const uuid = require('@balena/jellyfish-uuid')
 const TOKEN = process.argv[2]
 
 if (!TOKEN) {

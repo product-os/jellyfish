@@ -8,7 +8,7 @@
 
 set -eu
 
-DIRECTORIES=(lib apps test scripts)
+DIRECTORIES=(apps test scripts)
 
 for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 	BASENAME="$(basename "$file")"
