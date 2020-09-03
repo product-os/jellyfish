@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Bump a number of dependencies, patch/minor'
+      hash: cb2e03cc718033a5b56d1746e09efd8a127b9746
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.2.2
+  date: 2020-09-03T07:17:24.284Z
+- commits:
     - subject: 'Inbox: Improve inbox states'
       hash: b95e71efa47f4fbe2ad956044f9f5fc821a147c9
       body: ''
