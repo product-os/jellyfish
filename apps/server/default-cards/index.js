@@ -36,6 +36,8 @@ module.exports = ({
 		// Types
 		account: require('./contrib/account.json'),
 		blogPost: require('./contrib/blog-post.json'),
+		brainstormCall: require('./contrib/brainstorm-call.json'),
+		brainstormTopic: require('./contrib/brainstorm-topic.json'),
 		changelog: require('./contrib/changelog.json'),
 		checkin: require('./contrib/checkin.json'),
 		contract: require('./contrib/contact.json'),
@@ -110,6 +112,8 @@ module.exports = ({
 		viewAllBlogPosts: require('./balena/view-all-blog-posts.json'),
 		viewTypeformResponses: require('./balena/view-typeform-responses.json'),
 		viewCurateTypeformResponses: require('./balena/view-curate-typeform-responses.json'),
+		viewAllBrainstormCalls: require('./balena/view-all-brainstorm-calls.json'),
+		viewAllBrainstormTopics: require('./balena/view-all-brainstorm-topics.json'),
 		viewAllCheckins: require('./balena/view-all-checkins.json'),
 		viewAllContacts: require('./balena/view-all-contacts.json'),
 		viewAllCustomers: require('./balena/view-all-customers.json'),

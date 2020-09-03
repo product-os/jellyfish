@@ -1,0 +1,31 @@
+{
+  "slug": "brainstorm-call",
+  "name": "Brainstorm Call",
+  "type": "type@1.0.0",
+  "markers": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "fullTextSearch": true
+        },
+        "data": {
+          "type": "object"
+        }
+      }
+    },
+    "required": [
+      "name",
+      "data"
+    ],
+    "meta": {
+    	"relationships": [{
+    		"title": "Topics",
+    		"link": "has attached",
+    		"type": "brainstorm-topic"
+    	}]
+    }
+  }
+}
