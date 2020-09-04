@@ -1,5 +1,14 @@
 - commits:
     - subject: 'patch: Update non-major'
+      hash: a9b78df04ed6c93a266fb144d5d391062ccdc696
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.7
+  date: 2020-09-04T13:30:44.836Z
+- commits:
+    - subject: 'patch: Update non-major'
       hash: 7299107ae089c6f975ffb40b3c73003d482fa421
       body: ''
       footer: {}
