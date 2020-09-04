@@ -63,6 +63,9 @@ jobs:
     steps:
       - checkout
 
+      - attach_workspace:
+          at: .
+
       - run:
           name: Authenticate with registry
           command: echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
@@ -85,6 +88,9 @@ jobs:
       - run:
           name: Postgres Dump
           command: docker exec jellyfish_postgres_1 bash -c 'PGPASSWORD="${POSTGRES_PASSWORD}" pg_dump --username="${POSTGRES_USER}" jellyfish' | gzip -9 > dump-server.gz
+      - run:
+          name: Upload Dump to AWS
+          command: ./scripts/ci/dump-aws-upload.js dump-server.gz
       - run:
           name: Docker Compose Down
           command: make compose-stop
