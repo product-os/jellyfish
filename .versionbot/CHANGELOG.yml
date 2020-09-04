@@ -1,4 +1,23 @@
 - commits:
+    - subject: Fix Front translate test expected JSON
+      hash: cfedf949dd4d908b24e2df1d8094e8db19cdb444
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: da3c185926a34b4bdfa0775234acc7a5e0eb805c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.5
+  date: 2020-09-04T01:56:30.306Z
+- commits:
     - subject: Fixup CRM table lens to reflect the totalValue from the opportunity card
       hash: 711a87101df8e0e6ca8f80a4366a71835e7d894e
       body: ''
