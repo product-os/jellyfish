@@ -1,0 +1,136 @@
+version: '3'
+
+silent: true
+output: prefixed
+env:
+  AVA_OPTS: --fail-fast
+
+tasks:
+  pipeline:
+    deps: [mirror_tests, cleanup, e2e_tests, sync_tests, front_translate, discourse_translate]
+
+  cleanup:
+    cmds:
+      - task: clean_github
+      - task: clean_front
+
+  e2e_tests:
+    cmds:
+      - task: e2e_livechat
+      - task: e2e_ui
+
+  sync_tests:
+    cmds:
+      - task: pipeline_sync
+      - task: balena_api_translate
+      - task: github_translate
+      - task: flowdock_translate
+      - task: typeform_translate
+      - task: integration_queue
+      - task: integration_server
+      - task: integration_worker
+
+  mirror_tests:
+    cmds:
+      - task: front_mirror
+      - task: discourse_mirror
+      - task: github_mirror
+
+  clean_github:
+    cmds:
+      - cmd: make clean-github
+        ignore_error: true
+
+  clean_front:
+    cmds:
+      - cmd: make clean-front
+        ignore_error: true
+
+  pipeline_sync:
+    cmds:
+      - make test || make test
+    env:
+      FILES: ./test/integration/sync/pipeline.spec.js
+
+  e2e_livechat:
+    cmds:
+      - make test-e2e-livechat || make test-e2e-livechat
+
+  e2e_ui:
+    cmds:
+      - make test-e2e-ui INTEGRATION_OUTREACH_APP_ID= || make test-e2e-ui INTEGRATION_OUTREACH_APP_ID=
+
+  balena_api_translate:
+    cmds:
+      - make test || make test
+    env:
+      CHECK_FOR: balena-api-translate.spec.js
+      FILES: ./test/integration/sync/balena-api-translate.spec.js
+
+  github_translate:
+    cmds:
+      - make test INTEGRATION_GITHUB_APP_ID= || make test INTEGRATION_GITHUB_APP_ID=
+    env:
+      CHECK_FOR: github-translate.spec.js
+      FILES: ./test/integration/sync/github-translate.spec.js
+
+  flowdock_translate:
+    cmds:
+      - make test || make test
+    env:
+      CHECK_FOR: flowdock-translate.spec.js
+      FILES: ./test/integration/sync/flowdock-translate.spec.js
+
+  typeform_translate:
+    cmds:
+      - make test || make test
+    env:
+      CHECK_FOR: typeform-translate.spec.js
+      FILES: ./test/integration/sync/typeform-translate.spec.js
+
+  integration_queue:
+    cmds:
+      - make test-integration-queue || make test-integration-queue
+
+  integration_server:
+    cmds:
+      - make test-integration-server || make test-integration-server
+    env:
+      SERVER_HOST: http://localhost
+
+  integration_worker:
+    cmds:
+      - make test-integration-worker MAILGUN_TOKEN= || make test-integration-worker MAILGUN_TOKEN=
+
+  front_translate:
+    cmds:
+      - make test || make test
+    env:
+      CHECK_FOR: front-translate.spec.js
+      FILES: ./test/integration/sync/front-translate.spec.js
+      INTEGRATION_FRONT_TOKEN: foobar
+
+  discourse_translate:
+    cmds:
+      - make test || make test
+    env:
+      CHECK_FOR: discourse-translate.spec.js
+      FILES: ./test/integration/sync/discourse-translate.spec.js
+
+  front_mirror:
+    cmds:
+      - make test || make test
+    env:
+      FILES: ./test/e2e/sync/front-mirror.spec.js
+
+  discourse_mirror:
+    cmds:
+      - make test || make test
+    env:
+      FILES: ./test/e2e/sync/discourse-mirror.spec.js
+
+  github_mirror:
+    cmds:
+      - make test || make test
+    env:
+      FILES: ./test/e2e/sync/github-mirror.spec.js

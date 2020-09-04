@@ -6,6 +6,8 @@ FROM resinci/jellyfish-test:v1.3.16
 
 WORKDIR /usr/src/jellyfish
 
+RUN curl -sL https://taskfile.dev/install.sh | sh
+
 COPY webpack.config.base.js /usr/src/jellyfish/
 COPY ./scripts ./scripts
 COPY package.json package-lock.json /usr/src/jellyfish/
@@ -17,6 +19,7 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 COPY ./apps ./apps
 COPY ./test ./test
 COPY ./Makefile ./Makefile
+COPY Taskfile.yml ./Taskfile.yml
 COPY ./.git ./.git
 
-CMD /bin/bash -c "npx ci-task-runner run --config /usr/src/jellyfish/test/ci-tasks.yml"
+CMD /bin/bash -c "./scripts/ci/checkout-master.sh && ./bin/task pipeline"
