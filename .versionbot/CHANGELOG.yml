@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update `jellyfish-core`
+      hash: 396d8cdf29b0174f458817a96bbaf16e1752a18d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 32.2.8
+  date: 2020-09-04T19:41:04.383Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: a9b78df04ed6c93a266fb144d5d391062ccdc696
       body: ''
