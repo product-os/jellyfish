@@ -5,12 +5,6 @@ environment:
   - name: 'AVA_OPTS'
     value: '--fail-fast'
 tasks:
-  - name: 'checkout-master'
-    description: 'Checkout master branch'
-    command: '/usr/src/jellyfish/scripts/ci/checkout-master.sh'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    attempts: 1
   - name: 'clean-github'
     description: 'GitHub Test Data Cleanup'
     command: 'make clean-github'
@@ -81,7 +75,7 @@ tasks:
       - 'e2e-livechat'
   - name: 'balena-api-translate'
     description: 'Balena API Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -90,12 +84,11 @@ tasks:
       - name: 'FILES'
         value: './test/integration/sync/balena-api-translate.spec.js'
     dependencies:
-      - 'checkout-master'
       - 'e2e-ui'
       - 'pipeline-sync'
   - name: 'github-translate'
     description: 'GitHub Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -109,7 +102,7 @@ tasks:
       - 'balena-api-translate'
   - name: 'flowdock-translate'
     description: 'Flowdock Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -121,7 +114,7 @@ tasks:
       - 'github-translate'
   - name: 'typeform-translate'
     description: 'Typeform Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -158,7 +151,7 @@ tasks:
       - 'integration-server'
   - name: 'front-translate'
     description: 'Front Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -168,12 +161,9 @@ tasks:
         value: './test/integration/sync/front-translate.spec.js'
       - name: 'INTEGRATION_FRONT_TOKEN'
         value: 'foobar'
-    dependencies:
-      - 'typeform-translate'
-      - 'integration-worker'
   - name: 'discourse-translate'
     description: 'Discourse Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -181,6 +171,3 @@ tasks:
         value: 'discourse-translate.spec.js'
       - name: 'FILES'
         value: './test/integration/sync/discourse-translate.spec.js'
-    dependencies:
-      - 'typeform-translate'
-      - 'integration-worker'

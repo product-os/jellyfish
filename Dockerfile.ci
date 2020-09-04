@@ -19,4 +19,4 @@ COPY ./test ./test
 COPY ./Makefile ./Makefile
 COPY ./.git ./.git
 
-CMD /bin/bash -c "npx ci-task-runner run --config /usr/src/jellyfish/test/ci-tasks.yml"
+CMD /bin/bash -c "./scripts/ci/checkout-master.sh && npx ci-task-runner run --config ./test/ci-tasks.yml"
