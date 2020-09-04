@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 7299107ae089c6f975ffb40b3c73003d482fa421
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.6
+  date: 2020-09-04T05:20:55.555Z
+- commits:
     - subject: Fix Front translate test expected JSON
       hash: cfedf949dd4d908b24e2df1d8094e8db19cdb444
       body: ''
