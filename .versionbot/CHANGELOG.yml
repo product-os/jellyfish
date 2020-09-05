@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Add temporary CircleCI step that uploads Postgres dumps to AWS'
+      hash: 4bda3168a2074d9c2726d9ad63981b7c7967f5bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.2.9
+  date: 2020-09-04T23:31:54.429Z
+- commits:
     - subject: Update `jellyfish-core`
       hash: 396d8cdf29b0174f458817a96bbaf16e1752a18d
       body: ''
