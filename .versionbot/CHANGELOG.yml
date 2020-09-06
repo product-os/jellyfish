@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 7c54ab4aac3209dd719c25d923b3ff1f0b63ab69
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.11
+  date: 2020-09-06T06:40:05.127Z
+- commits:
     - subject: 'ci: Move e2e server tests to balenaCI'
       hash: 8a8cf584871b8f148b148147b11838b15c4e6f50
       body: ''
