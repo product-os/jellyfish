@@ -184,3 +184,40 @@ tasks:
     dependencies:
       - 'typeform-translate'
       - 'integration-worker'
+  - name: 'e2e-server'
+    description: 'E2E Server Tests'
+    command: 'make test-e2e-server'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    dependencies:
+      - 'e2e-ui'
+  - name: 'postgres-export'
+    description: 'Export Postgres dump'
+    command: './scripts/ci/postgres/export.js e2e-server'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    dependencies:
+      - 'e2e-server'
+  - name: 'postgres-import'
+    description: 'Import Postgres dump from most recently merged commit'
+    command: './scripts/ci/postgres/import.js e2e-server'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    dependencies:
+      - 'front-translate'
+      - 'discourse-translate'
+      - 'postgres-export'
+  - name: 'e2e-server-previous-dump'
+    description: 'E2E Server Tests (Previous Dump)'
+    command: 'make test-e2e-server'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    dependencies:
+      - 'postgres-import'
+  - name: 'summary'
+    description: 'Post Summary to GitHub'
+    command: './scripts/ci/summary.js'
+    cwd: '/usr/src/jellyfish'
+    required: false
+    dependencies:
+      - 'e2e-server-previous-dump'

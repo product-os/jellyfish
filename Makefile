@@ -213,9 +213,6 @@ DOCKER_COMPOSE_FILES = --file docker-compose.yml
 ifdef MONITOR
 DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
 endif
-ifdef SIDECAR
-DOCKER_COMPOSE_FILES += --file docker-compose.sidecar.yml
-endif
 
 DOCKER_COMPOSE_OPTIONS = \
 	$(DOCKER_COMPOSE_FILES) \
@@ -298,7 +295,7 @@ lint:
 	./scripts/lint/check-apps.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
 
 scrub:
 	$(SCRUB_COMMAND)

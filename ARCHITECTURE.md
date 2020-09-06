@@ -58,11 +58,6 @@ This is the demo project for developing chat-widget.
 
 The Jellyfish HTTP and WebSockets API.
 
-### [`apps/sidecar`](https://github.com/product-os/jellyfish/tree/master/apps/sidecar)
-
-A utility container to run tests against the other
-containers.
-
 ### [`apps/ui`](https://github.com/product-os/jellyfish/tree/master/apps/ui)
 
 This is the main Jellyfish web user interface, and what most people will
