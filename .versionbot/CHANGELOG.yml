@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Move e2e server tests to balenaCI'
+      hash: 8a8cf584871b8f148b148147b11838b15c4e6f50
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 32.2.10
+  date: 2020-09-06T04:21:04.183Z
+- commits:
     - subject: 'ci: Add temporary CircleCI step that uploads Postgres dumps to AWS'
       hash: 4bda3168a2074d9c2726d9ad63981b7c7967f5bb
       body: ''
