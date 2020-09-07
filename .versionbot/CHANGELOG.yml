@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 07f6ad047987d7b95bd4f00af7d5c6a26ef1fad3
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.16
+  date: 2020-09-07T13:54:35.279Z
+- commits:
     - subject: Add brainstorm cards and views
       hash: 588103936480b51d078ce65da06102747fbd09cd
       body: ''
