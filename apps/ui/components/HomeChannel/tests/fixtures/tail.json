@@ -735,7 +735,7 @@
               },
               "type": {
                 "type": "string",
-                "const": "discussion-topic@1.0.0"
+                "const": "brainstorm-topic@1.0.0"
               }
             },
             "additionalProperties": true

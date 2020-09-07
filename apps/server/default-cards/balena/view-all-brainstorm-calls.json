@@ -1,35 +1,36 @@
 {
-  "slug": "view-all-agendas",
-  "name": "Agendas",
+  "slug": "view-all-brainstorm-calls",
+  "name": "Calls",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
     "namespace": "Brainstorms",
     "allOf": [
       {
-        "name": "Active cards",
+        "name": "Active calls",
         "schema": {
           "type": "object",
           "properties": {
-            "active": {
-              "const": true,
-              "type": "boolean"
-            },
             "type": {
               "type": "string",
-              "const": "agenda@1.0.0"
+              "const": "brainstorm-call@1.0.0"
+            },
+            "active": {
+            	"type": "boolean",
+            	"const": true
             }
           },
           "required": [
             "active",
             "type"
           ],
-          "additionalProperties": true
+        	"additionalProperties": true
         }
       }
     ],
     "lenses": [
-      "lens-list"
+      "lens-list",
+      "lens-kanban"
     ]
-  }
+	}
 }

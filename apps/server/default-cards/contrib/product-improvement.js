@@ -101,7 +101,7 @@ module.exports = ({
 					{
 						title: 'Discussion topics',
 						link: 'is attached to',
-						type: 'discussion-topic'
+						type: 'brainstorm-topic'
 					},
 					{
 						title: 'Support threads',
