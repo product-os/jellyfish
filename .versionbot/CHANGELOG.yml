@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add brainstorm cards and views
+      hash: 588103936480b51d078ce65da06102747fbd09cd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 32.2.15
+  date: 2020-09-07T08:44:45.243Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 554e1cb2b242acaab4ffe1ebec7047dd20a33aba
       body: ''
