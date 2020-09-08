@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add lens-table to support knowledge base view
+      hash: c3709a3697c3f0b0d3c8a2c9aaaa5bd7e53760d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 32.2.20
+  date: 2020-09-08T15:55:05.847Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 14207d38cefbc9eca24ea81fe1d30baf8cab067d
       body: ''
