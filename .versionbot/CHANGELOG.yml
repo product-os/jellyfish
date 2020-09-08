@@ -1,4 +1,17 @@
 - commits:
+    - subject: Pass syntheticCard to sort handler so that the filters aren't lost
+      hash: d4eed33f2f7888f41caee7a4d6177472105c5b8f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 32.2.17
+  date: 2020-09-08T07:52:34.202Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 07f6ad047987d7b95bd4f00af7d5c6a26ef1fad3
       body: ''
