@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.748.0'
+      hash: 09323d4ec66639d180291cee7c137692e98375be
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.21
+  date: 2020-09-08T18:35:45.568Z
+- commits:
     - subject: Add lens-table to support knowledge base view
       hash: c3709a3697c3f0b0d3c8a2c9aaaa5bd7e53760d7
       body: ''
