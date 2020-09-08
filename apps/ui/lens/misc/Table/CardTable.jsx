@@ -30,10 +30,14 @@ const RENDERERS = {
 	}
 }
 
-// Do not include markdown or mermaid fields in our table, as well as those with the pattern key
+// Do not include markdown or mermaid fields in our table,
+// as well as the id and slug fields
 const OMISSIONS = [ {
-	key: 'pattern'
+	field: 'id'
 }, {
+	field: 'slug'
+},
+{
 	key: 'format',
 	value: 'markdown'
 }, {
