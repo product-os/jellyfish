@@ -380,7 +380,8 @@ class ViewRenderer extends React.Component {
 			}
 		}, () => {
 			const queryOptions = this.getQueryOptions(activeLens)
-			this.props.actions.loadViewData(head.id, queryOptions)
+			const syntheticViewCard = createSyntheticViewCard(head, this.state.filters)
+			this.props.actions.loadViewData(syntheticViewCard, queryOptions)
 		})
 	}
 
