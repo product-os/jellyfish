@@ -120,7 +120,7 @@
     "@balena/jellyfish-metrics": "^0.0.83",
     "@balena/jellyfish-queue": "^0.0.99",
     "@balena/jellyfish-sync": "^0.1.13",
-    "@balena/jellyfish-ui-components": "^1.1.21",
+    "@balena/jellyfish-ui-components": "^1.1.22",
     "@balena/jellyfish-uuid": "^1.0.11",
     "@balena/jellyfish-worker": "^1.0.78",
     "@emotion/cache": "^10.0.29",
