@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Remove pattern omission from CardTable and instead include an omission
+        for the id and slug fields
+      hash: 90c2dbb93b4b810b4c11b01dfcd8ed477a492b8b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 32.2.18
+  date: 2020-09-08T12:02:20.639Z
+- commits:
     - subject: Pass syntheticCard to sort handler so that the filters aren't lost
       hash: d4eed33f2f7888f41caee7a4d6177472105c5b8f
       body: ''
