@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 14207d38cefbc9eca24ea81fe1d30baf8cab067d
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.19
+  date: 2020-09-08T14:55:26.908Z
+- commits:
     - subject: >-
         Remove pattern omission from CardTable and instead include an omission
         for the id and slug fields
