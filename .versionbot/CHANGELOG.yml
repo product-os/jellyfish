@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency react-chart-editor to ^0.42.0'
+      hash: d2117eab42e97b7b38f4d3bf218d6e5ddad050d2
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.22
+  date: 2020-09-08T21:16:01.297Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.748.0'
       hash: 09323d4ec66639d180291cee7c137692e98375be
       body: ''
