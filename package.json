@@ -208,7 +208,7 @@
     "socket.io-redis": "^5.4.0",
     "styled-components": "^5.2.0",
     "typed-errors": "^1.1.0",
-    "use-debounce": "^3.4.3",
+    "use-debounce": "^4.0.0",
     "uuid": "^8.3.0"
   }
 }
