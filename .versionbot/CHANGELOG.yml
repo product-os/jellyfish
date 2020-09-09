@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency use-debounce to v4'
+      hash: b91f5230b0c7f535f16abf44904fdf696e512e9b
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.25
+  date: 2020-09-09T08:55:43.444Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 874fc964c3cbaa938c96a076e50c07adaeb19735
       body: ''
