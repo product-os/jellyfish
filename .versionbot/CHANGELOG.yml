@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 8d018b36f54f60fbb4bbab1494040058f0b930fe
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.2.23
+  date: 2020-09-09T02:59:30.891Z
+- commits:
     - subject: 'patch: Update dependency react-chart-editor to ^0.42.0'
       hash: d2117eab42e97b7b38f4d3bf218d6e5ddad050d2
       body: ''
