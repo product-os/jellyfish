@@ -9,7 +9,6 @@
     "type": "git",
     "url": "git@github.com:product-os/jellyfish.git"
   },
-  "engineStrict": true,
   "engines": {
     "node": ">=12.15.0"
   },
@@ -49,10 +48,6 @@
       "./test/register",
       "./test/max-listeners"
     ]
-  },
-  "scripts": {
-    "requirements-check": "node scripts/check_node_version.js",
-    "postinstall": "npm run requirements-check"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
