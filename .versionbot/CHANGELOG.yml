@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump jellyfish-core dependency to 0.1.0
+      hash: ac9e149af7f5ec700d58c7302bdb6cae861eb9ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Added UI schema details to card types
+      hash: 5b673c2e4959be456b53bace059499b78b0864a0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 32.3.0
+  date: 2020-09-10T02:29:04.329Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: f3075a233fa33bd28c9d739afcd2bdce6c1b7d41
       body: ''
