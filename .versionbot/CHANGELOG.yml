@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 954ded1d252f36fa8d5572f527e200941a89387c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 755291f1636a0641af755a731f9e358555ac747a
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 32.3.2
+  date: 2020-09-10T11:47:35.654Z
+- commits:
     - subject: Use engine-strict flag to check node version
       hash: cd35fc24aa43250a0b102528accf5e1f4ba314fe
       body: ''
