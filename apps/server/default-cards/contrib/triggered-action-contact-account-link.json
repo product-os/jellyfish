@@ -1,0 +1,26 @@
+{
+  "slug": "triggered-action-maintain-contact-account-link",
+  "type": "triggered-action@1.0.0",
+  "name": "Triggered action for maintaining contact account link",
+  "markers": [],
+  "data": {
+    "async": false,
+    "filter": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "const": "account@1.0.0"
+        }
+      }
+    },
+    "action": "action-maintain-contact-account-link@1.0.0",
+    "target": {
+      "$eval": "source.id"
+    },
+    "arguments": {}
+  }
+}
