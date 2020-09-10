@@ -29,6 +29,15 @@
         }
       }
     },
+    "uiSchema": {
+      "fields": {
+        "data": {
+          "linkToTrelloBoard": {
+            "ui:widget": "Link"
+          }
+        }
+      }
+    },
 		"meta": {
 			"relationships": [
 				{

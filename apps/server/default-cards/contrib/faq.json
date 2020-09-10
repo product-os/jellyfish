@@ -30,6 +30,19 @@
         "name",
         "data"
       ]
+    },
+    "uiSchema": {
+      "fields": {
+        "data": {
+          "topic": {
+            "ui:title": null,
+            "ui:widget": "HighlightedName"
+          },
+          "answer": {
+            "ui:title": null
+          }
+        }
+      }
     }
   }
 }

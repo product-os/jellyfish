@@ -4,6 +4,15 @@
  * Proprietary and confidential.
  */
 
+const withEvents = require('./with-events')
+
+const uiSchemaDef = (key) => {
+	return `node_modules/@balena/jellyfish-core/lib/cards/mixins/ui-schema-defs.json#/${key}`
+}
+
 module.exports = {
-	withEvents: require('./with-events')
+	uiSchemaDef,
+	withEvents: withEvents({
+		uiSchemaDef
+	})
 }

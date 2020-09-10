@@ -29,6 +29,15 @@
         }
       }
     },
+    "uiSchema": {
+      "fields": {
+        "data": {
+          "specification": {
+            "ui:widget": "Link"
+          }
+        }
+      }
+    },
 		"meta": {
 			"relationships": [
 				{

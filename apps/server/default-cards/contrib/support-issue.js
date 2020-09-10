@@ -82,14 +82,22 @@ module.exports = ({
 					'name'
 				]
 			},
-			fieldOrder: [
-				'name',
-				'tags',
-				'severity',
-				'shareable',
-				'problem',
-				'solution'
-			]
+			uiSchema: {
+				fields: {
+					data: {
+						'ui:order': [
+							'severity',
+							'shareable',
+							'Problem',
+							'Solution',
+							'*'
+						],
+						severity: {
+							'ui:widget': 'Badge'
+						}
+					}
+				}
+			}
 		}
 	})
 }
