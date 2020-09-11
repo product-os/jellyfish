@@ -1,4 +1,62 @@
 - commits:
+    - subject: >-
+        Bump jellyfish-sync and jellyfish-action-library to latest major
+        versions
+      hash: a42fe4624d3f91ed44cef866ca30d910faa0eadf
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: >-
+        test/integration/typeform: Change test expectations to use user-feedback
+        schema
+      hash: 27c5a2911829ebddd933f31e1c9b6ff5cb876f13
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'test/integration/sync/scenario: Load user-feedback type'
+      hash: cf88b83a179bd3eca0d066414bae5118d48dc2cb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Add view to show all user-feedback cards
+      hash: 64833f0447df195dfeb9c2f5fbaee56b5bcc8a36
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'apps/server/default-cards/contrib: Add user-feedback card type'
+      hash: 326b9094e649c38c8bf3729ecd52720effbea0dc
+      body: |
+        This will replace the current form-response and form-response-curation.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 33.0.0
+  date: 2020-09-11T07:41:35.872Z
+- commits:
     - subject: 'ui: Safe pagination on inbox'
       hash: 77eeb88282f0be7144361594af66aa27ff274b6a
       body: ''
