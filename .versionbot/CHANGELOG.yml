@@ -1,5 +1,24 @@
 - commits:
     - subject: >-
+        Kubernetes Manifests: Sets the rollout strategy to not allow unavailable
+        pods.
+      hash: 5aacc0cb16b5ceb84b0113dec4a21794b29d452d
+      body: >
+        This should allow a smoother rollout as it avoids having unavailable
+        pods in the fleet
+
+        during rollout of updates.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.0.1
+  date: 2020-09-11T11:58:59.589Z
+- commits:
+    - subject: >-
         Bump jellyfish-sync and jellyfish-action-library to latest major
         versions
       hash: a42fe4624d3f91ed44cef866ca30d910faa0eadf
