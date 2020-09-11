@@ -1,4 +1,41 @@
 - commits:
+    - subject: 'ui: Safe pagination on inbox'
+      hash: 77eeb88282f0be7144361594af66aa27ff274b6a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Separate presentational and HOC components
+      hash: 6c89c8a8c208917a7d8e4257a1ce2a362c6a2674
+      body: |
+        Easier for unit testing!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: >-
+        Extract stream management out of the loadViewData and loadMoreViewData
+        actions and use this in the InboxTab component. Move MarkAsReadButton
+        code into own componen
+      hash: 75a752c6416c3983ddea70f23aaa0b4174414c6e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 32.4.0
+  date: 2020-09-11T02:22:21.993Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: ca2ad126a3189b9aebd1f242dee66394bb29274b
       body: ''
