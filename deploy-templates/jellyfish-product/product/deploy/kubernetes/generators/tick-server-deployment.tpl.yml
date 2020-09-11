@@ -6,6 +6,8 @@ metadata:
   labels:
     app.kubernetes.io/name: jellyfish-tick-server
 spec:
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: tick-server

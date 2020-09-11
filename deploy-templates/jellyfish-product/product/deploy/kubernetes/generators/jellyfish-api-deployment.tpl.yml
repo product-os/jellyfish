@@ -10,6 +10,11 @@ spec:
     matchLabels:
       app: jellyfish
   replicas: 16
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+       maxSurge: 25%
+       maxUnavailable: 0 
   template:
     metadata:
       labels:
