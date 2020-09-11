@@ -92,10 +92,6 @@ const InboxTab = ({
 	const messagesRef = useRef(messages)
 	messagesRef.current = messages
 
-	// Also setting up pageRef so we do not have a stale closure
-	const pageRef = useRef(page)
-	pageRef.current = page
-
 	const removeMessage = (id) => {
 		const updatedMessages = messagesRef.current.filter((item) => {
 			return item.id !== id
@@ -132,13 +128,12 @@ const InboxTab = ({
 		setLoading(false)
 	}
 
-	const loadMoreViewData = async () => {
+	const loadMoreViewData = async (nextPage) => {
 		setLoading(true)
-		const currentPage = pageRef.current
 		const query = getQuery(user, groupNames, searchTerm)
 		const options = {
 			...DEFAULT_OPTIONS,
-			page: currentPage
+			page: nextPage
 		}
 		const newMessages = await paginateStream(STREAM_ID, query, options, _.noop)
 		setMessages([ ...messagesRef.current, ...newMessages ])
@@ -156,8 +151,9 @@ const InboxTab = ({
 
 	const loadNextPage = async () => {
 		if (!loadedAllResults && !loading) {
-			await setPage(page + 1)
-			loadMoreViewData()
+			const nextPage = page + 1
+			await setPage(nextPage)
+			await loadMoreViewData(nextPage)
 		}
 	}
 
