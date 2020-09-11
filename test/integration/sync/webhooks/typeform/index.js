@@ -40,5 +40,11 @@ module.exports = {
 		steps: [
 			require('./semi-answered-with-grade-8-no-invite/01.json')
 		]
+	},
+	'submission-from-known-user': {
+		expected: require('./submission-from-known-user/expected.json'),
+		steps: [
+			require('./submission-from-known-user/01.json')
+		]
 	}
 }

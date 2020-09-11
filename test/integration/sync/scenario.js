@@ -358,6 +358,8 @@ module.exports = {
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.formResponse)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
+			defaultCards.userFeedback)
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.repository)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.push)

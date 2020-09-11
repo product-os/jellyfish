@@ -1,7 +1,7 @@
 {
     "head": {
         "name": "",
-        "type": "form-response@1.0.0",
+        "type": "user-feedback@1.0.0",
         "version": "1.0.0",
         "active": true,
         "tags": [],
@@ -13,37 +13,9 @@
             ],
             "user": null,
             "timestamp": "2020-03-24T11:57:02.000Z",
-            "responses": [
-                {
-                    "question": "How did you first hear about balenaCloud?",
-                    "answer": {
-                        "schema": {
-                            "type": "string"
-                        },
-                        "value": "friends"
-                    }
-                },
-                {
-                    "question": "Could you briefly describe your use case?",
-                    "answer": {
-                        "schema": {
-                            "type": "string"
-                        },
-                        "value": "no"
-                    }
-                },
-                {
-                    "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
-                    "answer": {
-                        "schema": {
-                            "type": "integer",
-                            "minimum": 1,
-                            "maximum": 10
-                        },
-                        "value": 8
-                    }
-                }
-            ]
+            "couldYouBrieflyDescribeYourUsecase": "no",
+            "howDidYouFirstHearAboutBalenaCloud": "friends",
+            "howLikelyAreYouToRecommendBalenaCloud": 8
         }
     },
     "tail": [
@@ -62,7 +34,7 @@
                 "timestamp": "2020-03-24T11:57:02.000Z",
                 "payload": {
                     "name": "",
-                    "type": "form-response@1.0.0",
+                    "type": "user-feedback@1.0.0",
                     "version": "1.0.0",
                     "active": true,
                     "tags": [],
@@ -74,37 +46,9 @@
                         ],
                         "user": null,
                         "timestamp": "2020-03-24T11:57:02.000Z",
-                        "responses": [
-                            {
-                                "question": "How did you first hear about balenaCloud?",
-                                "answer": {
-                                    "schema": {
-                                        "type": "string"
-                                    },
-                                    "value": "friends"
-                                }
-                            },
-                            {
-                                "question": "Could you briefly describe your use case?",
-                                "answer": {
-                                    "schema": {
-                                        "type": "string"
-                                    },
-                                    "value": "no"
-                                }
-                            },
-                            {
-                                "question": "How likely are you to recommend balenaCloud to a friend or co-worker?",
-                                "answer": {
-                                    "schema": {
-                                        "type": "integer",
-                                        "minimum": 1,
-                                        "maximum": 10
-                                    },
-                                    "value": 8
-                                }
-                            }
-                        ]
+                        "couldYouBrieflyDescribeYourUsecase": "no",
+                        "howDidYouFirstHearAboutBalenaCloud": "friends",
+                        "howLikelyAreYouToRecommendBalenaCloud": 8
                     }
                 }
             }
