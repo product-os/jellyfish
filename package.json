@@ -105,9 +105,9 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
-    "@balena/jellyfish-action-library": "^3.0.7",
+    "@balena/jellyfish-action-library": "^3.0.8",
     "@balena/jellyfish-assert": "^1.0.11",
-    "@balena/jellyfish-chat-widget": "^1.0.34",
+    "@balena/jellyfish-chat-widget": "^1.0.35",
     "@balena/jellyfish-client-sdk": "^2.1.17",
     "@balena/jellyfish-core": "^0.1.6",
     "@balena/jellyfish-environment": "^2.2.24",
