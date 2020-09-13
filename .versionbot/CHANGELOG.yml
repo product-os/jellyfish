@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency query-string to ^6.13.2'
+      hash: e8a2bcfabedc2029c9b46846d55130d1d03a28ab
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.0.8
+  date: 2020-09-13T15:45:26.234Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 7b0b11684561d11345161eadcfd095589e2993b5
       body: ''
