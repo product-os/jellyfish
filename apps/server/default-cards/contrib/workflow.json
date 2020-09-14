@@ -50,13 +50,19 @@
     },
     "uiSchema": {
       "fields": {
+        "ui:options": {
+          "alignSelf": "stretch"
+        },
         "data": {
+          "ui:options": {
+            "alignSelf": "stretch"
+          },
           "status": {
             "ui:widget": "Badge"
           },
           "diagram": {
             "ui:options": {
-              "flex": 1
+              "alignSelf": "stretch"
             }
           }
         }

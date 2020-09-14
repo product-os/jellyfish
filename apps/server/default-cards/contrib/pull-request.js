@@ -90,6 +90,16 @@ module.exports = ({
 			uiSchema: {
 				fields: {
 					data: {
+						'ui:order': [
+							'repository',
+							'description',
+							'status',
+							'archived',
+							'head',
+							'base',
+							'created_at',
+							'merged_at'
+						],
 						mirrors: {
 							$ref: uiSchemaDef('mirrors')
 						},
