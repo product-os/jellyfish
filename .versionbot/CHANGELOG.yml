@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-sync to ^1.0.13'
+      hash: 27afc6946e1a7b7eeac514b6f9b7b3f322db0cf3
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.0.11
+  date: 2020-09-14T19:05:15.872Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: b3e4bda1c647a344719ba6fe5bf4a1cb2fdc7801
       body: ''
