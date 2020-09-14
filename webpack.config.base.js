@@ -53,6 +53,15 @@ const config = {
 		compress: true,
 		historyApiFallback: {
 			disableDotRule: true
+		},
+		host: '0.0.0.0',
+		port: 80,
+		watchOptions: {
+			ignored: /node_modules/
+		},
+		disableHostCheck: true,
+		headers: {
+			'Cache-Control': 'public, no-store, no-cache, must-revalidate'
 		}
 	},
 
@@ -72,6 +81,11 @@ if (process.env.NODE_ENV === 'production') {
 	config.mode = 'production'
 	config.optimization = {
 		minimize: true
+	}
+} else {
+	config.resolve.alias = {
+		react: '/usr/src/jellyfish/packages/rendition/node_modules/react/',
+		'styled-components': '/usr/src/jellyfish/packages/rendition/node_modules/styled-components/'
 	}
 }
 

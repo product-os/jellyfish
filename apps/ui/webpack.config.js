@@ -18,22 +18,18 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const {
 	merge
 } = require('webpack-merge')
-const baseConfig = require('../../webpack.config.base.js')
+const baseConfig = require('./webpack.config.base.js')
 
-const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
-
-const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
-
-const uiRoot = path.resolve(root, UI_DIRECTORY)
-const uiComponentsPath = path.join(root, 'node_modules', '@balena', 'jellyfish-ui-components', 'lib')
+const uiRoot = process.env.UI_DIRECTORY || __dirname
+const uiComponentsPath = path.join('node_modules', '@balena', 'jellyfish-ui-components', 'lib')
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const iconsFolderPath = path.join(resourcesRoot, 'icons')
 const uiComponentsIconsFolderPath = path.join(uiComponentsPath, 'icons')
 const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const manifestPath = path.join(resourcesRoot, 'manifest.json')
-const outDir = path.join(root, 'dist/ui')
+const outDir = path.join(__dirname, 'dist/ui')
 const packageJSON = require('../../package.json')
 
 console.log(`Generating bundle from ${uiRoot}`)
@@ -47,12 +43,6 @@ const config = merge(baseConfig, {
 		publicPath: '/'
 	},
 
-	devServer: {
-		contentBase: outDir,
-		host: '0.0.0.0',
-		port: 9000
-	},
-
 	optimization: {
 		splitChunks: {
 			cacheGroups: {
@@ -63,6 +53,10 @@ const config = merge(baseConfig, {
 				}
 			}
 		}
+	},
+
+	devServer: {
+		contentBase: outDir
 	},
 
 	plugins: [
@@ -124,7 +118,7 @@ if (process.env.NODE_ENV === 'production' ||
 
 			// The vendors.js file is BIG - set this to a safe value of 40MB
 			maximumFileSizeToCacheInBytes: 40000000,
-			swSrc: './apps/ui/service-worker.js'
+			swSrc: './service-worker.js'
 		})
 	)
 }

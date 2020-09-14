@@ -1,0 +1,7 @@
+FROM resinci/jellyfish-test:v1.3.17
+
+WORKDIR /usr/src/jellyfish
+RUN npm i -g verdaccio
+COPY verdaccio.yaml /root/.config/verdaccio/config.yaml
+
+CMD exec /bin/bash -c "/usr/local/bin/verdaccio"

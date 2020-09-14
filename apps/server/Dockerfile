@@ -5,14 +5,13 @@ WORKDIR /usr/src/jellyfish
 COPY package.json package-lock.json /usr/src/jellyfish/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN NODE_ENV=production npm ci
+RUN npm i
+
+#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && cd apps/server && npx nodemon ./index.js
 RUN rm -f ~/.npmrc
-
-COPY ./apps/server ./apps/server
-COPY Makefile .
-
-# Production debugging scripts
-COPY ./scripts/production ./scripts/production
+COPY apps/server/ /usr/src/jellyfish/apps/server/
+COPY Makefile lerna.json /usr/src/jellyfish/
+COPY packages/ /usr/src/jellyfish/packages/
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 

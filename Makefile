@@ -14,7 +14,18 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github
+	clean-github \
+	sidecar \
+	sidecar-lint \
+	sidecar-test-unit \
+	sidecar-test-e2e-ui \
+	sidecar-test-e2e-livechat \
+	sidecar-test-sync-pipeline \
+	sidecar-test-translate-balena-api \
+	push \
+	ssh \
+	get-packages \
+	bootstrap
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -57,7 +68,7 @@ DB_USER ?=
 export DB_USER
 DB_PASSWORD ?=
 export DB_PASSWORD
-SERVER_HOST ?= http://localhost
+SERVER_HOST ?= http://api.ly.fish.local
 export SERVER_HOST
 SERVER_PORT ?= $(PORT)
 export SERVER_PORT
@@ -99,6 +110,8 @@ MONITOR_SECRET_TOKEN ?= TEST
 export MONITOR_SECRET_TOKEN
 RESET_PASSWORD_SECRET_TOKEN ?=
 export RESET_PASSWORD_SECRET_TOKEN
+NPM_TOKEN ?=
+export NPM_TOKEN
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
@@ -287,15 +300,18 @@ postgres_data:
 
 lint:
 	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
-		apps scripts test *.js
+		apps scripts test
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
 	./scripts/lint/check-licenses.sh
 	./scripts/lint/check-apps.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
-	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
+	npx depcheck
+	cd apps/action-server && make lint
+	cd apps/livechat && make lint
+	cd apps/server && make lint
+	cd apps/ui && make lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -416,3 +432,63 @@ dev-%:
 	./node_modules/.bin/webpack-dev-server \
 		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
 		--color
+
+sidecar:
+	echo "$(COMMAND) $(ARGS) FILES=$(FILES)" | balena ssh jel.ly.fish.local sidecar
+
+sidecar-lint:
+	COMMAND=make ARGS=lint make sidecar
+
+sidecar-test-unit:
+	COMMAND=make ARGS=test-unit make sidecar
+
+sidecar-test-e2e-ui:
+	COMMAND=make ARGS=test-e2e-ui make sidecar
+
+sidecar-test-e2e-livechat:
+	COMMAND=make ARGS=test-e2e-livechat make sidecar
+
+sidecar-test-sync-pipeline:
+	COMMAND=make ARGS=test FILES=./test/integration/sync/pipeline.spec.js make sidecar
+
+sidecar-test-translate-balena-api:
+	COMMAND=make ARGS=test FILES=./test/integration/sync/balena-api-translate.spec.js make sidecar
+
+push:
+	balena push jel.ly.fish.local \
+		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
+		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
+		--env INTEGRATION_BALENA_API_PRIVATE_KEY=$(INTEGRATION_BALENA_API_PRIVATE_KEY) \
+		--env INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION) \
+		--env INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$(INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING) \
+		--env INTEGRATION_BALENA_API_APP_ID=$(INTEGRATION_BALENA_API_APP_ID) \
+		--env INTEGRATION_BALENA_API_APP_SECRET=$(INTEGRATION_BALENA_API_APP_SECRET) \
+		--env INTEGRATION_DISCOURSE_SIGNATURE_KEY=$(INTEGRATION_DISCOURSE_SIGNATURE_KEY) \
+		--env INTEGRATION_DISCOURSE_TOKEN=$(INTEGRATION_DISCOURSE_TOKEN) \
+		--env INTEGRATION_DISCOURSE_USERNAME=$(INTEGRATION_DISCOURSE_USERNAME) \
+		--env INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$(INTEGRATION_FLOWDOCK_SIGNATURE_KEY) \
+		--env INTEGRATION_FLOWDOCK_TOKEN=$(INTEGRATION_FLOWDOCK_TOKEN) \
+		--env INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
+		--env INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
+		--env INTEGRATION_INTERCOM_TOKEN=$(INTEGRATION_INTERCOM_TOKEN) \
+		--env INTEGRATION_OUTREACH_APP_ID=$(INTEGRATION_OUTREACH_APP_ID) \
+		--env INTEGRATION_OUTREACH_APP_SECRET=$(INTEGRATION_OUTREACH_APP_SECRET) \
+		--env INTEGRATION_OUTREACH_SIGNATURE_KEY=$(INTEGRATION_OUTREACH_SIGNATURE_KEY) \
+		--env INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
+		--env INTEGRATION_BALENA_API_OAUTH_BASE_URL=$(INTEGRATION_BALENA_API_OAUTH_BASE_URL) \
+		--env INTEGRATION_TYPEFORM_SIGNATURE_KEY=$(INTEGRATION_TYPEFORM_SIGNATURE_KEY) \
+		--env MONITOR_SECRET_TOKEN=$(MONITOR_SECRET_TOKEN) \
+		--env TEST_INTEGRATION_SKIP=$(TEST_INTEGRATION_SKIP) \
+		--env LOGLEVEL=$(LOGLEVEL) \
+		--env NODE_ENV=$(NODE_ENV) \
+		--env NPM_TOKEN=$(NPM_TOKEN) \
+		--env NPM_CONFIG_REGISTRY=http://verdaccio:4873
+
+ssh:
+	balena ssh jel.ly.fish.local
+
+get-packages:
+	./scripts/get-packages.js
+
+bootstrap:
+	npx lerna bootstrap --hoist --force-local --no-ci --loglevel warn

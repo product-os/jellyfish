@@ -5,7 +5,7 @@
  */
 
 const fs = require('fs')
-const DEFAULT_CONTENT = fs.readFileSync('apps/server/default-cards/contrib/product-improvement-default.md', 'utf-8')
+const DEFAULT_CONTENT = fs.readFileSync(`${__dirname}/product-improvement-default.md`, 'utf-8')
 
 module.exports = ({
 	mixin, withEvents

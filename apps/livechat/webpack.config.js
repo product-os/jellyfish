@@ -5,6 +5,7 @@
  */
 
 /* eslint-env node */
+/* eslint-disable no-process-env */
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
@@ -13,17 +14,12 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const {
 	merge
 } = require('webpack-merge')
-const baseConfig = require('../../webpack.config.base.js')
+const baseConfig = require('./webpack.config.base.js')
 
-const root = path.resolve(__dirname, '..', '..')
 const resourcesRoot = __dirname
-
-// eslint-disable-next-line no-process-env
-const UI_DIRECTORY = process.env.LIVECHAT_DIR || __dirname
-
-const uiRoot = path.resolve(root, UI_DIRECTORY)
+const uiRoot = process.env.LIVECHAT_DIR || resourcesRoot
 const indexFilePath = path.join(resourcesRoot, 'index.html')
-const outDir = path.join(root, 'dist/livechat')
+const outDir = path.join(resourcesRoot, 'dist/livechat')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
@@ -37,8 +33,7 @@ const config = merge(baseConfig, {
 	},
 
 	devServer: {
-		// eslint-disable-next-line no-process-env
-		port: process.env.LIVECHAT_PORT
+		contentBase: outDir
 	},
 
 	optimization: {
