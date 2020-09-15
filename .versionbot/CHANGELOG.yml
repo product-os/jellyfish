@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: a77e9a9873096254d454cd23ce737a67bb3a9d10
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.0.18
+  date: 2020-09-15T13:01:15.342Z
+- commits:
     - subject: >-
         Fixes pagination on the repository - ensures paginateStream is passed
         dispatch and state methods, and fixes how we update the state when we
