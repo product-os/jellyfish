@@ -42,7 +42,7 @@
               "title": "How likely are you to recommend balenaCloud to a friend or co-worker?",
               "type": "number"
             },
-            "origin": {
+            "curatedOrigin": {
               "title": "Curated Origin",
               "type": "string",
               "fullTextSearch": true
@@ -103,7 +103,7 @@
             "couldYouBrieflyDescribeYourUsecase",
             "howHasYourExperienceBeenSoFar",
             "howLikelyAreYouToRecommendBalenaCloud",
-            "origin",
+            "curatedOrigin",
             "originDetail",
             "role",
             "useCaseSegment",
@@ -116,32 +116,81 @@
         }
       },
       "edit": {
-        "data": {
-          "ui:order": {
-            "$ref": "#/data/uiSchema/definitions/uiOrder"
-          }
-        }
+        "$ref": "#/data/uiSchema/definitions/form"
       },
       "create": {
         "$ref": "#/data/uiSchema/edit"
       },
       "definitions": {
-        "uiOrder": [
-          "howDidYouFirstHearAboutBalenaCloud",
-          "howWouldYouDescribeYourRole",
-          "couldYouBrieflyDescribeYourUsecase",
-          "howHasYourExperienceBeenSoFar",
-          "howLikelyAreYouToRecommendBalenaCloud",
-          "origin",
-          "originDetail",
-          "role",
-          "useCaseSegment",
-          "useCaseDetail",
-          "experienceEvaluation",
-          "issuesWants",
-          "highlights",
-          "*"
-        ]
+        "form": {
+          "data": {
+            "ui:order": [
+              "howDidYouFirstHearAboutBalenaCloud",
+              "howWouldYouDescribeYourRole",
+              "couldYouBrieflyDescribeYourUsecase",
+              "howHasYourExperienceBeenSoFar",
+              "howLikelyAreYouToRecommendBalenaCloud",
+              "curatedOrigin",
+              "originDetail",
+              "role",
+              "useCaseSegment",
+              "useCaseDetail",
+              "experienceEvaluation",
+              "issuesWants",
+              "highlights",
+              "*"
+            ],
+            "curatedOrigin": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.curatedOrigin"
+              }
+            },
+            "originDetail": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.originDetail"
+              }
+            },
+            "role": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.role"
+              }
+            },
+            "useCaseSegment": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.useCaseSegment"
+              }
+            },
+            "useCaseDetail": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.useCaseDetail"
+              }
+            },
+            "issuesWants": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.issuesWants"
+              }
+            },
+            "highlights": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "resource": "user-feedback",
+                "keyPath": "data.highlights"
+              }
+            }
+          }
+        }
       }
     }
   }
