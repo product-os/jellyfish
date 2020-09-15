@@ -31,6 +31,7 @@ const InboxColumn = styled(Column) `
 
 const Inbox = ({
 	setupStream,
+	clearViewData,
 	paginateStream
 }) => {
 	// State controller for managing the active tab
@@ -38,6 +39,7 @@ const Inbox = ({
 
 	const defaultTabProps = {
 		setupStream,
+		clearViewData,
 		paginateStream,
 		currentTab,
 		key: currentTab
