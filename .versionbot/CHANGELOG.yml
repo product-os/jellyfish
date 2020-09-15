@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Fixes pagination on the repository - ensures paginateStream is passed
+        dispatch and state methods, and fixes how we update the state when we
+        reach the start of the repo timeline
+      hash: fa029d5feaa2b5bc87bd1e725880761816c9ed5b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.0.17
+  date: 2020-09-15T11:53:56.492Z
+- commits:
     - subject: 'default-cards/user-feedback: Update schema and UI schema'
       hash: f6baf3830118d5ed15bd79f9fe8320978c4a6d3b
       body: |
