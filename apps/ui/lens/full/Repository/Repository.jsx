@@ -98,16 +98,13 @@ export default class RepositoryFull extends React.Component {
 
 		return loader(query, options)
 			.then((results) => {
-				if (results.length < LIMIT) {
-					this.setState((state) => {
-						return {
-							options: {
-								...state.options,
-								totalPages: state.options.page + 1
-							}
-						}
-					})
-				}
+				this.setState({
+					options: {
+						...this.state.options,
+						page,
+						totalPages: results.length < LIMIT ? page : this.state.options.totalPages
+					}
+				})
 			})
 	}
 
@@ -141,10 +138,6 @@ export default class RepositoryFull extends React.Component {
 		})
 
 		await this.loadThreadData(options.page, this.state.searchTerm)
-
-		this.setState({
-			options
-		})
 
 		this.isLoadingPage = false
 	}

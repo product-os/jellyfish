@@ -1475,7 +1475,7 @@ export default class ActionCreator {
 			const commonOptions = _.pick(options, 'viewId')
 			const appendHandler = (card) => dispatch(this.appendViewData(query, card, commonOptions))
 			const viewId = options.viewId || getViewId(query)
-			return this.paginateStream(viewId, query, options, appendHandler)
+			return this.paginateStream(viewId, query, options, appendHandler)(dispatch, getState)
 		}
 	}
 
