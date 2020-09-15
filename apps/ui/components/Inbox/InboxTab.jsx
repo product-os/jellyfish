@@ -67,6 +67,7 @@ const InboxTab = ({
 	getQuery,
 	currentTab,
 	setupStream,
+	clearViewData,
 	paginateStream,
 	canMarkAsRead
 }) => {
@@ -161,6 +162,11 @@ const InboxTab = ({
 	// then we need to reload the data
 	useEffect(() => {
 		loadViewData()
+		return () => {
+			clearViewData(null, {
+				viewId: STREAM_ID
+			})
+		}
 	}, [ currentTab, searchTerm ])
 
 	return (
