@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'default-cards/user-feedback: Update schema and UI schema'
+      hash: f6baf3830118d5ed15bd79f9fe8320978c4a6d3b
+      body: |
+        Changed origin property because data.origin is already used by the
+        system to store the external event that created the card.
+
+        Added autocomplete feature for the curation fields.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 33.0.16
+  date: 2020-09-15T08:24:36.878Z
+- commits:
     - subject: 'ui: Close inbox stream when unmounting'
       hash: 8ab57afdffc0e24ae1cf844c371b9d262a44fe20
       body: ''
