@@ -40,8 +40,9 @@ import {
 } from '@balena/jellyfish-ui-components/lib/services/helpers'
 import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
-	ResponsiveProvider
-} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
+	ResponsiveProvider,
+	DocumentVisibilityProvider
+} from '@balena/jellyfish-ui-components/lib/hooks'
 import {
 	ConnectedRouter
 } from 'connected-react-router'
@@ -109,21 +110,23 @@ ReactDOM.render(
 			}}
 		>
 			<ResponsiveProvider>
-				<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
-					<Provider store={store}>
-						<PersistGate loading={null} persistor={persistor}>
-							<ConnectedRouter history={history}>
-								<GlobalStyle />
+				<DocumentVisibilityProvider>
+					<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
+						<Provider store={store}>
+							<PersistGate loading={null} persistor={persistor}>
+								<ConnectedRouter history={history}>
+									<GlobalStyle />
 
-								<ErrorBoundary>
-									<DndProvider backend={HTML5Backend}>
-										<JellyfishUI />
-									</DndProvider>
-								</ErrorBoundary>
-							</ConnectedRouter>
-						</PersistGate>
-					</Provider>
-				</SetupProvider>
+									<ErrorBoundary>
+										<DndProvider backend={HTML5Backend}>
+											<JellyfishUI />
+										</DndProvider>
+									</ErrorBoundary>
+								</ConnectedRouter>
+							</PersistGate>
+						</Provider>
+					</SetupProvider>
+				</DocumentVisibilityProvider>
 			</ResponsiveProvider>
 		</RProvider>
 	),
