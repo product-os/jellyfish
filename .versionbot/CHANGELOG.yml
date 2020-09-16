@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Use getSnapshotBeforeUpdate to handle scroll position'
+      hash: cdc46c11c2c4a5835e0eebfd78c18a032ba19061
+      body: >
+        This is a more appropriate technique than the deprecated
+        componentWillUpdate.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.1.1
+  date: 2020-09-16T09:32:53.323Z
+- commits:
     - subject: 'ui: Do not treat elements as ''visible'' if the document is hidden'
       hash: 3e8a9a40e2c77b0bd8a18236aaec3e82c45c889d
       body: >
