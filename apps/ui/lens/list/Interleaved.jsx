@@ -179,7 +179,7 @@ export class Interleaved extends BaseLens {
 		this.bindScrollArea = this.bindScrollArea.bind(this)
 	}
 
-	componentWillUpdate () {
+	getSnapshotBeforeUpdate () {
 		if (!this.scrollArea) {
 			return
 		}
