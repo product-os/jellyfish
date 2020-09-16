@@ -183,6 +183,10 @@ class ViewRenderer extends React.Component {
 		}
 
 		const methods = [
+			'bootstrap',
+			'getQueryOptions',
+			'createView',
+			'loadViewWithFilters',
 			'saveView',
 			'setLens',
 			'setPage',
@@ -198,7 +202,7 @@ class ViewRenderer extends React.Component {
 			this[method] = this[method].bind(this)
 		})
 
-		this.updateFilters = _.debounce(this.updateFilters, 350)
+		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350)
 	}
 
 	saveView ([ view ]) {
@@ -245,14 +249,10 @@ class ViewRenderer extends React.Component {
 	}
 
 	updateFilters (filters) {
-		const {
-			head
-		} = this.props.channel.data
-		if (head) {
-			this.loadViewWithFilters(head, _.compact([ ...filters, this.state.searchFilter ]))
-		}
 		this.setState({
 			filters
+		}, () => {
+			this.loadViewWithFilters(filters)
 		})
 	}
 
@@ -262,7 +262,7 @@ class ViewRenderer extends React.Component {
 			searchFilter: createSearchFilter(schema, event.target.value),
 			searchTerm: event.target.value
 		}, () => {
-			this.updateFilters(this.state.filters)
+			this.loadViewWithFilters(this.state.filters)
 		})
 	}
 
@@ -279,19 +279,10 @@ class ViewRenderer extends React.Component {
 			return
 		}
 
-		const {
-			head
-		} = this.props.channel.data
-		const syntheticViewCard = createSyntheticViewCard(head, this.state.filters)
-
-		this.props.actions.clearViewData(head.id)
-		this.props.actions.loadViewData(
-			syntheticViewCard,
-			this.getQueryOptions(lens.slug)
-		)
-
 		this.setState({
 			activeLens: lens.slug
+		}, () => {
+			this.loadViewWithFilters(this.state.filters)
 		})
 
 		this.props.actions.setViewLens(this.props.card.id, lens.slug)
@@ -329,59 +320,55 @@ class ViewRenderer extends React.Component {
 	}
 
 	setPage (page) {
+		if (page + 1 >= this.state.options.totalPages) {
+			return
+		}
+		this.setState(({
+			options
+		}) => ({
+			options: {
+				...options,
+				page
+			}
+		}), () => {
+			this.updateView()
+		})
+	}
+
+	updateView () {
 		const {
 			channel
 		} = this.props
-		if (page + 1 >= this.state.options.totalPages) {
-			return null
-		}
-		const options = Object.assign({}, this.state.options, {
-			page
-		})
-		if (!channel) {
-			return null
-		}
-		this.setState({
-			options
-		}, () => this.updateView(channel, this.state))
-		return options
-	}
-
-	updateView (channel, state) {
-		this.props.actions.loadMoreViewData(
-			createSyntheticViewCard(channel.data.head, state.filters),
-			this.getQueryOptions(state.activeLens)
-		)
+		const {
+			filters, options, activeLens
+		} = this.state
+		const syntheticViewCard = createSyntheticViewCard(channel.data.head, filters)
+		const queryOptions = this.getQueryOptions(activeLens)
+		this.props.actions.loadMoreViewData(syntheticViewCard, queryOptions)
 			.then((data) => {
-				if (data.length < state.options.limit) {
+				if (data.length < options.limit) {
 					this.setState({
-						options: Object.assign({}, state.options, {
-							totalPages: state.options.page + 1
-						})
+						options: {
+							...options,
+							totalPages: options.page + 1
+						}
 					})
 				}
 			})
 	}
 
 	setSortByField (field) {
-		const {
-			options,
-			activeLens
-		} = this.state
-		const {
-			head
-		} = this.props.channel.data
-		this.setState({
+		this.setState(({
+			options
+		}) => ({
 			options: {
 				...options,
 				page: 0,
 				totalPages: Infinity,
 				sortBy: field
 			}
-		}, () => {
-			const queryOptions = this.getQueryOptions(activeLens)
-			const syntheticViewCard = createSyntheticViewCard(head, this.state.filters)
-			this.props.actions.loadViewData(syntheticViewCard, queryOptions)
+		}), () => {
+			this.loadViewWithFilters(this.state.filters)
 		})
 	}
 
@@ -451,10 +438,6 @@ class ViewRenderer extends React.Component {
 					anyOf: [ filter ]
 				})
 			}
-			this.loadViewWithFilters(head, _.compact([ ...filters, this.state.searchFilter ]))
-		} else {
-			const queryOptions = this.getQueryOptions(activeLens)
-			this.props.actions.loadViewData(head.id, queryOptions)
 		}
 
 		// Set default state
@@ -467,6 +450,8 @@ class ViewRenderer extends React.Component {
 
 			// Mark as ready
 			ready: true
+		}, () => {
+			this.loadViewWithFilters(filters)
 		})
 	}
 
@@ -566,11 +551,19 @@ class ViewRenderer extends React.Component {
 		return newView
 	}
 
-	loadViewWithFilters (view, filters) {
-		const syntheticViewCard = createSyntheticViewCard(view, filters)
-		const options = this.getQueryOptions(this.state.activeLens)
-		this.props.actions.clearViewData(syntheticViewCard)
-		this.props.actions.loadViewData(syntheticViewCard, options)
+	loadViewWithFilters (filters) {
+		const {
+			actions,
+			channel
+		} = this.props
+		const {
+			searchFilter, activeLens
+		} = this.state
+		const allFilters = _.compact([ ...filters, searchFilter ])
+		const syntheticViewCard = createSyntheticViewCard(channel.data.head, allFilters)
+		const options = this.getQueryOptions(activeLens)
+		actions.clearViewData(syntheticViewCard)
+		actions.loadViewData(syntheticViewCard, options)
 	}
 
 	render () {
