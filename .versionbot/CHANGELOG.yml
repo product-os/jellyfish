@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'ui: Do not treat elements as ''visible'' if the document is hidden'
+      hash: 3e8a9a40e2c77b0bd8a18236aaec3e82c45c889d
+      body: >
+        The combination of the DocumentVisibilityProvider and the
+        SmartVisibilitySensor ensure that we don't call the onCardVisible
+        callback with a `true` value if the document (tab) is hidden.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.1.0
+  date: 2020-09-16T08:04:06.370Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 0ee58db6c938e8c30f8ad3472f6329186843ac71
       body: ''
