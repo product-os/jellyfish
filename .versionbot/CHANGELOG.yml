@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 579de1a986e8416f3083593bd44a6e1429858e78
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.0.23
+  date: 2020-09-16T03:18:20.631Z
+- commits:
     - subject: 'ui: Close user menu when navigating'
       hash: 344d8e8c0a7b86c7bbc5a38614a6811205122d31
       body: >
