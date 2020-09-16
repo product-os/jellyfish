@@ -115,7 +115,7 @@
     "@balena/jellyfish-metrics": "^0.0.94",
     "@balena/jellyfish-queue": "^0.0.114",
     "@balena/jellyfish-sync": "^1.0.17",
-    "@balena/jellyfish-ui-components": "^1.2.1",
+    "@balena/jellyfish-ui-components": "1.2.4-2417-ignore-tokens-in-codeblocks-b740454cc34a57fb4add54fe93fee5704aeefa83",
     "@balena/jellyfish-uuid": "^1.0.12",
     "@balena/jellyfish-worker": "^1.0.92",
     "@emotion/cache": "^10.0.29",
