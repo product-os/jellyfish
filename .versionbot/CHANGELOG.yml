@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'ui: Close user menu when navigating'
+      hash: 344d8e8c0a7b86c7bbc5a38614a6811205122d31
+      body: >
+        This is a work-around for the fact that the `Link` component stops the
+        click event propagation and overwrites the onClick prop so we can't
+        specifically close the user menu after clicking on one of the links in
+        the user menu!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.0.22
+  date: 2020-09-16T01:29:15.517Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^3.0.18'
       hash: c608629a4e59398cc803cbde4ab5174b98d7d80c
       body: ''
