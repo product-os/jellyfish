@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Consolidate View data loading logic'
+      hash: cb7a0cc039789b728a255e11c0e0df9adb75fbbd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.1.2
+  date: 2020-09-17T03:39:25.628Z
+- commits:
     - subject: 'ui: Use getSnapshotBeforeUpdate to handle scroll position'
       hash: cdc46c11c2c4a5835e0eebfd78c18a032ba19061
       body: >
