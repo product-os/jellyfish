@@ -59,7 +59,7 @@
       "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
-      "tags": [],
+      "tags": [ "ccc" ],
       "requires": [],
       "capabilities": [],
       "data": {
@@ -107,7 +107,10 @@
       "type": "message@1.0.0",
       "active": true,
       "version": "1.0.0",
-      "tags": [],
+      "tags": [
+        "ccc",
+        "ccc"
+      ],
       "requires": [],
       "capabilities": [],
       "data": {

@@ -97,7 +97,7 @@
         ],
         "timestamp": "2019-03-13T19:55:24.478Z",
         "payload": {
-          "mentionsUser": [],
+          "mentionsUser": [ "user-test" ],
           "alertsUser": [],
           "mentionsGroup": [],
           "alertsGroup": [],
