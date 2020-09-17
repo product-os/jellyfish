@@ -173,7 +173,7 @@
         ],
         "timestamp": "2018-10-10T22:22:58.705Z",
         "payload": {
-          "mentionsUser": [],
+          "mentionsUser": [ "user-resin_io" ],
           "alertsUser": [],
           "mentionsGroup": [],
           "alertsGroup": [],

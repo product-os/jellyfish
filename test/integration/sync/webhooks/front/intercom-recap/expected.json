@@ -234,7 +234,7 @@
     },
     {
       "version": "1.0.0",
-      "tags": [],
+      "tags": [ "summary" ],
       "capabilities": [],
       "type": "whisper@1.0.0",
       "active": true,
@@ -284,7 +284,7 @@
     },
     {
       "version": "1.0.0",
-      "tags": [],
+      "tags": [ "summary" ],
       "capabilities": [],
       "type": "whisper@1.0.0",
       "active": true,

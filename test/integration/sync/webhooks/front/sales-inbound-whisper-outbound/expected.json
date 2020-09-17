@@ -201,7 +201,7 @@
         ],
         "timestamp": "2019-07-19T12:20:52.296Z",
         "payload": {
-          "mentionsUser": [],
+          "mentionsUser": [ "user-resin_io" ],
           "alertsUser": [],
           "mentionsGroup": [],
           "alertsGroup": [],
