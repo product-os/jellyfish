@@ -6,24 +6,22 @@
 
 import _ from 'lodash'
 import React from 'react'
+import JsonSchemaRenderer from 'rendition/dist/extra/JsonSchemaRenderer'
 import {
-	slugify,
 	getLocalSchema
 } from '@balena/jellyfish-ui-components/lib/services/helpers'
-import CardField from './CardField'
 import {
-	Markdown
-} from 'rendition/dist/extra/Markdown'
+	getUiSchema, jsonSchemaFns, JF_FORMATS, UI_SCHEMA_MODE
+} from '../../lens/schema-util'
 
 export default function CardFields (props) {
 	const {
 		card,
-		depth,
-		fieldOrder,
-		type,
-		omit
+		type
 	} = props
-	const payload = card.data
+	if (!card || !type) {
+		return null
+	}
 	const typeSchema = _.get(type, [ 'data', 'schema' ])
 	const localSchema = getLocalSchema(card)
 
@@ -35,51 +33,17 @@ export default function CardFields (props) {
 		}
 	}, typeSchema)
 
-	const unorderedKeys = _.filter(_.keys(payload), (key) => {
-		return !_.includes(fieldOrder, key)
-	})
-
-	const keys = Reflect.apply(_.without, null, [
-		(fieldOrder || []).concat(unorderedKeys),
-		...(omit || [])
-	])
-
-	const renderers = {
-		mirrors: {
-			value: ({
-				fieldValue
-			}) => {
-				return _.map(fieldValue, (value) => {
-					if (_.includes(value, 'frontapp.com')) {
-						const id = value.split('/').pop()
-						return <Markdown key={id}>{`https://app.frontapp.com/open/${id}`}</Markdown>
-					}
-					return <Markdown key={slugify(value)}>{value.toString()}</Markdown>
-				})
-			}
-		},
-
-		// Never render local schema meta data
-		$$localSchema: {
-			value: _.constant(null),
-			title: _.constant(null)
-		}
-	}
-
 	return (
-		<React.Fragment>
-			{_.map(keys, (key) => {
-				return payload[key]
-					? <CardField
-						renderers={renderers}
-						key={key}
-						depth={depth}
-						field={key}
-						payload={payload}
-						schema={_.get(schema, [ 'properties', 'data', 'properties', key ])}
-					/>
-					: null
-			})}
-		</React.Fragment>
+		<JsonSchemaRenderer
+			value={card}
+			schema={schema}
+			uiSchema={getUiSchema(type, UI_SCHEMA_MODE.fields)}
+			extraFormats={JF_FORMATS}
+			extraContext={{
+				root: card,
+				fns: jsonSchemaFns
+			}}
+			validate={false}
+		/>
 	)
 }

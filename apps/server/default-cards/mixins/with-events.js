@@ -53,6 +53,13 @@ module.exports = ({
 						$ref: uiSchemaDef('badgeList')
 					},
 					data: {
+						'ui:order': [
+							'mentionsUser',
+							'alertsUser',
+							'mentionsGroup',
+							'alertsGroup',
+							'participants'
+						],
 						mentionsUser: {
 							$ref: uiSchemaDef('usernameList')
 						},

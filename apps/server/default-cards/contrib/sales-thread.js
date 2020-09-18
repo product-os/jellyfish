@@ -75,6 +75,13 @@ module.exports = ({
 			uiSchema: {
 				fields: {
 					data: {
+						'ui:order': [
+							'tags',
+							'mirrors',
+							'inbox',
+							'statusDescription',
+							'status'
+						],
 						inbox: {
 							'ui:widget': 'HighlightedName'
 						},

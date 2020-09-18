@@ -298,7 +298,6 @@ class SupportThreadBase extends React.Component {
 		const {
 			card,
 			channel,
-			fieldOrder,
 			getActorHref
 		} = this.props
 		const {
@@ -540,17 +539,7 @@ class SupportThreadBase extends React.Component {
 
 							<CardFields
 								card={card}
-								fieldOrder={fieldOrder}
 								type={typeCard}
-								omit={[
-									'statusDescription',
-									'category',
-									'status',
-									'inbox',
-									'origin',
-									'environment',
-									'translateDate'
-								]}
 							/>
 						</Collapsible>
 					</Collapsible>
