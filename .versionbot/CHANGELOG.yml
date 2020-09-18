@@ -1,4 +1,37 @@
 - commits:
+    - subject: Bump Jellyfish dependencies
+      hash: c17df9e92f034dc3384a81dff99beb06b91c1ec5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'server: minor updates to UI schemas'
+      hash: 20c29b08732c8fb0240618d50e94592cc231f1f3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use JsonSchemaRenderer inside CardFields
+      hash: c8ad4a4d210ca6dba032866ecfd637c85fce2832
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.2.0
+  date: 2020-09-18T15:35:51.716Z
+- commits:
     - subject: Synced messages should populate mentions
       hash: bde1d16255dd0ef9bd0f452d860a478c2a82305c
       body: ''
