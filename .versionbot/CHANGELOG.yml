@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Run outreach translate tests'
+      hash: 8f08d100d7f5e830a3af923edb910179a8d3194e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.2.1
+  date: 2020-09-19T08:25:27.377Z
+- commits:
     - subject: Bump Jellyfish dependencies
       hash: c17df9e92f034dc3384a81dff99beb06b91c1ec5
       body: ''
