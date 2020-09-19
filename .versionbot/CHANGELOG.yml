@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Bump dependencies, patch and minor only'
+      hash: 780423a728fac83075569fd837ce9d7eede54037
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.2.2
+  date: 2020-09-19T11:43:49.799Z
+- commits:
     - subject: 'ci: Run outreach translate tests'
       hash: 8f08d100d7f5e830a3af923edb910179a8d3194e
       body: ''
