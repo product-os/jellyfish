@@ -131,6 +131,18 @@ tasks:
         value: './test/integration/sync/typeform-translate.spec.js'
     dependencies:
       - 'flowdock-translate'
+  - name: 'outreach-translate'
+    description: 'Outreach Translate Tests'
+    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    environment:
+      - name: 'CHECK_FOR'
+        value: 'outreach-translate.spec.js'
+      - name: 'FILES'
+        value: './test/integration/sync/outreach-translate.spec.js'
+    dependencies:
+      - 'typeform-translate'
   - name: 'integration-queue'
     description: 'Queue Integration Tests'
     command: 'make test-integration-queue'
@@ -169,7 +181,7 @@ tasks:
       - name: 'INTEGRATION_FRONT_TOKEN'
         value: 'foobar'
     dependencies:
-      - 'typeform-translate'
+      - 'outreach-translate'
       - 'integration-worker'
   - name: 'discourse-translate'
     description: 'Discourse Translate Tests'
