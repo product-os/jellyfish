@@ -107,7 +107,7 @@
     "@babel/polyfill": "^7.11.5",
     "@balena/jellyfish-action-library": "^4.0.9",
     "@balena/jellyfish-assert": "^1.0.14",
-    "@balena/jellyfish-chat-widget": "^1.1.15",
+    "@balena/jellyfish-chat-widget": "^2.0.0",
     "@balena/jellyfish-client-sdk": "^2.1.21",
     "@balena/jellyfish-core": "^0.1.29",
     "@balena/jellyfish-environment": "^2.2.27",
