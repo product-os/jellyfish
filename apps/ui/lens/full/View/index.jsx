@@ -109,6 +109,10 @@ const getSliceOptions = (card, types) => {
 	return sliceOptions.length ? sliceOptions : null
 }
 
+const getDefaultSliceOption = (sliceOptions) => {
+	return _.last(sliceOptions)
+}
+
 const createSyntheticViewCard = (view, filters) => {
 	const syntheticViewCard = clone(view)
 	const originalFilters = view
@@ -234,6 +238,17 @@ class ViewRenderer extends React.Component {
 			title: FULL_TEXT_SEARCH_TITLE
 		})
 
+		const activeSliceFilterId = _.get(this.state.activeSlice, [ 'value', 'path' ])
+		const sliceFilter = activeSliceFilterId && filtersWithoutSearch.find((item) => {
+			return item.anyOf && item.anyOf[0].$id === activeSliceFilterId
+		})
+
+		if (!sliceFilter) {
+			this.setSlice({
+				value: getDefaultSliceOption(this.state.sliceOptions)
+			})
+		}
+
 		if (searchFilters.length) {
 			this.updateFilters(filtersWithoutSearch)
 		} else {
@@ -288,33 +303,28 @@ class ViewRenderer extends React.Component {
 		this.props.actions.setViewLens(this.props.card.id, lens.slug)
 	}
 
-	setSlice (event) {
-		const {
-			value
-		} = event
+	setSlice ({
+		value
+	}) {
 		this.setState({
 			activeSlice: value
 		})
 		const filter = createSliceFilter(value)
 
-		const {
-			head
-		} = this.props.channel.data
-
-		const filters = head
-			? _.map(_.filter(head.data.allOf, {
-				name: USER_FILTER_NAME
-			}), 'schema')
-			: []
-
 		// Remove any pre-existing filter with the same $id
-		const parsedFilters = filters.filter((item) => {
+		const parsedFilters = this.state.filters.filter((item) => {
 			return item.anyOf && item.anyOf[0].$id !== filter.$id
 		})
 
-		parsedFilters.push({
-			anyOf: [ filter ]
-		})
+		// The default slice represents the 'all' option (i.e. no actual filter)
+		// so only add the slice filter if it is not the default ('all') option.
+		const isAllFilter = _.isEqual(value, getDefaultSliceOption(this.state.sliceOptions))
+		if (!isAllFilter) {
+			parsedFilters.push({
+				$id: filter.$id,
+				anyOf: [ filter ]
+			})
+		}
 
 		this.updateFilters(parsedFilters)
 	}
@@ -435,6 +445,7 @@ class ViewRenderer extends React.Component {
 			// If a matching filter already exists, don't add it twice
 			if (!existingFilter) {
 				filters.push({
+					$id: filter.$id,
 					anyOf: [ filter ]
 				})
 			}
