@@ -195,6 +195,9 @@ exports.waitForThenDismissAlert = async (page, alertPrefix) => {
 	const notificationButtonSelector =
 		`//*[contains(@class, "notification-item")][//*[contains(text(), "${alertPrefix}")]]//button`
 	await exports.waitForThenClickSelector(page, notificationButtonSelector)
+
+	// Wait for animated notification exit
+	await bluebird.delay(2000)
 }
 
 exports.navigateToHomeChannelItem = async (page, menuStack) => {
