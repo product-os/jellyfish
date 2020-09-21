@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'test: Pause after closing notification'
+      hash: 584b9838aec365b3ea5008776a904727d6d387af
+      body: >
+        This allows the notification to completely be removed from the UI (it
+        has an animated exit).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use rendition notifications
+      hash: 62df85fd3be38e6ce62d59791ae60dc5dd8005f5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.3.0
+  date: 2020-09-21T10:56:25.779Z
+- commits:
     - subject: 'ui: Fix interaction between view filters and slice select component'
       hash: b7a5fd780cb804415233c55ab4f22fed81885cee
       body: ''
