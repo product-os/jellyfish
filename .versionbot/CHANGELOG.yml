@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Fix interaction between view filters and slice select component'
+      hash: b7a5fd780cb804415233c55ab4f22fed81885cee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.2.3
+  date: 2020-09-21T01:39:46.285Z
+- commits:
     - subject: 'Bump dependencies, patch and minor only'
       hash: 780423a728fac83075569fd837ce9d7eede54037
       body: ''
