@@ -27,6 +27,9 @@ import {
 	Form
 } from 'rendition'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../layouts/CardLayout'
 import * as skhema from 'skhema'
@@ -185,7 +188,7 @@ class CreateLens extends React.Component {
 
 		sdk.card.create(newCard)
 			.catch((error) => {
-				actions.addNotification('danger', error.message)
+				addNotification('danger', error.message)
 				this.setState({
 					submitting: false
 				})
@@ -449,7 +452,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'createLink',
 				'removeChannel',
 				'getLinks',

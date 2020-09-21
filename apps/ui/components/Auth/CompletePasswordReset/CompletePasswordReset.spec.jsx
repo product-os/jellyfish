@@ -18,6 +18,7 @@ import {
 	Img
 } from 'rendition'
 import CompletePasswordReset from './CompletePasswordReset.jsx'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 const DATA_TEST_PREFIX = 'completePasswordReset-page'
 
@@ -103,16 +104,14 @@ ava('Fires the completePasswordReset and then the addNotification action when th
 	const completePasswordResetAction = sandbox.stub()
 	completePasswordResetAction.resolves(200)
 
-	const addNotification = sandbox.stub()
-	addNotification.resolves()
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	const push = sandbox.stub()
 
 	const completePasswordReset = mount(
 		<CompletePasswordReset
 			actions={{
-				completePasswordReset: completePasswordResetAction,
-				addNotification
+				completePasswordReset: completePasswordResetAction
 			}}
 			history={{
 				push

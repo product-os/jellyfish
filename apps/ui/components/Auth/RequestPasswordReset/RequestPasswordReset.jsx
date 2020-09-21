@@ -7,6 +7,9 @@
 import React from 'react'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
 	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton, AuthLink
 } from '../AuthUtil'
 
@@ -43,10 +46,10 @@ export default class RequestPasswordReset extends React.Component {
 			username
 		})
 			.then(() => {
-				this.props.actions.addNotification('success', 'Thanks! Please check your email for a link to reset your password')
+				addNotification('success', 'Thanks! Please check your email for a link to reset your password')
 			})
 			.catch(() => {
-				this.props.actions.addNotification('danger',
+				addNotification('danger',
 					`Whoops! Something went wrong while trying to request a password reset for username ${username}`)
 			})
 			.finally(() => {

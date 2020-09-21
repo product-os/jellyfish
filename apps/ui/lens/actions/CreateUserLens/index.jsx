@@ -26,7 +26,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'removeChannel',
 				'addUser'
 			]),

@@ -36,7 +36,6 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'addNotification',
 				'clearViewData',
 				'createLink',
 				'getLinks',

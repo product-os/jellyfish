@@ -18,6 +18,7 @@ import {
 	Img
 } from 'rendition'
 import CompleteFirstTimeLogin from './CompleteFirstTimeLogin.jsx'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 const MATCH = {
 	params: {
@@ -95,16 +96,14 @@ ava('Fires the completeFirstTimeLogin and then the addNotification action when t
 	const completeFirstTimeLoginAction = sandbox.stub()
 	completeFirstTimeLoginAction.resolves(200)
 
-	const addNotification = sandbox.stub()
-	addNotification.resolves()
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	const push = sandbox.stub()
 
 	const completeFirstTimeLogin = mount(
 		<CompleteFirstTimeLogin
 			actions={{
-				completeFirstTimeLogin: completeFirstTimeLoginAction,
-				addNotification
+				completeFirstTimeLogin: completeFirstTimeLoginAction
 			}}
 			history={{
 				push

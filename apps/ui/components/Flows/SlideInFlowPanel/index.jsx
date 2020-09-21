@@ -32,7 +32,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'setFlow',
 				'removeFlow'
 			]),

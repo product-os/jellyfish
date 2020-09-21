@@ -15,7 +15,8 @@ import {
 } from 'react-redux'
 import {
 	Provider as RProvider,
-	Theme
+	Theme,
+	NotificationsContainer
 } from 'rendition'
 import {
 	DndProvider
@@ -116,7 +117,7 @@ ReactDOM.render(
 							<PersistGate loading={null} persistor={persistor}>
 								<ConnectedRouter history={history}>
 									<GlobalStyle />
-
+									<NotificationsContainer />
 									<ErrorBoundary>
 										<DndProvider backend={HTML5Backend}>
 											<JellyfishUI />

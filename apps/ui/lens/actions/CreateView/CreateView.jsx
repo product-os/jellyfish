@@ -18,6 +18,9 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
@@ -145,7 +148,7 @@ export default class CreateView extends React.Component {
 		} catch (err) {
 			sdk.card.create(view)
 				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
+					addNotification('danger', error.message)
 				})
 				.then((card) => {
 					if (card) {

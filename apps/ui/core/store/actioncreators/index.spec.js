@@ -244,8 +244,8 @@ ava('setViewStarred(_, true) adds the view slug to the list of starred views in 
 
 	await actionCreator.setViewStarred(view, true)(dispatch, getState)
 
-	// 1: setUser, 2: addNotification
-	test.is(dispatch.callCount, 2)
+	// 1: setUser
+	test.true(dispatch.calledOnce)
 
 	// The user's card is updated via the SDK
 	test.true(sdk.card.update.calledOnce)
@@ -322,8 +322,8 @@ ava('setViewStarred(_, false) removes the view slug to the list of starred views
 
 	await actionCreator.setViewStarred(view, false)(dispatch, getState)
 
-	// 1: setUser, 2: addNotification
-	test.is(dispatch.callCount, 2)
+	// 1: setUser
+	test.true(dispatch.calledOnce)
 
 	// The user's card is updated via the SDK
 	test.true(sdk.card.update.calledOnce)
@@ -397,8 +397,8 @@ ava('setDefault() sets the homeView field in the user\'s profile', async (test) 
 
 	await actionCreator.setDefault(view)(dispatch, getState)
 
-	// 1: setUser, 2: addNotification
-	test.is(dispatch.callCount, 2)
+	// 1: setUser
+	test.true(dispatch.calledOnce)
 
 	// The user's card is updated via the SDK
 	test.true(sdk.card.update.calledOnce)

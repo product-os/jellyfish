@@ -18,6 +18,9 @@ import {
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 export default class LinkModal extends React.Component {
 	constructor (props) {
@@ -150,7 +153,6 @@ export default class LinkModal extends React.Component {
 
 	render () {
 		const {
-			actions,
 			card,
 			linkVerb,
 			types,
@@ -168,7 +170,7 @@ export default class LinkModal extends React.Component {
 
 		if (!linkTypeTargets.length) {
 			console.error(`No matching link types for ${fromType}`)
-			actions.addNotification('danger', `No matching link types for ${fromType}`)
+			addNotification('danger', `No matching link types for ${fromType}`)
 			return null
 		}
 

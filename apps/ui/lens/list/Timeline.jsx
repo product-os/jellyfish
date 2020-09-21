@@ -44,7 +44,6 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators(
 		_.pick(actionCreators, [
-			'addNotification',
 			'setTimelineMessage',
 			'signalTyping',
 			'getCard',

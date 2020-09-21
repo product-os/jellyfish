@@ -10,7 +10,6 @@ import React from 'react'
 import {
 	connect
 } from 'react-redux'
-import memoize from 'memoize-one'
 import {
 	withRouter
 } from 'react-router-dom'
@@ -40,6 +39,9 @@ import {
 	withDefaultGetActorHref
 } from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
 import EventsContainer from '@balena/jellyfish-ui-components/lib/EventsContainer'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
@@ -66,9 +68,6 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 	}
 	return false
 }
-
-const eventActionNames = [ 'addNotification' ]
-const pickEventActions = memoize(_.pick)
 
 export class Interleaved extends BaseLens {
 	constructor (props) {
@@ -134,7 +133,7 @@ export class Interleaved extends BaseLens {
 					})
 				})
 				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message)
+					addNotification('danger', error.message)
 				})
 				.finally(() => {
 					this.setState({
@@ -251,8 +250,6 @@ export class Interleaved extends BaseLens {
 
 		tail = _.sortBy(tail, 'created_at')
 
-		const eventActions = pickEventActions(this.props.actions, eventActionNames)
-
 		return (
 			<Column
 				flex="1"
@@ -288,7 +285,6 @@ export class Interleaved extends BaseLens {
 									firstInThread={isFirstInThread(card, firstMessagesByThreads)}
 									selectCard={selectors.getCard}
 									getCard={this.props.actions.getCard}
-									actions={eventActions}
 									getActorHref={this.props.getActorHref}
 								/>
 							</Box>
@@ -331,7 +327,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'getCard'
 			]),
 			dispatch

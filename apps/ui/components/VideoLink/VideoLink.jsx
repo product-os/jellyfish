@@ -13,6 +13,9 @@ import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	getType
 } from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 // The VideoLink component renders a button that lets the user open
 // a Google Meet URL (in a new tab) that is specific to the provided card.
@@ -50,10 +53,10 @@ export default function VideoLink ({
 			if (response.conferenceUrl) {
 				window.open(response.conferenceUrl)
 			} else {
-				actions.addNotification('danger', 'Unable to get a Google Meet')
+				addNotification('danger', 'Unable to get a Google Meet')
 			}
 		}).catch(() => {
-			actions.addNotification('danger', 'Unable to get a Google Meet')
+			addNotification('danger', 'Unable to get a Google Meet')
 		}).finally(() => {
 			setLoading(false)
 		})

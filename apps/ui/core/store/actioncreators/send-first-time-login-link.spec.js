@@ -6,6 +6,7 @@
 
 import ava from 'ava'
 import sinon from 'sinon'
+import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 
 // Hack fix for a circular dependency until we refactor the notifications code
 import {
@@ -49,6 +50,10 @@ ava.beforeEach((test) => {
 	}
 })
 
+ava.afterEach((test) => {
+	sandbox.restore()
+})
+
 ava('sendFirstTimeLoginLink uses the sdk.action to send a first-time login link to a user', async (test) => {
 	const {
 		sdk,
@@ -81,9 +86,10 @@ ava('sendFirstTimeLoginLink fires a \'success\' notification when successful', a
 		sdk,
 		actionCreator,
 		dispatch,
-		dispatchedObjs,
 		user
 	} = test.context
+
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	sdk.action.resolves()
 
@@ -91,10 +97,8 @@ ava('sendFirstTimeLoginLink fires a \'success\' notification when successful', a
 		user
 	})(dispatch)
 
-	const action = dispatchedObjs.pop()
-	test.is(action.type, 'ADD_NOTIFICATION')
-	test.is(action.value.message, 'Sent first-time login token to user')
-	test.is(action.value.type, 'success')
+	test.is(addNotification.callCount, 1)
+	test.deepEqual(addNotification.args, [ [ 'success', 'Sent first-time login token to user' ] ])
 })
 
 ava('sendFirstTimeLoginLink fires a \'danger\' notification when an error occurs', async (test) => {
@@ -102,9 +106,10 @@ ava('sendFirstTimeLoginLink fires a \'danger\' notification when an error occurs
 		sdk,
 		actionCreator,
 		dispatch,
-		dispatchedObjs,
 		user
 	} = test.context
+
+	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	const errorMessage = 'User does not exist'
 	sdk.action.throws(new Error(errorMessage))
@@ -113,8 +118,6 @@ ava('sendFirstTimeLoginLink fires a \'danger\' notification when an error occurs
 		user
 	})(dispatch)
 
-	const action = dispatchedObjs.pop()
-	test.is(action.type, 'ADD_NOTIFICATION')
-	test.is(action.value.message, errorMessage)
-	test.is(action.value.type, 'danger')
+	test.is(addNotification.callCount, 1)
+	test.deepEqual(addNotification.args, [ [ 'danger', errorMessage ] ])
 })

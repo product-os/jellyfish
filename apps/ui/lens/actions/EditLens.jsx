@@ -24,6 +24,9 @@ import {
 } from 'rendition'
 import CardLayout from '../../layouts/CardLayout'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import * as skhema from 'skhema'
 import {
 	actionCreators,
@@ -106,10 +109,10 @@ class EditLens extends React.Component {
 				})
 			})
 			.then(() => {
-				this.props.actions.addNotification('success', 'Successfully updated card')
+				addNotification('success', 'Successfully updated card')
 			})
 			.catch((error) => {
-				this.props.actions.addNotification('danger', error.message)
+				addNotification('danger', error.message)
 			})
 
 		if (onDone.action === 'close') {
@@ -235,7 +238,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'removeChannel'
 			]),
 			dispatch

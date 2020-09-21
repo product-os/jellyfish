@@ -46,12 +46,6 @@ const card = {
 
 const sandbox = sinon.createSandbox()
 
-const getActions = () => {
-	return {
-		addNotification: sandbox.stub()
-	}
-}
-
 const getSdk = (owner) => {
 	return {
 		event: {
@@ -86,7 +80,6 @@ ava('CardOwner should render', (test) => {
 			<CardOwner
 				user={user1}
 				types={types}
-				actions={getActions()}
 				card={card}
 				cardOwner={user1}
 				sdk={getSdk(user1)}
@@ -100,7 +93,6 @@ ava('When I\'m the owner', (test) => {
 		<CardOwner
 			user={user1}
 			types={types}
-			actions={getActions()}
 			card={card}
 			cardOwner={user1}
 			sdk={getSdk(user1)}
@@ -135,7 +127,6 @@ ava('If there is no owner', async (test) => {
 		<CardOwner
 			user={user1}
 			types={types}
-			actions={getActions()}
 			card={card}
 			cardOwner={null}
 			sdk={getSdk()}
@@ -170,7 +161,6 @@ ava('If other user is an owner', async (test) => {
 		<CardOwner
 			user={user1}
 			types={types}
-			actions={getActions()}
 			card={card}
 			cardOwner={user2}
 			sdk={getSdk(user2)}

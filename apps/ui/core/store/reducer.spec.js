@@ -396,55 +396,6 @@ ava('SET_TIMELINE_MESSAGE action sets the message of the specified timeline', (t
 	})
 })
 
-ava('ADD_NOTIFICATION action limits notifications to two', (test) => {
-	const initialState = _.cloneDeep(defaultState)
-	initialState.core.notifications = [
-		{
-			id: 1
-		},
-		{
-			id: 2
-		}
-	]
-	const newState = reducer(initialState, {
-		type: actions.ADD_NOTIFICATION,
-		value: {
-			id: 3
-		}
-	})
-
-	test.deepEqual(newState.core.notifications, [
-		{
-			id: 2
-		},
-		{
-			id: 3
-		}
-	])
-})
-
-ava('REMOVE_NOTIFICATION action removes the corresponding notification', (test) => {
-	const initialState = _.cloneDeep(defaultState)
-	initialState.core.notifications = [
-		{
-			id: 1
-		},
-		{
-			id: 2
-		}
-	]
-	const newState = reducer(initialState, {
-		type: actions.REMOVE_NOTIFICATION,
-		value: 1
-	})
-
-	test.deepEqual(newState.core.notifications, [
-		{
-			id: 2
-		}
-	])
-})
-
 ava('SET_LENS_STATE action merges the specified lens state', (test) => {
 	const initialState = _.cloneDeep(defaultState)
 	const lens = 1

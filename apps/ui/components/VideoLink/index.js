@@ -4,9 +4,7 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
 import {
-	bindActionCreators,
 	compose
 } from 'redux'
 import {
@@ -17,7 +15,6 @@ import {
 } from 'styled-components'
 import {
 	selectors,
-	actionCreators,
 	sdk
 }	from '../../core'
 import VideoLink from './VideoLink'
@@ -29,18 +26,7 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'addNotification'
-			]),
-			dispatch
-		)
-	}
-}
-
 export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
+	connect(mapStateToProps),
 	withTheme
 )(VideoLink)

@@ -9,7 +9,6 @@ import {
 	circularDeepEqual
 } from 'fast-equals'
 import * as _ from 'lodash'
-import memoize from 'memoize-one'
 import React from 'react'
 import {
 	connect
@@ -37,6 +36,9 @@ import CardFields from '../../../components/CardFields'
 import Event from '@balena/jellyfish-ui-components/lib/Event'
 import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
 import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import {
 	TagList,
 	Tag
@@ -82,9 +84,6 @@ const getHighlights = (card) => {
 	})
 }
 
-const eventActionNames = [ 'addNotification' ]
-const pickEventActions = memoize(_.pick)
-
 class SupportThreadBase extends React.Component {
 	constructor (props) {
 		super(props)
@@ -102,10 +101,10 @@ class SupportThreadBase extends React.Component {
 
 			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
-					this.props.actions.addNotification('success', 'Opened support thread')
+					addNotification('success', 'Opened support thread')
 				})
 				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message || error)
+					addNotification('danger', error.message || error)
 				})
 				.finally(() => {
 					this.setState({
@@ -170,11 +169,11 @@ class SupportThreadBase extends React.Component {
 
 			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
-					this.props.actions.addNotification('success', 'Archived support thread')
+					addNotification('success', 'Archived support thread')
 					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
-					this.props.actions.addNotification('danger', error.message || error)
+					addNotification('danger', error.message || error)
 					this.setState({
 						isClosing: false
 					})
@@ -320,8 +319,6 @@ class SupportThreadBase extends React.Component {
 
 		const mirrors = _.get(card, [ 'data', 'mirrors' ])
 		const isMirrored = !_.isEmpty(mirrors)
-
-		const eventActions = pickEventActions(this.props.actions, eventActionNames)
 
 		const statusDescription = _.get(card, [ 'data', 'statusDescription' ])
 
@@ -526,7 +523,6 @@ class SupportThreadBase extends React.Component {
 													groups={this.props.groups}
 													selectCard={selectors.getCard}
 													getCard={this.props.actions.getCard}
-													actions={eventActions}
 													mb={1}
 													threadIsMirrored={isMirrored}
 													getActorHref={getActorHref}
@@ -581,7 +577,6 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'addNotification',
 				'addChannel',
 				'getActor',
 				'getCard',

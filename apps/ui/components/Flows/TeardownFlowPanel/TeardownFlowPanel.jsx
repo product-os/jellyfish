@@ -10,6 +10,9 @@ import {
 	stepStatus
 } from '../flow-utils'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	addNotification
+} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import StepsFlow from '../../StepsFlow'
 import {
 	TextareaStep
@@ -82,7 +85,7 @@ export default function TeardownFlowPanel ({
 			})
 		} catch (error) {
 			console.error('Failed to tear-down card', error)
-			actions.addNotification('danger', 'Teardown failed. Refresh the page and try again.')
+			addNotification('danger', 'Teardown failed. Refresh the page and try again.')
 			return
 		}
 
