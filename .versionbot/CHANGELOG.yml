@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump monaco-editor
+      hash: 367aec2e9ee3130125ef8b028e1911a19052771b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.3.2
+  date: 2020-09-22T08:28:06.459Z
+- commits:
     - subject: 'Bump dependencies, patch and minor only'
       hash: cd98de6a3c9c00b0c332c9e8a2c0f1bcefee8619
       body: ''
