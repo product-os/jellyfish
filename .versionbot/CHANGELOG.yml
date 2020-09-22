@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Bump dependencies, patch and minor only'
+      hash: cd98de6a3c9c00b0c332c9e8a2c0f1bcefee8619
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.3.1
+  date: 2020-09-22T04:45:42.050Z
+- commits:
     - subject: 'test: Pause after closing notification'
       hash: 584b9838aec365b3ea5008776a904727d6d387af
       body: >
