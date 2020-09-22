@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: bda50809c2fc78e26144dbe175ad6a3b28a55cc4
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.3.3
+  date: 2020-09-22T14:09:58.766Z
+- commits:
     - subject: Bump monaco-editor
       hash: 367aec2e9ee3130125ef8b028e1911a19052771b
       body: ''
