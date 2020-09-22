@@ -24,7 +24,8 @@
     ],
     "lenses": [
       "lens-list",
-      "lens-kanban"
+      "lens-kanban",
+      "lens-chart"
     ]
   }
 }
