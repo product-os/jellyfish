@@ -2,7 +2,7 @@
   "slug": "view-typeform-responses",
   "name": "All Users' Feedback",
   "type": "view@1.0.0",
-  "markers": [ "org-balena" ],
+  "markers": [],
   "data": {
     "namespace": "User Feedback",
     "allOf": [
