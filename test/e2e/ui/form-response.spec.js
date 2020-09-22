@@ -9,6 +9,7 @@ const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
+const environment = require('@balena/jellyfish-environment')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -55,11 +56,7 @@ ava.serial('Should be able to navigate to a user\'s feedback and show the user\'
 		page
 	} = context
 
-	await macros.navigateToHomeChannelItem(page, [
-		'[data-test="home-channel__group-toggle--org-balena"]',
-		'[data-test="home-channel__group-toggle--User Feedback"]',
-		'[data-test="home-channel__item--view-typeform-responses"]'
-	])
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-typeform-responses`)
 
 	await page.waitForSelector('.column--view-typeform-responses')
 
