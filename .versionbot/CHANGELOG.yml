@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump rendition (fixes mentions inside code block)
+      hash: 8fd954ce9aa48afafbd1f7d141a498e889075996
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.3.5
+  date: 2020-09-22T17:19:52.825Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: c082a00cfba204cc440a3fc6f02d7cb9c57ab681
       body: ''
