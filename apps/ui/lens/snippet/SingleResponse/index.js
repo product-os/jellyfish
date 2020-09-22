@@ -32,7 +32,7 @@ const lens = {
 			properties: {
 				type: {
 					type: 'string',
-					const: 'form-response@1.0.0'
+					enum: [ 'form-response@1.0.0', 'user-feedback@1.0.0' ]
 				}
 			}
 		}
