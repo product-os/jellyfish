@@ -1,4 +1,57 @@
 - commits:
+    - subject: 'test/e2e/ui/form-response: Make test work with the hidden view'
+      hash: 83771b414cd683c76a279dba6fe99534aaab5d10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Hide form-response card related views
+      hash: 08e6874456bae68f048ca30dc5b2e15e31ea682d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: Add views for new and curated user's feedback
+      hash: 641254cbb64fce8c14a91efc409539ae1b408ee3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'view-all-users-feedback: Enable chart lens'
+      hash: d0eed435c2c20ec70b306f7f7c8e305f100c4faa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+    - subject: 'Use SingleResponse snippet lens for user feedback, add e2e test'
+      hash: 8eaa557aa964bae69ddd1fb37b52b803d8e46ea3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 33.3.8
+  date: 2020-09-23T08:53:19.148Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-react to ^7.21.0'
       hash: f5cc3b745acb08dc9c1b4785c025b3d7b4942dd8
       body: ''
