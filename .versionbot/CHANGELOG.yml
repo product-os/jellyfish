@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-react to ^7.21.0'
+      hash: f5cc3b745acb08dc9c1b4785c025b3d7b4942dd8
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.3.7
+  date: 2020-09-23T06:27:56.177Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 08d7bffe11ae231b6861d12109458ae3569c63f8
       body: ''
