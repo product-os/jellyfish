@@ -6,6 +6,12 @@
   "data": {
     "read": {
       "type": "object"
+    },
+    "actions": {
+      "type": "object"
+    },
+    "scope": {
+      "type": "object"
     }
   }
 }

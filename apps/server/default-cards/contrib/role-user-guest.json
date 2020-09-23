@@ -191,6 +191,12 @@
           }
         }
       ]
+    },
+    "actions": {
+      "type": "object"
+    },
+    "scope": {
+      "type": "object"
     }
   }
 }
