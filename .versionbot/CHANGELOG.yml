@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.759.0'
+      hash: 29c6830e50356b66d6028b2c02edf2f0b1509d92
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.3.11
+  date: 2020-09-23T20:24:17.310Z
+- commits:
     - subject: Remove scripts-template file dependency
       hash: 880e4ee72200f9538009866bcd47dc34def2154f
       body: ''
