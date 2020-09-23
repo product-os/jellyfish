@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 08d7bffe11ae231b6861d12109458ae3569c63f8
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.3.6
+  date: 2020-09-23T00:20:06.715Z
+- commits:
     - subject: Bump rendition (fixes mentions inside code block)
       hash: 8fd954ce9aa48afafbd1f7d141a498e889075996
       body: ''
