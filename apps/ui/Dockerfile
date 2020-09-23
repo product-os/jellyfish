@@ -7,9 +7,6 @@ FROM balena/open-balena-base:v9.4.3 as base
 WORKDIR /usr/src/jellyfish
 
 COPY package.json package-lock.json /usr/src/jellyfish/
-RUN mkdir -p scripts/template
-COPY scripts/template/package*.json \
-	/usr/src/jellyfish/scripts/template/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
