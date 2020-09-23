@@ -1,4 +1,15 @@
 - commits:
+    - subject: Remove scripts-template file dependency
+      hash: 880e4ee72200f9538009866bcd47dc34def2154f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.3.10
+  date: 2020-09-23T13:34:05.797Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^2.0.5'
       hash: 53e992f9a8f0f2dae34e593e79afd21100962111
       body: ''
