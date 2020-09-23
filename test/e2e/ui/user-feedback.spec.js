@@ -9,7 +9,6 @@ const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment')
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -51,33 +50,33 @@ ava.serial.after.always(async () => {
 	})
 })
 
-ava.serial('Should be able to navigate to a user\'s feedback and show the user\'s responses', async (test) => {
+ava.serial('Should be able to navigate to a user\'s feedback and show the user\'s answers', async (test) => {
 	const {
 		page
 	} = context
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-typeform-responses`)
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--User Feedback"]',
+		'[data-test="home-channel__item--view-all-users-feedback"]'
+	])
 
-	await page.waitForSelector('.column--view-typeform-responses')
+	await page.waitForSelector('.column--view-all-users-feedback')
 
-	// Create the form response for testing using ./assets/users-form-response.json
-	const mockData = require('./fixtures/users-form-response.json')
-	const formResponse = await page.evaluate((data) => {
+	const mockData = require('./fixtures/user-feedback.json')
+	const userFeedback = await page.evaluate((data) => {
 		return window.sdk.card.create({
-			type: 'form-response@1.0.0',
+			type: 'user-feedback@1.0.0',
 			data
 		})
 	}, mockData)
 
-	const snippetSelector = `[data-test-id="snippet-form-response-${formResponse.id}"] > div > a`
+	const snippetSelector = `[data-test-id="snippet-form-response-${userFeedback.id}"] > div > a`
 	await macros.waitForThenClickSelector(page, snippetSelector)
-	const columnSelector = '.column--form-response'
+	const columnSelector = '.column--user-feedback'
 	const innerText = await macros.getElementText(page, columnSelector)
-	_.forEach(mockData.responses, (response) => {
-		if (!innerText.includes(response.question)) {
-			test.fail()
-		}
-		if (!innerText.includes(response.answer.value)) {
+	_.forEach(_.flatten(_.values(mockData)), (response) => {
+		if (!innerText.includes(response)) {
 			test.fail()
 		}
 	})

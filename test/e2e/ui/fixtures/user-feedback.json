@@ -1,0 +1,12 @@
+{
+  "user": "testuser",
+  "mirrors": [
+    "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=9r7yx6testuser9r7umjr6yksn"
+  ],
+  "timestamp": "2020-09-21T08:19:11.000Z",
+  "howWouldYouDescribeYourRole": "Consumer",
+  "howHasYourExperienceBeenSoFar": "Good",
+  "couldYouBrieflyDescribeYourUsecase": "Hi-fi player",
+  "howDidYouFirstHearAboutBalenaCloud": "YouTube",
+  "howLikelyAreYouToRecommendBalenaCloud": 6
+}

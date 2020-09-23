@@ -112,6 +112,8 @@ module.exports = ({
 		productJellyfish: require('./balena/product-jellyfish.json'),
 		viewAllBlogPosts: require('./balena/view-all-blog-posts.json'),
 		viewAllUsersFeedback: require('./balena/view-all-users-feedback.json'),
+		viewNewUsersFeedback: require('./balena/view-new-users-feedback.json'),
+		viewCuratedUsersFeedback: require('./balena/view-curated-users-feedback.json'),
 		viewTypeformResponses: require('./balena/view-typeform-responses.json'),
 		viewCurateTypeformResponses: require('./balena/view-curate-typeform-responses.json'),
 		viewAllBrainstormCalls: require('./balena/view-all-brainstorm-calls.json'),

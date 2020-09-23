@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-users-feedback",
-  "name": "All",
+  "slug": "view-new-users-feedback",
+  "name": "New",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
@@ -13,6 +13,14 @@
           "properties": {
             "type": {
               "const": "user-feedback@1.0.0"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "experienceEvaluation": {
+                  "const": null
+                }
+              }
             }
           },
           "required": [

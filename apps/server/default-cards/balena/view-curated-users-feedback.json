@@ -1,6 +1,6 @@
 {
-  "slug": "view-all-users-feedback",
-  "name": "All",
+  "slug": "view-curated-users-feedback",
+  "name": "Curated",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
@@ -13,6 +13,21 @@
           "properties": {
             "type": {
               "const": "user-feedback@1.0.0"
+            },
+            "data": {
+              "type": "object",
+              "properties": {
+                "experienceEvaluation": {
+                  "enum": [
+                    "Very Positive",
+                    "Somewhat Positive",
+                    "Neutral",
+                    "Somewhat Negative",
+                    "Very Negative"
+                  ]
+                }
+              },
+              "required": ["experienceEvaluation"]
             }
           },
           "required": [

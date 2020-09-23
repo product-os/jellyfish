@@ -2,7 +2,7 @@
   "slug": "view-curate-typeform-responses",
   "name": "Curate Users' Feedback",
   "type": "view@1.0.0",
-  "markers": [ "org-balena" ],
+  "markers": [],
   "data": {
     "namespace": "User Feedback",
     "allOf": [
