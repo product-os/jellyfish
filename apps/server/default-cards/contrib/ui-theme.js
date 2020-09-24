@@ -8,11 +8,12 @@ const COLOR_PATTERN = '^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|transparent$'
 
 const colorUiSchema = (label) => {
 	return {
-		'ui:title': label,
-		'ui:widget': 'HighlightedName',
+		'ui:title': null,
+		'ui:widget': 'Color',
 		'ui:options': {
-			// eslint-disable-next-line no-template-curly-in-string
-			bg: '${source}'
+			label,
+			width: 80,
+			height: 50
 		}
 	}
 }
@@ -212,7 +213,7 @@ module.exports = {
 								'ui:title': null,
 								'ui:widget': 'Img',
 								'ui:options': {
-									width: 400,
+									height: 200,
 									alt: 'Screenshot'
 								}
 							}
