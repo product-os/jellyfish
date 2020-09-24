@@ -75,7 +75,7 @@ module.exports = ({
 		webPushSubscription: require('./contrib/web-push-subscription.json'),
 		group: require('./contrib/group.json'),
 		summary: require('./contrib/summary.json'),
-		uiTheme: require('./contrib/ui-theme.js'),
+		uiTheme: require('./contrib/ui-theme'),
 
 		// Triggered actions
 		triggeredActionGitHubIssueLink: require('./contrib/triggered-action-github-issue-link.json'),
@@ -150,7 +150,11 @@ module.exports = ({
 		viewSecuritySupportThreads: require('./balena/view-security-support-threads.json'),
 		viewSupportThreadsPendingUpdate: require('./balena/view-support-threads-pending-update.json'),
 		viewSupportThreadsToAudit: require('./balena/view-support-threads-to-audit.json'),
-		viewWorkflows: require('./balena/view-workflows.json')
+		viewWorkflows: require('./balena/view-workflows.json'),
+
+		// Default UI themes
+		uiThemeLight: require('./contrib/ui-theme-default-light'),
+		uiThemeDark: require('./contrib/ui-theme-default-dark')
 	}
 
 	return _.mapValues(defaultCards, initialize)
