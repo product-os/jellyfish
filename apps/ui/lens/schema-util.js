@@ -5,7 +5,7 @@
  */
 
 import _ from 'lodash'
-import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
+import * as Widgets from '../components/Widgets'
 
 export const JF_FORMATS = [ {
 	name: 'markdown', format: '.*'
@@ -26,11 +26,6 @@ export const UI_SCHEMA_MODE = {
 	create: 'create',
 	full: 'full',
 	fields: 'fields'
-}
-
-// This object acts as a lookup for widgets by widget component name
-const Widgets = {
-	AutoCompleteWidget
 }
 
 const replaceWidgetsCustomizer = (value, key) => {
