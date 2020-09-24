@@ -42,7 +42,7 @@ const colorSetPickerUiSchema = {
 const colorProp = (parent, variant) => {
 	return {
 		type: 'string',
-		default: '#fff',
+		default: '#e2e2e2',
 		title: `${parent}.${variant}`,
 		pattern: COLOR_PATTERN
 	}
@@ -56,7 +56,10 @@ const colorSet = (name) => {
 			main: colorProp(name, 'main'),
 			semilight: colorProp(name, 'semilight'),
 			light: colorProp(name, 'light'),
-			dark: colorProp(name, 'dark')
+			dark: {
+				...colorProp(name, 'dark'),
+				readOnly: true
+			}
 		}
 	}
 }

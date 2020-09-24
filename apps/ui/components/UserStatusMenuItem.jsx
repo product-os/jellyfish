@@ -22,6 +22,7 @@ import {
 const UserStatusButton = styled(Button) `
 	display: flex;
 	width: 100%;
+	color: ${(props) => { return props.theme.colors.primary.main }};
 `
 
 export default function UserStatusMenuItem ({

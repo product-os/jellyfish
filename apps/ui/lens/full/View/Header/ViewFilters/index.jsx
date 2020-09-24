@@ -84,6 +84,7 @@ const ViewFilters = ({
 			<Box flex="1">
 				<Flex mt={0} flex="1 0 auto" justifyContent="space-between">
 					<Filters
+						background={'red'}
 						schema={schemaForFilters}
 						filters={filters}
 						onFiltersUpdate={updateFilters}

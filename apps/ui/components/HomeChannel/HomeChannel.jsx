@@ -575,6 +575,7 @@ export default class HomeChannel extends React.Component {
 								pl={3}
 								pr={2}
 								onClick={this.showMenu}
+								color={this.props.theme.colors.primary.main}
 								style={{
 									display: 'flex',
 									maxWidth: '100%',
@@ -680,9 +681,15 @@ export default class HomeChannel extends React.Component {
 
 									<Divider my={2} height={1} />
 
-									<Button w="100%" pt={2} className="user-menu__logout" plain={true} style={{
-										textAlign: 'left', display: 'block'
-									}} onClick={this.logout}>
+									<Button
+										color={this.props.theme.colors.primary.main}
+										w="100%"
+										pt={2}
+										className="user-menu__logout"
+										plain={true}
+										style={{
+											textAlign: 'left', display: 'block'
+										}} onClick={this.logout}>
 										Log out
 									</Button>
 								</MenuPanel>
