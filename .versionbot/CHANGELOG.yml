@@ -1,4 +1,21 @@
 - commits:
+    - subject: >-
+        Updates the oneToOneProperties schema to look for markers where the user
+        slug is alongside another user slug
+      hash: 5b7b868681e86e9545af8425e5d14faaab069547
+      body: |
+        This fixes the bug where users are being pinged when messages are added
+        to threads that they have created
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.3.16
+  date: 2020-09-24T13:16:16.773Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: ba69df349c444ff831b33a14b8d0315524fe88c6
       body: ''
