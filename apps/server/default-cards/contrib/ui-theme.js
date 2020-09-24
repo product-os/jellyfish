@@ -6,6 +6,27 @@
 
 const COLOR_PATTERN = '^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|transparent$'
 
+const colorUiSchema = (label) => {
+	return {
+		'ui:title': label,
+		'ui:widget': 'HighlightedName',
+		'ui:options': {
+			// eslint-disable-next-line no-template-curly-in-string
+			bg: '${source}'
+		}
+	}
+}
+
+const colorSetUiSchema = {
+	'ui:options': {
+		flexDirection: 'row'
+	},
+	main: colorUiSchema('main'),
+	light: colorUiSchema('light'),
+	dark: colorUiSchema('dark'),
+	semilight: colorUiSchema('semilight')
+}
+
 const colorPickerUiSchema = {
 	'ui:widget': 'ColorPickerWidget'
 }
@@ -162,22 +183,37 @@ module.exports = {
 						'info',
 						'text',
 						'gray'
-					]
-				},
-				description: {
-					'ui:title': null
-				},
-				screenshots: {
-					items: {
-						'ui:order': [ 'name', 'url' ],
-						name: {
-							'ui:title': null
-						},
-						url: {
-							'ui:widget': 'Img',
-							'ui:options': {
-								width: 400,
-								alt: 'Screenshot'
+					],
+					description: {
+						'ui:title': null,
+						'ui:options': {
+							italic: true,
+							mb: 2
+						}
+					},
+					background: colorSetUiSchema,
+					primary: colorSetUiSchema,
+					secondary: colorSetUiSchema,
+					tertiary: colorSetUiSchema,
+					quartenary: colorSetUiSchema,
+					danger: colorSetUiSchema,
+					warning: colorSetUiSchema,
+					success: colorSetUiSchema,
+					info: colorSetUiSchema,
+					text: colorSetUiSchema,
+					gray: colorSetUiSchema,
+					screenshots: {
+						items: {
+							'ui:order': [ 'name', 'url' ],
+							name: {
+								'ui:title': null
+							},
+							url: {
+								'ui:widget': 'Img',
+								'ui:options': {
+									width: 400,
+									alt: 'Screenshot'
+								}
 							}
 						}
 					}
