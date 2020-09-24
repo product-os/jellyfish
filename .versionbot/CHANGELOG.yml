@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-react to ^7.21.1'
+      hash: 11e2417f86924847a83f4e18ee19c89d631df609
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.3.12
+  date: 2020-09-23T23:29:42.297Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.759.0'
       hash: 29c6830e50356b66d6028b2c02edf2f0b1509d92
       body: ''
