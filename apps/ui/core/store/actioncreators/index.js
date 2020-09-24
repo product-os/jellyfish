@@ -40,6 +40,7 @@ import {
 	updateThreadChannels
 } from '../helpers'
 import {
+	getSelectedUiTheme,
 	getUnreadQuery
 } from '../../queries'
 
@@ -253,6 +254,7 @@ export default class ActionCreator {
 			'logout',
 			'paginateStream',
 			'queryAPI',
+			'refreshSelectedUiTheme',
 			'removeChannel',
 			'removeFlow',
 			'removeView',
@@ -935,6 +937,8 @@ export default class ActionCreator {
 
 					this.loadViewData(unreadQuery)(dispatch, getState)
 
+					this.refreshSelectedUiTheme()(dispatch, getState)
+
 					return user
 				})
 		}
@@ -944,6 +948,21 @@ export default class ActionCreator {
 		return {
 			type: actions.SET_AUTHTOKEN,
 			value: token
+		}
+	}
+
+	refreshSelectedUiTheme () {
+		return async (dispatch, getState) => {
+			const user = selectors.getCurrentUser(getState())
+
+			// Get the selected UI theme
+			const query = getSelectedUiTheme(user)
+			const [ selectedUiTheme ] = await this.sdk.query(query, {
+				limit: 1
+			})
+			if (selectedUiTheme) {
+				this.setUiTheme(selectedUiTheme)
+			}
 		}
 	}
 
@@ -1063,11 +1082,22 @@ export default class ActionCreator {
 	}
 
 	setUiTheme (theme) {
-		return (dispatch) => {
+		return async (dispatch, getState) => {
+			const user = selectors.getCurrentUser(getState())
+			const currentTheme = selectors.getUiTheme(getState())
+			if (currentTheme.id !== theme.id) {
+				if (currentTheme.id) {
+					await this.sdk.card.unlink(user, currentTheme, 'is using')
+				}
+				if (theme.id) {
+					await this.sdk.card.link(user, theme, 'is using')
+				}
+			}
 			dispatch({
 				type: actions.SET_UI_THEME,
 				value: theme
 			})
+
 			addNotification('success', `UI theme set to '${theme.name}'`)
 		}
 	}
