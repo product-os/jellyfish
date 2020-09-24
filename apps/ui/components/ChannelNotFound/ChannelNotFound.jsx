@@ -25,7 +25,8 @@ const ErrorTitle = styled(Heading.h1) `
 	-webkit-text-fill-color: transparent;
 	line-height: 1;
 	background-size: 14px;
-	background-color: #c5edff;
+	background-color: ${(props) => { return props.theme.colors.background.main }};
+	color: ${(props) => { return props.theme.colors.text.main }};
 `
 
 const CloseWrapper = styled(Box) `

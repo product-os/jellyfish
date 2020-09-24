@@ -17,7 +17,7 @@ import {
 const SplashWrapper = styled(Box) `
 	width: 100%;
 	height: 100%;
-	background: lighten(#f0f4c3, 10%);
+	background: ${(props) => { return props.theme.colors.background.main }};
 	position: relative;
 	overflow: hidden;
 	transform: translate3d(0, 0, 0);
@@ -27,7 +27,7 @@ const SplashWrapper = styled(Box) `
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		background: #0af;
+		background:  ${(props) => { return props.theme.colors.primary.dark }};
 		transform-origin: 50% 48%;
 		border-radius: 43%;
 		animation: drift 3000ms infinite linear;
@@ -40,7 +40,7 @@ const SplashWrapper = styled(Box) `
 	.splash__wave.-two {
 		animation: drift 7000ms infinite linear;
 		opacity: .1;
-		background: yellow;
+		background: ${(props) => { return props.theme.colors.secondary.dark }};
 	}
 
 	.splash__icon {
@@ -53,14 +53,20 @@ const SplashWrapper = styled(Box) `
 		animation: wiggle 2500ms infinite linear;
 	}
 
-	&:after {
+	&:before {
 		content: '';
 		display: block;
 		left: 0;
 		top: 0;
 		width: 100%;
 		height: 100%;
-		background: linear-gradient(to bottom, rgba(#e8a, 1), rgba(#def, 0) 80%, rgba(white, .5));
+		background: ${(props) => {
+		const color1 = `${props.theme.colors.secondary.dark}30`
+		const color2 = `${props.theme.colors.tertiary.dark}30`
+		const color3 = `${props.theme.colors.quartenary.dark}30`
+
+		return `linear-gradient(180deg, ${color1} 0%, ${color2} 50%, ${color3} 100%);`
+	}};
 		z-index: 11;
 		transform: translate3d(0, 0, 0);
 	}

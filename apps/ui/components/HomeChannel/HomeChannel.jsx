@@ -45,6 +45,7 @@ import {
 const DELAY = 0.6
 
 const HomeChannelWrapper = styled(Flex) `
+	color: ${(props) => { return props.theme.colors.text.main }};
 	&.collapsed {
 		position: absolute;
 		top: 0;
@@ -96,7 +97,11 @@ const HomeChannelDrawer = styled(Flex) `
 		width: 100%;
 		max-width: 85%;
 		transform: translate3d(-100%, 0, 0);
-		box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+		box-shadow: 0 5px 10px ${(props) => {
+		return props.theme.colors.background.main
+	}}20, 0 6px 6px ${(props) => {
+	return props.theme.colors.background.main
+}}30;
 	}
 	.collapsed.drawer-open {
 		width: 90%;
@@ -108,29 +113,44 @@ const HomeChannelDrawer = styled(Flex) `
 	}
 	flex-direction: row-reverse;
 	align-items: center;
-	background: #fff;
+	background: ${(props) => { return props.theme.colors.background.main }};
 `
 
 const HomeChannelContent = styled(Flex) `
 	flex: 1;
 	align-self: stretch;
-	background: #fff;
+	background: ${(props) => { return props.theme.colors.background.main }};
+`
+
+const HomeChannelUserMenuWrapper = styled(Flex) `
+	position: relative;
+	justify-content: space-between;
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+`
+
+const HomeChannelQuickActions = styled(Box) `
+	border-top: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
 `
 
 const GrabHandle = styled(isiOS() ? Box : Swipeable) `
 	margin-right: -15px;
 	padding: 25px 5px;
 	border-radius: 0 4px 4px 0;
-	border-top: 1px solid #ddd;
-	border-right: 1px solid #ddd;
-	border-bottom: 1px solid #ddd;
-	background: #fff;
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+	border-top: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-right: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	background: ${(props) => { return props.theme.colors.background.main }};
+	box-shadow: 0 5px 10px ${(props) => {
+		return props.theme.colors.background.main
+	}}20, 0 6px 6px ${(props) => {
+	return props.theme.colors.background.main
+}}30;
 `
 
 const GrabHandleGrip = styled.div `
-	border-left: 1px solid grey;
-	border-right: 1px solid grey;
+	border-left: ${(props) => { return props.theme.colors.background.dark }};
+	border-right: ${(props) => { return props.theme.colors.background.dark }};
 	width: 5px;
 	height: 30px;
 `
@@ -547,9 +567,7 @@ export default class HomeChannel extends React.Component {
 						flexDirection="column"
 						data-test='home-channel__content'
 					>
-						<Flex position='relative' justifyContent="space-between" style={{
-							borderBottom: '1px solid #eee'
-						}}>
+						<HomeChannelUserMenuWrapper>
 							<Button
 								plain={true}
 								className="user-menu-toggle"
@@ -588,7 +606,7 @@ export default class HomeChannel extends React.Component {
 									</MentionsCount>
 								)}
 							</Button>
-						</Flex>
+						</HomeChannelUserMenuWrapper>
 
 						{this.state.showMenu && (
 							<Fixed top={true} right={true} bottom={true} left={true} z={10} onClick={this.hideMenu}>
@@ -696,17 +714,14 @@ export default class HomeChannel extends React.Component {
 							)}
 						</Box>
 
-						<Box
-							style={{
-								borderTop: '1px solid #eee',
-								borderBottom: '1px solid #eee'
-							}}
+						<HomeChannelQuickActions
 							px={3}
 							py={2}
 						>
 							<Button
 								plain
 								icon={<Icon name="plus" />}
+								color={this.props.theme.colors.text.main}
 								data-test="create-private-conversation"
 								onClick={this.openCreateViewChannel}
 								tooltip={{
@@ -719,6 +734,7 @@ export default class HomeChannel extends React.Component {
 								ml={2}
 								plain
 								icon={<Icon name="comment-alt" />}
+								color={this.props.theme.colors.text.main}
 								data-test="open-chat-widget"
 								onClick={this.openChatWidget}
 								tooltip={{
@@ -726,7 +742,7 @@ export default class HomeChannel extends React.Component {
 									text: 'Open a chat widget'
 								}}
 							/>
-						</Box>
+						</HomeChannelQuickActions>
 
 						<Link
 							p={2}

@@ -19,8 +19,11 @@ import MentionsCount from '@balena/jellyfish-ui-components/lib/MentionsCount'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	withTheme
+} from 'styled-components'
 
-export default class ViewLink extends React.Component {
+class ViewLink extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -97,14 +100,15 @@ export default class ViewLink extends React.Component {
 			isActive,
 			isStarred,
 			userSlug,
-			update
+			update,
+			theme
 		} = this.props
 
 		const isCustomView = helpers.isCustomView(card, userSlug)
 
 		return (
 			<Box>
-				<Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
+				<Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? theme.colors.background.dark : 'none'}>
 					<Link
 						data-test={`home-channel__item--${card.slug}`}
 						style={{
@@ -115,13 +119,13 @@ export default class ViewLink extends React.Component {
 						py={2}
 						pl={3}
 						pr={isActive ? 0 : 3}
-						color="#333"
+						color={theme.colors.text.main}
 						to={`/${card.slug || card.id}`}
 					>
 						<Flex justifyContent="space-between" alignItems="center">
 							{label || card.name}
 							{isHomeView && (
-								<Box fontSize="80%" color="gray.dark" mx={2} tooltip="Default view">
+								<Box fontSize="80%" color={theme.colors.text.light} mx={2} tooltip="Default view">
 									<Icon name="home" />
 								</Box>
 							)}
@@ -137,6 +141,7 @@ export default class ViewLink extends React.Component {
 								pr={3}
 								pl={1}
 								plain
+								color={theme.colors.primary.main}
 								onClick={this.toggleMenu}
 								icon={<Icon name="ellipsis-v"/>}
 							/>
@@ -204,3 +209,5 @@ export default class ViewLink extends React.Component {
 		)
 	}
 }
+
+export default (withTheme)(ViewLink)

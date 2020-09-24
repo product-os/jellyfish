@@ -30,7 +30,8 @@ const mapStateToProps = (state) => {
 		types: selectors.getTypes(state),
 		channels: selectors.getChannels(state),
 		status: selectors.getStatus(state),
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		theme: selectors.getUiTheme(state)
 	}
 }
 

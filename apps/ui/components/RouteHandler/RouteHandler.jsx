@@ -158,7 +158,8 @@ export default class RouteHandler extends React.Component {
 			types,
 			actions,
 			channels,
-			user
+			user,
+			theme
 		} = this.props
 		const {
 			spaces

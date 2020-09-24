@@ -20,11 +20,15 @@ import {
 const Container = styled(Box) `
     display: flex;
     flex-direction: column;
-    background-color: white;
-    color: #000;
+    background-color: ${(props) => { return props.theme.colors.background.dark }};
+    color: ${(props) => { return props.theme.colors.text.main }};
     min-height: 250px;
     max-height: 670px;
-    box-shadow: 0 5px 40px rgba(0, 0, 0, 0.16);
+		box-shadow: 0 5px 10px ${(props) => {
+		return props.theme.colors.background.main
+	}}20, 0 6px 6px ${(props) => {
+	return props.theme.colors.background.main
+}}30;
     overflow: hidden;
     border-radius: 8px;
     height: calc(100% - 20px);

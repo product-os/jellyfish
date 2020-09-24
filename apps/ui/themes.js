@@ -16,7 +16,9 @@ export const lightTheme = {
 			light: Theme.colors.secondary.light,
 			dark: Theme.colors.secondary.dark
 		},
-		background: '#fff',
+		background: {
+			main: '#fff'
+		},
 		border: '#eee'
 	}
 }
@@ -29,7 +31,9 @@ export const darkTheme = {
 			light: Theme.colors.secondary.light,
 			dark: Theme.colors.secondary.dark
 		},
-		background: '#000',
+		background: {
+			main: '#364b5b'
+		},
 		border: '#eee'
 	}
 }

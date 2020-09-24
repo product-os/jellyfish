@@ -7,6 +7,9 @@
 import _ from 'lodash'
 import React from 'react'
 import {
+	compose
+} from 'redux'
+import {
 	DropTarget
 } from 'react-dnd'
 import {
@@ -17,6 +20,9 @@ import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBounda
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import LinkModal from './LinkModal'
 import ChannelNotFound from './ChannelNotFound'
+import {
+	withTheme
+} from 'styled-components'
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component {
@@ -62,7 +68,8 @@ class ChannelRenderer extends React.Component {
 			connectDropTarget,
 			isOver,
 			types,
-			user
+			user,
+			theme
 		} = this.props
 
 		const {
@@ -81,8 +88,8 @@ class ChannelRenderer extends React.Component {
 			left: _.get(this.props.space, [ 'left' ], 'auto'),
 			height: '100%',
 			transition: 'all ease-in-out 150ms',
-			background: isOver ? '#ccc' : 'white',
-			borderLeft: '1px solid #eee',
+			background: isOver ? theme.colors.background.light : theme.colors.background.main,
+			borderLeft: `1px solid ${theme.colors.background.dark}`,
 			minWidth: 0,
 			maxWidth: '100%',
 			overflow: 'hidden'
@@ -110,9 +117,7 @@ class ChannelRenderer extends React.Component {
 			}
 
 			return (
-				<Box
-					style={style}
-				>
+				<Box style={style}>
 					<Box p={3}>
 						<Icon spin name="cog"/>
 					</Box>
@@ -167,4 +172,7 @@ const collect = (connector, monitor) => {
 	}
 }
 
-export default DropTarget('channel', target, collect)(ChannelRenderer)
+export default compose(
+	DropTarget('channel', target, collect),
+	withTheme
+)(ChannelRenderer)
