@@ -45,7 +45,8 @@ const oneToOneProperties = (userSlug) => ({
 		markers: {
 			type: 'array',
 			contains: {
-				pattern: userSlug
+				// Find markers that contain the userSlug + another user's slug
+				pattern: `(user-.*\\+${userSlug}|${userSlug}\\+user-.*)`
 			}
 		}
 	}
