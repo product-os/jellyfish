@@ -6,10 +6,22 @@
 
 const COLOR_PATTERN = '^(#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3}))|transparent$'
 
-const colorProp = (title) => {
+const colorPickerUiSchema = {
+	'ui:widget': 'ColorPickerWidget'
+}
+
+const colorSetPickerUiSchema = {
+	main: colorPickerUiSchema,
+	light: colorPickerUiSchema,
+	dark: colorPickerUiSchema,
+	semilight: colorPickerUiSchema
+}
+
+const colorProp = (parent, variant) => {
 	return {
 		type: 'string',
-		title,
+		default: '#fff',
+		title: `${parent}.${variant}`,
 		pattern: COLOR_PATTERN
 	}
 }
@@ -19,10 +31,10 @@ const colorSet = (name) => {
 		type: 'object',
 		required: [ 'main', 'light', 'dark' ],
 		properties: {
-			main: colorProp(`${name} - main`),
-			semilight: colorProp(`${name} - semilight`),
-			light: colorProp(`${name} - light`),
-			dark: colorProp(`${name} - dark`)
+			main: colorProp(name, 'main'),
+			semilight: colorProp(name, 'semilight'),
+			light: colorProp(name, 'light'),
+			dark: colorProp(name, 'dark')
 		}
 	}
 }
@@ -117,7 +129,18 @@ module.exports = {
 						'text',
 						'gray',
 						'screenshots'
-					]
+					],
+					background: colorSetPickerUiSchema,
+					primary: colorSetPickerUiSchema,
+					secondary: colorSetPickerUiSchema,
+					tertiary: colorSetPickerUiSchema,
+					quartenary: colorSetPickerUiSchema,
+					danger: colorSetPickerUiSchema,
+					warning: colorSetPickerUiSchema,
+					success: colorSetPickerUiSchema,
+					info: colorSetPickerUiSchema,
+					text: colorSetPickerUiSchema,
+					gray: colorSetPickerUiSchema
 				}
 			},
 			create: {
