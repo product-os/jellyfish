@@ -117,7 +117,7 @@
     "@balena/jellyfish-sync": "^2.0.6",
     "@balena/jellyfish-ui-components": "^2.0.5",
     "@balena/jellyfish-uuid": "^1.0.16",
-    "@balena/jellyfish-worker": "^1.0.105",
+    "@balena/jellyfish-worker": "1.0.106-renovate-balena-jellyfish-jellyscript-1-x-c27f4320d0e9fe25c3f73a288f81279e0de2ead3",
     "@emotion/cache": "^10.0.29",
     "@emotion/core": "^10.0.35",
     "@octokit/plugin-retry": "^3.0.3",
