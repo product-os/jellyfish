@@ -29,6 +29,7 @@ import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
 import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import UiThemeSelector from '../../../components/UiThemeSelector'
 
 const SLUG = 'lens-my-user'
 
@@ -287,6 +288,15 @@ export default class MyUser extends React.Component {
 							{this.state.updatingSendCommand && (
 								<Icon spin name="cog" />
 							)}
+						</Box>
+						<Box mt={3}>
+							<label>
+								UI Theme:
+							</label>
+
+							<br />
+
+							<UiThemeSelector user={user} types={this.props.types} />
 						</Box>
 					</Tab>
 

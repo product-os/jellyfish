@@ -101,6 +101,8 @@ export default class AutoCompleteCardSelect extends React.Component {
 			})
 		}
 
+		const includeType = _.isArray(this.props.cardType) && this.props.cardType.length > 1
+
 		// Return the results in a format understood by the AsyncSelect component
 		return results.map((card) => {
 			const typeCardIndex = _.findIndex(types, {
@@ -110,7 +112,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 			return {
 				label: card.name || card.slug || card.id,
 				value: card.id,
-				type: types[typeCardIndex].name,
+				type: includeType ? types[typeCardIndex].name : null,
 				shade: typeCardIndex
 			}
 		})
