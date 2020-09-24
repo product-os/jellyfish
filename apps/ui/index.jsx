@@ -14,7 +14,6 @@ import {
 	Provider
 } from 'react-redux'
 import {
-	Provider as RProvider,
 	Theme,
 	NotificationsContainer
 } from 'rendition'
@@ -51,6 +50,7 @@ import {
 	SetupProvider
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import * as environment from './environment'
+import ThemeProvider from './components/ThemeProvider'
 import PWA from './pwa'
 
 export const pwa = new PWA()
@@ -89,31 +89,13 @@ const GlobalStyle = createGlobalStyle `
 	}
 `
 
-const customTheme = {
-	colors: {
-		text: {
-			main: Theme.colors.secondary.main,
-			light: Theme.colors.secondary.light,
-			dark: Theme.colors.secondary.dark
-		},
-		background: '#fff',
-		border: '#eee'
-	}
-}
-
 ReactDOM.render(
 	(
-		<RProvider
-			theme={customTheme}
-			style={{
-				height: '100%',
-				fontSize: 14
-			}}
-		>
-			<ResponsiveProvider>
-				<DocumentVisibilityProvider>
-					<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
-						<Provider store={store}>
+		<Provider store={store}>
+			<ThemeProvider>
+				<ResponsiveProvider>
+					<DocumentVisibilityProvider>
+						<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
 							<PersistGate loading={null} persistor={persistor}>
 								<ConnectedRouter history={history}>
 									<GlobalStyle />
@@ -125,11 +107,11 @@ ReactDOM.render(
 									</ErrorBoundary>
 								</ConnectedRouter>
 							</PersistGate>
-						</Provider>
-					</SetupProvider>
-				</DocumentVisibilityProvider>
-			</ResponsiveProvider>
-		</RProvider>
+						</SetupProvider>
+					</DocumentVisibilityProvider>
+				</ResponsiveProvider>
+			</ThemeProvider>
+		</Provider>
 	),
 	document.getElementById('app')
 )

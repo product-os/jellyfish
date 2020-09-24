@@ -27,6 +27,7 @@ import styled from 'styled-components'
 import MentionsCount from '@balena/jellyfish-ui-components/lib/MentionsCount'
 import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
+import UiThemeMenuItem from '../UiThemeMenuItem'
 import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
 import ViewLink from '../ViewLink'
 import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
@@ -595,6 +596,12 @@ export default class HomeChannel extends React.Component {
 									{user && (
 										<Box mb={2}>
 											<UserStatusMenuItem user={user} actions={actions} types={types} />
+										</Box>
+									)}
+
+									{user && (
+										<Box mb={2}>
+											<UiThemeMenuItem user={user} actions={actions} types={types} />
 										</Box>
 									)}
 
