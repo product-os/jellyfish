@@ -77,6 +77,11 @@ module.exports = {
 			semilight: '#fff'
 		},
 		description: 'The default Jellyfish theme',
-		screenshots: []
+		screenshots: [
+			{
+				name: 'User Settings',
+				url: 'https://i.imgur.com/J66R5N7.jpg'
+			}
+		]
 	}
 }

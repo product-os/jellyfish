@@ -77,6 +77,11 @@ module.exports = {
 			semilight: '#388e3c'
 		},
 		description: 'The default dark Jellyfish theme',
-		screenshots: []
+		screenshots: [
+			{
+				name: 'User Settings',
+				url: 'https://i.imgur.com/S3Um3KU.jpg'
+			}
+		]
 	}
 }
