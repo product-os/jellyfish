@@ -147,6 +147,7 @@ const getViewId = (query) => {
 
 export const selectors = {
 	getFlow: (flowId, cardId) => (state) => { return _.get(state.ui, [ 'flows', flowId, cardId ]) || null },
+	getUiTheme: (state) => { return _.get(state.ui, [ 'theme' ]) || null },
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
@@ -270,6 +271,7 @@ export default class ActionCreator {
 			'setStatus',
 			'setTimelineMessage',
 			'setTypes',
+			'setUiTheme',
 			'setupStream',
 			'setGroups',
 			'setSidebarExpanded',
@@ -1057,6 +1059,16 @@ export default class ActionCreator {
 		return {
 			type: actions.SET_ORGS,
 			value: orgs
+		}
+	}
+
+	setUiTheme (theme) {
+		return (dispatch) => {
+			dispatch({
+				type: actions.SET_UI_THEME,
+				value: theme
+			})
+			addNotification('success', `UI theme set to '${theme.name}'`)
 		}
 	}
 

@@ -20,6 +20,9 @@ import {
 } from 'uuid'
 import actions from './actions'
 import history from '../../services/history'
+import {
+	lightTheme
+} from '../../themes'
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -60,6 +63,7 @@ export const defaultState = {
 		config: {}
 	},
 	ui: {
+		theme: lightTheme,
 		flows: {},
 		sidebar: {
 			expanded: []
@@ -160,6 +164,13 @@ const uiReducer = (state = defaultState.ui, action = {}) => {
 	switch (action.type) {
 		case actions.SET_UI_STATE: {
 			return action.value
+		}
+		case actions.SET_UI_THEME: {
+			return update(state, {
+				theme: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_LENS_STATE: {
 			return update(state, {
