@@ -18,6 +18,43 @@ import {
 	Mermaid
 } from 'rendition/dist/extra/Mermaid'
 import './monaco-theme'
+import {
+	withTheme
+} from 'styled-components'
+
+const defineThemeHelper = (theme) => {
+	return {
+		base: 'vs',
+		inherit: false,
+		rules: [
+			{
+				token: 'arrow',
+				foreground: theme.colors.primary.main,
+				fontStyle: 'bold'
+			},
+			{
+				token: 'type', foreground: theme.colors.secondary.main, fontStyle: 'bold'
+			},
+			{
+				token: 'statement', foreground: theme.colors.tertiary.main
+			},
+			{
+				token: 'noun', foreground: theme.colors.quartenary.main
+			},
+			{
+				token: 'comment', foreground: theme.colors.info.main
+			}
+		],
+		colors: {
+			'editor.foreground': theme.colors.text.main,
+			'editor.background': theme.colors.background.light,
+			'editor.selectionBackground': `${theme.colors.primary.light}BF`,
+			'editor.lineHighlightBackground': `${theme.colors.secondary.light}59`,
+			'editorCursor.foreground': theme.colors.tertiary.light,
+			'editorWhitespace.foreground': `${theme.colors.background.main}26`
+		}
+	}
+}
 
 self.MonacoEnvironment = {
 	getWorkerUrl (moduleId, label) {
@@ -47,6 +84,9 @@ class MermaidEditor extends React.Component {
 			splitview: false,
 			previewValue: this.props.value
 		}
+
+		// Define a new theme that contains only rules that match this language
+		monaco.editor.defineTheme('mermaid-theme', defineThemeHelper(props.theme))
 
 		this.setSplitView = this.setSplitView.bind(this)
 		this.setFullScreen = this.setFullScreen.bind(this)
@@ -142,9 +182,13 @@ class MermaidEditor extends React.Component {
 			fullscreen
 		} = this.state
 
+		const {
+			theme
+		} = this.props
+
 		const fullScreenStyle = {
 			position: 'fixed',
-			background: 'white',
+			background: `${theme.colors.background.main}`,
 			top: 0,
 			bottom: 0,
 			left: 0,
@@ -155,7 +199,7 @@ class MermaidEditor extends React.Component {
 		const smallscreenstyle = {
 			minHeight: 600,
 			maxHeight: 500,
-			border: '1px solid #bbb',
+			border: `1px solid ${theme.colors.background.dark}`,
 			borderRadius: 4,
 			overflow: 'hidden'
 		}
@@ -164,7 +208,7 @@ class MermaidEditor extends React.Component {
 			<Provider>
 				<Flex flexDirection='column' style={fullscreen || splitview ? fullScreenStyle : smallscreenstyle}>
 					<Box style={{
-						borderBottom: '1px solid #bbb', padding: 9
+						borderBottom: `1px solid ${theme.colors.background.dark}`, padding: 9
 					}}>
 						<Button
 							p={1}
@@ -218,4 +262,4 @@ class MermaidEditor extends React.Component {
 	}
 }
 
-export default MermaidEditor
+export default (withTheme)(MermaidEditor)

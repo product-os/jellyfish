@@ -21,7 +21,8 @@ import {
 	InfiniteLoader
 } from 'react-virtualized'
 import {
-	bindActionCreators
+	bindActionCreators,
+	compose
 } from 'redux'
 import {
 	Flex,
@@ -39,6 +40,9 @@ import {
 	getLens
 } from '../'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import {
+	withTheme
+} from 'styled-components'
 
 class CardList extends BaseLens {
 	constructor (props) {
@@ -69,7 +73,8 @@ class CardList extends BaseLens {
 					data: {
 						head
 					}
-				}
+				},
+				theme
 			} = this.props
 			const card = tail[rowProps.index]
 
@@ -95,7 +100,7 @@ class CardList extends BaseLens {
 				>
 					<Box px={3} pb={3} style={rowProps.style}>
 						<lens.data.renderer card={card}/>
-						<Divider color="#eee" m={0} style={{
+						<Divider color={theme.colors.text.main} m={0} style={{
 							height: 1
 						}}/>
 					</Box>
@@ -150,7 +155,8 @@ class CardList extends BaseLens {
 			tail,
 			pageOptions,
 			totalPages,
-			type
+			type,
+			theme
 		} = this.props
 
 		// TODO: remove this logic when totalPage returns a usefull number
@@ -212,7 +218,7 @@ class CardList extends BaseLens {
 						<Flex
 							p={3}
 							style={{
-								borderTop: '1px solid #eee'
+								borderTop: `1px solid ${theme.colors.background.dark}`
 							}}
 							justifyContent="flex-end"
 						>
@@ -253,7 +259,10 @@ const lens = {
 	name: 'Default list lens',
 	data: {
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
+		renderer: compose(
+			withTheme,
+			connect(mapStateToProps, mapDispatchToProps)
+		)(CardList),
 		icon: 'address-card',
 		type: '*',
 		filter: {

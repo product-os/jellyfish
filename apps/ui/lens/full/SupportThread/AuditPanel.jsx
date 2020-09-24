@@ -120,7 +120,7 @@ export default function AuditPanel (props) {
 		<Box
 			mt={2}
 			style={{
-				border: '1px solid rgb(238, 238, 238)',
+				border: `1px solid ${props.theme.colors.background.dark}`,
 				borderLeft: 0,
 				borderRight: 0
 			}}

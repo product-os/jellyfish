@@ -20,6 +20,9 @@ import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
 import Link from '@balena/jellyfish-ui-components/lib/Link'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import {
+	withTheme
+} from 'styled-components'
 
 const PAGE_SIZE = 25
 
@@ -45,7 +48,7 @@ const OMISSIONS = [ {
 	value: 'mermaid'
 } ]
 
-export default class CardTable extends BaseLens {
+class CardTable extends BaseLens {
 	constructor (props) {
 		super(props)
 		this.generateTableData = this.generateTableData.bind(this)
@@ -107,7 +110,8 @@ export default class CardTable extends BaseLens {
 	render () {
 		const {
 			generateData,
-			columns
+			columns,
+			theme
 		} = this.props
 		const tableColumns = columns || this.generateTableColumns()
 		const data = generateData ? generateData() : this.generateTableData()
@@ -138,7 +142,7 @@ export default class CardTable extends BaseLens {
 						<Flex
 							p={3}
 							style={{
-								borderTop: '1px solid #eee'
+								borderTop: `1px solid ${theme.colors.background.dark}`
 							}}
 							justifyContent="flex-end"
 						>
@@ -160,3 +164,5 @@ export default class CardTable extends BaseLens {
 CardTable.defaultProps = {
 	rowKey: 'id'
 }
+
+export default (withTheme)(CardTable)

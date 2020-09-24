@@ -15,7 +15,9 @@ import {
 	connect
 } from 'react-redux'
 import * as redux from 'redux'
-import styled from 'styled-components'
+import styled, {
+	withTheme
+} from 'styled-components'
 import {
 	Box,
 	Tab,
@@ -240,6 +242,9 @@ export class SupportThreads extends React.Component {
 
 	render () {
 		const threadTargets = _.map(this.props.channels, 'data.target')
+		const {
+			theme
+		} = this.props
 
 		const {
 			segments
@@ -260,7 +265,7 @@ export class SupportThreads extends React.Component {
 						return (
 							<Tab key={segment.name} title={`${segment.name} (${segment.cards.length})`}>
 								<InfiniteList
-									bg="#f8f9fd"
+									bg={theme.colors.background.light}
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
 									style={{
@@ -340,7 +345,10 @@ const lens = {
 	data: {
 		icon: 'address-card',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
+		renderer: redux.compose(
+			withTheme,
+			connect(mapStateToProps, mapDispatchToProps)
+		)(SupportThreads),
 		filter: {
 			type: 'array',
 			items: {

@@ -30,10 +30,13 @@ import CardLayout from '../../../layouts/CardLayout'
 import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import UiThemeSelector from '../../../components/UiThemeSelector'
+import {
+	withTheme
+} from 'styled-components'
 
 const SLUG = 'lens-my-user'
 
-export default class MyUser extends React.Component {
+class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -137,9 +140,15 @@ export default class MyUser extends React.Component {
 	}
 
 	render () {
-		const user = this.props.card
+		const {
+			theme,
+			card,
+			types,
+			channel
+		} = this.props
+		const user = card
 		const sendCommand = _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
-		const userType = _.find(this.props.types, {
+		const userType = _.find(types, {
 			slug: 'user'
 		})
 		const sendOptions = userType.data.schema.properties.data.properties.profile.properties.sendCommand.enum
@@ -201,7 +210,7 @@ export default class MyUser extends React.Component {
 				data-test={`lens--${SLUG}`}
 				card={user}
 				overflowY
-				channel={this.props.channel}
+				channel={channel}
 				noActions
 				title={(
 					<Heading.h4>
@@ -296,13 +305,13 @@ export default class MyUser extends React.Component {
 
 							<br />
 
-							<UiThemeSelector user={user} types={this.props.types} />
+							<UiThemeSelector user={user} types={types} />
 						</Box>
 					</Tab>
 
 					<Tab title="Oauth">
 						<Box mt={3}>
-							<Divider color="#eee" />
+							<Divider color={theme.colors.text.main} />
 
 							<Flex justifyContent="space-between" alignItems="center">
 								<Link href="https://www.outreach.io/" blank>
@@ -324,7 +333,7 @@ export default class MyUser extends React.Component {
 								)}
 							</Flex>
 
-							<Divider color="#eee" />
+							<Divider color={theme.colors.text.main} />
 						</Box>
 					</Tab>
 				</Tabs>
@@ -332,3 +341,5 @@ export default class MyUser extends React.Component {
 		)
 	}
 }
+
+export default (withTheme)(MyUser)

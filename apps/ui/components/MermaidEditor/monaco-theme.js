@@ -56,29 +56,6 @@ monaco.languages.setMonarchTokensProvider('mermaid', {
 	}
 })
 
-// Define a new theme that contains only rules that match this language
-monaco.editor.defineTheme('mermaid-theme', {
-	base: 'vs',
-	inherit: false,
-	rules: [
-		{
-			token: 'arrow', foreground: 'ffa500', fontStyle: 'bold'
-		},
-		{
-			token: 'type', foreground: 'dc322f', fontStyle: 'bold'
-		},
-		{
-			token: 'statement', foreground: '008800'
-		},
-		{
-			token: 'noun', foreground: '800080'
-		},
-		{
-			token: 'comment', foreground: '999999'
-		}
-	]
-})
-
 // Register a completion item provider for the new language
 monaco.languages.registerCompletionItemProvider('mermaid', {
 	provideCompletionItems: (model, position) => {

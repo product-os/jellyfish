@@ -30,15 +30,15 @@ import {
 } from '../../../core'
 
 const UserRow = styled(Box) `
-	border-bottom: 1px solid #eee;
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
 	cursor: pointer;
 
 	&:hover {
-		background: #eee;
+		background: ${(props) => { return props.theme.colors.background.main }};
 	}
 `
 
-export default class CreateView extends React.Component {
+class CreateView extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -348,3 +348,5 @@ export default class CreateView extends React.Component {
 		)
 	}
 }
+
+export default CreateView

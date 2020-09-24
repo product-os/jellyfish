@@ -43,6 +43,9 @@ import {
 	addNotification
 } from '@balena/jellyfish-ui-components/lib/services/notifications'
 import BaseLens from '../common/BaseLens'
+import {
+	withTheme
+} from 'styled-components'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -220,6 +223,11 @@ export class Interleaved extends BaseLens {
 			head
 		} = this.props.channel.data
 		const {
+			theme
+		} = this.props
+
+		console.log(this.props)
+		const {
 			messagesOnly
 		} = this.state
 
@@ -296,7 +304,7 @@ export class Interleaved extends BaseLens {
 					<Flex
 						p={3}
 						style={{
-							borderTop: '1px solid #eee'
+							borderTop: `1px solid ${theme.colors.background.dark}`
 						}}
 						justifyContent="flex-end"
 					>
@@ -344,6 +352,7 @@ const lens = {
 		format: 'list',
 		renderer: compose(
 			withRouter,
+			withTheme,
 			connect(mapStateToProps, mapDispatchToProps),
 			withDefaultGetActorHref()
 		)(Interleaved),

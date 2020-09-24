@@ -155,6 +155,7 @@ class ViewLink extends React.Component {
 									}}
 									plain
 									data-test="view-link--set-default-btn"
+									color={theme.colors.primary.main}
 									tooltip={{
 										text: `${isHomeView ? 'Unset' : 'Set'} this view as the default page when logging in`,
 										containerStyle: {
@@ -171,6 +172,7 @@ class ViewLink extends React.Component {
 									}}
 									mt={2}
 									plain
+									color={theme.colors.primary.main}
 									data-test="view-link--star-view-btn"
 									onClick={this.toggleViewStarred}
 								>
@@ -183,6 +185,7 @@ class ViewLink extends React.Component {
 										}}
 										mt={2}
 										plain
+										color={theme.colors.primary.main}
 										data-test="view-link--delete-view-btn"
 										tooltip="Delete this view"
 										onClick={this.showDeleteModal}

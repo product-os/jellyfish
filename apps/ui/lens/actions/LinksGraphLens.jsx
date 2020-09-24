@@ -21,6 +21,9 @@ import {
 	sdk
 } from '../../core'
 import ReactResizeObserver from 'react-resize-observer'
+import {
+	withTheme
+} from 'styled-components'
 
 class CreateLens extends React.Component {
 	constructor (props) {
@@ -83,6 +86,10 @@ class CreateLens extends React.Component {
 		const canvas = this.$canvas
 		const context = canvas.getContext('2d')
 
+		const {
+			theme
+		} = this.props
+
 		this.simulation = d3.forceSimulation()
 			.force('link', d3.forceLink().id((node) => {
 				return node.id
@@ -98,14 +105,14 @@ class CreateLens extends React.Component {
 
 			context.beginPath()
 			graph.links.forEach(drawLink)
-			context.strokeStyle = '#aaa'
+			context.strokeStyle = theme.colors.background.dark
 			context.stroke()
 
 			graph.nodes.forEach(drawNode)
 
 			if (active) {
-				context.fillStyle = 'black'
-				context.font = '14px monospace'
+				context.fillStyle = theme.colors.text.main
+				context.font = `${theme.fontSizes[3]}px ${theme.monospace}`
 				context.fillText(active.name || active.type, active.x + 5, active.y + 2)
 			}
 		}
@@ -146,7 +153,7 @@ class CreateLens extends React.Component {
 
 		const drawNode = (node) => {
 			const radius = node.id === cardId ? 6 : 2
-			const color = node.id === cardId ? '#2297DE' : helpers.colorHash(node.type)
+			const color = node.id === cardId ? theme.colors.primary.main : helpers.colorHash(node.type)
 			context.beginPath()
 			context.moveTo(node.x + radius, node.y)
 			context.arc(node.x, node.y, radius, 0, 2 * Math.PI)
@@ -242,7 +249,10 @@ export default {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
-		renderer: connect(null, mapDispatchToProps)(CreateLens),
+		renderer: redux.compose(
+			connect(null, mapDispatchToProps),
+			withTheme
+		)(CreateLens),
 		icon: 'address-card',
 		type: '*',
 		filter: {
