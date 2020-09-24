@@ -114,7 +114,7 @@
     "@balena/jellyfish-logger": "^0.0.93",
     "@balena/jellyfish-metrics": "^0.0.102",
     "@balena/jellyfish-queue": "^0.0.124",
-    "@balena/jellyfish-sync": "^2.0.6",
+    "@balena/jellyfish-sync": "2.0.7-renovate-node-jose-2-x-31da0229742171a3d6199291f29ff80b31fff2df",
     "@balena/jellyfish-ui-components": "^2.0.5",
     "@balena/jellyfish-uuid": "^1.0.16",
     "@balena/jellyfish-worker": "^1.0.105",
