@@ -151,6 +151,9 @@ export const getSelectedUiTheme = (user) => {
 		properties: {
 			type: {
 				const: 'ui-theme@1.0.0'
+			},
+			active: {
+				const: true
 			}
 		}
 	}
