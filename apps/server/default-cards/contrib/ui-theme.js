@@ -213,7 +213,7 @@ module.exports = {
 								'ui:title': null,
 								'ui:widget': 'Img',
 								'ui:options': {
-									height: 200,
+									width: 200,
 									alt: 'Screenshot'
 								}
 							}
