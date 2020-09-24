@@ -209,6 +209,7 @@ module.exports = {
 								'ui:title': null
 							},
 							url: {
+								'ui:title': null,
 								'ui:widget': 'Img',
 								'ui:options': {
 									width: 400,

@@ -134,3 +134,27 @@ export const getUnreadQuery = (user, groupNames, searchTerm) => {
 		}
 	})
 }
+
+export const getSelectedUiTheme = (user) => {
+	return {
+		type: 'object',
+		$$links: {
+			'is used by': {
+				type: 'object',
+				properties: {
+					slug: {
+						const: user.slug
+					}
+				}
+			}
+		},
+		properties: {
+			type: {
+				const: 'ui-theme@1.0.0'
+			},
+			active: {
+				const: true
+			}
+		}
+	}
+}

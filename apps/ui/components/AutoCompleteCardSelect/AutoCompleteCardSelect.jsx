@@ -14,6 +14,22 @@ import {
 } from 'rendition'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
+const defaultOptionLabel = (option) => {
+	return (
+		<Flex alignItems="center" justifyContent="center">
+			{option.type && (
+				<Badge shade={option.shade} mr={2}>{option.type}</Badge>
+			)}
+			<Txt style={{
+				flex: 1,
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				textOverflow: 'ellipsis'
+			}}>{option.label}</Txt>
+		</Flex>
+	)
+}
+
 export default class AutoCompleteCardSelect extends React.Component {
 	constructor (props) {
 		super(props)
@@ -55,6 +71,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 	async getTargets (value) {
 		const {
+			getOption,
 			cardFilter,
 			cardType: cardTypes,
 			types,
@@ -101,18 +118,16 @@ export default class AutoCompleteCardSelect extends React.Component {
 			})
 		}
 
-		const includeType = _.isArray(this.props.cardType) && this.props.cardType.length > 1
-
 		// Return the results in a format understood by the AsyncSelect component
 		return results.map((card) => {
 			const typeCardIndex = _.findIndex(types, {
 				slug: card.type.split('@')[0]
 			})
 
-			return {
+			return getOption ? getOption(card) : {
 				label: card.name || card.slug || card.id,
 				value: card.id,
-				type: includeType ? types[typeCardIndex].name : null,
+				type: types[typeCardIndex].name,
 				shade: typeCardIndex
 			}
 		})
@@ -127,6 +142,8 @@ export default class AutoCompleteCardSelect extends React.Component {
 			types,
 			onChange,
 			value,
+			isClearable,
+			formatOptionLabel,
 			...rest
 		} = this.props
 
@@ -135,7 +152,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 				key={cardType}
 				classNamePrefix="jellyfish-async-select"
 				value={value}
-				isClearable
+				isClearable={isClearable}
 				defaultOptions
 				onChange={this.onChange}
 				loadOptions={this.getTargets}
@@ -148,23 +165,14 @@ export default class AutoCompleteCardSelect extends React.Component {
 						}
 					}
 				}}
-				formatOptionLabel={(option) => {
-					return (
-						<Flex alignItems="center" justifyContent="center">
-							{option.type && (
-								<Badge shade={option.shade} mr={2}>{option.type}</Badge>
-							)}
-							<Txt style={{
-								flex: 1,
-								whiteSpace: 'nowrap',
-								overflow: 'hidden',
-								textOverflow: 'ellipsis'
-							}}>{option.label}</Txt>
-						</Flex>
-					)
-				}}
+				formatOptionLabel={formatOptionLabel}
 				{...rest}
 			/>
 		)
 	}
+}
+
+AutoCompleteCardSelect.defaultProps = {
+	formatOptionLabel: defaultOptionLabel,
+	isClearable: true
 }

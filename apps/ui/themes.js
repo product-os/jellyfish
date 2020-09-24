@@ -32,7 +32,7 @@ export const darkTheme = {
 			dark: Theme.colors.secondary.dark
 		},
 		background: {
-			main: '#364b5b'
+			main: '#000'
 		},
 		border: '#eee'
 	}
