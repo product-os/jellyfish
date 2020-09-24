@@ -1,4 +1,17 @@
 - commits:
+    - subject: Revert "Bump monaco-editor"
+      hash: 54bbd93cdf1af74c811196f9ebbbdd45fe1417ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.3.17
+  date: 2020-09-24T15:35:50.846Z
+- commits:
     - subject: >-
         Updates the oneToOneProperties schema to look for markers where the user
         slug is alongside another user slug
