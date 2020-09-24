@@ -1,0 +1,29 @@
+{
+  "slug": "view-all-ui-themes",
+  "name": "All UI Themes",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "data": {
+    "allOf": [
+      {
+        "name": "UI Themes",
+        "schema": {
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "ui-theme@1.0.0"
+            }
+          },
+          "additionalProperties": true,
+          "required": [
+            "type"
+          ]
+        }
+      }
+    ],
+    "lenses": [
+      "lens-list"
+    ]
+  }
+}

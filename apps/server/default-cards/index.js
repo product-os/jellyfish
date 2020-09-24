@@ -75,6 +75,7 @@ module.exports = ({
 		webPushSubscription: require('./contrib/web-push-subscription.json'),
 		group: require('./contrib/group.json'),
 		summary: require('./contrib/summary.json'),
+		uiTheme: require('./contrib/ui-theme.js'),
 
 		// Triggered actions
 		triggeredActionGitHubIssueLink: require('./contrib/triggered-action-github-issue-link.json'),
@@ -104,6 +105,7 @@ module.exports = ({
 		viewMyConversations: require('./contrib/view-my-conversations.json'),
 		viewAllByType: require('./contrib/view-all-by-type.json'),
 		viewAllPullRequests: require('./contrib/view-all-pull-requests.json'),
+		viewAllUiThemes: require('./contrib/view-all-ui-themes.json'),
 
 		// Balena org cards
 		orgBalena: require('./balena/org-balena.json'),
