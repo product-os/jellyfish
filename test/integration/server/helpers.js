@@ -53,23 +53,31 @@ module.exports = {
 		test.context.sdk.setAuthToken(test.context.token)
 		test.context.username = environment.integration.default.user
 
-		const slug = `user-${test.context.username}`
-		const userCard = await test.context.sdk.card.get(slug) ||
-			await test.context.sdk.action({
-				card: 'user@1.0.0',
-				type: 'type',
-				action: 'action-create-user@1.0.0',
-				arguments: {
-					username: slug,
-					email: `${test.context.username}@example.com`,
-					password: 'foobarbaz'
-				}
-			})
-		const orgCard = await test.context.sdk.card.get('org-balena')
-		await test.context.sdk.card.link(userCard, orgCard, 'is member of')
+		test.context.createUser = async (username) => {
+			const {
+				sdk
+			} = test.context
+			const slug = `user-${username}`
+			const userCard = await sdk.card.get(slug) ||
+				await sdk.action({
+					card: 'user@1.0.0',
+					type: 'type',
+					action: 'action-create-user@1.0.0',
+					arguments: {
+						username: slug,
+						email: `${username}@example.com`,
+						password: 'foobarbaz'
+					}
+				})
+			const orgCard = await sdk.card.get('org-balena')
+			await sdk.card.link(userCard, orgCard, 'is member of')
+			return userCard
+		}
+
+		const userCard = await test.context.createUser(test.context.username)
 
 		// Force login, even if we don't know the password
-		const session = await test.context.sdk.card.create({
+		test.context.session = await test.context.sdk.card.create({
 			slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
 			type: 'session',
 			version: '1.0.0',
@@ -78,7 +86,7 @@ module.exports = {
 			}
 		})
 
-		await test.context.sdk.auth.loginWithToken(session.id)
+		await test.context.sdk.auth.loginWithToken(test.context.session.id)
 		test.context.user = await test.context.sdk.auth.whoami()
 	},
 	after: async (test) => {
