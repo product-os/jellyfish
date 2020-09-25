@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update dependency on jellyfish-sync
+      hash: 8591fb4724a7d1dc12e0d2a048c69238002369cb
+      body: |
+        user-feedback name field is now populated
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.4.0
+  date: 2020-09-25T15:53:42.747Z
+- commits:
     - subject: Temporarily remove sort-by drop down from the support-thread page
       hash: 889f4d9bf8e776edea6e58f660bb4585d8539542
       body: ''
