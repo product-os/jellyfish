@@ -56,7 +56,10 @@ export default class SortByDropdown extends React.Component {
 		super(props)
 		this.state = {
 			sortByOptions: [],
-			cardSchema: {}
+			cardSchema: {},
+
+			// TODO remove this once we have support for sorting by linked cards
+			isSupportView: false
 		}
 		this.handleSortBySelectionChange = this.handleSortBySelectionChange.bind(this)
 	}
@@ -65,6 +68,14 @@ export default class SortByDropdown extends React.Component {
 		const {
 			tailType
 		} = this.props
+
+		// TODO remove this once we have support for sorting by linked cards
+		if (tailType && tailType.slug === 'support-thread') {
+			this.setState({
+				isSupportView: true
+			})
+			return
+		}
 		const {
 			data: {
 				schema: cardSchema
@@ -84,7 +95,8 @@ export default class SortByDropdown extends React.Component {
 			tailType
 		} = this.props
 
-		if (tailType.slug !== prevTailType.slug) {
+		// TODO remove check for support view once we have support for sorting by linked cards
+		if (tailType.slug !== prevTailType.slug && !this.state.isSupportView) {
 			this.setState({
 				sortByOptions: getSortByOptions(this.state.cardSchema, tailType)
 			})
@@ -109,6 +121,11 @@ export default class SortByDropdown extends React.Component {
 			tailType,
 			...rest
 		} = this.props
+
+		// TODO remove this once we have support for sorting by linked cards
+		if (this.state.isSupportView) {
+			return null
+		}
 
 		const currentValue = {
 			value: _.join(currentSortBy, '.')
