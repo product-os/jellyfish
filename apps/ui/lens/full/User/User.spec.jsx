@@ -5,13 +5,17 @@
  */
 
 import {
-	getWrapper
+	getWrapper,
+	flushPromises
 } from '../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	mount
 } from 'enzyme'
 import sinon from 'sinon'
+import {
+	sdk
+} from '../../../core'
 import React from 'react'
 
 // TODO: Remove this unused import if we resolve the circular dependency
@@ -35,13 +39,7 @@ const {
 
 const USER = {
 	slug: 'user-operator',
-	type: 'user@1.0.0',
-	data: {
-		roles: [
-			'user-community',
-			'user-operator'
-		]
-	}
+	type: 'user@1.0.0'
 }
 
 const CARD = {
@@ -57,6 +55,14 @@ ava.afterEach(() => {
 
 ava.serial('actionItem "send first-time login link"  can be used to fire' +
 ' the sendFirstTimeLoginLink action when the user has an operator role', async (test) => {
+	sdk.query = sandbox.stub()
+	sdk.query.resolves([ {
+		...USER,
+		data: {
+			roles: [ 'user-community', 'user-operator' ]
+		}
+	} ])
+
 	const actions = {
 		sendFirstTimeLoginLink: sandbox.stub()
 	}
@@ -70,6 +76,9 @@ ava.serial('actionItem "send first-time login link"  can be used to fire' +
 			wrappingComponent: wrapper
 		}
 	)
+
+	await flushPromises()
+	component.update()
 
 	const actionMenu = component.find('button[data-test="card-action-menu"]')
 	actionMenu.simulate('click')
@@ -89,7 +98,14 @@ ava.serial('actionItem "send first-time login link"  can be used to fire' +
 
 ava.serial('actionItem "send first-time login link"  does not appear ' +
 'in the action menu when the user has no operator role', async (test) => {
-	USER.data.roles = [ 'user-community' ]
+	sdk.query = sandbox.stub()
+	sdk.query.resolves([ {
+		...USER,
+		data: {
+			roles: [ 'user-community' ]
+		}
+	} ])
+
 	const component = mount(
 		<User
 			card={CARD}
@@ -98,6 +114,8 @@ ava.serial('actionItem "send first-time login link"  does not appear ' +
 			wrappingComponent: wrapper
 		}
 	)
+	await flushPromises()
+	component.update()
 
 	const actionMenu = component.find('button[data-test="card-action-menu"]')
 	actionMenu.simulate('click')
