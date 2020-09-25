@@ -1,6 +1,6 @@
 {
     "head": {
-        "name": "",
+        "name": "Feedback from unknown user",
         "type": "user-feedback@1.0.0",
         "version": "1.0.0",
         "active": true,
@@ -35,7 +35,7 @@
                 },
                 "timestamp": "2020-03-24T11:46:28.000Z",
                 "payload": {
-                    "name": "",
+                    "name": "Feedback from unknown user",
                     "type": "user-feedback@1.0.0",
                     "version": "1.0.0",
                     "active": true,
