@@ -125,6 +125,7 @@ class CardLinker extends React.Component {
 					<Button
 						data-test="card-linker-action"
 						plain
+						primary
 						onClick={this.toggleMenu}
 						mr={2}
 						tooltip={{
@@ -146,6 +147,7 @@ class CardLinker extends React.Component {
 								}}
 								mb={2}
 								plain
+								primary
 								onClick={this.openLinkModal}
 								data-test="card-linker-action--existing"
 							>
@@ -158,6 +160,7 @@ class CardLinker extends React.Component {
 								}}
 								mb={2}
 								plain
+								primary
 								onClick={this.openCreateChannel}
 								data-test="card-linker-action--new"
 							>
@@ -169,6 +172,7 @@ class CardLinker extends React.Component {
 									display: 'block'
 								}}
 								plain
+								primary
 								onClick={this.openVisualizeChannel}
 								data-test="card-linker-action--visualize"
 							>

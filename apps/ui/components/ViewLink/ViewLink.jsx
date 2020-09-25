@@ -141,7 +141,7 @@ class ViewLink extends React.Component {
 								pr={3}
 								pl={1}
 								plain
-								color={theme.colors.primary.main}
+								primary
 								onClick={this.toggleMenu}
 								icon={<Icon name="ellipsis-v"/>}
 							/>
@@ -155,7 +155,7 @@ class ViewLink extends React.Component {
 									}}
 									plain
 									data-test="view-link--set-default-btn"
-									color={theme.colors.primary.main}
+									primary
 									tooltip={{
 										text: `${isHomeView ? 'Unset' : 'Set'} this view as the default page when logging in`,
 										containerStyle: {
@@ -172,7 +172,7 @@ class ViewLink extends React.Component {
 									}}
 									mt={2}
 									plain
-									color={theme.colors.primary.main}
+									primary
 									data-test="view-link--star-view-btn"
 									onClick={this.toggleViewStarred}
 								>
@@ -185,7 +185,7 @@ class ViewLink extends React.Component {
 										}}
 										mt={2}
 										plain
-										color={theme.colors.primary.main}
+										primary
 										data-test="view-link--delete-view-btn"
 										tooltip="Delete this view"
 										onClick={this.showDeleteModal}

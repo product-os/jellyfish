@@ -682,7 +682,7 @@ export default class HomeChannel extends React.Component {
 									<Divider my={2} height={1} />
 
 									<Button
-										color={this.props.theme.colors.primary.main}
+										primary
 										w="100%"
 										pt={2}
 										className="user-menu__logout"
@@ -728,7 +728,7 @@ export default class HomeChannel extends React.Component {
 							<Button
 								plain
 								icon={<Icon name="plus" />}
-								color={this.props.theme.colors.text.main}
+								primary
 								data-test="create-private-conversation"
 								onClick={this.openCreateViewChannel}
 								tooltip={{
@@ -740,8 +740,8 @@ export default class HomeChannel extends React.Component {
 							<Button
 								ml={2}
 								plain
+								primary
 								icon={<Icon name="comment-alt" />}
-								color={this.props.theme.colors.text.main}
 								data-test="open-chat-widget"
 								onClick={this.openChatWidget}
 								tooltip={{

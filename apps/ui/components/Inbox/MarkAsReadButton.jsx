@@ -45,6 +45,7 @@ const MarkAsReadButton = ({
 	return (
 		<Button
 			ml={3}
+			primary
 			disabled={isMarkingAllAsRead}
 			onClick={markAllAsRead}
 			data-test="inbox__mark-all-as-read"

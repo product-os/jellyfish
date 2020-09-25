@@ -176,6 +176,7 @@ class CreateUserLens extends React.Component {
 					</Txt>
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
+							secondary
 							onClick={this.close}
 							mr={2}
 						>

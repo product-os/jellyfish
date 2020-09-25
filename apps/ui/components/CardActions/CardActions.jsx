@@ -100,6 +100,7 @@ export default class CardActions extends React.Component {
 					<Button
 						plain
 						mr={3}
+						primary
 						onClick={this.openEditChannel}
 						className="card-actions__btn--edit"
 						tooltip={{
@@ -118,6 +119,7 @@ export default class CardActions extends React.Component {
 							px={2}
 							mr={-1}
 							plain
+							primary
 							onClick={this.toggleMenu}
 							data-test="card-action-menu"
 							icon={<Icon name="ellipsis-v"/>}

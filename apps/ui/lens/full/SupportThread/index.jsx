@@ -350,6 +350,7 @@ class SupportThreadBase extends React.Component {
 						{status === 'open' && (
 							<Button
 								plain
+								primary
 								mr={3}
 								data-test="support-thread__close-thread"
 								tooltip={{
@@ -369,6 +370,7 @@ class SupportThreadBase extends React.Component {
 						{status === 'closed' && (
 							<Button
 								plain
+								primary
 								mr={3}
 								data-test="support-thread__archive-thread"
 								tooltip={{
@@ -388,6 +390,7 @@ class SupportThreadBase extends React.Component {
 						{status === 'archived' && (
 							<Button
 								plain
+								primary
 								mr={3}
 								data-test="support-thread__open-thread"
 								tooltip={{

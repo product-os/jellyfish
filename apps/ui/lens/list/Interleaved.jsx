@@ -226,7 +226,6 @@ export class Interleaved extends BaseLens {
 			theme
 		} = this.props
 
-		console.log(this.props)
 		const {
 			messagesOnly
 		} = this.state

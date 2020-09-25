@@ -52,6 +52,7 @@ const FeedbackRow = (props) => {
 				<Button
 					data-test={`feedback-form__${slug}--positive`}
 					plain
+					primary
 					style={{
 						opacity: props.value === 1 ? 1 : 0.5
 					}}
@@ -62,6 +63,7 @@ const FeedbackRow = (props) => {
 				<Button
 					data-test={`feedback-form__${slug}--neutral`}
 					plain
+					primary
 					style={{
 						opacity: props.value === 0 ? 1 : 0.5
 					}}
@@ -73,6 +75,7 @@ const FeedbackRow = (props) => {
 				<Button
 					data-test={`feedback-form__${slug}--negative`}
 					plain
+					primary
 					style={{
 						opacity: props.value === -1 ? 1 : 0.5
 					}}

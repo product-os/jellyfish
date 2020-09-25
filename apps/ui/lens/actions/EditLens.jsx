@@ -213,6 +213,7 @@ class EditLens extends React.Component {
 
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
+							secondary
 							onClick={this.close}
 							mr={2}
 						>

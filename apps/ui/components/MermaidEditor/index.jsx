@@ -211,6 +211,7 @@ class MermaidEditor extends React.Component {
 						borderBottom: `1px solid ${theme.colors.background.dark}`, padding: 9
 					}}>
 						<Button
+							primary
 							p={1}
 							m={1}
 							icon={<i className="fas fa-eye" />}
@@ -219,6 +220,7 @@ class MermaidEditor extends React.Component {
 						/>
 
 						<Button
+							primary
 							p={1}
 							m={1}
 							icon={<i className="fas fa-columns" />}
@@ -227,10 +229,12 @@ class MermaidEditor extends React.Component {
 						/>
 
 						<Button
+							primary
 							p={1}
 							m={1}
 							icon={<i className="fas fa-expand-arrows-alt" />}
-							plain onClick={this.setFullScreen}
+							plain
+							onClick={this.setFullScreen}
 						/>
 					</Box>
 					<Flex flex='1' style={{
