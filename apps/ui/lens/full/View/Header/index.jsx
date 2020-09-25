@@ -16,8 +16,11 @@ import Markers from '../../../../components/Markers'
 import LensSelection from './LensSelection'
 import SliceOptions from './SliceOptions'
 import ViewFilters from './ViewFilters'
+import {
+	withTheme
+} from 'styled-components'
 
-export default class Header extends React.Component {
+class Header extends React.Component {
 	render () {
 		const {
 			isMobile,
@@ -105,3 +108,5 @@ export default class Header extends React.Component {
 		)
 	}
 }
+
+export default withTheme(Header)

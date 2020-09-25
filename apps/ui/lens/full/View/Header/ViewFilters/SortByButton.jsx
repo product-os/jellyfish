@@ -16,6 +16,9 @@ import {
 import {
 	sdk
 } from '../../../../../core'
+import {
+	withTheme
+} from 'styled-components'
 
 // Do not include fields with array type (doesn't make sense to sort by an array), as well as the id, version, active, or type fields
 const FIELDS_TO_OMIT = [ {
@@ -51,7 +54,7 @@ const getSortByOptions = (cardSchema, tailType) => {
 	})
 }
 
-export default class SortByDropdown extends React.Component {
+class SortByDropdown extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -126,3 +129,5 @@ export default class SortByDropdown extends React.Component {
 		)
 	}
 }
+
+export default withTheme(SortByDropdown)

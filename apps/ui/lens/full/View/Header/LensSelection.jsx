@@ -26,6 +26,7 @@ const LensSelection = ({
 				return (
 					<Button
 						key={item.slug}
+						primary
 						active={lens && lens.slug === item.slug}
 						data-test={`lens-selector--${item.slug}`}
 						data-slug={item.slug}

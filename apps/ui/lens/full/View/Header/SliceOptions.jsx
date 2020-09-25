@@ -8,6 +8,9 @@ import React from 'react'
 import {
 	Select
 } from 'rendition'
+import {
+	withTheme
+} from 'styled-components'
 
 const SliceOptions = ({
 	sliceOptions,
@@ -28,4 +31,4 @@ const SliceOptions = ({
 	)
 }
 
-export default SliceOptions
+export default withTheme(SliceOptions)

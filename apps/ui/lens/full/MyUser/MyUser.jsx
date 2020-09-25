@@ -322,6 +322,7 @@ class MyUser extends React.Component {
 									<Txt>Authorized</Txt>
 								) : (
 									<Button
+										primary
 										data-test="integration-connection--outreach"
 										onClick={this.startAuthorize}
 									>

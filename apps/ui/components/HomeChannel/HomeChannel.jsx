@@ -575,7 +575,7 @@ export default class HomeChannel extends React.Component {
 								pl={3}
 								pr={2}
 								onClick={this.showMenu}
-								color={this.props.theme.colors.primary.main}
+								primary
 								style={{
 									display: 'flex',
 									maxWidth: '100%',

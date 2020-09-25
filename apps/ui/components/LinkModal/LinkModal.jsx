@@ -21,8 +21,11 @@ import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
 	addNotification
 } from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
+	withTheme
+} from 'styled-components'
 
-export default class LinkModal extends React.Component {
+class LinkModal extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -156,7 +159,8 @@ export default class LinkModal extends React.Component {
 			card,
 			linkVerb,
 			types,
-			target
+			target,
+			theme
 		} = this.props
 		const {
 			linkType,
@@ -255,3 +259,5 @@ export default class LinkModal extends React.Component {
 		)
 	}
 }
+
+export default withTheme(LinkModal)

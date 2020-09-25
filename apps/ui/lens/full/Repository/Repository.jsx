@@ -20,7 +20,9 @@ import {
 	Tabs,
 	Txt
 } from 'rendition'
-import styled from 'styled-components'
+import styled, {
+	withTheme
+} from 'styled-components'
 import Segment from '../../common/Segment'
 import CardFields from '../../../components/CardFields'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
@@ -45,7 +47,7 @@ const SingleCardTabs = styled(Tabs) `
 
 const LIMIT = 30
 
-export default class RepositoryFull extends React.Component {
+class RepositoryFull extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -190,6 +192,7 @@ export default class RepositoryFull extends React.Component {
 				inlineActionItems={(
 					<Box mr={3} data-test="repository__search">
 						<Search
+							dark
 							value={searchTerm}
 							onChange={this.onSearchTermChange}
 							placeholder="Search..."
@@ -201,6 +204,7 @@ export default class RepositoryFull extends React.Component {
 						<Button
 							plain
 							mr={3}
+							primary
 							icon={<Icon name={`chevron-${expanded ? 'up' : 'down'}`} />}
 							onClick={() => this.setState({
 								expanded: !expanded
@@ -266,3 +270,5 @@ export default class RepositoryFull extends React.Component {
 		)
 	}
 }
+
+export default withTheme(RepositoryFull)

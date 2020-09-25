@@ -53,24 +53,6 @@ const SplashWrapper = styled(Box) `
 		animation: wiggle 2500ms infinite linear;
 	}
 
-	&:before {
-		content: '';
-		display: block;
-		left: 0;
-		top: 0;
-		width: 100%;
-		height: 100%;
-		background: ${(props) => {
-		const color1 = `${props.theme.colors.secondary.dark}30`
-		const color2 = `${props.theme.colors.tertiary.dark}30`
-		const color3 = `${props.theme.colors.quartenary.dark}30`
-
-		return `linear-gradient(180deg, ${color1} 0%, ${color2} 50%, ${color3} 100%);`
-	}};
-		z-index: 11;
-		transform: translate3d(0, 0, 0);
-	}
-
 	@keyframes drift {
 		from { transform: rotate(0deg); }
 		from { transform: rotate(360deg); }
