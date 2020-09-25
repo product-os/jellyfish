@@ -1,4 +1,17 @@
 - commits:
+    - subject: Temporarily remove sort-by drop down from the support-thread page
+      hash: 889f4d9bf8e776edea6e58f660bb4585d8539542
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.3.18
+  date: 2020-09-25T08:14:11.558Z
+- commits:
     - subject: Revert "Bump monaco-editor"
       hash: 54bbd93cdf1af74c811196f9ebbbdd45fe1417ee
       body: ''
