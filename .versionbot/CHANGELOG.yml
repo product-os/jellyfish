@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: ea8f1121089892947d01cb6c623561418ae3c740
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.5
+  date: 2020-09-28T14:05:52.699Z
+- commits:
     - subject: Temporarily ignore monaco-editor bumps
       hash: ac6a690e71ba4b545f201cd74c7b4e13ea69e8f0
       body: ''
