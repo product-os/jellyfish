@@ -11,6 +11,10 @@
   "labels": [
     "dependencies"
   ],
+  "ignoreDeps": [
+    "monaco-editor",
+    "monaco-editor-webpack-plugin"
+  ],
   "packageRules": [
     {
       "groupName": "non-major",
