@@ -1,4 +1,17 @@
 - commits:
+    - subject: Temporarily ignore monaco-editor bumps
+      hash: ac6a690e71ba4b545f201cd74c7b4e13ea69e8f0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.4.4
+  date: 2020-09-28T12:14:16.007Z
+- commits:
     - subject: Bump dependencies
       hash: 02853ed1300608dc2496c2a999809ee675fd83ad
       body: ''
