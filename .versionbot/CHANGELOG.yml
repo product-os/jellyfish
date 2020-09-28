@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump dependencies
+      hash: b5d0320409b6d93b84d1b3fc4f9abb9d90c31496
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.4.1
+  date: 2020-09-28T06:31:06.328Z
+- commits:
     - subject: Update dependency on jellyfish-sync
       hash: 8591fb4724a7d1dc12e0d2a048c69238002369cb
       body: |
