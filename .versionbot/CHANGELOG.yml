@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^5.0.29'
+      hash: 865215bed102160c8dc64956eb7311e63703898b
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.11
+  date: 2020-09-29T20:14:57.161Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 35bb13c0c3c89f9e79e118d949295185c7eb16c6
       body: ''
