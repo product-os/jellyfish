@@ -149,7 +149,7 @@
     "formulajs": "^1.0.8",
     "front-sdk": "^0.8.1",
     "googleapis": "^59.0.0",
-    "graphile-worker": "^0.8.0",
+    "graphile-worker": "^0.8.1",
     "graphql": "^15.3.0",
     "howler": "^2.2.0",
     "immutability-helper": "^3.1.1",
