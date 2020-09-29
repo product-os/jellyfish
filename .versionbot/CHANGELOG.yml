@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency graphile-worker to ^0.8.1'
+      hash: 1058c89380f57662a0ccfcb6aef14ce3b60d2099
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.9
+  date: 2020-09-29T13:24:46.472Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 25bf113b1cc6ea5066c88e09ece93d099b22b1e1
       body: ''
