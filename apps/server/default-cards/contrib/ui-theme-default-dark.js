@@ -10,71 +10,71 @@ module.exports = {
 	type: 'ui-theme@1.0.0',
 	markers: [],
 	data: {
-		gray: {
-			dark: '#9DA0A2',
-			main: '#c6c8c9',
-			light: '#FFFFFF',
-			semilight: '#EFF0F0'
-		},
-		info: {
-			dark: '#1078B4',
-			main: '#1496e1',
-			light: '#66BEF1',
-			semilight: '#39ABED'
+		background: {
+			dark: '#24282F',
+			main: '#282C34',
+			light: '#2C3039',
+			semilight: '#434B59'
 		},
 		text: {
-			dark: '#BABABA',
-			main: '#e9e9e9',
+			dark: '#D2D2D2',
+			main: '#E9E9E9',
 			light: '#FFFFFF',
 			semilight: '#FFFFFF'
 		},
-		danger: {
-			dark: '#AA2424',
-			main: '#d32f2f',
-			light: '#E58484',
-			semilight: '#DC5A5A'
-		},
 		primary: {
-			dark: '#5A46A7',
-			main: '#7b69c0',
-			light: '#C5BDE3',
-			semilight: '#A093D2'
-		},
-		success: {
-			dark: '#159A2A',
-			main: '#1ac135',
-			light: '#4CE765',
-			semilight: '#25E244'
-		},
-		warning: {
-			dark: '#E18703',
-			main: '#fca321',
-			light: '#FED291',
-			semilight: '#FDBA59'
-		},
-		tertiary: {
-			dark: '#A1963D',
-			main: '#BFB456',
-			light: '#DDD8A6',
-			semilight: '#CEC67E'
+			dark: '#6954B7',
+			main: '#7B69C0',
+			light: '#8D7EC9',
+			semilight: '#FCFBFE'
 		},
 		secondary: {
-			dark: '#42A47C',
-			main: '#60BF98',
-			light: '#B2E0CD',
-			semilight: '#89CFB3'
+			dark: '#2F2652',
+			main: '#352A5B',
+			light: '#3A2F64',
+			semilight: '#58469D'
 		},
-		background: {
-			dark: '#20232A',
-			main: '#282c34',
-			light: '#383E49',
-			semilight: '#30353E'
+		tertiary: {
+			dark: '#6C628E',
+			main: '#796F9B',
+			light: '#877EA6',
+			semilight: '#DFDDE8'
 		},
 		quartenary: {
-			dark: '#A96153',
-			main: '#BF877C',
-			light: '#E8D5D1',
-			semilight: '#D4AEA6'
+			dark: '#E3E2E9',
+			main: '#FFFFFF',
+			light: '#FFFFFF',
+			semilight: '#FFFFFF'
+		},
+		gray: {
+			dark: '#B2B4B6',
+			main: '#C6C8C9',
+			light: '#DADCDC',
+			semilight: '#FFFFFF'
+		},
+		info: {
+			dark: '#1287CB',
+			main: '#1496E1',
+			light: '#22A2EB',
+			semilight: '#A7DBF9'
+		},
+		danger: {
+			dark: '#C02929',
+			main: '#D32F2F',
+			light: '#D84444',
+			semilight: '#F4C3C3'
+		},
+		success: {
+			dark: '#17AE30',
+			main: '#1AC135',
+			light: '#1DD43A',
+			semilight: '#83F195'
+		},
+		warning: {
+			dark: '#FC9705',
+			main: '#FCA321',
+			light: '#FCAF3D',
+			semilight: '#FFF5E5'
 		},
 		description: 'The default dark Jellyfish theme',
 		screenshots: [
