@@ -22,6 +22,12 @@ module.exports = {
 			light: '#FFFFFF',
 			semilight: '#FFFFFF'
 		},
+		border: {
+			dark: '#151520',
+			main: '#171724',
+			light: '#191928',
+			semilight: '#27273E'
+		},
 		primary: {
 			dark: '#6954B7',
 			main: '#7B69C0',

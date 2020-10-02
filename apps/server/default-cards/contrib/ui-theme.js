@@ -114,6 +114,7 @@ module.exports = {
 						success: colorSet('success'),
 						info: colorSet('info'),
 						text: colorSet('text'),
+						border: colorSet('border'),
 						gray: colorSet('gray')
 					},
 					required: [
@@ -127,6 +128,7 @@ module.exports = {
 						'success',
 						'info',
 						'text',
+						'border',
 						'gray'
 					]
 				}
@@ -152,6 +154,7 @@ module.exports = {
 						'success',
 						'info',
 						'text',
+						'border',
 						'gray',
 						'screenshots'
 					],
@@ -165,6 +168,7 @@ module.exports = {
 					success: colorSetPickerUiSchema,
 					info: colorSetPickerUiSchema,
 					text: colorSetPickerUiSchema,
+					border: colorSetPickerUiSchema,
 					gray: colorSetPickerUiSchema
 				}
 			},
@@ -186,6 +190,7 @@ module.exports = {
 						'success',
 						'info',
 						'text',
+						'border',
 						'gray'
 					],
 					description: {
@@ -205,6 +210,7 @@ module.exports = {
 					success: colorSetUiSchema,
 					info: colorSetUiSchema,
 					text: colorSetUiSchema,
+					border: colorSetUiSchema,
 					gray: colorSetUiSchema,
 					screenshots: {
 						items: {
