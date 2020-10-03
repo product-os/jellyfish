@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency style-loader to ^1.3.0'
+      hash: 27fd5101e19744c74078a8f016674bed68b139a2
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.20
+  date: 2020-10-03T16:07:47.516Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.54'
       hash: acfe671656498a8fbdd3850b9d1dfe9bb41883c1
       body: ''
