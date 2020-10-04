@@ -111,7 +111,7 @@
     "@balena/jellyfish-client-sdk": "^2.2.9",
     "@balena/jellyfish-core": "^0.1.54",
     "@balena/jellyfish-environment": "^2.2.36",
-    "@balena/jellyfish-logger": "^0.0.107",
+    "@balena/jellyfish-logger": "^0.0.108",
     "@balena/jellyfish-metrics": "^0.0.121",
     "@balena/jellyfish-queue": "^0.0.143",
     "@balena/jellyfish-sync": "^3.0.21",
