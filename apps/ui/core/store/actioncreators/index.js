@@ -960,6 +960,7 @@ export default class ActionCreator {
 			const [ selectedUiTheme ] = await this.sdk.query(query, {
 				limit: 1
 			})
+			console.log('selectedUiTheme', selectedUiTheme)
 			if (selectedUiTheme) {
 				this.setUiTheme(selectedUiTheme)
 			}

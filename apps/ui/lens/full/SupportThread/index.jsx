@@ -66,8 +66,8 @@ const JellyIcon = styled.img.attrs({
 
 const Extract = styled(Box) `
 	background: lightyellow;
-	border-top: 1px solid ${Theme.colors.gray.light};
-	border-bottom: 1px solid ${Theme.colors.gray.light};
+	border-top: 1px solid ${Theme.colors.border.light};
+	border-bottom: 1px solid ${Theme.colors.border.light};
 `
 
 const getHighlights = (card) => {

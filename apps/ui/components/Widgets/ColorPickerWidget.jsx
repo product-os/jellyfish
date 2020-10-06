@@ -21,7 +21,7 @@ const Wrapper = styled(Box) `
 const ColorBox = styled(Box) `
 	border-radius: 4px;
 	border: 1px solid;
-	border-color: ${(props) => { return props.theme.colors.border || '#000' }};
+	border-color: ${(props) => { return props.theme.colors.border.main || '#000' }};
 `
 
 const DEFAULT_SIZE = 24

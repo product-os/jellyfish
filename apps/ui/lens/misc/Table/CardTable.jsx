@@ -142,7 +142,7 @@ class CardTable extends BaseLens {
 						<Flex
 							p={3}
 							style={{
-								borderTop: `1px solid ${theme.colors.background.dark}`
+								borderTop: `1px solid ${theme.colors.border.main}`
 							}}
 							justifyContent="flex-end"
 						>

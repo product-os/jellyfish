@@ -19,7 +19,12 @@ export const lightTheme = {
 		background: {
 			main: '#fff'
 		},
-		border: '#eee'
+		border: {
+			dark: '#CBCBCB',
+			main: '#E2E2E2',
+			light: '#F9F9F9',
+			semilight: '#FFFFFF'
+		}
 	}
 }
 
@@ -34,6 +39,11 @@ export const darkTheme = {
 		background: {
 			main: '#000'
 		},
-		border: '#eee'
+		border: {
+			dark: '#CBCBCB',
+			main: '#E2E2E2',
+			light: '#F9F9F9',
+			semilight: '#FFFFFF'
+		}
 	}
 }

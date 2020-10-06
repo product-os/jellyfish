@@ -89,7 +89,7 @@ class ChannelRenderer extends React.Component {
 			height: '100%',
 			transition: 'all ease-in-out 150ms',
 			background: isOver ? theme.colors.background.light : theme.colors.background.main,
-			borderLeft: `1px solid ${theme.colors.background.dark}`,
+			borderLeft: `1px solid ${theme.colors.border.main}`,
 			minWidth: 0,
 			maxWidth: '100%',
 			overflow: 'hidden'

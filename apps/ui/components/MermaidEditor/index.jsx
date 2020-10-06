@@ -199,7 +199,7 @@ class MermaidEditor extends React.Component {
 		const smallscreenstyle = {
 			minHeight: 600,
 			maxHeight: 500,
-			border: `1px solid ${theme.colors.background.dark}`,
+			border: `1px solid ${theme.colors.border.main}`,
 			borderRadius: 4,
 			overflow: 'hidden'
 		}
@@ -208,7 +208,7 @@ class MermaidEditor extends React.Component {
 			<Provider>
 				<Flex flexDirection='column' style={fullscreen || splitview ? fullScreenStyle : smallscreenstyle}>
 					<Box style={{
-						borderBottom: `1px solid ${theme.colors.background.dark}`, padding: 9
+						borderBottom: `1px solid ${theme.colors.border.main}`, padding: 9
 					}}>
 						<Button
 							primary

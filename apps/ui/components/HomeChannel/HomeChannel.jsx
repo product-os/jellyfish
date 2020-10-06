@@ -125,21 +125,21 @@ const HomeChannelContent = styled(Flex) `
 const HomeChannelUserMenuWrapper = styled(Flex) `
 	position: relative;
 	justify-content: space-between;
-	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.border.main }};
 `
 
 const HomeChannelQuickActions = styled(Box) `
-	border-top: 1px solid ${(props) => { return props.theme.colors.background.dark }};
-	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-top: 1px solid ${(props) => { return props.theme.colors.border.main }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.border.main }};
 `
 
 const GrabHandle = styled(isiOS() ? Box : Swipeable) `
 	margin-right: -15px;
 	padding: 25px 5px;
 	border-radius: 0 4px 4px 0;
-	border-top: 1px solid ${(props) => { return props.theme.colors.background.dark }};
-	border-right: 1px solid ${(props) => { return props.theme.colors.background.dark }};
-	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-top: 1px solid ${(props) => { return props.theme.colors.border.main }};
+	border-right: 1px solid ${(props) => { return props.theme.colors.border.main }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.border.main }};
 	background: ${(props) => { return props.theme.colors.background.main }};
 	box-shadow: 0 5px 10px ${(props) => {
 		return props.theme.colors.background.main
@@ -149,8 +149,8 @@ const GrabHandle = styled(isiOS() ? Box : Swipeable) `
 `
 
 const GrabHandleGrip = styled.div `
-	border-left: ${(props) => { return props.theme.colors.background.dark }};
-	border-right: ${(props) => { return props.theme.colors.background.dark }};
+	border-left: ${(props) => { return props.theme.colors.border.main }};
+	border-right: ${(props) => { return props.theme.colors.border.main }};
 	width: 5px;
 	height: 30px;
 `

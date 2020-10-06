@@ -30,7 +30,7 @@ import {
 } from '../../../core'
 
 const UserRow = styled(Box) `
-	border-bottom: 1px solid ${(props) => { return props.theme.colors.background.dark }};
+	border-bottom: 1px solid ${(props) => { return props.theme.colors.border.main }};
 	cursor: pointer;
 
 	&:hover {
