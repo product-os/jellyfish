@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Query for roles in the User lens so we can determine whether a user is
+        an operator or not
+      hash: f71334bcdd62022dbcb47d839b91c1fc657543eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.4.28
+  date: 2020-10-06T10:05:18.602Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.767.0'
       hash: 1dc7e247e3b63adc45f7ad3f749e76b04d009d91
       body: ''
