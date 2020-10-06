@@ -19,6 +19,7 @@ export default function ThemeProvider ({
 	const theme = {
 		colors: (uiTheme || lightTheme).data
 	}
+	console.log('theme', theme)
 	return (
 		<Provider
 			theme={theme}

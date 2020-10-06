@@ -19,7 +19,6 @@ import {
 	Button,
 	Flex,
 	Link,
-	Theme,
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
@@ -66,8 +65,8 @@ const JellyIcon = styled.img.attrs({
 
 const Extract = styled(Box) `
 	background: lightyellow;
-	border-top: 1px solid ${Theme.colors.border.light};
-	border-bottom: 1px solid ${Theme.colors.border.light};
+	border-top: 1px solid ${(theme) => { return theme.colors.border.light }};
+	border-bottom: 1px solid ${(theme) => { return theme.colors.border.light }};
 `
 
 const getHighlights = (card) => {
