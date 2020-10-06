@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 1373e4946bae3b08905c184db1a959ab6519d47b
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.29
+  date: 2020-10-06T12:00:11.787Z
+- commits:
     - subject: >-
         Query for roles in the User lens so we can determine whether a user is
         an operator or not
