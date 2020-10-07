@@ -123,7 +123,7 @@
     "@octokit/plugin-retry": "^3.0.3",
     "@octokit/plugin-throttling": "^3.3.1",
     "@octokit/rest": "^18.0.6",
-    "aws-sdk": "^2.768.0",
+    "aws-sdk": "^2.769.0",
     "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.18.0",
