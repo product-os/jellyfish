@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: bca377a6697d7722ff23434ba2d735103acd6a9c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.38
+  date: 2020-10-08T12:14:28.869Z
+- commits:
     - subject: 'patch: Update dependency node-jose to v2'
       hash: 3add00c50d033459dfdd597a191be2e92faa4105
       body: ''
