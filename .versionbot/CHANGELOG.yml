@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency d3 to v6'
+      hash: 7b32a13899b07e4a4375d12137a31d5cbc39eb95
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.4.36
+  date: 2020-10-08T04:49:08.184Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.61'
       hash: f540b7dbc6610c7a061ecfd0dd9b7b73e94188a0
       body: ''
