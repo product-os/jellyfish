@@ -78,7 +78,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.21.3",
     "eslint-plugin-standard": "^4.0.1",
-    "file-loader": "^6.1.0",
+    "file-loader": "^6.1.1",
     "html-webpack-plugin": "^4.5.0",
     "js-combinatorics": "^0.6.1",
     "js-yaml": "^3.14.0",
@@ -105,7 +105,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.11.5",
-    "@balena/jellyfish-action-library": "^5.0.44",
+    "@balena/jellyfish-action-library": "^5.0.45",
     "@balena/jellyfish-assert": "^1.0.15",
     "@balena/jellyfish-chat-widget": "^2.0.45",
     "@balena/jellyfish-client-sdk": "^2.2.12",
