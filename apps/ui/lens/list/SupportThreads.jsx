@@ -257,26 +257,21 @@ export class SupportThreads extends React.Component {
 					}}
 				>
 					{segments.map((segment) => {
+						const cards = _.get(segment, [ 'cards' ]) || []
+
 						return (
-							<Tab key={segment.name} title={`${segment.name} (${segment.cards.length})`}>
+							<Tab key={segment.name} title={`${segment.name} (${cards.length})`}>
 								<InfiniteList
 									bg="#f8f9fd"
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
 									style={{
 										height: '100%',
+										width: '100%',
 										paddingBottom: 16
 									}}
 								>
-									{!(this.props.totalPages > this.props.page + 1) && segment.cards.length === 0 && (
-										<Box p={3}>
-											<strong data-test="alt-text--no-support-threads">
-												Good job! There are no support threads here
-											</strong>
-										</Box>
-									)}
-
-									{_.map(segment.cards, (card) => {
+									{cards && cards.map((card) => {
 										const timeline = _.sortBy(
 											_.get(card.links, [ 'has attached element' ], []),
 											'data.timestamp'
@@ -296,12 +291,6 @@ export class SupportThreads extends React.Component {
 											/>
 										)
 									})}
-
-									{this.props.totalPages > this.props.page + 1 && (
-										<Box p={3}>
-											<Icon spin name="cog"/>
-										</Box>
-									)}
 								</InfiniteList>
 							</Tab>
 						)

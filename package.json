@@ -115,7 +115,7 @@
     "@balena/jellyfish-metrics": "^0.0.127",
     "@balena/jellyfish-queue": "^0.0.152",
     "@balena/jellyfish-sync": "^3.0.30",
-    "@balena/jellyfish-ui-components": "^2.0.42-add-react-virtualised-to-infinite-list-3292bf9f6b5b0c476a93be94eb4ee9b12f9f2397",
+    "@balena/jellyfish-ui-components": "^2.0.42-add-react-virtualised-to-infinite-list-6955e34ccf7928af1cf18ac6a6fce8e5e06c186a",
     "@balena/jellyfish-uuid": "^1.0.16",
     "@balena/jellyfish-worker": "^1.0.131",
     "@emotion/cache": "^10.0.29",
