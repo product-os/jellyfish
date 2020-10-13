@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 86e088f0dc22fbdbec8fd24894b48f90b403ee5c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.6.1
+  date: 2020-10-13T21:24:37.663Z
+- commits:
     - subject: 'test: Add unit test for LinkModal with mismatched cards'
       hash: aefd72ddd41143feee1d2b0f1432dc0cf549f820
       body: ''
