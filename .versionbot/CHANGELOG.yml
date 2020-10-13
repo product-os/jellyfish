@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: c9e10aeaa5034ba628212abf1c4256b9a60cf157
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.5.1
+  date: 2020-10-13T07:29:51.394Z
+- commits:
     - subject: 'ui: Add table lens to patterns, support issues and support threads views'
       hash: 22a44e0c5845a2d7fca7e637e00c0f59c0402bb3
       body: |
