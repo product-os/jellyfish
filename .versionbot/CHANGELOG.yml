@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'ui: Add table lens to patterns, support issues and support threads views'
+      hash: 22a44e0c5845a2d7fca7e637e00c0f59c0402bb3
+      body: |
+        Removed reference to non-existent 'lens-support-issue-table'
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.5.0
+  date: 2020-10-13T06:26:37.802Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 55508b422012fab121c0718a6dd7321a123b3c60
       body: ''
