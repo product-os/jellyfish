@@ -37,6 +37,12 @@ const card2 = {
 	type: 'user@1.0.0'
 }
 
+const orgInstanceCard = {
+	id: 'O2',
+	slug: 'org-1',
+	type: 'org@1.0.0'
+}
+
 const types = [
 	user,
 	org
@@ -168,4 +174,24 @@ ava('LinkModal can link multiple cards to another card', async (test) => {
 
 	verifyCard(test, commonProps, 0, card)
 	verifyCard(test, commonProps, 1, card2)
+})
+
+ava('LinkModal throws exception if card types are different', async (test) => {
+	const {
+		commonProps
+	} = test.context
+
+	test.throws(() => {
+		mount((
+			<LinkModal
+				{...commonProps}
+				cards={[ card, orgInstanceCard ]}
+				types={types}
+			/>
+		), {
+			wrappingComponent: Wrapper
+		})
+	}, {
+		message: 'All cards must be of the same type'
+	})
 })
