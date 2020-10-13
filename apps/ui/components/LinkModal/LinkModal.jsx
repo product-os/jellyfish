@@ -93,6 +93,7 @@ export default class LinkModal extends React.Component {
 		}
 
 		this.handleTargetSelect = this.handleTargetSelect.bind(this)
+		this.handleLinkTypeSelect = this.handleLinkTypeSelect.bind(this)
 		this.linkToExisting = this.linkToExisting.bind(this)
 	}
 
@@ -117,6 +118,12 @@ export default class LinkModal extends React.Component {
 		this.setState({
 			selectedTarget: target,
 			linkType: this.getLinkType(target)
+		})
+	}
+
+	handleLinkTypeSelect (payload) {
+		this.setState({
+			linkType: payload.option
 		})
 	}
 
