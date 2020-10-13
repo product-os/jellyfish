@@ -25,7 +25,8 @@
       }
     ],
     "lenses": [
-      "lens-list"
+      "lens-list",
+      "lens-table"
     ]
   }
 }
