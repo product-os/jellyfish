@@ -136,7 +136,7 @@ class ChannelRenderer extends React.Component {
 					<LinkModal
 						actions={actions}
 						target={head}
-						card={linkFrom}
+						cards={[ linkFrom ]}
 						types={types}
 						onHide={this.closeLinkModal}
 					/>

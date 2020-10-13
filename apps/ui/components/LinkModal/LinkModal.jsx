@@ -5,6 +5,7 @@
  */
 
 import _ from 'lodash'
+import memoize from 'memoize-one'
 import React from 'react'
 import {
 	Box,
@@ -22,19 +23,27 @@ import {
 	addNotification
 } from '@balena/jellyfish-ui-components/lib/services/notifications'
 
+const getTypes = memoize((inputCards) => {
+	return _.uniq(_.map(inputCards, 'type'))
+})
+
 export default class LinkModal extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.getFromType = _.memoize((card) => {
-			let fromType = card.type.split('@')[0]
+		this.getFromType = memoize((cards) => {
+			const cardTypes = getTypes(cards)
+			if (cardTypes.length > 1) {
+				throw new Error('All cards must be of the same type')
+			}
+			let fromType = cards[0].type.split('@')[0]
 			if (fromType === 'type') {
-				fromType = card.slug.split('@')[0]
+				fromType = cards[0].slug.split('@')[0]
 			}
 			return fromType
 		})
 
-		this.getAvailableTypeSlugs = _.memoize((types) => {
+		this.getAvailableTypeSlugs = memoize((types) => {
 			return _.reduce(types || [], (acc, type) => {
 				acc[type.slug] = true
 				return acc
@@ -89,12 +98,12 @@ export default class LinkModal extends React.Component {
 
 	getLinkTypeTargets (target) {
 		const {
-			card,
+			cards,
 			linkVerb,
 			types
 		} = this.props
 
-		const fromType = this.getFromType(card)
+		const fromType = this.getFromType(cards)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
 		return this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
 	}
@@ -114,7 +123,7 @@ export default class LinkModal extends React.Component {
 	async linkToExisting () {
 		const {
 			actions,
-			card,
+			cards,
 			onHide,
 			onSave,
 			onSaved
@@ -129,18 +138,25 @@ export default class LinkModal extends React.Component {
 			return
 		}
 
-		this.setState({
-			submitting: true
-		}, async () => {
+		const linkCard = async (card) => {
 			if (onSave) {
 				onSave(card, selectedTarget, linkType.name)
 			} else {
-				await actions.createLink(card, selectedTarget, linkType.name)
+				await actions.createLink(card, selectedTarget, linkType.name, {
+					skipSuccessMessage: true
+				})
 				if (onSaved) {
 					onSaved(selectedTarget, linkType.name)
 				}
 			}
+		}
 
+		this.setState({
+			submitting: true
+		}, async () => {
+			const linkTasks = cards.map(linkCard)
+			await Promise.all(linkTasks)
+			addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
 			this.setState({
 				submitting: false,
 				selectedTarget: null
@@ -153,7 +169,7 @@ export default class LinkModal extends React.Component {
 
 	render () {
 		const {
-			card,
+			cards,
 			linkVerb,
 			types,
 			target
@@ -164,7 +180,7 @@ export default class LinkModal extends React.Component {
 			submitting
 		} = this.state
 
-		const fromType = this.getFromType(card)
+		const fromType = this.getFromType(cards)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
 		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, selectedTarget, fromType)
 

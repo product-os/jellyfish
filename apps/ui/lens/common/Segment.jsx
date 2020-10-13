@@ -227,7 +227,7 @@ export default class Segment extends React.Component {
 					<LinkModal
 						linkVerb={segment.link}
 						actions={actions}
-						card={card}
+						cards={[ card ]}
 						types={[ type ]}
 						onHide={this.hideLinkModal}
 						onSave={onSave}

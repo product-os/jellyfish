@@ -181,7 +181,7 @@ class CardLinker extends React.Component {
 				{showLinkModal && (
 					<LinkModal
 						actions={actions}
-						card={card}
+						cards={[ card ]}
 						types={types}
 						onHide={this.hideLinkModal}
 					/>
