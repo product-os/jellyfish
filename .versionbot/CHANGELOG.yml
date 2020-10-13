@@ -1,4 +1,40 @@
 - commits:
+    - subject: 'test: Add unit test for LinkModal with mismatched cards'
+      hash: aefd72ddd41143feee1d2b0f1432dc0cf549f820
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: ensure link type can be selected in LinkModal'
+      hash: 94292df7379fa1406326f8b1bd575d739b5bbe03
+      body: >
+        This fixes a regression bug where the link type couldn't be selected if
+        there were multiple possible link types for the two cards being linked.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Add support for creating multiple links in LinkModal'
+      hash: 17c39d8864d7bf3eff839229cd6e49f6bf07d618
+      body: |
+        Input card prop replaced by a cards (array) prop.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.6.0
+  date: 2020-10-13T11:33:27.909Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: c9e10aeaa5034ba628212abf1c4256b9a60cf157
       body: ''
