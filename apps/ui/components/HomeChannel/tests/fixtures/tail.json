@@ -1962,7 +1962,7 @@
       ],
       "lenses": [
         "lens-list",
-        "lens-support-issue-table"
+        "lens-table"
       ],
       "namespace": "Support"
     },
