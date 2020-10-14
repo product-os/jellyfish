@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 72a19a2bdc3ef77c21e2e41367bc6d2010212b7e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.9.1
+  date: 2020-10-14T18:48:47.427Z
+- commits:
     - subject: 'ui: View search now searches within timeline events as well'
       hash: e12cb6dca823ca6176ee491b87b85aa6b6e83a1f
       body: ''
