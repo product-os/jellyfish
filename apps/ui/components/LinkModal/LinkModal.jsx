@@ -6,6 +6,7 @@
 
 import _ from 'lodash'
 import memoize from 'memoize-one'
+import pluralize from 'pluralize'
 import React from 'react'
 import {
 	Box,
@@ -200,8 +201,9 @@ export default class LinkModal extends React.Component {
 		const typeCard = _.find(types, [ 'slug', fromType ])
 		const typeName = typeCard ? typeCard.name : fromType
 
-		const title = `Link this ${typeName} to ${linkTypeTargets.length === 1
-			? linkTypeTargets[0].title : 'another element'}`
+		const titleSource = `${cards.length > 1 ? 'these' : 'this'} ${pluralize(typeName, cards.length, cards.length > 1)}`
+		const titleTarget = linkTypeTargets.length === 1 ? linkTypeTargets[0].title : 'another element'
+		const title = `Link ${titleSource} to ${titleTarget}`
 
 		// Selected target display
 		let selectedTargetValue = null
