@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^18.11.2'
+      hash: 93c7a47fbdfa3083def2cc79a182edcfa607ccc0
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.7.1
+  date: 2020-10-14T08:00:34.167Z
+- commits:
     - subject: Add missing license header
       hash: 5b7a4ef7f64f3a896e22e7b38fd3f234c142fd4c
       body: ''
