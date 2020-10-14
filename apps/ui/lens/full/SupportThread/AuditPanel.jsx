@@ -75,7 +75,7 @@ export default function AuditPanel (props) {
 				onDone: {
 					action: 'link',
 					name: 'support thread is attached to product improvement',
-					target: props.card,
+					targets: [ props.card ],
 					callback: skipStep
 				}
 			},
