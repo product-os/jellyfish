@@ -63,7 +63,7 @@ class CardLinker extends React.Component {
 				},
 				onDone: {
 					action: 'link',
-					target: this.props.card
+					targets: [ this.props.card ]
 				}
 			},
 			format: 'create',

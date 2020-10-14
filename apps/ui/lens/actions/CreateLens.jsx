@@ -5,6 +5,7 @@
  */
 
 import clone from 'deep-copy'
+import memoize from 'memoize-one'
 import * as _ from 'lodash'
 import Bluebird from 'bluebird'
 import React from 'react'
@@ -52,7 +53,19 @@ const getLinkKey = (targetCardType, linkVerb) => {
 	return `${targetCardType.split('@')[0]}-${helpers.slugify(linkVerb)}`
 }
 
-class CreateLens extends React.Component {
+const getTypes = memoize((cards) => {
+	return _.uniq(_.map(cards, 'type'))
+})
+
+const getCardsType = memoize((cards) => {
+	const cardTypes = getTypes(cards)
+	if (cardTypes.length > 1) {
+		throw new Error('All target cards must be of the same type')
+	}
+	return cards[0].type.split('@')[0]
+})
+
+export class CreateLens extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -72,19 +85,20 @@ class CreateLens extends React.Component {
 		// only show type options that are valid link targets
 		if (onDone && onDone.action === 'link') {
 			// If types have been specified, select the first specified type
+			const from = getCardsType(onDone.targets)
 			if (types) {
 				selectedTypeTarget = _.first(_.castArray(types))
 
 				linkOption = _.find(constants.LINKS, {
 					data: {
-						from: onDone.target.type.split('@')[0],
+						from,
 						to: selectedTypeTarget.slug
 					}
 				})
 			} else {
 				linkOption = _.find(constants.LINKS, {
 					data: {
-						from: onDone.target.type.split('@')[0]
+						from
 					}
 				})
 
@@ -186,7 +200,7 @@ class CreateLens extends React.Component {
 			newCard.slug = `org-${helpers.slugify(newCard.name)}`
 		}
 
-		sdk.card.create(newCard)
+		this.props.sdk.card.create(newCard)
 			.catch((error) => {
 				addNotification('danger', error.message)
 				this.setState({
@@ -250,13 +264,20 @@ class CreateLens extends React.Component {
 				redirectTo: `/${newCard.slug || newCard.id}`
 			})
 		} else if (_.get(onDone, [ 'action' ]) === 'link') {
-			const card = onDone.target
+			const cards = onDone.targets
 			const {
 				linkOption,
 				selectedTypeTarget
 			} = this.state
+			const createLink = async (card) => {
+				return this.props.actions.createLink(card, newCard, linkOption.name, {
+					skipSuccessMessage: true
+				})
+			}
 			if (newCard && selectedTypeTarget) {
-				await this.props.actions.createLink(card, newCard, linkOption.name)
+				const linkTasks = cards.map(createLink)
+				await Bluebird.all(linkTasks)
+				addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
 				this.close()
 				closed = true
 			}
@@ -336,13 +357,13 @@ class CreateLens extends React.Component {
 		let linkTypeTargets = null
 
 		if (linkOption) {
-			const target = head.onDone.target
+			const from = getCardsType(head.onDone.targets)
 
 			// Create an array of available link types, then map over them and move the
 			// data.title file to the root of the object, as the rendition Select
 			// component can't use a non-root field for the `labelKey` prop
 			// TODO make the Select component allow nested fields for the `labelKey` prop
-			linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', target.type.split('@')[0] ])
+			linkTypeTargets = _.filter(constants.LINKS, [ 'data.from', from ])
 				.map((constraint) => {
 					return Object.assign({}, constraint, {
 						title: constraint.data.title
@@ -444,6 +465,7 @@ class CreateLens extends React.Component {
 
 const mapStateToProps = (state) => {
 	return {
+		sdk,
 		allTypes: selectors.getTypes(state)
 	}
 }

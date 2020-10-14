@@ -137,7 +137,7 @@ export default class Segment extends React.Component {
 				},
 				onDone: {
 					action: 'link',
-					target: card,
+					targets: [ card ],
 					callback: this.getData
 				}
 			},
