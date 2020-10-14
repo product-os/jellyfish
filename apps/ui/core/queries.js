@@ -6,7 +6,7 @@
 
 import _ from 'lodash'
 
-const mergeWithUniqConcatArrays = (objValue, srcValue) => {
+export const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 	if (_.isArray(objValue)) {
 		return _.uniq(objValue.concat(srcValue))
 	}
