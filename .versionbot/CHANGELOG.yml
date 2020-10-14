@@ -1,4 +1,41 @@
 - commits:
+    - subject: Add missing license header
+      hash: 5b7a4ef7f64f3a896e22e7b38fd3f234c142fd4c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'ui: Add support for linking newly created card to multiple cards'
+      hash: beb611a630c26a84798ef4df1b1e5e0eba3044b0
+      body: >
+        Basically the 'target' field of the 'onDone' object has been changed to
+        'targets'.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add common fixtures for card types
+      hash: 3589f991a9c3941c66fdcc7f97387ed23d10aced
+      body: >
+        This directory will act as a common place to store type card test
+        fixtures for UI unit tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.7.0
+  date: 2020-10-14T06:21:01.472Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: a6bf1109e7c62ad85aecc5fb3cd8a710381def6a
       body: ''
