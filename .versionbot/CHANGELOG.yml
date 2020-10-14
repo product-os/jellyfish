@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: View search now searches within timeline events as well'
+      hash: e12cb6dca823ca6176ee491b87b85aa6b6e83a1f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.9.0
+  date: 2020-10-14T17:57:35.755Z
+- commits:
     - subject: 'patch: Update dependency css-loader to v5'
       hash: 2280a6f77c694d6aecc155a280fb37f7ae3eb13d
       body: ''
