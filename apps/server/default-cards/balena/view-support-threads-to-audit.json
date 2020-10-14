@@ -59,6 +59,7 @@
     ],
     "lenses": [
       "lens-support-threads-to-audit",
+      "lens-table",
       "lens-kanban",
       "lens-support-audit-chart"
     ]

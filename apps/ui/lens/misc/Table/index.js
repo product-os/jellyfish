@@ -19,6 +19,7 @@ import CardTable from './CardTable'
 
 const mapStateToProps = (state) => {
 	return {
+		allTypes: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state)
 	}
 }
@@ -27,7 +28,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'createLink'
 			]), dispatch)
 	}
 }
