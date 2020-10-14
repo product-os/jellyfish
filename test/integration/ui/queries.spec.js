@@ -12,7 +12,7 @@ import _ from 'lodash'
 import {
 	getPingQuery
 } from '../../../apps/ui/core/queries'
-import helpers from '../server/helpers'
+import helpers from '../../../apps/server/test/integration/helpers'
 
 ava.before(async (test) => {
 	await helpers.before(test)
