@@ -285,67 +285,6 @@ ava.serial.afterEach.always(helpers.mirror.afterEach)
 // Skip all tests if there is no Front token
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.serial.skip : ava.serial
 
-avaTest('should close a thread with a #summary whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`,
-		test.context.inboxes[0])
-
-	test.is(supportThread.data.status, 'open')
-
-	// Send a message and then wait for the thread to close
-	const thread = await test.context.executeThenWait(async () => {
-		return test.context.createComment(supportThread,
-			test.context.getWhisperSlug(), '#summary Foo Bar')
-	}, {
-		type: 'object',
-		required: [ 'id', 'data' ],
-		properties: {
-			id: {
-				const: supportThread.id
-			},
-			data: {
-				type: 'object',
-				required: [ 'status' ],
-				properties: {
-					status: {
-						const: 'closed'
-					}
-				}
-			}
-		}
-	})
-	test.true(thread.active)
-	test.is(thread.data.status, 'closed')
-
-	const id = _.last(supportThread.data.mirrors[0].split('/'))
-
-	await wait(() => {
-		return retryWhile429(() => {
-			return test.context.front.conversation.get({
-				conversation_id: id
-			})
-		})
-	}, (conversation) => {
-		return conversation.status === 'archived'
-	})
-
-	// Check that it remains closed after a while
-	await Bluebird.delay(5000)
-
-	const conversation = await retryWhile429(() => {
-		return test.context.front.conversation.get({
-			conversation_id: id
-		})
-	})
-
-	test.is(conversation.status, 'archived')
-
-	const threadAfter = await test.context.sdk.getById(supportThread.id)
-	test.true(threadAfter.active)
-	test.is(threadAfter.data.status, 'closed')
-})
-
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
