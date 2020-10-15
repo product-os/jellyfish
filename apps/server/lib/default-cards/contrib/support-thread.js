@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	mixin, withEvents, uiSchemaDef
+	mixin, withEvents, withIsPending, uiSchemaDef
 }) => {
-	return mixin(withEvents)({
+	return mixin(withEvents, withIsPending)({
 		slug: 'support-thread',
 		name: 'Support Thread',
 		type: 'type@1.0.0',
