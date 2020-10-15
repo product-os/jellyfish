@@ -1,0 +1,65 @@
+{
+  "slug": "triggered-action-support-reset-pending",
+  "type": "triggered-action@1.0.0",
+  "name": "Triggered action for resetting the pending status of a support thread because of activity",
+  "markers": [],
+  "data": {
+    "async": false,
+    "filter": {
+      "$$links": {
+        "is attached to": {
+          "type": "object",
+          "required": [ "type", "data" ],
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-thread@1.0.0"
+            },
+            "data": {
+              "type": "object",
+              "required": [ "isPending" ],
+              "properties": {
+                "isPending": {
+                  "type": "boolean",
+                  "const": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "type": "object",
+      "required": [ "active", "type" ],
+      "properties": {
+        "active": {
+          "type": "boolean",
+          "const": true
+        },
+        "type": {
+          "type": "string",
+          "const": "message@1.0.0"
+        }
+      }
+    },
+    "action": "action-update-card@1.0.0",
+    "target": {
+      "$map": {
+        "$eval": "source.links['is attached to'][0:]"
+      },
+      "each(link)": {
+        "$eval": "link.id"
+      }
+    },
+    "mode": "insert",
+    "arguments": {
+      "reason": "Reset pending status because of activity",
+      "patch": [
+        {
+          "op": "replace",
+          "path": "/data/isPending",
+          "value": false
+        }
+      ]
+    }
+  }
+}

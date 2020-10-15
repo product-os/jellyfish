@@ -92,6 +92,7 @@ module.exports = ({
 			'./contrib/triggered-action-integration-outreach-mirror-event.json'),
 		triggeredActionSetUserAvatar: require('./contrib/triggered-action-set-user-avatar.json'),
 		triggeredActionSupportReopen: require('./contrib/triggered-action-support-reopen.json'),
+		triggeredActionSupportResetPending: require('./contrib/triggered-action-support-reset-pending.json'),
 		triggeredActionSupportClosedIssueReopen: require('./contrib/triggered-action-support-closed-issue-reopen.json'),
 		triggeredActionSupportClosedPullRequestReopen:
 			require('./contrib/triggered-action-support-closed-pull-request-reopen.json'),
