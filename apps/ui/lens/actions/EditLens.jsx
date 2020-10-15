@@ -109,7 +109,7 @@ class EditLens extends React.Component {
 				})
 			})
 			.then(() => {
-				addNotification('success', 'Successfully updated card')
+				addNotification('success', 'Card updated')
 			})
 			.catch((error) => {
 				addNotification('danger', error.message)
