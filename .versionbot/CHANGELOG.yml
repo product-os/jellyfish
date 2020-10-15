@@ -1,4 +1,73 @@
 - commits:
+    - subject: Update open-balena-base to v10.1.1
+      hash: 97a54cec54b334e0ed0fca78acadd4c39f3f7c78
+      body: |
+        Update open-balena-base from 9.4.3 to 10.1.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Pagan Gazzard
+      nested:
+        - commits:
+            - subject: Fix no-systemd nodejs version
+              hash: 3b3db51c6012342fb70f868b8fa747078c2f2294
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+              nested: []
+          version: open-balena-base-10.1.1
+          date: 2020-10-09T16:21:15.080Z
+        - commits:
+            - subject: Update nodejs to 12.19.0
+              hash: 8431b0e087367ac38454017f86bd1d6f8e8eb814
+              body: ''
+              footer:
+                Change-type: minor
+                change-type: minor
+              author: Pagan Gazzard
+              nested: []
+          version: open-balena-base-10.1.0
+          date: 2020-10-07T14:47:49.406Z
+        - commits:
+            - subject: Delete custom versionist.conf.js and add repo.yml
+              hash: c09ff99185178766bf236b20b52c5a09cfeb8a69
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+                Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+                signed-off-by: Giovanni Garufi <giovanni@balena.io>
+              author: Giovanni Garufi
+              nested: []
+          version: open-balena-base-10.0.2
+          date: 2020-09-17T12:54:19.050Z
+        - commits:
+            - subject: Update nodejs to 12.18.4 and npm to 6.14.8
+              hash: 98ba722e6cc1ca083aaeacb270a6d6b1f2288a02
+              body: ''
+              footer:
+                Change-type: patch
+                change-type: patch
+              author: Pagan Gazzard
+          version: open-balena-base-10.0.1
+          date: 2020-09-17T10:34:50.316Z
+        - commits:
+            - subject: remove support for etcd-based confd config
+              hash: 0d01099afeb30cb3693b554174ef2443f4d745a2
+              body: ''
+              footer:
+                Change-type: major
+                change-type: major
+                Signed-off-by: Will Boyce <will@balena.io>
+                signed-off-by: Will Boyce <will@balena.io>
+              author: Will Boyce
+          version: open-balena-base-10.0.0
+          date: 2020-08-26T09:47:40.813Z
+  version: 33.9.4
+  date: 2020-10-15T06:40:32.923Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 0197ed9b00f11a9f23e9ddc1d6ace33b645ad7d7
       body: ''
