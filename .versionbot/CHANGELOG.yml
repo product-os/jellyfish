@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: Remove duplicate ''success'' in notification'
+      hash: cbe598c8922920ee9d3f2b51207dac3e6bb94bdf
+      body: >
+        Now that we preface all 'success' notifications with **Success** we
+        shouldn't also use the word 'success' in the notification message!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.9.5
+  date: 2020-10-15T09:56:08.030Z
+- commits:
     - subject: Update open-balena-base to v10.1.1
       hash: 97a54cec54b334e0ed0fca78acadd4c39f3f7c78
       body: |
