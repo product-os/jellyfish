@@ -31,6 +31,9 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
+import {
+	mergeWithUniqConcatArrays
+} from '../../../core/queries'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	addNotification
@@ -48,8 +51,11 @@ import Content from './Content'
 import {
 	USER_FILTER_NAME,
 	FULL_TEXT_SEARCH_TITLE,
+	EVENTS_FULL_TEXT_SEARCH_TITLE,
 	TIMELINE_FILTER_PROP
 } from './constants'
+
+const getSearchViewId = (targetId) => `$$search-${targetId}`
 
 const createSliceFilter = (slice) => {
 	const filter = {
@@ -163,9 +169,44 @@ const createSearchFilter = (schema, term) => {
 		anyOf: [
 			helpers.createFullTextSearchFilter(schema, term)
 		],
+		description: `Full text search for '${term}'`,
 		title: FULL_TEXT_SEARCH_TITLE,
 		$id: FULL_TEXT_SEARCH_TITLE
 	} : null
+}
+
+const createEventSearchFilter = (types, term) => {
+	if (!term) {
+		return null
+	}
+	const messageType = helpers.getType('message', types)
+	if (!messageType) {
+		return null
+	}
+	const eventSchema = messageType.data.schema
+	const attachedElementSearchFilter = helpers.createFullTextSearchFilter(eventSchema, term)
+	const attachedElement = _.mergeWith(
+		{
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
+				}
+			}
+		},
+		attachedElementSearchFilter,
+		mergeWithUniqConcatArrays
+	)
+	return {
+		type: 'object',
+		$$links: {
+			'has attached element': attachedElement
+		},
+		description: `Full text search in timeline for '${term}'`,
+		title: EVENTS_FULL_TEXT_SEARCH_TITLE,
+		$id: EVENTS_FULL_TEXT_SEARCH_TITLE
+	}
 }
 
 class ViewRenderer extends React.Component {
@@ -175,6 +216,7 @@ class ViewRenderer extends React.Component {
 		this.state = {
 			redirectTo: null,
 			searchTerm: '',
+			eventSearchFilter: null,
 			searchFilter: null,
 			filters: [],
 			ready: false,
@@ -258,6 +300,7 @@ class ViewRenderer extends React.Component {
 			// If the search filter has been removed by the Filters summary,
 			// update our component state accordingly before updating filters
 			this.setState({
+				eventSearchFilter: null,
 				searchFilter: null,
 				searchTerm: ''
 			}, () => {
@@ -277,6 +320,7 @@ class ViewRenderer extends React.Component {
 	updateSearch (event) {
 		const schema = _.get(this.state, [ 'tailType', 'data', 'schema' ])
 		this.setState({
+			eventSearchFilter: createEventSearchFilter(this.props.types, event.target.value),
 			searchFilter: createSearchFilter(schema, event.target.value),
 			searchTerm: event.target.value
 		}, () => {
@@ -571,13 +615,28 @@ class ViewRenderer extends React.Component {
 			channel
 		} = this.props
 		const {
-			searchFilter, activeLens
+			searchFilter, activeLens, eventSearchFilter
 		} = this.state
-		const allFilters = _.compact([ ...filters, searchFilter ])
-		const syntheticViewCard = createSyntheticViewCard(channel.data.head, allFilters)
+		const targetFilters = _.compact([ ...filters, searchFilter ])
+		const eventFilters = _.compact([ ...filters, eventSearchFilter ])
+
+		const syntheticViewCard = createSyntheticViewCard(channel.data.head, targetFilters)
+		const eventSyntheticViewCard = createSyntheticViewCard(channel.data.head, eventFilters)
+
+		// Use a different id for the event search view as this is the key used by the redux cache
+		eventSyntheticViewCard.id = getSearchViewId(eventSyntheticViewCard.id)
+
 		const options = this.getQueryOptions(activeLens)
+
 		actions.clearViewData(syntheticViewCard)
+		actions.clearViewData(eventSyntheticViewCard)
+
 		actions.loadViewData(syntheticViewCard, options)
+		if (eventSearchFilter) {
+			actions.loadViewData(eventSyntheticViewCard, options)
+		} else {
+			actions.setViewData(eventSyntheticViewCard, [])
+		}
 	}
 
 	render () {
@@ -669,9 +728,14 @@ class ViewRenderer extends React.Component {
 
 const mapStateToProps = (state, ownProps) => {
 	const target = ownProps.channel.data.head.id
+	const targetTail = selectors.getViewData(state, target)
+	const timelineSearchTail = selectors.getViewData(state, getSearchViewId(target))
+	const tail = (targetTail && timelineSearchTail)
+		? _.unionBy(targetTail, timelineSearchTail, 'id')
+		: null
 	return {
 		channels: selectors.getChannels(state),
-		tail: selectors.getViewData(state, target),
+		tail,
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
 		userActiveLens: selectors.getUsersViewLens(state, target)
@@ -685,6 +749,7 @@ const mapDispatchToProps = (dispatch) => {
 				'clearViewData',
 				'loadViewData',
 				'loadMoreViewData',
+				'setViewData',
 				'setViewLens'
 			]), dispatch)
 	}

@@ -1,4 +1,94 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 0197ed9b00f11a9f23e9ddc1d6ace33b645ad7d7
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.9.3
+  date: 2020-10-14T21:52:40.585Z
+- commits:
+    - subject: 'patch: Update non-major'
+      hash: bbfc7cc93fb19aa10054e01ad5804f946f459f3d
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.9.2
+  date: 2020-10-14T20:20:18.905Z
+- commits:
+    - subject: 'patch: Update non-major'
+      hash: 72a19a2bdc3ef77c21e2e41367bc6d2010212b7e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.9.1
+  date: 2020-10-14T18:48:47.427Z
+- commits:
+    - subject: 'ui: View search now searches within timeline events as well'
+      hash: e12cb6dca823ca6176ee491b87b85aa6b6e83a1f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.9.0
+  date: 2020-10-14T17:57:35.755Z
+- commits:
+    - subject: 'patch: Update dependency css-loader to v5'
+      hash: 2280a6f77c694d6aecc155a280fb37f7ae3eb13d
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.8.2
+  date: 2020-10-14T15:33:37.836Z
+- commits:
+    - subject: 'patch: Update non-major'
+      hash: 1451475b20d10f904ae9efc594625690be6d3780
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.8.1
+  date: 2020-10-14T14:14:32.952Z
+- commits:
+    - subject: Added table lens to views that could benefit from one
+      hash: 9443717b01aca54145289b959b63e8a53d5b17b4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Add checkboxes and multi-card actions to table lens'
+      hash: 85541080a6704efe4fc36a3b9811afe90f7a0eb6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.8.0
+  date: 2020-10-14T11:03:09.785Z
+- commits:
+    - subject: 'patch: Update dependency rendition to ^18.11.2'
+      hash: 93c7a47fbdfa3083def2cc79a182edcfa607ccc0
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.7.1
+  date: 2020-10-14T08:00:34.167Z
+- commits:
     - subject: Add missing license header
       hash: 5b7a4ef7f64f3a896e22e7b38fd3f234c142fd4c
       body: ''

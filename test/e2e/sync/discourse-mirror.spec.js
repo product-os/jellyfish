@@ -479,27 +479,6 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	test.true(topicAfter.visible)
 })
 
-avaTest('should not update a post by posting a #summary whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await helpers.mirror.beforeEach(
-		test, environment.test.integration.discourse.username)
-
-	const content = generateRandomWords(50)
-
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), `#summary ${content}`)
-
-	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const firstPost = withoutSyncNotice(topic.post_stream.posts)[0]
-	test.is(firstPost.updated_at, firstPost.created_at)
-})
-
 avaTest('should not update a post by defining no new tags', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
@@ -662,34 +641,6 @@ avaTest('should re-open an archived thread with a message', async (test) => {
 	const thread = await test.context.sdk.getById(supportThread.id)
 	test.true(thread.active)
 	test.is(thread.data.status, 'open')
-})
-
-avaTest('should close a thread with a #summary whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	test.is(supportThread.data.status, 'open')
-
-	const content = generateRandomWords(50)
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), `#summary ${content}`)
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'closed')
-
-	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-
-	// We will not close the remote thread as this is an internal thing
-	test.truthy(topic.visible)
-	test.falsy(topic.closed)
-	test.falsy(topic.archived)
-	test.falsy(topic.deleted_by)
-	test.falsy(topic.deleted_at)
 })
 
 avaTest('should add and remove a thread tag', async (test) => {

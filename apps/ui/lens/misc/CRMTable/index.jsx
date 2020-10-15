@@ -18,12 +18,13 @@ import {
 import CRMTable from './CRMTable'
 
 const mapStateToProps = (state) => {
+	const allTypes = selectors.getTypes(state)
 	return {
 		user: selectors.getCurrentUser(state),
 
-		// Types: selectors.getTypes(state)
+		allTypes,
 		types: _.get(
-			_.find(selectors.getTypes(state), [ 'slug', 'opportunity' ]), [
+			_.find(allTypes, [ 'slug', 'opportunity' ]), [
 				'data',
 				'schema',
 				'properties',
@@ -40,7 +41,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'createLink'
 			]), dispatch)
 	}
 }
