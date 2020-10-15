@@ -127,6 +127,7 @@ module.exports = ({
 		viewAllJellyfishSupportThreads: require('./balena/view-all-jellyfish-support-threads.json'),
 		viewAllMessages: require('./balena/view-all-messages.json'),
 		viewAllOpportunities: require('./balena/view-all-opportunities.json'),
+		viewMyOpportunities: require('./balena/view-my-opportunities.json'),
 		viewAllPatterns: require('./balena/view-all-patterns.json'),
 		viewAllProductImprovements: require('./balena/view-all-product-improvements.json'),
 		viewAllProducts: require('./balena/view-all-products.json'),
