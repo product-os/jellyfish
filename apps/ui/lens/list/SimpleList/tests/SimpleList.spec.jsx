@@ -10,12 +10,12 @@ import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import SupportThreadsToAudit from '../SupportThreadsToAudit'
+import SimpleList from '../SimpleList'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
-			<SupportThreadsToAudit />
+			<SimpleList />
 		)
 	})
 })

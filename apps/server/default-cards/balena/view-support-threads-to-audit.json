@@ -1,6 +1,7 @@
 {
   "slug": "view-support-threads-to-audit",
   "name": "To audit",
+  "active": false,
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
@@ -58,7 +59,7 @@
       }
     ],
     "lenses": [
-      "lens-support-threads-to-audit",
+      "lens-simple-list",
       "lens-table",
       "lens-kanban",
       "lens-support-audit-chart"

@@ -31,7 +31,7 @@ export default class SingleCard extends React.Component {
 		const fullName = (first && last) ? `${first} ${last}` : null
 
 		return (
-			<Box pb={3}>
+			<Box p={3}>
 				<Flex>
 					<Box flex="1" mr={3}>
 						<Link append={card.slug || card.id}>

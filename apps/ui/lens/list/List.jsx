@@ -93,8 +93,8 @@ class CardList extends BaseLens {
 					columnIndex={0}
 					rowIndex={rowProps.index}
 				>
-					<Box px={3} pb={3} style={rowProps.style}>
-						<lens.data.renderer card={card}/>
+					<Box style={rowProps.style}>
+						<lens.data.renderer card={card} channel={this.props.channel} />
 						<Divider color="#eee" m={0} style={{
 							height: 1
 						}}/>

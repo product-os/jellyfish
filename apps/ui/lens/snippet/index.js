@@ -8,10 +8,12 @@ import Contact from './Contact'
 import SingleCard from './SingleCard'
 import SingleResponse from './SingleResponse'
 import Specification from './Specification'
+import SupportThread from './SupportThread'
 
 export default [
 	Contact,
 	SingleCard,
 	SingleResponse,
-	Specification
+	Specification,
+	SupportThread
 ]

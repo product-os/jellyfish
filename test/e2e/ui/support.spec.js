@@ -64,7 +64,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 
 	await page.waitForSelector('.column--view-all-support-threads')
 
-	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-list"]')
 
 	// Create a new support thread
 	const supportThread = await page.evaluate(() => {
@@ -515,7 +515,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	await page.goto(
 		`${environment.ui.host}:${environment.ui.port}/view-all-support-threads...properties.data.properties.status+is+open`
 	)
-	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+	await page.waitForSelector('[data-test="lens--lens-list"]')
 
 	const summarySelector = `[data-test-component="card-chat-summary"][data-test-id="${supportThread.id}"]`
 

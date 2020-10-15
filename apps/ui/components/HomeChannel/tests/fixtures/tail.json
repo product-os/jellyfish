@@ -646,7 +646,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads"
+        "lens-list"
       ],
       "namespace": "Sales"
     },
@@ -888,7 +888,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -1032,7 +1032,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -1365,7 +1365,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -1442,7 +1442,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads-to-audit",
+        "lens-simple-list",
         "lens-kanban",
         "lens-support-audit-chart"
       ],
@@ -1918,7 +1918,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -2104,7 +2104,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -2180,7 +2180,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
@@ -2255,7 +2255,7 @@
         }
       ],
       "lenses": [
-        "lens-support-threads",
+        "lens-list",
         "lens-kanban"
       ],
       "namespace": "Support"
