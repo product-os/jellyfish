@@ -481,7 +481,7 @@ push:
 		--env TEST_INTEGRATION_SKIP=$(TEST_INTEGRATION_SKIP) \
 		--env LOGLEVEL=$(LOGLEVEL) \
 		--env NODE_ENV=$(NODE_ENV) \
-		--env NPM_TOKEN=$(NPM_TOKEN) \
+		--env NPM_TOKEN=$(shell cat ~/.npmrc | cut -d '=' -f 2) \
 		--env NPM_CONFIG_REGISTRY=http://verdaccio:4873
 
 ssh:
