@@ -129,22 +129,7 @@ module.exports = ({
 				},
 				snippet: {
 					$ref: uiSchemaDef('reset'),
-					data: {
-						user: null,
-						howDidYouFirstHearAboutBalenaCloud: null,
-						howWouldYouDescribeYourRole: null,
-						couldYouBrieflyDescribeYourUsecase: null,
-						howHasYourExperienceBeenSoFar: null,
-						howLikelyAreYouToRecommendBalenaCloud: null,
-						curatedOrigin: null,
-						originDetail: null,
-						role: null,
-						useCaseSegment: null,
-						useCaseDetail: null,
-						experienceEvaluation: null,
-						issuesWants: null,
-						highlights: null
-					}
+					data: null
 				},
 				edit: {
 					$ref: '#/data/uiSchema/definitions/form'
