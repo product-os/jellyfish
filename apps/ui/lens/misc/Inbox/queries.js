@@ -7,7 +7,7 @@
 import _ from 'lodash'
 import {
 	queries
-} from '../../core'
+} from '../../../core'
 
 export const getUnreadQuery = queries.getUnreadQuery
 
