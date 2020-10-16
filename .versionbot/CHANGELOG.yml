@@ -1,4 +1,28 @@
 - commits:
+    - subject: Modify Inbox rendering so that it behaves like all other channels
+      hash: b2a966eaddc26f9cf75cf6fb655a99a1d261f821
+      body: |
+        This change means that when viewing a message in your inbox, it opens in
+        a side channel.
+
+        Fixes #4958
+        Fixes #4946
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 114bf1fd62e6472b9be5acff7debf6738b100072
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.11.0
+  date: 2020-10-16T12:29:58.610Z
+- commits:
     - subject: Split up package.json - apps/server
       hash: e4652d57d5a88d41038d63bb83da442ac2e4bb64
       body: ''
