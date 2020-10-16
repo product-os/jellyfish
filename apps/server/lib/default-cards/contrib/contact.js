@@ -116,6 +116,42 @@ module.exports = ({
 							}
 						}
 					}
+				},
+				snippet: {
+					$ref: uiSchemaDef('reset'),
+					data: {
+						source: null,
+						profile: {
+							'ui:title': null,
+							'ui:order': [
+								'type',
+								'company',
+								'email'
+							],
+							email: {
+								$ref: uiSchemaDef('email'),
+								'ui:options': {
+									flexDirection: 'row'
+								}
+							},
+							type: {
+								'ui:options': {
+									italic: true,
+									flexDirection: 'row'
+								}
+							},
+							company: {
+								'ui:options': {
+									italic: true,
+									flexDirection: 'row'
+								}
+							},
+							title: null,
+							country: null,
+							city: null,
+							name: null
+						}
+					}
 				}
 			},
 			meta: {
