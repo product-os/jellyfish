@@ -298,6 +298,7 @@ lint:
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
 	cd apps/server && make lint
+	cd apps/action-server && make lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -359,13 +360,11 @@ start-server: LOGLEVEL = info
 start-server:
 	cd apps/server && make start-server
 
-start-worker: LOGLEVEL = info
 start-worker:
-	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) apps/action-server/worker.js
+	cd apps/action-server && make start-worker
 
-start-tick: LOGLEVEL = info
 start-tick:
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) apps/action-server/tick.js
+	cd apps/action-server && make start-tick
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

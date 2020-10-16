@@ -15,7 +15,7 @@ const {
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment')
 const bootstrap = require('../../lib/bootstrap')
-const actionServer = require('../../../action-server/bootstrap')
+const actionServer = require('../../../action-server/lib/bootstrap')
 const utils = require('../../../../test/integration/utils')
 
 const workerOptions = {

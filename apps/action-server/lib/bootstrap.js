@@ -15,7 +15,7 @@ const core = require('@balena/jellyfish-core')
 const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('@balena/jellyfish-metrics')
-const packageJSON = require('../../package.json')
+const packageJSON = require('../../../package.json')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
 	const keySlug = `session-action-${actorId}`

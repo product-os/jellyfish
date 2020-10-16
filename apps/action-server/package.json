@@ -1,0 +1,27 @@
+{
+  "name": "jellyfish-action-server",
+  "version": "0.0.1",
+  "codename": "cephea",
+  "private": true,
+  "description": "The Jellyfish Action Server App",
+  "engines": {
+    "node": ">=12.15.0"
+  },
+  "author": "Balena.io. <hello@balena.io>",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@balena/jellyfish-action-library": "^5.0.55",
+    "@balena/jellyfish-core": "^0.1.74",
+    "@balena/jellyfish-environment": "^2.2.39",
+    "@balena/jellyfish-logger": "^0.0.114",
+    "@balena/jellyfish-metrics": "^0.0.130",
+    "@balena/jellyfish-queue": "^0.0.157",
+    "@balena/jellyfish-uuid": "^1.0.16",
+    "@balena/jellyfish-worker": "^1.0.134",
+    "bluebird": "^3.7.2",
+    "lodash": "^4.17.20"
+  },
+  "devDependencies": {
+    "depcheck": "^1.2.0"
+  }
+}
