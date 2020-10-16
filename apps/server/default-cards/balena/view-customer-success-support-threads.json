@@ -1,6 +1,7 @@
 {
   "slug": "view-customer-success-support-threads",
   "name": "Customer success",
+  "active": false,
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {

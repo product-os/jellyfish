@@ -1,6 +1,7 @@
 {
   "slug": "view-security-support-threads",
   "name": "Security",
+  "active": false,
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
