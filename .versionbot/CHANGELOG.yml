@@ -1,4 +1,62 @@
 - commits:
+    - subject: Set ESR Version
+      hash: 2ee6c05fe0257514cd255169c73765dd5401c388
+      body: |
+        This is a temporary solution to get CI to work on the feature branch.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Reset pending status on support thread activity
+      hash: 3f8793b5776a7a840e2993dfe04fdf7287d447e5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Add Pending Status toggle button'
+      hash: ea9cc7d7ebb3ed25d5da594b577b6e12593e6b98
+      body: >
+        Displays the pending status of a support thread (dark blue background if
+        pending) and lets the user toggle the pending status.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add isPending boolean field to support-thread and sales-thread
+      hash: 95f967ae66094b3a299815a6f41a91d212a94c03
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove summary tag triggered action
+      hash: 85b4d5fb309f0a03d60b68ef23418f3019577856
+      body: >
+        Using a #summary tag in a whisper will no longer close the support
+        thread.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.10.0
+  date: 2020-10-16T04:50:46.401Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 0197ed9b00f11a9f23e9ddc1d6ace33b645ad7d7
       body: ''
