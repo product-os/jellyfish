@@ -13,7 +13,7 @@ import {
 } from 'redux'
 import {
 	actionCreators
-} from '../../core'
+} from '../../../core'
 import Inbox from './Inbox'
 
 const mapDispatchToProps = (dispatch) => {
@@ -27,4 +27,17 @@ const mapDispatchToProps = (dispatch) => {
 	)
 }
 
-export default connect(null, mapDispatchToProps)(Inbox)
+export default {
+	slug: 'lens-inbox',
+	type: 'lens',
+	version: '1.0.0',
+	name: 'Inbox lens',
+	data: {
+		renderer: connect(null, mapDispatchToProps)(Inbox),
+		icon: 'address-card',
+		type: '*',
+		filter: {
+			type: 'object'
+		}
+	}
+}

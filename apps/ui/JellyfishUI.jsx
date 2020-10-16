@@ -34,7 +34,6 @@ import PageTitle from './components/PageTitle'
 import RequestPasswordReset from './components/Auth/RequestPasswordReset'
 import CompletePasswordReset from './components/Auth/CompletePasswordReset'
 import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin'
-import Inbox from './components/Inbox'
 import AuthContainer from './components/Auth'
 import MermaidEditor from './components/MermaidEditor'
 import Splash from './components/Splash'
@@ -138,7 +137,6 @@ class JellyfishUI extends React.Component {
 
 					<Switch>
 						<Route path="/oauth/:integration" component={Oauth} />
-						<Route path="/inbox" component={Inbox} />
 						<Route path="/*" component={RouteHandler} />
 					</Switch>
 				</Flex>

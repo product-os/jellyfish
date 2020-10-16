@@ -141,6 +141,18 @@ export default class RouteHandler extends React.Component {
 				return existingChannel
 			}
 
+			// TODO: Remove this special case handling for the inbox and use a generic
+			// solution
+			if (target === 'inbox') {
+				return {
+					target: 'inbox',
+					canonical: false,
+					format: 'inbox',
+					head: {},
+					options: {}
+				}
+			}
+
 			return {
 				target,
 				options

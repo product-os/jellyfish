@@ -24,6 +24,7 @@ import Chart from './misc/Chart'
 import FullLenses from './full'
 import ListLenses from './list'
 import SnippetLenses from './snippet'
+import InboxLens from './misc/Inbox'
 
 const lenses = {
 	full: FullLenses,
@@ -32,6 +33,10 @@ const lenses = {
 
 	edit: [
 		EditLens
+	],
+
+	inbox: [
+		InboxLens
 	],
 
 	create: [

@@ -5,6 +5,7 @@
  */
 
 import _ from 'lodash'
+import path from 'path'
 import React from 'react'
 import {
 	connect
@@ -21,7 +22,7 @@ import {
 	actionCreators,
 	selectors,
 	sdk
-} from '../../core'
+} from '../../../core'
 import {
 	ActionLink
 } from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
@@ -62,7 +63,10 @@ class MessageList extends React.Component {
 		this.loadingPage = false
 
 		this.openChannel = (target) => {
-			this.props.history.push(`/${target}`)
+			// Remove everything after the inbox channel, then append the target.
+			this.props.history.push(
+				path.join(window.location.pathname.split('inbox')[0], 'inbox', target)
+			)
 		}
 
 		this.state = {

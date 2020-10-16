@@ -28,7 +28,7 @@ import {
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import {
 	selectors
-} from '../../core'
+} from '../../../core'
 import MarkAsReadButton from './MarkAsReadButton'
 import MessageList from './MessageList'
 
