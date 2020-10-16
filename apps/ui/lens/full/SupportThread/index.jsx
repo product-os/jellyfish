@@ -113,6 +113,37 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
+		this.togglePending = (event) => {
+			const {
+				card
+			} = this.props
+			if (this.state.isTogglingPending) {
+				return
+			}
+			this.setState({
+				isTogglingPending: true
+			}, () => {
+				const wasPending = _.get(card, [ 'data', 'isPending' ], false)
+				const patch = helpers.patchPath(card, [ 'data', 'isPending' ], !wasPending)
+
+				sdk.card.update(card.id, card.type, patch)
+					.then(() => {
+						addNotification(
+							'success',
+							wasPending ? 'Support thread is no longer pending' : 'Support thread is pending'
+						)
+					})
+					.catch((error) => {
+						addNotification('danger', error.message || error)
+					})
+					.finally(() => {
+						this.setState({
+							isTogglingPending: false
+						})
+					})
+			})
+		}
+
 		this.close = async () => {
 			const {
 				card,
@@ -183,6 +214,7 @@ class SupportThreadBase extends React.Component {
 		this.state = {
 			actor: null,
 			isClosing: false,
+			isTogglingPending: false,
 			linkedSupportIssues: [],
 			linkedGitHubIssues: [],
 			linkedProductImprovements: []
@@ -300,6 +332,7 @@ class SupportThreadBase extends React.Component {
 			getActorHref
 		} = this.props
 		const {
+			isTogglingPending,
 			linkedSupportIssues,
 			linkedGitHubIssues,
 			linkedProductImprovements
@@ -321,6 +354,7 @@ class SupportThreadBase extends React.Component {
 		const isMirrored = !_.isEmpty(mirrors)
 
 		const statusDescription = _.get(card, [ 'data', 'statusDescription' ])
+		const isPending = _.get(card, [ 'data', 'isPending' ], false)
 
 		return (
 			<CardLayout
@@ -328,7 +362,7 @@ class SupportThreadBase extends React.Component {
 				channel={channel}
 				title={(
 					<Flex flex={1} justifyContent="space-between">
-						<Flex flex={1} flexWrap="wrap"
+						<Flex flex={1} mr={1} flexWrap="wrap" alignItems="center"
 							style={{
 								transform: 'translateY(2px)'
 							}}
@@ -403,6 +437,19 @@ class SupportThreadBase extends React.Component {
 								}
 							/>
 						)}
+
+						<Button
+							mr={3}
+							tertiary
+							outline={!isPending}
+							data-test="support-thread__pending"
+							onClick={this.togglePending}
+							icon={<Icon name="hourglass-half" spin={isTogglingPending} />}
+							tooltip={{
+								placement: 'bottom',
+								text: isPending ? 'Support thread is pending' : 'Set this thread as pending'
+							}}
+						/>
 					</Flex>
 				)}
 				actionItems={(

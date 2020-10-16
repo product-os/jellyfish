@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withIsPending, uiSchemaDef
 }) => {
-	return {
+	return mixin(withIsPending)({
 		slug: 'sales-thread',
 		name: 'Sales Thread',
 		type: 'type@1.0.0',
@@ -113,5 +113,5 @@ module.exports = ({
 				]
 			}
 		}
-	}
+	})
 }
