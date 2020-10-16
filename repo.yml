@@ -1,4 +1,6 @@
 type: docker
+esr:
+  version: 'support-v2'
 upstream:
   - repo: 'open-balena-base'
     url: 'https://github.com/balena-io/open-balena-base'
