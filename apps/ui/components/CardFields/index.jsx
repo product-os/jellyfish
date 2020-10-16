@@ -14,11 +14,9 @@ import {
 	getUiSchema, jsonSchemaFns, JF_FORMATS, UI_SCHEMA_MODE
 } from '../../lens/schema-util'
 
-export default function CardFields (props) {
-	const {
-		card,
-		type
-	} = props
+export default function CardFields ({
+	card, type, viewMode = UI_SCHEMA_MODE.fields
+}) {
 	if (!card || !type) {
 		return null
 	}
@@ -37,7 +35,7 @@ export default function CardFields (props) {
 		<JsonSchemaRenderer
 			value={card}
 			schema={schema}
-			uiSchema={getUiSchema(type, UI_SCHEMA_MODE.fields)}
+			uiSchema={getUiSchema(type, viewMode)}
 			extraFormats={JF_FORMATS}
 			extraContext={{
 				root: card,

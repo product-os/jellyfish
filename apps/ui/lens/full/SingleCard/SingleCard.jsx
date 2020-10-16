@@ -24,6 +24,9 @@ import Timeline from '../../list/Timeline'
 import {
 	colorHash
 } from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	UI_SCHEMA_MODE
+} from '../../schema-util'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1;
@@ -105,6 +108,7 @@ export default class SingleCardFull extends React.Component {
 							<CardFields
 								card={card}
 								type={type}
+								viewMode={UI_SCHEMA_MODE.fields}
 							/>
 						</Box>
 					</Tab>

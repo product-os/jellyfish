@@ -20,6 +20,9 @@ import {
 	TagList
 } from '@balena/jellyfish-ui-components/lib/Tag'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	UI_SCHEMA_MODE
+} from '../../schema-util'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -38,6 +41,8 @@ export default class SingleCard extends React.Component {
 		const numLinks = _.reduce(card.links, (carry, value, key) => {
 			return key === 'has attached element' ? carry : carry + value.length
 		}, 0)
+
+		const snippetUiSchema = _.get(typeCard, [ 'data', 'uiSchema', UI_SCHEMA_MODE.snippet ])
 
 		return (
 			<Box pb={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
@@ -65,6 +70,7 @@ export default class SingleCard extends React.Component {
 				<CardFields
 					card={card}
 					type={typeCard}
+					viewMode={snippetUiSchema ? UI_SCHEMA_MODE.snippet : UI_SCHEMA_MODE.fields}
 				/>
 			</Box>
 		)

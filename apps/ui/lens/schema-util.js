@@ -25,6 +25,7 @@ export const UI_SCHEMA_MODE = {
 	edit: 'edit',
 	create: 'create',
 	full: 'full',
+	snippet: 'snippet',
 	fields: 'fields'
 }
 
