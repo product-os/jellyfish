@@ -9,17 +9,22 @@
       {
         "name": "Active opportunities",
         "schema": {
-          "$$links": {
-            "is attached to": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "const": "account@1.0.0"
+          "anyOf": [
+            {
+              "$$links": {
+                "is attached to": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "account@1.0.0"
+                    }
+                  },
+                  "additionalProperties": true
                 }
-              },
-              "additionalProperties": true
-            }
-          },
+              }
+            },
+            true
+          ],
           "type": "object",
           "properties": {
             "active": {
