@@ -9,12 +9,12 @@ WORKDIR /usr/src/jellyfish
 COPY webpack.config.base.js /usr/src/jellyfish/
 COPY ./scripts ./scripts
 COPY package.json package-lock.json /usr/src/jellyfish/
+COPY ./apps ./apps
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-    rm -f ~/.npmrc
+		cd apps/server && npm ci && rm -f ~/.npmrc
 
-COPY ./apps ./apps
 COPY ./test ./test
 COPY ./Makefile ./Makefile
 COPY ./.git ./.git

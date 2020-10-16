@@ -10,6 +10,7 @@
 	start-redis \
 	start-postgres \
 	test-unit \
+	test-integration-server \
 	test-integration \
 	test-e2e \
 	scrub \
@@ -296,6 +297,7 @@ lint:
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
+	cd apps/server && make lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -305,7 +307,8 @@ test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES="'./{test/unit,apps}/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	FILES="'./{test/unit,apps/ui}/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	cd apps/server && FILES="'./test/unit/**/*.spec.js'" make test
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -323,6 +326,9 @@ test-unit-%:
 # These Make rules override the above conventions for this case.
 test-unit-ui:
 	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+
+test-integration-server:
+	cd apps/server && FILES="'./test/integration/**/*.spec.js'" make test
 
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
@@ -351,7 +357,7 @@ node:
 
 start-server: LOGLEVEL = info
 start-server:
-	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) apps/server/index.js
+	cd apps/server && make start-server
 
 start-worker: LOGLEVEL = info
 start-worker:
