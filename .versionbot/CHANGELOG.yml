@@ -1,4 +1,35 @@
 - commits:
+    - subject: Split up package.json - apps/server
+      hash: e4652d57d5a88d41038d63bb83da442ac2e4bb64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.73'
+      hash: d686e106964b6c30f4c6828c8e50a785c1cffd9d
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major to ^7.12.1'
+      hash: 997dda51ad9482e06c83dbbd48774038ae45265c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 1f76944526017b9fcfa1266e500de89d03f72da2
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.10.1
+  date: 2020-10-16T07:50:38.935Z
+- commits:
     - subject: Add a view that shows your owned opportunities
       hash: 93db28530f6c986dfd6fccdfa4b207170448e21f
       body: ''
