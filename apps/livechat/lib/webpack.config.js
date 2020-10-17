@@ -13,9 +13,9 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const {
 	merge
 } = require('webpack-merge')
-const baseConfig = require('../../webpack.config.base.js')
+const baseConfig = require('./webpack.config.base.js')
 
-const root = path.resolve(__dirname, '..', '..')
+const root = path.resolve(__dirname, '..', '..', '..')
 const resourcesRoot = __dirname
 
 // eslint-disable-next-line no-process-env

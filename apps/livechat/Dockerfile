@@ -4,17 +4,16 @@
 
 FROM balena/open-balena-base:v10.1.1 as base
 
-WORKDIR /usr/src/jellyfish
+WORKDIR /usr/src/jellyfish/apps/livechat
 
-COPY package.json package-lock.json /usr/src/jellyfish/
+COPY apps/livechat/package*.json /usr/src/jellyfish/apps/livechat/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
-RUN rm -f ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
 
-COPY webpack.config.base.js .
-COPY apps/livechat ./apps/livechat
-COPY Makefile .
+COPY ./webpack.config.base.js /usr/src/jellyfish/apps/livechat/lib/
+COPY ./apps/livechat/lib/ /usr/src/jellyfish/apps/livechat/lib/
+COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
