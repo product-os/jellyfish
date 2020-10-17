@@ -6,15 +6,14 @@
 
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
-const packageJSON = require('../../package.json')
+const packageJSON = require('../../../package.json')
 const bootstrap = require('./bootstrap')
-const environment = require('@balena/jellyfish-environment')
 
 const DEFAULT_ERROR_CONTEXT = {
-	id: `WORKER-ERROR-${packageJSON.version}`
+	id: `TICK-ERROR-${packageJSON.version}`
 }
 
-const onError = (serverContext, error, message = 'Worker error') => {
+const onError = (serverContext, error, message = 'Tick worker error') => {
 	logger.exception(serverContext, message, error)
 	setTimeout(() => {
 		process.exit(1)
@@ -22,21 +21,20 @@ const onError = (serverContext, error, message = 'Worker error') => {
 }
 
 process.on('unhandledRejection', (error) => {
-	return onError(DEFAULT_ERROR_CONTEXT, error, 'Unhandled Worker Error')
+	return onError(DEFAULT_ERROR_CONTEXT, error, 'Unhandled Tick Error')
 })
 
 const startDate = new Date()
 uuid.random().then((id) => {
 	const context = {
-		id: `WORKER-${packageJSON.version}-${id}`
+		id: `TICK-${packageJSON.version}-${id}`
 	}
 
-	logger.info(context, 'Starting worker', {
+	logger.info(context, 'Starting tick worker', {
 		time: startDate.getTime()
 	})
 
-	return bootstrap.worker(context, {
-		metricsPort: environment.metrics.ports.app,
+	return bootstrap.tick(context, {
 		onError: (serverContext, error) => {
 			return onError(serverContext, error)
 		}
@@ -51,7 +49,7 @@ uuid.random().then((id) => {
 		const endDate = new Date()
 		const timeToStart = endDate.getTime() - startDate.getTime()
 
-		logger.info(context, 'Worker started', {
+		logger.info(context, 'Tick worker started', {
 			time: timeToStart
 		})
 	}).catch((error) => {

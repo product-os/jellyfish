@@ -1,18 +1,18 @@
 FROM balena/open-balena-base:v10.1.1
 
-WORKDIR /usr/src/jellyfish
+WORKDIR /usr/src/jellyfish/apps/action-server
 
-COPY package.json package-lock.json /usr/src/jellyfish/
+COPY apps/action-server/package*.json /usr/src/jellyfish/apps/action-server/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN NODE_ENV=production npm ci
-RUN rm -f ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+	NODE_ENV=production npm ci && rm -f ~/.npmrc
 
-COPY ./apps/action-server ./apps/action-server
-COPY Makefile .
+COPY ./package.json /usr/src/jellyfish/
+COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/
+COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/
 
 # Production debugging scripts
-COPY ./scripts/production ./scripts/production
+COPY ./scripts/production /usr/src/jellyfish/scripts/production
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 
