@@ -1,4 +1,17 @@
 - commits:
+    - subject: Split up package.json - apps/action-server
+      hash: b88068de887fc4aab40431b74224dddfd706659e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.11.1
+  date: 2020-10-17T01:04:56.644Z
+- commits:
     - subject: Modify Inbox rendering so that it behaves like all other channels
       hash: b2a966eaddc26f9cf75cf6fb655a99a1d261f821
       body: |
