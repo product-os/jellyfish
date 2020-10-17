@@ -165,7 +165,7 @@
     "node-jose": "^2.0.0",
     "plotly.js": "^1.57.0",
     "pluralize": "^8.0.0",
-    "query-string": "^6.13.5",
+    "query-string": "^6.13.6",
     "random-words": "^1.1.1",
     "randomstring": "^1.1.5",
     "react": "^16.14.0",
