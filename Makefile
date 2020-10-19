@@ -15,7 +15,8 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github
+	clean-github \
+	dev-livechat
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -299,6 +300,7 @@ lint:
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
 	cd apps/server && make lint
 	cd apps/action-server && make lint
+	cd apps/livechat && make lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -388,8 +390,7 @@ build-ui:
 		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
 
 build-livechat:
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/livechat/webpack.config.js
+	cd apps/livechat && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-livechat
 
 # -----------------------------------------------
 # Development
@@ -414,6 +415,9 @@ compose-logs-%: docker-compose.yml
 compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
+
+dev-livechat:
+	cd apps/livechat && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-livechat
 
 dev-%:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
