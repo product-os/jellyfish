@@ -16,7 +16,7 @@
 	scrub \
 	clean-front \
 	clean-github \
-	dev-livechat
+	npm-install
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -252,6 +252,13 @@ endif
 # Rules
 # -----------------------------------------------
 
+npm-install:
+	npm install
+	cd apps/action-server && npm install
+	cd apps/livechat && npm install
+	cd apps/server && npm install
+	cd apps/ui && npm install
+
 .tmp:
 	mkdir -p $@
 
@@ -288,8 +295,7 @@ postgres_data:
 	initdb --locale=en_US.UTF8 --pgdata $@
 
 lint:
-	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) \
-		apps scripts test *.js
+	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) apps scripts test
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
@@ -297,10 +303,11 @@ lint:
 	./scripts/lint/check-apps.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,@jellyfish/*,scripts-template,assignment,@ava/babel,canvas,history,@balena/ci-task-runner'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,webpack'
 	cd apps/server && make lint
 	cd apps/action-server && make lint
 	cd apps/livechat && make lint
+	cd apps/ui && make lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -310,7 +317,7 @@ test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	FILES="'./{test/unit,apps/ui}/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	cd apps/ui && make test
 	cd apps/server && FILES="'./test/unit/**/*.spec.js'" make test
 
 test-integration:
@@ -319,16 +326,13 @@ test-integration:
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
-test-unit-%:
-	FILES="'./test/unit/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
-
 # As a company policy, UI unit tests shall live alongside the
 # production code. This policy only applies to *unit* tests,
 # and integration/e2e UI tests will still live under `test`.
 #
 # These Make rules override the above conventions for this case.
 test-unit-ui:
-	FILES="'./apps/$(subst test-unit-,,$@)/**/*.spec.{js,jsx}'" SCRUB=0 make test
+	cd apps/ui && make test
 
 test-integration-server:
 	cd apps/server && FILES="'./test/integration/**/*.spec.js'" make test
@@ -386,8 +390,8 @@ start-static-%:
 # -----------------------------------------------
 
 build-ui:
-	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./apps/ui/webpack.config.js
+	cd apps/ui && \
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-ui
 
 build-livechat:
 	cd apps/livechat && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-livechat
@@ -416,12 +420,5 @@ compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
-dev-livechat:
-	cd apps/livechat && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-livechat
-
 dev-%:
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-	NODE_ENV=development \
-	./node_modules/.bin/webpack-dev-server \
-		--config=./apps/$(subst dev-,,$@)/webpack.config.js \
-		--color
+	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)

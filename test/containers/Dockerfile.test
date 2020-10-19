@@ -10,6 +10,7 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	cd /usr/src/jellyfish/apps/server && npm ci && \
 	cd /usr/src/jellyfish/apps/action-server && npm ci && \
 	cd /usr/src/jellyfish/apps/livechat && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
+	cd /usr/src/jellyfish/apps/ui && npm ci && \
 	rm -f ~/.npmrc
 
 # Copy in source and run catch-uncommitted, lint, and unit tests

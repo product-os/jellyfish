@@ -97,7 +97,7 @@ If you want to run Jellyfish natively, the pre-requisites are:
 Install the dependencies:
 
 ```sh
-npm install
+make npm-install
 ```
 
 You can then run these commands in different terminal emulators, which will run

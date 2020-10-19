@@ -4,17 +4,16 @@
 
 FROM balena/open-balena-base:v10.1.1 as base
 
-WORKDIR /usr/src/jellyfish
+WORKDIR /usr/src/jellyfish/apps/ui
 
-COPY package.json package-lock.json /usr/src/jellyfish/
+COPY apps/ui/package*.json /usr/src/jellyfish/apps/ui/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
-RUN rm -f ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
 
-COPY webpack.config.base.js .
-COPY apps/ui ./apps/ui
-COPY Makefile .
+COPY ./package.json /usr/src/jellyfish/
+COPY ./apps/ui/lib/ /usr/src/jellyfish/apps/ui/lib/
+COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
@@ -27,11 +26,12 @@ RUN make build-ui \
 	SERVER_PORT=$SERVER_PORT \
 	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
 	NODE_OPTIONS=--max-old-space-size=3072
+
 ###########################################################
 # Runtime
 ###########################################################
 
 FROM nginx:1.15
 WORKDIR /usr/src/jellyfish
-COPY --from=base /usr/src/jellyfish/dist/ui /usr/share/nginx/html
+COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf

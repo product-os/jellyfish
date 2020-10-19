@@ -5,23 +5,6 @@ export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
 
-NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
-ifeq ($(NODE_ENV),profile)
-# See https://github.com/davidmarkclements/0x
-NODE = 0x --open -- node
-else
-
-# Assumes nsolid-console is running on the background
-ifeq ($(NODE_ENV),nsolid)
-NODE = "nsolid"
-NSOLID_COMMAND ?= localhost:9001
-export NSOLID_COMMAND
-
-else
-NODE = "node"
-endif
-endif
-
 .PHONY: dev-livechat
 dev-livechat:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
