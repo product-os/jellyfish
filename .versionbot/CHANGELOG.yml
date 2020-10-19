@@ -1,4 +1,19 @@
 - commits:
+    - subject: Use active channel in page title
+      hash: b6817a792fae956b90281918bd408ccb6cec513b
+      body: >
+        This should help the user see which channel is active when viewing the
+        browser tabs/windows.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.12.0
+  date: 2020-10-19T09:52:51.690Z
+- commits:
     - subject: Split up package.json - apps/livechat
       hash: e3baecdc3a4330342740d23722ad95c5b5853487
       body: ''
