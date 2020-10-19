@@ -1,4 +1,35 @@
 - commits:
+    - subject: Move non-production packages to devDependencies
+      hash: cf5eed8ae0b2b04a245fb81c65f604a4bc583eb1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.75'
+      hash: 53b5eb0a3634cd44c6c50c980462cbd271c03b93
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency query-string to ^6.13.6'
+      hash: d91839b8d77741bdc578b49612de04bde9389890
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: a9cb72e356c470c0dae1e2b86f1523286b50fd3f
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.11.2
+  date: 2020-10-19T05:12:34.380Z
+- commits:
     - subject: Split up package.json - apps/action-server
       hash: b88068de887fc4aab40431b74224dddfd706659e
       body: ''
