@@ -1,4 +1,17 @@
 - commits:
+    - subject: Split up package.json - apps/livechat
+      hash: e3baecdc3a4330342740d23722ad95c5b5853487
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.11.3
+  date: 2020-10-19T07:40:32.633Z
+- commits:
     - subject: Move non-production packages to devDependencies
       hash: cf5eed8ae0b2b04a245fb81c65f604a4bc583eb1
       body: ''
