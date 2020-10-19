@@ -20,6 +20,9 @@ import {
 	MarkdownWidget
 } from 'rendition/dist/extra/Form/markdown'
 import {
+	createClient, createNoopClient, createWebTracker
+} from 'analytics-client'
+import {
 	saveAs
 } from 'file-saver'
 import {
@@ -41,6 +44,7 @@ import {
 	selectors
 } from './core'
 import {
+	useLocation,
 	Route,
 	Redirect,
 	Switch
@@ -48,6 +52,9 @@ import {
 import {
 	name
 } from './manifest.json'
+import {
+	isProduction
+} from './environment'
 
 // Register the mermaid and markdown widgets for rendition forms
 // Register the extra format widgets to the Form component
@@ -71,9 +78,24 @@ const transformLegacyPath = (path) => {
 	return path.replace(LEGACY_PATH_REPLACE_RE, '')
 }
 
+const analyticsClient = isProduction()
+	? createClient({
+		projectName: 'jellyfish',
+		componentName: 'jellyfish-ui'
+	})
+	: createNoopClient(false)
+
+const webTracker = createWebTracker(analyticsClient, 'UI')
+
 const JellyfishUI = ({
 	actions, status, channels, isChatWidgetOpen
 }) => {
+	const location = useLocation()
+
+	React.useEffect(() => {
+		webTracker.trackPageView()
+	}, [ location.pathname ])
+
 	React.useEffect(() => {
 		// Add a utility to the window to dump the core state, this is useful for
 		// debugging
