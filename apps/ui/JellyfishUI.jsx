@@ -46,6 +46,9 @@ import {
 	Redirect,
 	Switch
 } from 'react-router-dom'
+import {
+	name
+} from './manifest.json'
 
 // Register the mermaid and markdown widgets for rendition forms
 // Register the extra format widgets to the Form component
@@ -122,7 +125,7 @@ class JellyfishUI extends React.Component {
 				<Flex flex="1" style={{
 					height: '100%'
 				}}>
-					<PageTitle />
+					<PageTitle siteName={name} />
 					<CountFavicon
 						baseIcons={[
 							{
