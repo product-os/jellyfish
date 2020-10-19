@@ -172,6 +172,7 @@ class Kanban extends BaseLens {
 		}
 
 		const {
+			lensSlug,
 			type
 		} = this.props
 
@@ -181,6 +182,7 @@ class Kanban extends BaseLens {
 
 		return (
 			<Flex
+				data-test={`lens--${lensSlug}`}
 				flexDirection="column"
 				style={{
 					height: '100%', width: '100%', position: 'relative', overflowX: 'auto'

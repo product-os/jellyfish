@@ -165,6 +165,7 @@ export default class CardTable extends BaseLens {
 
 	render () {
 		const {
+			lensSlug,
 			actions,
 			allTypes,
 			generateData,
@@ -178,7 +179,7 @@ export default class CardTable extends BaseLens {
 		const data = generateData ? generateData() : this.generateTableData()
 
 		return (
-			<Column overflowY flex="1">
+			<Column overflowY flex="1" data-test={`lens--${lensSlug}`}>
 				<Box flex="1" style={{
 					position: 'relative'
 				}}>

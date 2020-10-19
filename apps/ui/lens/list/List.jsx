@@ -40,6 +40,8 @@ import {
 } from '../'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 
+export const SLUG = 'lens-list'
+
 class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
@@ -147,6 +149,7 @@ class CardList extends BaseLens {
 
 	render () {
 		const {
+			lensSlug,
 			tail,
 			pageOptions,
 			totalPages,
@@ -163,7 +166,7 @@ class CardList extends BaseLens {
 		const sortBy = _.last(pageOptions.sortBy)
 
 		return (
-			<Column flex="1" overflowY>
+			<Column flex="1" overflowY data-test={`lens--${lensSlug}`}>
 				<Box flex="1" style={{
 					position: 'relative'
 				}}>
@@ -247,7 +250,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: 'lens-list',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default list lens',

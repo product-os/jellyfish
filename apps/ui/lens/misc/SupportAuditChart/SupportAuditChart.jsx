@@ -27,6 +27,7 @@ const chartConfig = {
 const dates = _.range(29, -1)
 
 const SupportAuditChart = ({
+	lensSlug,
 	tail
 }) => {
 	const processDataSets = React.useCallback(() => {
@@ -87,7 +88,7 @@ const SupportAuditChart = ({
 	}, [ data ])
 
 	return (
-		<Column flex="1" p={3}>
+		<Column flex="1" p={3} data-test={`lens--${lensSlug}`}>
 			<Plot
 				data={data}
 				config={chartConfig}

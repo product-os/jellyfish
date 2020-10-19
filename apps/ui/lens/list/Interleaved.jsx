@@ -252,6 +252,7 @@ export class Interleaved extends BaseLens {
 
 		return (
 			<Column
+				data-test={`lens--${this.props.lensSlug}`}
 				flex="1"
 				style={{
 					position: 'relative'
