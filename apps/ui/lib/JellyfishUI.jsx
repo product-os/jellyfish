@@ -71,14 +71,14 @@ const transformLegacyPath = (path) => {
 	return path.replace(LEGACY_PATH_REPLACE_RE, '')
 }
 
-class JellyfishUI extends React.Component {
-	constructor (props) {
-		super(props)
-
+const JellyfishUI = ({
+	actions, status, channels, isChatWidgetOpen
+}) => {
+	React.useEffect(() => {
 		// Add a utility to the window to dump the core state, this is useful for
 		// debugging
 		window.dumpState = async () => {
-			const state = await this.props.actions.dumpState()
+			const state = await actions.dumpState()
 
 			const blob = new Blob(
 				[ JSON.stringify(state) ],
@@ -89,58 +89,56 @@ class JellyfishUI extends React.Component {
 
 			saveAs(blob, `jellyfish-ui-dump__${new Date().toISOString()}.json`)
 		}
+	}, [])
 
-		this.handleChatWidgetClose = () => {
-			this.props.actions.setChatWidgetOpen(false)
-		}
+	const handleChatWidgetClose = () => {
+		actions.setChatWidgetOpen(false)
 	}
 
-	render () {
-		const path = window.location.pathname + window.location.hash
+	const path = window.location.pathname + window.location.hash
 
-		if (this.props.status === 'initializing') {
-			return <Splash />
-		}
-		if (this.props.status === 'unauthorized') {
-			return (
-				<AuthContainer>
-					<Switch>
-						<Route path='/request_password_reset' component={RequestPasswordReset} />
-						<Route path='/password_reset/:resetToken/:username?' component={CompletePasswordReset} />
-						<Route path='/first_time_login/:firstTimeLoginToken/:username?' component={CompleteFirstTimeLogin} />
-						<Route path="/*" component={Login} />
-					</Switch>
-				</AuthContainer>
-			)
-		}
-		const [ home ] = this.props.channels
-
+	if (status === 'initializing') {
+		return <Splash />
+	}
+	if (status === 'unauthorized') {
 		return (
-			<React.Fragment>
-				{isLegacyPath(path) && (
-					<Redirect to={transformLegacyPath(path)} />
-				)}
-
-				<Flex flex="1" style={{
-					height: '100%'
-				}}>
-					<PageTitle siteName={name} />
-					<HomeChannel channel={home}/>
-
-					<Switch>
-						<Route path="/oauth/:integration" component={Oauth} />
-						<Route path="/*" component={RouteHandler} />
-					</Switch>
-				</Flex>
-
-				{this.props.isChatWidgetOpen && (
-					<ChatWidgetSidebar
-						onClose={this.handleChatWidgetClose}
-					/>
-				)}
-			</React.Fragment>
+			<AuthContainer>
+				<Switch>
+					<Route path='/request_password_reset' component={RequestPasswordReset} />
+					<Route path='/password_reset/:resetToken/:username?' component={CompletePasswordReset} />
+					<Route path='/first_time_login/:firstTimeLoginToken/:username?' component={CompleteFirstTimeLogin} />
+					<Route path="/*" component={Login} />
+				</Switch>
+			</AuthContainer>
 		)
 	}
+	const [ home ] = channels
+
+	return (
+		<React.Fragment>
+			{isLegacyPath(path) && (
+				<Redirect to={transformLegacyPath(path)} />
+			)}
+
+			<Flex flex="1" style={{
+				height: '100%'
+			}}>
+				<PageTitle siteName={name} />
+				<HomeChannel channel={home}/>
+
+				<Switch>
+					<Route path="/oauth/:integration" component={Oauth} />
+					<Route path="/*" component={RouteHandler} />
+				</Switch>
+			</Flex>
+
+			{isChatWidgetOpen && (
+				<ChatWidgetSidebar
+					onClose={handleChatWidgetClose}
+				/>
+			)}
+		</React.Fragment>
+	)
 }
 
 const mapStateToProps = (state) => {
