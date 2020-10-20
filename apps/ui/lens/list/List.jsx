@@ -40,8 +40,6 @@ import {
 } from '../'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 
-export const SLUG = 'lens-list'
-
 class CardList extends BaseLens {
 	constructor (props) {
 		super(props)
@@ -197,6 +195,7 @@ class CardList extends BaseLens {
 												rowRenderer={this.rowRenderer}
 												sortBy={sortBy}
 												scrollToIndex={this.state.scrollToIndex}
+												tail={tail}
 											/>
 										)
 									}}
@@ -250,7 +249,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: SLUG,
+	slug: 'lens-list',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default list lens',
