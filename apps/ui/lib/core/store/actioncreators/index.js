@@ -545,41 +545,36 @@ export default class ActionCreator {
 			} = channel.data
 
 			const identifier = isUUID(target) ? 'id' : 'slug'
+			const targetCard = await this.sdk.card.get(target)
+			const cardId = _.get(targetCard, [ 'id' ])
+			if (!cardId) {
+				throw new Error(`Couldn't find card with ${identifier}: ${target}`)
+			}
 
-			let query = {
+			const query = {
 				type: 'object',
-				properties: {
-					[identifier]: {
-						type: 'string',
-						const: target
+				anyOf: [ {
+					properties: {
+						id: {
+							const: cardId
+						}
 					}
 				},
-				$$links: {
-					'has attached element': {
-						type: 'object'
+				{
+					properties: {
+						id: {
+							const: cardId
+						}
+					},
+					$$links: {
+						'has attached element': {
+							type: 'object'
+						}
 					}
-				},
-				required: [ identifier ]
+				} ]
 			}
 
-			// TODO: Clean up when we have optional links
-			// OR make sure default cards have attached items
-			// Checks to see if we can query for the card with
-			// attached elements. If we can't, remove the
-			// $$links from the query
-			let cards = await this.sdk.query(query)
-
-			if (cards.length === 0) {
-				query = _.omit(query, [ '$$links' ])
-				cards = [ await this.sdk.card.get(target) ]
-			}
-
-			const [ card ] = cards
-			if (_.isNil(card)) {
-				throw new Error(`Could not find card with ${identifier} target`)
-			}
-
-			const stream = await this.getStream(cards[0].id, query)
+			const stream = await this.getStream(cardId, query)
 
 			stream.on('dataset', ({
 				data: {
