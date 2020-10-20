@@ -102,12 +102,14 @@ const InboxTab = ({
 
 	const updateMessage = (updatedMessage) => {
 		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
-		const updatedMessages = update(messages, {
-			[messageIndex]: {
-				$set: updatedMessage
-			}
-		})
-		setMessages(updatedMessages)
+		if (messages.length === messagesRef.current.ref) {
+			const updatedMessages = update(messages, {
+				[messageIndex]: {
+					$set: updatedMessage
+				}
+			})
+			setMessages(updatedMessages)
+		}
 	}
 
 	const viewHandlers = {
