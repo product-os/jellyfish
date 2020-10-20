@@ -124,7 +124,7 @@ const InboxTab = ({
 	const loadViewData = async () => {
 		setLoading(true)
 		const query = getQuery(user, groupNames, searchTerm)
-		const currentMessages = await setupStream(STREAM_ID, query, DEFAULT_OPTIONS, viewHandlers)
+		const currentMessages = await setupStream(STREAM_ID, query, viewHandlers, DEFAULT_OPTIONS)
 		setMessages(currentMessages)
 		setLoading(false)
 	}

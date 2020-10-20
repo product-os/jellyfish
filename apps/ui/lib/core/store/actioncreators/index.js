@@ -548,7 +548,7 @@ export default class ActionCreator {
 			const targetCard = await this.sdk.card.get(target)
 			const cardId = _.get(targetCard, [ 'id' ])
 			if (!cardId) {
-				throw new Error(`Couldn't find card with ${identifier}: ${target}`)
+				throw new Error(`Couldn't find channel with ${identifier}: ${target}`)
 			}
 
 			const query = {
@@ -574,70 +574,42 @@ export default class ActionCreator {
 				} ]
 			}
 
-			const stream = await this.getStream(cardId, query)
-
-			stream.on('dataset', ({
-				data: {
-					cards: channels
-				}
-			}) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id
-				})
-
-				const clonedChannel = clone(currentChannel)
-
-				if (channels.length > 0) {
-					// Merge required in the event that this is a pagination query
-					clonedChannel.data.head = merge(clonedChannel.data.head, channels[0])
-				}
-
-				dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel
-				})
-			})
-
-			stream.on('update', ({
-				data: {
-					after: newHead
-				}
-			}) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id
-				})
-				if (!currentChannel) {
-					return null
-				}
-				const clonedChannel = clone(currentChannel)
-
-				// Don't bother is the channel head card hasn't changed
-				if (newHead && fastEquals.deepEqual(clonedChannel.data.head, newHead)) {
-					return null
-				}
-
-				// If head is null, this indicates a 404 not found error
-				clonedChannel.data.head = newHead
-				return dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel
-				})
-			})
-
-			stream.emit('queryDataset', {
-				data: {
-					schema: query,
-					options: {
-						links: {
-							'has attached element': {
-								limit: 20,
-								sortBy: 'created_at',
-								sortDir: 'desc'
-							}
-						}
+			const streamHandlers = {
+				remove: _.noop,
+				append: _.noop,
+				upsert: (newHead) => {
+					const currentChannel = _.find(selectors.getChannels(getState()), {
+						id: channel.id
+					})
+					if (!currentChannel) {
+						return null
 					}
+					const clonedChannel = clone(currentChannel)
+
+					const headHasntChanged = fastEquals.deepEqual(clonedChannel.data.head, newHead)
+					if (headHasntChanged) {
+						return null
+					}
+
+					clonedChannel.data.head = newHead
+					return dispatch({
+						type: actions.UPDATE_CHANNEL,
+						value: clonedChannel
+					})
+				},
+				set: ([ newChannel ]) => {
+					const currentChannel = _.find(selectors.getChannels(getState()), {
+						id: channel.id
+					})
+					const clonedChannel = clone(currentChannel)
+					clonedChannel.data.head = merge(clonedChannel.data.head, newChannel)
+					return dispatch({
+						type: actions.UPDATE_CHANNEL,
+						value: clonedChannel
+					})
 				}
-			})
+			}
+			this.setupStream(cardId, query, streamHandlers)(dispatch, getState)
 		}
 	}
 
@@ -1310,7 +1282,7 @@ export default class ActionCreator {
 		})
 	}
 
-	setupStream (streamId, query, options, handlers) {
+	setupStream (streamId, query, handlers, options = {}) {
 		return async (dispatch, getState) => {
 			const stream = await this.getStream(streamId, query)
 
@@ -1348,13 +1320,7 @@ export default class ActionCreator {
 			stream.emit('queryDataset', {
 				id: uuid(),
 				data: {
-					schema: query,
-					options: {
-						limit: options.limit,
-						skip: options.limit * options.page,
-						sortBy: options.sortBy,
-						sortDir: options.sortDir
-					}
+					schema: query
 				}
 			})
 
@@ -1429,7 +1395,14 @@ export default class ActionCreator {
 				set: (cards) => dispatch(this.setViewData(query, cards, commonOptions))
 			}
 
-			return this.setupStream(viewId, schema, options, streamHandlers)(dispatch, getState)
+			const queryOptions = {
+				limit: options.limit,
+				skip: options.limit * options.page,
+				sortBy: options.sortBy,
+				sortDir: options.sortDir
+			}
+
+			return this.setupStream(viewId, schema, streamHandlers, queryOptions)(dispatch, getState)
 		}
 	}
 
