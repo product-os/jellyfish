@@ -73,7 +73,7 @@
     "@octokit/plugin-throttling": "^3.3.2",
     "@octokit/rest": "^18.0.6",
     "ava": "^3.13.0",
-    "aws-sdk": "^2.774.0",
+    "aws-sdk": "^2.775.0",
     "babel-loader": "^8.1.0",
     "blueimp-md5": "^2.18.0",
     "body-parser": "^1.19.0",
