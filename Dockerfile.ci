@@ -6,7 +6,6 @@ FROM resinci/jellyfish-test:v1.3.17
 
 WORKDIR /usr/src/jellyfish
 
-COPY webpack.config.base.js /usr/src/jellyfish/
 COPY ./scripts ./scripts
 COPY package.json package-lock.json /usr/src/jellyfish/
 COPY ./apps ./apps

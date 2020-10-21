@@ -11,7 +11,6 @@ ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
 
-COPY ./webpack.config.base.js /usr/src/jellyfish/apps/livechat/lib/
 COPY ./apps/livechat/lib/ /usr/src/jellyfish/apps/livechat/lib/
 COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/
 
@@ -29,5 +28,5 @@ RUN make build-livechat \
 
 FROM nginx:1.15
 WORKDIR /usr/src/jellyfish
-COPY --from=base /usr/src/jellyfish/dist/livechat /usr/share/nginx/html
+COPY --from=base /usr/src/jellyfish/apps/livechat/dist/livechat /usr/share/nginx/html
 COPY apps/livechat/conf/nginx.conf /etc/nginx/conf.d/default.conf

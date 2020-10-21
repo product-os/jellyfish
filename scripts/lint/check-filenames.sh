@@ -34,13 +34,13 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 
 	# TODO: This whole list of exceptions shouldn't exist as React
 	# components should only be defined in jellyfish-ui-components
-	COMPONENTS_DIRECTORIES="|apps/ui/layouts/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/components/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/lens/misc/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/lens/full/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/lens/list/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/lens/actions/"
-	COMPONENTS_DIRECTORIES+="|apps/ui/lens/snippet/"
+	COMPONENTS_DIRECTORIES="|apps/ui/lib/layouts/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/components/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/misc/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/full/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/list/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/actions/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/snippet/"
 
 	# We allow lowercase files inside React component directories
 	SUBPATH="$(echo "$file" | sed -E "s#^($COMPONENTS_DIRECTORIES)##g")"
