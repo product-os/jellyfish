@@ -1,4 +1,53 @@
 - commits:
+    - subject: Split up package.json - apps/ui
+      hash: fb876855a832bb6f5a2cefe693ad865138e08392
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency plotly.js to ^1.57.1'
+      hash: 07abc77d586f9ebcc8162216605836c9740360de
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency aws-sdk to ^2.775.0'
+      hash: d5703c58744216b971a70d3da95c7286d8886848
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency rendition to ^18.12.1'
+      hash: 1afd75c09b2c7ea3ace253655d049333e7fb8117
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: cd3bccd1e02f7bf299626a5d532fc310553c9b55
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency aws-sdk to ^2.774.0'
+      hash: 34f04854a1bee06855d0044d3a2e91a69ef46025
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 40b942d51724236b7bd0e9b397e4d9095a34ffbf
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.12.1
+  date: 2020-10-21T02:33:42.656Z
+- commits:
     - subject: Use active channel in page title
       hash: b6817a792fae956b90281918bd408ccb6cec513b
       body: >
