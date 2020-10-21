@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump test/sidecar base images
+      hash: 626fdec7c69316fca6451b228f154a93c39fc95e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.12.2
+  date: 2020-10-21T06:35:17.011Z
+- commits:
     - subject: Split up package.json - apps/ui
       hash: fb876855a832bb6f5a2cefe693ad865138e08392
       body: ''
