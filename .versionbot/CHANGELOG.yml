@@ -1,4 +1,41 @@
 - commits:
+    - subject: Add missing .npmrc files for apps
+      hash: 5385f734d09e74cf1e6dda11b60edb2f661459bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: ad5cadcbeddd46cb1f3f4ebc9ece3fb1ee65c36e
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency aws-sdk to ^2.776.0'
+      hash: 80f93abe1e1c65f95bf216c31a4f41f90cbc2021
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency rendition to ^18.12.2'
+      hash: baf353515f71591bdd5bcf62ed56c89a1b154347
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: efb6d6713bf15c579f669fc5f4905341fec7a1ad
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+  version: 33.12.3
+  date: 2020-10-22T01:30:18.305Z
+- commits:
     - subject: Bump test/sidecar base images
       hash: 626fdec7c69316fca6451b228f154a93c39fc95e
       body: ''
