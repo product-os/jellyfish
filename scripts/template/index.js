@@ -21,8 +21,6 @@ console.log(mustache.render(contents, Object.assign({}, process.env, {
 		idx: 1
 	}, {
 		idx: 2
-	}, {
-		idx: 3
 	} ]
 })))
 console.error(`Done rendering ${TEMPLATE}`)
