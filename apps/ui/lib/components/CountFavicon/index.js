@@ -23,8 +23,10 @@ const getMentionsCount = (mentions) => {
 }
 
 const mapStateToProps = (state) => {
-	const mentions = selectors.getInboxViewData(state)
+	const isLoggedIn = selectors.getStatus(state) === 'authorized'
+	const mentions = isLoggedIn ? selectors.getInboxViewData(state) : []
 	return {
+		isLoggedIn,
 		label: getMentionsCount(mentions)
 	}
 }

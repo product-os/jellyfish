@@ -13,7 +13,7 @@ import {
 } from '../../hooks'
 
 export default function CountFavicon ({
-	label, baseIcons
+	isLoggedIn, label, baseIcons
 }) {
 	// Sizes are proportional to the overall image size
 	const baseFontSize = label && label.length > 2 ? 0.5 : 0.625
@@ -32,15 +32,18 @@ export default function CountFavicon ({
 		}
 	})
 
-	return (
-		<React.Fragment>
-			<Helmet>
-				{labeledIcons.map(({
-					size, href
-				}) => (
-					<link key={size} rel="shortcut icon" href={href} type="image/x-icon" sizes={`${size}x${size}`} />
-				))}
-			</Helmet>
-		</React.Fragment>
+	return isLoggedIn ? (
+		<Helmet>
+			{labeledIcons.map(({
+				size, href
+			}) => (
+				<link key={size} rel="shortcut icon" href={href} type="image/x-icon" sizes={`${size}x${size}`} />
+			))}
+		</Helmet>
+	) : (
+		<Helmet>
+			<link rel="shortcut icon" href="/icons/jellyfish-bw-16.png" type="image/x-icon" sizes="16x16" />
+			<link rel="shortcut icon" href="/icons/jellyfish-bw-32.png" type="image/x-icon" sizes="32x32" />
+		</Helmet>
 	)
 }

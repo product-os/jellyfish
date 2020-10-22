@@ -52,6 +52,7 @@ import {
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import * as environment from './environment'
 import PWA from './pwa'
+import CountFavicon from './components/CountFavicon'
 
 export const pwa = new PWA()
 pwa.init()
@@ -117,6 +118,16 @@ ReactDOM.render(
 							<PersistGate loading={null} persistor={persistor}>
 								<ConnectedRouter history={history}>
 									<GlobalStyle />
+									<CountFavicon
+										baseIcons={[
+											{
+												size: 16, src: '/icons/jellyfish-16.png'
+											},
+											{
+												size: 32, src: '/icons/jellyfish-32.png'
+											}
+										]}
+									/>
 									<NotificationsContainer />
 									<ErrorBoundary>
 										<DndProvider backend={HTML5Backend}>
