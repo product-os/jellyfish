@@ -29,7 +29,6 @@ import HomeChannel from './components/HomeChannel'
 import RouteHandler from './components/RouteHandler'
 import Oauth from './components/Oauth'
 import Login from './components/Auth/Login'
-import CountFavicon from './components/CountFavicon'
 import PageTitle from './components/PageTitle'
 import RequestPasswordReset from './components/Auth/RequestPasswordReset'
 import CompletePasswordReset from './components/Auth/CompletePasswordReset'
@@ -126,16 +125,6 @@ class JellyfishUI extends React.Component {
 					height: '100%'
 				}}>
 					<PageTitle siteName={name} />
-					<CountFavicon
-						baseIcons={[
-							{
-								size: 16, src: '/icons/jellyfish-16.png'
-							},
-							{
-								size: 32, src: '/icons/jellyfish-32.png'
-							}
-						]}
-					/>
 					<HomeChannel channel={home}/>
 
 					<Switch>
