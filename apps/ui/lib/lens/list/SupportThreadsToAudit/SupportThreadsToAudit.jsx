@@ -12,6 +12,9 @@ import * as React from 'react'
 import {
 	Box
 } from 'rendition'
+import {
+	selectors
+} from '../../../core'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardChatSummary from '@balena/jellyfish-ui-components/lib/CardChatSummary'
@@ -88,11 +91,15 @@ export default class SupportThreadsToAudit extends React.Component {
 
 						return (
 							<CardChatSummary
+								displayOwner
+								selectCard={selectors.getCard}
+								getCard={this.props.actions.getCard}
 								getActor={this.props.actions.getActor}
 								key={card.id}
 								active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}
 								card={card}
 								timeline={timeline}
+								highlightedFields={[ 'data.inbox' ]}
 								to={helpers.appendToChannelPath(channel, card)}
 							/>
 						)

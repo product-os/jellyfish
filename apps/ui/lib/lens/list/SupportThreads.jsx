@@ -264,6 +264,7 @@ export class SupportThreads extends React.Component {
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
 									style={{
+										flex: 1,
 										height: '100%',
 										paddingBottom: 16
 									}}
@@ -284,6 +285,9 @@ export class SupportThreads extends React.Component {
 
 										return (
 											<CardChatSummary
+												displayOwner
+												selectCard={selectors.getCard}
+												getCard={this.props.actions.getCard}
 												getActor={this.props.actions.getActor}
 												key={card.id}
 												active={
@@ -325,6 +329,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'getActor',
+				'getCard',
 				'setLensState'
 			]),
 			dispatch
