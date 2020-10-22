@@ -118,16 +118,7 @@ ReactDOM.render(
 							<PersistGate loading={null} persistor={persistor}>
 								<ConnectedRouter history={history}>
 									<GlobalStyle />
-									<CountFavicon
-										baseIcons={[
-											{
-												size: 16, src: '/icons/jellyfish-16.png'
-											},
-											{
-												size: 32, src: '/icons/jellyfish-32.png'
-											}
-										]}
-									/>
+									<CountFavicon />
 									<NotificationsContainer />
 									<ErrorBoundary>
 										<DndProvider backend={HTML5Backend}>
