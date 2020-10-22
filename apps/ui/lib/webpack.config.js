@@ -180,7 +180,12 @@ if (process.env.NODE_ENV === 'production' ||
 	)
 }
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
+} else {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
