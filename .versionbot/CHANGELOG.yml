@@ -1,4 +1,17 @@
 - commits:
+    - subject: Reduce to two workers for compose
+      hash: 36e6e68134d6a67b74303781fd5f011380e107d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.12.5
+  date: 2020-10-22T04:07:32.430Z
+- commits:
     - subject: Fix webpack config for production
       hash: e40c75612f6386f4414ad0afc71f4962c23d27d7
       body: ''
