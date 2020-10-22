@@ -19,7 +19,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^5.0.55",
+    "@balena/jellyfish-action-library": "^5.1.0",
     "@balena/jellyfish-assert": "^1.0.15",
     "@balena/jellyfish-core": "^0.1.76",
     "@balena/jellyfish-environment": "^2.2.39",
@@ -53,7 +53,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^2.2.13",
+    "@balena/jellyfish-client-sdk": "^2.3.0",
     "ava": "^3.13.0",
     "depcheck": "^1.2.0",
     "nock": "^13.0.4",
