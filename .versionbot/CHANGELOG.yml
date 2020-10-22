@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix webpack config for production
+      hash: e40c75612f6386f4414ad0afc71f4962c23d27d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.12.4
+  date: 2020-10-22T02:53:48.396Z
+- commits:
     - subject: Add missing .npmrc files for apps
       hash: 5385f734d09e74cf1e6dda11b60edb2f661459bb
       body: ''
