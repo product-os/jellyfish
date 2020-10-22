@@ -1,4 +1,17 @@
 - commits:
+    - subject: Make account expansion optional when querying for opportunities
+      hash: dda73120cabff4e72d2e4e5bb3d633a26df7af4f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.13.0
+  date: 2020-10-22T07:28:38.456Z
+- commits:
     - subject: Reduce to two workers for compose
       hash: 36e6e68134d6a67b74303781fd5f011380e107d9
       body: ''
