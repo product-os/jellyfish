@@ -92,11 +92,6 @@ const GlobalStyle = createGlobalStyle `
 
 const customTheme = {
 	colors: {
-		text: {
-			main: Theme.colors.secondary.main,
-			light: Theme.colors.secondary.light,
-			dark: Theme.colors.secondary.dark
-		},
 		background: '#fff',
 		border: '#eee'
 	}
