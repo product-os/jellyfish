@@ -5,6 +5,7 @@
  */
 
 /* eslint-env node */
+/* eslint-disable no-process-env */
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
@@ -15,7 +16,6 @@ const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 const root = path.resolve(__dirname, '..')
 const resourcesRoot = __dirname
 
-// eslint-disable-next-line no-process-env
 const UI_DIRECTORY = process.env.LIVECHAT_DIR || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
@@ -72,7 +72,6 @@ const config = {
 		historyApiFallback: {
 			disableDotRule: true
 		},
-		// eslint-disable-next-line no-process-env
 		port: process.env.LIVECHAT_PORT
 	},
 
@@ -112,18 +111,20 @@ const config = {
 		}),
 
 		new DefinePlugin({
-			/* eslint-disable no-process-env */
 			env: {
 				API_URL: JSON.stringify(process.env.API_URL),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 			}
-			/* eslint-enable no-process-env */
 		})
 	]
 }
 
-// eslint-disable-next-line no-process-env
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
+} else {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
