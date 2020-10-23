@@ -94,6 +94,8 @@ module.exports = ({
 		triggeredActionSupportSummary: require('./contrib/triggered-action-support-summary.json'),
 		triggeredActionSupportReopen: require('./contrib/triggered-action-support-reopen.json'),
 		triggeredActionSupportClosedIssueReopen: require('./contrib/triggered-action-support-closed-issue-reopen.json'),
+		triggeredActionSupportClosedPullRequestReopen:
+			require('./contrib/triggered-action-support-closed-pull-request-reopen.json'),
 		triggeredActionSyncThreadPostLinkWhisper: require(
 			'./contrib/triggered-action-sync-thread-post-link-whisper.json'),
 		triggeredActionUpdateEventEditedAt: require('./contrib/triggered-action-update-event-edited-at.json'),
