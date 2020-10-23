@@ -1,4 +1,17 @@
 - commits:
+    - subject: Explicitly set endpoint for analytics client
+      hash: 783e2cac1876d567922bdcc31dcca0f4744cda7f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.15.1
+  date: 2020-10-23T08:54:38.557Z
+- commits:
     - subject: Reopen support threads when a linked pull request is closed
       hash: ae590e1ac90d55383e67ebea0f13018a5000a1bd
       body: >
