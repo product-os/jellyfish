@@ -39,7 +39,7 @@ endif
 .PHONY: lint
 lint:
 	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib test
-	npx depcheck --ignore-bin-package --ignores='depcheck'
+	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon'
 
 .PHONY: test
 test:

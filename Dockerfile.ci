@@ -6,14 +6,12 @@ FROM resinci/jellyfish-test:v1.3.19
 
 WORKDIR /usr/src/jellyfish
 
-COPY ./scripts ./scripts
-COPY package.json package-lock.json /usr/src/jellyfish/
-COPY ./apps ./apps
+COPY package*.json /usr/src/jellyfish/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-		cd apps/server && npm ci && rm -f ~/.npmrc
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
 
+COPY ./apps ./apps
 COPY ./test ./test
 COPY ./Makefile ./Makefile
 COPY ./.git ./.git

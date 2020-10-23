@@ -1,0 +1,18 @@
+[
+  "git@github.com:product-os/jellyfish-action-library.git",
+  "git@github.com:product-os/jellyfish-assert.git",
+  "git@github.com:product-os/jellyfish-chat-widget.git",
+  "git@github.com:product-os/jellyfish-client-sdk.git",
+  "git@github.com:product-os/jellyfish-core.git",
+  "git@github.com:product-os/jellyfish-environment.git",
+  "git@github.com:product-os/jellyfish-jellyscript.git",
+  "git@github.com:product-os/jellyfish-logger.git",
+  "git@github.com:product-os/jellyfish-mail.git",
+  "git@github.com:product-os/jellyfish-metrics.git",
+  "git@github.com:product-os/jellyfish-queue.git",
+  "git@github.com:product-os/jellyfish-sync.git",
+  "git@github.com:product-os/jellyfish-ui-components.git",
+  "git@github.com:product-os/jellyfish-uuid.git",
+  "git@github.com:product-os/jellyfish-worker.git",
+  "git@github.com:balena-io-modules/rendition.git"
+]

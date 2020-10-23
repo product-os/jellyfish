@@ -28,7 +28,7 @@ endif
 .PHONY: lint
 lint:
 	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib
-	npx depcheck --ignore-bin-package --ignores='depcheck'
+	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon'
 
 .PHONY: start-worker
 start-worker: LOGLEVEL = info
