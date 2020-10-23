@@ -11,7 +11,7 @@ ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm i
 
-#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && make dev-ui
+#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && cd apps/ui && make build-dev-ui && make start-static-ui
 RUN rm -f ~/.npmrc
 COPY package.json Makefile lerna.json /usr/src/jellyfish/
 COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/

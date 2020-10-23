@@ -60,6 +60,15 @@ dev-ui:
 		--config=./lib/webpack.config.js \
 		--color
 
+.PHONY: start-static-ui
+start-static-ui:
+	cd dist/ui && python2 -m SimpleHTTPServer $(SERVER_PORT)
+
+.PHONY: build-dev-ui
+build-dev-ui:
+	NODE_ENV=development API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./lib/webpack.config.js
+
 .PHONY: build-ui
 build-ui:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
