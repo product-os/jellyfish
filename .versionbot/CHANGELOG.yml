@@ -1,4 +1,18 @@
 - commits:
+    - subject: Display pink favicon when in development mode
+      hash: e5d414672f145d4989461b6c024446cbe0376251
+      body: |
+        This also moves all the favicon src definitions into the component
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.16.0
+  date: 2020-10-23T09:37:07.790Z
+- commits:
     - subject: Explicitly set endpoint for analytics client
       hash: 783e2cac1876d567922bdcc31dcca0f4744cda7f
       body: ''
