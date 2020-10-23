@@ -1,4 +1,59 @@
 - commits:
+    - subject: Add UI Analytics to track page views
+      hash: 8d9a4c2234be5d3521b4a04d40730365324b3a1b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Convert JellyfishUI into a functional component
+      hash: 3307f5acc231e72a671fe0ce241987c89b0e39e2
+      body: |
+        This will be easier to work with (particularly for tracking page views).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency aws-sdk to ^2.777.0'
+      hash: ab0e2eb43dab46b9863903478449fc69c20c4542
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency react-chart-editor to ^0.43.0'
+      hash: bbf1ff90905815f83bab34fed48b84e3e5ed5a6c
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: fe86725cd330c482034a1067f1846fde37904927
+      body: ''
+      footer: {}
+      author: Renovate Bot
+      nested: []
+    - subject: Display gray favicon when logged out
+      hash: a090ac22f237f0a9ecd8173e0957de4a60f6030a
+      body: >
+        This is particularly useful for people who keep Jellyfish on a pinned
+        tab. At a glance you can now see if you've been logged out (and are
+        therefore not receiving any notifications).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.14.0
+  date: 2020-10-23T00:37:36.293Z
+- commits:
     - subject: Make account expansion optional when querying for opportunities
       hash: dda73120cabff4e72d2e4e5bb3d633a26df7af4f
       body: ''
