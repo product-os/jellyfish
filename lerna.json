@@ -1,0 +1,11 @@
+{
+  "lerna": "2.0.0",
+  "npmClient": "npm",
+  "npmClientArgs": [],
+  "packages": [
+    "apps/*",
+    "packages/*"
+  ],
+  "version": "independent",
+  "hoist": true
+}

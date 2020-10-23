@@ -13,6 +13,99 @@ services:
       - internal
     environment:
       - NPM_TOKEN
+  api:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+      args:
+        - NPM_TOKEN
+    networks:
+      - internal
+    depends_on:
+      - verdaccio
+      - postgres
+      - redis
+      - tick
+      - worker_1
+      - worker_2
+      - balena-mdns-publisher
+    environment:
+      - DATABASE=postgres
+      - LOGENTRIES_TOKEN
+      - LOGLEVEL
+      - NODE_ENV
+      - POD_NAME=localhost
+      - PORT=8000
+      - POSTGRES_DATABASE=jellyfish
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PASSWORD=docker
+      - POSTGRES_PORT=5432
+      - POSTGRES_USER=docker
+      - REDIS_HOST=redis
+      - REDIS_PASSWORD=
+      - REDIS_PORT=6379
+      - SENTRY_DSN_SERVER
+      - SERVER_DATABASE=jellyfish
+      - SERVER_HOST=http://localhost
+      - SERVER_PORT=8000
+      - TEST_USER_ORGANIZATION=balena
+      - TEST_USER_PASSWORD=jellyfish
+      - TEST_USER_ROLE=user-test
+      - TEST_USER_USERNAME=jellyfish
+      - FS_DRIVER
+      - AWS_ACCESS_KEY_ID
+      - AWS_S3_BUCKET_NAME
+      - AWS_SECRET_ACCESS_KEY
+      - INTEGRATION_BALENA_API_APP_SECRET=foobar
+      - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
+      - INTEGRATION_BALENA_API_PRIVATE_KEY
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
+      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=foobar
+      - INTEGRATION_DEFAULT_USER
+      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
+      - INTEGRATION_DISCOURSE_TOKEN
+      - INTEGRATION_DISCOURSE_USERNAME
+      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
+      - INTEGRATION_FLOWDOCK_TOKEN
+      - INTEGRATION_FRONT_TOKEN
+      - INTEGRATION_GITHUB_APP_ID
+      - INTEGRATION_GITHUB_PRIVATE_KEY
+      - INTEGRATION_GITHUB_SIGNATURE_KEY
+      - INTEGRATION_GITHUB_TOKEN
+      - INTEGRATION_GOOGLE_MEET_CREDENTIALS="{}"
+      - INTEGRATION_INTERCOM_TOKEN
+      - INTEGRATION_OUTREACH_APP_ID
+      - INTEGRATION_OUTREACH_APP_SECRET
+      - INTEGRATION_OUTREACH_SIGNATURE_KEY
+      - INTEGRATION_TYPEFORM_SIGNATURE_KEY
+      - MAILGUN_DOMAIN
+      - MAILGUN_BASE_URL
+      - MAILGUN_TOKEN
+      - MONITOR_SECRET_TOKEN
+      - NPM_TOKEN
+      - RESET_PASSWORD_SECRET_TOKEN
+      - CI
+      - NPM_CONFIG_REGISTRY
+    expose:
+      - 80
+    restart: always
+  livechat:
+    build:
+      context: .
+      dockerfile: apps/livechat/Dockerfile
+      args:
+        - NPM_TOKEN
+    depends_on:
+      - verdaccio
+      - api
+      - balena-mdns-publisher
+    networks:
+      - internal
+    environment:
+      - NGINX_PORT=80
+      - NODE_ENV
+      - CI
+      - NPM_CONFIG_REGISTRY
   postgres:
     image: balena/open-balena-db:4.1.0
     restart: always
@@ -34,6 +127,7 @@ services:
       - verdaccio
       - postgres
       - redis
+      - balena-mdns-publisher
     environment:
       - DATABASE=postgres
       - LOGENTRIES_TOKEN
@@ -53,6 +147,24 @@ services:
     restart: always
     networks:
       - internal
+  ui:
+    build:
+      context: .
+      dockerfile: apps/ui/Dockerfile
+      args:
+        - NPM_TOKEN
+    depends_on:
+      - verdaccio
+      - api
+      - balena-mdns-publisher
+    environment:
+      - NGINX_PORT=80
+      - SENTRY_DSN_UI=0
+      - NODE_ENV
+      - CI
+      - NPM_CONFIG_REGISTRY
+    networks:
+      - internal
   worker_1:
     build:
       context: .
@@ -63,6 +175,7 @@ services:
       - verdaccio
       - postgres
       - redis
+      - balena-mdns-publisher
     environment:
       - DATABASE=postgres
       - LOGLEVEL
@@ -124,6 +237,7 @@ services:
       - verdaccio
       - postgres
       - redis
+      - balena-mdns-publisher
     environment:
       - DATABASE=postgres
       - LOGLEVEL
@@ -175,6 +289,62 @@ services:
     restart: always
     networks:
       - internal
+  balena-mdns-publisher:
+    image: 'balena/balena-mdns-publisher:v1.7.9'
+    network_mode: host
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - 'apparmor:unconfined'
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    labels:
+      io.balena.features.dbus: '1'
+      io.balena.features.supervisor-api: '1'
+    environment:
+      MDNS_TLD: ly.fish.local
+      MDNS_SUBDOMAINS: >-
+        ["jel", "livechat", "api"]
+      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
+      CONFD_BACKEND: 'ENV'
+  haproxy:
+    image: 'balena/open-balena-haproxy:3.0.7'
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - 'apparmor:unconfined'
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    depends_on:
+      - verdaccio
+      - worker_1
+      - worker_2
+      - ui
+      - tick
+      - livechat
+      - api
+      - balena-mdns-publisher
+    ports:
+      - '80:80'
+      - '5432:5432'
+      - '6379:6379'
+    networks:
+      internal:
+        aliases:
+          - jel.ly.fish.local
+          - livechat.ly.fish.local
+          - api.ly.fish.local
+    environment:
+      DOMAIN_INC_UUID: 'false'
+      AUTOGENERATE_CERTS: 'false'
+      AUTH_TOKEN: <token>
+      STATIC_DNS_IP: <ip>
+      CONFD_BACKEND: 'ENV'
+      PROXY_CONFIG: 
 
 networks:
   internal: {}

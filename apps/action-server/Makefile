@@ -19,7 +19,7 @@ endif
 
 .PHONY: lint
 lint:
-	npx depcheck --ignore-bin-package --ignores='depcheck'
+	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon'
 
 .PHONY: start-worker
 start-worker: LOGLEVEL = info

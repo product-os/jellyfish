@@ -9,10 +9,14 @@ WORKDIR /usr/src/jellyfish/apps/livechat
 COPY apps/livechat/package*.json /usr/src/jellyfish/apps/livechat/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm i
 
-COPY ./apps/livechat/lib/ /usr/src/jellyfish/apps/livechat/lib/
+#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && make dev-livechat
+RUN rm -f ~/.npmrc
+COPY package.json Makefile lerna.json /usr/src/jellyfish/
 COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/
+COPY ./apps/livechat/lib/ /usr/src/jellyfish/apps/livechat/lib/
+COPY packages/ /usr/src/jellyfish/packages/
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443

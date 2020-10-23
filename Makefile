@@ -16,7 +16,11 @@
 	scrub \
 	clean-front \
 	clean-github \
-	npm-install
+	npm-install \
+	get-packages \
+	bootstrap \
+	push \
+	ssh
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -101,6 +105,8 @@ MONITOR_SECRET_TOKEN ?= TEST
 export MONITOR_SECRET_TOKEN
 RESET_PASSWORD_SECRET_TOKEN ?=
 export RESET_PASSWORD_SECRET_TOKEN
+NPM_TOKEN ?=
+export NPM_TOKEN
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
@@ -302,8 +308,7 @@ lint:
 	./scripts/lint/check-licenses.sh
 	./scripts/lint/check-apps.sh
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
-	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,webpack'
+	npx depcheck
 	cd apps/server && make lint
 	cd apps/action-server && make lint
 	cd apps/livechat && make lint
@@ -422,3 +427,42 @@ compose-%: docker-compose.yml
 
 dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
+
+push:
+	balena push jel.ly.fish.local \
+		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
+		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
+		--env INTEGRATION_BALENA_API_PRIVATE_KEY=$(INTEGRATION_BALENA_API_PRIVATE_KEY) \
+		--env INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION) \
+		--env INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$(INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING) \
+		--env INTEGRATION_BALENA_API_APP_ID=$(INTEGRATION_BALENA_API_APP_ID) \
+		--env INTEGRATION_BALENA_API_APP_SECRET=$(INTEGRATION_BALENA_API_APP_SECRET) \
+		--env INTEGRATION_DISCOURSE_SIGNATURE_KEY=$(INTEGRATION_DISCOURSE_SIGNATURE_KEY) \
+		--env INTEGRATION_DISCOURSE_TOKEN=$(INTEGRATION_DISCOURSE_TOKEN) \
+		--env INTEGRATION_DISCOURSE_USERNAME=$(INTEGRATION_DISCOURSE_USERNAME) \
+		--env INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$(INTEGRATION_FLOWDOCK_SIGNATURE_KEY) \
+		--env INTEGRATION_FLOWDOCK_TOKEN=$(INTEGRATION_FLOWDOCK_TOKEN) \
+		--env INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
+		--env INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
+		--env INTEGRATION_INTERCOM_TOKEN=$(INTEGRATION_INTERCOM_TOKEN) \
+		--env INTEGRATION_OUTREACH_APP_ID=$(INTEGRATION_OUTREACH_APP_ID) \
+		--env INTEGRATION_OUTREACH_APP_SECRET=$(INTEGRATION_OUTREACH_APP_SECRET) \
+		--env INTEGRATION_OUTREACH_SIGNATURE_KEY=$(INTEGRATION_OUTREACH_SIGNATURE_KEY) \
+		--env INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
+		--env INTEGRATION_BALENA_API_OAUTH_BASE_URL=$(INTEGRATION_BALENA_API_OAUTH_BASE_URL) \
+		--env INTEGRATION_TYPEFORM_SIGNATURE_KEY=$(INTEGRATION_TYPEFORM_SIGNATURE_KEY) \
+		--env MONITOR_SECRET_TOKEN=$(MONITOR_SECRET_TOKEN) \
+		--env TEST_INTEGRATION_SKIP=$(TEST_INTEGRATION_SKIP) \
+		--env LOGLEVEL=$(LOGLEVEL) \
+		--env NODE_ENV=$(NODE_ENV) \
+		--env NPM_TOKEN=$(shell cat ~/.npmrc | cut -d '=' -f 2) \
+		--env NPM_CONFIG_REGISTRY=http://verdaccio:4873
+
+ssh:
+	balena ssh jel.ly.fish.local
+
+get-packages:
+	./scripts/get-packages.js
+
+bootstrap:
+	npx lerna bootstrap --hoist --force-local --no-ci --loglevel warn

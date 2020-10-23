@@ -1,15 +1,13 @@
 FROM balena/open-balena-base:v10.1.1
 
-COPY package*.json /usr/src/jellyfish/
-RUN cd /usr/src/jellyfish && npm i
-
 WORKDIR /usr/src/jellyfish/apps/server
+
 COPY apps/server/package*.json /usr/src/jellyfish/apps/server/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && npm i
 
 #dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && cd apps/server && npx nodemon ./lib/index.js
-RUN rm -f ~/.npmrc
+rm -f ~/.npmrc
 COPY package.json lerna.json Makefile /usr/src/jellyfish/
 COPY ./apps/server/Makefile ./apps/server/nodemon.json /usr/src/jellyfish/apps/server/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
