@@ -80,7 +80,7 @@ const transformLegacyPath = (path) => {
 
 const analyticsClient = isProduction()
 	? createClient({
-		endpoint: 'https://data.balena-cloud.com',
+		endpoint: 'data.balena-cloud.com',
 		projectName: 'jellyfish',
 		componentName: 'jellyfish-ui'
 	})
