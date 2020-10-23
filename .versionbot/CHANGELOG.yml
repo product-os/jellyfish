@@ -1,4 +1,19 @@
 - commits:
+    - subject: Reopen support threads when a linked pull request is closed
+      hash: ae590e1ac90d55383e67ebea0f13018a5000a1bd
+      body: >
+        This is a very similar triggered action to the one that relates to
+        GitHub issues
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.15.0
+  date: 2020-10-23T02:42:13.950Z
+- commits:
     - subject: Add UI Analytics to track page views
       hash: 8d9a4c2234be5d3521b4a04d40730365324b3a1b
       body: ''
