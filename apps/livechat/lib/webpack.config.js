@@ -125,6 +125,9 @@ if (process.env.NODE_ENV === 'production') {
 		minimize: true
 	}
 } else {
+	config.watchOptions = {
+		ignored: /node_modules/
+	}
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
