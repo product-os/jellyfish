@@ -29,7 +29,9 @@ module.exports = async (context, jellyfish, worker, session) => {
 	logger.info(context, 'Setting default cards')
 
 	const cardsToSkip = [ 'user-guest' ]
-	if (environment.isProduction()) {
+
+	// Only need test user role during development and CI.
+	if (environment.isProduction() && !environment.isCI()) {
 		cardsToSkip.push('role-user-test')
 	}
 

@@ -105,7 +105,8 @@ module.exports = async (context, options) => {
 			}
 		})
 
-	if (!environment.isProduction()) {
+	// Need test user during development and CI.
+	if (!environment.isProduction() || environment.isCI()) {
 		logger.info(context, 'Setting test user password', {
 			username: environment.test.user.username,
 			role: environment.test.user.role
