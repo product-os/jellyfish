@@ -11,7 +11,7 @@ ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm i
 
-#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && make dev-livechat
+#dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && cd apps/livechat && make build-dev-livechat && make start-static-livechat
 RUN rm -f ~/.npmrc
 COPY package.json Makefile lerna.json /usr/src/jellyfish/
 COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/
