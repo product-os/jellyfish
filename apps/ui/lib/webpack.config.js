@@ -81,11 +81,12 @@ const config = {
 	devServer: {
 		contentBase: outDir,
 		host: '0.0.0.0',
-		port: 9000,
+		port: 80, // TODO: Revert back to 9000 for native local dev, change nginx/haproxy to work with 9000
 		compress: true,
 		historyApiFallback: {
 			disableDotRule: true
-		}
+		},
+		disableHostCheck: true
 	},
 
 	node: {
@@ -188,6 +189,11 @@ if (process.env.NODE_ENV === 'production') {
 } else {
 	config.watchOptions = {
 		ignored: /node_modules/
+	}
+	// TODO: Only define these aliases if livepush
+	config.resolve.alias = {
+		react: '/usr/src/jellyfish/packages/rendition/node_modules/react/',
+		'styled-components': '/usr/src/jellyfish/packages/rendition/node_modules/styled-components/'
 	}
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
