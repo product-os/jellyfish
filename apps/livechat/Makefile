@@ -18,6 +18,15 @@ build-livechat:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./lib/webpack.config.js
 
+.PHONY: start-static-livechat
+start-static-livechat:
+	cd dist/livechat && python2 -m SimpleHTTPServer $(SERVER_PORT)
+
+.PHONY: build-dev-livechat
+build-dev-livechat:
+	NODE_ENV=development API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		./node_modules/.bin/webpack --config=./lib/webpack.config.js
+
 .PHONY: lint
 lint:
 	npx depcheck --ignore-bin-package --ignores='depcheck,css-loader,file-loader,babel-loader,style-loader,@babel/core,@babel/preset-react'
