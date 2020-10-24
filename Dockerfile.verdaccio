@@ -1,6 +1,5 @@
 FROM resinci/jellyfish-test:v1.3.19
 
-WORKDIR /usr/src/jellyfish
 RUN npm i -g verdaccio
 COPY verdaccio.yaml /root/.config/verdaccio/config.yaml
 
