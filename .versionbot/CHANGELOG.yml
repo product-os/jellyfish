@@ -1,4 +1,17 @@
 - commits:
+    - subject: Analytics endpoint cannot include https
+      hash: c521473d91f2c904ede925b40a1246fbd66b0c20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.16.1
+  date: 2020-10-24T01:38:51.843Z
+- commits:
     - subject: Display pink favicon when in development mode
       hash: e5d414672f145d4989461b6c024446cbe0376251
       body: |
