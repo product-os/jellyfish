@@ -110,31 +110,31 @@ class CreateLens extends React.Component {
 			}
 		}
 
-		const dragsubject = () => {
-			return simulation.find(d3.event.x, d3.event.y)
+		const dragsubject = (event) => {
+			return simulation.find(event.x, event.y)
 		}
 
-		const dragstarted = () => {
-			if (!d3.event.active) {
+		const dragstarted = (event) => {
+			if (!event.active) {
 				simulation.alphaTarget(0.3).restart()
 			}
-			d3.event.subject.fx = d3.event.subject.x
-			d3.event.subject.fy = d3.event.subject.y
+			event.subject.fx = event.subject.x
+			event.subject.fy = event.subject.y
 
-			active = d3.event.subject
+			active = event.subject
 		}
 
-		const dragged = () => {
-			d3.event.subject.fx = d3.event.x
-			d3.event.subject.fy = d3.event.y
+		const dragged = (event) => {
+			event.subject.fx = event.x
+			event.subject.fy = event.y
 		}
 
-		const dragended = () => {
-			if (!d3.event.active) {
+		const dragended = (event) => {
+			if (!event.active) {
 				simulation.alphaTarget(0)
 			}
-			d3.event.subject.fx = null
-			d3.event.subject.fy = null
+			event.subject.fx = null
+			event.subject.fy = null
 
 			active = null
 		}
