@@ -11,9 +11,12 @@ import {
 import {
 	useLabeledImage
 } from '../../hooks'
+import {
+	isProduction
+} from '../../environment'
 
 export default function CountFavicon ({
-	isLoggedIn, isProduction, label
+	isLoggedIn, label
 }) {
 	const productionIcons = [
 		{
@@ -33,7 +36,7 @@ export default function CountFavicon ({
 		}
 	]
 
-	const baseIcons = (isProduction) ? productionIcons : devIcons
+	const baseIcons = isProduction() ? productionIcons : devIcons
 
 	// Sizes are proportional to the overall image size
 	const baseFontSize = label && label.length > 2 ? 0.5 : 0.625
