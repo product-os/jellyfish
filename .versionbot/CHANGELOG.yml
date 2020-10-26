@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow link removal from ui
+      hash: 9afc930df64e5fe194e885aefb6d6b98f889b5b9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#4919'
+        connects-to: '#4919'
+      author: Kakhaber
+      nested: []
+  version: 33.17.0
+  date: 2020-10-26T06:35:37.224Z
+- commits:
     - subject: Fix D3 event calls in LinksGraphLens
       hash: 7bb3ffdf464fe4cc1688aaae2c06fbdb09aa79e4
       body: |
