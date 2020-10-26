@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Fix check for production build in CountFavicon'
+      hash: a2e29e105f38e2dc2bb63d88689b7f79bf564415
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.16.2
+  date: 2020-10-26T01:34:38.346Z
+- commits:
     - subject: Analytics endpoint cannot include https
       hash: c521473d91f2c904ede925b40a1246fbd66b0c20
       body: ''
