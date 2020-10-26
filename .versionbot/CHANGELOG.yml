@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix D3 event calls in LinksGraphLens
+      hash: 7bb3ffdf464fe4cc1688aaae2c06fbdb09aa79e4
+      body: |
+        Broken in the update to D3 v6.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.16.3
+  date: 2020-10-26T04:21:18.338Z
+- commits:
     - subject: 'ui: Fix check for production build in CountFavicon'
       hash: a2e29e105f38e2dc2bb63d88689b7f79bf564415
       body: ''
