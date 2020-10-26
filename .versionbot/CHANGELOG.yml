@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump ui-components
+      hash: da1e39acc227938f0ed484c0a613c2c1d53f1a13
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.17.1
+  date: 2020-10-26T08:50:29.603Z
+- commits:
     - subject: Allow link removal from ui
       hash: 9afc930df64e5fe194e885aefb6d6b98f889b5b9
       body: ''
