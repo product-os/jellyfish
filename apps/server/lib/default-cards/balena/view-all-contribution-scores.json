@@ -1,0 +1,48 @@
+{
+  "slug": "view-all-contribution-scores",
+  "name": "Contribution Scores",
+  "type": "view@1.0.0",
+  "markers": [ "org-balena" ],
+  "data": {
+    "namespace": "Support",
+    "allOf": [
+      {
+        "name": "All users with support contribution score",
+        "schema": {
+          "anyOf": [
+            {
+              "$$links": {
+                "is for": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "const": "user@1.0.0"
+                    }
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            true
+          ],
+          "type": "object",
+          "properties": {
+            "type": {
+              "type": "string",
+              "const": "support-contribution-score@1.0.0"
+            },
+            "active": {
+              "const": true,
+              "type": "boolean"
+            }
+          },
+          "additionalProperties": true
+        }
+      }
+    ],
+    "lenses": [
+      "lens-table",
+      "lens-list"
+    ]
+  }
+}

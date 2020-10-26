@@ -1,0 +1,36 @@
+{
+  "slug": "support-contribution-score",
+  "name": "Support Contribution Score",
+  "type": "type@1.0.0",
+  "markers": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": ["data"],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": ["score"],
+          "properties": {
+            "score": {
+              "type": "number",
+              "minimum": 0,
+              "default": 0,
+              "title": "Support Contribution Score",
+              "description": "The cumulative score that is updated every time a support thread is audited"
+            }
+          }
+        }
+      }
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "Support Agent",
+          "link": "is for",
+          "type": "user"
+        }
+      ]
+    }
+  }
+}

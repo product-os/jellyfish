@@ -43,6 +43,9 @@ const OMISSIONS = [ {
 	field: 'slug'
 },
 {
+	field: 'active'
+},
+{
 	key: 'format',
 	value: 'markdown'
 }, {
