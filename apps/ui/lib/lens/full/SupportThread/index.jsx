@@ -18,7 +18,6 @@ import {
 	Box,
 	Button,
 	Flex,
-	Link,
 	Theme,
 	Txt
 } from 'rendition'
@@ -63,6 +62,29 @@ const JellyIcon = styled.img.attrs({
 	transform: translateY(3px);
 	margin-top: -2px;
 `
+
+const LINKS = [ {
+	verb: 'support thread is attached to issue',
+	icon: <Icon name="github" brands />,
+	testId: 'linked-issue',
+	description: ({
+		id
+	}) => `Support thread by id ${id} attached to issue`
+}, {
+	verb: 'support thread is attached to support issue',
+	icon: <JellyIcon />,
+	testId: 'linked-support-issue',
+	description: ({
+		id
+	}) => `Support thread by id ${id} attached to support issue`
+}, {
+	verb: 'support thread is attached to product improvement',
+	icon: <JellyIcon />,
+	testId: 'linked-support-issue',
+	description: ({
+		id
+	}) => `Support thread by id ${id} attached to product improvement`
+} ]
 
 const Extract = styled(Box) `
 	background: lightyellow;
@@ -180,12 +202,30 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
+		this.removeLink = async (fromCard, toCard, verb) => {
+			try {
+				await sdk.card.unlink(fromCard, toCard, verb)
+			} catch (err) {
+				addNotification('danger', err.message)
+				return
+			}
+
+			addNotification('success', 'Link removed')
+
+			this.setState((state) => ({
+				linkedCardsMap: {
+					...state.linkedCardsMap,
+					[verb]: state.linkedCardsMap[verb].filter((linkedCard) => {
+						return linkedCard.id !== toCard.id
+					})
+				}
+			}))
+		}
+
 		this.state = {
 			actor: null,
 			isClosing: false,
-			linkedSupportIssues: [],
-			linkedGitHubIssues: [],
-			linkedProductImprovements: []
+			linkedCardsMap: {}
 		}
 		this.loadLinks(props.card.id)
 	}
@@ -198,7 +238,7 @@ class SupportThreadBase extends React.Component {
 		})
 	}
 
-	loadLinks (id) {
+	async loadLinks (id) {
 		const baseSchema = {
 			type: 'object',
 			properties: {
@@ -213,66 +253,36 @@ class SupportThreadBase extends React.Component {
 			},
 			additionalProperties: true
 		}
-		Bluebird.all([
-			sdk.query({
-				$$links: {
-					'support thread is attached to support issue': {
-						type: 'object',
-						additionalProperties: true
-					}
-				},
-				description: `Support thread by id ${id} attached to support issue`,
-				...baseSchema
-			}),
-			sdk.query({
-				$$links: {
-					'support thread is attached to issue': {
-						type: 'object',
-						additionalProperties: true
-					}
-				},
-				description: `Support thread by id ${id} attached to issue`,
-				...baseSchema
-			}),
-			sdk.query({
-				$$links: {
-					'support thread is attached to product improvement': {
-						type: 'object',
-						additionalProperties: true
-					}
-				},
-				description: `Support thread by id ${id} attached to product improvements`,
-				...baseSchema
-			})
-		])
-			.then(([ supportIssueResult, issueResult, productImprovementResult ]) => {
-				if (supportIssueResult.length) {
-					this.setState({
-						linkedSupportIssues: _.get(
-							supportIssueResult[0],
-							[ 'links', 'support thread is attached to support issue' ]
-						)
-					})
-				}
 
-				if (issueResult.length) {
-					this.setState({
-						linkedGitHubIssues: _.get(
-							issueResult[0],
-							[ 'links', 'support thread is attached to issue' ]
-						)
-					})
-				}
+		const linkedCardsMap = await Bluebird.props(LINKS.reduce((result, link) => {
+			return {
+				...result,
+				[link.verb]: (async () => {
+					const cardWithLinks = (await sdk.query({
+						$$links: {
+							[link.verb]: {
+								type: 'object',
+								additionalProperties: true
+							}
+						},
+						description: link.description({
+							id
+						}),
+						...baseSchema
+					}))[0]
 
-				if (productImprovementResult.length) {
-					this.setState({
-						linkedProductImprovements: _.get(
-							productImprovementResult[0],
-							[ 'links', 'support thread is attached to product improvement' ]
-						)
-					})
-				}
-			})
+					if (!cardWithLinks) {
+						return []
+					}
+
+					return cardWithLinks.links[link.verb]
+				})()
+			}
+		}, {}))
+
+		this.setState({
+			linkedCardsMap
+		})
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
@@ -280,14 +290,9 @@ class SupportThreadBase extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		const verb1 = 'support thread is attached to support issue'
-		const verb2 = 'support thread is attached to issue'
-		const verb3 = 'support thread is attached to product improvement'
 		if (
 			(prevProps.card.id !== this.props.card.id) ||
-			(prevProps.card.linked_at[verb1] !== this.props.card.linked_at[verb1]) ||
-			(prevProps.card.linked_at[verb2] !== this.props.card.linked_at[verb2]) ||
-			(prevProps.card.linked_at[verb3] !== this.props.card.linked_at[verb3])
+			LINKS.some((link) => prevProps.card.linked_at[link.verb] !== this.props.card.linked_at[link.verb])
 		) {
 			this.loadLinks(this.props.card.id)
 		}
@@ -300,9 +305,7 @@ class SupportThreadBase extends React.Component {
 			getActorHref
 		} = this.props
 		const {
-			linkedSupportIssues,
-			linkedGitHubIssues,
-			linkedProductImprovements
+			linkedCardsMap
 		} = this.state
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0]
@@ -423,51 +426,27 @@ class SupportThreadBase extends React.Component {
 			>
 				<Box px={3}>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">
-						{Boolean(linkedGitHubIssues && linkedGitHubIssues.length) && _.map(linkedGitHubIssues, (entry) => {
+						{LINKS.map((link) => {
 							return (
-								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
-									<Icon name="github" brands />
-									<Link
-										ml={1}
-										href={`/${entry.slug || entry.id}`}
-										key={entry.id}
-										data-test="support-thread__linked-issue"
-									>
-										{entry.name}
-									</Link>
-								</Tag>
-							)
-						})}
-
-						{Boolean(linkedSupportIssues && linkedSupportIssues.length) && _.map(linkedSupportIssues, (entry) => {
-							return (
-								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
-									<JellyIcon />
-									<Link
-										ml={1}
-										href={`/${entry.slug || entry.id}`}
-										key={entry.id}
-										data-test="support-thread__linked-support-issue"
-									>
-										{entry.name}
-									</Link>
-								</Tag>
-							)
-						})}
-
-						{_.map(linkedProductImprovements, (entry) => {
-							return (
-								<Tag key={entry.id} mr={2} mb={1} tooltip={entry.name}>
-									<JellyIcon />
-									<Link
-										ml={1}
-										href={`/${entry.slug || entry.id}`}
-										key={entry.id}
-										data-test="support-thread__linked-support-issue"
-									>
-										{entry.name}
-									</Link>
-								</Tag>
+								<React.Fragment key={link.verb}>
+									{linkedCardsMap[link.verb] && linkedCardsMap[link.verb].map((linkedCard) => (
+										<Tag
+											key={linkedCard.id}
+											mr={2} mb={1}
+											onRemove={() => this.removeLink(card, linkedCard, link.verb)}>
+											{link.icon}
+											<RouterLink
+												ml={1}
+												append={linkedCard.slug || linkedCard.id}
+												key={linkedCard.id}
+												tooltip={linkedCard.name}
+												data-test={`support-thread__${link.testId}`}
+											>
+												{linkedCard.name}
+											</RouterLink>
+										</Tag>
+									))}
+								</React.Fragment>
 							)
 						})}
 					</Flex>
@@ -582,7 +561,8 @@ const mapDispatchToProps = (dispatch) => {
 				'getCard',
 				'loadMoreViewData',
 				'setFlow',
-				'removeChannel'
+				'removeChannel',
+				'removeLink'
 			]),
 			dispatch
 		)
