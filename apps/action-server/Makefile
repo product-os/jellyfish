@@ -1,5 +1,7 @@
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+FIX ?=
+
 NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
 ifeq ($(NODE_ENV),profile)
 # See https://github.com/davidmarkclements/0x
@@ -17,8 +19,15 @@ NODE = "node"
 endif
 endif
 
+ifeq ($(FIX),)
+ESLINT_OPTION_FIX =
+else
+ESLINT_OPTION_FIX = --fix
+endif
+
 .PHONY: lint
 lint:
+	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib
 	npx depcheck --ignore-bin-package --ignores='depcheck'
 
 .PHONY: start-worker

@@ -4,6 +4,13 @@ SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
+FIX ?=
+
+ifeq ($(FIX),)
+ESLINT_OPTION_FIX =
+else
+ESLINT_OPTION_FIX = --fix
+endif
 
 .PHONY: dev-livechat
 dev-livechat:
@@ -20,4 +27,5 @@ build-livechat:
 
 .PHONY: lint
 lint:
+	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib
 	npx depcheck --ignore-bin-package --ignores='depcheck,css-loader,file-loader,babel-loader,style-loader,@babel/core,@babel/preset-react'

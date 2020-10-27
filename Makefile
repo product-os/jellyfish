@@ -295,7 +295,7 @@ postgres_data:
 	initdb --locale=en_US.UTF8 --pgdata $@
 
 lint:
-	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) apps/action-server apps/livechat apps/server scripts test
+	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) scripts test
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
