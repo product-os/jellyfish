@@ -8,8 +8,8 @@ import ava from 'ava'
 import sinon from 'sinon'
 import _ from 'lodash'
 import Bluebird from 'bluebird'
-import actions from '../actions'
-import ActionCreator from './'
+import actions from '../../actions'
+import ActionCreator from '../'
 
 const sandbox = sinon.createSandbox()
 

@@ -30,7 +30,8 @@ import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
-	getUnreadQuery
+	getUnreadQuery,
+	getChannelQuery
 } from '../../queries'
 import {
 	streamUpdate
@@ -231,6 +232,7 @@ export default class ActionCreator {
 			'clearViewData',
 			'completeFirstTimeLogin',
 			'completePasswordReset',
+			'constructChannelData',
 			'createLink',
 			'dumpState',
 			'getIntegrationAuthUrl',
@@ -277,6 +279,7 @@ export default class ActionCreator {
 			'signalTyping',
 			'signup',
 			'updateChannel',
+			'updateChannelOnUpsert',
 			'updateUser',
 			'upsertViewData'
 		])
@@ -504,6 +507,55 @@ export default class ActionCreator {
 		}
 	}
 
+	updateChannelOnUpsert (currentChannel, upsertedCard) {
+		if (!currentChannel) {
+			return null
+		}
+
+		const clonedChannel = clone(currentChannel)
+
+		// Add link cards to the head instead of replacing
+		// the head with the link card
+		if (upsertedCard.type === 'link@1.0.0') {
+			const links = _.get(clonedChannel.data.head, [ 'links' ], {
+				'has attached element': []
+			})
+			links['has attached element'].push(upsertedCard)
+			clonedChannel.data.head.links = links
+			return clonedChannel
+		}
+		const headHasntChanged = fastEquals.deepEqual(clonedChannel.data.head, upsertedCard)
+		if (headHasntChanged) {
+			return null
+		}
+
+		const upsertedCardEvents = upsertedCard.links['has attached element']
+		const channelEvents = clonedChannel.data.head.links['has attached element']
+
+		// Merges events from channel with those from the upserted card
+		// incase there are link cards in the channel state (these won't come through
+		// with the head card)
+		upsertedCard.links = {
+			'has attached element': _.uniqBy([ ...upsertedCardEvents, ...channelEvents ], 'id')
+		}
+		clonedChannel.data.head = upsertedCard
+		return clonedChannel
+	}
+
+	constructChannelData (currentChannel, cards) {
+		const [ links, [ newChannel ] ] = _.partition(cards, {
+			type: 'link@1.0.0'
+		})
+
+		if (links.length > 0) {
+			newChannel.links['has attached element'] = newChannel.links['has attached element'].concat(links)
+		}
+
+		const clonedChannel = clone(currentChannel)
+		clonedChannel.data.head = merge(clonedChannel.data.head, newChannel)
+		return clonedChannel
+	}
+
 	loadChannelData (channel) {
 		return async (dispatch, getState) => {
 			if (channel.data.canonical === false) {
@@ -520,61 +572,33 @@ export default class ActionCreator {
 				throw new Error(`Couldn't find channel with ${identifier}: ${target}`)
 			}
 
-			const query = {
-				type: 'object',
-				anyOf: [ {
-					properties: {
-						id: {
-							const: cardId
-						}
-					}
-				},
-				{
-					properties: {
-						id: {
-							const: cardId
-						}
-					},
-					$$links: {
-						'has attached element': {
-							type: 'object'
-						}
-					}
-				} ]
-			}
+			const query = getChannelQuery(cardId)
 
 			const streamHandlers = {
 				remove: _.noop,
 				append: _.noop,
-				upsert: (newHead) => {
+				upsert: (card) => {
 					const currentChannel = _.find(selectors.getChannels(getState()), {
 						id: channel.id
 					})
-					if (!currentChannel) {
-						return null
-					}
-					const clonedChannel = clone(currentChannel)
-
-					const headHasntChanged = fastEquals.deepEqual(clonedChannel.data.head, newHead)
-					if (headHasntChanged) {
+					const updatedChannel = this.updateChannelOnUpsert(currentChannel, card)
+					if (!updatedChannel) {
 						return null
 					}
 
-					clonedChannel.data.head = newHead
 					return dispatch({
 						type: actions.UPDATE_CHANNEL,
-						value: clonedChannel
+						value: updatedChannel
 					})
 				},
-				set: ([ newChannel ]) => {
+				set: (cards) => {
 					const currentChannel = _.find(selectors.getChannels(getState()), {
 						id: channel.id
 					})
-					const clonedChannel = clone(currentChannel)
-					clonedChannel.data.head = merge(clonedChannel.data.head, newChannel)
+					const channelData = this.constructChannelData(currentChannel, cards)
 					return dispatch({
 						type: actions.UPDATE_CHANNEL,
-						value: clonedChannel
+						value: channelData
 					})
 				}
 			}

@@ -12,8 +12,8 @@ import * as notifications from '@balena/jellyfish-ui-components/lib/services/not
 import {
 	// eslint-disable-next-line no-unused-vars
 	store
-} from '../../'
-import ActionCreator from './'
+} from '../../../'
+import ActionCreator from '../'
 
 const sandbox = sinon.createSandbox()
 

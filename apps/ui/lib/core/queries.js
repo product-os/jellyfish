@@ -135,3 +135,92 @@ export const getUnreadQuery = (user, groupNames, searchTerm) => {
 		}
 	})
 }
+
+export const getChannelQuery = (cardId) => {
+	const cardQuery = getCardQuery(cardId)
+	const cardWithLinksQuery = getCardWithLinksQuery(cardId)
+	const linksQuery = getLinksQuery(cardId)
+	return {
+		type: 'object',
+		anyOf: [ cardQuery, cardWithLinksQuery, linksQuery ]
+	}
+}
+
+export const getCardQuery = (cardId) => ({
+	properties: {
+		id: {
+			const: cardId
+		}
+	}
+})
+
+export const getCardWithLinksQuery = (cardId) => ({
+	properties: {
+		id: {
+			const: cardId
+		}
+	},
+	$$links: {
+		'has attached element': {
+			type: 'object'
+		}
+	}
+})
+
+export const getLinksQuery = (cardId) => {
+	const toLinkSchema = {
+		properties: {
+			to: {
+				type: 'object',
+				properties: {
+					id: {
+						const: cardId
+					},
+					type: {
+						type: 'string'
+					},
+					slug: {
+						type: 'string'
+					}
+				}
+			}
+		}
+	}
+
+	const fromLinkSchema = {
+		properties: {
+			from: {
+				type: 'object',
+				properties: {
+					id: {
+						const: cardId
+					},
+					type: {
+						type: 'string'
+					},
+					slug: {
+						type: 'string'
+					}
+				}
+			}
+		}
+	}
+
+	return {
+		required: [ 'type', 'data' ],
+		properties: {
+			type: {
+				const: 'link@1.0.0'
+			},
+			name: {
+				not: {
+					enum: [ 'has attached element', 'is attached to' ]
+				}
+			},
+			data: {
+				type: 'object',
+				anyOf: [ toLinkSchema, fromLinkSchema ]
+			}
+		}
+	}
+}

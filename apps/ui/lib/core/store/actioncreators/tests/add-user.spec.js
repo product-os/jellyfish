@@ -6,7 +6,7 @@
 
 import ava from 'ava'
 import sinon from 'sinon'
-import ActionCreator from './'
+import ActionCreator from '../'
 
 const sandbox = sinon.createSandbox()
 
