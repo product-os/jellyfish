@@ -128,11 +128,6 @@ if (process.env.NODE_ENV === 'production') {
 	config.watchOptions = {
 		ignored: /node_modules/
 	}
-	// TODO: Only define these aliases if livepush
-	config.resolve.alias = {
-		react: '/usr/src/jellyfish/packages/rendition/node_modules/react/',
-		'styled-components': '/usr/src/jellyfish/packages/rendition/node_modules/styled-components/'
-	}
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
