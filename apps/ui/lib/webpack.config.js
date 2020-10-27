@@ -81,7 +81,7 @@ const config = {
 	devServer: {
 		contentBase: outDir,
 		host: '0.0.0.0',
-		port: 80, // TODO: Revert back to 9000 for native local dev, change nginx/haproxy to work with 9000
+		port: process.env.UI_PORT,
 		compress: true,
 		historyApiFallback: {
 			disableDotRule: true
