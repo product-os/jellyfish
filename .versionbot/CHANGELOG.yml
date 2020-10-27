@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix path to dist folder for start-static- make commands
+      hash: db29ea3b1a1ac4ec7482e08612b924ef87e7d6c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use relative path to service-worker.js
+      hash: 091fa07b9743239b47c01bdfbdeb9bb254d42c75
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.17.3
+  date: 2020-10-27T04:32:29.613Z
+- commits:
     - subject: Add eslint to apps/ui
       hash: 566a55c58665264896e0bf208ea02e40f69b416c
       body: ''
