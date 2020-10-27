@@ -7,9 +7,9 @@
 #
 
 # path to a directory with all packages
-storage: ./storage
+storage: /verdaccio/storage
 # path to a directory with plugins to include
-plugins: ./plugins
+plugins: /verdaccio/plugins
 
 web:
   title: Verdaccio
