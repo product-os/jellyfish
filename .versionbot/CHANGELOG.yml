@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Add eslint to action-server, livechat, and server apps'
+      hash: 39e7ce4bb6faa7aa96f8651339be7202a3845e22
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.17.4
+  date: 2020-10-27T06:34:52.842Z
+- commits:
     - subject: Fix path to dist folder for start-static- make commands
       hash: db29ea3b1a1ac4ec7482e08612b924ef87e7d6c4
       body: ''
