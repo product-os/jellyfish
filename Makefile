@@ -383,7 +383,7 @@ start-postgres: postgres_data
 	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
 start-static-%:
-	cd dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
+	cd apps/ui/dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Build
