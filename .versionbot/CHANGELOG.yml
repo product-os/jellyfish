@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add eslint to apps/ui
+      hash: 566a55c58665264896e0bf208ea02e40f69b416c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.17.2
+  date: 2020-10-27T02:23:03.237Z
+- commits:
     - subject: Bump ui-components
       hash: da1e39acc227938f0ed484c0a613c2c1d53f1a13
       body: ''
