@@ -13,6 +13,5 @@
   "git@github.com:product-os/jellyfish-sync.git",
   "git@github.com:product-os/jellyfish-ui-components.git",
   "git@github.com:product-os/jellyfish-uuid.git",
-  "git@github.com:product-os/jellyfish-worker.git",
-  "git@github.com:balena-io-modules/rendition.git"
+  "git@github.com:product-os/jellyfish-worker.git"
 ]
