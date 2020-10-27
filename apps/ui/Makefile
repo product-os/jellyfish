@@ -7,6 +7,7 @@ export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
 SENTRY_DSN_UI ?=
+FIX ?=
 
 NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
@@ -40,6 +41,12 @@ ifdef MATCH
 AVA_ARGS += --match $(MATCH)
 endif
 
+ifeq ($(FIX),)
+ESLINT_OPTION_FIX =
+else
+ESLINT_OPTION_FIX = --fix
+endif
+
 .PHONY: test
 test: LOGLEVEL = warning
 test:
@@ -60,4 +67,5 @@ build-ui:
 
 .PHONY: lint
 lint:
+	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib test
 	npx depcheck --ignore-bin-package --ignores='@ava/babel,@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader'
