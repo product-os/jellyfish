@@ -1,4 +1,17 @@
 - commits:
+    - subject: Disable Renovate pruneStaleBranches option
+      hash: 166f130a5fc8c656644a0147e42935369e089a2f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.17.5
+  date: 2020-10-28T12:54:27.342Z
+- commits:
     - subject: 'Add eslint to action-server, livechat, and server apps'
       hash: 39e7ce4bb6faa7aa96f8651339be7202a3845e22
       body: ''
