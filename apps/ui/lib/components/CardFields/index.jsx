@@ -32,10 +32,13 @@ export default function CardFields (props) {
 			data: localSchema
 		}
 	}, typeSchema)
-
+	console.log('type', type)
+	console.log('card', card)
+	console.log('schema', schema)
 	return (
 		<JsonSchemaRenderer
 			value={card}
+			data-test="cardfields-jsonschemarenderer"
 			schema={schema}
 			uiSchema={getUiSchema(type, UI_SCHEMA_MODE.fields)}
 			extraFormats={JF_FORMATS}
