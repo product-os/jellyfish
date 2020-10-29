@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Add test to confirm the 'user-community' role is added to a user when
+        send-first-time-time-login action is fired and their roles field
+        contains a value that is not 'user-community'
+      hash: 01e79569721796df4a2c90812d916041e1ad375c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.17.8
+  date: 2020-10-29T13:49:25.945Z
+- commits:
     - subject: Fix package lock
       hash: 24c2ffcebaebfb094f5aa280e49479d777e5809c
       body: ''
