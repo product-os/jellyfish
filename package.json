@@ -62,7 +62,7 @@
     "deplint": "^1.1.2",
     "errio": "^1.2.2",
     "eslint": "^7.11.0",
-    "eslint-config-standard": "^14.1.1",
+    "eslint-config-standard": "^15.0.1",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-jsdoc": "^30.7.3",
     "eslint-plugin-lodash": "^7.1.0",
