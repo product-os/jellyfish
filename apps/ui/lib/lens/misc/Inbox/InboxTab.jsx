@@ -20,9 +20,7 @@ import {
 import {
 	useDebouncedCallback
 } from 'use-debounce'
-import {
-	update
-} from 'immutability-helper'
+import update from 'immutability-helper'
 import {
 	useSetup
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
@@ -93,16 +91,24 @@ const InboxTab = ({
 	const messagesRef = useRef(messages)
 	messagesRef.current = messages
 
-	const removeMessage = (id) => {
-		const updatedMessages = messagesRef.current.filter((item) => {
-			return item.id !== id
+	const appendMessage = (message) => {
+		setMessages([ ...messagesRef.current, message ])
+	}
+
+	const removeMessage = (messageId) => {
+		const updatedMessages = messagesRef.current.filter((message) => {
+			return message.id !== messageId
 		})
 		setMessages(updatedMessages)
 	}
 
-	const updateMessage = (updatedMessage) => {
+	const upsertMessage = (updatedMessage) => {
 		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
-		const updatedMessages = update(messages, {
+		const messageNotInState = messageIndex === -1
+		if (messageNotInState) {
+			return appendMessage(updatedMessage)
+		}
+		const updatedMessages = update(messagesRef.current, {
 			[messageIndex]: {
 				$set: updatedMessage
 			}
@@ -111,9 +117,9 @@ const InboxTab = ({
 	}
 
 	const viewHandlers = {
-		upsert: updateMessage,
-		append: (message) => setMessages([ ...messagesRef.current, message ]),
-		remove: (messageId) => removeMessage(messageId),
+		upsert: upsertMessage,
+		append: appendMessage,
+		remove: removeMessage,
 
 		// Set is undefined because setupStream dispatches this handler
 		// and this is not a redux action. Instead we wait till the data
