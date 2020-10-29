@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: eed3958ac972c75b89d13ddfc44d256a8ca56868
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.17.9
+  date: 2020-10-29T14:38:09.291Z
+- commits:
     - subject: >-
         Add test to confirm the 'user-community' role is added to a user when
         send-first-time-time-login action is fired and their roles field
