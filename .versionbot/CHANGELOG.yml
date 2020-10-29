@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-test image version
+      hash: 09a24dffe2acc6f99da8cd68f7cbdabc597e4d6d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.17.6
+  date: 2020-10-28T23:42:14.131Z
+- commits:
     - subject: Disable Renovate pruneStaleBranches option
       hash: 166f130a5fc8c656644a0147e42935369e089a2f
       body: ''
