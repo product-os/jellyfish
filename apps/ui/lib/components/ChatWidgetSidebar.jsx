@@ -39,6 +39,7 @@ export const ChatWidgetSidebar = ({
 }) => {
 	return (
 		<Container
+			data-test="chat-widget"
 			width={[ 'calc(100% - 20px)', 'calc(100% - 20px)', '376px' ]}
 		>
 			<ErrorBoundary>

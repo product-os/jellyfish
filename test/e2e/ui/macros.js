@@ -112,13 +112,13 @@ exports.logout = async (page) => {
 	await bluebird.delay(1000)
 }
 
-exports.waitForThenClickSelector = async (page, selector) => {
+exports.waitForThenClickSelector = async (page, selector, options) => {
 	await exports.retry(3, async () => {
 		if (selector.startsWith('//')) {
-			const el = await page.waitForXPath(selector)
+			const el = await page.waitForXPath(selector, options)
 			await el.click()
 		} else {
-			await page.waitForSelector(selector)
+			await page.waitForSelector(selector, options)
 			await page.click(selector)
 		}
 	})
