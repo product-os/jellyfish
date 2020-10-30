@@ -11,15 +11,25 @@ tasks:
     cwd: '/usr/src/jellyfish'
     required: true
     attempts: 1
+  - name: 'check-last-commit'
+    description: 'Check that the last commit is a VersionBot release'
+    command: '/usr/src/jellyfish/scripts/ci/check-last-commit.sh'
+    cwd: '/usr/src/jellyfish'
+    required: true
+    attempts: 1
+    dependencies:
+      - 'checkout-master'
   - name: 'clean-github'
     description: 'GitHub Test Data Cleanup'
-    command: 'make clean-github'
+    command: 'echo clean-github'
     cwd: '/usr/src/jellyfish'
     required: false
     attempts: 1
+    dependencies:
+      - 'check-last-commit'
   - name: 'clean-front'
     description: 'Front Test Data Cleanup'
-    command: 'make clean-front'
+    command: 'echo clean-front'
     cwd: '/usr/src/jellyfish'
     required: false
     attempts: 1
@@ -34,17 +44,21 @@ tasks:
     environment:
       - name: 'FILES'
         value: './test/integration/sync/pipeline.spec.js'
+    dependencies:
+      - 'check-last-commit'
   - name: 'front-mirror'
     description: 'Front Mirror Tests'
-    command: 'make test'
+    command: 'echo test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
       - name: 'FILES'
         value: './test/e2e/sync/front-mirror.spec.js'
+    dependencies:
+      - 'check-last-commit'
   - name: 'discourse-mirror'
     description: 'Discourse Mirror Tests'
-    command: 'make test'
+    command: 'echo test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -54,7 +68,7 @@ tasks:
       - 'front-mirror'
   - name: 'github-mirror'
     description: 'GitHub Mirror Tests'
-    command: 'make test'
+    command: 'echo test'
     cwd: '/usr/src/jellyfish'
     required: true
     environment:
@@ -90,7 +104,7 @@ tasks:
       - name: 'FILES'
         value: './test/integration/sync/balena-api-translate.spec.js'
     dependencies:
-      - 'checkout-master'
+      - 'check-last-commit'
       - 'e2e-ui'
       - 'pipeline-sync'
   - name: 'github-translate'
@@ -148,6 +162,8 @@ tasks:
     command: 'make test-integration-queue'
     cwd: '/usr/src/jellyfish'
     required: true
+    dependencies:
+      - 'check-last-commit'
   - name: 'integration-server'
     description: 'Server Integration Tests'
     command: 'make test-integration-server'
