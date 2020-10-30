@@ -106,7 +106,8 @@ const InboxTab = ({
 		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
 		const messageNotInState = messageIndex === -1
 		if (messageNotInState) {
-			return appendMessage(updatedMessage)
+			appendMessage(updatedMessage)
+			return
 		}
 		const updatedMessages = update(messagesRef.current, {
 			[messageIndex]: {
