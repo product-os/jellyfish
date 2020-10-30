@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix lint error in InboxTab
+      hash: 928d050e7f3f8acfb5a9ccf35790cda0fb3a03f0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix upsert of new messages in the Inbox
+      hash: 106c9621d63c4c6e8a2f9191cd733930f3250e8e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <lucy-jane@balena.io>
+      author: Lucy-Jane
+      nested: []
+  version: 33.17.11
+  date: 2020-10-30T05:31:08.277Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.782.0'
       hash: 922897481041e87d558ce087f1a8f7f4e6e6ee81
       body: ''
