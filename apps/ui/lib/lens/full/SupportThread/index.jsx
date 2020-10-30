@@ -55,6 +55,7 @@ import {
 	TeardownFlowPanel
 } from '../../../components/Flows'
 import {
+	IssueOpenedIcon,
 	GitPullRequestIcon
 } from '@primer/styled-octicons'
 
@@ -68,7 +69,7 @@ const JellyIcon = styled.img.attrs({
 
 const LINKS = [ {
 	verb: 'support thread is attached to issue',
-	icon: <Icon name="github" brands />,
+	icon: <IssueOpenedIcon size={16} />,
 	testId: 'linked-issue',
 	description: ({
 		id
