@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: b48b7c931eff9d62fdb3a3f92831f827f22b288d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.17.12
+  date: 2020-10-30T07:23:15.653Z
+- commits:
     - subject: Fix lint error in InboxTab
       hash: 928d050e7f3f8acfb5a9ccf35790cda0fb3a03f0
       body: ''
