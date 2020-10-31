@@ -1,4 +1,25 @@
 - commits:
+    - subject: Replace linked issue icon with IssueOpenedIcon
+      hash: 69d70ce9dada6a40a0ca1c3ae83341ab074ad358
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: Add linked pull request tag to SupportThread
+      hash: ca765d88c58a8c289f81616e4e540366833cc0a0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: StefKors
+      nested: []
+  version: 33.18.0
+  date: 2020-10-31T05:25:24.578Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 4f536a80fc5f9459136973c6de9e76e1d4d8b9e3
       body: ''
