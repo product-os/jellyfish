@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use NODE_ENV=production for compose JF services
+      hash: 9b9622df0d4fc68f5d099df7e3d145558ae3d3a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.18.1
+  date: 2020-10-31T11:41:04.658Z
+- commits:
     - subject: Replace linked issue icon with IssueOpenedIcon
       hash: 69d70ce9dada6a40a0ca1c3ae83341ab074ad358
       body: ''
