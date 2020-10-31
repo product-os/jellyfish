@@ -54,6 +54,10 @@ import {
 	FLOW_IDS,
 	TeardownFlowPanel
 } from '../../../components/Flows'
+import {
+	IssueOpenedIcon,
+	GitPullRequestIcon
+} from '@primer/styled-octicons'
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg'
@@ -65,11 +69,18 @@ const JellyIcon = styled.img.attrs({
 
 const LINKS = [ {
 	verb: 'support thread is attached to issue',
-	icon: <Icon name="github" brands />,
+	icon: <IssueOpenedIcon size={16} />,
 	testId: 'linked-issue',
 	description: ({
 		id
 	}) => `Support thread by id ${id} attached to issue`
+}, {
+	verb: 'support thread is attached to pull request',
+	icon: <GitPullRequestIcon size={16} />,
+	testId: 'linked-pr',
+	description: ({
+		id
+	}) => `Support thread by id ${id} attached to pull request`
 }, {
 	verb: 'support thread is attached to support issue',
 	icon: <JellyIcon />,
