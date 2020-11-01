@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 272debf5ca89f764eeb13a16944a9d7295123391
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.18.2
+  date: 2020-11-01T04:44:28.448Z
+- commits:
     - subject: Use NODE_ENV=production for compose JF services
       hash: 9b9622df0d4fc68f5d099df7e3d145558ae3d3a5
       body: ''
