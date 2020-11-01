@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 37ed5a2375d818133c8e3594b31464b5d619dc19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.18.5
+  date: 2020-11-01T13:17:59.019Z
+- commits:
     - subject: Group select frontend dependency bumps
       hash: 7e8b5b209cd609404879aab2b46608b2f7139a36
       body: ''
