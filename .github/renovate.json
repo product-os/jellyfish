@@ -26,6 +26,22 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "groupName": "non-major-frontend",
+      "packageNames": [
+        "@balena/jellyfish-ui-components",
+        "@balena/jellyfish-chat-widget",
+        "rendition",
+        "react",
+        "react-dom",
+        "styled-components"
+      ],
+      "updateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
     }
   ],
   "encrypted": {
