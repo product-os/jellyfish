@@ -1,4 +1,17 @@
 - commits:
+    - subject: Group select frontend dependency bumps
+      hash: 7e8b5b209cd609404879aab2b46608b2f7139a36
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.18.4
+  date: 2020-11-01T11:59:39.315Z
+- commits:
     - subject: Bump dependencies
       hash: b983a530b7f54f9114ff8a18b1c3a426231b6f90
       body: ''
