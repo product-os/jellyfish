@@ -38,8 +38,8 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@balena/ci-task-runner": "^0.2.42",
-    "@balena/jellyfish-action-library": "^5.1.22",
+    "@balena/ci-task-runner": "^0.2.43",
+    "@balena/jellyfish-action-library": "^5.1.23",
     "@balena/jellyfish-chat-widget": "^2.0.63",
     "@balena/jellyfish-client-sdk": "^2.4.5",
     "@balena/jellyfish-core": "^0.1.79",
