@@ -107,7 +107,7 @@
     "@ava/babel": "^1.0.1",
     "@babel/cli": "^7.12.1",
     "@emotion/cache": "^10.0.29",
-    "@emotion/core": "^10.0.35",
+    "@emotion/core": "^10.1.0",
     "ava": "^3.13.0",
     "browser-env": "^3.3.0",
     "canvas": "^2.6.1",
