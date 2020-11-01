@@ -8,7 +8,7 @@ WORKDIR /usr/src/jellyfish
 
 COPY package*.json /usr/src/jellyfish/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+RUN echo "registry=http://192.168.1.3:4873" > ~/.npmrc && \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
 
 COPY ./apps ./apps

@@ -455,8 +455,7 @@ push:
 		--env TEST_INTEGRATION_SKIP=$(TEST_INTEGRATION_SKIP) \
 		--env LOGLEVEL=$(LOGLEVEL) \
 		--env NODE_ENV=$(NODE_ENV) \
-		--env NPM_TOKEN=$(NPM_TOKEN) \
-		--env NPM_CONFIG_REGISTRY=http://verdaccio:4873 \
+		--env NPM_CONFIG_REGISTRY=http://192.168.1.3:4873 \
 		--env SERVER_HOST=$(SERVER_HOST) \
 		--env SERVER_PORT=$(SERVER_PORT)
 

@@ -4,7 +4,7 @@ WORKDIR /usr/src/jellyfish/apps/server
 
 COPY apps/server/package*.json /usr/src/jellyfish/apps/server/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && npm i
+RUN echo "registry=http://192.168.1.3:4873" > ~/.npmrc && npm i
 
 #dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && cd apps/server && npx nodemon ./lib/index.js
 rm -f ~/.npmrc

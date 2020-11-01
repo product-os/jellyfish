@@ -10,7 +10,7 @@ RUN cd /usr/src/jellyfish && npm i
 WORKDIR /usr/src/jellyfish/apps/livechat
 COPY apps/livechat/package*.json /usr/src/jellyfish/apps/livechat/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+RUN echo "registry=http://192.168.1.3:4873" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm i
 
 #dev-cmd-live=cd /usr/src/jellyfish && make bootstrap && make dev-livechat
