@@ -304,10 +304,10 @@ lint:
 	shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,webpack'
-	cd apps/server && make lint
-	cd apps/action-server && make lint
-	cd apps/livechat && make lint
-	cd apps/ui && make lint
+	cd apps/server && make lint FIX=$(FIX)
+	cd apps/action-server && make lint FIX=$(FIX)
+	cd apps/livechat && make lint FIX=$(FIX)
+	cd apps/ui && make lint FIX=$(FIX)
 
 scrub:
 	$(SCRUB_COMMAND)
