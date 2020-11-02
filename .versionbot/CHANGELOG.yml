@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add shellcheck
+      hash: c757c14e78a317aa147f974fa627cf3304db4895
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump test container base images
+      hash: 32cc021626fc2b48046de0b0a36f0d1d77c2261e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.18.13
+  date: 2020-11-02T12:34:06.605Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: bc21afa4777ec816728089047a549a5a5b74e22e
       body: ''
