@@ -5,7 +5,7 @@
 FROM balena/open-balena-base:v10.1.1 as base
 
 COPY package*.json /usr/src/jellyfish/
-RUN cd /usr/src/jellyfish && npm i
+RUN cd /usr/src/jellyfish && npm ci
 
 WORKDIR /usr/src/jellyfish/apps/ui
 COPY apps/ui/package*.json /usr/src/jellyfish/apps/ui/
