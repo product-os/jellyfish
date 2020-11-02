@@ -38,6 +38,7 @@ JAVASCRIPT_FILES="$(find . \( -name '*.js' -or -name '*.jsx' \) \
 SHELL_FILES="$(find . -name '*.sh' \
 	-and -not -path './*node_modules/*' \
 	-and -not -path './dist/*' \
+	-and -not -path './.git/*' \
 	-and -not -path './.tmp/*')"
 
 for file in $JAVASCRIPT_FILES; do
