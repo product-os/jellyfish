@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 9920f42926d6ede24060fa058301bf3971f312bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.18.11
+  date: 2020-11-02T07:03:28.449Z
+- commits:
     - subject: Add lint staged
       hash: ecb4e64b1bb3ccce1040fcff24bdb4b7bafc52b3
       body: ''
