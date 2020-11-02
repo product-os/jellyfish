@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 9503e1b30447b92c6f6cf7a59f77ba8490283b86
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.18.14
+  date: 2020-11-02T17:12:54.383Z
+- commits:
     - subject: Add shellcheck
       hash: c757c14e78a317aa147f974fa627cf3304db4895
       body: ''
