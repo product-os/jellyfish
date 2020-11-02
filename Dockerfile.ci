@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-test:v1.3.21
+FROM resinci/jellyfish-test:v1.3.23
 
 WORKDIR /usr/src/jellyfish
 
