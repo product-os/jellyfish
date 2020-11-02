@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add lint staged
+      hash: ecb4e64b1bb3ccce1040fcff24bdb4b7bafc52b3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.18.10
+  date: 2020-11-02T03:58:59.221Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.80'
       hash: bfd6535bf2e08be1546f7649b8a2b3e01ca1a141
       body: ''
