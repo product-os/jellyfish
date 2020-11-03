@@ -1,10 +1,12 @@
 {
   "extends": [
-    "config:base"
+    "config:base",
+    "docker:enableMajor"
   ],
   "ignorePaths": [],
   "enabledManagers": [
-    "npm"
+    "npm",
+    "dockerfile"
   ],
   "pruneStaleBranches": false,
   "rangeStrategy": "bump",
