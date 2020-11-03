@@ -8,6 +8,22 @@
       {
         "name": "My conversations",
         "schema": {
+          "anyOf": [
+            {
+            "$$links": {
+                "is owned by": {
+                  "type": "object",
+                  "required": [ "type" ],
+                  "properties": {
+                    "type": {
+                      "const": "user@1.0.0"
+                    }
+                  }
+                }
+              }
+            },
+            true
+          ],
           "$$links": {
             "is owned by": {
               "type": "object",
