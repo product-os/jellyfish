@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major Docker tags'
+      hash: bce68fd32101a5fb08474afea23d1dbad30e035a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.2
+  date: 2020-11-03T10:04:41.219Z
+- commits:
     - subject: Enable Renovate Dockerfile bumps
       hash: 83e7d77cd2b7c6768d71ffd0b274f1c5a0139773
       body: ''
