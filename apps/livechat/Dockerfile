@@ -26,7 +26,7 @@ RUN make build-livechat \
 # Runtime
 ###########################################################
 
-FROM nginx:1.15
+FROM nginx:1.19
 WORKDIR /usr/src/jellyfish
 COPY --from=base /usr/src/jellyfish/apps/livechat/dist/livechat /usr/share/nginx/html
 COPY apps/livechat/conf/nginx.conf /etc/nginx/conf.d/default.conf
