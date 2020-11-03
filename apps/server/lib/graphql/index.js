@@ -13,7 +13,7 @@ const {
 } = require('express-graphql')
 
 module.exports = (cards) => {
-	return async (uri = '/graphql', application, context = {}) => {
+	return async (application, context = {}, uri = '/graphql') => {
 		const EXECUTION_CONTEXT = {
 			id: `GRAPHQL-SERVER-STARTUP-${packageJSON.version}-${await uuid.random()}`
 		}

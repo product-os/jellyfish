@@ -735,7 +735,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			})
 	})
 
-	mountGraphqlServer('/graphql', application, {
+	mountGraphqlServer(application, {
 		jellyfish, queryFacade, logger
-	})
+	}, '/graphql')
 }
