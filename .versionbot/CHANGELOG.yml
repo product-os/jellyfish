@@ -1,4 +1,17 @@
 - commits:
+    - subject: Enable Renovate Dockerfile bumps
+      hash: 83e7d77cd2b7c6768d71ffd0b274f1c5a0139773
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.20.1
+  date: 2020-11-03T08:38:49.579Z
+- commits:
     - subject: Bump dependencies
       hash: 2ab29197ab1b776b896ff7932e13fcebebda7a13
       body: ''
