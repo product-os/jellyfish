@@ -1,4 +1,35 @@
 - commits:
+    - subject: Fix eslint errors
+      hash: cd6e66b493345a51ce1ac3a7445309d3df77b9cf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove eslint-plugin-standard
+      hash: 72e2500d3dfa6ec9c5af9e1653010d1ccb0c957f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency eslint-config-standard to v16'
+      hash: ec100fce443962c794de596e3fd0324199a1f4bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.19.1
+  date: 2020-11-03T02:37:39.727Z
+- commits:
     - subject: Fetch thread owners with threads if they exist
       hash: ffe4c9c5e4faf8073c935c2296592c048733e0f5
       body: >
