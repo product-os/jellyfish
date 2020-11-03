@@ -1,4 +1,21 @@
 - commits:
+    - subject: Fetch thread owners with threads if they exist
+      hash: ffe4c9c5e4faf8073c935c2296592c048733e0f5
+      body: >
+        Note - I haven't used a mixin here because most of these views will
+        actually be replaced with Support v2. At this point we'll add the
+        optional fetching of thread owners to the Support v2 support thread view
+        mixin.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.19.0
+  date: 2020-11-03T00:04:31.102Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.784.0'
       hash: 6fe39ce6ca6274ebab265e08ddf3ae65a97575c3
       body: ''
