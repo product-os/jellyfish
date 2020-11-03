@@ -1,4 +1,41 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 2ab29197ab1b776b896ff7932e13fcebebda7a13
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Make use of new CardChatSummary
+      hash: 49ea59ba1f6475c126737b2951f33f41a103ea27
+      body: |
+        Added relevant props
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove overridden text colors in theme
+      hash: 7cd0f787ed15d841079126719abc686cda60204b
+      body: >
+        Note - in practice this only affects the text.light color as the other
+        two were exactly the same as the default theme colors. This change just
+        ensures we use the standard light text color.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.20.0
+  date: 2020-11-03T06:22:06.402Z
+- commits:
     - subject: Fix eslint errors
       hash: cd6e66b493345a51ce1ac3a7445309d3df77b9cf
       body: ''
