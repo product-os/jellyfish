@@ -4,18 +4,18 @@
  * Proprietary and confidential.
  */
 
-import '../../../../../test/ui-setup'
+import '../../../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	shallow
 } from 'enzyme'
 import React from 'react'
-import SupportThreadsToAudit from '../SupportThreadsToAudit'
+import SimpleList from '../SimpleList'
 
 ava('It should render', (test) => {
 	test.notThrows(() => {
 		shallow(
-			<SupportThreadsToAudit />
+			<SimpleList />
 		)
 	})
 })

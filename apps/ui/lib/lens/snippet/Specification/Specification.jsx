@@ -26,7 +26,7 @@ export default function SingleCard (props) {
 	const blurb = _.get(card, [ 'data', 'blurb' ])
 
 	return (
-		<Box pb={3}>
+		<Box p={3}>
 			<Txt>
 				<Link append={card.slug || card.id}>
 					<strong>{card.name || card.slug}</strong>

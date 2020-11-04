@@ -12,17 +12,17 @@ import * as React from 'react'
 import {
 	Box
 } from 'rendition'
-import {
-	selectors
-} from '../../../core'
 import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardChatSummary from '@balena/jellyfish-ui-components/lib/CardChatSummary'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	selectors
+} from '../../../core'
 
-export const SLUG = 'lens-support-threads-to-audit'
+export const SLUG = 'lens-simple-list'
 
-export default class SupportThreadsToAudit extends React.Component {
+export default class SimpleList extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -74,13 +74,14 @@ export default class SupportThreadsToAudit extends React.Component {
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
+						flex: 1,
 						height: '100%',
 						paddingBottom: 16,
 						overflowY: 'auto'
 					}}
 				>
 					{!(totalPages > page + 1) && tail.length === 0 && (
-						<Box p={3}><strong>Good job! There are no support threads here</strong></Box>
+						<Box p={3}><strong>No results found</strong></Box>
 					)}
 
 					{_.map(tail, (card) => {

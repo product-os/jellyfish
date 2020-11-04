@@ -40,7 +40,7 @@ export default class SingleCard extends React.Component {
 		}, 0)
 
 		return (
-			<Box pb={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
+			<Box p={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
 				<Flex justifyContent="space-between">
 					<Txt>
 						<Link append={card.slug || card.id}>

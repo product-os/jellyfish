@@ -50,7 +50,7 @@ module.exports = {
 			}
 		],
 		lenses: [
-			'lens-support-threads',
+			'lens-list',
 			'lens-table',
 			'lens-kanban'
 		]

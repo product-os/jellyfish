@@ -340,11 +340,11 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 
 	await page.waitForSelector('.column--view-all-support-threads')
 
-	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-list"]')
 
 	await bluebird.delay(2000)
 
-	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+	await page.waitForSelector('[data-test="lens--lens-list"]')
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
 	await page.waitForSelector('.column--view-all-support-issues')
@@ -353,7 +353,7 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 	await page.waitForSelector('.column--view-all-support-threads')
 
 	// Wait for a while as reload can take some time
-	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
+	await page.waitForSelector('[data-test="lens--lens-list"]')
 
 	test.pass()
 })

@@ -13,9 +13,9 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import SupportThreadsToAudit, {
+import SimpleList, {
 	SLUG
-} from './SupportThreadsToAudit'
+} from './SimpleList'
 
 const mapStateToProps = (state, ownProps) => {
 	return {
@@ -39,11 +39,11 @@ const lens = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'SupportThreads lens',
+	name: 'Simple list lens',
 	data: {
 		icon: 'address-card',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadsToAudit),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SimpleList),
 		filter: {
 			type: 'array',
 			items: {

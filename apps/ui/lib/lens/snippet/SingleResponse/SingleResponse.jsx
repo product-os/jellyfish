@@ -28,7 +28,7 @@ export default class SingleResponse extends React.Component {
 		} = this.props
 
 		return (
-			<Box pb={3} data-test="snippet--form-response" data-test-id={`snippet-form-response-${card.id}`}>
+			<Box p={3} data-test="snippet--form-response" data-test-id={`snippet-form-response-${card.id}`}>
 				<Txt bold={!card.linked_at.hasOwnProperty('is curated by')}>
 					<Link append={card.slug || card.id}>
 						{card.data.user ? `Feedback from ${card.data.user}` : card.slug}
