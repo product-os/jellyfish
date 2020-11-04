@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.27'
+      hash: a6bbc5d2ea65c5a125d6eec1e6866fed167e6d2f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.6
+  date: 2020-11-04T01:44:58.771Z
+- commits:
     - subject: 'patch: Update dependency copy-webpack-plugin to ^6.3.0'
       hash: d5cc755577b9d741b14905f440e2585ac39e5223
       body: ''
