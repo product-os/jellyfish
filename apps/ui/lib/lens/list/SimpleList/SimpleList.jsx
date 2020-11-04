@@ -59,6 +59,7 @@ export default class SimpleList extends React.Component {
 
 	render () {
 		const {
+			lensSlug,
 			channel,
 			channels,
 			page,
@@ -69,7 +70,7 @@ export default class SimpleList extends React.Component {
 		tail.reverse()
 
 		return (
-			<Column data-test={`lens--${SLUG}`}>
+			<Column data-test={`lens--${lensSlug}`}>
 				<div
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}

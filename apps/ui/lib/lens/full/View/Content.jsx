@@ -46,6 +46,7 @@ export default class Content extends React.Component {
 				)}
 				{Boolean(tail) && Boolean(lens) && (
 					<lens.data.renderer
+						lensSlug={lens.slug}
 						channel={channel}
 						tail={sortedTail}
 						setPage={setPage}
