@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add e2e test for chat widget
+      hash: da2fdc017a65e61fc4c611bc30bceeea4c4f8842
+      body: >
+        Tests starting a new conversation via the chat widget and verifying it
+        appears in the Jellyfish threads support view.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.20.9
+  date: 2020-11-04T08:05:29.162Z
+- commits:
     - subject: 'patch: Update balena/open-balena-base Docker tag to v11'
       hash: 2e45a19f32cb90155477cad07655cec785fbeb49
       body: ''
