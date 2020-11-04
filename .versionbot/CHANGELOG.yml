@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update balena/open-balena-base Docker tag to v11'
+      hash: 2e45a19f32cb90155477cad07655cec785fbeb49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.8
+  date: 2020-11-04T06:56:09.847Z
+- commits:
     - subject: Speed up lint-staged
       hash: 28495e5a806949cb69a668871376ad34c170efb4
       body: ''
