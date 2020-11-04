@@ -1,4 +1,17 @@
 - commits:
+    - subject: Speed up lint-staged
+      hash: 28495e5a806949cb69a668871376ad34c170efb4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.20.7
+  date: 2020-11-04T05:00:38.610Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.27'
       hash: a6bbc5d2ea65c5a125d6eec1e6866fed167e6d2f
       body: ''
