@@ -12,6 +12,7 @@ import AsyncSelect from 'react-select/async'
 import {
 	Badge, Flex, Txt
 } from 'rendition'
+import debounce from 'debounce-promise'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 export default class AutoCompleteCardSelect extends React.Component {
@@ -21,7 +22,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 			results: []
 		}
 
-		this.getTargets = this.getTargets.bind(this)
+		this.getTargets = debounce(this.getTargets.bind(this), 500)
 		this.onChange = this.onChange.bind(this)
 	}
 
