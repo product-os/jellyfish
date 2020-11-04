@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add X-Frame-Options header to prevent clickjacking
+      hash: 47b4df6a15ca48a309b5a1970d3992b2c41d0177
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 33.20.10
+  date: 2020-11-04T10:19:58.947Z
+- commits:
     - subject: Add e2e test for chat widget
       hash: da2fdc017a65e61fc4c611bc30bceeea4c4f8842
       body: >
