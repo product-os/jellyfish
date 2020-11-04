@@ -41,8 +41,22 @@
     }
   },
   "lint-staged": {
+    "*": [
+      "./scripts/lint/check-filenames.sh"
+    ],
+    "apps/*": [
+      "./scripts/lint/check-descriptions.sh",
+      "./scripts/lint/check-apps.sh"
+    ],
     "*.{js,jsx}": [
-      "make lint FIX=1"
+      "eslint --cache --fix",
+      "deplint"
+    ],
+    "*.sh": [
+      "shellcheck"
+    ],
+    "*.{js,jsx,sh}": [
+      "./scripts/lint/check-licenses.sh"
     ]
   },
   "author": "Balena.io. <hello@balena.io>",
