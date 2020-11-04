@@ -9,7 +9,7 @@ WORKDIR /usr/src/jellyfish/apps/ui
 COPY apps/ui/package*.json /usr/src/jellyfish/apps/ui/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true NPM_CONFIG_REGISTRY=http://10.1.131.127:4873 npm ci && rm -f ~/.npmrc
 
 COPY ./package.json /usr/src/jellyfish/
 COPY ./apps/ui/lib/ /usr/src/jellyfish/apps/ui/lib/

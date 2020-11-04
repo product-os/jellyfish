@@ -5,7 +5,7 @@ WORKDIR /usr/src/jellyfish/apps/action-server
 COPY apps/action-server/package*.json /usr/src/jellyfish/apps/action-server/
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-	NODE_ENV=production npm ci && rm -f ~/.npmrc
+	NODE_ENV=production NPM_CONFIG_REGISTRY=http://10.1.131.127:4873 npm ci && rm -f ~/.npmrc
 
 COPY ./package.json /usr/src/jellyfish/
 COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/

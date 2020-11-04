@@ -11,8 +11,8 @@ COPY package.json package-lock.json /usr/src/jellyfish/
 COPY ./apps ./apps
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-		cd apps/server && npm ci && rm -f ~/.npmrc
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true NPM_CONFIG_REGISTRY=http://10.1.131.127:4873 npm ci && \
+		cd apps/server && NPM_CONFIG_REGISTRY=http://10.1.131.127:4873 npm ci && rm -f ~/.npmrc
 
 COPY ./test ./test
 COPY ./Makefile ./Makefile
