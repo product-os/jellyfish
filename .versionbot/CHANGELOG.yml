@@ -1,4 +1,93 @@
 - commits:
+    - subject: Fix merge mistake
+      hash: 8573b72122b51808a3eae264dc3335d08088d6f8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add new Support views
+      hash: 318bd68651ac8876a8f48775b647c6e0bac42800
+      body: |
+        Making use of a mixin to provide the basic support thread functionality
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Mark old support views as inactive
+      hash: 71008f91a9b808431d3a4bed29b0e5b469ba00de
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Set ESR Version
+      hash: ed094b27d0551f4c5a82230c161b1b9c2ec76363
+      body: |
+        This is a temporary solution to get CI to work on the feature branch.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Reset pending status on support thread activity
+      hash: 45e39ea11a07ddb5d3d518f2c7e409e98c2091e5
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'ui: Add Pending Status toggle button'
+      hash: 88cbb1a2968758f2815fb0ffde8a2602f9778f5e
+      body: >
+        Displays the pending status of a support thread (dark blue background if
+        pending) and lets the user toggle the pending status.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add isPending boolean field to support-thread and sales-thread
+      hash: 0399bc97b9e349f987e7fed7b5d0dfa940972051
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove summary tag triggered action
+      hash: e0f3decafce8ab27c0a801960e5f24afee3484b7
+      body: >
+        Using a #summary tag in a whisper will no longer close the support
+        thread.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.21.0
+  date: 2020-11-05T08:42:50.179Z
+- commits:
     - subject: Bump dependencies
       hash: 2ab29197ab1b776b896ff7932e13fcebebda7a13
       body: ''
