@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.22.1'
+      hash: 0456c1823c0ee429f94a8b0d54c09bd5700f340d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.12
+  date: 2020-11-05T16:50:49.762Z
+- commits:
     - subject: Debounce async-select data fetching
       hash: 85174651834c302635a68251e00558fc1114ebf7
       body: ''
