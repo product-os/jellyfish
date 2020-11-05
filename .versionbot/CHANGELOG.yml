@@ -1,4 +1,17 @@
 - commits:
+    - subject: Debounce async-select data fetching
+      hash: 85174651834c302635a68251e00558fc1114ebf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.20.11
+  date: 2020-11-05T05:51:49.616Z
+- commits:
     - subject: Add X-Frame-Options header to prevent clickjacking
       hash: 47b4df6a15ca48a309b5a1970d3992b2c41d0177
       body: ''
