@@ -47,7 +47,7 @@
     "response-time": "^2.3.2",
     "skhema": "^5.3.3",
     "slugify": "^1.4.6",
-    "socket.io": "^2.3.0",
+    "socket.io": "^3.0.0",
     "socket.io-prometheus-metrics": "^1.0.6",
     "socket.io-redis": "^5.4.0",
     "uuid": "^8.3.1"
