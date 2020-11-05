@@ -95,7 +95,7 @@
     "eslint-plugin-react": "^7.21.5",
     "express": "^4.17.1",
     "front-sdk": "^0.8.1",
-    "googleapis": "^61.0.0",
+    "googleapis": "^64.0.0",
     "husky": "^4.3.0",
     "js-combinatorics": "^0.6.1",
     "jsonwebtoken": "^8.5.1",
