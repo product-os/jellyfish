@@ -25,9 +25,11 @@ import {
 	Form
 } from 'rendition'
 import * as skhema from 'skhema'
+import {
+	UserAvatar
+} from '@balena/jellyfish-ui-components/lib/UserAvatar'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import CardLayout from '../../../layouts/CardLayout'
-import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const SLUG = 'lens-my-user'
@@ -216,12 +218,7 @@ export default class MyUser extends React.Component {
 					<Tab title="Profile">
 						<Box mt={3}>
 							<Flex mb={3}>
-								<Avatar
-									name={user.name || user.slug.replace('user-', '')}
-									url={_.get(user, [ 'data', 'avatar' ])}
-									userStatus={_.get(user, [ 'data', 'status' ])}
-								/>
-
+								<UserAvatar user={user} emphasized />
 								<Box ml={2}>
 									<strong>{user.slug.replace('user-', '')}</strong>
 

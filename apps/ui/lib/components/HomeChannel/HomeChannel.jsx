@@ -29,7 +29,9 @@ import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
 import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
 import ViewLink from '../ViewLink'
-import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
+import {
+	UserAvatarLive
+} from '@balena/jellyfish-ui-components/lib/UserAvatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import MenuPanel from '@balena/jellyfish-ui-components/lib/shame/MenuPanel'
 import {
@@ -39,6 +41,9 @@ import {
 import {
 	registerForNotifications
 } from '../../services/notifications'
+import {
+	selectors
+} from '../../core'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
@@ -561,10 +566,11 @@ export default class HomeChannel extends React.Component {
 									maxWidth: '100%',
 									position: 'relative'
 								}}>
-								<Avatar
-									name={username}
-									url={_.get(user, [ 'data', 'avatar' ])}
-									userStatus={_.get(user, [ 'data', 'status' ])}
+								<UserAvatarLive
+									emphasized
+									userId={user.id}
+									selectCard={selectors.getCard}
+									getCard={actions.getCard}
 								/>
 								{Boolean(username) && <Txt mx={2} style={{
 									textOverflow: 'ellipsis',
