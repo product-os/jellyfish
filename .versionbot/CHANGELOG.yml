@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add a new view that only shows support threads from the balena forums
+      hash: 90fe22b6e9d9f21e965b142cf8a166dfbac4371a
+      body: |
+        In the future this should be bundled into a forums "channel"
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.21.0
+  date: 2020-11-06T15:14:09.047Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: f2c5742c5b0d06dcca74f81e0b6053f6551cded6
       body: ''
