@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 96c6864faca6f4f3bd469f460651cbf04e7a9ed4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.1
+  date: 2020-11-06T20:08:04.652Z
+- commits:
     - subject: >-
         Update the reason in the reopen and summary triggered actions to align
         with new designs for updates in the Timeline component
