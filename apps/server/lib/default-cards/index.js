@@ -140,6 +140,7 @@ module.exports = ({
 		viewBalenaChat: require('./balena/view-balena-chat.json'),
 		viewSupportKnowledgeBase: require('./balena/view-support-knowledge-base.json'),
 		viewSupportThreadsParticipation: require('./balena/view-support-threads-participation.json'),
+		viewAllForumThreads: require('./balena/view-all-forum-threads.json'),
 		viewAllSupportThreads: require('./balena/view-all-support-threads.json'),
 		viewAllUsers: require('./balena/view-all-users.json'),
 		viewChangelogs: require('./balena/view-changelogs.json'),
