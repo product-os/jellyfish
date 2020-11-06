@@ -106,7 +106,7 @@
       }
     },
     "arguments": {
-      "reason": "Re-opened because linked pull request was closed",
+      "reason": "Support Thread re-opened because linked Pull Request was closed",
       "patch": [
         {
           "op": "replace",

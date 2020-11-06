@@ -71,7 +71,7 @@
       }
     },
     "arguments": {
-      "reason": "Closed with #summary tag",
+      "reason": "Support Thread closed with #summary tag",
       "patch": [
         {
           "op": "replace",

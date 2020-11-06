@@ -106,7 +106,7 @@
       }
     },
     "arguments": {
-      "reason": "Re-opened because linked issue was closed",
+      "reason": "Support Thread re-opened because linked Issue was closed",
       "patch": [
         {
           "op": "replace",
