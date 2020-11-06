@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: ec21fa9919f73c44b4595b86717b293836a642d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.16
+  date: 2020-11-06T08:49:04.655Z
+- commits:
     - subject: Force Renovate to use node 14 and npm 6
       hash: ab692a178dd14e67b42a1810ae38a5eae6eafd04
       body: ''
