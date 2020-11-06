@@ -1,4 +1,45 @@
 - commits:
+    - subject: Bump dependencies
+      hash: b78cc7c706252a51dfa7f2645b5529b17d583678
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use UserAvatar and UserAvatarLive instead of shame/Avatar
+      hash: 3e2979e6a88743b6e6f1a6c51cdb5a67edecd42e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update jellyfish-action-library dependencies
+      hash: 4404b2d40ce1e28943468313cf745f56dfe0c787
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency googleapis to v64'
+      hash: e31154f7a87c8e398c52a49b5d429435bed003fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.20.13
+  date: 2020-11-06T03:46:09.858Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.22.1'
       hash: 0456c1823c0ee429f94a8b0d54c09bd5700f340d
       body: ''
