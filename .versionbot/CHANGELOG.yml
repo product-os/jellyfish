@@ -1,4 +1,218 @@
 - commits:
+    - subject: >-
+        Update the reason in the reopen and summary triggered actions to align
+        with new designs for updates in the Timeline component
+      hash: 241a6043138388161c75f8ae5fbdf3f35a2e2ddd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+        signed-off-by: Lucy-Jane Walsh <Lucy-Jane@balena.io>
+      author: Lucy-Jane Walsh
+      nested: []
+    - subject: Add a new view that only shows support threads from the balena forums
+      hash: 90fe22b6e9d9f21e965b142cf8a166dfbac4371a
+      body: |
+        In the future this should be bundled into a forums "channel"
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: f2c5742c5b0d06dcca74f81e0b6053f6551cded6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 5ba79b2608431245be33351cdab2b13bc78f6216
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: ec21fa9919f73c44b4595b86717b293836a642d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: 407e6a61d2e75b69a7c8a9d8164e12f74d79eea4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Bump dependencies
+      hash: b78cc7c706252a51dfa7f2645b5529b17d583678
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use UserAvatar and UserAvatarLive instead of shame/Avatar
+      hash: 3e2979e6a88743b6e6f1a6c51cdb5a67edecd42e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Force Renovate to use node 14 and npm 6
+      hash: ab692a178dd14e67b42a1810ae38a5eae6eafd04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update jellyfish-action-library dependencies
+      hash: 4404b2d40ce1e28943468313cf745f56dfe0c787
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency googleapis to v64'
+      hash: e31154f7a87c8e398c52a49b5d429435bed003fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.22.1'
+      hash: 0456c1823c0ee429f94a8b0d54c09bd5700f340d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Debounce async-select data fetching
+      hash: 85174651834c302635a68251e00558fc1114ebf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update balena/open-balena-base Docker tag to v11'
+      hash: 2e45a19f32cb90155477cad07655cec785fbeb49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Speed up lint-staged
+      hash: 28495e5a806949cb69a668871376ad34c170efb4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.27'
+      hash: a6bbc5d2ea65c5a125d6eec1e6866fed167e6d2f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency copy-webpack-plugin to ^6.3.0'
+      hash: d5cc755577b9d741b14905f440e2585ac39e5223
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: b7506f2e2a96cd08734256cccd45d53f1dc0a998
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update grafana/grafana Docker tag to v7'
+      hash: bf48c3641d094733ee9c0f7ab0278de5c83ecf4f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major Docker tags'
+      hash: bce68fd32101a5fb08474afea23d1dbad30e035a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Add e2e test for chat widget
+      hash: da2fdc017a65e61fc4c611bc30bceeea4c4f8842
+      body: >
+        Tests starting a new conversation via the chat widget and verifying it
+        appears in the Jellyfish threads support view.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Enable Renovate Dockerfile bumps
+      hash: 83e7d77cd2b7c6768d71ffd0b274f1c5a0139773
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Add X-Frame-Options header to prevent clickjacking
+      hash: 47b4df6a15ca48a309b5a1970d3992b2c41d0177
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+        signed-off-by: Marios Balamatsias <mbalamatsias@gmail.com>
+      author: Marios Balamatsias
+      nested: []
+  version: 33.22.0
+  date: 2020-11-06T17:04:38.633Z
+- commits:
     - subject: Add a new view that only shows support threads from the balena forums
       hash: 90fe22b6e9d9f21e965b142cf8a166dfbac4371a
       body: |
