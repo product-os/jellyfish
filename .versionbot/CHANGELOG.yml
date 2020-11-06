@@ -1,4 +1,17 @@
 - commits:
+    - subject: Force Renovate to use node 14 and npm 6
+      hash: ab692a178dd14e67b42a1810ae38a5eae6eafd04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.20.15
+  date: 2020-11-06T06:38:55.344Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 407e6a61d2e75b69a7c8a9d8164e12f74d79eea4
       body: ''
