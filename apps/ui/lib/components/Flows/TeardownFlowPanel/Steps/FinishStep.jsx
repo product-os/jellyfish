@@ -14,7 +14,9 @@ import {
 	Heading,
 	Box
 } from 'rendition'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 export default function FinishStep ({
 	flowState

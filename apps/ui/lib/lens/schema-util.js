@@ -5,7 +5,9 @@
  */
 
 import _ from 'lodash'
-import AutoCompleteWidget from '@balena/jellyfish-ui-components/lib/AutoCompleteWidget'
+import {
+	AutoCompleteWidget
+} from '@balena/jellyfish-ui-components'
 
 export const JF_FORMATS = [ {
 	name: 'markdown', format: '.*'

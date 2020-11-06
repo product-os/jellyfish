@@ -18,11 +18,11 @@ import {
 import {
 	constraints as LINKS
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
-import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	Icon
+} from '@balena/jellyfish-ui-components'
+import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
 
 const getTypes = memoize((inputCards) => {
 	return _.uniq(_.map(inputCards, 'type'))

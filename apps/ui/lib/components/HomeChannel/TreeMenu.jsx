@@ -15,10 +15,12 @@ import {
 	Flex
 } from 'rendition'
 import {
+	Icon
+} from '@balena/jellyfish-ui-components'
+import {
 	selectors
 } from '../../core'
 import ViewLink from '../ViewLink'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const TreeMenu = ({
 	activeChannel,

@@ -8,7 +8,9 @@ import React from 'react'
 import {
 	Textarea
 } from 'rendition'
-import useDebounce from '@balena/jellyfish-ui-components/lib/hooks/use-debounce'
+import {
+	useDebounce
+} from '@balena/jellyfish-ui-components'
 
 // In this step you specify a text value for the flow.
 export default function TextareaStep ({

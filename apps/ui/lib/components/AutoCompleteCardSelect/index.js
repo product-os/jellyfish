@@ -7,6 +7,6 @@
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
 import {
 	withSetup
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
+} from '@balena/jellyfish-ui-components'
 
 export default withSetup(AutoCompleteCardSelect)

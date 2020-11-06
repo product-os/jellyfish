@@ -20,11 +20,10 @@ import {
 	getLens
 } from '../../lens'
 import {
-	evalSchema,
-	getRelationshipTargetType
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	helpers,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import LinkModal from '../../components/LinkModal'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class Segment extends React.Component {
 	constructor (props) {
@@ -105,7 +104,7 @@ export default class Segment extends React.Component {
 					context = actions.getLinks(card, relation.link)
 				} else {
 					const mapped = await Bluebird.map(context, (item) => {
-						return actions.queryAPI(evalSchema(clone(relation), {
+						return actions.queryAPI(helpers.evalSchema(clone(relation), {
 							result: item
 						}))
 					})
@@ -162,7 +161,7 @@ export default class Segment extends React.Component {
 		} = this.props
 
 		const type = _.find(types, {
-			slug: getRelationshipTargetType(segment)
+			slug: helpers.getRelationshipTargetType(segment)
 		})
 
 		if (!results) {

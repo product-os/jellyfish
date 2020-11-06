@@ -9,10 +9,10 @@ import _ from 'lodash'
 import {
 	Input
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import {
 	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton
 } from '../AuthUtil'

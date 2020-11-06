@@ -24,20 +24,17 @@ import {
 	Swipeable
 } from 'react-swipeable'
 import styled from 'styled-components'
-import MentionsCount from '@balena/jellyfish-ui-components/lib/MentionsCount'
+import {
+	helpers,
+	Icon,
+	Link as RouterLink,
+	MentionsCount,
+	MenuPanel,
+	UserAvatarLive
+} from '@balena/jellyfish-ui-components'
 import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
-import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
 import ViewLink from '../ViewLink'
-import {
-	UserAvatarLive
-} from '@balena/jellyfish-ui-components/lib/UserAvatar'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import MenuPanel from '@balena/jellyfish-ui-components/lib/shame/MenuPanel'
-import {
-	swallowEvent,
-	isiOS
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
 	registerForNotifications
 } from '../../services/notifications'
@@ -121,7 +118,7 @@ const HomeChannelContent = styled(Flex) `
 	background: #fff;
 `
 
-const GrabHandle = styled(isiOS() ? Box : Swipeable) `
+const GrabHandle = styled(helpers.isiOS() ? Box : Swipeable) `
 	margin-right: -15px;
 	padding: 25px 5px;
 	border-radius: 0 4px 4px 0;
@@ -506,7 +503,7 @@ export default class HomeChannel extends React.Component {
 
 		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || isChatWidgetOpen)
 
-		const grabHandleProps = isiOS() ? {
+		const grabHandleProps = helpers.isiOS() ? {
 			onClick: this.toggleDrawerIOS
 		} : {
 			onSwiping: this.onGrabHandleSwiping,
@@ -535,7 +532,7 @@ export default class HomeChannel extends React.Component {
 					flex={1}
 					data-test='home-channel__drawer'
 					ref={this.wrapper}
-					onClick={swallowEvent}
+					onClick={helpers.swallowEvent}
 				>
 					{ collapsed && (
 						<GrabHandle

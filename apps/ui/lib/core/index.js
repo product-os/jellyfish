@@ -4,8 +4,10 @@
  * Proprietary and confidential.
  */
 
-import Analytics from '@balena/jellyfish-ui-components/lib/services/analytics'
-import ErrorReporter from '@balena/jellyfish-ui-components/lib/services/error-reporter'
+import {
+	Analytics,
+	ErrorReporter
+} from '@balena/jellyfish-ui-components'
 import * as environment from '../environment'
 import {
 	sdk as SDK

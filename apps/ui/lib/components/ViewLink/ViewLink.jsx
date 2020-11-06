@@ -14,11 +14,13 @@ import {
 	Flex,
 	Modal
 } from 'rendition'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
-import MentionsCount from '@balena/jellyfish-ui-components/lib/MentionsCount'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	ContextMenu,
+	helpers,
+	Icon,
+	Link,
+	MentionsCount
+} from '@balena/jellyfish-ui-components'
 
 export default class ViewLink extends React.Component {
 	constructor (props) {

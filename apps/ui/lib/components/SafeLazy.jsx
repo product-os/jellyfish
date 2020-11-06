@@ -7,7 +7,9 @@
 import React, {
 	Suspense
 } from 'react'
-import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
+import {
+	ErrorBoundary
+} from '@balena/jellyfish-ui-components'
 import Splash from './Splash'
 
 const SafeLazy = ({

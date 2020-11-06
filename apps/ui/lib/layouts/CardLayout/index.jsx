@@ -15,9 +15,10 @@ import {
 	Txt
 } from 'rendition'
 import {
-	CloseButton
-} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+	CloseButton,
+	Column,
+	LinksProvider
+} from '@balena/jellyfish-ui-components'
 import CardActions from '../../components/CardActions'
 import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel'
 import {
@@ -25,9 +26,6 @@ import {
 } from '../../components/Flows/flow-utils'
 import HandoverFlowPanel from '../../components/Flows/HandoverFlowPanel'
 import Markers from '../../components/Markers'
-import {
-	LinksProvider
-} from '@balena/jellyfish-ui-components/lib/LinksProvider'
 import {
 	selectors,
 	sdk

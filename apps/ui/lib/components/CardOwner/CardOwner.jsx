@@ -13,15 +13,10 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import {
-	userDisplayName,
-	getType
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
-import {
-	ActionLink
-} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
+	ActionLink,
+	addNotification,
+	helpers
+} from '@balena/jellyfish-ui-components'
 import {
 	FLOW_IDS
 } from '../Flows/flow-utils'
@@ -52,7 +47,7 @@ export default class CardOwner extends React.Component {
 			sdk,
 			user
 		} = this.props
-		const cardTypeName = getType(card.type).name
+		const cardTypeName = helpers.getType(card.type).name
 
 		try {
 			if (cardOwner) {
@@ -141,7 +136,7 @@ export default class CardOwner extends React.Component {
 			user
 		} = this.props
 
-		const cardTypeName = getType(card.type, types).name
+		const cardTypeName = helpers.getType(card.type, types).name
 
 		return (
 			<DropDownButton
@@ -155,11 +150,11 @@ export default class CardOwner extends React.Component {
 						bold
 						data-test="card-owner-dropdown__label--assigned"
 						tooltip={{
-							text: `${userDisplayName(cardOwner)} owns this ${cardTypeName}`,
+							text: `${helpers.userDisplayName(cardOwner)} owns this ${cardTypeName}`,
 							placement: 'bottom'
 						}}
 					>
-						{userDisplayName(cardOwner)}
+						{helpers.userDisplayName(cardOwner)}
 					</OwnerTxt>
 				) : (
 					<OwnerTxt

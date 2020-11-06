@@ -23,15 +23,15 @@ import {
 } from 'rendition'
 import skhema from 'skhema'
 import {
+	addNotification,
+	helpers
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	analytics,
 	selectors,
 	sdk
 } from '../../core'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import BaseLens from '../common/BaseLens'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'

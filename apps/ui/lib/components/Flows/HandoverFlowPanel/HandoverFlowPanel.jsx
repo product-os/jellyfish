@@ -7,12 +7,12 @@
 import React from 'react'
 import Bluebird from 'bluebird'
 import {
+	addNotification,
+	helpers
+} from '@balena/jellyfish-ui-components'
+import {
 	stepStatus
 } from '../flow-utils'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import StepsFlow from '../../StepsFlow'
 import * as handoverUtils from './handover-utils'
 import {

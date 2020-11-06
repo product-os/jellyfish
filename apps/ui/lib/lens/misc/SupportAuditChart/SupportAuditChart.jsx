@@ -8,10 +8,10 @@ import _ from 'lodash'
 import moment from 'moment'
 import React from 'react'
 import Plot from 'react-plotly.js'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import {
-	colorHash
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	Column,
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 /* eslint-disable id-length */
 
@@ -42,7 +42,7 @@ const SupportAuditChart = ({
 		const sets = _.map(inboxes, (sourceData, inbox) => {
 			const set = {
 				label: inbox,
-				backgroundColor: colorHash(inbox),
+				backgroundColor: helpers.colorHash(inbox),
 				data: []
 			}
 

@@ -12,7 +12,9 @@ import {
 import {
 	App
 } from '@balena/jellyfish-chat-widget'
-import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
+import {
+	ErrorBoundary
+} from '@balena/jellyfish-ui-components'
 import {
 	sdk
 } from '../core'

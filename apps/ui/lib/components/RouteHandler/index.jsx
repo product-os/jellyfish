@@ -13,15 +13,15 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
+	withResponsiveContext
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors
 } from '../../core'
 import {
 	getLens
 } from '../../lens'
-import {
-	withResponsiveContext
-} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import RouteHandler from './RouteHandler'
 
 const mapStateToProps = (state) => {

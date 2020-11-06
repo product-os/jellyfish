@@ -12,10 +12,10 @@ import {
 	Box,
 	Txt
 } from 'rendition'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
+	Link,
 	TagList
-} from '@balena/jellyfish-ui-components/lib/Tag'
+} from '@balena/jellyfish-ui-components'
 
 export default class SingleResponse extends React.Component {
 	shouldComponentUpdate (nextProps) {

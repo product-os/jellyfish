@@ -12,9 +12,9 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import {
-	patchPath
-} from '@balena/jellyfish-ui-components/lib/services/helpers.js'
-import withCardUpdater from '@balena/jellyfish-ui-components/lib/HOC/with-card-updater'
+	helpers,
+	withCardUpdater
+} from '@balena/jellyfish-ui-components'
 
 const SingleLineSpan = styled.span `
 	whiteSpace: 'nowrap'
@@ -26,7 +26,7 @@ const SelectWrapper = ({
 	const setValue = ({
 		option
 	}) => {
-		const patch = patchPath(card, [ 'data', 'status' ], option)
+		const patch = helpers.patchPath(card, [ 'data', 'status' ], option)
 		onUpdateCard(card, patch)
 	}
 

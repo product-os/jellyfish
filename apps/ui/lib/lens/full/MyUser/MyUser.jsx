@@ -26,11 +26,11 @@ import {
 } from 'rendition'
 import * as skhema from 'skhema'
 import {
+	helpers,
+	Icon,
 	UserAvatar
-} from '@balena/jellyfish-ui-components/lib/UserAvatar'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+} from '@balena/jellyfish-ui-components'
 import CardLayout from '../../../layouts/CardLayout'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 const SLUG = 'lens-my-user'
 

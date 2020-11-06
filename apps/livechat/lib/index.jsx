@@ -21,12 +21,12 @@ import {
 import {
 	App
 } from '@balena/jellyfish-chat-widget'
-import Analytics from '@balena/jellyfish-ui-components/lib/services/analytics'
-import ErrorReporter from '@balena/jellyfish-ui-components/lib/services/error-reporter'
-import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
 import {
+	Analytics,
+	ErrorReporter,
+	ErrorBoundary,
 	SetupProvider
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
+} from '@balena/jellyfish-ui-components'
 import {
 	OauthCallbackTask
 } from './components/OauthCallbackTask'

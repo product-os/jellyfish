@@ -15,9 +15,11 @@ import {
 import {
 	constraints as LINKS
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
-import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
+import {
+	ContextMenu,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import LinkModal from '../LinkModal'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 class CardLinker extends React.Component {
 	constructor (props) {

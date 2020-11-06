@@ -14,7 +14,9 @@ import {
 	Modal,
 	Textarea
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 // TODO: Render this form using the rendition Form component and the
 // feedback-item type schema

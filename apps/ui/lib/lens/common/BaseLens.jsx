@@ -5,7 +5,9 @@
  */
 
 import React from 'react'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 export default class BaseLens extends React.Component {
 	constructor (props) {

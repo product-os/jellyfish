@@ -14,12 +14,12 @@ import {
 	Txt,
 	Form
 } from 'rendition'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	helpers,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import * as skhema from 'skhema'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 
 const FORM_SCHEMA = {

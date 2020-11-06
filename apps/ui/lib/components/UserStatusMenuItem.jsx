@@ -13,11 +13,10 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import _ from 'lodash'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
-	patchPath,
-	getUserStatuses
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	Icon,
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 const UserStatusButton = styled(Button) `
 	display: flex;
@@ -33,7 +32,7 @@ export default function UserStatusMenuItem ({
 	const userType = _.find(types, {
 		slug: 'user'
 	})
-	const userStatusOptions = getUserStatuses(userType)
+	const userStatusOptions = helpers.getUserStatuses(userType)
 
 	const status = _.get(user, [ 'data', 'status' ], userStatusOptions.Available)
 	const isDnd = status.value === userStatusOptions.DoNotDisturb.value
@@ -41,7 +40,7 @@ export default function UserStatusMenuItem ({
 		const newStatus = isDnd
 			? userStatusOptions.Available
 			: userStatusOptions.DoNotDisturb
-		const patches = patchPath(user, [ 'data', 'status' ], newStatus)
+		const patches = helpers.patchPath(user, [ 'data', 'status' ], newStatus)
 		const successNotification = `Your status is now '${newStatus.title}'`
 		actions.updateUser(patches, successNotification)
 	}

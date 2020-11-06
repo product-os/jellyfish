@@ -9,13 +9,13 @@ import styled from 'styled-components'
 import {
 	Flex, Heading, Input, Button, Img, Card
 } from 'rendition'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
-	px
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	helpers,
+	Link
+} from '@balena/jellyfish-ui-components'
 
 const StyledCard = styled(Card) `
-	@media (max-width: ${(props) => { return px(props.theme.breakpoints[0]) }}) {
+	@media (max-width: ${(props) => { return helpers.px(props.theme.breakpoints[0]) }}) {
 		border: none;
 		border-radius: 0;
 		flex: 1;

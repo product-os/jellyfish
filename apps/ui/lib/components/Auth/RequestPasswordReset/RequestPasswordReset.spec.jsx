@@ -17,8 +17,8 @@ import sinon from 'sinon'
 import {
 	Img
 } from 'rendition'
-import RequestPasswordReset from './RequestPasswordReset.jsx'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import RequestPasswordReset from './RequestPasswordReset.jsx'
 
 const DATA_TEST_PREFIX = 'requestPasswordReset-page'
 

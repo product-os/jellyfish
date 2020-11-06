@@ -17,8 +17,8 @@ import sinon from 'sinon'
 import {
 	Img
 } from 'rendition'
-import CompleteFirstTimeLogin from './CompleteFirstTimeLogin.jsx'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import CompleteFirstTimeLogin from './CompleteFirstTimeLogin.jsx'
 
 const MATCH = {
 	params: {

@@ -21,19 +21,17 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
+import {
+	helpers,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import Segment from '../../common/Segment'
 import CardFields from '../../../components/CardFields'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 import {
 	getContextualThreadsQuery,
 	getLensBySlug
 } from '../../'
-import {
-	colorHash,
-	createFullTextSearchFilter,
-	getType
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1
@@ -70,7 +68,7 @@ export default class RepositoryFull extends React.Component {
 			}
 		}
 
-		const messageType = getType('message', this.props.types)
+		const messageType = helpers.getType('message', this.props.types)
 		this.eventSchema = messageType.data.schema
 
 		this.setActiveIndex = this.setActiveIndex.bind(this)
@@ -83,7 +81,7 @@ export default class RepositoryFull extends React.Component {
 	async loadThreadData (page, searchTerm = '') {
 		const query = getContextualThreadsQuery(this.props.card.id)
 		if (searchTerm) {
-			const searchQuery = createFullTextSearchFilter(this.eventSchema, searchTerm)
+			const searchQuery = helpers.createFullTextSearchFilter(this.eventSchema, searchTerm)
 			query.anyOf = (query.anyOf || []).concat(searchQuery.anyOf)
 		}
 		const options = {
@@ -216,7 +214,7 @@ export default class RepositoryFull extends React.Component {
 					</Flex>
 				}
 			>
-				<Divider mb={0} width="100%" color={colorHash(card.type)} />
+				<Divider mb={0} width="100%" color={helpers.colorHash(card.type)} />
 
 				{expanded && (
 					<SingleCardTabs

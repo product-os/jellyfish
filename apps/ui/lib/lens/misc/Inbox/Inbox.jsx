@@ -17,7 +17,9 @@ import {
 	Tabs,
 	Tab
 } from 'rendition'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
+import {
+	Column
+} from '@balena/jellyfish-ui-components'
 import InboxTab from './InboxTab'
 import * as queries from './queries'
 

@@ -8,10 +8,10 @@ import React from 'react'
 import {
 	Flex
 } from 'rendition'
-import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
 import {
-	CloseButton
-} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
+	CloseButton,
+	Collapsible
+} from '@balena/jellyfish-ui-components'
 import Markers from '../../../../components/Markers'
 import LensSelection from './LensSelection'
 import SliceOptions from './SliceOptions'

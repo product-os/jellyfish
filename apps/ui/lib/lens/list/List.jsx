@@ -31,6 +31,9 @@ import {
 	Divider
 } from 'rendition'
 import {
+	Column
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors
 } from '../../core'
@@ -38,7 +41,6 @@ import BaseLens from '../common/BaseLens'
 import {
 	getLens
 } from '../'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 
 class CardList extends BaseLens {
 	constructor (props) {

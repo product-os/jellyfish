@@ -23,33 +23,27 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import {
+	addNotification,
+	Collapsible,
+	ColorHashPill,
+	Event,
+	helpers,
+	Icon,
+	Link as RouterLink,
+	TagList,
+	Tag,
+	ThreadMirrorIcon,
+	withDefaultGetActorHref
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors,
 	sdk
 } from '../../../core'
 import SlideInFlowPanel from '../../../components/Flows/SlideInFlowPanel'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../components/CardFields'
-import Event from '@balena/jellyfish-ui-components/lib/Event'
-import RouterLink from '@balena/jellyfish-ui-components/lib/Link'
-import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
-import {
-	TagList,
-	Tag
-} from '@balena/jellyfish-ui-components/lib/Tag'
-import {
-	ThreadMirrorIcon
-} from '@balena/jellyfish-ui-components/lib/MirrorIcon'
-import ColorHashPill from '@balena/jellyfish-ui-components/lib/shame/ColorHashPill'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import {
-	withDefaultGetActorHref
-} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
 import {
 	FLOW_IDS,
 	TeardownFlowPanel

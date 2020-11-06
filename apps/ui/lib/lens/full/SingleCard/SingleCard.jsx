@@ -17,13 +17,13 @@ import {
 	Theme
 } from 'rendition'
 import styled from 'styled-components'
+import {
+	helpers
+} from '@balena/jellyfish-ui-components'
 import Segment from '../../common/Segment'
 import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
-import {
-	colorHash
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1;
@@ -92,7 +92,7 @@ export default class SingleCardFull extends React.Component {
 				channel={channel}
 				actionItems={actionItems}
 			>
-				<Divider width="100%" color={colorHash(card.type)} />
+				<Divider width="100%" color={helpers.colorHash(card.type)} />
 
 				<SingleCardTabs
 					activeIndex={this.state.activeIndex}

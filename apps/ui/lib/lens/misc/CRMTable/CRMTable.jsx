@@ -15,15 +15,13 @@ import {
 import styled from 'styled-components'
 import SelectWrapper from './SelectWrapper'
 import BaseLens from '../../common/BaseLens'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
-import ColorHashPill from '@balena/jellyfish-ui-components/lib/shame/ColorHashPill'
 import {
-	appendToChannelPath
-} from '@balena/jellyfish-ui-components/lib/services/helpers.js'
-import {
+	ColorHashPill,
 	formatCurrency,
-	formatDateLocal
-} from '@balena/jellyfish-ui-components/lib/services/formatters'
+	formatDateLocal,
+	helpers,
+	Link
+} from '@balena/jellyfish-ui-components'
 import CardTable from '../Table/CardTable'
 
 const SingleLineSpan = styled.span `
@@ -42,7 +40,7 @@ class CRMTable extends BaseLens {
 				field: 'Opportunity',
 				sortable: true,
 				render: (value, item) => {
-					return <Link to={appendToChannelPath(this.props.channel, item)}>{value}</Link>
+					return <Link to={helpers.appendToChannelPath(this.props.channel, item)}>{value}</Link>
 				}
 			},
 			{
@@ -65,7 +63,7 @@ class CRMTable extends BaseLens {
 
 					return (
 						<Box>
-							<Link to={appendToChannelPath(this.props.channel, account)}>{account.name}</Link>
+							<Link to={helpers.appendToChannelPath(this.props.channel, account)}>{account.name}</Link>
 							<Txt color="text.light" fontSize="0">{_.get(account, [ 'data', 'type' ])}</Txt>
 						</Box>
 					)
