@@ -54,7 +54,7 @@
     },
     "mode": "insert",
     "arguments": {
-      "reason": "Re-open because of activity",
+      "reason": "Support Thread re-opened because of activity",
       "patch": [
         {
           "op": "replace",
