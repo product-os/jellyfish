@@ -19,9 +19,11 @@ import {
 import styled from 'styled-components'
 import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
+	UserAvatar
+} from '@balena/jellyfish-ui-components/lib/UserAvatar'
+import {
 	addNotification
 } from '@balena/jellyfish-ui-components/lib/services/notifications'
-import Avatar from '@balena/jellyfish-ui-components/lib/shame/Avatar'
 import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import CardLayout from '../../../layouts/CardLayout'
 import {
@@ -320,12 +322,7 @@ export default class CreateView extends React.Component {
 									onClick={this.createView}
 								>
 									<Flex>
-										<Avatar
-											name={user.name || user.slug.replace('user-', '')}
-											url={_.get(user, [ 'data', 'avatar' ])}
-											userStatus={_.get(user, [ 'data', 'status' ])}
-										/>
-
+										<UserAvatar emphasized user={user} />
 										<Box ml={2}>
 											<strong>{user.slug.replace('user-', '')}</strong>
 
