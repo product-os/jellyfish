@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Set initial inbox:read content directly from store'
+      hash: 26da07c071445c3abc6d54e58b838781385f5155
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.22.6
+  date: 2020-11-08T06:09:20.032Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to ^2.4.9'
       hash: 65f3d6bc2e4d342858281d3dfce8e05b5b2149d8
       body: ''
