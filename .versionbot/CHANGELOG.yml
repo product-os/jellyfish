@@ -1,4 +1,48 @@
 - commits:
+    - subject: Remove the prepended "|" to fix sed from failing
+      hash: a04f3fa73a60dd9155f13a022ef6f55f860580c3
+      body: >
+        RUnning the check-filesnames.sh script on my macbook fails because of
+        the following error:
+
+        ```
+
+        ❯ make lint FIX=1
+
+        ./node_modules/.bin/eslint --ext .js,.jsx --fix scripts test
+
+        ./scripts/lint/check-filenames.sh
+
+        sed: 1: "s#^(|apps/ui/lib/layout ...": RE error: empty (sub)expression
+
+        ```
+
+        Specifically due to sed not being able to handle the empty
+        (sub)expression. e.g. this fails:
+
+        ```
+
+        sed -E 's#^(|apps/ui/lib/layouts)##g'
+
+        ```
+
+        this succeeds:
+
+        ```
+
+        sed -E 's#^(apps/ui/lib/layouts)##g'
+
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.22.8
+  date: 2020-11-08T09:20:44.502Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 23fec20c7399742904a0d1d7261bedf0c6404b6b
       body: ''
