@@ -76,10 +76,11 @@ const InboxTab = ({
 	const user = useSelector(selectors.getCurrentUser)
 	const groupNames = useSelector(selectors.getMyGroupNames)
 	const inboxData = useSelector(selectors.getInboxViewData)
+	const unreadMentions = canMarkAsRead ? useSelector(selectors.getInboxViewData) : []
 
 	const [ loading, setLoading ] = useState(true)
 
-	const [ messages, setMessages ] = useState([])
+	const [ messages, setMessages ] = useState(unreadMentions)
 
 	const [ page, setPage ] = useState(DEFAULT_OPTIONS.page)
 
