@@ -34,7 +34,7 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 
 	# TODO: This whole list of exceptions shouldn't exist as React
 	# components should only be defined in jellyfish-ui-components
-	COMPONENTS_DIRECTORIES="|apps/ui/lib/layouts/"
+	COMPONENTS_DIRECTORIES="apps/ui/lib/layouts/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/components/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/misc/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/full/"
