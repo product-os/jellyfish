@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency webpack-cli to v4'
+      hash: 9b7503f6b131027dcd2a8a6d12957a5a8c869513
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.11
+  date: 2020-11-08T14:34:01.351Z
+- commits:
     - subject: 'patch: Update dependency style-loader to v2'
       hash: 8f72ce5c73bae04a1ce99c2050eafefaed218375
       body: ''
