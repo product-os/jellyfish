@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 23fec20c7399742904a0d1d7261bedf0c6404b6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.7
+  date: 2020-11-08T07:00:39.965Z
+- commits:
     - subject: 'Set initial inbox:read content directly from store'
       hash: 26da07c071445c3abc6d54e58b838781385f5155
       body: ''
