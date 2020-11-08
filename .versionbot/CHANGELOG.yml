@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency webpack-bundle-analyzer to v4'
+      hash: 78dc49b762dd8be78f4714e9ad5ed101759c64fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.9
+  date: 2020-11-08T11:25:06.022Z
+- commits:
     - subject: Remove the prepended "|" to fix sed from failing
       hash: a04f3fa73a60dd9155f13a022ef6f55f860580c3
       body: >
