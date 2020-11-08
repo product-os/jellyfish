@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency style-loader to v2'
+      hash: 8f72ce5c73bae04a1ce99c2050eafefaed218375
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.10
+  date: 2020-11-08T12:40:00.601Z
+- commits:
     - subject: 'patch: Update dependency webpack-bundle-analyzer to v4'
       hash: 78dc49b762dd8be78f4714e9ad5ed101759c64fd
       body: ''
