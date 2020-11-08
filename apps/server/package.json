@@ -53,7 +53,7 @@
     "uuid": "^8.3.1"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^2.4.8",
+    "@balena/jellyfish-client-sdk": "2.4.10-renovate-major-socket-io-packages-8e1e82ced1db7a5ecc5c7f784a864b4ae4b26f8e",
     "ava": "^3.13.0",
     "depcheck": "^1.2.0",
     "eslint": "^7.13.0",
