@@ -1,4 +1,17 @@
 - commits:
+    - subject: Make mirrors field required when loading forums threads
+      hash: c1e8e293b4cb7b3f15c1dbf903582af66b3a3980
+      body: >
+        If the `mirrors` field is not required, then cards that don't have the
+        field will be returned.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Lucian Buzzo
+      nested: []
+  version: 33.22.13
+  date: 2020-11-09T11:31:14.483Z
+- commits:
     - subject: Update dev cmds to work with webpack-cli v4
       hash: 40d3903810eff84f0e058edf7ac42171e71075f5
       body: |
