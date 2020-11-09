@@ -56,7 +56,7 @@ test:
 dev-ui:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 	NODE_ENV=development \
-	./node_modules/.bin/webpack-dev-server \
+	./node_modules/.bin/webpack serve \
 		--config=./lib/webpack.config.js \
 		--color
 
