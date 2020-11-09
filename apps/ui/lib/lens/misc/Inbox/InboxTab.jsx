@@ -11,6 +11,7 @@ import React, {
 	useState
 } from 'react'
 import {
+	useDispatch,
 	useSelector
 } from 'react-redux'
 import {
@@ -27,6 +28,7 @@ import {
 } from '../../../core'
 import MarkAsReadButton from './MarkAsReadButton'
 import MessageList from './MessageList'
+import actions from '../../../core/store/actions'
 
 const DEFAULT_OPTIONS = {
 	limit: 30,
@@ -63,7 +65,8 @@ const InboxTab = ({
 	setupStream,
 	clearViewData,
 	paginateStream,
-	canMarkAsRead
+	canMarkAsRead = false,
+	queryAPI
 }) => {
 	const {
 		sdk
@@ -71,12 +74,18 @@ const InboxTab = ({
 
 	const user = useSelector(selectors.getCurrentUser)
 	const groupNames = useSelector(selectors.getMyGroupNames)
+
 	const inboxData = useSelector(selectors.getInboxViewData)
-	const unreadMentions = canMarkAsRead ? useSelector(selectors.getInboxViewData) : []
+	const unreadMentions = canMarkAsRead ? inboxData : []
+	const [ messages, setMessages ] = useState(unreadMentions)
+
+	useEffect(() => {
+		if (unreadMentions) {
+			setMessages(unreadMentions)
+		}
+	}, [ unreadMentions ])
 
 	const [ loading, setLoading ] = useState(true)
-
-	const [ messages, setMessages ] = useState(unreadMentions)
 
 	const [ page, setPage ] = useState(DEFAULT_OPTIONS.page)
 
@@ -88,78 +97,58 @@ const InboxTab = ({
 	const messagesRef = useRef(messages)
 	messagesRef.current = messages
 
-	const appendMessage = (message) => {
-		setMessages([ ...messagesRef.current, message ])
-	}
+	// Const appendMessage = (message) => {
+	// 	setMessages([ ...messagesRef.current, message ])
+	// }
 
-	const removeMessage = (messageId) => {
-		const updatedMessages = messagesRef.current.filter((message) => {
-			return message.id !== messageId
-		})
-		setMessages(updatedMessages)
-	}
+	// const removeMessage = (messageId) => {
+	// 	const updatedMessages = messagesRef.current.filter((message) => {
+	// 		return message.id !== messageId
+	// 	})
+	// 	setMessages(updatedMessages)
+	// }
 
-	const upsertMessage = (updatedMessage) => {
-		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
-		const messageNotInState = messageIndex === -1
-		if (messageNotInState) {
-			appendMessage(updatedMessage)
-			return
-		}
-		const updatedMessages = update(messagesRef.current, {
-			[messageIndex]: {
-				$set: updatedMessage
-			}
-		})
-		setMessages(updatedMessages)
-	}
+	// const upsertMessage = (updatedMessage) => {
+	// 	const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
+	// 	const messageNotInState = messageIndex === -1
+	// 	if (messageNotInState) {
+	// 		appendMessage(updatedMessage)
+	// 		return
+	// 	}
+	// 	const updatedMessages = update(messagesRef.current, {
+	// 		[messageIndex]: {
+	// 			$set: updatedMessage
+	// 		}
+	// 	})
+	// 	setMessages(updatedMessages)
+	// }
 
-	const viewHandlers = {
-		upsert: upsertMessage,
-		append: appendMessage,
-		remove: removeMessage,
+	// const viewHandlers = {
+	// 	upsert: upsertMessage,
+	// 	append: appendMessage,
+	// 	remove: removeMessage,
 
-		// Set is undefined because setupStream dispatches this handler
-		// and this is not a redux action. Instead we wait till the data
-		// is resolved from setupStream and set it manually in our useEffect
-		set: _.noop
-	}
+	// 	// Set is undefined because setupStream dispatches this handler
+	// 	// and this is not a redux action. Instead we wait till the data
+	// 	// is resolved from setupStream and set it manually in our useEffect
+	// 	set: _.noop
+	// }
 
 	const loadViewData = async () => {
 		setLoading(true)
 		const query = getQuery(user, groupNames, searchTerm)
-		const currentMessages = await setupStream(STREAM_ID, query, DEFAULT_OPTIONS, viewHandlers)
+		console.log(query)
+		const currentMessages = await queryAPI(query)
 		setMessages(currentMessages)
 		setLoading(false)
 	}
 
-	const loadMoreViewData = async (nextPage) => {
-		setLoading(true)
-		const query = getQuery(user, groupNames, searchTerm)
-		const options = {
-			...DEFAULT_OPTIONS,
-			page: nextPage
-		}
-		const newMessages = await paginateStream(STREAM_ID, query, options, _.noop)
-		setMessages([ ...messagesRef.current, ...newMessages ])
-
-		// Hack to determine if we have reached
-		// the beginning of the timeline.
-		// TODO replace with a check against count
-		// once we can retrieve a count with our
-		// query
-		if (newMessages.length === 0 || newMessages.length < DEFAULT_OPTIONS.limit) {
-			setLoadedAllResults(true)
-		}
-		setLoading(false)
-	}
-
 	const loadNextPage = async () => {
-		if (!loadedAllResults && !loading) {
-			const nextPage = page + 1
-			await setPage(nextPage)
-			await loadMoreViewData(nextPage)
-		}
+		// If (!loadedAllResults && !loading) {
+		// 	const nextPage = page + 1
+		// 	await setPage(nextPage)
+		// 	await loadMoreViewData(nextPage)
+		// }
 	}
 
 	// If the searchTerm or currentTab changes
