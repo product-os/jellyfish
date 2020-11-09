@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update dev cmds to work with webpack-cli v4
+      hash: 40d3903810eff84f0e058edf7ac42171e71075f5
+      body: |
+        Need to use a different command now that webpack-cli v4 is being used.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.22.12
+  date: 2020-11-09T03:44:59.270Z
+- commits:
     - subject: 'patch: Update dependency webpack-cli to v4'
       hash: 9b7503f6b131027dcd2a8a6d12957a5a8c869513
       body: ''
