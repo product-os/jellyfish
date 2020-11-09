@@ -95,7 +95,6 @@
     "eslint-plugin-react": "^7.21.5",
     "express": "^4.17.1",
     "front-sdk": "^0.8.1",
-    "googleapis": "^64.0.0",
     "husky": "^4.3.0",
     "js-combinatorics": "^0.6.1",
     "jsonwebtoken": "^8.5.1",
@@ -113,7 +112,6 @@
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
     "shellcheck": "^0.4.4",
-    "sinon": "^9.2.1",
     "typed-errors": "^1.1.0",
     "uuid": "^8.3.1"
   },
