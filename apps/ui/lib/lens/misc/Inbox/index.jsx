@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch) => {
 		_.pick(actionCreators, [
 			'setupStream',
 			'clearViewData',
-			'paginateStream'
+			'paginateStream',
+			'queryAPI'
 		]),
 		dispatch
 	)

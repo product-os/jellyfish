@@ -31,6 +31,8 @@ export const streamUpdate = async (payload, getState, dispatch, user, types) => 
 		const targetId = _.get(card, [ 'data', 'target' ])
 		if (targetId) {
 			// ...update all channels that have this card in their links
+			// inbox sent tab doesn't have this card in their links
+			// this card is the new message I sent
 			const channelsToUpdate = updateThreadChannels(
 				targetId,
 				card,

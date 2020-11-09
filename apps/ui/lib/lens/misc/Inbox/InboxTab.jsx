@@ -28,7 +28,9 @@ import {
 } from '../../../core'
 import MarkAsReadButton from './MarkAsReadButton'
 import MessageList from './MessageList'
-import actions from '../../../core/store/actions'
+import {
+	deepEqual
+} from 'fast-equals'
 
 const DEFAULT_OPTIONS = {
 	limit: 30,
@@ -65,7 +67,7 @@ const InboxTab = ({
 	setupStream,
 	clearViewData,
 	paginateStream,
-	canMarkAsRead = false,
+	canMarkAsRead,
 	queryAPI
 }) => {
 	const {
@@ -79,18 +81,10 @@ const InboxTab = ({
 	const unreadMentions = canMarkAsRead ? inboxData : []
 	const [ messages, setMessages ] = useState(unreadMentions)
 
-	useEffect(() => {
-		if (unreadMentions) {
-			setMessages(unreadMentions)
-		}
-	}, [ unreadMentions ])
-
-	const [ loading, setLoading ] = useState(true)
-
+	// Read tab doesn't work yet. we don't get any listening events
+	const [ loading, setLoading ] = useState(false)
 	const [ page, setPage ] = useState(DEFAULT_OPTIONS.page)
-
 	const [ searchTerm, setSearchTerm ] = useState('')
-
 	const [ loadedAllResults, setLoadedAllResults ] = useState(false)
 
 	// Set up messageRef so we do not have a stale closure
@@ -135,11 +129,21 @@ const InboxTab = ({
 	// }
 
 	const loadViewData = async () => {
-		setLoading(true)
 		const query = getQuery(user, groupNames, searchTerm)
+		const options = {
+			limit: 30,
+			sortBy: 'created_at',
+			sortDir: 'desc'
+		}
+
+		setLoading(true)
 		console.log(query)
-		const currentMessages = await queryAPI(query)
-		setMessages(currentMessages)
+		const newMessages = await queryAPI(query, options)
+		console.log('newMessages', newMessages)
+		const isNotEqual = !deepEqual(newMessages, messages)
+		if (isNotEqual) {
+			setMessages(newMessages)
+		}
 		setLoading(false)
 	}
 
@@ -151,16 +155,30 @@ const InboxTab = ({
 		// }
 	}
 
+	useEffect(() => {
+		// Only set messages with unreadMentions when:
+		// 		- we get different messages from parent than what we have
+		// 		- we are on the unread tab (indicated by: canMarkAsRead)
+		const isNotEqual = !deepEqual(unreadMentions, messages)
+		if (isNotEqual && canMarkAsRead) {
+			setMessages(unreadMentions)
+		}
+	}, [ unreadMentions ])
+
 	// If the searchTerm or currentTab changes
 	// then we need to reload the data
 	useEffect(() => {
-		loadViewData()
-		return () => {
-			clearViewData(null, {
-				viewId: STREAM_ID
-			})
+		// All other tabs should fetch view data themselves
+		const fetchData = async () => {
+			await loadViewData()
 		}
-	}, [ currentTab, searchTerm ])
+
+		// Only fetch data if we aren't loading currently
+
+		if (!loading) {
+			fetchData()
+		}
+	}, [ inboxData, messages, currentTab, searchTerm ])
 
 	return (
 		<Flex

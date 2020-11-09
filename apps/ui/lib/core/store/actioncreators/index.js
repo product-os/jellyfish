@@ -1423,6 +1423,7 @@ export default class ActionCreator {
 
 	upsertViewData (query, data, options = {}) {
 		const id = options.viewId || getViewId(query)
+		console.log(id)
 		return {
 			type: actions.UPSERT_VIEW_DATA_ITEM,
 			value: {

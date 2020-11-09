@@ -12,6 +12,7 @@ import {
 export const getUnreadQuery = queries.getUnreadQuery
 
 export const getReadQuery = (user, groupNames, searchTerm) => {
+	console.log('getReadQuery')
 	return _.merge(queries.getPingQuery(user, groupNames, searchTerm), {
 		type: 'object',
 		properties: {
@@ -36,6 +37,7 @@ export const getReadQuery = (user, groupNames, searchTerm) => {
 }
 
 export const getSentQuery = (user, groupNames, searchTerm) => {
+	console.log('getSentQuery')
 	return queries.withSearch({
 		type: 'object',
 		properties: {
