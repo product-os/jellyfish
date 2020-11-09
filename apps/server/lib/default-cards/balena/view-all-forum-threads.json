@@ -53,6 +53,9 @@
             },
             "data": {
               "type": "object",
+              "required": [
+                 "mirrors"
+              ],
               "properties": {
                 "mirrors": {
                   "type": "array",
@@ -73,7 +76,8 @@
           },
           "required": [
             "active",
-            "type"
+            "type",
+            "data"
           ],
           "additionalProperties": true
         }
