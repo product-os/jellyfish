@@ -4,6 +4,7 @@ SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
+SENTRY_DSN_UI ?=
 FIX ?=
 
 ifeq ($(FIX),)
@@ -22,7 +23,7 @@ dev-livechat:
 
 .PHONY: build-livechat
 build-livechat:
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./lib/webpack.config.js
 
 .PHONY: lint
