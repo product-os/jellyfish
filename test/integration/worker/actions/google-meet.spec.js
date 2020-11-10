@@ -4,37 +4,28 @@
  * Proprietary and confidential.
  */
 
+const _ = require('lodash')
 const ava = require('ava')
-const sinon = require('sinon')
-const google = require('googleapis').google
 const {
 	v4: uuid
 } = require('uuid')
+const environment = require('@balena/jellyfish-environment')
 const helpers = require('../helpers')
 const actionLibrary = require('@balena/jellyfish-action-library')
 
-const GOOGLE_MEET_URL = 'https://meet.google.com/some-fake-room'
+const hasCredentials = () => {
+	try {
+		const cred = JSON.parse(environment.integration['google-meet'].credentials)
+		return !_.isEmpty(cred)
+	} catch (err) {}
+	return false
+}
+
+// Skip all tests if there are no credentials
+const avaTest = !hasCredentials() || environment.test.integration.skip ? ava.serial.skip : ava.serial
 
 ava.before(async (test) => {
 	await helpers.worker.before(test, actionLibrary)
-
-	// Fake the Google APIs calls
-	const auth = {
-		getClient: sinon.fake.returns({})
-	}
-	google.auth.GoogleAuth = sinon.fake.returns(auth)
-	const calendarAPI = {
-		events: {
-			insert: sinon.fake.resolves({
-				data: {
-					id: '1',
-					hangoutLink: GOOGLE_MEET_URL
-				}
-			}),
-			delete: sinon.fake.resolves({})
-		}
-	}
-	google.calendar = sinon.fake.returns(calendarAPI)
 
 	// Create a card that we'll add a conferenceUrl to
 	test.context.card = await test.context.jellyfish.insertCard(test.context.context,
@@ -43,16 +34,11 @@ ava.before(async (test) => {
 			slug: `card-${uuid()}`,
 			version: '1.0.0'
 		})
-
-	test.context.fakes = {
-		getClient: auth.getClient,
-		calendarAPI
-	}
 })
 
 ava.after(helpers.worker.after)
 
-ava('should return a conference URL', async (test) => {
+avaTest('should return a conference URL', async (test) => {
 	const {
 		session,
 		context,
@@ -68,10 +54,10 @@ ava('should return a conference URL', async (test) => {
 		arguments: {}
 	})
 
-	test.is(result.data.conferenceUrl, GOOGLE_MEET_URL)
+	test.true(result.data.conferenceUrl.startsWith('https://meet.google.com'))
 })
 
-ava('should update the card with the conference URL', async (test) => {
+avaTest('should update the card with the conference URL', async (test) => {
 	const {
 		session,
 		context,
@@ -104,5 +90,5 @@ ava('should update the card with the conference URL', async (test) => {
 		}
 	})
 
-	test.is(updatedCard.data.conferenceUrl, GOOGLE_MEET_URL)
+	test.true(updatedCard.data.conferenceUrl.startsWith('https://meet.google.com'))
 })
