@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Livechat: Add redirect logs'
+      hash: f7be3b2d78bda30bccbeb2c8745d420eeab11e7e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.23.0
+  date: 2020-11-10T08:03:49.801Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: ee61fe06b7f6e0ad81d083a64b7f6e88392f07e7
       body: ''
