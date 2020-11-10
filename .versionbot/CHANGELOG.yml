@@ -1,4 +1,37 @@
 - commits:
+    - subject: Google Meet integration test now uses googleapis
+      hash: 8914c965232fa905cc32b3007b5f857b273a0292
+      body: >
+        googleapis functions are no longer stubbed/mocked. But this test is
+        skipped if the environment variable is not set appropriately.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Populate Google Meet env var from host
+      hash: 779dfcf65ca5d3775fc4e066b683320d06e6d04a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: adfff2352fb53ae337cc90fa40b21d6b224f39fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.22.14
+  date: 2020-11-10T01:33:49.316Z
+- commits:
     - subject: Make mirrors field required when loading forums threads
       hash: c1e8e293b4cb7b3f15c1dbf903582af66b3a3980
       body: >
