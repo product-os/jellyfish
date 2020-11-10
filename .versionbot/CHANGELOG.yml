@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency babel-loader to ^8.2.0'
+      hash: 9ff23e9bde05c911c12f54ab60ee460f502a2167
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.23.1
+  date: 2020-11-10T11:51:09.608Z
+- commits:
     - subject: 'Livechat: Add redirect logs'
       hash: f7be3b2d78bda30bccbeb2c8745d420eeab11e7e
       body: ''
