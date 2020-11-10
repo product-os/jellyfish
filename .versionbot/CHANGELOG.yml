@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Refactor: Split out stream events'
+      hash: f54934042e2e46a955f477b6b2d5584e8273295a
+      body: >
+        This splits out the streaming logic it separate files. It's a first pass
+        to clean up the streaming logic for readability
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.24.0
+  date: 2020-11-10T13:22:09.503Z
+- commits:
     - subject: 'patch: Update dependency babel-loader to ^8.2.0'
       hash: 9ff23e9bde05c911c12f54ab60ee460f502a2167
       body: ''
