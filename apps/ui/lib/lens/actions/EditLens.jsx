@@ -22,18 +22,18 @@ import {
 	Heading,
 	Form
 } from 'rendition'
-import CardLayout from '../../layouts/CardLayout'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	FreeFieldForm,
+	helpers
+} from '@balena/jellyfish-ui-components'
+import CardLayout from '../../layouts/CardLayout'
 import * as skhema from 'skhema'
 import {
 	actionCreators,
 	analytics,
 	sdk
 } from '../../core'
-import FreeFieldForm from '@balena/jellyfish-ui-components/lib/FreeFieldForm'
 import {
 	getUiSchema, UI_SCHEMA_MODE
 } from '../schema-util'

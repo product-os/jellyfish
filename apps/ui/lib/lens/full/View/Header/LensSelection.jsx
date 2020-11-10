@@ -10,7 +10,9 @@ import {
 	Button,
 	ButtonGroup
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 const LensSelection = ({
 	lenses,

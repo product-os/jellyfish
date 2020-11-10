@@ -9,8 +9,8 @@ import {
 	v4 as uuid
 } from 'uuid'
 import {
-	getMessageMetaData
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 /**
  * Checks if the given card's type defines the statusDescription field
@@ -79,7 +79,7 @@ export const getHandoverWhisperEventCard = (card, currentOwner, newOwner, reason
 			mentionsGroup,
 			alertsGroup,
 			tags
-		} = getMessageMetaData(message)
+		} = helpers.getMessageMetaData(message)
 
 		whisper = {
 			target: card,

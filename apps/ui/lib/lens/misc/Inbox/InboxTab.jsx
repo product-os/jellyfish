@@ -23,7 +23,7 @@ import {
 import update from 'immutability-helper'
 import {
 	useSetup
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
+} from '@balena/jellyfish-ui-components'
 import {
 	selectors
 } from '../../../core'

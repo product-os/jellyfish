@@ -22,16 +22,16 @@ import {
 	Tabs
 } from 'rendition'
 import {
+	CardChatSummary,
+	Column,
+	helpers,
+	Icon,
+	InfiniteList
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors
 } from '../../core'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import CardChatSummary from '@balena/jellyfish-ui-components/lib/CardChatSummary'
-import {
-	InfiniteList
-} from '@balena/jellyfish-ui-components/lib/InfiniteList'
 
 const StyledTabs = styled(Tabs) `
 	flex: 1

@@ -5,10 +5,10 @@
  */
 
 import React from 'react'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import {
 	AuthCard, AuthHeading, AuthForm, AuthField, AuthButton, AuthLink
 } from '../AuthUtil'

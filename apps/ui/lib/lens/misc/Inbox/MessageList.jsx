@@ -19,27 +19,25 @@ import {
 } from 'redux'
 import styled from 'styled-components'
 import {
-	actionCreators,
-	selectors,
-	sdk
-} from '../../../core'
-import {
-	ActionLink
-} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
-import Event from '@balena/jellyfish-ui-components/lib/Event'
-import {
+	ActionLink,
+	Column,
+	Event,
+	EventsContainer,
+	Icon,
 	withDefaultGetActorHref
-} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
-import EventsContainer from '@balena/jellyfish-ui-components/lib/EventsContainer'
+} from '@balena/jellyfish-ui-components'
 import {
 	Box,
 	Txt,
 	Img,
 	Flex
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import moment from 'moment'
+import {
+	actionCreators,
+	selectors,
+	sdk
+} from '../../../core'
 
 const StyledFlex = styled(Flex)(() => {
 	return {

@@ -11,8 +11,8 @@ import {
 	Select
 } from 'rendition'
 import {
-	getPathsInSchema
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	helpers
+} from '@balena/jellyfish-ui-components'
 import {
 	sdk
 } from '../../../../../core'
@@ -39,7 +39,7 @@ const getSortByOptions = (cardSchema, tailType) => {
 	// Merge generic card schema with current card schema to get top-level and data fields
 	const fullSchema = skhema.merge([ cardSchema, dataSchema ])
 
-	const dataFieldPaths = getPathsInSchema(fullSchema, FIELDS_TO_OMIT)
+	const dataFieldPaths = helpers.getPathsInSchema(fullSchema, FIELDS_TO_OMIT)
 
 	return _.map(dataFieldPaths, ({
 		path, title

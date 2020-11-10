@@ -14,18 +14,16 @@ import {
 import {
 	supportsLink
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
+import {
+	ActionLink,
+	addNotification,
+	ContextMenu,
+	Icon,
+	helpers
+} from '@balena/jellyfish-ui-components'
 import CardLinker from '../CardLinker'
-import ContextMenu from '@balena/jellyfish-ui-components/lib/ContextMenu'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
-import {
-	ActionLink
-} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
 import CardOwner from '../CardOwner'
 import VideoLink from '../VideoLink'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 
 export default class CardActions extends React.Component {
 	constructor (props) {

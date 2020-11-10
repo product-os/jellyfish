@@ -26,22 +26,20 @@ import {
 import {
 	v4 as uuid
 } from 'uuid'
-import Event from '@balena/jellyfish-ui-components/lib/Event'
+import {
+	addNotification,
+	Column,
+	Event,
+	EventsContainer,
+	Icon,
+	withDefaultGetActorHref
+} from '@balena/jellyfish-ui-components'
 import {
 	actionCreators,
 	analytics,
 	sdk,
 	selectors
 } from '../../core'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import {
-	withDefaultGetActorHref
-} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
-import EventsContainer from '@balena/jellyfish-ui-components/lib/EventsContainer'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import BaseLens from '../common/BaseLens'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [

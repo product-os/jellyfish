@@ -17,12 +17,12 @@ import {
 } from 'styled-components'
 import memoize from 'memoize-one'
 import {
+	withResponsiveContext
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors
 } from '../../core'
-import {
-	withResponsiveContext
-} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import HomeChannel from './HomeChannel'
 
 const getTarget = memoize((channel) => {

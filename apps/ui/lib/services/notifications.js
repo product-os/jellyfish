@@ -9,8 +9,8 @@ import {
 } from 'howler'
 import path from 'path'
 import {
-	pathWithoutTarget
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 const TIMEOUT = 10 * 1000
 
@@ -65,7 +65,7 @@ export const createNotification = ({
 			console.error()
 		}
 
-		const newPath = path.join(pathWithoutTarget(target), target)
+		const newPath = path.join(helpers.pathWithoutTarget(target), target)
 
 		// Don't bother pushing if the location won't actually change
 		// (avoid a 'null' history entry)

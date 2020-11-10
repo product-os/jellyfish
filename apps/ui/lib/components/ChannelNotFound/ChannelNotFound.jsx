@@ -11,13 +11,11 @@ import {
 	Flex,
 	Heading
 } from 'rendition'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
-	px
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	CloseButton
-} from '@balena/jellyfish-ui-components/lib/shame/CloseButton'
+	CloseButton,
+	helpers,
+	Link
+} from '@balena/jellyfish-ui-components'
 
 const ErrorTitle = styled(Heading.h1) `
 	background: url(/icons/jellyfish.svg) repeat;
@@ -30,8 +28,8 @@ const ErrorTitle = styled(Heading.h1) `
 
 const CloseWrapper = styled(Box) `
 	position: absolute;
-	top: ${(props) => { return px(props.theme.space[3]) }};
-	right: ${(props) => { return px(props.theme.space[2]) }};
+	top: ${(props) => { return helpers.px(props.theme.space[3]) }};
+	right: ${(props) => { return helpers.px(props.theme.space[2]) }};
 `
 
 const ChannelNotFound = ({

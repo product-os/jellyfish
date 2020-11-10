@@ -26,6 +26,12 @@ import {
 	v4 as uuid
 } from 'uuid'
 import {
+	addNotification,
+	helpers,
+	Icon,
+	withResponsiveContext
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	analytics,
 	selectors,
@@ -34,17 +40,9 @@ import {
 import {
 	mergeWithUniqConcatArrays
 } from '../../../core/queries'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
 import {
 	getLensBySlug
 } from '../../'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import {
-	withResponsiveContext
-} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
 import Header from './Header'
 import Content from './Content'
 

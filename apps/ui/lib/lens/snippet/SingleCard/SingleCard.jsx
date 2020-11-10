@@ -14,12 +14,12 @@ import {
 	Flex,
 	Txt
 } from 'rendition'
-import CardFields from '../../../components/CardFields'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
 import {
+	Icon,
+	Link,
 	TagList
-} from '@balena/jellyfish-ui-components/lib/Tag'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+} from '@balena/jellyfish-ui-components'
+import CardFields from '../../../components/CardFields'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {

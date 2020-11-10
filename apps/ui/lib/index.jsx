@@ -28,6 +28,13 @@ import {
 	createGlobalStyle
 } from 'styled-components'
 import {
+	DocumentVisibilityProvider,
+	ErrorBoundary,
+	helpers,
+	ResponsiveProvider,
+	SetupProvider
+} from '@balena/jellyfish-ui-components'
+import {
 	analytics,
 	errorReporter,
 	sdk,
@@ -37,19 +44,8 @@ import {
 import history from './services/history'
 import JellyfishUI from './JellyfishUI'
 import {
-	px
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
-import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
-import {
-	ResponsiveProvider,
-	DocumentVisibilityProvider
-} from '@balena/jellyfish-ui-components/lib/hooks'
-import {
 	ConnectedRouter
 } from 'connected-react-router'
-import {
-	SetupProvider
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
 import * as environment from './environment'
 import PWA from './pwa'
 import CountFavicon from './components/CountFavicon'
@@ -83,7 +79,7 @@ const GlobalStyle = createGlobalStyle `
 
 	p {
 		margin-top: 0;
-		margin-bottom: ${(props) => { px(props.theme.space[2]) }};
+		margin-bottom: ${(props) => { helpers.px(props.theme.space[2]) }};
 	}
 	p:last-child {
 		margin-bottom: 0;

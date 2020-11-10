@@ -17,14 +17,12 @@ import {
 	Txt
 } from 'rendition'
 import styled from 'styled-components'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import {
+	addNotification,
+	helpers,
+	Icon,
 	UserAvatar
-} from '@balena/jellyfish-ui-components/lib/UserAvatar'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+} from '@balena/jellyfish-ui-components'
 import CardLayout from '../../../layouts/CardLayout'
 import {
 	analytics,

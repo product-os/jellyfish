@@ -13,7 +13,9 @@ import {
 	Badge, Flex, Txt
 } from 'rendition'
 import debounce from 'debounce-promise'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
+import {
+	helpers
+} from '@balena/jellyfish-ui-components'
 
 export default class AutoCompleteCardSelect extends React.Component {
 	constructor (props) {

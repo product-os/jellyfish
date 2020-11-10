@@ -12,7 +12,9 @@ import {
 import {
 	Markdown
 } from 'rendition/dist/extra/Markdown'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 export default class Oauth extends React.Component {
 	constructor (props) {

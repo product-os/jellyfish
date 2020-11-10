@@ -9,13 +9,11 @@ import _ from 'lodash'
 import {
 	Link
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
 import {
-	getType
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	addNotification
-} from '@balena/jellyfish-ui-components/lib/services/notifications'
+	addNotification,
+	helpers,
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 // The VideoLink component renders a button that lets the user open
 // a Google Meet URL (in a new tab) that is specific to the provided card.
@@ -32,7 +30,7 @@ export default function VideoLink ({
 }) {
 	const [ loading, setLoading ] = React.useState(false)
 	const conferenceUrl = _.get(card, [ 'data', 'conferenceUrl' ])
-	const cardType = getType(card.type, types)
+	const cardType = helpers.getType(card.type, types)
 	const cardTypeName = cardType.name || cardType.slug
 
 	const openGoogleMeet = () => {

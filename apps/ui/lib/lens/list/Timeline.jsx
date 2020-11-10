@@ -13,18 +13,16 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
+	Timeline,
+	withDefaultGetActorHref,
+	withResponsiveContext
+}	from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	sdk,
 	selectors
 } from '../../core'
 import * as environment from '../../environment'
-import Timeline from '@balena/jellyfish-ui-components/lib/Timeline'
-import {
-	withResponsiveContext
-} from '@balena/jellyfish-ui-components/lib/hooks/ResponsiveProvider'
-import {
-	withDefaultGetActorHref
-} from '@balena/jellyfish-ui-components/lib/HOC/with-default-get-actor-href'
 
 const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card

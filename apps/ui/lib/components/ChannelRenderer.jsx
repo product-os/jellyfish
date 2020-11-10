@@ -13,8 +13,10 @@ import {
 	Alert,
 	Box
 } from 'rendition'
-import ErrorBoundary from '@balena/jellyfish-ui-components/lib/shame/ErrorBoundary'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	ErrorBoundary,
+	Icon
+} from '@balena/jellyfish-ui-components'
 import LinkModal from './LinkModal'
 import ChannelNotFound from './ChannelNotFound'
 

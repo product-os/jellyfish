@@ -15,15 +15,13 @@ import {
 	DropDownButton
 } from 'rendition'
 import {
-	getPathsInSchema
-} from '@balena/jellyfish-ui-components/lib/services/helpers'
-import {
-	ActionLink
-} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
+	ActionLink,
+	Column,
+	helpers,
+	Link
+} from '@balena/jellyfish-ui-components'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
-import Link from '@balena/jellyfish-ui-components/lib/Link'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
 import LinkModal from '../../../components/LinkModal'
 
 const PAGE_SIZE = 25
@@ -120,7 +118,7 @@ export default class CardTable extends BaseLens {
 			}
 		} = this.props
 
-		const paths = getPathsInSchema(schema, OMISSIONS)
+		const paths = helpers.getPathsInSchema(schema, OMISSIONS)
 
 		return _.map(paths, ({
 			title, path

@@ -9,7 +9,9 @@ import _ from 'lodash'
 import {
 	Box
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 const sortTail = (tail, options) => {
 	if (!tail) {

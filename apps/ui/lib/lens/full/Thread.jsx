@@ -16,15 +16,15 @@ import {
 	Box,
 	Txt
 } from 'rendition'
-import CardFields from '../../components/CardFields'
-import Collapsible from '@balena/jellyfish-ui-components/lib/Collapsible'
 import {
+	Collapsible,
+	helpers,
 	TagList
-} from '@balena/jellyfish-ui-components/lib/Tag'
+} from '@balena/jellyfish-ui-components'
+import CardFields from '../../components/CardFields'
 import {
 	selectors
 } from '../../core'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 import Timeline from '../list/Timeline'
 import CardLayout from '../../layouts/CardLayout'
 

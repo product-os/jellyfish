@@ -12,7 +12,9 @@ import React, {
 import {
 	Button
 } from 'rendition'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 
 const markMessagesAsRead = (sdk, inboxData, user, groupNames) => {
 	return Bluebird.map(inboxData, (card) => {

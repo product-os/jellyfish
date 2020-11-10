@@ -8,7 +8,7 @@ import React from 'react'
 import _ from 'lodash'
 import {
 	ActionLink
-} from '@balena/jellyfish-ui-components/lib/shame/ActionLink'
+} from '@balena/jellyfish-ui-components'
 import singleCardLens from '../SingleCard'
 import {
 	sdk

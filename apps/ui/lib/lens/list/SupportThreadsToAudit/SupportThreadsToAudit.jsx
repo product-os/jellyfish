@@ -13,12 +13,14 @@ import {
 	Box
 } from 'rendition'
 import {
+	CardChatSummary,
+	Column,
+	helpers,
+	Icon
+} from '@balena/jellyfish-ui-components'
+import {
 	selectors
 } from '../../../core'
-import Column from '@balena/jellyfish-ui-components/lib/shame/Column'
-import Icon from '@balena/jellyfish-ui-components/lib/shame/Icon'
-import CardChatSummary from '@balena/jellyfish-ui-components/lib/CardChatSummary'
-import * as helpers from '@balena/jellyfish-ui-components/lib/services/helpers'
 
 export const SLUG = 'lens-support-threads-to-audit'
 
