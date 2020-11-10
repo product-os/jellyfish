@@ -14,9 +14,6 @@ import merge from 'deepmerge'
 import {
 	once
 } from 'events'
-import {
-	push
-} from 'connected-react-router'
 import * as _ from 'lodash'
 import {
 	v4 as uuid
@@ -30,18 +27,17 @@ import {
 } from '@balena/jellyfish-ui-components'
 import actions from '../actions'
 import {
-	createNotification
-} from '../../../services/notifications'
-import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
-	mentionsUser,
-	updateThreadChannels
-} from '../helpers'
-import {
 	getUnreadQuery
 } from '../../queries'
+import {
+	streamUpdate
+} from './stream/update'
+import {
+	streamTyping
+} from './stream/typing'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -287,33 +283,6 @@ export default class ActionCreator {
 
 		// Card exists here until it's loaded
 		const loadingCardCache = {}
-
-		this.notify = ({
-			user,
-			card,
-			cardType
-		}) => {
-			return (dispatch, getState) => {
-				// Skip notifications if the user's status is set to 'Do Not Disturb'
-				const userStatus = selectors.getCurrentUserStatus(getState())
-				if (_.get(userStatus, [ 'value' ]) === 'DoNotDisturb') {
-					return
-				}
-
-				const baseType = card.type.split('@')[0]
-				const title = `New ${_.get(cardType, [ 'name' ], baseType)}`
-				const body = _.get(card, [ 'data', 'payload', 'message' ])
-				const target = _.get(card, [ 'data', 'target' ])
-
-				createNotification({
-					title,
-					body,
-					target,
-					tag: card.id,
-					historyPush: (path, pathState) => dispatch(push(path, pathState))
-				})
-			}
-		}
 
 		// This is a function that memoizes a debounce function, this allows us to
 		// create different debounce lists depending on the args passed to
@@ -839,89 +808,11 @@ export default class ActionCreator {
 						required: [ 'type' ]
 					})
 
-					commsStream.on('update', async (payload) => {
-						const update = payload.data
-						if (update.after) {
-							const card = update.after
-							const {
-								id,
-								type
-							} = card
-							const allChannels = selectors.getChannels(getState())
-							const groupsState = selectors.getGroups(getState())
-
-							const baseType = type.split('@')[0]
-
-							// Create a desktop notification if an unread message ping appears
-							if (
-								update.type === 'insert' &&
-								(baseType === 'message' || baseType === 'whisper' || baseType === 'summary') &&
-								_.get(card, [ 'data', 'actor' ]) !== user.id &&
-								mentionsUser(card, user, groupsState) &&
-								!_.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
-							) {
-								this.notify({
-									user: selectors.getCurrentUser(getState()),
-									card,
-									cardType: helpers.getType(type, types)
-								})(dispatch, getState)
-							}
-
-							// If we receive a card that targets another card...
-							const targetId = _.get(card, [ 'data', 'target' ])
-							if (targetId) {
-								// ...update all channels that have this card in their links
-								const channelsToUpdate = updateThreadChannels(targetId, card, allChannels)
-								for (const updatedChannel of channelsToUpdate) {
-									dispatch({
-										type: actions.UPDATE_CHANNEL,
-										value: updatedChannel
-									})
-								}
-
-								// TODO (FUTURE): Also update view channels that have a list of threads in them
-							}
-
-							// If we receive a user card...
-							if (card.type.split('@')[0] === 'user') {
-								// ...and we have a corresponding card already cached in our Redux store
-								if (selectors.getCard(getState(), id, card.type)) {
-									// ...then update the card
-									dispatch({
-										type: actions.SET_CARD,
-										value: card
-									})
-								}
-							}
-						}
-					})
-
-					const typingTimeouts = {}
+					commsStream.on('update', (payload) => streamUpdate(payload, getState, dispatch, user, types))
 
 					// TODO handle typing notifications in a more generic way, this is an
 					// abomination. (A small abomination, but still an abomination)
-					commsStream.on('typing', (payload) => {
-						if (typingTimeouts[payload.card] && typingTimeouts[payload.card][payload.user]) {
-							clearTimeout(typingTimeouts[payload.card][payload.user])
-						}
-						dispatch({
-							type: actions.USER_STARTED_TYPING,
-							value: {
-								card: payload.card,
-								user: payload.user
-							}
-						})
-
-						_.set(typingTimeouts, [ payload.card, payload.user ], setTimeout(() => {
-							dispatch({
-								type: actions.USER_STOPPED_TYPING,
-								value: {
-									card: payload.card,
-									user: payload.user
-								}
-							})
-						}, 2 * 1000))
-					})
+					commsStream.on('typing', (payload) => streamTyping(dispatch, payload))
 
 					commsStream.on('error', (error) => {
 						console.error('A stream error occurred', error)
