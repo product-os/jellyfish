@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency babel-loader to ^8.2.1'
+      hash: e349a2dc978f36f749beb5edef127cf886e32424
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.24.2
+  date: 2020-11-10T21:29:19.461Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.789.0'
       hash: 0afb27414367c16ee5913bb70fe4500e15577b77
       body: ''
