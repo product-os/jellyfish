@@ -16,9 +16,11 @@ COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
+ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
 
 RUN make build-livechat \
 	NODE_ENV=production \
+	SENTRY_DSN_UI=$SENTRY_DSN_UI \
 	SERVER_HOST=$SERVER_HOST \
 	SERVER_PORT=$SERVER_PORT
 

@@ -11,23 +11,42 @@ import {
 import {
 	Task
 } from '@balena/jellyfish-chat-widget/lib/components/Task'
+import {
+	useSetup
+} from '@balena/jellyfish-ui-components/lib/SetupProvider'
 
-const authenticate = async (sdk, userSlug, oauthUrl) => {
+const authenticate = async ({
+	sdk, errorReporter
+}, userSlug, oauthUrl) => {
 	const user = await sdk.auth.whoami()
 
-	if (!user || user.slug !== userSlug) {
+	if (!user) {
+		throw new Error('whoami is expected to return a user')
+	}
+
+	if (user.slug !== userSlug) {
+		errorReporter.reportInfo(
+			`Logged in user "${user.slug}" does not match authorizing user "${userSlug}", reauthorizing`,
+			user
+		)
+
 		window.location.href = oauthUrl
 	}
 }
 
 export const AuthenticationTask = ({
-	userSlug, sdk, oauthUrl, children
+	userSlug, oauthUrl, children
 }) => {
+	const {
+		sdk, errorReporter
+	} = useSetup()
 	const authenticationTask = useTask(authenticate)
 
 	React.useEffect(() => {
-		authenticationTask.exec(sdk, userSlug, oauthUrl)
-	}, [ sdk, userSlug, oauthUrl ])
+		authenticationTask.exec({
+			sdk, errorReporter
+		}, userSlug, oauthUrl)
+	}, [ sdk, errorReporter, userSlug, oauthUrl ])
 
 	return (
 		<Task task={authenticationTask}>{children}</Task>

@@ -33,6 +33,7 @@ exports.browser = {
 
 		const options = {
 			headless: !environment.flags.visual,
+			dumpio: true,
 			args: [
 				'--window-size=1366,768',
 

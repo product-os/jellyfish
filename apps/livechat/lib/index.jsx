@@ -84,7 +84,7 @@ const Livechat = ({
 						<Switch>
 							<Route path="/oauth/callback" exact render={(props) => {
 								return (
-									<OauthCallbackTask {...props} userSlug={userSlug} sdk={sdk} oauthProvider={oauthProvider}>
+									<OauthCallbackTask {...props} userSlug={userSlug} oauthProvider={oauthProvider}>
 										{() => {
 											return (
 												<Redirect to="/" />
@@ -95,7 +95,7 @@ const Livechat = ({
 							}} />
 							<Route path="/" render={() => {
 								return (
-									<AuthenticationTask userSlug={userSlug} sdk={sdk} oauthUrl={oauthUrl}>
+									<AuthenticationTask userSlug={userSlug} oauthUrl={oauthUrl}>
 										{() => {
 											return (
 												<App {...rest} sdk={sdk} />
