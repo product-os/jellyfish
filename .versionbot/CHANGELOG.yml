@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 312125e19734acaba6bc0f02e805ea792c7624c6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Import from root of jellyfish-ui-components
+      hash: 34213513e20ce0e4b0e27ee74eea40283cc7df4a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.22.15
+  date: 2020-11-10T03:01:57.365Z
+- commits:
     - subject: Google Meet integration test now uses googleapis
       hash: 8914c965232fa905cc32b3007b5f857b273a0292
       body: >
