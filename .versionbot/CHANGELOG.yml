@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.789.0'
+      hash: 0afb27414367c16ee5913bb70fe4500e15577b77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.24.1
+  date: 2020-11-10T19:33:07.878Z
+- commits:
     - subject: 'Refactor: Split out stream events'
       hash: f54934042e2e46a955f477b6b2d5584e8273295a
       body: >
