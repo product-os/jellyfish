@@ -99,7 +99,7 @@
     "skhema": "^5.3.3",
     "style-loader": "^2.0.0",
     "styled-components": "^5.2.1",
-    "use-debounce": "^4.0.0",
+    "use-debounce": "^5.0.3",
     "uuid": "^8.3.1",
     "webpack": "^4.44.2",
     "webpack-bundle-analyzer": "^4.1.0"
