@@ -1,4 +1,26 @@
 - commits:
+    - subject: Use useDebounce from jellyfish-ui-components
+      hash: 5c46aa2e8b9aecf0be352b95fe68c57d51891531
+      body: |
+        Removing a dependency entirely!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency use-debounce to v5'
+      hash: fd062a582471c9c9d3e0d1e4bc9488a512434f92
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.24.5
+  date: 2020-11-11T04:30:35.461Z
+- commits:
     - subject: 'Livechat: Check if whoami returns slug'
       hash: 7227c0bc617bb6e6f0cc2bbcc53ab4705446ed65
       body: ''
