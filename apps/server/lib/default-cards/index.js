@@ -142,6 +142,7 @@ module.exports = ({
 		viewSupportThreadsParticipation: require('./balena/view-support-threads-participation.json'),
 		viewAllForumThreads: require('./balena/view-all-forum-threads.json'),
 		viewAllSupportThreads: require('./balena/view-all-support-threads.json'),
+		viewPaidSupportThreads: require('./balena/view-paid-support-threads.json'),
 		viewAllUsers: require('./balena/view-all-users.json'),
 		viewChangelogs: require('./balena/view-changelogs.json'),
 		viewCustomerSuccessSuppotThreads: require('./balena/view-customer-success-support-threads.json'),
