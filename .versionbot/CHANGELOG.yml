@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 520e387a88178f11662dd44fdce002a428aed475
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.24.8
+  date: 2020-11-11T10:20:09.896Z
+- commits:
     - subject: Fix home channel user avatar
       hash: 5228f3da188386125c460f50723e79d3eaeb9085
       body: ''
