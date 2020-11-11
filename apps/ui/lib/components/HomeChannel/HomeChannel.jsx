@@ -564,16 +564,16 @@ export default class HomeChannel extends React.Component {
 						<Flex position='relative' justifyContent="space-between" style={{
 							borderBottom: '1px solid #eee'
 						}}>
-							<Button
-								plain={true}
+							<Flex
 								className="user-menu-toggle"
 								py={3}
 								pl={3}
 								pr={2}
+								alignItems="center"
+								maxWidth="100%"
 								onClick={this.showMenu}
 								style={{
-									display: 'flex',
-									maxWidth: '100%',
+									cursor: 'pointer',
 									position: 'relative'
 								}}>
 								<UserAvatarLive
@@ -585,6 +585,7 @@ export default class HomeChannel extends React.Component {
 								{Boolean(username) && <Txt mx={2} style={{
 									textOverflow: 'ellipsis',
 									flex: '1 1 0%',
+									fontWeight: 600,
 									whiteSpace: 'nowrap',
 									overflow: 'hidden'
 								}}>{username}</Txt>}
@@ -602,7 +603,7 @@ export default class HomeChannel extends React.Component {
 										{(mentions.length >= 100) ? '99+' : mentions.length}
 									</MentionsCount>
 								)}
-							</Button>
+							</Flex>
 						</Flex>
 
 						{this.state.showMenu && (
