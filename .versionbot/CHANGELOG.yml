@@ -1,4 +1,26 @@
 - commits:
+    - subject: Use useSwipeable rather than Swipeable component
+      hash: befebd32e026ba23009177e4e6d458aadda97883
+      body: |
+        Swipeable component is no longer available in react-swipeable.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency react-swipeable to v6'
+      hash: be9fe599ddaf7fb31ae7a85b199fa0ef4b798ac3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.24.3
+  date: 2020-11-11T01:32:39.314Z
+- commits:
     - subject: 'patch: Update dependency babel-loader to ^8.2.1'
       hash: e349a2dc978f36f749beb5edef127cf886e32424
       body: ''
