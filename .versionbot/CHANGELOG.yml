@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove console log statements
+      hash: cae1da9058e2392b4162546fd28f14b7f3b6be87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.24.6
+  date: 2020-11-11T05:35:24.769Z
+- commits:
     - subject: Use useDebounce from jellyfish-ui-components
       hash: 5c46aa2e8b9aecf0be352b95fe68c57d51891531
       body: |
