@@ -21,7 +21,7 @@ import {
 	Txt
 } from 'rendition'
 import {
-	Swipeable
+	useSwipeable
 } from 'react-swipeable'
 import styled from 'styled-components'
 import {
@@ -118,7 +118,7 @@ const HomeChannelContent = styled(Flex) `
 	background: #fff;
 `
 
-const GrabHandle = styled(helpers.isiOS() ? Box : Swipeable) `
+const GrabHandleWrapper = styled(Box) `
 	margin-right: -15px;
 	padding: 25px 5px;
 	border-radius: 0 4px 4px 0;
@@ -128,6 +128,19 @@ const GrabHandle = styled(helpers.isiOS() ? Box : Swipeable) `
 	background: #fff;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `
+
+const GrabHandle = ({
+	children,
+	onSwiping,
+	onSwipedRight,
+	onSwipedLeft,
+	...props
+}) => {
+	const handlers = helpers.isiOS() ? null : useSwipeable({
+		onSwiping, onSwipedRight, onSwipedLeft
+	})
+	return <GrabHandleWrapper { ...handlers } {...props}>{children}</GrabHandleWrapper>
+}
 
 const GrabHandleGrip = styled.div `
 	border-left: 1px solid grey;
