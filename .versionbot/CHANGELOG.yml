@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add new view showing only non-forums support threads
+      hash: d22848521c5ab5015e4c097bfb3afb8bd5a146c1
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.25.0
+  date: 2020-11-11T12:20:09.599Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 520e387a88178f11662dd44fdce002a428aed475
       body: ''
