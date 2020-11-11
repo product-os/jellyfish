@@ -17,12 +17,10 @@ import {
 	Flex,
 	Search
 } from 'rendition'
-import {
-	useDebouncedCallback
-} from 'use-debounce'
 import update from 'immutability-helper'
 import {
-	useSetup
+	useSetup,
+	useDebounce
 } from '@balena/jellyfish-ui-components'
 import {
 	selectors
@@ -41,16 +39,14 @@ const STREAM_ID = 'inbox'
 
 const DebouncedSearch = (props) => {
 	const [ term, setTerm ] = useState('')
-	const [ debouncedSetTerm ] = useDebouncedCallback(
-		(value) => {
-			props.onChange(value)
-		},
-		500
-	)
+	const debouncedTerm = useDebounce(term, 500)
+
+	React.useEffect(() => {
+		props.onChange(debouncedTerm)
+	}, [ debouncedTerm ])
 
 	const onChange = useCallback((event) => {
 		setTerm(event.target.value)
-		debouncedSetTerm(event.target.value)
 	}, [])
 
 	return (
