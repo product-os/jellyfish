@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.3.2'
+      hash: 8008bea6ec3ba99bf95410d350bb61d81695decb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.25.1
+  date: 2020-11-11T14:38:35.842Z
+- commits:
     - subject: Add new view showing only non-forums support threads
       hash: d22848521c5ab5015e4c097bfb3afb8bd5a146c1
       body: ''
