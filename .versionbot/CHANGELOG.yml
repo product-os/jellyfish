@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Livechat: Check if whoami returns slug'
+      hash: 7227c0bc617bb6e6f0cc2bbcc53ab4705446ed65
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.24.4
+  date: 2020-11-11T02:44:39.733Z
+- commits:
     - subject: Use useSwipeable rather than Swipeable component
       hash: befebd32e026ba23009177e4e6d458aadda97883
       body: |
