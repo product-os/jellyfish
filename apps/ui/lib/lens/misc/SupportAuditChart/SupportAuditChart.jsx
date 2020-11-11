@@ -5,7 +5,7 @@
  */
 
 import _ from 'lodash'
-import moment from 'moment'
+import sub from 'date-fns/sub'
 import React from 'react'
 import Plot from 'react-plotly.js'
 import {
@@ -32,8 +32,11 @@ const SupportAuditChart = ({
 	const processDataSets = React.useCallback(() => {
 		// Create a range of dates over the last 30 days, starting from 30 days ago
 		// and finishing on today
+		const now = new Date()
 		const range = dates.map((timeAgo) => {
-			return moment().subtract(timeAgo, 'day')
+			return sub(now, {
+				days: timeAgo
+			})
 		})
 
 		// Group the items by inbox

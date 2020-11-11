@@ -8,7 +8,8 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const moment = require('moment')
+const isValid = require('date-fns/isValid')
+const isBefore = require('date-fns/isBefore')
 const helpers = require('./helpers')
 
 // TODO: Possibly move this file to test/integration/sdk if/when
@@ -93,8 +94,8 @@ ava('Editing a message triggers an update to the edited_at field', async (test) 
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field now has a valid date-time value
-	const firstEditedAt = moment(msg.data.edited_at)
-	test.true(firstEditedAt.isValid())
+	const firstEditedAt = new Date(msg.data.edited_at)
+	test.true(isValid(firstEditedAt))
 	test.is(msg.data.payload.message, update1)
 
 	// Now modify the message text again
@@ -106,11 +107,11 @@ ava('Editing a message triggers an update to the edited_at field', async (test) 
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field has been updated again
-	const secondEditedAt = moment(msg.data.edited_at)
-	test.true(firstEditedAt.isValid())
+	const secondEditedAt = new Date(msg.data.edited_at)
+	test.true(isValid(secondEditedAt))
 	test.is(msg.data.payload.message, update2)
 
-	test.true(firstEditedAt.isBefore(secondEditedAt))
+	test.true(isBefore(firstEditedAt, secondEditedAt))
 })
 
 ava('Updating a meta field in the message payload triggers an update to the edited_at field', async (test) => {
@@ -138,8 +139,8 @@ ava('Updating a meta field in the message payload triggers an update to the edit
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field now has a valid date-time value
-	const firstEditedAt = moment(msg.data.edited_at)
-	test.true(firstEditedAt.isValid())
+	const firstEditedAt = new Date(msg.data.edited_at)
+	test.true(isValid(firstEditedAt))
 	test.deepEqual(msg.data.payload.mentionsUser, [ user1 ])
 
 	// Now remove the mentioned user
@@ -150,9 +151,9 @@ ava('Updating a meta field in the message payload triggers an update to the edit
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field has been updated again
-	const secondEditedAt = moment(msg.data.edited_at)
-	test.true(firstEditedAt.isValid())
+	const secondEditedAt = new Date(msg.data.edited_at)
+	test.true(isValid(firstEditedAt))
 	test.deepEqual(msg.data.payload.mentionsUser, [ ])
 
-	test.true(firstEditedAt.isBefore(secondEditedAt))
+	test.true(isBefore(firstEditedAt, secondEditedAt))
 })

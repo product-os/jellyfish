@@ -9,7 +9,6 @@
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 const path = require('path')
@@ -113,10 +112,6 @@ const config = {
 	},
 
 	plugins: [
-		// The moment.js package includes its locales by default, they are huge and
-		// we don't use them, we're going to ignore them
-		new IgnorePlugin(/^\.\/locale$/, /moment$/),
-
 		new CopyWebpackPlugin({
 			patterns: [
 				{
