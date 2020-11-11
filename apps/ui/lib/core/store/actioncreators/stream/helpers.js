@@ -58,8 +58,6 @@ export const triggerNotification = (update, getState, dispatch, user, types) => 
 	const isOwnMessage = _.get(card, [ 'data', 'actor' ]) === user.id
 	const isMentioned = mentionsUser(card, user, groupsState)
 	const isRead = _.includes(_.get(card, [ 'data', 'readBy' ]), user.slug)
-	console.log('helpers.getType(card.type, types)', helpers.getType(card.type, types))
-	console.log('card.type', card.type)
 	if (matchNotifySchema && !isOwnMessage && isMentioned && !isRead) {
 		handleNotification({
 			card,
