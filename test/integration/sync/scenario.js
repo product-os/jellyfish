@@ -16,6 +16,20 @@ const syncHelpers = require('../../integration/sync/helpers')
 const helpers = require('./helpers')
 const utils = require('../utils')
 
+class PermutationCombination {
+	constructor (seed) {
+		this.seed = [ ...seed ]
+	}
+
+	[Symbol.iterator] () {
+		return (function *(it) {
+			for (let index = 1, length = it.length; index <= length; length++) {
+				yield * new combinatorics.Permutation(it, index)
+			}
+		}(this.seed))
+	}
+}
+
 const defaultCards = utils.loadDefaultCards()
 
 const TRANSLATE_PREFIX = uuid()
@@ -31,9 +45,8 @@ const tailSort = [
 
 const getVariations = (sequence, options = {}) => {
 	const invariant = _.last(sequence)
-	return combinatorics
-		.permutationCombination(sequence)
-		.toArray()
+	const permutationCombination = new PermutationCombination(sequence)
+	return Array.from(permutationCombination)
 		.filter((combination) => {
 			return _.includes(combination, invariant)
 		})
