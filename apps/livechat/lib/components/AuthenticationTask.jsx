@@ -24,6 +24,10 @@ const authenticate = async ({
 		throw new Error('whoami is expected to return a user')
 	}
 
+	if (!user.slug) {
+		throw new Error(`Could not get a slug of the user: "${userSlug}", check the user's permissions`)
+	}
+
 	if (user.slug !== userSlug) {
 		errorReporter.reportInfo(
 			`Logged in user "${user.slug}" does not match authorizing user "${userSlug}", reauthorizing`,
