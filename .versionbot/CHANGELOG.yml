@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix home channel user avatar
+      hash: 5228f3da188386125c460f50723e79d3eaeb9085
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.24.7
+  date: 2020-11-11T06:24:14.289Z
+- commits:
     - subject: Remove console log statements
       hash: cae1da9058e2392b4162546fd28f14b7f3b6be87
       body: ''
