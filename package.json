@@ -95,7 +95,7 @@
     "express": "^4.17.1",
     "front-sdk": "^0.8.1",
     "husky": "^5.0.6",
-    "js-combinatorics": "^0.6.1",
+    "js-combinatorics": "^1.4.5",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^10.5.3",
     "lodash": "^4.17.20",
