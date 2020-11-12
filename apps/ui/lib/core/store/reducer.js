@@ -436,7 +436,7 @@ const rootPersistConfig = {
 const corePersistConfig = {
 	...commonConfig,
 	key: 'core',
-	blacklist: [ 'status', 'cards', 'channels', 'usersTyping' ]
+	blacklist: [ 'status', 'cards', 'usersTyping' ]
 }
 
 const uiPersistConfig = {

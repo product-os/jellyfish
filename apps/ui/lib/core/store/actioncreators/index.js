@@ -515,7 +515,7 @@ export default class ActionCreator {
 
 			const identifier = isUUID(target) ? 'id' : 'slug'
 
-			let query = {
+			const query = {
 				type: 'object',
 				properties: {
 					[identifier]: {
@@ -523,32 +523,33 @@ export default class ActionCreator {
 						const: target
 					}
 				},
-				$$links: {
-					'has attached element': {
-						type: 'object'
-					}
-				},
-				required: [ identifier ]
+				anyOf: [
+					{
+						$$links: {
+							'has attached element': {
+								type: 'object'
+							}
+						},
+						required: [ identifier ]
+					},
+					true
+				]
 			}
 
-			// TODO: Clean up when we have optional links
-			// OR make sure default cards have attached items
-			// Checks to see if we can query for the card with
-			// attached elements. If we can't, remove the
-			// $$links from the query
-			let cards = await this.sdk.query(query)
+			// Why is view-all-views called twice?
+			const cards = await this.sdk.query(query)
 
-			if (cards.length === 0) {
-				query = _.omit(query, [ '$$links' ])
-				cards = [ await this.sdk.card.get(target) ]
-			}
-
+			// Const [ prevHomechannel ] = selectors.getChannels(getState())
 			const [ card ] = cards
+			const prevChannels = selectors.getChannels(getState())
+			console.log(prevChannels, cards)
+			console.log('channel vs card', channel.data.head, card)
+			console.log('3. equal?', fastEquals.deepEqual(card, channel.data.head))
 			if (_.isNil(card)) {
 				throw new Error(`Could not find card with ${identifier} target`)
 			}
 
-			const stream = await this.getStream(cards[0].id, query)
+			const stream = await this.getStream(card.id, query)
 
 			stream.on('dataset', ({
 				data: {
@@ -674,6 +675,7 @@ export default class ActionCreator {
 				type: actions.ADD_CHANNEL,
 				value: channel
 			})
+			console.log('4. addChannel', channel.id)
 			return dispatch(this.loadChannelData(channel))
 		}
 	}
@@ -702,6 +704,7 @@ export default class ActionCreator {
 		const channels = _.map(channelData, (channel) => {
 			// If the channel has an ID its already been instantiated
 			if (channel.id) {
+				console.log('already instantiated', channel.id)
 				return channel
 			}
 
@@ -715,6 +718,8 @@ export default class ActionCreator {
 				type: actions.SET_CHANNELS,
 				value: channels
 			})
+
+			console.log('already instantiated channels?', channels)
 
 			// For each channel, if data is not already loaded, load it now
 			for (const channel of channels) {
@@ -769,7 +774,9 @@ export default class ActionCreator {
 							value: config
 						})
 						const channels = selectors.getChannels(state)
+						console.log('1. channels', channels)
 						channels.forEach((channel) => {
+							console.log('2. channel.id', channel.id)
 							return dispatch(this.loadChannelData(channel))
 						})
 					}

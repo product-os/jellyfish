@@ -21,6 +21,7 @@ import {
 	Column
 } from '@balena/jellyfish-ui-components'
 import InboxTab from './InboxTab'
+import OldInboxTab from './OldInboxTab'
 import * as queries from './queries'
 
 const InboxColumn = styled(Column) `
@@ -61,6 +62,12 @@ const Inbox = ({
 				activeIndex={currentTab}
 				onActive={setCurrentTab}
 			>
+				<Tab title="Old Sent">
+					<OldInboxTab
+						{ ...defaultTabProps }
+						getQuery={queries.getSentQuery}
+					/>
+				</Tab>
 				<Tab title="Unread">
 					<InboxTab
 						{ ...defaultTabProps }

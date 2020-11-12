@@ -79,7 +79,10 @@ const InboxTab = ({
 
 	const inboxData = useSelector(selectors.getInboxViewData)
 	const unreadMentions = canMarkAsRead ? inboxData : []
-	const [ messages, setMessages ] = useState(unreadMentions)
+
+	// Const initMessages = await loadViewData()
+
+	const [ messages, setMessages ] = useState([])
 
 	// Read tab doesn't work yet. we don't get any listening events
 	const [ loading, setLoading ] = useState(false)
@@ -137,12 +140,11 @@ const InboxTab = ({
 		}
 
 		setLoading(true)
-		console.log(query)
 		const newMessages = await queryAPI(query, options)
-		console.log('newMessages', newMessages)
 		const isNotEqual = !deepEqual(newMessages, messages)
 		if (isNotEqual) {
-			setMessages(newMessages)
+			// Console.log('setMessages', newMessages)
+			return newMessages
 		}
 		setLoading(false)
 	}
@@ -170,7 +172,7 @@ const InboxTab = ({
 	useEffect(() => {
 		// All other tabs should fetch view data themselves
 		const fetchData = async () => {
-			await loadViewData()
+			setMessages(await loadViewData())
 		}
 
 		// Only fetch data if we aren't loading currently
