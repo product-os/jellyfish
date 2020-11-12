@@ -3,11 +3,9 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-import _ from 'lodash'
 import React, {
 	useCallback,
 	useEffect,
-	useRef,
 	useState
 } from 'react'
 import {
@@ -17,7 +15,6 @@ import {
 	Flex,
 	Search
 } from 'rendition'
-import update from 'immutability-helper'
 import {
 	useSetup,
 	useDebounce
@@ -27,15 +24,21 @@ import {
 } from '../../../core'
 import MarkAsReadButton from './MarkAsReadButton'
 import MessageList from './MessageList'
+import {
+	circularDeepEqual
+} from 'fast-equals'
+import * as _ from 'lodash'
 
-const DEFAULT_OPTIONS = {
-	limit: 30,
-	sortBy: 'created_at',
-	sortDir: 'desc',
-	page: 0
+const getOptions = (viewId, page) => {
+	return {
+		// Match the homechannel mentions counter limit
+		limit: 100,
+		sortBy: 'created_at',
+		sortDir: 'desc',
+		viewId,
+		page
+	}
 }
-
-const STREAM_ID = 'inbox'
 
 const DebouncedSearch = (props) => {
 	const [ term, setTerm ] = useState('')
@@ -60,10 +63,11 @@ const DebouncedSearch = (props) => {
 const InboxTab = ({
 	getQuery,
 	currentTab,
-	setupStream,
-	clearViewData,
-	paginateStream,
-	canMarkAsRead
+	loadMoreViewData,
+	loadViewData,
+	removeViewDataItem,
+	canMarkAsRead,
+	streamId
 }) => {
 	const {
 		sdk
@@ -71,107 +75,75 @@ const InboxTab = ({
 
 	const user = useSelector(selectors.getCurrentUser)
 	const groupNames = useSelector(selectors.getMyGroupNames)
-	const inboxData = useSelector(selectors.getInboxViewData)
-	const unreadMentions = canMarkAsRead ? useSelector(selectors.getInboxViewData) : []
-
-	const [ loading, setLoading ] = useState(true)
-
-	const [ messages, setMessages ] = useState(unreadMentions)
-
-	const [ page, setPage ] = useState(DEFAULT_OPTIONS.page)
-
-	const [ searchTerm, setSearchTerm ] = useState('')
 
 	const [ loadedAllResults, setLoadedAllResults ] = useState(false)
+	const [ searchTerm, setSearchTerm ] = useState('')
+	const [ loading, setLoading ] = useState(false)
+	const [ page, setPage ] = useState(0)
 
-	// Set up messageRef so we do not have a stale closure
-	const messagesRef = useRef(messages)
-	messagesRef.current = messages
+	const viewId = `${streamId}${searchTerm}`
 
-	const appendMessage = (message) => {
-		setMessages([ ...messagesRef.current, message ])
-	}
+	const inboxData = useSelector((state) => selectors.getViewData(
+		state,
+		getQuery(user, groupNames, searchTerm),
+		getOptions(viewId, page)
+	))
 
-	const removeMessage = (messageId) => {
-		const updatedMessages = messagesRef.current.filter((message) => {
-			return message.id !== messageId
-		})
-		setMessages(updatedMessages)
-	}
-
-	const upsertMessage = (updatedMessage) => {
-		const messageIndex = _.findIndex(messagesRef.current, [ 'id', updatedMessage.id ])
-		const messageNotInState = messageIndex === -1
-		if (messageNotInState) {
-			appendMessage(updatedMessage)
-			return
-		}
-		const updatedMessages = update(messagesRef.current, {
-			[messageIndex]: {
-				$set: updatedMessage
-			}
-		})
-		setMessages(updatedMessages)
-	}
-
-	const viewHandlers = {
-		upsert: upsertMessage,
-		append: appendMessage,
-		remove: removeMessage,
-
-		// Set is undefined because setupStream dispatches this handler
-		// and this is not a redux action. Instead we wait till the data
-		// is resolved from setupStream and set it manually in our useEffect
-		set: _.noop
-	}
-
-	const loadViewData = async () => {
-		setLoading(true)
-		const query = getQuery(user, groupNames, searchTerm)
-		const currentMessages = await setupStream(STREAM_ID, query, DEFAULT_OPTIONS, viewHandlers)
-		setMessages(currentMessages)
-		setLoading(false)
-	}
-
-	const loadMoreViewData = async (nextPage) => {
-		setLoading(true)
-		const query = getQuery(user, groupNames, searchTerm)
-		const options = {
-			...DEFAULT_OPTIONS,
-			page: nextPage
-		}
-		const newMessages = await paginateStream(STREAM_ID, query, options, _.noop)
-		setMessages([ ...messagesRef.current, ...newMessages ])
-
-		// Hack to determine if we have reached
-		// the beginning of the timeline.
-		// TODO replace with a check against count
-		// once we can retrieve a count with our
-		// query
-		if (newMessages.length === 0 || newMessages.length < DEFAULT_OPTIONS.limit) {
-			setLoadedAllResults(true)
-		}
-		setLoading(false)
-	}
+	const [ messages, setMessages ] = useState(inboxData || [])
 
 	const loadNextPage = async () => {
 		if (!loadedAllResults && !loading) {
 			const nextPage = page + 1
-			await setPage(nextPage)
-			await loadMoreViewData(nextPage)
+			setPage(nextPage)
+			setLoading(true)
+
+			const query = getQuery(user, groupNames, searchTerm)
+			const options = getOptions(viewId, page)
+			await loadMoreViewData(query, options)
+
+			setLoading(false)
 		}
 	}
 
 	// If the searchTerm or currentTab changes
 	// then we need to reload the data
 	useEffect(() => {
-		loadViewData()
+		const setLocalMessages = async () => {
+			setLoading(true)
+
+			const query = getQuery(user, groupNames, searchTerm)
+			const options = getOptions(viewId, page)
+			const localmessages = await loadViewData(query, options)
+
+			setMessages(localmessages)
+			setLoading(false)
+		}
+		setLocalMessages()
+
 		return () => {
-			clearViewData(null, {
-				viewId: STREAM_ID
-			})
+			// We clear the view data for search and switching tabs
+			// We shouldn't remove the homechannel inbox stream
+			if (viewId !== 'inbox-unread') {
+				const query = getQuery(user, groupNames, searchTerm)
+				const options = getOptions(viewId, page)
+				removeViewDataItem(query, viewId, options)
+			}
 		}
 	}, [ currentTab, searchTerm ])
+
+	// Update the component state when we recieve new inbox data
+	useEffect(() => {
+		if (!_.isNil(inboxData)) {
+			setMessages(inboxData)
+
+			// Hack to determine if we have reached the beginning of the timeline.
+			// TODO: replace with a check against count once we can retrieve a count with our query
+			const options = getOptions(viewId, page)
+			if ((inboxData.length === 0 || (options.limit * page) > inboxData.length) && !loadedAllResults) {
+				setLoadedAllResults(true)
+			}
+		}
+	}, [ inboxData ])
 
 	return (
 		<Flex
@@ -208,4 +180,4 @@ const InboxTab = ({
 	)
 }
 
-export default InboxTab
+export default React.memo(InboxTab, circularDeepEqual)

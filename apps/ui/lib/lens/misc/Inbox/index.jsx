@@ -19,9 +19,9 @@ import Inbox from './Inbox'
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators(
 		_.pick(actionCreators, [
-			'setupStream',
-			'clearViewData',
-			'paginateStream'
+			'removeViewDataItem',
+			'loadMoreViewData',
+			'loadViewData'
 		]),
 		dispatch
 	)

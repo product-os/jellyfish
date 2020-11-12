@@ -32,17 +32,17 @@ const InboxColumn = styled(Column) `
 `
 
 const Inbox = ({
-	setupStream,
-	clearViewData,
-	paginateStream
+	removeViewDataItem,
+	loadMoreViewData,
+	loadViewData
 }) => {
 	// State controller for managing the active tab
 	const [ currentTab, setCurrentTab ] = useState(0)
 
 	const defaultTabProps = {
-		setupStream,
-		clearViewData,
-		paginateStream,
+		removeViewDataItem,
+		loadMoreViewData,
+		loadViewData,
 		currentTab,
 		key: currentTab
 	}
@@ -63,6 +63,7 @@ const Inbox = ({
 					<InboxTab
 						{ ...defaultTabProps }
 						getQuery={queries.getUnreadQuery}
+						streamId="inbox-unread"
 						canMarkAsRead
 					/>
 				</Tab>
@@ -71,6 +72,7 @@ const Inbox = ({
 					<InboxTab
 						{ ...defaultTabProps }
 						getQuery={queries.getReadQuery}
+						streamId="inbox-read"
 					/>
 				</Tab>
 
@@ -78,6 +80,7 @@ const Inbox = ({
 					<InboxTab
 						{ ...defaultTabProps }
 						getQuery={queries.getSentQuery}
+						streamId="inbox-sent"
 					/>
 				</Tab>
 			</Tabs>

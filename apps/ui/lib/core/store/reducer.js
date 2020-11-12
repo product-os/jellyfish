@@ -101,6 +101,16 @@ const viewsReducer = (state = defaultState.views, action = {}) => {
 						}
 					})
 				}
+
+				const isInboxUnread = action.value.id === 'inbox-unread'
+				const startsWithInbox = action.value.id.startsWith('inbox')
+				if (!isInboxUnread && startsWithInbox) {
+					return update(state, {
+						viewData: {
+							$unset: [ action.value.id ]
+						}
+					})
+				}
 			}
 			return state
 		}

@@ -205,7 +205,10 @@ export const selectors = {
 	},
 	getInboxViewData: (state) => {
 		const query = selectors.getInboxQuery(state)
-		return selectors.getViewData(state, query)
+		const options = {
+			viewId: 'inbox-unread'
+		}
+		return selectors.getViewData(state, query, options)
 	}
 }
 
@@ -822,7 +825,9 @@ export default class ActionCreator {
 					const groupNames = selectors.getMyGroupNames(getState())
 					const unreadQuery = getUnreadQuery(user, groupNames)
 
-					this.loadViewData(unreadQuery)(dispatch, getState)
+					this.loadViewData(unreadQuery, {
+						viewId: 'inbox-unread'
+					})(dispatch, getState)
 
 					return user
 				})
