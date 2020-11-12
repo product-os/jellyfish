@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 1acb1c696ace389c0d8e650034c8b8eb783659b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.25.4
+  date: 2020-11-12T05:31:19.828Z
+- commits:
     - subject: Replace momentjs with date-fns
       hash: ace7eb0fd725c09d72d6f37ce05746f6d04cadb7
       body: ''
