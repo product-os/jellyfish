@@ -5,14 +5,12 @@
  */
 
 const graphql = require('graphql')
-const moment = require('moment')
+const isValid = require('date-fns/isValid')
+const parseISO = require('date-fns/parseISO')
 
 const parseIso8601String = (value) => {
-	const parsedValue = moment(value, moment.ISO_8601)
-	if (parsedValue.isValid()) {
-		return parsedValue.toDate()
-	}
-	return null
+	const parsedValue = parseISO(value)
+	return isValid(parsedValue) ? parsedValue : null
 }
 
 module.exports = new graphql.GraphQLScalarType({

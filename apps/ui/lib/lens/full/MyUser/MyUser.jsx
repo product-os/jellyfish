@@ -6,9 +6,6 @@
 
 import * as jsonpatch from 'fast-json-patch'
 import * as _ from 'lodash'
-import {
-	tz
-} from 'moment-timezone'
 import React from 'react'
 import {
 	Box,
@@ -27,6 +24,7 @@ import {
 import * as skhema from 'skhema'
 import {
 	helpers,
+	timezones,
 	Icon,
 	UserAvatar
 } from '@balena/jellyfish-ui-components'
@@ -63,7 +61,7 @@ export default class MyUser extends React.Component {
 			'properties.data.properties.profile.properties.country'
 		])
 
-		userProfileSchema.properties.data.properties.profile.properties.timezone.enum = tz.names()
+		userProfileSchema.properties.data.properties.profile.properties.timezone.enum = timezones.names
 
 		this.state = {
 			updatingSendCommand: false,

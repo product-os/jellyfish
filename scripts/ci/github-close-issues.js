@@ -24,12 +24,19 @@ const Octokit = require('@octokit/rest').Octokit.plugin(
 )
 const environment = require('@balena/jellyfish-environment')
 
-const moment = require('moment')
+const sub = require('date-fns/sub')
+const formatISO = require('date-fns/formatISO')
 const packageJSON = require('../../package.json')
 
 const DELAY = 500
 const RETRY_COUNT = 5
-const SINCE = moment.utc().subtract(2, 'days').format('YYYY-MM-DD')
+const SINCE = formatISO(
+	sub(new Date(), {
+		days: 2
+	}),	{
+		representation: 'date'
+	}
+)
 
 /**
  * @summary Close old GitHub issues in the Jellyfish test repository

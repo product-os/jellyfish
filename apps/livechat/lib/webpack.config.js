@@ -11,7 +11,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const IgnorePlugin = require('webpack/lib/IgnorePlugin')
 
 const root = path.resolve(__dirname, '..')
 const resourcesRoot = __dirname
@@ -102,10 +101,6 @@ const config = {
 	},
 
 	plugins: [
-		// The moment.js package includes its locales by default, they are huge and
-		// we don't use them, we're going to ignore them
-		new IgnorePlugin(/^\.\/locale$/, /moment$/),
-
 		new HtmlWebpackPlugin({
 			template: indexFilePath
 		}),

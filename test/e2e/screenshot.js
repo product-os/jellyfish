@@ -8,7 +8,7 @@ const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment')
 const fs = require('fs')
 const AWS = require('aws-sdk')
-const moment = require('moment')
+const startOfToday = require('date-fns/startOfToday')
 const uuid = require('@balena/jellyfish-uuid')
 const {
 	execSync
@@ -90,7 +90,7 @@ exports.upload = async (path) => {
 	}
 
 	console.log('Uploading screenshot to S3...')
-	const day = moment().utc().hour(0).minute(0).second(0).unix()
+	const day = startOfToday().getTime()
 	const id = await uuid.random()
 	const key = `screenshots/${day}/${id}.png`
 	const object = {

@@ -32,7 +32,9 @@ import {
 	Img,
 	Flex
 } from 'rendition'
-import moment from 'moment'
+import sub from 'date-fns/sub'
+import isSameDay from 'date-fns/isSameDay'
+import isSameWeek from 'date-fns/isSameWeek'
 import {
 	actionCreators,
 	selectors,
@@ -159,19 +161,21 @@ class MessageList extends React.Component {
 		tail.forEach((card) => {
 			const cardDate = new Date(card.data.timestamp)
 			const now = new Date()
-			const yesterday = moment().subtract(1, 'day').toDate()
+			const yesterday = sub(now, {
+				days: 1
+			})
 
-			if (moment(cardDate).isSame(now, 'day')) {
+			if (isSameDay(cardDate, now)) {
 				todayCards.push(card)
 				return
 			}
 
-			if (moment(cardDate).isSame(yesterday, 'day')) {
+			if (isSameDay(cardDate, yesterday)) {
 				yesterdayCards.push(card)
 				return
 			}
 
-			if (moment(cardDate).isSame(now, 'week')) {
+			if (isSameWeek(cardDate, now)) {
 				thisWeekCards.push(card)
 				return
 			}
