@@ -41,7 +41,7 @@
     "@babel/register": "^7.12.1",
     "@balena/jellyfish-chat-widget": "^3.0.34",
     "@balena/jellyfish-client-sdk": "^2.4.12",
-    "@balena/jellyfish-core": "^0.1.108",
+    "@balena/jellyfish-core": "^0.1.110",
     "@balena/jellyfish-environment": "^2.2.52",
     "@balena/jellyfish-ui-components": "^5.1.13",
     "@primer/styled-octicons": "^11.0.0",
