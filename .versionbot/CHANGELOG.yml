@@ -1,4 +1,27 @@
 - commits:
+    - subject: Replace momentjs with date-fns
+      hash: ace7eb0fd725c09d72d6f37ce05746f6d04cadb7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Bump dependencies
+      hash: 6b4c1845e5b3f41a0f3b54b599e45a53a023ca1c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.25.3
+  date: 2020-11-12T04:03:01.603Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 8a50f2f4f6637eaed0050b1f4a9cc5e9dad7bf0f
       body: ''
