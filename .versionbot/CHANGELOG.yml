@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix incorrect name on paid support view
+      hash: 21260698900ddabcdb784325d51e268a0455fc8a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.25.8
+  date: 2020-11-13T01:35:39.678Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.791.0'
       hash: 12f41c0137cc0404c4636d67a43f3eaac333baa8
       body: ''
