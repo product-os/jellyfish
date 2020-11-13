@@ -1,6 +1,6 @@
 {
   "slug": "view-paid-support-threads",
-  "name": "Forums",
+  "name": "Paid support",
   "type": "view@1.0.0",
   "markers": [ "org-balena" ],
   "data": {
