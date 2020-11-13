@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update nvmrc
+      hash: e74d85945dc1d778409549da52b9d02d81f14a12
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.25.10
+  date: 2020-11-13T03:37:39.884Z
+- commits:
     - subject: Add a new mixin that will add pipeline item attributes
       hash: 83efb760f864f8184295360a7e744bae67cb390f
       body: |
