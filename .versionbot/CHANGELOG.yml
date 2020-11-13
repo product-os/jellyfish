@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.792.0'
+      hash: 39fe6bd1639d8fd4ff4e023d8c78bc9a0a898798
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.26.4
+  date: 2020-11-13T20:17:39.380Z
+- commits:
     - subject: Use optional links in channel stream
       hash: 5845b582fa62abdd49134e5bd46d89ad3e0ec125
       body: ''
