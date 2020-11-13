@@ -816,7 +816,7 @@ export default class ActionCreator {
 					// abomination. (A small abomination, but still an abomination)
 					commsStream.on('typing', (payload) => streamTyping(dispatch, payload))
 
-					commsStream.on('error', (error) => {
+					commsStream.on('connect_error', (error) => {
 						console.error('A stream error occurred', error)
 					})
 
