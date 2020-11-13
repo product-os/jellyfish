@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, uiSchemaDef, asPipelineItem
 }) => {
-	return {
+	return mixin(asPipelineItem)({
 		slug: 'sales-thread',
 		name: 'Sales Thread',
 		type: 'type@1.0.0',
@@ -53,17 +53,6 @@ module.exports = ({
 								title: 'Current Status',
 								type: 'string',
 								fullTextSearch: true
-							},
-							status: {
-								title: 'Status',
-								type: 'string',
-								default: 'open',
-								enum: [
-									'open',
-									'closed',
-									'archived'
-								],
-								fullTextSearch: true
 							}
 						}
 					}
@@ -100,9 +89,6 @@ module.exports = ({
 					}
 				}
 			},
-			slices: [
-				'properties.data.properties.status'
-			],
 			meta: {
 				relationships: [
 					{
@@ -113,5 +99,5 @@ module.exports = ({
 				]
 			}
 		}
-	}
+	})
 }
