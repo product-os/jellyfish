@@ -61,8 +61,8 @@
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.66",
     "@balena/jellyfish-action-library": "^6.0.6",
-    "@balena/jellyfish-chat-widget": "^5.0.28",
-    "@balena/jellyfish-client-sdk": "^2.7.4",
+    "@balena/jellyfish-chat-widget": "5.0.32-update-socketio-client-e13cb3562760de362e95b8cf348162fb10c4736b",
+    "@balena/jellyfish-client-sdk": "2.7.5-renovate-major-socket-io-packages-c7aaef3906772fcd115f5ff5b165e23fbf0fd25a",
     "@balena/jellyfish-core": "^0.2.35",
     "@balena/jellyfish-environment": "^2.3.12",
     "@balena/jellyfish-plugin-default": "^1.1.18",
