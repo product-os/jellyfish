@@ -1,4 +1,18 @@
 - commits:
+    - subject: Model brainstorm topics as pipeline items
+      hash: c2c01cccfa40eae217059feeca47742968786265
+      body: |
+        This adds the status enum property used in pipeline items.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.26.0
+  date: 2020-11-13T12:26:59.553Z
+- commits:
     - subject: Bump dependencies
       hash: 7ce709ab5ab0158400f2ce0ffb7b88d7f5781833
       body: ''
