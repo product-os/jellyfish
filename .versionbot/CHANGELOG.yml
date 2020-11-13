@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 7127ce1e74f22a3b4cd91c7945548c1c0cd2232b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.26.1
+  date: 2020-11-13T13:38:55.413Z
+- commits:
     - subject: Model brainstorm topics as pipeline items
       hash: c2c01cccfa40eae217059feeca47742968786265
       body: |
