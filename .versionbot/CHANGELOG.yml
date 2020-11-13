@@ -1,4 +1,35 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 7ce709ab5ab0158400f2ce0ffb7b88d7f5781833
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update to use emotion/react
+      hash: a2faf6d1c1aee7ae48570bf39b9e2f631fc922f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update emotion monorepo to v11'
+      hash: ed590dc7cc73c32667c13511e8a8ee8c7663f644
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.25.11
+  date: 2020-11-13T09:44:20.458Z
+- commits:
     - subject: Update nvmrc
       hash: e74d85945dc1d778409549da52b9d02d81f14a12
       body: ''
