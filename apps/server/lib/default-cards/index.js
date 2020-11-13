@@ -37,7 +37,7 @@ module.exports = ({
 		account: require('./contrib/account.js')(mixins),
 		blogPost: require('./contrib/blog-post.js')(mixins),
 		brainstormCall: require('./contrib/brainstorm-call.json'),
-		brainstormTopic: require('./contrib/brainstorm-topic.json'),
+		brainstormTopic: require('./contrib/brainstorm-topic')(mixins),
 		changelog: require('./contrib/changelog.js')(mixins),
 		checkin: require('./contrib/checkin.js')(mixins),
 		contract: require('./contrib/contact.js')(mixins),
