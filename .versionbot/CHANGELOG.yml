@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @primer/styled-octicons to ^11.1.0'
+      hash: f7c891da8d37e8dbb08ecff4d94c9600802ddce1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.26.5
+  date: 2020-11-13T22:44:40.718Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.792.0'
       hash: 39fe6bd1639d8fd4ff4e023d8c78bc9a0a898798
       body: ''
