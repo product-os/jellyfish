@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add a new mixin that will add pipeline item attributes
+      hash: 83efb760f864f8184295360a7e744bae67cb390f
+      body: |
+        At the moment this is just the status enum and slicing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.25.9
+  date: 2020-11-13T02:48:56.314Z
+- commits:
     - subject: Fix incorrect name on paid support view
       hash: 21260698900ddabcdb784325d51e268a0455fc8a
       body: ''
