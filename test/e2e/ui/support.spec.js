@@ -59,10 +59,10 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	await macros.navigateToHomeChannelItem(page, [
 		'[data-test="home-channel__group-toggle--org-balena"]',
 		'[data-test="home-channel__group-toggle--Support"]',
-		'[data-test="home-channel__item--view-all-support-threads"]'
+		'[data-test="home-channel__item--view-paid-support-threads"]'
 	])
 
-	await page.waitForSelector('.column--view-all-support-threads')
+	await page.waitForSelector('.column--view-paid-support-threads')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
 
@@ -547,7 +547,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	})
 
 	await page.goto(
-		`${environment.ui.host}:${environment.ui.port}/view-all-support-threads...properties.data.properties.status+is+open`
+		`${environment.ui.host}:${environment.ui.port}/view-paid-support-threads...properties.data.properties.status+is+open`
 	)
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 

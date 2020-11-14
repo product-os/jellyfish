@@ -335,10 +335,10 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 	await macros.navigateToHomeChannelItem(page, [
 		'[data-test="home-channel__group-toggle--org-balena"]',
 		'[data-test="home-channel__group-toggle--Support"]',
-		'[data-test="home-channel__item--view-all-support-threads"]'
+		'[data-test="home-channel__item--view-paid-support-threads"]'
 	])
 
-	await page.waitForSelector('.column--view-all-support-threads')
+	await page.waitForSelector('.column--view-paid-support-threads')
 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
 
@@ -349,8 +349,8 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
 	await page.waitForSelector('.column--view-all-support-issues')
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-threads"]')
-	await page.waitForSelector('.column--view-all-support-threads')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-paid-support-threads"]')
+	await page.waitForSelector('.column--view-paid-support-threads')
 
 	// Wait for a while as reload can take some time
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
