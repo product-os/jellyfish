@@ -1,4 +1,29 @@
 - commits:
+    - subject: Remove dedundant support view
+      hash: 50b3ee9da98bc465a407e3e47bd36be23137fda9
+      body: |
+        Replaced by Forums and Paid Support views.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix license check script
+      hash: c36e38513d4f98a43e912abe9381952020f34861
+      body: |
+        Needs to account for nested folders after the refactor.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.27.0
+  date: 2020-11-14T02:17:09.433Z
+- commits:
     - subject: 'patch: Update dependency @primer/styled-octicons to ^11.1.0'
       hash: f7c891da8d37e8dbb08ecff4d94c9600802ddce1
       body: ''
