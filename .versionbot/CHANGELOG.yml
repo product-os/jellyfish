@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: fd4ff1b0e9d3c2618a4f45e548e430c2f29ab11c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.1
+  date: 2020-11-14T09:35:56.644Z
+- commits:
     - subject: Remove dedundant support view
       hash: 50b3ee9da98bc465a407e3e47bd36be23137fda9
       body: |
