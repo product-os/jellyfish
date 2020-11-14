@@ -4,16 +4,31 @@
 
 FROM balena/open-balena-base:11.0.2 as base
 
+ARG SERVER_HOST
+ENV SERVER_HOST $SERVER_HOST
+
+ARG SERVER_PORT
+ENV SERVER_PORT $SERVER_PORT
+
 WORKDIR /usr/src/jellyfish/apps/ui
 
-COPY apps/ui/package*.json /usr/src/jellyfish/apps/ui/
 ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && rm -f ~/.npmrc
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
+COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
-COPY ./package.json /usr/src/jellyfish/
+COPY ./package.json /usr/src/jellyfish/package.json
+COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/Makefile
+
+#dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
+#dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
+#dev-run=/usr/src/jellyfish/scripts/install-packages.js
+
+#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
+#dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
+RUN rm -f ~/.npmrc
 COPY ./apps/ui/lib/ /usr/src/jellyfish/apps/ui/lib/
-COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/
 
 ARG SERVER_HOST=https://api.ly.fish
 ARG SERVER_PORT=443
