@@ -66,7 +66,7 @@
     "@balena/jellyfish-action-library": "^5.1.77",
     "@balena/jellyfish-chat-widget": "^3.0.38",
     "@balena/jellyfish-client-sdk": "^2.4.13",
-    "@balena/jellyfish-core": "^0.1.118",
+    "@balena/jellyfish-core": "^0.1.119",
     "@balena/jellyfish-environment": "^2.2.53",
     "@balena/jellyfish-queue": "^0.0.209",
     "@balena/jellyfish-sync": "^3.0.96",
