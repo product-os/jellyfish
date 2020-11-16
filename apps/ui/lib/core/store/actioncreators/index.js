@@ -606,18 +606,7 @@ export default class ActionCreator {
 		target, query, queryOptions
 	}) {
 		return async (dispatch, getState) => {
-			const identifierType = isUUID(target) ? 'id' : 'slug'
-			let cardIdentifier = target
-
-			if (identifierType !== 'id') {
-				const card = await this.sdk.card.get(target)
-				if (_.isNil(card)) {
-					throw new Error(`Could not find card with ${identifierType} ${target}`)
-				}
-				cardIdentifier = card.id
-			}
-
-			const stream = streams[cardIdentifier]
+			const stream = streams[target]
 			if (!stream) {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
 			}
