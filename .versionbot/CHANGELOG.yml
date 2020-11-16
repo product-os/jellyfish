@@ -1,4 +1,20 @@
 - commits:
+    - subject: Fix bug that stops data loading when the channel target is a slug
+      hash: 0ac146c24facf472bd253955bffa93a1d234c24f
+      body: |
+        This issue is caused by the stream logic assuming that stream
+        identifiers are normalized to use card IDs, but this is no longer the
+        case.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.27.11
+  date: 2020-11-16T09:12:16.592Z
+- commits:
     - subject: Require Node 14
       hash: c80a2f7088c440ca50ef84ee169e93f5940aa6fc
       body: ''
