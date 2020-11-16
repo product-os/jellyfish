@@ -14,7 +14,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
        maxSurge: 25%
-       maxUnavailable: 0 
+       maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -283,6 +283,8 @@ spec:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
+        - name: BACKEND_SERVICES
+          value: 'api'
         ports:
         - containerPort: 8000
         - containerPort: 9229

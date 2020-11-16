@@ -18,6 +18,7 @@ services:
       {{/workers}}
       - balena-mdns-publisher
     environment:
+      - BACKEND_SERVICES=api
       - DATABASE={{DATABASE}}
       - LOGENTRIES_TOKEN
       - LOGLEVEL=crit
@@ -121,7 +122,7 @@ services:
   tick:
     build:
       context: .
-      dockerfile: ./apps/action-server/Dockerfile.tick
+      dockerfile: ./apps/server/Dockerfile
       args:
         - NPM_TOKEN
     depends_on:
@@ -129,6 +130,7 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
+      - BACKEND_SERVICES=tick
       - DATABASE={{DATABASE}}
       - LOGENTRIES_TOKEN
       - NODE_ENV
@@ -168,7 +170,7 @@ services:
   worker_{{idx}}:
     build:
       context: .
-      dockerfile: ./apps/action-server/Dockerfile.worker
+      dockerfile: ./apps/server/Dockerfile
       args:
         - NPM_TOKEN
     depends_on:
@@ -176,6 +178,7 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
+      - BACKEND_SERVICES=worker
       - DATABASE={{DATABASE}}
       - LOGLEVEL=crit
       - NODE_ENV

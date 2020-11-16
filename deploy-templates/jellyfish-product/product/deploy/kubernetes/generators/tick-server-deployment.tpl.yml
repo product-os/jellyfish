@@ -197,6 +197,7 @@ spec:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
-
+        - name: BACKEND_SERVICES
+          value: 'tick'
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

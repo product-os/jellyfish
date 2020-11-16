@@ -4,16 +4,31 @@
  * Proprietary and confidential.
  */
 
-const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const uuid = require('@balena/jellyfish-uuid')
-const packageJSON = require('../../../package.json')
-const bootstrap = require('./bootstrap')
+const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment')
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
+const metrics = require('@balena/jellyfish-metrics')
+
+const packageJSON = require('../../../package.json')
+const services = {
+	api: require('./api'),
+	worker: require('./worker'),
+	tick: require('./tick')
+}
+const utils = require('./utils')
 
 const DEFAULT_CONTEXT = {
-	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`
+	id: `SERVER-${environment.pod.name}-${packageJSON.version}`
 }
 
+/**
+ * @summary Handle server errors
+ * @function
+ *
+ * @param {Object} error - error that occurred
+ * @param {String} message - error message header
+ * @param {Object} context - execution context
+ */
 const onError = (error, message = 'Server error', context = DEFAULT_CONTEXT) => {
 	logger.exception(context, message, error)
 	console.error({
@@ -27,38 +42,33 @@ const onError = (error, message = 'Server error', context = DEFAULT_CONTEXT) => 
 	}, 1000)
 }
 
-process.on('unhandledRejection', (error) => {
-	return onError(error, 'Unhandled Server Error')
-})
-
-uuid.random().then((id) => {
-	const context = {
-		id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
+/**
+ * @summary Start backend services
+ * @function
+ */
+const start = async () => {
+	// Error out immediately if required backend services environment variable is not set
+	if (_.isEmpty(environment.backend.services)) {
+		throw new Error('Must set backend service(s)')
 	}
 
-	const startDate = new Date()
-	logger.info(context, 'Starting server', {
-		time: startDate.getTime()
-	})
+	// Set up backend here so we can share with multiple services
+	const cache = await utils.setupCache(DEFAULT_CONTEXT)
+	const jellyfish = await utils.setupCore(DEFAULT_CONTEXT, cache)
 
-	return bootstrap(context).then((server) => {
-		const endDate = new Date()
-		const timeToStart = endDate.getTime() - startDate.getTime()
-
-		logger.info(context, 'Server started', {
-			time: timeToStart,
-			port: server.port
+	// Start services specified in BACKEND_SERVICES comma-delimited string
+	const backendServices = _.uniq(environment.backend.services.split(','))
+	_.forEach(backendServices, (service) => {
+		services[service](onError, {
+			cache,
+			jellyfish
 		})
-
-		if (timeToStart > 10000) {
-			logger.warn(context, 'Slow server startup time', {
-				time: timeToStart
-			})
-		}
-	}).catch((error) => {
-		logger.exception(context, 'Server error', error)
-		process.exit(1)
 	})
-}).catch((error) => {
-	return onError(error)
-})
+
+	// Start metrics server if api or worker instances were started
+	if (backendServices.includes('api') || backendServices.includes('worker')) {
+		metrics.startServer(DEFAULT_CONTEXT, environment.metrics.ports.app)
+	}
+}
+
+start()

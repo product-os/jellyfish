@@ -1,5 +1,6 @@
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
+BACKEND_SERVICES ?= api
 FIX ?=
 
 NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
@@ -58,4 +59,4 @@ test-integration:
 .PHONY: start-server
 start-server: LOGLEVEL = info
 start-server:
-	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) lib/index.js
+	NSOLID_APP=server exec $(NODE) $(NODE_ARGS) lib/index.js BACKEND_SERVICES=$(BACKEND_SERVICES)

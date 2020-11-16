@@ -18,7 +18,7 @@ ava.serial.before(async (test) => {
 	test.context.context = {
 		id: `SERVER-TEST-${uuid()}`
 	}
-	test.context.server = await bootstrap(test.context.context)
+	test.context.server = await bootstrap.api(test.context.context)
 })
 
 ava.serial.after(async (test) => {

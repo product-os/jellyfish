@@ -103,6 +103,7 @@ MONITOR_SECRET_TOKEN ?= TEST
 export MONITOR_SECRET_TOKEN
 RESET_PASSWORD_SECRET_TOKEN ?=
 export RESET_PASSWORD_SECRET_TOKEN
+BACKEND_SERVICES ?= api
 
 FS_DRIVER ?= localFS
 export FS_DRIVER
@@ -256,7 +257,6 @@ endif
 
 npm-install:
 	npm install
-	cd apps/action-server && npm install
 	cd apps/livechat && npm install
 	cd apps/server && npm install
 	cd apps/ui && npm install
@@ -307,7 +307,6 @@ lint:
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,webpack,shellcheck'
 	cd apps/server && make lint FIX=$(FIX)
-	cd apps/action-server && make lint FIX=$(FIX)
 	cd apps/livechat && make lint FIX=$(FIX)
 	cd apps/ui && make lint FIX=$(FIX)
 
@@ -366,13 +365,13 @@ node:
 
 start-server: LOGLEVEL = info
 start-server:
-	cd apps/server && make start-server
+	cd apps/server && BACKEND_SERVICES=$(BACKEND_SERVICES) make start-server
 
 start-worker:
-	cd apps/action-server && make start-worker
+	cd apps/server && BACKEND_SERVICES=worker make start-server
 
 start-tick:
-	cd apps/action-server && make start-tick
+	cd apps/server && BACKEND_SERVICES=tick make start-server
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

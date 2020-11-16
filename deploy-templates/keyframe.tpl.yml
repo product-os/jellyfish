@@ -12,7 +12,7 @@ children:
         data:
           assets:
             image:
-              url: 'balena/jellyfish-action-server:#JF_VERSION#'
+              url: 'balena/jellyfish:#JF_VERSION#'
             repo:
               url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-tick-server:
@@ -22,7 +22,7 @@ children:
         data:
           assets:
             image:
-              url: 'balena/jellyfish-tick-server:#JF_VERSION#'
+              url: 'balena/jellyfish:#JF_VERSION#'
             repo:
               url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-api:

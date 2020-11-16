@@ -17,7 +17,6 @@
   },
   "deplint": {
     "files": [
-      "apps/action-server/lib/**/*.js",
       "apps/server/*.js",
       "apps/server/default-cards/**/*.js",
       "apps/server/graphql/**/*.js",
@@ -25,8 +24,7 @@
       "apps/server/socket/**/*.js"
     ],
     "modules": [
-      "apps/server",
-      "apps/action-server"
+      "apps/server"
     ]
   },
   "ava": {

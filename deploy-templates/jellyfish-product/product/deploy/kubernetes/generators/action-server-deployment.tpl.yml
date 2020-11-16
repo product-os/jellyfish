@@ -11,7 +11,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
        maxSurge: 25%
-       maxUnavailable: 0 
+       maxUnavailable: 0
   selector:
     matchLabels:
       app: action-server
@@ -236,6 +236,8 @@ spec:
             secretKeyRef:
               key: QUEUE_CONCURRENCY
               name: queue-concurrency
+        - name: BACKEND_SERVICES
+          value: 'worker'
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a

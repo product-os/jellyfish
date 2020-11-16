@@ -45,11 +45,6 @@ services as needed using actions.
 
 ## Deployable Components
 
-### [`apps/action-server`](https://github.com/product-os/jellyfish/tree/master/apps/action-server)
-
-The action server worker, which dequeues action requests from the database
-and executes them with the configured action library.
-
 ### [`apps/livechat`](https://github.com/product-os/jellyfish/tree/master/apps/livechat)
 
 This is the demo project for developing chat-widget.

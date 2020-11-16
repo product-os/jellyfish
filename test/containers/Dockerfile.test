@@ -8,7 +8,6 @@ COPY . ./
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci --unsafe-perm && \
 	cd /usr/src/jellyfish/apps/server && npm ci && \
-	cd /usr/src/jellyfish/apps/action-server && npm ci && \
 	cd /usr/src/jellyfish/apps/livechat && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
 	cd /usr/src/jellyfish/apps/ui && npm ci && \
 	rm -f ~/.npmrc

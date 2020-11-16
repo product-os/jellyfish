@@ -15,7 +15,6 @@ const {
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment')
 const bootstrap = require('../../lib/bootstrap')
-const actionServer = require('../../../action-server/lib/bootstrap')
 const utils = require('../../../../test/integration/utils')
 
 const workerOptions = {
@@ -33,10 +32,10 @@ module.exports = {
 			id: `SERVER-TEST-${uuid()}`
 		}
 
-		test.context.server = await bootstrap(test.context.context, {
+		test.context.server = await bootstrap.api(test.context.context, {
 			database: workerOptions.database
 		})
-		test.context.actionWorker = await actionServer.worker(
+		test.context.actionWorker = await bootstrap.worker(
 			test.context.context, workerOptions)
 
 		test.context.sdk = getSdk({
