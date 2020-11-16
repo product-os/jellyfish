@@ -107,7 +107,7 @@
     "native-url": "^0.3.4",
     "nock": "^13.0.5",
     "node-jose": "^2.0.0",
-    "puppeteer": "^5.4.1",
+    "puppeteer": "^5.5.0",
     "random-words": "^1.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
