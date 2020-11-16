@@ -10,7 +10,7 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=12.15.0"
+    "node": ">=14.2.0"
   },
   "deplint": {
     "files": [

@@ -5,7 +5,7 @@
   "private": true,
   "description": "The Jellyfish Livechat App",
   "engines": {
-    "node": ">=12.15.0"
+    "node": ">=14.2.0"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
