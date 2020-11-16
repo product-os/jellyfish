@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to ^5.5.0'
+      hash: b46870eab8d7233583f2b369dfa823fd29276354
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.12
+  date: 2020-11-16T13:58:19.760Z
+- commits:
     - subject: Fix bug that stops data loading when the channel target is a slug
       hash: 0ac146c24facf472bd253955bffa93a1d234c24f
       body: |
