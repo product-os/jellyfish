@@ -34,9 +34,6 @@ import {
 } from '@balena/jellyfish-client-sdk'
 import actions from '../actions'
 import {
-	getQueue
-} from '../async-dispatch-queue'
-import {
 	getUnreadQuery
 } from '../../queries'
 import {
@@ -52,8 +49,6 @@ const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 const cardReference = (contract) => {
 	return contract.slug ? `${contract.slug}@${contract.version}` : contract.id
 }
-
-const asyncDispatchQueue = getQueue()
 
 const allGroupsWithUsersQuery = {
 	type: 'object',
@@ -1352,32 +1347,25 @@ export const actionCreators = {
 
 			stream.on(
 				'update',
-				/* eslint-disable consistent-return */
 				(response) => {
-					// Use the async dispatch queue here, as we want to ensure that
-					// each update causes a store update one at a time, to prevent
-					// race conditions. For example, removing a data item happens
-					// quicker then adding a data item as we don't need to load links
-					asyncDispatchQueue.enqueue((async () => {
-						const {
-							type,
-							id: cardId,
-							after: card
-						} = response.data
+					const {
+						type,
+						id: cardId,
+						after: card
+					} = response.data
 
-						// If card is null then it has been set to inactive or deleted
-						if (card === null) {
-							return handlers.remove(cardId)
-						}
+					// If card is null then it has been set to inactive or deleted
+					if (card === null) {
+						return handlers.remove(cardId)
+					}
 
-						// If the type is insert, it is a new item
-						if (type === 'insert') {
-							return handlers.append(card)
-						}
+					// If the type is insert, it is a new item
+					if (type === 'insert') {
+						return handlers.append(card)
+					}
 
-						// All other updates are an upsert
-						return handlers.upsert(card)
-					})(), dispatch)
+					// All other updates are an upsert
+					return handlers.upsert(card)
 				}
 			)
 
@@ -1452,16 +1440,16 @@ export const actionCreators = {
 
 			const rawSchema = await loadSchema(context.sdk, query, user)
 			if (!rawSchema) {
-				return
+				return null
 			}
 
 			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema
 			schema.description = schema.description || 'View action creators'
 
 			const streamHandlers = {
-				remove: (cardId) => actionCreators.removeViewDataItem(query, cardId, commonOptions),
-				append: (card) => actionCreators.appendViewData(query, card, commonOptions),
-				upsert: (card) => actionCreators.upsertViewData(query, card, commonOptions),
+				remove: (cardId) => dispatch(actionCreators.removeViewDataItem(query, cardId, commonOptions)),
+				append: (card) => dispatch(actionCreators.appendViewData(query, card, commonOptions)),
+				upsert: (card) => dispatch(actionCreators.upsertViewData(query, card, commonOptions)),
 				set: (cards) => dispatch(actionCreators.setViewData(query, cards, commonOptions))
 			}
 
