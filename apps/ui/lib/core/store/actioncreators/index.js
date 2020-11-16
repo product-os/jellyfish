@@ -606,7 +606,20 @@ export default class ActionCreator {
 		target, query, queryOptions
 	}) {
 		return async (dispatch, getState) => {
-			const stream = streams[target]
+			// The target value can be a slug or id. We can find the corresponding
+			// full card from the stored channel data and then use that to find the
+			// cached stream reference.
+			// TODO: normalize channel loading to use the card ID
+			const idGetter = (channel) => _.get(channel, [ 'data', 'head', 'id' ])
+			const slugGetter = (channel) => _.get(channel, [ 'data', 'head', 'slug' ])
+			const targetChannel = _.find(selectors.getChannels(getState()), (channel) => {
+				return idGetter(channel) === target || slugGetter(channel) === target
+			})
+			const targetSlug = slugGetter(targetChannel)
+			const targetId = idGetter(targetChannel)
+
+			const stream = streams[targetSlug] || streams[targetId]
+
 			if (!stream) {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
 			}
