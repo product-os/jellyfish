@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 4ca5a7b50516add1cbb8886ba3b46dc2f7d6927f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Fix inconsistent target reference when paginating channel data
+      hash: 81a1733f4b5ea020a467bed361f6b8bd5a962efe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.27.13
+  date: 2020-11-17T00:02:50.392Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to ^5.5.0'
       hash: b46870eab8d7233583f2b369dfa823fd29276354
       body: ''
