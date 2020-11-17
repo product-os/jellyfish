@@ -6,6 +6,7 @@
 
 import _ from 'lodash'
 import sub from 'date-fns/sub'
+import format from 'date-fns/format'
 import React from 'react'
 import Plot from 'react-plotly.js'
 import {
@@ -56,7 +57,7 @@ const SupportAuditChart = ({
 			// For each day of the last 30 days, count the number of threads created on
 			// that day
 			for (const day of range) {
-				const dayStamp = day.format('YYYY-MM-DD')
+				const dayStamp = format(day, 'yyyy-MM-dd')
 
 				set.data.push(_.has(groups, dayStamp) ? groups[dayStamp].length : 0)
 			}
@@ -66,7 +67,7 @@ const SupportAuditChart = ({
 
 		const baseTrace = {
 			x: range.map((time) => {
-				return time.format('MMM Do')
+				return format(time, 'MMM do')
 			}),
 			type: 'bar'
 		}
