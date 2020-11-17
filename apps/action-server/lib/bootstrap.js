@@ -63,10 +63,10 @@ const transformTriggerCard = (trigger) => {
 	}
 
 	// Triggered actions default to being asynchronous
-	if (_.has(trigger.data, [ 'async' ])) {
-		object.async = trigger.data.async
+	if (_.has(trigger.data, [ 'schedule' ])) {
+		object.schedule = trigger.data.schedule
 	} else {
-		object.async = true
+		object.schedule = 'async'
 	}
 
 	return object

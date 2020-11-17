@@ -4,7 +4,7 @@
   "name": "Triggered action for broadcasting links from a support thread to GitHub issue or pull request",
   "markers": [],
   "data": {
-    "async": true,
+    "schedule": "async",
     "filter": {
       "type": "object",
       "required": [

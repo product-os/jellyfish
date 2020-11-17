@@ -4,6 +4,7 @@
   "name": "Triggered action for creating a whisper with link on thread sync",
   "markers": [],
   "data": {
+    "schedule": "async",
     "filter": {
       "title": "Support threads created with a 'mirrors' field",
       "$$links": {

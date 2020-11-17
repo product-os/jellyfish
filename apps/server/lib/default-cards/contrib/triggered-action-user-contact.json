@@ -4,7 +4,7 @@
   "name": "Triggered action for maintaining user contact information",
   "markers": [],
   "data": {
-    "async": false,
+    "schedule": "sync",
     "filter": {
       "type": "object",
       "required": [ "type" ],

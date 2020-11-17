@@ -622,7 +622,7 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 					slug: command
 				}
 			},
-			async: false
+			schedule: 'sync'
 		}
 	]
 
@@ -671,7 +671,7 @@ ava('.insertCard() should be able to override a triggered action originator', as
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -745,7 +745,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -830,7 +830,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 	const command = test.context.generateRandomSlug()
 	const triggers = [
 		{
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -891,7 +891,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -919,7 +919,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -988,7 +988,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 	const triggers = [
 		{
 			id: 'cb3523c5-b37d-41c8-ae32-9e7cc9309165',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -1016,7 +1016,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		},
 		{
 			id: 'd6cacdef-f53b-4b5b-8aa2-8476e48248a4',
-			async: false,
+			schedule: 'sync',
 			filter: {
 				type: 'object',
 				required: [ 'data' ],
@@ -1433,7 +1433,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 		requires: [],
 		capabilities: [],
 		data: {
-			async: true,
+			schedule: 'async',
 			type: trigger.data.type,
 			target: trigger.data.target,
 			action: trigger.data.action,
@@ -1489,7 +1489,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 
 	test.deepEqual(localTriggers, [
 		{
-			async: true,
+			schedule: 'async',
 			id: localTriggers[0].id,
 			slug: `triggered-action-${slug}-data-mentions`,
 			action: 'action-set-add@1.0.0',
