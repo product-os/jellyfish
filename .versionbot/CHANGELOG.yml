@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix for date formatting after move to date-fns
+      hash: 7dfa1994aa89eca9df4608848fb4f07a6fcef596
+      body: |
+        This was missed in the main PR to convert to date-fns.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.27.17
+  date: 2020-11-17T11:33:40.254Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 6cc9ae54ca39457ab6f27b8a8399491946906a5c
       body: ''
