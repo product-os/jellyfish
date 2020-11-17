@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 159196d7de4ef530271f73c5d2c4694a39821437
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.18
+  date: 2020-11-17T12:31:39.821Z
+- commits:
     - subject: Fix for date formatting after move to date-fns
       hash: 7dfa1994aa89eca9df4608848fb4f07a6fcef596
       body: |
