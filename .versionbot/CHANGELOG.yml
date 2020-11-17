@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 6cc9ae54ca39457ab6f27b8a8399491946906a5c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.16
+  date: 2020-11-17T08:40:31.641Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.22.2'
       hash: 45bfc46cad2402270d5e50d28c281e4fdb33cac2
       body: ''
