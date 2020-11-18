@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update balena/open-balena-base Docker tag to v11.0.2'
+      hash: 40ac5b5de18444b189a5feac0f1deface6b1c114
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.21
+  date: 2020-11-18T14:05:47.829Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^5.2.1'
       hash: 37b861f71008c00b471a075a26fd9cc605685978
       body: ''
