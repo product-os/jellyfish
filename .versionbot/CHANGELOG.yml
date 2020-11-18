@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^5.2.1'
+      hash: 37b861f71008c00b471a075a26fd9cc605685978
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.20
+  date: 2020-11-18T13:02:41.753Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.3.3'
       hash: 45035db609b766c39b4e273885ad0613d004b819
       body: ''
