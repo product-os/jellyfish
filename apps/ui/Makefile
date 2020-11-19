@@ -50,7 +50,7 @@ endif
 .PHONY: test
 test: LOGLEVEL = warning
 test:
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) "'./**/*.spec.{js,jsx}'"
+	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) "'./{test,lib}/**/*.spec.{js,jsx}'"
 
 .PHONY: dev-ui
 dev-ui:

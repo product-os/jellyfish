@@ -14,6 +14,7 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
+import Bluebird from 'bluebird'
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
 
 const wrappingComponent = getWrapper().wrapper
@@ -75,7 +76,7 @@ ava('Results are cleared when card type changes', async (test) => {
 	const sdk = {
 		query
 	}
-	const autoComplete = mount((
+	const autoComplete = await mount((
 		<AutoCompleteCardSelect
 			sdk={sdk}
 			cardType="user"
@@ -86,6 +87,9 @@ ava('Results are cleared when card type changes', async (test) => {
 		wrappingComponent
 	})
 
+	// Wait for the debounced search
+	await Bluebird.delay(1000)
+
 	// Initially we've got no results but the SDK query has been called
 	test.deepEqual(autoComplete.state('results'), [])
 	test.is(sdk.query.callCount, 1)
@@ -95,6 +99,9 @@ ava('Results are cleared when card type changes', async (test) => {
 		...autoComplete.props(),
 		cardType: 'issue'
 	})
+
+	// Wait for the debounced search
+	await Bluebird.delay(1000)
 
 	// Note that we've now called the SDK query a second time
 	test.is(sdk.query.callCount, 2)

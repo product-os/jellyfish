@@ -24,6 +24,7 @@ const sandbox = sinon.createSandbox()
 ava.beforeEach(async () => {
 	context.actions = _.reduce([
 		'addChannel',
+		'getCard',
 		'logout',
 		'queryAPI',
 		'removeView',

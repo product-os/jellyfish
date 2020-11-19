@@ -34,10 +34,6 @@ import Adapter from 'enzyme-adapter-react-16'
 
 window.isUnitTest = true
 
-const emotionCache = createCache({
-	key: 'test'
-})
-
 configure({
 	adapter: new Adapter()
 })
@@ -77,6 +73,13 @@ export const getPromiseResolver = () => {
 		resolver
 	}
 }
+
+// Needed in order for @emotion cache to be instantiated
+global.HTMLElement = window.HTMLElement
+
+const emotionCache = createCache({
+	key: 'test'
+})
 
 export const getWrapper = (initialState = {}) => {
 	const store = mockStore(initialState)

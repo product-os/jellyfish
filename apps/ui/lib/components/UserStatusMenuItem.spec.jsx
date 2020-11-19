@@ -4,7 +4,10 @@
  * Proprietary and confidential.
  */
 
-import '../../../../test/ui-setup'
+import '../../test/ui-setup'
+import {
+	user
+} from '../../test/fixtures/types'
 import React from 'react'
 import ava from 'ava'
 import {
@@ -12,9 +15,6 @@ import {
 } from 'enzyme'
 import sinon from 'sinon'
 import UserStatusMenuItem from './UserStatusMenuItem'
-import {
-	user
-} from '@balena/jellyfish-core/lib/cards'
 
 const DND = {
 	title: 'Do Not Disturb',
