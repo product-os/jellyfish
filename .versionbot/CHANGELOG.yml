@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix various ui unit test issues
+      hash: a01b4cc0a0f43ddd7d354d0db3472302b0fd9344
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.27.25
+  date: 2020-11-19T09:49:58.256Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 951a253f3991444f59f95fbdada9be9d27aae349
       body: ''
