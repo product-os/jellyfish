@@ -318,7 +318,7 @@ test: scrub
 
 test-unit:
 	cd apps/ui && make test
-	cd apps/server && FILES="'./test/unit/**/*.spec.js'" make test
+	cd apps/server && make test-unit
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -335,7 +335,7 @@ test-unit-ui:
 	cd apps/ui && make test
 
 test-integration-server:
-	cd apps/server && FILES="'./test/integration/**/*.spec.js'" make test
+	cd apps/server && make test-integration
 
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
