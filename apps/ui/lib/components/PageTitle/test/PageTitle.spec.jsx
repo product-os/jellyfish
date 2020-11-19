@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import '../../../../../test/ui-setup'
+import '../../../../test/ui-setup'
 import ava from 'ava'
 import {
 	shallow
