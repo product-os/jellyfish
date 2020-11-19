@@ -1379,7 +1379,8 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 						properties: {
 							mentions: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 							}
 						},
 						additionalProperties: true
@@ -1475,7 +1476,8 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 						properties: {
 							mentions: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 							}
 						},
 						additionalProperties: true
@@ -1543,7 +1545,8 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 							properties: {
 								mentions: {
 									type: 'array',
-									$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+									$$formula:
+									'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 								}
 							},
 							additionalProperties: true
@@ -1595,7 +1598,8 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 						properties: {
 							mentions: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 							}
 						},
 						additionalProperties: true

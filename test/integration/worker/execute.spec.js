@@ -430,7 +430,8 @@ ava('.execute() should be able to AGGREGATE based on the card timeline', async (
 									properties: {
 										mentions: {
 											type: 'array',
-											$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+											$$formula:
+									'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 										}
 									},
 									additionalProperties: true
@@ -546,7 +547,8 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 								properties: {
 									mentions: {
 										type: 'array',
-										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+										$$formula:
+									'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 									}
 								},
 								additionalProperties: true
@@ -656,7 +658,8 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 								properties: {
 									$$mentions: {
 										type: 'array',
-										$$formula: 'AGGREGATE($events, "data.payload[\'$$mentions\']")'
+										$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload[\'$$mentions\']"))'
 									}
 								},
 								additionalProperties: true

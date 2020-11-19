@@ -276,7 +276,7 @@ ava.serial('The ping endpoint should continuously work', async (test) => {
 	test.false(result3.response.error)
 })
 
-ava.serial('AGGREGATE($events): should work when creating cards via the SDK', async (test) => {
+ava.serial('AGGREGATE(this.links["is attached to"]): should work when creating cards via the SDK', async (test) => {
 	const {
 		sdk
 	} = test.context

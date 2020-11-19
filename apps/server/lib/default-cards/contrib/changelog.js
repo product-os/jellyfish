@@ -27,7 +27,7 @@ module.exports = ({
 						items: {
 							type: 'string'
 						},
-						$$formula: 'AGGREGATE($events, \'tags\')'
+						$$formula: 'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "tags"))'
 					},
 					data: {
 						type: 'object',

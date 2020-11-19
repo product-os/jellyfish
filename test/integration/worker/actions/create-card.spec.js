@@ -43,7 +43,8 @@ ava('should fail to create an event with an action-create-card', async (test) =>
 								properties: {
 									mentions: {
 										type: 'array',
-										$$formula: 'AGGREGATE($events, "data.payload.mentions")'
+										$$formula:
+									'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentions"))'
 									}
 								},
 								additionalProperties: true

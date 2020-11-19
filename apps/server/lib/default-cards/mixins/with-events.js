@@ -18,30 +18,36 @@ module.exports = ({
 						items: {
 							type: 'string'
 						},
-						$$formula: 'AGGREGATE($events, \'tags\')',
+						$$formula:
+						'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "tags"))',
 						fullTextSearch: true
 					},
 					data: {
 						properties: {
 							participants: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, \'data.actor\')'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.actor"))'
 							},
 							mentionsUser: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, \'data.payload.mentionsUser\')'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentionsUser"))'
 							},
 							alertsUser: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, \'data.payload.alertsUser\')'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.alertsUser"))'
 							},
 							mentionsGroup: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, \'data.payload.mentionsGroup\')'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.mentionsGroup"))'
 							},
 							alertsGroup: {
 								type: 'array',
-								$$formula: 'AGGREGATE($events, \'data.payload.alertsGroup\')'
+								$$formula:
+								'AGGREGATE(this.links["is attached to"], PARTIAL(FLIP(PROPERTY), "data.payload.alertsGroup"))'
 							}
 						}
 					}
