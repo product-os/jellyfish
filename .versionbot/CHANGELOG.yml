@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 192be92ac0174c39b52044e524b9d0aab78933d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.26
+  date: 2020-11-20T02:11:40.078Z
+- commits:
     - subject: Fix various ui unit test issues
       hash: a01b4cc0a0f43ddd7d354d0db3472302b0fd9344
       body: ''
