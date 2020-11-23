@@ -36,6 +36,8 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
+FILES ?= "'./test/**/*.spec.js'"
+
 .PHONY: lint
 lint:
 	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib test
@@ -44,6 +46,14 @@ lint:
 .PHONY: test
 test:
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+
+.PHONY: test-unit
+test-unit:
+	make test FILES="'./test/unit/**/*.spec.js'"
+
+.PHONY: test-integration
+test-integration:
+	make test FILES="'./test/integration/**/*.spec.js'"
 
 .PHONY: start-server
 start-server: LOGLEVEL = info

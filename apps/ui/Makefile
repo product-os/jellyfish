@@ -47,10 +47,12 @@ else
 ESLINT_OPTION_FIX = --fix
 endif
 
+FILES ?= "'./{lib,test}/**/*.spec.{js,jsx}'"
+
 .PHONY: test
 test: LOGLEVEL = warning
 test:
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) "'./{test,lib}/**/*.spec.{js,jsx}'"
+	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 .PHONY: dev-ui
 dev-ui:
