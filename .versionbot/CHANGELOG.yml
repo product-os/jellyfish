@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^5.3.8'
+      hash: a9979b39f9eccd79c781252dae4e0f123ffae0dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.41
+  date: 2020-11-23T09:15:11.880Z
+- commits:
     - subject: 'patch: Update dependency react-select to ^3.1.1'
       hash: d0f9ae50e314cadc32a3e945d33bded47bb7c734
       body: ''
