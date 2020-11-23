@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow setting FILES for make test in apps/ui
+      hash: 98e9f5d216edc9d001b8bebe34919878f5f31175
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.27.38
+  date: 2020-11-21T09:20:50.341Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^5.1.88'
       hash: be4b4a54378b49340c2412484921c64c7294aa75
       body: ''
