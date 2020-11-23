@@ -413,7 +413,6 @@ ava('should evaluate a simple computed property on a JSON Patch move', async (te
 		links: {},
 		tags: [],
 		data: {
-			bar: 'hello',
 			foo: 'HELLO'
 		}
 	})
