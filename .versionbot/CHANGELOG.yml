@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency react-select to ^3.1.1'
+      hash: d0f9ae50e314cadc32a3e945d33bded47bb7c734
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.40
+  date: 2020-11-23T08:04:21.262Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: be07b9b8edbb8ea5fdf103e3ffeb1df4619ff9a8
       body: ''
