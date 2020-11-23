@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: be07b9b8edbb8ea5fdf103e3ffeb1df4619ff9a8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.39
+  date: 2020-11-23T06:17:16.513Z
+- commits:
     - subject: Allow setting FILES for make test in apps/ui
       hash: 98e9f5d216edc9d001b8bebe34919878f5f31175
       body: ''
