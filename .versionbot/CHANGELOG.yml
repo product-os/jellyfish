@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.3.4'
+      hash: 75d7227bb3bee33c4206067a4868d42f26c42489
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.50
+  date: 2020-11-24T13:18:40.342Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 73be4472d74a7c06b414314c12b53f2ab65ab5a4
       body: ''
