@@ -4,7 +4,7 @@
   "name": "Triggered action for creating messages with Hangouts link",
   "markers": [],
   "data": {
-    "async": true,
+    "schedule": "async",
     "filter": {
       "type": "object",
       "required": [

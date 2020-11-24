@@ -4,7 +4,7 @@
   "name": "Triggered action for user avatars",
   "markers": [],
   "data": {
-    "async": false,
+    "schedule": "sync",
     "filter": {
       "type": "object",
       "required": [ "type" ],

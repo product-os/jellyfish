@@ -4,7 +4,7 @@
   "name": "Triggered action for external service import events",
   "markers": [],
   "data": {
-    "async": true,
+    "schedule": "async",
     "filter": {
       "type": "object",
       "required": [

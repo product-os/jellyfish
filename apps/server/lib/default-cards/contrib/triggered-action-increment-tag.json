@@ -4,7 +4,7 @@
   "name": "Triggered action for incrementing count value of a tag",
   "markers": [],
   "data": {
-    "async": true,
+    "schedule": "async",
     "filter": {
       "type": "object",
       "required": [
