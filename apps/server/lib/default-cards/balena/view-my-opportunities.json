@@ -2,7 +2,9 @@
   "slug": "view-my-opportunities",
   "name": "My opportunities",
   "type": "view@1.0.0",
-  "markers": [ "org-balena" ],
+  "markers": [
+    "org-balena"
+  ],
   "data": {
     "namespace": "Sales",
     "allOf": [
@@ -60,8 +62,8 @@
       }
     ],
     "lenses": [
-      "lens-list",
       "lens-crm-table",
+      "lens-list",
       "lens-kanban"
     ]
   }
