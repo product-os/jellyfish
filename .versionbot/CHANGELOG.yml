@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @babel/core to ^7.12.9'
+      hash: 7277c6a21c2ace96ff9be874c5d11e9f809449da
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.2
+  date: 2020-11-24T21:40:01.047Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.799.0'
       hash: cf3ed9f7aba612f1669715c10b39e0b1e501d1fc
       body: ''
