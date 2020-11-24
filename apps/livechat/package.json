@@ -13,7 +13,7 @@
     "@babel/core": "^7.12.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-react": "^7.12.7",
-    "@balena/jellyfish-chat-widget": "^3.0.57",
+    "@balena/jellyfish-chat-widget": "^3.1.0",
     "@balena/jellyfish-client-sdk": "^2.5.1",
     "@balena/jellyfish-ui-components": "^5.3.10",
     "babel-loader": "^8.2.1",

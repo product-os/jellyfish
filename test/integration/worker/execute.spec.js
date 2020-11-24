@@ -5,12 +5,25 @@
  */
 
 const ava = require('ava')
+const Promise = require('bluebird')
 const _ = require('lodash')
 const helpers = require('./helpers')
 const actionLibrary = require('@balena/jellyfish-action-library')
 
 ava.before(async (test) => {
 	await helpers.worker.before(test, actionLibrary)
+
+	test.context.waitForMatch = async (waitQuery, times = 20) => {
+		if (times === 0) {
+			throw new Error('The wait query did not resolve')
+		}
+		const results = await test.context.jellyfish.query(test.context.context, test.context.session, waitQuery)
+		if (results.length > 0) {
+			return results[0]
+		}
+		await Promise.delay(500)
+		return test.context.waitForMatch(waitQuery, times - 1)
+	}
 })
 
 ava.after(helpers.worker.after)
@@ -592,8 +605,27 @@ ava('.execute() AGGREGATE should create a property on the target if it does not 
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const thread = await test.context.jellyfish.getCardById(test.context.context, test.context.session, threadResult.data.id)
-	test.deepEqual(thread.data.mentions, [ 'johndoe' ])
+	await test.notThrowsAsync(test.context.waitForMatch({
+		type: 'object',
+		properties: {
+			id: {
+				const: threadResult.data.id
+			},
+			data: {
+				type: 'object',
+				properties: {
+					mentions: {
+						type: 'array',
+						contains: {
+							const: 'johndoe'
+						}
+					}
+				},
+				required: [ 'mentions' ]
+			}
+		},
+		required: [ 'id', 'data' ]
+	}))
 })
 
 ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test) => {
@@ -685,9 +717,27 @@ ava('.execute() AGGREGATE should work with $$ prefixed properties', async (test)
 		test.context.context, messageRequest)
 	test.false(messageResult.error)
 
-	const thread = await test.context.jellyfish.getCardById(test.context.context, test.context.session, threadResult.data.id)
-
-	test.deepEqual(thread.data.$$mentions, [ 'johndoe' ])
+	await test.notThrowsAsync(test.context.waitForMatch({
+		type: 'object',
+		properties: {
+			id: {
+				const: threadResult.data.id
+			},
+			data: {
+				type: 'object',
+				properties: {
+					$$mentions: {
+						type: 'array',
+						contains: {
+							const: 'johndoe'
+						}
+					}
+				},
+				required: [ '$$mentions' ]
+			}
+		},
+		required: [ 'id', 'data' ]
+	}))
 })
 
 ava('.execute() should create a message with tags', async (test) => {

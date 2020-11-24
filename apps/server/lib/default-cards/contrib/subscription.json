@@ -1,0 +1,21 @@
+{
+  "slug": "subscription",
+  "type": "type@1.0.0",
+  "name": "Subscription",
+  "markers": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {}
+    },
+    "meta": {
+      "relationships": [
+        {
+          "title": "View",
+          "link": "is attached to",
+          "type": "view"
+        }
+      ]
+    }
+  }
+}

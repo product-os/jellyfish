@@ -28,7 +28,7 @@
     "@balena/jellyfish-queue": "^0.0.223",
     "@balena/jellyfish-sync": "^3.0.110",
     "@balena/jellyfish-uuid": "^1.0.32",
-    "@balena/jellyfish-worker": "^2.0.2",
+    "@balena/jellyfish-worker": "^2.1.0",
     "aws-sdk": "^2.798.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
