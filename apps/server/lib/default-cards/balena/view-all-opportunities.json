@@ -20,6 +20,14 @@
                     }
                   },
                   "additionalProperties": true
+                },
+                "is owned by": {
+                  "properties": {
+                    "type": {
+                      "const": "user@1.0.0"
+                    }
+                  },
+                  "additionalProperties": true
                 }
               }
             },
@@ -45,8 +53,8 @@
       }
     ],
     "lenses": [
-      "lens-list",
       "lens-crm-table",
+      "lens-list",
       "lens-kanban"
     ]
   }
