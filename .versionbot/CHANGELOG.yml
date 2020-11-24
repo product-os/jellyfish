@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.799.0'
+      hash: cf3ed9f7aba612f1669715c10b39e0b1e501d1fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.1
+  date: 2020-11-24T19:44:20.218Z
+- commits:
     - subject: 'Notifications: Add subscription to view'
       hash: cf3f78a57c6495f027479d6e3600d623a339219a
       body: ''
