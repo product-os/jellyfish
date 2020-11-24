@@ -1,4 +1,18 @@
 - commits:
+    - subject: Tidy up styling of user menu in home channel
+      hash: 0271f3cb05d7dd3ab340d366c372a63a83d0416e
+      body: |
+        Consistent spacing, larger hit targets for links/buttons.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.27.48
+  date: 2020-11-24T09:17:18.190Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 0755b9ed8cabd97664aa31ec31b1dc6799f6916f
       body: ''
