@@ -94,9 +94,6 @@ module.exports = ({
 					}
 				}
 			},
-			slices: [
-				'properties.data.properties.status'
-			],
 			meta: {
 				relationships: [
 					{
