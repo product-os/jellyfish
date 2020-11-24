@@ -1,4 +1,29 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 49e52c1715427ac2ea0ddc2f9dd6a3b6e4daf4fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use schedule field instead of async field
+      hash: e642b11126bcdf24dc8336de42619d91d09161bf
+      body: >
+        Triggered actions now have a 'schedule' field which can currently take
+        one of three string values - 'sync', 'async' or 'enqueue'.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.27.46
+  date: 2020-11-24T01:18:41.255Z
+- commits:
     - subject: 'patch: Update non-major to ^7.12.8'
       hash: 91e24bb21635940fb7b98eede3ee801b1cf64b6f
       body: ''
