@@ -157,7 +157,7 @@ class CreateUserLens extends React.Component {
 				data-test="create-user-lens"
 				title={(
 					<Heading.h4>
-						Add User
+            Add User
 					</Heading.h4>
 				)}
 			>
@@ -170,16 +170,16 @@ class CreateUserLens extends React.Component {
 					>
 					</Form>
 					<Txt mb={4}>
-						On submit, your user will be created without a password.
-						A first-time-login link is then sent to their email.
-						New users can use this token to set their password and login
+            On submit, your user will be created without a password.
+            A first-time-login link is then sent to their email.
+            New users can use this token to set their password and login
 					</Txt>
 					<Flex justifyContent="flex-end" mt={4}>
 						<Button
 							onClick={this.close}
 							mr={2}
 						>
-							Cancel
+              Cancel
 						</Button>
 						<Button
 							primary

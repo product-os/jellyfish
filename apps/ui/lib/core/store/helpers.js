@@ -6,6 +6,10 @@
 
 import _ from 'lodash'
 import update from 'immutability-helper'
+import {
+	constraints
+} from '@balena/jellyfish-client-sdk/lib/link-constraints'
+import memoize from 'memoize-one'
 
 /**
  * Given a target card id and a card that's been updated, finds all channels
@@ -76,3 +80,17 @@ export const mentionsUser = (card, user, groups) => {
 		return _.get(groups, [ groupName, 'isMine' ])
 	})
 }
+
+export const getAllLinkQueries = memoize(() => {
+	let links = {}
+	constraints.forEach((constraint) => {
+		links = {
+			...links,
+			[constraint.name]: {
+				type: 'object',
+				additionalProperties: true
+			}
+		}
+	})
+	return links
+})

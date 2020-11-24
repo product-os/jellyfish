@@ -9,25 +9,33 @@ import _ from 'lodash'
 import {
 	SlideInPanel
 } from '@balena/jellyfish-ui-components'
+import HandoverFlowPanel from '../HandoverFlowPanel'
+import TeardownFlowPanel from '../TeardownFlowPanel'
+import {
+	FLOW_IDS
+} from '../flow-utils'
 
-export default function SlideInFlowPanel ({
-	flowId,
+const SlideInFlowPanel = ({
+	sdk,
 	card,
+	channel,
 	slideInPanelProps,
 	flowState,
 	actions,
 	children,
 	...rest
-}) {
+}) => {
+	const flowId = _.get(flowState, [ 'type' ])
+	const isOpen = _.get(flowState, [ 'isOpen' ], false)
+
 	if (_.isArray(children)) {
 		throw new Error('SlideInFlowPanel only accepts a single child component')
 	}
 	const close = () => {
-		actions.setFlow(flowId, card.id, {
+		actions.setFlow(channel.data.target, card.id, {
 			isOpen: false
 		})
 	}
-	const isOpen = _.get(flowState, [ 'isOpen' ], false)
 
 	return (
 		<SlideInPanel
@@ -37,14 +45,31 @@ export default function SlideInFlowPanel ({
 			isOpen={isOpen}
 			onClose={close}
 		>
-			{Boolean(flowState) && React.cloneElement(children, {
-				flowId,
-				card,
-				flowState,
-				actions,
-				onClose: close,
-				...rest
-			})}
+			{flowId === FLOW_IDS.GUIDED_HANDOVER && Boolean(flowState) && (
+				<HandoverFlowPanel
+					sdk={sdk}
+					card={card}
+					channel={channel}
+					flowId={flowId}
+					onClose={close}
+					flowState={flowState}
+					actions={actions}
+					{...rest} />
+			)}
+
+			{flowId === FLOW_IDS.GUIDED_TEARDOWN && Boolean(flowState) && (
+				<TeardownFlowPanel
+					sdk={sdk}
+					card={card}
+					channel={channel}
+					flowId={flowId}
+					onClose={close}
+					flowState={flowState}
+					actions={actions}
+					{...rest} />
+			)}
 		</SlideInPanel>
 	)
 }
+
+export default SlideInFlowPanel

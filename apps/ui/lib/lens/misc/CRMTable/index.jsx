@@ -13,18 +13,18 @@ import {
 } from 'redux'
 import {
 	actionCreators,
-	selectors
+	selectors,
+	sdk
 } from '../../../core'
 import CRMTable from './CRMTable'
 
-const mapStateToProps = (state) => {
-	const allTypes = selectors.getTypes(state)
+const mapStateToProps = (state, props) => {
 	return {
+		sdk,
 		user: selectors.getCurrentUser(state),
-
-		allTypes,
-		types: _.get(
-			_.find(allTypes, [ 'slug', 'opportunity' ]), [
+		types: selectors.getTypes(state),
+		statusTypes: _.get(
+			_.find(selectors.getTypes(state), [ 'slug', 'opportunity' ]), [
 				'data',
 				'schema',
 				'properties',
@@ -42,7 +42,10 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'createLink'
+				'addNotification',
+				'createLink',
+				'setFlow',
+				'queryAPI'
 			]), dispatch)
 	}
 }

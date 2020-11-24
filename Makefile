@@ -16,7 +16,8 @@
 	scrub \
 	clean-front \
 	clean-github \
-	npm-install
+	npm-install \
+	npm-ci
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -258,6 +259,13 @@ npm-install:
 	cd apps/livechat && npm install
 	cd apps/server && npm install
 	cd apps/ui && npm install
+
+npm-ci:
+	npm ci
+	cd apps/action-server && npm ci
+	cd apps/livechat && npm ci
+	cd apps/server && npm ci
+	cd apps/ui && npm ci
 
 .tmp:
 	mkdir -p $@

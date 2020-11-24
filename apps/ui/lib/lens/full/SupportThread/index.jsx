@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import * as Bluebird from 'bluebird'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -40,13 +39,11 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import SlideInFlowPanel from '../../../components/Flows/SlideInFlowPanel'
 import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../components/CardFields'
 import {
-	FLOW_IDS,
-	TeardownFlowPanel
+	FLOW_IDS
 } from '../../../components/Flows'
 import {
 	IssueOpenedIcon,
@@ -143,6 +140,7 @@ class SupportThreadBase extends React.Component {
 		this.close = async () => {
 			const {
 				card,
+				channel,
 				actions: {
 					setFlow
 				}
@@ -176,11 +174,12 @@ class SupportThreadBase extends React.Component {
 			})
 
 			const flowState = {
+				type: FLOW_IDS.GUIDED_TEARDOWN,
 				isOpen: true,
 				card,
 				summary: _.get(summaryCard, [ 'data', 'payload', 'message' ], '')
 			}
-			setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState)
+			setFlow(channel.data.target, card.id, flowState)
 		}
 
 		this.archiveCard = () => {
@@ -207,32 +206,11 @@ class SupportThreadBase extends React.Component {
 				})
 		}
 
-		this.removeLink = async (fromCard, toCard, verb) => {
-			try {
-				await sdk.card.unlink(fromCard, toCard, verb)
-			} catch (err) {
-				addNotification('danger', err.message)
-				return
-			}
-
-			addNotification('success', 'Link removed')
-
-			this.setState((state) => ({
-				linkedCardsMap: {
-					...state.linkedCardsMap,
-					[verb]: state.linkedCardsMap[verb].filter((linkedCard) => {
-						return linkedCard.id !== toCard.id
-					})
-				}
-			}))
-		}
-
 		this.state = {
 			actor: null,
 			isClosing: false,
-			linkedCardsMap: {}
+			flowId: FLOW_IDS.GUIDED_HANDOVER
 		}
-		this.loadLinks(props.card.id)
 	}
 
 	async componentDidMount () {
@@ -243,64 +221,8 @@ class SupportThreadBase extends React.Component {
 		})
 	}
 
-	async loadLinks (id) {
-		const baseSchema = {
-			type: 'object',
-			properties: {
-				id: {
-					type: 'string',
-					const: id
-				},
-				type: {
-					type: 'string',
-					const: 'support-thread@1.0.0'
-				}
-			},
-			additionalProperties: true
-		}
-
-		const linkedCardsMap = await Bluebird.props(LINKS.reduce((result, link) => {
-			return {
-				...result,
-				[link.verb]: (async () => {
-					const cardWithLinks = (await sdk.query({
-						$$links: {
-							[link.verb]: {
-								type: 'object',
-								additionalProperties: true
-							}
-						},
-						description: link.description({
-							id
-						}),
-						...baseSchema
-					}))[0]
-
-					if (!cardWithLinks) {
-						return []
-					}
-
-					return cardWithLinks.links[link.verb]
-				})()
-			}
-		}, {}))
-
-		this.setState({
-			linkedCardsMap
-		})
-	}
-
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
-	}
-
-	componentDidUpdate (prevProps) {
-		if (
-			(prevProps.card.id !== this.props.card.id) ||
-			LINKS.some((link) => prevProps.card.linked_at[link.verb] !== this.props.card.linked_at[link.verb])
-		) {
-			this.loadLinks(this.props.card.id)
-		}
 	}
 
 	render () {
@@ -309,9 +231,8 @@ class SupportThreadBase extends React.Component {
 			channel,
 			getActorHref
 		} = this.props
-		const {
-			linkedCardsMap
-		} = this.state
+
+		const linkedCardsMap = _.get(card, [ 'links' ])
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0]
 		})
@@ -534,15 +455,6 @@ class SupportThreadBase extends React.Component {
 						tail={_.get(this.props.card.links, [ 'has attached element' ], [])}
 					/>
 				</Box>
-				<SlideInFlowPanel
-					slideInPanelProps={{
-						height: 500
-					}}
-					card={card}
-					flowId={FLOW_IDS.GUIDED_TEARDOWN}
-				>
-					<TeardownFlowPanel/>
-				</SlideInFlowPanel>
 			</CardLayout>
 		)
 	}

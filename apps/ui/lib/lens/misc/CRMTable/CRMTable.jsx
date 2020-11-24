@@ -4,17 +4,6 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
-import * as React from 'react'
-import {
-	Box,
-	Button,
-	Txt,
-	Badge
-} from 'rendition'
-import styled from 'styled-components'
-import SelectWrapper from './SelectWrapper'
-import BaseLens from '../../common/BaseLens'
 import {
 	ColorHashPill,
 	formatCurrency,
@@ -22,16 +11,54 @@ import {
 	helpers,
 	Link
 } from '@balena/jellyfish-ui-components'
+import _ from 'lodash'
+import * as React from 'react'
+import {
+	Badge, Box,
+	Txt
+} from 'rendition'
+import CardOwner from '../../../components/CardOwner'
+import {
+	FLOW_IDS
+} from '../../../components/Flows/flow-utils'
+import LinkModal from '../../../components/LinkModal'
+import LensLayout from '../../../layouts/LensLayout'
+import BaseLens from '../../common/BaseLens'
 import CardTable from '../Table/CardTable'
+import {
+	SingleLineSpan
+} from './helpers'
+import InlineLinkButton from './InlineLinkButton'
+import SelectWrapper from './SelectWrapper'
 
-const SingleLineSpan = styled.span `
-	whiteSpace: 'nowrap'
-`
 class CRMTable extends BaseLens {
 	constructor (props) {
 		super(props)
 		this.columns = this.initColumns()
+		this.showLinkModal = this.showLinkModal.bind(this)
+		this.hideLinkModal = this.hideLinkModal.bind(this)
 		this.generateTableData = this.generateTableData.bind(this)
+		this.state = {
+			showLinkModal: false,
+			showSlideInPanel: false,
+			slideInPanel: {
+				card: {},
+				user: {},
+				channel: {}
+			}
+		}
+	}
+
+	showLinkModal () {
+		this.setState({
+			showLinkModal: true
+		})
+	}
+
+	hideLinkModal () {
+		this.setState({
+			showLinkModal: false
+		})
 	}
 
 	initColumns () {
@@ -46,25 +73,35 @@ class CRMTable extends BaseLens {
 			{
 				field: 'Account',
 				sortable: true,
-				render: (account, item) => {
-					if (!account) {
-						return (
-							<Button
-								mr={2}
-								success
+				render: ({
+					accounts, opportunity
+				}) => {
+					const {
+						actions,
+						types
+					} = this.props
 
-								// TODO: This should open a linked account create modal
-								onClick={this.openCreateChannel}
-							>
-					Add new linked Account
-							</Button>
+					if (!accounts) {
+						const selectedCardTypes = types.filter((typeCard) => {
+							return typeCard.slug.includes('account')
+						})
+
+						return (
+							<InlineLinkButton mr={2} card={opportunity} actions={actions} types={selectedCardTypes} />
 						)
 					}
 
+					const linkedCardsCount = _.get(opportunity, [ 'links', 'is attached to' ]).length - 1
+					const account = _.find(accounts)
+					const typeName = linkedCardsCount >= 2 ? `${account.type.split('@')[0]}s` : account.type.split('@')[0]
+
 					return (
-						<Box>
+						<Box minWidth={200}>
 							<Link to={helpers.appendToChannelPath(this.props.channel, account)}>{account.name}</Link>
 							<Txt color="text.light" fontSize="0">{_.get(account, [ 'data', 'type' ])}</Txt>
+							{Boolean(linkedCardsCount) && (
+								<Txt color="text.light" fontSize="0">{`+${linkedCardsCount} linked ${typeName}`}</Txt>
+							)}
 						</Box>
 					)
 				}
@@ -114,9 +151,37 @@ class CRMTable extends BaseLens {
 				}
 			},
 			{
-				field: 'Stage',
+				field: 'Status',
 				sortable: true,
-				render: (value, item) => <SelectWrapper {...this.props} card={value} />
+				render: (card, item) => <SelectWrapper {...this.props} card={card} />
+			},
+			{
+				field: 'Owner',
+				sortable: true,
+				render: (card) => {
+					const {
+						sdk,
+						actions,
+						user,
+						types,
+						channel
+					} = this.props
+
+					const owner = _.head(_.get(card, [ 'links', 'is owned by' ], null))
+
+					return (
+						<Box minWidth={200}>
+							<CardOwner
+								user={user}
+								types={types}
+								card={card}
+								channel={channel}
+								sdk={sdk}
+								cardOwner={owner}
+								actions={actions} />
+						</Box>
+					)
+				}
 			},
 			{
 				field: 'Account Status',
@@ -147,7 +212,7 @@ class CRMTable extends BaseLens {
 				render: (tags, item) => {
 					if (!tags) return ''
 					return tags.map((value, index) => {
-						return <ColorHashPill key={index} value={value} mr={2} mb={1} color={'white'} />
+						return <ColorHashPill key={index} value={value} mr={2} mb={1} />
 					})
 				}
 			}
@@ -156,7 +221,8 @@ class CRMTable extends BaseLens {
 
 	generateTableData () {
 		return this.props.tail ? _.map(this.props.tail, (opportunity) => {
-			const account = _.find(_.get(opportunity, [ 'links', 'is attached to' ]))
+			const accounts = _.get(opportunity, [ 'links', 'is attached to' ])
+			const account = _.first(accounts)
 
 			const update = _.find(_.get(opportunity, [ 'links', 'has attached element' ]), (linkedCard) => {
 				return [ 'update', 'update@1.0.0' ].includes(linkedCard.type)
@@ -167,11 +233,14 @@ class CRMTable extends BaseLens {
 				slug: _.get(opportunity, [ 'slug' ]),
 
 				Opportunity: _.get(opportunity, [ 'name' ]),
-				Account: account,
+				Account: {
+					accounts, opportunity
+				},
 				'Due Date': _.get(opportunity, [ 'data', 'dueDate' ]),
 				Value: _.get(opportunity, [ 'data', 'value' ]),
 				'Estimated ARR': _.get(opportunity, [ 'data', 'totalValue' ]),
-				Stage: opportunity,
+				Status: opportunity,
+				Owner: opportunity,
 				'Account Status': _.get(account, [ 'data', 'status' ]),
 				Usecase: _.get(opportunity, [ 'data', 'usecase' ]),
 				'Device Type': opportunity.data.device,
@@ -186,13 +255,40 @@ class CRMTable extends BaseLens {
 	}
 
 	render () {
+		const {
+			user,
+			channel,
+			tail,
+			actions,
+			types
+		} = this.props
+		const {
+			checkedCards,
+			showLinkModal
+		} = this.state
+
 		return (
-			<CardTable
-				{...this.props}
-				rowKey="slug"
-				generateData={this.generateTableData}
-				columns={this.columns}
-			/>
+			<LensLayout
+				tail={tail}
+				user={user}
+				channel={channel}
+				flowId={FLOW_IDS.GUIDED_HANDOVER}
+			>
+				<CardTable
+					{...this.props}
+					rowKey="slug"
+					generateData={this.generateTableData}
+					columns={this.columns}
+				/>
+				{showLinkModal && (
+					<LinkModal
+						actions={actions}
+						cards={checkedCards}
+						types={types}
+						onHide={this.hideLinkModal}
+					/>
+				)}
+			</LensLayout>
 		)
 	}
 }

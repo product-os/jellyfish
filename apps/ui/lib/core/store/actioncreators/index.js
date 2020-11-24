@@ -38,6 +38,9 @@ import {
 import {
 	streamTyping
 } from './stream/typing'
+import {
+	getAllLinkQueries
+} from '../helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -142,7 +145,12 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
-	getFlow: (flowId, cardId) => (state) => { return _.get(state.ui, [ 'flows', flowId, cardId ]) || null },
+	getFlow: (channelId, cardId) => (state) => {
+		return _.get(state.ui, [ 'flows', channelId, cardId ]) || null
+	},
+	getAllChannelFlows: (channelId) => (state) => {
+		return _.get(state.ui, [ 'flows', channelId ])
+	},
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
@@ -515,14 +523,27 @@ export default class ActionCreator {
 
 			const identifier = isUUID(target) ? 'id' : 'slug'
 
+			let default$$Links = {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			}
+
+			// If we have a channel that's not a view
+			if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
+				// Go through all the link constraints and set as default $$Links
+				default$$Links = {
+					...default$$Links,
+					...getAllLinkQueries()
+				}
+			}
 			const query = {
 				type: 'object',
 				anyOf: [
 					{
 						$$links: {
-							'has attached element': {
-								type: 'object'
-							}
+							...default$$Links
 						}
 					},
 					true
@@ -1512,12 +1533,12 @@ export default class ActionCreator {
 		}
 	}
 
-	setFlow (flowId, cardId, flowState) {
+	setFlow (channelId, cardId, flowState) {
 		return (dispatch) => {
 			return dispatch({
 				type: actions.SET_FLOW,
 				value: {
-					flowId,
+					channelId,
 					cardId,
 					flowState
 				}
@@ -1525,12 +1546,12 @@ export default class ActionCreator {
 		}
 	}
 
-	removeFlow (flowId, cardId) {
+	removeFlow (channelId, cardId) {
 		return (dispatch) => {
 			return dispatch({
 				type: actions.REMOVE_FLOW,
 				value: {
-					flowId,
+					channelId,
 					cardId
 				}
 			})

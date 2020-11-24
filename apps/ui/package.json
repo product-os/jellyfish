@@ -43,6 +43,7 @@
     "@balena/jellyfish-client-sdk": "^2.5.2",
     "@balena/jellyfish-environment": "^2.2.56",
     "@balena/jellyfish-ui-components": "^5.3.12",
+    "@formatjs/intl-listformat": "^4.3.6",
     "@primer/styled-octicons": "^11.1.0",
     "analytics-client": "^0.11.2",
     "babel-loader": "^8.2.1",
