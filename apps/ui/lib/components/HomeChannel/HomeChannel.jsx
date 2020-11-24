@@ -45,6 +45,11 @@ import {
 // Slide-in delay in seconds
 const DELAY = 0.6
 
+const MenuLink = styled(RouterLink) `
+	display: block;
+	width: 100%
+`
+
 const HomeChannelWrapper = styled(Flex) `
 	&.collapsed {
 		position: absolute;
@@ -608,30 +613,23 @@ export default class HomeChannel extends React.Component {
 
 						{this.state.showMenu && (
 							<Fixed top={true} right={true} bottom={true} left={true} z={10} onClick={this.hideMenu}>
-								<MenuPanel className="user-menu" mx={3} p={3}>
+								<MenuPanel className="user-menu" mx={3} py={2}>
 									{user && (
-										<Box mb={2}>
-											<UserStatusMenuItem user={user} actions={actions} types={types} />
-										</Box>
+										<UserStatusMenuItem user={user} actions={actions} types={types} px={3} py={2} w="100%" />
 									)}
 
 									{user && (
-										<div>
-											<RouterLink
-												mb={2}
-												to={`/${user.slug}`}
-											>
-												Settings
-											</RouterLink>
-										</div>
+										<MenuLink
+											px={3} py={2}
+											to={`/${user.slug}`}
+										>
+											Settings
+										</MenuLink>
 									)}
 
-									<RouterLink
-										mb={2}
+									<MenuLink
+										px={3} py={2}
 										to="/inbox"
-										style={{
-											display: 'block'
-										}}
 									>
 										<Flex justifyContent="space-between">
 											Inbox
@@ -640,7 +638,7 @@ export default class HomeChannel extends React.Component {
 												<MentionsCount mr={2}>{mentions.length}</MentionsCount>
 											)}
 										</Flex>
-									</RouterLink>
+									</MenuLink>
 
 									{_.map(defaultViews, (card) => {
 										const isActive = card.slug === activeChannelTarget ||
@@ -655,26 +653,33 @@ export default class HomeChannel extends React.Component {
 										}
 
 										return (
-											<Box mx={-3} key={card.id}>
-												<ViewLink
-													userSlug={user.slug}
-													subscription={subscriptions[card.id] || null}
-													types={types}
-													actions={viewLinkActions}
-													card={card}
-													isActive={isActive}
-													activeSlice={activeSlice}
-													open={this.open}
-												/>
-											</Box>
+											<ViewLink
+												key={card.id}
+												userSlug={user.slug}
+												subscription={subscriptions[card.id] || null}
+												types={types}
+												actions={viewLinkActions}
+												card={card}
+												isActive={isActive}
+												activeSlice={activeSlice}
+												open={this.open}
+											/>
 										)
 									})}
 
-									<Divider my={2} height={1} />
+									<Box mx={3}>
+										<Divider height={1} />
+									</Box>
 
-									<Button w="100%" pt={2} className="user-menu__logout" plain={true} style={{
-										textAlign: 'left', display: 'block'
-									}} onClick={this.logout}>
+									<Button
+										px={3} py={2}
+										className="user-menu__logout"
+										plain
+										style={{
+											display: 'block', width: '100%'
+										}}
+										onClick={this.logout}
+									>
 										Log out
 									</Button>
 								</MenuPanel>
