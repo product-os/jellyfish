@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 73be4472d74a7c06b414314c12b53f2ab65ab5a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.27.49
+  date: 2020-11-24T10:16:07.594Z
+- commits:
     - subject: Tidy up styling of user menu in home channel
       hash: 0271f3cb05d7dd3ab340d366c372a63a83d0416e
       body: |
