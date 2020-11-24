@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Notifications: Add subscription to view'
+      hash: cf3f78a57c6495f027479d6e3600d623a339219a
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.28.0
+  date: 2020-11-24T17:22:10.330Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.3.4'
       hash: 75d7227bb3bee33c4206067a4868d42f26c42489
       body: ''
