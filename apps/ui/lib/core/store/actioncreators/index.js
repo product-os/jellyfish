@@ -38,6 +38,9 @@ import {
 import {
 	streamTyping
 } from './stream/typing'
+import {
+	getAllLinkQueries
+} from '../helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -84,6 +87,51 @@ const createChannel = (data = {}) => {
 		type: 'channel',
 		active: true,
 		data
+	}
+}
+
+const getStreamQuery = (channel) => {
+	const {
+		target
+	} = channel.data
+
+	const identifier = isUUID(target) ? 'id' : 'slug'
+
+	// Note: 'has attached element' will load the timeline cards and should be
+	// paginated when the stream is setup
+	let default$$Links = {
+		'has attached element': {
+			type: 'object',
+			additionalProperties: true
+		}
+	}
+
+	// If we have a channel that's not a view
+	if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
+		// Go through all the link constraints and
+		// add all possible links to the default $$Links
+		default$$Links = {
+			...default$$Links,
+			...getAllLinkQueries()
+		}
+	}
+
+	return {
+		type: 'object',
+		anyOf: [
+			{
+				$$links: {
+					...default$$Links
+				}
+			},
+			true
+		],
+		properties: {
+			[identifier]: {
+				type: 'string',
+				const: target
+			}
+		}
 	}
 }
 
@@ -436,27 +484,7 @@ export const actionCreators = {
 				target
 			} = channel.data
 
-			const identifier = isUUID(target) ? 'id' : 'slug'
-
-			const query = {
-				type: 'object',
-				anyOf: [
-					{
-						$$links: {
-							'has attached element': {
-								type: 'object'
-							}
-						}
-					},
-					true
-				],
-				properties: {
-					[identifier]: {
-						type: 'string',
-						const: target
-					}
-				}
-			}
+			const query = getStreamQuery(channel)
 
 			const stream = await actionCreators.getStream({
 				sdk
@@ -560,7 +588,7 @@ export const actionCreators = {
 			stream.emit('queryDataset', {
 				data: {
 					id: queryId,
-					schema: query,
+					schema: getStreamQuery(targetChannel),
 					options: queryOptions
 				}
 			})
