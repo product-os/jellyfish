@@ -189,7 +189,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			jti: await uuid.random(),
 			nbf: Math.floor(Date.now() / 1000) - 10,
 			access: [
+				// NOTE this allowes enumerating registry contents
 				{ type: 'registry', name: 'catalog', actions: ['*'] }
+				// TODO parse repository from request?
+				{ type: 'repository', name: '*', actions: ['push', 'pull'] }
 			],
 		};
 		const options = {
