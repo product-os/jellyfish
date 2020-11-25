@@ -144,6 +144,7 @@ class SupportThreadBase extends React.Component {
 		this.close = async () => {
 			const {
 				card,
+				channel,
 				actions: {
 					setFlow
 				}
@@ -177,11 +178,12 @@ class SupportThreadBase extends React.Component {
 			})
 
 			const flowState = {
+				type: FLOW_IDS.GUIDED_TEARDOWN,
 				isOpen: true,
 				card,
 				summary: _.get(summaryCard, [ 'data', 'payload', 'message' ], '')
 			}
-			setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState)
+			setFlow(channel.data.target, card.id, flowState)
 		}
 
 		this.archiveCard = () => {
@@ -231,7 +233,8 @@ class SupportThreadBase extends React.Component {
 		this.state = {
 			actor: null,
 			isClosing: false,
-			linkedCardsMap: {}
+			linkedCardsMap: {},
+			flowId: FLOW_IDS.GUIDED_HANDOVER
 		}
 		this.loadLinks(props.card.id)
 	}

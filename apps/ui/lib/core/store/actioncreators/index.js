@@ -145,7 +145,12 @@ const getViewId = (query) => {
 }
 
 export const selectors = {
-	getFlow: (flowId, cardId) => (state) => { return _.get(state.ui, [ 'flows', flowId, cardId ]) || null },
+	getFlow: (channelId, cardId) => (state) => {
+		return _.get(state.ui, [ 'flows', channelId, cardId ]) || null
+	},
+	getAllChannelFlows: (channelId) => (state) => {
+		return _.get(state.ui, [ 'flows', channelId ])
+	},
 	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
@@ -1528,12 +1533,12 @@ export default class ActionCreator {
 		}
 	}
 
-	setFlow (flowId, cardId, flowState) {
+	setFlow (channelId, cardId, flowState) {
 		return (dispatch) => {
 			return dispatch({
 				type: actions.SET_FLOW,
 				value: {
-					flowId,
+					channelId,
 					cardId,
 					flowState
 				}
@@ -1541,12 +1546,12 @@ export default class ActionCreator {
 		}
 	}
 
-	removeFlow (flowId, cardId) {
+	removeFlow (channelId, cardId) {
 		return (dispatch) => {
 			return dispatch({
 				type: actions.REMOVE_FLOW,
 				value: {
-					flowId,
+					channelId,
 					cardId
 				}
 			})

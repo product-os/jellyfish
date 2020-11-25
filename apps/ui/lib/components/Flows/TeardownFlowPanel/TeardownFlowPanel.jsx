@@ -49,6 +49,7 @@ const getSummaryEvent = (target, summary) => {
 export default function TeardownFlowPanel ({
 	flowId,
 	card,
+	channel,
 	flowState,
 	types,
 	actions,
@@ -57,10 +58,10 @@ export default function TeardownFlowPanel ({
 	onClose
 }) {
 	const setFlow = (updatedFlowState) => {
-		return actions.setFlow(flowId, card.id, updatedFlowState)
+		return actions.setFlow(channel.data.target, card.id, updatedFlowState)
 	}
 	const removeFlow = () => {
-		return actions.removeFlow(flowId, card.id)
+		return actions.removeFlow(channel.data.target, card.id)
 	}
 	const teardown = async () => {
 		const {

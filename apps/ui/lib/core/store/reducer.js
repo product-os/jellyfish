@@ -189,13 +189,13 @@ const uiReducer = (state = defaultState.ui, action = {}) => {
 		}
 		case actions.SET_FLOW: {
 			const {
-				flowId,
+				channelId,
 				cardId,
 				flowState
 			} = action.value
 			return update(state, {
 				flows: {
-					[flowId]: (flowsById) => update(flowsById || {}, {
+					[channelId]: (channelsById) => update(channelsById || {}, {
 						[cardId]: {
 							$apply: (existingFlowState) => {
 								return _.merge({}, existingFlowState || {}, flowState)
@@ -207,12 +207,12 @@ const uiReducer = (state = defaultState.ui, action = {}) => {
 		}
 		case actions.REMOVE_FLOW: {
 			const {
-				flowId,
+				channelId,
 				cardId
 			} = action.value
 			return update(state, {
 				flows: {
-					[flowId]: (flowsById) => update(flowsById || {}, {
+					[channelId]: (channelsById) => update(channelsById || {}, {
 						$unset: [ cardId ]
 					})
 				}

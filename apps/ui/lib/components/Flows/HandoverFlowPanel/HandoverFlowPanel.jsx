@@ -27,6 +27,7 @@ export default function HandoverFlowPanel ({
 	card,
 	cardOwner,
 	updateCardOwnerCache,
+	channel,
 	flowState,
 	user,
 	types,
@@ -36,10 +37,10 @@ export default function HandoverFlowPanel ({
 	onClose
 }) {
 	const setFlow = (updatedFlowState) => {
-		return actions.setFlow(flowId, card.id, updatedFlowState)
+		return actions.setFlow(channel.data.target, card.id, updatedFlowState)
 	}
 	const removeFlow = () => {
-		return actions.removeFlow(flowId, card.id)
+		return actions.removeFlow(channel.data.target, card.id)
 	}
 	const transferOwnership = async () => {
 		const {

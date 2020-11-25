@@ -11,23 +11,25 @@ import {
 } from '@balena/jellyfish-ui-components'
 
 export default function SlideInFlowPanel ({
-	flowId,
 	card,
+	channel,
 	slideInPanelProps,
 	flowState,
 	actions,
 	children,
 	...rest
 }) {
+	const flowId = _.get(flowState, [ 'type' ])
+	const isOpen = _.get(flowState, [ 'isOpen' ], false)
+
 	if (_.isArray(children)) {
 		throw new Error('SlideInFlowPanel only accepts a single child component')
 	}
 	const close = () => {
-		actions.setFlow(flowId, card.id, {
+		actions.setFlow(channel.data.target, card.id, {
 			isOpen: false
 		})
 	}
-	const isOpen = _.get(flowState, [ 'isOpen' ], false)
 
 	return (
 		<SlideInPanel

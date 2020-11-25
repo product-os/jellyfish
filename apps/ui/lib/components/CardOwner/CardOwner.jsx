@@ -80,10 +80,12 @@ export default class CardOwner extends React.Component {
 	handover (unassigned) {
 		const {
 			actions,
-			card
+			card,
+			channel
 		} = this.props
 		const flowState = {
 			isOpen: true,
+			type: FLOW_IDS.GUIDED_HANDOVER,
 			card,
 			unassigned,
 			statusDescription: _.get(card, [ 'data', 'statusDescription' ], '')
@@ -93,7 +95,7 @@ export default class CardOwner extends React.Component {
 			flowState.newOwner = null
 			flowState.userError = null
 		}
-		actions.setFlow(FLOW_IDS.GUIDED_HANDOVER, card.id, flowState)
+		actions.setFlow(channel.data.target, card.id, flowState)
 	}
 
 	unassign () {
@@ -137,7 +139,6 @@ export default class CardOwner extends React.Component {
 		} = this.props
 
 		const cardTypeName = helpers.getType(card.type, types).name
-
 		return (
 			<DropDownButton
 				data-test="card-owner-dropdown"

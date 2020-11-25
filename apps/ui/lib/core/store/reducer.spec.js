@@ -473,7 +473,7 @@ ava('USER_STOPPED_TYPING action removes the user from the usersTyping for that c
 
 ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
 	const initialState = _.cloneDeep(defaultState)
-	const flowId = 'HANDOVER'
+	const channelId = 'view-all-opportunities'
 	const cardId = '3'
 	const flowStateUpdates = {
 		someItem: 'someValue'
@@ -482,14 +482,14 @@ ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
 	const newState = reducer(initialState, {
 		type: actions.SET_FLOW,
 		value: {
-			flowId,
+			channelId,
 			cardId,
 			flowState: flowStateUpdates
 		}
 	})
 
 	test.deepEqual(newState.ui.flows, {
-		[flowId]: {
+		[channelId]: {
 			[cardId]: {
 				someItem: 'someValue'
 			}
@@ -499,14 +499,14 @@ ava('SET_FLOW adds flow state if it doesn\'t already exist', (test) => {
 
 ava('SET_FLOW merges an existing flow state', (test) => {
 	const initialState = _.cloneDeep(defaultState)
-	const flowId = 'HANDOVER'
+	const channelId = 'view-all-opportunities'
 	const cardId = '3'
 	const flowState = {
 		isOpen: true,
 		valA: 'initial'
 	}
 	initialState.ui.flows = {
-		[flowId]: {
+		[channelId]: {
 			[cardId]: flowState
 		}
 	}
@@ -517,14 +517,14 @@ ava('SET_FLOW merges an existing flow state', (test) => {
 	const newState = reducer(initialState, {
 		type: actions.SET_FLOW,
 		value: {
-			flowId,
+			channelId,
 			cardId,
 			flowState: flowStateUpdates
 		}
 	})
 
 	test.deepEqual(newState.ui.flows, {
-		[flowId]: {
+		[channelId]: {
 			[cardId]: {
 				isOpen: true,
 				valA: 'changed'
@@ -533,15 +533,45 @@ ava('SET_FLOW merges an existing flow state', (test) => {
 	})
 })
 
-ava('REMOVE_FLOW removes flow state', (test) => {
+ava('REMOVE_FLOW removes flow state from channel with multiple flows', (test) => {
 	const initialState = _.cloneDeep(defaultState)
-	const flowId = 'HANDOVER'
+	const channelId = 'view-all-opportunities'
+	const cardId = '3'
+	const card2Id = '22'
+	const flowState = {
+		isOpen: true
+	}
+	initialState.ui.flows = {
+		[channelId]: {
+			[cardId]: flowState,
+			[card2Id]: flowState
+		}
+	}
+
+	const newState = reducer(initialState, {
+		type: actions.REMOVE_FLOW,
+		value: {
+			channelId,
+			cardId
+		}
+	})
+
+	test.deepEqual(newState.ui.flows, {
+		[channelId]: {
+			[card2Id]: flowState
+		}
+	})
+})
+
+ava('REMOVE_FLOW removes flow state from channel with single flow', (test) => {
+	const initialState = _.cloneDeep(defaultState)
+	const channelId = 'view-all-opportunities'
 	const cardId = '3'
 	const flowState = {
 		isOpen: true
 	}
 	initialState.ui.flows = {
-		[flowId]: {
+		[channelId]: {
 			[cardId]: flowState
 		}
 	}
@@ -549,13 +579,13 @@ ava('REMOVE_FLOW removes flow state', (test) => {
 	const newState = reducer(initialState, {
 		type: actions.REMOVE_FLOW,
 		value: {
-			flowId,
+			channelId,
 			cardId
 		}
 	})
 
 	test.deepEqual(newState.ui.flows, {
-		[flowId]: {}
+		[channelId]: {}
 	})
 })
 

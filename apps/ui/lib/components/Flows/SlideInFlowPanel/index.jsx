@@ -20,11 +20,14 @@ import {
 import SlideInFlowPanel from './SlideInFlowPanel'
 
 const mapStateToProps = (state, props) => {
+	const channelTarget = _.get(props, [ 'channel', 'data', 'target' ])
+
 	return {
 		sdk,
 		analytics,
 		types: selectors.getTypes(state),
-		flowState: selectors.getFlow(props.flowId, props.card.id)(state)
+		flowState: selectors.getFlow(channelTarget, _.get(props, [ 'card', 'id' ]))(state),
+		card: _.get(props, [ 'card' ]) || null
 	}
 }
 
