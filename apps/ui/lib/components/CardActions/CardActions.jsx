@@ -5,6 +5,7 @@
  */
 
 import copy from 'copy-to-clipboard'
+import _ from 'lodash'
 import React from 'react'
 import {
 	Flex,
@@ -83,6 +84,8 @@ export default class CardActions extends React.Component {
 
 	render () {
 		const supportsOwnership = supportsLink(this.props.card.type, 'is owned by')
+		const owner = _.head(_.get(this.props.card, [ 'links', 'is owned by' ], null))
+
 		return (
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
@@ -92,7 +95,9 @@ export default class CardActions extends React.Component {
 							user={this.props.user}
 							types={this.props.types}
 							card={this.props.card}
+							channel={this.props.channel}
 							sdk={this.props.sdk}
+							cardOwner={owner}
 							actions={this.props.actions} />
 					)}
 					<PlainButton
