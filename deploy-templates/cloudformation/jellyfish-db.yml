@@ -51,6 +51,13 @@ Parameters:
     - db.m5.4xlarge
     - db.m5.12xlarge
     - db.m5.24xlarge
+    - db.m6g.large
+    - db.m6g.xlarge
+    - db.m6g.2xlarge
+    - db.m6g.4xlarge
+    - db.m6g.8xlarge
+    - db.m6g.12xlarge
+    - db.m6g.16xlarge
     ConstraintDescription: must select a valid database instance type.
   JellyfishDBInstanceIdentifier:
     Description: RDS PostgreSQL database instance name
@@ -122,7 +129,7 @@ Mappings:
     postgres11:
       EngineVersion: 11.6
     postgres12:
-      EngineVersion: 12.2
+      EngineVersion: 12.4
 Resources:
   JellyfishDBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
