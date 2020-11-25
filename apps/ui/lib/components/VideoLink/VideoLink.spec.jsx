@@ -86,7 +86,7 @@ ava('Clicking on the link sends a google-meet action and then opens the link', a
 		wrappingComponent
 	})
 
-	videoLink.find('Link').simulate('click')
+	videoLink.find('BaseLink').simulate('click')
 
 	// Wait for the window.open method to be called
 	await windowOpen.promise
@@ -122,7 +122,7 @@ ava('An error notification is shown if the google-meet action fails', async (tes
 		wrappingComponent
 	})
 
-	videoLink.find('Link').simulate('click')
+	videoLink.find('BaseLink').simulate('click')
 
 	// Wait for the addNotification method to be called
 	await addNotificationPromise.promise
