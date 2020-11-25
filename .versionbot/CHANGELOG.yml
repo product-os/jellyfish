@@ -1,4 +1,17 @@
 - commits:
+    - subject: Optimize webpack dev configs
+      hash: 0af9fd2aec1690f56e725f61b44a9b88f7e390fa
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.28.3
+  date: 2020-11-25T01:06:11.448Z
+- commits:
     - subject: 'patch: Update dependency @babel/core to ^7.12.9'
       hash: 7277c6a21c2ace96ff9be874c5d11e9f809449da
       body: ''
