@@ -173,6 +173,18 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		})
 	})
 
+	application.get('/v1/registry', (request, response) => {
+		console.log('##################################################')
+		console.log('REGISTRY REQUEST')
+		console.log('##################################################')
+		console.log(request.params)
+		console.log('##################################################')
+
+		return response.status(200).json({
+			token: 'ok'
+		})
+	})
+
 	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
 		const associateUrl = oauth.getAuthorizeUrl(
 			request.params.provider, request.params.slug)
