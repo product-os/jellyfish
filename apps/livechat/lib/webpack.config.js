@@ -40,7 +40,8 @@ const config = {
 					{
 						loader: 'babel-loader',
 						options: {
-							presets: [ '@babel/preset-react' ]
+							presets: [ '@babel/preset-react' ],
+							cacheDirectory: true
 						}
 					}
 				]
@@ -120,7 +121,6 @@ if (process.env.NODE_ENV === 'production') {
 	config.optimization = {
 		minimize: true
 	}
-} else {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
