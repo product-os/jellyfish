@@ -46,8 +46,7 @@ const getSummaryEvent = (target, summary) => {
 	}
 }
 
-export default function TeardownFlowPanel ({
-	flowId,
+const TeardownFlowPanel = ({
 	card,
 	channel,
 	flowState,
@@ -56,7 +55,7 @@ export default function TeardownFlowPanel ({
 	analytics,
 	sdk,
 	onClose
-}) {
+}) => {
 	const setFlow = (updatedFlowState) => {
 		return actions.setFlow(channel.data.target, card.id, updatedFlowState)
 	}
@@ -140,3 +139,5 @@ export default function TeardownFlowPanel ({
 		</StepsFlow>
 	)
 }
+
+export default TeardownFlowPanel
