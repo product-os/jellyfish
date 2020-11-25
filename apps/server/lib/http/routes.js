@@ -180,8 +180,33 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		console.log(request.params)
 		console.log('##################################################')
 
+		import * as jsonwebtoken from 'jsonwebtoken';
+		import * as uuid from 'uuid';
+		export const b64decode = (str: string): string =>
+			Buffer.from(str, 'base64').toString().trim();
+
+		const payload = {
+			jti: await uuid.random(),
+			nbf: Math.floor(Date.now() / 1000) - 10,
+			access: [
+				{ type: 'registry', name: 'catalog', actions: ['*'] }
+			],
+		};
+		const options = {
+			algorithm: process.env['TOKEN_AUTH_JWT_ALGO'],
+			issuer: process.env['TOKEN_AUTH_CERT_ISSUER'],
+			audience: process.env['REGISTRY2_HOST'],
+			// TODO
+			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L379
+			subject: '',
+			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L27
+			expiresIn: 60 * 240,
+			header: {
+				kid: b64decode(process.env['TOKEN_AUTH_CERT_KID']),
+			},
+		};
 		return response.status(200).json({
-			token: 'ok'
+			token: jsonwebtoken.sign(payload, b64decode(process.env['TOKEN_AUTH_CERT_KEY']),
 		})
 	})
 
