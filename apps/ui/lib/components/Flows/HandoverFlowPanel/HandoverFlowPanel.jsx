@@ -6,6 +6,7 @@
 
 import React from 'react'
 import Bluebird from 'bluebird'
+import _ from 'lodash'
 import {
 	addNotification,
 	helpers
@@ -22,11 +23,9 @@ import {
 	TextareaStep
 } from '../Steps'
 
-export default function HandoverFlowPanel ({
+const HandoverFlowPanel = ({
 	flowId,
 	card,
-	cardOwner,
-	updateCardOwnerCache,
 	channel,
 	flowState,
 	user,
@@ -35,7 +34,8 @@ export default function HandoverFlowPanel ({
 	analytics,
 	sdk,
 	onClose
-}) {
+}) => {
+	const cardOwner = _.head(_.get(card, [ 'links', 'is owned by' ], null))
 	const setFlow = (updatedFlowState) => {
 		return actions.setFlow(channel.data.target, card.id, updatedFlowState)
 	}
@@ -64,6 +64,7 @@ export default function HandoverFlowPanel ({
 			// Unassign the current owner
 			if (cardOwner) {
 				await sdk.card.unlink(card, cardOwner, 'is owned by')
+				addNotification('success', `Unassigned ${helpers.userDisplayName(cardOwner)}`)
 			} else if (unassigned) {
 				console.warn(`No current owner found when unassigning the card ${card.slug}`)
 			}
@@ -71,6 +72,7 @@ export default function HandoverFlowPanel ({
 			if (newOwner) {
 				// Link the new owner to the card
 				linkActions.push(sdk.card.link(card, newOwner, 'is owned by'))
+				addNotification('success', `Assigned ${helpers.userDisplayName(newOwner)} tp ${cardTypeName}`)
 			}
 
 			if (handoverUtils.schemaSupportsStatusText(types, card)) {
@@ -96,9 +98,6 @@ export default function HandoverFlowPanel ({
 					}
 				})
 			}
-
-			// Finally, update the card owner cache
-			updateCardOwnerCache(newOwner || null)
 		} catch (error) {
 			console.error('Failed to assign card', error)
 			addNotification('danger', 'Handover failed. Refresh the page and try again.')
@@ -177,3 +176,5 @@ export default function HandoverFlowPanel ({
 		</StepsFlow>
 	)
 }
+
+export default HandoverFlowPanel
