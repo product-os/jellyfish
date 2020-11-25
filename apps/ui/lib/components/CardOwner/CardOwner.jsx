@@ -56,10 +56,6 @@ export default class CardOwner extends React.Component {
 
 			await sdk.card.link(card, user, 'is owned by')
 
-			this.props.updateCardOwnerCache(user)
-
-			addNotification('success', `${cardTypeName} assigned to me`)
-
 			// Now generate a whisper in this card's timeline to detail the self-assignment
 			const whisper = handoverUtils.getHandoverWhisperEventCard(
 				card, cardOwner, user, null, _.get(card, [ 'data', 'statusDescription' ])
@@ -71,6 +67,7 @@ export default class CardOwner extends React.Component {
 						console.error('Failed to create whisper', err)
 					})
 			}
+			addNotification('success', `Assigned ${helpers.userDisplayName(user)} to ${cardTypeName} ${card.name}`)
 		} catch (err) {
 			addNotification('danger', `Failed to assign ${cardTypeName}`)
 			console.error('Failed to create link', err)
