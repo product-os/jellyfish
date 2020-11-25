@@ -4,24 +4,21 @@
  * Proprietary and confidential.
  */
 
-import _ from 'lodash'
-import React from 'react'
-import {
-	Select,
-	Badge
-} from 'rendition'
-import styled from 'styled-components'
 import {
 	helpers,
 	withCardUpdater
 } from '@balena/jellyfish-ui-components'
-
-const SingleLineSpan = styled.span `
-	whiteSpace: 'nowrap'
-`
+import _ from 'lodash'
+import React from 'react'
+import {
+	Badge, Select
+} from 'rendition'
+import {
+	SingleLineSpan
+} from './helpers'
 
 const SelectWrapper = ({
-	card, types, onUpdateCard
+	card, statusTypes, onUpdateCard
 }) => {
 	const setValue = ({
 		option
@@ -33,11 +30,11 @@ const SelectWrapper = ({
 	const label = _.get(card, [ 'data', 'status' ])
 	return (
 		<Select
-			options={types}
+			options={statusTypes}
 			onChange={setValue}
 			value={
 				<SingleLineSpan>
-					<Badge shade={types.indexOf(label)} xsmall m={1}>{label}</Badge>
+					<Badge shade={statusTypes.indexOf(label)} xsmall m={1}>{label}</Badge>
 				</SingleLineSpan>
 			}
 		>
