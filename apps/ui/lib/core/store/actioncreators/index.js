@@ -38,6 +38,9 @@ import {
 import {
 	streamTyping
 } from './stream/typing'
+import {
+	getAllLinkQueries
+} from '../helpers'
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
@@ -438,14 +441,27 @@ export const actionCreators = {
 
 			const identifier = isUUID(target) ? 'id' : 'slug'
 
+			let default$$Links = {
+				'has attached element': {
+					type: 'object',
+					additionalProperties: true
+				}
+			}
+
+			// If we have a channel that's not a view
+			if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
+				// Go through all the link constraints and set as default $$Links
+				default$$Links = {
+					...default$$Links,
+					...getAllLinkQueries()
+				}
+			}
 			const query = {
 				type: 'object',
 				anyOf: [
 					{
 						$$links: {
-							'has attached element': {
-								type: 'object'
-							}
+							...default$$Links
 						}
 					},
 					true
