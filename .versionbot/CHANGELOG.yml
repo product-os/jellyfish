@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix test references to Rendition
+      hash: 9c9e6612c863ed2c9ccce410ad63acacc76a9f41
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency rendition to ^18.16.0'
+      hash: b7269187f3199d52c77e0103f6a626c18a252318
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.4
+  date: 2020-11-25T02:53:30.378Z
+- commits:
     - subject: Optimize webpack dev configs
       hash: 0af9fd2aec1690f56e725f61b44a9b88f7e390fa
       body: ''
