@@ -11,11 +11,7 @@ import {
 	compose
 } from 'redux'
 import CardOwner from './CardOwner'
-import {
-	withLink
-} from '@balena/jellyfish-ui-components'
 
 export default compose(
-	withRouter,
-	withLink('is owned by', 'cardOwner')
+	withRouter
 )(CardOwner)
