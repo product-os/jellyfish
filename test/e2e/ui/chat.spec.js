@@ -260,15 +260,13 @@ ava.serial('Messages that alert a user should appear in their inbox and in the h
 
 	// Navigate to the inbox page
 	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
-
+	await incognitoPage.waitForSelector('[data-test="homechannel-mentions-count"]')
 	const inboxmessages = await incognitoPage.$$('[data-test="event-card__message"]')
 	const mentionscount = await macros.getElementText(incognitoPage, '[data-test="homechannel-mentions-count"]')
 
 	// Assert that they are equal count
 	test.deepEqual(inboxmessages.length, 2)
 	test.deepEqual(mentionscount, '2')
-
-	test.pass()
 })
 
 ava.serial('Messages that mention a user\'s group should appear in their inbox', async (test) => {
