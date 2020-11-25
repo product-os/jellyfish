@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 578cfc1c2ad3214878a57b3861cc92749a7a1f0e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.5
+  date: 2020-11-25T04:38:41.829Z
+- commits:
     - subject: Fix test references to Rendition
       hash: 9c9e6612c863ed2c9ccce410ad63acacc76a9f41
       body: ''
