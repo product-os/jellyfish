@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 9182138fc6c9b8869016edc16ea217f3e2df1e43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Improve context menu styling
+      hash: ad4cb54a174a7ae47b833e8cc52522c29ad1aea1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.28.10
+  date: 2020-11-26T06:06:35.813Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.133'
       hash: e10c91000cca5d295ccb1f5513b795824b0b3af7
       body: ''
