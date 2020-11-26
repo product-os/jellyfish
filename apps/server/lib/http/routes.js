@@ -17,6 +17,7 @@ const sync = require('@balena/jellyfish-sync')
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../../package.json')
 const facades = require('./facades')
+const jsonwebtoken = require('jsonwebtoken')
 
 const fileStore = new Storage({
 	driver: environment.fileStorage.driver
@@ -173,43 +174,55 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		})
 	})
 
-	application.get('/v1/registry', (request, response) => {
+	application.get('/v1/registry', async (request, response) => {
 		console.log('##################################################')
 		console.log('REGISTRY REQUEST')
 		console.log('##################################################')
 		console.log(request.params)
 		console.log('##################################################')
 
-		import * as jsonwebtoken from 'jsonwebtoken';
-		import * as uuid from 'uuid';
-		export const b64decode = (str: string): string =>
-			Buffer.from(str, 'base64').toString().trim();
+		const b64decode = (str) => { return Buffer.from(str, 'base64').toString().trim() }
+
+		const TOKEN_AUTH_CERT_ISSUER = '192.168.1.145:8000'
+		const TOKEN_AUTH_CERT_KID = 'NVJXMzpRREhTOldDUjQ6NzdLUjpVSTJZOldPS086UTUzVTpNUFVXOlFWRVA6QUZZWDpBMkMyOkRLNDcK'
+		const TOKEN_AUTH_JWT_ALGO = 'ES256'
+		const REGISTRY2_HOST = 'locahost:5000'
+
+		const KEY = 'LS0tLS1CRUdJTiBQUklWQVRFIEtFWS0tLS0tCk1JSUpRZ0lCQURBTkJna3Foa2lHOXcwQkFRRUZBQVNDQ1N3d2dna29BZ0VBQW9JQ0FRRE51aWN6KzNiZ1AwRGgKQWtIdFVzNXl4RTBZbFNVZzhtbFpabG03ajBudEh6SWxMVHVkMnJhakR6Z202bUlBYXJQbEoyc0N2UUE0VElrUApiTGIwYmF4SlQwclJ0UE8vYkNDQ2JVVExacUovTXQrNDd1dW1CTnRDdFdpUWJZUjRtb3dBSTZjQjVRZURTOW9GCkQvalJYTWR0OXlhQmxoemV1TzFDZUdZZys2UFBHTFlNSUx6d1M3ZnhaUEFnb1A1a2FtQXRsdUhmU3FTS3h2c0gKVEQzMHhCNGdKZmE0enlnbzlJQVBLcUdrV3ZsbUlpMWw2bGR5Z2ZGcE5LTFR2citJWTVtcko5T2I0OEkveks3UwpjTjBVUXJWMjN2VG1zZENyWUR5R0dTME5xSWhWQWZoc0h0bG1sNkFucTN6WlBGNmg0T1JMWTdMQXpSa041RzF1CnYwdC8zSFRNWGpQdE00U1llbk42NDVoSmR0TXMwSysvWXIrNjd1RkJlRDJFSEhPRFgwb3ZsUUhpMGtvVm1sQ2MKSDBPNmtJSXhpQ2I2Mzd6SlBEQlJvRmkyNlVjaHdQQjlGUEE0MDRUTWdhZmZmaDVZTlFRUGhBMFBNQ2pPc1VCMwowWm9ZVzJNWXp6cS9YaXRxRk83Rk82KytsSmZWWmUwQXMyS2dHN1hoQ2hDdldxSXpEWnNIdEx3dnVDUXBjOERFCnRORzBKU2ZMZ2N2S2NFYUN4NVRKWXRyVHVMQS85YW9jMldrMDcwcjZmNXNZSEg4bm1UejhiUDUvUUpzSHhpRWsKbWRPS1A1RkRkU3ZGb0dRWmI3L2dmWG1mMkwwWm1VTlBEcndrS1FQd2Rpb0dSTGJ5bEt5QzFTT0JtOS9VM0pHbAp1ZWQ4aWlPZzBFL1QzRldxS08wUXo3YkhnemxoQVFJREFRQUJBb0lDQUJEbDFHaUJwQjhCTXd3SVNtLzYyRGczCkJYb2FiZ1ZKdy90eTI3WDdMQUJOQ3FwaEQ3K0VnbkhjUXlsM0lQdVZ5QmJ2YU91OXFISDNYMTZqK0ZjVlZ3eGkKZGV2SnFDZTE4dW1qbmYzeS9TL2pkdHJTelFwQzVkdVIyUGZiOXdDTStTamR4TTcwQit6eDR3TjliMXVLK2xwKwo3V3ZCYjdlZml1Vmx6RVd6Ulo0eUVtbm1tbjVHU2VLSy91by9Md1lDY3NucjFidW9mdUZqUEtVNXp2RDIxdDZmCkg2ZklaQzBSQUIrK3lhNGRSdFRydzd6V1JiNkRDOWd2V1p4NDAzU1pjYnJNTjZaYlM4NC91ckJRVXVoaUhsT1kKTnBkb1RaSjJBaUtsbUx6QmRnazljekUyUzNjUXh6ZmE3eE5NMFIwTXd0T3FhYmxLWDE5enZzVlU4eGVhZlFGUwpuRWl0K3djNXJjL0xPMjhWRnMrUHMwbDNpZnBmWGQ5cTkraVJ0RThjdUhQaVhuRklSbHA0OUtyY3l3N0hXRjNhCnMxbTR0bnNrYy9TQ0FwNEJ1OE5XUkpzak9iKzRPN1ZpZlNrdW16Zy9QOTFFbHovTVdsV280emJ5UGJUc3BSRzEKY0ZnTmpNcHRnL011WmtDUWYzTFdDZEx0UmQ3M3Fnai9INFo1TFBLOFp2ZWk2UUFaTjV0bEh0VExPUmJTUE54egpJSFh5bDlsRzdNcElSL1NVMFhnSEtnUnd5QWZOaUtNUitCc21lRXhVQ3RCL2NIenhUYmxXWGYvZzZWUGRJTHpYCkhKMDN1MVdPV2Y3NW15a2c0ZFU4YnJoSkdDM0FwTkxSVmp5dWRMYk40cXVyTzZkTFVvYzZvVUQrRWRYYzB5VHIKMEd5a1FCTTFEMUpCaG5RaTM5ZFJBb0lCQVFEbVFaQnZoR1piYXNPd2w5YzE3NXpGWllVZzREb2xDaGJLTDJDRApVTFdYOTEva1hwUTZwNWV3bUhWenpaa09zK1hpbXRZeWZ6VlluNHdzYkIyV056ZUFmakExbHFRajhGYXAwWStPCnB0akgwejRtU3pIb1pBRm9xbXhVV0lDVXBSdFhXVzhjb3pJM3l2WThGY2lyazJrVWJEdnNYc3grYWFiRnFibHQKNU1MYjdiQzhsMUZiRHN0RXhzSm9TWUhUd3F6ZVpUaW9tWVVHZU55NTRMcitzU29xN28xek03cks5dFdRUERhNApvd21SV1cxekVtbTdzWU5yQW1SU1EyNUpodUx2SGxVOG43VTBuMi9PYmpOYnFFdUpVTC9qR0ZHekZBdEY5T25rCkxQWUdYbTF4cmtrL0w0SUR1Z2pyM3lBS1dlUFpteDMrUnBvQ29uR3RGWEtnN21WbEFvSUJBUURrdW9RNXQvSmMKYmJSWC9ZZkZvRDBJV1Q5bTJmRnZVOThxcjlyekJsTnBxQm1hTE9nR2FhQWpyMUJuTEZleitNRW9PWVEzU2d0bgpNdkZsc3QwZnpua2NvNENya013WE8rMVlRMVF0MTdaNXNXTS85a0Q2bi9ITC9nOXFNOHNmRGxoSE9nZ2Q2MVFNCjl1R3IrYkhlTEhOSlBvWHpLRmJNa2NXeWVOeCs5VVpIa1VkNHRVeVhObGZyUHBjbWNiOWJXWHVwSEoxVmRBWWkKbVJXKy9BMlB0enZPdWEwNkpncHpjVno1MzFPWVMwU1ZYVk9jNXJFaTBWUFg1TnpGUHlGUU9sRHVtK2VOS2NVRwpUK0w3Z3BFbk1lZCtJN0w5WkcrTTRUbkk2U2xIbWFzRHMzTHdIZFVvdDU4R3FoSWM0L3U4a05NSVBQQ2RyaEtGCllXOGNJUEdGZ3BGdEFvSUJBR2hNVHBhVkRLQmdMaUF4eDJSQkUydyszaHpVTk1KT1hhQmI4WVhKNjFmWXovRHIKL296TEdXVCt5a1VZWGpwUXR0TDhmQVlIcFN4dHFOcitaakNDOW5zWHJkSzRWOFdIdWxuVitRY1BBS2NUUXRXcAp2Z09jT1I4bUEwZjVodFRPTFNKVitvU29UN2tDRUtPSzRva0ZqdFdYYVZWYVk1cm5WSW00cGF2bnNYUlpxSExrCndBOVZGaklqTGpCN0MzbldkdU9PU2luazBHTHNJRjk2TW5ubjJrZjBJdEtLSGhTTjFwTXRFMFJ6WllRWFZBS0oKMXFjVWM0am5Yblg4NFZvZzVXNlcrTmtySnJPZGZOR3ZEVWg1WlMzZ0MrdGNPclc1WUpuaHBJaWM3UnhaYlkzTworcExLZkVRZjRxYWxQU2d6SzRpSVFQL0xEendlUlF1MzZXS0lXaGtDZ2dFQkFKMEVwY3p4eUVGSFZteXBNVkdyCjVQb2NPbmdpMmFseFRGeURpSzBaQko0ZHRpV3Ura0djdFVDS0U0b2dXTHpGNGVQNVNCaWtqaHQwVDE5ZllJbDcKTm8xQWVRNU9RcTBZaUtEMDU0N283TzJ4cHM2OEFIT001WE1Db0JacUkrRFgraVk3WW1NWHNBV09YZkd2WWptQgpEa3VUem1UVXBuR2RDTGl5Vzd3VUtRRHNiTUlpdzhkeW1QeDNaVkFRK2lwOXpYU1VualdSaHJ5dGxzNGJQandRCnI5QUVpelRGOUpxM2tmby9JNllDMWJ3cjYwQms1ZWxmQmszSllQMVBqMUVDRjVrV0VlbElhV2NoNUZLQW1hRHMKazF4MnFXTm1WV1hESCtZYW1pbjdCZmx1Y1ZNQlI5bkI1RHV3K09vNFlCSmM0V0pnWTFYN3I5ODh1Z2YzWFpZbgp3aWtDZ2dFQWRpOEcwcHIzbkI1cm91TWk0T2JpQTBkRTM5WHRWdEtubkJwYzlYSndjdjdHREVjZU9uNXdmVWpSCktuOE1GT1k0QXNNYnhUU0JjU1B3WGVPTGJ3TUp2YUYvRWEvdFozYmdXaDdQVnVhYzRaYUFoTzZReFVKTjYxeXYKaGdvVmluYndMYXQ3QmVOLzBzVTdaVTF0WkY1OFZtcGdIdXlTTndmVnhrVUlwcUlBd3ZJY3NlWXJUOUZiNlF4NgpvQkVBNm01RnZGRWpyZnVsTXdSNGpmckwvOThJOTdZRTVVQ0R2dG1pV2U4OXJpM2g5UzRaNU02c2VsNGlKOG40CjJsNzA0b0c1aDRVRktqY2ZXbitDbTFSazFJTytQUUpHQ3Y1cEtzTmE4Q3l1RzYrTlhaRUx4VHZHYlNnYjIvYXgKdE9ZUWMwRnhsTG0yaDl0REk3ZnFsVDFneVNQTEdnPT0KLS0tLS1FTkQgUFJJVkFURSBLRVktLS0tLQo='
 
 		const payload = {
 			jti: await uuid.random(),
 			nbf: Math.floor(Date.now() / 1000) - 10,
 			access: [
 				// NOTE this allowes enumerating registry contents
-				{ type: 'registry', name: 'catalog', actions: ['*'] }
+				{
+					type: 'registry', name: 'catalog', actions: [ '*' ]
+				},
+
 				// TODO parse repository from request?
-				{ type: 'repository', name: '*', actions: ['push', 'pull'] }
-			],
-		};
-		const options = {
-			algorithm: process.env['TOKEN_AUTH_JWT_ALGO'],
-			issuer: process.env['TOKEN_AUTH_CERT_ISSUER'],
-			audience: process.env['REGISTRY2_HOST'],
+				{
+					type: 'repository', name: '*', actions: [ 'push', 'pull' ]
+				}
+			]
+		}
+		const jwtOptions = {
+			algorithm: TOKEN_AUTH_JWT_ALGO,
+			issuer: TOKEN_AUTH_CERT_ISSUER,
+			audience: REGISTRY2_HOST,
+
 			// TODO
 			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L379
 			subject: '',
+
 			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L27
 			expiresIn: 60 * 240,
 			header: {
-				kid: b64decode(process.env['TOKEN_AUTH_CERT_KID']),
-			},
-		};
+			//	Kid: b64decode(TOKEN_AUTH_CERT_KID)
+			}
+		}
 		return response.status(200).json({
-			token: jsonwebtoken.sign(payload, b64decode(process.env['TOKEN_AUTH_CERT_KEY']),
+			// Token: jsonwebtoken.sign(payload, b64decode(process.env['TOKEN_AUTH_CERT_KEY']),
+			token: jsonwebtoken.sign(payload, b64decode(KEY), jwtOptions)
 		})
 	})
 
