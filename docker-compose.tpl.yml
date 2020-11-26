@@ -74,6 +74,11 @@ services:
       - NPM_TOKEN
       - RESET_PASSWORD_SECRET_TOKEN
       - CI
+      - REGISTRY_TOKEN_AUTH_CERT_ISSUER
+      - REGISTRY_TOKEN_AUTH_CERT_KEY
+      - REGISTRY_TOKEN_AUTH_CERT_KID
+      - REGISTRY_TOKEN_AUTH_JWT_ALGO
+      - REGISTRY_HOST
     healthcheck:
       interval: 30s
       retries: 5

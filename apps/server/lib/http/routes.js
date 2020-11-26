@@ -175,8 +175,32 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	})
 
 	application.get('/v1/registry', async (request, response) => {
-		const SCOPE_PARSE_REGEX = /^([a-z]+):([a-z0-9_-]*\/?[a-z0-9_-]+|\d+\/[\d\-]+|v2\/[a-z0-9]+-[0-9]+)(?::[a-z0-9]+|@sha256:[a-f0-9]+)?:((?:push|pull|,)+)$/
+		console.log('##################################################')
+		console.log('REGISTRY REQUEST')
+		console.log('##################################################')
+		console.log(request.query)
+		console.log('##################################################')
 
+		const b64decode = (str) => { return Buffer.from(str, 'base64').toString().trim() }
+
+		const REGISTRY_HOST = process.env.REGISTRY_HOST
+		const REGISTRY_TOKEN_AUTH_CERT_ISSUER = process.env.REGISTRY_TOKEN_AUTH_CERT_ISSUER
+		const REGISTRY_TOKEN_AUTH_JWT_ALGO = process.env.REGISTRY_TOKEN_AUTH_JWT_ALGO
+		const REGISTRY_TOKEN_AUTH_CERT_KEY = process.env.REGISTRY_TOKEN_AUTH_CERT_KEY
+		const REGISTRY_TOKEN_AUTH_CERT_KID = process.env.REGISTRY_TOKEN_AUTH_CERT_KID
+		/*
+			Respond with 'service unavailable' if we are not configured to provide
+			registry token auth
+		*/
+		if (REGISTRY_HOST === null ||
+			REGISTRY_TOKEN_AUTH_CERT_ISSUER === null ||
+			REGISTRY_TOKEN_AUTH_CERT_KEY === null ||
+			REGISTRY_TOKEN_AUTH_CERT_KID === null ||
+			REGISTRY_TOKEN_AUTH_JWT_ALGO === null) {
+				return response.status(503)
+		}
+
+		const SCOPE_PARSE_REGEX = /^([a-z]+):([a-z0-9_-]*\/?[a-z0-9_-]+|\d+\/[\d\-]+|v2\/[a-z0-9]+-[0-9]+)(?::[a-z0-9]+|@sha256:[a-f0-9]+)?:((?:push|pull|,)+)$/
 		const {
 			scope
 		} = request.query
@@ -201,7 +225,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				params
 			})
 
-			if (params == null) {
+			if (params === null) {
 				return
 			}
 
@@ -217,40 +241,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			.compact()
 			.value()
 
-		console.log('##################################################')
-		console.log('REGISTRY REQUEST')
-		console.log('##################################################')
-		console.log(request.query)
-		console.log('SCOPES')
-		console.log(parsedScopes)
-		console.log('##################################################')
-
-		const b64decode = (str) => { return Buffer.from(str, 'base64').toString().trim() }
-
-		const TOKEN_AUTH_CERT_ISSUER = '192.168.1.145:8000'
-		const TOKEN_AUTH_CERT_KID = 'UEhPTDpYT0haOlZCUUg6Q0ZUQjpRNEtNOlcyS1o6NFQ1Sjo1MkRGOlNVQlI6NU01TDpHUEhLOlBSVVQ='
-		const TOKEN_AUTH_JWT_ALGO = 'ES256'
-		const REGISTRY2_HOST = 'localhost:5000'
-
-		const KEY = 'LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSUtjeWlSeVlEa0tOS251SnFFdGswSEMwYzNjL255alB5K05oaEpvek5VcGhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFQnNWWThMR0gzdlh0YlV0emRaYk5sWkppK2JzcDIwSHlRM3lobzZScVM5NlpPWHRnOEV3NwpVRFhVSnhwK3BaeXJYN2FzUWppNDQrRS9rRXovQzVEYm5RPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo='
-
 		const payload = {
 			jti: await uuid.random(),
 			nbf: Math.floor(Date.now() / 1000) - 10,
 
-			/*
-			Access: [
-				// NOTE this allowes enumerating registry contents
-				{
-					type: 'registry', name: 'catalog', actions: [ '*' ]
-				},
-
-				// TODO parse repository from request?
-				{
-					type: 'repository', name: '*', actions: [ 'push', 'pull' ]
-				}
-			]
-			*/
 			access: parsedScopes.map(([ type, name, actions ]) => {
 				// TODO Check permissions here
 				/*
@@ -270,10 +264,16 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				}
 			})
 		}
+
+		console.log('##################################################')
+		console.log('ACCESS')
+		console.log(payload.access)
+		console.log('##################################################')
+
 		const jwtOptions = {
-			algorithm: TOKEN_AUTH_JWT_ALGO,
-			issuer: TOKEN_AUTH_CERT_ISSUER,
-			audience: REGISTRY2_HOST,
+			algorithm: REGISTRY_TOKEN_AUTH_JWT_ALGO,
+			issuer: REGISTRY_TOKEN_AUTH_CERT_ISSUER,
+			audience: REGISTRY_HOST,
 
 			// TODO
 			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L379
@@ -282,12 +282,11 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			// https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts#L27
 			expiresIn: 60 * 240,
 			header: {
-				kid: b64decode(TOKEN_AUTH_CERT_KID)
+				kid: b64decode(REGISTRY_TOKEN_AUTH_CERT_KID)
 			}
 		}
 		return response.status(200).json({
-			// Token: jsonwebtoken.sign(payload, b64decode(process.env['TOKEN_AUTH_CERT_KEY']),
-			token: jsonwebtoken.sign(payload, b64decode(KEY), jwtOptions)
+			token: jsonwebtoken.sign(payload, b64decode(REGISTRY_TOKEN_AUTH_CERT_KEY), jwtOptions)
 		})
 	})
 
