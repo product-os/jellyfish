@@ -2,4 +2,4 @@ FROM registry
 
 COPY config.yml /etc/docker/registry/config.yml
 RUN mkdir -p /root/certs
-COPY token.crt /root/certs/token.crt
+COPY api/api.localhost:5000.crt /root/certs/token.crt
