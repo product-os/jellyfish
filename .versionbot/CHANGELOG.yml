@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/ci-task-runner to ^0.2.55'
+      hash: f22222e411bc1644c8a8c10b843092219446261a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.8
+  date: 2020-11-26T01:22:20.910Z
+- commits:
     - subject: 'CloudFormation: New RDS instance types and upgraded DB engine'
       hash: 98f40b5c43dfa0291e7f30bc9467b631f98c85a2
       body: ''
