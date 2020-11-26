@@ -7,21 +7,15 @@
 import React from 'react'
 import {
 	Box,
-	Button,
 	Flex,
 	Txt
 } from 'rendition'
-import styled from 'styled-components'
 import _ from 'lodash'
 import {
+	ActionButton,
 	Icon,
 	helpers
 } from '@balena/jellyfish-ui-components'
-
-const UserStatusButton = styled(Button) `
-	display: flex;
-	width: 100%;
-`
 
 export default function UserStatusMenuItem ({
 	user,
@@ -55,11 +49,11 @@ export default function UserStatusMenuItem ({
 		onClick: toggleStatus
 	}
 	return (
-		<UserStatusButton {...buttonProps}>
+		<ActionButton {...buttonProps}>
 			<Flex flex={1} alignItems="center" justifyContent="space-between">
 				<Txt>{userStatusOptions.DoNotDisturb.title}</Txt>
 				<Box>{ isDnd && <Icon name="check" /> }</Box>
 			</Flex>
-		</UserStatusButton>
+		</ActionButton>
 	)
 }

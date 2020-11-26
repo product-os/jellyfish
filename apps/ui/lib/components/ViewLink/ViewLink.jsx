@@ -15,10 +15,11 @@ import {
 	Modal
 } from 'rendition'
 import {
+	ActionButton,
+	ActionRouterLink,
 	ContextMenu,
 	helpers,
 	Icon,
-	Link,
 	MentionsCount
 } from '@balena/jellyfish-ui-components'
 
@@ -107,14 +108,9 @@ export default class ViewLink extends React.Component {
 		return (
 			<Box>
 				<Flex justifyContent="space-between" bg={(isActive && !activeSlice) ? '#eee' : 'none'}>
-					<Link
+					<ActionRouterLink
 						data-test={`home-channel__item--${card.slug}`}
-						style={{
-							display: 'block',
-							flex: '1'
-						}}
 						key={card.id}
-						py={2}
 						pl={3}
 						pr={isActive ? 0 : 3}
 						color="#333"
@@ -131,7 +127,7 @@ export default class ViewLink extends React.Component {
 								<MentionsCount mr={2}>{update}</MentionsCount>
 							)}
 						</Flex>
-					</Link>
+					</ActionRouterLink>
 
 					{isActive &&
 							<Button
@@ -146,10 +142,7 @@ export default class ViewLink extends React.Component {
 
 					{this.state.showMenu &&
 							<ContextMenu onClose={this.toggleMenu}>
-								<Button
-									style={{
-										display: 'block'
-									}}
+								<ActionButton
 									plain
 									data-test="view-link--set-default-btn"
 									tooltip={{
@@ -161,31 +154,23 @@ export default class ViewLink extends React.Component {
 									onClick={this.setDefault}
 								>
 									{`${isHomeView ? 'Unset' : 'Set'} as default`}
-								</Button>
-								<Button
-									style={{
-										display: 'block'
-									}}
-									mt={2}
+								</ActionButton>
+								<ActionButton
 									plain
 									data-test="view-link--star-view-btn"
 									onClick={this.toggleViewStarred}
 								>
 									{isStarred ? 'Un-star this view' : 'Star this view'}
-								</Button>
+								</ActionButton>
 								{ isCustomView && (
-									<Button
-										style={{
-											display: 'block'
-										}}
-										mt={2}
+									<ActionButton
 										plain
 										data-test="view-link--delete-view-btn"
 										tooltip="Delete this view"
 										onClick={this.showDeleteModal}
 									>
 										Delete custom view
-									</Button>
+									</ActionButton>
 								)}
 							</ContextMenu>
 					}
