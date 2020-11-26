@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.1.133'
+      hash: e10c91000cca5d295ccb1f5513b795824b0b3af7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.9
+  date: 2020-11-26T02:36:40.352Z
+- commits:
     - subject: 'patch: Update dependency @balena/ci-task-runner to ^0.2.55'
       hash: f22222e411bc1644c8a8c10b843092219446261a
       body: ''
