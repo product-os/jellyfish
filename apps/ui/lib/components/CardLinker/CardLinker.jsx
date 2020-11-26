@@ -16,6 +16,7 @@ import {
 	constraints as LINKS
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import {
+	ActionButton,
 	ContextMenu,
 	Icon
 } from '@balena/jellyfish-ui-components'
@@ -142,40 +143,29 @@ class CardLinker extends React.Component {
 							position="bottom"
 							onClose={this.toggleMenu}
 						>
-							<Button
-								style={{
-									display: 'block'
-								}}
-								mb={2}
+							<ActionButton
 								plain
 								onClick={this.openLinkModal}
 								data-test="card-linker-action--existing"
 							>
 								Link to existing element
-							</Button>
+							</ActionButton>
 
-							<Button
-								style={{
-									display: 'block'
-								}}
-								mb={2}
+							<ActionButton
 								plain
 								onClick={this.openCreateChannel}
 								data-test="card-linker-action--new"
 							>
 								Create a new element to link to
-							</Button>
+							</ActionButton>
 
-							<Button
-								style={{
-									display: 'block'
-								}}
+							<ActionButton
 								plain
 								onClick={this.openVisualizeChannel}
 								data-test="card-linker-action--visualize"
 							>
 								Visualize links
-							</Button>
+							</ActionButton>
 						</ContextMenu>
 					)}
 				</span>

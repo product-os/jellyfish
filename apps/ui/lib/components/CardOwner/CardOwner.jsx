@@ -172,6 +172,7 @@ export default class CardOwner extends React.Component {
 			>
 				{cardOwner && cardOwner.id !== user.id && (
 					<ActionLink
+						mx={-3}
 						onClick={this.assignToMe}
 						data-test="card-owner-menu__assign-to-me"
 					>
@@ -181,6 +182,7 @@ export default class CardOwner extends React.Component {
 
 				{cardOwner && (
 					<ActionLink
+						mx={-3}
 						onClick={this.unassign}
 						data-test="card-owner-menu__unassign"
 					>
@@ -189,6 +191,7 @@ export default class CardOwner extends React.Component {
 				)}
 
 				<ActionLink
+					mx={-3}
 					onClick={this.assign}
 					data-test="card-owner-menu__assign"
 				>

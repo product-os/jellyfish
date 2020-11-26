@@ -29,6 +29,7 @@ import {
 	Event,
 	helpers,
 	Icon,
+	ActionRouterLink,
 	Link as RouterLink,
 	TagList,
 	Tag,
@@ -415,17 +416,17 @@ class SupportThreadBase extends React.Component {
 				)}
 				actionItems={(
 					<React.Fragment>
-						<RouterLink append="view-all-support-issues">
+						<ActionRouterLink append="view-all-support-issues">
 							Search support issues
-						</RouterLink>
+						</ActionRouterLink>
 
-						<RouterLink append="view-all-issues">
+						<ActionRouterLink append="view-all-issues">
 							Search GitHub issues
-						</RouterLink>
+						</ActionRouterLink>
 
-						<RouterLink append="view-all-patterns">
+						<ActionRouterLink append="view-all-patterns">
 							Search patterns
-						</RouterLink>
+						</ActionRouterLink>
 					</React.Fragment>
 				)}
 			>

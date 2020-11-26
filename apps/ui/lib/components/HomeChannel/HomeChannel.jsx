@@ -25,9 +25,10 @@ import {
 } from 'react-swipeable'
 import styled from 'styled-components'
 import {
+	ActionButton,
+	ActionRouterLink,
 	helpers,
 	Icon,
-	Link as RouterLink,
 	MentionsCount,
 	MenuPanel,
 	UserAvatarLive
@@ -44,11 +45,6 @@ import {
 
 // Slide-in delay in seconds
 const DELAY = 0.6
-
-const MenuLink = styled(RouterLink) `
-	display: block;
-	width: 100%
-`
 
 const HomeChannelWrapper = styled(Flex) `
 	&.collapsed {
@@ -615,22 +611,16 @@ export default class HomeChannel extends React.Component {
 							<Fixed top={true} right={true} bottom={true} left={true} z={10} onClick={this.hideMenu}>
 								<MenuPanel className="user-menu" mx={3} py={2}>
 									{user && (
-										<UserStatusMenuItem user={user} actions={actions} types={types} px={3} py={2} w="100%" />
+										<UserStatusMenuItem user={user} actions={actions} types={types} />
 									)}
 
 									{user && (
-										<MenuLink
-											px={3} py={2}
-											to={`/${user.slug}`}
-										>
+										<ActionRouterLink to={`/${user.slug}`}>
 											Settings
-										</MenuLink>
+										</ActionRouterLink>
 									)}
 
-									<MenuLink
-										px={3} py={2}
-										to="/inbox"
-									>
+									<ActionRouterLink to="/inbox">
 										<Flex justifyContent="space-between">
 											Inbox
 
@@ -638,7 +628,7 @@ export default class HomeChannel extends React.Component {
 												<MentionsCount mr={2}>{mentions.length}</MentionsCount>
 											)}
 										</Flex>
-									</MenuLink>
+									</ActionRouterLink>
 
 									{_.map(defaultViews, (card) => {
 										const isActive = card.slug === activeChannelTarget ||
@@ -671,17 +661,13 @@ export default class HomeChannel extends React.Component {
 										<Divider height={1} />
 									</Box>
 
-									<Button
-										px={3} py={2}
+									<ActionButton
 										className="user-menu__logout"
 										plain
-										style={{
-											display: 'block', width: '100%'
-										}}
 										onClick={this.logout}
 									>
 										Log out
-									</Button>
+									</ActionButton>
 								</MenuPanel>
 							</Fixed>
 						)}
