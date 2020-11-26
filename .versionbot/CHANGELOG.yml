@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency babel-loader to ^8.2.2'
+      hash: db36585682aab5ef50d0ba9e6eea8f3fa3e3f581
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.12
+  date: 2020-11-26T21:51:47.483Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.23.0'
       hash: 9b5b97fa30a088fe0490fa4a3db0eb93f66f2c82
       body: ''
