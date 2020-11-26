@@ -16,7 +16,7 @@
     "@balena/jellyfish-chat-widget": "^4.0.1",
     "@balena/jellyfish-client-sdk": "^2.5.2",
     "@balena/jellyfish-ui-components": "^6.0.1",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "css-loader": "^5.0.1",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",

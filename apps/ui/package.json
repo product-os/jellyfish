@@ -45,7 +45,7 @@
     "@balena/jellyfish-ui-components": "^6.0.1",
     "@primer/styled-octicons": "^11.1.0",
     "analytics-client": "^0.11.2",
-    "babel-loader": "^8.2.1",
+    "babel-loader": "^8.2.2",
     "bluebird": "^3.7.2",
     "classnames": "^2.2.6",
     "common-tags": "^1.8.0",
