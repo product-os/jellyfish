@@ -16,7 +16,7 @@ import {
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
 
 const exchangeCode = async ({
-	sdk, errorReporter
+	sdk
 }, userSlug, code, oauthProvider) => {
 	if (!code) {
 		throw new Error('Auth code missing')
@@ -37,10 +37,6 @@ const exchangeCode = async ({
 		throw new Error('Could not fetch auth token')
 	}
 
-	errorReporter.reportInfo(
-		`Oauth with ${oauthProvider} was successful for the user "${userSlug}", setting token`
-	)
-
 	localStorage.setItem('token', token)
 	sdk.setAuthToken(token)
 }
@@ -49,16 +45,16 @@ export const OauthCallbackTask = ({
 	userSlug, location, oauthProvider, children
 }) => {
 	const {
-		sdk, errorReporter
+		sdk
 	} = useSetup()
 	const exchangeCodeTask = useTask(exchangeCode)
 
 	React.useEffect(() => {
 		const code = new URLSearchParams(location.search).get('code')
 		exchangeCodeTask.exec({
-			sdk, errorReporter
+			sdk
 		}, userSlug, code, oauthProvider)
-	}, [ sdk, errorReporter, location.search, userSlug, oauthProvider ])
+	}, [ sdk, location.search, userSlug, oauthProvider ])
 
 	return (
 		<Task task={exchangeCodeTask} px={2}>
