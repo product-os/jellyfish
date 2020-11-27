@@ -54,7 +54,6 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'getCard',
 				'loadViewData',
 				'logout',
 				'removeViewNotice',

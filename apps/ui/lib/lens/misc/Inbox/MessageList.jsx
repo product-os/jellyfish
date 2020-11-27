@@ -14,7 +14,6 @@ import {
 	withRouter
 } from 'react-router-dom'
 import {
-	bindActionCreators,
 	compose
 } from 'redux'
 import styled from 'styled-components'
@@ -36,7 +35,6 @@ import sub from 'date-fns/sub'
 import isSameDay from 'date-fns/isSameDay'
 import isSameWeek from 'date-fns/isSameWeek'
 import {
-	actionCreators,
 	selectors,
 	sdk
 } from '../../../core'
@@ -209,8 +207,6 @@ class MessageList extends React.Component {
 										groups={this.props.groups}
 										openChannel={this.openChannel}
 										card={card}
-										selectCard={selectors.getCard}
-										getCard={this.props.actions.getCard}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -251,8 +247,6 @@ class MessageList extends React.Component {
 										groups={this.props.groups}
 										openChannel={this.openChannel}
 										card={card}
-										selectCard={selectors.getCard}
-										getCard={this.props.actions.getCard}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -293,8 +287,6 @@ class MessageList extends React.Component {
 										groups={this.props.groups}
 										openChannel={this.openChannel}
 										card={card}
-										selectCard={selectors.getCard}
-										getCard={this.props.actions.getCard}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -335,8 +327,6 @@ class MessageList extends React.Component {
 										groups={this.props.groups}
 										openChannel={this.openChannel}
 										card={card}
-										selectCard={selectors.getCard}
-										getCard={this.props.actions.getCard}
 										getActorHref={this.props.getActorHref}
 										menuOptions={_.includes(card.data.readBy, this.props.user.slug) ? (
 											<ActionLink
@@ -405,19 +395,8 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'getCard'
-			]),
-			dispatch
-		)
-	}
-}
-
 export default compose(
 	withRouter,
-	connect(mapStateToProps, mapDispatchToProps),
+	connect(mapStateToProps),
 	withDefaultGetActorHref()
 )(MessageList)

@@ -49,6 +49,7 @@ import {
 import * as environment from './environment'
 import PWA from './pwa'
 import CountFavicon from './components/CountFavicon'
+import CardLoaderContextProvider from './components/CardLoaderContextProvider'
 
 export const pwa = new PWA()
 pwa.init()
@@ -107,16 +108,18 @@ ReactDOM.render(
 					<SetupProvider environment={environment} sdk={sdk} analytics={analytics} errorReporter={errorReporter}>
 						<Provider store={store}>
 							<PersistGate loading={null} persistor={persistor}>
-								<ConnectedRouter history={history}>
-									<GlobalStyle />
-									<CountFavicon />
-									<NotificationsContainer />
-									<ErrorBoundary>
-										<DndProvider backend={HTML5Backend}>
-											<JellyfishUI />
-										</DndProvider>
-									</ErrorBoundary>
-								</ConnectedRouter>
+								<CardLoaderContextProvider>
+									<ConnectedRouter history={history}>
+										<GlobalStyle />
+										<CountFavicon />
+										<NotificationsContainer />
+										<ErrorBoundary>
+											<DndProvider backend={HTML5Backend}>
+												<JellyfishUI />
+											</DndProvider>
+										</ErrorBoundary>
+									</ConnectedRouter>
+								</CardLoaderContextProvider>
 							</PersistGate>
 						</Provider>
 					</SetupProvider>

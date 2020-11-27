@@ -15,8 +15,7 @@ import {
 } from 'react-router-dom'
 import ReactResizeObserver from 'react-resize-observer'
 import {
-	compose,
-	bindActionCreators
+	compose
 } from 'redux'
 import {
 	Box,
@@ -35,7 +34,6 @@ import {
 	withDefaultGetActorHref
 } from '@balena/jellyfish-ui-components'
 import {
-	actionCreators,
 	analytics,
 	sdk,
 	selectors
@@ -281,8 +279,6 @@ export class Interleaved extends BaseLens {
 									groups={this.props.groups}
 									card={card}
 									firstInThread={isFirstInThread(card, firstMessagesByThreads)}
-									selectCard={selectors.getCard}
-									getCard={this.props.actions.getCard}
 									getActorHref={this.props.getActorHref}
 								/>
 							</Box>
@@ -321,17 +317,6 @@ const mapStateToProps = (state) => {
 	}
 }
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'getCard'
-			]),
-			dispatch
-		)
-	}
-}
-
 const lens = {
 	slug: 'lens-interleaved',
 	type: 'lens',
@@ -342,7 +327,7 @@ const lens = {
 		format: 'list',
 		renderer: compose(
 			withRouter,
-			connect(mapStateToProps, mapDispatchToProps),
+			connect(mapStateToProps),
 			withDefaultGetActorHref()
 		)(Interleaved),
 		filter: {

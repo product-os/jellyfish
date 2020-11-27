@@ -18,9 +18,6 @@ import {
 	helpers,
 	Icon
 } from '@balena/jellyfish-ui-components'
-import {
-	selectors
-} from '../../../core'
 
 export const SLUG = 'lens-support-threads-to-audit'
 
@@ -94,8 +91,6 @@ export default class SupportThreadsToAudit extends React.Component {
 						return (
 							<CardChatSummary
 								displayOwner
-								selectCard={selectors.getCard}
-								getCard={this.props.actions.getCard}
 								getActor={this.props.actions.getActor}
 								key={card.id}
 								active={_.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)}

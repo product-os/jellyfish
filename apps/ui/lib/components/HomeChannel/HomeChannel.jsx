@@ -39,9 +39,6 @@ import ViewLink from '../ViewLink'
 import {
 	registerForNotifications
 } from '../../services/notifications'
-import {
-	selectors
-} from '../../core'
 
 // Slide-in delay in seconds
 const DELAY = 0.6
@@ -580,8 +577,6 @@ export default class HomeChannel extends React.Component {
 								<UserAvatarLive
 									emphasized
 									userId={user.id}
-									selectCard={selectors.getCard}
-									getCard={actions.getCard}
 								/>
 								{Boolean(username) && <Txt mx={2} style={{
 									textOverflow: 'ellipsis',
