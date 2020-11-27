@@ -103,7 +103,7 @@
 	"api": {
 		"backend": [
 			{
-				"url": "http://api:{{SERVER_PORT}}",
+				"url": "http://api:80",
 				"server": {
 					"resolvers": "docker-bridge-resolver",
 					"resolve-prefer": "ipv4",
