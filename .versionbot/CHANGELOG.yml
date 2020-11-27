@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 2a57d5afc1c0596a5c969e5e71f27d4fcf9972b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.28.14
+  date: 2020-11-27T10:41:43.148Z
+- commits:
     - subject: Add Livepush development flow
       hash: 2cb0f36c84bbfa77a00e19213f88ed25ad20dfe1
       body: ''
