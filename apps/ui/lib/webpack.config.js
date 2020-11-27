@@ -15,7 +15,6 @@ const path = require('path')
 const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const WatchIgnorePlugin = require('webpack/lib/WatchIgnorePlugin')
 
 const root = path.resolve(__dirname, '..')
 const resourcesRoot = __dirname
@@ -82,13 +81,11 @@ const config = {
 	devServer: {
 		contentBase: outDir,
 		host: '0.0.0.0',
-		port: process.env.UI_PORT,
+		port: 9000,
 		compress: true,
 		historyApiFallback: {
 			disableDotRule: true
-		},
-		disableHostCheck: true,
-		publicPath: '/'
+		}
 	},
 
 	node: {
@@ -190,12 +187,6 @@ if (process.env.NODE_ENV === 'production') {
 			reportFilename: path.resolve(outDir, 'webpack-bundle-report.html'),
 			openAnalyzer: false
 		})
-	)
-} else {
-	config.plugins.push(
-		new WatchIgnorePlugin([
-			/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
-		])
 	)
 }
 
