@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix build args that are passed to UI and livechat
+      hash: 9f559984fbbecc36731bbff907774e9f8ac789ba
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.28.15
+  date: 2020-11-27T15:00:16.254Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 2a57d5afc1c0596a5c969e5e71f27d4fcf9972b6
       body: ''
