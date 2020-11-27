@@ -276,6 +276,7 @@ services:
           - jel.ly.fish.local
           - livechat.ly.fish.local
           - api.ly.fish.local
+          - registry.ly.fish.local
     environment:
       DOMAIN_INC_UUID: 'false'
       AUTOGENERATE_CERTS: 'false'
