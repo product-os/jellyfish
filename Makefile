@@ -18,7 +18,9 @@
 	clean-github \
 	npm-install \
 	push \
-	ssh
+	ssh \
+	set-npm-token \
+	remove-npm-token
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -427,6 +429,7 @@ dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
 
 push:
+	make set-npm-token
 	balena push jel.ly.fish.local \
 		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
 		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
@@ -460,3 +463,9 @@ ssh:
 
 deploy-%:
 	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
+
+set-npm-token:
+	./scripts/update-balena-config.js set-npm-token
+
+remove-npm-token:
+	./scripts/update-balena-config.js remove-npm-token

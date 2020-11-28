@@ -57,6 +57,9 @@
     ],
     "*.{js,jsx,sh}": [
       "./scripts/lint/check-licenses.sh"
+    ],
+    ".balena/balena.yml": [
+      "make remove-npm-token"
     ]
   },
   "author": "Balena.io. <hello@balena.io>",
@@ -98,6 +101,7 @@
     "front-sdk": "^0.8.1",
     "husky": "^4.3.0",
     "js-combinatorics": "^0.6.1",
+    "js-yaml": "^3.14.0",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^10.5.2",
     "lodash": "^4.17.20",
