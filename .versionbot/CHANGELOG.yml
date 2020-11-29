@@ -1,4 +1,15 @@
 - commits:
+    - subject: Remove sentry info logs from livechat
+      hash: 68d104d07b16fa4ec3f5694e7336584dc622ba9d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.29.0
+  date: 2020-11-29T22:55:30.682Z
+- commits:
     - subject: Fix build args that are passed to UI and livechat
       hash: 9f559984fbbecc36731bbff907774e9f8ac789ba
       body: ''
