@@ -16,7 +16,7 @@ import {
 } from '@balena/jellyfish-ui-components/lib/SetupProvider'
 
 const authenticate = async ({
-	sdk, errorReporter
+	sdk
 }, userSlug, oauthUrl) => {
 	const user = await sdk.auth.whoami()
 
@@ -29,11 +29,6 @@ const authenticate = async ({
 	}
 
 	if (user.slug !== userSlug) {
-		errorReporter.reportInfo(
-			`Logged in user "${user.slug}" does not match authorizing user "${userSlug}", reauthorizing`,
-			user
-		)
-
 		window.location.href = oauthUrl
 	}
 }
@@ -42,15 +37,15 @@ export const AuthenticationTask = ({
 	userSlug, oauthUrl, children
 }) => {
 	const {
-		sdk, errorReporter
+		sdk
 	} = useSetup()
 	const authenticationTask = useTask(authenticate)
 
 	React.useEffect(() => {
 		authenticationTask.exec({
-			sdk, errorReporter
+			sdk
 		}, userSlug, oauthUrl)
-	}, [ sdk, errorReporter, userSlug, oauthUrl ])
+	}, [ sdk, userSlug, oauthUrl ])
 
 	return (
 		<Task task={authenticationTask}>{children}</Task>
