@@ -44,7 +44,7 @@ import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../components/CardFields'
 import {
-	FLOW_IDS
+	FLOW_IDS, TeardownFlowPanel
 } from '../../../components/Flows'
 import {
 	IssueOpenedIcon,
@@ -351,6 +351,7 @@ class SupportThreadBase extends React.Component {
 						</ActionRouterLink>
 					</React.Fragment>
 				)}
+				flowPanel={(<TeardownFlowPanel />)}
 			>
 				<Box px={3}>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">
