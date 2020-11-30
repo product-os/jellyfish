@@ -173,7 +173,8 @@ module.exports = ({
 		transformer: require('./product-os/transformer.json'),
 		transformerWorker: require('./product-os/transformer-worker.json'),
 		viewTransformerWorkers: require('./product-os/view-all-transformer-workers.json'),
-		viewTransformers: require('./product-os/view-all-transformers.json')
+		viewTransformers: require('./product-os/view-all-transformers.json'),
+		triggeredActionMatchmakeTask: require('./product-os/triggered-action-matchmake-task')
 	}
 
 	return _.mapValues(defaultCards, initialize)
