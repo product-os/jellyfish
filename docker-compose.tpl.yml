@@ -228,7 +228,7 @@ services:
       - SYS_RESOURCE
       - SYS_ADMIN
     security_opt:
-      - 'apparmor:unconfined'
+      - 'apparmor=unconfined'
     tmpfs:
       - /run
       - /sys/fs/cgroup
@@ -247,7 +247,7 @@ services:
       - SYS_RESOURCE
       - SYS_ADMIN
     security_opt:
-      - 'apparmor:unconfined'
+      - 'apparmor=unconfined'
     tmpfs:
       - /run
       - /sys/fs/cgroup
