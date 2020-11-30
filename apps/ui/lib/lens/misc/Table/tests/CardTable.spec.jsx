@@ -28,7 +28,7 @@ const {
 	totalPages,
 	type,
 	user,
-	types
+	allTypes
 } = props
 
 const mountCardTable = async (actions, setPageStub) => {
@@ -41,8 +41,9 @@ const mountCardTable = async (actions, setPageStub) => {
 			totalPages={totalPages}
 			type={type}
 			user={user}
-			types={types}
+			allTypes={allTypes}
 			setPage={setPageStub}
+			lensState={{}}
 		/>
 	), {
 		wrappingComponent
@@ -97,14 +98,15 @@ ava('It should render', (test) => {
 				totalPages={totalPages}
 				type={type}
 				user={user}
-				types={types}
+				allTypes={allTypes}
 				setPage={setPageStub}
+				lensState={{}}
 			/>
 		)
 	})
 })
 
-ava('It should trigger setPage when clicking the pager button next', (test) => {
+ava.only('It should trigger setPage when clicking the pager button next', (test) => {
 	const {
 		setPageStub
 	} = test.context
@@ -116,14 +118,14 @@ ava('It should trigger setPage when clicking the pager button next', (test) => {
 		totalPages={totalPages}
 		type={type}
 		user={user}
-		types={types}
+		allTypes={allTypes}
 		setPage={setPageStub}
+		lensState={{}}
 	/>)
 
 	component.find('Table')
 		.dive()
-		.find('Pager')
-		.first()
+		.find('BasePager')
 		.dive()
 		.find('.rendition-pager__btn--next')
 		.simulate('click')
@@ -177,7 +179,7 @@ ava('It should let you link multiple selected cards to a newly created card', as
 	})
 })
 
-ava.only('It should let you link multiple selected cards to an existing card', async (test) => {
+ava('It should let you link multiple selected cards to an existing card', async (test) => {
 	const {
 		setPageStub,
 		actions
