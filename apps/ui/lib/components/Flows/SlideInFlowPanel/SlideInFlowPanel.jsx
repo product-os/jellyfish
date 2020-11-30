@@ -10,15 +10,17 @@ import {
 	SlideInPanel
 } from '@balena/jellyfish-ui-components'
 
-export default function SlideInFlowPanel ({
+const SlideInFlowPanel = ({
+	sdk,
 	card,
 	channel,
 	slideInPanelProps,
 	flowState,
+	flowPanel,
 	actions,
 	children,
 	...rest
-}) {
+}) => {
 	const flowId = _.get(flowState, [ 'type' ])
 	const isOpen = _.get(flowState, [ 'isOpen' ], false)
 
@@ -39,9 +41,11 @@ export default function SlideInFlowPanel ({
 			isOpen={isOpen}
 			onClose={close}
 		>
-			{Boolean(flowState) && React.cloneElement(children, {
-				flowId,
+			{Boolean(flowState) && React.cloneElement(flowPanel, {
+				sdk,
 				card,
+				channel,
+				flowId,
 				flowState,
 				actions,
 				onClose: close,
@@ -50,3 +54,5 @@ export default function SlideInFlowPanel ({
 		</SlideInPanel>
 	)
 }
+
+export default SlideInFlowPanel
