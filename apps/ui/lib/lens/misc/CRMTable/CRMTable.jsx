@@ -18,9 +18,7 @@ import {
 	Txt
 } from 'rendition'
 import CardOwner from '../../../components/CardOwner'
-import {
-	HandoverFlowPanel
-} from '../../../components/Flows'
+import HandoverFlowPanel from '../../../components/Flows/HandoverFlowPanel'
 import {
 	FLOW_IDS
 } from '../../../components/Flows/flow-utils'

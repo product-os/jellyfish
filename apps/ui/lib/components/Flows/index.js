@@ -11,12 +11,6 @@ import {
 export {
 	default as SlideInFlowPanel
 } from './SlideInFlowPanel'
-export {
-	default as HandoverFlowPanel
-} from './HandoverFlowPanel'
-export {
-	default as TeardownFlowPanel
-} from './TeardownFlowPanel'
 
 export const Steps = allGenericSteps
 
