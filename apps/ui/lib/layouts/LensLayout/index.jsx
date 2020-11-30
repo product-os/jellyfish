@@ -8,15 +8,13 @@ import {
 	connect
 } from 'react-redux'
 import {
-	sdk,
 	selectors
 } from '../../core'
 import LensLayout from './LensLayout'
 
 const mapStateToProps = (state, props) => {
 	return {
-		channelFlows: selectors.getAllChannelFlows(props.channel.data.target)(state),
-		sdk
+		channelFlows: selectors.getAllChannelFlows(props.channel.data.target)(state)
 	}
 }
 

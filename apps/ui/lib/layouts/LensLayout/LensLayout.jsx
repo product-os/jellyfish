@@ -7,9 +7,15 @@
 import _ from 'lodash'
 import * as React from 'react'
 import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel'
+import LayoutTitle from '../../components/LayoutTitle'
 
 const LensLayout = ({
-	sdk, channelFlows, children, channel, flowId, ...rest
+	channelFlows,
+	flowPanel,
+	children,
+	channel,
+	title,
+	card
 }) => {
 	const openFlows = _.values(channelFlows).filter((flow) => {
 		return flow.isOpen
@@ -18,14 +24,17 @@ const LensLayout = ({
 
 	return (
 		<React.Fragment>
+			<LayoutTitle title={title} card={card} />
+
 			{children}
 
-			{firstFlow && (
+			{Boolean(firstFlow) && Boolean(flowPanel) && (
 				<SlideInFlowPanel
 					slideInPanelProps={{
 						height: 480
 					}}
 					channel={channel}
+					flowPanel={flowPanel}
 					flowId={firstFlow.type}
 					card={firstFlow.card}
 				/>

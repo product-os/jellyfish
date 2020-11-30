@@ -23,7 +23,6 @@ const mapStateToProps = (state, props) => {
 
 	return {
 		user: selectors.getCurrentUser(state),
-		types: selectors.getTypes(state),
 		flowId: props.flowId || FLOW_IDS.GUIDED_HANDOVER,
 		flowState: selectors.getFlow(props.flowId, channelTarget, _.get(flow, [ 'card', 'id' ]))(state)
 	}
