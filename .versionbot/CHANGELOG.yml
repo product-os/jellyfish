@@ -1,4 +1,24 @@
 - commits:
+    - subject: Use apparmor=unconfined for security-opt
+      hash: 1729e47e52006f87c6ba70380412486528cbbdff
+      body: >
+        ```
+
+        time="2020-11-30T12:16:01.576318912+01:00" level=warning msg="Security
+        options with `:` as a separator are deprecated and will be completely
+        unsupported in 17.04, use `=` instead."
+
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+  version: 33.29.3
+  date: 2020-11-30T11:58:38.223Z
+- commits:
     - subject: Add balena.yml NPM_TOKEN step to Livepush steps
       hash: d2244d83c91528c3c36429f102a581cd7dfadcdc
       body: ''
