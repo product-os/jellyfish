@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add balena.yml NPM_TOKEN step to Livepush steps
+      hash: d2244d83c91528c3c36429f102a581cd7dfadcdc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.29.2
+  date: 2020-11-30T10:21:29.804Z
+- commits:
     - subject: Add Livepush dev flow docs
       hash: 43afff001c1ea2ded7b7ee27472f2f0b120f477d
       body: ''
