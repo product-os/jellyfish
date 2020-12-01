@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-sync to 3.1.0
+      hash: da65373fc58031b774acdb4e5b6af497cb008883
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.29.4
+  date: 2020-12-01T17:35:01.841Z
+- commits:
     - subject: Use apparmor=unconfined for security-opt
       hash: 1729e47e52006f87c6ba70380412486528cbbdff
       body: >
