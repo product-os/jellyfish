@@ -65,5 +65,7 @@ services:
       - MONITOR_SECRET_TOKEN
       - NPM_TOKEN
       - RESET_PASSWORD_SECRET_TOKEN
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - internal
