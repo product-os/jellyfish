@@ -83,7 +83,7 @@ const getMirrorWaitSchema = (slug) => {
 						type: 'array',
 						items: {
 							type: 'string',
-							pattern: '^https:\\/\\/api2\\.frontapp\\.com'
+							pattern: '\\.frontapp\\.com'
 						}
 					}
 				}
