@@ -47,6 +47,7 @@ import {
 	FLOW_IDS
 } from '../../../components/Flows'
 import HandoverFlowPanel from '../../../components/Flows/HandoverFlowPanel'
+import TeardownFlowPanel from '../../../components/Flows/TeardownFlowPanel'
 import {
 	IssueOpenedIcon,
 	GitPullRequestIcon
@@ -352,7 +353,12 @@ class SupportThreadBase extends React.Component {
 						</ActionRouterLink>
 					</React.Fragment>
 				)}
-				flowPanel={(<HandoverFlowPanel />)}
+				flowPanel={(
+					<React.Fragment>
+						<HandoverFlowPanel />
+						<TeardownFlowPanel />
+					</React.Fragment>
+				)}
 			>
 				<Box px={3}>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">

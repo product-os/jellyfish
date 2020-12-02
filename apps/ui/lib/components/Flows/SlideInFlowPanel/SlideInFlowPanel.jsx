@@ -9,6 +9,9 @@ import _ from 'lodash'
 import {
 	SlideInPanel
 } from '@balena/jellyfish-ui-components'
+import {
+	getPanelType
+} from '../flow-utils'
 
 const SlideInFlowPanel = ({
 	sdk,
@@ -23,6 +26,7 @@ const SlideInFlowPanel = ({
 }) => {
 	const flowId = _.get(flowState, [ 'type' ])
 	const isOpen = _.get(flowState, [ 'isOpen' ], false)
+	console.log(flowState, flowPanel)
 
 	if (_.isArray(children)) {
 		throw new Error('SlideInFlowPanel only accepts a single child component')
@@ -32,7 +36,7 @@ const SlideInFlowPanel = ({
 			isOpen: false
 		})
 	}
-
+	const hasMultipleFlowPanels = _.get(flowPanel, [ 'props', 'children' ])
 	return (
 		<SlideInPanel
 			height="50%"
@@ -41,7 +45,27 @@ const SlideInFlowPanel = ({
 			isOpen={isOpen}
 			onClose={close}
 		>
-			{Boolean(flowState) && React.cloneElement(flowPanel, {
+			{hasMultipleFlowPanels && hasMultipleFlowPanels.map((panel, key) => {
+				if (getPanelType(panel.type.name) === flowState.type) {
+					return (
+						React.cloneElement(panel, {
+							key,
+							sdk,
+							card,
+							channel,
+							flowId,
+							flowState,
+							actions,
+							onClose: close,
+							...rest
+						})
+					)
+				}
+
+				return null
+			})}
+
+			{Boolean(flowState) && !hasMultipleFlowPanels && React.cloneElement(flowPanel, {
 				sdk,
 				card,
 				channel,

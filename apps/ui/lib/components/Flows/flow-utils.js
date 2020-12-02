@@ -18,3 +18,21 @@ export const FLOW_IDS = {
 export const stepStatus = (isComplete) => {
 	return isComplete ? 'completed' : 'pending'
 }
+
+/**
+ * Returns panel type based on component name
+ *
+ * @param {String} name - Name of component
+ * @returns {String | null}
+ */
+export const getPanelType = (name) => {
+	if (name === 'HandoverFlowPanel') {
+		return FLOW_IDS.GUIDED_HANDOVER
+	}
+
+	if (name === 'TeardownFlowPanel') {
+		return FLOW_IDS.GUIDED_TEARDOWN
+	}
+
+	return null
+}
