@@ -24,7 +24,6 @@ import {
 } from '../Steps'
 
 const HandoverFlowPanel = ({
-	flowId,
 	card,
 	channel,
 	flowState,

@@ -19,9 +19,6 @@ import {
 } from 'rendition'
 import CardOwner from '../../../components/CardOwner'
 import HandoverFlowPanel from '../../../components/Flows/HandoverFlowPanel'
-import {
-	FLOW_IDS
-} from '../../../components/Flows/flow-utils'
 import LinkModal from '../../../components/LinkModal'
 import LensLayout from '../../../layouts/LensLayout'
 import BaseLens from '../../common/BaseLens'
@@ -273,7 +270,6 @@ class CRMTable extends BaseLens {
 				tail={tail}
 				user={user}
 				channel={channel}
-				flowId={FLOW_IDS.GUIDED_HANDOVER}
 				flowPanel={(<HandoverFlowPanel />)}
 			>
 				<CardTable

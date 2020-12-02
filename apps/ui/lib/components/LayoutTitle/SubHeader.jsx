@@ -16,7 +16,9 @@ import {
 	selectors
 } from '../../core'
 
-export const SubHeader = (card) => {
+export const SubHeader = ({
+	card
+}) => {
 	const types = useSelector(selectors.getTypes)
 	const typeBase = card.type && card.type.split('@')[0]
 

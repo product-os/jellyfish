@@ -44,8 +44,9 @@ import Timeline from '../../list/Timeline'
 import CardLayout from '../../../layouts/CardLayout'
 import CardFields from '../../../components/CardFields'
 import {
-	FLOW_IDS, TeardownFlowPanel
+	FLOW_IDS
 } from '../../../components/Flows'
+import HandoverFlowPanel from '../../../components/Flows/HandoverFlowPanel'
 import {
 	IssueOpenedIcon,
 	GitPullRequestIcon
@@ -351,7 +352,7 @@ class SupportThreadBase extends React.Component {
 						</ActionRouterLink>
 					</React.Fragment>
 				)}
-				flowPanel={(<TeardownFlowPanel />)}
+				flowPanel={(<HandoverFlowPanel />)}
 			>
 				<Box px={3}>
 					<Flex alignItems="center" mb={1} flexWrap="wrap">

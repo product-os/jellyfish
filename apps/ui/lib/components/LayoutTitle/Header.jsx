@@ -9,6 +9,8 @@ import {
 	Heading
 } from 'rendition'
 
-export const Header = (card) => {
+export const Header = ({
+	card
+}) => {
 	return <Heading.h4>{card.name || card.slug || card.type}</Heading.h4>
 }
