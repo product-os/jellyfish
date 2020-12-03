@@ -1,4 +1,17 @@
 - commits:
+    - subject: Streamline table and add functionality for hiding/showing columns
+      hash: b58ae67d46481d3eeb7f96d3fa53aae76706ade4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.30.0
+  date: 2020-12-03T10:39:40.233Z
+- commits:
     - subject: Bump jellyfish-sync to 3.1.0
       hash: da65373fc58031b774acdb4e5b6af497cb008883
       body: ''
