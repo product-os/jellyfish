@@ -1209,6 +1209,205 @@
     "updated_at": "2020-03-18T15:57:48.009Z",
     "linked_at": {}
   },
+  "allTypes": [
+    {
+      "id": "74ff2f8c-466a-4863-81ec-185cbc0544ec",
+      "data": {
+        "schema": {
+          "type": "object",
+          "required": [
+            "active",
+            "created_at",
+            "slug",
+            "capabilities",
+            "data",
+            "links",
+            "markers",
+            "requires",
+            "tags",
+            "type",
+            "version"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "data": {
+              "type": "object"
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "slug": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+$"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "type": {
+              "type": "string",
+              "pattern": "^[a-z0-9-]+@\\d+(\\.\\d+)?(\\.\\d+)?$"
+            },
+            "links": {
+              "type": "object"
+            },
+            "active": {
+              "type": "boolean"
+            },
+            "markers": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9-_/:+]+$"
+              }
+            },
+            "version": {
+              "type": "string",
+              "pattern": "^\\d+(\\.\\d+)?(\\.\\d+)?$"
+            },
+            "requires": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            },
+            "linked_at": {
+              "type": "object",
+              "title": "linked at"
+            },
+            "created_at": {
+              "type": "string",
+              "title": "created at",
+              "format": "date-time"
+            },
+            "updated_at": {
+              "anyOf": [
+                {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "updated at"
+            },
+            "capabilities": {
+              "type": "array",
+              "items": {
+                "type": "object"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        "uiSchema": {
+          "fields": {
+            "id": null,
+            "data": {
+              "origin": null,
+              "ui:title": null,
+              "$$localSchema": null,
+              "translateDate": null
+            },
+            "name": null,
+            "slug": null,
+            "tags": null,
+            "type": null,
+            "links": null,
+            "active": null,
+            "markers": null,
+            "version": null,
+            "requires": null,
+            "linked_at": null,
+            "created_at": null,
+            "updated_at": null,
+            "capabilities": null
+          }
+        }
+      },
+      "name": "Jellyfish Card",
+      "slug": "card",
+      "tags": [],
+      "type": "type@1.0.0",
+      "links": {},
+      "active": true,
+      "markers": [],
+      "version": "1.0.0",
+      "requires": [],
+      "linked_at": {},
+      "created_at": "2020-11-30T09:03:09.809Z",
+      "updated_at": "2020-11-30T13:39:50.568Z",
+      "capabilities": []
+    },
+    {
+      "id": "1047fbfc-6ae6-492f-9790-e6d0789eb687",
+      "slug": "account",
+      "type": "type@1.0.0",
+      "active": true,
+      "version": "1.0.0",
+      "name": "Account",
+      "tags": [],
+      "markers": [],
+      "created_at": "2020-03-10T14:31:24.936Z",
+      "links": {},
+      "requires": [],
+      "capabilities": [],
+      "data": {
+        "meta": {
+          "relationships": [
+            {
+              "link": "has attached",
+              "type": "opportunity",
+              "title": "Opportunities"
+            },
+            { "link": "has", "type": "contact", "title": "Contacts" },
+            { "link": "is owned by", "type": "user", "title": "Owner" },
+            {
+              "link": "has backup owner",
+              "type": "user",
+              "title": "Backup owners"
+            }
+          ]
+        },
+        "schema": {
+          "type": "object",
+          "required": ["name", "data"],
+          "properties": {
+            "data": {
+              "type": "object",
+              "properties": {
+                "type": { "enum": ["Lead", "Customer"], "default": "Lead" },
+                "industry": { "type": "string", "title": "Industry" },
+                "location": { "type": "string", "title": "Location" },
+                "description": { "type": "string", "format": "markdown" },
+                "stageOfBusiness": {
+                  "type": "string",
+                  "title": "Stage of business"
+                }
+              }
+            },
+            "name": { "type": "string" },
+            "markers": {
+              "type": "array",
+              "items": { "type": "string", "pattern": "^[a-zA-Z0-9-_/:+]+$" }
+            }
+          }
+        },
+        "slices": ["properties.data.properties.profile.properties.status"]
+      },
+      "updated_at": "2020-03-18T15:57:48.009Z",
+      "linked_at": {}
+  }
+  ],
   "user": {
     "id": "7febac87-2888-49fa-be4d-866f20f5b4c2",
     "slug": "user-woodle",

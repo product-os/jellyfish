@@ -17,8 +17,11 @@ import {
 } from '../../../core'
 import CRMTable from './CRMTable'
 
-const mapStateToProps = (state) => {
+const SLUG = 'lens-crm-table'
+
+const mapStateToProps = (state, ownProps) => {
 	const allTypes = selectors.getTypes(state)
+	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
 	return {
 		user: selectors.getCurrentUser(state),
 
@@ -33,7 +36,9 @@ const mapStateToProps = (state) => {
 				'status',
 				'enum'
 			]
-		)
+		),
+		lensState: selectors.getLensState(state, SLUG, target),
+		SLUG
 	}
 }
 
@@ -42,13 +47,14 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'createLink'
+				'createLink',
+				'setLensState'
 			]), dispatch)
 	}
 }
 
 const lens = {
-	slug: 'lens-crm-table',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
 	name: 'CRM table lens',

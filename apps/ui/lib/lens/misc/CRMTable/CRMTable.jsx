@@ -151,7 +151,13 @@ class CRMTable extends BaseLens {
 					})
 				}
 			}
-		]
+		].map((column) => {
+			// Default all columns to active, unless there is stored state
+			column.active = _.get(_.find(this.props.lensState.columns, {
+				field: column.field
+			}), [ 'active' ], true)
+			return column
+		})
 	}
 
 	generateTableData () {

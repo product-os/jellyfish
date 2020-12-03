@@ -12,7 +12,8 @@ import {
 	Flex,
 	Table,
 	Txt,
-	DropDownButton
+	DropDownButton,
+	TextWithCopy
 } from 'rendition'
 import {
 	ActionLink,
@@ -20,33 +21,49 @@ import {
 	helpers,
 	Link
 } from '@balena/jellyfish-ui-components'
+import format from 'date-fns/format'
+import parseISO from 'date-fns/parseISO'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
 import LinkModal from '../../../components/LinkModal'
+import {
+	ColumnHider
+} from './ColumnHider'
 
 const PAGE_SIZE = 25
 
 // For some columns like card.name we use a render function
 const RENDERERS = {
 	name: (name, item) => {
-		return <Link append={item.slug || item.id}>{name}</Link>
+		return <Link append={item.slug || item.id}>{name || 'click to view'}</Link>
+	},
+	id: (id) => {
+		return (
+			<TextWithCopy monospace showCopyButton="always" copy={id}>{id.slice(0, 7)}</TextWithCopy>
+		)
+	},
+	slug: (slug, item) => {
+		return <Link append={item.slug || item.id}>{slug}</Link>
+	},
+	created_at: (timestamp, item) => {
+		return format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
+	},
+	updated_at: (timestamp, item) => {
+		return timestamp ? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss') : null
 	}
 }
 
-// Do not include markdown or mermaid fields in our table,
-// as well as the id and slug fields
-const OMISSIONS = [ {
-	field: 'id'
-}, {
-	field: 'slug'
-},
-{
-	key: 'format',
-	value: 'markdown'
-}, {
-	key: 'format',
-	value: 'mermaid'
-} ]
+// Do not include markdown or mermaid fields in our table
+const OMISSIONS = [
+	{
+		key: 'format',
+		value: 'markdown'
+	},
+	{
+		key: 'format',
+		value: 'mermaid'
+	}
+]
 
 export default class CardTable extends BaseLens {
 	constructor (props) {
@@ -55,11 +72,13 @@ export default class CardTable extends BaseLens {
 		this.generateTableColumns = this.generateTableColumns.bind(this)
 		this.state = {
 			checkedCards: [],
-			showLinkModal: false
+			showLinkModal: false,
+			tableColumns: props.columns || this.generateTableColumns()
 		}
 		this.onChecked = this.onChecked.bind(this)
 		this.showLinkModal = this.showLinkModal.bind(this)
 		this.hideLinkModal = this.hideLinkModal.bind(this)
+		this.toggleColumns = this.toggleColumns.bind(this)
 		this.openCreateChannelForLinking = this.openCreateChannelForLinking.bind(this)
 	}
 
@@ -109,8 +128,37 @@ export default class CardTable extends BaseLens {
 		})
 	}
 
+	toggleColumns (items, active = null) {
+		const targetColumnFields = _.map(_.castArray(items), 'field')
+
+		const tableColumns = _.map(this.state.tableColumns, (column) => {
+			if (_.includes(targetColumnFields, column.field)) {
+				if (active === null) {
+					column.active = !column.active
+				} else {
+					column.active = active
+				}
+			}
+			return column
+		})
+
+		// Set lens state action here
+		const target = _.get(this.props, [ 'channel', 'data', 'head', 'id' ])
+		this.props.actions.setLensState(this.props.SLUG, target, {
+			columns: tableColumns.map((column) => {
+				return _.pick(column, [ 'field', 'active' ])
+			})
+		})
+
+		this.setState({
+			tableColumns
+		})
+	}
+
 	generateTableColumns () {
 		const {
+			allTypes,
+			lensState,
 			type: {
 				data: {
 					schema
@@ -118,7 +166,21 @@ export default class CardTable extends BaseLens {
 			}
 		} = this.props
 
-		const paths = helpers.getPathsInSchema(schema, OMISSIONS)
+		const baseCardSchema = _.find(allTypes, {
+			slug: 'card'
+		}).data.schema
+
+		// Select the "default" schema cards from the "card" definition, as they may
+		// not be explicitly defined on the specified type card
+		const defaultSchema = _.pick(baseCardSchema, [
+			'properties.name',
+			'properties.id',
+			'properties.slug',
+			'properties.created_at',
+			'properties.updated_at'
+		])
+
+		const paths = helpers.getPathsInSchema(_.merge(defaultSchema, schema), OMISSIONS)
 
 		return _.map(paths, ({
 			title, path
@@ -129,50 +191,29 @@ export default class CardTable extends BaseLens {
 				label: title,
 				field,
 				sortable: true,
-				render
+				render,
+				active: _.get(_.find(lensState.columns, {
+					field
+				}), [ 'active' ], true)
 			}
 		})
 	}
 
 	generateTableData () {
-		return this.props.tail
-			? _.map(this.props.tail, (card) => {
-				const update = _.find(
-					_.get(card, [ 'links', 'has attached element' ]),
-					(linkedCard) => {
-						return [ 'update', 'update@1.0.0' ].includes(linkedCard.type)
-					}
-				)
-
-				// First we pick out the useful data
-				const pickedData = _.pick(card, [
-					'name',
-					'id',
-					'slug',
-					'created_at',
-					'data'
-				])
-
-				return {
-					...flatten(pickedData),
-					'Last updated': _.get(update, [ 'data', 'timestamp' ], null)
-				}
-			})
-			: null
+		return _.map(this.props.tail, flatten)
 	}
 
 	render () {
 		const {
 			actions,
 			allTypes,
-			generateData,
-			columns
+			generateData
 		} = this.props
 		const {
 			checkedCards,
-			showLinkModal
+			showLinkModal,
+			tableColumns
 		} = this.state
-		const tableColumns = columns || this.generateTableColumns()
 		const data = generateData ? generateData() : this.generateTableData()
 
 		return (
@@ -188,32 +229,43 @@ export default class CardTable extends BaseLens {
 							onHide={this.hideLinkModal}
 						/>
 					)}
+
 					{Boolean(data) && data.length > 0 && (
 						<React.Fragment>
-							<DropDownButton
-								data-test="cardTableActions__dropdown"
-								m={2}
-								joined
-								label={`With ${checkedCards.length} selected`}
-								disabled={!checkedCards.length}
-							>
-								<ActionLink
-									data-test="cardTableActions__link-existing"
-									onClick={this.showLinkModal}
+							<Flex>
+								<DropDownButton
+									data-test="cardTableActions__dropdown"
+									m={2}
+									joined
+									label={`With ${checkedCards.length} selected`}
+									disabled={!checkedCards.length}
 								>
-									Link to existing element
-								</ActionLink>
-								<ActionLink
-									data-test="cardTableActions__link-new"
-									onClick={this.openCreateChannelForLinking}
-								>
-									Create a new element to link to
-								</ActionLink>
-							</DropDownButton>
+									<ActionLink
+										data-test="cardTableActions__link-existing"
+										onClick={this.showLinkModal}
+									>
+										Link to existing element
+									</ActionLink>
+									<ActionLink
+										data-test="cardTableActions__link-new"
+										onClick={this.openCreateChannelForLinking}
+									>
+										Create a new element to link to
+									</ActionLink>
+								</DropDownButton>
+
+								<ColumnHider
+									toggleColumns={this.toggleColumns}
+									tableColumns={tableColumns}
+								/>
+							</Flex>
+
 							<Table
 								rowKey={this.props.rowKey}
 								data={data}
-								columns={tableColumns}
+								columns={_.filter(tableColumns, {
+									active: true
+								})}
 								usePager={true}
 								itemsPerPage={PAGE_SIZE}
 								pagerPosition="bottom"

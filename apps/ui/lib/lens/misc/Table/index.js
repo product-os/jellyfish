@@ -17,10 +17,15 @@ import {
 } from '../../../core'
 import CardTable from './CardTable'
 
-const mapStateToProps = (state) => {
+const SLUG = 'lens-table'
+
+const mapStateToProps = (state, ownProps) => {
+	const target = _.get(ownProps, [ 'channel', 'data', 'head', 'id' ])
 	return {
 		allTypes: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state)
+		user: selectors.getCurrentUser(state),
+		lensState: selectors.getLensState(state, SLUG, target),
+		SLUG
 	}
 }
 
@@ -29,13 +34,14 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
-				'createLink'
+				'createLink',
+				'setLensState'
 			]), dispatch)
 	}
 }
 
 const lens = {
-	slug: 'lens-table',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default table lens',

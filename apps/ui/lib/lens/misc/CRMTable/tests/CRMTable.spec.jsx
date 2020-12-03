@@ -20,7 +20,7 @@ const {
 	totalPages,
 	type,
 	user,
-	types
+	allTypes
 } = props
 
 ava('It should render', (test) => {
@@ -32,7 +32,8 @@ ava('It should render', (test) => {
 			totalPages={totalPages}
 			type={type}
 			user={user}
-			types={types}
+			allTypes={allTypes}
+			lensState={{}}
 		/>)
 	})
 })
