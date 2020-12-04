@@ -56,7 +56,9 @@ spec:
         - name: SERVER_HOST
           value: 'https://api.ly.fish'
         - name: SERVER_PORT
-          value: '80'
+          value: '443'
+        - name: OAUTH_REDIRECT_BASE_URL
+          value: 'https://jel.ly.fish'
         stdin: true
         tty: true
         ports:

@@ -56,8 +56,11 @@ test:
 
 .PHONY: dev-ui
 dev-ui:
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+	SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) \
 	NODE_ENV=development \
+	mkdir -p ./dist/ui && \
+	./conf/env.sh && \
+	cp ./env-config.js ./dist/ui/ && \
 	./node_modules/.bin/webpack serve \
 		--config=./lib/webpack.config.js \
 		--color
