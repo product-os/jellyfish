@@ -26,7 +26,6 @@ const SlideInFlowPanel = ({
 }) => {
 	const flowId = _.get(flowState, [ 'type' ])
 	const isOpen = _.get(flowState, [ 'isOpen' ], false)
-	console.log(flowState, flowPanel)
 
 	if (_.isArray(children)) {
 		throw new Error('SlideInFlowPanel only accepts a single child component')
@@ -45,7 +44,7 @@ const SlideInFlowPanel = ({
 			isOpen={isOpen}
 			onClose={close}
 		>
-			{hasMultipleFlowPanels && hasMultipleFlowPanels.map((panel, key) => {
+			{Boolean(flowState) && hasMultipleFlowPanels && hasMultipleFlowPanels.map((panel, key) => {
 				if (getPanelType(panel.type.name) === flowState.type) {
 					return (
 						React.cloneElement(panel, {
