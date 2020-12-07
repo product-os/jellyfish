@@ -60,7 +60,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "devDependencies": {
-    "@balena/ci-task-runner": "^0.2.61",
+    "@balena/ci-task-runner": "0.2.59-check-task-stderr-e6e3309dbdacc23e45698ae629fa7a47fe93de99",
     "@balena/jellyfish-action-library": "^5.1.123",
     "@balena/jellyfish-chat-widget": "^4.0.1",
     "@balena/jellyfish-client-sdk": "^2.6.2",
