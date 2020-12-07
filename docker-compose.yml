@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   api:
+    image: local_image_api
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
@@ -113,6 +114,7 @@ services:
     networks:
       - internal
   tick:
+    image: local_image_tick
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile.tick
@@ -159,6 +161,7 @@ services:
     networks:
       - internal
   worker_1:
+    image: local_image_worker_1
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile.worker
@@ -219,6 +222,7 @@ services:
     networks:
       - internal
   worker_2:
+    image: local_image_worker_2
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile.worker
