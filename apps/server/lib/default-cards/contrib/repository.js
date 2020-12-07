@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
+	return mixin(withRelationships('repository'))({
 		slug: 'repository',
 		name: 'Github Repository',
 		type: 'type@1.0.0',
@@ -56,5 +56,5 @@ module.exports = ({
 				[ 'data.name' ]
 			]
 		}
-	}
+	})
 }

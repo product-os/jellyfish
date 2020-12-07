@@ -7,9 +7,9 @@
 /* eslint-disable max-len */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
+	return mixin(withRelationships('account'))({
 		slug: 'account',
 		type: 'type@1.0.0',
 		name: 'Account',
@@ -157,31 +157,7 @@ module.exports = ({
 			},
 			slices: [
 				'properties.data.properties.profile.properties.status'
-			],
-			meta: {
-				relationships: [
-					{
-						title: 'Opportunities',
-						link: 'has attached',
-						type: 'opportunity'
-					},
-					{
-						title: 'Contacts',
-						link: 'has',
-						type: 'contact'
-					},
-					{
-						title: 'Owner',
-						link: 'is owned by',
-						type: 'user'
-					},
-					{
-						title: 'Backup owners',
-						link: 'has backup owner',
-						type: 'user'
-					}
-				]
-			}
+			]
 		}
-	}
+	})
 }

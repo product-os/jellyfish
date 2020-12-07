@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	mixin, uiSchemaDef, asPipelineItem
+	mixin, uiSchemaDef, asPipelineItem, withRelationships
 }) => {
-	return mixin(asPipelineItem)({
+	return mixin(asPipelineItem, withRelationships('sales-thread'))({
 		slug: 'sales-thread',
 		name: 'Sales Thread',
 		type: 'type@1.0.0',
@@ -88,15 +88,6 @@ module.exports = ({
 						}
 					}
 				}
-			},
-			meta: {
-				relationships: [
-					{
-						title: 'Opportunity',
-						link: 'is attached to',
-						type: 'opportunity'
-					}
-				]
 			}
 		}
 	})

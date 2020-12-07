@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
+	return mixin(withRelationships('checkin'))({
 		slug: 'checkin',
 		name: 'Checkin',
 		type: 'type@1.0.0',
@@ -201,21 +201,7 @@ module.exports = ({
 						}
 					}
 				}
-			},
-			meta: {
-				relationships: [
-					{
-						title: 'Attendees',
-						link: 'is attended by',
-						type: 'user'
-					},
-					{
-						title: 'Project',
-						link: 'is of',
-						type: 'project'
-					}
-				]
 			}
 		}
-	}
+	})
 }

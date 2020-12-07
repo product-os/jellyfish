@@ -5,9 +5,9 @@
  */
 
 module.exports = ({
-	mixin, withEvents
+	mixin, withEvents, withRelationships
 }) => {
-	return mixin(withEvents)({
+	return mixin(withEvents, withRelationships('pattern'))({
 		slug: 'pattern',
 		name: 'Pattern',
 		type: 'type@1.0.0',
@@ -32,15 +32,6 @@ module.exports = ({
 				},
 				required: [
 					'name'
-				]
-			},
-			meta: {
-				relationships: [
-					{
-						title: 'Product improvements',
-						link: 'has attached',
-						type: 'product-improvement'
-					}
 				]
 			}
 		}

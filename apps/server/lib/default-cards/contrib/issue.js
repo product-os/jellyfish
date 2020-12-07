@@ -7,9 +7,9 @@
 /* eslint-disable no-template-curly-in-string */
 
 module.exports = ({
-	mixin, withEvents, uiSchemaDef
+	mixin, withEvents, withRelationships, uiSchemaDef
 }) => {
-	return mixin(withEvents)({
+	return mixin(withEvents, withRelationships('issue'))({
 		slug: 'issue',
 		name: 'GitHub Issue',
 		type: 'type@1.0.0',

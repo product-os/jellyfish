@@ -7,9 +7,9 @@
 /* eslint-disable max-len */
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
+	return mixin(withRelationships('changelog'))({
 		slug: 'changelog',
 		name: 'Changelog',
 		type: 'type@1.0.0',
@@ -66,5 +66,5 @@ module.exports = ({
 				}
 			}
 		}
-	}
+	})
 }
