@@ -41,6 +41,7 @@ SHELL_FILES="$(find . -name '*.sh' \
 	-and -not -path '**/dist/*' \
 	-and -not -path '**/.libs/*' \
 	-and -not -path './.git/*' \
+	-and -not -path './.husky/*' \
 	-and -not -path '**/.tmp/*')"
 
 for file in $JAVASCRIPT_FILES; do
