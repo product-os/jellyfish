@@ -12,6 +12,9 @@
   "engines": {
     "node": ">=14.2.0"
   },
+  "scripts": {
+    "postinstall": "husky install"
+  },
   "deplint": {
     "files": [
       "apps/action-server/lib/**/*.js",
@@ -34,11 +37,6 @@
     "files": [
       "test/**/*.spec.js"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "*": [
