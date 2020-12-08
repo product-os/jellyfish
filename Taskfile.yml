@@ -1,0 +1,204 @@
+version: '3'
+
+output: prefixed
+silent: true
+env:
+  AVA_OPTS: --fail-fast
+
+tasks:
+  ci:
+    desc: CI tasks.
+    cmds:
+      - task: wait_for_api
+      - task: pipeline_sync
+      - task: translate_tests
+      - task: postgres_export
+      - task: postgres_import
+      - task: e2e_server
+      - task: summary
+      - task: clean_github
+      - task: clean_front
+
+  e2e_tests:
+    desc: E2E tests.
+    cmds:
+      - task: e2e_livechat
+      - task: e2e_ui
+      - task: e2e_server
+
+  mirror_tests:
+    desc: Mirror tests.
+    cmds:
+      - task: discourse_mirror
+      - task: github_mirror
+
+  integration_tests:
+    desc: Integration tests.
+    cmds:
+      - task: integration_queue
+      - task: integration_worker
+
+  translate_tests:
+    deps: [e2e_tests, mirror_tests, integration_tests]
+    desc: All translate tests except for front and discourse.
+    cmds:
+      - task: balena_api_translate
+      - task: github_translate
+      - task: flowdock_translate
+      - task: typeform_translate
+      - task: outreach_translate
+
+  wait_for_api:
+    desc: Waits for the API server to become available.
+    cmds:
+      - ./scripts/ci/wait-for-api.sh
+
+  pipeline_sync:
+    desc: Runs pipeline sync tests.
+    cmds:
+      - make test
+    env:
+      FILES: ./test/integration/sync/pipeline.spec.js
+
+  front_mirror:
+    desc: Runs front mirror tests.
+    cmds:
+      - make test
+    env:
+      FILES: ./test/e2e/sync/front-mirror.spec.js
+
+  discourse_mirror:
+    desc: Runs discourse mirror tests.
+    cmds:
+      - make test
+    env:
+      FILES: ./test/e2e/sync/discourse-mirror.spec.js
+
+  github_mirror:
+    desc: Runs github mirror tests.
+    cmds:
+      - make test
+    env:
+      FILES: ./test/e2e/sync/github-mirror.spec.js
+
+  e2e_livechat:
+    desc: Runs e2e livechat tests.
+    cmds:
+      - make test-e2e-livechat
+
+  e2e_ui:
+    desc: Runs e2e ui tests.
+    cmds:
+      - make test-e2e-ui INTEGRATION_OUTREACH_APP_ID=
+
+  e2e_server:
+    desc: Runs e2e server tests.
+    cmds:
+      - make test-e2e-server
+
+  e2e_server_previous_dump:
+    desc: Runs e2e server tests against previous database dump.
+    cmds:
+      - make test-e2e-server
+
+  balena_api_translate:
+    desc: Runs balena api translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: balena-api-translate.spec.js
+      FILES: ./test/integration/sync/balena-api-translate.spec.js
+
+  github_translate:
+    desc: Runs github translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test INTEGRATION_GITHUB_APP_ID=
+    env:
+      CHECK_FOR: github-translate.spec.js
+      FILES: ./test/integration/sync/github-translate.spec.js
+
+  flowdock_translate:
+    desc: Runs flowdock translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: flowdock-translate.spec.js
+      FILES: ./test/integration/sync/flowdock-translate.spec.js
+
+  typeform_translate:
+    desc: Runs typeform translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: typeform-translate.spec.js
+      FILES: ./test/integration/sync/typeform-translate.spec.js
+
+  outreach_translate:
+    desc: Runs outreach translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: outreach-translate.spec.js
+      FILES: ./test/integration/sync/outreach-translate.spec.js
+
+  front_translate:
+    desc: Runs front translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: front-translate.spec.js
+      FILES: ./test/integration/sync/front-translate.spec.js
+      INTEGRATION_FRONT_TOKEN: foobar
+
+  discourse_translate:
+    desc: Runs discourse translate tests.
+    cmds:
+      - ./scripts/ci/skip_tests_if_only.sh ui livechat || make test
+    env:
+      CHECK_FOR: discourse-translate.spec.js
+      FILES: ./test/integration/sync/discourse-translate.spec.js
+
+  integration_queue:
+    desc: Runs integration queue tests.
+    cmds:
+      - make test-integration-queue
+
+  integration_server:
+    desc: Runs integration server tests.
+    cmds:
+      - make test-integration-server
+    env:
+      SERVER_HOST: http://localhost
+
+  integration_worker:
+    desc: Runs integration worker tests.
+    cmds:
+      - make test-integration-worker MAILGUN_TOKEN=
+
+  postgres_export:
+    deps: [front_translate, discourse_translate]
+    desc: Exports current postgres database as a dump for future pipelines.
+    cmds:
+      - ./scripts/ci/postgres/export.js e2e-server
+
+  postgres_import:
+    desc: Imports previous pipelines postgres database.
+    cmds:
+      - ./scripts/ci/postgres/import.js e2e-server
+
+  summary:
+    desc: Posts a summary comment to the github pull request.
+    cmds:
+      - ./scripts/ci/summary.js
+
+  clean_github:
+    desc: Close old github issues created by tests.
+    cmds:
+      - cmd: make clean-github
+        ignore_error: true
+
+  clean_front:
+    desc: Delete old front conversations created by tests.
+    cmds:
+      - cmd: make clean-front
+        ignore_error: true
