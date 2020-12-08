@@ -9,6 +9,7 @@ const Bluebird = require('bluebird')
 const errio = require('errio')
 const multer = require('multer')
 const Storage = require('./file-storage')
+const registry = require('./registry')
 const oauth = require('./oauth')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment')
@@ -171,6 +172,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				data: errorObject
 			})
 		})
+	})
+
+	application.get('/api/v2/registry', async (request, response) => {
+		return registry.authenticate(request, response, jellyfish)
 	})
 
 	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
