@@ -4,9 +4,10 @@
  * Proprietary and confidential.
  */
 
-import '@formatjs/intl-listformat/locale-data/en'
-import '@formatjs/intl-listformat/polyfill'
 import styled from 'styled-components'
+import {
+	oneLineCommaListsAnd
+} from 'common-tags'
 
 /**
  * Formats an array of words to a conjuction
@@ -15,9 +16,7 @@ import styled from 'styled-components'
  * @returns {String} - for example: Account, Org, and User
  */
 export const formatAsConjunction = (words = []) => {
-	return new Intl.ListFormat('en', {
-		style: 'long', type: 'conjunction'
-	}).format(words)
+	return oneLineCommaListsAnd `${words}`
 }
 
 /**
