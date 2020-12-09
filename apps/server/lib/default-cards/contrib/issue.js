@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable no-template-curly-in-string */
+const SLUG = 'issue'
 
 module.exports = ({
 	mixin, withEvents, withRelationships, uiSchemaDef
 }) => {
-	return mixin(withEvents, withRelationships('issue'))({
-		slug: 'issue',
+	return mixin(withEvents, withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'GitHub Issue',
 		type: 'type@1.0.0',
 		data: {

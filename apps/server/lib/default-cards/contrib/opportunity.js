@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable no-template-curly-in-string */
+const SLUG = 'opportunity'
 
 module.exports = ({
 	mixin, withRelationships, uiSchemaDef
 }) => {
-	return mixin(withRelationships('opportunity'))({
-		slug: 'opportunity',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Opportunity',
 		type: 'type@1.0.0',
 		markers: [],

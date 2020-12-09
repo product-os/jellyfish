@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable max-len */
+const SLUG = 'blog-post'
 
 module.exports = ({
 	mixin, withRelationships, uiSchemaDef
 }) => {
-	return mixin(withRelationships('blog-post'))({
-		slug: 'blog-post',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Blog post',
 		type: 'type@1.0.0',
 		markers: [],

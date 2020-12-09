@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable max-len */
+const SLUG = 'changelog'
 
 module.exports = ({
 	mixin, withRelationships, uiSchemaDef
 }) => {
-	return mixin(withRelationships('changelog'))({
-		slug: 'changelog',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Changelog',
 		type: 'type@1.0.0',
 		markers: [],
