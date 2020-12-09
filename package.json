@@ -67,7 +67,7 @@
     "@balena/jellyfish-core": "^0.1.153",
     "@balena/jellyfish-environment": "^2.3.4",
     "@balena/jellyfish-queue": "^0.0.242",
-    "@balena/jellyfish-sync": "^3.1.21",
+    "@balena/jellyfish-sync": "^3.1.22",
     "@balena/jellyfish-uuid": "^1.0.37",
     "@balena/jellyfish-worker": "^2.1.23",
     "@octokit/plugin-retry": "^3.0.6",
