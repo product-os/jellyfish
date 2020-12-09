@@ -10,9 +10,9 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@babel/core": "^7.12.9",
+    "@babel/core": "^7.12.10",
     "@babel/polyfill": "^7.12.1",
-    "@babel/preset-react": "^7.12.7",
+    "@babel/preset-react": "^7.12.10",
     "@balena/jellyfish-chat-widget": "^4.0.1",
     "@balena/jellyfish-client-sdk": "^2.6.3",
     "@balena/jellyfish-ui-components": "^6.0.1",
