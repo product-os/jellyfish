@@ -1,4 +1,103 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 20fab9f19875a0f1bfd714f9bbe7ed89fd3d3784
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency aws-sdk to ^2.806.0'
+      hash: 697253db5569e53de5d68efb0dae0d7fe9e8ed73
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 98fe86a093498133159cc97d91c0e18183941819
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Add endpoint for doing docker registry token authentication
+      hash: bb43d9bc6784cd5e714320a59c99570e7dc20cf9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update dependency @primer/styled-octicons to ^11.2.0'
+      hash: 6f94c919b2d91a765575796de5c9ecc2cdafd1a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 0005a693b3a34f4a58174ead4bd732bfa46ff3c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Skip license check for husky shell scripts
+      hash: 9cbdcb1ccd354754909b218468edd77ffb69c9a6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Migrate husky configuration for v5
+      hash: 7fe013fa4325c5df8cb1b6cb42464cdd0dd45452
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency husky to v5'
+      hash: 29231c7efe762e23e9366e119647b4b54a79a200
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'ci: Move .git copy directive for sut'
+      hash: 5766d43da55aeaac5ec37c889700b54e7cce2b50
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 6ae2167598c0f5852b2510ac7de6a7cb9bdb861c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.31.0
+  date: 2020-12-09T01:35:52.552Z
+- commits:
     - subject: Streamline table and add functionality for hiding/showing columns
       hash: b58ae67d46481d3eeb7f96d3fa53aae76706ade4
       body: ''
