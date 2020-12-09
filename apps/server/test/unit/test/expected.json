@@ -6,32 +6,32 @@
         {
           "link": "issue has attached support thread",
           "type": "support-thread",
-          "title": "Support thread"
+          "title": "Support threads"
         },
         {
           "link": "issue has attached support issue",
           "type": "support-issue",
-          "title": "Support issue"
+          "title": "Support issues"
         },
         {
           "link": "is attached to",
           "type": "brainstorm-topic",
-          "title": "Brainstorm topic"
+          "title": "Brainstorm topics"
         },
         {
           "link": "comes from",
           "type": "specification",
-          "title": "Specification"
+          "title": "Specifications"
         },
         {
           "link": "is attached",
           "type": "form-response",
-          "title": "Form Response"
+          "title": "Form Responses"
         },
         {
           "link": "is attached to",
           "type": "user-feedback",
-          "title": "User Feedback"
+          "title": "User Feedbacks"
         }
       ]
     },

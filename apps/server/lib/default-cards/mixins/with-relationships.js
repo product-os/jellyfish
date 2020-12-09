@@ -5,6 +5,7 @@
  */
 
 // This mixin adds all relationships defined in the SDK links-constraints.js
+const pluralize = require('pluralize')
 const _ = require('lodash')
 const {
 	constraints
@@ -20,7 +21,7 @@ const getRelationships = (slug) => {
 	}) => {
 		if (data.from === slug) {
 			return {
-				title: data.title,
+				title: pluralize(data.title),
 				link: name,
 				type: data.to
 			}
