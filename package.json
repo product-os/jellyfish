@@ -61,7 +61,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.62",
-    "@balena/jellyfish-action-library": "^5.1.129",
+    "@balena/jellyfish-action-library": "^5.1.130",
     "@balena/jellyfish-chat-widget": "^4.0.1",
     "@balena/jellyfish-client-sdk": "^2.6.3",
     "@balena/jellyfish-core": "^0.1.153",
@@ -74,7 +74,7 @@
     "@octokit/plugin-throttling": "^3.3.4",
     "@octokit/rest": "^18.0.12",
     "ava": "^3.14.0",
-    "aws-sdk": "^2.806.0",
+    "aws-sdk": "^2.807.0",
     "bcrypt": "^5.0.0",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.18.0",
