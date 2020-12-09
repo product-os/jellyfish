@@ -155,7 +155,11 @@ module.exports = ({
 		viewSecuritySupportThreads: require('./balena/view-security-support-threads.json'),
 		viewSupportThreadsPendingUpdate: require('./balena/view-support-threads-pending-update.json'),
 		viewSupportThreadsToAudit: require('./balena/view-support-threads-to-audit.json'),
-		viewWorkflows: require('./balena/view-workflows.json')
+		viewWorkflows: require('./balena/view-workflows.json'),
+
+		// ProductOS
+		transformerWorker: require('./product-os/transformer-worker.json'),
+		viewTransformerWorkers: require('./product-os/view-all-transformer-workers.json')
 	}
 
 	return _.mapValues(defaultCards, initialize)
