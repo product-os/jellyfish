@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major to ^7.12.10'
+      hash: 6c610860adebc4ef96692b5c1016d41e02cb9b9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.31.3
+  date: 2020-12-09T23:09:42.677Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: d02408865c64eea9ff3b965877fb8fcc8a8b7606
       body: ''
