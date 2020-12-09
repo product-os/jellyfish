@@ -19,7 +19,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^5.1.129",
+    "@balena/jellyfish-action-library": "^5.1.130",
     "@balena/jellyfish-assert": "^1.0.35",
     "@balena/jellyfish-core": "^0.1.153",
     "@balena/jellyfish-environment": "^2.3.4",
@@ -29,7 +29,7 @@
     "@balena/jellyfish-sync": "^3.1.22",
     "@balena/jellyfish-uuid": "^1.0.37",
     "@balena/jellyfish-worker": "^2.1.23",
-    "aws-sdk": "^2.806.0",
+    "aws-sdk": "^2.807.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "change-case": "^4.1.2",
