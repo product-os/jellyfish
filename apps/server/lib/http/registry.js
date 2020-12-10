@@ -8,6 +8,7 @@ const jsonwebtoken = require('jsonwebtoken')
 const uuid = require('@balena/jellyfish-uuid')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 
 const {
 	REGISTRY_HOST,
@@ -60,7 +61,18 @@ exports.authenticate = async (request, response, jellyfish) => {
 		!REGISTRY_TOKEN_AUTH_CERT_KID ||
 		!REGISTRY_TOKEN_AUTH_JWT_ALGO
 	) {
-		return response.status(503)
+		logger.info(request.context, 'Registry authentication unavailable due to missing env var(s)', {
+			envvars: _.keys(_.pickBy({
+				REGISTRY_HOST,
+				REGISTRY_TOKEN_AUTH_CERT_ISSUER,
+				REGISTRY_TOKEN_AUTH_CERT_KEY,
+				REGISTRY_TOKEN_AUTH_CERT_KID,
+				REGISTRY_TOKEN_AUTH_JWT_ALGO
+			}, (envvar) => {
+				return !envvar
+			}))
+		})
+		return response.sendStatus(503)
 	}
 
 	const {
@@ -101,6 +113,10 @@ exports.authenticate = async (request, response, jellyfish) => {
 			}
 		})
 	}
+
+	logger.info(request.context, 'Registry authentication generating JWT', {
+		access: payload.access
+	})
 
 	const jwtOptions = {
 		algorithm: REGISTRY_TOKEN_AUTH_JWT_ALGO,
