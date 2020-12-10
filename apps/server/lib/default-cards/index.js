@@ -160,6 +160,9 @@ module.exports = ({
 		// ProductOS
 		image: require('./product-os/image.json'),
 		imageSource: require('./product-os/image-source.json'),
+
+		roleLoop: require('./product-os/role-loop.json'),
+		roleTransformerWorker: require('./product-os/role-transformer-worker.json'),
 		task: require('./product-os/task'),
 		transformer: require('./product-os/transformer.json'),
 		transformerWorker: require('./product-os/transformer-worker.json'),
