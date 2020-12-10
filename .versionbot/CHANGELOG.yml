@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 6249e742a9c139560f2d8585b7007512f84b2dbe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.32.1
+  date: 2020-12-10T16:58:27.722Z
+- commits:
     - subject: 'Fixup: add wait for selector'
       hash: 5dfcb0a79e55ee740999f9ae0080954e6161cdd1
       body: ''
