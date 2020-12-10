@@ -158,8 +158,11 @@ module.exports = ({
 		viewWorkflows: require('./balena/view-workflows.json'),
 
 		// ProductOS
+		task: require('./product-os/task'),
+		transformer: require('./product-os/transformer.json'),
 		transformerWorker: require('./product-os/transformer-worker.json'),
-		viewTransformerWorkers: require('./product-os/view-all-transformer-workers.json')
+		viewTransformerWorkers: require('./product-os/view-all-transformer-workers.json'),
+		viewTransformers: require('./product-os/view-all-transformers.json')
 	}
 
 	return _.mapValues(defaultCards, initialize)
