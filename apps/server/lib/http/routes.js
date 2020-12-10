@@ -175,6 +175,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	})
 
 	application.get('/api/v2/registry', async (request, response) => {
+		console.log('registry hit!')
 		return registry.authenticate(request, response, jellyfish)
 	})
 
