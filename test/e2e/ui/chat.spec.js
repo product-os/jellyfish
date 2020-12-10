@@ -233,6 +233,44 @@ ava.serial('Messages that alert a user should appear in their inbox', async (tes
 	test.pass()
 })
 
+ava.serial('Messages that alert a user should appear in their inbox and in the homechannel mentions count', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+	await macros.createChatMessage(page, columnSelector, msg)
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	await incognitoPage.waitForSelector('[data-test="event-card__message"]')
+	const inboxmessages = await incognitoPage.$$('[data-test="event-card__message"]')
+
+	await incognitoPage.waitForSelector('[data-test="homechannel-mentions-count"]')
+	const mentionscount = await macros.getElementText(incognitoPage, '[data-test="homechannel-mentions-count"]')
+
+	// Assert that they are equal count
+	test.deepEqual(Number(mentionscount), inboxmessages.length)
+})
+
 ava.serial('Messages that mention a user\'s group should appear in their inbox', async (test) => {
 	const {
 		user2,

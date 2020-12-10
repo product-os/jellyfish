@@ -600,6 +600,7 @@ export default class HomeChannel extends React.Component {
 										bottom: '10px'
 									}}
 									tooltip={`${mentions.length} notifications`}
+									data-test="homechannel-mentions-count"
 									>
 										{(mentions.length >= 100) ? '99+' : mentions.length}
 									</MentionsCount>
