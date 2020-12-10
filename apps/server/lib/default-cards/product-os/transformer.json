@@ -1,0 +1,71 @@
+{
+  "slug": "transformer",
+  "name": "Transformer",
+  "type": "type@1.0.0",
+  "markers": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "requirements": {
+              "type": "object",
+              "properties": {
+                "os": {
+                  "type": "string"
+                },
+                "architecture": {
+                  "type": "string"
+                }
+              }
+            },
+            "trigger": {
+              "type": "object",
+              "properties": {
+                "before": {
+                  "anyOf": [
+                    {
+                      "type": "object"
+                    }, {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "after": {
+                  "anyOf": [
+                    {
+                      "type": "object"
+                    }, {
+                      "type": "null"
+                    }
+                  ]
+                }
+              }
+            },
+            "workerFilter": {
+              "type": "object"
+            },
+            "image": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "required": [
+            "requirements",
+            "trigger",
+            "image"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ]
+  }
+}
