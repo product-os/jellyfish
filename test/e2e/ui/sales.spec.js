@@ -264,7 +264,11 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	await page.waitForSelector('.view__search')
 
 	// The created opportunity is displayed as we have no active filter
-	await page.waitForSelector(opportunityCardSelector)
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		opportunityCardSelector
+	))
 
 	// Enter a search term
 	await macros.setInputValue(page, searchInputSelector, searchTerm)
@@ -273,7 +277,11 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	await page.waitForXPath(filterButtonSelector)
 
 	// The created opportunity should now be hidden as it doesn't match the search term
-	await macros.waitForSelectorToDisappear(page, opportunityCardSelector)
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		opportunityCardSelector
+	))
 
 	// Click the 'x' button next to the search filter summary item to remove the search filter
 	const closeButton = await page.waitForXPath(closeFilterButtonSelector)
@@ -284,7 +292,11 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	test.is(searchText.trim(), '')
 
 	// ...and the created opportunity is displayed once again
-	await page.waitForSelector(opportunityCardSelector)
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		opportunityCardSelector
+	))
 
 	// Enter the search term again
 	await macros.setInputValue(page, searchInputSelector, searchTerm)
@@ -293,7 +305,11 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	await page.waitForXPath(filterButtonSelector)
 
 	// ... and that the created opportunity should be hidden again
-	await macros.waitForSelectorToDisappear(page, opportunityCardSelector)
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		opportunityCardSelector
+	))
 
 	// This time click the 'Clear all' button to remove all filters
 	const clearAllButton = await page.waitForXPath(clearAllButtonSelector)
@@ -304,5 +320,9 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	test.is(searchText.trim(), '')
 
 	// ...and the created opportunity is displayed once again
-	await page.waitForSelector(opportunityCardSelector)
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		opportunityCardSelector
+	))
 })
