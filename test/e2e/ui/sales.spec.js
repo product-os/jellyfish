@@ -80,7 +80,7 @@ ava.serial('should let users create new contacts attached to accounts', async (t
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[role="tablist"] button:nth-of-type(4)')
+	await macros.waitForThenClickSelector(page, '[role="tablist"] [data-test="card-relationship-tab-contacts"]')
 	await macros.waitForThenClickSelector(page, '[data-test="add-contact"]')
 
 	const name = `test contact ${uuid()}`
