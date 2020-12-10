@@ -158,6 +158,8 @@ module.exports = ({
 		viewWorkflows: require('./balena/view-workflows.json'),
 
 		// ProductOS
+		roleLoop: require('./product-os/role-loop.json'),
+		roleTransformerWorker: ('./product-os/role-transformer-worker.json'),
 		task: require('./product-os/task'),
 		transformer: require('./product-os/transformer.json'),
 		transformerWorker: require('./product-os/transformer-worker.json'),
