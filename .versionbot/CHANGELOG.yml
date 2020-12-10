@@ -1,4 +1,79 @@
 - commits:
+    - subject: 'Fixup: add wait for selector'
+      hash: 5dfcb0a79e55ee740999f9ae0080954e6161cdd1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: 'Test: mentions count should be equal to messages in inbox'
+      hash: 49906f2914094c998ec525b1eb8e85cd581700f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: Add transformer and task type cards
+      hash: bb1c017b9137afb71bb02c412647766fa6da0229
+      body: >
+        This adds the contract representation for transformers, that can match
+        an
+
+        input contract and create and output contract, and tasks, which describe
+
+        a discrete unit of work that needs to be done.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.3.5'
+      hash: a3675929e8e0b2133f05537d1bc612f79d4a1541
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 9454eab172da569e3c4e0b0acb1438d404857040
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Set as root in eslint config file
+      hash: d99c09639217a99d4d22b73163dee29143260582
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add transformer worker type card
+      hash: c7780f1fd47af2f9c246f796b2586321928ff6f3
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.32.0
+  date: 2020-12-10T13:48:00.650Z
+- commits:
     - subject: 'patch: Update non-major to ^7.12.10'
       hash: 6c610860adebc4ef96692b5c1016d41e02cb9b9a
       body: ''
