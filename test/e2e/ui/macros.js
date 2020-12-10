@@ -8,8 +8,10 @@ const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment')
 
+exports.TIMEOUT = 60 * 1000
+
 exports.WAIT_OPTS = {
-	timeout: 60 * 1000
+	timeout: exports.TIMEOUT
 }
 
 exports.retry = async (times, functionToTry) => {
@@ -119,7 +121,9 @@ exports.waitForThenClickSelector = async (page, selector, options) => {
 			await el.click()
 		} else {
 			await page.waitForSelector(selector, options)
-			await page.click(selector)
+			await page.$eval(selector, (elem) => {
+				elem.click()
+			})
 		}
 	})
 }
@@ -216,5 +220,86 @@ exports.navigateToHomeChannelItem = async (page, menuStack) => {
 			// Click the final item to navigate to the view
 			await exports.waitForThenClickSelector(page, itemSelector)
 		}
+	}
+}
+
+const lookForElementInsideScrollable = async (scrollable, selector) => {
+	const stepTimeout = 100
+	const stepDistance = scrollable.clientHeight
+
+	scrollable.scroll(0, 0)
+
+	let target = null
+	while (true) {
+		target = document.querySelector(selector)
+
+		if (target) {
+			return {
+				result: target,
+				success: true
+			}
+		}
+
+		/* If the container is not scrollable or
+		 * if it's scrolled to the end
+		 * return undefined
+		 */
+		if (scrollable.scrollHeight <= scrollable.clientHeight ||
+			scrollable.scrollTop === (scrollable.scrollHeight - scrollable.offsetHeight)) {
+			return {
+				result: null,
+				success: false
+			}
+		}
+
+		await new Promise((resolve) => {
+			setTimeout(resolve, stepTimeout)
+		})
+
+		scrollable.scroll(0, scrollable.scrollTop + stepDistance)
+	}
+}
+
+exports.waitForSelectorInsideScrollable = async (page, scrollable, selector) => {
+	const start = Date.now()
+
+	while (true) {
+		if (Date.now() - start > exports.TIMEOUT) {
+			throw new Error('Timeout error')
+		}
+
+		const result = await page.evaluateHandle(
+			lookForElementInsideScrollable,
+			scrollable,
+			selector
+		)
+
+		if (await (await result.getProperty('success')).jsonValue()) {
+			return result.getProperty('result')
+		}
+
+		await bluebird.delay(100)
+	}
+}
+
+exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollable, selector) => {
+	const start = Date.now()
+
+	while (true) {
+		if (Date.now() - start > exports.TIMEOUT) {
+			throw new Error('Timeout error')
+		}
+
+		const result = await page.evaluateHandle(
+			lookForElementInsideScrollable,
+			scrollable,
+			selector
+		)
+
+		if (!(await (await result.getProperty('success')).jsonValue())) {
+			return
+		}
+
+		await bluebird.delay(100)
 	}
 }
