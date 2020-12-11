@@ -283,6 +283,41 @@ spec:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
+        {{#REGISTRY_HOST}}
+        - name: REGISTRY_HOST
+          valueFrom:
+            secretKeyRef:
+              key: REGISTRY_HOST
+              name: registry-host
+        {{/REGISTRY_HOST}}
+        {{#REGISTRY_TOKEN_AUTH_CERT_ISSUER}}
+        - name: REGISTRY_TOKEN_AUTH_CERT_ISSUER
+          valueFrom:
+            secretKeyRef:
+              key: REGISTRY_TOKEN_AUTH_CERT_ISSUER
+              name: registry-token-auth-cert-issuer
+        {{/REGISTRY_TOKEN_AUTH_CERT_ISSUER}}
+        {{#REGISTRY_TOKEN_AUTH_CERT_KEY}}
+        - name: REGISTRY_TOKEN_AUTH_CERT_KEY
+          valueFrom:
+            secretKeyRef:
+              key: REGISTRY_TOKEN_AUTH_CERT_KEY
+              name: registry-token-auth-cert-key
+        {{/REGISTRY_TOKEN_AUTH_CERT_KEY}}
+        {{#REGISTRY_TOKEN_AUTH_CERT_KID}}
+        - name: REGISTRY_TOKEN_AUTH_CERT_KID
+          valueFrom:
+            secretKeyRef:
+              key: REGISTRY_TOKEN_AUTH_CERT_KID
+              name: registry-token-auth-cert-kid
+        {{/REGISTRY_TOKEN_AUTH_CERT_KID}}
+        {{#REGISTRY_TOKEN_AUTH_JWT_ALGO}}
+        - name: REGISTRY_TOKEN_AUTH_JWT_ALGO
+          valueFrom:
+            secretKeyRef:
+              key: REGISTRY_TOKEN_AUTH_JWT_ALGO
+              name: registry-token-auth-jwt-algo
+        {{/REGISTRY_TOKEN_AUTH_JWT_ALGO}}
         ports:
         - containerPort: 8000
         - containerPort: 9229

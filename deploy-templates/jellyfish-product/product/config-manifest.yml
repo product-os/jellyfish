@@ -98,3 +98,13 @@ properties:
     type: string?
   QUEUE_CONCURRENCY:
     type: number
+  REGISTRY_HOST:
+    type: string?
+  REGISTRY_TOKEN_AUTH_CERT_ISSUER:
+    type: string?
+  REGISTRY_TOKEN_AUTH_CERT_KEY:
+    type: string?
+  REGISTRY_TOKEN_AUTH_CERT_KID:
+    type: string?
+  REGISTRY_TOKEN_AUTH_JWT_ALGO:
+    type: string?
