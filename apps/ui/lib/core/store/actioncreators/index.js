@@ -51,8 +51,12 @@ const allGroupsWithUsersQuery = {
 	$$links: {
 		'has group member': {
 			type: 'object',
-			required: [ 'slug' ],
+			required: [ 'slug', 'active' ],
 			properties: {
+				active: {
+					type: 'boolean',
+					const: true
+				},
 				slug: {
 					type: 'string'
 				}
