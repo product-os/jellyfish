@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 522428323fddde831b7092067b8a237d65512819
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.32.4
+  date: 2020-12-11T04:17:44.395Z
+- commits:
     - subject: Hide inactive group users
       hash: 3f8004f05e7d28bfc8447fb454d9c55b57751b5b
       body: >
