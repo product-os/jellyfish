@@ -15,11 +15,10 @@ import {
 	actionCreators,
 	selectors
 } from '../../../core'
-import SingleCard from './SingleCard'
-
-export {
-	SingleCardTabs
-} from './SingleCard'
+import {
+	TransformerWorker,
+	SLUG
+} from './TransformerWorker'
 
 const mapStateToProps = (state) => {
 	return {
@@ -40,16 +39,22 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: 'lens-full-default',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Default lens',
+	name: 'Transformer Worker lens',
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SingleCard),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(TransformerWorker),
 		filter: {
-			type: 'object'
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: 'transformer-worker@1.0.0'
+				}
+			}
 		}
 	}
 }
