@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 1ae50fcd86efb4d6af55316ed7db97f521754d12
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.32.5
+  date: 2020-12-11T09:44:54.285Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 522428323fddde831b7092067b8a237d65512819
       body: ''
