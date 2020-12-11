@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'Frame template: Make the registry variable references optional.'
+      hash: c66e0f21738103ce812d362953431709c6236738
+      body: |
+        The registry references should not be included in the deployment
+        template if the variables are not in the environment.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+    - subject: Add registry variables to deploy template
+      hash: 5fa4d09a927b31374d8415fe07cfc6f217e80a8c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Robert Günzler <robertg@balena.io>
+        signed-off-by: Robert Günzler <robertg@balena.io>
+      author: Robert Günzler
+      nested: []
+  version: 33.33.0
+  date: 2020-12-11T15:09:03.479Z
+- commits:
     - subject: Bump dependencies
       hash: 1ae50fcd86efb4d6af55316ed7db97f521754d12
       body: ''
