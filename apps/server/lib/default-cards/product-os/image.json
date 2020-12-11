@@ -1,0 +1,38 @@
+{
+  "slug": "image",
+  "name": "Container image contract",
+  "type": "type@1.0.0",
+  "markers": [],
+  "data": {
+    "schema": {
+      "type": "object",
+      "properties": {
+        "data": {
+          "type": "object",
+          "properties": {
+            "artefact": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            },
+            "should_trigger": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "should_trigger"
+          ]
+        }
+      }
+    },
+    "required": [
+      "data"
+    ]
+  }
+}
