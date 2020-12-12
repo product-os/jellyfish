@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'renovate: Ignore node version bumps'
+      hash: f5bcb45cd8c4dd3463311d5521bc11b9cb9e40e8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.33.1
+  date: 2020-12-12T07:20:46.441Z
+- commits:
     - subject: 'Frame template: Make the registry variable references optional.'
       hash: c66e0f21738103ce812d362953431709c6236738
       body: |
