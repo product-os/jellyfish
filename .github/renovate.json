@@ -23,7 +23,8 @@
   ],
   "ignoreDeps": [
     "monaco-editor",
-    "monaco-editor-webpack-plugin"
+    "monaco-editor-webpack-plugin",
+    "node"
   ],
   "packageRules": [
     {
