@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.28'
+      hash: 43f00d9c807a4f057f2d881396835a6546be69cb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.33.2
+  date: 2020-12-12T12:44:22.699Z
+- commits:
     - subject: 'renovate: Ignore node version bumps'
       hash: f5bcb45cd8c4dd3463311d5521bc11b9cb9e40e8
       body: ''
