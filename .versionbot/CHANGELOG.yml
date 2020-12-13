@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump dependencies
+      hash: ca0c3677d267df5f9c055f4d823e3bdb6c22fad8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Make use of new CardLoader context
+      hash: d2fdda03e226e78ecc96ed3dca2b5b1e88925019
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.33.6
+  date: 2020-12-13T08:48:57.253Z
+- commits:
     - subject: Add fix-nuc command to reset device target state
       hash: a830ef5cb12204a0c4946bb3c786a782a1294be7
       body: >
