@@ -7,7 +7,6 @@
 const ava = require('ava')
 const nock = require('nock')
 const helpers = require('../helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 const environment = require('@balena/jellyfish-environment')
 
 const MAIL_OPTIONS = environment.mail.options
@@ -19,7 +18,7 @@ const checkForKeyValue = (key, value, text) => {
 }
 
 ava.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 	const {
 		jellyfish,
 		context,

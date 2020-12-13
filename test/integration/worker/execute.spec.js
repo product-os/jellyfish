@@ -8,10 +8,9 @@ const ava = require('ava')
 const Promise = require('bluebird')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 
 ava.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 
 	test.context.waitForMatch = async (waitQuery, times = 20) => {
 		if (times === 0) {
