@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add fix-nuc command to reset device target state
+      hash: a830ef5cb12204a0c4946bb3c786a782a1294be7
+      body: >
+        During livepush development the NUC could stop watching files and
+        streaming logs. The current advised fix is to reset the target state and
+        push to the device again.
+
+
+        More information: https://www.flowdock.com/app/rulemotion/resin-
+
+        starters/threads/yuS9WCzSeUGm4e_FwBp2bbc7ALU
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.33.5
+  date: 2020-12-13T06:27:01.622Z
+- commits:
     - subject: 'ci: Fix postgres import/export error catching'
       hash: c44d2c0da9c4edc86bef003e28accd75d62ff189
       body: ''
