@@ -7,10 +7,9 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('../helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 
 ava.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 })
 
 ava.after(helpers.worker.after)

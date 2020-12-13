@@ -8,7 +8,6 @@ const ava = require('ava')
 const nock = require('nock')
 const crypto = require('crypto')
 const helpers = require('../helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 const environment = require('@balena/jellyfish-environment')
 
 const MAIL_OPTIONS = environment.mail.options
@@ -17,7 +16,7 @@ const {
 } = environment.actions
 
 ava.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 })
 
 ava.beforeEach(async (test) => {

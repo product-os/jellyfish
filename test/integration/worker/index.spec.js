@@ -13,7 +13,7 @@ const Worker = require('@balena/jellyfish-worker').Worker
 const uuid = require('@balena/jellyfish-uuid')
 
 ava.serial.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 })
 
 ava.serial.after(helpers.worker.after)
@@ -1551,7 +1551,7 @@ ava('.getTriggers() should initially be an empty array', async (test) => {
 	const newInstance = {
 		context: {}
 	}
-	await helpers.worker.before(newInstance, actionLibrary)
+	await helpers.worker.before(newInstance)
 
 	const triggers = newInstance.context.worker.getTriggers()
 	test.deepEqual(triggers, [])

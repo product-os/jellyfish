@@ -11,7 +11,6 @@ const {
 } = require('uuid')
 const environment = require('@balena/jellyfish-environment')
 const helpers = require('../helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 
 const hasCredentials = () => {
 	try {
@@ -25,7 +24,7 @@ const hasCredentials = () => {
 const avaTest = !hasCredentials() || environment.test.integration.skip ? ava.serial.skip : ava.serial
 
 ava.before(async (test) => {
-	await helpers.worker.before(test, actionLibrary)
+	await helpers.worker.before(test)
 
 	// Create a card that we'll add a conferenceUrl to
 	test.context.card = await test.context.jellyfish.insertCard(test.context.context,
