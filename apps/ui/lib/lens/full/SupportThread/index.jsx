@@ -506,8 +506,6 @@ class SupportThreadBase extends React.Component {
 													card={statusEvent}
 													user={this.props.user}
 													groups={this.props.groups}
-													selectCard={selectors.getCard}
-													getCard={this.props.actions.getCard}
 													mb={1}
 													threadIsMirrored={isMirrored}
 													getActorHref={getActorHref}
@@ -564,7 +562,6 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'addChannel',
 				'getActor',
-				'getCard',
 				'loadMoreViewData',
 				'setFlow',
 				'removeChannel',

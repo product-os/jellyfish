@@ -28,7 +28,6 @@ const mapStateToProps = (state, ownProps) => {
 	const card = ownProps.card
 	return {
 		wide: !ownProps.isMobile,
-		selectCard: selectors.getCard,
 		enableAutocomplete: !environment.isTest(),
 		sdk,
 		types: selectors.getTypes(state),
@@ -44,7 +43,6 @@ const mapDispatchToProps = (dispatch) => {
 		_.pick(actionCreators, [
 			'setTimelineMessage',
 			'signalTyping',
-			'getCard',
 			'getActor',
 			'loadMoreChannelData'
 		]),

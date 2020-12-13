@@ -27,8 +27,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'getActor',
-				'getCard'
+				'getActor'
 			]),
 			dispatch
 		)
