@@ -17,7 +17,6 @@
 const environment = require('@balena/jellyfish-environment')
 const execSync = require('child_process').execSync
 const fs = require('fs')
-const trim = require('lodash').trim
 const utils = require('./utils')
 
 /**
@@ -31,7 +30,11 @@ const utils = require('./utils')
  */
 const getCommitHash = () => {
 	const command = 'git log --pretty="%H" | head -n 1'
-	return trim(execSync(command).toString())
+	const output = execSync(command).toString().trim()
+	if (output === '') {
+		utils.handleError('Failed to get commit hash')
+	}
+	return output
 }
 
 /**
@@ -58,11 +61,12 @@ const dump = (options) => {
 		env: {
 			PGPASSWORD: options.postgres.password
 		}
-	}, (error) => {
-		if (error) {
-			utils.handleError(error)
-		}
 	})
+
+	// Make sure the file exists and is not empty
+	if (!fs.existsSync(file) || execSync(`wc -l ${file} | cut -d' ' -f1`).toString().trim() === '0') {
+		utils.handleError(`Failed to create Postgres dump file at ${file}`)
+	}
 
 	return file
 }

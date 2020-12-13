@@ -38,7 +38,11 @@ const utils = require('./utils')
 const getCommitHash = async (options) => {
 	let commitHash = ''
 	const command = 'git log --pretty="%H" | tail +2 | head -n 10'
-	const hashes = execSync(command).toString().split(/\r?\n/)
+	const output = execSync(command).toString()
+	if (output.trim() === '') {
+		utils.handleError('Failed to get git commit hash')
+	}
+	const hashes = output.split(/\r?\n/)
 	hashes.pop()
 	for await (const hash of hashes) {
 		try {
@@ -67,7 +71,11 @@ const getCommitHash = async (options) => {
  * const dumpPath = extract('/tmp/postgres-dump.gz')
  */
 const extract = (file) => {
-	execSync(`gunzip ${file}`)
+	try {
+		execSync(`gunzip ${file}`)
+	} catch (error) {
+		utils.handleError(error)
+	}
 	return file.replace('.gz', '')
 }
 
