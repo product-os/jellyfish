@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 7e9e62d18bc0054448ed0ff862e465dddeda434e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.33.7
+  date: 2020-12-13T12:49:54.629Z
+- commits:
     - subject: Bump dependencies
       hash: ca0c3677d267df5f9c055f4d823e3bdb6c22fad8
       body: ''
