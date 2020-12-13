@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add contracts for image and image source
+      hash: 58b23cf3cb53e6f861f181f89522a015f1b910f2
+      body: >
+        Image source represents a source repo that will build a container image,
+        the image contract is the contract for that
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+      nested: []
+  version: 33.33.8
+  date: 2020-12-13T15:08:17.091Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 7e9e62d18bc0054448ed0ff862e465dddeda434e
       body: ''
