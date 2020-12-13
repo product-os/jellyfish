@@ -18,7 +18,8 @@
 	clean-github \
 	npm-install \
 	push \
-	ssh
+	ssh \
+	npm-ci
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -261,6 +262,13 @@ npm-install:
 	cd apps/server && npm install
 	cd apps/ui && npm install
 
+npm-ci:
+	npm ci
+	cd apps/action-server && npm ci
+	cd apps/livechat && npm ci
+	cd apps/server && npm ci
+	cd apps/ui && npm ci
+
 .tmp:
 	mkdir -p $@
 
@@ -457,6 +465,14 @@ push:
 
 ssh:
 	balena ssh jel.ly.fish.local
+
+# During livepush development the NUC could stop watching files and streaming logs.
+# The current advised fix is to reset the target state and push to the device again.
+# More information: https://www.flowdock.com/app/rulemotion/resin-starters/threads/yuS9WCzSeUGm4e_FwBp2bbc7ALU
+reset-state:
+	@echo "Resetting target state..."
+	@curl -X POST --header "Content-Type:application/json" "http://jel.ly.fish.local:48484/v2/local/target-state" -d '{"local": {"name": "restless-frost","config": {},"apps": {}},"dependent": {"config": {}}}'
+	@echo "You might need to manually reboot the device before pushing again"
 
 deploy-%:
 	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
