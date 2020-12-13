@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove queue integration tests
+      hash: 408f19d872ffbbfa22733511c4751e2bfb5f1bb1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.33.9
+  date: 2020-12-13T19:25:18.899Z
+- commits:
     - subject: Add contracts for image and image source
       hash: 58b23cf3cb53e6f861f181f89522a015f1b910f2
       body: >
