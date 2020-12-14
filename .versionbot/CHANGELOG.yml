@@ -1,4 +1,22 @@
 - commits:
+    - subject: Add loop and transformer worker role.
+      hash: 95a7849deceb275a5048888d2de40528743d80fa
+      body: >
+        Loops have the same permissions as superuser. Transformer worker
+        permissions are modelled off the user-community ones,
+
+        with the exception of being able to create session cards for any user
+        and not having permissions on views
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Giovanni Garufi <giovanni@balena.io>
+        signed-off-by: Giovanni Garufi <giovanni@balena.io>
+      author: Giovanni Garufi
+      nested: []
+  version: 33.34.3
+  date: 2020-12-14T11:39:33.467Z
+- commits:
     - subject: 'patch: Update dependency rendition to ^18.19.2'
       hash: df4f8052ba0b7734bdc18c04dee7d35aa2a19e82
       body: ''
