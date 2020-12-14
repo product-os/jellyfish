@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update to latest worker version and bootstrap worker with transformers
+      hash: 266c3b9598a4a2956958217651bb191dfb9a3b58
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.35.0
+  date: 2020-12-14T15:31:41.128Z
+- commits:
     - subject: Add loop and transformer worker role.
       hash: 95a7849deceb275a5048888d2de40528743d80fa
       body: >
