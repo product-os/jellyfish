@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix docker registry auth endpoint
+      hash: 0bc6948534cafeb0676411a0fef411dcbe8adc56
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.34.1
+  date: 2020-12-14T08:48:33.957Z
+- commits:
     - subject: Add with-relationships to cards that already use mixins
       hash: d2fca56c9168ac486cfe60693dd7deaa77b129b9
       body: |
