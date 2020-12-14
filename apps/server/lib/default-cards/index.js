@@ -163,6 +163,10 @@ module.exports = ({
 
 		roleLoop: require('./product-os/role-loop.json'),
 		roleTransformerWorker: require('./product-os/role-transformer-worker.json'),
+
+		loop: require('./product-os/loop'),
+		loopProductOS: require('./product-os/loop-product-os'),
+
 		task: require('./product-os/task'),
 		transformer: require('./product-os/transformer.json'),
 		transformerWorker: require('./product-os/transformer-worker.json'),
