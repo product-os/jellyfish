@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^18.19.2'
+      hash: df4f8052ba0b7734bdc18c04dee7d35aa2a19e82
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.34.2
+  date: 2020-12-14T09:11:21.237Z
+- commits:
     - subject: Fix docker registry auth endpoint
       hash: 0bc6948534cafeb0676411a0fef411dcbe8adc56
       body: ''
