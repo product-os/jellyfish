@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable no-template-curly-in-string */
+const SLUG = 'sales-thread'
 
 module.exports = ({
-	mixin, uiSchemaDef, asPipelineItem
+	mixin, uiSchemaDef, asPipelineItem, withRelationships
 }) => {
-	return mixin(asPipelineItem)({
-		slug: 'sales-thread',
+	return mixin(asPipelineItem, withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Sales Thread',
 		type: 'type@1.0.0',
 		markers: [],
@@ -88,15 +89,6 @@ module.exports = ({
 						}
 					}
 				}
-			},
-			meta: {
-				relationships: [
-					{
-						title: 'Opportunity',
-						link: 'is attached to',
-						type: 'opportunity'
-					}
-				]
 			}
 		}
 	})

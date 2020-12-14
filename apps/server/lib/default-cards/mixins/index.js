@@ -5,6 +5,7 @@
  */
 
 const withEvents = require('./with-events')
+const withRelationships = require('./with-relationships')
 const asPipelineItem = require('./as-pipeline-item')
 
 const uiSchemaDef = (key) => {
@@ -16,5 +17,6 @@ module.exports = {
 	asPipelineItem,
 	withEvents: withEvents({
 		uiSchemaDef
-	})
+	}),
+	withRelationships
 }

@@ -3,12 +3,13 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
+const SLUG = 'pattern'
 
 module.exports = ({
-	mixin, withEvents
+	mixin, withEvents, withRelationships
 }) => {
-	return mixin(withEvents)({
-		slug: 'pattern',
+	return mixin(withEvents, withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Pattern',
 		type: 'type@1.0.0',
 		data: {
@@ -32,15 +33,6 @@ module.exports = ({
 				},
 				required: [
 					'name'
-				]
-			},
-			meta: {
-				relationships: [
-					{
-						title: 'Product improvements',
-						link: 'has attached',
-						type: 'product-improvement'
-					}
 				]
 			}
 		}

@@ -121,7 +121,11 @@ export default class SingleCardFull extends React.Component {
 
 					{_.map(relationships, (segment, index) => {
 						return (
-							<Tab title={segment.title} key={segment.title}>
+							<Tab
+								title={segment.title}
+								key={segment.title}
+								data-test={`card-relationship-tab-${helpers.slugify(segment.title)}`}
+							>
 								<Segment
 									card={card}
 									segment={segment}

@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable max-len */
+const SLUG = 'account'
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
-		slug: 'account',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		type: 'type@1.0.0',
 		name: 'Account',
 		markers: [],
@@ -157,31 +158,7 @@ module.exports = ({
 			},
 			slices: [
 				'properties.data.properties.profile.properties.status'
-			],
-			meta: {
-				relationships: [
-					{
-						title: 'Opportunities',
-						link: 'has attached',
-						type: 'opportunity'
-					},
-					{
-						title: 'Contacts',
-						link: 'has',
-						type: 'contact'
-					},
-					{
-						title: 'Owner',
-						link: 'is owned by',
-						type: 'user'
-					},
-					{
-						title: 'Backup owners',
-						link: 'has backup owner',
-						type: 'user'
-					}
-				]
-			}
+			]
 		}
-	}
+	})
 }

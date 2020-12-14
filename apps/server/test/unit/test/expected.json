@@ -1,0 +1,267 @@
+{
+  "id": "d3fde464-1e89-451b-b8fb-732698c5c42e",
+  "data": {
+    "meta": {
+      "relationships": [
+        {
+          "link": "issue has attached support thread",
+          "type": "support-thread",
+          "title": "Support threads"
+        },
+        {
+          "link": "issue has attached support issue",
+          "type": "support-issue",
+          "title": "Support issues"
+        },
+        {
+          "link": "is attached to",
+          "type": "brainstorm-topic",
+          "title": "Brainstorm topics"
+        },
+        {
+          "link": "comes from",
+          "type": "specification",
+          "title": "Specifications"
+        },
+        {
+          "link": "is attached",
+          "type": "form-response",
+          "title": "Form Responses"
+        },
+        {
+          "link": "is attached to",
+          "type": "user-feedback",
+          "title": "User Feedbacks"
+        }
+      ]
+    },
+    "schema": {
+      "type": "object",
+      "required": [
+        "data"
+      ],
+      "properties": {
+        "data": {
+          "type": "object",
+          "required": [
+            "repository"
+          ],
+          "properties": {
+            "status": {
+              "enum": [
+                "open",
+                "closed"
+              ],
+              "type": "string",
+              "title": "Status"
+            },
+            "mirrors": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "archived": {
+              "type": "boolean",
+              "default": false
+            },
+            "alertsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsUser')"
+            },
+            "repository": {
+              "type": "string"
+            },
+            "alertsGroup": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.alertsGroup')"
+            },
+            "description": {
+              "type": "string",
+              "format": "markdown"
+            },
+            "mentionsUser": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsUser')"
+            },
+            "participants": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.actor')"
+            },
+            "mentionsGroup": {
+              "type": "array",
+              "$$formula": "AGGREGATE($events, 'data.payload.mentionsGroup')"
+            }
+          }
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^.*\\S.*$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "$$formula": "AGGREGATE($events, 'tags')",
+          "fullTextSearch": true
+        }
+      }
+    },
+    "slices": [
+      "properties.data.properties.status"
+    ],
+    "uiSchema": {
+      "edit": {
+        "data": {
+          "repository": {
+            "ui:widget": "AutoCompleteWidget",
+            "ui:options": {
+              "keyPath": "data.repository",
+              "resource": "issue"
+            }
+          }
+        }
+      },
+      "create": {
+        "data": {
+          "repository": {
+            "ui:widget": "AutoCompleteWidget",
+            "ui:options": {
+              "keyPath": "data.repository",
+              "resource": "issue"
+            }
+          }
+        }
+      },
+      "fields": {
+        "id": null,
+        "data": {
+          "origin": null,
+          "status": {
+            "ui:widget": "Badge"
+          },
+          "mirrors": {
+            "items": {
+              "ui:widget": "Link",
+              "ui:options": {
+                "href": "${fns.getMirror(source)}",
+                "blank": true
+              }
+            }
+          },
+          "archived": {
+            "ui:title": null,
+            "ui:value": {
+              "$if": "source",
+              "else": null,
+              "then": "Archived"
+            },
+            "ui:widget": "Badge"
+          },
+          "ui:order": [
+            "repository",
+            "mirrors",
+            "description",
+            "status",
+            "archived",
+            "mentionsUser",
+            "alertsUser",
+            "mentionsGroup",
+            "alertsGroup",
+            "participants"
+          ],
+          "ui:title": null,
+          "alertsUser": {
+            "items": {
+              "ui:value": "${source[5:]},",
+              "ui:widget": "Link",
+              "ui:options": {
+                "mr": 1,
+                "href": "https://jel.ly.fish/${source}"
+              }
+            },
+            "ui:options": {
+              "orientation": "horizontal"
+            }
+          },
+          "repository": {
+            "ui:widget": "Link",
+            "ui:options": {
+              "href": "https://github.com/${source}",
+              "blank": true
+            }
+          },
+          "alertsGroup": {
+            "ui:widget": "Txt"
+          },
+          "mentionsUser": {
+            "items": {
+              "ui:value": "${source[5:]},",
+              "ui:widget": "Link",
+              "ui:options": {
+                "mr": 1,
+                "href": "https://jel.ly.fish/${source}"
+              }
+            },
+            "ui:options": {
+              "orientation": "horizontal"
+            }
+          },
+          "participants": {
+            "items": {
+              "ui:widget": "Link",
+              "ui:options": {
+                "href": "https://jel.ly.fish/${source}"
+              }
+            }
+          },
+          "$$localSchema": null,
+          "mentionsGroup": {
+            "ui:widget": "Txt"
+          },
+          "translateDate": null
+        },
+        "name": null,
+        "slug": null,
+        "tags": null,
+        "type": null,
+        "links": null,
+        "active": null,
+        "markers": null,
+        "version": null,
+        "requires": null,
+        "linked_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "capabilities": null
+      },
+      "definitions": {
+        "form": {
+          "data": {
+            "repository": {
+              "ui:widget": "AutoCompleteWidget",
+              "ui:options": {
+                "keyPath": "data.repository",
+                "resource": "issue"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "name": "GitHub Issue",
+  "slug": "issue",
+  "tags": [],
+  "type": "type@1.0.0",
+  "links": {},
+  "active": true,
+  "markers": [],
+  "version": "1.0.0",
+  "requires": [],
+  "linked_at": {},
+  "created_at": "2020-09-21T10:59:14.946Z",
+  "updated_at": "2020-12-07T13:37:15.064Z",
+  "capabilities": []
+}

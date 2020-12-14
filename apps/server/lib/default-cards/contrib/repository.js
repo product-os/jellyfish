@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable no-template-curly-in-string */
+const SLUG = 'repository'
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
-		slug: 'repository',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Github Repository',
 		type: 'type@1.0.0',
 		markers: [],
@@ -56,5 +57,5 @@ module.exports = ({
 				[ 'data.name' ]
 			]
 		}
-	}
+	})
 }

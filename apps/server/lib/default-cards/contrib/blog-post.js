@@ -5,12 +5,13 @@
  */
 
 /* eslint-disable max-len */
+const SLUG = 'blog-post'
 
 module.exports = ({
-	uiSchemaDef
+	mixin, withRelationships, uiSchemaDef
 }) => {
-	return {
-		slug: 'blog-post',
+	return mixin(withRelationships(SLUG))({
+		slug: SLUG,
 		name: 'Blog post',
 		type: 'type@1.0.0',
 		markers: [],
@@ -257,21 +258,7 @@ module.exports = ({
 					}
 				}
 			},
-			meta: {
-				relationships: [
-					{
-						title: 'Author',
-						link: 'authored by',
-						type: 'user'
-					},
-					{
-						title: 'Related content',
-						link: 'is related to',
-						type: 'blog-post'
-					}
-				]
-			},
 			fieldOrder: [ 'post_header_meta', 'subheader', 'content', 'post_promo' ]
 		}
-	}
+	})
 }
