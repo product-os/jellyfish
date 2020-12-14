@@ -17,6 +17,11 @@ import {
 	helpers
 } from '@balena/jellyfish-ui-components'
 
+const preventClickPropagation = (event) => {
+	event.stopPropagation()
+	event.preventDefault()
+}
+
 export default class AutoCompleteCardSelect extends React.Component {
 	constructor (props) {
 		super(props)
@@ -28,12 +33,26 @@ export default class AutoCompleteCardSelect extends React.Component {
 		this.onChange = this.onChange.bind(this)
 	}
 
+	createContainer () {
+		this.container = document.createElement('div')
+		this.container.addEventListener('mousedown', preventClickPropagation)
+		document.body.appendChild(this.container)
+	}
+
+	disposeContainer () {
+		this.container.parentNode.removeChild(this.container)
+		this.container.removeEventListener('mousedown', preventClickPropagation)
+		this.container = null
+	}
+
 	componentDidMount () {
 		this._isMounted = true
+		this.createContainer()
 	}
 
 	componentWillUnmount () {
 		this._isMounted = false
+		this.disposeContainer()
 	}
 
 	componentDidUpdate (prevProps) {
@@ -140,7 +159,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 				defaultOptions
 				onChange={this.onChange}
 				loadOptions={this.getTargets}
-				menuPortalTarget={document.body}
+				menuPortalTarget={this.container}
 				styles={{
 					// Ensure the menu portal shows on top of a modal
 					menuPortal: (base) => {
