@@ -142,6 +142,18 @@ const SCHEMA_ACTIVE_SUBSCRIPTIONS = {
 	}
 }
 
+const SCHEMA_ACTIVE_TRANSFORMERS = {
+	type: 'object',
+	properties: {
+		active: {
+			const: true
+		},
+		type: {
+			const: 'transformer@1.0.0'
+		}
+	}
+}
+
 const bootstrap = async (context, library, options) => {
 	logger.info(context, 'Setting up cache')
 	const cache = new core.MemoryCache(environment.redis)
@@ -174,6 +186,9 @@ const bootstrap = async (context, library, options) => {
 
 	const subscriptionStream = await jellyfish.stream(
 		context, session, SCHEMA_ACTIVE_SUBSCRIPTIONS)
+
+	const transformerStream = await jellyfish.stream(
+		context, session, SCHEMA_ACTIVE_TRANSFORMERS)
 
 	const closeWorker = async () => {
 		run = false
@@ -250,6 +265,35 @@ const bootstrap = async (context, library, options) => {
 	})
 
 	worker.setSubscriptions(context, subscriptions)
+
+	// --------> TRANSFORMERS
+	// TODO: Replace triggered actions with transformers
+	transformerStream.once('error', errorHandler)
+
+	// On a stream event, update the stored transformers in the worker
+	transformerStream.on('data', (data) => {
+		if (data.type === 'update' || data.type === 'insert' || data.type === 'unmatch') {
+			// If `after` is null, the card is no longer available: most likely it has
+			// been soft-deleted, having its `active` state set to false
+			if (data.after === null) {
+				worker.removeTransformer(context, data.id)
+			} else {
+				worker.upsertTransformer(context, data.after)
+			}
+		}
+
+		if (data.type === 'delete') {
+			worker.removeTransformer(context, data.id)
+		}
+	})
+
+	const transformers = await jellyfish.query(context, session, SCHEMA_ACTIVE_TRANSFORMERS)
+
+	logger.info(context, 'Loading transformers', {
+		transformers: transformers.length
+	})
+
+	worker.setTransformers(context, transformers)
 
 	// FIXME we should really have 2 workers, the consuming worker and the tick worker
 	if (options.onLoop) {
