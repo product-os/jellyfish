@@ -385,6 +385,10 @@ class SupportThreadBase extends React.Component {
 								tags={card.tags}
 								blacklist={[ 'status', 'summary', 'pendinguserresponse' ]}
 							/>
+
+							<TagList
+								tags={_.get(card, [ 'data', 'tags' ], [])}
+							/>
 						</Flex>
 
 						{status === 'open' && (
