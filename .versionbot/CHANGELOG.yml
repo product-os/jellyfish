@@ -1,4 +1,38 @@
 - commits:
+    - subject: Add with-relationships to cards that already use mixins
+      hash: d2fca56c9168ac486cfe60693dd7deaa77b129b9
+      body: |
+        The following cards now have the mixin with-relationships:
+
+        - account.js
+        - blog-post.js
+        - changelog.js
+        - checkin.js
+        - issue.js
+        - opportunity.js
+        - pattern.js
+        - repository.js
+        - sales-thread.js
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+    - subject: Add with-relationships mixin
+      hash: ff5cf772100e8400f4df560ffca3bd020e910a34
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors <stef@balena.io>
+        signed-off-by: Stef Kors <stef@balena.io>
+      author: StefKors
+      nested: []
+  version: 33.34.0
+  date: 2020-12-14T03:23:43.379Z
+- commits:
     - subject: 'ci: Stop running front-mirror tests in parallel with other tests'
       hash: 39ceb35359a215467e6117e2a94a2a573c0bfcf5
       body: ''
