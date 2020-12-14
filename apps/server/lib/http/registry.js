@@ -101,10 +101,18 @@ exports.authenticate = async (request, response, jellyfish) => {
 		nbf: Math.floor(Date.now() / 1000) - 10,
 
 		access: await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
-			const session = request.account
+			const session = request.query.account
 
-			// Name will refer to the id of the contract representing this entity
-			const contract = await jellyfish.getCardById(session, name)
+			let contract = null
+
+			try {
+				// Name will refer to the id of the contract representing this entity
+				contract = await jellyfish.getCardById(request.context, session, name)
+			} catch (error) {
+				logger.info(request.context, 'Registry authentication error getting card', {
+					card: name
+				})
+			}
 
 			return {
 				type,
