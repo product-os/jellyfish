@@ -23,7 +23,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
-    "rendition": "^18.19.1",
+    "rendition": "^18.19.2",
     "style-loader": "^2.0.0",
     "webpack": "^4.44.2",
     "webpack-bundle-analyzer": "^4.2.0"
