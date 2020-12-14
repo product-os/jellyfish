@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ci: Stop running front-mirror tests in parallel with other tests'
+      hash: 39ceb35359a215467e6117e2a94a2a573c0bfcf5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.33.10
+  date: 2020-12-14T01:26:15.478Z
+- commits:
     - subject: Remove queue integration tests
       hash: 408f19d872ffbbfa22733511c4751e2bfb5f1bb1
       body: ''
