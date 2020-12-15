@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix AutoCompleteCardSelect bug inside modal
+      hash: 73d8f3f2e58a9037cfa964ea02b0590146108b90
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.37.1
+  date: 2020-12-15T14:09:25.964Z
+- commits:
     - subject: Add basic loop type card and default product-os loop
       hash: f67de0c4f846b2580137faaffa1f8e8b82bea7f0
       body: ''
