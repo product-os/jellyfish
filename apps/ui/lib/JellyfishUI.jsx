@@ -14,7 +14,8 @@ import {
 } from 'redux'
 import {
 	Flex,
-	Form
+	Form,
+	Rating
 } from 'rendition'
 import {
 	MarkdownWidget
@@ -60,6 +61,7 @@ import {
 // Register the extra format widgets to the Form component
 Form.registerWidget('markdown', MarkdownWidget)
 Form.registerWidget('mermaid', MermaidEditor)
+Form.registerWidget('Rating', Rating)
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde

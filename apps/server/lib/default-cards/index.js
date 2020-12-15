@@ -63,6 +63,7 @@ module.exports = ({
 		project: require('./contrib/project.json'),
 		pullRequest: require('./contrib/pull-request')(mixins),
 		push: require('./contrib/push.json'),
+		rating: require('./contrib/rating.js')(mixins),
 		repository: require('./contrib/repository.js')(mixins),
 		specification: require('./contrib/specification.json'),
 		subscription: require('./contrib/subscription.json'),
@@ -108,6 +109,7 @@ module.exports = ({
 		viewMyConversations: require('./contrib/view-my-conversations.json'),
 		viewAllByType: require('./contrib/view-all-by-type.json'),
 		viewAllPullRequests: require('./contrib/view-all-pull-requests.json'),
+		viewAllRatings: require('./contrib/view-all-ratings.json'),
 
 		// Balena org cards
 		orgBalena: require('./balena/org-balena.json'),

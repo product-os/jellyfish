@@ -794,6 +794,7 @@ export default class ActionCreator {
 									'message@1.0.0',
 									'whisper@1.0.0',
 									'summary@1.0.0',
+									'rating@1.0.0',
 									'user@1.0.0'
 								]
 							}

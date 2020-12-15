@@ -33,6 +33,10 @@ const notifySchema = [
 	{
 		type: 'summary',
 		update: [ 'insert' ]
+	},
+	{
+		type: 'rating',
+		update: [ 'insert' ]
 	}
 ]
 

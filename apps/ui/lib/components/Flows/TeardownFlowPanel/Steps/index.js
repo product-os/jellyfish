@@ -10,3 +10,6 @@ export {
 export {
 	default as FinishStep
 } from './FinishStep'
+export {
+	default as RateStep
+} from './RateStep'

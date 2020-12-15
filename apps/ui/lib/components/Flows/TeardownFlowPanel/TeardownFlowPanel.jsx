@@ -19,10 +19,11 @@ import {
 } from '../Steps'
 import {
 	PersistStep,
+	RateStep,
 	FinishStep
 } from './Steps'
 
-const getSummaryEvent = (target, summary) => {
+const getEvent = (target, type, payload, messageKey = 'message') => {
 	const messageSymbolRE = /^\s*%\s*/
 	const {
 		mentionsUser,
@@ -30,18 +31,19 @@ const getSummaryEvent = (target, summary) => {
 		mentionsGroup,
 		alertsGroup,
 		tags
-	} = helpers.getMessageMetaData(summary)
+	} = helpers.getMessageMetaData(payload[messageKey])
 
 	return {
 		target,
-		type: 'summary',
+		type,
 		tags,
 		payload: {
+			...payload,
 			mentionsUser,
 			alertsUser,
 			mentionsGroup,
 			alertsGroup,
-			message: helpers.replaceEmoji(summary.replace(messageSymbolRE, ''))
+			[messageKey]: helpers.replaceEmoji(payload[messageKey].replace(messageSymbolRE, ''))
 		}
 	}
 }
@@ -64,7 +66,8 @@ export default function TeardownFlowPanel ({
 	}
 	const teardown = async () => {
 		const {
-			summary
+			summary,
+			rating
 		} = flowState
 
 		try {
@@ -73,8 +76,16 @@ export default function TeardownFlowPanel ({
 			const patch = helpers.patchPath(card, [ 'data', 'status' ], 'closed')
 			linkActions.push(sdk.card.update(card.id, card.type, patch))
 
-			const summaryEvent = getSummaryEvent(card, summary)
+			const summaryEvent = getEvent(card, 'summary', {
+				message: summary
+			})
+
 			linkActions.push(sdk.event.create(summaryEvent))
+
+			if (rating.score || rating.comment) {
+				const ratingEvent = getEvent(card, 'rating', rating, 'comment')
+				linkActions.push(sdk.event.create(ratingEvent))
+			}
 
 			await Bluebird.all(linkActions)
 
@@ -103,7 +114,8 @@ export default function TeardownFlowPanel ({
 
 	const completed = {
 		summary: Boolean(summary),
-		persist: true
+		persist: true,
+		rating: true
 	}
 
 	return (
@@ -127,6 +139,12 @@ export default function TeardownFlowPanel ({
 				<PersistStep
 					types={types}
 					actions={actions}
+					flowState={flowState}
+					setFlow={setFlow}
+				/>
+			</StepsFlow.Step>
+			<StepsFlow.Step label="Rate" title="Rate your experience" scrollable status={stepStatus(completed.rating)}>
+				<RateStep
 					flowState={flowState}
 					setFlow={setFlow}
 				/>
