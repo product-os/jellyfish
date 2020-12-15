@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 2af08a08741cf0c6298350d1bb522bce7e714ff1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.35.1
+  date: 2020-12-15T03:39:54.299Z
+- commits:
     - subject: Update to latest worker version and bootstrap worker with transformers
       hash: 266c3b9598a4a2956958217651bb191dfb9a3b58
       body: ''
