@@ -13,12 +13,12 @@ const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const metrics = require('@balena/jellyfish-metrics')
+const loadDefaultCards = require('@balena/jellyfish-plugin-default').loadCards
 
 const cardLoader = require('./card-loader')
 const http = require('./http')
 const socket = require('./socket')
 const graphql = require('./graphql')
-const loadDefaultCards = require('./default-cards')
 
 module.exports = async (context, options) => {
 	context.defaultCards = loadDefaultCards(core.cardMixins)

@@ -19,7 +19,6 @@
     "files": [
       "apps/action-server/lib/**/*.js",
       "apps/server/*.js",
-      "apps/server/default-cards/**/*.js",
       "apps/server/graphql/**/*.js",
       "apps/server/http/**/*.js",
       "apps/server/socket/**/*.js"

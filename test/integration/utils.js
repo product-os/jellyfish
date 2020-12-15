@@ -8,7 +8,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const coreMixins = require('@balena/jellyfish-core/lib/cards/mixins')
-const loadDefaultCards = require('../../apps/server/lib/default-cards')
+const loadDefaultCards = require('@balena/jellyfish-plugin-default').loadCards
 
 exports.loadDefaultCards = () => {
 	return loadDefaultCards(coreMixins)
