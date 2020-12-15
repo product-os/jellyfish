@@ -120,10 +120,8 @@ exports.waitForThenClickSelector = async (page, selector, options) => {
 			const el = await page.waitForXPath(selector, options)
 			await el.click()
 		} else {
-			await page.waitForSelector(selector, options)
-			await page.$eval(selector, (elem) => {
-				elem.click()
-			})
+			const el = await page.waitForSelector(selector, options)
+			await el.click()
 		}
 	})
 }

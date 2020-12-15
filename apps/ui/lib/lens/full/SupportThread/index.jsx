@@ -101,7 +101,7 @@ const Extract = styled(Box) `
 const getHighlights = (card) => {
 	const list = _.sortBy(_.filter(_.get(card, [ 'links', 'has attached element' ]), (event) => {
 		const typeBase = event.type.split('@')[0]
-		if (!_.includes([ 'message', 'whisper' ], typeBase)) {
+		if (!_.includes([ 'message', 'whisper', 'rating' ], typeBase)) {
 			return false
 		}
 		const message = _.get(event, [ 'data', 'payload', 'message' ])
@@ -176,10 +176,41 @@ class SupportThreadBase extends React.Component {
 				sortDir: 'desc'
 			})
 
+			const [ ratingCard ] = await sdk.query({
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						const: 'rating@1.0.0'
+					}
+				},
+				$$links: {
+					'is attached to': {
+						type: 'object',
+						additionalProperties: false,
+						required: [ 'id' ],
+						properties: {
+							id: {
+								type: 'string',
+								const: card.id
+							}
+						}
+					}
+				}
+			}, {
+				limit: 1,
+				sortBy: [ 'data', 'timestamp' ],
+				sortDir: 'desc'
+			})
+
 			const flowState = {
 				isOpen: true,
 				card,
-				summary: _.get(summaryCard, [ 'data', 'payload', 'message' ], '')
+				summary: _.get(summaryCard, [ 'data', 'payload', 'message' ], ''),
+				rating: _.get(ratingCard, [ 'data', 'payload' ], {
+					score: null,
+					comment: ''
+				})
 			}
 			setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState)
 		}

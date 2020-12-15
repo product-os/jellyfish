@@ -126,10 +126,17 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	linkedProductImprovements = await page.$$(selectors.linkedProductImprovements)
 	test.is(linkedProductImprovements.length, 2)
 
+	// Rate
+	await guidedFlowUtils.nextStep(page)
+	await macros.waitForThenClickSelector(page, '#root_score > *:nth-child(3)')
+	await page.click('#root_comment')
+	await page.keyboard.type('Some comment')
+
 	await guidedFlowUtils.nextStep(page)
 
-	const listedProductImprovements = await page.$$(selectors.summaryProductImprovements)
-	test.is(listedProductImprovements.length, 2)
+	await page.waitForFunction((selector) => {
+		return document.querySelectorAll(selector).length === 2
+	}, {}, selectors.summaryProductImprovements)
 
 	await guidedFlowUtils.action(page)
 
@@ -139,4 +146,8 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	// Check the summary
 	const summaryText = await macros.getElementText(page, selectors.summary)
 	test.true(summaryText.includes(summary))
+
+	// Check the rating
+	const ratingText = await macros.getElementText(page, '.event-card--rating [data-test="event-card__message"]')
+	test.is(ratingText, 'Review score: 3/5\nReview comment:\nSome comment')
 })
