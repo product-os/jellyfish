@@ -6,10 +6,12 @@
 
 module.exports = {
 	slug: 'task',
+	name: 'Task',
 	type: 'type@1.0.0',
 	data: {
 		schema: {
-			type: 'object'
+			type: 'object',
+			properties: {}
 		}
 	}
 }

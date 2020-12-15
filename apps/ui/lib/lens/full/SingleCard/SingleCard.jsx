@@ -25,7 +25,7 @@ import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
 
-const SingleCardTabs = styled(Tabs) `
+export const SingleCardTabs = styled(Tabs) `
 	flex: 1;
 	> [ role="tablist"]{
 	  height: 100%;

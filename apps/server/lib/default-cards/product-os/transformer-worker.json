@@ -74,6 +74,15 @@
         }
       }
     },
+    "meta": {
+			"relationships": [
+				{
+					"title": "Tasks",
+					"link": "owns",
+					"type": "task"
+        }
+      ]
+    },
     "required": [
       "data"
     ]

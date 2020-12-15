@@ -12,6 +12,7 @@ import Thread from './Thread'
 import View from './View'
 import User from './User'
 import FormResponse from './FormResponse'
+import TransformerWorker from './TransformerWorker'
 
 export default [
 	MyUser,
@@ -21,5 +22,6 @@ export default [
 	User,
 	Thread,
 	View,
-	FormResponse
+	FormResponse,
+	TransformerWorker
 ]
