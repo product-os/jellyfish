@@ -19,7 +19,6 @@
     "files": [
       "apps/action-server/lib/**/*.js",
       "apps/server/*.js",
-      "apps/server/default-cards/**/*.js",
       "apps/server/graphql/**/*.js",
       "apps/server/http/**/*.js",
       "apps/server/socket/**/*.js"
@@ -66,6 +65,7 @@
     "@balena/jellyfish-client-sdk": "^2.7.2",
     "@balena/jellyfish-core": "^0.2.17",
     "@balena/jellyfish-environment": "^2.3.10",
+    "@balena/jellyfish-plugin-default": "^1.0.2",
     "@balena/jellyfish-queue": "^0.0.268",
     "@balena/jellyfish-sync": "^3.1.44",
     "@balena/jellyfish-uuid": "^1.0.42",

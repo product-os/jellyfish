@@ -348,25 +348,25 @@ module.exports = {
 		})
 
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.externalEvent)
+			defaultCards['external-event'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.issue)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.pullRequest)
+			defaultCards['pull-request'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.emailSequence)
+			defaultCards['email-sequence'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.formResponse)
+			defaultCards['form-response'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.userFeedback)
+			defaultCards['user-feedback'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.repository)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.push)
+			defaultCards['gh-push'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.supportThread)
+			defaultCards['support-thread'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-			defaultCards.salesThread)
+			defaultCards['sales-thread'])
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 			defaultCards.thread)
 		await test.context.jellyfish.insertCard(test.context.context, test.context.session,

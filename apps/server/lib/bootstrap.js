@@ -13,16 +13,14 @@ const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const metrics = require('@balena/jellyfish-metrics')
+const _ = require('lodash')
 
 const cardLoader = require('./card-loader')
 const http = require('./http')
 const socket = require('./socket')
 const graphql = require('./graphql')
-const loadDefaultCards = require('./default-cards')
 
 module.exports = async (context, options) => {
-	context.defaultCards = loadDefaultCards(core.cardMixins)
-
 	logger.info(context, 'Configuring HTTP server')
 	const webServer = await http(context, {
 		port: environment.http.port,
@@ -69,9 +67,24 @@ module.exports = async (context, options) => {
 	logger.info(context, 'Initializing built-in worker')
 	await worker.initialize(context)
 
-	logger.info(context, 'Inserting default cards')
+	logger.info(context, 'Inserting cards')
+
+	const cards = _.reduce(options.plugins, (carry, plugin) => {
+		if (plugin.getCards) {
+			const pluginCards = plugin.getCards(core.cardMixins)
+			_.each(pluginCards, (card, slug) => {
+				if (carry[slug]) {
+					throw new Error(`Card with slug ${slug} already exists and cannot be loaded from plugin ${plugin.name}`)
+				}
+
+				carry[slug] = card
+			})
+		}
+		return carry
+	}, {})
+
 	const results = await cardLoader(
-		context, jellyfish, worker, jellyfish.sessions.admin)
+		context, jellyfish, worker, jellyfish.sessions.admin, cards)
 
 	logger.info(context, 'Inserting test user', {
 		username: environment.test.user.username,
