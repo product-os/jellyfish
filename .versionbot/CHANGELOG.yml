@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add basic loop type card and default product-os loop
+      hash: f67de0c4f846b2580137faaffa1f8e8b82bea7f0
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.37.0
+  date: 2020-12-15T11:29:21.243Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^5.0.12'
       hash: d35a5c53a3e7c12ddff03c2c687b8cff8e810010
       body: ''
