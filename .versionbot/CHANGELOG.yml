@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^5.0.12'
+      hash: d35a5c53a3e7c12ddff03c2c687b8cff8e810010
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.36.1
+  date: 2020-12-15T06:51:23.080Z
+- commits:
     - subject: Add transformer-worker lens
       hash: edc215522cddfa5abc920cf9a462046c47bd4982
       body: >
