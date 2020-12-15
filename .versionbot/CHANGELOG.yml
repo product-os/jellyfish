@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add support thread rating
+      hash: 1a85055e9d2afccc97c48a1a6540e6b50ff6329e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.38.0
+  date: 2020-12-15T16:28:32.005Z
+- commits:
     - subject: Fix AutoCompleteCardSelect bug inside modal
       hash: 73d8f3f2e58a9037cfa964ea02b0590146108b90
       body: ''
