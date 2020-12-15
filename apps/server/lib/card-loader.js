@@ -9,11 +9,11 @@ const Bluebird = require('bluebird')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment')
 
-module.exports = async (context, jellyfish, worker, session) => {
+module.exports = async (context, jellyfish, worker, session, cards) => {
 	logger.info(context, 'Setting up guest user')
 
 	const guestUser = await jellyfish.replaceCard(
-		context, session, context.defaultCards.userGuest)
+		context, session, cards.userGuest)
 
 	const guestUserSession = await jellyfish.replaceCard(
 		context, session, jellyfish.defaults({
@@ -36,7 +36,7 @@ module.exports = async (context, jellyfish, worker, session) => {
 	}
 
 	const cardLoaders = _
-		.values(context.defaultCards)
+		.values(cards)
 		.filter(
 			(card) => {
 				return !cardsToSkip.includes(card.slug)
