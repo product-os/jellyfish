@@ -1,4 +1,23 @@
 - commits:
+    - subject: Add transformer-worker lens
+      hash: edc215522cddfa5abc920cf9a462046c47bd4982
+      body: >
+        Note - the `DeviceMetrics` code will be moved to Rendition shortly
+
+
+        BTW I think we could greatly reduce the amount of duplicate code here if
+        we introduce a concept of a 'Tabs' lens type that allows a card type to
+        define extra tabs to display in the Full Card lens.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.36.0
+  date: 2020-12-15T05:14:09.773Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 2af08a08741cf0c6298350d1bb522bce7e714ff1
       body: ''
