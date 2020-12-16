@@ -75,6 +75,35 @@ exports.authenticate = async (request, response, jellyfish) => {
 		return response.sendStatus(503)
 	}
 
+	let sessionToken = null
+	let actorSlug = null
+	try {
+		// Get id and sessionToken from basic auth header
+		[ actorSlug, sessionToken ] = b64decode((request.headers.authorization || '').split(' ')[1] || '').split(':')
+		if (!actorSlug || !sessionToken) {
+			logger.info(request.context, 'Session token missing')
+			return response.status(400).send('session token missing')
+		}
+
+		// Retrieve actor card to verify the session
+		// TODO figure out why we need the version on the slug here
+		const actor = await jellyfish.getCardBySlug(request.context, sessionToken, `${actorSlug}@latest`)
+		if (!actor) {
+			throw new Error('Unable to load actor')
+		}
+
+		// Retrieve session card
+		const session = await jellyfish.getCardById(request.context, sessionToken, sessionToken)
+		if (!session || session.data.actor !== actor.id) {
+			throw new Error('Invalid session')
+		}
+	} catch (error) {
+		logger.info(request.context, 'Registry authentication error validating session', {
+			error
+		})
+		return response.status(401).send('session token invalid')
+	}
+
 	const {
 		scope
 	} = request.query
@@ -99,27 +128,29 @@ exports.authenticate = async (request, response, jellyfish) => {
 	const payload = {
 		jti: await uuid.random(),
 		nbf: Math.floor(Date.now() / 1000) - 10,
-
-		access: await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
-			const session = request.query.account
-
+		access: _.compact((await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
 			let contract = null
 
 			try {
 				// Name will refer to the id of the contract representing this entity
-				contract = await jellyfish.getCardById(request.context, session, name)
+				contract = await jellyfish.getCardById(request.context, sessionToken, name)
 			} catch (error) {
-				logger.info(request.context, 'Registry authentication error getting card', {
-					card: name
+				logger.info(request.context, 'Registry authentication hit error querying for contract', {
+					name
 				})
+
+				return null
 			}
 
-			return {
-				type,
-				name,
-				actions: contract ? [ 'push', 'pull' ] : []
+			if (contract) {
+				return {
+					type,
+					name,
+					actions: [ 'push', 'pull' ]
+				}
 			}
-		})
+			return null
+		})))
 	}
 
 	logger.info(request.context, 'Registry authentication generating JWT', {
