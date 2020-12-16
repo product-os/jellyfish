@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: b1dbbc2c55aefeb8ee7d4bae1fc27d350ef6f1ec
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.38.1
+  date: 2020-12-16T00:41:37.729Z
+- commits:
     - subject: Add support thread rating
       hash: 1a85055e9d2afccc97c48a1a6540e6b50ff6329e
       body: ''
