@@ -44,14 +44,14 @@
     "@balena/jellyfish-environment": "^2.3.10",
     "@balena/jellyfish-ui-components": "^7.0.10",
     "@primer/styled-octicons": "^11.2.0",
-    "analytics-client": "^0.12.0",
+    "analytics-client": "^0.12.1",
     "babel-loader": "^8.2.2",
     "bluebird": "^3.7.2",
     "classnames": "^2.2.6",
     "common-tags": "^1.8.0",
     "connected-react-router": "^6.8.0",
     "copy-to-clipboard": "^3.3.1",
-    "copy-webpack-plugin": "^6.4.0",
+    "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.0.1",
     "d3": "^6.3.1",
     "date-fns": "^2.16.1",
@@ -99,7 +99,7 @@
     "styled-components": "^5.2.1",
     "uuid": "^8.3.2",
     "webpack": "^4.44.2",
-    "webpack-bundle-analyzer": "^4.2.0"
+    "webpack-bundle-analyzer": "^4.3.0"
   },
   "devDependencies": {
     "@ava/babel": "^1.0.1",
