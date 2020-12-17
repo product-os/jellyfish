@@ -25,7 +25,7 @@
     "@balena/jellyfish-environment": "^2.3.10",
     "@balena/jellyfish-logger": "^0.0.176",
     "@balena/jellyfish-metrics": "^0.0.202",
-    "@balena/jellyfish-plugin-default": "1.0.3-add-sync-integrations-d27d964785dfe5ecc3112f08ea67c83cd4fca1cd",
+    "@balena/jellyfish-plugin-default": "1.0.3-add-sync-integrations-bfaec4d2334ec35ac0768629d6ae61d730039208",
     "@balena/jellyfish-queue": "^0.0.268",
     "@balena/jellyfish-sync": "4.0.0-dependency-inject-integrations-9498fe1966939023b553a2f21964319b57a3c021",
     "@balena/jellyfish-uuid": "^1.0.42",
