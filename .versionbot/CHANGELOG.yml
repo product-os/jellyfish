@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.3.6'
+      hash: 0e0058d7d360697145382f555648e127d84e30a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.38.10
+  date: 2020-12-17T10:22:37.070Z
+- commits:
     - subject: Use formatMb from jellyfish-ui-components
       hash: bc824464440e8f86a1062f81f79df0f530acf25d
       body: ''
