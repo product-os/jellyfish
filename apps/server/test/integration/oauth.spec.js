@@ -14,7 +14,7 @@ const {
 const environment = require('@balena/jellyfish-environment')
 const {
 	slugify
-} = require('@balena/jellyfish-sync/lib/integrations/utils')
+} = require('@balena/jellyfish-plugin-default/lib/integrations/utils')
 const helpers = require('./helpers')
 
 const outreachTest =

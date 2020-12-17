@@ -14,7 +14,6 @@ const oauth = require('./oauth')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment')
 const metrics = require('@balena/jellyfish-metrics')
-const sync = require('@balena/jellyfish-sync')
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../../package.json')
 const facades = require('./facades')
@@ -180,7 +179,12 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
 		const associateUrl = oauth.getAuthorizeUrl(
-			request.params.provider, request.params.slug)
+			request.params.provider,
+			request.params.slug,
+			{
+				sync: options.sync
+			}
+		)
 		const status = associateUrl ? 200 : 400
 		return response.status(status).json({
 			url: associateUrl
@@ -211,7 +215,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				worker,
 				jellyfish.sessions.admin,
 				request.params.provider,
-				credentials
+				credentials,
+				{
+					sync: options.sync
+				}
 			)
 
 			// 3. Get jellyfish user that matches external user
@@ -221,7 +228,8 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				jellyfish.sessions.admin,
 				request.params.provider,
 				externalUser, {
-					slug
+					slug,
+					sync: options.sync
 				}
 			)
 
@@ -233,7 +241,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 					producer,
 					jellyfish.sessions.admin,
 					request.params.provider,
-					externalUser
+					externalUser,
+					{
+						sync: options.sync
+					}
 				)
 
 				user = await worker.jellyfish.getCardBySlug(
@@ -399,7 +410,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			environment.integration[request.params.provider]
 
 		return Bluebird.try(async () => {
-			if (!await sync.isValidEvent(
+			if (!await options.sync.isValidEvent(
 				request.params.provider,
 				integrationToken, {
 					raw: request.rawBody || request.body,
@@ -511,7 +522,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		})
 
 		if (attachment) {
-			return sync.getFile(
+			return options.sync.getFile(
 				'front',
 				environment.integration.front,
 				request.params.fileName, {

@@ -189,7 +189,7 @@ ava('should add a new e-mail to a user', async (test) => {
 })
 
 scenario.run(ava, {
-	integration: require('@balena/jellyfish-sync/lib/integrations/discourse'),
+	integration: require('@balena/jellyfish-plugin-default/lib/integrations/discourse'),
 	scenarios: require('./webhooks/discourse'),
 	baseUrl: 'https://forums.balena.io',
 	stubRegex: /.*/,
