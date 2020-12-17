@@ -1,4 +1,17 @@
 - commits:
+    - subject: Load cards from jellyfish-plugin-default
+      hash: 78839a19b3d0002ada9e084cf9255d5255211a32
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.38.8
+  date: 2020-12-17T03:45:11.797Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 963ff03a790b5c14bb55bfef717f10438b6ab88c
       body: ''
