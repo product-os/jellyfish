@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: e423c12fb500f4d92183f3860741ad8c6120d88a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.39.1
+  date: 2020-12-17T13:43:58.732Z
+- commits:
     - subject: Add data.tags to Support Thread lens
       hash: dea3beb212d7c4194cf63efbcf1e2f8d7cf5d1db
       body: ''
