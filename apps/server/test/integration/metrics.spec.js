@@ -9,6 +9,7 @@ const Bluebird = require('bluebird')
 const environment = require('@balena/jellyfish-environment')
 const request = require('request')
 const bootstrap = require('../../lib/bootstrap')
+const plugins = require('../../lib/plugins')
 const {
 	v4: uuid
 } = require('uuid')
@@ -17,7 +18,11 @@ ava.serial.before(async (test) => {
 	test.context.context = {
 		id: `SERVER-TEST-${uuid()}`
 	}
-	test.context.server = await bootstrap(test.context.context)
+	test.context.server = await bootstrap(test.context.context, {
+		plugins: plugins.loadPlugins({
+			context: test.context.context
+		})
+	})
 })
 
 ava.serial.after(async (test) => {

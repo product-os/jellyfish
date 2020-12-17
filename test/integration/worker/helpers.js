@@ -32,11 +32,11 @@ const before = async (test, options) => {
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		defaultCards.message)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards.roleUserCommunity)
+		defaultCards['role-user-community'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards.passwordReset)
+		defaultCards['password-reset'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards.firstTimeLogin)
+		defaultCards['first-time-login'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-create-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,

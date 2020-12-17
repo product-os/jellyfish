@@ -8,6 +8,7 @@ const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../package.json')
 const bootstrap = require('./bootstrap')
+const plugins = require('./plugins')
 const environment = require('@balena/jellyfish-environment')
 
 const DEFAULT_CONTEXT = {
@@ -41,7 +42,13 @@ uuid.random().then((id) => {
 		time: startDate.getTime()
 	})
 
-	return bootstrap(context).then((server) => {
+	const options = {
+		plugins: plugins.loadPlugins({
+			context
+		})
+	}
+
+	return bootstrap(context, options).then((server) => {
 		const endDate = new Date()
 		const timeToStart = endDate.getTime() - startDate.getTime()
 
