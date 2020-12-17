@@ -1,4 +1,31 @@
 - commits:
+    - subject: >-
+        Validate registry authentication requests according to docker token auth
+        spec
+      hash: e8a28373dc9f406e5de2e01ebb3150b2527a7530
+      body: >
+        The `/registry` folder contains a docker registry setup that can be used
+        for development purposes. I'm leaving it here for now as it is useful to
+        have, but we need to have a discussion about where this should live and
+        where the registry setup should be pulled from.
+
+
+        The `api/v2/registry` endpoint is built and tested to comply with the
+        [docker registry v2 token auth
+        spec](https://docs.docker.com/registry/spec/auth/token/) so will work
+        with any docker registry that uses the token auth spec, provided that
+        the Jellyfish API and the registry share the same certificate key
+        environment variable.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucia.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucia.buzzo@gmail.com>
+      author: Balena CI
+      nested: []
+  version: 33.40.0
+  date: 2020-12-17T16:26:11.280Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: e423c12fb500f4d92183f3860741ad8c6120d88a
       body: ''
