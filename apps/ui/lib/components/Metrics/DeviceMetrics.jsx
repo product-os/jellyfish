@@ -7,17 +7,13 @@
 /* eslint-disable no-undefined */
 
 import React from 'react'
-import _ from 'lodash'
 import {
-	Box,
 	Flex,
-	ProgressBar,
+	StatsBar,
+	StatsTitle,
 	Txt,
 	Card
 } from 'rendition'
-import {
-	Icon
-} from '@balena/jellyfish-ui-components'
 
 // TODO: Move all this code into Rendition!
 
@@ -52,112 +48,14 @@ const formatMb = (mb) => {
 	return formatSize(mb * 1024 * 1024, 1024) || '-'
 }
 
-const getDiscreteBarValue = (
-	value,
-	numSlices,
-	index
-) => {
-	const highlightedNumSlices = Math.ceil(value / (100 / numSlices))
-	if (numSlices <= 1) {
-		return value
-	}
-
-	return highlightedNumSlices > index ? 100 : 0
-}
-
 const ValueWithMaxTitle = ({
 	value, max
 }) => (
 	<React.Fragment>
-		<Txt.span>{value}</Txt.span>/
-		<Txt.span color="tertiary.main">{max}</Txt.span>
+		<Txt.span>{formatMb(value)}</Txt.span>/
+		<Txt.span color="tertiary.main">{formatMb(max)}</Txt.span>
 	</React.Fragment>
 )
-
-const DiscreteBar = ({
-	value, numSlices, ...props
-}) => {
-	return (
-		<Flex flexDirection="row">
-			{_.range(numSlices).map((idx) => {
-				return (
-					<Box key={idx} flex={1} mr={idx === numSlices - 1 ? 0 : 2}>
-						<ProgressBar
-							value={getDiscreteBarValue(value, numSlices, idx)}
-							{...props}
-						/>
-					</Box>
-				)
-			})}
-		</Flex>
-	)
-}
-
-const StatsBar = ({
-	title,
-	statsLabel,
-	value,
-	max,
-	numSlices,
-	...props
-}) => {
-	const percentage = (value / (max || 100)) * 100
-
-	// ProgressBar checks for the existence of a field rather than checking for true/false, so we have to do it this way.
-	const bg = {
-		...(percentage <= 60 ? {
-			success: true
-		} : {}),
-		...(percentage > 60 && percentage <= 80 ? {
-			warning: true
-		} : {}),
-		...(percentage > 80 ? {
-			danger: true
-		} : {})
-	}
-
-	return (
-		<Flex flex={1} minWidth={152} flexDirection="column" {...props}>
-			<Flex
-				mb={2}
-				flexDirection="row"
-				alignItems="flex-start"
-				justifyContent="space-between"
-			>
-				<Txt.span>{title}</Txt.span>
-				<Txt.span>{statsLabel}</Txt.span>
-			</Flex>
-			<DiscreteBar numSlices={numSlices || 1} value={percentage} {...bg} />
-		</Flex>
-	)
-}
-
-const StatsTitle = ({
-	icon,
-	title,
-	description
-}) => {
-	return (
-		<Flex
-			flexDirection="column"
-			alignItems="flex-start"
-			justifyContent="flex-start"
-		>
-			<Box>
-				<Txt.span mr={1} color="tertiary.semilight">
-					<Icon name={icon} />
-				</Txt.span>
-				<Txt.span>{title}</Txt.span>
-			</Box>
-			{/* We add a zero-width character so the span always keeps its size */}
-			<Txt.span color="tertiary.main" style={{
-				lineHeight: 1
-			}} fontSize={0}>
-				{description || '\u200b'}
-			</Txt.span>
-		</Flex>
-	)
-}
 
 export const DeviceMetrics = ({
 	metrics
@@ -181,7 +79,11 @@ export const DeviceMetrics = ({
 							mx={2}
 							my={1}
 							title={<StatsTitle icon="microchip" title="CPU" />}
-							statsLabel={`~${metrics.cpu_usage}%`}
+							labelFormatter={({
+								value
+							}) => {
+								return `~${value}%`
+							}}
 							value={metrics.cpu_usage}
 							max={100}
 							numSlices={5}
@@ -192,7 +94,11 @@ export const DeviceMetrics = ({
 							mx={2}
 							my={1}
 							title={<StatsTitle icon="microchip" title="Temperature" />}
-							statsLabel={`~${metrics.cpu_temp}C`}
+							labelFormatter={({
+								value
+							}) => {
+								return `~${value}C`
+							}}
 							value={metrics.cpu_temp}
 							max={100}
 						/>
@@ -204,12 +110,7 @@ export const DeviceMetrics = ({
 							mx={2}
 							my={1}
 							title={<StatsTitle icon="memory" title="Memory" />}
-							statsLabel={
-								<ValueWithMaxTitle
-									value={formatMb(metrics.memory_usage)}
-									max={formatMb(metrics.memory_total)}
-								/>
-							}
+							labelFormatter={ValueWithMaxTitle}
 							value={metrics.memory_usage}
 							max={metrics.memory_total}
 						/>
@@ -229,12 +130,7 @@ export const DeviceMetrics = ({
 									}
 								/>
 							}
-							statsLabel={
-								<ValueWithMaxTitle
-									value={formatMb(metrics.storage_usage)}
-									max={formatMb(metrics.storage_total)}
-								/>
-							}
+							labelFormatter={ValueWithMaxTitle}
 							value={metrics.storage_usage}
 							max={metrics.storage_total}
 						/>
