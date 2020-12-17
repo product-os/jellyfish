@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add data.tags to Support Thread lens
+      hash: dea3beb212d7c4194cf63efbcf1e2f8d7cf5d1db
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.39.0
+  date: 2020-12-17T12:41:22.890Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.3.6'
       hash: 0e0058d7d360697145382f555648e127d84e30a2
       body: ''
