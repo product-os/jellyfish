@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 26e8d28b0e10612a817c612d6b44af9a41c1a6a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.40.1
+  date: 2020-12-17T19:38:21.503Z
+- commits:
     - subject: >-
         Validate registry authentication requests according to docker token auth
         spec
