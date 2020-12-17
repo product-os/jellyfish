@@ -1,4 +1,27 @@
 - commits:
+    - subject: Use formatMb from jellyfish-ui-components
+      hash: bc824464440e8f86a1062f81f79df0f530acf25d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Make use of StatsBar from rendition
+      hash: ff6fc36e2bc9b51c41b5b08a35bf1635b5a22434
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.38.9
+  date: 2020-12-17T07:52:08.484Z
+- commits:
     - subject: Load cards from jellyfish-plugin-default
       hash: 78839a19b3d0002ada9e084cf9255d5255211a32
       body: ''
