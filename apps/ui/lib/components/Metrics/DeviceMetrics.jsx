@@ -14,39 +14,9 @@ import {
 	Txt,
 	Card
 } from 'rendition'
-
-// TODO: Move all this code into Rendition!
-
-// https://gist.github.com/thomseddon/3511330
-const formatSize = (bytes, base = 1000) => {
-	if (typeof bytes !== 'number' || bytes < 0) {
-		return null
-	}
-	const units = [ 'bytes', 'KB', 'MB', 'GB', 'TB', 'PB' ]
-	let order = Math.floor(Math.log(bytes) / Math.log(base))
-	if (order >= units.length) {
-		order = units.length - 1
-	}
-	const size = bytes / Math.pow(base, order)
-	let result = null
-	if (order < 0) {
-		result = bytes
-		order = 0
-	} else if (order >= 3 && size !== Math.floor(size)) {
-		result = size.toFixed(1)
-	} else {
-		result = size.toFixed()
-	}
-	return `${result} ${units[order]}`
-}
-
-const formatMb = (mb) => {
-	if (mb === null) {
-		return '-'
-	}
-
-	return formatSize(mb * 1024 * 1024, 1024) || '-'
-}
+import {
+	formatMb
+} from '@balena/jellyfish-ui-components'
 
 const ValueWithMaxTitle = ({
 	value, max
