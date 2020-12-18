@@ -26,16 +26,6 @@ tasks:
     dependencies:
       - 'clean-github'
       - 'front-mirror'
-  - name: 'pipeline-sync'
-    description: 'Pipeline Sync Tests'
-    command: 'make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'FILES'
-        value: './test/integration/sync/pipeline.spec.js'
-    dependencies:
-      - 'wait-for-api'
   - name: 'front-mirror'
     description: 'Front Mirror Tests'
     command: 'make test'
@@ -44,8 +34,6 @@ tasks:
     environment:
       - name: 'FILES'
         value: './test/e2e/sync/front-mirror.spec.js'
-    dependencies:
-      - 'pipeline-sync'
   - name: 'discourse-mirror'
     description: 'Discourse Mirror Tests'
     command: 'make test'
@@ -83,69 +71,6 @@ tasks:
         value: ''
     dependencies:
       - 'e2e-livechat'
-  - name: 'balena-api-translate'
-    description: 'Balena API Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'balena-api-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/balena-api-translate.spec.js'
-    dependencies:
-      - 'e2e-ui'
-      - 'front-mirror'
-  - name: 'github-translate'
-    description: 'GitHub Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'github-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/github-translate.spec.js'
-      - name: 'INTEGRATION_GITHUB_APP_ID'
-        value: ''
-    dependencies:
-      - 'balena-api-translate'
-  - name: 'flowdock-translate'
-    description: 'Flowdock Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'flowdock-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/flowdock-translate.spec.js'
-    dependencies:
-      - 'github-translate'
-  - name: 'typeform-translate'
-    description: 'Typeform Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'typeform-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/typeform-translate.spec.js'
-    dependencies:
-      - 'flowdock-translate'
-  - name: 'outreach-translate'
-    description: 'Outreach Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'outreach-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/outreach-translate.spec.js'
-    dependencies:
-      - 'typeform-translate'
   - name: 'integration-server'
     description: 'Server Integration Tests'
     command: 'make test-integration-server'
@@ -166,34 +91,6 @@ tasks:
         value: ''
     dependencies:
       - 'integration-server'
-  - name: 'front-translate'
-    description: 'Front Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'front-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/front-translate.spec.js'
-      - name: 'INTEGRATION_FRONT_TOKEN'
-        value: 'foobar'
-    dependencies:
-      - 'outreach-translate'
-      - 'integration-worker'
-  - name: 'discourse-translate'
-    description: 'Discourse Translate Tests'
-    command: './scripts/ci/skip_tests_if_only.sh ui livechat || make test'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'CHECK_FOR'
-        value: 'discourse-translate.spec.js'
-      - name: 'FILES'
-        value: './test/integration/sync/discourse-translate.spec.js'
-    dependencies:
-      - 'typeform-translate'
-      - 'integration-worker'
   - name: 'e2e-server'
     description: 'E2E Server Tests'
     command: 'make test-e2e-server'
@@ -214,8 +111,6 @@ tasks:
     cwd: '/usr/src/jellyfish'
     required: true
     dependencies:
-      - 'front-translate'
-      - 'discourse-translate'
       - 'postgres-export'
   - name: 'e2e-server-previous-dump'
     description: 'E2E Server Tests (Previous Dump)'
