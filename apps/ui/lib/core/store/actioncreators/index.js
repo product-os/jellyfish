@@ -10,7 +10,6 @@ import * as Bluebird from 'bluebird'
 import immutableUpdate from 'immutability-helper'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
-import merge from 'deepmerge'
 import {
 	once
 } from 'events'
@@ -554,7 +553,7 @@ export default class ActionCreator {
 
 				if (channels.length > 0) {
 					// Merge required in the event that this is a pagination query
-					clonedChannel.data.head = merge(clonedChannel.data.head, channels[0])
+					clonedChannel.data.head = _.merge(clonedChannel.data.head, channels[0])
 				}
 
 				dispatch({
