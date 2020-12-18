@@ -11,10 +11,12 @@ const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const Worker = require('@balena/jellyfish-worker').Worker
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
+const Sync = require('@balena/jellyfish-sync').Sync
 const core = require('@balena/jellyfish-core')
 const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('@balena/jellyfish-metrics')
+const plugins = require('./plugins')
 const packageJSON = require('../../../package.json')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
@@ -171,6 +173,25 @@ const bootstrap = async (context, library, options) => {
 	const session = jellyfish.sessions.admin
 	const consumer = new Consumer(jellyfish, session)
 	const producer = new Producer(jellyfish, session)
+
+	const integrations = _.reduce(options.plugins, (carry, plugin) => {
+		if (plugin.getSyncIntegrations) {
+			const pluginIntegrations = plugin.getSyncIntegrations()
+			_.each(pluginIntegrations, (integration, slug) => {
+				if (carry[slug]) {
+					throw new Error(
+						`Integration '${slug}' already exists and cannot be loaded from plugin ${plugin.name}`)
+				}
+
+				carry[slug] = integration
+			})
+		}
+		return carry
+	}, {})
+
+	context.sync = new Sync({
+		integrations
+	})
 
 	// The main server has a special worker for itself so that
 	// it can bootstrap without needing any external workers
@@ -344,7 +365,10 @@ exports.worker = async (context, options) => {
 				})
 				.catch(errorHandler)
 		},
-		database: options.database
+		database: options.database,
+		plugins: plugins.loadPlugins({
+			context
+		})
 	})
 }
 
@@ -361,6 +385,9 @@ exports.tick = async (context, options) => {
 			}, session, {
 				currentDate: new Date()
 			})
-		}
+		},
+		plugins: plugins.loadPlugins({
+			context
+		})
 	})
 }

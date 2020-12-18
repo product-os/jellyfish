@@ -11,6 +11,7 @@
     "node_modules/@balena/jellyfish-logger/lib/**/*.js",
     "node_modules/@balena/jellyfish-mail/lib/**/*.js",
     "node_modules/@balena/jellyfish-metrics/lib/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-default/lib/**/*.js",
     "node_modules/@balena/jellyfish-queue/lib/**/*.js",
     "node_modules/@balena/jellyfish-sync/lib/**/*.js",
     "node_modules/@balena/jellyfish-uuid/build/*.js",

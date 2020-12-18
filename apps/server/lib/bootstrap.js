@@ -8,6 +8,7 @@ const core = require('@balena/jellyfish-core')
 const Producer = require('@balena/jellyfish-queue').Producer
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Worker = require('@balena/jellyfish-worker').Worker
+const Sync = require('@balena/jellyfish-sync').Sync
 const actionLibrary = require('@balena/jellyfish-action-library')
 const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
@@ -21,7 +22,29 @@ const socket = require('./socket')
 const graphql = require('./graphql')
 
 module.exports = async (context, options) => {
+	logger.info(context, 'Injecting integrations into Sync')
+
+	const integrations = _.reduce(options.plugins, (carry, plugin) => {
+		if (plugin.getSyncIntegrations) {
+			const pluginIntegrations = plugin.getSyncIntegrations()
+			_.each(pluginIntegrations, (integration, slug) => {
+				if (carry[slug]) {
+					throw new Error(
+						`Integration '${slug}' already exists and cannot be loaded from plugin ${plugin.name}`)
+				}
+
+				carry[slug] = integration
+			})
+		}
+		return carry
+	}, {})
+
+	context.sync = new Sync({
+		integrations
+	})
+
 	logger.info(context, 'Configuring HTTP server')
+
 	const webServer = await http(context, {
 		port: environment.http.port,
 		mountGraphqlServer: graphql(core.cards)
@@ -61,6 +84,8 @@ module.exports = async (context, options) => {
 	// FIXME this abomination is due to calling worker.execute right after producer.storeRequest
 	// Fix that, and this one will disappear (but it will leave the scars)
 	const uninitializedConsumer = new Consumer(jellyfish, jellyfish.sessions.admin)
+
+	logger.info(context, 'Loading plugin sync integrations')
 
 	const worker = new Worker(
 		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer)

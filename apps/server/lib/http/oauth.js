@@ -5,19 +5,19 @@
  */
 
 const errio = require('errio')
+const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const sync = require('@balena/jellyfish-sync')
 const environment = require('@balena/jellyfish-environment')
 
 exports.getRedirectUrl = (provider) => {
 	return `${environment.oauth.redirectBaseUrl}/oauth/${provider}`
 }
 
-exports.getAuthorizeUrl = (provider, userSlug) => {
-	return sync.getAssociateUrl(
+exports.getAuthorizeUrl = (provider, userSlug, options) => {
+	return options.sync.getAssociateUrl(
 		provider,
 		environment.integration[provider],
 		userSlug, {
@@ -25,8 +25,8 @@ exports.getAuthorizeUrl = (provider, userSlug) => {
 		})
 }
 
-exports.whoami = (context, worker, session, provider, credentials) => {
-	return sync.whoami(
+exports.whoami = (context, worker, session, provider, credentials, options) => {
+	return options.sync.whoami(
 		{
 			getElementBySlug: (slug) => {
 				return worker.jellyfish.getCardBySlug(
@@ -39,7 +39,7 @@ exports.whoami = (context, worker, session, provider, credentials) => {
 }
 
 exports.match = (context, worker, session, provider, externalUser, options) => {
-	return sync.match(
+	return options.sync.match(
 		{
 			getElementBySlug: (slug) => {
 				return worker.jellyfish.getCardBySlug(
@@ -48,16 +48,16 @@ exports.match = (context, worker, session, provider, externalUser, options) => {
 		},
 		provider,
 		externalUser,
-		options
+		_.omit(options, [ 'sync' ])
 	)
 }
 
-exports.sync = async (context, worker, queue, session, provider, externalUser) => {
+exports.sync = async (context, worker, queue, session, provider, externalUser, options) => {
 	const event = await worker.jellyfish.insertCard(context, session, {
 		type: 'external-event@1.0.0',
 		slug: `external-event-${uuid()}`,
 		version: '1.0.0',
-		data: await sync.getExternalUserSyncEventData(
+		data: await options.sync.getExternalUserSyncEventData(
 			{},
 			provider,
 			externalUser

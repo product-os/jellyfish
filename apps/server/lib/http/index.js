@@ -64,6 +64,7 @@ module.exports = (context, configuration) => {
 			})
 
 			routes(application, jellyfish, worker, producer, {
+				sync: context.sync,
 				guestSession: options.guestSession,
 				mountGraphqlServer: configuration.mountGraphqlServer
 			})
