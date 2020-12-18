@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add runtime env vars to UI container deployment
+      hash: b5f4d6a7c3db6e8b2666c7d878f9e43bac25e673
+      body: >
+        This is a pre-requisite for making UI containers parameterizable at
+        runtime.
+
+        Connects to https://github.com/product-os/jellyfish/pull/5281
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.40.4
+  date: 2020-12-18T13:14:25.504Z
+- commits:
     - subject: Bump to release dependencies
       hash: a4acfe301ebdc6f1af24ec740736d1420794f8be
       body: ''
