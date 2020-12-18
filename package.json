@@ -60,7 +60,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.64",
-    "@balena/jellyfish-action-library": "^5.3.0",
+    "@balena/jellyfish-action-library": "^6.0.0",
     "@balena/jellyfish-chat-widget": "^5.0.21",
     "@balena/jellyfish-client-sdk": "^2.7.2",
     "@balena/jellyfish-core": "^0.2.17",
