@@ -1,4 +1,72 @@
 - commits:
+    - subject: Bump to release dependencies
+      hash: a4acfe301ebdc6f1af24ec740736d1420794f8be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove migrated front-mirror tests
+      hash: 0296cd1b7633ca8b44a33d360350376f67bc1968
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove integration/sync tests
+      hash: fb6e6d7f23b723487d345ecaff137b6691317fe4
+      body: |
+        These are now run in the plugin repo.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Bump default plugin beta version
+      hash: dc1d918097a8f32ed4fee01771405cba71ac215f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Inject integrations into sync
+      hash: 145a27a809db22867b11a871cfca91a8e568ac72
+      body: |
+        Sync instance is then added to the context.
+        Added plugins to action-server. Note - we still should consolidate
+        action-server/lib/plugins and server/lib/plugins!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Bump dependencies
+      hash: 9400cedbe4215a49fe4acf2827ebc989ccd25a2d
+      body: |
+        Add plugin-default files to nodemon
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.40.3
+  date: 2020-12-18T08:51:15.783Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 9470bf9d3d6c3e4ee7bcf6d1afc38228ade32d9e
       body: ''
