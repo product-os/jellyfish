@@ -10,15 +10,15 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "6.0.0-use-context-sync-73ee5d5495edce3f0f65613793ab3d106db3d4a7",
+    "@balena/jellyfish-action-library": "^6.0.0",
     "@balena/jellyfish-core": "^0.2.17",
     "@balena/jellyfish-environment": "^2.3.10",
     "@balena/jellyfish-logger": "^0.0.176",
     "@balena/jellyfish-metrics": "^0.0.202",
-    "@balena/jellyfish-plugin-default": "1.0.3-add-sync-integrations-bfaec4d2334ec35ac0768629d6ae61d730039208",
+    "@balena/jellyfish-plugin-default": "^1.1.0",
     "@balena/jellyfish-queue": "^0.0.268",
     "@balena/jellyfish-uuid": "^1.0.42",
-    "@balena/jellyfish-sync": "4.0.0-dependency-inject-integrations-9498fe1966939023b553a2f21964319b57a3c021",
+    "@balena/jellyfish-sync": "^4.0.0",
     "@balena/jellyfish-worker": "^2.2.2",
     "bluebird": "^3.7.2",
     "lodash": "^4.17.20"
