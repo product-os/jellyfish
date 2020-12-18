@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix dupliacte participants and mentions
+      hash: 580323bff08dc7a3d4e25435c9451a29b1ab206c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.40.5
+  date: 2020-12-18T16:35:38.965Z
+- commits:
     - subject: Add runtime env vars to UI container deployment
       hash: b5f4d6a7c3db6e8b2666c7d878f9e43bac25e673
       body: >
