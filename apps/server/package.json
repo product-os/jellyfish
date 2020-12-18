@@ -27,7 +27,7 @@
     "@balena/jellyfish-metrics": "^0.0.202",
     "@balena/jellyfish-plugin-default": "^1.0.2",
     "@balena/jellyfish-queue": "^0.0.268",
-    "@balena/jellyfish-sync": "^3.1.44",
+    "@balena/jellyfish-sync": "^4.0.0",
     "@balena/jellyfish-uuid": "^1.0.42",
     "@balena/jellyfish-worker": "^2.2.2",
     "aws-sdk": "^2.813.0",
