@@ -57,7 +57,6 @@
     "date-fns": "^2.16.1",
     "debounce-promise": "^3.1.2",
     "deep-copy": "^1.4.2",
-    "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.0",
     "fast-json-patch": "^2.2.1",
     "file-loader": "^6.2.0",
