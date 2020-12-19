@@ -1,4 +1,26 @@
 - commits:
+    - subject: Update full-text-search test queries
+      hash: 4cba54bf7225c704f3480b4f413971234565773f
+      body: |
+        Need to search within `contains` in array fields.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 728a5357004e553e40c6275f1375757cedcd0101
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.40.7
+  date: 2020-12-19T07:47:44.156Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: ef2c849c3a8601e0ee31933e0e90839d398f5b9a
       body: ''
