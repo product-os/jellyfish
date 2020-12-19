@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: ef2c849c3a8601e0ee31933e0e90839d398f5b9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.40.6
+  date: 2020-12-19T02:29:07.161Z
+- commits:
     - subject: Fix dupliacte participants and mentions
       hash: 580323bff08dc7a3d4e25435c9451a29b1ab206c
       body: ''
