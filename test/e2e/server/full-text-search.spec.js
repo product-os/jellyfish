@@ -122,8 +122,10 @@ ava.serial('full-text search should match queries for card root-level array fiel
 				properties: {
 					tags: {
 						type: 'array',
-						fullTextSearch: {
-							term: 'foo'
+						contains: {
+							fullTextSearch: {
+								term: 'foo'
+							}
 						}
 					}
 				},
@@ -184,8 +186,10 @@ ava.serial('full-text search should match queries for card data->array fields', 
 						properties: {
 							tags: {
 								type: 'array',
-								fullTextSearch: {
-									term: 'buz'
+								contains: {
+									fullTextSearch: {
+										term: 'buz'
+									}
 								}
 							}
 						}
@@ -274,8 +278,10 @@ ava.serial('full-text search should not match on root-level array fields for mis
 				properties: {
 					tags: {
 						type: 'array',
-						fullTextSearch: {
-							term: 'mismatch'
+						contains: {
+							fullTextSearch: {
+								term: 'mismatch'
+							}
 						}
 					}
 				},
@@ -336,8 +342,10 @@ ava.serial('full-text search should not match on card data->array fields for mis
 						properties: {
 							tags: {
 								type: 'array',
-								fullTextSearch: {
-									term: 'coffee'
+								contains: {
+									fullTextSearch: {
+										term: 'coffee'
+									}
 								}
 							}
 						}
