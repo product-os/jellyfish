@@ -11,11 +11,11 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-action-library": "^6.0.4",
-    "@balena/jellyfish-core": "^0.2.30",
+    "@balena/jellyfish-core": "^0.2.31",
     "@balena/jellyfish-environment": "^2.3.12",
     "@balena/jellyfish-logger": "^0.0.179",
     "@balena/jellyfish-metrics": "^0.0.207",
-    "@balena/jellyfish-plugin-default": "^1.1.9",
+    "@balena/jellyfish-plugin-default": "^1.1.10",
     "@balena/jellyfish-queue": "^0.0.272",
     "@balena/jellyfish-uuid": "^1.0.42",
     "@balena/jellyfish-sync": "^4.0.5",
