@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix channel merge
+      hash: fc8bf1d8961842ad676aac1cb3a2f64215a32497
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 33.40.15
+  date: 2020-12-20T15:09:05.162Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: ef11d9898603ba87a3dee94cb327562ed7153112
       body: ''
