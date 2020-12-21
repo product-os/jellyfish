@@ -1,4 +1,38 @@
 - commits:
+    - subject: Add plugin documentation
+      hash: c3dec1a544456d95466e60e3d1f380e9c5f93146
+      body: >
+        Notes
+
+        - currently the interface definitions for plugins are pretty loosely
+        defined. This will need tightening up when we migrate to TypeScript (at
+        which point we should be able to just point to the interface definition
+        in source code!)
+
+        - the documentation gives details of actions and lenses. These have not
+        yet been implemented in plugins - but I figured it was worth putting in
+        the documentation first.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update screenshot
+      hash: 143ff506d9fd10751cbb63973c0db2ba9ddeeb0d
+      body: |
+        Replace the extremely out-of-date screenshot.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.40.19
+  date: 2020-12-21T10:12:28.778Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: aa725293672a4645db120f3f4fa02a5e636f04b2
       body: ''
