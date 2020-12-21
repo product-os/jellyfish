@@ -10,7 +10,7 @@ as a cross between Slack and Excel!
 
 ***
 
-![Jellyfish Screenshot](./screenshot.png)
+![Jellyfish Screenshot](./docs/assets/screenshot.png)
 
 ***
 
