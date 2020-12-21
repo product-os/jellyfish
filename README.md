@@ -10,12 +10,13 @@ as a cross between Slack and Excel!
 
 ***
 
-![Jellyfish Screenshot](./screenshot.png)
+![Jellyfish Screenshot](./docs/assets/screenshot.png)
 
 ***
 
 - **Contributing**
 	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
+	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
 	- [**Working with the frontend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/frontend.markdown)
 	- [**Working with the backend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/backend.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)

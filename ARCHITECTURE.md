@@ -1,9 +1,9 @@
 # Jellyfish Architecture
 
 The Jellyfish system is a multi-container application where all apps
-in a single repository. The `apps` directory contains the deployable components.
+are located in a single repository. The `apps` directory contains the deployable components.
 
-The system consists a big bucket of JSON based data structures we call
+The system consists of a big bucket of JSON based data structures we call
 "cards" (the only entity in the system). Every card has a set of top level
 properties (such as `id` and `type`) and an extensible `data` object that
 contains every type specific properties. Cards can be linked to other cards to
