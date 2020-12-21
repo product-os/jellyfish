@@ -4,7 +4,7 @@ You can add a new type to Jellyfish by following these steps.
 
 ## Add a new type definition card
 
-New type cards should be added in the `default-cards` directory here https://github.com/product-os/jellyfish/tree/master/apps/server/default-cards/contrib
+New type cards should be added to a [plugin](./plugins.markdown) repo. Currently most cards are located in the [`cards` directory](https://github.com/product-os/jellyfish-plugin-default/tree/master/lib/cards) of the [`jellyfish-plugin-default` plugin](https://github.com/product-os/jellyfish-plugin-default)
 
 A type card consists of the standard contract fields and a JSON schema that defines the shape of the new type. For example, a new type card that defines a Pokémon would look like this
 
@@ -87,15 +87,19 @@ For the sake of keeping things organised, the name of the file should match the
 "slug" value of the card. In the example shown above, the file would be called
 `pokemon.json`.
 
-## Load the type card when the server starts
+## Type cards are loaded when the server starts
 
-Now that the card has been added, it needs to be loaded when the server starts.
-This is done by adding a line to this file https://github.com/product-os/jellyfish/blob/master/apps/server/card-loader.js#L48
+When the server starts it loads all cards from all plugins. You just need to make sure that your new card is returned by the plugin's `getCards` method. Typically this is done by adding a line to the `lib/cards/index.js` file in the plugin repo.
 
 Continuing with the Pokèmon card type example, the line would look like this:
 
+```javascript
+require('./contrib/pokemon.json'),
 ```
-await loadCard('contrib/pokemon.json')
+or, if the card type made use of mixins:
+
+```javascript
+require('./contrib/pokemon.js')(mixins),
 ```
 
 ## Surface the new cards in the web browser client
@@ -103,8 +107,7 @@ await loadCard('contrib/pokemon.json')
 At this point, users with the `community` role will have CRUD access to the
 Pokèmon card type via the API but it will not show up in the web browser client.
 The easiest way to make this happen is to create a new view to list Pokèmon cards.
-As before, the new view card should be added in the `default-cards` directory here https://github.com/product-os/jellyfish/tree/master/apps/server/default-cards/contrib
-Here is an example view that displays all Pokèmon cards:
+As before, the new view card should be added in the `cards` directory of the plugin containing the type card. Here is an example view that displays all Pokèmon cards:
 
 ```
 {
@@ -149,12 +152,17 @@ Here is an example view that displays all Pokèmon cards:
 }
 ```
 
-As before, this view needs to be loaded when the server starts, by adding a line to this file https://github.com/product-os/jellyfish/blob/master/apps/server/card-loader.js#L48
+As before, this view card needs to be returned by the plugin's `getCards` method, typically by adding a line to the `lib/cards/index.js` file within the plugin repo.
 
 The line would look like this:
 
+```javascript
+require('./contrib/view-all-pokemon.json'),
 ```
-await loadCard('contrib/view-all-pokemon.json')
+or, if the card type made use of mixins:
+
+```javascript
+require('./contrib/view-all-pokemon.js')(mixins),
 ```
 
 With this view added, you will see a new view in the left side menu with the title "Pokèmon cards". If you load this view you will also see a button that allows you to create a new Pokèmon.
