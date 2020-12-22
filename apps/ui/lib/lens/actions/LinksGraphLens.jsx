@@ -210,8 +210,8 @@ class CreateLens extends React.Component {
 				<CloseButton
 					style={{
 						position: 'absolute',
-						top: 26,
-						right: 26
+						top: 8,
+						right: 8
 					}}
 					onClick={this.close}
 					channel={channel}

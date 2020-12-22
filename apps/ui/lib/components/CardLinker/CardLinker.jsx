@@ -10,14 +10,12 @@ import {
 	DragSource
 } from 'react-dnd'
 import {
-	Button
-} from 'rendition'
-import {
 	constraints as LINKS
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import {
 	ActionButton,
 	ContextMenu,
+	PlainButton,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import LinkModal from '../LinkModal'
@@ -125,18 +123,16 @@ class CardLinker extends React.Component {
 		return connectDragSource(
 			<div>
 				<span>
-					<Button
+					<PlainButton
 						data-test="card-linker-action"
-						plain
 						onClick={this.toggleMenu}
-						mr={2}
 						tooltip={{
 							placement: 'left',
 							text: `Link this ${typeName} to another element`
 						}}
 					>
 						<Icon name="bezier-curve"/>
-					</Button>
+					</PlainButton>
 
 					{this.state.showMenu && (
 						<ContextMenu

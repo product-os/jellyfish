@@ -16,7 +16,6 @@ import {
 import * as redux from 'redux'
 import {
 	Box,
-	Button,
 	Flex,
 	Theme,
 	Txt
@@ -29,6 +28,7 @@ import {
 	Event,
 	helpers,
 	Icon,
+	PlainButton,
 	ActionRouterLink,
 	Link as RouterLink,
 	TagList,
@@ -368,7 +368,7 @@ class SupportThreadBase extends React.Component {
 				channel={channel}
 				title={(
 					<Flex flex={1} justifyContent="space-between">
-						<Flex flex={1} flexWrap="wrap"
+						<Flex flex={1} flexWrap="wrap" alignItems="center"
 							style={{
 								transform: 'translateY(2px)'
 							}}
@@ -392,9 +392,7 @@ class SupportThreadBase extends React.Component {
 						</Flex>
 
 						{status === 'open' && (
-							<Button
-								plain
-								mr={3}
+							<PlainButton
 								data-test="support-thread__close-thread"
 								tooltip={{
 									placement: 'bottom',
@@ -411,9 +409,7 @@ class SupportThreadBase extends React.Component {
 						)}
 
 						{status === 'closed' && (
-							<Button
-								plain
-								mr={3}
+							<PlainButton
 								data-test="support-thread__archive-thread"
 								tooltip={{
 									placement: 'bottom',
@@ -430,9 +426,7 @@ class SupportThreadBase extends React.Component {
 						)}
 
 						{status === 'archived' && (
-							<Button
-								plain
-								mr={3}
+							<PlainButton
 								data-test="support-thread__open-thread"
 								tooltip={{
 									placement: 'bottom',

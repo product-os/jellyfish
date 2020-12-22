@@ -186,7 +186,7 @@ export default class RepositoryFull extends React.Component {
 				card={card}
 				channel={channel}
 				inlineActionItems={(
-					<Box mr={3} data-test="repository__search">
+					<Box mr={2} data-test="repository__search">
 						<Search
 							value={searchTerm}
 							onChange={this.onSearchTermChange}

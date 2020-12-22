@@ -7,7 +7,6 @@
 import copy from 'copy-to-clipboard'
 import React from 'react'
 import {
-	Button,
 	Flex,
 	Modal
 } from 'rendition'
@@ -18,6 +17,7 @@ import {
 	ActionLink,
 	addNotification,
 	ContextMenu,
+	PlainButton,
 	Icon,
 	helpers
 } from '@balena/jellyfish-ui-components'
@@ -95,9 +95,7 @@ export default class CardActions extends React.Component {
 							sdk={this.props.sdk}
 							actions={this.props.actions} />
 					)}
-					<Button
-						plain
-						mr={3}
+					<PlainButton
 						onClick={this.openEditChannel}
 						className="card-actions__btn--edit"
 						tooltip={{
@@ -107,15 +105,12 @@ export default class CardActions extends React.Component {
 						icon={<Icon name="pencil-alt"/>}
 					/>
 
-					<VideoLink card={this.props.card} mr={3} />
+					<VideoLink card={this.props.card} p={2} />
 
 					<CardLinker types={this.props.types} card={this.props.card} actions={this.props.actions} />
 
 					<span>
-						<Button
-							px={2}
-							mr={-1}
-							plain
+						<PlainButton
 							onClick={this.toggleMenu}
 							data-test="card-action-menu"
 							icon={<Icon name="ellipsis-v"/>}
