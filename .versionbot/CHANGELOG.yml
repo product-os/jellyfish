@@ -1,4 +1,19 @@
 - commits:
+    - subject: Reset to first page when updating filters
+      hash: 84116366d8a98da3cc70af51baf64522c6434314
+      body: >
+        Need to reset to page 0 whenever the lens or filters or search term are
+        updated.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.40.25
+  date: 2020-12-22T09:20:09.306Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: e6ce2190665d89b76c7226e2062944c9b4d9de44
       body: ''
