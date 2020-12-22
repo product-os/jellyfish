@@ -8,6 +8,7 @@ import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import update from 'immutability-helper'
 import * as _ from 'lodash'
 import React from 'react'
 import {
@@ -308,19 +309,34 @@ class ViewRenderer extends React.Component {
 	}
 
 	updateFilters (filters) {
-		this.setState({
-			filters
+		this.setState((prevState) => {
+			return {
+				options: update(prevState.options, {
+					page: {
+						$set: 0
+					}
+				}),
+				filters
+			}
 		}, () => {
 			this.loadViewWithFilters(filters)
 		})
 	}
 
 	updateSearch (event) {
+		const newSearchTerm = event.target.value
 		const schema = _.get(this.state, [ 'tailType', 'data', 'schema' ])
-		this.setState({
-			eventSearchFilter: createEventSearchFilter(this.props.types, event.target.value),
-			searchFilter: createSearchFilter(schema, event.target.value),
-			searchTerm: event.target.value
+		this.setState((prevState) => {
+			return {
+				options: update(prevState.options, {
+					page: {
+						$set: 0
+					}
+				}),
+				eventSearchFilter: createEventSearchFilter(this.props.types, newSearchTerm),
+				searchFilter: createSearchFilter(schema, newSearchTerm),
+				searchTerm: newSearchTerm
+			}
 		}, () => {
 			this.loadViewWithFilters(this.state.filters)
 		})
@@ -339,8 +355,15 @@ class ViewRenderer extends React.Component {
 			return
 		}
 
-		this.setState({
-			activeLens: lens.slug
+		this.setState((prevState) => {
+			return {
+				options: update(prevState.options, {
+					page: {
+						$set: 0
+					}
+				}),
+				activeLens: lens.slug
+			}
 		}, () => {
 			this.loadViewWithFilters(this.state.filters)
 		})
