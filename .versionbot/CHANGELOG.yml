@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix architecture docs
+      hash: bff9c0fa0dd7ff5a96a413742076eacf6bf01307
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: 6b700af5aa511aed9c0f1339a1ff5e7258133e7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.2
+  date: 2020-12-23T06:41:27.022Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: f1ff867fbc16915097a3da383e5271c651fb00ea
       body: ''
