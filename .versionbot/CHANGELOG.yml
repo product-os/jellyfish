@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update workbox monorepo to v6'
+      hash: e8e422a26eea4bdb6389010821575b49facbf23b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.9
+  date: 2020-12-23T22:00:29.151Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.2.41'
       hash: d8ff8931ca385910352e95c57e2423f29021d616
       body: ''
