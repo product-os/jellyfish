@@ -94,7 +94,7 @@ export default class Header extends React.Component {
 						flex={0}
 						p={3}
 						py={2}
-						mr={-3}
+						mr={-2}
 						mt={[ -2, -2, 0 ]}
 						channel={channel}
 					/>

@@ -39,7 +39,7 @@ const ChannelNotFound = ({
 	return (
 		<Flex flexDirection='column' height="100%" justifyContent='center' alignItems='center'>
 			<CloseWrapper>
-				<CloseButton p={2} channel={channel} />
+				<CloseButton channel={channel} />
 			</CloseWrapper>
 			<ErrorTitle fontSize={[ '150px', '150px', '200px' ]}>404</ErrorTitle>
 			{ displayHomeLink && <Link to="/">Take me home!</Link>}

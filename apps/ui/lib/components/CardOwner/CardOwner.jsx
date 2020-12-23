@@ -141,7 +141,7 @@ export default class CardOwner extends React.Component {
 		return (
 			<DropDownButton
 				data-test="card-owner-dropdown"
-				mr={3}
+				px={2}
 				tertiary={cardOwner && (cardOwner.id === user.id)}
 				quartenary={cardOwner && (cardOwner.id !== user.id)}
 				onClick={this.handleButtonClick}
