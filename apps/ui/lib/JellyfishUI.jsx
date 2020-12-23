@@ -50,9 +50,7 @@ import {
 	Redirect,
 	Switch
 } from 'react-router-dom'
-import {
-	name
-} from './manifest.json'
+import manifest from './manifest.json'
 import {
 	isProduction
 } from './environment'
@@ -148,7 +146,7 @@ const JellyfishUI = ({
 			<Flex flex="1" style={{
 				height: '100%'
 			}}>
-				<PageTitle siteName={name} />
+				<PageTitle siteName={manifest.name} />
 				<HomeChannel channel={home}/>
 
 				<Switch>

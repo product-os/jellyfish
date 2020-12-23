@@ -36,10 +36,18 @@ const packageJSON = require('../../../package.json')
 console.log(`Generating bundle from ${uiRoot}`)
 
 const config = {
-	mode: 'development',
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	target: 'web',
 
 	resolve: {
+		fallback: {
+			buffer: require.resolve('buffer/'),
+			http: require.resolve('stream-http'),
+			https: require.resolve('https-browserify'),
+			vm: require.resolve('vm-browserify'),
+			path: require.resolve('path-browserify'),
+			fs: false
+		},
 		extensions: [ '.js', '.jsx', '.json' ]
 	},
 
@@ -91,10 +99,6 @@ const config = {
 		publicPath: '/'
 	},
 
-	node: {
-		fs: 'empty'
-	},
-
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
@@ -141,6 +145,10 @@ const config = {
 
 		new HtmlWebpackPlugin({
 			template: indexFilePath
+		}),
+
+		new webpack.ProvidePlugin({
+			process: 'process/browser'
 		}),
 
 		new DefinePlugin({
@@ -193,9 +201,11 @@ if (process.env.NODE_ENV === 'production') {
 	)
 } else {
 	config.plugins.push(
-		new WatchIgnorePlugin([
-			/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
-		])
+		new WatchIgnorePlugin({
+			paths: [
+				/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
+			]
+		})
 	)
 }
 

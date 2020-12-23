@@ -70,4 +70,4 @@ build-ui:
 .PHONY: lint
 lint:
 	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib test
-	npx depcheck --ignore-bin-package --ignores='@ava/babel,@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader'
+	npx depcheck --ignore-bin-package --ignores='@ava/babel,@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,process,buffer'

@@ -9,6 +9,7 @@
 
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
+const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const WatchIgnorePlugin = require('webpack/lib/WatchIgnorePlugin')
@@ -25,10 +26,18 @@ const outDir = path.join(root, 'dist/livechat')
 console.log(`Generating bundle from ${uiRoot}`)
 
 const config = {
-	mode: 'development',
+	mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 	target: 'web',
 
 	resolve: {
+		fallback: {
+			buffer: require.resolve('buffer/'),
+			http: require.resolve('stream-http'),
+			https: require.resolve('https-browserify'),
+			vm: require.resolve('vm-browserify'),
+			path: require.resolve('path-browserify'),
+			fs: false
+		},
 		extensions: [ '.js', '.jsx', '.json' ]
 	},
 
@@ -79,10 +88,6 @@ const config = {
 		publicPath: '/'
 	},
 
-	node: {
-		fs: 'empty'
-	},
-
 	entry: path.join(uiRoot, 'index.jsx'),
 
 	output: {
@@ -92,7 +97,7 @@ const config = {
 	},
 
 	optimization: {
-		moduleIds: 'hashed',
+		moduleIds: 'deterministic',
 		runtimeChunk: 'single',
 		splitChunks: {
 			cacheGroups: {
@@ -108,6 +113,10 @@ const config = {
 	plugins: [
 		new HtmlWebpackPlugin({
 			template: indexFilePath
+		}),
+
+		new webpack.ProvidePlugin({
+			process: 'process/browser'
 		}),
 
 		new DefinePlugin({
@@ -134,9 +143,11 @@ if (process.env.NODE_ENV === 'production') {
 	)
 } else {
 	config.plugins.push(
-		new WatchIgnorePlugin([
-			/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk))\/).*/
-		])
+		new WatchIgnorePlugin({
+			paths: [
+				/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk))\/).*/
+			]
+		})
 	)
 }
 
