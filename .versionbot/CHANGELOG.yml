@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency react-trello to ^2.2.9'
+      hash: 627a7436d7b29009b06f8cfd4fe8611e28eae409
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.3
+  date: 2020-12-23T07:46:55.552Z
+- commits:
     - subject: Fix architecture docs
       hash: bff9c0fa0dd7ff5a96a413742076eacf6bf01307
       body: ''
