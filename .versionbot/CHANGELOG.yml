@@ -1,4 +1,29 @@
 - commits:
+    - subject: Bump dependencies
+      hash: e8f7aebfdcd47ee517a99a2f571c9ebe9a079bef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Improve button layout/spacing
+      hash: cfba252d9c60af96c4bdee60f247c6f0296a5148
+      body: >
+        More padding on buttons, using PlainButton component from
+        jellyfish-ui-components.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.41.0
+  date: 2020-12-23T01:16:27.972Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^1.1.16'
       hash: 2f54e178615b329a32519f9d19192b973f7d3896
       body: ''
