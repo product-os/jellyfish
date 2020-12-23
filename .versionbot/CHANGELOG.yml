@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 5d99217320eee7c69f1aa456486335ca14a5eac8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.5
+  date: 2020-12-23T11:35:45.891Z
+- commits:
     - subject: 'patch: Update dependency rendition to v19'
       hash: a01e74ff3fe5f7f571d6e4bb95aad21e45f65303
       body: ''
