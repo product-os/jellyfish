@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: dd323309c86f3ffb45f7ffd473c8b444618c31fb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.10
+  date: 2020-12-24T00:28:12.161Z
+- commits:
     - subject: 'patch: Update workbox monorepo to v6'
       hash: e8e422a26eea4bdb6389010821575b49facbf23b
       body: ''
