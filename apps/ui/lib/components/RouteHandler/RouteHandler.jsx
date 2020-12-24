@@ -58,7 +58,7 @@ export default class RouteHandler extends React.Component {
 			return
 		}
 
-		const channelsToRender = channels.length - 1
+		const channelsToRender = channels.length
 		const squished = channelsToRender - (this.props.isMobile ? 1 : 2)
 
 		const spaces = []
@@ -82,7 +82,7 @@ export default class RouteHandler extends React.Component {
 				left: 0,
 				width: window.innerWidth
 			})
-		} else if (channels.length === 2) {
+		} else if (channels.length === 1) {
 			spaces.push({
 				left: sidebarWidth + Math.max(squished * squishedWidth, 0),
 				width
@@ -118,7 +118,7 @@ export default class RouteHandler extends React.Component {
 		const {
 			channels
 		} = this.props
-		const homeChannel = _.first(channels)
+
 		const newChannels = targets.map((piece) => {
 			const [ target, slice ] = piece.split(PATH_SEPARATOR)
 			const options = {}
@@ -159,7 +159,7 @@ export default class RouteHandler extends React.Component {
 			}
 		})
 
-		const payload = _.compact([ homeChannel, ...newChannels ])
+		const payload = _.compact(newChannels)
 
 		this.props.actions.setChannels(payload)
 	}
@@ -181,7 +181,7 @@ export default class RouteHandler extends React.Component {
 			<React.Fragment>
 				<ReactResizeObserver onResize={this.handleResize}/>
 
-				{(!channels.slice(1).length && !userHasOrg) && (
+				{(!channels.length && !userHasOrg) && (
 					<Flex
 						flex="1"
 						justifyContent="center"
@@ -198,7 +198,7 @@ export default class RouteHandler extends React.Component {
 					</Flex>
 				)}
 
-				{_.map(channels.slice(1), (channel, index) => {
+				{_.map(channels, (channel, index) => {
 					return (
 						<ChannelRenderer
 							getLens={getLens}

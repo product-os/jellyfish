@@ -39,12 +39,6 @@ ava('reducer should create a default state if one is not provided', (test) => {
 		views
 	} = _.cloneDeep(defaultState)
 
-	// Hard-wire the values that are dynamically set
-	core.channels[0] = _.merge(core.channels[0], {
-		created_at: initialState.core.channels[0].created_at,
-		id: initialState.core.channels[0].id,
-		slug: initialState.core.channels[0].slug
-	})
 	test.deepEqual(initialState.core, core)
 	test.deepEqual(initialState.views, views)
 })

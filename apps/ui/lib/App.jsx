@@ -13,7 +13,6 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Flex,
 	Form,
 	Rating
 } from 'rendition'
@@ -26,18 +25,6 @@ import {
 import {
 	saveAs
 } from 'file-saver'
-import {
-	ChatWidgetSidebar
-} from './components/ChatWidgetSidebar'
-import HomeChannel from './components/HomeChannel'
-import RouteHandler from './components/RouteHandler'
-import Oauth from './components/Oauth'
-import Login from './components/Auth/Login'
-import PageTitle from './components/PageTitle'
-import RequestPasswordReset from './components/Auth/RequestPasswordReset'
-import CompletePasswordReset from './components/Auth/CompletePasswordReset'
-import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin'
-import AuthContainer from './components/Auth'
 import MermaidEditor from './components/MermaidEditor'
 import Splash from './components/Splash'
 import {
@@ -46,16 +33,14 @@ import {
 } from './core'
 import {
 	useLocation,
-	Route,
-	Redirect,
-	Switch
+	Redirect
 } from 'react-router-dom'
-import {
-	name
-} from './manifest.json'
 import {
 	isProduction
 } from './environment'
+import {
+	useLens
+} from './hooks'
 
 // Register the mermaid and markdown widgets for rendition forms
 // Register the extra format widgets to the Form component
@@ -90,9 +75,12 @@ const analyticsClient = isProduction()
 
 const webTracker = createWebTracker(analyticsClient, 'UI')
 
-const JellyfishUI = ({
-	actions, status, channels, isChatWidgetOpen
+const App = ({
+	actions,
+	currentUser,
+	status
 }) => {
+	const lens = useLens(currentUser, 'misc')
 	const location = useLocation()
 
 	React.useEffect(() => {
@@ -116,62 +104,27 @@ const JellyfishUI = ({
 		}
 	}, [])
 
-	const handleChatWidgetClose = () => {
-		actions.setChatWidgetOpen(false)
-	}
-
 	const path = window.location.pathname + window.location.hash
 
-	if (status === 'initializing') {
-		return <Splash />
-	}
-	if (status === 'unauthorized') {
+	if (isLegacyPath(path)) {
 		return (
-			<AuthContainer>
-				<Switch>
-					<Route path='/request_password_reset' component={RequestPasswordReset} />
-					<Route path='/password_reset/:resetToken/:username?' component={CompletePasswordReset} />
-					<Route path='/first_time_login/:firstTimeLoginToken/:username?' component={CompleteFirstTimeLogin} />
-					<Route path="/*" component={Login} />
-				</Switch>
-			</AuthContainer>
+			<Redirect to={transformLegacyPath(path)} />
 		)
 	}
-	const [ home ] = channels
+
+	if (status === 'initializing' || !currentUser) {
+		return <Splash />
+	}
 
 	return (
-		<React.Fragment>
-			{isLegacyPath(path) && (
-				<Redirect to={transformLegacyPath(path)} />
-			)}
-
-			<Flex flex="1" style={{
-				height: '100%'
-			}}>
-				<PageTitle siteName={name} />
-				<HomeChannel channel={home}/>
-
-				<Switch>
-					<Route path="/oauth/:integration" component={Oauth} />
-					<Route path="/*" component={RouteHandler} />
-				</Switch>
-			</Flex>
-
-			{isChatWidgetOpen && (
-				<ChatWidgetSidebar
-					onClose={handleChatWidgetClose}
-				/>
-			)}
-		</React.Fragment>
+		<lens.data.renderer card={currentUser}/>
 	)
 }
 
 const mapStateToProps = (state) => {
 	return {
-		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state),
-		version: selectors.getAppVersion(state),
-		isChatWidgetOpen: selectors.getChatWidgetOpen(state)
+		currentUser: selectors.getCurrentUser(state),
+		status: selectors.getStatus(state)
 	}
 }
 
@@ -179,10 +132,9 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'dumpState',
-				'setChatWidgetOpen'
+				'dumpState'
 			]), dispatch)
 	}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(JellyfishUI)
+export default connect(mapStateToProps, mapDispatchToProps)(App)

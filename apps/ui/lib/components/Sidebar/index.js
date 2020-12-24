@@ -15,7 +15,6 @@ import {
 import {
 	withTheme
 } from 'styled-components'
-import memoize from 'memoize-one'
 import {
 	withResponsiveContext
 } from '@balena/jellyfish-ui-components'
@@ -23,20 +22,15 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import HomeChannel from './HomeChannel'
+import Sidebar from './Sidebar'
 
-const getTarget = memoize((channel) => {
-	return _.get(channel, [ 'data', 'head', 'id' ])
-})
-
-const mapStateToProps = (state, ownProps) => {
-	const target = getTarget(ownProps.channel)
+const mapStateToProps = (state) => {
 	const user = selectors.getCurrentUser(state)
 	return {
 		channels: selectors.getChannels(state),
 		codename: selectors.getAppCodename(state),
 		orgs: selectors.getOrgs(state),
-		tail: target ? selectors.getViewData(state, target) : null,
+		tail: selectors.getViewData(state, 'view-all-views'),
 		types: selectors.getTypes(state),
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
@@ -73,4 +67,4 @@ export default redux.compose(
 	withTheme,
 	withRouter,
 	withResponsiveContext
-)(HomeChannel)
+)(Sidebar)

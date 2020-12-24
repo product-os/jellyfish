@@ -42,7 +42,7 @@ import {
 	store
 } from './core'
 import history from './services/history'
-import JellyfishUI from './JellyfishUI'
+import App from './App'
 import {
 	ConnectedRouter
 } from 'connected-react-router'
@@ -115,7 +115,7 @@ ReactDOM.render(
 										<NotificationsContainer />
 										<ErrorBoundary>
 											<DndProvider backend={HTML5Backend}>
-												<JellyfishUI />
+												<App />
 											</DndProvider>
 										</ErrorBoundary>
 									</ConnectedRouter>

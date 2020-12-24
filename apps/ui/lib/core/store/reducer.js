@@ -15,9 +15,6 @@ import {
 } from 'connected-react-router'
 import * as _ from 'lodash'
 import * as redux from 'redux'
-import {
-	v4 as uuid
-} from 'uuid'
 import actions from './actions'
 import history from '../../services/history'
 
@@ -32,25 +29,7 @@ if (global.localStorage) {
 export const defaultState = {
 	core: {
 		status: 'initializing',
-		channels: [
-			{
-				id: uuid(),
-				created_at: new Date().toISOString(),
-				slug: `channel-${uuid()}`,
-				type: 'channel',
-				version: '1.0.0',
-				tags: [],
-				markers: [],
-				links: {},
-				requires: [],
-				capabilities: [],
-				active: true,
-				data: {
-					target: 'view-all-views',
-					cardType: 'view'
-				}
-			}
-		],
+		channels: [],
 		types: [],
 		groups: {},
 		session: null,
@@ -230,6 +209,11 @@ const coreReducer = (state = defaultState.core, action = {}) => {
 			return update(defaultState.core, {
 				status: {
 					$set: 'unauthorized'
+				},
+				session: {
+					$set: {
+						user: action.payload.guestUser
+					}
 				}
 			})
 		}

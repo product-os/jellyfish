@@ -56,7 +56,7 @@ export const setupStore = ({
 			if (token) {
 				await store.dispatch(actionCreators.loginWithToken(token))
 			} else {
-				await store.dispatch(actionCreators.setStatus('unauthorized'))
+				await store.dispatch(actionCreators.logout())
 			}
 		} catch (error) {
 			console.error(error)

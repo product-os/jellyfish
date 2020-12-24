@@ -7,3 +7,4 @@
 export {
 	default as useLabeledImage
 } from './use-labeled-image'
+export * from './use-lens'

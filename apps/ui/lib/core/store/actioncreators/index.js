@@ -759,21 +759,18 @@ export default class ActionCreator {
 					}
 					const state = getState()
 
-					// Check to see if we're still logged in
-					if (selectors.getSessionToken(state)) {
-						dispatch(this.setUser(user))
-						dispatch(this.setTypes(types))
-						dispatch(this.setOrgs(orgs))
-						dispatch(this.setGroups(groups, user))
-						dispatch({
-							type: actions.SET_CONFIG,
-							value: config
-						})
-						const channels = selectors.getChannels(state)
-						channels.forEach((channel) => {
-							return dispatch(this.loadChannelData(channel))
-						})
-					}
+					dispatch(this.setUser(user))
+					dispatch(this.setTypes(types))
+					dispatch(this.setOrgs(orgs))
+					dispatch(this.setGroups(groups, user))
+					dispatch({
+						type: actions.SET_CONFIG,
+						value: config
+					})
+					const channels = selectors.getChannels(state)
+					channels.forEach((channel) => {
+						return dispatch(this.loadChannelData(channel))
+					})
 
 					this.errorReporter.setUser({
 						id: user.id,
@@ -873,24 +870,30 @@ export default class ActionCreator {
 	}
 
 	logout () {
-		if (this.tokenRefreshInterval) {
-			clearInterval(this.tokenRefreshInterval)
-		}
+		return async (dispatch) => {
+			if (this.tokenRefreshInterval) {
+				clearInterval(this.tokenRefreshInterval)
+			}
 
-		this.analytics.track('ui.logout')
-		this.analytics.identify()
-		this.errorReporter.setUser(null)
-		if (commsStream) {
-			commsStream.close()
-			commsStream = null
-			this.sdk.auth.logout()
-		}
-		_.forEach(streams, (stream, id) => {
-			stream.close()
-			Reflect.deleteProperty(streams, id)
-		})
-		return {
-			type: actions.LOGOUT
+			this.analytics.track('ui.logout')
+			this.analytics.identify()
+			this.errorReporter.setUser(null)
+			if (commsStream) {
+				commsStream.close()
+				commsStream = null
+				this.sdk.auth.logout()
+			}
+			_.forEach(streams, (stream, id) => {
+				stream.close()
+				Reflect.deleteProperty(streams, id)
+			})
+
+			return dispatch({
+				type: actions.LOGOUT,
+				payload: {
+					guestUser: await this.sdk.card.get('user-guest')
+				}
+			})
 		}
 	}
 

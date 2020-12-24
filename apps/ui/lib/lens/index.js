@@ -25,6 +25,7 @@ import FullLenses from './full'
 import ListLenses from './list'
 import SnippetLenses from './snippet'
 import InboxLens from './misc/Inbox'
+import UserLens from './misc/User'
 
 const lenses = {
 	full: FullLenses,
@@ -58,7 +59,8 @@ const lenses = {
 		SupportAuditChart,
 		Table,
 		CRMTable,
-		Chart
+		Chart,
+		UserLens
 	]
 }
 

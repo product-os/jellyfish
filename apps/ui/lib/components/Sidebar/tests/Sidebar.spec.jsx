@@ -14,8 +14,8 @@ import {
 import React from 'react'
 import _ from 'lodash'
 import sinon from 'sinon'
-import HomeChannel from '../HomeChannel'
-import * as homeChannelProps from './fixtures'
+import Sidebar from '../Sidebar'
+import * as sidebarProps from './fixtures'
 
 const context = {}
 
@@ -54,10 +54,10 @@ ava('Starred views appear in their own menu section', async (test) => {
 	const {
 		wrapper
 	} = getWrapper()
-	const homeChannel = await mount((
-		<HomeChannel
-			{...homeChannelProps}
-			channels={[ homeChannelProps.channel ]}
+	const sidebar = await mount((
+		<Sidebar
+			{...sidebarProps}
+			channels={[]}
 			actions={context.actions}
 			viewNotices={{}}
 			subscriptions={{}}
@@ -71,8 +71,8 @@ ava('Starred views appear in their own menu section', async (test) => {
 		wrappingComponent: wrapper
 	})
 
-	const starredViews = homeChannelProps.user.data.profile.starredViews
-	const starredViewsDiv = homeChannel.find('div[data-test="home-channel__group__starredViews"]')
+	const starredViews = sidebarProps.user.data.profile.starredViews
+	const starredViewsDiv = sidebar.find('div[data-test="home-channel__group__starredViews"]')
 
 	starredViews.forEach((starredView) => {
 		const starredViewLink = starredViewsDiv.find(`a[data-test="home-channel__item--${starredView}"]`)
@@ -86,9 +86,9 @@ ava('The home view is loaded on mount if set', async (test) => {
 		wrapper
 	} = getWrapper()
 	await mount((
-		<HomeChannel
-			{...homeChannelProps}
-			channels={[ homeChannelProps.channel ]}
+		<Sidebar
+			{...sidebarProps}
+			channels={[]}
 			actions={context.actions}
 			viewNotices={{}}
 			subscriptions={{}}

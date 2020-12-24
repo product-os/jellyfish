@@ -43,7 +43,7 @@ import {
 // Slide-in delay in seconds
 const DELAY = 0.6
 
-const HomeChannelWrapper = styled(Flex) `
+const SidebarWrapper = styled(Flex) `
 	&.collapsed {
 		position: absolute;
 		top: 0;
@@ -53,7 +53,7 @@ const HomeChannelWrapper = styled(Flex) `
 	}
 `
 
-const HomeChannelBackdrop = styled(Box) `
+const SidebarBackdrop = styled(Box) `
 	z-index: 16;
 	position: absolute;
 	top: 0;
@@ -83,7 +83,7 @@ const HomeChannelBackdrop = styled(Box) `
 	}
 `
 
-const HomeChannelDrawer = styled(Flex) `
+const SidebarDrawer = styled(Flex) `
 	transition-property: transform;
 	transition-duration: ${DELAY / 2}s;
 	z-index: 16;
@@ -110,7 +110,7 @@ const HomeChannelDrawer = styled(Flex) `
 	background: #fff;
 `
 
-const HomeChannelContent = styled(Flex) `
+const SidebarContent = styled(Flex) `
 	flex: 1;
 	align-self: stretch;
 	background: #fff;
@@ -295,7 +295,7 @@ const treeMenuActionNames = [ 'setDefault', 'removeView', 'setViewStarred', 'set
 const pickViewLinkActions = memoize(_.pick)
 const pickTreeMenuActions = memoize(_.pick)
 
-export default class HomeChannel extends React.Component {
+export default class Sidebar extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
@@ -314,11 +314,6 @@ export default class HomeChannel extends React.Component {
 		this.hideMenu = this.hideMenu.bind(this)
 		this.openCreateViewChannel = this.openCreateViewChannel.bind(this)
 		this.openChatWidget = this.openChatWidget.bind(this)
-
-		if (this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head)
-		}
-
 		this.wrapper = React.createRef()
 	}
 
@@ -437,12 +432,11 @@ export default class HomeChannel extends React.Component {
 					productOS: results
 				})
 			})
+
+		this.props.actions.loadViewData('view-all-views')
 	}
 
 	componentDidUpdate (prevProps) {
-		if (!prevProps.channel.data.head && this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head)
-		}
 		if (this.state.showMenu && prevProps.location.pathname !== this.props.location.pathname) {
 			this.hideMenu()
 		}
@@ -472,11 +466,7 @@ export default class HomeChannel extends React.Component {
 			subscriptions,
 			types,
 			actions,
-			channels, channel: {
-				data: {
-					head
-				}
-			},
+			channels,
 			location,
 			user,
 			orgs,
@@ -496,16 +486,6 @@ export default class HomeChannel extends React.Component {
 		} = this.state
 		const activeChannel = channels.length > 1 ? channels[1] : null
 		const username = user ? (user.name || user.slug.replace(/user-/, '')) : null
-		if (!head) {
-			return (
-				<Box p={3}>
-					<Icon
-						spin
-						name="cog"
-					/>
-				</Box>
-			)
-		}
 		const groupedViews = groupViews(tail, starredViews, user.slug, productOS, orgs)
 		const groups = groupedViews.main
 		const defaultViews = groupedViews.defaults
@@ -523,7 +503,7 @@ export default class HomeChannel extends React.Component {
 		}
 
 		return (
-			<HomeChannelWrapper
+			<SidebarWrapper
 				flex={[ '0 0 100%', '0 0 100%', '0 0 180px' ]}
 				data-test='home-channel'
 				className={classnames('home-channel', {
@@ -533,13 +513,13 @@ export default class HomeChannel extends React.Component {
 				})}
 			>
 				{ collapsed && (
-					<HomeChannelBackdrop
+					<SidebarBackdrop
 						data-test='home-channel__backdrop'
 						flex={1}
 						onClick={showDrawer ? this.hideDrawer : null}
 					/>
 				)}
-				<HomeChannelDrawer
+				<SidebarDrawer
 					flex={1}
 					data-test='home-channel__drawer'
 					ref={this.wrapper}
@@ -554,7 +534,7 @@ export default class HomeChannel extends React.Component {
 						</GrabHandle>
 					)}
 
-					<HomeChannelContent
+					<SidebarContent
 						maxWidth={[ '100%', '100%', '180px' ]}
 						flexDirection="column"
 						data-test='home-channel__content'
@@ -735,9 +715,9 @@ export default class HomeChannel extends React.Component {
 								v{this.props.version} {this.props.codename}
 							</Txt>
 						</Link>
-					</HomeChannelContent>
-				</HomeChannelDrawer>
-			</HomeChannelWrapper>
+					</SidebarContent>
+				</SidebarDrawer>
+			</SidebarWrapper>
 		)
 	}
 }
