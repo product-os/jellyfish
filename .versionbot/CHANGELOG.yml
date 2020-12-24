@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 25e2da3edd07cf89f3efa9b8c60eaffba75c8c72
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.12
+  date: 2020-12-24T02:33:51.737Z
+- commits:
     - subject: 'patch: Update balena/open-balena-base Docker tag to v11.0.3'
       hash: fb07b952c5e5ae66fc2043c34af5595431e4442f
       body: ''
