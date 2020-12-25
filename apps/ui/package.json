@@ -116,7 +116,7 @@
     "node-hook": "^1.0.0",
     "redux-mock-store": "^1.5.4",
     "sinon": "^9.2.2",
-    "webpack-cli": "^4.2.0",
+    "webpack-cli": "^4.3.0",
     "webpack-dev-server": "^3.11.0",
     "workbox-core": "^6.0.2",
     "workbox-precaching": "^6.0.2",
