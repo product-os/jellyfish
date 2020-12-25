@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^2.2.12'
+      hash: 35f883f165ab487dcb973adc53bc6d3bbf1927bf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.15
+  date: 2020-12-25T20:23:22.521Z
+- commits:
     - subject: 'patch: Update dependency webpack-cli to ^4.3.0'
       hash: 44df85f0fa7e6fbbc37c4cfdd26c6dc0cbfef469
       body: ''
