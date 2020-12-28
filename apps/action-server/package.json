@@ -16,10 +16,10 @@
     "@balena/jellyfish-logger": "^0.0.183",
     "@balena/jellyfish-metrics": "^0.0.211",
     "@balena/jellyfish-plugin-default": "^1.1.25",
-    "@balena/jellyfish-queue": "^0.0.281",
+    "@balena/jellyfish-queue": "^0.0.282",
     "@balena/jellyfish-uuid": "^1.0.43",
-    "@balena/jellyfish-sync": "^4.0.10",
-    "@balena/jellyfish-worker": "^2.2.14",
+    "@balena/jellyfish-sync": "^4.0.11",
+    "@balena/jellyfish-worker": "^2.2.15",
     "bluebird": "^3.7.2",
     "lodash": "^4.17.20"
   },
