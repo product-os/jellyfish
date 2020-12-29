@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Kubernetes: Updates use recommended labels for Jellyfish API.'
+      hash: a9de2c21c2678f6d4c7e0a6ba9327c5bff47cf5a
+      body: |
+        Standardizes the labels used for resources in Kubernetes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.41.23
+  date: 2020-12-29T15:18:20.960Z
+- commits:
     - subject: 'patch: Update dependency webpack-dev-server to ^3.11.1'
       hash: b1c580db07f64f481506ede7eebb30ec4c72da3e
       body: ''
