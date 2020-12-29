@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Revert "Kubernetes: Updates use recommended labels for Jellyfish API."'
+      hash: b3496ae8f80da5fbab1f8c89bfb74b1e5731c281
+      body: |
+        This reverts commit a9de2c21c2678f6d4c7e0a6ba9327c5bff47cf5a.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.41.24
+  date: 2020-12-29T16:35:14.754Z
+- commits:
     - subject: 'Kubernetes: Updates use recommended labels for Jellyfish API.'
       hash: a9de2c21c2678f6d4c7e0a6ba9327c5bff47cf5a
       body: |
