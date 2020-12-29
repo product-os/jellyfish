@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency webpack-dev-server to ^3.11.1'
+      hash: b1c580db07f64f481506ede7eebb30ec4c72da3e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.22
+  date: 2020-12-29T13:51:56.715Z
+- commits:
     - subject: 'Kubernetes: Enable stdin & tty for logging to promtail/loki.'
       hash: a2b18e42456729a9923b8f6c3daadcb0e92e5d42
       body: |
