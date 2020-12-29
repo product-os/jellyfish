@@ -5,14 +5,26 @@ metadata:
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   labels:
     app.kubernetes.io/name: jellyfish-redis
+    app.kubernetes.io/instance: jellyfish-redis
+    app.kubernetes.io/component: redis
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
 spec:
   selector:
     matchLabels:
-      app: redis
+      app.kubernetes.io/name: jellyfish-redis
+      app.kubernetes.io/instance: jellyfish-redis
+      app.kubernetes.io/component: redis
+      app.kubernetes.io/part-of: product-os
+      app.kubernetes.io/managed-by: devops
   template:
     metadata:
       labels:
-        app: redis
+        app.kubernetes.io/name: jellyfish-redis
+        app.kubernetes.io/instance: jellyfish-redis
+        app.kubernetes.io/component: redis
+        app.kubernetes.io/part-of: product-os
+        app.kubernetes.io/managed-by: devops
     spec:
       containers:
         - image: <<%&children.sw.containerized-application.jellyfish-redis.data.assets.image.url%>>

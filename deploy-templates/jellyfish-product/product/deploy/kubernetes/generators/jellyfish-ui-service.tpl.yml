@@ -2,12 +2,20 @@ apiVersion: v1
 kind: Service
 metadata:
   labels:
-    name: jellyfish-ui
+    app.kubernetes.io/name: jellyfish-ui
+    app.kubernetes.io/instance: jellyfish-ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   name: jellyfish-ui
 spec:
   selector:
-    app: jellyfish-ui
+    app.kubernetes.io/name: jellyfish-ui
+    app.kubernetes.io/instance: jellyfish-ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
   ports:
   - port: 80
   sessionAffinity: ClientIP

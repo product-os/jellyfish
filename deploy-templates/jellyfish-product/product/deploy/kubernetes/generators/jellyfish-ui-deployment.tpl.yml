@@ -5,10 +5,18 @@ metadata:
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   labels:
     app.kubernetes.io/name: jellyfish-ui
+    app.kubernetes.io/instance: jellyfish-ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
 spec:
   selector:
     matchLabels:
-      app: jellyfish-ui
+      app.kubernetes.io/name: jellyfish-ui
+      app.kubernetes.io/instance: jellyfish-ui
+      app.kubernetes.io/component: ui
+      app.kubernetes.io/part-of: product-os
+      app.kubernetes.io/managed-by: devops
   replicas: 4
   strategy:
     type: RollingUpdate
@@ -18,7 +26,11 @@ spec:
   template:
     metadata:
       labels:
-        app: jellyfish-ui
+        app.kubernetes.io/name: jellyfish-ui
+        app.kubernetes.io/instance: jellyfish-ui
+        app.kubernetes.io/component: ui
+        app.kubernetes.io/part-of: product-os
+        app.kubernetes.io/managed-by: devops
     spec:
       readinessGates:
       # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/

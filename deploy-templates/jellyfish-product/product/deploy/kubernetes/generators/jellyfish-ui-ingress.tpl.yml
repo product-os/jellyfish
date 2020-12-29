@@ -2,7 +2,11 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   labels:
-    name: jellyfish-ui
+    app.kubernetes.io/name: jellyfish-ui
+    app.kubernetes.io/instance: jellyfish-ui
+    app.kubernetes.io/component: ui
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   name: jellyfish-ui
   # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/#deploy-ingress-for-echoserver
