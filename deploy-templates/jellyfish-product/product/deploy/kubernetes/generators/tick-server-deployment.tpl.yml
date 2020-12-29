@@ -197,6 +197,8 @@ spec:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
+        stdin: true
+        tty: true
 
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
