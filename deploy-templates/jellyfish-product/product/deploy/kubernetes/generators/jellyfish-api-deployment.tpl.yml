@@ -318,6 +318,8 @@ spec:
               key: REGISTRY_TOKEN_AUTH_JWT_ALGO
               name: registry-token-auth-jwt-algo
         {{/REGISTRY_TOKEN_AUTH_JWT_ALGO}}
+        stdin: true
+        tty: true
         ports:
         - containerPort: 8000
         - containerPort: 9229

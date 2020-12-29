@@ -60,6 +60,8 @@ spec:
           value: 'https://api.ly.fish'
         - name: SERVER_PORT
           value: '80'
+        stdin: true
+        tty: true
         ports:
         - containerPort: 80
       imagePullSecrets:

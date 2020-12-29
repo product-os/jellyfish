@@ -236,6 +236,8 @@ spec:
             secretKeyRef:
               key: QUEUE_CONCURRENCY
               name: queue-concurrency
+        stdin: true
+        tty: true
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a
