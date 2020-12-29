@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Kubernetes: Enable stdin & tty for logging to promtail/loki.'
+      hash: a2b18e42456729a9923b8f6c3daadcb0e92e5d42
+      body: |
+        This allows engineers to refer to Loki logs in monitor.balena-cloud.com.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.41.21
+  date: 2020-12-29T12:27:45.225Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.818.0'
       hash: ddb7ab55996deff0c596b9339a822c851de7dc34
       body: ''
