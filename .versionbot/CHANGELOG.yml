@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.819.0'
+      hash: 9513b212af20570f3fa255f9d327199fc846816c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.25
+  date: 2020-12-29T19:45:38.088Z
+- commits:
     - subject: 'Revert "Kubernetes: Updates use recommended labels for Jellyfish API."'
       hash: b3496ae8f80da5fbab1f8c89bfb74b1e5731c281
       body: |
