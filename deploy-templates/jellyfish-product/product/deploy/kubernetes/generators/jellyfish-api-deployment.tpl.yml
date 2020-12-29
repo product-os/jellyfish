@@ -5,10 +5,18 @@ metadata:
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   labels:
     app.kubernetes.io/name: jellyfish-api
+    app.kubernetes.io/instance: jellyfish-api
+    app.kubernetes.io/component: api
+    app.kubernetes.io/part-of: product-os
+    app.kubernetes.io/managed-by: devops
 spec:
   selector:
     matchLabels:
-      app: jellyfish
+      app.kubernetes.io/name: jellyfish-api
+      app.kubernetes.io/instance: jellyfish-api
+      app.kubernetes.io/component: api
+      app.kubernetes.io/part-of: product-os
+      app.kubernetes.io/managed-by: devops
   replicas: 16
   strategy:
     type: RollingUpdate
@@ -18,7 +26,11 @@ spec:
   template:
     metadata:
       labels:
-        app: jellyfish
+        app.kubernetes.io/name: jellyfish-api
+        app.kubernetes.io/instance: jellyfish-api
+        app.kubernetes.io/component: api
+        app.kubernetes.io/part-of: product-os
+        app.kubernetes.io/managed-by: devops
     spec:
       terminationGracePeriodSeconds: 120
       readinessGates:
