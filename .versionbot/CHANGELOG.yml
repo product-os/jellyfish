@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.820.0'
+      hash: 20aa34a7454126a88471ad46b8447c7454f6af2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.30
+  date: 2020-12-31T20:54:06.619Z
+- commits:
     - subject: 'patch: Update dependency webpack-cli to ^4.3.1'
       hash: 43b4f8701a4ed01f855eff91036acd363259a625
       body: ''
