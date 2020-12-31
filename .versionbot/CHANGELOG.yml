@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency webpack-cli to ^4.3.1'
+      hash: 43b4f8701a4ed01f855eff91036acd363259a625
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.29
+  date: 2020-12-31T18:30:06.451Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: ec63006b56188ca030f94f4f2555d238394b2c85
       body: ''
