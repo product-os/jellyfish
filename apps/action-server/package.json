@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-action-library": "^6.0.17",
-    "@balena/jellyfish-core": "^0.2.49",
+    "@balena/jellyfish-core": "0.3.0-improve-patching-535e941615c2d2d41de94534950e6980083ff97f",
     "@balena/jellyfish-environment": "^2.3.13",
     "@balena/jellyfish-logger": "^0.0.185",
     "@balena/jellyfish-metrics": "^0.0.213",
