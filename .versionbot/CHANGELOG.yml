@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 99dd69ee8600574304b2e6b3046742660b157135
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.31
+  date: 2021-01-01T02:51:27.384Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.820.0'
       hash: 20aa34a7454126a88471ad46b8447c7454f6af2a
       body: ''
