@@ -445,7 +445,7 @@ export default class Sidebar extends React.Component {
 				const prevPath = cleanPath(prevProps.location)
 				const currentPath = cleanPath(this.props.location)
 				if (
-					(prevProps.channels.length === 2 && this.props.channels.length === 1) ||
+					(prevProps.channels.length === 1 && this.props.channels.length === 0) ||
 					(prevPath !== '/' && currentPath === '/') ||
 					(currentPath === '/' && prevProps.isChatWidgetOpen && !this.props.isChatWidgetOpen)
 				) {
@@ -484,7 +484,7 @@ export default class Sidebar extends React.Component {
 			showDrawer,
 			sliding
 		} = this.state
-		const activeChannel = channels.length > 1 ? channels[1] : null
+		const activeChannel = channels.length > 0 ? channels[0] : null
 		const username = user ? (user.name || user.slug.replace(/user-/, '')) : null
 		const groupedViews = groupViews(tail, starredViews, user.slug, productOS, orgs)
 		const groups = groupedViews.main
@@ -492,7 +492,7 @@ export default class Sidebar extends React.Component {
 		const activeChannelTarget = _.get(activeChannel, [ 'data', 'target' ])
 		const activeSlice = _.get(activeChannel, [ 'data', 'options', 'slice' ])
 
-		const collapsed = isMobile && (channels.length > 1 || cleanPath(location) !== '/' || isChatWidgetOpen)
+		const collapsed = isMobile && (channels.length > 0 || cleanPath(location) !== '/' || isChatWidgetOpen)
 
 		const grabHandleProps = helpers.isiOS() ? {
 			onClick: this.toggleDrawerIOS
