@@ -262,6 +262,7 @@ npm-install:
 	cd apps/server && npm install
 	cd apps/ui && npm install
 
+# npm ci is usefull for removing and re-downloading all node_modules
 npm-ci:
 	npm ci
 	cd apps/action-server && npm ci
