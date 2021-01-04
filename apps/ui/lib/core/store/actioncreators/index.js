@@ -427,12 +427,8 @@ export default class ActionCreator {
 	}
 
 	setStatus (status) {
-		// If the status is now 'unauthorized' just run the logout routine
 		if (status === 'unauthorized') {
-			this.sdk.auth.logout()
-			return {
-				type: actions.LOGOUT
-			}
+			return this.logout()
 		}
 		return {
 			type: actions.SET_STATUS,
@@ -846,7 +842,7 @@ export default class ActionCreator {
 					this.analytics.identify(selectors.getCurrentUser(getState()).id)
 				})
 				.catch((error) => {
-					dispatch(this.setStatus('unauthorized'))
+					dispatch(this.logout())
 					throw error
 				})
 		}
@@ -863,7 +859,7 @@ export default class ActionCreator {
 					this.analytics.identify(selectors.getCurrentUser(getState()).id)
 				})
 				.catch((error) => {
-					dispatch(this.setStatus('unauthorized'))
+					dispatch(this.logout())
 					throw error
 				})
 		}
