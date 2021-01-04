@@ -19,10 +19,12 @@
 	npm-install \
 	push \
 	ssh \
-	npm-ci
+	npm-ci \
+	exec-apps
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 
 # -----------------------------------------------
 # Runtime Configuration
@@ -258,18 +260,10 @@ endif
 # -----------------------------------------------
 
 npm-install:
-	npm install
-	cd apps/action-server && npm install
-	cd apps/livechat && npm install
-	cd apps/server && npm install
-	cd apps/ui && npm install
+	npm install && CMD="npm install" make exec-apps
 
 npm-ci:
-	npm ci
-	cd apps/action-server && npm ci
-	cd apps/livechat && npm ci
-	cd apps/server && npm ci
-	cd apps/ui && npm ci
+	npm ci && CMD="npm ci" make exec-apps
 
 .tmp:
 	mkdir -p $@
@@ -483,3 +477,7 @@ reset-state:
 
 deploy-%:
 	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
+
+# Execute a command under each app directory
+exec-apps:
+	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
