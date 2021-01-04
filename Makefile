@@ -471,9 +471,10 @@ push:
 ssh:
 	balena ssh jel.ly.fish.local
 
+# TODO: Remove when issue is fixed
 # During livepush development the NUC could stop watching files and streaming logs.
 # The current advised fix is to reset the target state and push to the device again.
-# More information: https://www.flowdock.com/app/rulemotion/resin-starters/threads/yuS9WCzSeUGm4e_FwBp2bbc7ALU
+# See: https://github.com/balena-io/balena-supervisor/issues/1568
 reset-state:
 	@echo "Resetting target state..."
 	@curl -X POST --header "Content-Type:application/json" "http://jel.ly.fish.local:48484/v2/local/target-state" -d '{"local": {"name": "restless-frost","config": {},"apps": {}},"dependent": {"config": {}}}'
