@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use new productOS plugin
+      hash: b19968fb82e1337188a2a4aebcdd65b9eb6fde1d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.41.36
+  date: 2021-01-05T16:34:07.817Z
+- commits:
     - subject: Fix haproxy redis and postgres config
       hash: d72b220a7da47449dfb31c496b51288f5d013f6b
       body: ''
