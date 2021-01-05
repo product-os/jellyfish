@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix haproxy redis and postgres config
+      hash: d72b220a7da47449dfb31c496b51288f5d013f6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.41.35
+  date: 2021-01-05T07:17:36.119Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: aef51eb34d4619b65be90cc2c36c080adba50c58
       body: ''
