@@ -50,11 +50,11 @@ Developing with Livepush
 
 To start developing, you must first install [balenaCLI](https://github.com/balena-io/balena-cli) and set up a local-mode device.
 
-**Prepare the device**
+### Prepare the device
 1. Create a new balenaCloud app as described [here](https://www.balena.io/docs/learn/getting-started/intel-nuc/nodejs/)
 2. After your device shows up in the dashboard, enable [local mode](https://www.balena.io/docs/learn/develop/local-mode/)
 
-**Deploy code**
+### Deploy code
 Now that the device is up and running in local mode, we need to get its local IP address:
 ```
 sudo balena scan | grep address
@@ -63,7 +63,7 @@ sudo balena scan | grep address
 
 Add endpoints to local hosts file:
 ```
-<DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local
+<DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local postgres.ly.fish.local redis.ly.fish.local
 ```
 
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
@@ -89,7 +89,14 @@ make deploy-worker
 What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
 copies the resulting tarball into apps `packages` subdirectories. This triggers partial image rebuilds.
 
-**Troubleshooting**
+### Connecting to Postgres and Redis
+The Postgres and Redis services running on the Livepush device can be accessed with:
+```
+$ psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
+$ redis-cli -h redis.ly.fish.local
+```
+
+### Troubleshooting
 - Tail individual service logs with `balena logs jel.ly.fish.local --service <name>`
 - Log into device with `make ssh`, which allows you to then:
 	- Check running containers with `balena ps`
