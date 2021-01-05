@@ -7,6 +7,7 @@
 const _ = require('lodash')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const DefaultPlugin = require('@balena/jellyfish-plugin-default')
+const ProductOSPlugin = require('@balena/jellyfish-plugin-product-os')
 
 const loadPlugin = (Plugin, options) => {
 	try {
@@ -23,7 +24,8 @@ const loadPlugin = (Plugin, options) => {
 
 exports.loadPlugins = (options = {}) => {
 	return _.compact([
-		DefaultPlugin
+		DefaultPlugin,
+		ProductOSPlugin
 	].map((Plugin) => {
 		return loadPlugin(Plugin, options)
 	}))
