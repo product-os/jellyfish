@@ -313,7 +313,7 @@ lint:
 	./scripts/lint/check-apps.sh
 	npx shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,@balena/jellyfish-sync,webpack,shellcheck'
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,@balena/jellyfish-sync,@balena/jellyfish-plugin-product-os,webpack,shellcheck'
 	cd apps/server && make lint FIX=$(FIX)
 	cd apps/action-server && make lint FIX=$(FIX)
 	cd apps/livechat && make lint FIX=$(FIX)
