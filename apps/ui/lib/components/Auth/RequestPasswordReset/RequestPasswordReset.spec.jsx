@@ -14,9 +14,6 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import {
-	Img
-} from 'rendition'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 import RequestPasswordReset from './RequestPasswordReset.jsx'
 
@@ -31,8 +28,6 @@ ava.afterEach(() => {
 })
 
 ava('Submit button is disabled if the username input is empty', async (test) => {
-	sandbox.stub(Img)
-
 	const requestPasswordReset = mount(
 		<RequestPasswordReset/>, {
 			wrappingComponent
@@ -51,8 +46,6 @@ ava('Submit button is disabled if the username input is empty', async (test) => 
 
 ava('Fires the requirePasswordReset action followed by a success notification when the form is submitted', async (test) => {
 	const username = 'fake@username.com'
-
-	sandbox.stub(Img)
 
 	const requestPasswordResetAction = sandbox.stub()
 	requestPasswordResetAction.resolves(200)
@@ -95,8 +88,6 @@ ava('Fires the requirePasswordReset action followed by a success notification wh
 
 ava('Sends a danger notification if the action throws an error', async (test) => {
 	const username = 'fake@username.com'
-
-	sandbox.stub(Img)
 
 	const requestPasswordResetAction = sandbox.stub()
 	requestPasswordResetAction.rejects(new Error())
