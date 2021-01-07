@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 3a961ee2e471beb54e2a4e1545b7227f07fbe9e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.40
+  date: 2021-01-07T12:45:07.551Z
+- commits:
     - subject: Remove accidentally re-added default-cards
       hash: fcc80a675fe2d7fe57e1495299badd8cd3b3afb9
       body: >
