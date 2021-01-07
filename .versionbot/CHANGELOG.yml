@@ -1,4 +1,25 @@
 - commits:
+    - subject: Remove unnecessary stubbing in unit tests
+      hash: 310b66cfc857041b6f89a33093b1f509bff20d59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: c5c0fb9206a16998af1184d1aa7f9a2b8cf52e03
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.38
+  date: 2021-01-07T04:58:23.440Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.24.0'
       hash: 41e6ae9dd1e55f60a327438cd827dd9a9319423a
       body: ''
