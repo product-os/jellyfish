@@ -1,4 +1,19 @@
 - commits:
+    - subject: Remove accidentally re-added default-cards
+      hash: fcc80a675fe2d7fe57e1495299badd8cd3b3afb9
+      body: >
+        These cards were likely added when resolving merge conflicts. People
+        need to be more careful about how the resolve conflicts!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.41.39
+  date: 2021-01-07T08:25:41.861Z
+- commits:
     - subject: Remove unnecessary stubbing in unit tests
       hash: 310b66cfc857041b6f89a33093b1f509bff20d59
       body: ''
