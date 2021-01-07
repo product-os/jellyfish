@@ -319,6 +319,95 @@ ava.serial('Messages that mention a user\'s group should appear in their inbox',
 	test.pass()
 })
 
+ava.serial('Messages that mention a user\'s group from before user joined the group shouldn\'t appear in their inbox',
+	async (test) => {
+		const {
+			user1,
+			user2,
+			page,
+			incognitoPage
+		} = context
+
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Create a group and add the user to it
+		const groupName = `group-${uuid()}`
+		const group = await page.evaluate((name) => {
+			return window.sdk.card.create({
+				type: 'group@1.0.0',
+				name
+			})
+		}, groupName)
+
+		// Add user1 to group
+		await page.evaluate((grp, usr) => {
+			return window.sdk.card.link(grp, usr, 'has group member')
+		}, group, user1)
+
+		const singleUserGroup = await page.evaluate((grp) => {
+			return window.sdk.card.getWithLinks(grp.slug, 'has group member')
+		}, group)
+
+		// Confirm group now contains 1 user
+		test.is(singleUserGroup.links['has group member'].length, 1)
+
+		// Navigate to the thread page
+		await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+		const columnSelector = `.column--slug-${thread.slug}`
+		await page.waitForSelector(columnSelector)
+
+		const msg = `@@${groupName} ${uuid()}`
+
+		await page.waitForSelector('.new-message-input')
+
+		// Send message to group
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		// Add user2 to group
+		await page.evaluate((grp, usr) => {
+			return window.sdk.card.link(grp, usr, 'has group member')
+		}, group, user2)
+
+		const twoUserGroup = await page.evaluate((grp) => {
+			return window.sdk.card.getWithLinks(grp.slug, 'has group member')
+		}, group)
+
+		// Confirm group now contains 2 users
+		test.is(twoUserGroup.links['has group member'].length, 2)
+
+		// Navigate to the thread page
+		await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+		await page.waitForSelector(columnSelector)
+
+		const msg2 = `@@${groupName} ${uuid()}`
+
+		await page.waitForSelector('.new-message-input')
+
+		// Send message2 to group
+		await macros.createChatMessage(page, columnSelector, msg2)
+
+		// Navigate to the inbox page
+		await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+		await incognitoPage.waitForSelector('[data-test="event-card__message"]')
+
+		const inboxMessages = await incognitoPage.$$('[data-test="event-card__message"]')
+
+		// Confirm inbox contains 1 message
+		test.is(inboxMessages.length, 1)
+
+		// Confirm the only message is msg2
+		const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+		test.is(messageText.trim(), msg2)
+
+		test.pass()
+	})
+
 ava.serial('Messages that alert a user\'s group should appear in their inbox', async (test) => {
 	const {
 		user2,
