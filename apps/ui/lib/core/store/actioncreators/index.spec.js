@@ -9,7 +9,9 @@ import sinon from 'sinon'
 import _ from 'lodash'
 import Bluebird from 'bluebird'
 import actions from '../actions'
-import ActionCreator from './'
+import {
+	actionCreators
+} from './'
 
 const sandbox = sinon.createSandbox()
 
@@ -53,21 +55,25 @@ ava.beforeEach((test) => {
 			update: sandbox.fake()
 		}
 	}
-	test.context.analytics = {
+
+	const analytics = {
 		track: sandbox.fake(),
 		identify: sandbox.fake()
 	}
-	test.context.errorReporter = {
+
+	const errorReporter = {
 		reportException: sandbox.fake(),
 		setUser: sandbox.fake()
 	}
-	test.context.actionCreator = new ActionCreator({
-		sdk: test.context.sdk,
-		errorReporter: test.context.errorReporter,
-		analytics: test.context.analytics
-	})
-	test.context.getCardAction = test.context.actionCreator.getCard(cardId, 'user', [ 'is member of' ])
-	test.context.getActorAction = test.context.actionCreator.getActor(cardId)
+
+	test.context.thunkContext = {
+		analytics,
+		errorReporter,
+		sdk: test.context.sdk
+	}
+
+	test.context.getCardAction = actionCreators.getCard(cardId, 'user', [ 'is member of' ])
+	test.context.getActorAction = actionCreators.getActor(cardId)
 })
 
 ava.afterEach(() => {
@@ -78,10 +84,11 @@ ava('getCard returns the cached card if found', async (test) => {
 	const {
 		getCardAction,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 
-	const fetchedCard = await getCardAction(dispatch, getStateFactory(card))
+	const fetchedCard = await getCardAction(dispatch, getStateFactory(card), thunkContext)
 
 	// Verify expected card was returned
 	test.deepEqual(fetchedCard, card)
@@ -94,14 +101,15 @@ ava('getCard does not use cache if a requested link is missing', async (test) =>
 	const {
 		getCardAction,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 	sdk.query = sandbox.fake.resolves([ card ])
 
 	// The cached card does not have any links included
 	const cachedCard = _.omit(card, 'links')
 
-	const fetchedCard = await getCardAction(dispatch, getStateFactory(cachedCard))
+	const fetchedCard = await getCardAction(dispatch, getStateFactory(cachedCard), thunkContext)
 
 	// Verify expected card was returned
 	test.deepEqual(fetchedCard, card)
@@ -114,11 +122,12 @@ ava('getCard uses the API to fetch the card if not already cached', async (test)
 	const {
 		getCardAction,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 	sdk.query = sandbox.fake.resolves([ card ])
 
-	const fetchedCard = await getCardAction(dispatch, getStateFactory())
+	const fetchedCard = await getCardAction(dispatch, getStateFactory(), thunkContext)
 
 	// Verify expected card was returned
 	test.deepEqual(fetchedCard, card)
@@ -154,7 +163,8 @@ ava('getCard debounces calls to fetch the same card ID', async (test) => {
 	const {
 		getCardAction,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 	const getState = getStateFactory()
 	let q1Resolver = null
@@ -167,8 +177,8 @@ ava('getCard debounces calls to fetch the same card ID', async (test) => {
 	sdk.query.onCall(1).returns(new Promise(_.noop))
 
 	// Kick off two requests for the same card
-	const cardPromise1 = getCardAction(dispatch, getState)
-	const cardPromise2 = getCardAction(dispatch, getState)
+	const cardPromise1 = getCardAction(dispatch, getState, thunkContext)
+	const cardPromise2 = getCardAction(dispatch, getState, thunkContext)
 
 	// The first request is handled
 	q1Resolver([ card ])
@@ -189,10 +199,11 @@ ava('getActor returns an actor using the cached user card if found', async (test
 	const {
 		getActorAction,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 
-	const actor = await getActorAction(dispatch, getStateFactory(card))
+	const actor = await getActorAction(dispatch, getStateFactory(card), thunkContext)
 
 	// Verify the structure of the returned actor
 	test.deepEqual(actor, {
@@ -209,9 +220,9 @@ ava('getActor returns an actor using the cached user card if found', async (test
 
 ava('setViewStarred(_, true) adds the view slug to the list of starred views in the user\'s profile', async (test) => {
 	const {
-		actionCreator,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 
 	const getState = () => ({
@@ -242,7 +253,7 @@ ava('setViewStarred(_, true) adds the view slug to the list of starred views in 
 		}
 	})
 
-	await actionCreator.setViewStarred(view, true)(dispatch, getState)
+	await actionCreators.setViewStarred(view, true)(dispatch, getState, thunkContext)
 
 	// 1: setUser
 	test.true(dispatch.calledOnce)
@@ -287,9 +298,9 @@ ava('setViewStarred(_, true) adds the view slug to the list of starred views in 
 
 ava('setViewStarred(_, false) removes the view slug to the list of starred views in the user\'s profile', async (test) => {
 	const {
-		actionCreator,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 
 	const view = {
@@ -320,7 +331,7 @@ ava('setViewStarred(_, false) removes the view slug to the list of starred views
 		}
 	})
 
-	await actionCreator.setViewStarred(view, false)(dispatch, getState)
+	await actionCreators.setViewStarred(view, false)(dispatch, getState, thunkContext)
 
 	// 1: setUser
 	test.true(dispatch.calledOnce)
@@ -364,9 +375,9 @@ ava('setViewStarred(_, false) removes the view slug to the list of starred views
 
 ava('setDefault() sets the homeView field in the user\'s profile', async (test) => {
 	const {
-		actionCreator,
 		sdk,
-		dispatch
+		dispatch,
+		thunkContext
 	} = test.context
 
 	const getState = () => ({
@@ -395,7 +406,7 @@ ava('setDefault() sets the homeView field in the user\'s profile', async (test) 
 		}
 	})
 
-	await actionCreator.setDefault(view)(dispatch, getState)
+	await actionCreators.setDefault(view)(dispatch, getState, thunkContext)
 
 	// 1: setUser
 	test.true(dispatch.calledOnce)

@@ -19,7 +19,8 @@ import {
 	reducer
 } from './reducer'
 import actions from './actions'
-import ActionCreator, {
+import {
+	actionCreators,
 	selectors
 } from './actioncreators'
 import history from '../../services/history'
@@ -38,17 +39,14 @@ export const setupStore = ({
 
 	const middleware = [
 		routerMiddleware(history),
-		reduxThunk
+		reduxThunk.withExtraArgument({
+			sdk,
+			analytics,
+			errorReporter
+		})
 	]
 
 	const store = redux.createStore(reducer, composeEnhancers(redux.applyMiddleware(...middleware)))
-
-	const actionCreators = new ActionCreator({
-		sdk,
-		analytics,
-		errorReporter,
-		selectors
-	})
 
 	const onHydrated = async () => {
 		const token = selectors.getSessionToken(store.getState())
