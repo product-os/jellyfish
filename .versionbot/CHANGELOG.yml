@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.24.0'
+      hash: 41e6ae9dd1e55f60a327438cd827dd9a9319423a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.41.37
+  date: 2021-01-07T01:36:52.286Z
+- commits:
     - subject: Use new productOS plugin
       hash: b19968fb82e1337188a2a4aebcdd65b9eb6fde1d
       body: ''
