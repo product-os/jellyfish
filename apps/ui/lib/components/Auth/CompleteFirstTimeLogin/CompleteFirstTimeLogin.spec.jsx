@@ -14,9 +14,6 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import {
-	Img
-} from 'rendition'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 import CompleteFirstTimeLogin from './CompleteFirstTimeLogin.jsx'
 
@@ -31,10 +28,6 @@ const DATA_TEST_PREFIX = 'completeFirstTimeLogin-page'
 const sandbox = sinon.createSandbox()
 
 const wrappingComponent = getWrapper().wrapper
-
-ava.before(() => {
-	sandbox.stub(Img)
-})
 
 ava.afterEach(() => {
 	sandbox.restore()

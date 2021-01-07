@@ -14,9 +14,6 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import {
-	Img
-} from 'rendition'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
 import CompletePasswordReset from './CompletePasswordReset.jsx'
 
@@ -31,11 +28,6 @@ ava.afterEach(() => {
 })
 
 ava('Submit button is disabled if the new password input is empty', async (test) => {
-	sandbox.stub(Img)
-
-	const action = sandbox.stub()
-	action.resolves(200)
-
 	const completePasswordReset = mount(
 		<CompletePasswordReset
 			match={{
@@ -58,11 +50,6 @@ ava('Submit button is disabled if the new password input is empty', async (test)
 })
 
 ava('Submit button is disabled if the new password does not match the password confirmation', async (test) => {
-	sandbox.stub(Img)
-
-	const action = sandbox.stub()
-	action.resolves(200)
-
 	const completePasswordReset = mount(
 		<CompletePasswordReset
 			match={{
@@ -99,8 +86,6 @@ ava('Submit button is disabled if the new password does not match the password c
 
 ava('Fires the completePasswordReset and then the addNotification action when the form is submitted -' +
 'redirects to login on success', async (test) => {
-	sandbox.stub(Img)
-
 	const completePasswordResetAction = sandbox.stub()
 	completePasswordResetAction.resolves(200)
 
