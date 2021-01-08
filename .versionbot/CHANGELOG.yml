@@ -1,4 +1,17 @@
 - commits:
+    - subject: Revert "Replace balena-redis with official redis images"
+      hash: 53579be85012bee38345280350c62fc824867e00
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.41.45
+  date: 2021-01-08T02:00:46.875Z
+- commits:
     - subject: Replace balena-redis with official redis images
       hash: cf21c529345006cbf595c7b4502b10faa086f679
       body: ''
