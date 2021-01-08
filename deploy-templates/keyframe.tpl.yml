@@ -57,11 +57,11 @@ children:
               url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-redis:
         slug: jellyfish-redis
-        version: latest
+        version: 6.0.9
         type: sw.containerized-application
         data:
           assets:
             image:
-              url: 'balena/balena-redis:latest'
+              url: 'redis:6.0.9'
             repo:
-              url: 'https://github.com/balena-io/balena-redis.git'
+              url: 'https://github.com/redis/redis'
