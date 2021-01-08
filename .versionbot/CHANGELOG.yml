@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace balena-redis with official redis images
+      hash: cf21c529345006cbf595c7b4502b10faa086f679
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.41.44
+  date: 2021-01-08T00:36:28.248Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.824.0'
       hash: fee978cbd105593f259f11446e7af04ee4111ed0
       body: ''
