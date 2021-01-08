@@ -1,4 +1,17 @@
 - commits:
+    - subject: Revert balena-redis version from latest to 0.0.3
+      hash: 8318e65c3daac0bb4689d30c8abc79c42f84d82e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.41.46
+  date: 2021-01-08T04:35:06.984Z
+- commits:
     - subject: Revert "Replace balena-redis with official redis images"
       hash: 53579be85012bee38345280350c62fc824867e00
       body: ''
