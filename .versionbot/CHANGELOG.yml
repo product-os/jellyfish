@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'CloudFormation: Add db.r6g RDS instance class to template.'
+      hash: ed01f3fba8d53ff4f476e7f922ea3e1c9ed7672d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.42.5
+  date: 2021-01-11T16:00:13.711Z
+- commits:
     - subject: 'patch: Update dependency webpack to ^4.46.0'
       hash: c10af1d67b98d7782c77fc841e7a25b0b8ed0a58
       body: ''
