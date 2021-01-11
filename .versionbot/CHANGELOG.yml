@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 4051ec40896a284390a12b301abe79a8cd644862
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.1
+  date: 2021-01-11T02:09:01.566Z
+- commits:
     - subject: 'Redux store: Refactor action creators to object'
       hash: fa80a30bcf640bd255f3be3d7278d8bdd8e8fe55
       body: ''
