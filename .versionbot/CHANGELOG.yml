@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.825.0'
+      hash: 977c21ff4a5cf14354e414428ba50599c5b5285a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.6
+  date: 2021-01-11T20:33:31.761Z
+- commits:
     - subject: 'CloudFormation: Add db.r6g RDS instance class to template.'
       hash: ed01f3fba8d53ff4f476e7f922ea3e1c9ed7672d
       body: ''
