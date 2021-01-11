@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Redux store: Refactor action creators to object'
+      hash: fa80a30bcf640bd255f3be3d7278d8bdd8e8fe55
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.42.0
+  date: 2021-01-11T01:05:16.381Z
+- commits:
     - subject: Revert balena-redis version from latest to 0.0.3
       hash: 8318e65c3daac0bb4689d30c8abc79c42f84d82e
       body: ''
