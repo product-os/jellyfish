@@ -21,11 +21,12 @@ import {
 } from '../../lens'
 import {
 	helpers,
-	Icon
+	Icon,
+	withSetup
 } from '@balena/jellyfish-ui-components'
 import LinkModal from '../../components/LinkModal'
 
-export default class Segment extends React.Component {
+class Segment extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -91,17 +92,22 @@ export default class Segment extends React.Component {
 		const {
 			card,
 			segment,
-			actions
+			actions,
+			sdk
 		} = this.props
 
 		if (segment.link) {
-			const results = await	actions.getLinks(card, segment.link)
+			const results = await	actions.getLinks({
+				sdk
+			}, card, segment.link)
 			this.updateResults(results)
 		} else if (segment.query) {
 			let context = [ card ]
 			for (const relation of _.castArray(segment.query)) {
 				if (relation.link) {
-					context = actions.getLinks(card, relation.link)
+					context = actions.getLinks({
+						sdk
+					}, card, relation.link)
 				} else {
 					const mapped = await Bluebird.map(context, (item) => {
 						return actions.queryAPI(helpers.evalSchema(clone(relation), {
@@ -237,3 +243,5 @@ export default class Segment extends React.Component {
 		)
 	}
 }
+
+export default withSetup(Segment)

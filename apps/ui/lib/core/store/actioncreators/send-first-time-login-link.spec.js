@@ -7,13 +7,16 @@
 import ava from 'ava'
 import sinon from 'sinon'
 import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import _ from 'lodash'
 
 // Hack fix for a circular dependency until we refactor the notifications code
 import {
 	// eslint-disable-next-line no-unused-vars
 	store
 } from '../../'
-import ActionCreator from './'
+import {
+	actionCreators
+} from './'
 
 const sandbox = sinon.createSandbox()
 
@@ -26,27 +29,33 @@ ava.beforeEach((test) => {
 		type: 'user@1.0.0'
 	}
 
-	const actionCreator = new ActionCreator({
-		sdk,
-		analytics: {
-			track: sinon.stub()
-		}
-	})
-	actionCreator.analytics.track.resolves()
+	const analytics = {
+		track: sinon.stub()
+	}
+
+	analytics.track.resolves()
 
 	const dispatchedObjs = []
 	const dispatch = (fn) => {
 		dispatchedObjs.push(fn)
-		return fn(dispatch)
+		return fn(...thunkArgs)
 	}
+
+	const thunkArgs = [
+		dispatch,
+		_.noop,
+		{
+			sdk,
+			analytics
+		}
+	]
 
 	test.context = {
 		...test.context,
-		actionCreator,
 		sdk,
-		dispatch,
 		dispatchedObjs,
-		user
+		user,
+		thunkArgs
 	}
 })
 
@@ -57,16 +66,15 @@ ava.afterEach((test) => {
 ava('sendFirstTimeLoginLink uses the sdk.action to send a first-time login link to a user', async (test) => {
 	const {
 		sdk,
-		actionCreator,
-		dispatch,
-		user
+		user,
+		thunkArgs
 	} = test.context
 
 	sdk.action.resolves()
 
-	await actionCreator.sendFirstTimeLoginLink({
+	await actionCreators.sendFirstTimeLoginLink({
 		user
-	})(dispatch)
+	})(...thunkArgs)
 
 	test.is(sdk.action.callCount, 1)
 	test.deepEqual(sdk.action.args, [
@@ -84,18 +92,17 @@ ava('sendFirstTimeLoginLink uses the sdk.action to send a first-time login link 
 ava('sendFirstTimeLoginLink fires a \'success\' notification when successful', async (test) => {
 	const {
 		sdk,
-		actionCreator,
-		dispatch,
-		user
+		user,
+		thunkArgs
 	} = test.context
 
 	const addNotification = sandbox.stub(notifications, 'addNotification')
 
 	sdk.action.resolves()
 
-	await actionCreator.sendFirstTimeLoginLink({
+	await actionCreators.sendFirstTimeLoginLink({
 		user
-	})(dispatch)
+	})(...thunkArgs)
 
 	test.is(addNotification.callCount, 1)
 	test.deepEqual(addNotification.args, [ [ 'success', 'Sent first-time login token to user' ] ])
@@ -104,9 +111,8 @@ ava('sendFirstTimeLoginLink fires a \'success\' notification when successful', a
 ava('sendFirstTimeLoginLink fires a \'danger\' notification when an error occurs', async (test) => {
 	const {
 		sdk,
-		actionCreator,
-		dispatch,
-		user
+		user,
+		thunkArgs
 	} = test.context
 
 	const addNotification = sandbox.stub(notifications, 'addNotification')
@@ -114,9 +120,9 @@ ava('sendFirstTimeLoginLink fires a \'danger\' notification when an error occurs
 	const errorMessage = 'User does not exist'
 	sdk.action.throws(new Error(errorMessage))
 
-	await actionCreator.sendFirstTimeLoginLink({
+	await actionCreators.sendFirstTimeLoginLink({
 		user
-	})(dispatch)
+	})(...thunkArgs)
 
 	test.is(addNotification.callCount, 1)
 	test.deepEqual(addNotification.args, [ [ 'danger', errorMessage ] ])

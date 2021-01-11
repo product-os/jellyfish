@@ -213,232 +213,146 @@ export const selectors = {
 	}
 }
 
+// TODO: Fix these side effects
 const streams = {}
 
 let commsStream = null
+let tokenRefreshInterval = null
 
-export default class ActionCreator {
-	constructor (context) {
-		this.sdk = context.sdk
-		this.errorReporter = context.errorReporter
-		this.analytics = context.analytics
-		this.tokenRefreshInterval = null
+// Card exists here until it's loaded
+const loadingCardCache = {}
 
-		this.bindMethods([
-			'addChannel',
-			'addSubscription',
-			'addViewNotice',
-			'addUser',
-			'appendViewData',
-			'authorizeIntegration',
-			'bootstrap',
-			'clearViewData',
-			'completeFirstTimeLogin',
-			'completePasswordReset',
-			'createLink',
-			'dumpState',
-			'getIntegrationAuthUrl',
-			'getActor',
-			'getCard',
-			'getCardWithLinks',
-			'getLinks',
-			'getStream',
-			'loadChannelData',
-			'loadMoreChannelData',
-			'loadViewData',
-			'loadMoreViewData',
-			'login',
-			'loginWithToken',
-			'logout',
-			'paginateStream',
-			'queryAPI',
-			'removeChannel',
-			'removeFlow',
-			'removeView',
-			'removeViewDataItem',
-			'removeViewNotice',
-			'requestPasswordReset',
-			'sendFirstTimeLoginLink',
-			'setAuthToken',
-			'setChannels',
-			'setChatWidgetOpen',
-			'setDefault',
-			'setFlow',
-			'setOrgs',
-			'setPassword',
-			'setSendCommand',
-			'setStatus',
-			'setTimelineMessage',
-			'setTypes',
-			'setupStream',
-			'setGroups',
-			'setSidebarExpanded',
-			'setLensState',
-			'setUser',
-			'setViewData',
-			'setViewLens',
-			'setViewStarred',
-			'signalTyping',
-			'signup',
-			'updateChannel',
-			'updateUser',
-			'upsertViewData'
-		])
+// This is a function that memoizes a debounce function, this allows us to
+// create different debounce lists depending on the args passed to
+// 'getCard'
+const getCardInternal = (id, type, linkVerbs = []) => {
+	return async (dispatch, getState, {
+		sdk
+	}) => {
+		if (!id) {
+			return null
+		}
+		let card = selectors.getCard(id, type)(getState())
 
-		// Card exists here until it's loaded
-		const loadingCardCache = {}
+		// Check if the cached card has all the links required by this request
+		const isCached = card && _.every(linkVerbs, (linkVerb) => {
+			return Boolean(_.get(card, [ 'links' ], {})[linkVerb])
+		})
 
-		// This is a function that memoizes a debounce function, this allows us to
-		// create different debounce lists depending on the args passed to
-		// 'getCard'
-		this.getCardInternal = (id, type, linkVerbs = []) => {
-			return async (dispatch, getState) => {
-				if (!id) {
-					return null
+		if (!isCached) {
+			// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
+			const linkVerbSlugs = _.orderBy(linkVerbs)
+				.map((verb) => { return helpers.slugify(verb) })
+			const loadingCacheKey = [ id ].concat(linkVerbSlugs).join('_')
+			if (!Reflect.has(loadingCardCache, loadingCacheKey)) {
+				const schema = {
+					type: 'object',
+					properties: {
+						id: {
+							const: id
+						}
+					},
+					additionalProperties: true
 				}
-				let card = selectors.getCard(id, type)(getState())
 
-				// Check if the cached card has all the links required by this request
-				const isCached = card && _.every(linkVerbs, (linkVerb) => {
-					return Boolean(_.get(card, [ 'links' ], {})[linkVerb])
-				})
-
-				if (!isCached) {
-					// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
-					const linkVerbSlugs = _.orderBy(linkVerbs)
-						.map((verb) => { return helpers.slugify(verb) })
-					const loadingCacheKey = [ id ].concat(linkVerbSlugs).join('_')
-					if (!Reflect.has(loadingCardCache, loadingCacheKey)) {
-						const schema = {
+				if (linkVerbs.length) {
+					schema.$$links = {}
+					for (const linkVerb of linkVerbs) {
+						schema.$$links[linkVerb] = {
 							type: 'object',
-							properties: {
-								id: {
-									const: id
-								}
-							},
 							additionalProperties: true
 						}
-
-						if (linkVerbs.length) {
-							schema.$$links = {}
-							for (const linkVerb of linkVerbs) {
-								schema.$$links[linkVerb] = {
-									type: 'object',
-									additionalProperties: true
-								}
-							}
-						}
-
-						loadingCardCache[loadingCacheKey] = this.sdk.query(
-							schema,
-							{
-								limit: 1
-							}
-						).then((result) => {
-							if (result.length) {
-								return result[0]
-							}
-
-							// If there was a card returned from the cache originally, just
-							// return that one instead of making another request
-							if (card) {
-								return card
-							}
-
-							return this.sdk.card.get(id)
-						}).then((element) => {
-							// If a card doesn't have matching links, but a request was made
-							// for them, indicate this with an empty array, so the cache entry
-							// isn't ignored unnecessarily
-							if (element && linkVerbs.length) {
-								for (const linkVerb of linkVerbs) {
-									if (!element.links[linkVerb]) {
-										element.links[linkVerb] = []
-									}
-								}
-							}
-
-							return element
-						}).finally(() => {
-							Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
-						})
-					}
-
-					card = await loadingCardCache[loadingCacheKey]
-
-					if (card) {
-						dispatch({
-							type: actions.SET_CARD,
-							value: card
-						})
 					}
 				}
-				return card || null
+
+				loadingCardCache[loadingCacheKey] = sdk.query(
+					schema,
+					{
+						limit: 1
+					}
+				).then((result) => {
+					if (result.length) {
+						return result[0]
+					}
+
+					// If there was a card returned from the cache originally, just
+					// return that one instead of making another request
+					if (card) {
+						return card
+					}
+
+					return sdk.card.get(id)
+				}).then((element) => {
+					// If a card doesn't have matching links, but a request was made
+					// for them, indicate this with an empty array, so the cache entry
+					// isn't ignored unnecessarily
+					if (element && linkVerbs.length) {
+						for (const linkVerb of linkVerbs) {
+							if (!element.links[linkVerb]) {
+								element.links[linkVerb] = []
+							}
+						}
+					}
+
+					return element
+				}).finally(() => {
+					Reflect.deleteProperty(loadingCardCache, loadingCacheKey)
+				})
+			}
+
+			card = await loadingCardCache[loadingCacheKey]
+
+			if (card) {
+				dispatch({
+					type: actions.SET_CARD,
+					value: card
+				})
 			}
 		}
+		return card || null
 	}
+}
 
-	bindMethods (methods) {
-		methods.forEach((method) => {
-			this[method] = this[method].bind(this)
-		})
-	}
-
+export const actionCreators = {
 	getIntegrationAuthUrl (user, integration) {
-		return async () => {
-			return this.sdk.integrations.getAuthorizationUrl(user, integration)
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			return sdk.integrations.getAuthorizationUrl(user, integration)
 		}
-	}
+	},
 
 	getCard (cardId, cardType, linkVerbs) {
-		return async (dispatch, getState) => {
-			return this.getCardInternal(cardId, cardType, linkVerbs)(dispatch, getState)
+		return async (dispatch, getState, context) => {
+			return getCardInternal(cardId, cardType, linkVerbs)(dispatch, getState, context)
 		}
-	}
+	},
 
 	getActor (id) {
-		return async (dispatch, getState) => {
-			const card = await this.getCardInternal(id, 'user', [ 'is member of' ])(dispatch, getState)
+		return async (dispatch, getState, context) => {
+			const card = await getCardInternal(id, 'user', [ 'is member of' ])(dispatch, getState, context)
 			return helpers.generateActorFromUserCard(card)
 		}
-	}
-
-	async getCardWithLinks (schema, card) {
-		// The updated card may not have attached links, so get them now
-		if (schema.$$links) {
-			return _.first(await this.sdk.query({
-				$$links: schema.$$links,
-				description: `Get card with links ${card.id}`,
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string',
-						const: card.id
-					}
-				},
-				required: [ 'id' ],
-				additionalProperties: true
-			}, {
-				limit: 1
-			}))
-		}
-
-		return card
-	}
+	},
 
 	setStatus (status) {
-		// If the status is now 'unauthorized' just run the logout routine
-		if (status === 'unauthorized') {
-			this.sdk.auth.logout()
-			return {
-				type: actions.LOGOUT
+		return (dispatch, getState, {
+			sdk
+		}) => {
+			// If the status is now 'unauthorized' just run the logout routine
+			if (status === 'unauthorized') {
+				sdk.auth.logout()
+				dispatch({
+					type: actions.LOGOUT
+				})
+			} else {
+				dispatch({
+					type: actions.SET_STATUS,
+					value: status
+				})
 			}
 		}
-		return {
-			type: actions.SET_STATUS,
-			value: status
-		}
-	}
+	},
 
 	setSidebarExpanded (name, isExpanded) {
 		return (dispatch, getState) => {
@@ -457,7 +371,7 @@ export default class ActionCreator {
 				})
 			})
 		}
-	}
+	},
 
 	setLensState (lens, cardId, state) {
 		return {
@@ -468,17 +382,20 @@ export default class ActionCreator {
 				state
 			}
 		}
-	}
+	},
 
-	getLinks (card, verb) {
-		if (!_.some(this.sdk.LINKS, {
+	// TODO: This is NOT an action creator, it should be part of sdk or other helper
+	getLinks ({
+		sdk
+	}, card, verb) {
+		if (!_.some(sdk.LINKS, {
 			name: verb
 		})) {
 			throw new Error(`No link definition found for ${card.type} using ${verb}`)
 		}
 
 		return async () => {
-			const results = await this.sdk.query({
+			const results = await sdk.query({
 				$$links: {
 					[verb]: {
 						type: 'object'
@@ -506,10 +423,12 @@ export default class ActionCreator {
 
 			return []
 		}
-	}
+	},
 
 	loadChannelData (channel) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			if (channel.data.canonical === false) {
 				return
 			}
@@ -539,7 +458,9 @@ export default class ActionCreator {
 				}
 			}
 
-			const stream = await this.getStream(target, query)
+			const stream = await actionCreators.getStream({
+				sdk
+			}, target, query)
 
 			stream.on('dataset', ({
 				data: {
@@ -612,7 +533,7 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	loadMoreChannelData ({
 		target, query, queryOptions
@@ -655,14 +576,14 @@ export default class ActionCreator {
 				stream.on('dataset', handler)
 			})
 		}
-	}
+	},
 
 	updateChannel (channel) {
 		return {
 			type: actions.UPDATE_CHANNEL,
 			value: channel
 		}
-	}
+	},
 
 	addChannel (data = {}) {
 		if (!data.cardType && data.canonical !== false) {
@@ -675,9 +596,9 @@ export default class ActionCreator {
 				type: actions.ADD_CHANNEL,
 				value: channel
 			})
-			return dispatch(this.loadChannelData(channel))
+			return dispatch(actionCreators.loadChannelData(channel))
 		}
-	}
+	},
 
 	removeChannel (channel) {
 		// Shutdown any streams that are open for this channel
@@ -697,7 +618,7 @@ export default class ActionCreator {
 			type: actions.REMOVE_CHANNEL,
 			value: channel
 		}
-	}
+	},
 
 	setChannels (channelData = []) {
 		const channels = _.map(channelData, (channel) => {
@@ -720,11 +641,11 @@ export default class ActionCreator {
 			// For each channel, if data is not already loaded, load it now
 			for (const channel of channels) {
 				if (!channel.data.head) {
-					dispatch(this.loadChannelData(channel))
+					dispatch(actionCreators.loadChannelData(channel))
 				}
 			}
 		}
-	}
+	},
 
 	setChatWidgetOpen (open) {
 		return (dispatch, getState) => {
@@ -740,16 +661,18 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	bootstrap () {
-		return (dispatch, getState) => {
+		return (dispatch, getState, {
+			sdk, errorReporter
+		}) => {
 			return Bluebird.props({
-				user: this.sdk.auth.whoami(),
-				orgs: this.sdk.card.getAllByType('org'),
-				types: this.sdk.card.getAllByType('type'),
-				groups: this.sdk.query(allGroupsWithUsersQuery),
-				config: this.sdk.getConfig()
+				user: sdk.auth.whoami(),
+				orgs: sdk.card.getAllByType('org'),
+				types: sdk.card.getAllByType('type'),
+				groups: sdk.query(allGroupsWithUsersQuery),
+				config: sdk.getConfig()
 			})
 				.then(async ({
 					user, types, groups, orgs, config
@@ -761,29 +684,29 @@ export default class ActionCreator {
 
 					// Check to see if we're still logged in
 					if (selectors.getSessionToken(state)) {
-						dispatch(this.setUser(user))
-						dispatch(this.setTypes(types))
-						dispatch(this.setOrgs(orgs))
-						dispatch(this.setGroups(groups, user))
+						dispatch(actionCreators.setUser(user))
+						dispatch(actionCreators.setTypes(types))
+						dispatch(actionCreators.setOrgs(orgs))
+						dispatch(actionCreators.setGroups(groups, user))
 						dispatch({
 							type: actions.SET_CONFIG,
 							value: config
 						})
 						const channels = selectors.getChannels(state)
 						channels.forEach((channel) => {
-							return dispatch(this.loadChannelData(channel))
+							return dispatch(actionCreators.loadChannelData(channel))
 						})
 					}
 
-					this.errorReporter.setUser({
+					errorReporter.setUser({
 						id: user.id,
 						slug: user.slug,
 						email: _.get(user, [ 'data', 'email' ])
 					})
 
-					this.tokenRefreshInterval = setInterval(async () => {
-						const newToken = await this.sdk.auth.refreshToken()
-						dispatch(this.setAuthToken(newToken))
+					tokenRefreshInterval = setInterval(async () => {
+						const newToken = await sdk.auth.refreshToken()
+						dispatch(actionCreators.setAuthToken(newToken))
 					}, TOKEN_REFRESH_INTERVAL)
 
 					if (commsStream) {
@@ -793,7 +716,7 @@ export default class ActionCreator {
 					// Open a stream for messages, whispers and uses. This allows us to
 					// listen for message edits, sync status, alerts/pings and changes in
 					// other users statuses
-					commsStream = await this.sdk.stream({
+					commsStream = await sdk.stream({
 						type: 'object',
 						properties: {
 							type: {
@@ -824,98 +747,110 @@ export default class ActionCreator {
 					const groupNames = selectors.getMyGroupNames(getState())
 					const unreadQuery = getUnreadQuery(user, groupNames)
 
-					this.loadViewData(unreadQuery)(dispatch, getState)
+					dispatch(actionCreators.loadViewData(unreadQuery))
 
 					return user
 				})
 		}
-	}
+	},
 
 	setAuthToken (token) {
 		return {
 			type: actions.SET_AUTHTOKEN,
 			value: token
 		}
-	}
+	},
 
 	loginWithToken (token) {
-		return (dispatch, getState) => {
-			return this.sdk.auth.loginWithToken(token)
-				.then(() => { return dispatch(this.setAuthToken(token)) })
-				.then(() => { return dispatch(this.bootstrap()) })
-				.then(() => { return dispatch(this.setStatus('authorized')) })
+		return (dispatch, getState, {
+			sdk, analytics
+		}) => {
+			return sdk.auth.loginWithToken(token)
+				.then(() => { return dispatch(actionCreators.setAuthToken(token)) })
+				.then(() => { return dispatch(actionCreators.bootstrap()) })
+				.then(() => { return dispatch(actionCreators.setStatus('authorized')) })
 				.then(() => {
-					this.analytics.track('ui.loginWithToken')
-					this.analytics.identify(selectors.getCurrentUser(getState()).id)
+					analytics.track('ui.loginWithToken')
+					analytics.identify(selectors.getCurrentUser(getState()).id)
 				})
 				.catch((error) => {
-					dispatch(this.setStatus('unauthorized'))
+					dispatch(actionCreators.setStatus('unauthorized'))
 					throw error
 				})
 		}
-	}
+	},
 
 	login (payload) {
-		return (dispatch, getState) => {
-			return this.sdk.auth.login(payload)
-				.then((session) => { return dispatch(this.setAuthToken(session.id)) })
-				.then(() => { return dispatch(this.bootstrap()) })
-				.then(() => { return dispatch(this.setStatus('authorized')) })
+		return (dispatch, getState, {
+			sdk, analytics
+		}) => {
+			return sdk.auth.login(payload)
+				.then((session) => { return dispatch(actionCreators.setAuthToken(session.id)) })
+				.then(() => { return dispatch(actionCreators.bootstrap()) })
+				.then(() => { return dispatch(actionCreators.setStatus('authorized')) })
 				.then(() => {
-					this.analytics.track('ui.login')
-					this.analytics.identify(selectors.getCurrentUser(getState()).id)
+					analytics.track('ui.login')
+					analytics.identify(selectors.getCurrentUser(getState()).id)
 				})
 				.catch((error) => {
-					dispatch(this.setStatus('unauthorized'))
+					dispatch(actionCreators.setStatus('unauthorized'))
 					throw error
 				})
 		}
-	}
+	},
 
 	logout () {
-		if (this.tokenRefreshInterval) {
-			clearInterval(this.tokenRefreshInterval)
-		}
+		return (dispatch, getState, {
+			sdk, analytics, errorReporter
+		}) => {
+			if (tokenRefreshInterval) {
+				clearInterval(tokenRefreshInterval)
+			}
 
-		this.analytics.track('ui.logout')
-		this.analytics.identify()
-		this.errorReporter.setUser(null)
-		if (commsStream) {
-			commsStream.close()
-			commsStream = null
-			this.sdk.auth.logout()
+			analytics.track('ui.logout')
+			analytics.identify()
+			errorReporter.setUser(null)
+			if (commsStream) {
+				commsStream.close()
+				commsStream = null
+				sdk.auth.logout()
+			}
+			_.forEach(streams, (stream, id) => {
+				stream.close()
+				Reflect.deleteProperty(streams, id)
+			})
+			dispatch({
+				type: actions.LOGOUT
+			})
 		}
-		_.forEach(streams, (stream, id) => {
-			stream.close()
-			Reflect.deleteProperty(streams, id)
-		})
-		return {
-			type: actions.LOGOUT
-		}
-	}
+	},
 
 	signup (payload) {
-		return (dispatch) => {
-			return this.sdk.auth.signup(payload)
+		return (dispatch, getState, {
+			sdk, analytics
+		}) => {
+			return sdk.auth.signup(payload)
 				.then(() => {
-					this.analytics.track('ui.signup')
-					dispatch(this.login(payload))
+					analytics.track('ui.signup')
+					dispatch(actionCreators.login(payload))
 				})
 		}
-	}
+	},
 
 	queryAPI (expression, options) {
-		return () => {
-			return this.sdk.query(expression, options)
+		return (dispatch, getState, {
+			sdk
+		}) => {
+			return sdk.query(expression, options)
 		}
-	}
+	},
 
 	setUser (user) {
 		return {
 			type: actions.SET_USER,
 			value: user
 		}
-	}
+	},
 
 	setTimelineMessage (target, message) {
 		return (dispatch) => {
@@ -927,14 +862,14 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	setTypes (types) {
 		return {
 			type: actions.SET_TYPES,
 			value: types
 		}
-	}
+	},
 
 	setGroups (groups, user) {
 		return {
@@ -944,17 +879,19 @@ export default class ActionCreator {
 				userSlug: user.slug
 			}
 		}
-	}
+	},
 
 	setOrgs (orgs) {
 		return {
 			type: actions.SET_ORGS,
 			value: orgs
 		}
-	}
+	},
 
 	removeView (view) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
 				if (!helpers.isCustomView(view, user.slug)) {
@@ -969,13 +906,13 @@ export default class ActionCreator {
 				})
 				if (matchingChannels.length) {
 					const removeChannelActions = _.map(matchingChannels, (channel) => {
-						return dispatch(this.removeChannel(channel))
+						return dispatch(actionCreators.removeChannel(channel))
 					})
 					await Bluebird.all(removeChannelActions)
 				}
 
 				// Then remove the card via the SDK
-				await this.sdk.card.remove(view.id, view.type)
+				await sdk.card.remove(view.id, view.type)
 
 				addNotification('success', 'Successfully deleted view')
 			} catch (err) {
@@ -983,32 +920,34 @@ export default class ActionCreator {
 				addNotification('danger', 'Could not remove view')
 			}
 		}
-	}
+	},
 
 	addViewNotice (payload) {
 		return {
 			type: actions.ADD_VIEW_NOTICE,
 			value: payload
 		}
-	}
+	},
 
 	removeViewNotice (id) {
 		return {
 			type: actions.REMOVE_VIEW_NOTICE,
 			value: id
 		}
-	}
+	},
 
 	updateUser (patches, successNotification) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
 
-				await this.sdk.card.update(user.id, 'user', patches)
+				await sdk.card.update(user.id, 'user', patches)
 
-				const updatedUser = await this.sdk.getById(user.id)
+				const updatedUser = await sdk.getById(user.id)
 
-				dispatch(this.setUser(updatedUser))
+				dispatch(actionCreators.setUser(updatedUser))
 				if (successNotification !== null) {
 					addNotification('success', successNotification || 'Successfully updated user')
 				}
@@ -1016,22 +955,24 @@ export default class ActionCreator {
 				addNotification('danger', error.message || error)
 			}
 		}
-	}
+	},
 
 	addUser ({
 		username,
 		email,
 		org
 	}) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			try {
-				const user = await this.sdk.auth.signup({
+				const user = await sdk.auth.signup({
 					username,
 					email,
 					password: ''
 				})
-				await dispatch(this.createLink(org, user, 'has member'))
-				const loginLinkSent = await dispatch(this.sendFirstTimeLoginLink({
+				await dispatch(actionCreators.createLink(org, user, 'has member'))
+				const loginLinkSent = await dispatch(actionCreators.sendFirstTimeLoginLink({
 					user
 				}))
 				if (loginLinkSent) {
@@ -1044,14 +985,16 @@ export default class ActionCreator {
 				return false
 			}
 		}
-	}
+	},
 
 	sendFirstTimeLoginLink ({
 		user
 	}) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			try {
-				await this.sdk.action({
+				await sdk.action({
 					card: user.id,
 					action: 'action-send-first-time-login-link@1.0.0',
 					type: user.type,
@@ -1064,14 +1007,16 @@ export default class ActionCreator {
 				return false
 			}
 		}
-	}
+	},
 
 	requestPasswordReset ({
 		username
 	}) {
-		return async (dispatch, getState) => {
-			const userType = await this.sdk.getBySlug('user@latest')
-			return this.sdk.action({
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			const userType = await sdk.getBySlug('user@latest')
+			return sdk.action({
 				card: userType.id,
 				action: 'action-request-password-reset@1.0.0',
 				type: userType.type,
@@ -1080,15 +1025,17 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	completePasswordReset ({
 		password,
 		resetToken
 	}) {
-		return async (dispatch, getState) => {
-			const userType = await this.sdk.getBySlug('user@latest')
-			return this.sdk.action({
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			const userType = await sdk.getBySlug('user@latest')
+			return sdk.action({
 				card: userType.id,
 				action: 'action-complete-password-reset@1.0.0',
 				type: userType.type,
@@ -1098,15 +1045,17 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	completeFirstTimeLogin ({
 		password,
 		firstTimeLoginToken
 	}) {
-		return async (dispatch, getState) => {
-			const userType = await this.sdk.getBySlug('user@latest')
-			return this.sdk.action({
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			const userType = await sdk.getBySlug('user@latest')
+			return sdk.action({
 				card: userType.id,
 				action: 'action-complete-first-time-login@1.0.0',
 				type: userType.type,
@@ -1116,13 +1065,15 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	setPassword (currentPassword, newPassword) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
 			try {
 				const user = selectors.getCurrentUser(getState())
-				await this.sdk.action({
+				await sdk.action({
 					card: user.id,
 					action: 'action-set-password@1.0.0',
 					type: user.type,
@@ -1137,10 +1088,10 @@ export default class ActionCreator {
 				addNotification('danger', error.message || error)
 			}
 		}
-	}
+	},
 
 	setSendCommand (command) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser(getState())
 
 			const patches = helpers.patchPath(
@@ -1149,9 +1100,12 @@ export default class ActionCreator {
 				command
 			)
 
-			return this.updateUser(patches, `Successfully set "${command}" as send command`)(dispatch, getState)
+			return actionCreators.updateUser(
+				patches,
+				`Successfully set "${command}" as send command`
+			)(dispatch, getState, context)
 		}
-	}
+	},
 
 	clearViewData (query, options = {}) {
 		const id = options.viewId || getViewId(query)
@@ -1166,13 +1120,15 @@ export default class ActionCreator {
 				data: null
 			}
 		}
-	}
+	},
 
 	createLink (fromCard, toCard, verb, options = {}) {
-		return async (dispatch) => {
+		return async (dispatch, getState, {
+			sdk, analytics
+		}) => {
 			try {
-				await this.sdk.card.link(fromCard, toCard, verb)
-				this.analytics.track('element.create', {
+				await sdk.card.link(fromCard, toCard, verb)
+				analytics.track('element.create', {
 					element: {
 						type: 'link'
 					}
@@ -1184,7 +1140,7 @@ export default class ActionCreator {
 				addNotification('danger', error.message)
 			}
 		}
-	}
+	},
 
 	dumpState () {
 		return async (dispatch, getState) => {
@@ -1194,23 +1150,30 @@ export default class ActionCreator {
 
 			return state
 		}
-	}
+	},
 
-	getStream (streamId, query) {
+	// TODO: This is NOT an action creator, it should be part of sdk or other helper
+	getStream ({
+		sdk
+	}, streamId, query) {
 		if (streams[streamId]) {
 			streams[streamId].close()
 			Reflect.deleteProperty(streams, streamId)
 		}
 
-		return this.sdk.stream(query).then((stream) => {
+		return sdk.stream(query).then((stream) => {
 			streams[streamId] = stream
 			return stream
 		})
-	}
+	},
 
 	setupStream (streamId, query, options, handlers) {
-		return async (dispatch, getState) => {
-			const stream = await this.getStream(streamId, query)
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			const stream = await actionCreators.getStream({
+				sdk
+			}, streamId, query)
 
 			stream.on(
 				'update',
@@ -1264,7 +1227,7 @@ export default class ActionCreator {
 			await handlers.set(cards)
 			return cards
 		}
-	}
+	},
 
 	paginateStream (viewId, query, options, appendHandler) {
 		return async (dispatch, getState) => {
@@ -1304,15 +1267,15 @@ export default class ActionCreator {
 				stream.on('dataset', handler)
 			})
 		}
-	}
+	},
 
 	loadViewData (query, options = {}) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, context) => {
 			const commonOptions = _.pick(options, 'viewId')
 			const user = selectors.getCurrentUser(getState())
 			const viewId = options.viewId || getViewId(query)
 
-			const rawSchema = await loadSchema(this.sdk, query, user)
+			const rawSchema = await loadSchema(context.sdk, query, user)
 			if (!rawSchema) {
 				return
 			}
@@ -1321,27 +1284,27 @@ export default class ActionCreator {
 			schema.description = schema.description || 'View action creators'
 
 			const streamHandlers = {
-				remove: (cardId) => this.removeViewDataItem(query, cardId, commonOptions),
-				append: (card) => this.appendViewData(query, card, commonOptions),
-				upsert: (card) => this.upsertViewData(query, card, commonOptions),
-				set: (cards) => dispatch(this.setViewData(query, cards, commonOptions))
+				remove: (cardId) => actionCreators.removeViewDataItem(query, cardId, commonOptions),
+				append: (card) => actionCreators.appendViewData(query, card, commonOptions),
+				upsert: (card) => actionCreators.upsertViewData(query, card, commonOptions),
+				set: (cards) => dispatch(actionCreators.setViewData(query, cards, commonOptions))
 			}
 
-			return this.setupStream(viewId, schema, options, streamHandlers)(dispatch, getState)
+			return actionCreators.setupStream(viewId, schema, options, streamHandlers)(dispatch, getState, context)
 		}
-	}
+	},
 
 	loadMoreViewData (query, options) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, context) => {
 			const commonOptions = _.pick(options, 'viewId')
-			const appendHandler = (card) => dispatch(this.appendViewData(query, card, commonOptions))
+			const appendHandler = (card) => dispatch(actionCreators.appendViewData(query, card, commonOptions))
 			const viewId = options.viewId || getViewId(query)
-			return this.paginateStream(viewId, query, options, appendHandler)(dispatch, getState)
+			return actionCreators.paginateStream(viewId, query, options, appendHandler)(dispatch, getState, context)
 		}
-	}
+	},
 
 	setDefault (card) {
-		return (dispatch, getState) => {
+		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser(getState())
 
 			const patch = helpers.patchPath(
@@ -1355,12 +1318,12 @@ export default class ActionCreator {
 				? `Set ${card.name || card.slug} as default view`
 				: 'Removed default view'
 
-			return this.updateUser(patch, successNotification)(dispatch, getState)
+			return actionCreators.updateUser(patch, successNotification)(dispatch, getState, context)
 		}
-	}
+	},
 
 	setViewLens (viewId, lensSlug) {
-		return (dispatch, getState) => {
+		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser(getState())
 
 			const patches = helpers.patchPath(
@@ -1369,12 +1332,12 @@ export default class ActionCreator {
 				lensSlug
 			)
 
-			return this.updateUser(patches, null)(dispatch, getState)
+			return actionCreators.updateUser(patches, null)(dispatch, getState, context)
 		}
-	}
+	},
 
 	setViewStarred (view, isStarred) {
-		return (dispatch, getState) => {
+		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser(getState())
 			const existingStarredViews = _.get(user, [ 'data', 'profile', 'starredViews' ], [])
 			const newStarredViews = isStarred
@@ -1386,12 +1349,12 @@ export default class ActionCreator {
 				newStarredViews
 			)
 
-			return this.updateUser(
+			return actionCreators.updateUser(
 				patch,
 				`${isStarred ? 'Starred' : 'Un-starred'} view '${view.name || view.slug}'`
-			)(dispatch, getState)
+			)(dispatch, getState, context)
 		}
-	}
+	},
 
 	signalTyping (card) {
 		return (dispatch, getState) => {
@@ -1399,7 +1362,7 @@ export default class ActionCreator {
 
 			commsStream.type(user.slug, card)
 		}
-	}
+	},
 
 	removeViewDataItem (query, itemId, options = {}) {
 		const id = options.viewId || getViewId(query)
@@ -1410,7 +1373,7 @@ export default class ActionCreator {
 				itemId
 			}
 		}
-	}
+	},
 
 	setViewData (query, data, options = {}) {
 		const id = options.viewId || getViewId(query)
@@ -1421,7 +1384,7 @@ export default class ActionCreator {
 				data
 			}
 		}
-	}
+	},
 
 	upsertViewData (query, data, options = {}) {
 		const id = options.viewId || getViewId(query)
@@ -1432,7 +1395,7 @@ export default class ActionCreator {
 				data
 			}
 		}
-	}
+	},
 
 	appendViewData (query, data, options = {}) {
 		const id = options.viewId || getViewId(query)
@@ -1444,25 +1407,29 @@ export default class ActionCreator {
 				data
 			}
 		}
-	}
+	},
 
 	authorizeIntegration (user, integration, code) {
-		return async (dispatch) => {
-			await this.sdk.integrations.authorize(user, integration, code)
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			await sdk.integrations.authorize(user, integration, code)
 
-			const updatedUser = await this.sdk.auth.whoami()
+			const updatedUser = await sdk.auth.whoami()
 
-			dispatch(this.setUser(updatedUser))
+			dispatch(actionCreators.setUser(updatedUser))
 		}
-	}
+	},
 
 	addSubscription (target) {
-		return (dispatch, getState) => {
+		return (dispatch, getState, {
+			sdk, analytics
+		}) => {
 			const user = selectors.getCurrentUser(getState())
 			if (!user) {
 				throw new Error('Can\'t load a subscription without an active user')
 			}
-			this.sdk.query({
+			sdk.query({
 				type: 'object',
 				description: `Get subscription ${user.id} / ${target}`,
 				properties: {
@@ -1492,7 +1459,7 @@ export default class ActionCreator {
 					Bluebird.try(() => {
 						const subCard = _.first(results) || null
 						if (!subCard) {
-							return this.sdk.card.create({
+							return sdk.card.create({
 								type: 'subscription',
 								data: {
 									target,
@@ -1500,7 +1467,7 @@ export default class ActionCreator {
 								}
 							})
 								.tap(() => {
-									this.analytics.track('element.create', {
+									analytics.track('element.create', {
 										element: {
 											type: 'subscription'
 										}
@@ -1523,7 +1490,7 @@ export default class ActionCreator {
 					addNotification('danger', error.message)
 				})
 		}
-	}
+	},
 
 	setFlow (flowId, cardId, flowState) {
 		return (dispatch) => {
@@ -1536,7 +1503,7 @@ export default class ActionCreator {
 				}
 			})
 		}
-	}
+	},
 
 	removeFlow (flowId, cardId) {
 		return (dispatch) => {
