@@ -184,7 +184,7 @@ ava('CreateLens can link to multiple cards after creation', async (test) => {
 	test.deepEqual(callbackCard, createdCard)
 })
 
-ava.only('CreateLens throws exception if trying to link cards of different types', async (test) => {
+ava('CreateLens throws exception if trying to link cards of different types', async (test) => {
 	const {
 		commonProps
 	} = test.context

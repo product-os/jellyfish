@@ -106,7 +106,7 @@ ava('It should render', (test) => {
 	})
 })
 
-ava.only('It should trigger setPage when clicking the pager button next', (test) => {
+ava('It should trigger setPage when clicking the pager button next', (test) => {
 	const {
 		setPageStub
 	} = test.context
