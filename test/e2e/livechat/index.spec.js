@@ -317,15 +317,24 @@ ava.serial('Chat page', async (test) => {
 	await createChatMessage(page, '', 'Message from user')
 
 	await test.notThrowsAsync(
-		waitForInnerText(page, '[data-test="event__actor-label"]', 'Support User'),
-		'should display support user\'s name'
+		waitForInnerText(
+			page,
+			'[data-test="event__actor-label"]',
+			context.supportUser.card.slug.replace(/^user-/, '')
+		),
+		'should display support user\'s username'
 	)
 
 	await insertAgentReply(context, thread, 'Response from agent')
 
 	await test.notThrowsAsync(
-		waitForInnerText(page, '[data-test="event__actor-label"]', 'Support Agent', 1),
-		'should display support agent\'s name'
+		waitForInnerText(
+			page,
+			'[data-test="event__actor-label"]',
+			context.supportAgent.card.slug.replace(/^user-/, ''),
+			1
+		),
+		'should display support agent\'s username'
 	)
 
 	test.pass()
