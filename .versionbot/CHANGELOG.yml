@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use company token for renovate
+      hash: 005c2aa6f42aba605706dc0735d2fbd5afc51c4d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.42.7
+  date: 2021-01-12T00:40:52.180Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.825.0'
       hash: 977c21ff4a5cf14354e414428ba50599c5b5285a
       body: ''
