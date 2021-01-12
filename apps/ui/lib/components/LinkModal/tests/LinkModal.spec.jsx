@@ -14,7 +14,9 @@ import {
 } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
-import LinkModal from '../LinkModal'
+import {
+	LinkModal
+} from '../LinkModal'
 import * as AutoCompleteCardSelect from '../../AutoCompleteCardSelect'
 import user from './fixtures/user.json'
 import org from './fixtures/org.json'

@@ -18,7 +18,9 @@ import {
 	PlainButton,
 	Icon
 } from '@balena/jellyfish-ui-components'
-import LinkModal from '../LinkModal'
+import {
+	LinkModal
+} from '../LinkModal'
 
 class CardLinker extends React.Component {
 	constructor (props) {
@@ -101,7 +103,6 @@ class CardLinker extends React.Component {
 
 	render () {
 		const {
-			actions,
 			card,
 			connectDragSource,
 			types
@@ -168,7 +169,6 @@ class CardLinker extends React.Component {
 
 				{showLinkModal && (
 					<LinkModal
-						actions={actions}
 						cards={[ card ]}
 						types={types}
 						onHide={this.hideLinkModal}

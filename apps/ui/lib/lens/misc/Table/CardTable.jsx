@@ -25,7 +25,9 @@ import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
-import LinkModal from '../../../components/LinkModal'
+import {
+	LinkModal
+} from '../../../components/LinkModal'
 import {
 	ColumnHider
 } from './ColumnHider'
@@ -205,7 +207,6 @@ export default class CardTable extends BaseLens {
 
 	render () {
 		const {
-			actions,
 			allTypes,
 			generateData
 		} = this.props
@@ -223,7 +224,6 @@ export default class CardTable extends BaseLens {
 				}}>
 					{showLinkModal && (
 						<LinkModal
-							actions={actions}
 							cards={checkedCards}
 							types={allTypes}
 							onHide={this.hideLinkModal}

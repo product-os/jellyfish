@@ -24,7 +24,9 @@ import {
 	Icon,
 	withSetup
 } from '@balena/jellyfish-ui-components'
-import LinkModal from '../../components/LinkModal'
+import {
+	LinkModal
+} from '../../components/LinkModal'
 
 class Segment extends React.Component {
 	constructor (props) {
@@ -158,7 +160,6 @@ class Segment extends React.Component {
 		} = this.state
 
 		const {
-			actions,
 			card,
 			segment,
 			types,
@@ -231,7 +232,6 @@ class Segment extends React.Component {
 				{showLinkModal && (
 					<LinkModal
 						linkVerb={segment.link}
-						actions={actions}
 						cards={[ card ]}
 						types={[ type ]}
 						onHide={this.hideLinkModal}
