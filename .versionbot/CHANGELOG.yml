@@ -1,4 +1,36 @@
 - commits:
+    - subject: Updated e2e test to reflect code changes
+      hash: 769809f063908bb28521ac60b0e8d59df366f991
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Re-enabled some unit tests
+      hash: 100c3911b6313e5e2a2302c0a4aac5680fa733a2
+      body: |
+        These had been accidentally skipped due to `.only` calls.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: bc6eee05d3d0cf7461229a5687545dcae9732820
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.11
+  date: 2021-01-12T06:18:55.702Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 8fbd6968e20cd2921b9a46aa5c568f11d20c9f93
       body: ''
