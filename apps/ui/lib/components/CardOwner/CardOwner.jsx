@@ -45,9 +45,10 @@ export default class CardOwner extends React.Component {
 			cardOwner,
 			card,
 			sdk,
+			types,
 			user
 		} = this.props
-		const cardTypeName = helpers.getType(card.type).name
+		const cardTypeName = helpers.getType(card.type, types).name
 
 		try {
 			if (cardOwner) {
