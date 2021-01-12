@@ -6,7 +6,9 @@
 
 import _ from 'lodash'
 import React from 'react'
-import JsonSchemaRenderer from 'rendition/dist/extra/JsonSchemaRenderer'
+import {
+	Renderer
+} from 'rendition'
 import {
 	helpers
 } from '@balena/jellyfish-ui-components'
@@ -34,7 +36,7 @@ export default function CardFields (props) {
 	}, typeSchema)
 
 	return (
-		<JsonSchemaRenderer
+		<Renderer
 			value={card}
 			schema={schema}
 			uiSchema={getUiSchema(type, UI_SCHEMA_MODE.fields)}

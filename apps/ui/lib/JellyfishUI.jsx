@@ -13,13 +13,8 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Flex,
-	Form,
-	Rating
+	Flex
 } from 'rendition'
-import {
-	MarkdownWidget
-} from 'rendition/dist/extra/Form/markdown'
 import {
 	createClient, createNoopClient, createWebTracker
 } from 'analytics-client'
@@ -38,7 +33,6 @@ import RequestPasswordReset from './components/Auth/RequestPasswordReset'
 import CompletePasswordReset from './components/Auth/CompletePasswordReset'
 import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin'
 import AuthContainer from './components/Auth'
-import MermaidEditor from './components/MermaidEditor'
 import Splash from './components/Splash'
 import {
 	actionCreators,
@@ -56,12 +50,6 @@ import {
 import {
 	isProduction
 } from './environment'
-
-// Register the mermaid and markdown widgets for rendition forms
-// Register the extra format widgets to the Form component
-Form.registerWidget('markdown', MarkdownWidget)
-Form.registerWidget('mermaid', MermaidEditor)
-Form.registerWidget('Rating', Rating)
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde

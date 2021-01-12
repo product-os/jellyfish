@@ -16,8 +16,13 @@ import {
 import {
 	Provider as RProvider,
 	Theme,
-	NotificationsContainer
+	NotificationsContainer,
+	Rating
 } from 'rendition'
+import {
+	MarkdownWidget
+} from 'rendition/dist/extra/Form/markdown'
+import MermaidEditor from './components/MermaidEditor'
 import {
 	DndProvider
 } from 'react-dnd'
@@ -50,6 +55,30 @@ import * as environment from './environment'
 import PWA from './pwa'
 import CountFavicon from './components/CountFavicon'
 import CardLoaderContextProvider from './components/CardLoaderContextProvider'
+
+// Register the mermaid and markdown widgets for rendition forms
+// Register the extra format widgets to the Form component
+const RENDITION_WIDGETS = {
+	form: {
+		formats: [
+			{
+				name: 'markdown',
+				format: '.*',
+				widget: MarkdownWidget
+			},
+			{
+				name: 'mermaid',
+				format: '.*',
+				widget: MermaidEditor
+			},
+			{
+				name: 'Rating',
+				format: '.*',
+				widget: Rating
+			}
+		]
+	}
+}
 
 export const pwa = new PWA()
 pwa.init()
@@ -102,6 +131,7 @@ ReactDOM.render(
 				height: '100%',
 				fontSize: 14
 			}}
+			widgets={RENDITION_WIDGETS}
 		>
 			<ResponsiveProvider>
 				<DocumentVisibilityProvider>
