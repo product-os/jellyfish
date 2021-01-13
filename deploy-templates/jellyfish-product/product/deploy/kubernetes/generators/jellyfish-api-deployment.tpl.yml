@@ -21,9 +21,6 @@ spec:
         app: jellyfish
     spec:
       terminationGracePeriodSeconds: 120
-      readinessGates:
-      # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/
-      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-api_jellyfish-api_8000
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-api.data.assets.image.url%>>
         name: jellyfish

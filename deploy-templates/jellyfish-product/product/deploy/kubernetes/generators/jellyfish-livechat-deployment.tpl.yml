@@ -20,9 +20,6 @@ spec:
       labels:
         app: jellyfish-livechat
     spec:
-      readinessGates:
-      # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/
-      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-livechat_jellyfish-livechat_80
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-livechat.data.assets.image.url%>>
         name: jellyfish-livechat
