@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^0.2.70'
+      hash: 3ea113df93c36eb36dd387feb554fe1bd720c0dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.14
+  date: 2021-01-13T00:47:22.076Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.826.0'
       hash: 1c9d52851b58a438a57070b255748e36d4c3e245
       body: ''
