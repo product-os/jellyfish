@@ -38,7 +38,6 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'clearViewData',
 				'createLink',
-				'getLinks',
 				'loadViewData',
 				'loadMoreViewData',
 				'queryAPI',
