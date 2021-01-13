@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^7.5.8'
+      hash: 6beb9c9a1deb1a977e0c165112d6e71a04018558
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.19
+  date: 2021-01-13T12:07:37.774Z
+- commits:
     - subject: Add additional logging to the oauthAssociate method
       hash: 3d52b492847c6476e90bba14721620477ff6f9de
       body: ''
