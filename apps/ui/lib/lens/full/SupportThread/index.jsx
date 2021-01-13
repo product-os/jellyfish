@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import * as Bluebird from 'bluebird'
 import {
 	circularDeepEqual
 } from 'fast-equals'
@@ -248,23 +247,12 @@ class SupportThreadBase extends React.Component {
 			}
 
 			addNotification('success', 'Link removed')
-
-			this.setState((state) => ({
-				linkedCardsMap: {
-					...state.linkedCardsMap,
-					[verb]: state.linkedCardsMap[verb].filter((linkedCard) => {
-						return linkedCard.id !== toCard.id
-					})
-				}
-			}))
 		}
 
 		this.state = {
 			actor: null,
-			isClosing: false,
-			linkedCardsMap: {}
+			isClosing: false
 		}
-		this.loadLinks(props.card.id)
 	}
 
 	async componentDidMount () {
@@ -275,64 +263,8 @@ class SupportThreadBase extends React.Component {
 		})
 	}
 
-	async loadLinks (id) {
-		const baseSchema = {
-			type: 'object',
-			properties: {
-				id: {
-					type: 'string',
-					const: id
-				},
-				type: {
-					type: 'string',
-					const: 'support-thread@1.0.0'
-				}
-			},
-			additionalProperties: true
-		}
-
-		const linkedCardsMap = await Bluebird.props(LINKS.reduce((result, link) => {
-			return {
-				...result,
-				[link.verb]: (async () => {
-					const cardWithLinks = (await sdk.query({
-						$$links: {
-							[link.verb]: {
-								type: 'object',
-								additionalProperties: true
-							}
-						},
-						description: link.description({
-							id
-						}),
-						...baseSchema
-					}))[0]
-
-					if (!cardWithLinks) {
-						return []
-					}
-
-					return cardWithLinks.links[link.verb]
-				})()
-			}
-		}, {}))
-
-		this.setState({
-			linkedCardsMap
-		})
-	}
-
 	shouldComponentUpdate (nextProps, nextState) {
 		return !circularDeepEqual(nextProps, this.props) || !circularDeepEqual(nextState, this.state)
-	}
-
-	componentDidUpdate (prevProps) {
-		if (
-			(prevProps.card.id !== this.props.card.id) ||
-			LINKS.some((link) => prevProps.card.linked_at[link.verb] !== this.props.card.linked_at[link.verb])
-		) {
-			this.loadLinks(this.props.card.id)
-		}
 	}
 
 	render () {
@@ -341,9 +273,6 @@ class SupportThreadBase extends React.Component {
 			channel,
 			getActorHref
 		} = this.props
-		const {
-			linkedCardsMap
-		} = this.state
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0]
 		})
@@ -464,7 +393,7 @@ class SupportThreadBase extends React.Component {
 						{LINKS.map((link) => {
 							return (
 								<React.Fragment key={link.verb}>
-									{linkedCardsMap[link.verb] && linkedCardsMap[link.verb].map((linkedCard) => (
+									{card.links[link.verb] && card.links[link.verb].map((linkedCard) => (
 										<Tag
 											key={linkedCard.id}
 											mr={2} mb={1}
