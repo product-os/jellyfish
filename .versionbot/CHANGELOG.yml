@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 3676c485f4ebf304f95e08c7dac4d2ba3cf2dbf4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.42.21
+  date: 2021-01-13T16:05:48.028Z
+- commits:
     - subject: 'Kuberentes: Remove readiness gates from K8s deployment manifests.'
       hash: 492b171dd418e774da845ddc0f38cc6f1e43b226
       body: |
