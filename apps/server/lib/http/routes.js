@@ -192,6 +192,10 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	})
 
 	const oauthAssociate = async (request, response, slug, code) => {
+		logger.info(request.context, `Associating oauth user: ${slug}`, {
+			source: request.params.provider
+		})
+
 		if (!slug) {
 			return response.sendStatus(401)
 		}
@@ -251,6 +255,11 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 					request.context, jellyfish.sessions.admin, `${slug}@1.0.0`)
 
 				if (!user) {
+					logger.info(request.context, `Failed to sync external oauth user: ${slug}`, {
+						source: request.params.provider,
+						externalUser
+					})
+
 					return response.status(401).json({
 						error: true,
 						data: `User sync failed for the user: ${slug}`
