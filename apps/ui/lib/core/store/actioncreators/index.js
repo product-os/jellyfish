@@ -90,6 +90,51 @@ const createChannel = (data = {}) => {
 	}
 }
 
+const getStreamQuery = (channel) => {
+	const {
+		target
+	} = channel.data
+
+	const identifier = isUUID(target) ? 'id' : 'slug'
+
+	// Note: 'has attached element' will load the timeline cards and should be
+	// paginated when the stream is setup
+	let default$$Links = {
+		'has attached element': {
+			type: 'object',
+			additionalProperties: true
+		}
+	}
+
+	// If we have a channel that's not a view
+	if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
+		// Go through all the link constraints and
+		// add all possible links to the default $$Links
+		default$$Links = {
+			...default$$Links,
+			...getAllLinkQueries()
+		}
+	}
+
+	return {
+		type: 'object',
+		anyOf: [
+			{
+				$$links: {
+					...default$$Links
+				}
+			},
+			true
+		],
+		properties: {
+			[identifier]: {
+				type: 'string',
+				const: target
+			}
+		}
+	}
+}
+
 /**
  * @summary Convert a string into a 32bit hashcode
  *
@@ -439,40 +484,7 @@ export const actionCreators = {
 				target
 			} = channel.data
 
-			const identifier = isUUID(target) ? 'id' : 'slug'
-
-			let default$$Links = {
-				'has attached element': {
-					type: 'object',
-					additionalProperties: true
-				}
-			}
-
-			// If we have a channel that's not a view
-			if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
-				// Go through all the link constraints and set as default $$Links
-				default$$Links = {
-					...default$$Links,
-					...getAllLinkQueries()
-				}
-			}
-			const query = {
-				type: 'object',
-				anyOf: [
-					{
-						$$links: {
-							...default$$Links
-						}
-					},
-					true
-				],
-				properties: {
-					[identifier]: {
-						type: 'string',
-						const: target
-					}
-				}
-			}
+			const query = getStreamQuery(channel)
 
 			const stream = await actionCreators.getStream({
 				sdk
@@ -576,7 +588,7 @@ export const actionCreators = {
 			stream.emit('queryDataset', {
 				data: {
 					id: queryId,
-					schema: query,
+					schema: getStreamQuery(targetChannel),
 					options: queryOptions
 				}
 			})
