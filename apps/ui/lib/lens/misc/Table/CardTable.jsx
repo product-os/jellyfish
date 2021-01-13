@@ -26,7 +26,8 @@ import parseISO from 'date-fns/parseISO'
 import flatten from 'flat'
 import BaseLens from '../../common/BaseLens'
 import {
-	LinkModal
+	LinkModal,
+	UnlinkModal
 } from '../../../components/LinkModal'
 import {
 	ColumnHider
@@ -74,11 +75,12 @@ export default class CardTable extends BaseLens {
 		this.generateTableColumns = this.generateTableColumns.bind(this)
 		this.state = {
 			checkedCards: [],
-			showLinkModal: false,
+			showLinkModal: null,
 			tableColumns: props.columns || this.generateTableColumns()
 		}
 		this.onChecked = this.onChecked.bind(this)
 		this.showLinkModal = this.showLinkModal.bind(this)
+		this.showUnlinkModal = this.showUnlinkModal.bind(this)
 		this.hideLinkModal = this.hideLinkModal.bind(this)
 		this.toggleColumns = this.toggleColumns.bind(this)
 		this.openCreateChannelForLinking = this.openCreateChannelForLinking.bind(this)
@@ -101,13 +103,19 @@ export default class CardTable extends BaseLens {
 
 	showLinkModal () {
 		this.setState({
-			showLinkModal: true
+			showLinkModal: 'link'
+		})
+	}
+
+	showUnlinkModal () {
+		this.setState({
+			showLinkModal: 'unlink'
 		})
 	}
 
 	hideLinkModal () {
 		this.setState({
-			showLinkModal: false
+			showLinkModal: null
 		})
 	}
 
@@ -222,10 +230,17 @@ export default class CardTable extends BaseLens {
 				<Box flex="1" style={{
 					position: 'relative'
 				}}>
-					{showLinkModal && (
+					{showLinkModal === 'link' && (
 						<LinkModal
 							cards={checkedCards}
 							types={allTypes}
+							onHide={this.hideLinkModal}
+						/>
+					)}
+
+					{showLinkModal === 'unlink' && (
+						<UnlinkModal
+							cards={checkedCards}
 							onHide={this.hideLinkModal}
 						/>
 					)}
@@ -251,6 +266,12 @@ export default class CardTable extends BaseLens {
 										onClick={this.openCreateChannelForLinking}
 									>
 										Create a new element to link to
+									</ActionLink>
+									<ActionLink
+										data-test="cardTableActions__unlink-existing"
+										onClick={this.showUnlinkModal}
+									>
+										Unlink from existing element
 									</ActionLink>
 								</DropDownButton>
 

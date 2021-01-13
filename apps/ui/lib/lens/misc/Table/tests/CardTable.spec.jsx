@@ -192,5 +192,5 @@ ava('It should let you link multiple selected cards to an existing card', async 
 	openActions(cardTableComponent)
 	takeAction(cardTableComponent, 'link-existing')
 
-	test.true(cardTableComponent.state().showLinkModal)
+	test.is(cardTableComponent.state().showLinkModal, 'link')
 })

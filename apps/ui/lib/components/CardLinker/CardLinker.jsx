@@ -19,7 +19,8 @@ import {
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
-	LinkModal
+	LinkModal,
+	UnlinkModal
 } from '../LinkModal'
 
 class CardLinker extends React.Component {
@@ -28,10 +29,11 @@ class CardLinker extends React.Component {
 
 		this.state = {
 			showMenu: false,
-			showLinkModal: false
+			showLinkModal: null
 		}
 
 		this.openLinkModal = this.openLinkModal.bind(this)
+		this.openUnlinkModal = this.openUnlinkModal.bind(this)
 		this.hideLinkModal = this.hideLinkModal.bind(this)
 		this.toggleMenu = this.toggleMenu.bind(this)
 		this.openCreateChannel = this.openCreateChannel.bind(this)
@@ -40,14 +42,21 @@ class CardLinker extends React.Component {
 
 	openLinkModal () {
 		this.setState({
-			showLinkModal: true,
+			showLinkModal: 'link',
+			showMenu: false
+		})
+	}
+
+	openUnlinkModal () {
+		this.setState({
+			showLinkModal: 'unlink',
 			showMenu: false
 		})
 	}
 
 	hideLinkModal () {
 		this.setState({
-			showLinkModal: false,
+			showLinkModal: null,
 			showMenu: false
 		})
 	}
@@ -129,7 +138,7 @@ class CardLinker extends React.Component {
 						onClick={this.toggleMenu}
 						tooltip={{
 							placement: 'left',
-							text: `Link this ${typeName} to another element`
+							text: `Manage links for this ${typeName}`
 						}}
 					>
 						<Icon name="bezier-curve"/>
@@ -158,6 +167,14 @@ class CardLinker extends React.Component {
 
 							<ActionButton
 								plain
+								onClick={this.openUnlinkModal}
+								data-test="card-linker-action--unlink"
+							>
+								Unlink from existing element
+							</ActionButton>
+
+							<ActionButton
+								plain
 								onClick={this.openVisualizeChannel}
 								data-test="card-linker-action--visualize"
 							>
@@ -167,10 +184,17 @@ class CardLinker extends React.Component {
 					)}
 				</span>
 
-				{showLinkModal && (
+				{showLinkModal === 'link' && (
 					<LinkModal
 						cards={[ card ]}
 						types={types}
+						onHide={this.hideLinkModal}
+					/>
+				)}
+
+				{showLinkModal === 'unlink' && (
+					<UnlinkModal
+						cards={[ card ]}
 						onHide={this.hideLinkModal}
 					/>
 				)}
