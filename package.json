@@ -63,7 +63,7 @@
     "@balena/jellyfish-action-library": "^6.0.35",
     "@balena/jellyfish-chat-widget": "^5.0.57",
     "@balena/jellyfish-client-sdk": "^2.8.1",
-    "@balena/jellyfish-core": "^0.2.69",
+    "@balena/jellyfish-core": "^0.2.70",
     "@balena/jellyfish-environment": "^2.3.17",
     "@balena/jellyfish-plugin-default": "^2.2.4",
     "@balena/jellyfish-plugin-product-os": "0.2.0",
