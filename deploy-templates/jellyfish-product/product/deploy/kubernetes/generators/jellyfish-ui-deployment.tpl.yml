@@ -20,9 +20,6 @@ spec:
       labels:
         app: jellyfish-ui
     spec:
-      readinessGates:
-      # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/ingress/pod-conditions/
-      - conditionType: target-health.alb.ingress.k8s.aws/jellyfish-ui_jellyfish-ui_80
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-ui.data.assets.image.url%>>
         name: jellyfish-ui
