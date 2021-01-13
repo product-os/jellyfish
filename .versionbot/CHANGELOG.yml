@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add additional logging to the oauthAssociate method
+      hash: 3d52b492847c6476e90bba14721620477ff6f9de
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.42.18
+  date: 2021-01-13T10:58:32.826Z
+- commits:
     - subject: 'patch: Update balena/open-balena-base Docker tag to v11.0.4'
       hash: 8ad277b42aa5958d11cdf1664db454935c2244e0
       body: ''
