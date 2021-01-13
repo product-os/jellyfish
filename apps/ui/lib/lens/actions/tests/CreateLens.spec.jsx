@@ -110,7 +110,6 @@ ava.beforeEach(async (test) => {
 			actions: {
 				removeChannel: sandbox.stub().resolves(null),
 				createLink: sandbox.stub().resolves(null),
-				getLinks: sandbox.stub().resolves([]),
 				queryAPI: sandbox.stub()
 			}
 		}
