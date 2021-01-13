@@ -508,7 +508,7 @@ export const actionCreators = {
 						channels[0],
 						{
 							arrayMerge: (destinationArray, sourceArray) => {
-								return _.union(destinationArray, sourceArray)
+								return _.unionBy(destinationArray, sourceArray, 'id')
 							}
 						}
 					)
