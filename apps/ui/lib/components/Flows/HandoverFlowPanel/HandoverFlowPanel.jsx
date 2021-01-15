@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import _ from 'lodash'
 import React from 'react'
 import Bluebird from 'bluebird'
 import {
@@ -25,8 +26,6 @@ import {
 export default function HandoverFlowPanel ({
 	flowId,
 	card,
-	cardOwner,
-	updateCardOwnerCache,
 	flowState,
 	user,
 	types,
@@ -35,6 +34,7 @@ export default function HandoverFlowPanel ({
 	sdk,
 	onClose
 }) {
+	const cardOwner = _.head(_.get(card, [ 'links', 'is owned by' ], null))
 	const setFlow = (updatedFlowState) => {
 		return actions.setFlow(flowId, card.id, updatedFlowState)
 	}
@@ -95,9 +95,6 @@ export default function HandoverFlowPanel ({
 					}
 				})
 			}
-
-			// Finally, update the card owner cache
-			updateCardOwnerCache(newOwner || null)
 		} catch (error) {
 			console.error('Failed to assign card', error)
 			addNotification('danger', 'Handover failed. Refresh the page and try again.')

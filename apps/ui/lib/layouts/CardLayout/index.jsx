@@ -16,8 +16,7 @@ import {
 } from 'rendition'
 import {
 	CloseButton,
-	Column,
-	LinksProvider
+	Column
 } from '@balena/jellyfish-ui-components'
 import CardActions from '../../components/CardActions'
 import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel'
@@ -27,8 +26,7 @@ import {
 import HandoverFlowPanel from '../../components/Flows/HandoverFlowPanel'
 import Markers from '../../components/Markers'
 import {
-	selectors,
-	sdk
+	selectors
 } from '../../core'
 
 const CardLayout = (props) => {
@@ -52,61 +50,59 @@ const CardLayout = (props) => {
 	}), [ 'name' ], null)
 
 	return (
-		<LinksProvider sdk={sdk} cards={typeBase ? [ card ] : []} link="is owned by">
-			<Column
-				className={`column--${typeBase || 'unknown'} column--slug-${card.slug || 'unkown'}`}
-				overflowY={overflowY}
-				data-test={props['data-test']}
-			>
-				<Flex
-					p={3} pb={0}
-					flexDirection={[ 'column-reverse', 'column-reverse', 'row' ]}
-					justifyContent="space-between"
-					alignItems="center">
-					<Flex flex={1} alignSelf={[ 'flex-start', 'flex-start', 'inherit' ]} my={[ 2, 2, 0 ]}>
-						{title}
+		<Column
+			className={`column--${typeBase || 'unknown'} column--slug-${card.slug || 'unkown'}`}
+			overflowY={overflowY}
+			data-test={props['data-test']}
+		>
+			<Flex
+				p={3} pb={0}
+				flexDirection={[ 'column-reverse', 'column-reverse', 'row' ]}
+				justifyContent="space-between"
+				alignItems="center">
+				<Flex flex={1} alignSelf={[ 'flex-start', 'flex-start', 'inherit' ]} my={[ 2, 2, 0 ]}>
+					{title}
 
-						{!title && (
-							<div>
-								<Heading.h4>
-									{card.name || card.slug || card.type}
-								</Heading.h4>
+					{!title && (
+						<div>
+							<Heading.h4>
+								{card.name || card.slug || card.type}
+							</Heading.h4>
 
-								{Boolean(typeName) && (
-									<Txt color="text.light" fontSize="0">{typeName}</Txt>
-								)}
-							</div>
-						)}
-					</Flex>
-					<Flex alignSelf={[ 'flex-end', 'flex-end', 'flex-start' ]}>
-						{!noActions && (
-							<CardActions card={card} inlineActionItems={inlineActionItems}>
-								{actionItems}
-							</CardActions>
-						)}
-						<CloseButton
-							flex={0}
-							mr={-2}
-							onClick={props.onClose}
-							channel={channel}
-						/>
-					</Flex>
+							{Boolean(typeName) && (
+								<Txt color="text.light" fontSize="0">{typeName}</Txt>
+							)}
+						</div>
+					)}
 				</Flex>
+				<Flex alignSelf={[ 'flex-end', 'flex-end', 'flex-start' ]}>
+					{!noActions && (
+						<CardActions card={card} channel={channel} inlineActionItems={inlineActionItems}>
+							{actionItems}
+						</CardActions>
+					)}
+					<CloseButton
+						flex={0}
+						mr={-2}
+						onClick={props.onClose}
+						channel={channel}
+					/>
+				</Flex>
+			</Flex>
 
-				<Markers card={card} />
+			<Markers card={card} />
 
-				{children}
-				<SlideInFlowPanel
-					slideInPanelProps={{
-						height: 480
-					}}
-					card={card}
-					flowId={FLOW_IDS.GUIDED_HANDOVER}
-				>
-					<HandoverFlowPanel user={user} />
-				</SlideInFlowPanel>
-			</Column>
-		</LinksProvider>
+			{children}
+			<SlideInFlowPanel
+				slideInPanelProps={{
+					height: 480
+				}}
+				card={card}
+				flowId={FLOW_IDS.GUIDED_HANDOVER}
+			>
+				<HandoverFlowPanel user={user} />
+			</SlideInFlowPanel>
+		</Column>
 	)
 }
 
