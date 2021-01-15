@@ -1,4 +1,76 @@
 - commits:
+    - subject: Add menu links to the unlink modal
+      hash: d0b99f82d5ff35461746193b5bd22dcc41ae681e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add new UnlinkModal component
+      hash: ffeee3cc1ed93f91a38228e39f5918de332e76f6
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add removeLink action creator
+      hash: f639043218f1dd4ebc9c996b0f0d629faf73ced5
+      body: |
+        This will be used by the UnlinkModal component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add optional getQueryFilter prop to AutoCompleteCardSelect
+      hash: 4b851015192978f751165bc8ff0020ddb9c5154f
+      body: |
+        This will be used by the UnlinkModal component.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add missing arg to getType helper method call
+      hash: 769f4b457970d784a376cf976bdd25abf0d25df7
+      body: |
+        This was missing and was a bug!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Refactor LinkModal
+      hash: c17a1ad7b0d4b667ff131cf7bf41ca15e81022a2
+      body: >
+        - Extract common helper methods into a new file (that will be imported
+        by the UnlinkModal as well).
+
+        - Convert to a named export
+
+        - Use redux `connect` HOC to load the `actions` prop
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.43.0
+  date: 2021-01-15T14:12:52.173Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 1af8059a59eda2aa86a7d7d1364ccd5680a86573
       body: ''
