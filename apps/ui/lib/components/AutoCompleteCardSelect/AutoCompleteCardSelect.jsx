@@ -77,18 +77,19 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 	async getTargets (value) {
 		const {
+			getQueryFilter,
 			cardFilter,
 			cardType: cardTypes,
 			types,
 			sdk
 		} = this.props
 
-		const queryFilter = {
+		const queryFilter = getQueryFilter ? getQueryFilter(value) : {
 			type: 'object',
 			anyOf: [].concat(cardTypes).map((cardType) => {
 				// Retrieve the target type of the selected link
 				const typeCard = _.find(types, {
-					slug: cardType.split('@')[0]
+					slug: helpers.getTypeBase(cardType)
 				})
 
 				// Create full text search query based on the target type and search term
@@ -126,7 +127,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 		// Return the results in a format understood by the AsyncSelect component
 		return results.map((card) => {
 			const typeCardIndex = _.findIndex(types, {
-				slug: card.type.split('@')[0]
+				slug: helpers.getTypeBase(card.type)
 			})
 
 			return {

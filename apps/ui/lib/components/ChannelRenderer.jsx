@@ -17,7 +17,9 @@ import {
 	ErrorBoundary,
 	Icon
 } from '@balena/jellyfish-ui-components'
-import LinkModal from './LinkModal'
+import {
+	LinkModal
+} from './LinkModal'
 import ChannelNotFound from './ChannelNotFound'
 
 // Selects an appropriate renderer for a card
@@ -59,7 +61,6 @@ class ChannelRenderer extends React.Component {
 	render () {
 		const {
 			getLens,
-			actions,
 			channel,
 			connectDropTarget,
 			isOver,
@@ -136,7 +137,6 @@ class ChannelRenderer extends React.Component {
 
 				{showLinkModal && (
 					<LinkModal
-						actions={actions}
 						target={head}
 						cards={[ linkFrom ]}
 						types={types}

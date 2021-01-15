@@ -23,26 +23,13 @@ import {
 	Icon
 } from '@balena/jellyfish-ui-components'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
+import {
+	getCommonTypeBase
+} from './util'
 
-const getTypes = memoize((inputCards) => {
-	return _.uniq(_.map(inputCards, 'type'))
-})
-
-export default class LinkModal extends React.Component {
+export class LinkModal extends React.Component {
 	constructor (props) {
 		super(props)
-
-		this.getFromType = memoize((cards) => {
-			const cardTypes = getTypes(cards)
-			if (cardTypes.length > 1) {
-				throw new Error('All cards must be of the same type')
-			}
-			let fromType = cards[0].type.split('@')[0]
-			if (fromType === 'type') {
-				fromType = cards[0].slug.split('@')[0]
-			}
-			return fromType
-		})
 
 		this.getAvailableTypeSlugs = memoize((types) => {
 			return _.reduce(types || [], (acc, type) => {
@@ -105,7 +92,7 @@ export default class LinkModal extends React.Component {
 			types
 		} = this.props
 
-		const fromType = this.getFromType(cards)
+		const fromType = getCommonTypeBase(cards)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
 		return this.filterLinks(linkVerb, availableTypeSlugs, target, fromType)
 	}
@@ -188,7 +175,7 @@ export default class LinkModal extends React.Component {
 			submitting
 		} = this.state
 
-		const fromType = this.getFromType(cards)
+		const fromType = getCommonTypeBase(cards)
 		const availableTypeSlugs = this.getAvailableTypeSlugs(types)
 		const linkTypeTargets = this.filterLinks(linkVerb, availableTypeSlugs, selectedTarget, fromType)
 
@@ -201,7 +188,7 @@ export default class LinkModal extends React.Component {
 		const typeCard = _.find(types, [ 'slug', fromType ])
 		const typeName = typeCard ? typeCard.name : fromType
 
-		const titleSource = `${cards.length > 1 ? 'these' : 'this'} ${pluralize(typeName, cards.length, cards.length > 1)}`
+		const titleSource = `${pluralize('this', cards.length)} ${pluralize(typeName, cards.length, cards.length > 1)}`
 		const titleTarget = linkTypeTargets.length === 1 ? linkTypeTargets[0].title : 'another element'
 		const title = `Link ${titleSource} to ${titleTarget}`
 

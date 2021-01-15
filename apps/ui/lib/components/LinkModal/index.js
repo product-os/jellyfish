@@ -4,6 +4,52 @@
  * Proprietary and confidential.
  */
 
-import LinkModal from './LinkModal'
+import {
+	connect
+} from 'react-redux'
+import _ from 'lodash'
+import {
+	bindActionCreators
+} from 'redux'
+import {
+	actionCreators,
+	selectors
+}	from '../../core'
+import {
+	LinkModal as LinkModalInner
+} from './LinkModal'
+import {
+	UnlinkModal as UnlinkModalInner
+} from './UnlinkModal'
 
-export default LinkModal
+export const LinkModal = connect(
+	null,
+	(dispatch) => {
+		return {
+			actions: bindActionCreators(
+				_.pick(actionCreators, [
+					'createLink'
+				]),
+				dispatch
+			)
+		}
+	}
+)(LinkModalInner)
+
+export const UnlinkModal = connect(
+	(state) => {
+		return {
+			types: selectors.getTypes(state)
+		}
+	},
+	(dispatch) => {
+		return {
+			actions: bindActionCreators(
+				_.pick(actionCreators, [
+					'removeLink'
+				]),
+				dispatch
+			)
+		}
+	}
+)(UnlinkModalInner)

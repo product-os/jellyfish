@@ -15,8 +15,8 @@ import {
 import sinon from 'sinon'
 import React from 'react'
 import {
-	LinkModal
-} from '../LinkModal'
+	UnlinkModal
+} from '../UnlinkModal'
 import * as AutoCompleteCardSelect from '../../AutoCompleteCardSelect'
 import user from './fixtures/user.json'
 import org from './fixtures/org.json'
@@ -81,22 +81,18 @@ const mockAutoCompleteCardSelect = () => {
 	return callbacks
 }
 
-const submit = (linkModalComponent) => {
-	const button = linkModalComponent.find('button[data-test="card-linker--existing__submit"]')
+const submit = (unlinkModalComponent) => {
+	const button = unlinkModalComponent.find('button[data-test="card-unlinker__submit"]')
 	button.simulate('click')
 }
 
-// TBD: This code assumes that Promise.all in LinkModal will call the async createLink methods
+// TBD: This code assumes that Promise.all in UnlinkModal will call the async removeLink methods
 // in the same order as the cards are provided in the cards prop.
 const verifyCard = (test, commonProps, callIndex, expectedCard) => {
-	const [ theCard, theSelectedTarget, linkTypeName ] = commonProps.actions.createLink.args[callIndex]
+	const [ theCard, theSelectedTarget, linkTypeName ] = commonProps.actions.removeLink.args[callIndex]
 	test.deepEqual(theCard, expectedCard)
 	test.deepEqual(theSelectedTarget, selectedTarget)
 	test.deepEqual(linkTypeName, 'is member of')
-
-	const [ savedSelectedTarget, savedLinkTypeName ] = commonProps.onSaved.args[callIndex]
-	test.deepEqual(savedSelectedTarget, selectedTarget)
-	test.deepEqual(savedLinkTypeName, 'is member of')
 }
 
 ava.beforeEach(async (test) => {
@@ -110,9 +106,8 @@ ava.beforeEach(async (test) => {
 		autoCompleteCallbacks: mockAutoCompleteCardSelect(),
 		commonProps: {
 			onHide,
-			onSaved: sandbox.stub(),
 			actions: {
-				createLink: sandbox.stub().resolves(null)
+				removeLink: sandbox.stub().resolves(null)
 			}
 		}
 	}
@@ -122,15 +117,15 @@ ava.afterEach(async (test) => {
 	sandbox.restore()
 })
 
-ava('LinkModal can link one card to another card', async (test) => {
+ava('UnlinkModal can unlink one card from another card', async (test) => {
 	const {
 		commonProps,
 		onHidePromise,
 		autoCompleteCallbacks
 	} = test.context
 
-	const linkModalComponent = await mount((
-		<LinkModal
+	const unlinkModalComponent = await mount((
+		<UnlinkModal
 			{...commonProps}
 			cards={[ card ]}
 			types={types}
@@ -141,22 +136,24 @@ ava('LinkModal can link one card to another card', async (test) => {
 
 	autoCompleteCallbacks.onChange(selectedTarget)
 
-	submit(linkModalComponent)
+	submit(unlinkModalComponent)
 
 	await onHidePromise.promise
+
+	test.is(commonProps.actions.removeLink.callCount, 1)
 
 	verifyCard(test, commonProps, 0, card)
 })
 
-ava('LinkModal can link multiple cards to another card', async (test) => {
+ava('UnlinkModal can unlink multiple cards from another card', async (test) => {
 	const {
 		commonProps,
 		onHidePromise,
 		autoCompleteCallbacks
 	} = test.context
 
-	const linkModalComponent = await mount((
-		<LinkModal
+	const unlinkModalComponent = await mount((
+		<UnlinkModal
 			{...commonProps}
 			cards={[ card, card2 ]}
 			types={types}
@@ -167,25 +164,24 @@ ava('LinkModal can link multiple cards to another card', async (test) => {
 
 	autoCompleteCallbacks.onChange(selectedTarget)
 
-	submit(linkModalComponent)
+	submit(unlinkModalComponent)
 
 	await onHidePromise.promise
 
-	test.is(commonProps.actions.createLink.callCount, 2)
-	test.is(commonProps.onSaved.callCount, 2)
+	test.is(commonProps.actions.removeLink.callCount, 2)
 
 	verifyCard(test, commonProps, 0, card)
 	verifyCard(test, commonProps, 1, card2)
 })
 
-ava('LinkModal throws exception if card types are different', async (test) => {
+ava('UnlinkModal throws exception if card types are different', async (test) => {
 	const {
 		commonProps
 	} = test.context
 
 	test.throws(() => {
 		mount((
-			<LinkModal
+			<UnlinkModal
 				{...commonProps}
 				cards={[ card, orgInstanceCard ]}
 				types={types}

@@ -1142,6 +1142,21 @@ export const actionCreators = {
 		}
 	},
 
+	removeLink (fromCard, toCard, verb, options = {}) {
+		return async (dispatch, getState, {
+			sdk
+		}) => {
+			try {
+				await sdk.card.unlink(fromCard, toCard, verb)
+				if (!options.skipSuccessMessage) {
+					addNotification('success', 'Removed link')
+				}
+			} catch (error) {
+				addNotification('danger', error.message)
+			}
+		}
+	},
+
 	dumpState () {
 		return async (dispatch, getState) => {
 			const state = clone(getState())
