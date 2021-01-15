@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^5.0.69'
+      hash: e0a87d91608fb0a5552946b3b993c18a73d2227a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.43.1
+  date: 2021-01-15T15:19:04.715Z
+- commits:
     - subject: Add menu links to the unlink modal
       hash: d0b99f82d5ff35461746193b5bd22dcc41ae681e
       body: ''
