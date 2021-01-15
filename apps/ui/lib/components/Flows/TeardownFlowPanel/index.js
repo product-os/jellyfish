@@ -20,8 +20,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 	const teardownActions = bindActionCreators(
 		_.pick(actionCreators, [
 			'addChannel',
-			'createLink',
-			'getLinks'
+			'createLink'
 		]),
 		dispatch
 	)
