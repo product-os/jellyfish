@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^5.0.70'
+      hash: f72047f97b7e45ef42768db3023fe6f2042cb4d6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.43.2
+  date: 2021-01-16T01:05:59.128Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^5.0.69'
       hash: e0a87d91608fb0a5552946b3b993c18a73d2227a
       body: ''
