@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix ci task dependencies
+      hash: e6fae948de13b1ccab2a91abf3f7503b5fcc709c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.43.6
+  date: 2021-01-18T00:53:13.682Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: e16fe5a6e13b8255c495f04acc8be555b12579a4
       body: ''
