@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: d85f67cd6839c56ee2d011f5cf3562ae2822666b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.43.7
+  date: 2021-01-18T11:28:02.435Z
+- commits:
     - subject: Fix ci task dependencies
       hash: e6fae948de13b1ccab2a91abf3f7503b5fcc709c
       body: ''
