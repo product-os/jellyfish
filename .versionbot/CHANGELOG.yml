@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 33b0de084a60fbe9bba8abf7665f5bf9e8ea6a01
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Update jellyfish-plugin-default
+      hash: 97ce09131e7c09991cf32fa66054f4051c0c4946
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.44.0
+  date: 2021-01-19T15:08:08.861Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: aeaef07feebd9f278938738246a391d667f455b2
       body: ''
