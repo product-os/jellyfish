@@ -261,6 +261,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	const opportunityCardSelector = `[data-test-id="snippet-card-${opportunity.id}"]`
 
 	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-all-opportunities`)
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-list"]')
 	await page.waitForSelector('.view__search')
 
 	// The created opportunity is displayed as we have no active filter
