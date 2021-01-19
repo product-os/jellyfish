@@ -118,7 +118,7 @@ const getSliceOptions = (card, types) => {
 }
 
 const getDefaultSliceOption = (sliceOptions) => {
-	return _.last(sliceOptions)
+	return sliceOptions && _.last(sliceOptions)
 }
 
 const createSyntheticViewCard = (view, filters) => {
@@ -287,7 +287,7 @@ class ViewRenderer extends React.Component {
 			return item.anyOf && item.anyOf[0].$id === activeSliceFilterId
 		})
 
-		if (!sliceFilter) {
+		if (!sliceFilter && _.get(this.state, [ 'sliceOptions', 'length' ])) {
 			this.setSlice({
 				value: getDefaultSliceOption(this.state.sliceOptions)
 			})
@@ -331,6 +331,9 @@ class ViewRenderer extends React.Component {
 				options: update(prevState.options, {
 					page: {
 						$set: 0
+					},
+					totalPages: {
+						$set: Infinity
 					}
 				}),
 				eventSearchFilter: createEventSearchFilter(this.props.types, newSearchTerm),

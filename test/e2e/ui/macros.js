@@ -221,7 +221,16 @@ exports.navigateToHomeChannelItem = async (page, menuStack) => {
 	}
 }
 
-const lookForElementInsideScrollable = async (scrollable, selector) => {
+const lookForElementInsideScrollable = async (elem, selector) => {
+	// Workaround for rerendered elements
+	let scrollable = null
+	if (document.body.contains(elem)) {
+		scrollable = elem
+	} else {
+		console.warn('Element', scrollable, 'is not inside dom anymore, reselecting using className which can be unreliable')
+		scrollable = document.getElementsByClassName(elem.className)[0]
+	}
+
 	const stepTimeout = 100
 	const stepDistance = scrollable.clientHeight
 
