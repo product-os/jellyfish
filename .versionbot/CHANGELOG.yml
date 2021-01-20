@@ -1,4 +1,15 @@
 - commits:
+    - subject: add reference to JF-core
+      hash: 268dcaf5d0f14a89746f38797e4a901411556c07
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Martin Rauscher
+      nested: []
+  version: 33.44.12
+  date: 2021-01-20T14:34:42.048Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 637aefc1eedc925e7ce8fc6775b2ba5cd7bdc4fd
       body: ''
