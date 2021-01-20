@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to v1'
+      hash: 6409c73f097bac1bcc91471e6d894fb9c6064740
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.4
+  date: 2021-01-20T01:43:31.887Z
+- commits:
     - subject: 'patch: Update dependency enzyme-adapter-react-16 to ^1.15.6'
       hash: 49b7b217a1895564a23fcec8ef82476479181dcc
       body: ''
