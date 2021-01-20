@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
@@ -64,21 +63,17 @@ ava.serial('Should be able to navigate to a user\'s feedback and show the user\'
 	await page.waitForSelector('.column--view-all-users-feedback')
 
 	const mockData = require('./fixtures/user-feedback.json')
-	const userFeedback = await page.evaluate((data) => {
+	const name = `Feedback from ${mockData.user}`
+	const userFeedback = await page.evaluate((data, nameField) => {
 		return window.sdk.card.create({
 			type: 'user-feedback@1.0.0',
+			name: nameField,
 			data
 		})
-	}, mockData)
+	}, mockData, name)
 
-	const snippetSelector = `[data-test-id="snippet-form-response-${userFeedback.id}"] > div > a`
+	const snippetSelector = `[data-test-id="snippet-card-${userFeedback.id}"] div > a`
 	await macros.waitForThenClickSelector(page, snippetSelector)
-	const columnSelector = '.column--user-feedback'
-	const innerText = await macros.getElementText(page, columnSelector)
-	_.forEach(_.flatten(_.values(mockData)), (response) => {
-		if (!innerText.includes(response)) {
-			test.fail()
-		}
-	})
-	test.pass()
+	const linkText = await macros.getElementText(page, snippetSelector)
+	test.true(linkText.includes(name))
 })
