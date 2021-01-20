@@ -16,6 +16,7 @@ as a cross between Slack and Excel!
 
 - **Contributing**
 	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
+	- [**JellyFish Core**](https://github.com/product-os/jellyfish-core/blob/master/README.md) the low-level internal SDK to interact with cards and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
 	- [**Working with the frontend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/frontend.markdown)
 	- [**Working with the backend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/backend.markdown)
