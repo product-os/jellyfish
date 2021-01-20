@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.0.2'
+      hash: 0827d3c76c1298f945a38ab23bf3cb5f0cbdcf7e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.13
+  date: 2021-01-20T21:19:03.689Z
+- commits:
     - subject: add reference to JF-core
       hash: 268dcaf5d0f14a89746f38797e4a901411556c07
       body: ''
