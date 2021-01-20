@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-jsdoc to v31'
+      hash: ac45ffa0fd54209d4ac56a67959311dadf5f6982
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.2
+  date: 2021-01-19T21:52:38.881Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.829.0'
       hash: d89564eb49225af09793b32e19f983b0225368e9
       body: ''
