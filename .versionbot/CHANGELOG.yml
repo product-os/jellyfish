@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.24.1'
+      hash: 724503556198d214cfa40f288dea289a3f259448
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.5
+  date: 2021-01-20T03:13:26.938Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to v1'
       hash: 6409c73f097bac1bcc91471e6d894fb9c6064740
       body: ''
