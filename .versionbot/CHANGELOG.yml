@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency enzyme-adapter-react-16 to ^1.15.6'
+      hash: 49b7b217a1895564a23fcec8ef82476479181dcc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.3
+  date: 2021-01-20T00:38:22.226Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-jsdoc to v31'
       hash: ac45ffa0fd54209d4ac56a67959311dadf5f6982
       body: ''
