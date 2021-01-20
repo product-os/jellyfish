@@ -111,7 +111,7 @@
     "canvas": "^2.6.1",
     "depcheck": "^1.3.1",
     "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.5",
+    "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.18.0",
     "node-hook": "^1.0.0",
     "redux-mock-store": "^1.5.4",
