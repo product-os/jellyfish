@@ -25,7 +25,7 @@
     "@balena/jellyfish-environment": "^2.3.25",
     "@balena/jellyfish-logger": "^0.0.207",
     "@balena/jellyfish-metrics": "^0.1.21",
-    "@balena/jellyfish-plugin-default": "^2.4.3",
+    "@balena/jellyfish-plugin-default": "^2.5.0",
     "@balena/jellyfish-plugin-product-os": "0.2.0",
     "@balena/jellyfish-queue": "^0.0.328",
     "@balena/jellyfish-sync": "^4.0.47",
