@@ -1,4 +1,29 @@
 - commits:
+    - subject: Bump dependencies
+      hash: 5a5baecca5ba02f0389ddb9c23c589ca0782ba6f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update references to Rendition's Renderer component
+      hash: b2fc40e389faadba600ce5ce9c9e45f0842fa6c0
+      body: >
+        Widgets are now passed to Rendition's Provider component. No need for
+        `extraFormats` or `Form.registerWidget`!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.44.8
+  date: 2021-01-20T08:58:13.128Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 16484e6233a7b570ba207551116c1d44552e58a8
       body: ''
