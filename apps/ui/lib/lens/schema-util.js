@@ -13,20 +13,6 @@ import {
 	AutoCompleteWidget
 } from '@balena/jellyfish-ui-components'
 
-export const JF_FORMATS = [ {
-	name: 'markdown', format: '.*'
-}, {
-	name: 'mermaid', format: '.*'
-}, {
-	name: 'uri', format: '.*'
-}, {
-	name: 'email', format: '.*'
-}, {
-	name: 'currency', format: '.*'
-}, {
-	name: 'data-url', format: '.*'
-} ]
-
 export const UI_SCHEMA_MODE = {
 	edit: 'edit',
 	create: 'create',
@@ -63,7 +49,7 @@ export const getUiSchema = (cardType, mode = UI_SCHEMA_MODE.full) => {
 	return uiSchema
 }
 
-// These functions will be passed to the JsonSchemaRenderer component to provide
+// These functions will be passed to the Renderer component to provide
 // additional, Jellyfish-specific, context for use in evalulated values (using json-e).
 export const jsonSchemaFns = {
 	getMirror: (value) => {

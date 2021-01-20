@@ -11,11 +11,21 @@ import {
 	PersistGate
 } from 'redux-persist/integration/react'
 import {
+	MarkdownWidget as MarkdownEditor
+} from 'rendition/dist/extra/Form/markdown'
+import {
+	MarkdownWidget
+} from 'rendition/dist/extra/Renderer/MarkdownWidget'
+import {
+	MermaidWidget
+} from 'rendition/dist/extra/Renderer/MermaidWidget'
+import {
 	Provider
 } from 'react-redux'
 import {
 	Provider as RProvider,
 	Theme,
+	Rating,
 	NotificationsContainer
 } from 'rendition'
 import {
@@ -48,6 +58,7 @@ import {
 } from 'connected-react-router'
 import * as environment from './environment'
 import PWA from './pwa'
+import MermaidEditor from './components/MermaidEditor'
 import CountFavicon from './components/CountFavicon'
 import CardLoaderContextProvider from './components/CardLoaderContextProvider'
 
@@ -94,10 +105,47 @@ const customTheme = {
 	}
 }
 
+const widgets = {
+	form: {
+		formats: [
+			{
+				name: 'markdown',
+				format: '.*',
+				widget: MarkdownEditor
+			},
+			{
+				name: 'mermaid',
+				format: '.*',
+				widget: MermaidEditor
+			},
+			{
+				name: 'Rating',
+				format: '.*',
+				widget: Rating
+			}
+		]
+	},
+	renderer: {
+		formats: [
+			{
+				name: 'markdown',
+				format: '.*',
+				widget: MarkdownWidget
+			},
+			{
+				name: 'mermaid',
+				format: '.*',
+				widget: MermaidWidget
+			}
+		]
+	}
+}
+
 ReactDOM.render(
 	(
 		<RProvider
 			theme={customTheme}
+			widgets={widgets}
 			style={{
 				height: '100%',
 				fontSize: 14
