@@ -45,6 +45,13 @@ import {
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
 
+const TIMELINE_$$LINKS = {
+	'has attached element': {
+		type: 'object',
+		additionalProperties: true
+	}
+}
+
 const asyncDispatchQueue = getQueue()
 
 const allGroupsWithUsersQuery = {
@@ -90,42 +97,15 @@ const createChannel = (data = {}) => {
 	}
 }
 
-const getStreamQuery = (channel) => {
+const getDefaultStreamQuery = (channel) => {
 	const {
 		target
 	} = channel.data
 
 	const identifier = isUUID(target) ? 'id' : 'slug'
 
-	// Note: 'has attached element' will load the timeline cards and should be
-	// paginated when the stream is setup
-	let default$$Links = {
-		'has attached element': {
-			type: 'object',
-			additionalProperties: true
-		}
-	}
-
-	// If we have a channel that's not a view
-	if (_.get(channel, [ 'data', 'cardType' ]) !== 'view') {
-		// Go through all the link constraints and
-		// add all possible links to the default $$Links
-		default$$Links = {
-			...default$$Links,
-			...getAllLinkQueries()
-		}
-	}
-
 	return {
 		type: 'object',
-		anyOf: [
-			{
-				$$links: {
-					...default$$Links
-				}
-			},
-			true
-		],
 		properties: {
 			[identifier]: {
 				type: 'string',
@@ -133,6 +113,22 @@ const getStreamQuery = (channel) => {
 			}
 		}
 	}
+}
+
+export const getStreamQuery = (channel, query = null) => {
+	const isView = _.get(channel, [ 'data', 'cardType' ]) === 'view'
+	const $$links = isView ? TIMELINE_$$LINKS : _.merge(TIMELINE_$$LINKS, getAllLinkQueries())
+
+	const linksObject = {
+		anyOf: [
+			{
+				$$links
+			},
+			true
+		]
+	}
+
+	return _.merge(query || getDefaultStreamQuery(channel), linksObject)
 }
 
 /**
@@ -588,7 +584,7 @@ export const actionCreators = {
 			stream.emit('queryDataset', {
 				data: {
 					id: queryId,
-					schema: getStreamQuery(targetChannel),
+					schema: getStreamQuery(targetChannel, query),
 					options: queryOptions
 				}
 			})
