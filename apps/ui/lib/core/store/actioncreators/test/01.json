@@ -1,0 +1,199 @@
+{
+  "type": "object",
+  "anyOf": [
+     {
+        "$$links": {
+           "has attached element": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has member": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is member of": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has group member": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is group member of": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is subscribed for": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is subscribed with": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has attached contact": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is for": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is owned by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is owner of": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "support thread is attached to support issue": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "support thread is attached to issue": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "support thread is attached to pull request": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "support issue has attached support thread": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is attached to": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has attached": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "owns": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "support issue is attached to issue": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "issue has attached support thread": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "pull request has attached support thread": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "issue has attached support issue": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is attached to user": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "has backup owner": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is backup owner of": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is source for": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is feedback for": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is reviewed with": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "comes from": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is guided by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "guides": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is contributed to by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "contributes to": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is observed by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "observes": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is attended by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "attended": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is of": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is curated by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "curates": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is attached": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is using": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "is used by": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "generated": {
+              "type": "object",
+              "additionalProperties": true
+           },
+           "was generated by": {
+              "type": "object",
+              "additionalProperties": true
+           }
+        }
+     },
+     true
+  ],
+  "properties": {
+     "id": {
+        "const": "fbccb2ba-ca07-4593-832a-6c52f3aac47a"
+     }
+  }
+}

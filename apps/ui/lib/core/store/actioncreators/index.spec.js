@@ -10,8 +10,11 @@ import _ from 'lodash'
 import Bluebird from 'bluebird'
 import actions from '../actions'
 import {
-	actionCreators
+	actionCreators,
+	getStreamQuery
 } from './'
+import expected01 from './test/01.json'
+import expected02 from './test/02.json'
 
 const sandbox = sinon.createSandbox()
 
@@ -447,4 +450,67 @@ ava('setDefault() sets the homeView field in the user\'s profile', async (test) 
 			}
 		} ]
 	)
+})
+
+ava('getStreamQuery() should get stream query from channel object', async (test) => {
+	const query = {
+		type: 'object',
+		properties: {
+			id: {
+				const: 'fbccb2ba-ca07-4593-832a-6c52f3aac47a'
+			}
+		}
+	}
+
+	const channel = {
+		id: '80e56f0b-835b-445d-b970-3978e7687f35',
+		created_at: '2021-01-21T14:45:55.659Z',
+		slug: 'channel-80e56f0b-835b-445d-b970-3978e7687f35',
+		type: 'channel',
+		active: true,
+		data: {
+			target: 'contact-aaaaaaaa',
+			options: {},
+			canonical: true
+		}
+	}
+
+	const result = getStreamQuery(channel, query)
+
+	// And the user is updated in the store
+	test.deepEqual(result, expected01)
+})
+
+ava('getStreamQuery() should merge optional query input', async (test) => {
+	const query = {
+		type: 'object',
+		properties: {
+			id: {
+				const: 'fbccb2ba-ca07-4593-832a-6c52f3aac47a'
+			}
+		},
+		$$links: {
+			'has attached element': {
+				type: 'object'
+			}
+		}
+	}
+
+	const channel = {
+		id: '80e56f0b-835b-445d-b970-3978e7687f35',
+		created_at: '2021-01-21T14:45:55.659Z',
+		slug: 'channel-80e56f0b-835b-445d-b970-3978e7687f35',
+		type: 'channel',
+		active: true,
+		data: {
+			target: 'contact-aaaaaaaa',
+			options: {},
+			canonical: true
+		}
+	}
+
+	const result = getStreamQuery(channel, query)
+
+	// And the user is updated in the store
+	test.deepEqual(result, expected02)
 })
