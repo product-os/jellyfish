@@ -41,6 +41,7 @@ export default {
 	version: '1.0.0',
 	name: 'View creation lens',
 	data: {
+		format: 'createView',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateView),
 		icon: 'address-card',
 		type: '*',

@@ -60,7 +60,7 @@ const lens = {
 	name: 'CRM table lens',
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CRMTable),
-		format: 'full',
+		format: 'list',
 		icon: 'table',
 		type: '*',
 		filter: {

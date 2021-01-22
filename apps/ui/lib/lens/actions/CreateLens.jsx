@@ -490,6 +490,7 @@ export default {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
+		format: 'create',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
 		type: '*',

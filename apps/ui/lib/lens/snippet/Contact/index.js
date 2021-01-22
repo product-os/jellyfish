@@ -24,7 +24,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default lens',
 	data: {
-		format: 'full',
+		format: 'snippet',
 		icon: 'address-card',
 		renderer: connect(mapStateToProps)(Contact),
 		filter: {

@@ -245,6 +245,7 @@ const lens = {
 	data: {
 		supportsSlices: true,
 		icon: 'columns',
+		format: 'list',
 		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),
 		filter: {
 			type: 'array'

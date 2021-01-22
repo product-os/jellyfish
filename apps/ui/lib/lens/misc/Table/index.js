@@ -48,6 +48,7 @@ const lens = {
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
 		icon: 'table',
+		format: 'list',
 		type: '*',
 		filter: {
 			type: 'array',
