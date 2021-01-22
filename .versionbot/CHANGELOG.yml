@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.0.6'
+      hash: db8c989b368b8f03ec9e6a8ba23fecf257bf37a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.30
+  date: 2021-01-22T15:18:12.336Z
+- commits:
     - subject: Add `data.format` field to all lenses
       hash: 831d738a0c01392724fdf693a2f90d145f0d0aed
       body: |
