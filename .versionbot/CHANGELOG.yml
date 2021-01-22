@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 31af64bedffa43b08bf3ab0873434e86ec103c16
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.44.27
+  date: 2021-01-22T07:52:03.113Z
+- commits:
     - subject: Prevent lens selection component collapsing
       hash: 5bb8cee5b3c1a19dbb8030c41295eeae00a6e806
       body: >
