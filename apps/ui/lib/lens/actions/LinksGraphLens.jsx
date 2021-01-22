@@ -242,6 +242,7 @@ export default {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
+		format: 'visualizeLinks',
 		renderer: connect(null, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
 		type: '*',

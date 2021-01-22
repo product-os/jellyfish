@@ -251,6 +251,7 @@ export default {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
+		format: 'edit',
 		renderer: connect(null, mapDispatchToProps)(EditLens),
 		icon: 'pencil',
 		type: '*',

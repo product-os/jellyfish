@@ -40,6 +40,7 @@ export default {
 	version: '1.0.0',
 	name: 'Create user lens',
 	data: {
+		format: 'create',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateUserLens),
 		icon: 'address-card',
 		type: '*',
