@@ -13,7 +13,9 @@ import {
 	Collapsible
 } from '@balena/jellyfish-ui-components'
 import Markers from '../../../../components/Markers'
-import LensSelection from './LensSelection'
+import {
+	LensSelection
+} from './LensSelection'
 import SliceOptions from './SliceOptions'
 import ViewFilters from './ViewFilters'
 
@@ -70,6 +72,7 @@ export default class Header extends React.Component {
 									setSlice={setSlice}
 								/>
 								<LensSelection
+									ml={3}
 									lenses={lenses}
 									lens={lens}
 									setLens={setLens}
