@@ -63,10 +63,9 @@ const lenses = {
 }
 
 // Returns an array of lenses that can be used to render `data`.
-// An optional array of lens slugs can be passed, to specify the order and
-// restrict the lenses returned. An asterisk can be used to specify
-// a wildcard, allowing any lens to be returned.
-export const getLenses = (format, data, user) => {
+// An optional onePer argument (dot-notation string) can be supplied
+// to ensure only the top-scoring lens per group is returned.
+export const getLenses = (format, data, user, onePer) => {
 	if (!data) {
 		return []
 	}
@@ -75,18 +74,31 @@ export const getLenses = (format, data, user) => {
 		throw new Error(`Unknown lens format: ${format}`)
 	}
 
-	const scoredLenses = _.map(lenses[format], (lens) => {
-		const filter = jsone(lens.data.filter, {
-			user
+	let sortedData = _.chain(lenses[format])
+		.map((lens) => {
+			const filter = jsone(lens.data.filter, {
+				user
+			})
+			return {
+				lens,
+				match: skhema.match(filter, data)
+			}
 		})
-		return {
-			lens,
-			match: skhema.match(filter, data)
-		}
-	})
-		.filter((result) => { return result.match.valid })
-	const sorted = _.reverse(_.sortBy(scoredLenses, 'match.score'))
-	return _.map(sorted, 'lens')
+		.filter('match.valid')
+		.sortBy('match.score')
+		.reverse()
+		.value()
+
+	if (onePer) {
+		sortedData = _.chain(sortedData)
+			.groupBy(`lens.${onePer}`)
+			.map(0)
+			.sortBy('match.score')
+			.reverse()
+			.value()
+	}
+
+	return _.map(sortedData, 'lens')
 }
 
 export const getLens = (format, data, user) => {
