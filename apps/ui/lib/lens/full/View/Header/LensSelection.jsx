@@ -7,6 +7,7 @@
 import React from 'react'
 import _ from 'lodash'
 import {
+	Box,
 	Button,
 	ButtonGroup
 } from 'rendition'
@@ -14,31 +15,34 @@ import {
 	Icon
 } from '@balena/jellyfish-ui-components'
 
-const LensSelection = ({
+// HACK: set min height to the height of a button group
+// this prevents the component collapsing vertically if
+// there are no lenses provided.
+const MIN_HEIGHT = '38px'
+
+export const LensSelection = ({
 	lenses,
 	lens,
-	setLens
+	setLens,
+	...rest
 }) => {
-	if (!lenses.length > 1 && !lens) {
-		return null
-	}
 	return (
-		<ButtonGroup ml={3}>
-			{_.map(lenses, (item) => {
-				return (
-					<Button
-						key={item.slug}
-						active={lens && lens.slug === item.slug}
-						data-test={`lens-selector--${item.slug}`}
-						data-slug={item.slug}
-						onClick={setLens}
-						pt={11}
-						icon={<Icon name={item.data.icon}/>}
-					/>
-				)
-			})}
-		</ButtonGroup>
+		<Box {...rest} minHeight={MIN_HEIGHT}>
+			<ButtonGroup>
+				{_.map(lenses, (item) => {
+					return (
+						<Button
+							key={item.slug}
+							active={lens && lens.slug === item.slug}
+							data-test={`lens-selector--${item.slug}`}
+							data-slug={item.slug}
+							onClick={setLens}
+							pt={11}
+							icon={<Icon name={item.data.icon}/>}
+						/>
+					)
+				})}
+			</ButtonGroup>
+		</Box>
 	)
 }
-
-export default LensSelection
