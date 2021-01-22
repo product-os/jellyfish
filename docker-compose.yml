@@ -29,7 +29,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=
+      - REDIS_PASSWORD
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - SERVER_DATABASE=jellyfish
@@ -112,8 +112,10 @@ services:
     networks:
       - internal
   redis:
-    image: balena/balena-redis:0.0.3
-    command: [sh, -c, "redis-server /usr/local/etc/redis/redis.conf --save ''"]
+    image: redis:6.0.10
+    environment:
+      - REDIS_PASSWORD
+    command: [sh, -c, "redis-server --requirepass \"$REDIS_PASSWORD\" --save ''"]
     restart: always
     networks:
       - internal
@@ -137,7 +139,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=
+      - REDIS_PASSWORD
       - REDIS_PORT=6379
       - LOGLEVEL=crit
       - SENTRY_DSN_SERVER
@@ -183,7 +185,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=
+      - REDIS_PASSWORD
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
@@ -243,7 +245,7 @@ services:
       - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
-      - REDIS_PASSWORD=
+      - REDIS_PASSWORD
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
