@@ -1,4 +1,24 @@
 - commits:
+    - subject: Prevent lens selection component collapsing
+      hash: 5bb8cee5b3c1a19dbb8030c41295eeae00a6e806
+      body: >
+        This change ensures that the lens selection component does not collapse
+        it's height if there are no lenses passed to it. This prevents the UI
+        from jumping around.
+
+
+        The component is also exported as a named export now and the spacing is
+        passed in as a prop now.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.44.26
+  date: 2021-01-22T06:38:47.375Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: fab51af7ba1b87c15913d7b5704f3de6946ad1a6
       body: ''
