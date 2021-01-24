@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 54fb26ba6f38ab35f7efd8de17c7ea879a1935b2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.45.1
+  date: 2021-01-24T14:17:12.281Z
+- commits:
     - subject: Remove redundant snippet lenses.
       hash: 5b3752c59e8e4389cdb23bcf57cc8826028a12af
       body: >
