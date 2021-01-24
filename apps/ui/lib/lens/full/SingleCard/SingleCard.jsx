@@ -24,6 +24,9 @@ import Segment from '../../common/Segment'
 import CardFields from '../../../components/CardFields'
 import CardLayout from '../../../layouts/CardLayout'
 import Timeline from '../../list/Timeline'
+import {
+	UI_SCHEMA_MODE
+} from '../../schema-util'
 
 export const SingleCardTabs = styled(Tabs) `
 	flex: 1;
@@ -105,6 +108,7 @@ export default class SingleCardFull extends React.Component {
 							<CardFields
 								card={card}
 								type={type}
+								viewMode={UI_SCHEMA_MODE.fields}
 							/>
 						</Box>
 					</Tab>

@@ -20,6 +20,9 @@ import {
 	TagList
 } from '@balena/jellyfish-ui-components'
 import CardFields from '../../../components/CardFields'
+import {
+	UI_SCHEMA_MODE
+} from '../../schema-util'
 
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
@@ -65,6 +68,7 @@ export default class SingleCard extends React.Component {
 				<CardFields
 					card={card}
 					type={typeCard}
+					viewMode={UI_SCHEMA_MODE.snippet}
 				/>
 			</Box>
 		)
