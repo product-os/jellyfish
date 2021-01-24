@@ -1,4 +1,30 @@
 - commits:
+    - subject: Remove redundant snippet lenses.
+      hash: 5b3752c59e8e4389cdb23bcf57cc8826028a12af
+      body: >
+        This functionality can be implemented with the snippet UI schema view
+        mode.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use snippet view mode in SingleCard snippet lens
+      hash: 9eeebe03eeee3c276f0cd42532434db3323667fd
+      body: |
+        Add optional `viewMode` prop to the `CardFields` component.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.45.0
+  date: 2021-01-24T02:47:32.880Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: aa7339dce2a74a62cf000e6f60443650eca6a46c
       body: ''
