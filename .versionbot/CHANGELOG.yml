@@ -1,4 +1,97 @@
 - commits:
+    - subject: Fix e2e test references
+      hash: 40bbf3af176f456aeab526d981022dec0a03dff8
+      body: |
+        Also fix navigation logic so you can run an individual test on it's own.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use user when getting snippet lens
+      hash: ffe2baa3159ba2ff1069db1f2db1647b814b537b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Pass dummy props from Segment to List component
+      hash: 2e1b96e8645e2423a34b3250b89e5897939cb3b9
+      body: >
+        This needs a major improvement but is relevant to general
+        pagination/query improvements. For now, the Segment component will
+        always fetch _all_ linked items (up to 1000) so pagination is irrelevant
+        and should be ignored.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Highlight SingleCard snippet card if active
+      hash: 0b942040ceb8c20d2a8cbc9d87e679a3b72bc481
+      body: >
+        If the card is being viewed in any channel, this card will appear
+        active.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add filter details to support-thread-specific lenses
+      hash: 789f45d47427c1452d15bc6ff18ea84e80e3d6d1
+      body: >
+        This prevents these lenses incorrectly being used to display lists of
+        other types of cards.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Make channel prop optional on List lens
+      hash: 778f2180afc6c4a114fa1faf94f7ee36a87f28d9
+      body: |
+        This allows it to be used within a 'non-view' context.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix up styling/layout in lenses
+      hash: 8bc2f2ef2f1103e2856aa400f01319179b32cb10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Ensure list gets re-rendered if tail changes
+      hash: a0ea84383534e2857d1795f032a259531f6ad15f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.46.0
+  date: 2021-01-26T11:04:52.637Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-sync to ^4.1.1'
       hash: e7236d543314b0ed693f6fcea9ece829e2d93bc3
       body: ''
