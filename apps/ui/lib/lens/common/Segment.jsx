@@ -196,6 +196,13 @@ class Segment extends React.Component {
 					{Boolean(results.length) && (
 						<lens.data.renderer
 							tail={results}
+							page={1}
+							totalPages={1}
+							setPage={_.noop}
+							pageOptions={{
+								limit: 30,
+								sortBy: [ 'created_at' ]
+							}}
 						/>
 					)}
 				</Box>
