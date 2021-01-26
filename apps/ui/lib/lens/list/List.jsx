@@ -196,6 +196,7 @@ class CardList extends BaseLens {
 												rowRenderer={this.rowRenderer}
 												sortBy={sortBy}
 												scrollToIndex={this.state.scrollToIndex}
+												tail={tail}
 											/>
 										)
 									}}
