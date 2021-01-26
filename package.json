@@ -68,7 +68,7 @@
     "@balena/jellyfish-plugin-default": "^2.7.14",
     "@balena/jellyfish-plugin-product-os": "0.2.0",
     "@balena/jellyfish-queue": "^0.0.342",
-    "@balena/jellyfish-sync": "^4.1.1",
+    "@balena/jellyfish-sync": "^4.1.2",
     "@balena/jellyfish-uuid": "^1.0.55",
     "@balena/jellyfish-worker": "^2.2.70",
     "@octokit/plugin-retry": "^3.0.7",
