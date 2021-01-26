@@ -67,11 +67,8 @@ class CardList extends BaseLens {
 
 		this.rowRenderer = (rowProps) => {
 			const {
-				tail, channel: {
-					data: {
-						head
-					}
-				}
+				tail,
+				channel
 			} = this.props
 			const card = tail[rowProps.index]
 
@@ -83,7 +80,7 @@ class CardList extends BaseLens {
 			const lens = getLens('snippet', card, {})
 
 			// Don't show the card if its the head, this can happen on view types
-			if (card.id === head.id) {
+			if (card.id === _.get(channel, [ 'data', 'head', 'id' ])) {
 				return null
 			}
 
