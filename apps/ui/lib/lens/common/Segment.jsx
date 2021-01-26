@@ -183,11 +183,16 @@ class Segment extends React.Component {
 
 		return (
 			<Flex flexDirection='column' style={{
-				height: '100%'
+				flex: 1
 			}}>
-				<Box flex={1} style={{
+				<Box flex={1} mt={3} style={{
 					minHeight: 0
 				}}>
+					{results.length === 0 && (
+						<Box px={3}>
+							<strong>No results found</strong>
+						</Box>
+					)}
 					{Boolean(results.length) && (
 						<lens.data.renderer
 							tail={results}
@@ -195,14 +200,8 @@ class Segment extends React.Component {
 					)}
 				</Box>
 
-				{results.length === 0 && (
-					<Box px={3} mt={2}>
-						<strong>There are no results</strong>
-					</Box>
-				)}
-
 				{segment.link && (
-					<Flex px={3} pb={2} flexWrap="wrap">
+					<Flex px={3} pb={3} flexWrap="wrap">
 
 						{!onSave &&
 							<Button

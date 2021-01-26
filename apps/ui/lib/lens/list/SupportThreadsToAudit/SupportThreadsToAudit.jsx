@@ -73,6 +73,7 @@ export default class SupportThreadsToAudit extends React.Component {
 					ref={this.bindScrollArea}
 					onScroll={this.handleScroll}
 					style={{
+						flex: 1,
 						height: '100%',
 						paddingBottom: 16,
 						overflowY: 'auto'

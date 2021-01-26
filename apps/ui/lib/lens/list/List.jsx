@@ -95,7 +95,7 @@ class CardList extends BaseLens {
 					columnIndex={0}
 					rowIndex={rowProps.index}
 				>
-					<Box px={3} pb={3} style={rowProps.style}>
+					<Box style={rowProps.style}>
 						<lens.data.renderer card={card}/>
 						<Divider color="#eee" m={0} style={{
 							height: 1
@@ -167,7 +167,8 @@ class CardList extends BaseLens {
 		return (
 			<Column flex="1" overflowY>
 				<Box flex="1" style={{
-					position: 'relative'
+					position: 'relative',
+					minHeight: 80
 				}}>
 					<ReactResizeObserver onResize={this.clearCellCache}/>
 					{Boolean(tail) && tail.length > 0 && (
