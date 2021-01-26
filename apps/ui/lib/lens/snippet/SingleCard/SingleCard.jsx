@@ -9,6 +9,7 @@ import {
 } from 'fast-equals'
 import _ from 'lodash'
 import React from 'react'
+import styled from 'styled-components'
 import {
 	Box,
 	Flex,
@@ -24,6 +25,20 @@ import {
 	UI_SCHEMA_MODE
 } from '../../schema-util'
 
+const CardBox = styled(Box) `
+	border-left-style: solid;
+	border-left-width: 4px;
+	${(props) => {
+		return props.active ? `
+			background: ${props.theme.colors.info.light};
+			border-left-color: ${props.theme.colors.info.main};
+		` : `
+			background: white;
+			border-left-color: transparent;
+		`
+	}}
+`
+
 export default class SingleCard extends React.Component {
 	shouldComponentUpdate (nextProps) {
 		return !circularDeepEqual(nextProps, this.props)
@@ -31,11 +46,15 @@ export default class SingleCard extends React.Component {
 
 	render () {
 		const {
+			channels,
 			card
 		} = this.props
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0]
 		})
+		const threadTargets = _.map(channels, 'data.target')
+
+		const active = _.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)
 
 		// Count the number of non-event links the card has
 		const numLinks = _.reduce(card.links, (carry, value, key) => {
@@ -43,7 +62,7 @@ export default class SingleCard extends React.Component {
 		}, 0)
 
 		return (
-			<Box pb={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
+			<CardBox active={active} p={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
 				<Flex justifyContent="space-between">
 					<Txt>
 						<Link append={card.slug || card.id}>
@@ -70,7 +89,7 @@ export default class SingleCard extends React.Component {
 					type={typeCard}
 					viewMode={UI_SCHEMA_MODE.snippet}
 				/>
-			</Box>
+			</CardBox>
 		)
 	}
 }

@@ -146,7 +146,13 @@ ava.serial('should let users create new opportunities', async (test) => {
 		page
 	} = context
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-opportunities"]')
+	// Navigate to view all opportunities
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Sales"]',
+		'[data-test="home-channel__item--view-all-opportunities"]'
+	])
+
 	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
 
 	const name = `test opportunity ${uuid()}`
@@ -167,7 +173,11 @@ ava.serial('should let users create new opportunities and directly link existing
 	} = context
 
 	// Navigate to view all opportunities
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-opportunities"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Sales"]',
+		'[data-test="home-channel__item--view-all-opportunities"]'
+	])
 
 	// Open CreateLens for opportunities
 	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
@@ -186,7 +196,7 @@ ava.serial('should let users create new opportunities and directly link existing
 	await page.keyboard.press('Enter')
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
-	await page.waitForSelector('[data-test="segment-card--account"] [data-test-component="card-chat-summary"]')
+	await page.waitForSelector('[data-test="segment-card--account"] [data-test="snippet--card"]')
 
 	// Submit CreateLens
 	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')

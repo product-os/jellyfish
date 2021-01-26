@@ -67,11 +67,9 @@ class CardList extends BaseLens {
 
 		this.rowRenderer = (rowProps) => {
 			const {
-				tail, channel: {
-					data: {
-						head
-					}
-				}
+				user,
+				tail,
+				channel
 			} = this.props
 			const card = tail[rowProps.index]
 
@@ -80,10 +78,10 @@ class CardList extends BaseLens {
 				return null
 			}
 
-			const lens = getLens('snippet', card, {})
+			const lens = getLens('snippet', card, user)
 
 			// Don't show the card if its the head, this can happen on view types
-			if (card.id === head.id) {
+			if (card.id === _.get(channel, [ 'data', 'head', 'id' ])) {
 				return null
 			}
 
@@ -95,7 +93,7 @@ class CardList extends BaseLens {
 					columnIndex={0}
 					rowIndex={rowProps.index}
 				>
-					<Box px={3} pb={3} style={rowProps.style}>
+					<Box style={rowProps.style}>
 						<lens.data.renderer card={card}/>
 						<Divider color="#eee" m={0} style={{
 							height: 1
@@ -167,7 +165,8 @@ class CardList extends BaseLens {
 		return (
 			<Column flex="1" overflowY>
 				<Box flex="1" style={{
-					position: 'relative'
+					position: 'relative',
+					minHeight: 80
 				}}>
 					<ReactResizeObserver onResize={this.clearCellCache}/>
 					{Boolean(tail) && tail.length > 0 && (
@@ -196,6 +195,7 @@ class CardList extends BaseLens {
 												rowRenderer={this.rowRenderer}
 												sortBy={sortBy}
 												scrollToIndex={this.state.scrollToIndex}
+												tail={tail}
 											/>
 										)
 									}}

@@ -26,7 +26,7 @@ const selectors = {
 	closedBadge: '.column--support-thread span[data-test="status-closed"]',
 	addProductImprovement: '[data-test="add-product-improvement"]',
 	linkProductImprovement: '[data-test="link-to-product-improvement"]',
-	linkedProductImprovements: '[data-test="segment-card--product-improvements"] [data-test-component="card-chat-summary"]',
+	linkedProductImprovements: '[data-test="segment-card--product-improvements"] [data-test="snippet--card"]',
 	summaryProductImprovements: '[data-test="summary--product-improvements"] ul li',
 	summaryTextArea: '[data-test="gf__ta-summary"]',
 	summary: '.event-card--summary [data-test="event-card__message"]'
@@ -121,7 +121,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	await page.keyboard.press('Enter')
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
-	const pi1CardChatSummary = `[data-test-component="card-chat-summary"][data-test-id="${productImprovement1.id}"]`
+	const pi1CardChatSummary = `[data-test="snippet--card"][data-test-id="snippet-card-${productImprovement1.id}"]`
 	await page.waitForSelector(`[data-test="segment-card--product-improvements"] ${pi1CardChatSummary}`)
 	linkedProductImprovements = await page.$$(selectors.linkedProductImprovements)
 	test.is(linkedProductImprovements.length, 2)
