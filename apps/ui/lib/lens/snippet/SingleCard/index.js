@@ -14,6 +14,7 @@ import SingleCard from './SingleCard'
 
 const mapStateToProps = (state) => {
 	return {
+		channels: selectors.getChannels(state),
 		types: selectors.getTypes(state)
 	}
 }
