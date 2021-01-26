@@ -6,7 +6,9 @@
 
 const ava = require('ava')
 const bootstrap = require('../../lib/bootstrap')
-const plugins = require('../../lib/plugins')
+const {
+	getPluginManager
+} = require('../../lib/plugins')
 const {
 	v4: uuid
 } = require('uuid')
@@ -20,9 +22,7 @@ ava.serial.before(async (test) => {
 		id: `SERVER-TEST-${uuid()}`
 	}
 	test.context.server = await bootstrap(test.context.context, {
-		plugins: plugins.loadPlugins({
-			context: test.context.context
-		})
+		pluginManager: getPluginManager(test.context.context)
 	})
 })
 

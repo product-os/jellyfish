@@ -16,7 +16,9 @@ const core = require('@balena/jellyfish-core')
 const environment = require('@balena/jellyfish-environment')
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('@balena/jellyfish-metrics')
-const plugins = require('./plugins')
+const {
+	getPluginManager
+} = require('./plugins')
 const packageJSON = require('../../../package.json')
 
 const getActorKey = async (context, jellyfish, session, actorId) => {
@@ -174,20 +176,7 @@ const bootstrap = async (context, library, options) => {
 	const consumer = new Consumer(jellyfish, session)
 	const producer = new Producer(jellyfish, session)
 
-	const integrations = _.reduce(options.plugins, (carry, plugin) => {
-		if (plugin.getSyncIntegrations) {
-			const pluginIntegrations = plugin.getSyncIntegrations()
-			_.each(pluginIntegrations, (integration, slug) => {
-				if (carry[slug]) {
-					throw new Error(
-						`Integration '${slug}' already exists and cannot be loaded from plugin ${plugin.name}`)
-				}
-
-				carry[slug] = integration
-			})
-		}
-		return carry
-	}, {})
+	const integrations = options.pluginManager.getSyncIntegrations(context)
 
 	context.sync = new Sync({
 		integrations
@@ -366,9 +355,7 @@ exports.worker = async (context, options) => {
 				.catch(errorHandler)
 		},
 		database: options.database,
-		plugins: plugins.loadPlugins({
-			context
-		})
+		pluginManager: getPluginManager(context)
 	})
 }
 
@@ -386,8 +373,6 @@ exports.tick = async (context, options) => {
 				currentDate: new Date()
 			})
 		},
-		plugins: plugins.loadPlugins({
-			context
-		})
+		pluginManager: getPluginManager(context)
 	})
 }

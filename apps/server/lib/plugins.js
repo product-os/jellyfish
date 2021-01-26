@@ -4,29 +4,19 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
+const {
+	PluginManager
+} = require('@balena/jellyfish-plugin-base')
 const DefaultPlugin = require('@balena/jellyfish-plugin-default')
 const ProductOSPlugin = require('@balena/jellyfish-plugin-product-os')
 
-const loadPlugin = (Plugin, options) => {
-	try {
-		const plugin = new Plugin(options)
-
-		// TODO: validate plugin
-		return plugin
-	} catch (err) {
-		console.log(err)
-		logger.error(options.context, 'Failed to load plugin', err)
-		return null
-	}
-}
-
-exports.loadPlugins = (options = {}) => {
-	return _.compact([
-		DefaultPlugin,
-		ProductOSPlugin
-	].map((Plugin) => {
-		return loadPlugin(Plugin, options)
-	}))
+exports.getPluginManager = (context) => {
+	logger.info(context, 'Loading plugins')
+	return new PluginManager(context, {
+		plugins: [
+			DefaultPlugin,
+			ProductOSPlugin
+		]
+	})
 }

@@ -15,12 +15,13 @@ const queueErrors = require('@balena/jellyfish-queue').errors
 const utils = require('../utils')
 const errio = require('errio')
 
-const defaultCards = utils.loadDefaultCards()
-
 const before = async (test, options) => {
 	await helpers.before(test, options && {
 		suffix: options.suffix
 	})
+
+	test.context.defaultCards = utils.loadDefaultCards(test.context.context)
+
 	test.context.jellyfish = test.context.kernel
 	test.context.session = test.context.jellyfish.sessions.admin
 
@@ -30,13 +31,13 @@ const before = async (test, options) => {
 		test.context.context, test.context.session, session.data.actor)
 
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards.message)
+		test.context.defaultCards.message)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards['role-user-community'])
+		test.context.defaultCards['role-user-community'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards['password-reset'])
+		test.context.defaultCards['password-reset'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		defaultCards['first-time-login'])
+		test.context.defaultCards['first-time-login'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
 		actionLibrary['action-create-card'].card)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,

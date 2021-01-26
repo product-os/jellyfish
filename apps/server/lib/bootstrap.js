@@ -14,7 +14,6 @@ const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const metrics = require('@balena/jellyfish-metrics')
-const _ = require('lodash')
 
 const cardLoader = require('./card-loader')
 const http = require('./http')
@@ -24,20 +23,7 @@ const graphql = require('./graphql')
 module.exports = async (context, options) => {
 	logger.info(context, 'Injecting integrations into Sync')
 
-	const integrations = _.reduce(options.plugins, (carry, plugin) => {
-		if (plugin.getSyncIntegrations) {
-			const pluginIntegrations = plugin.getSyncIntegrations()
-			_.each(pluginIntegrations, (integration, slug) => {
-				if (carry[slug]) {
-					throw new Error(
-						`Integration '${slug}' already exists and cannot be loaded from plugin ${plugin.name}`)
-				}
-
-				carry[slug] = integration
-			})
-		}
-		return carry
-	}, {})
+	const integrations = options.pluginManager.getSyncIntegrations(context)
 
 	context.sync = new Sync({
 		integrations
@@ -94,19 +80,7 @@ module.exports = async (context, options) => {
 
 	logger.info(context, 'Inserting cards')
 
-	const cards = _.reduce(options.plugins, (carry, plugin) => {
-		if (plugin.getCards) {
-			const pluginCards = plugin.getCards(core.cardMixins)
-			_.each(pluginCards, (card, slug) => {
-				if (carry[slug]) {
-					throw new Error(`Card with slug ${slug} already exists and cannot be loaded from plugin ${plugin.name}`)
-				}
-
-				carry[slug] = card
-			})
-		}
-		return carry
-	}, {})
+	const cards = options.pluginManager.getCards(context, core.cardMixins)
 
 	const results = await cardLoader(
 		context, jellyfish, worker, jellyfish.sessions.admin, cards)

@@ -15,7 +15,9 @@ const {
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment')
 const bootstrap = require('../../lib/bootstrap')
-const plugins = require('../../lib/plugins')
+const {
+	getPluginManager
+} = require('../../lib/plugins')
 const actionServer = require('../../../action-server/lib/bootstrap')
 const utils = require('../../../../test/integration/utils')
 
@@ -36,9 +38,7 @@ module.exports = {
 
 		test.context.server = await bootstrap(test.context.context, {
 			database: workerOptions.database,
-			plugins: plugins.loadPlugins({
-				context: test.context.context
-			})
+			pluginManager: getPluginManager(test.context.context)
 		})
 		test.context.actionWorker = await actionServer.worker(
 			test.context.context, workerOptions)
