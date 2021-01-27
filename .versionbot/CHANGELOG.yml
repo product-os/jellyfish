@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add support for restricting lenses based on a lens field
+      hash: 86dc5c92db49803e17ed4427344c1c33c3f7cf7c
+      body: >
+        This optional argument can be used to group lenses by a lens field value
+        and then ensure only the top-scoring lens per group is returned.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.47.0
+  date: 2021-01-27T01:20:02.946Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 3fd3b0dda3b530621a09eb0e3e3843d815942528
       body: ''
