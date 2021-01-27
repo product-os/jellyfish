@@ -16,6 +16,7 @@ import {
 	Txt
 } from 'rendition'
 import {
+	helpers,
 	Icon,
 	Link,
 	TagList
@@ -46,6 +47,7 @@ export default class SingleCard extends React.Component {
 
 	render () {
 		const {
+			channel,
 			channels,
 			card
 		} = this.props
@@ -65,7 +67,7 @@ export default class SingleCard extends React.Component {
 			<CardBox active={active} p={3} data-test="snippet--card" data-test-id={`snippet-card-${card.id}`}>
 				<Flex justifyContent="space-between">
 					<Txt>
-						<Link append={card.slug || card.id}>
+						<Link to={helpers.appendToChannelPath(channel, card)}>
 							<strong>{card.name || card.slug}</strong>
 						</Link>
 					</Txt>

@@ -5,11 +5,17 @@
  */
 
 import {
+	compose
+} from 'redux'
+import {
 	connect
 } from 'react-redux'
 import {
 	selectors
 } from '../../../core'
+import {
+	withChannelContext
+} from '../../../hooks/channel-context'
 import SingleCard from './SingleCard'
 
 const mapStateToProps = (state) => {
@@ -27,7 +33,7 @@ const lens = {
 	data: {
 		format: 'snippet',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps)(SingleCard),
+		renderer: compose(connect(mapStateToProps), withChannelContext)(SingleCard),
 		filter: {
 			type: 'object'
 		}
