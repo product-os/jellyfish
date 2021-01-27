@@ -1,4 +1,24 @@
 - commits:
+    - subject: Fix link on SingleCard snippet lens
+      hash: b17950ca20f42911536cf81f0550f967bb4e28a5
+      body: >
+        The link should append the target channel to the current channel (i.e.
+        replacing any existing content to the right of the current channel).
+
+
+        This change introduces a React context which supplies the channel value.
+        This is useful for any components that need to know what channel they
+        are being displayed in.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.48.0
+  date: 2021-01-27T09:46:38.567Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 120926890e614282dd74b7dc79ab8048abcc6a0a
       body: ''
