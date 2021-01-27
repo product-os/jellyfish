@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 1ac11e26d145abfd0e4f6d085a13d8fe7542da04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.48.1
+  date: 2021-01-27T13:19:13.786Z
+- commits:
     - subject: Fix link on SingleCard snippet lens
       hash: b17950ca20f42911536cf81f0550f967bb4e28a5
       body: >
