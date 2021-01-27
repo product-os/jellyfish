@@ -41,7 +41,7 @@ const lens = {
 	slug: 'lens-support-audit-chart',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Support audit chart lens',
+	name: 'Support audit chart',
 	data: {
 		icon: 'chart-bar',
 		format: 'list',
@@ -53,8 +53,27 @@ const lens = {
 				properties: {
 					id: {
 						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'support-thread@1.0.0'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string',
+								const: 'closed'
+							}
+						},
+						required: [
+							'status'
+						]
 					}
-				}
+				},
+				required: [
+					'data'
+				]
 			}
 		},
 		queryOptions: {

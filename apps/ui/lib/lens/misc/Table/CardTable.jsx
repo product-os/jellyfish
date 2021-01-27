@@ -8,10 +8,8 @@ import _ from 'lodash'
 import React from 'react'
 import {
 	Box,
-	Button,
 	Flex,
 	Table,
-	Txt,
 	DropDownButton,
 	TextWithCopy
 } from 'rendition'
@@ -296,29 +294,7 @@ export default class CardTable extends BaseLens {
 							/>
 						</React.Fragment>
 					)}
-					{Boolean(data) && data.length === 0 &&
-							<Txt.p p={3}>No results found</Txt.p>}
 				</Box>
-
-				{Boolean(this.props.type) &&
-					<React.Fragment>
-						<Flex
-							p={3}
-							style={{
-								borderTop: '1px solid #eee'
-							}}
-							justifyContent="flex-end"
-						>
-							<Button
-								success
-								className={`btn--add-${this.props.type.slug}`}
-								onClick={this.openCreateChannel}
-							>
-								Add {this.props.type.name || this.props.type.slug}
-							</Button>
-						</Flex>
-					</React.Fragment>
-				}
 			</Column>
 		)
 	}

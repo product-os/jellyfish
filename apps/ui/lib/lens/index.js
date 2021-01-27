@@ -8,59 +8,21 @@ import _ from 'lodash'
 import skhema from 'skhema'
 import jsone from 'json-e'
 
-// TODO: Improve the way "utility" lenses are handled
-import CreateLens from './actions/CreateLens'
-import CreateUserLens from './actions/CreateUserLens'
-import CreateViewLens from './actions/CreateView'
-import EditLens from './actions/EditLens'
-import LinksGraphLens from './actions/LinksGraphLens'
-
-import Kanban from './misc/Kanban'
-import SupportAuditChart from './misc/SupportAuditChart'
-import Table from './misc/Table'
-import CRMTable from './misc/CRMTable'
-import Chart from './misc/Chart'
-
+import ActionLenses from './actions'
 import FullLenses from './full'
 import ListLenses from './list'
 import SnippetLenses from './snippet'
-import InboxLens from './misc/Inbox'
+import MiscLenses from './misc'
 
-const lenses = {
-	full: FullLenses,
-	list: ListLenses,
-	snippet: SnippetLenses,
+const allLenses = _.concat(
+	ActionLenses,
+	FullLenses,
+	ListLenses,
+	SnippetLenses,
+	MiscLenses
+)
 
-	edit: [
-		EditLens
-	],
-
-	inbox: [
-		InboxLens
-	],
-
-	create: [
-		CreateLens,
-		CreateUserLens
-	],
-
-	createView: [
-		CreateViewLens
-	],
-
-	visualizeLinks: [
-		LinksGraphLens
-	],
-
-	// TODO: Find a more meaningful way to represent these lenses
-	misc: [
-		Kanban,
-		SupportAuditChart,
-		Table,
-		CRMTable,
-		Chart
-	]
-}
+const lenses = _.groupBy(allLenses, 'data.format')
 
 // Returns an array of lenses that can be used to render `data`.
 // An optional onePer argument (dot-notation string) can be supplied

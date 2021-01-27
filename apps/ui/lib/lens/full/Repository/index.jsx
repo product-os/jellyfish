@@ -6,9 +6,13 @@
 
 import * as _ from 'lodash'
 import {
+	withRouter
+} from 'react-router-dom'
+import {
 	connect
 } from 'react-redux'
 import {
+	compose,
 	bindActionCreators
 } from 'redux'
 import {
@@ -24,6 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 	const query = getContextualThreadsQuery(ownProps.card.id)
 
 	return {
+		addLinkedCardType: 'thread',
 		types: selectors.getTypes(state),
 		messages: selectors.getViewData(state, query, {
 			viewId: ownProps.card.id
@@ -55,7 +60,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Repository),
+		renderer: compose(withRouter, connect(mapStateToProps, mapDispatchToProps))(Repository),
 		filter: {
 			type: 'object',
 			required: [ 'type' ],

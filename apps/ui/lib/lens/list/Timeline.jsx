@@ -54,10 +54,10 @@ const lens = {
 	slug: 'lens-timeline',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Timeline lens',
+	name: 'Timeline',
 	data: {
-		format: 'list',
-		icon: 'address-card',
+		format: 'timeline',
+		icon: 'list',
 		renderer: compose(
 			withResponsiveContext,
 			connect(mapStateToProps, mapDispatchToProps),
@@ -70,6 +70,12 @@ const lens = {
 			items: {
 				type: 'object',
 				properties: {
+					type: {
+						type: 'string',
+						not: {
+							const: 'rating@1.0.0'
+						}
+					},
 					data: {
 						type: 'object',
 						properties: {
@@ -87,10 +93,15 @@ const lens = {
 						},
 						required: [
 							'timestamp',
-							'actor'
+							'actor',
+							'payload'
 						]
 					}
-				}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		}
 	}

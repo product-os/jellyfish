@@ -246,7 +246,7 @@ export class SupportThreads extends React.Component {
 		} = this.state
 
 		return (
-			<Column data-test={`lens--${SLUG}`}>
+			<Column data-test={`lens--${SLUG}`} overflowY>
 				<StyledTabs
 					activeIndex={this.props.lensState.activeIndex}
 					onActive={this.setActiveIndex}
@@ -338,7 +338,7 @@ const lens = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'SupportThreads lens',
+	name: 'Support/sales threads',
 	data: {
 		icon: 'address-card',
 		format: 'list',
@@ -351,13 +351,32 @@ const lens = {
 					id: {
 						type: 'string'
 					},
+					slug: {
+						type: 'string'
+					},
 					type: {
+						type: 'string',
 						enum: [
-							'support-thread@1.0.0',
-							'sales-thread@1.0.0'
+							'sales-thread@1.0.0',
+							'support-thread@1.0.0'
+						]
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string'
+							}
+						},
+						required: [
+							'status'
 						]
 					}
-				}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		},
 		queryOptions: {

@@ -44,7 +44,7 @@ const lens = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Default table lens',
+	name: 'Table',
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
 		icon: 'table',

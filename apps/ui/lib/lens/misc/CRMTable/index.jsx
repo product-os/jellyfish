@@ -57,7 +57,7 @@ const lens = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'CRM table lens',
+	name: 'CRM table',
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CRMTable),
 		format: 'list',
@@ -70,8 +70,22 @@ const lens = {
 				properties: {
 					slug: {
 						type: 'string'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string'
+							}
+						},
+						required: [
+							'status'
+						]
 					}
-				}
+				},
+				required: [
+					'data'
+				]
 			}
 		}
 	}

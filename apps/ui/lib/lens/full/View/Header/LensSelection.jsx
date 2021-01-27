@@ -28,21 +28,27 @@ export const LensSelection = ({
 }) => {
 	return (
 		<Box {...rest} minHeight={MIN_HEIGHT}>
-			<ButtonGroup>
-				{_.map(lenses, (item) => {
-					return (
-						<Button
-							key={item.slug}
-							active={lens && lens.slug === item.slug}
-							data-test={`lens-selector--${item.slug}`}
-							data-slug={item.slug}
-							onClick={setLens}
-							pt={11}
-							icon={<Icon name={item.data.icon}/>}
-						/>
-					)
-				})}
-			</ButtonGroup>
+			{ lenses.length > 1 && (
+				<ButtonGroup>
+					{_.map(lenses, (item) => {
+						return (
+							<Button
+								key={item.slug}
+								active={lens && lens.slug === item.slug}
+								data-test={`lens-selector--${item.slug}`}
+								data-slug={item.slug}
+								onClick={setLens}
+								pt={11}
+								tooltip={{
+									text: item.name,
+									placement: 'bottom'
+								}}
+								icon={<Icon name={item.data.icon}/>}
+							/>
+						)
+					})}
+				</ButtonGroup>
+			)}
 		</Box>
 	)
 }

@@ -38,7 +38,7 @@ const lens = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
-	name: 'SupportThreads lens',
+	name: 'Support/sales threads to audit',
 	data: {
 		icon: 'address-card',
 		format: 'list',
@@ -51,7 +51,11 @@ const lens = {
 					id: {
 						type: 'string'
 					},
+					slug: {
+						type: 'string'
+					},
 					type: {
+						type: 'string',
 						enum: [
 							'support-thread@1.0.0',
 							'sales-thread@1.0.0'
@@ -68,11 +72,12 @@ const lens = {
 						required: [
 							'status'
 						]
-					},
-					required: [
-						'data'
-					]
-				}
+					}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		},
 		queryOptions: {

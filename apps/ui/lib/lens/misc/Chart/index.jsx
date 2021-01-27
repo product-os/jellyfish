@@ -15,7 +15,7 @@ const lens = {
 	slug: 'lens-chart',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Generic chart lens',
+	name: 'Chart',
 	data: {
 		icon: 'chart-bar',
 		format: 'list',

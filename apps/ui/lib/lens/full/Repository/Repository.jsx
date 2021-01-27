@@ -32,6 +32,10 @@ import {
 	getContextualThreadsQuery,
 	getLensBySlug
 } from '../../'
+import {
+	BaseLens,
+	ViewFooter
+} from '../../common'
 
 const SingleCardTabs = styled(Tabs) `
 	flex: 1
@@ -43,7 +47,7 @@ const SingleCardTabs = styled(Tabs) `
 
 const LIMIT = 30
 
-export default class RepositoryFull extends React.Component {
+export default class RepositoryFull extends BaseLens {
 	constructor (props) {
 		super(props)
 
@@ -61,11 +65,7 @@ export default class RepositoryFull extends React.Component {
 				page: 0,
 				totalPages: Infinity
 			},
-			searchTerm: '',
-			relationship: {
-				target: this.props.card,
-				name: 'is of'
-			}
+			searchTerm: ''
 		}
 
 		const messageType = helpers.getType('message', this.props.types)
@@ -175,6 +175,8 @@ export default class RepositoryFull extends React.Component {
 			slug: card.type.split('@')[0]
 		})
 
+		const threadType = helpers.getType('thread', types)
+
 		const relationships = _.get(type, [ 'data', 'meta', 'relationships' ])
 		const messages = _.sortBy(this.props.messages, 'created_at')
 
@@ -245,7 +247,8 @@ export default class RepositoryFull extends React.Component {
 					</SingleCardTabs>
 				)}
 
-				<Box
+				<Flex
+					flexDirection="column"
 					style={{
 						overflow: 'auto'
 					}}
@@ -254,12 +257,12 @@ export default class RepositoryFull extends React.Component {
 					<Interleaved
 						channel={channel}
 						tail={messages}
-						relationship={this.state.relationship}
 						setPage={this.setPage}
 						page={this.state.options.page}
 						totalPages={this.state.options.totalPages}
 					/>
-				</Box>
+					<ViewFooter type={threadType} onAddCard={this.onAddCard} />
+				</Flex>
 			</CardLayout>
 		)
 	}

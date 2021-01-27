@@ -8,6 +8,7 @@ import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import memoize from 'memoize-one'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
 import React from 'react'
@@ -15,6 +16,7 @@ import {
 	connect
 } from 'react-redux'
 import {
+	withRouter,
 	Redirect
 } from 'react-router-dom'
 import * as redux from 'redux'
@@ -42,10 +44,11 @@ import {
 	mergeWithUniqConcatArrays
 } from '../../../core/queries'
 import {
-	getLensBySlug
+	getLenses
 } from '../../'
 import Header from './Header'
 import Content from './Content'
+import BaseLens from '../../common/BaseLens'
 
 import {
 	USER_FILTER_NAME,
@@ -53,6 +56,12 @@ import {
 	EVENTS_FULL_TEXT_SEARCH_TITLE,
 	TIMELINE_FILTER_PROP
 } from './constants'
+
+const getActiveLens = (lenses, lensSlug) => {
+	return _.find(lenses, {
+		slug: lensSlug
+	}) || _.first(lenses)
+}
 
 const getSearchViewId = (targetId) => `$$search-${targetId}`
 
@@ -208,7 +217,7 @@ const createEventSearchFilter = (types, term) => {
 	}
 }
 
-class ViewRenderer extends React.Component {
+class ViewRenderer extends BaseLens {
 	constructor (props) {
 		super(props)
 
@@ -219,7 +228,6 @@ class ViewRenderer extends React.Component {
 			searchFilter: null,
 			filters: [],
 			ready: false,
-			tailType: null,
 			activeLens: null,
 			activeSlice: null,
 			options: {
@@ -325,7 +333,7 @@ class ViewRenderer extends React.Component {
 
 	updateSearch (event) {
 		const newSearchTerm = event.target.value
-		const schema = _.get(this.state, [ 'tailType', 'data', 'schema' ])
+		const schema = _.get(this.props, [ 'type', 'data', 'schema' ])
 		this.setState((prevState) => {
 			return {
 				options: update(prevState.options, {
@@ -345,9 +353,8 @@ class ViewRenderer extends React.Component {
 		})
 	}
 
-	setLens (event) {
-		const slug = event.currentTarget.dataset.slug
-		const lens = _.find(this.lenses, {
+	setLens (slug) {
+		const lens = _.find(this.props.lenses, {
 			slug
 		})
 		if (!lens) {
@@ -357,6 +364,8 @@ class ViewRenderer extends React.Component {
 		if (this.state.activeLens === lens.slug) {
 			return
 		}
+
+		const reloadRequired = this.state.options.page !== 0
 
 		this.setState((prevState) => {
 			return {
@@ -368,7 +377,9 @@ class ViewRenderer extends React.Component {
 				activeLens: lens.slug
 			}
 		}, () => {
-			this.loadViewWithFilters(this.state.filters)
+			if (reloadRequired) {
+				this.loadViewWithFilters(this.state.filters)
+			}
 		})
 
 		this.props.actions.setViewLens(this.props.card.id, lens.slug)
@@ -482,24 +493,6 @@ class ViewRenderer extends React.Component {
 			}), 'schema')
 			: []
 
-		const lenses = _.chain(head)
-			.get([ 'data', 'lenses' ])
-			.map((slug) => { return getLensBySlug(slug) })
-			.compact()
-			.value()
-
-		this.lenses = lenses
-
-		const activeLens = _.find(lenses, {
-			slug: this.props.userActiveLens
-		})
-			? this.props.userActiveLens
-			: _.get(lenses, [ '0', 'slug' ])
-
-		const tailType = _.find(this.props.types, {
-			slug: helpers.getTypeFromViewCard(head).split('@')[0]
-		}) || null
-
 		let activeSlice = null
 
 		const sliceOptions = getSliceOptions(head, this.props.types)
@@ -524,9 +517,7 @@ class ViewRenderer extends React.Component {
 
 		// Set default state
 		this.setState({
-			activeLens,
 			filters,
-			tailType,
 			activeSlice,
 			sliceOptions,
 
@@ -541,11 +532,7 @@ class ViewRenderer extends React.Component {
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
 	getQueryOptions (lensSlug) {
-		const lens = lensSlug
-			? _.find(this.lenses, {
-				slug: lensSlug
-			})
-			: _.first(this.lenses)
+		const lens = getActiveLens(this.props.lenses, lensSlug)
 
 		// TODO: improve backend sort efficiency so we can apply a default sort here
 		const options = _.merge({
@@ -600,6 +587,10 @@ class ViewRenderer extends React.Component {
 					}
 				})
 			})
+		}
+		if (!prevProps.lenses.length && this.props.lenses.length) {
+			const activeLens = _.get(getActiveLens(this.props.lenses, this.props.userActiveLens), [ 'slug' ])
+			this.setLens(activeLens)
 		}
 	}
 
@@ -665,6 +656,8 @@ class ViewRenderer extends React.Component {
 
 	render () {
 		const {
+			type,
+			lenses,
 			channel,
 			isMobile,
 			tail
@@ -675,7 +668,6 @@ class ViewRenderer extends React.Component {
 		} = channel.data
 
 		const {
-			tailType,
 			activeLens,
 			ready,
 			redirectTo,
@@ -699,9 +691,7 @@ class ViewRenderer extends React.Component {
 			return <Redirect push to={redirectTo} />
 		}
 
-		const lens = _.find(this.lenses, {
-			slug: activeLens
-		}) || this.lenses[0]
+		const lens = getActiveLens(lenses, activeLens)
 
 		return (
 			<Flex
@@ -717,11 +707,13 @@ class ViewRenderer extends React.Component {
 					sliceOptions={sliceOptions}
 					activeSlice={activeSlice}
 					setSlice={this.setSlice}
-					lenses={this.lenses}
-					setLens={this.setLens}
+					lenses={lenses}
+					setLens={(event) => {
+						this.setLens(event.currentTarget.dataset.slug)
+					}}
 					lens={lens}
 					filters={filters}
-					tailType={tailType}
+					tailType={type}
 					updateFilters={this.updateFilters}
 					saveView={this.saveView}
 					channel={channel}
@@ -735,12 +727,13 @@ class ViewRenderer extends React.Component {
 				/>
 				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>
 					<Content
+						onAddCard={this.onAddCard}
 						lens={lens}
 						activeLens={activeLens}
 						tail={tail}
 						channel={channel}
 						getQueryOptions={this.getQueryOptions}
-						tailType={tailType}
+						tailType={type}
 						setPage={this.setPage}
 						pageOptions={options}
 					/>
@@ -750,6 +743,12 @@ class ViewRenderer extends React.Component {
 	}
 }
 
+const getType = memoize((types, viewCard) => {
+	return _.find(types, {
+		slug: helpers.getTypeFromViewCard(viewCard).split('@')[0]
+	}) || null
+})
+
 const mapStateToProps = (state, ownProps) => {
 	const target = ownProps.channel.data.head.id
 	const targetTail = selectors.getViewData(state, target)
@@ -757,11 +756,19 @@ const mapStateToProps = (state, ownProps) => {
 	const tail = (targetTail && timelineSearchTail)
 		? _.unionBy(targetTail, timelineSearchTail, 'id')
 		: null
+	const user = selectors.getCurrentUser(state)
+	const lenses = tail && tail.length ? getLenses('list', tail, user, 'data.icon') : []
+	const types = selectors.getTypes(state)
+	const type = getType(types, ownProps.channel.data.head)
+	const addLinkedCardType = helpers.getTypeBase(type.type) === 'thread' ? 'thread' : null
 	return {
+		addLinkedCardType,
 		channels: selectors.getChannels(state),
 		tail,
+		type,
+		lenses,
 		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
+		user,
 		userActiveLens: selectors.getUsersViewLens(state, target)
 	}
 }
@@ -770,6 +777,7 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
+				'addChannel',
 				'clearViewData',
 				'loadViewData',
 				'loadMoreViewData',
@@ -780,6 +788,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const WrappedViewRenderer = redux.compose(
+	withRouter,
 	connect(mapStateToProps, mapDispatchToProps),
 	withResponsiveContext
 )(ViewRenderer)

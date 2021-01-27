@@ -24,10 +24,7 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Flex,
-	Button,
 	Box,
-	Txt,
 	Divider
 } from 'rendition'
 import {
@@ -149,8 +146,7 @@ class CardList extends BaseLens {
 		const {
 			tail,
 			pageOptions,
-			totalPages,
-			type
+			totalPages
 		} = this.props
 
 		// TODO: remove this logic when totalPage returns a usefull number
@@ -203,31 +199,7 @@ class CardList extends BaseLens {
 							)}
 						</InfiniteLoader>
 					)}
-
-					{Boolean(tail) && tail.length === 0 && (
-						<Txt.p p={3}>No results found</Txt.p>
-					)}
 				</Box>
-
-				{Boolean(this.props.type) && (
-					<React.Fragment>
-						<Flex
-							p={3}
-							style={{
-								borderTop: '1px solid #eee'
-							}}
-							justifyContent="flex-end"
-						>
-							<Button
-								success={true}
-								className={`btn--add-${type.slug}`}
-								onClick={this.openCreateChannel}
-							>
-								Add {type.name || type.slug}
-							</Button>
-						</Flex>
-					</React.Fragment>
-				)}
 			</Column>
 		)
 	}
@@ -252,7 +224,7 @@ const lens = {
 	slug: 'lens-list',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Default list lens',
+	name: 'List',
 	data: {
 		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
@@ -263,6 +235,9 @@ const lens = {
 			items: {
 				type: 'object',
 				properties: {
+					id: {
+						type: 'string'
+					},
 					slug: {
 						type: 'string'
 					}
