@@ -21,6 +21,9 @@ import {
 	LinkModal
 } from './LinkModal'
 import ChannelNotFound from './ChannelNotFound'
+import {
+	ChannelContextProvider
+} from '../hooks'
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component {
@@ -126,24 +129,26 @@ class ChannelRenderer extends React.Component {
 		const lens = getLens(_.get(channel.data, [ 'format' ], 'full'), head, user)
 
 		return (
-			<ErrorBoundary style={style}>
-				{
-					connectDropTarget(
-						<div style={style}>
-							<lens.data.renderer card={head} level={0} {...this.props}/>
-						</div>
-					)
-				}
+			<ChannelContextProvider channel={channel}>
+				<ErrorBoundary style={style}>
+					{
+						connectDropTarget(
+							<div style={style}>
+								<lens.data.renderer card={head} level={0} {...this.props}/>
+							</div>
+						)
+					}
 
-				{showLinkModal && (
-					<LinkModal
-						target={head}
-						cards={[ linkFrom ]}
-						types={types}
-						onHide={this.closeLinkModal}
-					/>
-				)}
-			</ErrorBoundary>
+					{showLinkModal && (
+						<LinkModal
+							target={head}
+							cards={[ linkFrom ]}
+							types={types}
+							onHide={this.closeLinkModal}
+						/>
+					)}
+				</ErrorBoundary>
+			</ChannelContextProvider>
 		)
 	}
 }
