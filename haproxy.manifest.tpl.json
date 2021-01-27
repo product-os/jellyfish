@@ -30,10 +30,11 @@
 		],
 		"frontend": [
 			{
-				"protocol": "http",
+				"protocol": "https",
 				"domain": "ly.fish.local",
 				"subdomain": "jel",
-				"port": "80"
+				"port": "443",
+				"crt": "{{& JELLYFISH_CRT }}"
 			}
 		]
 	},
@@ -93,10 +94,11 @@
 		],
 		"frontend": [
 			{
-				"protocol": "http",
+				"protocol": "https",
 				"domain": "ly.fish.local",
 				"subdomain": "livechat",
-				"port": "80"
+				"port": "443",
+				"crt": "{{& JELLYFISH_CRT }}"
 			}
 		]
 	},
@@ -114,10 +116,11 @@
 		],
 		"frontend": [
 			{
-				"protocol": "http",
+				"protocol": "https",
 				"domain": "ly.fish.local",
 				"subdomain": "api",
-				"port": "80"
+				"port": "443",
+				"crt": "{{& JELLYFISH_CRT }}"
 			}
 		]
 	},
@@ -135,10 +138,11 @@
 		],
 		"frontend": [
 			{
-				"protocol": "http",
+				"protocol": "https",
 				"domain": "ly.fish.local",
 				"subdomain": "registry",
-				"port": "80"
+				"port": "443",
+				"crt": "{{& JELLYFISH_CRT }}"
 			}
 		]
 	}

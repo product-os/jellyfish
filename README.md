@@ -67,6 +67,27 @@ Add endpoints to local hosts file:
 <DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local postgres.ly.fish.local redis.ly.fish.local
 ```
 
+Jellyfish dev env uses self signed certificates to allow using https protocol. By default, browsers don't trust self signed certificates, so they will display warning icon near the address bar and prevent ajax calls. To avoid this, you should trust self signed certificates:
+
+Linux:
+
+```
+$ sudo cp ./certs/ly.fish.local/ca.crt /usr/local/share/ca-certificates/ca.crt
+$ sudo update-ca-certificates
+```
+
+macOS:
+
+```
+$ sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain ./certs/ly.fish.local/ca.crt
+```
+
+Windows:
+
+```
+$ certutil -addstore -f "ROOT" ./certs/ly.fish.local/ca.crt
+```
+
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
 
 Then, add your npm token to `.balena/balena.yml` under `build-variables.global` in the form of

@@ -21,8 +21,8 @@ Add endpoints to local hosts file:
 127.0.0.1 livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local
 ```
 
-The API will listen on `http://api.ly.fish.local:80` and the UI will listen on `http://jel.ly.fish.local:80`.
-Open `http://jel.ly.fish.local` and login as:
+The API will listen on `https://api.ly.fish.local` and the UI will listen on `https://jel.ly.fish.local`.
+Open `https://jel.ly.fish.local` and login as:
 
 - Username: `jellyfish`
 - Password: `jellyfish`

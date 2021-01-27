@@ -39,7 +39,8 @@ exports.browser = {
 
 				// Set extra flags so puppeteer runs on docker
 				'--no-sandbox',
-				'--disable-setuid-sandbox'
+				'--disable-setuid-sandbox',
+				'--ignore-certificate-errors'
 			]
 		}
 

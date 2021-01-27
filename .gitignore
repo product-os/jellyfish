@@ -96,6 +96,7 @@ tmp/
 # Cryptographic keys used for testing
 *.p8
 *.pem
+!certs/**/*.*
 
 # Optional custom dotenv file
 custom.env
