@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^6.0.28'
+      hash: 0a21ce521593d62960d12774300a0097abbf9a38
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.48.5
+  date: 2021-01-28T01:38:16.059Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.832.0'
       hash: d30d4caebce2ca5e930806bda79571b136ec443f
       body: ''
