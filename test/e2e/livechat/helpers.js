@@ -5,7 +5,6 @@
  */
 
 const puppeteer = require('puppeteer')
-const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
 const uiHelpers = require('../ui/helpers')
 const screenshot = require('../screenshot')
@@ -31,26 +30,14 @@ exports.browser = {
 		await helpers.before(test)
 		await helpers.beforeEach(test)
 
-		const options = {
-			headless: !environment.flags.visual,
-			dumpio: true,
-			args: [
-				'--window-size=1366,768',
-
-				// Set extra flags so puppeteer runs on docker
-				'--no-sandbox',
-				'--disable-setuid-sandbox'
-			]
-		}
-
-		test.context.browser = await puppeteer.launch(options)
+		test.context.browser = await puppeteer.launch(uiHelpers.puppeteerOptions)
 		test.context.page = await test.context.browser.newPage()
 		test.context.page.setViewport({
 			width: 1366,
 			height: 768
 		})
 
-		uiHelpers.addPageHandlers(test.context.page, options.headless)
+		uiHelpers.addPageHandlers(test.context.page, uiHelpers.puppeteerOptions.headless)
 	},
 
 	afterEach: async (test) => {
