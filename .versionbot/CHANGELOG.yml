@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: e2468a5f048f8f53827423f33e50150fa646b68e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.48.8
+  date: 2021-01-29T08:13:53.579Z
+- commits:
     - subject: Share Puppeteer browser options
       hash: c64b47af8ba1453c1d4ff30e4fe2a9a9c6833e1b
       body: ''
