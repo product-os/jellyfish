@@ -1,4 +1,39 @@
 - commits:
+    - subject: Add unit test for plugin manager usage
+      hash: 7f42094d55a0b890325f719bc221dc2d2ac2b3a0
+      body: >
+        Basically just tests that the plugin manager calls don't throw any
+        exceptions and performs a simple sanity test of the results.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add dependency on jellyfish-plugin-base package
+      hash: 65a9c38fd5ce6cbb0c1e7b9680cbf9eca32f1c68
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Make use of PluginManager
+      hash: 93c75bb95117041c26fcd40c5ccd889e3b56d1e5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.48.6
+  date: 2021-01-29T02:45:22.970Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^6.0.28'
       hash: 0a21ce521593d62960d12774300a0097abbf9a38
       body: ''
