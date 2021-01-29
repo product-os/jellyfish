@@ -1,4 +1,17 @@
 - commits:
+    - subject: Share Puppeteer browser options
+      hash: c64b47af8ba1453c1d4ff30e4fe2a9a9c6833e1b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.48.7
+  date: 2021-01-29T06:46:54.378Z
+- commits:
     - subject: Add unit test for plugin manager usage
       hash: 7f42094d55a0b890325f719bc221dc2d2ac2b3a0
       body: >
