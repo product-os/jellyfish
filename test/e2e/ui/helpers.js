@@ -12,6 +12,18 @@ const environment = require('@balena/jellyfish-environment')
 const helpers = require('../sdk/helpers')
 const screenshot = require('../screenshot')
 
+exports.puppeteerOptions = {
+	headless: !environment.flags.visual,
+	dumpio: true,
+	args: [
+		'--window-size=1366,768',
+
+		// Set extra flags so puppeteer runs on docker
+		'--no-sandbox',
+		'--disable-setuid-sandbox'
+	]
+}
+
 exports.generateUserDetails = () => {
 	return {
 		username: `johndoe-${uuid()}`,
@@ -63,19 +75,7 @@ exports.browser = {
 		await helpers.before(test)
 		await helpers.beforeEach(test)
 
-		const options = {
-			headless: !environment.flags.visual,
-			dumpio: true,
-			args: [
-				'--window-size=1366,768',
-
-				// Set extra flags so puppeteer runs on docker
-				'--no-sandbox',
-				'--disable-setuid-sandbox'
-			]
-		}
-
-		test.context.browser = await puppeteer.launch(options)
+		test.context.browser = await puppeteer.launch(exports.puppeteerOptions)
 		const browserContext = test.context.browser.defaultBrowserContext()
 
 		// Allow the clipboard API to be accessed so we can easily test
@@ -88,7 +88,7 @@ exports.browser = {
 			height: 768
 		})
 
-		this.addPageHandlers(test.context.page, options.headless)
+		this.addPageHandlers(test.context.page, exports.puppeteerOptions.headless)
 
 		test.context.createUser = async (user) => {
 			const result = await test.context.sdk.action({
