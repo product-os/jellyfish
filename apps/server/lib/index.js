@@ -7,8 +7,10 @@
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../package.json')
+const {
+	getPluginManager
+} = require('./plugins')
 const bootstrap = require('./bootstrap')
-const plugins = require('./plugins')
 const environment = require('@balena/jellyfish-environment')
 
 const DEFAULT_CONTEXT = {
@@ -43,9 +45,7 @@ uuid.random().then((id) => {
 	})
 
 	const options = {
-		plugins: plugins.loadPlugins({
-			context
-		})
+		pluginManager: getPluginManager(context)
 	}
 
 	return bootstrap(context, options).then((server) => {

@@ -12,8 +12,8 @@ const DefaultPlugin = require('@balena/jellyfish-plugin-default')
 
 const plugin = new DefaultPlugin()
 
-exports.loadDefaultCards = () => {
-	return plugin.getCards(coreMixins)
+exports.loadDefaultCards = (context) => {
+	return plugin.getCards(context, coreMixins)
 }
 
 exports.generateRandomID = () => {

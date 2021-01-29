@@ -5,17 +5,26 @@
  */
 
 const ava = require('ava')
-const plugins = require('../../lib/plugins')
+const {
+	v4: uuid
+} = require('uuid')
+const {
+	cardMixins
+} = require('@balena/jellyfish-core')
+const {
+	getPluginManager
+} = require('../../lib/plugins')
 
-const TEST_CONTEXT = {
-	id: 'TEST_SERVER-ERROR'
+const context = {
+	id: `UNIT-TEST-${uuid()}`
 }
 
-ava('plugins can be loaded', (test) => {
-	test.notThrows(() => {
-		const loadedPlugins = plugins.loadPlugins({
-			context: TEST_CONTEXT
-		})
-		test.true(loadedPlugins.length > 0)
-	})
+ava('Plugin Manager loads plugins', (test) => {
+	const pluginManager = getPluginManager(context)
+
+	const cards = pluginManager.getCards(context, cardMixins)
+	test.is(cards.account.slug, 'account')
+
+	const integrations = pluginManager.getSyncIntegrations(context)
+	test.is(integrations.front.slug, 'front')
 })
