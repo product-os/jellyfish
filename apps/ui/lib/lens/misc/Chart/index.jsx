@@ -17,6 +17,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Generic chart lens',
 	data: {
+		label: 'Chart',
 		icon: 'chart-bar',
 		format: 'list',
 		renderer: ChartLazy,

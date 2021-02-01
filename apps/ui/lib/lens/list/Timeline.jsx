@@ -56,8 +56,9 @@ const lens = {
 	version: '1.0.0',
 	name: 'Timeline lens',
 	data: {
+		label: 'Timeline',
 		format: 'list',
-		icon: 'address-card',
+		icon: 'list',
 		renderer: compose(
 			withResponsiveContext,
 			connect(mapStateToProps, mapDispatchToProps),

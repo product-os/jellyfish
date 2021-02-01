@@ -40,6 +40,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'SupportThreads lens',
 	data: {
+		label: 'Support/sales threads to audit',
 		icon: 'address-card',
 		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreadsToAudit),

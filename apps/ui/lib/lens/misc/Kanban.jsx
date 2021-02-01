@@ -244,6 +244,7 @@ const lens = {
 	name: 'Kanban lens',
 	data: {
 		supportsSlices: true,
+		label: 'Kanban',
 		icon: 'columns',
 		format: 'list',
 		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),

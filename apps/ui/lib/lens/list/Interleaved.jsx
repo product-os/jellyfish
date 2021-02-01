@@ -176,7 +176,7 @@ export class Interleaved extends BaseLens {
 
 	getSnapshotBeforeUpdate () {
 		if (this.scrollArea) {
-		// Only set the scroll flag if the scroll area is already at the bottom
+			// Only set the scroll flag if the scroll area is already at the bottom
 			this.shouldScroll = this.scrollArea.scrollTop >= this.scrollArea.scrollHeight - this.scrollArea.offsetHeight
 		}
 
@@ -323,6 +323,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Interleaved lens',
 	data: {
+		label: 'Interleaved',
 		icon: 'list',
 		format: 'list',
 		renderer: compose(
