@@ -56,6 +56,23 @@ import {
 
 const getSearchViewId = (targetId) => `$$search-${targetId}`
 
+// Search the view card's filters for a slice filter. If one is found
+// that matches one of the slice options, return that slice option
+const getActiveSliceFromFilter = (sliceOptions, viewCard) => {
+	const viewFilters = _.get(viewCard, [ 'data', 'allOf' ], [])
+	for (const slice of sliceOptions) {
+		const sliceFilter = createSliceFilter(slice)
+		for (const viewFilter of viewFilters) {
+			const filterOptions = _.get(viewFilter, [ 'schema', 'anyOf' ])
+			const activeSliceFilter = _.find(filterOptions, sliceFilter)
+			if (activeSliceFilter) {
+				return slice
+			}
+		}
+	}
+	return null
+}
+
 const createSliceFilter = (slice) => {
 	const filter = {
 		// Use the slice path as a unique ID, as we don't want multiple slice constraints
@@ -506,6 +523,9 @@ class ViewRenderer extends React.Component {
 			if (this.props.userActiveSlice) {
 				activeSlice = _.find(sliceOptions, this.props.userActiveSlice)
 			}
+
+			// Check if the view defines a slice filter
+			activeSlice = activeSlice || getActiveSliceFromFilter(sliceOptions, head)
 
 			// Otherwise just select the first slice option
 			activeSlice = activeSlice || _.first(sliceOptions)
