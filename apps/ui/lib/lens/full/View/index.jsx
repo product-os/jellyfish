@@ -225,7 +225,7 @@ const createEventSearchFilter = (types, term) => {
 	}
 }
 
-class ViewRenderer extends React.Component {
+export class ViewRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 
