@@ -47,6 +47,7 @@ const lens = {
 	name: 'Default table lens',
 	data: {
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
+		label: 'Table',
 		icon: 'table',
 		format: 'list',
 		type: '*',

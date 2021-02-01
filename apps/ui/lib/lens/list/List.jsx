@@ -254,6 +254,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
+		label: 'List',
 		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
 		icon: 'address-card',

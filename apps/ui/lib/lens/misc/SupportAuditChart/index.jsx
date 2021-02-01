@@ -43,6 +43,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Support audit chart lens',
 	data: {
+		label: 'Support audit chart',
 		icon: 'chart-bar',
 		format: 'list',
 		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportAuditChartLazy),
