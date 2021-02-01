@@ -393,6 +393,8 @@ class ViewRenderer extends React.Component {
 		})
 
 		this.updateFilters(parsedFilters)
+
+		this.props.actions.setViewSlice(this.props.card.id, value)
 	}
 
 	setPage (page) {
@@ -500,7 +502,13 @@ class ViewRenderer extends React.Component {
 		const sliceOptions = getSliceOptions(head, this.props.types)
 
 		if (sliceOptions && sliceOptions.length) {
-			activeSlice = _.first(sliceOptions)
+			// Default to setting the active slice based on the user's preference
+			if (this.props.userActiveSlice) {
+				activeSlice = _.find(sliceOptions, this.props.userActiveSlice)
+			}
+
+			// Otherwise just select the first slice option
+			activeSlice = activeSlice || _.first(sliceOptions)
 
 			const filter = createSliceFilter(activeSlice)
 
@@ -757,7 +765,8 @@ const mapStateToProps = (state, ownProps) => {
 		tail,
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
-		userActiveLens: selectors.getUsersViewLens(state, target)
+		userActiveLens: selectors.getUsersViewLens(state, target),
+		userActiveSlice: selectors.getUsersViewSlice(state, target)
 	}
 }
 
@@ -769,7 +778,8 @@ const mapDispatchToProps = (dispatch) => {
 				'loadViewData',
 				'loadMoreViewData',
 				'setViewData',
-				'setViewLens'
+				'setViewLens',
+				'setViewSlice'
 			]), dispatch)
 	}
 }

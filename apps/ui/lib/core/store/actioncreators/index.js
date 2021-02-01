@@ -198,6 +198,10 @@ export const selectors = {
 		const user = selectors.getCurrentUser(state)
 		return _.get(user, [ 'data', 'profile', 'viewSettings', viewId, 'lens' ], null)
 	},
+	getUsersViewSlice: (state, viewId) => {
+		const user = selectors.getCurrentUser(state)
+		return _.get(user, [ 'data', 'profile', 'viewSettings', viewId, 'slice' ], null)
+	},
 	getHomeView: (state) => {
 		const user = selectors.getCurrentUser(state)
 		return _.get(user, [ 'data', 'profile', 'homeView' ], null)
@@ -1345,6 +1349,20 @@ export const actionCreators = {
 				user,
 				[ 'data', 'profile', 'viewSettings', viewId, 'lens' ],
 				lensSlug
+			)
+
+			return actionCreators.updateUser(patches, null)(dispatch, getState, context)
+		}
+	},
+
+	setViewSlice (viewId, slice) {
+		return (dispatch, getState, context) => {
+			const user = selectors.getCurrentUser(getState())
+
+			const patches = helpers.patchPath(
+				user,
+				[ 'data', 'profile', 'viewSettings', viewId, 'slice' ],
+				slice
 			)
 
 			return actionCreators.updateUser(patches, null)(dispatch, getState, context)
