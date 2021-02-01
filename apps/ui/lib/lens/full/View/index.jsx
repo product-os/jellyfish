@@ -387,15 +387,10 @@ class ViewRenderer extends React.Component {
 			return item.anyOf && item.anyOf[0].$id !== filter.$id
 		})
 
-		// The default slice represents the 'all' option (i.e. no actual filter)
-		// so only add the slice filter if it is not the default ('all') option.
-		const isAllFilter = _.isEqual(value, getDefaultSliceOption(this.state.sliceOptions))
-		if (!isAllFilter) {
-			parsedFilters.push({
-				$id: filter.$id,
-				anyOf: [ filter ]
-			})
-		}
+		parsedFilters.push({
+			$id: filter.$id,
+			anyOf: [ filter ]
+		})
 
 		this.updateFilters(parsedFilters)
 	}
