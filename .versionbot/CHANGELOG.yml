@@ -1,4 +1,56 @@
 - commits:
+    - subject: Add unit tests for View component
+      hash: 434338d91b6dc8f129be791cd730326a5c3f8405
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Ensure active slice is initialized to view's slice filter if set
+      hash: 139665e89f3a250261ef5ef49fcc8bbde7e1b7d0
+      body: |
+        Fixes #5618
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Save previously selected slice to user's profile.
+      hash: 64153adba2269d1763ce54a480102baef0a8e79f
+      body: >
+        The most recently selected slice will be saved to a user's profile in
+        the same way that the most recently selected lens currently is. This way
+        if you always view a particular view with a slice other than the default
+        first one, this will be preserved and you won't always have to re-select
+        your preferred slice!
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Always display slice filter
+      hash: 988bceb06be045f659671ee81a7fa9afa1453931
+      body: >
+        Even if the selected slice option is 'All', we still want to display it
+        in the filter summary so that we can create a custom view with the 'All'
+        slice option selected.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.50.0
+  date: 2021-02-01T08:33:18.899Z
+- commits:
     - subject: Fix description text on UnlinkModal
       hash: 7ffc8375f197c6097d86aeb2bffdb6f57ecb7606
       body: >
