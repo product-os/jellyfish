@@ -1,4 +1,29 @@
 - commits:
+    - subject: Add tooltip to lens selection
+      hash: 3ebf15ad703dc92cd673a3e4b76a52f73e0a9a5e
+      body: |
+        data.label field added to all list lenses.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix dev warning about getSnapsotBeforeUpdate
+      hash: 67aafdc2843699bee319a8c4202992d3ac386722
+      body: |
+        Must return null rather than undefined.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.49.0
+  date: 2021-02-01T03:56:54.419Z
+- commits:
     - subject: Bump third-party packages
       hash: f36165508f6f363d7db1c1a5e99df979416476f9
       body: ''
