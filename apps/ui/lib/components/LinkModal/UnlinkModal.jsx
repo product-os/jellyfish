@@ -13,7 +13,8 @@ import {
 } from 'rendition'
 import pluralize from 'pluralize'
 import {
-	constraints
+	constraints,
+	getReverseConstraint
 } from '@balena/jellyfish-client-sdk/lib/link-constraints'
 import {
 	addNotification,
@@ -41,7 +42,7 @@ export const UnlinkModal = ({
 
 	const allLinkTypeTargets = React.useMemo(() => {
 		return constraints.reduce((acc, constraint) => {
-			if (constraint.data.to === cardsTypeBase) {
+			if (constraint.data.from === cardsTypeBase) {
 				// Move the data.title property to the root of the object, as the rendition Select
 				// component can't use a non-root field for the `labelKey` prop
 				acc.push(Object.assign({}, constraint, {
@@ -53,7 +54,7 @@ export const UnlinkModal = ({
 	}, [ cardsTypeBase ])
 
 	const linkTypeSlugs = React.useMemo(() => {
-		return _.map(allLinkTypeTargets, 'data.from')
+		return _.map(allLinkTypeTargets, 'data.to')
 	}, [ allLinkTypeTargets ])
 
 	const targetTypeList = React.useMemo(() => {
@@ -108,13 +109,17 @@ export const UnlinkModal = ({
 		return {
 			type: 'object',
 			anyOf: allLinkTypeTargets.map((constraint) => {
-				const fromType = helpers.getType(constraint.data.from, types)
+				const revConstraint = getReverseConstraint(constraint.data.from, constraint.data.to, constraint.name)
+				const toType = helpers.getType(constraint.data.to, types)
 				const query = {
+					type: 'object',
+					required: [ 'type' ],
 					$$links: {
-						[constraint.name]: {
+						[revConstraint.name]: {
 							allOf: cards.map((card) => {
 								return {
 									type: 'object',
+									required: [ 'id' ],
 									properties: {
 										id: {
 											const: card.id
@@ -126,14 +131,14 @@ export const UnlinkModal = ({
 					},
 					properties: {
 						type: {
-							const: `${fromType.slug}@${fromType.version}`
+							const: `${toType.slug}@${toType.version}`
 						}
 					}
 				}
 
 				// Add full-text-search for the typed text (if set)
 				if (value) {
-					const filter = helpers.createFullTextSearchFilter(fromType.data.schema, value)
+					const filter = helpers.createFullTextSearchFilter(toType.data.schema, value)
 					_.merge(query, filter)
 				}
 				return query
