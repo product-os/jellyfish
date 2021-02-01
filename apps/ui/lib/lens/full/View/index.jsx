@@ -40,7 +40,7 @@ import {
 	sdk
 } from '../../../core'
 import {
-	getLensBySlug
+	getLenses
 } from '../../'
 import Header from './Header'
 import Content from './Content'
@@ -51,6 +51,12 @@ import {
 	EVENTS_FULL_TEXT_SEARCH_TITLE,
 	TIMELINE_FILTER_PROP
 } from './constants'
+
+const getActiveLens = (lenses, lensSlug) => {
+	return _.find(lenses, {
+		slug: lensSlug
+	}) || _.first(lenses)
+}
 
 const getSearchViewId = (targetId) => `$$search-${targetId}`
 
@@ -390,9 +396,8 @@ export class ViewRenderer extends React.Component {
 		})
 	}
 
-	setLens (event) {
-		const slug = event.currentTarget.dataset.slug
-		const lens = _.find(this.lenses, {
+	setLens (slug) {
+		const lens = _.find(this.props.lenses, {
 			slug
 		})
 		if (!lens) {
@@ -402,6 +407,8 @@ export class ViewRenderer extends React.Component {
 		if (this.state.activeLens === lens.slug) {
 			return
 		}
+
+		const reloadRequired = this.state.options.page !== 0
 
 		this.setState((prevState) => {
 			return {
@@ -413,7 +420,9 @@ export class ViewRenderer extends React.Component {
 				activeLens: lens.slug
 			}
 		}, () => {
-			this.loadViewWithFilters(this.state.filters)
+			if (reloadRequired) {
+				this.loadViewWithFilters(this.state.filters)
+			}
 		})
 
 		this.props.actions.setViewLens(this.props.card.id, lens.slug)
@@ -525,19 +534,7 @@ export class ViewRenderer extends React.Component {
 			}), 'schema')
 			: []
 
-		const lenses = _.chain(head)
-			.get([ 'data', 'lenses' ])
-			.map((slug) => { return getLensBySlug(slug) })
-			.compact()
-			.value()
-
-		this.lenses = lenses
-
-		const activeLens = _.find(lenses, {
-			slug: this.props.userActiveLens
-		})
-			? this.props.userActiveLens
-			: _.get(lenses, [ '0', 'slug' ])
+		const activeLens = _.get(getActiveLens(this.props.lenses, this.props.userActiveLens), [ 'slug' ], null)
 
 		const viewTailTypes = helpers.getTypesFromViewCard(head)
 
@@ -603,11 +600,7 @@ export class ViewRenderer extends React.Component {
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
 	getQueryOptions (lensSlug) {
-		const lens = lensSlug
-			? _.find(this.lenses, {
-				slug: lensSlug
-			})
-			: _.first(this.lenses)
+		const lens = getActiveLens(this.props.lenses, lensSlug)
 
 		// TODO: improve backend sort efficiency so we can apply a default sort here
 		const options = _.merge({
@@ -662,6 +655,10 @@ export class ViewRenderer extends React.Component {
 					}
 				})
 			})
+		}
+		if (!_.get(prevProps, [ 'lenses', 'length' ]) && _.get(this.props, [ 'lenses', 'length' ])) {
+			const activeLens = getActiveLens(this.props.lenses, this.props.userActiveLens).slug
+			this.setLens(activeLens)
 		}
 	}
 
@@ -727,6 +724,7 @@ export class ViewRenderer extends React.Component {
 
 	render () {
 		const {
+			lenses,
 			channel,
 			isMobile,
 			tail
@@ -761,9 +759,7 @@ export class ViewRenderer extends React.Component {
 			return <Redirect push to={redirectTo} />
 		}
 
-		const lens = _.find(this.lenses, {
-			slug: activeLens
-		}) || this.lenses[0]
+		const lens = getActiveLens(lenses, activeLens)
 
 		return (
 			<Flex
@@ -779,8 +775,10 @@ export class ViewRenderer extends React.Component {
 					sliceOptions={sliceOptions}
 					activeSlice={activeSlice}
 					setSlice={this.setSlice}
-					lenses={this.lenses}
-					setLens={this.setLens}
+					lenses={lenses}
+					setLens={(event) => {
+						this.setLens(event.currentTarget.dataset.slug)
+					}}
 					lens={lens}
 					filters={filters}
 					tailTypes={tailTypes}
@@ -819,11 +817,14 @@ const mapStateToProps = (state, ownProps) => {
 	const tail = (targetTail && timelineSearchTail)
 		? _.unionBy(targetTail, timelineSearchTail, 'id')
 		: null
+	const user = selectors.getCurrentUser(state)
+	const lenses = tail && tail.length ? getLenses('list', tail, user, 'data.icon') : []
 	return {
 		channels: selectors.getChannels(state),
 		tail,
+		lenses,
 		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
+		user,
 		userActiveLens: selectors.getUsersViewLens(state, target),
 		userActiveSlice: selectors.getUsersViewSlice(state, target)
 	}

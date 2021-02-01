@@ -5,6 +5,7 @@
  */
 
 import '../../../../../test/ui-setup'
+import _ from 'lodash'
 import ava from 'ava'
 import sinon from 'sinon'
 import {
@@ -29,6 +30,21 @@ const user = {
 		profile: {}
 	}
 }
+
+const lenses = [
+	{
+		slug: 'lens-chart',
+		data: {
+			renderer: _.constant(null)
+		}
+	},
+	{
+		slug: 'lens-support-threads',
+		data: {
+			renderer: _.constant(null)
+		}
+	}
+]
 
 const types = [ supportThreadType ]
 
@@ -144,4 +160,16 @@ ava('Active slice is initialized to the first slice option if not set in user pr
 			description: 'Status: open'
 		} ]
 	} ])
+})
+
+ava('Active lens is initialized to the user\'s active lens for that view, if set', (test) => {
+	const {
+		commonProps
+	} = test.context
+
+	const wrapper = shallow(
+		<ViewRenderer {...commonProps} lenses={lenses} userActiveLens="lens-chart" />
+	)
+
+	test.deepEqual(wrapper.state().activeLens, 'lens-chart')
 })

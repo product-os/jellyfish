@@ -262,6 +262,10 @@ const lens = {
 				properties: {
 					id: {
 						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'thread@1.0.0'
 					}
 				}
 			}

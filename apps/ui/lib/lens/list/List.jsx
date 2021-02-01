@@ -251,6 +251,9 @@ const lens = {
 			items: {
 				type: 'object',
 				properties: {
+					id: {
+						type: 'string'
+					},
 					slug: {
 						type: 'string'
 					}
