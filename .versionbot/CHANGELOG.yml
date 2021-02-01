@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump third-party packages
+      hash: f36165508f6f363d7db1c1a5e99df979416476f9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.48.15
+  date: 2021-02-01T01:09:29.713Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 5b11fe06aaad7c2c658ea99eee9db69e2adca5fc
       body: ''
