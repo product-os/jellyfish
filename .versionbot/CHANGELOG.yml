@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix description text on UnlinkModal
+      hash: 7ffc8375f197c6097d86aeb2bffdb6f57ecb7606
+      body: >
+        The list of types being searched was incorrect. The reverse constraint
+        needs to be looked up to get the correct 'title'.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.49.1
+  date: 2021-02-01T05:33:08.133Z
+- commits:
     - subject: Add tooltip to lens selection
       hash: 3ebf15ad703dc92cd673a3e4b76a52f73e0a9a5e
       body: |
