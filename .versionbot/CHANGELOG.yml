@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^6.0.42'
+      hash: 1e6f56ee81bc8bc6d2a7e40dc69c4dc4c2d0aff3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.50.1
+  date: 2021-02-01T15:43:02.711Z
+- commits:
     - subject: Add unit tests for View component
       hash: 434338d91b6dc8f129be791cd730326a5c3f8405
       body: ''
