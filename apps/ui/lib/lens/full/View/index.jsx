@@ -56,6 +56,23 @@ import {
 
 const getSearchViewId = (targetId) => `$$search-${targetId}`
 
+// Search the view card's filters for a slice filter. If one is found
+// that matches one of the slice options, return that slice option
+const getActiveSliceFromFilter = (sliceOptions, viewCard) => {
+	const viewFilters = _.get(viewCard, [ 'data', 'allOf' ], [])
+	for (const slice of sliceOptions) {
+		const sliceFilter = createSliceFilter(slice)
+		for (const viewFilter of viewFilters) {
+			const filterOptions = _.get(viewFilter, [ 'schema', 'anyOf' ])
+			const activeSliceFilter = _.find(filterOptions, sliceFilter)
+			if (activeSliceFilter) {
+				return slice
+			}
+		}
+	}
+	return null
+}
+
 const createSliceFilter = (slice) => {
 	const filter = {
 		// Use the slice path as a unique ID, as we don't want multiple slice constraints
@@ -208,7 +225,7 @@ const createEventSearchFilter = (types, term) => {
 	}
 }
 
-class ViewRenderer extends React.Component {
+export class ViewRenderer extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -387,17 +404,14 @@ class ViewRenderer extends React.Component {
 			return item.anyOf && item.anyOf[0].$id !== filter.$id
 		})
 
-		// The default slice represents the 'all' option (i.e. no actual filter)
-		// so only add the slice filter if it is not the default ('all') option.
-		const isAllFilter = _.isEqual(value, getDefaultSliceOption(this.state.sliceOptions))
-		if (!isAllFilter) {
-			parsedFilters.push({
-				$id: filter.$id,
-				anyOf: [ filter ]
-			})
-		}
+		parsedFilters.push({
+			$id: filter.$id,
+			anyOf: [ filter ]
+		})
 
 		this.updateFilters(parsedFilters)
+
+		this.props.actions.setViewSlice(this.props.card.id, value)
 	}
 
 	setPage (page) {
@@ -505,7 +519,16 @@ class ViewRenderer extends React.Component {
 		const sliceOptions = getSliceOptions(head, this.props.types)
 
 		if (sliceOptions && sliceOptions.length) {
-			activeSlice = _.first(sliceOptions)
+			// Default to setting the active slice based on the user's preference
+			if (this.props.userActiveSlice) {
+				activeSlice = _.find(sliceOptions, this.props.userActiveSlice)
+			}
+
+			// Check if the view defines a slice filter
+			activeSlice = activeSlice || getActiveSliceFromFilter(sliceOptions, head)
+
+			// Otherwise just select the first slice option
+			activeSlice = activeSlice || _.first(sliceOptions)
 
 			const filter = createSliceFilter(activeSlice)
 
@@ -762,7 +785,8 @@ const mapStateToProps = (state, ownProps) => {
 		tail,
 		types: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state),
-		userActiveLens: selectors.getUsersViewLens(state, target)
+		userActiveLens: selectors.getUsersViewLens(state, target),
+		userActiveSlice: selectors.getUsersViewSlice(state, target)
 	}
 }
 
@@ -774,7 +798,8 @@ const mapDispatchToProps = (dispatch) => {
 				'loadViewData',
 				'loadMoreViewData',
 				'setViewData',
-				'setViewLens'
+				'setViewLens',
+				'setViewSlice'
 			]), dispatch)
 	}
 }
