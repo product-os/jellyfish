@@ -7,6 +7,11 @@
 import React from 'react'
 import _ from 'lodash'
 import skhema from 'skhema'
+import memoize from 'memoize-one'
+import {
+	circularDeepEqual
+} from 'fast-equals'
+import clone from 'deep-copy'
 import {
 	Select
 } from 'rendition'
@@ -33,11 +38,19 @@ const FIELDS_TO_OMIT = [ {
 
 const PREFIX = 'Sort by: '
 
-const getSortByOptions = (cardSchema, tailType) => {
-	const dataSchema = _.get(tailType, [ 'data', 'schema' ])
+const isSupportView = memoize((types) => {
+	return _.find(types, {
+		slug: 'support-thread'
+	})
+})
+
+const getSortByOptions = (cardSchema, tailTypes) => {
+	const tailSchemas = _.map(tailTypes, (tailType) => {
+		return clone(_.get(tailType, [ 'data', 'schema' ], {}))
+	})
 
 	// Merge generic card schema with current card schema to get top-level and data fields
-	const fullSchema = skhema.merge([ cardSchema, dataSchema ])
+	const fullSchema = skhema.merge([ cardSchema, ...tailSchemas ])
 
 	const dataFieldPaths = helpers.getPathsInSchema(fullSchema, FIELDS_TO_OMIT)
 
@@ -66,11 +79,11 @@ export default class SortByDropdown extends React.Component {
 
 	async componentDidMount () {
 		const {
-			tailType
+			tailTypes
 		} = this.props
 
 		// TODO remove this once we have support for sorting by linked cards
-		if (tailType && tailType.slug === 'support-thread') {
+		if (isSupportView(tailTypes)) {
 			this.setState({
 				isSupportView: true
 			})
@@ -83,22 +96,26 @@ export default class SortByDropdown extends React.Component {
 		} = await sdk.getBySlug('card@1.0.0')
 
 		this.setState({
-			sortByOptions: getSortByOptions(cardSchema, tailType),
+			sortByOptions: getSortByOptions(cardSchema, tailTypes),
 			cardSchema
 		})
 	}
 
 	async componentDidUpdate ({
-		tailType: prevTailType
+		tailTypes: prevTailTypes
 	}) {
 		const {
-			tailType
+			tailTypes
 		} = this.props
 
+		const prevTailTypeSlugs = _.map(prevTailTypes, 'slug')
+		const tailTypeSlugs = _.map(tailTypes, 'slug')
+
+		// If the tail types have changed, recalculate the sort by options
 		// TODO remove check for support view once we have support for sorting by linked cards
-		if (tailType.slug !== prevTailType.slug && !this.state.isSupportView) {
+		if (!circularDeepEqual(tailTypeSlugs, prevTailTypeSlugs) && !this.state.isSupportView) {
 			this.setState({
-				sortByOptions: getSortByOptions(this.state.cardSchema, tailType)
+				sortByOptions: getSortByOptions(this.state.cardSchema, tailTypes)
 			})
 		}
 	}
@@ -118,7 +135,7 @@ export default class SortByDropdown extends React.Component {
 				sortBy: currentSortBy
 			},
 			setSortByField,
-			tailType,
+			tailTypes,
 			...rest
 		} = this.props
 

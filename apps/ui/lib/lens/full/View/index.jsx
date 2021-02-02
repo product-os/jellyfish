@@ -8,6 +8,7 @@ import clone from 'deep-copy'
 import {
 	circularDeepEqual
 } from 'fast-equals'
+import skhema from 'skhema'
 import update from 'immutability-helper'
 import * as _ from 'lodash'
 import React from 'react'
@@ -38,9 +39,6 @@ import {
 	selectors,
 	sdk
 } from '../../../core'
-import {
-	mergeWithUniqConcatArrays
-} from '../../../core/queries'
 import {
 	getLensBySlug
 } from '../../'
@@ -166,9 +164,14 @@ const createSyntheticViewCard = (view, filters) => {
 		// can't express the query on timeline elements, so the subschema has to be
 		// stripped from the full text search query schema
 		if (schema.title === FULL_TEXT_SEARCH_TITLE) {
-			schema.anyOf[0].anyOf = schema.anyOf[0].anyOf.filter((item) => {
-				return !item.properties.$$links
-			})
+			_.forEach(
+				_.filter(schema.anyOf, 'anyOf'),
+				(subSchema) => {
+					subSchema.anyOf = subSchema.anyOf.filter((item) => {
+						return !item.properties.$$links
+					})
+				}
+			)
 		}
 
 		syntheticViewCard.data.allOf.push({
@@ -180,11 +183,36 @@ const createSyntheticViewCard = (view, filters) => {
 	return syntheticViewCard
 }
 
-const createSearchFilter = (schema, term) => {
-	return term ? {
-		anyOf: [
-			helpers.createFullTextSearchFilter(schema, term)
-		],
+const createSearchFilter = (types, term) => {
+	if (!term) {
+		return null
+	}
+	const searchFilterAnyOf = _.compact(
+		types.map((type) => {
+			const filterForType = helpers.createFullTextSearchFilter(type.data.schema, term, {
+				fullTextSearchFieldsOnly: true
+			})
+			return filterForType && skhema.merge([
+				{
+					description: types.length > 1
+						? `Any ${type.slug} field contains ${term}`
+						: `Any field contains ${term}`
+				},
+				filterForType,
+				{
+					required: [ 'type' ],
+					properties: {
+						type: {
+							type: 'string',
+							const: `${type.slug}@${type.version}`
+						}
+					}
+				}
+			])
+		})
+	)
+	return searchFilterAnyOf.length ? {
+		anyOf: searchFilterAnyOf,
 		description: `Full text search for '${term}'`,
 		title: FULL_TEXT_SEARCH_TITLE,
 		$id: FULL_TEXT_SEARCH_TITLE
@@ -201,7 +229,10 @@ const createEventSearchFilter = (types, term) => {
 	}
 	const eventSchema = messageType.data.schema
 	const attachedElementSearchFilter = helpers.createFullTextSearchFilter(eventSchema, term)
-	const attachedElement = _.mergeWith(
+	if (!attachedElementSearchFilter) {
+		return null
+	}
+	const attachedElement = skhema.merge([
 		{
 			type: 'object',
 			required: [ 'type' ],
@@ -211,9 +242,8 @@ const createEventSearchFilter = (types, term) => {
 				}
 			}
 		},
-		attachedElementSearchFilter,
-		mergeWithUniqConcatArrays
-	)
+		attachedElementSearchFilter
+	])
 	return {
 		type: 'object',
 		$$links: {
@@ -236,7 +266,7 @@ export class ViewRenderer extends React.Component {
 			searchFilter: null,
 			filters: [],
 			ready: false,
-			tailType: null,
+			tailTypes: null,
 			activeLens: null,
 			activeSlice: null,
 			options: {
@@ -342,7 +372,6 @@ export class ViewRenderer extends React.Component {
 
 	updateSearch (event) {
 		const newSearchTerm = event.target.value
-		const schema = _.get(this.state, [ 'tailType', 'data', 'schema' ])
 		this.setState((prevState) => {
 			return {
 				options: update(prevState.options, {
@@ -354,7 +383,7 @@ export class ViewRenderer extends React.Component {
 					}
 				}),
 				eventSearchFilter: createEventSearchFilter(this.props.types, newSearchTerm),
-				searchFilter: createSearchFilter(schema, newSearchTerm),
+				searchFilter: createSearchFilter(this.state.tailTypes, newSearchTerm),
 				searchTerm: newSearchTerm
 			}
 		}, () => {
@@ -481,7 +510,8 @@ export class ViewRenderer extends React.Component {
 
 	bootstrap (channel) {
 		const {
-			head
+			head,
+			seed
 		} = channel.data
 		if (!this.props.user) {
 			throw new Error('Cannot bootstrap a view without an active user')
@@ -510,9 +540,11 @@ export class ViewRenderer extends React.Component {
 			? this.props.userActiveLens
 			: _.get(lenses, [ '0', 'slug' ])
 
-		const tailType = _.find(this.props.types, {
-			slug: helpers.getTypeFromViewCard(head).split('@')[0]
-		}) || null
+		const viewTailTypes = helpers.getTypesFromViewCard(head)
+
+		const tailTypes = _.map(viewTailTypes, (tailType) => {
+			return helpers.getType(tailType, this.props.types)
+		})
 
 		let activeSlice = null
 
@@ -545,13 +577,21 @@ export class ViewRenderer extends React.Component {
 			}
 		}
 
+		const initialSearchTerm = _.get(seed, [ 'searchTerm' ])
+		const searchTermState = initialSearchTerm ? {
+			eventSearchFilter: createEventSearchFilter(this.props.types, initialSearchTerm),
+			searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
+			searchTerm: initialSearchTerm
+		} : {}
+
 		// Set default state
 		this.setState({
 			activeLens,
 			filters,
-			tailType,
+			tailTypes,
 			activeSlice,
 			sliceOptions,
+			...searchTermState,
 
 			// Mark as ready
 			ready: true
@@ -698,7 +738,7 @@ export class ViewRenderer extends React.Component {
 		} = channel.data
 
 		const {
-			tailType,
+			tailTypes,
 			activeLens,
 			ready,
 			redirectTo,
@@ -744,7 +784,7 @@ export class ViewRenderer extends React.Component {
 					setLens={this.setLens}
 					lens={lens}
 					filters={filters}
-					tailType={tailType}
+					tailTypes={tailTypes}
 					updateFilters={this.updateFilters}
 					saveView={this.saveView}
 					channel={channel}
@@ -763,7 +803,7 @@ export class ViewRenderer extends React.Component {
 						tail={tail}
 						channel={channel}
 						getQueryOptions={this.getQueryOptions}
-						tailType={tailType}
+						tailTypes={tailTypes}
 						setPage={this.setPage}
 						pageOptions={options}
 					/>

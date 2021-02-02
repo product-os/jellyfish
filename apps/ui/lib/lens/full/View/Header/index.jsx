@@ -31,7 +31,7 @@ export default class Header extends React.Component {
 			setLens,
 			lens,
 			filters,
-			tailType,
+			tailTypes,
 			updateFilters,
 			saveView,
 			channel,
@@ -57,8 +57,9 @@ export default class Header extends React.Component {
 						title="Filters and Lenses"
 						maxContentHeight="70vh"
 						flex={1}
+						minWidth={0}
 						collapsible={isMobile}
-						data-test="filters-and-lense"
+						data-test="filters-and-lenses"
 					>
 						<Flex
 							mt={[ 2, 2, 0 ]}
@@ -85,7 +86,7 @@ export default class Header extends React.Component {
 							)}
 						</Flex>
 						<ViewFilters
-							tailType={tailType}
+							tailTypes={tailTypes}
 							filters={filters}
 							searchFilter={searchFilter}
 							updateFilters={updateFilters}

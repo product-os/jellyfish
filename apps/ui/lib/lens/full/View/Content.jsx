@@ -37,7 +37,7 @@ export default class Content extends React.Component {
 			tail,
 			channel,
 			getQueryOptions,
-			tailType,
+			tailTypes,
 			setPage,
 			pageOptions
 		} = this.props
@@ -65,12 +65,12 @@ export default class Content extends React.Component {
 							pageOptions={pageOptions}
 							page={pageOptions.page}
 							totalPages={pageOptions.totalPages}
-							type={tailType}
+							tailTypes={tailTypes}
 						/>
 					)}
 				</Flex>
-				{Boolean(tailType) && (
-					<ViewFooter type={tailType} justifyContent="flex-end" />
+				{tailTypes.length && (
+					<ViewFooter types={tailTypes} justifyContent="flex-end" />
 				)}
 			</Flex>
 		)
