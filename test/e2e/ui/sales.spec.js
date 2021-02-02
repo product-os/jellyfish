@@ -249,6 +249,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	const clearAllButtonSelector = '//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "Clear all")]'
 	const filterButtonSelector = `//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "${filterButtonText}")]`
 	const closeFilterButtonSelector = `${filterButtonSelector}/following-sibling::button`
+	const scrollableSelector = '.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'
 
 	const account = await sdk.card.create({
 		type: 'account@1.0.0',
@@ -277,7 +278,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	// The created opportunity is displayed as we have no active filter
 	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
 		page,
-		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		scrollableSelector,
 		opportunityCardSelector
 	))
 
@@ -290,7 +291,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	// The created opportunity should now be hidden as it doesn't match the search term
 	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
 		page,
-		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		scrollableSelector,
 		opportunityCardSelector
 	))
 
@@ -305,7 +306,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	// ...and the created opportunity is displayed once again
 	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
 		page,
-		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		scrollableSelector,
 		opportunityCardSelector
 	))
 
@@ -318,7 +319,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	// ... and that the created opportunity should be hidden again
 	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
 		page,
-		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		scrollableSelector,
 		opportunityCardSelector
 	))
 
@@ -333,7 +334,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 	// ...and the created opportunity is displayed once again
 	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
 		page,
-		await page.waitForSelector('.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'),
+		scrollableSelector,
 		opportunityCardSelector
 	))
 })
