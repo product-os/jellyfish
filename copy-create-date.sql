@@ -6,10 +6,10 @@ BEGIN
 	LOOP
 		UPDATE cards SET new_created_at=TO_TIMESTAMP(created_at, 'YYYY-MM-DDThh24:mi:ss.MSZ') WHERE id IN (SELECT id FROM cards WHERE new_created_at IS NULL FOR UPDATE SKIP LOCKED LIMIT 1000);
 		COMMIT;
-		GET DIAGNOSTICS updated = ROW_COUNT;
-		IF updated = 0 THEN
+		IF NOT FOUND THEN
 			EXIT;
 		END IF;
+		GET DIAGNOSTICS updated = ROW_COUNT;
 		total = total + updated;	
 		RAISE INFO 'Updated % rows...', total;
 		PERFORM pg_sleep(1);
