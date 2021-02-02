@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix e2e test macro
+      hash: 02163497bd7f0cef7605c475550c2d76d7954eab
+      body: >
+        We need to return success: false if the scrollable selector is not found
+        within the `lookForElementInsideScrollable` method.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: e3c4404372892847bdc970d66d6b62d9607ac677
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.50.4
+  date: 2021-02-02T06:32:15.526Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 896c6ef0ff43a7224bbbcfb9ddd976a4f948e6ae
       body: ''
