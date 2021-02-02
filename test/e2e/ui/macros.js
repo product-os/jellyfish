@@ -221,14 +221,14 @@ exports.navigateToHomeChannelItem = async (page, menuStack) => {
 	}
 }
 
-const lookForElementInsideScrollable = async (elem, selector) => {
-	// Workaround for rerendered elements
-	let scrollable = null
-	if (document.body.contains(elem)) {
-		scrollable = elem
-	} else {
-		console.warn('Element', scrollable, 'is not inside dom anymore, reselecting using className which can be unreliable')
-		scrollable = document.getElementsByClassName(elem.className)[0]
+const lookForElementInsideScrollable = async (elemSelector, selector) => {
+	const scrollable = document.querySelector(elemSelector)
+
+	if (!scrollable) {
+		return {
+			result: null,
+			success: false
+		}
 	}
 
 	const stepTimeout = 100
@@ -267,7 +267,7 @@ const lookForElementInsideScrollable = async (elem, selector) => {
 	}
 }
 
-exports.waitForSelectorInsideScrollable = async (page, scrollable, selector) => {
+exports.waitForSelectorInsideScrollable = async (page, scrollableSelector, selector) => {
 	const start = Date.now()
 
 	while (true) {
@@ -277,7 +277,7 @@ exports.waitForSelectorInsideScrollable = async (page, scrollable, selector) => 
 
 		const result = await page.evaluateHandle(
 			lookForElementInsideScrollable,
-			scrollable,
+			scrollableSelector,
 			selector
 		)
 
@@ -289,7 +289,7 @@ exports.waitForSelectorInsideScrollable = async (page, scrollable, selector) => 
 	}
 }
 
-exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollable, selector) => {
+exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollableSelector, selector) => {
 	const start = Date.now()
 
 	while (true) {
@@ -299,7 +299,7 @@ exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollable, se
 
 		const result = await page.evaluateHandle(
 			lookForElementInsideScrollable,
-			scrollable,
+			scrollableSelector,
 			selector
 		)
 
