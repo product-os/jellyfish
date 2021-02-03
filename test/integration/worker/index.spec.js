@@ -957,7 +957,8 @@ ava('should be able to login as a user with a password', async (test) => {
 		links: session.links,
 		data: {
 			actor: signupResult.data.id,
-			expiration: session.data.expiration
+			expiration: session.data.expiration,
+			scope: {}
 		}
 	}))
 
