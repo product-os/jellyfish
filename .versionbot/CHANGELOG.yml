@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 72a97706c85c950d1fa34b1592d5e7800cb8568a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.1
+  date: 2021-02-03T08:50:34.853Z
+- commits:
     - subject: Add the view name (if set) to the view header
       hash: 4156f337e9a47025e890df40fdd440d2fe78a898
       body: ''
