@@ -6,7 +6,8 @@
 
 import React from 'react'
 import {
-	Flex
+	Flex,
+	Heading
 } from 'rendition'
 import {
 	CloseButton,
@@ -63,6 +64,7 @@ export default class Header extends React.Component {
 							mt={[ 2, 2, 0 ]}
 							flexWrap={[ 'wrap', 'wrap', 'nowrap' ]}
 							flexDirection="row-reverse"
+							justifyContent="space-between"
 							alignItems={[ 'flex-start', 'flex-start', 'center' ]}
 						>
 							<Flex mb={3} alignItems="center" justifyContent="flex-end" minWidth={[ '100%', '100%', 'auto' ]}>
@@ -78,6 +80,9 @@ export default class Header extends React.Component {
 									setLens={setLens}
 								/>
 							</Flex>
+							{ !isMobile && channel.data.head.name && (
+								<Heading.h4 mb={3}>{channel.data.head.name}</Heading.h4>
+							)}
 						</Flex>
 						<ViewFilters
 							tailType={tailType}
