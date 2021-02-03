@@ -36,6 +36,8 @@ properties:
     type: string?
   LOGENTRIES_TOKEN:
     type: string?
+  LOGENTRIES_REGION:
+    type: string?
   LOGLEVEL:
     type: string?
   WORKER_PORT:

@@ -74,6 +74,11 @@ spec:
             secretKeyRef:
               key: LOGENTRIES_TOKEN
               name: logentries-token
+        - name: LOGENTRIES_REGION
+          valueFrom:
+            secretKeyRef:
+              key: LOGENTRIES_REGION
+              name: logentries-region
         - name: LOGLEVEL
           valueFrom:
             secretKeyRef:
