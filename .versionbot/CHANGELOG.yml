@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add the view name (if set) to the view header
+      hash: 4156f337e9a47025e890df40fdd440d2fe78a898
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.51.0
+  date: 2021-02-03T08:16:45.178Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v6'
       hash: de0d37cf5ff2abf4790d606ca62acf21dc9b1e94
       body: ''
