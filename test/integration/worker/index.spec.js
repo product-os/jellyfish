@@ -8,7 +8,6 @@ const ava = require('ava')
 const helpers = require('./helpers')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const actionLibrary = require('@balena/jellyfish-action-library')
 const Worker = require('@balena/jellyfish-worker').Worker
 const uuid = require('@balena/jellyfish-uuid')
 
@@ -35,17 +34,17 @@ ava('.getId() different workers should get different ids', async (test) => {
 	const worker1 = new Worker(
 		test.context.jellyfish,
 		test.context.session,
-		actionLibrary,
+		test.context.actionLibrary,
 		test.context.queue)
 	const worker2 = new Worker(
 		test.context.jellyfish,
 		test.context.session,
-		actionLibrary,
+		test.context.actionLibrary,
 		test.context.queue)
 	const worker3 = new Worker(
 		test.context.jellyfish,
 		test.context.session,
-		actionLibrary,
+		test.context.actionLibrary,
 		test.context.queue)
 
 	await worker1.initialize(test.context.context)
@@ -957,7 +956,8 @@ ava('should be able to login as a user with a password', async (test) => {
 		links: session.links,
 		data: {
 			actor: signupResult.data.id,
-			expiration: session.data.expiration
+			expiration: session.data.expiration,
+			scope: {}
 		}
 	}))
 

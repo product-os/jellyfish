@@ -9,7 +9,6 @@ const Producer = require('@balena/jellyfish-queue').Producer
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Worker = require('@balena/jellyfish-worker').Worker
 const Sync = require('@balena/jellyfish-sync').Sync
-const actionLibrary = require('@balena/jellyfish-action-library')
 const environment = require('@balena/jellyfish-environment')
 const assert = require('@balena/jellyfish-assert')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
@@ -21,10 +20,10 @@ const socket = require('./socket')
 const graphql = require('./graphql')
 
 module.exports = async (context, options) => {
-	logger.info(context, 'Injecting integrations into Sync')
-
+	logger.info(context, 'Loading plugin sync integrations')
 	const integrations = options.pluginManager.getSyncIntegrations(context)
 
+	logger.info(context, 'Injecting integrations into Sync')
 	context.sync = new Sync({
 		integrations
 	})
@@ -71,7 +70,8 @@ module.exports = async (context, options) => {
 	// Fix that, and this one will disappear (but it will leave the scars)
 	const uninitializedConsumer = new Consumer(jellyfish, jellyfish.sessions.admin)
 
-	logger.info(context, 'Loading plugin sync integrations')
+	logger.info(context, 'Loading plugin actions')
+	const actionLibrary = options.pluginManager.getActions(context)
 
 	const worker = new Worker(
 		jellyfish, jellyfish.sessions.admin, actionLibrary, uninitializedConsumer)
@@ -79,7 +79,6 @@ module.exports = async (context, options) => {
 	await worker.initialize(context)
 
 	logger.info(context, 'Inserting cards')
-
 	const cards = options.pluginManager.getCards(context, core.cardMixins)
 
 	const results = await cardLoader(

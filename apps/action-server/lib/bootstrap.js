@@ -6,7 +6,6 @@
 
 const Bluebird = require('bluebird')
 const _ = require('lodash')
-const actionLibrary = require('@balena/jellyfish-action-library')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const Worker = require('@balena/jellyfish-worker').Worker
 const Consumer = require('@balena/jellyfish-queue').Consumer
@@ -158,7 +157,10 @@ const SCHEMA_ACTIVE_TRANSFORMERS = {
 	}
 }
 
-const bootstrap = async (context, library, options) => {
+const bootstrap = async (context, options) => {
+	logger.info(context, 'Loading plugin actions')
+	const actionLibrary = options.pluginManager.getActions(context)
+
 	logger.info(context, 'Setting up cache')
 	const cache = new core.MemoryCache(environment.redis)
 	if (cache) {
@@ -186,7 +188,7 @@ const bootstrap = async (context, library, options) => {
 	// it can bootstrap without needing any external workers
 	// to process the default cards
 	const worker = new Worker(
-		jellyfish, session, library, consumer, producer)
+		jellyfish, session, actionLibrary, consumer, producer)
 	await worker.initialize(context)
 
 	let run = true
@@ -342,7 +344,7 @@ const bootstrap = async (context, library, options) => {
 exports.worker = async (context, options) => {
 	metrics.startServer(context, options.metricsPort)
 	metrics.markQueueConcurrency()
-	return bootstrap(context, actionLibrary, {
+	return bootstrap(context, {
 		enablePriorityBuffer: true,
 		onError: options.onError,
 		onActionRequest: async (serverContext, jellyfish, worker, queue, session, actionRequest, errorHandler) => {
@@ -360,7 +362,7 @@ exports.worker = async (context, options) => {
 }
 
 exports.tick = async (context, options) => {
-	return bootstrap(context, actionLibrary, {
+	return bootstrap(context, {
 		enablePriorityBuffer: false,
 		delay: 2000,
 		onError: options.onError,
