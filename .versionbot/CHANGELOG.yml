@@ -1,4 +1,25 @@
 - commits:
+    - subject: Bump resinci/jellyfish-test to v1.3.31
+      hash: a12e4bcdca5969d5adbe6d654716859433023b45
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.30'
+      hash: 05db89d3d7821e8ddf8a8e385e9df4f9ed05e2be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.6
+  date: 2021-02-04T03:10:40.757Z
+- commits:
     - subject: Add new LOGENTRIES_REGION env var to configs
       hash: aeed17bd9f72ddc4cdf5c4a9209720ed03748b97
       body: ''
