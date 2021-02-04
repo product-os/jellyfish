@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add new LOGENTRIES_REGION env var to configs
+      hash: aeed17bd9f72ddc4cdf5c4a9209720ed03748b97
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-logger to v1'
+      hash: 02fed77c0ab3bad45c38a0f80509ee5af1f344d6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.5
+  date: 2021-02-04T01:52:49.937Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v7'
       hash: 1353d6aa049df7719d2f6f98859e94d078615049
       body: ''
