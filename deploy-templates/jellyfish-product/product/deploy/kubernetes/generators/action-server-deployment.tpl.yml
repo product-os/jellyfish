@@ -11,7 +11,7 @@ spec:
     type: RollingUpdate
     rollingUpdate:
        maxSurge: 25%
-       maxUnavailable: 0 
+       maxUnavailable: 0
   selector:
     matchLabels:
       app: action-server
@@ -83,6 +83,11 @@ spec:
             secretKeyRef:
               key: LOGENTRIES_TOKEN
               name: logentries-token
+        - name: LOGENTRIES_REGION
+          valueFrom:
+            secretKeyRef:
+              key: LOGENTRIES_REGION
+              name: logentries-region
         - name: LOGLEVEL
           valueFrom:
             secretKeyRef:

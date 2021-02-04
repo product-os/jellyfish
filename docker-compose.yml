@@ -19,6 +19,7 @@ services:
     environment:
       - DATABASE=postgres
       - LOGENTRIES_TOKEN
+      - LOGENTRIES_REGION
       - LOGLEVEL=crit
       - NODE_ENV
       - POD_NAME=localhost
@@ -130,6 +131,7 @@ services:
     environment:
       - DATABASE=postgres
       - LOGENTRIES_TOKEN
+      - LOGENTRIES_REGION
       - NODE_ENV
       - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
@@ -187,6 +189,7 @@ services:
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
+      - LOGENTRIES_REGION
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
       - AWS_S3_BUCKET_NAME
@@ -247,6 +250,7 @@ services:
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - LOGENTRIES_TOKEN
+      - LOGENTRIES_REGION
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
       - AWS_S3_BUCKET_NAME
