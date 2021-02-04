@@ -23,7 +23,7 @@
     "@balena/jellyfish-assert": "^1.0.54",
     "@balena/jellyfish-core": "^1.3.0",
     "@balena/jellyfish-environment": "^2.4.1",
-    "@balena/jellyfish-logger": "^1.0.0",
+    "@balena/jellyfish-logger": "^1.0.1",
     "@balena/jellyfish-metrics": "^0.1.55",
     "@balena/jellyfish-plugin-base": "^1.0.2",
     "@balena/jellyfish-plugin-default": "^2.12.1",
