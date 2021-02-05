@@ -60,10 +60,10 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.94",
-    "@balena/jellyfish-action-library": "^6.0.87",
+    "@balena/jellyfish-action-library": "7.1.0-handle-session-scope-f879ccb5dc431050596805b044f42090a4bc7459",
     "@balena/jellyfish-chat-widget": "^6.0.52",
     "@balena/jellyfish-client-sdk": "^2.13.0",
-    "@balena/jellyfish-core": "^1.3.6",
+    "@balena/jellyfish-core": "1.4.0-add-session-scope-a5607e7be92779875530545e29479322e20eff62",
     "@balena/jellyfish-environment": "^2.4.1",
     "@balena/jellyfish-plugin-default": "^2.12.4",
     "@balena/jellyfish-plugin-product-os": "^0.2.3",
