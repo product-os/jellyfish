@@ -19,7 +19,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^6.0.87",
+    "@balena/jellyfish-action-library": "^7.0.35",
     "@balena/jellyfish-assert": "^1.0.54",
     "@balena/jellyfish-core": "^1.3.6",
     "@balena/jellyfish-environment": "^2.4.1",
