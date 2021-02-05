@@ -1,4 +1,29 @@
 - commits:
+    - subject: Add dependencies to nodemon files
+      hash: 4cc20bb60358c3163c3bad1cef543219238ff041
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Load actions from plugins
+      hash: c5576160b090422166cde0258c725cfc1e26d80b
+      body: >
+        The action library is now a plugin so we can load the actions via the
+        plugin manager.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.51.15
+  date: 2021-02-05T15:42:54.473Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^1.3.7'
       hash: c4bc21e9544529c80303b52a2f08bde7d52c0a62
       body: ''
