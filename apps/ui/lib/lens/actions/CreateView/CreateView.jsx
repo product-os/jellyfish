@@ -6,6 +6,7 @@
 
 import * as _ from 'lodash'
 import React from 'react'
+import skhema from 'skhema'
 import {
 	Redirect
 } from 'react-router-dom'
@@ -241,20 +242,19 @@ export default class CreateView extends React.Component {
 			}
 		}
 
-		const query = Object.assign(
-			searchTerm
-				? helpers.createFullTextSearchFilter(userType.data.schema, searchTerm)
-				: {
-					type: 'object',
-					properties: {
-						type: {
-							const: 'user@1.0.0'
-						}
-					},
-					additionalProperties: true
-				},
-			linksQuery
-		)
+		const query = skhema.merge([ linksQuery, {
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					const: 'user@1.0.0'
+				}
+			},
+			additionalProperties: true
+		}, searchTerm
+			? helpers.createFullTextSearchFilter(userType.data.schema, searchTerm)
+			: {}
+		])
 
 		const users = await sdk.query(query)
 
