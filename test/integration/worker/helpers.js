@@ -5,12 +5,12 @@
  */
 
 const Bluebird = require('bluebird')
+const _ = require('lodash')
 const helpers = require('../backend-helpers')
 const uuid = require('@balena/jellyfish-uuid')
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
 const Worker = require('@balena/jellyfish-worker').Worker
-const actionLibrary = require('@balena/jellyfish-action-library')
 const queueErrors = require('@balena/jellyfish-queue').errors
 const utils = require('../utils')
 const errio = require('errio')
@@ -20,7 +20,8 @@ const before = async (test, options) => {
 		suffix: options.suffix
 	})
 
-	test.context.defaultCards = utils.loadDefaultCards(test.context.context)
+	test.context.allCards = utils.loadCards(test.context.context)
+	test.context.actionLibrary = utils.loadActions(test.context.context)
 
 	test.context.jellyfish = test.context.kernel
 	test.context.session = test.context.jellyfish.sessions.admin
@@ -31,29 +32,21 @@ const before = async (test, options) => {
 		test.context.context, test.context.session, session.data.actor)
 
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		test.context.defaultCards.message)
+		test.context.allCards.message)
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		test.context.defaultCards['role-user-community'])
+		test.context.allCards['role-user-community'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		test.context.defaultCards['password-reset'])
+		test.context.allCards['password-reset'])
 	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		test.context.defaultCards['first-time-login'])
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-create-card'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-create-event'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-set-add'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-create-user'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-create-session'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-update-card'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-delete-card'].card)
-	await test.context.jellyfish.insertCard(test.context.context, test.context.session,
-		actionLibrary['action-send-email'].card)
+		test.context.allCards['first-time-login'])
+
+	const actionCards = _.filter(test.context.allCards, (card) => {
+		return card.slug.startsWith('action-')
+	})
+
+	_.forEach(actionCards, async (actionCard) => {
+		await test.context.jellyfish.insertCard(test.context.context, test.context.session, actionCard)
+	})
 
 	test.context.queue = {}
 	test.context.queue.errors = queueErrors
@@ -128,20 +121,7 @@ exports.worker = {
 		test.context.worker = new Worker(
 			test.context.jellyfish,
 			test.context.session,
-			Object.assign({
-				// For testing purposes
-				'action-test-originator': {
-					card: Object.assign({}, actionLibrary['action-create-card'].card, {
-						slug: 'action-test-originator'
-					}),
-					handler: async (session, context, card, request) => {
-						request.arguments.properties.data = request.arguments.properties.data || {}
-						request.arguments.properties.data.originator = request.originator
-						return actionLibrary['action-create-card']
-							.handler(session, context, card, request)
-					}
-				}
-			}, actionLibrary),
+			test.context.actionLibrary,
 			test.context.queue.consumer,
 			test.context.queue.producer)
 		await test.context.worker.initialize(test.context.context)

@@ -8,12 +8,48 @@ const {
 	v4: uuid
 } = require('uuid')
 const coreMixins = require('@balena/jellyfish-core/lib/cards/mixins')
+const {
+	PluginManager
+} = require('@balena/jellyfish-plugin-base')
+const ActionLibrary = require('@balena/jellyfish-action-library')
 const DefaultPlugin = require('@balena/jellyfish-plugin-default')
 
-const plugin = new DefaultPlugin()
+const pluginManagerContext = {
+	id: 'jellyfish-integration-test'
+}
 
-exports.loadDefaultCards = (context) => {
-	return plugin.getCards(context, coreMixins)
+const pluginManager = new PluginManager(pluginManagerContext, {
+	plugins: [
+		ActionLibrary,
+		DefaultPlugin
+	]
+})
+
+exports.loadCards = (context) => {
+	const allCards = pluginManager.getCards(context, coreMixins)
+	allCards['action-test-originator'] = Object.assign({}, allCards['action-create-card'], {
+		slug: 'action-test-originator'
+	})
+	return allCards
+}
+
+exports.loadSyncIntegrations = (context) => {
+	return pluginManager.getSyncIntegrations(context)
+}
+
+exports.loadActions = (context) => {
+	const allActions = pluginManager.getActions(context)
+	Object.assign(allActions, {
+		'action-test-originator': {
+			handler: async (session, ctx, card, request) => {
+				request.arguments.properties.data = request.arguments.properties.data || {}
+				request.arguments.properties.data.originator = request.originator
+				return allActions['action-create-card']
+					.handler(session, ctx, card, request)
+			}
+		}
+	})
+	return allActions
 }
 
 exports.generateRandomID = () => {

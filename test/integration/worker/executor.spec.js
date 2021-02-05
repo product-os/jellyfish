@@ -7,7 +7,6 @@
 const ava = require('ava')
 const _ = require('lodash')
 const helpers = require('./helpers')
-const actionLibrary = require('@balena/jellyfish-action-library')
 const {
 	errors,
 	executor,
@@ -42,7 +41,7 @@ ava.serial.before(async (test) => {
 		insertCard: (session, typeCard, options, object) => {
 			return executor.insertCard(test.context.context, test.context.jellyfish, session, typeCard, {
 				context: test.context.actionContext,
-				library: actionLibrary,
+				library: test.context.actionLibrary,
 				actor: test.context.actor.id,
 				currentTime: new Date(),
 				attachEvents: options.attachEvents,
@@ -76,7 +75,7 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -92,7 +91,7 @@ ava('.replaceCard() updating a card must have the correct tail', async (test) =>
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -165,7 +164,7 @@ ava('.insertCard() should insert a card', async (test) => {
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -199,7 +198,7 @@ ava('.insertCard() should ignore an explicit type property', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -229,7 +228,7 @@ ava('.insertCard() should default active to true', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -251,7 +250,7 @@ ava('.patchCard() should ignore pointless updates', async (test) => {
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -265,7 +264,7 @@ ava('.patchCard() should ignore pointless updates', async (test) => {
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, result1, [])
@@ -275,7 +274,7 @@ ava('.patchCard() should ignore pointless updates', async (test) => {
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, result1, [
@@ -303,7 +302,7 @@ ava('.insertCard() should be able to set active to false', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -324,7 +323,7 @@ ava('.insertCard() should provide sane defaults for links', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -344,7 +343,7 @@ ava('.insertCard() should provide sane defaults for tags', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -364,7 +363,7 @@ ava('.insertCard() should provide sane defaults for data', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -386,7 +385,7 @@ ava('.insertCard() should be able to set a slug', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -406,7 +405,7 @@ ava('.insertCard() should be able to set a name', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -433,7 +432,7 @@ ava('.patchCard() should not upsert if no changes were made', async (test) => {
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, element, [])
@@ -454,7 +453,7 @@ ava('.patchCard() should set a card to inactive', async (test) => {
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, previousCard, [
@@ -484,7 +483,7 @@ ava('.insertCard() throw if card already exists and override is false', async (t
 		currentTime: new Date(),
 		attachEvents: false,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, {
@@ -504,7 +503,7 @@ ava('.insertCard() should add a create event if attachEvents is true', async (te
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -552,7 +551,7 @@ ava('.patchCard() should add an update event if attachEvents is true', async (te
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction
 	}, element, [
@@ -631,19 +630,7 @@ ava('.insertCard() should pass a triggered action as an action originator', asyn
 			currentTime: new Date(),
 			attachEvents: true,
 			context: test.context.actionContext,
-			library: Object.assign({
-				'action-test-originator': {
-					card: Object.assign({}, actionLibrary['action-create-card'].card, {
-						slug: 'action-test-originator'
-					}),
-					handler: async (session, context, card, request) => {
-						request.arguments.properties.data = request.arguments.properties.data || {}
-						request.arguments.properties.data.originator = request.originator
-						return actionLibrary['action-create-card']
-							.handler(session, context, card, request)
-					}
-				}
-			}, actionLibrary),
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction,
 			triggers
@@ -705,19 +692,7 @@ ava('.insertCard() should be able to override a triggered action originator', as
 			attachEvents: true,
 			context: test.context.actionContext,
 			originator: '4a962ad9-20b5-4dd8-a707-bf819593cc84',
-			library: Object.assign({
-				'action-test-originator': {
-					card: Object.assign({}, actionLibrary['action-create-card'].card, {
-						slug: 'action-test-originator'
-					}),
-					handler: async (session, context, card, request) => {
-						request.arguments.properties.data = request.arguments.properties.data || {}
-						request.arguments.properties.data.originator = request.originator
-						return actionLibrary['action-create-card']
-							.handler(session, context, card, request)
-					}
-				}
-			}, actionLibrary),
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction,
 			triggers
@@ -777,7 +752,7 @@ ava('.insertCard() should execute one matching triggered action', async (test) =
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
@@ -861,7 +836,7 @@ ava('.insertCard() should not execute non-matching triggered actions', async (te
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
@@ -951,7 +926,7 @@ ava('.insertCard() should execute more than one matching triggered action', asyn
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
@@ -1048,7 +1023,7 @@ ava('.insertCard() should execute the matching triggered actions given more than
 		currentTime: new Date(),
 		attachEvents: true,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		executeAction: test.context.executeAction,
 		triggers
@@ -1185,7 +1160,7 @@ ava('.insertCard() should remove previously inserted type triggered actions if i
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		}, {
@@ -1307,7 +1282,7 @@ ava('.patchCard() should remove previously inserted type triggered actions if de
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction
 		},
@@ -1360,7 +1335,7 @@ ava('.insertCard() should add a triggered action given a type with an AGGREGATE 
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers
 	}, {
@@ -1454,7 +1429,7 @@ ava('.insertCard() should pre-register a triggered action if using AGGREGATE', a
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		setTriggers: (context, triggers) => {
 			localTriggers = triggers
@@ -1523,7 +1498,7 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 			attachEvents: false,
 			executeAction: test.context.executeAction,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			setTriggers: test.context.actionContext.setTriggers,
 			triggers: localTriggers
@@ -1560,7 +1535,7 @@ ava('.insertCard() should update pre-registered triggered actions if removing an
 		attachEvents: false,
 		executeAction: test.context.executeAction,
 		context: test.context.actionContext,
-		library: actionLibrary,
+		library: test.context.actionLibrary,
 		actor: test.context.actor.id,
 		setTriggers: test.context.actionContext.setTriggers,
 		triggers: localTriggers
@@ -1612,7 +1587,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction,
 			setTriggers: test.context.actionContext.setTriggers
@@ -1623,7 +1598,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction,
 			setTriggers: test.context.actionContext.setTriggers
@@ -1640,7 +1615,7 @@ ava('.insertCard() should add multiple triggered actions given a type with an AG
 			currentTime: new Date(),
 			attachEvents: false,
 			context: test.context.actionContext,
-			library: actionLibrary,
+			library: test.context.actionLibrary,
 			actor: test.context.actor.id,
 			executeAction: test.context.executeAction,
 			setTriggers: test.context.actionContext.setTriggers
@@ -1688,23 +1663,27 @@ ava('.run() should create a card', async (test) => {
 		test.context.context, test.context.session, 'card@latest')
 
 	const slug = test.context.generateRandomSlug()
-	const result = await executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
-		'action-create-card': actionLibrary['action-create-card']
-	}, {
-		actor: test.context.actor.id,
-		context: test.context.context,
-		action: actionCard,
-		timestamp: '2018-07-04T00:22:52.247Z',
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			reason: null,
-			properties: {
-				slug,
-				version: '1.0.0'
+	const result = await executor.run(
+		test.context.jellyfish,
+		test.context.session,
+		test.context.actionContext,
+		test.context.actionLibrary,
+		{
+			actor: test.context.actor.id,
+			context: test.context.context,
+			action: actionCard,
+			timestamp: '2018-07-04T00:22:52.247Z',
+			card: typeCard.id,
+			type: typeCard.type,
+			arguments: {
+				reason: null,
+				properties: {
+					slug,
+					version: '1.0.0'
+				}
 			}
 		}
-	})
+	)
 
 	test.deepEqual(result, {
 		id: result.id,
@@ -1717,24 +1696,30 @@ ava('.run() should create a card', async (test) => {
 ava('.run() should throw if the input card does not exist', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
-	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
-		'action-create-card': actionLibrary['action-create-card']
-	}, {
-		actor: test.context.actor.id,
-		action: actionCard,
-		context: test.context.context,
-		timestamp: '2018-07-04T00:22:52.247Z',
-		card: 'foobarbaz@9.9.9',
-		type: 'card@1.0.0',
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo-bar-baz'
+	await test.throwsAsync(
+		executor.run(
+			test.context.jellyfish,
+			test.context.session,
+			test.context.actionContext,
+			test.context.actionLibrary,
+			{
+				actor: test.context.actor.id,
+				action: actionCard,
+				context: test.context.context,
+				timestamp: '2018-07-04T00:22:52.247Z',
+				card: 'foobarbaz@9.9.9',
+				type: 'card@1.0.0',
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: 'foo-bar-baz'
+					}
+				}
 			}
+		), {
+			instanceOf: errors.WorkerNoElement
 		}
-	}), {
-		instanceOf: errors.WorkerNoElement
-	})
+	)
 })
 
 ava('.run() should throw if the actor does not exist', async (test) => {
@@ -1743,47 +1728,58 @@ ava('.run() should throw if the actor does not exist', async (test) => {
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
-		'action-create-card': actionLibrary['action-create-card']
-	}, {
-		actor: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
-		action: actionCard,
-		context: test.context.context,
-		timestamp: '2018-07-04T00:22:52.247Z',
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo-bar-baz'
+	await test.throwsAsync(
+		executor.run(
+			test.context.jellyfish,
+			test.context.session,
+			test.context.actionContext,
+			test.context.actionLibrary,
+			{
+				actor: 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa',
+				action: actionCard,
+				context: test.context.context,
+				timestamp: '2018-07-04T00:22:52.247Z',
+				card: typeCard.id,
+				type: typeCard.type,
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: 'foo-bar-baz'
+					}
+				}
 			}
+		), {
+			instanceOf: errors.WorkerNoElement
 		}
-	}), {
-		instanceOf: errors.WorkerNoElement
-	})
+	)
 })
 
 ava('.run() should throw if input card does not match the action filter', async (test) => {
 	const actionCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'action-create-card@latest')
-	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
-		'action-create-card': actionLibrary['action-create-card']
-	}, {
-		actor: test.context.actor.id,
-		action: actionCard,
-		context: test.context.context,
-		timestamp: '2018-07-04T00:22:52.247Z',
-		card: actionCard.id,
-		type: actionCard.type,
-		arguments: {
-			properties: {
-				version: '1.0.0',
-				slug: 'foo-bar-baz'
+	await test.throwsAsync(
+		executor.run(
+			test.context.jellyfish,
+			test.context.session,
+			test.context.actionContext,
+			test.context.actionLibrary,
+			{
+				actor: test.context.actor.id,
+				action: actionCard,
+				context: test.context.context,
+				timestamp: '2018-07-04T00:22:52.247Z',
+				card: actionCard.id,
+				type: actionCard.type,
+				arguments: {
+					properties: {
+						version: '1.0.0',
+						slug: 'foo-bar-baz'
+					}
+				}
 			}
-		}
-	}), {
-		instanceOf: errors.WorkerSchemaMismatch
-	})
+		), {
+			instanceOf: errors.WorkerSchemaMismatch
+		})
 })
 
 ava('.run() should throw if the arguments do not match the action', async (test) => {
@@ -1792,22 +1788,27 @@ ava('.run() should throw if the arguments do not match the action', async (test)
 	const typeCard = await test.context.jellyfish.getCardBySlug(
 		test.context.context, test.context.session, 'card@latest')
 
-	await test.throwsAsync(executor.run(test.context.jellyfish, test.context.session, test.context.actionContext, {
-		'action-create-card': actionLibrary['action-create-card']
-	}, {
-		actor: test.context.actor.id,
-		action: actionCard,
-		context: test.context.context,
-		timestamp: '2018-07-04T00:22:52.247Z',
-		card: typeCard.id,
-		type: typeCard.type,
-		arguments: {
-			foo: 'bar',
-			bar: 'baz'
-		}
-	}), {
-		instanceOf: errors.WorkerSchemaMismatch
-	})
+	await test.throwsAsync(
+		executor.run(
+			test.context.jellyfish,
+			test.context.session,
+			test.context.actionContext,
+			test.context.actionLibrary,
+			{
+				actor: test.context.actor.id,
+				action: actionCard,
+				context: test.context.context,
+				timestamp: '2018-07-04T00:22:52.247Z',
+				card: typeCard.id,
+				type: typeCard.type,
+				arguments: {
+					foo: 'bar',
+					bar: 'baz'
+				}
+			}
+		), {
+			instanceOf: errors.WorkerSchemaMismatch
+		})
 })
 
 ava('.run() should throw if the action has no corresponding implementation', async (test) => {
