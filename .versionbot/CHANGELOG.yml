@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: d57ce6fa1096714105b5e4e4608b8e3296b795c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.17
+  date: 2021-02-06T05:36:40.110Z
+- commits:
     - subject: Start tick before other backend services in compose
       hash: 81dd85639b6664aae95709341ab9256af908eb4c
       body: ''
