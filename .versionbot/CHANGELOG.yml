@@ -1,4 +1,17 @@
 - commits:
+    - subject: Start tick before other backend services in compose
+      hash: 81dd85639b6664aae95709341ab9256af908eb4c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.51.16
+  date: 2021-02-06T01:42:35.103Z
+- commits:
     - subject: Add dependencies to nodemon files
       hash: 4cc20bb60358c3163c3bad1cef543219238ff041
       body: ''
