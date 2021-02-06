@@ -177,6 +177,7 @@ services:
       - postgres
       - redis
       - balena-mdns-publisher
+      - tick
     environment:
       - DATABASE={{DATABASE}}
       - LOGLEVEL=crit
