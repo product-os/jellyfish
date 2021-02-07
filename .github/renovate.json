@@ -1,40 +1,12 @@
 {
   "extends": [
-    "config:base",
-    "docker:enableMajor"
-  ],
-  "ignorePaths": [],
-  "enabledManagers": [
-    "npm",
-    "dockerfile"
-  ],
-  "force": {
-    "constraints": {
-      "node": "< 15.0.0"
-    }
-  },
-  "pruneStaleBranches": false,
-  "rangeStrategy": "bump",
-  "commitMessagePrefix": "patch:",
-  "commitBody": "Change-type: patch",
-  "prHourlyLimit": 0,
-  "labels": [
-    "dependencies"
+    "github>product-os/jellyfish-renovate-config"
   ],
   "ignoreDeps": [
     "monaco-editor",
-    "monaco-editor-webpack-plugin",
-    "node"
+    "monaco-editor-webpack-plugin"
   ],
   "packageRules": [
-    {
-      "groupName": "non-major",
-      "updateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    },
     {
       "groupName": "non-major-frontend",
       "packageNames": [
@@ -51,8 +23,5 @@
       ],
       "automerge": true
     }
-  ],
-  "encrypted": {
-    "npmToken": "peBcYwDKQZ82d8VTsWGlzTaDjw9DbGCpxdKyyZxXR0MnXWKfGicW86UtWruQfHPdEOYylsbMvl6W6QR4HSBLiABaYZCI7MGShtsjRPEcb5m5lwadXZ+iK+xdJQnKMHFkNJxY2RhhdOczwkOXTOyYsDwHCPB0kCfGf0uPECs053vUleSM2haCbjLsRNX5xsR/uhHtkF8R/hEIXtO5fRXrl7o9yUFa4gyjZFVtb5KSScCNA+NowUYARxcNArZntqiKGBFb8AIOf7KBxDw8TSoX8i/2GNQXktnDriWMciV9L+Cn+o2un+YM5/mMVrwEF65U/QcnkhwxxG2tyOOUXRIsnA=="
-  }
+  ]
 }
