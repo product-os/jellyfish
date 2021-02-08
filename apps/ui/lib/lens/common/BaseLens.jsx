@@ -30,14 +30,6 @@ export default class BaseLens extends React.Component {
 		})
 	}
 
-	openChannel (card) {
-		this.props.actions.addChannel({
-			cardType: card.type,
-			target: card.id,
-			parentChannel: this.props.channel.id
-		})
-	}
-
 	getSeedData () {
 		const {
 			head
