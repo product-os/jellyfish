@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency react-select to v4'
+      hash: 155980ee8fcf20105962285e4b51a1a1dc8012a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.24
+  date: 2021-02-08T12:14:50.518Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 36fa9823bd9ed164a7c7d64691327e82f546ff2a
       body: ''
