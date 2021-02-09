@@ -37,12 +37,11 @@ import {
 	actionCreators,
 	selectors
 } from '../../core'
-import BaseLens from '../common/BaseLens'
 import {
 	getLens
 } from '../'
 
-class CardList extends BaseLens {
+class CardList extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -107,6 +106,21 @@ class CardList extends BaseLens {
 			defaultHeight: 300,
 			fixedWidth: true
 		})
+
+		this.openCreateChannel = this.openCreateChannel.bind(this)
+	}
+
+	openCreateChannel () {
+		const {
+			type,
+			actions,
+			channel: {
+				data: {
+					head
+				}
+			}
+		} = this.props
+		actions.openCreateChannel(head, type)
 	}
 
 	getSnapshotBeforeUpdate ({
@@ -243,7 +257,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'openCreateChannel'
 			]), dispatch)
 	}
 }

@@ -24,7 +24,6 @@ import {
 import format from 'date-fns/format'
 import parseISO from 'date-fns/parseISO'
 import flatten from 'flat'
-import BaseLens from '../../common/BaseLens'
 import {
 	LinkModal,
 	UnlinkModal
@@ -68,7 +67,7 @@ const OMISSIONS = [
 	}
 ]
 
-export default class CardTable extends BaseLens {
+export default class CardTable extends React.Component {
 	constructor (props) {
 		super(props)
 		this.generateTableData = this.generateTableData.bind(this)
@@ -83,7 +82,21 @@ export default class CardTable extends BaseLens {
 		this.showUnlinkModal = this.showUnlinkModal.bind(this)
 		this.hideLinkModal = this.hideLinkModal.bind(this)
 		this.toggleColumns = this.toggleColumns.bind(this)
+		this.openCreateChannel = this.openCreateChannel.bind(this)
 		this.openCreateChannelForLinking = this.openCreateChannelForLinking.bind(this)
+	}
+
+	openCreateChannel () {
+		const {
+			type,
+			actions,
+			channel: {
+				data: {
+					head
+				}
+			}
+		} = this.props
+		actions.openCreateChannel(head, type)
 	}
 
 	onChecked (checkedRows) {

@@ -47,6 +47,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
 				'addChannel',
+				'openCreateChannel',
 				'createLink',
 				'setLensState'
 			]), dispatch)
