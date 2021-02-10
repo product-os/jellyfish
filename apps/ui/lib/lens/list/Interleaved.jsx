@@ -38,7 +38,9 @@ import {
 	sdk,
 	selectors
 } from '../../core'
-import BaseLens from '../common/BaseLens'
+import {
+	getSeedData
+} from '../../core/store/actioncreators'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -65,7 +67,7 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 	return false
 }
 
-export class Interleaved extends BaseLens {
+export class Interleaved extends React.Component {
 	constructor (props) {
 		super(props)
 		this.shouldScroll = true
@@ -96,7 +98,7 @@ export class Interleaved extends BaseLens {
 				return
 			}
 
-			const cardData = this.getSeedData()
+			const cardData = getSeedData()
 
 			cardData.slug = `thread-${uuid()}`
 			cardData.type = 'thread'

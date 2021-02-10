@@ -8,6 +8,10 @@
 
 import * as Bluebird from 'bluebird'
 import immutableUpdate from 'immutability-helper'
+import path from 'path'
+import {
+	push
+} from 'connected-react-router'
 import clone from 'deep-copy'
 import * as fastEquals from 'fast-equals'
 import merge from 'deepmerge'
@@ -25,6 +29,9 @@ import {
 	addNotification,
 	helpers
 } from '@balena/jellyfish-ui-components'
+import {
+	linkConstraints
+} from '@balena/jellyfish-client-sdk'
 import actions from '../actions'
 import {
 	getQueue
@@ -315,6 +322,21 @@ const getCardInternal = (id, type, linkVerbs = []) => {
 		}
 		return card || null
 	}
+}
+
+export const getSeedData = (viewCard, user) => {
+	if (!viewCard || (viewCard.type !== 'view' && viewCard.type !== 'view@1.0.0')) {
+		return {}
+	}
+	const schema = helpers.getViewSchema(viewCard, user)
+	if (!schema) {
+		return {}
+	}
+
+	// Always inherit markers from the view card
+	return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
+		markers: viewCard.markers
+	})
 }
 
 export const actionCreators = {
@@ -648,6 +670,81 @@ export const actionCreators = {
 					dispatch(actionCreators.loadChannelData(channel))
 				}
 			}
+		}
+	},
+
+	addCard (channel, type, options = {}) {
+		const {
+			data: {
+				head: parentCard
+			}
+		} = channel
+		return (dispatch, getState, {
+			sdk, analytics
+		}) => {
+			if (options.synchronous) {
+				const state = getState()
+				const user = selectors.getCurrentUser(state)
+				const cardData = _.merge(
+					{
+						slug: `${type.slug}-${uuid()}`,
+						type: type.slug,
+						data: {}
+					},
+					getSeedData(parentCard, user)
+				)
+
+				sdk.card.create(cardData)
+					.then(async (newCard) => {
+						if (newCard) {
+							const current = channel.data.target
+							dispatch(
+								push(path.join(window.location.pathname.split(current)[0], current, newCard.slug || newCard.id))
+							)
+							const linkConstraint = _.find(linkConstraints, {
+								data: {
+									from: type.slug,
+									to: helpers.getTypeBase(parentCard.type)
+								}
+							})
+							if (linkConstraint) {
+								await sdk.card.link(newCard, parentCard, linkConstraint.name)
+							}
+						}
+					})
+					.then(() => {
+						analytics.track('element.create', {
+							element: {
+								type: cardData.type
+							}
+						})
+					})
+					.catch((error) => {
+						addNotification('danger', error.message)
+					})
+			} else {
+				dispatch(actionCreators.openCreateChannel(parentCard, _.castArray(type)))
+			}
+		}
+	},
+
+	openCreateChannel (sourceCard, types, options = {}) {
+		return (dispatch, getState) => {
+			const state = getState()
+			const user = selectors.getCurrentUser(state)
+			dispatch(
+				actionCreators.addChannel({
+					head: options.head || {
+						types,
+						seed: getSeedData(sourceCard, user),
+						onDone: {
+							action: 'open'
+						}
+					},
+					format: 'create',
+					canonical: false
+				})
+			)
 		}
 	},
 

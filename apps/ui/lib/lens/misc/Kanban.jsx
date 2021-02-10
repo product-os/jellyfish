@@ -32,7 +32,6 @@ import {
 	selectors,
 	sdk
 } from '../../core'
-import BaseLens from '../common/BaseLens'
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
 
@@ -50,12 +49,26 @@ const cardMapper = (card) => {
 	}
 }
 
-class Kanban extends BaseLens {
+class Kanban extends React.Component {
 	constructor (props) {
 		super(props)
 
+		this.openCreateChannel = this.openCreateChannel.bind(this)
 		this.handleDragEnd = this.handleDragEnd.bind(this)
 		this.onCardClick = this.onCardClick.bind(this)
+	}
+
+	openCreateChannel () {
+		const {
+			type,
+			actions,
+			channel: {
+				data: {
+					head
+				}
+			}
+		} = this.props
+		actions.openCreateChannel(head, type)
 	}
 
 	onCardClick (cardId) {
@@ -230,7 +243,8 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel'
+				'addChannel',
+				'openCreateChannel'
 			]),
 			dispatch
 		)

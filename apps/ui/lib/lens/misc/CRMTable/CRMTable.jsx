@@ -14,7 +14,6 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import SelectWrapper from './SelectWrapper'
-import BaseLens from '../../common/BaseLens'
 import {
 	ColorHashPill,
 	formatCurrency,
@@ -27,11 +26,25 @@ import CardTable from '../Table/CardTable'
 const SingleLineSpan = styled.span `
 	whiteSpace: 'nowrap'
 `
-class CRMTable extends BaseLens {
+class CRMTable extends React.Component {
 	constructor (props) {
 		super(props)
 		this.columns = this.initColumns()
+		this.openCreateChannel = this.openCreateChannel.bind(this)
 		this.generateTableData = this.generateTableData.bind(this)
+	}
+
+	openCreateChannel () {
+		const {
+			type,
+			actions,
+			channel: {
+				data: {
+					head
+				}
+			}
+		} = this.props
+		actions.openCreateChannel(head, type)
 	}
 
 	initColumns () {
