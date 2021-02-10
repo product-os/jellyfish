@@ -36,12 +36,13 @@ module.exports = {
 			id: `SERVER-TEST-${uuid()}`
 		}
 
+		test.context.actionWorker = await actionServer.worker(
+			test.context.context, workerOptions)
+
 		test.context.server = await bootstrap(test.context.context, {
 			database: workerOptions.database,
 			pluginManager: getPluginManager(test.context.context)
 		})
-		test.context.actionWorker = await actionServer.worker(
-			test.context.context, workerOptions)
 
 		test.context.sdk = getSdk({
 			apiPrefix: 'api/v2',

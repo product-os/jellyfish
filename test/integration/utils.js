@@ -9,21 +9,14 @@ const {
 } = require('uuid')
 const coreMixins = require('@balena/jellyfish-core/lib/cards/mixins')
 const {
-	PluginManager
-} = require('@balena/jellyfish-plugin-base')
-const ActionLibrary = require('@balena/jellyfish-action-library')
-const DefaultPlugin = require('@balena/jellyfish-plugin-default')
+	getPluginManager
+} = require('../../apps/server/lib/plugins')
 
 const pluginManagerContext = {
 	id: 'jellyfish-integration-test'
 }
 
-const pluginManager = new PluginManager(pluginManagerContext, {
-	plugins: [
-		ActionLibrary,
-		DefaultPlugin
-	]
-})
+const pluginManager = getPluginManager(pluginManagerContext)
 
 exports.loadCards = (context) => {
 	const allCards = pluginManager.getCards(context, coreMixins)

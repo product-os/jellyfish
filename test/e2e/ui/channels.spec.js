@@ -17,11 +17,7 @@ const context = {
 	}
 }
 
-const user = {
-	username: `johndoe-${uuid()}`,
-	email: `johndoe-${uuid()}@example.com`,
-	password: 'password'
-}
+const user = helpers.generateUserDetails()
 
 ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
@@ -49,7 +45,7 @@ ava.serial.after.always(async () => {
 	})
 })
 
-ava.serial('Should be able to navigate to a user\'s feedback and show the user\'s answers', async (test) => {
+ava.serial('User Feedback channel views are present in the UI', async (test) => {
 	const {
 		page
 	} = context
@@ -62,18 +58,21 @@ ava.serial('Should be able to navigate to a user\'s feedback and show the user\'
 
 	await page.waitForSelector('.column--view-all-user-feedback')
 
-	const mockData = require('./fixtures/user-feedback.json')
-	const name = `Feedback from ${mockData.user}`
-	const userFeedback = await page.evaluate((data, nameField) => {
-		return window.sdk.card.create({
-			type: 'user-feedback@1.0.0',
-			name: nameField,
-			data
-		})
-	}, mockData, name)
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--User Feedback"]',
+		'[data-test="home-channel__item--view-unowned-user-feedback"]'
+	])
 
-	const snippetSelector = `[data-test-id="snippet-card-${userFeedback.id}"] div > a`
-	await macros.waitForThenClickSelector(page, snippetSelector)
-	const linkText = await macros.getElementText(page, snippetSelector)
-	test.true(linkText.includes(name))
+	await page.waitForSelector('.column--view-unowned-user-feedback')
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--User Feedback"]',
+		'[data-test="home-channel__item--view-user-feedback-owned-by-me"]'
+	])
+
+	await page.waitForSelector('.column--view-user-feedback-owned-by-me')
+
+	test.pass()
 })
