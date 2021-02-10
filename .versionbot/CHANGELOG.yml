@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: e51e806e4650ab9b21fb1f7ed64d2c06bd5c98ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.37
+  date: 2021-02-10T07:18:34.659Z
+- commits:
     - subject: Remove BaseLens component
       hash: 9e771315fb9ce53bc147c962fef487b992a0048b
       body: >
