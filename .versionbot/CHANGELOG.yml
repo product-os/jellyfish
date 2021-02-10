@@ -1,4 +1,33 @@
 - commits:
+    - subject: Remove BaseLens component
+      hash: 9e771315fb9ce53bc147c962fef487b992a0048b
+      body: >
+        Moving away from an abstract base react component. The solution we have
+        now isn't perfect as multiple components implement the same (short)
+        function. But this should be tidied up a lot in a follow-up PR that
+        refactors the lenses to use a common view footer.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove unusd openChannel function
+      hash: d2f0d8870151d883d3267b077937565b8a7b0c4a
+      body: >
+        This class method is never actually called. Interleaved and
+        Inbox/MessageList implement their own openChannel class methods.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.51.36
+  date: 2021-02-10T04:06:34.337Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 5cc0fccc3f0c03e8fee9b5482800ca0ad955e9f4
       body: ''
