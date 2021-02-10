@@ -36,6 +36,7 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 	# components should only be defined in jellyfish-ui-components
 	COMPONENTS_DIRECTORIES="apps/ui/lib/layouts/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/components/"
+	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/common/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/misc/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/full/"
 	COMPONENTS_DIRECTORIES+="|apps/ui/lib/lens/list/"

@@ -68,7 +68,6 @@ class MessageList extends React.Component {
 		}
 
 		this.state = {
-			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
 			loadingPage: false

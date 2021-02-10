@@ -19,28 +19,21 @@ import {
 } from 'redux'
 import {
 	Box,
-	Button,
 	Flex
 } from 'rendition'
 import {
-	v4 as uuid
-} from 'uuid'
-import {
-	addNotification,
-	Column,
 	Event,
 	EventsContainer,
 	Icon,
 	withDefaultGetActorHref
 } from '@balena/jellyfish-ui-components'
 import {
-	analytics,
 	sdk,
 	selectors
 } from '../../core'
 import {
-	getSeedData
-} from '../../core/store/actioncreators'
+	withChannelContext
+} from '../../hooks'
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -88,57 +81,6 @@ export class Interleaved extends React.Component {
 				path.join(window.location.pathname.split(current)[0], current, target)
 			)
 		}
-		this.addThread = (event) => {
-			event.preventDefault()
-			const {
-				head
-			} = this.props.channel.data
-			if (!head) {
-				console.warn('.addThread() called, but there is no head card')
-				return
-			}
-
-			const cardData = getSeedData()
-
-			cardData.slug = `thread-${uuid()}`
-			cardData.type = 'thread'
-			if (!cardData.data) {
-				cardData.data = {}
-			}
-			this.setState({
-				creatingCard: true
-			})
-			sdk.card.create(cardData)
-				.then((thread) => {
-					if (thread) {
-						this.openChannel(thread.slug || thread.id)
-					}
-					return thread
-				})
-				.then((thread) => {
-					// If a relationship is defined, link this thread using the
-					// relationship
-					const relationship = this.props.relationship
-					if (thread && relationship) {
-						sdk.card.link(thread, relationship.target, relationship.name)
-					}
-				})
-				.then(() => {
-					analytics.track('element.create', {
-						element: {
-							type: cardData.type
-						}
-					})
-				})
-				.catch((error) => {
-					addNotification('danger', error.message)
-				})
-				.finally(() => {
-					this.setState({
-						creatingCard: false
-					})
-				})
-		}
 		this.handleEventToggle = () => {
 			this.setState({
 				messagesOnly: !this.state.messagesOnly
@@ -163,7 +105,6 @@ export class Interleaved extends React.Component {
 			this.loadingPage = false
 		}
 		this.state = {
-			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
@@ -215,9 +156,6 @@ export class Interleaved extends React.Component {
 
 	render () {
 		const {
-			head
-		} = this.props.channel.data
-		const {
 			messagesOnly
 		} = this.state
 
@@ -249,9 +187,11 @@ export class Interleaved extends React.Component {
 		tail = _.sortBy(tail, 'created_at')
 
 		return (
-			<Column
+			<Flex
+				flexDirection="column"
 				flex="1"
 				style={{
+					overflowY: 'auto',
 					position: 'relative'
 				}}
 			>
@@ -287,33 +227,14 @@ export class Interleaved extends React.Component {
 						)
 					})}
 				</EventsContainer>
-
-				{head && head.slug !== 'view-my-alerts' && head.slug !== 'view-my-mentions' && (
-					<Flex
-						p={3}
-						style={{
-							borderTop: '1px solid #eee'
-						}}
-						justifyContent="flex-end"
-					>
-						<Button
-							className="btn--add-thread"
-							success={true}
-							onClick={this.addThread}
-							disabled={this.state.creatingCard}
-						>
-							{this.state.creatingCard && <Icon spin name="cog"/>}
-							{!this.state.creatingCard && 'Add a Chat thread'}
-						</Button>
-					</Flex>
-				)}
-			</Column>
+			</Flex>
 		)
 	}
 }
 
 const mapStateToProps = (state) => {
 	return {
+		types: selectors.getTypes(state),
 		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state)
 	}
@@ -330,6 +251,7 @@ const lens = {
 		format: 'list',
 		renderer: compose(
 			withRouter,
+			withChannelContext,
 			connect(mapStateToProps),
 			withDefaultGetActorHref()
 		)(Interleaved),

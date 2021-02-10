@@ -679,7 +679,7 @@ export const actionCreators = {
 				head: parentCard
 			}
 		} = channel
-		return (dispatch, getState, {
+		return async (dispatch, getState, {
 			sdk, analytics
 		}) => {
 			if (options.synchronous) {
@@ -694,34 +694,29 @@ export const actionCreators = {
 					getSeedData(parentCard, user)
 				)
 
-				sdk.card.create(cardData)
-					.then(async (newCard) => {
-						if (newCard) {
-							const current = channel.data.target
-							dispatch(
-								push(path.join(window.location.pathname.split(current)[0], current, newCard.slug || newCard.id))
-							)
-							const linkConstraint = _.find(linkConstraints, {
-								data: {
-									from: type.slug,
-									to: helpers.getTypeBase(parentCard.type)
-								}
-							})
-							if (linkConstraint) {
-								await sdk.card.link(newCard, parentCard, linkConstraint.name)
-							}
+				try {
+					const newCard = await sdk.card.create(cardData)
+					const current = channel.data.target
+					dispatch(
+						push(path.join(window.location.pathname.split(current)[0], current, newCard.slug || newCard.id))
+					)
+					const linkConstraint = _.find(linkConstraints, {
+						data: {
+							from: type.slug,
+							to: helpers.getTypeBase(parentCard.type)
 						}
 					})
-					.then(() => {
-						analytics.track('element.create', {
-							element: {
-								type: cardData.type
-							}
-						})
+					if (linkConstraint) {
+						await sdk.card.link(newCard, parentCard, linkConstraint.name)
+					}
+					analytics.track('element.create', {
+						element: {
+							type: cardData.type
+						}
 					})
-					.catch((error) => {
-						addNotification('danger', error.message)
-					})
+				} catch (error) {
+					addNotification('danger', error.message)
+				}
 			} else {
 				dispatch(actionCreators.openCreateChannel(parentCard, _.castArray(type)))
 			}

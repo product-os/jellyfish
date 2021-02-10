@@ -65,7 +65,6 @@ export class SupportThreads extends React.Component {
 		super(props)
 
 		this.state = {
-			creatingCard: false,
 			newMessage: '',
 			showNewCardModal: false,
 			segments: []
@@ -246,7 +245,7 @@ export class SupportThreads extends React.Component {
 		} = this.state
 
 		return (
-			<Column data-test={`lens--${SLUG}`}>
+			<Column data-test={`lens--${SLUG}`} overflowY>
 				<StyledTabs
 					activeIndex={this.props.lensState.activeIndex}
 					onActive={this.setActiveIndex}
