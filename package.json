@@ -41,6 +41,9 @@
     "*": [
       "./scripts/lint/check-filenames.sh"
     ],
+    ".balena/*": [
+      "./scripts/lint/check-credentials.sh"
+    ],
     "apps/*": [
       "./scripts/lint/check-descriptions.sh",
       "./scripts/lint/check-apps.sh"
