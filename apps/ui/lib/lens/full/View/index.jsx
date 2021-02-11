@@ -224,11 +224,10 @@ const createEventSearchFilter = (types, term) => {
 		return null
 	}
 	const messageType = helpers.getType('message', types)
-	if (!messageType) {
-		return null
-	}
 	const eventSchema = messageType.data.schema
-	const attachedElementSearchFilter = helpers.createFullTextSearchFilter(eventSchema, term)
+	const attachedElementSearchFilter = helpers.createFullTextSearchFilter(eventSchema, term, {
+		fullTextSearchFieldsOnly: true
+	})
 	if (!attachedElementSearchFilter) {
 		return null
 	}

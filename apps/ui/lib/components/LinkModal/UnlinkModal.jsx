@@ -138,8 +138,12 @@ export const UnlinkModal = ({
 
 				// Add full-text-search for the typed text (if set)
 				if (value) {
-					const filter = helpers.createFullTextSearchFilter(toType.data.schema, value)
-					_.merge(query, filter)
+					const filter = helpers.createFullTextSearchFilter(toType.data.schema, value, {
+						fullTextSearchFieldsOnly: true
+					})
+					if (filter) {
+						_.merge(query, filter)
+					}
 				}
 				return query
 			})

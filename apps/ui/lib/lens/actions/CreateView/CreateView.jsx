@@ -252,7 +252,9 @@ export default class CreateView extends React.Component {
 			},
 			additionalProperties: true
 		}, searchTerm
-			? helpers.createFullTextSearchFilter(userType.data.schema, searchTerm)
+			? helpers.createFullTextSearchFilter(userType.data.schema, searchTerm, {
+				fullTextSearchFieldsOnly: true
+			}) || {}
 			: {}
 		])
 
