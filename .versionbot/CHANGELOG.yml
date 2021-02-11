@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: a48a4277d90a13a8381f125bbe0de9298f101d93
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.51.44
+  date: 2021-02-11T04:58:44.750Z
+- commits:
     - subject: CreateView - always filter by type when searching users
       hash: 23a24b9f26e26d470667471add106237af918b43
       body: ''
