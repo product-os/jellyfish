@@ -7,11 +7,16 @@
 import React from 'react'
 import _ from 'lodash'
 import {
-	Box
+	Box,
+	Flex,
+	Txt
 } from 'rendition'
 import {
 	Icon
 } from '@balena/jellyfish-ui-components'
+import {
+	ViewFooter
+} from '../../common/ViewFooter'
 
 const sortTail = (tail, options) => {
 	if (!tail) {
@@ -40,24 +45,34 @@ export default class Content extends React.Component {
 		const sortedTail = sortTail(tail, options)
 
 		return (
-			<React.Fragment>
-				{!sortedTail && (
-					<Box p={3}>
-						<Icon spin name="cog"/>
-					</Box>
+			<Flex flex={1} flexDirection="column" minWidth="270px">
+				<Flex flex={1} flexDirection="column" data-test="inner-flex" style={{
+					overflowY: 'auto'
+				}}>
+					{!sortedTail && (
+						<Box p={3}>
+							<Icon spin name="cog"/>
+						</Box>
+					)}
+					{Boolean(tail) && tail.length === 0 && (
+						<Txt.p p={3}>No results found</Txt.p>
+					)}
+					{Boolean(tail) && Boolean(lens) && (
+						<lens.data.renderer
+							channel={channel}
+							tail={sortedTail}
+							setPage={setPage}
+							pageOptions={pageOptions}
+							page={pageOptions.page}
+							totalPages={pageOptions.totalPages}
+							type={tailType}
+						/>
+					)}
+				</Flex>
+				{Boolean(tailType) && (
+					<ViewFooter type={tailType} justifyContent="flex-end" />
 				)}
-				{Boolean(tail) && Boolean(lens) && (
-					<lens.data.renderer
-						channel={channel}
-						tail={sortedTail}
-						setPage={setPage}
-						pageOptions={pageOptions}
-						page={pageOptions.page}
-						totalPages={pageOptions.totalPages}
-						type={tailType}
-					/>
-				)}
-			</React.Fragment>
+			</Flex>
 		)
 	}
 }

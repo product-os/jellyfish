@@ -18,7 +18,6 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
-	Button,
 	Flex
 } from 'rendition'
 import skhema from 'skhema'
@@ -184,12 +183,6 @@ class Kanban extends React.Component {
 			lanes: this.getLanes()
 		}
 
-		const {
-			type
-		} = this.props
-
-		const typeName = type ? type.name || type.slug : ''
-
 		const components = {}
 
 		return (
@@ -210,23 +203,6 @@ class Kanban extends React.Component {
 					handleDragEnd={this.handleDragEnd}
 					onCardClick={this.onCardClick}
 				/>
-
-				{Boolean(type) && (
-					<React.Fragment>
-						<Button
-							success
-							onClick={this.openCreateChannel}
-							m={3}
-							style={{
-								position: 'absolute',
-								bottom: 0,
-								right: 0
-							}}
-						>
-							Add {typeName}
-						</Button>
-					</React.Fragment>
-				)}
 			</Flex>
 		)
 	}
