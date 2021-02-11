@@ -1,4 +1,29 @@
 - commits:
+    - subject: CreateView - always filter by type when searching users
+      hash: 23a24b9f26e26d470667471add106237af918b43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Refactor lenses to use common view footer
+      hash: 9698df6e12f56561d77a767b64025d8a8d8da3bc
+      body: >
+        The `Add <type>` button has been removed from list lenses and is now
+        included in the view (using a new `ViewFooter` component).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.51.43
+  date: 2021-02-11T01:42:43.257Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: a1a01c6a474338345f6064a6c8a1fd60890e0935
       body: ''
