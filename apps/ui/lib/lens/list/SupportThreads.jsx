@@ -367,10 +367,7 @@ const lens = {
 							status: {
 								type: 'string'
 							}
-						},
-						required: [
-							'status'
-						]
+						}
 					}
 				},
 				required: [

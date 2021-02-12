@@ -634,7 +634,7 @@ ava.serial('My Participation shows only support threads that the logged-in user 
 
 	// Go to the My Participation view and verify there are no threads listed
 	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-support-threads-participation`)
-	await page.waitForSelector('[data-test="alt-text--no-support-threads"]')
+	await page.waitForSelector('[data-test="alt-text--no-results"]')
 
 	// Add a new support thread and send a message in it
 	const supportThread2 = await page.evaluate(() => {
@@ -910,4 +910,34 @@ ava.serial('Only users with a name matching the search string are returned by th
 	await page.keyboard.press('Enter')
 	const textareaText = await macros.getElementText(page, 'textarea')
 	test.is(textareaText.trim(), `@${matchingUsername}`)
+})
+
+ava.serial('Should be able to navigate to chart lens of support threads', async (test) => {
+	const {
+		page
+	} = context
+
+	// Ensure there is at least one support thread created!
+	await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-paid-support-threads"]'
+	])
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-chart"]')
+	await page.waitForSelector('.plotly')
+
+	// Return to the expected lens
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
+	test.pass()
 })

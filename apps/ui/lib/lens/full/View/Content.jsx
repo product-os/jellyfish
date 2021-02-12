@@ -55,7 +55,7 @@ export default class Content extends React.Component {
 						</Box>
 					)}
 					{Boolean(tail) && tail.length === 0 && (
-						<Txt.p p={3}>No results found</Txt.p>
+						<Txt.p data-test="alt-text--no-results" p={3}>No results found</Txt.p>
 					)}
 					{Boolean(tail) && Boolean(lens) && (
 						<lens.data.renderer
