@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.7.3'
+      hash: ab6817068b84e95e9e8b87f87c80e6e7c30ee5e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.52.2
+  date: 2021-02-12T05:49:37.967Z
+- commits:
     - subject: Update jellyfish-core dependency
       hash: 80399febe8a019cb5b9790184bda5403c76c0ba0
       body: ''
