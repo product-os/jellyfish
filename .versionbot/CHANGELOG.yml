@@ -1,4 +1,37 @@
 - commits:
+    - subject: Update jellyfish-core dependency
+      hash: 80399febe8a019cb5b9790184bda5403c76c0ba0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix e2e test
+      hash: 725ebc7d3113885bf857d11ce4f358fcd829a751
+      body: >
+        fullTextSearch doesn't find parts of string values (i.e. it treats a
+        hyphen as a normal letter in a word)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: e6bdb1f2d0d6174f6de4f3a39a785d33d4a52c20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Graham McCulloch
+      nested: []
+  version: 33.52.1
+  date: 2021-02-12T04:35:35.783Z
+- commits:
     - subject: Abstract npm make commands
       hash: e0ea4b6c7b368657648ec855c7d711ec58a2c108
       body: ''
