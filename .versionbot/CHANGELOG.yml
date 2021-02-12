@@ -1,4 +1,17 @@
 - commits:
+    - subject: Abstract npm make commands
+      hash: e0ea4b6c7b368657648ec855c7d711ec58a2c108
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Stef Kors stef@balena.io
+        signed-off-by: Stef Kors stef@balena.io
+      author: StefKors
+      nested: []
+  version: 33.52.0
+  date: 2021-02-12T01:10:54.692Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.4.1'
       hash: 430d3934e65524f5944464abe1c4d754e1a7bc4c
       body: ''
