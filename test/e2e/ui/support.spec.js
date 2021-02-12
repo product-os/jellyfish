@@ -754,7 +754,7 @@ ava.serial('You can trigger a quick search for cards from the message input', as
 	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
 
 	// Type in a quick search trigger
-	await page.type('textarea', ` ?user ${context.communityUser.slug.replace('user-', '')}`)
+	await page.type('textarea', ` ?user ${context.communityUser.slug}`)
 
 	// Verify the quick search results
 	await page.waitForSelector(searchResultSelector)
