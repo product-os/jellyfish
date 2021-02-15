@@ -118,7 +118,7 @@ ava.serial('core: should stop users from seeing messages attached to cards they 
 	])
 
 	await page.waitForSelector('.column--view-all-support-issues')
-	await macros.waitForThenClickSelector(page, '.btn--add-support-issue')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--support-issue"]')
 
 	await page.waitForSelector('.rendition-form__field--root_name', WAIT_OPTS)
 	await macros.setInputValue(
@@ -578,7 +578,7 @@ ava.serial('workflows: Should be able to create a new workflow', async (test) =>
 	// Navigate to the workflows view
 	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-workflows`)
 
-	await macros.waitForThenClickSelector(page, '.btn--add-workflow')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--workflow"]')
 
 	const name = `test-workflow-${uuid()}`
 

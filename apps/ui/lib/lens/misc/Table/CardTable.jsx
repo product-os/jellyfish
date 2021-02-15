@@ -6,6 +6,7 @@
 
 import _ from 'lodash'
 import React from 'react'
+import skhema from 'skhema'
 import {
 	Box,
 	Flex,
@@ -180,12 +181,10 @@ export default class CardTable extends React.Component {
 		const {
 			allTypes,
 			lensState,
-			type: {
-				data: {
-					schema
-				}
-			}
+			tailTypes
 		} = this.props
+
+		const typesSchemas = _.map(tailTypes, 'data.schema', {})
 
 		const baseCardSchema = _.find(allTypes, {
 			slug: 'card'
@@ -201,7 +200,7 @@ export default class CardTable extends React.Component {
 			'properties.updated_at'
 		])
 
-		const paths = helpers.getPathsInSchema(_.merge(defaultSchema, schema), OMISSIONS)
+		const paths = helpers.getPathsInSchema(skhema.merge([ defaultSchema, ...typesSchemas ]), OMISSIONS)
 
 		return _.map(paths, ({
 			title, path

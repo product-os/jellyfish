@@ -259,7 +259,7 @@ export default class RepositoryFull extends React.Component {
 						page={this.state.options.page}
 						totalPages={this.state.options.totalPages}
 					/>
-					<ViewFooter type={threadType} justifyContent="flex-end" />
+					<ViewFooter types={[ threadType ]} justifyContent="flex-end" />
 				</Flex>
 			</CardLayout>
 		)

@@ -6,6 +6,7 @@
 
 import React from 'react'
 import _ from 'lodash'
+import skhema from 'skhema'
 import clone from 'deep-copy'
 import {
 	Box,
@@ -16,9 +17,14 @@ import {
 } from 'rendition'
 import SortByButton from './SortByButton'
 
-const getSchemaForFilters = (tailType, timelineFilter) => {
+const getSchemaForFilters = (tailTypes, timelineFilter) => {
+	const tailSchemas = _.map(tailTypes, (tailType) => {
+		return clone(_.get(tailType, [ 'data', 'schema' ], {}))
+	})
+
+	const schemaForFilters = skhema.merge(tailSchemas)
+
 	// Always expose the created_at and updated_at field for filtering
-	const schemaForFilters = _.get(clone(tailType), [ 'data', 'schema' ], {})
 	_.set(schemaForFilters, [ 'properties', 'created_at' ], {
 		title: 'Created at',
 		type: 'string',
@@ -57,7 +63,7 @@ const getSchemaForFilters = (tailType, timelineFilter) => {
 }
 
 const ViewFilters = ({
-	tailType,
+	tailTypes,
 	filters,
 	searchFilter,
 	updateFilters,
@@ -69,13 +75,9 @@ const ViewFilters = ({
 	setSortByField,
 	timelineFilter
 }) => {
-	const isView = Boolean(tailType) && tailType.slug !== 'view'
-	if (!isView) {
-		return null
-	}
 	const summaryFilters = _.compact([ ...filters, searchFilter ])
 
-	const schemaForFilters = getSchemaForFilters(tailType, timelineFilter)
+	const schemaForFilters = getSchemaForFilters(tailTypes, timelineFilter)
 
 	// Only render filters in compact mode for the first breakpoint
 	const FiltersBreakpointSettings = _.sortBy(Theme.breakpoints).map((breakpoint, index) => Boolean(index <= 0))
@@ -102,7 +104,7 @@ const ViewFilters = ({
 						<SortByButton
 							pageOptions={pageOptions}
 							setSortByField={setSortByField}
-							tailType={tailType}
+							tailTypes={tailTypes}
 							ml={2}
 							mb={3}
 							minWidth="150px"

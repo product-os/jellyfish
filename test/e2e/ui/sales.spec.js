@@ -61,7 +61,7 @@ ava.serial('should let users create new accounts', async (test) => {
 		'[data-test="home-channel__item--view-all-customers"]'
 	])
 
-	await macros.waitForThenClickSelector(page, '.btn--add-account')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--account"]')
 
 	const name = `test account ${uuid()}`
 
@@ -127,7 +127,7 @@ ava.serial('should let users create new contacts', async (test) => {
 	} = context
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-contacts"]')
-	await macros.waitForThenClickSelector(page, '.btn--add-contact')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--contact"]')
 
 	const name = `test contact ${uuid()}`
 
@@ -153,7 +153,7 @@ ava.serial('should let users create new opportunities', async (test) => {
 		'[data-test="home-channel__item--view-all-opportunities"]'
 	])
 
-	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--opportunity"]')
 
 	const name = `test opportunity ${uuid()}`
 
@@ -180,7 +180,7 @@ ava.serial('should let users create new opportunities and directly link existing
 	])
 
 	// Open CreateLens for opportunities
-	await macros.waitForThenClickSelector(page, '.btn--add-opportunity')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--opportunity"]')
 
 	const name = `test opportunity ${uuid()}`
 
