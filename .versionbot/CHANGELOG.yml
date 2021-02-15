@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 3de1a409cd0dcf1b5ba473c1f1f627e620866e40
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.53.1
+  date: 2021-02-15T10:16:14.790Z
+- commits:
     - subject: Add support in ViewRenderer for tails of multiple card types
       hash: 3624d0d380d3e65731baefd09bd99040b8e822be
       body: ''
