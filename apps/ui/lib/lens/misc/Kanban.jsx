@@ -34,6 +34,8 @@ import {
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
 
+const SLUG = 'lens-kanban'
+
 const cardMapper = (card) => {
 	const message = _.find(_.get(card, [ 'links', 'has attached element' ]), (linkedCard) => {
 		return [ 'message', 'message@1.0.0' ].includes(linkedCard.type)
@@ -187,6 +189,7 @@ class Kanban extends React.Component {
 
 		return (
 			<Flex
+				data-test={`lens--${SLUG}`}
 				flexDirection="column"
 				style={{
 					height: '100%', width: '100%', position: 'relative', overflowX: 'auto'
@@ -228,7 +231,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const lens = {
-	slug: 'lens-kanban',
+	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Kanban lens',
@@ -239,7 +242,15 @@ const lens = {
 		format: 'list',
 		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),
 		filter: {
-			type: 'array'
+			type: 'array',
+			items: {
+				type: 'object',
+				properties: {
+					id: {
+						type: 'string'
+					}
+				}
+			}
 		},
 		queryOptions: {
 			limit: 500,

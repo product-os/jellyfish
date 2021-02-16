@@ -71,6 +71,12 @@ const lens = {
 			items: {
 				type: 'object',
 				properties: {
+					type: {
+						type: 'string',
+						not: {
+							const: 'rating@1.0.0'
+						}
+					},
 					data: {
 						type: 'object',
 						properties: {
@@ -88,10 +94,15 @@ const lens = {
 						},
 						required: [
 							'timestamp',
-							'actor'
+							'actor',
+							'payload'
 						]
 					}
-				}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		}
 	}

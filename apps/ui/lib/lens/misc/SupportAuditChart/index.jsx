@@ -54,8 +54,28 @@ const lens = {
 				properties: {
 					id: {
 						type: 'string'
+					},
+					type: {
+						type: 'string',
+						const: 'support-thread@1.0.0'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string',
+								const: 'closed'
+							}
+						},
+						required: [
+							'status'
+						]
 					}
-				}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		},
 		queryOptions: {

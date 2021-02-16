@@ -351,13 +351,29 @@ const lens = {
 					id: {
 						type: 'string'
 					},
+					slug: {
+						type: 'string'
+					},
 					type: {
+						type: 'string',
 						enum: [
 							'support-thread@1.0.0',
 							'sales-thread@1.0.0'
 						]
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string'
+							}
+						}
 					}
-				}
+				},
+				required: [
+					'type',
+					'data'
+				]
 			}
 		},
 		queryOptions: {

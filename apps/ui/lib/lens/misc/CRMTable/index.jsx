@@ -72,8 +72,22 @@ const lens = {
 				properties: {
 					slug: {
 						type: 'string'
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string'
+							}
+						},
+						required: [
+							'status'
+						]
 					}
-				}
+				},
+				required: [
+					'data'
+				]
 			}
 		}
 	}
