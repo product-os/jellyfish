@@ -86,14 +86,18 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 		const queryFilter = getQueryFilter ? getQueryFilter(value) : {
 			type: 'object',
-			anyOf: [].concat(cardTypes).map((cardType) => {
+			anyOf: _.compact([].concat(cardTypes).map((cardType) => {
 				// Retrieve the target type of the selected link
 				const typeCard = _.find(types, {
 					slug: helpers.getTypeBase(cardType)
 				})
 
 				// Create full text search query based on the target type and search term
-				const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value)
+				const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value, {
+					fullTextSearchFieldsOnly: true
+				}) || {
+					type: 'object'
+				}
 
 				// Additionally, restrict the query to only filter for cards of the chosen
 				// type
@@ -104,7 +108,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 
 				// Merge with the provided filter (if given)
 				return _.merge(filter, cardFilter)
-			})
+			}))
 		}
 
 		// Query the API for results and set them to state so they can be accessed

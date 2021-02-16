@@ -80,8 +80,12 @@ export default class RepositoryFull extends React.Component {
 	async loadThreadData (page, searchTerm = '') {
 		const query = getContextualThreadsQuery(this.props.card.id)
 		if (searchTerm) {
-			const searchQuery = helpers.createFullTextSearchFilter(this.eventSchema, searchTerm)
-			query.anyOf = (query.anyOf || []).concat(searchQuery.anyOf)
+			const searchQuery = helpers.createFullTextSearchFilter(this.eventSchema, searchTerm, {
+				fullTextSearchFieldsOnly: true
+			})
+			if (searchQuery) {
+				query.anyOf = (query.anyOf || []).concat(searchQuery.anyOf)
+			}
 		}
 		const options = {
 			viewId: this.props.card.id,
