@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.8.0'
+      hash: f53a476d88992fb955f1d52eaec82da3d3679d0b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.2
+  date: 2021-02-16T13:36:49.712Z
+- commits:
     - subject: 'HOTFIX: In views, set the default number of items per page to 100'
       hash: f49027991d20f57774583ec880f435cd1aa8a728
       body: |
