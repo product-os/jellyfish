@@ -1,4 +1,19 @@
 - commits:
+    - subject: Restrict filtering to fullTextSearch indexed fields
+      hash: f1dc379e02e0ede57da261367aa13fe8f5526a05
+      body: >
+        This should speed up searches quite a lot as we will only be filtering
+        on fullTextSearch indexed fields.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.54.0
+  date: 2021-02-16T05:43:01.544Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-jsdoc to v32'
       hash: d5ed4f6d7de41b55e5e8ddd9735ef5fe44bf5987
       body: ''
