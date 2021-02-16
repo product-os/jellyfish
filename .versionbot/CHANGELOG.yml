@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'HOTFIX: In views, set the default number of items per page to 100'
+      hash: f49027991d20f57774583ec880f435cd1aa8a728
+      body: |
+        The lens queryoptions should be overriding the default query options on
+        the view, but this is not happening on initial load since the active
+        lens is still unknown while the data is loading.
+        This hotfix sets the default limit value to 100 as a temporary measure
+        whilst a root-cause fix is prepared.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.55.1
+  date: 2021-02-16T12:26:53.359Z
+- commits:
     - subject: Fix e2e tests
       hash: ea6c69bec8c604b4a93ceded1ae07cc6ddbb5a64
       body: ''
