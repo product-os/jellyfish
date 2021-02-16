@@ -277,7 +277,7 @@ export class ViewRenderer extends React.Component {
 			options: {
 				page: 0,
 				totalPages: Infinity,
-				limit: 30,
+				limit: 100,
 				sortBy: [ 'created_at' ]
 			}
 		}
