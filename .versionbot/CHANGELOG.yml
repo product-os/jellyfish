@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-jsdoc to v32'
+      hash: d5ed4f6d7de41b55e5e8ddd9735ef5fe44bf5987
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.53.7
+  date: 2021-02-16T01:24:55.340Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^1.4.35'
       hash: abe4ed54be978b490b4edbda6fdeeb70f0a14cba
       body: ''
