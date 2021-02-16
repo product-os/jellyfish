@@ -1,4 +1,31 @@
 - commits:
+    - subject: Fix e2e tests
+      hash: ea6c69bec8c604b4a93ceded1ae07cc6ddbb5a64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Automatically select list lens options
+      hash: b86dd74f640f7df5e59acf71b30c4c3218c7ee7b
+      body: >
+        Rather than getting the list of lenses from the hard-coded values in the
+        type card, lenses will now be fetched based on their validity and
+        scoring. All list lenses that are valid for the given data are grouped
+        by lens 'icon' and the top-scoring valid lens for each icon is returned.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.55.0
+  date: 2021-02-16T08:54:59.024Z
+- commits:
     - subject: Restrict filtering to fullTextSearch indexed fields
       hash: f1dc379e02e0ede57da261367aa13fe8f5526a05
       body: >
