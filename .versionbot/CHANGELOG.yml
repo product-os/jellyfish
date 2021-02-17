@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.9.0'
+      hash: d18f1c882d8f4a856c4195054ec195deb4bdacfb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.7
+  date: 2021-02-17T17:06:17.666Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.4.2'
       hash: 06cbbdbcfc786aa291023eb2b969bf04e0330788
       body: ''
