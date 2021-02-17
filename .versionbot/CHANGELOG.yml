@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update renovate config to match latest schema
+      hash: 32b62b1874092a2b6d67f692a3bcbdabc4015f74
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.55.4
+  date: 2021-02-17T00:11:42.540Z
+- commits:
     - subject: 'patch: Update non-major Docker tags'
       hash: a52d0dcd0b4e1f432358566955ef249d3c8138da
       body: ''
