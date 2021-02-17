@@ -1,4 +1,39 @@
 - commits:
+    - subject: Restrict CRM table to opportunity type cards
+      hash: 2b914cf68838c228a368688b472cd6868da670e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: >-
+        Use mock data in a View when selecting a lens and canonical data hasn't
+        loaded
+      hash: a43c3518e4fedc839325c61bcefde7fe519724aa
+      body: |
+        Previously, when loading a view, the lenses could not be selected until
+        the view results are known, as the view results are used to find the
+        lenses (using their "filters"). This creates problems where lenses can't
+        be rendered ahead of time, which can be a problem if the lens provides
+        some kind of query override, and also leads to a jumpy UI as the
+        available lenses disappear and reappear.
+        This change uses json-schema-faker to create a mock data object based on
+        the view query schema, which is then used to select a set of lenses.
+        This mocking only happens if there are no results available from the
+        view query.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.55.5
+  date: 2021-02-17T03:14:48.665Z
+- commits:
     - subject: Update renovate config to match latest schema
       hash: 32b62b1874092a2b6d67f692a3bcbdabc4015f74
       body: ''
