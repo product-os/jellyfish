@@ -9,7 +9,7 @@
   "packageRules": [
     {
       "groupName": "non-major-frontend",
-      "packageNames": [
+      "matchPackageNames": [
         "@balena/jellyfish-ui-components",
         "@balena/jellyfish-chat-widget",
         "rendition",
@@ -17,7 +17,7 @@
         "react-dom",
         "styled-components"
       ],
-      "updateTypes": [
+      "matchUpdateTypes": [
         "minor",
         "patch"
       ],
