@@ -73,6 +73,10 @@ const lens = {
 					slug: {
 						type: 'string'
 					},
+					type: {
+						type: 'string',
+						const: 'opportunity@1.0.0'
+					},
 					data: {
 						type: 'object',
 						properties: {
@@ -86,7 +90,8 @@ const lens = {
 					}
 				},
 				required: [
-					'data'
+					'data',
+					'type'
 				]
 			}
 		}
