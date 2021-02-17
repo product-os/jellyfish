@@ -33,6 +33,7 @@ import {
 	Icon,
 	withResponsiveContext
 } from '@balena/jellyfish-ui-components'
+import jsf from 'json-schema-faker'
 import {
 	actionCreators,
 	analytics,
@@ -818,7 +819,23 @@ const mapStateToProps = (state, ownProps) => {
 		? _.unionBy(targetTail, timelineSearchTail, 'id')
 		: null
 	const user = selectors.getCurrentUser(state)
-	const lenses = tail && tail.length ? getLenses('list', tail, user, 'data.icon') : []
+
+	let lenses = []
+
+	// Select a set of lenses based on the tail data
+	if (tail && tail.length) {
+		lenses = getLenses('list', tail, user, 'data.icon')
+	} else {
+		// If there isn't a tail loaded, mock the expected output based on the query
+		// schema and use the mock to select appropriate lenses
+		const svc = createSyntheticViewCard(ownProps.channel.data.head, [])
+		const mock = jsf.generate({
+			type: 'object',
+			allOf: _.map(_.get(svc, [ 'data', 'allOf' ], []), 'schema')
+		})
+		lenses = getLenses('list', [ mock ], user, 'data.icon')
+	}
+
 	return {
 		channels: selectors.getChannels(state),
 		tail,
