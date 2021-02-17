@@ -424,7 +424,9 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				integrationToken, {
 					raw: request.rawBody || request.body,
 					headers: request.headers
-				})) {
+				},
+				request.context)
+			) {
 				logger.warn(request.context, 'Webhook rejected', {
 					ip: request.ip,
 					source: request.params.provider,
