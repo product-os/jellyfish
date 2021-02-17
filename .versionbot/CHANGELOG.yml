@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.4.2'
+      hash: 06cbbdbcfc786aa291023eb2b969bf04e0330788
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.6
+  date: 2021-02-17T13:30:33.758Z
+- commits:
     - subject: Restrict CRM table to opportunity type cards
       hash: 2b914cf68838c228a368688b472cd6868da670e6
       body: ''
