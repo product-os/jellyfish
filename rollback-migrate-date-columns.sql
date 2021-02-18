@@ -1,5 +1,9 @@
 DO $$
 	BEGIN
+		-- Lock tables.
+		LOCK TABLE cards IN SHARE MODE;
+		LOCK TABLE links IN SHARE MODE;
+
 		-- Disable all triggers, namely for streams.
 		ALTER TABLE cards DISABLE TRIGGER ALL;
 
