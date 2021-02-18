@@ -421,10 +421,13 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		return Bluebird.try(async () => {
 			if (!await options.sync.isValidEvent(
 				request.params.provider,
-				integrationToken, {
+				integrationToken,
+				{
 					raw: request.rawBody || request.body,
 					headers: request.headers
-				})) {
+				},
+				request.context)
+			) {
 				logger.warn(request.context, 'Webhook rejected', {
 					ip: request.ip,
 					source: request.params.provider,

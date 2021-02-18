@@ -19,7 +19,7 @@
     "@balena/jellyfish-plugin-default": "^4.0.0",
     "@balena/jellyfish-plugin-product-os": "^1.0.25",
     "@balena/jellyfish-queue": "^0.0.408",
-    "@balena/jellyfish-sync": "^4.2.12",
+    "@balena/jellyfish-sync": "^5.0.0",
     "@balena/jellyfish-uuid": "^1.0.61",
     "@balena/jellyfish-worker": "^3.0.18",
     "bluebird": "^3.7.2",
