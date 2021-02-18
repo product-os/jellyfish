@@ -135,7 +135,7 @@ ava.serial('/api/v2/registry should return a JWT with correct access permissions
 
 	const result = await test.context.http(
 		'GET',
-		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.id}%3Apush%2Cpull&service=registry.ly.fish.local`,
+		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.slug}%3Apush%2Cpull&service=registry.ly.fish.local`,
 		null,
 		{
 			authorization: `Basic ${b64Auth}`
@@ -150,6 +150,6 @@ ava.serial('/api/v2/registry should return a JWT with correct access permissions
 	})
 
 	test.is(decoded.access.length, 1, 'The access array should contain 1 entry')
-	test.is(decoded.access[0].name, thread.id, 'Access should be provided to the card id')
+	test.is(decoded.access[0].name, thread.slug, 'Access should be provided to the card slug')
 	test.deepEqual(decoded.access[0].actions, [ 'push', 'pull' ], 'Pull and push actions should be authorized')
 })

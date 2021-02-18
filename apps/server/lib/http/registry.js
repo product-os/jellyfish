@@ -17,7 +17,7 @@ const {
 	REGISTRY_TOKEN_AUTH_CERT_KEY,
 	REGISTRY_TOKEN_AUTH_CERT_KID
 
-// eslint-disable-next-line no-process-env
+	// eslint-disable-next-line no-process-env
 } = process.env
 
 // eslint-disable-next-line
@@ -108,6 +108,7 @@ exports.authenticate = async (request, response, jellyfish) => {
 		scope
 	} = request.query
 
+	// As defined by https://docs.docker.com/registry/spec/auth/scope/
 	let scopes = null
 
 	if (typeof scope === 'string') {
@@ -128,12 +129,14 @@ exports.authenticate = async (request, response, jellyfish) => {
 	const payload = {
 		jti: await uuid.random(),
 		nbf: Math.floor(Date.now() / 1000) - 10,
-		access: _.compact((await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
+		access: _.compact(await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
 			let contract = null
 
 			try {
-				// Name will refer to the id of the contract representing this entity
-				contract = await jellyfish.getCardById(request.context, sessionToken, name)
+				// Name will refer to the slug of the contract representing this entity.
+				// The registry doesn't allow scopes per version - we assume that all versions
+				// have the same permissions set
+				contract = await jellyfish.getCardBySlug(request.context, sessionToken, `${name}@latest`)
 			} catch (error) {
 				logger.info(request.context, 'Registry authentication hit error querying for contract', {
 					name
@@ -146,11 +149,11 @@ exports.authenticate = async (request, response, jellyfish) => {
 				return {
 					type,
 					name,
-					actions: [ 'push', 'pull' ]
+					actions: _.intersection(actions, [ 'push', 'pull' ])
 				}
 			}
 			return null
-		})))
+		}))
 	}
 
 	logger.info(request.context, 'Registry authentication generating JWT', {
