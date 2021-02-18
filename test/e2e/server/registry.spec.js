@@ -135,7 +135,7 @@ ava.serial('/api/v2/registry should return a JWT with correct access permissions
 
 	const result = await test.context.http(
 		'GET',
-		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.id}%3Apush%2Cpull&service=registry.ly.fish.local`,
+		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.slug}%3Apush%2Cpull&service=registry.ly.fish.local`,
 		null,
 		{
 			authorization: `Basic ${b64Auth}`
