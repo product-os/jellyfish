@@ -11,6 +11,7 @@ const {
 const ActionLibrary = require('@balena/jellyfish-action-library')
 const DefaultPlugin = require('@balena/jellyfish-plugin-default')
 const ProductOSPlugin = require('@balena/jellyfish-plugin-product-os')
+const TypeformPlugin = require('@balena/jellyfish-plugin-typeform')
 
 exports.getPluginManager = (context) => {
 	logger.info(context, 'Loading plugins')
@@ -18,7 +19,8 @@ exports.getPluginManager = (context) => {
 		plugins: [
 			ActionLibrary,
 			DefaultPlugin,
-			ProductOSPlugin
+			ProductOSPlugin,
+			TypeformPlugin
 		]
 	})
 }
