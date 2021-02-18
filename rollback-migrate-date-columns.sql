@@ -4,9 +4,6 @@ DO $$
 		LOCK TABLE cards IN SHARE MODE;
 		LOCK TABLE links IN SHARE MODE;
 
-		-- Disable all triggers, namely for streams.
-		ALTER TABLE cards DISABLE TRIGGER ALL;
-
 		-- Rename columns back to original state.
 		ALTER TABLE cards RENAME COLUMN created_at TO new_created_at;
 		ALTER TABLE cards RENAME COLUMN updated_at TO new_updated_at;
@@ -18,8 +15,5 @@ DO $$
 		ALTER INDEX IF EXISTS updated_at_cards_idx RENAME TO new_updated_at_cards_idx;
 		ALTER INDEX IF EXISTS old_created_at_cards_idx RENAME TO created_at_cards_idx;
 		ALTER INDEX IF EXISTS old_updated_at_cards_idx RENAME TO updated_at_cards_idx;
-
-		-- Re-enable triggers.
-		ALTER TABLE cards ENABLE TRIGGER ALL;
 	END;
 $$ LANGUAGE plpgsql;
