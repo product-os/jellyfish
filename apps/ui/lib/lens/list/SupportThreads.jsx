@@ -43,8 +43,8 @@ const StyledTabs = styled(Tabs) `
 
 const SLUG = 'lens-support-threads'
 
-// This name is added to update events that reopen issues
-const THREAD_REOPEN_NAME = 'Re-opened because linked issue was closed'
+// This name is added to update events that reopen issues/pull requests
+const THREAD_REOPEN_NAME_RE = /Support Thread re-opened because linked (Issue|Pull Request) was closed/
 
 // One day in milliseconds
 const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 24
@@ -139,7 +139,7 @@ export class SupportThreads extends React.Component {
 
 				// If the thread has re-opened then the we are waiting on action
 				// from the agent and can break out of the loop
-				if (typeBase === 'update' && event.name === THREAD_REOPEN_NAME) {
+				if (typeBase === 'update' && THREAD_REOPEN_NAME_RE.test(event.name)) {
 					break
 				}
 
