@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "33.55.7",
+  "version": "33.55.8",
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
@@ -63,7 +63,7 @@
     "@balena/jellyfish-action-library": "^8.0.28",
     "@balena/jellyfish-chat-widget": "^6.0.57",
     "@balena/jellyfish-client-sdk": "^2.13.6",
-    "@balena/jellyfish-core": "^1.4.35",
+    "@balena/jellyfish-core": "^2.0.0",
     "@balena/jellyfish-environment": "^2.4.9",
     "@balena/jellyfish-plugin-base": "^1.1.16",
     "@balena/jellyfish-plugin-default": "^4.0.0",
