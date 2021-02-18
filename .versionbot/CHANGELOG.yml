@@ -1,4 +1,17 @@
 - commits:
+    - subject: fix tests for registry auth via slug
+      hash: d37b1f376aeb5f1e1bee43b030a8ea524dfe0754
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 33.55.11
+  date: 2021-02-18T17:29:07.164Z
+- commits:
     - subject: Fix check for re-opened support thread
       hash: fac1da3ad817ca455b57a639a9735d9c2c860079
       body: >
