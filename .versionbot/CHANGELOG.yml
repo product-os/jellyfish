@@ -1,4 +1,33 @@
 - commits:
+    - subject: Update jellyfish-sync dependency to v5
+      hash: 83fc9f2dba9c84f2b25d7d1a3c594a581f951358
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to v4'
+      hash: c6aa1ee3b58840e34fc4b58d126e78b83ecfdfed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to v4'
+      hash: 0dbd4535168b44919ba25396e81ad8770b8dac05
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.9
+  date: 2021-02-18T03:08:29.597Z
+- commits:
     - subject: Bump jellyfish-core to 2.0.0
       hash: 73a46007926005595daa9be7df0872e7c7bc552a
       body: ''
