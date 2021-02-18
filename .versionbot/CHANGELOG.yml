@@ -1,4 +1,20 @@
 - commits:
+    - subject: Fix check for re-opened support thread
+      hash: fac1da3ad817ca455b57a639a9735d9c2c860079
+      body: >
+        The wording of the update event's name created by the triggered action
+        has changed. This fix also accounts for threads re-opened because a pull
+        request was closed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.55.10
+  date: 2021-02-18T08:16:47.618Z
+- commits:
     - subject: Update jellyfish-sync dependency to v5
       hash: 83fc9f2dba9c84f2b25d7d1a3c594a581f951358
       body: ''
