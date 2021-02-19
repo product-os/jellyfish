@@ -6,42 +6,38 @@
 
 import _ from 'lodash'
 import {
+	withRouter
+} from 'react-router-dom'
+import {
 	connect
 } from 'react-redux'
-import {
-	compose,
-	bindActionCreators
-} from 'redux'
-import {
-	withResponsiveContext
-} from '@balena/jellyfish-ui-components'
+import * as redux from 'redux'
 import {
 	actionCreators,
 	selectors
 } from '../../core'
-import RouteHandler from './RouteHandler'
+import {
+	OmniSearch
+} from './OmniSearch'
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
 		channels: selectors.getChannels(state),
-		status: selectors.getStatus(state),
-		user: selectors.getCurrentUser(state)
+		types: selectors.getTypes(state)
 	}
 }
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: bindActionCreators(
+		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
-				'setChannels',
-				'queryAPI',
-				'createLink'
+				'addChannel',
+				'updateChannel'
 			]), dispatch)
 	}
 }
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withResponsiveContext
-)(RouteHandler)
+export default redux.compose(
+	withRouter,
+	connect(mapStateToProps, mapDispatchToProps)
+)(OmniSearch)

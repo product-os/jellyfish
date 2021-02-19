@@ -74,6 +74,12 @@ export const getLensBySlug = (slug) => {
 	}) || null
 }
 
+export const getLensForTarget = (target) => {
+	return _.find(allLenses, (lens) => {
+		return lens.data.pathRegExp && new RegExp(lens.data.pathRegExp).test(target)
+	})
+}
+
 // Generate a query that will get all the contextual threads and their attached
 // messages and whispers
 export const getContextualThreadsQuery = (id) => {

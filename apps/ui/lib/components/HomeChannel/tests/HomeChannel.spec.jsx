@@ -21,6 +21,10 @@ const context = {}
 
 const sandbox = sinon.createSandbox()
 
+const initialState = {
+	core: {}
+}
+
 ava.beforeEach(async () => {
 	context.actions = _.reduce([
 		'addChannel',
@@ -53,7 +57,7 @@ ava.afterEach(async () => {
 ava('Starred views appear in their own menu section', async (test) => {
 	const {
 		wrapper
-	} = getWrapper()
+	} = getWrapper(initialState)
 	const homeChannel = await mount((
 		<HomeChannel
 			{...homeChannelProps}
@@ -84,7 +88,7 @@ ava('The home view is loaded on mount if set', async (test) => {
 	const homeView = 'view-123'
 	const {
 		wrapper
-	} = getWrapper()
+	} = getWrapper(initialState)
 	await mount((
 		<HomeChannel
 			{...homeChannelProps}

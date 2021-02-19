@@ -202,8 +202,8 @@ const createSearchFilter = (types, term) => {
 			return filterForType && skhema.merge([
 				{
 					description: types.length > 1
-						? `Any ${type.slug} field contains ${term}`
-						: `Any field contains ${term}`
+						? `{"name":"Any ${type.slug} field","value":"${term}","operator":"contains"}`
+						: `{"name":"Any field","value":"${term}","operator":"contains"}`
 				},
 				filterForType,
 				{
@@ -238,22 +238,24 @@ const createEventSearchFilter = (types, term) => {
 	if (!attachedElementSearchFilter) {
 		return null
 	}
-	const attachedElement = skhema.merge([
-		{
-			type: 'object',
-			required: [ 'type' ],
-			properties: {
-				type: {
-					enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
+	attachedElementSearchFilter.anyOf = _.map(attachedElementSearchFilter.anyOf, (subSchema) => {
+		return skhema.merge([
+			{
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
+					}
 				}
-			}
-		},
-		attachedElementSearchFilter
-	])
+			},
+			subSchema
+		])
+	})
 	return {
 		type: 'object',
 		$$links: {
-			'has attached element': attachedElement
+			'has attached element': attachedElementSearchFilter
 		},
 		description: `Full text search in timeline for '${term}'`,
 		title: EVENTS_FULL_TEXT_SEARCH_TITLE,
@@ -376,8 +378,7 @@ export class ViewRenderer extends React.Component {
 		})
 	}
 
-	updateSearch (event) {
-		const newSearchTerm = event.target.value
+	updateSearch (newSearchTerm) {
 		this.setState((prevState) => {
 			return {
 				options: update(prevState.options, {
@@ -661,6 +662,11 @@ export class ViewRenderer extends React.Component {
 			const activeLens = getActiveLens(this.props.lenses, this.props.userActiveLens).slug
 			this.setLens(activeLens)
 		}
+		if (
+			_.get(prevProps.channel.data, [ 'seed', 'searchTerm' ]) !==
+			_.get(this.props.channel.data, [ 'seed', 'searchTerm' ])) {
+			this.updateSearch(_.get(this.props.channel.data, [ 'seed', 'searchTerm' ], this.state.searchTerm))
+		}
 	}
 
 	createView (view) {
@@ -788,7 +794,9 @@ export class ViewRenderer extends React.Component {
 					channel={channel}
 					searchFilter={searchFilter}
 					searchTerm={searchTerm}
-					updateSearch={this.updateSearch}
+					updateSearch={(event) => {
+						this.updateSearch(event.target.value)
+					}}
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
 					pageOptions={options}
 					setSortByField={this.setSortByField}

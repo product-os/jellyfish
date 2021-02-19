@@ -36,6 +36,7 @@ import {
 import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
 import ViewLink from '../ViewLink'
+import OmniSearch from '../OmniSearch'
 import {
 	registerForNotifications
 } from '../../services/notifications'
@@ -559,9 +560,13 @@ export default class HomeChannel extends React.Component {
 						flexDirection="column"
 						data-test='home-channel__content'
 					>
-						<Flex position='relative' justifyContent="space-between" style={{
-							borderBottom: '1px solid #eee'
-						}}>
+						<Flex
+							position='relative'
+							flexDirection="column"
+							style={{
+								borderBottom: '1px solid #eee'
+							}}
+						>
 							<Flex
 								className="user-menu-toggle"
 								py={3}
@@ -601,6 +606,7 @@ export default class HomeChannel extends React.Component {
 									</MentionsCount>
 								)}
 							</Flex>
+							<OmniSearch ml={3} mr={2} />
 						</Flex>
 
 						{this.state.showMenu && (

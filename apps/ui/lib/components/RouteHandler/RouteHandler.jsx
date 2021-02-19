@@ -13,6 +13,9 @@ import ReactResizeObserver from 'react-resize-observer'
 import {
 	Flex
 } from 'rendition'
+import {
+	getLensForTarget
+} from '../../lens'
 import ChannelRenderer from '../ChannelRenderer'
 
 const PATH_SEPARATOR = '...'
@@ -141,13 +144,12 @@ export default class RouteHandler extends React.Component {
 				return existingChannel
 			}
 
-			// TODO: Remove this special case handling for the inbox and use a generic
-			// solution
-			if (target === 'inbox') {
+			const lensForTarget = getLensForTarget(target)
+			if (lensForTarget) {
 				return {
-					target: 'inbox',
+					target,
 					canonical: false,
-					format: 'inbox',
+					format: lensForTarget.data.format,
 					head: {},
 					options: {}
 				}
@@ -166,7 +168,6 @@ export default class RouteHandler extends React.Component {
 
 	render () {
 		const {
-			getLens,
 			types,
 			actions,
 			channels,
@@ -201,7 +202,6 @@ export default class RouteHandler extends React.Component {
 				{_.map(channels.slice(1), (channel, index) => {
 					return (
 						<ChannelRenderer
-							getLens={getLens}
 							types={types}
 							actions={actions}
 							user={user}

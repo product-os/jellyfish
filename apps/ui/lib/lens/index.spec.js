@@ -8,7 +8,8 @@ import '../../test/ui-setup'
 import ava from 'ava'
 import _ from 'lodash'
 import {
-	getLenses
+	getLenses,
+	getLensForTarget
 } from './index'
 
 const user = {
@@ -53,4 +54,14 @@ ava('getLenses returns the support-threads-to-audit and support-audit-chart lens
 	test.true(lensSlugs.includes('lens-support-threads-to-audit'))
 	test.true(lensSlugs.includes('lens-support-audit-chart'))
 	test.false(lensSlugs.includes('lens-support-threads'))
+})
+
+ava('getLensForTarget returns the omni-search lens for the path \'search\'', (test) => {
+	const lens = getLensForTarget('search')
+	test.is(lens.slug, 'lens-omni-search')
+})
+
+ava('getLensForTarget returns the inbox lens for the path \'inbox\'', (test) => {
+	const lens = getLensForTarget('inbox')
+	test.is(lens.slug, 'lens-inbox')
 })

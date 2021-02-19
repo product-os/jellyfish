@@ -24,6 +24,9 @@ import ChannelNotFound from './ChannelNotFound'
 import {
 	ChannelContextProvider
 } from '../hooks'
+import {
+	getLens
+} from '../lens'
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component {
@@ -63,7 +66,6 @@ class ChannelRenderer extends React.Component {
 
 	render () {
 		const {
-			getLens,
 			channel,
 			connectDropTarget,
 			isOver,
