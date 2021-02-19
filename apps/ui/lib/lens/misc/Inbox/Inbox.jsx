@@ -18,6 +18,7 @@ import {
 	Tab
 } from 'rendition'
 import {
+	CloseButton,
 	Column
 } from '@balena/jellyfish-ui-components'
 import InboxTab from './InboxTab'
@@ -32,6 +33,7 @@ const InboxColumn = styled(Column) `
 `
 
 const Inbox = ({
+	channel,
 	setupStream,
 	clearViewData,
 	paginateStream
@@ -53,6 +55,7 @@ const Inbox = ({
 				<Heading.h4>
 					Inbox
 				</Heading.h4>
+				<CloseButton flex={0} mt={-1} channel={channel} />
 			</Flex>
 
 			<Tabs
