@@ -230,28 +230,38 @@ const createEventSearchFilter = (types, term) => {
 	if (!term) {
 		return null
 	}
-	const messageType = helpers.getType('message', types)
-	const eventSchema = messageType.data.schema
-	const attachedElementSearchFilter = helpers.createFullTextSearchFilter(eventSchema, term, {
-		fullTextSearchFieldsOnly: true
+	const eventTypes = [ 'message', 'whisper' ].map((eventSlug) => {
+		return helpers.getType(eventSlug, types)
 	})
-	if (!attachedElementSearchFilter) {
+	const attachedElementSearchFilter = {
+		type: 'object',
+		additionalProperties: true,
+		description: `Any attached element field contains ${term}`,
+		anyOf: _.compact(_.flatMap(eventTypes, (eventType) => {
+			const anyOfOption = helpers.createFullTextSearchFilter(eventType.data.schema, term, {
+				fullTextSearchFieldsOnly: true
+			})
+			anyOfOption.anyOf = _.map(anyOfOption.anyOf, (subSchema) => {
+				return skhema.merge([
+					{
+						type: 'object',
+						description: anyOfOption.description,
+						required: [ 'type' ],
+						properties: {
+							type: {
+								const: `${eventType.slug}@${eventType.version}`
+							}
+						}
+					},
+					subSchema
+				])
+			})
+			return anyOfOption.anyOf
+		}))
+	}
+	if (!attachedElementSearchFilter.anyOf.length) {
 		return null
 	}
-	attachedElementSearchFilter.anyOf = _.map(attachedElementSearchFilter.anyOf, (subSchema) => {
-		return skhema.merge([
-			{
-				type: 'object',
-				required: [ 'type' ],
-				properties: {
-					type: {
-						enum: [ 'message@1.0.0', 'whisper@1.0.0' ]
-					}
-				}
-			},
-			subSchema
-		])
-	})
 	return {
 		type: 'object',
 		$$links: {
