@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump third party libraries
+      hash: e281d45cacc02bad9ec49fb24a264d4acbb3ad9e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.55.15
+  date: 2021-02-20T14:49:53.122Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: d71686b41cd652f5c4de052900054d397585b957
       body: ''
