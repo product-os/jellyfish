@@ -10,7 +10,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@babel/core": "^7.12.16",
+    "@babel/core": "^7.12.17",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-react": "^7.12.13",
     "@balena/jellyfish-chat-widget": "^6.0.58",
@@ -19,7 +19,7 @@
     "babel-loader": "^8.2.2",
     "css-loader": "^5.0.2",
     "file-loader": "^6.2.0",
-    "html-webpack-plugin": "^4.5.1",
+    "html-webpack-plugin": "^4.5.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
