@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: d71686b41cd652f5c4de052900054d397585b957
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.14
+  date: 2021-02-20T11:19:34.531Z
+- commits:
     - subject: Add libs to repo.yml upstream list
       hash: 41dec1a092436d03f2b15452e4edc355526ac128
       body: ''
