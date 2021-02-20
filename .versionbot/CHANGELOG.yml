@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add libs to repo.yml upstream list
+      hash: 41dec1a092436d03f2b15452e4edc355526ac128
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.55.13
+  date: 2021-02-20T09:56:58.828Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.25.0'
       hash: eb1cc4fc679fea95585c2bcbc70eca819c4c526b
       body: ''
