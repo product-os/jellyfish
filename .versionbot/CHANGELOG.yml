@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.25.0'
+      hash: eb1cc4fc679fea95585c2bcbc70eca819c4c526b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.55.12
+  date: 2021-02-18T18:49:26.277Z
+- commits:
     - subject: fix tests for registry auth via slug
       hash: d37b1f376aeb5f1e1bee43b030a8ea524dfe0754
       body: ''
