@@ -53,7 +53,7 @@ module.exports = async (context, jellyfish, worker, session, cards) => {
 		card.name = (card.name) ? card.name : null
 		const currentCard = await jellyfish.getCardBySlug(context, session, `${card.slug}@${card.version}`)
 		if (currentCard && _.isEqual(card,
-			_.omit(currentCard, [ 'id', 'created_at', 'updated_at', 'linked_at', 'old_created_at', 'old_updated_at' ]))) {
+			_.omit(currentCard, [ 'id', 'created_at', 'updated_at', 'linked_at' ]))) {
 			return
 		}
 
