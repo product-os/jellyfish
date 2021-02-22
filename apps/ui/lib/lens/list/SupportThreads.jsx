@@ -16,6 +16,7 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import styled from 'styled-components'
+import addBusinessDays from 'date-fns/addBusinessDays'
 import {
 	Box,
 	Tab,
@@ -48,6 +49,9 @@ const THREAD_REOPEN_NAME_RE = /Support Thread re-opened because linked (Issue|Pu
 
 // One day in milliseconds
 const ENGINEER_RESPONSE_TIMEOUT = 1000 * 60 * 60 * 24
+
+// Three (business) days
+const USER_RESPONSE_TIMEOUT_DAYS = 3
 
 const timestampSort = (cards) => {
 	return _.sortBy(cards, (element) => {
@@ -150,9 +154,14 @@ export class SupportThreads extends React.Component {
 						break
 					}
 
-					// If the message contains the 'pendinguserresponse' tag, then we are
+					// If the message contains the 'pendinguserresponse' tag and its
+					// been less than 3 working days since the message was created, then we are
 					// waiting on a response from the user and can break out of the loop
-					if (event.data.payload.message && event.data.payload.message.match(/#(<span>)?pendinguserresponse/gi)) {
+					if (
+						event.data.payload.message &&
+						event.data.payload.message.match(/#(<span>)?pendinguserresponse/gi) &&
+						addBusinessDays(new Date(event.data.timestamp), USER_RESPONSE_TIMEOUT_DAYS) > Date.now()
+					) {
 						isPendingUserResponse = true
 						break
 					}
