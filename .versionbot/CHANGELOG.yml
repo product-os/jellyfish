@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.10.0'
+      hash: 2660372eb8700cced3f9727fdb63a455674a52f1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.56.1
+  date: 2021-02-22T09:09:06.550Z
+- commits:
     - subject: Add unit tests for SupportThreads component
       hash: 3f634a2a5580848115287ac23cf75c6bb8265c20
       body: ''
