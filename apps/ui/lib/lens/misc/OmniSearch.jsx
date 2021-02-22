@@ -48,24 +48,20 @@ const generateOmniSearchView = memoize((typeSlugs) => {
 		type: 'view@1.0.0',
 		markers: [ 'org-balena' ],
 		data: {
+			types: typeSlugs,
 			allOf: [
 				{
-					name: 'Active searchable cards',
+					name: 'Active cards',
 					schema: {
 						type: 'object',
 						properties: {
 							active: {
 								const: true,
 								type: 'boolean'
-							},
-							type: {
-								type: 'string',
-								enum: typeSlugs || [ 'card@1.0.0' ]
 							}
 						},
 						required: [
-							'active',
-							'type'
+							'active'
 						],
 						additionalProperties: true
 					}
