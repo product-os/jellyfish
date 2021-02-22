@@ -1,4 +1,92 @@
 - commits:
+    - subject: Only merge at most 1 type schema in table lens and sort button
+      hash: 25fd70254394b31c4ff634ec19db617fb6e0af0b
+      body: >
+        This is a heuristic to avoid errors thrown by the skhema module when
+
+        merging incompatible schemas.
+
+        As a todo item, we need to improve safety of skhema.merge so that it
+        doesn't
+
+        throw if the skhemas can't be merged. That way we can merge all the type
+        schemas
+
+        instead of just the first one.
+
+
+        I'm happy to make this change as we currently only support 1 additional
+
+        type schema in these components as it is.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Explicitly specify types in omni-search view
+      hash: 543f0f1e39bf386b7d90946a3c68a76f31f23e06
+      body: >
+        By explicitly specifying the types rather than including them in the
+        filter, we can greatly improve the performance of the query, without
+        losing the view's intended filtering.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Restrict interleaved lens filter
+      hash: f48fa9aeff70b724ddd65280de70502cc68dbfa2
+      body: |
+        Type (and id) must be present.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Improve performance of search query for timeline elements
+      hash: 2f7764c3c3cce9558ab646a5fcfb586483b4710c
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch graham@balena.io
+        signed-off-by: Graham McCulloch graham@balena.io
+      author: Graham McCulloch
+      nested: []
+    - subject: Add close button to Inbox view
+      hash: 24bcf0d1fccfe02fd35c96473fc03db50319ecc7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add omni-search view
+      hash: ac8a6fefaf981dc45259c2dbb340db7aa9c58486
+      body: >
+        Omni-search is a view that lets you search for cards across all
+        searchable card types. It can be accessed via a new searchbox in the
+        sidebar (or from the URL `/search`). A new omni-search lens wraps the
+        normal view lens, constructing and passing in a filter based on the
+        available searchable card types.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.57.0
+  date: 2021-02-22T13:46:06.367Z
+- commits:
     - subject: 'patch: Update dependency rendition to ^20.10.0'
       hash: 2660372eb8700cced3f9727fdb63a455674a52f1
       body: ''
