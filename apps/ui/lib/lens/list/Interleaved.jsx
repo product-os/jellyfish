@@ -259,6 +259,7 @@ const lens = {
 			type: 'array',
 			items: {
 				type: 'object',
+				required: [ 'id', 'type' ],
 				properties: {
 					id: {
 						type: 'string'
