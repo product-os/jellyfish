@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump ui-components and chat-widget dependencies
+      hash: ca8392fd940d22fc45544c32f37563701b289df0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.55.20
+  date: 2021-02-22T04:22:21.812Z
+- commits:
     - subject: Bump deps
       hash: b4d042c25c9e66167ec6f553edfde74aa8783453
       body: ''
