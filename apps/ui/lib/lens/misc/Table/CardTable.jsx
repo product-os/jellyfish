@@ -200,7 +200,10 @@ export default class CardTable extends React.Component {
 			'properties.updated_at'
 		])
 
-		const paths = helpers.getPathsInSchema(skhema.merge([ defaultSchema, ...typesSchemas ]), OMISSIONS)
+		// TODO: Improve safety of skhema.merge so that it doesn't throw if the
+		// skhemas can't be merged. That way we can merge all the typesSchemas
+		// instead of just the first one.
+		const paths = helpers.getPathsInSchema(skhema.merge([ defaultSchema, _.first(typesSchemas) ]), OMISSIONS)
 
 		return _.map(paths, ({
 			title, path
