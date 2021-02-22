@@ -6,7 +6,6 @@
 
 import React from 'react'
 import _ from 'lodash'
-import skhema from 'skhema'
 import clone from 'deep-copy'
 import {
 	Box,
@@ -22,7 +21,10 @@ const getSchemaForFilters = (tailTypes, timelineFilter) => {
 		return clone(_.get(tailType, [ 'data', 'schema' ], {}))
 	})
 
-	const schemaForFilters = skhema.merge(tailSchemas)
+	const schemaForFilters = {
+		type: 'object',
+		anyOf: tailSchemas
+	}
 
 	// Always expose the created_at and updated_at field for filtering
 	_.set(schemaForFilters, [ 'properties', 'created_at' ], {

@@ -50,7 +50,10 @@ const getSortByOptions = (cardSchema, tailTypes) => {
 	})
 
 	// Merge generic card schema with current card schema to get top-level and data fields
-	const fullSchema = skhema.merge([ cardSchema, ...tailSchemas ])
+	// TODO: Improve safety of skhema.merge so that it doesn't throw if the
+	// skhemas can't be merged. That way we can merge all the typesSchemas
+	// instead of just the first one.
+	const fullSchema = skhema.merge([ cardSchema, _.first(tailSchemas) ])
 
 	const dataFieldPaths = helpers.getPathsInSchema(fullSchema, FIELDS_TO_OMIT)
 

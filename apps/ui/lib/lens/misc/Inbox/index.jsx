@@ -33,6 +33,7 @@ export default {
 	version: '1.0.0',
 	name: 'Inbox lens',
 	data: {
+		pathRegExp: '^inbox$',
 		format: 'inbox',
 		renderer: connect(null, mapDispatchToProps)(Inbox),
 		icon: 'address-card',
