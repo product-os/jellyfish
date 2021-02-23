@@ -1,4 +1,19 @@
 - commits:
+    - subject: Discussion tab title should match hashtag
+      hash: 86deaeccfcd2931f2795c7e40bd1948b65f789bd
+      body: >
+        This will create less confusion with people wanting to use the hashtag
+        ("Should I use `(#)discussions` or `(#)discussion`?")
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.57.1
+  date: 2021-02-23T00:47:16.169Z
+- commits:
     - subject: Only merge at most 1 type schema in table lens and sort button
       hash: 25fd70254394b31c4ff634ec19db617fb6e0af0b
       body: >
