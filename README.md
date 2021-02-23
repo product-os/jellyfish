@@ -15,6 +15,7 @@ as a cross between Slack and Excel!
 ***
 
 - **Contributing**
+	- [**Design manifesto**](https://github.com/product-os/jellyfish/blob/master/docs/design-manifesto.markdown)
 	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
 	- [**JellyFish Core**](https://github.com/product-os/jellyfish-core/blob/master/README.md) the low-level internal SDK to interact with cards and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
