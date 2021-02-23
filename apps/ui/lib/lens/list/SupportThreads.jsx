@@ -229,7 +229,7 @@ export class SupportThreads extends React.Component {
 				cards: timestampSort(pendingEngineerResponse)
 			},
 			{
-				name: 'discussions',
+				name: 'discussion',
 				cards: timestampSort(discussions)
 			}
 		]
