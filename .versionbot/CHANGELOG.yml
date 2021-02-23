@@ -1,4 +1,28 @@
 - commits:
+    - subject: Restrict view filters to schema of first tail type
+      hash: 5022c172ce9dd85146afe8a46d8959dfd9004608
+      body: >
+        This is a heuristic to avoid errors thrown by the skhema module when
+
+        merging incompatible schemas.
+
+        As a todo item, we need to improve safety of skhema.merge so that it
+        doesn't
+
+        throw if the skhemas can't be merged. That way we can merge all the type
+        schemas
+
+        instead of just the first one.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.57.2
+  date: 2021-02-23T11:01:32.740Z
+- commits:
     - subject: Discussion tab title should match hashtag
       hash: 86deaeccfcd2931f2795c7e40bd1948b65f789bd
       body: >
