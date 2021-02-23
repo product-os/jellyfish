@@ -6,6 +6,7 @@
 
 import React from 'react'
 import _ from 'lodash'
+import skhema from 'skhema'
 import clone from 'deep-copy'
 import {
 	Box,
@@ -21,10 +22,10 @@ const getSchemaForFilters = (tailTypes, timelineFilter) => {
 		return clone(_.get(tailType, [ 'data', 'schema' ], {}))
 	})
 
-	const schemaForFilters = {
-		type: 'object',
-		anyOf: tailSchemas
-	}
+	// TODO: Improve safety of skhema.merge so that it doesn't throw if the
+	// skhemas can't be merged. That way we can merge all the typesSchemas
+	// instead of just the first one.
+	const schemaForFilters = skhema.merge([ _.first(tailSchemas) ])
 
 	// Always expose the created_at and updated_at field for filtering
 	_.set(schemaForFilters, [ 'properties', 'created_at' ], {
