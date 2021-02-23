@@ -20,6 +20,13 @@ const Footer = styled(Flex) `
 	border-top: 1px solid #eee;
 `
 
+const DropUpButton = styled(DropDownButton).attrs({
+	dropUp: true
+}) `
+	&>div:last-child {
+		max-height: 80vh;
+	}
+`
 const isSynchronous = (type) => {
 	return type.slug === 'thread'
 }
@@ -60,7 +67,8 @@ export const ViewFooter = ({
 			{...rest}
 		>
 			{ types.length > 1 ? (
-				<DropDownButton
+				<DropUpButton
+					alignRight
 					disabled={isBusy}
 					success
 					data-test="viewfooter__add-dropdown"
@@ -80,7 +88,7 @@ export const ViewFooter = ({
 							</ActionLink>
 						))
 					}
-				</DropDownButton>
+				</DropUpButton>
 			) : (
 				<Button
 					disabled={isBusy}
