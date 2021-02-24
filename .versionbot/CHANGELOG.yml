@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.4.3'
+      hash: 1540de0a13826527405dd99eefb8bd421744d279
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.1
+  date: 2021-02-24T13:50:08.725Z
+- commits:
     - subject: Fix AutoCompleteCardSelect filtering
       hash: 27084eb563ebec7cbf9ae289139d635a7be13f94
       body: |
