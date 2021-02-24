@@ -1,4 +1,30 @@
 - commits:
+    - subject: Fix AutoCompleteCardSelect filtering
+      hash: 27084eb563ebec7cbf9ae289139d635a7be13f94
+      body: |
+        Added unit tests to verify the behaviour.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Enable search within arrays of strings
+      hash: 49a641e216e0649e7303a897019a8dcb6f102964
+      body: >
+        This commit just bumps dependencies on jellyfish-ui-components (and
+        jellyfish-chat-widget).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.59.0
+  date: 2021-02-24T11:43:46.690Z
+- commits:
     - subject: Make use of channels plugin
       hash: 9df1eb8b257f333e038ebf61fc4e8682e49a563f
       body: |
