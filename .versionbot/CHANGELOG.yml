@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.7.0'
+      hash: bd0181c6dc561e01ed41f14544ac0871ef785b5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.57.3
+  date: 2021-02-24T03:07:40.546Z
+- commits:
     - subject: Restrict view filters to schema of first tail type
       hash: 5022c172ce9dd85146afe8a46d8959dfd9004608
       body: >
