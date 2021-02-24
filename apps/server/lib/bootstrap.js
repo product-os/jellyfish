@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const _ = require('lodash')
 const core = require('@balena/jellyfish-core')
 const Producer = require('@balena/jellyfish-queue').Producer
 const Consumer = require('@balena/jellyfish-queue').Consumer
@@ -179,6 +180,29 @@ module.exports = async (context, options) => {
 	// http traffic
 	await webServer.ready(jellyfish, worker, producer, {
 		guestSession: results.guestSession.id
+	})
+
+	// Manually bootstrap channels
+	// TODO: This should ideally be completely automated, but this would
+	// require that triggered actions are up and running before any
+	// channel cards are loaded.
+	const channels = _.filter(cards, {
+		type: 'channel@1.0.0',
+		active: true
+	})
+
+	logger.info(context, `Bootstrapping ${channels.length} channel${channels.length === 1 ? '' : 's'}`)
+
+	_.forEach(channels, async (channel) => {
+		const channelCard = await jellyfish.getCardBySlug(context, jellyfish.sessions.admin,
+			`${channel.slug}@${channel.version}`)
+		await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+			action: 'action-bootstrap-channel@1.0.0',
+			context,
+			card: channelCard.id,
+			type: channelCard.type,
+			arguments: {}
+		})
 	})
 
 	return {
