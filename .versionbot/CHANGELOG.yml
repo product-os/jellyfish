@@ -1,4 +1,18 @@
 - commits:
+    - subject: Make use of channels plugin
+      hash: 9df1eb8b257f333e038ebf61fc4e8682e49a563f
+      body: |
+        Manually bootstrap channels as part of the server's bootstrap process.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.58.0
+  date: 2021-02-24T10:19:30.058Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 6bf68dd8b82caa681830bcfea6639c1b3728ce86
       body: ''
