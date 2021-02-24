@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 6bf68dd8b82caa681830bcfea6639c1b3728ce86
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.57.5
+  date: 2021-02-24T07:32:17.007Z
+- commits:
     - subject: Add empty new line in gitignore file
       hash: 4c0d4cfc0c01631f1dfb5db1c3c4298b5e0fd162
       body: ''
