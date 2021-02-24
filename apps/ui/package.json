@@ -41,7 +41,7 @@
     "@babel/register": "^7.12.13",
     "@balena/jellyfish-chat-widget": "^6.0.59",
     "@balena/jellyfish-client-sdk": "^2.14.3",
-    "@balena/jellyfish-environment": "^2.4.16",
+    "@balena/jellyfish-environment": "^2.4.17",
     "@balena/jellyfish-ui-components": "^8.7.0",
     "@primer/styled-octicons": "^11.3.0",
     "analytics-client": "^0.12.1",
@@ -49,7 +49,7 @@
     "bluebird": "^3.7.2",
     "classnames": "^2.2.6",
     "common-tags": "^1.8.0",
-    "connected-react-router": "^6.8.0",
+    "connected-react-router": "^6.9.1",
     "copy-to-clipboard": "^3.3.1",
     "copy-webpack-plugin": "^6.4.1",
     "css-loader": "^5.0.2",
@@ -119,12 +119,12 @@
     "sinon": "^9.2.4",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2",
-    "workbox-core": "^6.1.0",
-    "workbox-precaching": "^6.1.0",
-    "workbox-routing": "^6.1.0",
-    "workbox-strategies": "^6.1.0",
-    "workbox-sw": "^6.1.0",
-    "workbox-webpack-plugin": "^6.1.0",
-    "workbox-window": "^6.1.0"
+    "workbox-core": "^6.1.1",
+    "workbox-precaching": "^6.1.1",
+    "workbox-routing": "^6.1.1",
+    "workbox-strategies": "^6.1.1",
+    "workbox-sw": "^6.1.1",
+    "workbox-webpack-plugin": "^6.1.1",
+    "workbox-window": "^6.1.1"
   }
 }
