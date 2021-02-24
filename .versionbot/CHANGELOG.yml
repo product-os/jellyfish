@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add empty new line in gitignore file
+      hash: 4c0d4cfc0c01631f1dfb5db1c3c4298b5e0fd162
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 62cb1bb9c040a47089b4aaa0df9fe6766dfad7c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.57.4
+  date: 2021-02-24T05:38:35.261Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.7.0'
       hash: bd0181c6dc561e01ed41f14544ac0871ef785b5d
       body: ''
