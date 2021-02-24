@@ -8,6 +8,7 @@
 
 import _ from 'lodash'
 import React from 'react'
+import skhema from 'skhema'
 import AsyncSelect from 'react-select/async'
 import {
 	Badge, Flex, Txt
@@ -79,36 +80,61 @@ export default class AutoCompleteCardSelect extends React.Component {
 		const {
 			getQueryFilter,
 			cardFilter,
-			cardType: cardTypes,
+			cardType,
 			types,
 			sdk
 		} = this.props
+		const cardTypes = _.castArray(cardType)
 
-		const queryFilter = getQueryFilter ? getQueryFilter(value) : {
-			type: 'object',
-			anyOf: _.compact([].concat(cardTypes).map((cardType) => {
-				// Retrieve the target type of the selected link
-				const typeCard = _.find(types, {
-					slug: helpers.getTypeBase(cardType)
-				})
-
-				// Create full text search query based on the target type and search term
-				const filter = helpers.createFullTextSearchFilter(typeCard.data.schema, value, {
-					fullTextSearchFieldsOnly: true
-				}) || {
-					type: 'object'
+		let queryFilter = null
+		if (getQueryFilter) {
+			queryFilter = getQueryFilter(value)
+		} else if (value) {
+			queryFilter = {
+				type: 'object',
+				anyOf: _.compact(_.flatMap(cardTypes, (cardTypeSlug) => {
+					// Retrieve the target type of the selected link
+					const typeCard = _.find(types, {
+						slug: helpers.getTypeBase(cardTypeSlug)
+					})
+					const baseFilter = skhema.merge([
+						{
+							type: 'object',
+							required: [ 'type' ],
+							properties: {
+								type: {
+									const: `${typeCard.slug}@${typeCard.version}`
+								}
+							}
+						},
+						cardFilter
+					])
+					const searchFilter = helpers.createFullTextSearchFilter(typeCard.data.schema, value, {
+						fullTextSearchFieldsOnly: true
+					})
+					if (!searchFilter) {
+						return null
+					}
+					return _.map(searchFilter.anyOf, (subSchema) => {
+						return skhema.merge([ baseFilter, subSchema ])
+					})
+				}))
+			}
+		} else {
+			queryFilter = {
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						enum: cardTypes.map((cardTypeSlug) => {
+							const typeCard = _.find(types, {
+								slug: helpers.getTypeBase(cardTypeSlug)
+							})
+							return `${typeCard.slug}@${typeCard.version}`
+						})
+					}
 				}
-
-				// Additionally, restrict the query to only filter for cards of the chosen
-				// type
-				_.set(filter, [ 'properties', 'type' ], {
-					type: 'string',
-					const: `${typeCard.slug}@${typeCard.version}`
-				})
-
-				// Merge with the provided filter (if given)
-				return _.merge(filter, cardFilter)
-			}))
+			}
 		}
 
 		// Query the API for results and set them to state so they can be accessed
@@ -118,7 +144,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 		})
 
 		// If the card type was changed while the request was in-flight, we should discard these results
-		if (!_.isEqual(cardTypes, this.props.cardType)) {
+		if (!_.isEqual(cardType, this.props.cardType)) {
 			return []
 		}
 
