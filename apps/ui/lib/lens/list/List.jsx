@@ -176,7 +176,8 @@ class CardList extends React.Component {
 			<Column flex="1" overflowY>
 				<Box flex="1" style={{
 					position: 'relative',
-					minHeight: 80
+					minHeight: 80,
+					overflow: 'hidden'
 				}}>
 					<ReactResizeObserver onResize={this.clearCellCache}/>
 					{Boolean(tail) && tail.length > 0 && (
