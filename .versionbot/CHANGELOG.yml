@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major Docker tags'
+      hash: 80f93278bf66f3a2326e6f5fc7cf23276b1a2595
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.6
+  date: 2021-02-25T02:46:00.965Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^2.0.27'
       hash: 7e0f234dda6a98e12723ac37f94a279a205d07a9
       body: ''
