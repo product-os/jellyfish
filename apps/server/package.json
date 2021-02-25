@@ -34,7 +34,7 @@
     "@balena/jellyfish-sync": "^5.0.22",
     "@balena/jellyfish-uuid": "^1.0.63",
     "@balena/jellyfish-worker": "^3.0.39",
-    "aws-sdk": "^2.851.0",
+    "aws-sdk": "^2.852.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "change-case": "^4.1.2",
