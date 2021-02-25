@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: f51c30da00e2061ba7c613df5a61ef22cc636565
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.10
+  date: 2021-02-25T15:44:00.832Z
+- commits:
     - subject: Fix flickering scrollbars on list lens
       hash: c021e999eace948cbd0e2c2fbf87d8800a8a7709
       body: ''
