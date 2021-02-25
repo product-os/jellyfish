@@ -726,7 +726,7 @@ export default class HomeChannel extends React.Component {
 								onClick={this.openChatWidget}
 								tooltip={{
 									placement: 'right',
-									text: 'Open a chat widget'
+									text: 'Open the JellyFish support chat'
 								}}
 							/>
 						</Box>
