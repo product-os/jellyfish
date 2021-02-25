@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: e83a05cbb2bc0ddd9ea5a165da9d46e2ebe49a5c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.8
+  date: 2021-02-25T07:05:07.335Z
+- commits:
     - subject: clarify use of the chat widget
       hash: 977878efa46aa162f95fb671837800e15f3b42dc
       body: ''
