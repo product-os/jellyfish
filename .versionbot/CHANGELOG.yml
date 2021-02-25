@@ -1,4 +1,15 @@
 - commits:
+    - subject: clarify use of the chat widget
+      hash: 977878efa46aa162f95fb671837800e15f3b42dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Martin Rauscher
+      nested: []
+  version: 33.59.7
+  date: 2021-02-25T05:39:07.653Z
+- commits:
     - subject: 'patch: Update non-major Docker tags'
       hash: 80f93278bf66f3a2326e6f5fc7cf23276b1a2595
       body: ''
