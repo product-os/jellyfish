@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix flickering scrollbars on list lens
+      hash: c021e999eace948cbd0e2c2fbf87d8800a8a7709
+      body: ''
+      footer:
+        Connects-to: '#5685'
+        connects-to: '#5685'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.59.9
+  date: 2021-02-25T09:55:12.216Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: e83a05cbb2bc0ddd9ea5a165da9d46e2ebe49a5c
       body: ''
