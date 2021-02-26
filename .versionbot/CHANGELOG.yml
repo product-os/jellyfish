@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to v8'
+      hash: 932fe226d13137a00ed40eca0f959200b9191cf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.18
+  date: 2021-02-26T19:55:26.670Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.40'
       hash: 1765db231235c2a7113cf5e0d5b81650bf84593c
       body: ''
