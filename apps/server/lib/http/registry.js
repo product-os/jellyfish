@@ -75,25 +75,25 @@ exports.authenticate = async (request, response, jellyfish) => {
 		return response.sendStatus(503)
 	}
 
-	let sessionToken = null
+	let sessionId = null
 	let actorSlug = null
 	try {
-		// Get id and sessionToken from basic auth header
-		[ actorSlug, sessionToken ] = b64decode((request.headers.authorization || '').split(' ')[1] || '').split(':')
-		if (!actorSlug || !sessionToken) {
+		// Get id and sessionId from basic auth header
+		[ actorSlug, sessionId ] = b64decode((request.headers.authorization || '').split(' ')[1] || '').split(':')
+		if (!actorSlug || !sessionId) {
 			logger.info(request.context, 'Session token missing')
 			return response.status(400).send('session token missing')
 		}
 
 		// Retrieve actor card to verify the session
 		// TODO figure out why we need the version on the slug here
-		const actor = await jellyfish.getCardBySlug(request.context, sessionToken, `${actorSlug}@latest`)
+		const actor = await jellyfish.getCardBySlug(request.context, sessionId, `${actorSlug}@latest`)
 		if (!actor) {
 			throw new Error('Unable to load actor')
 		}
 
 		// Retrieve session card
-		const session = await jellyfish.getCardById(request.context, sessionToken, sessionToken)
+		const session = await jellyfish.getCardById(request.context, sessionId, sessionId)
 		if (!session || session.data.actor !== actor.id) {
 			throw new Error('Invalid session')
 		}
@@ -136,7 +136,7 @@ exports.authenticate = async (request, response, jellyfish) => {
 				// Name will refer to the slug of the contract representing this entity.
 				// The registry doesn't allow scopes per version - we assume that all versions
 				// have the same permissions set
-				contract = await jellyfish.getCardBySlug(request.context, sessionToken, `${name}@latest`)
+				contract = await jellyfish.getCardBySlug(request.context, sessionId, `${name}@latest`)
 			} catch (error) {
 				logger.info(request.context, 'Registry authentication hit error querying for contract', {
 					name

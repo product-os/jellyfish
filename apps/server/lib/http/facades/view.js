@@ -15,12 +15,12 @@ module.exports = class ViewFacade {
 		this.queryFacade = queryFacade
 	}
 
-	async queryByView (context, sessionToken, viewSlug, params, options, ipAddress) {
+	async queryByView (context, sessionId, viewSlug, params, options, ipAddress) {
 		if (!_.includes(viewSlug, '@')) {
 			throw new Error('View slug must include a version')
 		}
 
-		return this.jellyfish.getCardBySlug(context, sessionToken, viewSlug)
+		return this.jellyfish.getCardBySlug(context, sessionId, viewSlug)
 			.then((view) => {
 				if (!view) {
 					return null
@@ -36,7 +36,7 @@ module.exports = class ViewFacade {
 					query = view
 				}
 
-				return this.queryFacade.queryAPI(context, sessionToken, query, options, ipAddress)
+				return this.queryFacade.queryAPI(context, sessionId, query, options, ipAddress)
 			})
 	}
 }

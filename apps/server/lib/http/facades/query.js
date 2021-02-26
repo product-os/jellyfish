@@ -13,7 +13,7 @@ module.exports = class QueryFacade {
 		this.jellyfish = jellyfish
 	}
 
-	async queryAPI (context, sessionToken, query, options, ipAddress) {
+	async queryAPI (context, sessionId, query, options, ipAddress) {
 		return Bluebird.try(async () => {
 			if (!_.isString(query)) {
 				return query
@@ -21,7 +21,7 @@ module.exports = class QueryFacade {
 
 			// Now try and load the view by slug
 			const viewCardFromSlug = await this.jellyfish.getCardBySlug(
-				context, sessionToken, `${query}@latest`)
+				context, sessionId, `${query}@latest`)
 
 			if (viewCardFromSlug && viewCardFromSlug.type.split('@')[0] === 'view') {
 				return viewCardFromSlug
@@ -29,7 +29,7 @@ module.exports = class QueryFacade {
 
 			try {
 				// Try and load the view by id first
-				const viewCardFromId = await this.jellyfish.getCardById(context, sessionToken, query)
+				const viewCardFromId = await this.jellyfish.getCardById(context, sessionId, query)
 
 				if (!viewCardFromId || viewCardFromId.type.split('@')[0] !== 'view') {
 					throw new this.jellyfish.errors.JellyfishNoView(`Unknown view: ${query}`)
@@ -48,7 +48,7 @@ module.exports = class QueryFacade {
 				schema
 			})
 
-			const data = await this.jellyfish.query(context, sessionToken, schema, options)
+			const data = await this.jellyfish.query(context, sessionId, schema, options)
 			const endDate = new Date()
 			const queryTime = endDate.getTime() - startDate.getTime()
 			logger.info(context, 'JSON Schema query end', {

@@ -8,11 +8,11 @@ const assert = require('@balena/jellyfish-assert')
 const QueryFacade = require('./query')
 
 module.exports = class AuthFacade extends QueryFacade {
-	async whoami (context, sessionToken, ipAddress) {
+	async whoami (context, sessionId, ipAddress) {
 		// Use the admin session, as the user invoking this function
 		// might not have enough access to read its entire session card.
 		const result = await this.jellyfish.getCardById(
-			context, this.jellyfish.sessions.admin, sessionToken)
+			context, this.jellyfish.sessions.admin, sessionId)
 		assert.USER(context, result,
 			this.jellyfish.errors.JellyfishInvalidSession, 'Session does not exist')
 
@@ -44,7 +44,7 @@ module.exports = class AuthFacade extends QueryFacade {
 
 		// Try and load the user with attached org data, otherwise load them without it.
 		// TODO: Fix our broken queries so that we can optionally get linked data
-		let user = await this.queryAPI(context, sessionToken, schema, {
+		let user = await this.queryAPI(context, sessionId, schema, {
 			limit: 1
 		}, ipAddress)
 			.then((elements) => {
@@ -52,7 +52,7 @@ module.exports = class AuthFacade extends QueryFacade {
 			})
 
 		if (!user) {
-			user = await this.jellyfish.getCardById(context, sessionToken, result.data.actor)
+			user = await this.jellyfish.getCardById(context, sessionId, result.data.actor)
 		}
 
 		return user

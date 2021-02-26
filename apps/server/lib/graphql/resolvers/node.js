@@ -7,5 +7,5 @@
 module.exports = function (_source, args, {
 	jellyfish, request
 }, _info) {
-	return jellyfish.getCardById(request.context, request.sessionToken, args.id)
+	return jellyfish.getCardById(request.context, request.sessionId, args.id)
 }

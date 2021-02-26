@@ -8,10 +8,10 @@ module.exports = function (_source, args, {
 	jellyfish, request
 }, _info) {
 	if (args.id) {
-		return jellyfish.getCardById(request.context, request.sessionToken, args.id)
+		return jellyfish.getCardById(request.context, request.sessionId, args.id)
 	}
 	if (args.slug) {
-		return jellyfish.getCardBySlug(request.context, request.sessionToken, `${args.slug}@latest`)
+		return jellyfish.getCardBySlug(request.context, request.sessionId, `${args.slug}@latest`)
 	}
 	return null
 }

@@ -101,9 +101,17 @@ module.exports = (rootContext, application, jellyfish, options) => {
 	}))
 
 	application.use((request, response, next) => {
-		const authorization = request.headers.authorization
-		const token = _.last(_.split(authorization, ' '))
-		request.sessionToken = token || options.guestSession
+		// "authorization" header: Bearer <authentication token>
+		// "session" header: <session id>
+		const authorizationHeader = request.headers.authorization
+		const token = _.last(_.split(authorizationHeader, ' '))
+		request.sessionId = request.headers.session || options.guestSession
+		request.sessionToken = token
+
+		// TODO: Get session contract using request.sessionId
+
+		// TODO: Validate authentication token and check against hashed token stored in session contract
+
 		return next()
 	})
 }

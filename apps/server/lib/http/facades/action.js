@@ -15,7 +15,7 @@ module.exports = class ActionFacade {
 		this.worker = worker
 	}
 
-	async processAction (context, sessionToken, action, options = {}) {
+	async processAction (context, sessionId, action, options = {}) {
 		const files = []
 
 		return uuid.random().then(async (id) => {
@@ -40,8 +40,8 @@ module.exports = class ActionFacade {
 
 			action.context = context
 
-			const finalRequest = await this.worker.pre(sessionToken, action)
-			return this.producer.enqueue(this.worker.getId(), sessionToken, finalRequest)
+			const finalRequest = await this.worker.pre(sessionId, action)
+			return this.producer.enqueue(this.worker.getId(), sessionId, finalRequest)
 		}).then((actionRequest) => {
 			return this.producer.waitResults(context, actionRequest)
 		}).then(async (results) => {

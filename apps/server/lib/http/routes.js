@@ -342,7 +342,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	application.get('/api/v2/type/:type', async (request, response) => {
 		return metrics.measureHttpType(() => {
 			const [ base, version ] = request.params.type.split('@')
-			return jellyfish.query(request.context, request.sessionToken, {
+			return jellyfish.query(request.context, request.sessionId, {
 				type: 'object',
 				additionalProperties: true,
 				required: [ 'type' ],
@@ -365,7 +365,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	application.get('/api/v2/id/:id', async (request, response) => {
 		return metrics.measureHttpId(() => {
 			return jellyfish.getCardById(
-				request.context, request.sessionToken, request.params.id).then((card) => {
+				request.context, request.sessionId, request.params.id).then((card) => {
 				if (card) {
 					return response.status(200).json(card)
 				}
@@ -380,7 +380,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	application.get('/api/v2/slug/:slug', async (request, response) => {
 		return metrics.measureHttpSlug(() => {
 			return jellyfish.getCardBySlug(
-				request.context, request.sessionToken, `${request.params.slug}@latest`, {
+				request.context, request.sessionId, `${request.params.slug}@latest`, {
 					type: request.params.type
 				})
 				.then((card) => {
@@ -518,13 +518,13 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 	application.get('/api/v2/file/:cardId/:fileName', async (request, response) => {
 		const card = await jellyfish.getCardById(
-			request.context, request.sessionToken, request.params.cardId)
+			request.context, request.sessionId, request.params.cardId)
 		if (!card) {
 			return response.send(404)
 		}
 
 		const sessionCard = await jellyfish.getCardById(
-			request.context, request.sessionToken, request.sessionToken)
+			request.context, request.sessionId, request.sessionId)
 		if (!sessionCard) {
 			return response.send(401)
 		}
@@ -605,7 +605,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 			return actionFacade.processAction(
 				request.context,
-				request.sessionToken,
+				request.sessionId,
 				action,
 				{
 					files: request.files
@@ -649,7 +649,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 			return queryFacade.queryAPI(
 				request.context,
-				request.sessionToken,
+				request.sessionId,
 				request.body.query,
 				request.body.options,
 				request.ip
@@ -669,7 +669,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	application.post('/api/v2/view/:slug', (request, response) => {
 		viewFacade.queryByView(
 			request.context,
-			request.sessionToken,
+			request.sessionId,
 			request.params.slug,
 			request.body.params,
 			request.body.options,
@@ -690,7 +690,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 	application.get('/api/v2/whoami', async (request, response) => {
 		return metrics.measureHttpWhoami(async () => {
-			const user = await authFacade.whoami(request.context, request.sessionToken, request.ip)
+			const user = await authFacade.whoami(request.context, request.sessionId, request.ip)
 
 			return response.status(200).json({
 				error: false,
@@ -740,7 +740,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 
 		return actionFacade.processAction(
 			request.context,
-			request.sessionToken,
+			request.sessionId,
 			action
 		)
 			.then((results) => {

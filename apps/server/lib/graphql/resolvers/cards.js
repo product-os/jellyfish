@@ -20,7 +20,7 @@ module.exports = async function (_source, args, {
 	const querySchema = schemaFromFilter(args.filter)
 
 	return queryFacade
-		.queryAPI(request.context, request.sessionToken, querySchema, {}, request.ip)
+		.queryAPI(request.context, request.sessionId, querySchema, {}, request.ip)
 		.catch((error) => {
 			logger.warn(request.context, 'JSON Schema query error', querySchema)
 			throw error
