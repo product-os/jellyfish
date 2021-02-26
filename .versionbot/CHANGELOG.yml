@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix the layout of the Kanban board
+      hash: 4c1a11fd2c0b7e52c2504295d5612812ee1f4e19
+      body: >
+        Ensure Kanban board doesn't take up more room than is available, so you
+        can scroll to the bottom of a lane's cards.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.59.13
+  date: 2021-02-26T03:30:52.316Z
+- commits:
     - subject: Update jellyfish-core from 2.1.1 to 2.1.2
       hash: b2b38d3c931c972c0761cd6e433a2ea8abd24716
       body: ''
