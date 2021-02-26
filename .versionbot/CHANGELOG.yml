@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update jellyfish-core from 2.1.1 to 2.1.2
+      hash: b2b38d3c931c972c0761cd6e433a2ea8abd24716
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.59.12
+  date: 2021-02-26T00:25:52.051Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.852.0'
       hash: 06d9b046c6767ca99062a2f8ef9f19841e892749
       body: ''
