@@ -497,12 +497,16 @@ export const actionCreators = {
 					id: channel.id
 				})
 
+				if (!currentChannel) {
+					return
+				}
+
 				const clonedChannel = clone(currentChannel)
 
 				if (channels.length > 0) {
 					// Merge required in the event that this is a pagination query
 					clonedChannel.data.head = merge(
-						clonedChannel.data.head,
+						_.get(clonedChannel, [ 'data', 'head' ], {}),
 						channels[0],
 						{
 							arrayMerge: (destinationArray, sourceArray) => {
