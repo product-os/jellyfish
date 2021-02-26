@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.40'
+      hash: 1765db231235c2a7113cf5e0d5b81650bf84593c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.17
+  date: 2021-02-26T12:46:33.000Z
+- commits:
     - subject: Check for empty/missing channel on stream update
       hash: 7fa19b9fd8ebb43cde1bbbbca802a2c7c0aa542c
       body: >
