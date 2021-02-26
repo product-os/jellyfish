@@ -13,6 +13,7 @@ import {
 import {
 	withRouter
 } from 'react-router-dom'
+import styled from 'styled-components'
 import ReactTrello from 'react-trello'
 import {
 	bindActionCreators
@@ -31,6 +32,20 @@ import {
 	selectors,
 	sdk
 } from '../../core'
+
+const TrelloWrapper = styled(Flex) `
+	height: 100%;
+	width: 100%;
+	position: relative;
+	overflow-x: auto;
+	.react-trello-board > div {
+		display: flex;
+		height: 100%;
+	}
+	.smooth-dnd-draggable-wrapper > section {
+		max-height: 100%
+	} 
+`
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP'
 
@@ -188,12 +203,9 @@ class Kanban extends React.Component {
 		const components = {}
 
 		return (
-			<Flex
+			<TrelloWrapper
 				data-test={`lens--${SLUG}`}
 				flexDirection="column"
-				style={{
-					height: '100%', width: '100%', position: 'relative', overflowX: 'auto'
-				}}
 			>
 				<ReactTrello
 					style={{
@@ -206,7 +218,7 @@ class Kanban extends React.Component {
 					handleDragEnd={this.handleDragEnd}
 					onCardClick={this.onCardClick}
 				/>
-			</Flex>
+			</TrelloWrapper>
 		)
 	}
 }
