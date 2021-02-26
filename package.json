@@ -104,7 +104,7 @@
     "mustache": "^4.1.0",
     "nock": "^13.0.8",
     "node-jose": "^2.0.0",
-    "puppeteer": "^7.1.0",
+    "puppeteer": "^8.0.0",
     "random-words": "^1.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
