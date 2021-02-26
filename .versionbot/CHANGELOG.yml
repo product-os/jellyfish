@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency shellcheck to v1'
+      hash: fd9ab5b58504f733375ef2a87d4e1f3e179c7be6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.15
+  date: 2021-02-26T06:30:07.814Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-uuid to ^1.0.64'
       hash: c400f23a4f8a27acdaec7260f053cf9f87a9a5d9
       body: ''
