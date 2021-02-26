@@ -1,4 +1,23 @@
 - commits:
+    - subject: Check for empty/missing channel on stream update
+      hash: 7fa19b9fd8ebb43cde1bbbbca802a2c7c0aa542c
+      body: >
+        Defensively check if the channel is present and account for channels
+        without data.head set.
+
+
+        Relates to
+        https://sentry.io/share/issue/cc5f7febab8e4deaa2315f509e81cb4e/
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.59.16
+  date: 2021-02-26T11:09:08.018Z
+- commits:
     - subject: 'patch: Update dependency shellcheck to v1'
       hash: fd9ab5b58504f733375ef2a87d4e1f3e179c7be6
       body: ''
