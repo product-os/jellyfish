@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-uuid to ^1.0.64'
+      hash: c400f23a4f8a27acdaec7260f053cf9f87a9a5d9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.14
+  date: 2021-02-26T04:46:46.788Z
+- commits:
     - subject: Fix the layout of the Kanban board
       hash: 4c1a11fd2c0b7e52c2504295d5612812ee1f4e19
       body: >
