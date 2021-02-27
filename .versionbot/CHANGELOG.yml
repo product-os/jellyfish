@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: a61f4956240c76e7fc8f73363f7bc3f9f375667f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.59.19
+  date: 2021-02-26T23:10:19.715Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v8'
       hash: 932fe226d13137a00ed40eca0f959200b9191cf7
       body: ''
