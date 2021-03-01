@@ -1,4 +1,23 @@
 - commits:
+    - subject: Search for users with regexp in CreateView lens
+      hash: bda2dcfe3f64743b6c135e8b7ad6da1886598f8a
+      body: >
+        When searching for users, include a regexp search for the user slug -
+        this way a person doesn't have to know the full user slug before some
+        potentially useful results are returned.
+
+
+        This commit also ensures the results are sorted alphabetically by slug.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.60.0
+  date: 2021-03-01T04:26:35.692Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 7d63fb1b9e5c0ad5975c598ea19e969250f30b1a
       body: ''
