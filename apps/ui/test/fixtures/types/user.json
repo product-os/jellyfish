@@ -245,11 +245,13 @@
                   "properties": {
                     "last": {
                       "type": "string",
-                      "title": "Last name"
+                      "title": "Last name",
+                      "fullTextSearch": true
                     },
                     "first": {
                       "type": "string",
-                      "title": "First name"
+                      "title": "First name",
+                      "fullTextSearch": true
                     },
                     "pronouns": {
                       "type": "string",
