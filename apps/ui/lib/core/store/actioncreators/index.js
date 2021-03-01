@@ -413,18 +413,28 @@ export const actionCreators = {
 	// TODO: This is NOT an action creator, it should be part of sdk or other helper
 	getLinks ({
 		sdk
-	}, card, verb) {
+	}, card, verb, targetType) {
+		const baseTargetType = targetType && helpers.getTypeBase(targetType)
 		if (!_.some(sdk.LINKS, {
-			name: verb
+			name: verb,
+			data: {
+				to: baseTargetType
+			}
 		})) {
-			throw new Error(`No link definition found for ${card.type} using ${verb}`)
+			throw new Error(`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`)
 		}
 
 		return async () => {
 			const results = await sdk.query({
 				$$links: {
 					[verb]: {
-						type: 'object'
+						type: 'object',
+						required: [ 'type' ],
+						properties: {
+							type: {
+								const: targetType
+							}
+						}
 					}
 				},
 				description: `Get card with links ${card.id}`,

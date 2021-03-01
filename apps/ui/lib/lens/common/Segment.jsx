@@ -101,7 +101,7 @@ class Segment extends React.Component {
 		if (segment.link) {
 			const results = await	actions.getLinks({
 				sdk
-			}, card, segment.link)
+			}, card, segment.link, `${segment.type}@1.0.0`)
 			this.updateResults(results)
 		} else if (segment.query) {
 			let context = [ card ]
@@ -109,7 +109,7 @@ class Segment extends React.Component {
 				if (relation.link) {
 					context = actions.getLinks({
 						sdk
-					}, card, relation.link)
+					}, card, relation.link, `${relation.type}@1.0.0`)
 				} else {
 					const mapped = await Bluebird.map(context, (item) => {
 						return actions.queryAPI(helpers.evalSchema(clone(relation), {
