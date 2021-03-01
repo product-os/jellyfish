@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.10.1'
+      hash: e3c773e520fc52617b0b2a0f8ff8f1e5f1ea54c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.60.1
+  date: 2021-03-01T10:29:10.952Z
+- commits:
     - subject: Search for users with regexp in CreateView lens
       hash: bda2dcfe3f64743b6c135e8b7ad6da1886598f8a
       body: >
