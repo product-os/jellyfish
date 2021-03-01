@@ -26,8 +26,7 @@ import {
 } from '@balena/jellyfish-ui-components'
 import CardLayout from '../../../layouts/CardLayout'
 import {
-	analytics,
-	sdk
+	analytics
 } from '../../../core'
 
 const UserRow = styled(Box) `
@@ -61,6 +60,7 @@ export default class CreateView extends React.Component {
 
 	async createView (event) {
 		const {
+			sdk,
 			user
 		} = this.props
 		const id = event.currentTarget.dataset.userid
@@ -221,6 +221,7 @@ export default class CreateView extends React.Component {
 			searchTerm
 		} = this.state
 		const {
+			sdk,
 			allTypes
 		} = this.props
 
@@ -242,23 +243,50 @@ export default class CreateView extends React.Component {
 			}
 		}
 
-		const query = skhema.merge([ linksQuery, {
-			type: 'object',
-			required: [ 'type' ],
-			properties: {
-				type: {
-					const: 'user@1.0.0'
-				}
-			},
-			additionalProperties: true
-		}, searchTerm
+		const searchQueryFilter = searchTerm
 			? helpers.createFullTextSearchFilter(userType.data.schema, searchTerm, {
 				fullTextSearchFieldsOnly: true
-			}) || {}
+			}) || {
+				anyOf: []
+			}
 			: {}
+
+		if (searchTerm) {
+			searchQueryFilter.anyOf.push({
+				type: 'object',
+				properties: {
+					slug: {
+						type: 'string',
+						regexp: {
+							pattern: helpers.regexEscape(searchTerm),
+							flags: 'i'
+						}
+					}
+				},
+				required: [
+					'slug'
+				]
+			})
+		}
+
+		const query = skhema.merge([
+			linksQuery,
+			{
+				type: 'object',
+				required: [ 'type' ],
+				properties: {
+					type: {
+						const: 'user@1.0.0'
+					}
+				},
+				additionalProperties: true
+			},
+			searchQueryFilter
 		])
 
-		const users = await sdk.query(query)
+		const users = await sdk.query(query, {
+			sortBy: 'slug'
+		})
 
 		this.setState({
 			users

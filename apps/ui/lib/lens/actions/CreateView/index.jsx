@@ -10,6 +10,7 @@ import {
 } from 'react-redux'
 import * as redux from 'redux'
 import {
+	sdk,
 	actionCreators,
 	selectors
 } from '../../../core'
@@ -18,6 +19,7 @@ import CreateView from './CreateView'
 
 const mapStateToProps = (state) => {
 	return {
+		sdk,
 		allTypes: selectors.getTypes(state),
 		user: selectors.getCurrentUser(state)
 	}
