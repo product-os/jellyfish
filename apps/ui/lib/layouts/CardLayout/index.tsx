@@ -2,12 +2,13 @@ import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Flex, Txt } from 'rendition';
+import { Box, Flex, Txt } from 'rendition';
 import { CloseButton, Column, LinksProvider } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors, sdk } from '../../core';
 import { ChannelContract } from '../../types';
+import QRCode from 'react-qr-code'
 
 interface StateProps {
 	types: TypeContract[];
@@ -69,6 +70,10 @@ const CardLayout = (props: Props) => {
 					justifyContent="space-between"
 					alignItems="center"
 				>
+					<Box pr={2}>
+						<QRCode value={card.id} size={128} />
+					</Box>
+
 					<Flex
 						flex={1}
 						alignSelf={['flex-start', 'flex-start', 'inherit']}
