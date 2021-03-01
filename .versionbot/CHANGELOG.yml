@@ -1,4 +1,29 @@
 - commits:
+    - subject: getLinks should require target type
+      hash: f47df2ca603b12d0829141876e00fd19e50bccf5
+      body: >
+        The getLinks action creator should require the target type as well as
+        the verb - otherwise we can fetch cards of the wrong type that also has
+        a link with the same verb.
+
+
+        Note - getLinks is currently just called from Segment and nowhere else
+        so this is quite a constrained bug.
+
+
+        ASAP we should fix the client-sdk's `getWithLinks` method so that it
+        requires the target type(s) to be provided as well. This will of course
+        be a major bump as the API will change.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.60.2
+  date: 2021-03-01T13:10:38.252Z
+- commits:
     - subject: 'patch: Update dependency rendition to ^20.10.1'
       hash: e3c773e520fc52617b0b2a0f8ff8f1e5f1ea54c2
       body: ''
