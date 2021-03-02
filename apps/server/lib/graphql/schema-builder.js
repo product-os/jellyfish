@@ -30,7 +30,7 @@ module.exports = async (context, {
 		properties: {
 			type: {
 				type: 'string',
-				pattern: '^type@'
+				const: 'type@1.0.0'
 			},
 			slug: {
 				not: {
