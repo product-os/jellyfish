@@ -1,4 +1,17 @@
 - commits:
+    - subject: Emit stream errors over websocket connection
+      hash: 77b1f68bdde1597d38427345fcdc7b4adb3465b0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.60.3
+  date: 2021-03-02T13:20:47.474Z
+- commits:
     - subject: getLinks should require target type
       hash: f47df2ca603b12d0829141876e00fd19e50bccf5
       body: >
