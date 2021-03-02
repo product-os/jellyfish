@@ -59,6 +59,13 @@ module.exports = (jellyfish, server) => {
 						stream.emit('query', queryPayload.data)
 					})
 
+					stream.on('error', (error) => {
+						socket.emit('streamError', {
+							error: true,
+							data: error.message
+						})
+					})
+
 					socket.on('setSchema', (schemaPayload) => {
 						// TODO: maybe worth doing a more thorough check
 						if (!('data' in schemaPayload) || !('schema' in schemaPayload.data)) {
