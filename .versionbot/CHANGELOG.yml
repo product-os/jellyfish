@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 40a7fcbebff4a3e48f8f0e71530479af020fc588
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.60.4
+  date: 2021-03-02T16:06:28.607Z
+- commits:
     - subject: Emit stream errors over websocket connection
       hash: 77b1f68bdde1597d38427345fcdc7b4adb3465b0
       body: ''
