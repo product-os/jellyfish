@@ -68,7 +68,6 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 	const authFacade = new facades.AuthFacade(jellyfish)
 	const actionFacade = new facades.ActionFacade(worker, producer, fileStore)
 	const viewFacade = new facades.ViewFacade(jellyfish, queryFacade)
-	const mountGraphqlServer = options.mountGraphqlServer
 
 	application.get('/api/v2/config', (request, response) => {
 		response.send({
@@ -762,8 +761,4 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				return sendHTTPError(request, response, error)
 			})
 	})
-
-	mountGraphqlServer(application, {
-		jellyfish, queryFacade, logger
-	}, '/graphql')
 }

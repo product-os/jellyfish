@@ -18,7 +18,6 @@ const metrics = require('@balena/jellyfish-metrics')
 const cardLoader = require('./card-loader')
 const http = require('./http')
 const socket = require('./socket')
-const graphql = require('./graphql')
 
 module.exports = async (context, options) => {
 	logger.info(context, 'Loading plugin sync integrations')
@@ -32,8 +31,7 @@ module.exports = async (context, options) => {
 	logger.info(context, 'Configuring HTTP server')
 
 	const webServer = await http(context, {
-		port: environment.http.port,
-		mountGraphqlServer: graphql(core.cards)
+		port: environment.http.port
 	})
 
 	logger.info(context, 'Starting web server')

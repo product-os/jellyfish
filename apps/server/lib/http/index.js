@@ -65,8 +65,7 @@ module.exports = (context, configuration) => {
 
 			routes(application, jellyfish, worker, producer, {
 				sync: context.sync,
-				guestSession: options.guestSession,
-				mountGraphqlServer: configuration.mountGraphqlServer
+				guestSession: options.guestSession
 			})
 
 			// We must define 4 arguments even if we don't use them
