@@ -1,4 +1,30 @@
 - commits:
+    - subject: Disable the GraphQL server
+      hash: 89c1fc9777dc90086fca382d749f94be10a3ff72
+      body: |
+        The GraphQL server is unused and in an incomplete state. This commit
+        stops the server from being mounted and run on startup, reducing DB load
+        and noise.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Don't use pattern matching to find type cards in GraphQL startup code
+      hash: 6d9c987c758ca5d7a25cd1f4ea4cffdeb7487df5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.60.5
+  date: 2021-03-02T17:52:27.657Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 40a7fcbebff4a3e48f8f0e71530479af020fc588
       body: ''
