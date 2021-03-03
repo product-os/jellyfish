@@ -1,4 +1,15 @@
 - commits:
+    - subject: Refactor action facade
+      hash: deea21de0109d48d2cc8b0d7954ea5d037de994f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.61.0
+  date: 2021-03-03T13:35:12.759Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: ccb467c3d71c99c1f471f6f242e2cb1fdc340dbf
       body: ''
