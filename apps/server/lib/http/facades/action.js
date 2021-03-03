@@ -5,6 +5,7 @@
  */
 
 const _ = require('lodash')
+const errio = require('errio')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 
@@ -16,49 +17,53 @@ module.exports = class ActionFacade {
 	}
 
 	async processAction (context, sessionToken, action, options = {}) {
+		action.context = context
 		const files = []
 
-		return uuid.random().then(async (id) => {
-			if (options.files) {
-				// Upload magic
-				options.files.forEach((file) => {
-					const name = `${id}.${file.originalname}`
+		if (options.files) {
+			const id = await uuid.random()
 
-					_.set(action.arguments.payload, file.fieldname, {
-						name: file.originalname,
-						slug: name,
-						mime: file.mimetype,
-						bytesize: file.buffer.byteLength
-					})
+			// Upload magic
+			options.files.forEach((file) => {
+				const name = `${id}.${file.originalname}`
 
-					files.push({
-						buffer: file.buffer,
-						name
-					})
+				_.set(action.arguments.payload, file.fieldname, {
+					name: file.originalname,
+					slug: name,
+					mime: file.mimetype,
+					bytesize: file.buffer.byteLength
 				})
+
+				files.push({
+					buffer: file.buffer,
+					name
+				})
+			})
+		}
+
+		const finalRequest = await this.worker.pre(sessionToken, action)
+		const actionRequest = await this.producer.enqueue(this.worker.getId(), sessionToken, finalRequest)
+
+		const results = await this.producer.waitResults(context, actionRequest)
+		logger.info(context, 'Got action results', results)
+
+		if (results.error) {
+			throw errio.fromObject(results.data)
+		}
+
+		if (options.files) {
+			const cardId = results.data.id
+
+			for (const item of files) {
+				logger.info(context, 'Uploading attachment', {
+					card: cardId,
+					key: item.name
+				})
+
+				await this.fileStore.store(context, cardId, item.name, item.buffer)
 			}
+		}
 
-			action.context = context
-
-			const finalRequest = await this.worker.pre(sessionToken, action)
-			return this.producer.enqueue(this.worker.getId(), sessionToken, finalRequest)
-		}).then((actionRequest) => {
-			return this.producer.waitResults(context, actionRequest)
-		}).then(async (results) => {
-			logger.info(context, 'Got action results', results)
-			if (!results.error && options.files) {
-				const cardId = results.data.id
-
-				for (const item of files) {
-					logger.info(context, 'Uploading attachment', {
-						card: cardId,
-						key: item.name
-					})
-
-					await this.fileStore.store(context, cardId, item.name, item.buffer)
-				}
-			}
-			return results
-		})
+		return results.data
 	}
 }

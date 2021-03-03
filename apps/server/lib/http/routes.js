@@ -26,25 +26,13 @@ const upload = multer({
 })
 
 const sendHTTPError = (request, response, error) => {
-	// Add more debugging information in case we pass an invalid object
-	// to `errio` (which doesn't handle other data very well).
-	if (!_.isError(error)) {
-		logger.error(request.context, 'Invalid error object', {
-			ip: request.ip,
-			error
-		})
-
-		return response.status(500).json({
-			error: true,
-			data: error
-		})
-	}
-
-	const errorObject = errio.toObject(error, {
-		stack: !error.expected
-	})
-
+	// If the error is expected, respond with error information
 	if (error.expected) {
+		const errorObject = errio.toObject(error, {
+			stack: false,
+			exclude: [ 'expected' ]
+		})
+
 		logger.info(request.context, 'HTTP expected error', {
 			ip: request.ip,
 			error: errorObject
@@ -52,14 +40,28 @@ const sendHTTPError = (request, response, error) => {
 
 		return response.status(400).json({
 			error: true,
-			data: _.omit(errorObject, [ 'expected' ])
+			data: errorObject
 		})
 	}
 
-	logger.exception(request.context, 'HTTP unexpected error', error)
+	// Otherwise, log the error and respond with generic InternalServerError
+	if (_.isError(error)) {
+		logger.exception(request.context, 'HTTP unexpected error', error)
+	} else {
+		// Add more debugging information in case we pass an invalid object
+		// to `errio` (which doesn't handle other data very well).
+		logger.error(request.context, 'Invalid error object', {
+			ip: request.ip,
+			error
+		})
+	}
+
 	return response.status(500).json({
 		error: true,
-		data: errorObject.message || error
+		data: {
+			name: 'InternalServerError',
+			message: 'Internal Server Error'
+		}
 	})
 }
 
@@ -610,21 +612,11 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 					files: request.files
 				}
 			)
-				.then((results) => {
-					if (results.error) {
-						if (results.data.expected) {
-							return response.status(400).json({
-								error: true,
-								data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
-							})
-						}
-
-						logger.exception(request.context,
-							'HTTP response error', errio.fromObject(results.data))
-					}
-
-					const code = results.error ? 500 : 200
-					return response.status(code).json(results)
+				.then((data) => {
+					response.status(200).json({
+						error: false,
+						data
+					})
 				})
 		})
 			.catch((error) => {
@@ -742,21 +734,11 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			request.sessionToken,
 			action
 		)
-			.then((results) => {
-				if (results.error) {
-					if (results.data.expected) {
-						return response.status(400).json({
-							error: true,
-							data: _.pick(errio.fromObject(results.data), [ 'name', 'message' ])
-						})
-					}
-
-					logger.exception(request.context,
-						'HTTP response error', errio.fromObject(results.data))
-				}
-
-				const code = results.error ? 500 : 200
-				return response.status(code).json(results)
+			.then((data) => {
+				return response.status(200).json({
+					error: false,
+					data
+				})
 			}).catch((error) => {
 				return sendHTTPError(request, response, error)
 			})

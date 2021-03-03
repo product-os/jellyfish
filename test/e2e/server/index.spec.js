@@ -727,6 +727,7 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 	test.deepEqual(result.response, {
 		error: true,
 		data: {
+			context: result.response.data.context,
 			name: 'WorkerSchemaMismatch',
 			message: result.response.data.message
 		}
@@ -863,7 +864,8 @@ ava.serial('should report a user error if creating the same event twice', async 
 		error: true,
 		data: {
 			name: 'JellyfishElementAlreadyExists',
-			message: result2.response.data.message
+			message: result2.response.data.message,
+			slug: args.slug
 		}
 	})
 })
