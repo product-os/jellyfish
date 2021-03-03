@@ -762,7 +762,8 @@ ava.serial('users with the "user-community" role cannot send a first-time login 
 		error: true,
 		data: {
 			name: 'WorkerNoElement',
-			message: 'No such type: first-time-login'
+			message: 'No such type: first-time-login',
+			context: result.response.data.context
 		}
 	})
 })
