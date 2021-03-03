@@ -135,7 +135,7 @@ Mappings:
     postgres11:
       EngineVersion: 11.6
     postgres12:
-      EngineVersion: 12.4
+      EngineVersion: 12.5
 Resources:
   JellyfishDBSubnetGroup:
     Type: AWS::RDS::DBSubnetGroup
@@ -174,7 +174,7 @@ Resources:
         autovacuum_naptime: '60'
         autovacuum_vacuum_scale_factor: '0.2'
         log_autovacuum_min_duration: '100'
-        log_min_duration_statement: '200'
+        log_min_duration_statement: '500'
         max_connections: '5000'
         statement_timeout: '30000'
         work_mem: '64000'
