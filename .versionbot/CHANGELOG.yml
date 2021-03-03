@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 995efc97eae2de40eb2fa8649b8aaa382d371ffe
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.60.6
+  date: 2021-03-03T03:15:36.318Z
+- commits:
     - subject: Disable the GraphQL server
       hash: 89c1fc9777dc90086fca382d749f94be10a3ff72
       body: |
