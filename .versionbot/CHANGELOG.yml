@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add SaveCardButton component
+      hash: 3e25809ad1b1c47971f2704685de1973bb1a6ff3
+      body: >
+        Generic component that will update a card with a given patch when
+        clicked.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.61.3
+  date: 2021-03-04T12:00:15.940Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: b5d662b897e4d372198049cd828c96b2979c5bb4
       body: ''
