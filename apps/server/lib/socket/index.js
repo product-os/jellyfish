@@ -13,6 +13,7 @@ const express = require('express')
 const http = require('http')
 const basicAuth = require('express-basic-auth')
 const prometheus = require('socket.io-prometheus-metrics')
+const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const packageJSON = require('../../../../package.json')
 
 module.exports = (jellyfish, server) => {
@@ -43,6 +44,16 @@ module.exports = (jellyfish, server) => {
 				}
 
 				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
+					let emitCount = 0
+					const updateEmitCount = () => {
+						emitCount++
+						if (emitCount % 100 === 0) {
+							logger.info(context, `stream has emitted ${emitCount} events`, {
+								query: payload.data.query
+							})
+						}
+					}
+
 					socket.on('queryDataset', (queryPayload) => {
 						// TODO: maybe worth doing a more thorough check
 						if (
@@ -60,6 +71,7 @@ module.exports = (jellyfish, server) => {
 					})
 
 					stream.on('error', (error) => {
+						updateEmitCount()
 						socket.emit('streamError', {
 							error: true,
 							data: error.message
@@ -88,6 +100,7 @@ module.exports = (jellyfish, server) => {
 					socket.emit('ready')
 
 					stream.on('dataset', (data) => {
+						updateEmitCount()
 						socket.emit('dataset', {
 							error: false,
 							data
@@ -95,6 +108,8 @@ module.exports = (jellyfish, server) => {
 					})
 
 					stream.on('data', (results) => {
+						updateEmitCount()
+
 						// The event name is changed to `update` to indicate that this is
 						// partial data and not the full result set
 						socket.emit('update', {
