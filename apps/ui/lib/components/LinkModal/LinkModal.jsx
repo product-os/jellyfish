@@ -237,7 +237,6 @@ export class LinkModal extends React.Component {
 							cardType={_.map(allLinkTypeTargets, (linkTypeTarget) => {
 								return _.get(linkTypeTarget, [ 'data', 'to' ])
 							})}
-							types={types}
 							isDisabled={Boolean(target)}
 							onChange={this.handleTargetSelect}
 						/>

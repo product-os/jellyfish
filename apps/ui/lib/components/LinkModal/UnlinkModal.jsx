@@ -171,7 +171,6 @@ export const UnlinkModal = ({
 					getQueryFilter={getLinkedCardsQuery}
 					value={selectedTargetValue}
 					cardType={linkTypeSlugs}
-					types={types}
 					isDisabled={Boolean(target)}
 					onChange={setSelectedTarget}
 				/>

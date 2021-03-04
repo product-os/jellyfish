@@ -96,7 +96,6 @@ export default function NewOwnerStep ({
 					data-test="ghf__sel-new-owner"
 					classNamePrefix="ghf-async-select"
 					cardType="user"
-					types={types}
 					value={newOwnerValue}
 					isDisabled={unassigned}
 					onChange={setNewOwner}
