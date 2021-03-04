@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add oauth env vars for ci
+      hash: 2f032c4cf29a6da76958ef12362c6fcbfd54269d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.63.0
+  date: 2021-03-04T23:34:36.336Z
+- commits:
     - subject: Add logging for high output websocket connections
       hash: bff29b9d76d173dbe6b775eca252dd12f3748ec8
       body: ''
