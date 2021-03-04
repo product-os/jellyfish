@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add logging for high output websocket connections
+      hash: bff29b9d76d173dbe6b775eca252dd12f3748ec8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.62.1
+  date: 2021-03-04T20:03:59.072Z
+- commits:
     - subject: AutoCompleteCardSelect provides it's own types prop now
       hash: fbffb4e5db202285f8dd445db6edc2bd7413f814
       body: ''
