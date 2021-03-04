@@ -202,7 +202,7 @@ export default class AutoCompleteCardSelect extends React.Component {
 				formatOptionLabel={(option) => {
 					return (
 						<Flex alignItems="center" justifyContent="center">
-							{option.type && (
+							{_.isArray(cardType) && option.type && (
 								<Badge shade={option.shade} mr={2}>{option.type}</Badge>
 							)}
 							<Txt style={{
