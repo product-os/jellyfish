@@ -1,4 +1,29 @@
 - commits:
+    - subject: AutoCompleteCardSelect provides it's own types prop now
+      hash: fbffb4e5db202285f8dd445db6edc2bd7413f814
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Hide prefix on AutoCompleteCardSelect if single type
+      hash: a7802432261f122e614f601f27c8876a4753b7e5
+      body: >
+        If only one type is provided, it is redundant to show the type of the
+        card in the value.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.62.0
+  date: 2021-03-04T15:58:28.580Z
+- commits:
     - subject: Add SaveCardButton component
       hash: 3e25809ad1b1c47971f2704685de1973bb1a6ff3
       body: >
