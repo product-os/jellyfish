@@ -42,8 +42,7 @@ module.exports = (jellyfish, server) => {
 				const context = {
 					id: `SOCKET-REQUEST-${packageJSON.version}-${id}`
 				}
-
-				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
+				return jellyfish.stream(context, payload.token, payload.data.query, payload.data.options).then((stream) => {
 					let emitCount = 0
 					const updateEmitCount = () => {
 						emitCount++
@@ -87,7 +86,17 @@ module.exports = (jellyfish, server) => {
 							})
 						}
 
+						// When the server stream recieves a setSchema event
+						// We emit setSchema to the client
 						stream.emit('setSchema', schemaPayload.data)
+
+						// Then we optionally broadcast the same setSchema event to all other clients
+						// Here we should use "socket" instead of "stream"
+						// so we emit to everyone not just ourselves
+						if (_.get(schemaPayload, [ 'data', 'broadcast' ])) {
+							schemaPayload.data.broadcast = false
+							socket.broadcast.emit('setSchema broadcast', schemaPayload)
+						}
 					})
 
 					openStreams[context.id] = stream

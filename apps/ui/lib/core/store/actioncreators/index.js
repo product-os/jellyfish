@@ -494,9 +494,20 @@ export const actionCreators = {
 				}
 			}
 
+			const options = {
+				links: {
+					'has attached element': {
+						// Set Default timeline size to 40
+						// TODO: abstract this to a global / store value
+						limit: 40,
+						sortBy: 'created_at',
+						sortDir: 'desc'
+					}
+				}
+			}
 			const stream = await actionCreators.getStream({
 				sdk
-			}, target, query)
+			}, target, query, options)
 
 			stream.on('dataset', ({
 				data: {
@@ -520,6 +531,12 @@ export const actionCreators = {
 						channels[0],
 						{
 							arrayMerge: (destinationArray, sourceArray) => {
+								// When merging arrays of objects with an id, we should deduplicate
+								// the containing object by id. Doing this ensures when paginating we
+								// don't end up with duplicate entries.
+								if (_.some(sourceArray, 'id')) {
+									return _.unionBy(destinationArray, sourceArray, 'id')
+								}
 								return _.union(destinationArray, sourceArray)
 							}
 						}
@@ -561,22 +578,14 @@ export const actionCreators = {
 			stream.emit('queryDataset', {
 				data: {
 					schema: query,
-					options: {
-						links: {
-							'has attached element': {
-								limit: 20,
-								sortBy: 'created_at',
-								sortDir: 'desc'
-							}
-						}
-					}
+					options
 				}
 			})
 		}
 	},
 
 	loadMoreChannelData ({
-		target, query, queryOptions
+		target, query, queryOptions, broadcast = true
 	}) {
 		return async (dispatch, getState) => {
 			// The target value can be a slug or id. We can find the corresponding
@@ -597,23 +606,54 @@ export const actionCreators = {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
 			}
 			const queryId = uuid()
-			stream.emit('queryDataset', {
+
+			// We want to query for a data set when we paginating
+			// We can skip this when a message is send. Because creating
+			// a message itself will create a stream update
+			if (!broadcast) {
+				console.log('call queryDataset', queryOptions)
+				stream.emit('queryDataset', {
+					data: {
+						id: uuid(),
+						schema: query,
+						options: queryOptions
+					}
+				})
+			}
+
+			// We should use setSchema to update the current schema being streamed
+			// Using setSchema we can ensure we're listening to the same content we're looking at
+			stream.emit('setSchema', {
 				data: {
 					id: queryId,
 					schema: query,
-					options: queryOptions
+					options: queryOptions,
+					broadcast
 				}
 			})
+
 			return new Promise((resolve, reject) => {
-				const handler = ({
+				const datasetHandler = ({
 					data
 				}) => {
+					// TODO: confirm pagination and message creating works correctly with multiple clients
 					if (data.id === queryId) {
 						resolve(data.cards)
-						stream.off('dataset', handler)
+						stream.off('dataset', datasetHandler)
 					}
 				}
-				stream.on('dataset', handler)
+
+				const updateHandler = ({
+					data
+				}) => {
+					if (data.id === targetId || data.id === targetSlug) {
+						resolve(data.cards)
+						stream.off('update', updateHandler)
+					}
+				}
+
+				stream.on('update', updateHandler)
+				stream.on('dataset', datasetHandler)
 			})
 		}
 	},
@@ -844,6 +884,20 @@ export const actionCreators = {
 					})
 
 					commsStream.on('update', (payload) => streamUpdate(payload, getState, dispatch, user, types))
+					commsStream.on('setSchema broadcast', (payload) => {
+						const {
+							schema, options, broadcast
+						} = payload.data
+
+						const target = _.get(payload, [ 'data', 'schema', 'properties', 'id', 'const' ])
+
+						dispatch(actionCreators.loadMoreChannelData({
+							target,
+							query: schema,
+							queryOptions: options,
+							broadcast
+						}))
+					})
 
 					// TODO handle typing notifications in a more generic way, this is an
 					// abomination. (A small abomination, but still an abomination)
@@ -1280,13 +1334,13 @@ export const actionCreators = {
 	// TODO: This is NOT an action creator, it should be part of sdk or other helper
 	getStream ({
 		sdk
-	}, streamId, query) {
+	}, streamId, query, options) {
 		if (streams[streamId]) {
 			streams[streamId].close()
 			Reflect.deleteProperty(streams, streamId)
 		}
 
-		return sdk.stream(query).then((stream) => {
+		return sdk.stream(query, options).then((stream) => {
 			streams[streamId] = stream
 			return stream
 		})
@@ -1298,7 +1352,7 @@ export const actionCreators = {
 		}) => {
 			const stream = await actionCreators.getStream({
 				sdk
-			}, streamId, query)
+			}, streamId, query, options)
 
 			stream.on(
 				'update',
@@ -1335,12 +1389,7 @@ export const actionCreators = {
 				id: uuid(),
 				data: {
 					schema: query,
-					options: {
-						limit: options.limit,
-						skip: options.limit * options.page,
-						sortBy: options.sortBy,
-						sortDir: options.sortDir
-					}
+					options
 				}
 			})
 
@@ -1394,7 +1443,15 @@ export const actionCreators = {
 		}
 	},
 
-	loadViewData (query, options = {}) {
+	loadViewData (query, options = {
+		links: {
+			'has attached element': {
+				sortBy: 'created_at',
+				sortDir: 'desc',
+				limit: 0
+			}
+		}
+	}) {
 		return async (dispatch, getState, context) => {
 			const commonOptions = _.pick(options, 'viewId')
 			const user = selectors.getCurrentUser(getState())
