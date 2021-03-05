@@ -941,3 +941,69 @@ ava.serial('Should be able to navigate to chart lens of support threads', async 
 	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
 	test.pass()
 })
+
+ava.serial('Closed support threads should be re-opened on new message', async (test) => {
+	const {
+		page
+	} = context
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-paid-support-threads"]'
+	])
+
+	await page.waitForSelector('.column--view-paid-support-threads')
+
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-support-threads"]')
+
+	// Create a new support thread
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	// Wait for the new support thread to appear in view
+	const summarySelector = `[data-test-component="card-chat-summary"][data-test-id="${supportThread.id}"]`
+	await macros.waitForThenClickSelector(page, summarySelector)
+
+	// Close support thread
+	await page.evaluate((id) => {
+		return window.sdk.card.update(id, 'support-thread@1.0.0', [
+			{
+				op: 'replace',
+				path: '/data/status',
+				value: 'closed'
+			}
+		])
+	}, supportThread.id)
+
+	// Wait for the status to change as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="status-closed"]')
+
+	// Confirm that the support thread is now closed
+	let thread = await page.evaluate((id) => {
+		return window.sdk.card.get(id)
+	}, supportThread.id)
+	test.is(thread.data.status, 'closed')
+
+	// Add new message to the closed support thread
+	await macros.waitForThenClickSelector(page, '.rta__textarea')
+	await macros.createChatMessage(page, '.column--support-thread', `%${uuid()}`)
+
+	// Wait for the status to change as a heuristic for the action completing
+	// successfully
+	await page.waitForSelector('[data-test="status-open"]')
+
+	// Confirm that the support thread is now open
+	thread = await page.evaluate((id) => {
+		return window.sdk.card.get(id)
+	}, supportThread.id)
+	test.is(thread.data.status, 'open')
+})

@@ -429,6 +429,80 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 	test.is(remoteConversationAfter.status, 'unassigned')
 })
 
+avaTest('should re-open a closed support thread if a new message is added', async (test) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
+
+	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
+
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
+		}
+	])
+
+	// Give the sync pipeline time to run
+	await Bluebird.delay(3000)
+
+	const remoteConversationBefore = await retryWhile429(() => {
+		return test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+	})
+
+	test.is(remoteConversationBefore.status, 'archived')
+
+	// Add a new message to the thread, and then wait for the support thread to be re-opened
+	const newSupportThread = await test.context.executeThenWait(async () => {
+		return test.context.sdk.action({
+			card: supportThread.id,
+			type: supportThread.type,
+			action: 'action-create-event@1.0.0',
+			arguments: {
+				payload: {
+					message: 'Test Message'
+				},
+				type: 'message',
+				slug: `message-${uuid()}`
+			}
+		})
+	}, {
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'open'
+					}
+				}
+			}
+		}
+	})
+
+	test.is(newSupportThread.data.status, 'open')
+
+	// Give the sync pipeline time to run
+	await Bluebird.delay(3000)
+
+	const remoteConversationAfter = await retryWhile429(() => {
+		return test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+	})
+
+	test.is(remoteConversationAfter.status, 'assigned')
+})
+
 avaTest('should be able to tag an unassigned conversation', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		`My Issue ${uuid()}`,
