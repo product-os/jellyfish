@@ -1,4 +1,53 @@
 - commits:
+    - subject: Update env vars for integration-worker test
+      hash: 45268c86eb8399a455e6cb8760ef76f03fc65b06
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update env vars for integration-server test
+      hash: afcc782948d8396ba34bf24cc93e5ffcf26f2a59
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Add env var to ci task
+      hash: 07087e1c1bcb21104d5667422c18cfc16c0dca0c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: b214e14e7728b85d27d3471369f516a10973c4ee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: 27fc3f03f6e0098191f32230398858c261e9db87
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.63.2
+  date: 2021-03-05T07:50:47.689Z
+- commits:
     - subject: Add support thread E2E tests
       hash: 7737db682c524143d2697975542aaf596290938a
       body: ''
