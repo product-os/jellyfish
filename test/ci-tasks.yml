@@ -88,6 +88,8 @@ tasks:
     environment:
       - name: 'SERVER_HOST'
         value: 'http://localhost'
+      - name: 'INTEGRATION_BALENA_API_APP_SECRET'
+        value: ''
     dependencies:
       - 'front-mirror'
   - name: 'integration-worker'
