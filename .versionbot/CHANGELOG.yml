@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add support thread E2E tests
+      hash: 7737db682c524143d2697975542aaf596290938a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.63.1
+  date: 2021-03-05T01:59:47.958Z
+- commits:
     - subject: Add oauth env vars for ci
       hash: 2f032c4cf29a6da76958ef12362c6fcbfd54269d
       body: ''
