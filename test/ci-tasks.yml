@@ -88,6 +88,10 @@ tasks:
     environment:
       - name: 'SERVER_HOST'
         value: 'http://localhost'
+      - name: 'INTEGRATION_BALENA_API_APP_SECRET'
+        value: ''
+      - name: 'INTEGRATION_BALENA_API_APP_ID'
+        value: ''
     dependencies:
       - 'front-mirror'
   - name: 'integration-worker'
@@ -97,6 +101,10 @@ tasks:
     required: true
     environment:
       - name: 'MAILGUN_TOKEN'
+        value: ''
+      - name: 'INTEGRATION_BALENA_API_APP_SECRET'
+        value: ''
+      - name: 'INTEGRATION_BALENA_API_APP_ID'
         value: ''
     dependencies:
       - 'integration-server'
