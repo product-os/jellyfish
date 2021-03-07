@@ -97,6 +97,16 @@ $ psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
 $ redis-cli -h redis.ly.fish.local
 ```
 
+### Resetting
+Deleting cloned libraries from `.libs/` or deleting library tarballs from `apps/*/packages/` doesn't currently
+reset that library to it's original state in the app(s) on your Livepush device. This can lead to a confusing
+state in which your local source doesn't correctly mirror what's being executed on your device. To reset your
+device back to a clean state:
+- `rm -fr .libs/*` (Assuming you no longer need these libraries)
+- `make push NOCACHE=1`
+
+The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Documentation](https://www.balena.io/docs/reference/balena-cli/#-c---nocache)
+
 ### Troubleshooting
 - Tail individual service logs with `balena logs jel.ly.fish.local --service <name>`
 - Log into device with `make ssh`, which allows you to then:
