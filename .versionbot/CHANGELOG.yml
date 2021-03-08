@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'CloudFormation: Set RDS maintenance period & pg_stat_statements.'
+      hash: 434acaadb66da71a9a7a139b7890aec5f7801f68
+      body: |
+        Daily Backup Window Period: 03:00-03:30
+        Preferred Database Minor Upgrade Maintenance Window:
+        Sun:03:30-Sun:04:30
+
+        Also set pg_stat_statements to track all statements.  This will
+        include SQL statements executed by stored procedures & triggers.
+
+        Times in UTC.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.63.10
+  date: 2021-03-08T22:42:46.489Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.859.0'
       hash: 31f9e0317916160642cbfd3bc22a8f7c9c2d78d0
       body: ''
