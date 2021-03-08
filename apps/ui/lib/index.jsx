@@ -14,12 +14,6 @@ import {
 	MarkdownWidget as MarkdownEditor
 } from 'rendition/dist/extra/Form/markdown'
 import {
-	MarkdownWidget
-} from 'rendition/dist/extra/Renderer/MarkdownWidget'
-import {
-	MermaidWidget
-} from 'rendition/dist/extra/Renderer/MermaidWidget'
-import {
 	Provider
 } from 'react-redux'
 import {
@@ -58,6 +52,9 @@ import {
 } from 'connected-react-router'
 import * as environment from './environment'
 import PWA from './pwa'
+import {
+	JellyfishWidgets
+} from './components/Widgets'
 import MermaidEditor from './components/MermaidEditor'
 import CountFavicon from './components/CountFavicon'
 import CardLoaderContextProvider from './components/CardLoaderContextProvider'
@@ -126,18 +123,7 @@ const widgets = {
 		]
 	},
 	renderer: {
-		formats: [
-			{
-				name: 'markdown',
-				format: '.*',
-				widget: MarkdownWidget
-			},
-			{
-				name: 'mermaid',
-				format: '.*',
-				widget: MermaidWidget
-			}
-		]
+		formats: JellyfishWidgets
 	}
 }
 
