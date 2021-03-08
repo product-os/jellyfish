@@ -176,6 +176,7 @@ Resources:
         log_autovacuum_min_duration: '100'
         log_min_duration_statement: '500'
         max_connections: '5000'
+        pg_stat_statements.track: 'ALL'
         statement_timeout: '30000'
         work_mem: '64000'
         effective_io_concurrency: '200'
@@ -225,6 +226,8 @@ Resources:
         Fn::GetAtt:
         - EnhancedMonitoringRole
         - Arn
+      PreferredBackupWindow: 03:00-03:30
+      PreferredMaintenanceWindow: sun:03:30-sun:04:30
       PubliclyAccessible: false
       StorageType:
         Ref: JellyfishDBStorageType
