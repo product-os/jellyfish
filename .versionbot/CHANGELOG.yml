@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^3.1.6'
+      hash: cf300de8b8793d94c8a2d6bdb58e0d691ba29938
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.63.6
+  date: 2021-03-08T06:47:56.801Z
+- commits:
     - subject: 'CloudFormation: Update PG version to 12.5.'
       hash: bdbfa465affbfbf31458ed333867b0dfbfc49544
       body: |
