@@ -202,6 +202,14 @@ DETACH ?=
 export CI
 VISUAL ?=
 export VISUAL
+NOCACHE ?=
+
+# Set balena push --nocache flag if necessary
+ifeq ($(NOCACHE),1)
+NOCACHE_FLAG = --nocache
+else
+NOCACHE_FLAG =
+endif
 
 # Set dotenv variables for local development/testing
 ifndef CI
@@ -431,7 +439,8 @@ dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
 
 push:
-	balena push jel.ly.fish.local \
+	CMD="rm -f ./packages/*" make exec-apps
+	balena push jel.ly.fish.local $(NOCACHE_FLAG) \
 		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
 		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
 		--env INTEGRATION_BALENA_API_PRIVATE_KEY=$(INTEGRATION_BALENA_API_PRIVATE_KEY) \
