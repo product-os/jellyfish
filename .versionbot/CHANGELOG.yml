@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 1e77368d45ef01dbd269eaf03b3ea897a2d26152
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.63.4
+  date: 2021-03-08T02:41:46.400Z
+- commits:
     - subject: Add docs about resetting Livepush device
       hash: 135176932360b1ac7f0bbeeaac7ce2b6ca3eebaa
       body: ''
