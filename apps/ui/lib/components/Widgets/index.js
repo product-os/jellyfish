@@ -13,6 +13,9 @@ import {
 import {
 	withOptionProps
 } from 'rendition/dist/components/Renderer/widgets/widget-util'
+import {
+	JellyfishLinkWidget
+} from './JellyfishLinkWidget'
 
 export const JellyfishWidgets = [
 	{
@@ -25,7 +28,9 @@ export const JellyfishWidgets = [
 		format: '.*',
 		widget: MermaidWidget
 	},
-	...[].map((widget) => ({
+	...[
+		JellyfishLinkWidget
+	].map((widget) => ({
 		name: widget.displayName,
 		format: '.*',
 		widget: widget.uiOptions
