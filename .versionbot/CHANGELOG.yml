@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'CloudFormation: Update PG version to 12.5.'
+      hash: bdbfa465affbfbf31458ed333867b0dfbfc49544
+      body: |
+        Set slow query logging to log only queries taking longer than
+        500ms.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.63.5
+  date: 2021-03-08T05:26:49.844Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 1e77368d45ef01dbd269eaf03b3ea897a2d26152
       body: ''
