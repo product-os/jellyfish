@@ -1,4 +1,23 @@
 - commits:
+    - subject: Rollback plugin default due to race condition on sync
+      hash: 4be3ccd9e258c1fd592f80ed1b117252a41ab536
+      body: >
+        Rolling back to previous major version 5 of the default plugin due to an
+
+        issue where a race condition would cause re-opened front threads to be
+
+        instantly closed. See
+        https://jel.ly.fish/2a0001bd-9427-4945-8ff4-708ea38dfc41
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.63.15
+  date: 2021-03-09T08:40:47.746Z
+- commits:
     - subject: Always open cards by appending them to current channel path
       hash: 0decd1ceee752405c8cf5b1dd6b0eb10633716f9
       body: >
