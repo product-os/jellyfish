@@ -21,7 +21,7 @@
   "dependencies": {
     "@balena/jellyfish-action-library": "^8.0.95",
     "@balena/jellyfish-assert": "^1.0.62",
-    "@balena/jellyfish-core": "^2.5.5",
+    "@balena/jellyfish-core": "2.7.0-5508-pre-build-versions-7d71a5299004fd67c4bf5e3367384f597969d9a6",
     "@balena/jellyfish-environment": "^2.4.23",
     "@balena/jellyfish-logger": "^1.0.42",
     "@balena/jellyfish-metrics": "^0.1.108",
