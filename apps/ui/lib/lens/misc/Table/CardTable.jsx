@@ -33,27 +33,6 @@ import {
 
 const PAGE_SIZE = 25
 
-// For some columns like card.name we use a render function
-const RENDERERS = {
-	name: (name, item) => {
-		return <Link append={item.slug || item.id}>{name || 'click to view'}</Link>
-	},
-	id: (id) => {
-		return (
-			<TextWithCopy monospace showCopyButton="always" copy={id}>{id.slice(0, 7)}</TextWithCopy>
-		)
-	},
-	slug: (slug, item) => {
-		return <Link append={item.slug || item.id}>{slug}</Link>
-	},
-	created_at: (timestamp, item) => {
-		return format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
-	},
-	updated_at: (timestamp, item) => {
-		return timestamp ? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss') : null
-	}
-}
-
 // Do not include markdown or mermaid fields in our table
 const OMISSIONS = [
 	{
@@ -179,6 +158,7 @@ export default class CardTable extends React.Component {
 
 	generateTableColumns () {
 		const {
+			channel,
 			allTypes,
 			lensState,
 			tailTypes
@@ -205,11 +185,32 @@ export default class CardTable extends React.Component {
 		// instead of just the first one.
 		const paths = helpers.getPathsInSchema(skhema.merge([ defaultSchema, _.first(typesSchemas) ]), OMISSIONS)
 
+		// For some columns like card.name we use a render function
+		const renderers = {
+			name: (name, item) => {
+				return <Link to={helpers.appendToChannelPath(channel, item)}>{name || 'click to view'}</Link>
+			},
+			id: (id) => {
+				return (
+					<TextWithCopy monospace showCopyButton="always" copy={id}>{id.slice(0, 7)}</TextWithCopy>
+				)
+			},
+			slug: (slug, item) => {
+				return <Link to={helpers.appendToChannelPath(channel, item)}>{slug}</Link>
+			},
+			created_at: (timestamp, item) => {
+				return format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
+			},
+			updated_at: (timestamp, item) => {
+				return timestamp ? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss') : null
+			}
+		}
+
 		return _.map(paths, ({
 			title, path
 		}) => {
 			const field = _.join(path, '.')
-			const render = RENDERERS[field]
+			const render = renderers[field]
 			return {
 				label: title,
 				field,

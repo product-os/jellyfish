@@ -5,7 +5,6 @@
  */
 
 import _ from 'lodash'
-import path from 'path'
 import React from 'react'
 import {
 	connect
@@ -92,9 +91,7 @@ class Kanban extends React.Component {
 			id: cardId
 		})
 
-		this.props.history.push(
-			path.join(window.location.pathname, card.slug || card.id)
-		)
+		this.props.history.push(helpers.appendToChannelPath(this.props.channel, card))
 	}
 
 	handleDragEnd (cardId, _sourceLaneId, targetLaneId) {
