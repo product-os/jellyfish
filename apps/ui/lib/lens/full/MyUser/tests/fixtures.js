@@ -130,6 +130,12 @@ export const userType = {
 									type: 'string',
 									default: 'shift+enter'
 								},
+								disableNotificationSound: {
+									title: 'Disable notification sound',
+									description: 'Do not play a sound when displaying notifications',
+									type: 'boolean',
+									default: false
+								},
 								viewSettings: {
 									type: 'object',
 									description: 'A map of settings for view cards, keyed by the view id',
