@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 15031c4d6c7220fcf17d1acd37ef6ea0c5dc8eb5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.63.16
+  date: 2021-03-09T13:32:38.342Z
+- commits:
     - subject: Rollback plugin default due to race condition on sync
       hash: 4be3ccd9e258c1fd592f80ed1b117252a41ab536
       body: >
