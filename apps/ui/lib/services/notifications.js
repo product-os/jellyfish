@@ -38,7 +38,8 @@ export const createNotification = ({
 	historyPush,
 	title,
 	body,
-	target
+	target,
+	disableSound
 }) => {
 	if (!canUseNotifications) {
 		return
@@ -50,7 +51,9 @@ export const createNotification = ({
 		icon: '/icons/jellyfish.png'
 	})
 
-	sound.play()
+	if (!disableSound) {
+		sound.play()
+	}
 
 	const timeout = setTimeout(() => {
 		return notice.close()
