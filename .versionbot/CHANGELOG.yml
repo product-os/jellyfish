@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: df6a7f0ba23820d861a1d4ce486acaf43253c208
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.63.11
+  date: 2021-03-08T23:56:36.974Z
+- commits:
     - subject: 'CloudFormation: Set RDS maintenance period & pg_stat_statements.'
       hash: 434acaadb66da71a9a7a139b7890aec5f7801f68
       body: |
