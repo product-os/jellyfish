@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-action-library": "^8.0.95",
-    "@balena/jellyfish-core": "^2.6.0",
+    "@balena/jellyfish-core": "^2.7.0",
     "@balena/jellyfish-environment": "^2.4.23",
     "@balena/jellyfish-logger": "^1.0.42",
     "@balena/jellyfish-metrics": "^0.1.108",
@@ -21,7 +21,7 @@
     "@balena/jellyfish-plugin-product-os": "^1.0.75",
     "@balena/jellyfish-plugin-typeform": "^1.0.32",
     "@balena/jellyfish-queue": "^0.0.459",
-    "@balena/jellyfish-sync": "^5.0.38",
+    "@balena/jellyfish-sync": "^5.1.0",
     "@balena/jellyfish-uuid": "^1.0.71",
     "@balena/jellyfish-worker": "^3.1.6",
     "bluebird": "^3.7.2",
