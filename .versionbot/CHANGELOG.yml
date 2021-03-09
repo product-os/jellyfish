@@ -1,4 +1,23 @@
 - commits:
+    - subject: Always open cards by appending them to current channel path
+      hash: 0decd1ceee752405c8cf5b1dd6b0eb10633716f9
+      body: >
+        Clicking on cards listed in the Kanban and Table lenses should always
+        open the card immediately to the right of the current channel, replacing
+        any other channels to the right of the current channel.
+
+
+        Fixes https://github.com/product-os/jellyfish/issues/5871
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.63.14
+  date: 2021-03-09T06:56:24.389Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 3908dccfd73b191bf168f48926640ec0c5ed6770
       body: ''
