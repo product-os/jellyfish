@@ -17,10 +17,13 @@ export const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 export const withSearch = (query, searchTerm) => {
 	if (searchTerm) {
 		return _.mergeWith(query, {
+			required: [ 'data' ],
 			properties: {
 				data: {
+					required: [ 'payload' ],
 					properties: {
 						payload: {
+							type: 'object',
 							properties: {
 								message: {
 									type: 'string',
@@ -91,10 +94,19 @@ export const getPingQuery = (user, groupNames, searchTerm) => {
 	}
 	const query = {
 		type: 'object',
+		required: [ 'type', 'data' ],
 		properties: {
 			type: {
 				type: 'string',
-				enum: [ 'message@1.0.0', 'whisper@1.0.0', 'summary@1.0.0', 'rating@1.0.0' ]
+				anyOf: [ {
+					const: 'message@1.0.0'
+				}, {
+					const: 'whisper@1.0.0'
+				}, {
+					const: 'summary@1.0.0'
+				}, {
+					const: 'rating@1.0.0'
+				} ]
 			},
 			data: {
 				type: 'object',
@@ -116,8 +128,9 @@ export const getPingQuery = (user, groupNames, searchTerm) => {
 }
 
 export const getUnreadQuery = (user, groupNames, searchTerm) => {
-	return _.merge(getPingQuery(user, groupNames, searchTerm), {
+	return _.mergeWith(getPingQuery(user, groupNames, searchTerm), {
 		type: 'object',
+		required: [ 'data' ],
 		properties: {
 			data: {
 				type: 'object',
@@ -133,5 +146,5 @@ export const getUnreadQuery = (user, groupNames, searchTerm) => {
 				}
 			}
 		}
-	})
+	}, mergeWithUniqConcatArrays)
 }
