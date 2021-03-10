@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 344d146a2f51f507ee2340f7eda536a8c3b003ff
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.65.1
+  date: 2021-03-10T10:36:21.316Z
+- commits:
     - subject: Add JellyfishLinkWidget
       hash: 7debe7fdbd5a0eccb1d0b77887d49cc43a5ac2e1
       body: >
