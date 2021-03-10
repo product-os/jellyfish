@@ -1,4 +1,34 @@
 - commits:
+    - subject: Add JellyfishLinkWidget
+      hash: 7debe7fdbd5a0eccb1d0b77887d49cc43a5ac2e1
+      body: >
+        This widget wraps the JellyfishLink component.
+
+
+        The JellyfishLink component ensures that relative URLs and URLs on the
+        Jellyfish domain
+
+        are appended to the current URL rather than opening in a new tab.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Refactor Renderer formats definition in preparation for custom widgets
+      hash: 3d160686c0d1e602140ecd3f75d9f53cbb2417df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.65.0
+  date: 2021-03-10T08:36:40.097Z
+- commits:
     - subject: Bump jellyfish-plugin-default to v7
       hash: 8a1acb5026531e12c9fb1dfd551becbc93dbde69
       body: ''
