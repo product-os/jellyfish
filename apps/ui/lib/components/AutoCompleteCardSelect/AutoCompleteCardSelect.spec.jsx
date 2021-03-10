@@ -8,6 +8,7 @@ import {
 	getWrapper,
 	flushPromises
 } from '../../../test/ui-setup'
+import '../../../test/react-select-mock'
 import ava from 'ava'
 import {
 	mount
@@ -16,17 +17,6 @@ import React from 'react'
 import sinon from 'sinon'
 import Bluebird from 'bluebird'
 import AutoCompleteCardSelect from './AutoCompleteCardSelect'
-
-// HACK to get react-select not to complain
-// eslint-disable-next-line no-multi-assign
-global.getComputedStyle = global.window.getComputedStyle = () => {
-	return {
-		height: '100px',
-		getPropertyValue: (name) => {
-			return name === 'box-sizing' ? '' : null
-		}
-	}
-}
 
 const wrappingComponent = getWrapper().wrapper
 

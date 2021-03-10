@@ -5,7 +5,7 @@
  */
 
 import * as jsonpatch from 'fast-json-patch'
-import * as _ from 'lodash'
+import _ from 'lodash'
 import React from 'react'
 import {
 	Box,
@@ -13,7 +13,6 @@ import {
 	Flex,
 	Button,
 	Heading,
-	Select,
 	Txt,
 	Tab,
 	Tabs,
@@ -32,22 +31,51 @@ import CardLayout from '../../../layouts/CardLayout'
 
 const SLUG = 'lens-my-user'
 
+const userProfileUiSchema = {
+	data: {
+		profile: {
+			about: {
+				aboutMe: {
+					'ui:widget': 'textarea',
+					'ui:options': {
+						rows: 5
+					}
+				}
+			},
+			timezone: {
+				'ui:widget': 'select'
+			},
+			birthday: {
+				'ui:placeholder': 'mm/dd'
+			}
+		}
+	}
+}
+
+const interfaceUiSchema = {
+	data: {
+		profile: {
+			sendCommand: {
+				'ui:widget': 'select'
+			}
+		}
+	}
+}
+
 export default class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
-		this.handleSendCommandChange = this.handleSendCommandChange.bind(this)
-
 		this.bindMethods([
+			'handleFormSubmit',
 			'handlePasswordFormChange',
 			'handleProfileFormSubmit',
+			'handleInterfaceFormSubmit',
 			'changePassword',
 			'startAuthorize'
 		])
 
-		const userTypeCard = props.types.find((card) => {
-			return card.slug === 'user'
-		})
+		const userTypeCard = helpers.getType('user', props.types)
 
 		const userProfileSchema = _.pick(userTypeCard.data.schema, [
 			'properties.data.type',
@@ -63,12 +91,35 @@ export default class MyUser extends React.Component {
 
 		userProfileSchema.properties.data.properties.profile.properties.timezone.enum = timezones.names
 
+		// Annoyingly we have to explicitly set the title fields to '' to avoid them being displayed
+		const interfaceSchema = {
+			properties: {
+				data: {
+					type: 'object',
+					title: '',
+					properties: {
+						profile: {
+							type: 'object',
+							title: '',
+							properties: {
+								sendCommand:
+								userTypeCard.data.schema.properties.data.properties.profile.properties.sendCommand,
+								disableNotificationSound:
+								userTypeCard.data.schema.properties.data.properties.profile.properties.disableNotificationSound
+							}
+						}
+					}
+				}
+			}
+		}
+
 		this.state = {
-			updatingSendCommand: false,
-			settingPassword: false,
+			submitting: false,
 			changePassword: {},
 			userProfileData: props.card,
-			userProfileSchema
+			userProfileSchema,
+			interfaceData: props.card,
+			interfaceSchema
 		}
 	}
 
@@ -87,20 +138,6 @@ export default class MyUser extends React.Component {
 		window.location.href = url
 	}
 
-	async handleSendCommandChange (payload) {
-		const command = payload.value
-
-		this.setState({
-			updatingSendCommand: true
-		})
-
-		await this.props.actions.setSendCommand(command)
-
-		this.setState({
-			updatingSendCommand: false
-		})
-	}
-
 	handlePasswordFormChange (data) {
 		this.setState({
 			changePassword: Object.assign({}, data.formData)
@@ -108,45 +145,63 @@ export default class MyUser extends React.Component {
 	}
 
 	handleProfileFormSubmit (event) {
+		this.handleFormSubmit(event.formData, 'userProfileData')
+	}
+
+	handleInterfaceFormSubmit (event) {
+		this.handleFormSubmit(event.formData, 'interfaceData')
+	}
+
+	handleFormSubmit (formData, stateFieldName) {
 		this.setState({
-			userProfileData: event.formData
+			submitting: true,
+			[stateFieldName]: formData
+		}, async () => {
+			const patches = jsonpatch.compare(this.props.card, formData)
+			await this.props.actions.updateUser(patches)
+			this.setState({
+				submitting: false
+			})
 		})
-
-		const patches = jsonpatch.compare(this.props.card, event.formData)
-
-		this.props.actions.updateUser(patches)
 	}
 
 	async changePassword () {
 		this.setState({
-			settingPassword: true
-		})
+			submitting: true
+		}, async () => {
+			const {
+				currentPassword,
+				newPassword
+			} = this.state.changePassword
 
-		const {
-			currentPassword,
-			newPassword
-		} = this.state.changePassword
+			await this.props.actions.setPassword(currentPassword, newPassword)
 
-		await this.props.actions.setPassword(currentPassword, newPassword)
-
-		this.setState({
-			settingPassword: false,
-			changePassword: {}
+			this.setState({
+				submitting: false,
+				changePassword: {}
+			})
 		})
 	}
 
 	render () {
-		const user = this.props.card
-		const sendCommand = _.get(user.data, [ 'profile', 'sendCommand' ], 'shift+enter')
-		const userType = _.find(this.props.types, {
-			slug: 'user'
-		})
-		const sendOptions = userType.data.schema.properties.data.properties.profile.properties.sendCommand.enum
+		const {
+			channel,
+			card: user
+		} = this.props
+
+		const {
+			changePassword,
+			submitting,
+			userProfileData,
+			userProfileSchema,
+			interfaceData,
+			interfaceSchema
+		} = this.state
 
 		// This is the old PBKDF password hash location
 		const shouldChangePassword = Boolean(user.data.password)
 
-		const schema = {
+		const accountSchema = {
 			type: 'object',
 			required: [ 'currentPassword', 'newPassword' ],
 			properties: {
@@ -159,10 +214,10 @@ export default class MyUser extends React.Component {
 			}
 		}
 
-		const isValid = skhema.isValid(schema,
-			helpers.removeUndefinedArrayItems(this.state.changePassword))
+		const isValid = skhema.isValid(accountSchema,
+			helpers.removeUndefinedArrayItems(changePassword))
 
-		const uiSchema = {
+		const accountUiSchema = {
 			'ui:order': [ 'currentPassword', 'newPassword', '*' ],
 			currentPassword: {
 				'ui:widget': 'password'
@@ -174,33 +229,12 @@ export default class MyUser extends React.Component {
 
 		const emails = Array.isArray(user.data.email) ? user.data.email.join(', ') : user.data.email
 
-		const userProfileUiSchema = {
-			data: {
-				profile: {
-					about: {
-						aboutMe: {
-							'ui:widget': 'textarea',
-							'ui:options': {
-								rows: 5
-							}
-						}
-					},
-					timezone: {
-						'ui:widget': 'select'
-					},
-					birthday: {
-						'ui:placeholder': 'mm/dd'
-					}
-				}
-			}
-		}
-
 		return (
 			<CardLayout
 				data-test={`lens--${SLUG}`}
 				card={user}
 				overflowY
-				channel={this.props.channel}
+				channel={channel}
 				noActions
 				title={(
 					<Heading.h4>
@@ -213,7 +247,7 @@ export default class MyUser extends React.Component {
 					pt={3}
 					px={3}
 				>
-					<Tab title="Profile">
+					<Tab title="Profile" data-test="tab_profile">
 						<Box mt={3}>
 							<Flex mb={3}>
 								<UserAvatar user={user} emphasized />
@@ -226,14 +260,18 @@ export default class MyUser extends React.Component {
 							</Flex>
 
 							<Form
-								schema={this.state.userProfileSchema}
+								data-test="form_profile"
+								submitButtonProps={{
+									disabled: submitting
+								}}
+								schema={userProfileSchema}
 								uiSchema={userProfileUiSchema}
 								onFormSubmit={this.handleProfileFormSubmit}
-								value={this.state.userProfileData}/>
+								value={userProfileData}/>
 						</Box>
 					</Tab>
 
-					<Tab title="Account">
+					<Tab title="Account" data-test="tab_account">
 						<Box mt={3}>
 							<label>
 								Change password:
@@ -246,52 +284,46 @@ export default class MyUser extends React.Component {
 							)}
 
 							<Form
-								schema={schema}
-								uiSchema={uiSchema}
+								data-test="form_account"
+								schema={accountSchema}
+								uiSchema={accountUiSchema}
 								onFormChange={this.handlePasswordFormChange}
-								value={this.state.changePassword}
+								value={changePassword}
 								hideSubmitButton={true}
 							/>
 							<Button
 								primary
+								type="submit"
 								onClick={this.changePassword}
-								disabled={!isValid || this.state.settingPassword}
+								disabled={!isValid || submitting}
 							>
 								Submit
 							</Button>
 						</Box>
 					</Tab>
 
-					<Tab title="Interface">
+					<Tab title="Interface" data-test="tab_interface">
 						<Box mt={3}>
-							<label>
-								Command to send messages:
-							</label>
-
-							<br/>
-
-							<Select
-								data-test={`${SLUG}__send-command-select`}
-								mr={3}
-								value={sendCommand}
-								onChange={this.handleSendCommandChange}
-								disabled={this.state.updatingSendCommand}
-								options={sendOptions}
+							<Form
+								data-test="form_interface"
+								submitButtonProps={{
+									disabled: submitting
+								}}
+								schema={interfaceSchema}
+								uiSchema={interfaceUiSchema}
+								onFormSubmit={this.handleInterfaceFormSubmit}
+								value={interfaceData}
 							/>
-
-							{this.state.updatingSendCommand && (
-								<Icon spin name="cog" />
-							)}
 						</Box>
 					</Tab>
 
-					<Tab title="Oauth">
+					<Tab title="Oauth" data-test="tab_oauth">
 						<Box mt={3}>
 							<Divider color="#eee" />
 
 							<Flex justifyContent="space-between" alignItems="center">
 								<Link href="https://www.outreach.io/" blank>
-									<Txt bold>Outreach</Txt>
+									<Txt bold mr={2}>Outreach</Txt>
 								</Link>
 
 								{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (

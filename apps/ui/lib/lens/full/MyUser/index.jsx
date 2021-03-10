@@ -7,6 +7,7 @@
 import {
 	connect
 } from 'react-redux'
+import _ from 'lodash'
 import * as redux from 'redux'
 import {
 	actionCreators,
@@ -24,7 +25,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch)
+		actions: redux.bindActionCreators(_.pick(actionCreators, [
+			'getIntegrationAuthUrl',
+			'updateUser',
+			'setPassword'
+		]), dispatch)
 	}
 }
 

@@ -418,13 +418,19 @@ ava.serial('user profile: The send command should default to "shift+enter"', asy
 
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
-	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, 'button#root_profile_sendCommand')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(1)')
 
-	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="shift+enter"]')
+	await page.waitForSelector('input#root_profile_sendCommand__input[value="shift+enter"]')
 
-	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
+	const value = await macros.getElementValue(page, 'input#root_profile_sendCommand__input')
 	test.is(value, 'shift+enter')
+
+	await macros.waitForThenClickSelector(page, 'button[type="submit"]')
+
+	// Wait for the success alert as a heuristic for the action completing
+	// successfully
+	await macros.waitForThenDismissAlert(page, 'Success!')
 
 	const rand = uuid()
 
@@ -459,17 +465,19 @@ ava.serial('user profile: You should be able to change the send command to "ente
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
 
-	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
+	await macros.waitForThenClickSelector(page, 'button#root_profile_sendCommand')
 	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(3)')
+
+	await page.waitForSelector('input#root_profile_sendCommand__input[value="enter"]')
+
+	const value = await macros.getElementValue(page, 'input#root_profile_sendCommand__input')
+	test.is(value, 'enter')
+
+	await macros.waitForThenClickSelector(page, 'button[type="submit"]')
 
 	// Wait for the success alert as a heuristic for the action completing
 	// successfully
 	await macros.waitForThenDismissAlert(page, 'Success!')
-
-	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="enter"]')
-
-	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
-	test.is(value, 'enter')
 
 	const rand = uuid()
 
@@ -478,53 +486,6 @@ ava.serial('user profile: You should be able to change the send command to "ente
 	await bluebird.delay(500)
 	await page.keyboard.press('Enter')
 	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
-
-	test.pass()
-})
-
-ava.serial('user profile: You should be able to change the send command to "ctrl+enter"', async (test) => {
-	const {
-		page
-	} = context
-
-	const user = await ensureCommunityLogin(page)
-
-	// Create a new thread
-	const thread = await page.evaluate(() => {
-		return window.sdk.card.create({
-			type: 'thread@1.0.0'
-		})
-	})
-
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
-
-	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
-
-	await macros.waitForThenClickSelector(page, '[data-test="lens-my-user__send-command-select"]')
-	await macros.waitForThenClickSelector(page, '[role="menubar"] > button[role="menuitem"]:nth-of-type(2)')
-
-	await page.waitForSelector('[data-test="lens-my-user__send-command-select"][value="ctrl+enter"]')
-
-	const value = await macros.getElementValue(page, '[data-test="lens-my-user__send-command-select"]')
-	test.is(value, 'ctrl+enter')
-
-	// Wait for the success alert as a heuristic for the action completing
-	// successfully
-	await macros.waitForThenDismissAlert(page, 'Success!')
-
-	// Unfortunately puppeteer Control+Enter doesn't seem to work at all
-	// TODO: Fix this test so it works
-	/*
-	const rand = uuid()
-
-	await page.waitForSelector('.new-message-input')
-	await page.type('textarea', rand)
-	await page.keyboard.down('ControlLeft')
-	await page.keyboard.press('Enter')
-	await page.keyboard.up('ControlLeft')
-	await page.waitForSelector('.column--thread [data-test="event-card__message"]')
-	*/
 
 	test.pass()
 })
