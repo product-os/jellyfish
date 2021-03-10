@@ -67,7 +67,7 @@
     "@balena/jellyfish-environment": "^2.4.23",
     "@balena/jellyfish-plugin-base": "^1.2.30",
     "@balena/jellyfish-plugin-channels": "^1.0.18",
-    "@balena/jellyfish-plugin-default": "5.3.6",
+    "@balena/jellyfish-plugin-default": "^7.0.0",
     "@balena/jellyfish-plugin-product-os": "^1.0.75",
     "@balena/jellyfish-plugin-typeform": "^1.0.32",
     "@balena/jellyfish-queue": "^0.0.459",
