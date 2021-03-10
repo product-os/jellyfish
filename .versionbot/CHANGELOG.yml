@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency d3 to ^6.6.0'
+      hash: cf61e706cc99c7cd1eebd862ad6b6b9311fbf90f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.66.4
+  date: 2021-03-10T21:44:53.643Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: b513d97702a719624494359a598f4a91d782ab6d
       body: ''
