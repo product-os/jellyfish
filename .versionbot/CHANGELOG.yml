@@ -1,4 +1,49 @@
 - commits:
+    - subject: Update e2e tests for MyUser lens improvements
+      hash: 326a91bee951db0989449e6d76665c74dc0951a3
+      body: >
+        Note - I've removed the test for setting the send command to ctrl+enter
+        as it doesn't add much value over the other test for setting the send
+        command to enter (particularly as you can't test the result - see
+        commented out code).
+
+
+        No e2e test has been added for the disableNotificationSound setting as
+        this is tested in a unit test.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add disableNotificationSound to user settings form
+      hash: 6432fce20575af8cce827ab3a1f16365b00ad9e7
+      body: >
+        Tidied up the MyUser lens significantly and added unit tests for each
+        tab. The interface tab now includes a checkbox to facilitate
+        enabling/disabling notification sounds.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Refactor test mock code
+      hash: aa0a19a2cd1bda7fca1800d8b1050980a304a541
+      body: |
+        This code is potentially needed in multiple spec files.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.66.0
+  date: 2021-03-10T11:51:58.442Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 344d146a2f51f507ee2340f7eda536a8c3b003ff
       body: ''
