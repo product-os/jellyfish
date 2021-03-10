@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency css-loader to ^5.1.2'
+      hash: f7b17ec46b2e23db7611a14665dd958928e67a53
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.66.2
+  date: 2021-03-10T16:52:43.548Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 17b6114724852bd241ac84d96a2e2d88eb1cdae6
       body: ''
