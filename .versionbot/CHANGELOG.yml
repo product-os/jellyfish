@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-plugin-default to v7
+      hash: 8a1acb5026531e12c9fb1dfd551becbc93dbde69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.64.2
+  date: 2021-03-10T06:14:34.987Z
+- commits:
     - subject: Fix syntax of inbox queries
       hash: aba117a9729ef430dfdf76c3d7f7fcadc407bdf5
       body: |
