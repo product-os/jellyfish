@@ -1,4 +1,19 @@
 - commits:
+    - subject: Disable notification sound based on user profile preference
+      hash: 376f7f7d135e8d7b18e9fd87923cadde78b827be
+      body: >
+        Only play the notification sound if the user profile setting
+        `disableNotificationSound` is not set.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.64.0
+  date: 2021-03-10T01:44:23.549Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: bf61930281d63a3949f64fd843a3af3438105df9
       body: ''
