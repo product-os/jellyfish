@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 17b6114724852bd241ac84d96a2e2d88eb1cdae6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.66.1
+  date: 2021-03-10T13:09:37.791Z
+- commits:
     - subject: Update e2e tests for MyUser lens improvements
       hash: 326a91bee951db0989449e6d76665c74dc0951a3
       body: >
