@@ -83,11 +83,16 @@ export const handleNotification = ({
 	cardType
 }) => {
 	return (dispatch, getState) => {
+		const state = getState()
+
 		// Skip notifications if the user's status is set to 'Do Not Disturb'
-		const userStatus = selectors.getCurrentUserStatus(getState())
+		const userStatus = selectors.getCurrentUserStatus(state)
 		if (_.get(userStatus, [ 'value' ]) === 'DoNotDisturb') {
 			return
 		}
+
+		const user = selectors.getCurrentUser(state)
+		const disableSound = _.get(user, [ 'data', 'profile', 'disableNotificationSound' ], false)
 
 		const baseType = card.type.split('@')[0]
 		const title = `New ${_.get(cardType, [ 'name' ], baseType)}`
@@ -98,6 +103,7 @@ export const handleNotification = ({
 			title,
 			body,
 			target,
+			disableSound,
 			tag: card.id,
 			historyPush: (path, pathState) => dispatch(push(path, pathState))
 		})
