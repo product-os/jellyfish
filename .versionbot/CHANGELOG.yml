@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix syntax of inbox queries
+      hash: aba117a9729ef430dfdf76c3d7f7fcadc407bdf5
+      body: |
+        Various tweaks to ensure the combined queries are more efficient.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.64.1
+  date: 2021-03-10T03:04:35.869Z
+- commits:
     - subject: Disable notification sound based on user profile preference
       hash: 376f7f7d135e8d7b18e9fd87923cadde78b827be
       body: >
