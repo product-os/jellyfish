@@ -118,12 +118,6 @@
               ]
             }
           }
-        ],
-        "lenses": [
-          "lens-support-threads",
-          "lens-table",
-          "lens-kanban",
-          "lens-chart"
         ]
       },
       "name": "Archived paid support threads",
@@ -246,12 +240,6 @@
                         ]
                       }
                     }
-                  ],
-                  "lenses": [
-                    "lens-support-threads",
-                    "lens-table",
-                    "lens-kanban",
-                    "lens-chart"
                   ]
                 },
                 "name": "Archived paid support threads",

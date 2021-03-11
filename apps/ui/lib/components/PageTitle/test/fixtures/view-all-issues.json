@@ -49,10 +49,6 @@
               "additionalProperties": true
             }
           }
-        ],
-        "lenses": [
-          "lens-table",
-          "lens-kanban"
         ]
       },
       "name": "All GitHub issues",

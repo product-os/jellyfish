@@ -66,9 +66,6 @@ const generateOmniSearchView = memoize((typeSlugs) => {
 						additionalProperties: true
 					}
 				}
-			],
-			lenses: [
-				'lens-list'
 			]
 		}
 	}

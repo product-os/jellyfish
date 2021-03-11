@@ -135,9 +135,6 @@ export default class CreateView extends React.Component {
 							]
 						}
 					}
-				],
-				lenses: [
-					'lens-interleaved'
 				]
 			}
 		}

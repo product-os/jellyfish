@@ -38,7 +38,6 @@
               }
             }
           ],
-          "lenses": ["lens-table", "lens-list", "lens-kanban"],
           "namespace": "Sales"
         },
         "updated_at": "2020-03-18T15:57:48.901Z",

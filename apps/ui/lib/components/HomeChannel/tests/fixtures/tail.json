@@ -80,10 +80,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-default-list",
-        "lens-default-card"
       ]
     },
     "updated_at": "2020-04-29T04:55:50.330Z",
@@ -168,9 +164,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-list"
-      ],
       "namespace": "Brainstorms"
     },
     "updated_at": "2020-04-29T04:55:51.171Z",
@@ -210,10 +203,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
-      ],
       "namespace": "Projects"
     },
     "updated_at": "2020-04-29T04:55:51.183Z",
@@ -250,11 +239,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban",
-        "lens-pull-request-chart"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.094Z",
@@ -299,11 +283,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-table",
-        "lens-list",
-        "lens-kanban"
-      ],
       "namespace": "Sales"
     },
     "updated_at": "2020-04-29T04:55:51.212Z",
@@ -342,9 +321,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.228Z",
@@ -390,9 +366,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-interleaved"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.262Z",
@@ -448,11 +421,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-list",
-        "lens-crm-table",
-        "lens-kanban"
-      ],
       "namespace": "Sales"
     },
     "updated_at": "2020-04-29T04:55:51.273Z",
@@ -496,10 +464,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.288Z",
@@ -538,10 +502,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.302Z",
@@ -580,10 +540,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ],
       "namespace": "Projects"
     },
@@ -645,9 +601,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads"
-      ],
       "namespace": "Sales"
     },
     "updated_at": "2020-04-29T04:55:51.324Z",
@@ -686,10 +639,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.421Z",
@@ -741,10 +690,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ],
       "namespace": "Brainstorms"
     },
@@ -811,10 +756,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-table",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.451Z",
@@ -887,10 +828,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
-      ],
       "namespace": "Support"
     },
     "updated_at": "2020-04-29T04:55:51.491Z",
@@ -955,10 +892,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-table",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.504Z",
@@ -1031,10 +964,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
-      ],
       "namespace": "Support"
     },
     "updated_at": "2020-04-29T04:55:51.530Z",
@@ -1073,10 +1002,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.565Z",
@@ -1115,10 +1040,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-kanban"
       ],
       "namespace": "Pipelines"
     },
@@ -1163,10 +1084,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-table",
-        "lens-kanban"
       ],
       "namespace": "Sales"
     },
@@ -1227,10 +1144,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-table",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.240Z",
@@ -1290,9 +1203,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.337Z",
@@ -1363,10 +1273,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
       ],
       "namespace": "Support"
     },
@@ -1441,11 +1347,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads-to-audit",
-        "lens-kanban",
-        "lens-support-audit-chart"
-      ],
       "namespace": "Support"
     },
     "updated_at": "2020-04-29T04:55:51.555Z",
@@ -1508,9 +1409,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-interleaved"
       ]
     },
     "updated_at": null,
@@ -1599,10 +1497,6 @@
             }
           }
         }
-      ],
-      "lenses": [
-        "lens-default-list",
-        "lens-default-card"
       ]
     },
     "updated_at": "2020-04-29T04:55:50.345Z",
@@ -1736,9 +1630,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-inbox"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.048Z",
@@ -1783,9 +1674,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.062Z",
@@ -1917,10 +1805,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
-      ],
       "namespace": "Support"
     },
     "updated_at": "2020-04-29T04:55:51.251Z",
@@ -1959,10 +1843,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-list",
-        "lens-table"
       ],
       "namespace": "Support"
     },
@@ -2015,9 +1895,6 @@
             }
           }
         }
-      ],
-      "lenses": [
-        "lens-interleaved"
       ],
       "namespace": "Comms"
     },
@@ -2103,10 +1980,6 @@
           }
         }
       ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
-      ],
       "namespace": "Support"
     },
     "updated_at": "2020-04-29T04:55:51.391Z",
@@ -2177,10 +2050,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-support-threads",
-        "lens-kanban"
       ],
       "namespace": "Support"
     },
@@ -2262,10 +2131,6 @@
             "additionalProperties": true
           }
         }
-      ],
-      "lenses": [
-        "lens-table",
-        "lens-kanban"
       ]
     },
     "updated_at": "2020-04-29T04:55:51.516Z",
