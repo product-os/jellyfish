@@ -1,4 +1,21 @@
 - commits:
+    - subject: 'Katapult Generators: Set readiness probe delay for action servers.'
+      hash: f9813b3cb2183d1c2e7ab1109a6caaebca009b4f
+      body: |
+        This gives a sufficient delay for the new action server pods to
+        become ready after performing migrations.  This is to avoid the
+        cluster from immediately replacing all action servers while the
+        new ones are not yet ready to receive requests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 33.66.5
+  date: 2021-03-10T23:38:05.644Z
+- commits:
     - subject: 'patch: Update dependency d3 to ^6.6.0'
       hash: cf61e706cc99c7cd1eebd862ad6b6b9311fbf90f
       body: ''
