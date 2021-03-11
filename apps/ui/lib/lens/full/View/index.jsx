@@ -6,7 +6,7 @@
 
 import clone from 'deep-copy'
 import {
-	circularDeepEqual
+	circularDeepEqual, deepEqual
 } from 'fast-equals'
 import skhema from 'skhema'
 import update from 'immutability-helper'
@@ -420,15 +420,18 @@ export class ViewRenderer extends React.Component {
 			return
 		}
 
-		const reloadRequired = this.state.options.page !== 0
+		const newOptions = this.getQueryOptions(slug, false)
 
-		this.setState((prevState) => {
+		const reloadRequired = !deepEqual(this.state.options, newOptions)
+
+		if (reloadRequired) {
+			this.props.actions.clearViewData(this.props.channel.data.head.id)
+			this.props.actions.clearViewData(getSearchViewId(this.props.channel.data.head.id))
+		}
+
+		this.setState(() => {
 			return {
-				options: update(prevState.options, {
-					page: {
-						$set: 0
-					}
-				}),
+				options: newOptions,
 				activeLens: lens.slug
 			}
 		}, () => {
@@ -611,7 +614,7 @@ export class ViewRenderer extends React.Component {
 	// TODO: Make all lenses handle pagination and remove this exception.
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
-	getQueryOptions (lensSlug) {
+	getQueryOptions (lensSlug, keepState = true) {
 		const lens = getActiveLens(this.props.lenses, lensSlug)
 
 		// TODO: improve backend sort efficiency so we can apply a default sort here
@@ -623,8 +626,10 @@ export class ViewRenderer extends React.Component {
 		_.get(lens, [ 'data', 'queryOptions' ])
 		)
 
-		options.page = this.state.options.page
-		options.sortBy = this.state.options.sortBy
+		if (keepState) {
+			options.page = this.state.options.page
+			options.sortBy = this.state.options.sortBy
+		}
 
 		// The backend will throw an error if you make a request with a "limit"
 		// higher than 1000, so normalize it here

@@ -81,11 +81,6 @@ const lens = {
 		queryOptions: {
 			mask: (query) => {
 				Reflect.deleteProperty(query, '$$links')
-				query.properties.data = {
-					type: 'object',
-					additionalProperties: true
-				}
-
 				return query
 			},
 			limit: 1000,
