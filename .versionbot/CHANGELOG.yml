@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'User profile: Allow copying own session token'
+      hash: 05458db896f9ba73c7995f630832c09345abe0e9
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.69.0
+  date: 2021-03-11T16:39:36.541Z
+- commits:
     - subject: 'Oauth: Add oauth provider example service'
       hash: 9b45bca1a727dc0c9ad17d1bc593452ba8aa73cb
       body: ''
