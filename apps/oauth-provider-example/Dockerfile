@@ -1,4 +1,4 @@
-FROM balena/open-balena-base:11.0.4
+FROM balena/open-balena-base:v11.1.0
 
 WORKDIR /usr/src/app
 
