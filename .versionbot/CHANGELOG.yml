@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'Oauth: Add oauth provider example service'
+      hash: 9b45bca1a727dc0c9ad17d1bc593452ba8aa73cb
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.68.0
+  date: 2021-03-11T15:19:22.987Z
+- commits:
     - subject: Remove obsolete lenses field from view cards
       hash: ba36119a14c94d9065b7b1accfdcfaacaab17244
       body: ''
