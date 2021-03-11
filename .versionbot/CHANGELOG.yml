@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 42f4d778609cf9158a71a4d58137ec7ba63fa1a8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.66.6
+  date: 2021-03-11T05:04:25.192Z
+- commits:
     - subject: 'Katapult Generators: Set readiness probe delay for action servers.'
       hash: f9813b3cb2183d1c2e7ab1109a6caaebca009b4f
       body: |
