@@ -18,14 +18,16 @@ import {
 	Tabs,
 	Divider,
 	Link,
-	Form
+	Form,
+	TextWithCopy
 } from 'rendition'
 import * as skhema from 'skhema'
 import {
 	helpers,
 	timezones,
 	Icon,
-	UserAvatar
+	UserAvatar,
+	withSetup
 } from '@balena/jellyfish-ui-components'
 import CardLayout from '../../../layouts/CardLayout'
 
@@ -62,7 +64,7 @@ const interfaceUiSchema = {
 	}
 }
 
-export default class MyUser extends React.Component {
+export default withSetup(class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -344,8 +346,20 @@ export default class MyUser extends React.Component {
 							<Divider color="#eee" />
 						</Box>
 					</Tab>
+
+					<Tab title="Access tokens" data-test="tab_access_tokens">
+						<Box mt={3}>
+							<label>
+								Session token <Txt.span fontSize={2} color="text.light">(expires after 7 days)</Txt.span>:
+							</label>
+							<br/>
+							<TextWithCopy copy={this.props.sdk.authToken} showCopyButton="always">
+								<code>{this.props.sdk.authToken}</code>
+							</TextWithCopy>
+						</Box>
+					</Tab>
 				</Tabs>
 			</CardLayout>
 		)
 	}
-}
+})
