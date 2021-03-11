@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove obsolete lenses field from view cards
+      hash: ba36119a14c94d9065b7b1accfdcfaacaab17244
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.67.1
+  date: 2021-03-11T12:17:58.171Z
+- commits:
     - subject: Add support for saving and loading chart-configurations
       hash: f68f2ee07b340b6c818d0637ffcb997964b79103
       body: >
