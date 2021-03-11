@@ -93,10 +93,6 @@
           ]
         }
       }
-    ],
-    "lenses": [
-      "lens-support-threads",
-      "lens-kanban"
     ]
   },
   "updated_at": "2020-04-06T01:44:54.903Z",

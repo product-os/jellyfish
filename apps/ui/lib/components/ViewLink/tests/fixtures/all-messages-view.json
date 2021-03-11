@@ -42,9 +42,6 @@
           "additionalProperties": true
         }
       }
-    ],
-    "lenses": [
-      "lens-interleaved"
     ]
   },
   "updated_at": "2020-04-06T01:44:54.453Z",
