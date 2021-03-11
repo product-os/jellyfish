@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add support for saving and loading chart-configurations
+      hash: f68f2ee07b340b6c818d0637ffcb997964b79103
+      body: >
+        The chart lens has been refactored to allow the (Plotly) settings to be
+        saved and reloaded using `chart-configuration` cards.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.67.0
+  date: 2021-03-11T10:14:36.871Z
+- commits:
     - subject: Ensure each lens' query options are respected
       hash: 3a9518897ea64c65893b4ca31188d58a5c5a7d3e
       body: >
