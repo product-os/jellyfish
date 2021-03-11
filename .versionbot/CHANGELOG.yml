@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update balena/open-balena-base Docker tag to v11.1.0'
+      hash: cf3724811c6cfe7806d06ba1d0513b1c9c370c0f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.1
+  date: 2021-03-11T17:58:38.482Z
+- commits:
     - subject: 'User profile: Allow copying own session token'
       hash: 05458db896f9ba73c7995f630832c09345abe0e9
       body: ''
