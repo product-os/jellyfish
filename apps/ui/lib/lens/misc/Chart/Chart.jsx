@@ -4,105 +4,248 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
-import React, {
-	useState
-} from 'react'
-import PlotlyEditor from 'react-chart-editor'
+import _ from 'lodash'
+import React from 'react'
 import 'react-chart-editor/lib/react-chart-editor.css'
 import * as flatten from 'flat'
-import {
+import styled, {
 	createGlobalStyle
 } from 'styled-components'
+import {
+	Button,
+	Flex,
+	Heading
+} from 'rendition'
+import {
+	Icon,
+	helpers
+} from '@balena/jellyfish-ui-components'
+import AutoCompleteCardSelect from '../../../components/AutoCompleteCardSelect'
+import SaveCardButton from '../../../components/SaveCardButton'
 
-// HACK: Work-around for the fact that plotly throws a fit if you run it outside
-// of a browser environment.
-const plotly = window.isUnitTest ? null : require('plotly.js/dist/plotly')
+const NEW_CHART_CONFIGURATION_ID = '00000000-0000-0000-0000-000000000000'
+
+const ChartConfigurationAutoSelect = styled(AutoCompleteCardSelect) `
+	min-width: 220px;
+`
+
+export const parseSettings = (chart) => {
+	return JSON.parse(chart.data.settings)
+}
+
+export const stringifySettings = (settings) => {
+	return JSON.stringify(settings, null, 2)
+}
 
 // The plotly styles don't render 100% correctly on JF, causing the panel
 // headers to get squashed. This fixes the issue
 const GlobalStyle = createGlobalStyle `
+	.plotly_editor {
+		border-top: 1px solid #eee;
+	}
 	.plotly_editor .editor_controls .fold__top {
 			height: 30px;
 	}
 `
 
-const config = {
-	editable: true
-}
+const ViewIcon = <Icon name="eye" />
 
-export default React.memo(({
-	tail
+export const Chart = React.memo(({
+	actions,
+	channel,
+	chartConfigurationType,
+	history,
+	sdk,
+	tail,
+	ChartComponent
 }) => {
 	// Flatten all the cards into single level objects so that plotly can handle
 	// the data
-	const getDataSources = React.useCallback(() => {
+	const {
+		dataSources, dataSourceOptions, defaultChartConfiguration
+	} = React.useMemo(() => {
 		const flattenedData = _.map(tail, flatten)
 		const combinedFlatKeys = _.uniq(_.flatMap(flattenedData, _.keys))
 
-		const dataSources = _.mapValues(_.keyBy(combinedFlatKeys), (key) => _.map(flattenedData, key))
+		const sources = _.mapValues(_.keyBy(combinedFlatKeys), (key) => _.map(flattenedData, key))
 
-		const dataSourceOptions = Object.keys(dataSources).map((name) => ({
+		const sourceOptions = Object.keys(sources).map((name) => ({
 			value: name,
 			label: name
 		}))
+
+		const defaultChartConfig = {
+			id: NEW_CHART_CONFIGURATION_ID,
+			name: 'New chart',
+			data: {
+				settings: stringifySettings({
+					data: [
+						// This config sets up a simple histogram that groups data by day, using
+						// the `created_at` field.
+						{
+							type: 'histogram',
+							mode: 'markers',
+							// eslint-disable-next-line id-length
+							x: sources.created_at,
+							xsrc: 'created_at',
+							xbins: {
+								size: 86400000
+							},
+							marker: {
+								color: 'rgb(0, 174, 239)'
+							}
+						}
+					],
+					layout: {
+						bargap: 0.09
+					},
+					frames: []
+				})
+			}
+		}
+
 		return {
-			dataSources, dataSourceOptions
+			dataSources: sources,
+			dataSourceOptions: sourceOptions,
+			defaultChartConfiguration: defaultChartConfig
 		}
 	}, [ tail ])
 
-	const {
-		dataSources, dataSourceOptions
-	} = getDataSources()
-
-	const defaultSettings = {
-		data: [
-			// This config sets up a simple histogram that groups data by day, using
-			// the `created_at` field.
-			{
-				type: 'histogram',
-				mode: 'markers',
-				// eslint-disable-next-line id-length
-				x: dataSources.created_at,
-				xsrc: 'created_at',
-				xbins: {
-					size: 86400000
-				},
-				marker: {
-					color: 'rgb(0, 174, 239)'
+	const linkedToViewFilter = React.useMemo(() => {
+		return {
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					properties: {
+						id: {
+							const: channel.data.head.id
+						}
+					}
 				}
 			}
-		],
-		layout: {
-			bargap: 0.09
-		},
-		frames: []
+		}
+	}, [ channel.data.head.id ])
+
+	// The save count is used as the key to the AutoCompleteCardSelect.
+	// We increment this value whenever a card is updated or a new card is saved,
+	// triggering a refetch of the available chart configurations.
+	const [ saveCount, setSaveCount ] = React.useState(0)
+	const [ isDirty, setIsDirty ] = React.useState(false)
+	const [ selectedChart, setSelectedChart ] = React.useState(defaultChartConfiguration)
+	const [ settings, setSettings ] = React.useState(parseSettings(defaultChartConfiguration))
+
+	const selectedChartValue = React.useMemo(() => {
+		return {
+			value: selectedChart.id,
+			label: selectedChart.name
+		}
+	}, [ selectedChart ])
+
+	const onPlotlyEditorUpdate = React.useCallback((newSettings) => {
+		setSettings(newSettings)
+		setIsDirty(true)
+	}, [ setSettings, setIsDirty ])
+
+	const onChartSaved = React.useCallback(() => {
+		setIsDirty(false)
+		setSaveCount(saveCount + 1)
+	}, [ setIsDirty, setSaveCount ])
+
+	const onSaveAs = React.useCallback(() => {
+		actions.addChannel({
+			head: {
+				types: chartConfigurationType,
+				seed: {
+					markers: channel.data.head.markers,
+					data: {
+						settings: stringifySettings(settings)
+					}
+				},
+				onDone: {
+					action: 'link',
+					targets: [ channel.data.head ],
+					callback: onNewChartConfigurationSaved
+				}
+			},
+			format: 'create',
+			canonical: false
+		})
+	}, [ actions.addChannel, chartConfigurationType, channel.data.head, settings ])
+
+	const onNewChartConfigurationSaved = async (chartConfigurationSummary) => {
+		const chartConfiguration = await sdk.card.get(chartConfigurationSummary.id)
+		setSaveCount(saveCount + 1)
+		selectChartConfiguration(chartConfiguration)
 	}
 
-	const [ settings, setSettings ] = useState(defaultSettings)
+	const selectChartConfiguration = React.useCallback((chartConfiguration) => {
+		const newChartConfiguration = chartConfiguration || defaultChartConfiguration
+		setSelectedChart(newChartConfiguration)
+		setSettings(parseSettings(newChartConfiguration))
+		setIsDirty(false)
+	}, [ setSelectedChart, setSettings, setIsDirty, defaultChartConfiguration ])
+
+	const openChartConfigurationChannel = React.useCallback(() => {
+		history.push(helpers.appendToChannelPath(channel, selectedChart))
+	}, [ history, channel, selectedChart ])
+
+	const getChartConfigurationPatch = React.useCallback(() => {
+		return [
+			{
+				op: 'replace',
+				path: '/data/settings',
+				value: stringifySettings(settings)
+			}
+		]
+	}, [ settings ])
 
 	return (
 		<React.Fragment>
 			<GlobalStyle />
 
-			<PlotlyEditor
-				data={settings.data}
-				layout={settings.layout}
-				config={config}
-				frames={settings.frame}
+			<Flex flexDirection="row" m={2} mb={3} alignItems="center" >
+				<Heading.h5 mr={2}>Chart configuration:</Heading.h5>
+				<ChartConfigurationAutoSelect
+					key={saveCount}
+					classNamePrefix="chart-config-select"
+					cardType="chart-configuration"
+					value={selectedChartValue}
+					onChange={selectChartConfiguration}
+					cardFilter={linkedToViewFilter}
+				/>
+				<SaveCardButton
+					sdk={sdk}
+					card={selectedChart}
+					patch={getChartConfigurationPatch}
+					onDone={onChartSaved}
+					disabled={!isDirty || selectedChart.id === NEW_CHART_CONFIGURATION_ID}
+					ml={2}
+					data-test="btn_chart-config--save"
+				/>
+				<Button
+					disabled={!isDirty}
+					onClick={onSaveAs}
+					tooltip="Save current settings as a new chart configuration"
+					ml={2}
+					data-test="btn_chart-config--save-as"
+				>
+					Save as...
+				</Button>
+				<Button
+					disabled={selectedChart.id === NEW_CHART_CONFIGURATION_ID}
+					onClick={openChartConfigurationChannel}
+					icon={ViewIcon}
+					tooltip="View chart configuration card"
+					ml={2}
+					data-test="btn_chart-config--view"
+				/>
+			</Flex>
+
+			<ChartComponent
+				settings={settings}
 				dataSources={dataSources}
 				dataSourceOptions={dataSourceOptions}
-				plotly={plotly}
-				onUpdate={(data, layout, frames) => {
-					setSettings({
-						data,
-						layout,
-						frames
-					})
-				}}
-				useResizeHandler
-				debug
-				advancedTraceTypeSelector
+				onUpdate={onPlotlyEditorUpdate}
 			/>
 		</React.Fragment>
 	)

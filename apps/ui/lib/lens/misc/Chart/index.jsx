@@ -5,11 +5,55 @@
  */
 
 import {
+	connect
+} from 'react-redux'
+import {
+	withRouter
+} from 'react-router-dom'
+import _ from 'lodash'
+import {
+	compose,
+	bindActionCreators
+} from 'redux'
+import {
+	actionCreators,
+	sdk,
+	selectors
+} from '../../../core'
+import {
+	helpers
+} from '@balena/jellyfish-ui-components'
+import {
+	Chart
+} from './Chart'
+
+import {
 	createLazyComponent
 } from '../../../components/SafeLazy'
 
 // eslint-disable-next-line
-const ChartLazy = createLazyComponent(() => import(/* webpackChunkName: "chart" */ './Chart'))
+const ChartLazy = createLazyComponent(() => import(/* webpackChunkName: "chart" */ './PlotlyChart'))
+
+const mapStateToProps = (state, ownProps) => {
+	const types = selectors.getTypes(state)
+	const chartConfigurationType = helpers.getType('chart-configuration', types)
+	return {
+		sdk,
+		chartConfigurationType,
+		ChartComponent: ChartLazy
+	}
+}
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'addChannel'
+			]),
+			dispatch
+		)
+	}
+}
 
 const lens = {
 	slug: 'lens-chart',
@@ -20,7 +64,10 @@ const lens = {
 		label: 'Chart',
 		icon: 'chart-bar',
 		format: 'list',
-		renderer: ChartLazy,
+		renderer: compose(
+			withRouter,
+			connect(mapStateToProps, mapDispatchToProps)
+		)(Chart),
 		filter: {
 			type: 'array',
 			items: {
