@@ -1,4 +1,31 @@
 - commits:
+    - subject: Ensure each lens' query options are respected
+      hash: 3a9518897ea64c65893b4ca31188d58a5c5a7d3e
+      body: >
+        When selecting a lens, always make sure the query options are
+        recalculated and the view is reloaded if required.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix lens-support-threads-to-audit query mask
+      hash: 5ad0ad0b941d60b20a9126bcac3495c81035ce02
+      body: >
+        This mask was inadvertently removing the requirement that data.status
+        was 'closed'.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.66.7
+  date: 2021-03-11T07:18:26.116Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 42f4d778609cf9158a71a4d58137ec7ba63fa1a8
       body: ''
