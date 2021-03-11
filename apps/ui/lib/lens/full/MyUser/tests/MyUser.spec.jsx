@@ -19,6 +19,13 @@ import {
 	user,
 	userType
 } from './fixtures'
+import {
+	SetupProvider
+} from '@balena/jellyfish-ui-components'
+
+const sdk = {
+	authToken: 'xxx-xxx-xxx-xxx'
+}
 
 const sandbox = sinon.createSandbox()
 
@@ -51,7 +58,11 @@ ava('The user profile can updated', async (test) => {
 	const {
 		commonProps
 	} = test.context
-	const component = await mount(<MyUser {...commonProps} />, {
+	const component = await mount((
+		<SetupProvider sdk={sdk}>
+			<MyUser {...commonProps} />
+		</SetupProvider>
+	), {
 		wrappingComponent
 	})
 	selectTab(component, 'profile')
@@ -88,7 +99,11 @@ ava('The user password can reset', async (test) => {
 	const {
 		commonProps
 	} = test.context
-	const component = await mount(<MyUser {...commonProps} />, {
+	const component = await mount((
+		<SetupProvider sdk={sdk}>
+			<MyUser {...commonProps} />
+		</SetupProvider>
+	), {
 		wrappingComponent
 	})
 	selectTab(component, 'account')
@@ -115,7 +130,11 @@ ava('The interface settings can updated', async (test) => {
 	const {
 		commonProps
 	} = test.context
-	const component = await mount(<MyUser {...commonProps} />, {
+	const component = await mount((
+		<SetupProvider sdk={sdk}>
+			<MyUser {...commonProps} />
+		</SetupProvider>
+	), {
 		wrappingComponent
 	})
 	selectTab(component, 'interface')
@@ -150,7 +169,11 @@ ava('Oauth connections can be made', async (test) => {
 	const {
 		commonProps
 	} = test.context
-	const component = await mount(<MyUser {...commonProps} />, {
+	const component = await mount((
+		<SetupProvider sdk={sdk}>
+			<MyUser {...commonProps} />
+		</SetupProvider>
+	), {
 		wrappingComponent
 	})
 	selectTab(component, 'oauth')
