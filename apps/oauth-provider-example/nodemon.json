@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "ignoreRoot": [],
+  "watch": [
+    "lib/**/*.js"
+  ]
+}

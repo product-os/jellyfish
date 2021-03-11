@@ -54,6 +54,10 @@ and executes them with the configured action library.
 
 This is the demo project for developing chat-widget.
 
+### [`apps/oauth-provider-example`](https://github.com/product-os/jellyfish/tree/master/apps/oauth-provider-example)
+
+Oauth provider example app
+
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.
