@@ -1081,3 +1081,100 @@ ava.serial('whoami should respond even if user has little permissions', async (t
 	test.false(result.response.error)
 	test.is(result.response.data.id, user.id)
 })
+
+ava.serial('Should be able to sort cards by version', async (test) => {
+	const cards = [
+		await test.context.sdk.card.create({
+			slug: test.context.generateRandomSlug({
+				prefix: 'support-thread'
+			}),
+			type: 'support-thread@1.0.0',
+			version: '1.0.0',
+			data: {
+				status: 'open'
+			}
+		}),
+		await test.context.sdk.card.create({
+			slug: test.context.generateRandomSlug({
+				prefix: 'support-thread'
+			}),
+			type: 'support-thread@1.0.0',
+			version: '1.1.0',
+			data: {
+				status: 'open'
+			}
+		}),
+		await test.context.sdk.card.create({
+			slug: test.context.generateRandomSlug({
+				prefix: 'support-thread'
+			}),
+			type: 'support-thread@1.0.0',
+			version: '1.0.1',
+			data: {
+				status: 'open'
+			}
+		})
+	]
+
+	const query = {
+		type: 'object',
+		properties: {
+			type: {
+				const: 'support-thread@1.0.0'
+			},
+			slug: {
+				enum: [
+					cards[0].slug,
+					cards[1].slug,
+					cards[2].slug
+				]
+			}
+		},
+		required: [
+			'type',
+			'slug'
+		]
+	}
+
+	// Test sortBy ascending
+	let result = await test.context.http(
+		'POST', '/api/v2/query', {
+			query,
+			options: {
+				sortBy: 'version',
+				sortDir: 'asc'
+			}
+		}, {
+			Authorization: `Bearer ${test.context.token}`
+		})
+
+	test.is(result.code, 200)
+	test.deepEqual(_.map(result.response.data, (item) => {
+		return _.pick(item, [ 'slug', 'version' ])
+	}), [
+		_.pick(cards[0], [ 'slug', 'version' ]),
+		_.pick(cards[2], [ 'slug', 'version' ]),
+		_.pick(cards[1], [ 'slug', 'version' ])
+	])
+
+	// Test sortBy descending
+	result = await test.context.http(
+		'POST', '/api/v2/query', {
+			query,
+			options: {
+				sortBy: 'version',
+				sortDir: 'desc'
+			}
+		}, {
+			Authorization: `Bearer ${test.context.token}`
+		})
+
+	test.is(result.code, 200)
+	test.deepEqual(_.map(result.response.data, (item) => {
+		return _.pick(item, [ 'slug', 'version' ])
+	}), [
+		_.pick(cards[1], [ 'slug', 'version' ]),
+		_.pick(cards[2], [ 'slug', 'version' ]),
+		_.pick(cards[0], [ 'slug', 'version' ])
+	])
+})
