@@ -233,6 +233,7 @@ export class LinkModal extends React.Component {
 						data-test="card-linker--existing__input"
 					>
 						<AutoCompleteCardSelect
+							autoFocus
 							value={selectedTargetValue}
 							cardType={_.map(allLinkTypeTargets, (linkTypeTarget) => {
 								return _.get(linkTypeTarget, [ 'data', 'to' ])
