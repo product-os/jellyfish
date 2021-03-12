@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add sort cards by version test
+      hash: c3fbdf22704e8a50eeaf0fd2c4701697611fd021
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.69.7
+  date: 2021-03-12T09:26:38.802Z
+- commits:
     - subject: Keep MyUser as presentational component
       hash: 7b730e571de18c911010da8a0d4ee5898212f21d
       body: >
