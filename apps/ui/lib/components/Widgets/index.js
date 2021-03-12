@@ -16,6 +16,9 @@ import {
 import {
 	JellyfishLinkWidget
 } from './JellyfishLinkWidget'
+import {
+	JellyfishUserWidget
+} from './JellyfishUserWidget'
 
 export const JellyfishWidgets = [
 	{
@@ -29,7 +32,8 @@ export const JellyfishWidgets = [
 		widget: MermaidWidget
 	},
 	...[
-		JellyfishLinkWidget
+		JellyfishLinkWidget,
+		JellyfishUserWidget
 	].map((widget) => ({
 		name: widget.displayName,
 		format: '.*',
