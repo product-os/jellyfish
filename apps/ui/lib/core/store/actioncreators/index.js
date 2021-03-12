@@ -154,7 +154,17 @@ const getViewId = (query) => {
 
 export const selectors = {
 	getFlow: (flowId, cardId) => (state) => { return _.get(state.ui, [ 'flows', flowId, cardId ]) || null },
-	getCard: (id, type) => (state) => { return _.get(state.core, [ 'cards', type.split('@')[0], id ]) || null },
+	getCard: (idOrSlug, type) => (state) => {
+		const cards = _.get(state.core, [ 'cards', helpers.getTypeBase(type) ])
+		if (!cards) {
+			return null
+		}
+		return isUUID(idOrSlug)
+			? cards[idOrSlug] || null
+			: _.find(cards, {
+				slug: idOrSlug
+			}) || null
+	},
 	getAccounts: (state) => { return state.core.accounts },
 	getOrgs: (state) => { return state.core.orgs },
 	getAppVersion: (state) => { return _.get(state.core, [ 'config', 'version' ]) || null },
@@ -236,14 +246,15 @@ const loadingCardCache = {}
 // This is a function that memoizes a debounce function, this allows us to
 // create different debounce lists depending on the args passed to
 // 'getCard'
-const getCardInternal = (id, type, linkVerbs = []) => {
+const getCardInternal = (idOrSlug, type, linkVerbs = []) => {
 	return async (dispatch, getState, {
 		sdk
 	}) => {
-		if (!id) {
+		if (!idOrSlug) {
 			return null
 		}
-		let card = selectors.getCard(id, type)(getState())
+		const isId = isUUID(idOrSlug)
+		let card = selectors.getCard(idOrSlug, type)(getState())
 
 		// Check if the cached card has all the links required by this request
 		const isCached = card && _.every(linkVerbs, (linkVerb) => {
@@ -254,16 +265,21 @@ const getCardInternal = (id, type, linkVerbs = []) => {
 			// API requests are debounced based on the unique combination of the card ID and the (sorted) link verbs
 			const linkVerbSlugs = _.orderBy(linkVerbs)
 				.map((verb) => { return helpers.slugify(verb) })
-			const loadingCacheKey = [ id ].concat(linkVerbSlugs).join('_')
+			const loadingCacheKey = [ idOrSlug ].concat(linkVerbSlugs).join('_')
 			if (!Reflect.has(loadingCardCache, loadingCacheKey)) {
 				const schema = {
 					type: 'object',
-					properties: {
-						id: {
-							const: id
-						}
-					},
+					properties: {},
 					additionalProperties: true
+				}
+				if (isId) {
+					schema.properties.id = {
+						const: idOrSlug
+					}
+				} else {
+					schema.properties.slug = {
+						const: idOrSlug
+					}
 				}
 
 				if (linkVerbs.length) {
@@ -292,7 +308,7 @@ const getCardInternal = (id, type, linkVerbs = []) => {
 						return card
 					}
 
-					return sdk.card.get(id)
+					return sdk.card.get(idOrSlug)
 				}).then((element) => {
 					// If a card doesn't have matching links, but a request was made
 					// for them, indicate this with an empty array, so the cache entry
@@ -348,15 +364,15 @@ export const actionCreators = {
 		}
 	},
 
-	getCard (cardId, cardType, linkVerbs) {
+	getCard (cardIdOrSlug, cardType, linkVerbs) {
 		return async (dispatch, getState, context) => {
-			return getCardInternal(cardId, cardType, linkVerbs)(dispatch, getState, context)
+			return getCardInternal(cardIdOrSlug, cardType, linkVerbs)(dispatch, getState, context)
 		}
 	},
 
-	getActor (id) {
+	getActor (idOrSlug) {
 		return async (dispatch, getState, context) => {
-			const card = await getCardInternal(id, 'user', [ 'is member of' ])(dispatch, getState, context)
+			const card = await getCardInternal(idOrSlug, 'user', [ 'is member of' ])(dispatch, getState, context)
 			return helpers.generateActorFromUserCard(card)
 		}
 	},
