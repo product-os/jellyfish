@@ -57,8 +57,7 @@ module.exports = async (context, jellyfish, worker, session, cards) => {
 			return
 		}
 
-		const typeCard = await jellyfish.getCardBySlug(
-			context, session, `${card.type}@${card.version}`)
+		const typeCard = await jellyfish.getCardBySlug(context, session, ensureTypeHasVersion(card.type))
 
 		logger.info(context, 'Inserting default card using worker', {
 			slug: card.slug,
@@ -78,4 +77,13 @@ module.exports = async (context, jellyfish, worker, session, cards) => {
 	return {
 		guestSession: guestUserSession
 	}
+}
+
+const ensureTypeHasVersion = (type) => {
+	if (_.includes(type, '@')) {
+		return type
+	}
+
+	// Types should not default to latest to ensure old "insert" code doesn't break
+	return `${type}@1.0.0`
 }
