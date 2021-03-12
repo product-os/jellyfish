@@ -1,4 +1,19 @@
 - commits:
+    - subject: Keep MyUser as presentational component
+      hash: 7b730e571de18c911010da8a0d4ee5898212f21d
+      body: >
+        In general we should try and keep HOCs out of presentational component
+        files. This makes testing the presentational component much easier.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.69.6
+  date: 2021-03-12T08:04:18.118Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.9.1'
       hash: 42c9fd3d09e4fd0ec8270498c58ddd81fcacaadf
       body: ''
