@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 82ce4751f723e5110b3ef2dd66558532324ea4c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.8
+  date: 2021-03-12T11:31:39.540Z
+- commits:
     - subject: Add sort cards by version test
       hash: c3fbdf22704e8a50eeaf0fd2c4701697611fd021
       body: ''
