@@ -26,8 +26,7 @@ import {
 	helpers,
 	timezones,
 	Icon,
-	UserAvatar,
-	withSetup
+	UserAvatar
 } from '@balena/jellyfish-ui-components'
 import CardLayout from '../../../layouts/CardLayout'
 
@@ -64,7 +63,7 @@ const interfaceUiSchema = {
 	}
 }
 
-export default withSetup(class MyUser extends React.Component {
+export default class MyUser extends React.Component {
 	constructor (props) {
 		super(props)
 
@@ -362,4 +361,4 @@ export default withSetup(class MyUser extends React.Component {
 			</CardLayout>
 		)
 	}
-})
+}

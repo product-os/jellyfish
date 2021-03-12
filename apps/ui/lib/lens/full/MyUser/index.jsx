@@ -10,6 +10,9 @@ import {
 import _ from 'lodash'
 import * as redux from 'redux'
 import {
+	withSetup
+} from '@balena/jellyfish-ui-components'
+import {
 	actionCreators,
 	selectors
 } from '../../../core'
@@ -41,7 +44,10 @@ export default {
 	data: {
 		icon: 'address-card',
 		format: 'full',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(MyUser),
+		renderer: redux.compose(
+			withSetup,
+			connect(mapStateToProps, mapDispatchToProps)
+		)(MyUser),
 		filter: {
 			type: 'object',
 			properties: {
