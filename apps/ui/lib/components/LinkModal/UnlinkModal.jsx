@@ -168,6 +168,7 @@ export const UnlinkModal = ({
 					Look for the card types: {targetTypeList}
 				</Txt>
 				<AutoCompleteCardSelect
+					autoFocus
 					getQueryFilter={getLinkedCardsQuery}
 					value={selectedTargetValue}
 					cardType={linkTypeSlugs}
