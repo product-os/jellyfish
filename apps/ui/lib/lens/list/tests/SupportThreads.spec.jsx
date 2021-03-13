@@ -101,7 +101,7 @@ ava('Pending user response threads that are more than 3 working days old ' +
 	} = test.context
 
 	// Update timestamp to be more than 3 working days old
-	const segments = await getSegments(commonProps, pendingUser, subBusinessDays(now, 3).toISOString())
+	const segments = await getSegments(commonProps, pendingUser, subBusinessDays(now, 4).toISOString())
 
 	const pendingAgentResponse = _.find(segments, {
 		name: 'pending agent response'
