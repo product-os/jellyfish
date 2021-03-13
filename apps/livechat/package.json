@@ -14,7 +14,7 @@
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-react": "^7.12.13",
     "@balena/jellyfish-chat-widget": "^6.0.66",
-    "@balena/jellyfish-client-sdk": "^2.18.4",
+    "@balena/jellyfish-client-sdk": "^2.18.5",
     "@balena/jellyfish-ui-components": "^8.9.1",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.1.2",
@@ -30,7 +30,7 @@
   },
   "devDependencies": {
     "depcheck": "^1.4.0",
-    "eslint": "^7.21.0",
+    "eslint": "^7.22.0",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
   }
