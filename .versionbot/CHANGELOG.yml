@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix timestamp used in support thread lens test
+      hash: dacfcd2f89b4f20176f20f1787ec9824e93f35ad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.69.12
+  date: 2021-03-13T07:23:28.913Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 6ee46e974b6543e6a73485d51f2df060715228ee
       body: ''
