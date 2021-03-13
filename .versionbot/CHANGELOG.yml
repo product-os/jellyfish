@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 63d119dd01cef756b623808ad323892c85140457
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.15
+  date: 2021-03-13T16:06:58.770Z
+- commits:
     - subject: Auto-focus select when loading link modal
       hash: 9467a164f0c4e8e163fac7b3469607ef386feccc
       body: ''
