@@ -1,4 +1,17 @@
 - commits:
+    - subject: Auto-focus select when loading link modal
+      hash: 9467a164f0c4e8e163fac7b3469607ef386feccc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.69.14
+  date: 2021-03-13T10:02:38.695Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 0b89613a776bd940e58935e89c5f5cf262e3f3c1
       body: ''
