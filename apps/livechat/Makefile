@@ -29,4 +29,4 @@ build-livechat:
 .PHONY: lint
 lint:
 	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib
-	npx depcheck --ignore-bin-package --ignores='depcheck,css-loader,file-loader,babel-loader,style-loader,@babel/core,@babel/preset-react'
+	npx depcheck --ignore-bin-package --ignores='depcheck,css-loader,file-loader,babel-loader,style-loader,@babel/core,@babel/preset-react,webpack-cli,webpack-dev-server'
