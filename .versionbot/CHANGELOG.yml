@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: c55a0a4961625091c1da5d7271343a378dafcf04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.18
+  date: 2021-03-14T03:11:16.066Z
+- commits:
     - subject: Remove reset-state makefile command
       hash: 2e98d8e844423c0105c444f4a6f6f0a95f1a3520
       body: |
