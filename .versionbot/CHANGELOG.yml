@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update prom/prometheus Docker tag to v2.25.1'
+      hash: 7dac42279758e58d69e8273eddc238e945798965
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.19
+  date: 2021-03-14T15:54:08.551Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: c55a0a4961625091c1da5d7271343a378dafcf04
       body: ''
