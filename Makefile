@@ -20,7 +20,8 @@
 	push \
 	ssh \
 	npm-ci \
-	exec-apps
+	exec-apps \
+	livetest
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -490,3 +491,6 @@ deploy-%:
 # Execute a command under each app directory
 exec-apps:
 	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
+
+livetest:
+	echo "balena exec sidecar_12_1 pwd" | balena ssh jel.ly.fish.local

@@ -8,13 +8,12 @@ services:
       - internal
     expose:
       - 80
-  sut:
+  sidecar:
     build:
       context: .
-      dockerfile: Dockerfile.ci
+      dockerfile: Dockerfile.sidecar
       args:
         NPM_TOKEN: $NPM_TOKEN
-    command: [bash, -c, "trap : TERM INT; sleep infinity & wait"]
     depends_on:
       - api
       - livechat
