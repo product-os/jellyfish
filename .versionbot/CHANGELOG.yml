@@ -1,4 +1,21 @@
 - commits:
+    - subject: Remove reset-state makefile command
+      hash: 2e98d8e844423c0105c444f4a6f6f0a95f1a3520
+      body: |
+        This command is unused by the team, and has some issues such as renaming
+        your device.
+        It also obscures the underlying issue which is that livepush has bugs
+        that still need to be resolved.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.69.17
+  date: 2021-03-14T01:54:07.595Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 8793aebb8965621479124c5ae228f6c2ad2c23ec
       body: ''
