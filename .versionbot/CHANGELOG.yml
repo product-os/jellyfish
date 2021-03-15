@@ -1,4 +1,37 @@
 - commits:
+    - subject: Remove references to view-all-users
+      hash: 0e8fc1118118056782dfa1bc20cc7024eaa04a41
+      body: |
+        This view is no longer used.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove obsolete test
+      hash: ef493d3504d15c3d8fcd2dee16d612967786ac99
+      body: |
+        The view this test checks for has been removed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major'
+      hash: a70027237d10637e11dc957fa57f40e299b6ae10
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.22
+  date: 2021-03-15T06:00:38.987Z
+- commits:
     - subject: ViewFooter drop-down button should 'drop' up
       hash: 5842c8589d23cca4232aff96a0728bf88fa18e7c
       body: ''
