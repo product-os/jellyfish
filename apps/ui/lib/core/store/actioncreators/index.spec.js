@@ -8,6 +8,12 @@ import ava from 'ava'
 import sinon from 'sinon'
 import _ from 'lodash'
 import Bluebird from 'bluebird'
+import {
+	v4 as uuid
+} from 'uuid'
+import {
+	v4 as isUUID
+} from 'is-uuid'
 import actions from '../actions'
 import {
 	actionCreators
@@ -15,12 +21,13 @@ import {
 
 const sandbox = sinon.createSandbox()
 
-const cardId = '1'
+const cardId = uuid()
+const cardSlug = 'user-a'
 
 const card = {
 	id: cardId,
 	name: 'Test User',
-	slug: 'user-a',
+	slug: cardSlug,
 	type: 'user',
 	version: '1.0.0',
 	data: {
@@ -45,6 +52,122 @@ const getStateFactory = (userCard) => () => ({
 		}
 	}
 })
+
+const testGetCardWithCache = async (test, idOrSlug) => {
+	const {
+		getCardAction,
+		sdk,
+		dispatch,
+		thunkContext
+	} = test.context
+
+	const fetchedCard = await getCardAction(idOrSlug)(dispatch, getStateFactory(card), thunkContext)
+
+	// Verify expected card was returned
+	test.deepEqual(fetchedCard, card)
+
+	// But the SDK query was not called
+	test.true(sdk.query.notCalled)
+}
+
+const testGetCardWithMissingLink = async (test, idOrSlug) => {
+	const {
+		getCardAction,
+		sdk,
+		dispatch,
+		thunkContext
+	} = test.context
+	sdk.query = sandbox.fake.resolves([ card ])
+
+	// The cached card does not have any links included
+	const cachedCard = _.omit(card, 'links')
+
+	const fetchedCard = await getCardAction(idOrSlug)(dispatch, getStateFactory(cachedCard), thunkContext)
+
+	// Verify expected card was returned
+	test.deepEqual(fetchedCard, card)
+
+	// And the SDK query was called
+	test.true(sdk.query.calledOnce)
+}
+
+const testGetCardUsingAPI = async (test, idOrSlug) => {
+	const {
+		getCardAction,
+		sdk,
+		dispatch,
+		thunkContext
+	} = test.context
+	sdk.query = sandbox.fake.resolves([ card ])
+
+	const fetchedCard = await getCardAction(idOrSlug)(dispatch, getStateFactory(), thunkContext)
+
+	// Verify expected card was returned
+	test.deepEqual(fetchedCard, card)
+
+	// And that the SDK query method was called as expected
+	test.true(sdk.query.calledOnce)
+	const query = sdk.query.getCall(0).args[0]
+
+	test.deepEqual(query, {
+		type: 'object',
+		properties: {
+			[isUUID(idOrSlug) ? 'id' : 'slug']: {
+				const: idOrSlug
+			}
+		},
+		additionalProperties: true,
+		$$links: {
+			'is member of': {
+				type: 'object',
+				additionalProperties: true
+			}
+		}
+	})
+
+	// Finally check that the correct action was dispatched
+	test.true(dispatch.calledOnce)
+	test.deepEqual(dispatch.getCall(0).args[0], {
+		type: actions.SET_CARD,
+		value: card
+	})
+}
+
+const testGetCardDebounce = async (test, idOrSlug) => {
+	const {
+		getCardAction,
+		sdk,
+		dispatch,
+		thunkContext
+	} = test.context
+	const getState = getStateFactory()
+	let q1Resolver = null
+	const q1Promise = new Promise((resolve) => {
+		q1Resolver = resolve
+	})
+
+	sdk.query = sandbox.stub()
+	sdk.query.onCall(0).returns(q1Promise)
+	sdk.query.onCall(1).returns(new Promise(_.noop))
+
+	// Kick off two requests for the same card
+	const cardPromise1 = getCardAction(idOrSlug)(dispatch, getState, thunkContext)
+	const cardPromise2 = getCardAction(idOrSlug)(dispatch, getState, thunkContext)
+
+	// The first request is handled
+	q1Resolver([ card ])
+
+	// Wait for both actions to return
+	const cards = await Bluebird.all([ cardPromise1, cardPromise2 ])
+
+	// Verify expected card was returned each time
+	test.deepEqual(cards[0], card)
+	test.deepEqual(cards[1], card)
+
+	// And that the SDK query method was only called once
+	// Both calls ended up awaiting the same response
+	test.true(sdk.query.calledOnce)
+}
 
 ava.beforeEach((test) => {
 	test.context.dispatch = sandbox.fake()
@@ -72,7 +195,7 @@ ava.beforeEach((test) => {
 		sdk: test.context.sdk
 	}
 
-	test.context.getCardAction = actionCreators.getCard(cardId, 'user', [ 'is member of' ])
+	test.context.getCardAction = (idOrSlug) => actionCreators.getCard(idOrSlug, 'user', [ 'is member of' ])
 	test.context.getActorAction = actionCreators.getActor(cardId)
 })
 
@@ -81,118 +204,35 @@ ava.afterEach(() => {
 })
 
 ava('getCard returns the cached card if found', async (test) => {
-	const {
-		getCardAction,
-		sdk,
-		dispatch,
-		thunkContext
-	} = test.context
+	await testGetCardWithCache(test, cardId)
+})
 
-	const fetchedCard = await getCardAction(dispatch, getStateFactory(card), thunkContext)
-
-	// Verify expected card was returned
-	test.deepEqual(fetchedCard, card)
-
-	// But the SDK query was not called
-	test.true(sdk.query.notCalled)
+ava('getCard returns the cached card if found - using slug', async (test) => {
+	await testGetCardWithCache(test, cardSlug)
 })
 
 ava('getCard does not use cache if a requested link is missing', async (test) => {
-	const {
-		getCardAction,
-		sdk,
-		dispatch,
-		thunkContext
-	} = test.context
-	sdk.query = sandbox.fake.resolves([ card ])
+	await testGetCardWithMissingLink(test, cardId)
+})
 
-	// The cached card does not have any links included
-	const cachedCard = _.omit(card, 'links')
-
-	const fetchedCard = await getCardAction(dispatch, getStateFactory(cachedCard), thunkContext)
-
-	// Verify expected card was returned
-	test.deepEqual(fetchedCard, card)
-
-	// And the SDK query was called
-	test.true(sdk.query.calledOnce)
+ava('getCard does not use cache if a requested link is missing - using slug', async (test) => {
+	await testGetCardWithMissingLink(test, cardId)
 })
 
 ava('getCard uses the API to fetch the card if not already cached', async (test) => {
-	const {
-		getCardAction,
-		sdk,
-		dispatch,
-		thunkContext
-	} = test.context
-	sdk.query = sandbox.fake.resolves([ card ])
-
-	const fetchedCard = await getCardAction(dispatch, getStateFactory(), thunkContext)
-
-	// Verify expected card was returned
-	test.deepEqual(fetchedCard, card)
-
-	// And that the SDK query method was called as expected
-	test.true(sdk.query.calledOnce)
-	const query = sdk.query.getCall(0).args[0]
-	test.deepEqual(query, {
-		type: 'object',
-		properties: {
-			id: {
-				const: cardId
-			}
-		},
-		additionalProperties: true,
-		$$links: {
-			'is member of': {
-				type: 'object',
-				additionalProperties: true
-			}
-		}
-	})
-
-	// Finally check that the correct action was dispatched
-	test.true(dispatch.calledOnce)
-	test.deepEqual(dispatch.getCall(0).args[0], {
-		type: actions.SET_CARD,
-		value: card
-	})
+	await testGetCardUsingAPI(test, cardId)
 })
 
-ava('getCard debounces calls to fetch the same card ID', async (test) => {
-	const {
-		getCardAction,
-		sdk,
-		dispatch,
-		thunkContext
-	} = test.context
-	const getState = getStateFactory()
-	let q1Resolver = null
-	const q1Promise = new Promise((resolve) => {
-		q1Resolver = resolve
-	})
+ava('getCard uses the API to fetch the card if not already cached - using slug', async (test) => {
+	await testGetCardUsingAPI(test, cardSlug)
+})
 
-	sdk.query = sandbox.stub()
-	sdk.query.onCall(0).returns(q1Promise)
-	sdk.query.onCall(1).returns(new Promise(_.noop))
+ava('getCard debounces calls to fetch the same card', async (test) => {
+	await testGetCardDebounce(test, cardId)
+})
 
-	// Kick off two requests for the same card
-	const cardPromise1 = getCardAction(dispatch, getState, thunkContext)
-	const cardPromise2 = getCardAction(dispatch, getState, thunkContext)
-
-	// The first request is handled
-	q1Resolver([ card ])
-
-	// Wait for both actions to return
-	const cards = await Bluebird.all([ cardPromise1, cardPromise2 ])
-
-	// Verify expected card was returned each time
-	test.deepEqual(cards[0], card)
-	test.deepEqual(cards[1], card)
-
-	// And that the SDK query method was only called once
-	// Both calls ended up awaiting the same response
-	test.true(sdk.query.calledOnce)
+ava('getCard debounces calls to fetch the same card - using slug', async (test) => {
+	await testGetCardDebounce(test, cardSlug)
 })
 
 ava('getActor returns an actor using the cached user card if found', async (test) => {
