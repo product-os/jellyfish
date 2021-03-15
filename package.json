@@ -79,7 +79,6 @@
     "@octokit/rest": "^18.3.5",
     "ava": "^3.15.0",
     "aws-sdk": "^2.863.0",
-    "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.18.0",
     "cli-spinner": "^0.2.10",
