@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove redundant form response lens
+      hash: fc41e301be49d999e87398a3796391b2e639e173
+      body: |
+        The form-response card type has already been removed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.69.23
+  date: 2021-03-15T09:15:18.946Z
+- commits:
     - subject: Remove references to view-all-users
       hash: 0e8fc1118118056782dfa1bc20cc7024eaa04a41
       body: |
