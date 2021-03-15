@@ -24,14 +24,6 @@ const wrappingComponent = getWrapper({
 	core: {}
 }).wrapper
 
-// HACK: Don't use the standard test/ui-setup as it causes problems
-// with CreateView if the XMLHttpRequest global is declared
-// import Adapter from 'enzyme-adapter-react-16'
-
-// configure({
-// 	adapter: new Adapter()
-// })
-
 ava.beforeEach((test) => {
 	test.context.commonProps = {
 		user: {
@@ -94,7 +86,6 @@ ava('The search query searches user slug by regex', async (test) => {
 	test.deepEqual(query, {
 		type: 'object',
 		additionalProperties: true,
-		required: [ 'type' ],
 		$$links: {
 			'is member of': {
 				type: 'object',
