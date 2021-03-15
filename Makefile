@@ -20,8 +20,7 @@
 	push \
 	ssh \
 	npm-ci \
-	exec-apps \
-	livetest
+	exec-apps
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -332,11 +331,20 @@ test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
+ifdef LIVEPUSH
+	echo "balena exec ui_6_1 make test" | balena ssh jel.ly.fish.local
+	echo "balena exec api_1_1 make test-unit" | balena ssh jel.ly.fish.local
+else
 	cd apps/ui && make test
 	cd apps/server && make test-unit
+endif
 
 test-integration:
+ifdef LIVEPUSH
+	echo "balena exec sidecar_12_1 bash -c "FILES="'./test/integration/**/*.spec.js make test'""" | balena ssh jel.ly.fish.local
+else
 	FILES="'./test/integration/**/*.spec.js'" make test
+endif
 
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test
@@ -350,13 +358,25 @@ test-unit-ui:
 	cd apps/ui && make test
 
 test-integration-server:
+ifdef LIVEPUSH
+	echo "balena exec api_1_1 bash -c "SERVER_PORT=8080 METRICS_PORT=9080 SOCKET_METRICS_PORT=9081 make test-integration"" | balena ssh jel.ly.fish.local
+else
 	cd apps/server && make test-integration
+endif
 
 test-integration-%:
+ifdef LIVEPUSH
+	echo "balena exec sidecar_12_1 bash -c "FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test" | balena ssh jel.ly.fish.local
+else
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
+endif
 
 test-e2e-%:
+ifdef LIVEPUSH
+	echo "balena exec sidecar_12_1 bash -c "FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.js'" make test" | balena ssh jel.ly.fish.local
+else
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
+endif
 
 clean-front:
 	FRONT_INBOX_1=$(TEST_INTEGRATION_FRONT_INBOX_1) \
@@ -492,5 +512,3 @@ deploy-%:
 exec-apps:
 	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
 
-livetest:
-	echo "balena exec sidecar_12_1 pwd" | balena ssh jel.ly.fish.local

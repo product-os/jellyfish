@@ -28,6 +28,7 @@ COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/Makefile
 #dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 RUN rm -f ~/.npmrc
+#dev-copy=./apps/ui/test/ /usr/src/jellyfish/apps/ui/test/
 COPY ./apps/ui/lib/ /usr/src/jellyfish/apps/ui/lib/
 
 ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139

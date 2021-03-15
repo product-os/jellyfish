@@ -19,6 +19,7 @@ COPY ./apps/server/Makefile /usr/src/jellyfish/apps/server/Makefile
 #dev-cmd-live=cd /usr/src/jellyfish/apps/server && npx nodemon ./lib/index.js
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/@balena/
 RUN rm -f ~/.npmrc
+#dev-copy=./apps/server/test/ /usr/src/jellyfish/apps/server/test/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 
 # Production debugging scripts

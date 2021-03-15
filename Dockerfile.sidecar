@@ -5,50 +5,16 @@
 FROM resinci/jellyfish-test:v1.3.40
 
 WORKDIR /usr/src/jellyfish
-ENV SIDECAR=1
 ARG NPM_TOKEN
 
-COPY ./scripts ./scripts
-
-# Install npm packages
 COPY package.json package-lock.json /usr/src/jellyfish/
+ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install
-RUN mkdir -p /usr/src/jellyfish/apps/{action-server,livechat,server,ui,oauth-provider-example}
-COPY apps/action-server/package*.json /usr/src/jellyfish/apps/action-server/
-COPY apps/livechat/package*.json /usr/src/jellyfish/apps/livechat/
-COPY apps/oauth-provider-example/package*.json /usr/src/jellyfish/apps/oauth-provider-example/
-COPY apps/server/package*.json /usr/src/jellyfish/apps/server/
-COPY apps/ui/package*.json /usr/src/jellyfish/apps/ui/
-RUN cd /usr/src/jellyfish/apps/action-server && npm ci && \
-    cd /usr/src/jellyfish/apps/livechat && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-    cd /usr/src/jellyfish/apps/oauth-provider-example && npm ci && \
-    cd /usr/src/jellyfish/apps/server && npm ci && \
-    cd /usr/src/jellyfish/apps/ui && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install && rm ~/.npmrc
 
-# Copy source and tests
-COPY apps/action-server/Makefile /usr/rsc/jellyfish/apps/action-server/
-COPY apps/livechat/Makefile /usr/rsc/jellyfish/apps/livechat/
-COPY apps/oauth-provider-example/Makefile /usr/rsc/jellyfish/apps/oauth-provider-example/
-COPY apps/server/Makefile /usr/rsc/jellyfish/apps/server/
-COPY apps/ui/Makefile /usr/rsc/jellyfish/apps/ui/
-
-COPY apps/action-server/packages /usr/src/jellyfish/apps/action-server/
-COPY apps/livechat/packages /usr/src/jellyfish/apps/livechat/
-COPY apps/server/packages /usr/src/jellyfish/apps/server/
-COPY apps/ui/packages /usr/src/jellyfish/apps/ui/
-
-# TODO: Install packages for all apps if SIDECAR=1 (?)
-RUN /usr/src/jellyfish/scripts/install-packages.js
-
-COPY apps/action-server/lib /usr/src/jellyfish/apps/action-server/
-COPY apps/livechat/lib /usr/src/jellyfish/apps/livechat/
-COPY apps/oauth-provider-example/lib /usr/src/jellyfish/apps/oauth-provider-example/
-COPY apps/server/lib /usr/src/jellyfish/apps/server/
-COPY apps/ui/lib /usr/src/jellyfish/apps/ui/
-COPY apps/ui/test /usr/src/jellyfish/apps/ui/
-
-COPY ./test ./test
 COPY ./Makefile ./Makefile
+COPY ./scripts ./scripts
+COPY ./apps ./apps
+COPY ./test ./test
 
 CMD exec /bin/bash -c "trap : TERM INT; sleep infinity & wait"
