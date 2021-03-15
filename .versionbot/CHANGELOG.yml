@@ -1,4 +1,17 @@
 - commits:
+    - subject: Reduce size and build time of test container
+      hash: 17e54641dc6fdb9cfc9947b884c3f73d06058c47
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.69.20
+  date: 2021-03-14T23:01:11.675Z
+- commits:
     - subject: 'patch: Update prom/prometheus Docker tag to v2.25.1'
       hash: 7dac42279758e58d69e8273eddc238e945798965
       body: ''
