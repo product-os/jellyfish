@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 8a789fb828363e1635185359d4d91b4ce62da4ad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.69.24
+  date: 2021-03-15T10:27:15.280Z
+- commits:
     - subject: Remove redundant form response lens
       hash: fc41e301be49d999e87398a3796391b2e639e173
       body: |
