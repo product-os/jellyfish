@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 369bde1f5fd7055a4f9bcbb239a8e63eaa6e43f9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.1
+  date: 2021-03-15T19:45:09.800Z
+- commits:
     - subject: Add JellyfishUser widget for Renderer
       hash: d3f8cbb959fcae7cfd6a4bdecec66168d5392d5c
       body: >
