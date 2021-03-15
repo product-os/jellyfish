@@ -1,4 +1,17 @@
 - commits:
+    - subject: ViewFooter drop-down button should 'drop' up
+      hash: 5842c8589d23cca4232aff96a0728bf88fa18e7c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.69.21
+  date: 2021-03-15T01:49:38.121Z
+- commits:
     - subject: Reduce size and build time of test container
       hash: 17e54641dc6fdb9cfc9947b884c3f73d06058c47
       body: ''
