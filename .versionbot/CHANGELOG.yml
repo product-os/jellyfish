@@ -1,4 +1,32 @@
 - commits:
+    - subject: Add JellyfishUser widget for Renderer
+      hash: d3f8cbb959fcae7cfd6a4bdecec66168d5392d5c
+      body: >
+        This widget takes an id or a slug and renders the username as a link
+        (with a tooltip).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add support for getting card by slug
+      hash: 59cd2d93651a7778989ee2fdf82f75bd7ab23d6a
+      body: >
+        The SD card.get method already supports the argument being either an ID
+        or a slug. So we just abstract this a bit further to the store
+        interface.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.70.0
+  date: 2021-03-15T15:11:36.194Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 8a789fb828363e1635185359d4d91b4ce62da4ad
       body: ''
