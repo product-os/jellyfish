@@ -651,61 +651,6 @@ ava.serial('users with the "user-community" role should not be able to change it
 	test.is(error.name, 'JellyfishSchemaMismatch')
 })
 
-ava.serial('.query() users with the community role' +
-' should NOT be able to see view-all-users for their organisation', async (test) => {
-	const {
-		sdk
-	} = test.context
-	const userDetails = createUserDetails()
-
-	const user = await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-
-	const [ balenaOrg ] = await sdk.query({
-		type: 'object',
-		required: [ 'type', 'slug' ],
-		properties: {
-			type: {
-				type: 'string',
-				const: 'org@1.0.0'
-			},
-			slug: {
-				type: 'string',
-				const: 'org-balena'
-			}
-		}
-	})
-
-	await sdk.card.link(balenaOrg, user, 'has member')
-
-	await sdk.auth.login(userDetails)
-
-	const [ viewAllUsers ] = await test.context.sdk.query({
-		type: 'object',
-		required: [ 'type', 'slug' ],
-		properties: {
-			type: {
-				type: 'string',
-				const: 'view@1.0.0'
-			},
-			slug: {
-				type: 'string',
-				const: 'view-all-users'
-			}
-		}
-	})
-
-	test.is(viewAllUsers, undefined)
-})
-
 ava.serial('users with the "user-community" role cannot send a first-time login link to another user', async (test) => {
 	const {
 		sdk
