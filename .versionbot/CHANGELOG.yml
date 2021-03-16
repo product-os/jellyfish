@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add user's name to create view list items
+      hash: b46b6f79348e810e90060bf7973c704561941d30
+      body: |
+        Also improve the styling a bit.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.70.2
+  date: 2021-03-16T02:38:48.112Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 369bde1f5fd7055a4f9bcbb239a8e63eaa6e43f9
       body: ''
