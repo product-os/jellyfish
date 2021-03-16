@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^2.11.1'
+      hash: ca849fd77eb14a7237ff280c79022c0ab88aedf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.3
+  date: 2021-03-16T03:51:12.132Z
+- commits:
     - subject: Add user's name to create view list items
       hash: b46b6f79348e810e90060bf7973c704561941d30
       body: |
