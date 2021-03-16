@@ -1,4 +1,17 @@
 - commits:
+    - subject: JellyfishUser widget should cope with null user
+      hash: 4fa697c6e7a77040a1c6f8408741c900806c244f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.70.4
+  date: 2021-03-16T10:13:36.155Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^2.11.1'
       hash: ca849fd77eb14a7237ff280c79022c0ab88aedf7
       body: ''
