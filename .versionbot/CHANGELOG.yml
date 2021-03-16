@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^7.2.0'
+      hash: 98b0875b9430792d9cd96f9178e0080de4d1618c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.5
+  date: 2021-03-16T11:24:07.344Z
+- commits:
     - subject: JellyfishUser widget should cope with null user
       hash: 4fa697c6e7a77040a1c6f8408741c900806c244f
       body: ''
