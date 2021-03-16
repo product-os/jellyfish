@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency aws-sdk to ^2.865.0'
+      hash: 513eb5737a7cf96453ad3ac01edcfd1930e80c19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.6
+  date: 2021-03-16T18:46:58.602Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^7.2.0'
       hash: 98b0875b9430792d9cd96f9178e0080de4d1618c
       body: ''
