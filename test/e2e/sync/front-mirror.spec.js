@@ -35,6 +35,8 @@ const retryWhile429 = async (fn, times = 100) => {
 	try {
 		return await fn()
 	} catch (error) {
+		console.log('retryWhile429 error:', JSON.stringify(error))
+		console.log('retryWhile429 times:', times)
 		if (error.name === 'FrontError' && error.status === 429 && times > 0) {
 			const delay = _.parseInt(_.first(error.message.match(/(\d+)/))) || 2000
 			await Bluebird.delay(delay)
