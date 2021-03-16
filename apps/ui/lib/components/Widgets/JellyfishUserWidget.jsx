@@ -38,8 +38,11 @@ export const JellyfishUserWidget = ({
 						hideUsername: true
 					})
 				return (
-					<Link {...props} append={user.slug} tooltip={helpers.getUserTooltipText(user, tooltipOptions)}>
-						{helpers.username(user.slug)}{suffix}
+					<Link
+						{...props}
+						append={_.get(user, [ 'slug' ], value)}
+						tooltip={user && helpers.getUserTooltipText(user, tooltipOptions)}>
+						{user ? helpers.username(user.slug) : value}{suffix}
 					</Link>
 				)
 			}}
