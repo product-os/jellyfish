@@ -4,7 +4,7 @@
  * Proprietary and confidential.
  */
 
-import * as _ from 'lodash'
+import _ from 'lodash'
 import React from 'react'
 import skhema from 'skhema'
 import {
@@ -259,10 +259,7 @@ export default class CreateView extends React.Component {
 							flags: 'i'
 						}
 					}
-				},
-				required: [
-					'slug'
-				]
+				}
 			})
 		}
 
@@ -270,7 +267,6 @@ export default class CreateView extends React.Component {
 			linksQuery,
 			{
 				type: 'object',
-				required: [ 'type' ],
 				properties: {
 					type: {
 						const: 'user@1.0.0'
@@ -321,7 +317,7 @@ export default class CreateView extends React.Component {
 				)}
 			>
 				{Boolean(submitting) && (
-					<Box p={3}>
+					<Box my={2} p={3}>
 						<Icon spin name="cog"/>
 					</Box>
 				)}
@@ -338,6 +334,10 @@ export default class CreateView extends React.Component {
 						{!users && <Icon name="cog" spin />}
 
 						{Boolean(users) && _.map(users, (user) => {
+							const name = _.compact([
+								_.get(user, [ 'data', 'profile', 'name', 'first' ]),
+								_.get(user, [ 'data', 'profile', 'name', 'last' ])
+							]).join(' ').trim()
 							return (
 								<UserRow
 									key={user.id}
@@ -349,10 +349,11 @@ export default class CreateView extends React.Component {
 									<Flex>
 										<UserAvatar emphasized user={user} />
 										<Box ml={2}>
-											<strong>{user.slug.replace('user-', '')}</strong>
-
-											<br />
-											<strong>{user.data.email}</strong>
+											<Txt>
+												<Txt.span bold>{helpers.username(user.slug)}</Txt.span>
+												{ name ? <Txt.span ml={1}>({name})</Txt.span> : null }
+											</Txt>
+											<Txt italic>{user.data.email}</Txt>
 										</Box>
 									</Flex>
 								</UserRow>
