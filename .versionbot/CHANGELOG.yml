@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add missing GitHub env vars to make push
+      hash: 0540f27b7161d94ebf49fb037e49aced228f6944
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 33.70.10
+  date: 2021-03-17T08:52:22.505Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 978b91a164a72dea61016faf7802564acfcaaf27
       body: ''
