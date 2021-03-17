@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.10.4'
+      hash: 2440920b176b62bd1c891d8fd3d15a5dfe38a00c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.7
+  date: 2021-03-16T23:19:34.723Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.865.0'
       hash: 513eb5737a7cf96453ad3ac01edcfd1930e80c19
       body: ''
