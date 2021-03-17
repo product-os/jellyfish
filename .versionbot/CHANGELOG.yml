@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 53361c4fa88cb1b616ca1edababf6b2c6adeb09d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.12
+  date: 2021-03-17T13:14:19.033Z
+- commits:
     - subject: Add e2e test for inbox filtering
       hash: ee653853a054d8dc8f644c9af2f74154e0d345b7
       body: ''
