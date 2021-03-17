@@ -51,6 +51,7 @@ const DebouncedSearch = (props) => {
 
 	return (
 		<Search
+			className="inbox__search"
 			onChange={onChange}
 			value={term}
 		/>
