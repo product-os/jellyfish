@@ -1,4 +1,32 @@
 - commits:
+    - subject: Add e2e test for inbox filtering
+      hash: ee653853a054d8dc8f644c9af2f74154e0d345b7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix Mark as read button behaviour
+      hash: 538ec2e8fe7efec6f3af61f1af6462cef190d6ea
+      body: >
+        Mark as read button should act on the messages that are listed in the
+        (potentially filtered) unread inbox.
+
+
+        Fixes https://github.com/product-os/jellyfish/issues/5982
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.70.11
+  date: 2021-03-17T12:03:46.719Z
+- commits:
     - subject: Add missing GitHub env vars to make push
       hash: 0540f27b7161d94ebf49fb037e49aced228f6944
       body: ''
