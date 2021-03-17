@@ -14,6 +14,10 @@ const helpers = require('./helpers')
 const macros = require('./macros')
 const environment = require('@balena/jellyfish-environment')
 
+const messageSelector = '[data-test="event-card__message"]'
+const searchSelector = '.inbox__search input'
+const markAsReadButtonSelector = '[data-test="inbox__mark-all-as-read"]'
+
 const context = {
 	context: {
 		id: `UI-INTEGRATION-TEST-${uuid()}`
@@ -30,6 +34,17 @@ const userDetails2 = {
 	username: `janedoe-${uuid()}`,
 	email: `janedoe-${uuid()}@example.com`,
 	password: 'password'
+}
+
+const markAllAsRead = async (test, page) => {
+	await macros.waitForThenClickSelector(page, markAsReadButtonSelector)
+
+	await macros.waitForSelectorToDisappear(page, messageSelector)
+
+	const messages = await page.$$(messageSelector)
+
+	// Assert that there are no longer messages in the inbox
+	test.is(messages.length, 0)
 }
 
 ava.serial.before(async () => {
@@ -614,8 +629,6 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 		incognitoPage
 	} = context
 
-	const messageSelector = '[data-test="event-card__message"]'
-
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
 			type: 'thread@1.0.0'
@@ -634,21 +647,80 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	await macros.createChatMessage(page, columnSelector, msg)
 
-	// Navigate to the inbox page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await incognitoPage.waitForSelector(messageSelector)
+	await markAllAsRead(test, incognitoPage)
+})
+
+ava.serial('When filtering unread messages, only filtered messages can be marked as read', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	// Start by marking all messages as read
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await markAllAsRead(test, incognitoPage)
+
+	// Create three new messages
+	const messageDetails = _.range(3).map(() => {
+		return {
+			mentionsUser: [ user2.slug ],
+			slug: `message-${uuid()}`,
+			payload: `@${user2.slug.slice(5)} ${uuid()}`
+		}
+	})
+
+	const messages = await page.evaluate(async (msgs) => {
+		const thread = await window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+		return Promise.all(msgs.map((msg) => {
+			return window.sdk.event.create({
+				target: thread,
+				slug: msg.slug,
+				tags: [],
+				type: 'message',
+				payload: {
+					mentionsUser: msg.mentionsUser,
+					message: msg.payload
+				}
+			})
+		}))
+	}, messageDetails)
+
+	// Navigate to the inbox page and reload
 	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
 
+	// All three messages should appear in the inbox
 	await incognitoPage.waitForSelector(messageSelector)
+	let messageElements = await incognitoPage.$$(messageSelector)
+	test.is(messageElements.length, 3)
+	let markAsReadButtonText = await macros.getElementText(incognitoPage, markAsReadButtonSelector)
+	test.is(markAsReadButtonText, 'Mark 3 as read')
 
-	await macros.waitForThenClickSelector(incognitoPage, '[data-test="inbox__mark-all-as-read"]')
+	// Now search for the 2nd message
+	await macros.setInputValue(incognitoPage, searchSelector, messageDetails[1].payload)
 
-	// Leave a small delay for the message to be marked as read and for the change
-	// to be propogated to the UI
-	await Bluebird.delay(10000)
+	// Verify only the 2nd message is left in the inbox
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[0].id}]`)
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[2].id}]`)
+	messageElements = await incognitoPage.$$(messageSelector)
+	test.is(messageElements.length, 1)
+	markAsReadButtonText = await macros.getElementText(incognitoPage, markAsReadButtonSelector)
+	test.is(markAsReadButtonText, 'Mark 1 as read')
 
-	await macros.waitForSelectorToDisappear(incognitoPage, messageSelector)
+	// Mark just the filtered message as read
+	await macros.waitForThenClickSelector(incognitoPage, markAsReadButtonSelector)
 
-	const messages = await incognitoPage.$$(messageSelector)
+	// The filtered message should disappear from the unread inbox
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[1].id}]`)
 
-	// Assert that there are no longer messages in the inbox
-	test.is(messages.length, 0)
+	// Reload the page
+	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+
+	// And wait for the other two messages to re-appear (still unread)
+	await incognitoPage.waitForSelector(`[id="event-${messages[0].id}"]`)
+	await incognitoPage.waitForSelector(`[id="event-${messages[2].id}"]`)
 })

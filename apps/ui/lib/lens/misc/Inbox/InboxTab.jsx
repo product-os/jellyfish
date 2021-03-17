@@ -51,6 +51,7 @@ const DebouncedSearch = (props) => {
 
 	return (
 		<Search
+			className="inbox__search"
 			onChange={onChange}
 			value={term}
 		/>
@@ -71,7 +72,6 @@ const InboxTab = ({
 
 	const user = useSelector(selectors.getCurrentUser)
 	const groupNames = useSelector(selectors.getMyGroupNames)
-	const inboxData = useSelector(selectors.getInboxViewData)
 	const unreadMentions = canMarkAsRead ? useSelector(selectors.getInboxViewData) : []
 
 	const [ loading, setLoading ] = useState(true)
@@ -185,13 +185,14 @@ const InboxTab = ({
 				<DebouncedSearch
 					onChange={setSearchTerm}
 				/>
-				<MarkAsReadButton
-					inboxData={inboxData}
-					canMarkAsRead={canMarkAsRead}
-					user={user}
-					groupNames={groupNames}
-					sdk={sdk}
-				/>
+				{ canMarkAsRead && (
+					<MarkAsReadButton
+						messages={messages}
+						user={user}
+						groupNames={groupNames}
+						sdk={sdk}
+					/>
+				)}
 
 			</Flex>
 

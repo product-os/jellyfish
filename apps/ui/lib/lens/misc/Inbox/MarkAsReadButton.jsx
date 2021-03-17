@@ -25,24 +25,20 @@ const markMessagesAsRead = (sdk, inboxData, user, groupNames) => {
 }
 
 const MarkAsReadButton = ({
-	canMarkAsRead,
-	inboxData,
+	messages,
 	user,
 	groupNames,
 	sdk
 }) => {
-	if (!canMarkAsRead) {
-		return null
-	}
 	const [ isMarkingAllAsRead, setIsMarkingAllAsRead ] = useState(false)
 
 	const markAllAsRead = useCallback(async () => {
 		setIsMarkingAllAsRead(true)
-		if (inboxData) {
-			await markMessagesAsRead(sdk, inboxData, user, groupNames)
+		if (messages) {
+			await markMessagesAsRead(sdk, messages, user, groupNames)
 		}
 		setIsMarkingAllAsRead(false)
-	}, [ inboxData, sdk, user, groupNames ])
+	}, [ messages, sdk, user, groupNames ])
 
 	return (
 		<Button
@@ -52,7 +48,7 @@ const MarkAsReadButton = ({
 			data-test="inbox__mark-all-as-read"
 			icon={isMarkingAllAsRead ? <Icon name="cog" spin /> : <Icon name="check-circle" />}
 		>
-			{`Mark ${inboxData ? inboxData.length : 'all'} as read`}
+			{`Mark ${messages ? messages.length : 'all'} as read`}
 		</Button>
 	)
 }
