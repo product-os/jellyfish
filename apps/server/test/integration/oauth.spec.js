@@ -31,7 +31,87 @@ const balenaApiTest =
 		? ava.serial
 		: ava.serial.skip
 
-ava.serial.before(helpers.before)
+ava.serial.before(async (test) => {
+	await helpers.before(test)
+
+	const scopes = [
+		'prospects.all',
+		'sequences.all',
+		'sequenceStates.all',
+		'sequenceSteps.all',
+		'sequenceTemplates.all',
+		'mailboxes.all',
+		'webhooks.all'
+	]
+
+	const outreachClientSlug = test.context.generateRandomSlug({
+		prefix: 'oauth-client-outreach'
+	})
+
+	test.context.outreachClient = await test.context.sdk.card.create({
+		slug: outreachClientSlug,
+		type: 'oauth-client',
+		version: '1.0.0',
+		name: 'Outreach oauth client',
+		data: {
+			clientId: environment.integration.outreach.appId,
+			clientSecret: environment.integration.outreach.appSecret,
+			scope: scopes.join('+'),
+			redirectUrl: `${environment.oauth.redirectBaseUrl}/oauth/${outreachClientSlug}`
+		}
+	})
+
+	const outreachProvider = await test.context.sdk.card.create({
+		slug: test.context.generateRandomSlug({
+			prefix: 'oauth-provider-outreach'
+		}),
+		type: 'oauth-provider',
+		version: '1.0.0',
+		name: 'Outreach oauth provider',
+		data: {
+			authorizeUrl: `https://api.outreach.io/oauth/authorize?client_id={{clientId}}&redirect_uri={{redirectUrl}}/oauth/${test.context.outreachClient.slug}&response_type=code&scope={{scope}}`,
+			tokenUrl: 'https://api.outreach.io/oauth/token'
+		}
+	})
+
+	await test.context.sdk.card.link(outreachProvider, test.context.outreachClient, 'has attached')
+
+	const balenaClientSlug = test.context.generateRandomSlug({
+		prefix: 'oauth-client-balena'
+	})
+
+	test.context.balenaClient = await test.context.sdk.card.create({
+		slug: balenaClientSlug,
+		type: 'oauth-client',
+		version: '1.0.0',
+		name: 'Balena oauth client',
+		data: {
+			clientId: environment.integration['balena-api'].appId,
+			clientSecret: environment.integration['balena-api'].appSecret,
+			redirectUrl: `${environment.oauth.redirectBaseUrl}/oauth/${balenaClientSlug}`
+		}
+	})
+
+	const balenaProvider = await test.context.sdk.card.create({
+		slug: test.context.generateRandomSlug({
+			prefix: 'oauth-provider-balena-api'
+		}),
+		type: 'oauth-provider',
+		version: '1.0.0',
+		name: 'Balena oauth provider',
+		data: {
+			authorizeUrl: 'https://dashboard.balena-cloud.com/login/oauth/{{clientId}}',
+			tokenUrl: 'https://api.balena-cloud.com/oauth/token',
+			whoamiUrl: 'https://api.balena-cloud.com/user/v1/whoami',
+			whoamiFieldMap: {
+				username: [ 'username' ]
+			}
+		}
+	})
+
+	await test.context.sdk.card.link(balenaProvider, test.context.balenaClient, 'has attached')
+})
+
 ava.serial.after(helpers.after)
 
 ava.serial.beforeEach(helpers.beforeEach)
@@ -62,7 +142,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 				grant_type: 'authorization_code',
 				client_id: environment.integration.outreach.appId,
 				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.outreachClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -81,7 +161,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 		})
 
 	const result = await test.context.http(
-		'GET', `/oauth/outreach?code=123456&state=${userCard.slug}`)
+		'GET', `/oauth/${test.context.outreachClient.slug}?code=123456&state=${userCard.slug}`)
 
 	test.is(result.code, 200)
 	test.is(typeof result.response.access_token, 'string')
@@ -90,7 +170,7 @@ outreachTest('should be able to associate a user with Outreach', async (test) =>
 	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 
 	test.deepEqual(newUserCard.data.oauth, {
-		outreach: {
+		[test.context.outreachClient.slug]: {
 			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 			token_type: 'bearer',
 			expires_in: 3600,
@@ -127,7 +207,7 @@ outreachTest('should not be able to associate a user with Outreach given the wro
 				grant_type: 'authorization_code',
 				client_id: environment.integration.outreach.appId,
 				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.outreachClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -146,7 +226,7 @@ outreachTest('should not be able to associate a user with Outreach given the wro
 		})
 
 	const result = await test.context.http(
-		'GET', `/oauth/outreach?code=999999999&state=${userCard.slug}`)
+		'GET', `/oauth/${test.context.outreachClient.slug}?code=999999999&state=${userCard.slug}`)
 
 	test.deepEqual(result, {
 		code: 401,
@@ -190,7 +270,7 @@ outreachTest('should not be able to associate a user with Outreach given no stat
 				grant_type: 'authorization_code',
 				client_id: environment.integration.outreach.appId,
 				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.outreachClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -209,7 +289,7 @@ outreachTest('should not be able to associate a user with Outreach given no stat
 		})
 
 	const result = await test.context.http(
-		'GET', '/oauth/outreach?code=123456')
+		'GET', `/oauth/${test.context.outreachClient.slug}?code=123456`)
 
 	test.is(result.code, 401)
 
@@ -243,7 +323,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 				grant_type: 'authorization_code',
 				client_id: environment.integration.outreach.appId,
 				client_secret: environment.integration.outreach.appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.outreachClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -262,7 +342,7 @@ outreachTest('should not be able to associate a user with Outreach given an inva
 		})
 
 	const result = await test.context.http(
-		'GET', '/oauth/outreach?code=123456&state=testtesttesttest')
+		'GET', `/oauth/${test.context.outreachClient.slug}?code=123456&state=testtesttesttest`)
 
 	test.is(result.code, 401)
 
@@ -304,7 +384,7 @@ balenaApiTest('should be able to associate a user with Balena Api', async (test)
 				grant_type: 'authorization_code',
 				client_id: environment.integration['balena-api'].appId,
 				client_secret: environment.integration['balena-api'].appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.balenaClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -323,7 +403,7 @@ balenaApiTest('should be able to associate a user with Balena Api', async (test)
 		})
 
 	const result = await test.context.http(
-		'GET', `/oauth/balena-api?code=123456&state=${userCard.slug}`)
+		'GET', `/oauth/${test.context.balenaClient.slug}?code=123456&state=${userCard.slug}`)
 
 	test.is(result.code, 200)
 	test.is(typeof result.response.access_token, 'string')
@@ -332,7 +412,7 @@ balenaApiTest('should be able to associate a user with Balena Api', async (test)
 	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 
 	test.deepEqual(newUserCard.data.oauth, {
-		'balena-api': {
+		[test.context.balenaClient.slug]: {
 			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 			token_type: 'bearer',
 			expires_in: 3600,
@@ -383,7 +463,7 @@ balenaApiTest('should be able to associate a user with Balena Api with an unreli
 				grant_type: 'authorization_code',
 				client_id: environment.integration['balena-api'].appId,
 				client_secret: environment.integration['balena-api'].appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.balenaClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -402,7 +482,7 @@ balenaApiTest('should be able to associate a user with Balena Api with an unreli
 		})
 
 	const result = await test.context.http(
-		'GET', `/oauth/balena-api?code=123456&state=${userCard.slug}`)
+		'GET', `/oauth/${test.context.balenaClient.slug}?code=123456&state=${userCard.slug}`)
 
 	test.is(result.code, 200)
 	test.is(typeof result.response.access_token, 'string')
@@ -411,7 +491,7 @@ balenaApiTest('should be able to associate a user with Balena Api with an unreli
 	const newUserCard = await test.context.sdk.card.get(userCard.slug)
 
 	test.deepEqual(newUserCard.data.oauth, {
-		'balena-api': {
+		[test.context.balenaClient.slug]: {
 			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 			token_type: 'bearer',
 			expires_in: 3600,
@@ -446,7 +526,7 @@ balenaApiTest('should be able to create a user if no matching user found and the
 				grant_type: 'authorization_code',
 				client_id: environment.integration['balena-api'].appId,
 				client_secret: environment.integration['balena-api'].appSecret,
-				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/${test.context.balenaClient.slug}`,
 				code: '123456'
 			})) {
 				return callback(null, [ 200, {
@@ -465,7 +545,7 @@ balenaApiTest('should be able to create a user if no matching user found and the
 		})
 
 	const result = await test.context.http(
-		'GET', `/oauth/balena-api?code=123456&state=${slug}`)
+		'GET', `/oauth/${test.context.balenaClient.slug}?code=123456&state=${slug}`)
 
 	test.is(result.code, 200)
 	test.is(typeof result.response.access_token, 'string')
@@ -474,7 +554,7 @@ balenaApiTest('should be able to create a user if no matching user found and the
 	const newUserCard = await test.context.sdk.card.get(slug)
 
 	test.deepEqual(newUserCard.data.oauth, {
-		'balena-api': {
+		[test.context.balenaClient.slug]: {
 			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 			token_type: 'bearer',
 			expires_in: 3600,

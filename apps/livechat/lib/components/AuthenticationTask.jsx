@@ -17,24 +17,67 @@ import {
 
 const authenticate = async ({
 	sdk
-}, userSlug, oauthUrl) => {
-	const user = await sdk.auth.whoami()
+}) => {
+	const {
+		username,
+		...params
+	} = Object.fromEntries(new URLSearchParams(location.search).entries())
 
-	if (!user) {
-		throw new Error('whoami is expected to return a user')
+	const missingParams = [
+		'clientSlug',
+		'product',
+		'inbox'
+	].filter((name) => {
+		return !params[name]
+	})
+
+	if (missingParams.length) {
+		throw new Error(`Missing required parameters: ${missingParams.join(', ')}. ${JSON.stringify(params)}`)
 	}
 
-	if (!user.slug) {
-		throw new Error(`Could not get a slug of the user: "${userSlug}", check the user's permissions`)
+	if (!params.userSlug) {
+		if (!username) {
+			throw new Error('Username or user slug is required')
+		}
+
+		const result = await sdk.get(`/oauth/${params.clientSlug}/user_slug?username=${username}`)
+		params.userSlug = result.data.userSlug
 	}
 
-	if (user.slug !== userSlug) {
-		window.location.href = oauthUrl
+	let user = null
+	try {
+		user = await sdk.auth.whoami()
+	} catch (err) {
+		if (err.name !== 'JellyfishInvalidSession') {
+			throw err
+		}
 	}
+
+	if (user) {
+		if (!user.slug) {
+			throw new Error('Could not retrieve user slug')
+		}
+
+		if (user.slug === params.userSlug) {
+			return
+		}
+	}
+
+	const {
+		data: {
+			url
+		}
+	} = await sdk.get(`/oauth/${params.clientSlug}/auth_url`)
+
+	const modifiedUrl = new URL(url)
+	modifiedUrl.searchParams.append('state', JSON.stringify(params))
+
+	console.info('User is not authorized, redirecting to:', modifiedUrl.href)
+	window.location.href = modifiedUrl.href
 }
 
 export const AuthenticationTask = ({
-	userSlug, oauthUrl, children
+	children
 }) => {
 	const {
 		sdk
@@ -44,8 +87,8 @@ export const AuthenticationTask = ({
 	React.useEffect(() => {
 		authenticationTask.exec({
 			sdk
-		}, userSlug, oauthUrl)
-	}, [ sdk, userSlug, oauthUrl ])
+		})
+	}, [ sdk ])
 
 	return (
 		<Task task={authenticationTask}>{children}</Task>

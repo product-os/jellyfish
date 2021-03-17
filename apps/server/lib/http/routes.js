@@ -178,52 +178,136 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		return registry.authenticate(request, response, jellyfish)
 	})
 
-	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
-		const associateUrl = oauth.getAuthorizeUrl(
-			request.params.provider,
-			request.params.slug,
-			{
-				sync: options.sync
-			}
-		)
-		const status = associateUrl ? 200 : 400
-		return response.status(status).json({
-			url: associateUrl
+	/*
+	 * Get user slug from external username
+	 */
+	application.get('/api/v2/oauth/:client_slug/user_slug', async (request, response) => {
+		logger.info(request.context, 'Getting user slug', {
+			client: request.params.client_slug,
+			username: request.query.username
+		})
+
+		if (!request.params.client_slug || !request.query.username) {
+			return response.sendStatus(401)
+		}
+
+		const client = await jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, `${request.params.client_slug}@1.0.0`)
+
+		if (!client) {
+			return response.status(404).send({
+				error: true,
+				data: {
+					message: `Client "${request.params.client_slug}" not found`
+				}
+			})
+		}
+
+		const provider = await oauth.getOauthProviderCardByClient(
+			request.context, worker, jellyfish.sessions.admin, client.slug)
+
+		if (!provider) {
+			return response.status(404).send({
+				error: true,
+				data: {
+					message: `Provider for client "${request.params.client_slug}" not found`
+				}
+			})
+		}
+
+		return response.status(200).send({
+			userSlug: oauth.slugifyUsername(provider, request.query.username)
 		})
 	})
 
-	const oauthAssociate = async (request, response, slug, code) => {
-		logger.info(request.context, `Associating oauth user: ${slug}`, {
-			source: request.params.provider
+	/*
+	 * Get oauth url by rendering `provider.authorizeUrl` with client data
+	 */
+	application.get('/api/v2/oauth/:client_slug/auth_url', async (request, response) => {
+		logger.info(request.context, 'Getting oauth url', {
+			client: request.params.client_slug
 		})
 
-		if (!slug) {
+		if (!request.params.client_slug) {
+			return response.sendStatus(401)
+		}
+
+		const client = await jellyfish.getCardBySlug(
+			request.context, jellyfish.sessions.admin, `${request.params.client_slug}@1.0.0`)
+
+		if (!client) {
+			return response.status(404).send({
+				error: true,
+				data: {
+					message: `Client "${request.params.client_slug}" not found`
+				}
+			})
+		}
+
+		const provider = await oauth.getOauthProviderCardByClient(
+			request.context, worker, jellyfish.sessions.admin, client.slug)
+
+		if (!provider) {
+			return response.status(404).send({
+				error: true,
+				data: {
+					message: `Provider for client "${request.params.client_slug}" not found`
+				}
+			})
+		}
+
+		const authorizeUrl = oauth.getAuthorizeUrl(
+			client,
+			provider
+		)
+
+		return response.status(200).json({
+			url: authorizeUrl
+		})
+	})
+
+	const oauthAssociate = async (request, response, userSlug, code) => {
+		logger.info(request.context, 'Associating oauth user', {
+			client: request.params.client_slug,
+			userSlug
+		})
+
+		if (!code || !userSlug) {
 			return response.sendStatus(401)
 		}
 
 		try {
+			const client = await worker.jellyfish.getCardBySlug(
+				request.context, jellyfish.sessions.admin, `${request.params.client_slug}@1.0.0`)
+
+			if (!client) {
+				throw new Error(`Client "${request.params.client_slug}" not found`)
+			}
+
+			const provider = await oauth.getOauthProviderCardByClient(
+				request.context,
+				worker,
+				jellyfish.sessions.admin,
+				client.slug
+			)
+
+			if (!provider) {
+				throw new Error(`Provider for "${client.slug}" not found.`)
+			}
+
 			// 1. Exchange oauth code for token
 			const credentials = await oauth.authorize(
 				request.context,
-				worker,
-				producer,
-				options.guestSession,
-				request.params.provider, {
-					code,
-					ip: request.ip
-				}
+				provider,
+				client,
+				code
 			)
 
 			// 2. Fetch user data from provider
 			const externalUser = await oauth.whoami(
 				request.context,
-				worker,
-				jellyfish.sessions.admin,
-				request.params.provider,
-				credentials,
-				{
-					sync: options.sync
-				}
+				provider,
+				credentials
 			)
 
 			// 3. Get jellyfish user that matches external user
@@ -231,95 +315,111 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 				request.context,
 				worker,
 				jellyfish.sessions.admin,
-				request.params.provider,
+				provider,
 				externalUser, {
-					slug,
-					sync: options.sync
+					userSlug
 				}
 			)
 
-			// 4. If no matching user was found, create it
-			if (!user) {
-				await oauth.sync(
+			// 4. If matching user was found, update it, otherwise create
+			if (user) {
+				const patch = []
+
+				if (user.data.oauth) {
+					patch.push({
+						op: user.data.oauth[client.slug] ? 'replace' : 'add',
+						path: `/data/oauth/${client.slug}`,
+						value: credentials
+					})
+				} else {
+					patch.push({
+						op: 'add',
+						path: '/data/oauth',
+						value: {
+							[client.slug]: credentials
+						}
+					})
+				}
+
+				await actionFacade.processAction(
 					request.context,
-					worker,
-					producer,
 					jellyfish.sessions.admin,
-					request.params.provider,
-					externalUser,
 					{
-						sync: options.sync
+						card: user.slug,
+						type: user.type,
+						action: 'action-update-card@1.0.0',
+						arguments: {
+							reason: null,
+							patch
+						}
 					}
 				)
-
-				user = await worker.jellyfish.getCardBySlug(
-					request.context, jellyfish.sessions.admin, `${slug}@1.0.0`)
-
-				if (!user) {
-					logger.info(request.context, `Failed to sync external oauth user: ${slug}`, {
-						source: request.params.provider,
-						externalUser
-					})
-
-					return response.status(401).json({
-						error: true,
-						data: `User sync failed for the user: ${slug}`
-					})
+			} else {
+				const data = {
+					hash: 'PASSWORDLESS',
+					roles: [ 'user-external-support' ],
+					oauth: {
+						[client.slug]: credentials
+					}
 				}
+
+				if (externalUser) {
+					if (externalUser.firstname) {
+						_.set(data, [ 'profile', 'name', 'first' ])
+					}
+					if (externalUser.lastname) {
+						_.set(data, [ 'profile', 'name', 'last' ])
+					}
+					if (externalUser.email) {
+						_.set(data, [ 'email', 'email' ])
+					}
+				}
+
+				user = await actionFacade.processAction(
+					request.context,
+					jellyfish.sessions.admin,
+					{
+						card: 'user',
+						type: 'type',
+						action: 'action-create-card@1.0.0',
+						arguments: {
+							reason: 'User created during oauth sync',
+							properties: {
+								version: '1.0.0',
+								slug: userSlug,
+								data
+							}
+						}
+					}
+				)
 			}
 
-			// 5. Attach external token to the user
-			await oauth.associate(
+			const session = await actionFacade.processAction(
 				request.context,
-				worker,
-				producer,
 				jellyfish.sessions.admin,
-				request.params.provider,
-				user,
-				credentials, {
-					ip: request.ip
-				}
-			)
-
-			const sessionTypeCard = await jellyfish.getCardBySlug(
-				request.context, jellyfish.sessions.admin, 'session@1.0.0')
-
-			/*
-			 * This allows us to differentiate two login requests
-			 * coming on the same millisecond, unlikely but possible.
-			 */
-			const suffix = await uuid.random()
-
-			const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
-				action: 'action-create-card@1.0.0',
-				card: sessionTypeCard.id,
-				type: sessionTypeCard.type,
-				context: request.context,
-				arguments: {
-					reason: null,
-					properties: {
-						version: '1.0.0',
-						slug: `session-${user.slug}-${Date.now()}-${suffix}`,
-						data: {
-							actor: user.id
+				{
+					card: 'session',
+					type: 'type',
+					action: 'action-create-card@1.0.0',
+					arguments: {
+						reason: 'Session created during oauth sync',
+						properties: {
+							version: '1.0.0',
+							slug: `session-${user.slug}-${Date.now()}-${await uuid.random()}`,
+							data: {
+								actor: user.id
+							}
 						}
 					}
 				}
-			})
-
-			const createSessionResult = await producer.waitResults(
-				request.context, actionRequest)
-
-			if (createSessionResult.error) {
-				throw errio.fromObject(createSessionResult.data)
-			}
+			)
 
 			return response.status(200).json({
-				access_token: createSessionResult.data.id,
+				access_token: session.id,
 				token_type: 'Bearer'
 			})
 		} catch (error) {
-			if ([ 'OAuthUnsuccessfulResponse', 'SyncNoMatchingUser' ].includes(error.name)) {
+			if ([ 'OAuthUnsuccessfulResponse', 'OauthNoMatchingUser' ].includes(error.name)) {
 				return response.status(401).json({
 					error: true,
 					data: _.pick(error, [ 'name', 'message' ])
@@ -330,12 +430,12 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 		}
 	}
 
-	application.post('/api/v2/oauth/:provider', (request, response) => {
+	application.post('/api/v2/oauth/:client_slug', (request, response) => {
 		return oauthAssociate(
-			request, response, request.body.slug, request.body.code)
+			request, response, request.body.userSlug, request.body.code)
 	})
 
-	application.get('/oauth/:provider', (request, response) => {
+	application.get('/oauth/:client_slug', (request, response) => {
 		return oauthAssociate(
 			request, response, request.query.state, request.query.code)
 	})

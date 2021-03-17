@@ -17,17 +17,28 @@ import {
 
 const exchangeCode = async ({
 	sdk
-}, userSlug, code, oauthProvider) => {
+}) => {
+	const {
+		code,
+		state
+	} = Object.fromEntries(new URLSearchParams(location.search).entries())
+
+	const params = state ? JSON.parse(state) : { }
+
 	if (!code) {
-		throw new Error('Auth code missing')
+		throw new Error('Auth code parameter is missing')
 	}
 
-	if (!oauthProvider) {
-		throw new Error('Auth provider missing')
+	if (!params.clientSlug) {
+		throw new Error('Oauth client slug parameter is missing')
 	}
 
-	const result = await sdk.post(`/oauth/${oauthProvider}`, {
-		slug: userSlug,
+	if (!params.userSlug) {
+		throw new Error('User slug parameter is missing')
+	}
+
+	const result = await sdk.post(`/oauth/${params.clientSlug}`, {
+		userSlug: params.userSlug,
 		code
 	})
 
@@ -39,10 +50,12 @@ const exchangeCode = async ({
 
 	localStorage.setItem('token', token)
 	sdk.setAuthToken(token)
+
+	return params
 }
 
 export const OauthCallbackTask = ({
-	userSlug, location, oauthProvider, children
+	children
 }) => {
 	const {
 		sdk
@@ -50,15 +63,12 @@ export const OauthCallbackTask = ({
 	const exchangeCodeTask = useTask(exchangeCode)
 
 	React.useEffect(() => {
-		const code = new URLSearchParams(location.search).get('code')
 		exchangeCodeTask.exec({
 			sdk
-		}, userSlug, code, oauthProvider)
-	}, [ sdk, location.search, userSlug, oauthProvider ])
+		})
+	}, [ sdk ])
 
 	return (
-		<Task task={exchangeCodeTask} px={2}>
-			{children}
-		</Task>
+		<Task task={exchangeCodeTask} px={2}>{children}</Task>
 	)
 }

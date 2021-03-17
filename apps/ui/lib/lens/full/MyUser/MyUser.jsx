@@ -135,8 +135,14 @@ export default class MyUser extends React.Component {
 			fetchingIntegrationUrl: true
 		})
 		const user = this.props.card
-		const url = await this.props.actions.getIntegrationAuthUrl(user, 'outreach')
-		window.location.href = url
+		const {
+			data: {
+				url: basUrl
+			}
+		} = await this.props.sdk.get('/oauth/oauth-client-outreach/auth_url')
+		const url = new URL(basUrl)
+		url.searchParams.append('state', user.slug)
+		window.location.href = url.href
 	}
 
 	handlePasswordFormChange (data) {
@@ -327,7 +333,7 @@ export default class MyUser extends React.Component {
 									<Txt bold mr={2}>Outreach</Txt>
 								</Link>
 
-								{_.get(user, [ 'data', 'oauth', 'outreach' ]) ? (
+								{_.get(user, [ 'data', 'oauth', 'oauth-client-outreach' ]) ? (
 									<Txt>Authorized</Txt>
 								) : (
 									<Button

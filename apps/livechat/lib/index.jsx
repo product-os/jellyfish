@@ -35,12 +35,7 @@ import {
 } from './components/AuthenticationTask'
 import * as environment from './environment'
 
-const Livechat = ({
-	userSlug,
-	oauthUrl,
-	oauthProvider,
-	...rest
-}) => {
+const Livechat = () => {
 	const analytics = React.useMemo(() => {
 		return new Analytics({
 			token: environment.analytics.mixpanel.token
@@ -48,11 +43,14 @@ const Livechat = ({
 	}, [])
 
 	const sdk = React.useMemo(() => {
-		return getSdk({
+		const sdkInst = getSdk({
 			apiPrefix: environment.api.prefix,
 			apiUrl: environment.api.url,
 			authToken: localStorage.getItem('token')
 		})
+
+		window.sdk = sdkInst
+		return sdkInst
 	}, [])
 
 	const errorReporter = React.useMemo(() => {
@@ -69,6 +67,12 @@ const Livechat = ({
 		)
 	}, [])
 
+	const handleClose = React.useCallback(() => {
+		window.top.postMessage({
+			type: 'close'
+		}, '*')
+	}, [])
+
 	return (
 		<SetupProvider
 			environment={environment}
@@ -82,12 +86,12 @@ const Livechat = ({
 				<ErrorBoundary getErrorElement={getErrorElement}>
 					<Router>
 						<Switch>
-							<Route path="/oauth/callback" exact render={(props) => {
+							<Route path="/oauth/callback" exact render={() => {
 								return (
-									<OauthCallbackTask {...props} userSlug={userSlug} oauthProvider={oauthProvider}>
-										{() => {
+									<OauthCallbackTask>
+										{(params) => {
 											return (
-												<Redirect to="/" />
+												<Redirect to={`/?${new URLSearchParams(params).toString()}`} />
 											)
 										}}
 									</OauthCallbackTask>
@@ -95,10 +99,22 @@ const Livechat = ({
 							}} />
 							<Route path="/" render={() => {
 								return (
-									<AuthenticationTask userSlug={userSlug} oauthUrl={oauthUrl}>
+									<AuthenticationTask>
 										{() => {
+											const {
+												product,
+												productTitle,
+												inbox
+											} = Object.fromEntries(new URLSearchParams(location.search).entries())
+
 											return (
-												<App {...rest} sdk={sdk} />
+												<App
+													sdk={sdk}
+													product={product}
+													productTitle={productTitle}
+													inbox={inbox}
+													onClose={handleClose}
+												/>
 											)
 										}}
 									</AuthenticationTask>
@@ -112,58 +128,11 @@ const Livechat = ({
 	)
 }
 
-const init = (options = {}) => {
-	return new Promise((resolve) => {
-		ReactDOM.render((
-			<Livechat {...options} />
-		), document.getElementById('app'), resolve)
-	})
-}
+/*
+ * Init livechat.
+ */
+console.log('Initializing livechat:', location.href)
 
-window.init = init
-
-const actions = {
-	async init (event) {
-		const onClose = () => {
-			event.source.postMessage({
-				type: 'close'
-			}, event.origin)
-		}
-
-		return init({
-			...event.data.payload,
-			onClose
-		})
-	}
-}
-
-const respond = (event, response) => {
-	event.source.postMessage({
-		type: 'response',
-		payload: {
-			request: event.data,
-			...response
-		}
-	}, event.origin)
-}
-
-window.addEventListener('message', async (event) => {
-	const action = event.data && event.data.type && actions[event.data.type]
-
-	if (!action) {
-		return null
-	}
-
-	let result = null
-	try {
-		result = await action(event)
-	} catch (error) {
-		return respond(event, {
-			error
-		})
-	}
-
-	return respond(event, {
-		data: result
-	})
-})
+ReactDOM.render((
+	<Livechat />
+), document.getElementById('app'))

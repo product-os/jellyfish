@@ -10,7 +10,6 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment')
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
 } = require('@balena/jellyfish-chat-widget/lib/constants')
@@ -27,6 +26,8 @@ const {
 	initChat,
 	insertAgentReply,
 	prepareUser,
+	prepareOauthExample,
+	prepareSupportUser,
 	scrollToLatestConversationListItem
 } = require('./macros')
 
@@ -37,16 +38,29 @@ const context = {
 }
 
 ava.serial.before(async () => {
+	await helpers.browser.before({
+		context
+	})
+
+	const supportUserOrg = await context.sdk.card.get('org-balena@1.0.0')
+	context.supportAgent = await prepareUser(
+		context, supportUserOrg, 'user-community', 'Support Agent')
+
+	const extrnalOrg = await createOrg(context)
+	context.supportAgentFromOtherOrg = await prepareUser(
+		context, extrnalOrg, 'user-community', 'Support agent from other org')
+
+	context.anotherSupportUser = await prepareUser(
+		context, null, 'user-external-support', 'Another support user')
+
+	context.oauth = await prepareOauthExample(context)
+})
+
+ava.serial.beforeEach(async () => {
 	await helpers.browser.beforeEach({
 		context
 	})
 
-	const org = await createOrg(context)
-	context.supportAgent = await prepareUser(context, org, 'user-community', 'Support Agent')
-	context.supportUser = await prepareUser(context, org, 'user-external-support', 'Support User')
-})
-
-ava.serial.beforeEach(async () => {
 	const threads = await context.sdk.query({
 		properties: {
 			type: {
@@ -69,7 +83,8 @@ ava.serial.after.always(async () => {
 	await helpers.after({
 		context
 	})
-	await helpers.browser.afterEach({
+
+	await helpers.browser.after({
 		context
 	})
 })
@@ -78,6 +93,10 @@ ava.serial.afterEach.always(async (test) => {
 	await helpers.afterEach({
 		context, test
 	})
+
+	await helpers.browser.afterEach({
+		context
+	})
 })
 
 ava.serial('Initial create conversation page', async (test) => {
@@ -85,7 +104,6 @@ ava.serial('Initial create conversation page', async (test) => {
 		page
 	} = context
 
-	await page.goto(`${environment.livechat.host}:${environment.livechat.port}`)
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -93,6 +111,7 @@ ava.serial('Initial create conversation page', async (test) => {
 		'should be displayed when there are no conversations'
 	)
 
+	context.supportUser = await prepareSupportUser(context)
 	await createConversation(context)
 
 	await test.notThrowsAsync(
@@ -115,7 +134,6 @@ ava.serial('Initial short conversation list page', async (test) => {
 
 	const threads = await createThreads(context, 0, 2)
 
-	await page.reload()
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -196,7 +214,6 @@ ava.serial('Full conversation list page', async (test) => {
 
 	const threads = await createThreads(context, 0, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1)
 
-	await page.reload()
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -274,7 +291,6 @@ ava.serial('Create conversation page', async (test) => {
 
 	await createThreads(context, 0, 1)
 
-	await page.reload()
 	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
@@ -304,8 +320,6 @@ ava.serial('Chat page', async (test) => {
 	} = context
 
 	const thread = (await createThreads(context, 0, 1))[0]
-
-	await page.reload()
 	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
@@ -335,6 +349,23 @@ ava.serial('Chat page', async (test) => {
 			1
 		),
 		'should display support agent\'s username'
+	)
+
+	test.truthy(
+		await context.supportAgent.sdk.card.get(thread.slug),
+		'support agent from balena org should be able to get the thread'
+	)
+
+	test.is(
+		await context.supportAgentFromOtherOrg.sdk.card.get(thread.slug),
+		null,
+		'support agent from other org should not be able to get the thread'
+	)
+
+	test.is(
+		await context.anotherSupportUser.sdk.card.get(thread.slug),
+		null,
+		'another support user should not be able to get the thread'
 	)
 
 	test.pass()

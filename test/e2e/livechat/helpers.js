@@ -26,9 +26,8 @@ exports.after = async ({
 }
 
 exports.browser = {
-	beforeEach: async (test) => {
+	before: async (test) => {
 		await helpers.before(test)
-		await helpers.beforeEach(test)
 
 		test.context.browser = await puppeteer.launch(uiHelpers.puppeteerOptions)
 		test.context.page = await test.context.browser.newPage()
@@ -40,9 +39,16 @@ exports.browser = {
 		uiHelpers.addPageHandlers(test.context.page, uiHelpers.puppeteerOptions.headless)
 	},
 
+	beforeEach: async (test) => {
+		await helpers.beforeEach(test)
+	},
+
 	afterEach: async (test) => {
-		await test.context.browser.close()
 		await helpers.afterEach(test)
+	},
+
+	after: async (test) => {
+		await test.context.browser.close()
 		await helpers.after(test)
 	}
 }

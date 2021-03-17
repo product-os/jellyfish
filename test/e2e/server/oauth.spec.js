@@ -13,14 +13,9 @@ ava.serial.after.always(helpers.after)
 ava.serial.beforeEach(helpers.beforeEach)
 ava.serial.afterEach.always(helpers.afterEach)
 
-ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration', async (test) => {
+ava.serial('/api/v2/oauth should return 404 given an unknown oauth integration', async (test) => {
 	const result = await test.context.http(
-		'GET', '/api/v2/oauth/helloworld/user-test')
-	test.deepEqual(result, {
-		code: 400,
-		headers: result.headers,
-		response: {
-			url: null
-		}
-	})
+		'GET', '/api/v2/oauth/helloworld/auth_url')
+
+	test.is(result.code, 404)
 })

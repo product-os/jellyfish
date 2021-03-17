@@ -32,6 +32,8 @@ const workerOptions = {
 
 module.exports = {
 	before: async (test) => {
+		test.context.generateRandomSlug = utils.generateRandomSlug
+
 		test.context.context = {
 			id: `SERVER-TEST-${uuid()}`
 		}
@@ -100,8 +102,6 @@ module.exports = {
 		await test.context.server.close()
 	},
 	beforeEach: (test) => {
-		test.context.generateRandomSlug = utils.generateRandomSlug
-
 		test.context.http = (method, uri, payload, headers, options = {}) => {
 			return new Bluebird((resolve, reject) => {
 				const requestOptions = {

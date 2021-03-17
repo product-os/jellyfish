@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const qs = require('querystring')
 const {
 	v4: uuid
 } = require('uuid')
@@ -14,16 +15,17 @@ const environment = require('@balena/jellyfish-environment')
 
 exports.createThreads = async (context, start, count) => {
 	const threads = []
-	const markers = [ `${context.supportUser.card.slug}+${context.supportUser.org.slug}` ]
+	const markers = [ `${context.supportUser.card.slug}+${context.supportAgent.org.slug}` ]
 
 	for (let index = start; index < start + count; index++) {
 		const thread = await context.supportUser.sdk.card.create({
-			type: 'support-thread@1.0.0',
+			type: 'support-thread',
 			name: `Thread subject ${index}`,
 			markers,
 			data: {
-				product: 'jellyfish',
-				status: 'open'
+				product: 'balenaCloud',
+				status: 'open',
+				inbox: 'paid'
 			}
 		})
 
@@ -63,6 +65,66 @@ exports.createOrg = async (context) => {
 		name: `Org ${uniqueId}`,
 		version: '1.0.0'
 	})
+}
+
+exports.prepareSupportUser = async (context) => {
+	const authToken = await context.page.evaluate(async () => {
+		return window.localStorage.getItem('token')
+	})
+
+	const sdk = getSdk({
+		apiPrefix: 'api/v2',
+		apiUrl: `${environment.http.host}:${environment.http.port}`,
+		authToken
+	})
+
+	const session = await context.sdk.card.get(authToken)
+	const user = await context.sdk.card.get(session.data.actor)
+
+	return {
+		sdk,
+		card: user
+	}
+}
+
+exports.prepareOauthExample = async (context) => {
+	const providerUniqueId = uuid()
+	const provider = await context.sdk.card.create({
+		type: 'oauth-provider',
+		slug: `oauth-provider-example-${providerUniqueId}`,
+		name: `Oauth provider example ${providerUniqueId}`,
+		version: '1.0.0',
+		data: {
+			authorizeUrl: 'http://oauth-provider-example/oauth/authorize?client_id={{clientId}}',
+			tokenUrl: 'http://oauth-provider-example/oauth/token',
+			whoamiUrl: 'http://oauth-provider-example/whoami',
+			whoamiFieldMap: {
+				username: [ 'username' ],
+				firstname: [ 'firstname' ],
+				lastname: [ 'lastname' ]
+			}
+		}
+	})
+
+	const clientUniqueId = uuid()
+	const client = await context.sdk.card.create({
+		type: 'oauth-client',
+		slug: `oauth-client-example-${clientUniqueId}`,
+		name: `Oauth client example ${clientUniqueId}`,
+		version: '1.0.0',
+		data: {
+			clientId: 'jellyfish',
+			clientSecret: 'jellyfish client secret'
+		}
+	})
+
+	console.info('Oauth client created:', client.slug)
+	await context.sdk.card.link(provider, client, 'has attached')
+
+	return {
+		provider,
+		client
+	}
 }
 
 exports.prepareUser = async (context, org, role, name) => {
@@ -107,7 +169,9 @@ exports.prepareUser = async (context, org, role, name) => {
 		]
 	)
 
-	await context.sdk.card.link(card, org, 'is member of')
+	if (org) {
+		await context.sdk.card.link(card, org, 'is member of')
+	}
 
 	const sdk = getSdk({
 		apiPrefix: 'api/v2',
@@ -124,15 +188,17 @@ exports.prepareUser = async (context, org, role, name) => {
 }
 
 exports.initChat = async (context) => {
-	await context.page.evaluate(async (supportUserToken, supportUserSlug) => {
-		window.localStorage.setItem('token', supportUserToken)
+	const queryString = qs.stringify({
+		clientSlug: context.oauth.client.slug,
+		username: 'test-user',
+		product: 'balenaCloud',
+		productTitle: 'Livechat test',
+		inbox: 'paid'
+	})
 
-		await window.init({
-			product: 'jellyfish',
-			productTitle: 'Jelly',
-			userSlug: supportUserSlug
-		})
-	}, context.supportUser.sdk.getAuthToken(), context.supportUser.card.slug)
+	await context.page.goto(
+		`${environment.livechat.host}:${environment.livechat.port}?${queryString}`
+	)
 }
 
 exports.insertAgentReply = async (context, thread, message) => {

@@ -152,16 +152,57 @@ ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
 })
 
 outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
-	const result = await test.context.http(
-		'GET', '/api/v2/oauth/outreach/user-test')
+	const outreachClientSlug = test.context.generateRandomSlug({
+		prefix: 'oauth-client-outreach'
+	})
 
-	const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
+	const outreachAccessScopes = [
+		'prospects.all',
+		'sequences.all',
+		'sequenceStates.all',
+		'sequenceSteps.all',
+		'sequenceTemplates.all',
+		'mailboxes.all',
+		'webhooks.all'
+	]
+	const redirectUrl = `${environment.oauth.redirectBaseUrl}/oauth/${outreachClientSlug}`
+
+	const outreachClient = await test.context.sdk.card.create({
+		slug: outreachClientSlug,
+		type: 'oauth-client',
+		version: '1.0.0',
+		name: 'Outreach oauth client',
+		data: {
+			clientId: environment.integration.outreach.appId,
+			clientSecret: environment.integration.outreach.appSecret,
+			scope: outreachAccessScopes.join('+'),
+			redirectUrl
+		}
+	})
+
+	const outreachProvider = await test.context.sdk.card.create({
+		slug: test.context.generateRandomSlug({
+			prefix: 'oauth-provider-outreach'
+		}),
+		type: 'oauth-provider',
+		version: '1.0.0',
+		name: 'Outreach oauth provider',
+		data: {
+			authorizeUrl: 'https://api.outreach.io/oauth/authorize?response_type=code&client_id={{clientId}}&redirect_uri={{{redirectUrl}}}&scope={{scope}}',
+			tokenUrl: 'https://api.outreach.io/oauth/token'
+		}
+	})
+
+	await test.context.sdk.card.link(outreachProvider, outreachClient, 'has attached')
+
+	const result = await test.context.http(
+		'GET', `/api/v2/oauth/${outreachClient.slug}/auth_url`)
+
 	const qs = [
 		'response_type=code',
 		`client_id=${environment.integration.outreach.appId}`,
-		`redirect_uri=${encodeURIComponent(redirectUri)}`,
-		'scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all',
-		'state=user-test'
+		`redirect_uri=${encodeURIComponent(redirectUrl)}`,
+		`scope=${outreachAccessScopes.join('+')}`
 	].join('&')
 	test.deepEqual(result, {
 		code: 200,

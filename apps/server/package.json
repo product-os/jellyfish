@@ -49,6 +49,7 @@
     "lodash": "^4.17.21",
     "mkdirp-promise": "^5.0.1",
     "multer": "^1.4.2",
+    "mustache": "^4.1.0",
     "pluralize": "^8.0.0",
     "response-time": "^2.3.2",
     "skhema": "^5.3.3",
@@ -56,6 +57,7 @@
     "socket.io": "^2.4.1",
     "socket.io-prometheus-metrics": "^1.0.6",
     "socket.io-redis": "^5.4.0",
+    "typed-errors": "^1.1.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

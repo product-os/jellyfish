@@ -20,11 +20,16 @@ import {
 	userType
 } from './fixtures'
 
-const sdk = {
-	authToken: 'xxx-xxx-xxx-xxx'
-}
-
 const sandbox = sinon.createSandbox()
+
+const sdk = {
+	authToken: 'xxx-xxx-xxx-xxx',
+	get: sandbox.stub().resolves({
+		data: {
+			url: 'http://localhost:9000'
+		}
+	})
+}
 
 const wrappingComponent = getWrapper({
 	core: {}
@@ -161,6 +166,6 @@ ava('Oauth connections can be made', async (test) => {
 	selectTab(component, 'oauth')
 
 	component.find('button[data-test="integration-connection--outreach"]').simulate('click')
-	test.true(commonProps.actions.getIntegrationAuthUrl.calledOnce)
-	test.is(commonProps.actions.getIntegrationAuthUrl.getCall(0).args[1], 'outreach')
+	test.true(commonProps.sdk.get.calledOnce)
+	test.is(commonProps.sdk.get.getCall(0).args[0], '/oauth/oauth-client-outreach/auth_url')
 })
