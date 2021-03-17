@@ -1,2 +1,2 @@
-FROM prom/prometheus:v2.25.1
+FROM prom/prometheus:v2.25.2
 COPY prometheus.yaml /etc/prometheus/
