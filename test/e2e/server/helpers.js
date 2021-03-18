@@ -30,6 +30,18 @@ const waitForServer = async (test, retries = 50) => {
 
 module.exports = {
 	before: async (test) => {
+		test.context.retry = async (fn, checkResult, times = 5, delay = 500) => {
+			const result = await fn()
+			if (!checkResult(result)) {
+				if (times > 0) {
+					await Bluebird.delay(delay)
+					return test.context.retry(fn, checkResult, times - 1)
+				}
+				test.fail(`Function failed after ${times} attempts`)
+			}
+			return result
+		}
+
 		test.context.generateRandomSlug = (options) => {
 			const suffix = uuid()
 			if (options.prefix) {
