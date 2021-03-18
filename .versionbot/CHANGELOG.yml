@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency rendition to ^20.10.5'
+      hash: ab9a89a986e6bc4a91e0523db6889f7c3c97cbca
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.16
+  date: 2021-03-18T03:57:19.326Z
+- commits:
     - subject: 'patch: Update non-major Docker tags'
       hash: 84d882cde0f9fde7ec8a18f3dd279fed47f60304
       body: ''
