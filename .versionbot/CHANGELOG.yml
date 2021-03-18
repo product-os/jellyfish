@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: c5c7533e2b3b5d272dd3515c19815457c59dfaad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.17
+  date: 2021-03-18T06:09:37.237Z
+- commits:
     - subject: 'patch: Update dependency rendition to ^20.10.5'
       hash: ab9a89a986e6bc4a91e0523db6889f7c3c97cbca
       body: ''
