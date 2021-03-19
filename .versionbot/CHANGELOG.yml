@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.4.5'
+      hash: 959acc1194ec8603082c27d740ee4d4fca019e69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.22
+  date: 2021-03-19T02:14:38.916Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.867.0'
       hash: 5de4f95c1ca8765b89dccbf24566015778afddc5
       body: ''
