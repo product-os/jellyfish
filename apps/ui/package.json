@@ -87,7 +87,7 @@
     "react-redux": "^7.2.2",
     "react-resize-observer": "^1.1.1",
     "react-router-dom": "^5.2.0",
-    "react-select": "^4.2.1",
+    "react-select": "^4.3.0",
     "react-swipeable": "^6.1.0",
     "react-trello": "^2.2.10",
     "react-virtualized": "^9.22.3",
