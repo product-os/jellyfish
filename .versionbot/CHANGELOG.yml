@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-react to ^7.23.1'
+      hash: 1d26d283f9eb70ddc35a6c0a1b2d78493fb46273
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.35
+  date: 2021-03-24T06:18:34.287Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 30fe8980a2da4cdccc13264ec0e7d65877703490
       body: ''
