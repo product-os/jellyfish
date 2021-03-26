@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.5.0'
+      hash: 925ada98e331ec0fd53b8740266157c7f26899ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.42
+  date: 2021-03-26T11:03:18.538Z
+- commits:
     - subject: Replace husky with simple-git-hooks
       hash: 5b65a00cbfbfb8fc9ea91f8ab117797cf445b919
       body: ''
