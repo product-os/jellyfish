@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace husky with simple-git-hooks
+      hash: 5b65a00cbfbfb8fc9ea91f8ab117797cf445b919
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 33.70.41
+  date: 2021-03-26T09:36:29.344Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.873.0'
       hash: 55a16754d2a0f85f6265f05049552476d87df314
       body: ''
