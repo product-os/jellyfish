@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency mustache to ^4.2.0'
+      hash: 3663522e6c6f6293273ebb598236a04f6dc695c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.46
+  date: 2021-03-28T22:01:58.180Z
+- commits:
     - subject: 'patch: Update dependency webpack-cli to ^4.6.0'
       hash: 214b99f859df795ba4daeac5cb3a506804586f01
       body: ''
