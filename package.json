@@ -97,7 +97,7 @@
     "lint-staged": "^10.5.4",
     "lodash": "^4.17.21",
     "mermaid.cli": "^0.5.1",
-    "mustache": "^4.1.0",
+    "mustache": "^4.2.0",
     "nock": "^13.0.11",
     "node-jose": "^2.0.0",
     "puppeteer": "^8.0.0",
