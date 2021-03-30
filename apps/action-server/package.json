@@ -23,7 +23,7 @@
     "@balena/jellyfish-queue": "^0.0.486",
     "@balena/jellyfish-sync": "^5.2.29",
     "@balena/jellyfish-uuid": "^1.0.78",
-    "@balena/jellyfish-worker": "^3.1.36",
+    "@balena/jellyfish-worker": "^3.1.38",
     "bluebird": "^3.7.2",
     "lodash": "^4.17.21"
   },
