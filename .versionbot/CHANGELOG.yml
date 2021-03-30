@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: Update dependency styled-components to ^5.2.2'
+      hash: d3a3f5c275835d10ac1f5f1723dc9c84b44dfd6c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency rendition to ^20.10.9'
+      hash: c53f31c086d87f6a8db5265bd08bc0ff2605dbb0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.49
+  date: 2021-03-30T16:55:38.043Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: efe2633baa5f907308346ad10571a9a7bd4b6b56
       body: ''
