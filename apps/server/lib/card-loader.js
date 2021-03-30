@@ -57,7 +57,7 @@ module.exports = async (context, jellyfish, worker, session, cards) => {
 			return
 		}
 
-		const typeCard = await jellyfish.getCardBySlug(context, session, ensureTypeHasVersion(card.type))
+		const typeCard = await jellyfish.getCardBySlug(context, session, module.exports.ensureTypeHasVersion(card.type))
 
 		logger.info(context, 'Inserting default card using worker', {
 			slug: card.slug,
@@ -79,11 +79,21 @@ module.exports = async (context, jellyfish, worker, session, cards) => {
 	}
 }
 
-const ensureTypeHasVersion = (type) => {
-	if (_.includes(type, '@')) {
-		return type
+/**
+ * As it's valid to specify a version without type, this guarantees that we
+ * have a fully qualified type.
+ *
+ * @param {String} type - name of type that may or may not contain a version suffix
+ * @returns {String} a version string that contains a version suffix
+ */
+module.exports.ensureTypeHasVersion = (type) => {
+	if (!_.includes(type, '@')) {
+		// Types should not default to latest to ensure old "insert" code doesn't break
+		return `${type}@1.0.0`
 	}
-
-	// Types should not default to latest to ensure old "insert" code doesn't break
-	return `${type}@1.0.0`
+	const versionPattern = /@(?<major>\d+)(\.(?<minor>\d+))?(\.(?<patch>\d+))?$/
+	if (!versionPattern.test(type)) {
+		throw Error(`card-loader encountered invalid type spec: ${type}`)
+	}
+	return type
 }
