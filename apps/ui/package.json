@@ -97,7 +97,7 @@
     "rendition": "^20.10.9",
     "skhema": "^5.3.3",
     "style-loader": "^2.0.0",
-    "styled-components": "^5.2.1",
+    "styled-components": "^5.2.2",
     "uuid": "^8.3.2",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.0"
