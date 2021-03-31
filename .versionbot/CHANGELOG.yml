@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-metrics to v1'
+      hash: eb31f53de68024644c78074062c8128e129ad994
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.52
+  date: 2021-03-31T03:13:12.012Z
+- commits:
     - subject: 'patch: Update grafana/grafana Docker tag to v7.5.2'
       hash: 6850cac9cc05900445b0495b047574562df37652
       body: ''
