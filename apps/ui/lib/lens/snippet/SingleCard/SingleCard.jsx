@@ -56,7 +56,10 @@ export default class SingleCard extends React.Component {
 		})
 		const threadTargets = _.map(channels, 'data.target')
 
-		const active = _.includes(threadTargets, card.slug) || _.includes(threadTargets, card.id)
+		const active =
+			_.includes(threadTargets, `${card.slug}@${card.version}`) ||
+			_.includes(threadTargets, card.slug) ||
+			_.includes(threadTargets, card.id)
 
 		// Count the number of non-event links the card has
 		const numLinks = _.reduce(card.links, (carry, value, key) => {
