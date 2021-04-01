@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 6ea04f5bf6b6774ebb4a7a64eea4e3af660ff38e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.58
+  date: 2021-04-01T06:31:25.648Z
+- commits:
     - subject: 'patch: Update dependency sinon to v10'
       hash: 77fd6f65a9104be0c11f8b3e6fd7d721074ef956
       body: ''
