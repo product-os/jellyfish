@@ -207,7 +207,7 @@ class Segment extends React.Component {
 					)}
 				</Box>
 
-				{segment.link && (
+				{segment.link && type && (
 					<Flex px={3} pb={3} flexWrap="wrap">
 
 						{!onSave &&

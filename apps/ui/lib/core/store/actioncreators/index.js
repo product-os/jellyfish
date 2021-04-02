@@ -431,7 +431,15 @@ export const actionCreators = {
 	getLinks ({
 		sdk
 	}, card, verb, targetType) {
-		const baseTargetType = targetType && helpers.getTypeBase(targetType)
+		let baseTargetType = targetType && helpers.getTypeBase(targetType)
+		let linkedType = targetType
+
+		// Link constraints allow '*' to indicate any type
+		if (targetType === 'undefined@1.0.0') {
+			// eslint-disable-next-line no-undefined
+			linkedType = undefined
+			baseTargetType = '*'
+		}
 		if (!_.some(sdk.LINKS, {
 			name: verb,
 			data: {
@@ -449,7 +457,7 @@ export const actionCreators = {
 						required: [ 'type' ],
 						properties: {
 							type: {
-								const: targetType
+								const: linkedType
 							}
 						}
 					}
