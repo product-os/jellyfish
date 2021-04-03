@@ -47,7 +47,7 @@
     "analytics-client": "^0.12.1",
     "babel-loader": "^8.2.2",
     "bluebird": "^3.7.2",
-    "classnames": "^2.3.0",
+    "classnames": "^2.3.1",
     "common-tags": "^1.8.0",
     "connected-react-router": "^6.9.1",
     "copy-to-clipboard": "^3.3.1",
