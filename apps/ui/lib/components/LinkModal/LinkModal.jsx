@@ -16,8 +16,8 @@ import {
 	Txt
 } from 'rendition'
 import {
-	constraints as LINKS
-} from '@balena/jellyfish-client-sdk/lib/link-constraints'
+	linkConstraints as LINKS
+} from '@balena/jellyfish-client-sdk'
 import {
 	addNotification,
 	Icon
