@@ -1,4 +1,17 @@
 - commits:
+    - subject: fix display of linked contracts for links without a type constraint
+      hash: 87e513f663de4d97667b7aa49455b69665e7104d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 33.70.73
+  date: 2021-04-06T10:22:48.300Z
+- commits:
     - subject: allow JF URLs to contain a @version suffix
       hash: 29121a71b6eb84b894fae14ea51373769ab2e554
       body: ''
