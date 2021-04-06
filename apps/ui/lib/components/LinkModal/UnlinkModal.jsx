@@ -13,9 +13,9 @@ import {
 } from 'rendition'
 import pluralize from 'pluralize'
 import {
-	constraints,
+	linkConstraints,
 	getReverseConstraint
-} from '@balena/jellyfish-client-sdk/lib/link-constraints'
+} from '@balena/jellyfish-client-sdk'
 import {
 	addNotification,
 	Icon,
@@ -41,7 +41,7 @@ export const UnlinkModal = ({
 	const typeName = typeCard ? typeCard.name : cardsTypeBase
 
 	const allLinkTypeTargets = React.useMemo(() => {
-		return constraints.reduce((acc, constraint) => {
+		return linkConstraints.reduce((acc, constraint) => {
 			if (constraint.data.from === cardsTypeBase) {
 				// Move the data.title property to the root of the object, as the rendition Select
 				// component can't use a non-root field for the `labelKey` prop
@@ -65,7 +65,7 @@ export const UnlinkModal = ({
 		setSubmitting(true)
 
 		const unlinkCard = async (card) => {
-			const constraint = _.find(constraints, {
+			const constraint = _.find(linkConstraints, {
 				data: {
 					from: helpers.getTypeBase(card.type),
 					to: helpers.getTypeBase(selectedTarget.type)

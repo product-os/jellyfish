@@ -12,7 +12,7 @@ import {
 } from 'rendition'
 import {
 	supportsLink
-} from '@balena/jellyfish-client-sdk/lib/link-constraints'
+} from '@balena/jellyfish-client-sdk'
 import {
 	ActionLink,
 	addNotification,

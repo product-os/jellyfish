@@ -60,7 +60,7 @@
     "@balena/ci-task-runner": "^0.2.118",
     "@balena/jellyfish-action-library": "^8.1.22",
     "@balena/jellyfish-chat-widget": "^6.0.68",
-    "@balena/jellyfish-client-sdk": "^2.19.1",
+    "@balena/jellyfish-client-sdk": "^3.2.0",
     "@balena/jellyfish-core": "^2.12.40",
     "@balena/jellyfish-environment": "^3.0.1",
     "@balena/jellyfish-plugin-base": "^1.2.41",
