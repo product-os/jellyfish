@@ -37,6 +37,7 @@ import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
+	cardReference,
 	getUnreadQuery
 } from '../../queries'
 import {
@@ -477,6 +478,46 @@ export const actionCreators = {
 		}
 	},
 
+	createChannelQuery (target) {
+		let properties = {}
+		if (isUUID(target)) {
+			properties = {
+				id: {
+					const: target
+				}
+			}
+		} else {
+			const [ slug, version ] = target.split('@')
+			properties = {
+				slug: {
+					const: slug
+				},
+
+				// We MUST specify the version otherwise the query will return all versions
+				// and randomly show one of them
+				version: {
+					const: version || '1.0.0'
+				}
+			}
+		}
+
+		const query = {
+			type: 'object',
+			anyOf: [
+				{
+					$$links: {
+						'has attached element': {
+							type: 'object'
+						}
+					}
+				},
+				true
+			],
+			properties
+		}
+		return query
+	},
+
 	loadChannelData (channel) {
 		return async (dispatch, getState, {
 			sdk
@@ -488,27 +529,7 @@ export const actionCreators = {
 				target
 			} = channel.data
 
-			const identifier = isUUID(target) ? 'id' : 'slug'
-
-			const query = {
-				type: 'object',
-				anyOf: [
-					{
-						$$links: {
-							'has attached element': {
-								type: 'object'
-							}
-						}
-					},
-					true
-				],
-				properties: {
-					[identifier]: {
-						type: 'string',
-						const: target
-					}
-				}
-			}
+			const query = actionCreators.createChannelQuery(target)
 
 			const stream = await actionCreators.getStream({
 				sdk
@@ -601,13 +622,15 @@ export const actionCreators = {
 			// TODO: normalize channel loading to use the card ID
 			const idGetter = (channel) => _.get(channel, [ 'data', 'head', 'id' ])
 			const slugGetter = (channel) => _.get(channel, [ 'data', 'head', 'slug' ])
+			const versionGetter = (channel) => _.get(channel, [ 'data', 'head', 'version' ])
 			const targetChannel = _.find(selectors.getChannels(getState()), (channel) => {
 				return idGetter(channel) === target || slugGetter(channel) === target
 			})
 			const targetSlug = slugGetter(targetChannel)
+			const targetVersion = versionGetter(targetChannel)
 			const targetId = idGetter(targetChannel)
 
-			const stream = streams[targetSlug] || streams[targetId]
+			const stream = streams[`${targetSlug}@${targetVersion}`] || streams[targetSlug] || streams[targetId]
 
 			if (!stream) {
 				throw new Error('Stream not found: Did you forget to call loadChannelData?')
@@ -728,7 +751,7 @@ export const actionCreators = {
 					const newCard = await sdk.card.create(cardData)
 					const current = channel.data.target
 					dispatch(
-						push(path.join(window.location.pathname.split(current)[0], current, newCard.slug || newCard.id))
+						push(path.join(window.location.pathname.split(current)[0], current, cardReference(newCard)))
 					)
 					const linkConstraint = _.find(linkConstraints, {
 						data: {

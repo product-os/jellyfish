@@ -488,3 +488,20 @@ ava('setDefault() sets the homeView field in the user\'s profile', async (test) 
 		} ]
 	)
 })
+
+ava('createChannelQuery() handles IDs', (test) => {
+	const query = actionCreators.createChannelQuery(cardId)
+	test.is(query.properties.id.const, cardId)
+})
+
+ava('createChannelQuery() handles plain slugs', (test) => {
+	const query = actionCreators.createChannelQuery(cardSlug)
+	test.is(query.properties.slug.const, cardSlug)
+	test.is(query.properties.version.const, '1.0.0')
+})
+
+ava('createChannelQuery() handles versioned slugs', (test) => {
+	const query = actionCreators.createChannelQuery(`${cardSlug}@2.4.5`)
+	test.is(query.properties.slug.const, cardSlug)
+	test.is(query.properties.version.const, '2.4.5')
+})
