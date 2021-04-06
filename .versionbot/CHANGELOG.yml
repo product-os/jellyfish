@@ -1,4 +1,17 @@
 - commits:
+    - subject: allow JF URLs to contain a @version suffix
+      hash: 29121a71b6eb84b894fae14ea51373769ab2e554
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 33.70.72
+  date: 2021-04-06T09:12:58.956Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.880.0'
       hash: 2362358dc88b84e602fdf30072964589bf3d0ffd
       body: ''
