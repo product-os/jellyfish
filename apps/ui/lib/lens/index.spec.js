@@ -42,20 +42,6 @@ ava('getLenses returns the support-threads, chart and kanban lenses for support 
 	test.true(lensSlugs.includes('lens-kanban'))
 })
 
-ava('getLenses returns the support-threads-to-audit and support-audit-chart lenses for closed support thread data', (test) => {
-	const closedSupportThreadData = data.map((thread) => {
-		return _.merge({}, thread, {
-			data: {
-				status: 'closed'
-			}
-		})
-	})
-	const lensSlugs = _.map(getLenses('list', closedSupportThreadData, user, 'data.icon'), 'slug')
-	test.true(lensSlugs.includes('lens-support-threads-to-audit'))
-	test.true(lensSlugs.includes('lens-support-audit-chart'))
-	test.false(lensSlugs.includes('lens-support-threads'))
-})
-
 ava('getLensForTarget returns the omni-search lens for the path \'search\'', (test) => {
 	const lens = getLensForTarget('search')
 	test.is(lens.slug, 'lens-omni-search')
