@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update client sdk
+      hash: 63d92cc7c242f93b2a802e312d38e945e4a6b65d
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 33.71.0
+  date: 2021-04-06T19:58:49.977Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 8db01c1506f649e429ddd1f4d949acc0ef70be13
       body: ''
