@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.10.4'
+      hash: 47826cd13a28df6d227b420113f9af529b1ff682
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.70.74
+  date: 2021-04-06T11:53:55.952Z
+- commits:
     - subject: fix display of linked contracts for links without a type constraint
       hash: 87e513f663de4d97667b7aa49455b69665e7104d
       body: ''
