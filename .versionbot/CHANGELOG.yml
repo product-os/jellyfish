@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix bug that prevents new chat threads from being created
+      hash: cf3f07f269ad1e291ff5a458b9ef256a65ff2692
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.71.5
+  date: 2021-04-07T14:24:45.544Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^8.10.5'
       hash: 79b740a76725a4b6d2b5e9531122244735722265
       body: ''
