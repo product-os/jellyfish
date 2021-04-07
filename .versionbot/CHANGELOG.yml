@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v7.5.3'
+      hash: 07dc4dd1fe068c8f713ec7ab9ffc4ee525d70611
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.71.6
+  date: 2021-04-07T15:29:56.752Z
+- commits:
     - subject: Fix bug that prevents new chat threads from being created
       hash: cf3f07f269ad1e291ff5a458b9ef256a65ff2692
       body: ''
