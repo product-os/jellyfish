@@ -37,7 +37,6 @@ import {
 	getQueue
 } from '../async-dispatch-queue'
 import {
-	cardReference,
 	getUnreadQuery
 } from '../../queries'
 import {
@@ -49,6 +48,10 @@ import {
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000
+
+const cardReference = (contract) => {
+	return contract.slug ? `${contract.slug}@${contract.version}` : contract.id
+}
 
 const asyncDispatchQueue = getQueue()
 
