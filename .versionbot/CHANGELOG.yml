@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency date-fns to ^2.20.0'
+      hash: b553d7e4d87400d0637112ede3463533820c0887
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.71.9
+  date: 2021-04-08T04:54:32.114Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 7e71e0c8f6eee031ef5c5e4a4fb1660983f8e904
       body: ''
