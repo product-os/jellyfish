@@ -1,8 +1,10 @@
-version: '2.1'
+version: '2.2'
 
 services:
   api:
     build:
+      cache_from:
+        - balena/jellyfish:latest
       context: .
       dockerfile: ./apps/server/Dockerfile
       args:
@@ -93,6 +95,8 @@ services:
     restart: always
   livechat:
     build:
+      cache_from:
+        - balena/jellyfish-livechat:latest
       args:
         - SENTRY_DSN_UI='0'
         - SERVER_HOST=http://api.ly.fish.local
@@ -121,6 +125,8 @@ services:
       - internal
   tick:
     build:
+      cache_from:
+        - balena/jellyfish-tick-server:latest
       context: .
       dockerfile: ./apps/action-server/Dockerfile.tick
       args:
@@ -150,6 +156,8 @@ services:
       - internal
   ui:
     build:
+      cache_from:
+        - balena/jellyfish-ui:latest
       args:
         - SENTRY_DSN_UI='0'
         - SERVER_HOST=http://api.ly.fish.local
@@ -168,6 +176,8 @@ services:
       - internal
   worker_1:
     build:
+      cache_from:
+        - balena/jellyfish-action-server:latest
       context: .
       dockerfile: ./apps/action-server/Dockerfile.worker
       args:
@@ -231,6 +241,8 @@ services:
       - internal
   worker_2:
     build:
+      cache_from:
+        - balena/jellyfish-action-server:latest
       context: .
       dockerfile: ./apps/action-server/Dockerfile.worker
       args:
