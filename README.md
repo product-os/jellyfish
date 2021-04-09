@@ -34,6 +34,8 @@ as a cross between Slack and Excel!
 	- [**Using New Relic**](https://github.com/product-os/jellyfish/blob/master/docs/newrelic.markdown)
 	- [**Using Balena CI**](https://github.com/product-os/jellyfish/blob/master/docs/balenaci.markdown)
 	- [**Using Sentry**](https://github.com/product-os/jellyfish/blob/master/docs/sentry.markdown)
+- **Integrations**
+	- [**Integrating with GitHub**](https://github.com/product-os/jellyfish/blob/master/docs/integrating-github.markdown)
 
 Installing dependencies
 -----------------------
