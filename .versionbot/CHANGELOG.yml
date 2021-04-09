@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 26792b552ef62f11acbca2f8507aeed7c1dd8109
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 33.71.15
+  date: 2021-04-09T13:17:07.081Z
+- commits:
     - subject: Add docs for integrating with GitHub
       hash: 31f117dbf2e7ddf9d8c802fa95ffbd9a3103877d
       body: ''
