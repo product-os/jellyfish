@@ -42,7 +42,7 @@
     "@balena/jellyfish-chat-widget": "^6.0.68",
     "@balena/jellyfish-client-sdk": "^3.2.7",
     "@balena/jellyfish-environment": "^3.0.1",
-    "@balena/jellyfish-ui-components": "^8.10.5",
+    "@balena/jellyfish-ui-components": "^9.0.3",
     "@primer/styled-octicons": "^13.0.0",
     "analytics-client": "^0.12.1",
     "babel-loader": "^8.2.2",
