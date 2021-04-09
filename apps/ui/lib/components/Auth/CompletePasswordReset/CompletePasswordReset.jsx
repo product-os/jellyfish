@@ -10,7 +10,7 @@ import {
 	Input
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
@@ -50,10 +50,10 @@ export default class CompletePasswordReset extends React.Component {
 					password,
 					resetToken: this.props.match.params.resetToken
 				})
-				addNotification('success', 'Successfully reset password')
+				notifications.addNotification('success', 'Successfully reset password')
 				this.props.history.push('/')
 			} catch (error) {
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 				this.setState({
 					completePasswordReset: false
 				})

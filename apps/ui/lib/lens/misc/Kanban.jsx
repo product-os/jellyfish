@@ -22,7 +22,7 @@ import {
 } from 'rendition'
 import skhema from 'skhema'
 import {
-	addNotification,
+	notifications,
 	helpers
 } from '@balena/jellyfish-ui-components'
 import {
@@ -129,7 +129,7 @@ class Kanban extends React.Component {
 				})
 			})
 			.catch((error) => {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 			})
 	}
 

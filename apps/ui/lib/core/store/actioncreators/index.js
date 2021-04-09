@@ -26,7 +26,7 @@ import {
 	v4 as isUUID
 } from 'is-uuid'
 import {
-	addNotification,
+	notifications,
 	helpers
 } from '@balena/jellyfish-ui-components'
 import {
@@ -779,7 +779,7 @@ export const actionCreators = {
 						}
 					})
 				} catch (error) {
-					addNotification('danger', error.message)
+					notifications.addNotification('danger', error.message)
 				}
 			} else {
 				dispatch(actionCreators.openCreateChannel(parentCard, _.castArray(type)))
@@ -1055,7 +1055,7 @@ export const actionCreators = {
 			try {
 				const user = selectors.getCurrentUser(getState())
 				if (!helpers.isCustomView(view, user.slug)) {
-					addNotification('danger', 'You do not have permission to delete this view')
+					notifications.addNotification('danger', 'You do not have permission to delete this view')
 					return
 				}
 
@@ -1074,10 +1074,10 @@ export const actionCreators = {
 				// Then remove the card via the SDK
 				await sdk.card.remove(view.id, view.type)
 
-				addNotification('success', 'Successfully deleted view')
+				notifications.addNotification('success', 'Successfully deleted view')
 			} catch (err) {
 				console.error('Failed to remove view', err)
-				addNotification('danger', 'Could not remove view')
+				notifications.addNotification('danger', 'Could not remove view')
 			}
 		}
 	},
@@ -1109,10 +1109,10 @@ export const actionCreators = {
 
 				dispatch(actionCreators.setUser(updatedUser))
 				if (successNotification !== null) {
-					addNotification('success', successNotification || 'Successfully updated user')
+					notifications.addNotification('success', successNotification || 'Successfully updated user')
 				}
 			} catch (error) {
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 			}
 		}
 	},
@@ -1136,12 +1136,12 @@ export const actionCreators = {
 					user
 				}))
 				if (loginLinkSent) {
-					addNotification('success', 'Successfully created user')
+					notifications.addNotification('success', 'Successfully created user')
 					return true
 				}
 				return false
 			} catch (error) {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 				return false
 			}
 		}
@@ -1160,10 +1160,10 @@ export const actionCreators = {
 					type: user.type,
 					arguments: {}
 				})
-				addNotification('success', 'Sent first-time login token to user')
+				notifications.addNotification('success', 'Sent first-time login token to user')
 				return true
 			} catch (error) {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 				return false
 			}
 		}
@@ -1243,9 +1243,9 @@ export const actionCreators = {
 					}
 				})
 
-				addNotification('success', 'Successfully changed password')
+				notifications.addNotification('success', 'Successfully changed password')
 			} catch (error) {
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 			}
 		}
 	},
@@ -1294,10 +1294,10 @@ export const actionCreators = {
 					}
 				})
 				if (!options.skipSuccessMessage) {
-					addNotification('success', 'Created new link')
+					notifications.addNotification('success', 'Created new link')
 				}
 			} catch (error) {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 			}
 		}
 	},
@@ -1309,10 +1309,10 @@ export const actionCreators = {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb)
 				if (!options.skipSuccessMessage) {
-					addNotification('success', 'Removed link')
+					notifications.addNotification('success', 'Removed link')
 				}
 			} catch (error) {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 			}
 		}
 	},
@@ -1676,7 +1676,7 @@ export const actionCreators = {
 						})
 				})
 				.catch((error) => {
-					addNotification('danger', error.message)
+					notifications.addNotification('danger', error.message)
 				})
 		}
 	},

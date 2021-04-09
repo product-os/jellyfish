@@ -19,7 +19,7 @@ import {
 	linkConstraints as LINKS
 } from '@balena/jellyfish-client-sdk'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import AutoCompleteCardSelect from '../AutoCompleteCardSelect'
@@ -151,7 +151,7 @@ export class LinkModal extends React.Component {
 		}, async () => {
 			const linkTasks = cards.map(linkCard)
 			await Promise.all(linkTasks)
-			addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
+			notifications.addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
 			this.setState({
 				submitting: false,
 				selectedTarget: null
@@ -181,7 +181,7 @@ export class LinkModal extends React.Component {
 
 		if (!linkTypeTargets.length) {
 			console.error(`No matching link types for ${fromType}`)
-			addNotification('danger', `No matching link types for ${fromType}`)
+			notifications.addNotification('danger', `No matching link types for ${fromType}`)
 			return null
 		}
 

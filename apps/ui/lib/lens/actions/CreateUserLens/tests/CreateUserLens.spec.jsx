@@ -14,7 +14,9 @@ import {
 } from 'enzyme'
 import sinon from 'sinon'
 import React from 'react'
-import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
+	notifications
+} from '@balena/jellyfish-ui-components'
 import CreateUserLens from '../CreateUserLens'
 import CHANNEL from './fixtures/channel.json'
 import USER from './fixtures/user.json'

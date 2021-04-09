@@ -19,7 +19,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import {
-	addNotification,
+	notifications,
 	helpers,
 	Icon,
 	UserAvatar
@@ -146,7 +146,7 @@ export default class CreateView extends React.Component {
 		} catch (err) {
 			sdk.card.create(view)
 				.catch((error) => {
-					addNotification('danger', error.message)
+					notifications.addNotification('danger', error.message)
 				})
 				.then((card) => {
 					if (card) {

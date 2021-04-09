@@ -6,7 +6,9 @@
 
 import ava from 'ava'
 import sinon from 'sinon'
-import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
+	notifications
+} from '@balena/jellyfish-ui-components'
 import _ from 'lodash'
 
 // Hack fix for a circular dependency until we refactor the notifications code

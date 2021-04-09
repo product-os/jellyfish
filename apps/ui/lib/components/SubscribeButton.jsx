@@ -13,7 +13,7 @@ import {
 } from 'uuid'
 import {
 	useSetup
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
+} from '@balena/jellyfish-ui-components'
 import {
 	useTask
 } from '@balena/jellyfish-chat-widget/lib/hooks'

@@ -7,7 +7,7 @@
 import React from 'react'
 import Bluebird from 'bluebird'
 import {
-	addNotification,
+	notifications,
 	helpers
 } from '@balena/jellyfish-ui-components'
 import {
@@ -96,7 +96,7 @@ export default function TeardownFlowPanel ({
 			})
 		} catch (error) {
 			console.error('Failed to tear-down card', error)
-			addNotification('danger', 'Teardown failed. Refresh the page and try again.')
+			notifications.addNotification('danger', 'Teardown failed. Refresh the page and try again.')
 			return
 		}
 

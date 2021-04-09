@@ -19,7 +19,7 @@ import {
 	Flex
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
@@ -97,7 +97,7 @@ export default function AuditPanel (props) {
 			}
 		})
 			.then((result) => {
-				addNotification('success', 'Created feedback item')
+				notifications.addNotification('success', 'Created feedback item')
 				return Bluebird.all([
 					sdk.card.link(
 						props.card,
@@ -112,7 +112,7 @@ export default function AuditPanel (props) {
 				])
 			})
 			.catch((error) => {
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 			})
 	}
 

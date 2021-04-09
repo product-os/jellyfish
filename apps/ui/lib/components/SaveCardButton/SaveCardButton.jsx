@@ -11,7 +11,7 @@ import {
 	Button
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 
@@ -36,7 +36,7 @@ export const SaveCardButton = React.memo(({
 			const updatedCard = await sdk.card.get(id)
 			onDone(updatedCard)
 		} catch (error) {
-			addNotification('danger', 'Failed to save card')
+			notifications.addNotification('danger', 'Failed to save card')
 			console.error('Failed to save card', error)
 		} finally {
 			setSubmitting(false)

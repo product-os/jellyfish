@@ -7,7 +7,7 @@
 import React from 'react'
 import Bluebird from 'bluebird'
 import {
-	addNotification,
+	notifications,
 	helpers
 } from '@balena/jellyfish-ui-components'
 import {
@@ -54,7 +54,7 @@ export default function HandoverFlowPanel ({
 			// Check we're not trying to reasssign the issue to the current owner
 			// (Note: the NewOwnerStep component should prevent this anyway)
 			if (cardOwner && newOwner && cardOwner.id === newOwner.id) {
-				addNotification('danger', `${helpers.userDisplayName(cardOwner)} already owns this ${cardTypeName}`)
+				notifications.addNotification('danger', `${helpers.userDisplayName(cardOwner)} already owns this ${cardTypeName}`)
 				return
 			}
 
@@ -100,7 +100,7 @@ export default function HandoverFlowPanel ({
 			updateCardOwnerCache(newOwner || null)
 		} catch (error) {
 			console.error('Failed to assign card', error)
-			addNotification('danger', 'Handover failed. Refresh the page and try again.')
+			notifications.addNotification('danger', 'Handover failed. Refresh the page and try again.')
 			return
 		}
 

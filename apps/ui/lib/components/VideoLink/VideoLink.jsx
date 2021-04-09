@@ -10,7 +10,7 @@ import {
 	Link
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	helpers,
 	Icon
 } from '@balena/jellyfish-ui-components'
@@ -51,10 +51,10 @@ export default function VideoLink ({
 			if (response.conferenceUrl) {
 				window.open(response.conferenceUrl)
 			} else {
-				addNotification('danger', 'Unable to get a Google Meet')
+				notifications.addNotification('danger', 'Unable to get a Google Meet')
 			}
 		}).catch(() => {
-			addNotification('danger', 'Unable to get a Google Meet')
+			notifications.addNotification('danger', 'Unable to get a Google Meet')
 		}).finally(() => {
 			setLoading(false)
 		})

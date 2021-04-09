@@ -14,6 +14,9 @@ import {
 	shallow
 } from 'enzyme'
 import sinon from 'sinon'
+import {
+	Icon
+} from '@balena/jellyfish-ui-components'
 import UserStatusMenuItem from './UserStatusMenuItem'
 
 const DND = {
@@ -73,7 +76,7 @@ ava('Tooltip and icon set correctly if status is DoNotDisturb', (test) => {
 	const btn = component.find('[data-test="button-dnd"]')
 	test.is(btn.props().tooltip.text, 'Turn off Do Not Disturb')
 
-	const icon = component.find('Icon')
+	const icon = component.find(Icon)
 	test.is(icon.props().name, 'check')
 })
 

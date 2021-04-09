@@ -15,7 +15,7 @@ import {
 } from '@balena/jellyfish-client-sdk'
 import {
 	ActionLink,
-	addNotification,
+	notifications,
 	ContextMenu,
 	PlainButton,
 	Icon,
@@ -31,10 +31,10 @@ export default class CardActions extends React.Component {
 		this.delete = () => {
 			props.sdk.card.remove(this.props.card.id, this.props.card.type)
 				.then(() => {
-					addNotification('success', 'Deleted card')
+					notifications.addNotification('success', 'Deleted card')
 				})
 				.catch((error) => {
-					addNotification('danger', error.message)
+					notifications.addNotification('danger', error.message)
 				})
 			this.setState({
 				showDeleteModal: false

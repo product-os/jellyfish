@@ -6,7 +6,7 @@
 
 import React from 'react'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
@@ -58,7 +58,7 @@ export default class Login extends React.Component {
 				this.setState({
 					loggingIn: false
 				})
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 			})
 	}
 
