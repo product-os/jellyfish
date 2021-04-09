@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump ui-components to v9
+      hash: ade261cc7e09f5fd96b5c18e8a4a32f58d3f4a5d
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Kakhaber
+      nested: []
+  version: 34.0.0
+  date: 2021-04-09T18:24:36.589Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 50b6fa65b87ed0782528c8435fb28d1210b9894e
       body: ''
