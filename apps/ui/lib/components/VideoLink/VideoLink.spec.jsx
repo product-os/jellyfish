@@ -15,7 +15,9 @@ import {
 import sinon from 'sinon'
 import React from 'react'
 import VideoLink from './VideoLink'
-import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
+	notifications
+} from '@balena/jellyfish-ui-components'
 
 const sandbox = sinon.createSandbox()
 

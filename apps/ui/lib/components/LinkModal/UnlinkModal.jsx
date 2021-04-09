@@ -17,7 +17,7 @@ import {
 	getReverseConstraint
 } from '@balena/jellyfish-client-sdk'
 import {
-	addNotification,
+	notifications,
 	Icon,
 	helpers
 } from '@balena/jellyfish-ui-components'
@@ -78,7 +78,7 @@ export const UnlinkModal = ({
 
 		const unlinkTasks = cards.map(unlinkCard)
 		await Promise.all(unlinkTasks)
-		addNotification('success', `Removed ${pluralize('link', cards.length)}`)
+		notifications.addNotification('success', `Removed ${pluralize('link', cards.length)}`)
 		setSubmitting(false)
 		onHide()
 	}, [ cards, selectedTarget ])

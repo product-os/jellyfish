@@ -22,7 +22,7 @@ import {
 } from 'rendition'
 import styled from 'styled-components'
 import {
-	addNotification,
+	notifications,
 	Collapsible,
 	ColorHashPill,
 	Event,
@@ -129,10 +129,10 @@ class SupportThreadBase extends React.Component {
 
 			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
-					addNotification('success', 'Opened support thread')
+					notifications.addNotification('success', 'Opened support thread')
 				})
 				.catch((error) => {
-					addNotification('danger', error.message || error)
+					notifications.addNotification('danger', error.message || error)
 				})
 				.finally(() => {
 					this.setState({
@@ -228,11 +228,11 @@ class SupportThreadBase extends React.Component {
 
 			sdk.card.update(card.id, card.type, patch)
 				.then(() => {
-					addNotification('success', 'Archived support thread')
+					notifications.addNotification('success', 'Archived support thread')
 					this.props.actions.removeChannel(this.props.channel)
 				})
 				.catch((error) => {
-					addNotification('danger', error.message || error)
+					notifications.addNotification('danger', error.message || error)
 					this.setState({
 						isClosing: false
 					})
@@ -243,11 +243,11 @@ class SupportThreadBase extends React.Component {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb)
 			} catch (err) {
-				addNotification('danger', err.message)
+				notifications.addNotification('danger', err.message)
 				return
 			}
 
-			addNotification('success', 'Link removed')
+			notifications.addNotification('success', 'Link removed')
 
 			this.setState((state) => ({
 				linkedCardsMap: {

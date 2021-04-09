@@ -15,7 +15,7 @@ import {
 	Form
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	helpers,
 	Icon
 } from '@balena/jellyfish-ui-components'
@@ -50,7 +50,7 @@ class CreateUserLens extends React.Component {
 		})
 
 		if (!orgs.length) {
-			addNotification('danger', 'You must belong to an organisation to add new users')
+			notifications.addNotification('danger', 'You must belong to an organisation to add new users')
 		}
 
 		const formSchema = _.set(_.clone(FORM_SCHEMA), [ 'properties', 'organisation' ], {

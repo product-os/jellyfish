@@ -14,7 +14,9 @@ import {
 } from 'enzyme'
 import React from 'react'
 import sinon from 'sinon'
-import * as notifications from '@balena/jellyfish-ui-components/lib/services/notifications'
+import {
+	notifications
+} from '@balena/jellyfish-ui-components'
 import RequestPasswordReset from './RequestPasswordReset.jsx'
 
 const DATA_TEST_PREFIX = 'requestPasswordReset-page'

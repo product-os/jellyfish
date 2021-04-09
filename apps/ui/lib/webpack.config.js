@@ -23,10 +23,8 @@ const resourcesRoot = __dirname
 const UI_DIRECTORY = process.env.UI_DIRECTORY || __dirname
 
 const uiRoot = path.resolve(root, UI_DIRECTORY)
-const uiComponentsPath = path.join(root, 'node_modules', '@balena', 'jellyfish-ui-components', 'lib')
 const indexFilePath = path.join(resourcesRoot, 'index.html')
 const iconsFolderPath = path.join(resourcesRoot, 'icons')
-const uiComponentsIconsFolderPath = path.join(uiComponentsPath, 'icons')
 const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const manifestPath = path.join(resourcesRoot, 'manifest.json')
@@ -131,10 +129,6 @@ const config = {
 				},
 				{
 					from: manifestPath
-				},
-				{
-					from: uiComponentsIconsFolderPath,
-					to: 'icons'
 				}
 			]
 		}),

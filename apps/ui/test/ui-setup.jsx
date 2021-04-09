@@ -36,7 +36,7 @@ import createCache from '@emotion/cache'
 // package. So instead we import directly from the CardLoader file.
 import {
 	CardLoaderContext
-} from '@balena/jellyfish-ui-components/lib/CardLoader'
+} from '@balena/jellyfish-ui-components'
 
 import Adapter from 'enzyme-adapter-react-16'
 

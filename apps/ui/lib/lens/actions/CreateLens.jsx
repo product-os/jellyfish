@@ -28,7 +28,7 @@ import {
 	Form
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	FreeFieldForm,
 	helpers,
 	Icon
@@ -202,7 +202,7 @@ export class CreateLens extends React.Component {
 
 		this.props.sdk.card.create(newCard)
 			.catch((error) => {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 				this.setState({
 					submitting: false
 				})
@@ -277,7 +277,7 @@ export class CreateLens extends React.Component {
 			if (newCard && selectedTypeTarget) {
 				const linkTasks = cards.map(createLink)
 				await Bluebird.all(linkTasks)
-				addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
+				notifications.addNotification('success', `Created new link${cards.length > 1 ? 's' : ''}`)
 				this.close()
 				closed = true
 			}

@@ -14,7 +14,7 @@ import {
 import styled from 'styled-components'
 import {
 	ActionLink,
-	addNotification,
+	notifications,
 	helpers
 } from '@balena/jellyfish-ui-components'
 import {
@@ -59,7 +59,7 @@ export default class CardOwner extends React.Component {
 
 			this.props.updateCardOwnerCache(user)
 
-			addNotification('success', `${cardTypeName} assigned to me`)
+			notifications.addNotification('success', `${cardTypeName} assigned to me`)
 
 			// Now generate a whisper in this card's timeline to detail the self-assignment
 			const whisper = handoverUtils.getHandoverWhisperEventCard(
@@ -68,12 +68,12 @@ export default class CardOwner extends React.Component {
 			if (whisper) {
 				await sdk.event.create(whisper)
 					.catch((err) => {
-						addNotification('danger', 'Failed to create whisper')
+						notifications.addNotification('danger', 'Failed to create whisper')
 						console.error('Failed to create whisper', err)
 					})
 			}
 		} catch (err) {
-			addNotification('danger', `Failed to assign ${cardTypeName}`)
+			notifications.addNotification('danger', `Failed to assign ${cardTypeName}`)
 			console.error('Failed to create link', err)
 		}
 	}

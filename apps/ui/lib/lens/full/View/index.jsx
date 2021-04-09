@@ -28,7 +28,7 @@ import {
 	v4 as uuid
 } from 'uuid'
 import {
-	addNotification,
+	notifications,
 	helpers,
 	Icon,
 	withResponsiveContext
@@ -337,7 +337,7 @@ export class ViewRenderer extends React.Component {
 				})
 			})
 			.catch((error) => {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 			})
 	}
 

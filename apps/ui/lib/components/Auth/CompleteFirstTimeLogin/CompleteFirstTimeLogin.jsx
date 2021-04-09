@@ -10,7 +10,7 @@ import {
 	Input
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
@@ -50,10 +50,10 @@ export default class CompleteFirstTimeLogin extends React.Component {
 					password,
 					firstTimeLoginToken: this.props.match.params.firstTimeLoginToken
 				})
-				addNotification('success', 'Successfully set password')
+				notifications.addNotification('success', 'Successfully set password')
 				this.props.history.push('/')
 			} catch (error) {
-				addNotification('danger', error.message || error)
+				notifications.addNotification('danger', error.message || error)
 				this.setState({
 					completingFirstTimeLogin: false
 				})

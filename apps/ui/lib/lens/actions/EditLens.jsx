@@ -23,7 +23,7 @@ import {
 	Form
 } from 'rendition'
 import {
-	addNotification,
+	notifications,
 	FreeFieldForm,
 	helpers
 } from '@balena/jellyfish-ui-components'
@@ -109,10 +109,10 @@ class EditLens extends React.Component {
 				})
 			})
 			.then(() => {
-				addNotification('success', 'Card updated')
+				notifications.addNotification('success', 'Card updated')
 			})
 			.catch((error) => {
-				addNotification('danger', error.message)
+				notifications.addNotification('danger', error.message)
 			})
 
 		if (onDone.action === 'close') {

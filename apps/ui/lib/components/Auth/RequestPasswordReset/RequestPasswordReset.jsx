@@ -6,7 +6,7 @@
 
 import React from 'react'
 import {
-	addNotification,
+	notifications,
 	Icon
 } from '@balena/jellyfish-ui-components'
 import {
@@ -46,10 +46,10 @@ export default class RequestPasswordReset extends React.Component {
 			username
 		})
 			.then(() => {
-				addNotification('success', 'Thanks! Please check your email for a link to reset your password')
+				notifications.addNotification('success', 'Thanks! Please check your email for a link to reset your password')
 			})
 			.catch(() => {
-				addNotification('danger',
+				notifications.addNotification('danger',
 					`Whoops! Something went wrong while trying to request a password reset for username ${username}`)
 			})
 			.finally(() => {

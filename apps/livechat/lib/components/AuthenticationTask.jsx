@@ -13,7 +13,7 @@ import {
 } from '@balena/jellyfish-chat-widget/lib/components/Task'
 import {
 	useSetup
-} from '@balena/jellyfish-ui-components/lib/SetupProvider'
+} from '@balena/jellyfish-ui-components'
 
 const authenticate = async ({
 	sdk
