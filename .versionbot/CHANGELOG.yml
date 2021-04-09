@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add docs for integrating with GitHub
+      hash: 31f117dbf2e7ddf9d8c802fa95ffbd9a3103877d
+      body: ''
+      footer:
+        Connects-to: 'https://github.com/product-os/jellyfish/issues/4746'
+        connects-to: 'https://github.com/product-os/jellyfish/issues/4746'
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 33.71.14
+  date: 2021-04-09T11:22:59.297Z
+- commits:
     - subject: 'patch: Update dependency @primer/styled-octicons to v13'
       hash: 554dfcb05f53a875429261c710d5e6971d26ad99
       body: ''
