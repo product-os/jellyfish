@@ -89,7 +89,7 @@
     "eslint-plugin-jsdoc": "^32.3.0",
     "eslint-plugin-lodash": "^7.2.0",
     "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-promise": "^4.3.1",
+    "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.23.2",
     "front-sdk": "^0.8.1",
     "jsonwebtoken": "^8.5.1",
