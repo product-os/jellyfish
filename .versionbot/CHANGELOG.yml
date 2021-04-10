@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major Docker tags'
+      hash: 413d6661e850d717ae33687f6092738f399d1820
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.0.1
+  date: 2021-04-10T00:48:48.373Z
+- commits:
     - subject: Bump ui-components to v9
       hash: ade261cc7e09f5fd96b5c18e8a4a32f58d3f4a5d
       body: ''
