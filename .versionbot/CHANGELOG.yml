@@ -1,4 +1,17 @@
 - commits:
+    - subject: Show linked pattern on support thread
+      hash: 3f410896e0080d2ed6a89a92357d52a71b8f6958
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Connects-to: '#6129'
+        connects-to: '#6129'
+      author: Kakhaber
+      nested: []
+  version: 34.1.0
+  date: 2021-04-11T22:31:24.760Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 922339045d0c4bbf0e5e398d2338dd73a99eb2fc
       body: ''
