@@ -1,5 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
+
 Parameters:
   JellyfishDBAllocatedStorage:
     Default: '50'
@@ -8,6 +9,7 @@ Parameters:
     MinValue: '5'
     MaxValue: '1024'
     ConstraintDescription: must be between 5 and 1024Gb.
+
   JellyfishDBMaxAllocatedStorage:
     Default: '1024'
     Description: The maximum storage auto-scale size of the Jellyfish database (Gb)
@@ -15,6 +17,7 @@ Parameters:
     MinValue: '5'
     MaxValue: '10240'
     ConstraintDescription: must be between 5 and 10240Gb.
+
   MultiAZ:
     Description: Enable MultiAZ database deployment
     Type: String
@@ -22,6 +25,7 @@ Parameters:
     AllowedValues:
       - 'true'
       - 'false'
+
   DBInstanceClass:
     Description: The database instance type
     Type: String
@@ -65,10 +69,12 @@ Parameters:
     - db.m6g.12xlarge
     - db.m6g.16xlarge
     ConstraintDescription: must select a valid database instance type.
+
   JellyfishDBInstanceIdentifier:
     Description: RDS PostgreSQL database instance name
     Type: String
     Default: 'jellyfish'
+
   JellyfishDBParameterGroupFamily:
     Description: RDS PostgreSQL engine version
     Type: String
@@ -78,24 +84,28 @@ Parameters:
     - postgres11
     - postgres12
     ConstraintDescription: must select a valid database engine version
+
   JellyfishDBName:
     Default: jellyfish
     Description: The Jellyfish database name
     Type: String
     MinLength: '0'
     MaxLength: '64'
+
   JellyfishDBSnapshotIdentifier:
     Description: The Jellyfish database snapshot identifier
     Type: String
     MinLength: '0'
     MaxLength: '64'
     Default: ''
+
   JellyfishDBUsername:
     Default: jellyfish
     Description: The Jellyfish database admin account username
     Type: String
     MinLength: '1'
     MaxLength: '64'
+
   JellyfishDBPassword:
     NoEcho: 'true'
     Description: The Jellyfish database admin account password
@@ -104,12 +114,15 @@ Parameters:
     MaxLength: '64'
     AllowedPattern: "[a-zA-Z0-9]*"
     ConstraintDescription: must contain only alphanumeric characters.
+
   KubernetesVPC:
     Type: AWS::EC2::VPC::Id
     Description: VPC ID of the kubernetes cluster
+
   KubernetesSubnetIDs:
     Type: List<AWS::EC2::Subnet::Id>
     Description: List of kubernetes node subnet IDs
+
   JellyfishDBStorageType:
     Description: Jellyfish Database instance class
     Default: gp2
@@ -119,15 +132,25 @@ Parameters:
       - gp2
       - io1
     ConstraintDescription: must select a valid database storage type.
+
   JellyfishDBStorageIops:
     Description: The number of reserved iops for 'io1' storage type
     Type: String
     Default: ''
+
+  NetworkStack:
+    Description: Stack containing network resources to import.
+    Type: String
+    Default: Resin-Deployment
+
+
 Conditions:
   HasIdentifier: !Not [ !Equals [ '', !Ref JellyfishDBInstanceIdentifier ]]
   HasSnapshot: !Not [ !Equals [ '', !Ref JellyfishDBSnapshotIdentifier ]]
   HasIOPS: !Not [ !Equals [ '', !Ref JellyfishDBStorageIops ]]
   HasMultiAZEnabled: !Equals [ 'true', !Ref MultiAZ ]
+
+
 Mappings:
   EngineMap:
     postgres10:
@@ -136,23 +159,30 @@ Mappings:
       EngineVersion: 11.6
     postgres12:
       EngineVersion: 12.5
+
+
 Resources:
   JellyfishDBSubnetGroup:
-    Type: AWS::RDS::DBSubnetGroup
+    Type: 'AWS::RDS::DBSubnetGroup'
     Properties:
       DBSubnetGroupDescription: Subnets available for the Jellyfish RDS DB Instance
-      SubnetIds:
-        Ref: KubernetesSubnetIDs
+      SubnetIds: !Ref KubernetesSubnetIDs
+
   JellyfishDBSecurityGroup:
-    Type: AWS::RDS::DBSecurityGroup
+    Type: 'AWS::RDS::DBSecurityGroup'
     Properties:
       GroupDescription: Allow PSQL access
       DBSecurityGroupIngress:
-      - CIDRIP: 172.20.0.0/8
-      EC2VpcId:
-        Ref: KubernetesVPC
+      - CIDRIP:
+          Fn::ImportValue:
+            !Sub "${NetworkStack}-PrimaryCidrBlock"
+      - CIDRIP:
+          Fn::ImportValue:
+            !Sub "${NetworkStack}-SecondaryCidrBlock"
+      EC2VpcId: !Ref KubernetesVPC
+
   EnhancedMonitoringRole:
-    Type: AWS::IAM::Role
+    Type: 'AWS::IAM::Role'
     Properties:
       AssumeRolePolicyDocument:
         Version: '2012-10-17'
@@ -164,8 +194,9 @@ Resources:
             Action: sts:AssumeRole
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/service-role/AmazonRDSEnhancedMonitoringRole
+
   JellyfishDBParameterGroup:
-    Type: AWS::RDS::DBParameterGroup
+    Type: 'AWS::RDS::DBParameterGroup'
     Properties:
       Description: Jellyfish DB Parameter group
       Family: !Ref JellyfishDBParameterGroupFamily
@@ -184,8 +215,9 @@ Resources:
         # https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PostgreSQL.Replication.ReadReplicas.html#USER_PostgreSQL.Replication.ReadReplicas.Interruptions
         # https://aws.amazon.com/blogs/database/best-practices-for-amazon-rds-postgresql-replication/
         wal_keep_segments: '256'
+
   JellyfishDB:
-    Type: AWS::RDS::DBInstance
+    Type: 'AWS::RDS::DBInstance'
     DeletionPolicy: Retain
     Properties:
       DBInstanceIdentifier: !If
@@ -217,7 +249,7 @@ Resources:
         Ref: JellyfishDBSubnetGroup
       DBSecurityGroups:
         - Ref: JellyfishDBSecurityGroup
-      MultiAZ: !If 
+      MultiAZ: !If
         - HasMultiAZEnabled
         - true
         - false
@@ -240,6 +272,8 @@ Resources:
       Tags:
       - Key: Name
         Value: jellyfish
+
+
 Outputs:
   dbEndpoint:
     Description: Connection string for the database
