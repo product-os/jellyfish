@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 4ecdd6e810ddb44640aaa643dec9c32d7c4158a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.0.13
+  date: 2021-04-11T02:10:26.180Z
+- commits:
     - subject: Move cache to AWS
       hash: d881fcfb891b8f9c106bc7fc1f0e415b0f389285
       body: >
