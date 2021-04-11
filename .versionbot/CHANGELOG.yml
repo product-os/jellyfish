@@ -1,4 +1,29 @@
 - commits:
+    - subject: Move cache to AWS
+      hash: d881fcfb891b8f9c106bc7fc1f0e415b0f389285
+      body: >
+        * adds ElastiCache cluster
+
+        * removes standalone cache (Redis) deployment in Kubernetes and sets
+        password to ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+    - subject: Introduce AWS managed redis cluster
+      hash: ccc2e11e29691828a486b298818bec7f8b4c3302
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Federico Fissore <federico@balena.io>
+        signed-off-by: Federico Fissore <federico@balena.io>
+      author: Federico Fissore
+      nested: []
+  version: 34.0.12
+  date: 2021-04-11T00:10:38.664Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.0.13'
       hash: ce9292f9a2d09d60f2f06fc07f4a8a3ab7544c09
       body: ''
