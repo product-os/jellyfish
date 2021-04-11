@@ -10,7 +10,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^8.1.36",
+    "@balena/jellyfish-action-library": "8.1.35-renovate-googleapis-71-x-91f759ccef79bac81623b7b3a02c6ac032792901",
     "@balena/jellyfish-core": "^2.12.61",
     "@balena/jellyfish-environment": "^3.0.1",
     "@balena/jellyfish-logger": "^1.0.57",
