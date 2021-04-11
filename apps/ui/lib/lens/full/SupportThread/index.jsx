@@ -86,10 +86,25 @@ const LINKS = [ {
 }, {
 	verb: 'support thread is attached to product improvement',
 	icon: <JellyIcon />,
-	testId: 'linked-support-issue',
+	testId: 'linked-product-improvement',
 	description: ({
 		id
 	}) => `Support thread by id ${id} attached to product improvement`
+}, {
+	verb: 'has attached',
+	query: {
+		required: [ 'type' ],
+		properties: {
+			type: {
+				const: 'pattern@1.0.0'
+			}
+		}
+	},
+	icon: <JellyIcon />,
+	testId: 'linked-pattern',
+	description: ({
+		id
+	}) => `Support thread by id ${id} has attached pattern`
 } ]
 
 const Extract = styled(Box) `
@@ -299,7 +314,8 @@ class SupportThreadBase extends React.Component {
 						$$links: {
 							[link.verb]: {
 								type: 'object',
-								additionalProperties: true
+								additionalProperties: true,
+								...(link.query || {})
 							}
 						},
 						description: link.description({
