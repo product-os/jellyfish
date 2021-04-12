@@ -1,4 +1,20 @@
 - commits:
+    - subject: Remove unneeded async dispatch queue
+      hash: 2bc7f28150efa8c9b079fee7f4c4f0edcf907d99
+      body: |
+        This was legacy code that was needed when we couldn't retrieve link data
+        in stream updates. The current implementation didn't actually do any
+        async work inside the dispatch queue, making the queue unnecessary.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.1.5
+  date: 2021-04-12T10:03:31.357Z
+- commits:
     - subject: 'Katapult: Make REDIS_PASSWORD optional for Jellyfish deployment.'
       hash: c8af74fd29215eb6bc69e1e6819c056069dcdeec
       body: |
