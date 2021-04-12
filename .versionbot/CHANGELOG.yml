@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.0.34'
+      hash: 8872ab538ab75101855e9487a3a0201cc32fac7a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.1.6
+  date: 2021-04-12T11:49:32.180Z
+- commits:
     - subject: Remove unneeded async dispatch queue
       hash: 2bc7f28150efa8c9b079fee7f4c4f0edcf907d99
       body: |
