@@ -29,7 +29,7 @@ properties:
   REDIS_HOST:
     type: string
   REDIS_PASSWORD:
-    type: string
+    type: string?
   NODE_ENV:
     type: string
   SENTRY_DSN_SERVER:
