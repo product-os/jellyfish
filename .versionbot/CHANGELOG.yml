@@ -1,4 +1,20 @@
 - commits:
+    - subject: Remove "support threads to audit" lenses
+      hash: 20b74bc2286fc7a1d3c7dfcf7d8e189f2f523a7d
+      body: |
+        The functionality offered by the "support threads to audit" lenses is
+        covered by existing generic functionality in the "all support threads"
+        view, making these lenses redundant.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.2.0
+  date: 2021-04-12T16:00:36.952Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.0.34'
       hash: 8872ab538ab75101855e9487a3a0201cc32fac7a
       body: ''
