@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Katapult: Make REDIS_PASSWORD optional for Jellyfish deployment.'
+      hash: c8af74fd29215eb6bc69e1e6819c056069dcdeec
+      body: |
+        This should allow an empty password for connecting to the Redis server.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 34.1.4
+  date: 2021-04-12T08:17:42.799Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 24032281603d603103a593ce7a60b74630bede5f
       body: ''
