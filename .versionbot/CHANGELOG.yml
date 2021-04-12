@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.0.38'
+      hash: 33a89db2da081e09e334c5fe0d4f13e3ea4cb0b5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.1
+  date: 2021-04-12T17:31:16.556Z
+- commits:
     - subject: Remove "support threads to audit" lenses
       hash: 20b74bc2286fc7a1d3c7dfcf7d8e189f2f523a7d
       body: |
