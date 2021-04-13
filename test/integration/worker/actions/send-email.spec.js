@@ -8,7 +8,7 @@ const ava = require('ava')
 const _ = require('lodash')
 const nock = require('nock')
 const helpers = require('../helpers')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const MAIL_OPTIONS = environment.mail.options
 

@@ -12,7 +12,7 @@ const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
 const Sync = require('@balena/jellyfish-sync').Sync
 const core = require('@balena/jellyfish-core')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const uuid = require('@balena/jellyfish-uuid')
 const metrics = require('@balena/jellyfish-metrics')
 const {

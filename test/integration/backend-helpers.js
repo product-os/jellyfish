@@ -6,7 +6,7 @@
 
 const Backend = require('@balena/jellyfish-core/lib/backend')
 const Cache = require('@balena/jellyfish-core/lib/cache')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const errors = require('@balena/jellyfish-core/lib/errors')
 const Kernel = require('@balena/jellyfish-core/lib/kernel')
 const uuid = require('@balena/jellyfish-uuid')

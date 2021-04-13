@@ -5,7 +5,7 @@
  */
 
 const _ = require('lodash')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const fs = require('fs')
 const AWS = require('aws-sdk')
 const startOfToday = require('date-fns/startOfToday')

@@ -11,7 +11,7 @@ const {
 const helpers = require('./helpers')
 const macros = require('./macros')
 const Bluebird = require('bluebird')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const context = {
 	context: {

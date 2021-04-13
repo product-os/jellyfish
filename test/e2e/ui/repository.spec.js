@@ -8,7 +8,7 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('./helpers')
 const macros = require('./macros')
 

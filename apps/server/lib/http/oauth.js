@@ -10,7 +10,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 exports.getRedirectUrl = (provider) => {
 	return `${environment.oauth.redirectBaseUrl}/oauth/${provider}`

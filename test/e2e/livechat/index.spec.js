@@ -10,7 +10,7 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
 } = require('@balena/jellyfish-chat-widget/lib/constants')

@@ -9,7 +9,7 @@ const helpers = require('../server/helpers')
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 exports.before = async (test) => {
 	await helpers.before(test)

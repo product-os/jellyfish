@@ -5,7 +5,7 @@
  */
 
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const selectors = {
 	nextBtn: '[data-test="steps-flow__next-btn"]',

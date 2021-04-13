@@ -8,7 +8,7 @@ const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const uuid = require('@balena/jellyfish-uuid')
 const packageJSON = require('../../../package.json')
 const bootstrap = require('./bootstrap')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const DEFAULT_ERROR_CONTEXT = {
 	id: `WORKER-ERROR-${packageJSON.version}`

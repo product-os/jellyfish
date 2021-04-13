@@ -13,7 +13,7 @@ const _ = require('lodash')
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const bootstrap = require('../../lib/bootstrap')
 const {
 	getPluginManager

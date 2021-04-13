@@ -9,7 +9,7 @@ import {
 	createMemoryHistory
 } from 'history'
 import {
-	isProduction
+	defaultEnvironment
 } from '@balena/jellyfish-environment'
 
 // Because we use connected-react-router we need to explicitly create
@@ -23,7 +23,7 @@ const getHistory = () => {
 	} catch (error) {
 		// If we're in production mode we need to be using browser history
 		// so this is a problem.
-		if (isProduction()) {
+		if (defaultEnvironment.isProduction()) {
 			console.log('Browser History is required in production')
 			throw error
 		}
