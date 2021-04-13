@@ -26,7 +26,7 @@
     "rendition": "^20.10.11",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
-    "webpack-bundle-analyzer": "^4.4.0"
+    "webpack-bundle-analyzer": "^4.4.1"
   },
   "devDependencies": {
     "depcheck": "^1.4.0",
