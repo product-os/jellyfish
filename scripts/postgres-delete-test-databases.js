@@ -9,7 +9,7 @@
 const pgp = require('@balena/jellyfish-core/lib/backend/postgres/pg-promise')
 const Bluebird = require('bluebird')
 const Spinner = require('cli-spinner').Spinner
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const scrub = async () => {
 	const spinner = new Spinner('%s Connecting to postgres')

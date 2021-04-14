@@ -6,7 +6,7 @@
 
 const bluebird = require('bluebird')
 const _ = require('lodash')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 exports.TIMEOUT = 60 * 1000
 

@@ -13,7 +13,7 @@ const {
 } = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const context = {
 	context: {

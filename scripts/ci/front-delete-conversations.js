@@ -14,7 +14,7 @@ const _ = require('lodash')
 const Bluebird = require('bluebird')
 const Front = require('front-sdk').Front
 const sub = require('date-fns/sub')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const BEFORE = sub(new Date(), {
 	hours: 2

@@ -14,7 +14,7 @@ const {
 	v4: uuid
 } = require('uuid')
 const outreachMock = require('./outreach-mock')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('./helpers')
 const TOKEN = environment.integration.outreach
 

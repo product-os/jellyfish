@@ -7,7 +7,7 @@
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 module.exports = async (context, jellyfish, worker, session, cards) => {
 	logger.info(context, 'Setting up guest user')

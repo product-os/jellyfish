@@ -14,7 +14,7 @@
  *   ./scripts/ci/postgres/import.js <TYPE>
  */
 
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const execSync = require('child_process').execSync
 const fs = require('fs')
 const isEmpty = require('lodash').isEmpty

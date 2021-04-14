@@ -12,7 +12,7 @@
  */
 
 const _ = require('lodash')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const execSync = require('child_process').execSync
 const Octokit = require('@octokit/rest').Octokit
 const packageJSON = require('../../package.json')

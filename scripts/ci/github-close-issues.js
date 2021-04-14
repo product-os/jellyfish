@@ -22,7 +22,7 @@ const Octokit = require('@octokit/rest').Octokit.plugin(
 	retry,
 	throttling
 )
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const sub = require('date-fns/sub')
 const formatISO = require('date-fns/formatISO')

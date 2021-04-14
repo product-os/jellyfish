@@ -5,7 +5,7 @@
  */
 
 const pgp = require('@balena/jellyfish-core/lib/backend/postgres/pg-promise')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const COMMAND = process.argv[2]
 const ARGUMENT = process.argv[3]

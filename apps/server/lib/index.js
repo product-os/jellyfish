@@ -11,7 +11,7 @@ const {
 	getPluginManager
 } = require('./plugins')
 const bootstrap = require('./bootstrap')
-const environment = require('@balena/jellyfish-environment')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const DEFAULT_CONTEXT = {
 	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`
