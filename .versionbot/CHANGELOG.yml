@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-environment with updated requires
+      hash: 832355fc4ee8a640a7ebe0fb22b342ce83308f32
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.2.12
+  date: 2021-04-14T00:47:52.542Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^2.12.71'
       hash: f9e1509da4b0f1e0bafe4af0123a7793dc7a8798
       body: ''
