@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix bug in translate code
+      hash: 783ca66b0f1e96a0c1045d10b25e99bb07661a45
+      body: |
+        Fix a bug where translate of external web hooks fails due to an
+        incorrect import of the jellyfish metrics library.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.2.34
+  date: 2021-04-16T20:47:13.412Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 96c7a71126e0fa6dd1fec2fbabfba164ab894e9e
       body: ''
