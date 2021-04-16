@@ -21,7 +21,7 @@
     "@balena/jellyfish-plugin-product-os": "^1.2.62",
     "@balena/jellyfish-plugin-typeform": "^1.0.41",
     "@balena/jellyfish-queue": "^0.0.555",
-    "@balena/jellyfish-sync": "^5.2.99",
+    "@balena/jellyfish-sync": "^6.0.10",
     "@balena/jellyfish-uuid": "^1.0.84",
     "@balena/jellyfish-worker": "^3.1.49",
     "bluebird": "^3.7.2",
