@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: befc57efe75027643962fe8881445438bcbc94b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.35
+  date: 2021-04-18T02:20:44.380Z
+- commits:
     - subject: Fix bug in translate code
       hash: 783ca66b0f1e96a0c1045d10b25e99bb07661a45
       body: |
