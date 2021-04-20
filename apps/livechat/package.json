@@ -15,7 +15,7 @@
     "@babel/preset-react": "^7.13.13",
     "@balena/jellyfish-chat-widget": "^7.0.1",
     "@balena/jellyfish-client-sdk": "^3.2.88",
-    "@balena/jellyfish-ui-components": "^9.0.106",
+    "@balena/jellyfish-ui-components": "^9.0.108",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
     "file-loader": "^6.2.0",
@@ -23,7 +23,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
-    "rendition": "^20.10.12",
+    "rendition": "^20.11.0",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.1"
