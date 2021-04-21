@@ -14,7 +14,9 @@ const oauth = require('./oauth')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const metrics = require('@balena/jellyfish-metrics')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const packageJSON = require('../../../../package.json')
 const facades = require('./facades')
 
@@ -288,7 +290,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 			 * This allows us to differentiate two login requests
 			 * coming on the same millisecond, unlikely but possible.
 			 */
-			const suffix = await uuid.random()
+			const suffix = uuidv4()
 
 			const actionRequest = await producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 				action: 'action-create-card@1.0.0',
@@ -464,7 +466,8 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 					throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`)
 				}
 
-				return uuid.random().then((id) => {
+				const id = uuidv4()
+				return new Promise((resolve) => {
 					const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`
 
 					logger.info(request.context, 'Creating external event', {
@@ -472,7 +475,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 						slug
 					})
 
-					return producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+					return resolve(producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
 						action: 'action-create-card@1.0.0',
 						card: typeCard.id,
 						type: typeCard.type,
@@ -489,7 +492,7 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 								}
 							}
 						}
-					})
+					}))
 				})
 			}).then((actionRequest) => {
 				const enqueuedDate = new Date()

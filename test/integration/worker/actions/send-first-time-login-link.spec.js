@@ -7,7 +7,9 @@
 const ava = require('ava')
 const nock = require('nock')
 const helpers = require('../helpers')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const MAIL_OPTIONS = environment.mail.options
@@ -31,7 +33,7 @@ const createOrgLinkAction = async ({
 		arguments: {
 			reason: 'for testing',
 			properties: {
-				slug: `link-${fromId}-has-member-${toId}-${await uuid.random()}`,
+				slug: `link-${fromId}-has-member-${toId}-${uuidv4()}`,
 				version: '1.0.0',
 				name: 'has member',
 				data: {

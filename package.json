@@ -69,7 +69,6 @@
     "@balena/jellyfish-plugin-typeform": "^2.0.11",
     "@balena/jellyfish-queue": "^1.0.8",
     "@balena/jellyfish-sync": "^6.0.56",
-    "@balena/jellyfish-uuid": "^1.0.84",
     "@balena/jellyfish-worker": "^3.1.49",
     "@octokit/plugin-retry": "^3.0.7",
     "@octokit/plugin-throttling": "^3.4.1",

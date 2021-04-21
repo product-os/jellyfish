@@ -7,7 +7,9 @@
 const _ = require('lodash')
 const errio = require('errio')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 
 module.exports = class ActionFacade {
 	constructor (worker, producer, fileStore) {
@@ -21,7 +23,7 @@ module.exports = class ActionFacade {
 		const files = []
 
 		if (options.files) {
-			const id = await uuid.random()
+			const id = uuidv4()
 
 			// Upload magic
 			options.files.forEach((file) => {

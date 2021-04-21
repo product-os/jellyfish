@@ -8,7 +8,9 @@ const _ = require('lodash')
 const bodyParser = require('body-parser')
 const responseTime = require('response-time')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const packageJSON = require('../../../../package.json')
 
 module.exports = (rootContext, application, jellyfish, options) => {
@@ -58,7 +60,7 @@ module.exports = (rootContext, application, jellyfish, options) => {
 
 	application.use(async (request, response, next) => {
 		try {
-			const contextId = request.headers['request-id'] || (await uuid.random())
+			const contextId = request.headers['request-id'] || (uuidv4())
 
 			const context = {
 				id: `REQUEST-${packageJSON.version}-${contextId}`,

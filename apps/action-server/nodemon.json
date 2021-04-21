@@ -16,7 +16,6 @@
     "node_modules/@balena/jellyfish-plugin-product-os/lib/**/*.js",
     "node_modules/@balena/jellyfish-queue/lib/**/*.js",
     "node_modules/@balena/jellyfish-sync/lib/**/*.js",
-    "node_modules/@balena/jellyfish-uuid/build/*.js",
     "node_modules/@balena/jellyfish-worker/lib/**/*.js"
   ]
 }

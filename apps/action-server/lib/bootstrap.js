@@ -13,7 +13,9 @@ const Producer = require('@balena/jellyfish-queue').Producer
 const Sync = require('@balena/jellyfish-sync').Sync
 const core = require('@balena/jellyfish-core')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const metrics = require('@balena/jellyfish-metrics')
 const {
 	getPluginManager
@@ -367,7 +369,7 @@ exports.tick = async (context, options) => {
 		delay: 2000,
 		onError: options.onError,
 		onLoop: async (serverContext, worker, session) => {
-			const id = await uuid.random()
+			const id = uuidv4()
 			return worker.tick({
 				id: `TICK-REQUEST-${packageJSON.version}-${id}`,
 				worker: serverContext.id

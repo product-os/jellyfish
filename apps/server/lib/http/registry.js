@@ -5,7 +5,9 @@
  */
 
 const jsonwebtoken = require('jsonwebtoken')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
@@ -127,7 +129,7 @@ exports.authenticate = async (request, response, jellyfish) => {
 		.value()
 
 	const payload = {
-		jti: await uuid.random(),
+		jti: uuidv4(),
 		nbf: Math.floor(Date.now() / 1000) - 10,
 		access: _.compact(await Bluebird.map(parsedScopes, async ([ type, name, actions ]) => {
 			let contract = null

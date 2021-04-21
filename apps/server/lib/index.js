@@ -5,7 +5,9 @@
  */
 
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const packageJSON = require('../../../package.json')
 const {
 	getPluginManager
@@ -34,21 +36,22 @@ process.on('unhandledRejection', (error) => {
 	return onError(error, 'Unhandled Server Error')
 })
 
-uuid.random().then((id) => {
-	const context = {
-		id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
-	}
+const id = uuidv4()
+const context = {
+	id: `SERVER-${packageJSON.version}-${environment.pod.name}-${id}`
+}
 
-	const startDate = new Date()
-	logger.info(context, 'Starting server', {
-		time: startDate.getTime()
-	})
+const startDate = new Date()
+logger.info(context, 'Starting server', {
+	time: startDate.getTime()
+})
 
+try {
 	const options = {
 		pluginManager: getPluginManager(context)
 	}
 
-	return bootstrap(context, options).then((server) => {
+	bootstrap(context, options).then((server) => {
 		const endDate = new Date()
 		const timeToStart = endDate.getTime() - startDate.getTime()
 
@@ -66,6 +69,6 @@ uuid.random().then((id) => {
 		logger.exception(context, 'Server error', error)
 		process.exit(1)
 	})
-}).catch((error) => {
-	return onError(error)
-})
+} catch (error) {
+	onError(error)
+}
