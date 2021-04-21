@@ -15,7 +15,7 @@
     "@babel/preset-react": "^7.13.13",
     "@balena/jellyfish-chat-widget": "^7.0.3",
     "@balena/jellyfish-client-sdk": "^3.2.93",
-    "@balena/jellyfish-ui-components": "^9.0.111",
+    "@balena/jellyfish-ui-components": "^9.0.115",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.2.4",
     "file-loader": "^6.2.0",
