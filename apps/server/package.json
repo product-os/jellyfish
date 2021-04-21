@@ -29,7 +29,7 @@
     "@balena/jellyfish-plugin-channels": "^1.1.44",
     "@balena/jellyfish-plugin-default": "^9.1.4",
     "@balena/jellyfish-plugin-product-os": "^1.2.67",
-    "@balena/jellyfish-plugin-typeform": "^1.0.50",
+    "@balena/jellyfish-plugin-typeform": "2.0.0-typescript-97a219dbdca323952d171f3a28ebd743c0e37aa4",
     "@balena/jellyfish-queue": "^0.0.575",
     "@balena/jellyfish-sync": "^6.0.39",
     "@balena/jellyfish-uuid": "^1.0.84",
