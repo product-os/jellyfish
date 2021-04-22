@@ -47,7 +47,7 @@ RUN make build-ui \
 # Runtime
 ###########################################################
 
-FROM nginx:1.19
+FROM nginx:1.20
 WORKDIR /usr/src/jellyfish
 COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
