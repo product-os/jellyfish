@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update to Typescript version of queue module
+      hash: 849323e20f4537fde269fbe4b1a886fd7e407464
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.2.61
+  date: 2021-04-22T12:21:51.272Z
+- commits:
     - subject: 'patch: Update nginx Docker tag to v1.20'
       hash: 495649f91978c677016d082f8ed72941558ff8cc
       body: ''
