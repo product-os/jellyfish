@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^9.1.6'
+      hash: 92a8745a252a35c6f52a9a701371b33493761092
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.62
+  date: 2021-04-22T14:18:14.031Z
+- commits:
     - subject: Update to Typescript version of queue module
       hash: 849323e20f4537fde269fbe4b1a886fd7e407464
       body: ''
