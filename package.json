@@ -75,7 +75,7 @@
     "@octokit/plugin-throttling": "^3.4.1",
     "@octokit/rest": "^18.5.3",
     "ava": "^3.15.0",
-    "aws-sdk": "^2.890.0",
+    "aws-sdk": "^2.891.0",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.18.0",
     "cli-spinner": "^0.2.10",
