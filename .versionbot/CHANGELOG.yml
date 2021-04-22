@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update nginx Docker tag to v1.20'
+      hash: 495649f91978c677016d082f8ed72941558ff8cc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.60
+  date: 2021-04-22T03:08:40.103Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 91962b4c40f80cf3d604888a70dcb3fde771ff80
       body: ''
