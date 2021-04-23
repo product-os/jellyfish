@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency memoize-one to ^5.2.0'
+      hash: aa65753fb385c25a5f24cf18b0d002d734eb13b8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.65
+  date: 2021-04-23T01:14:20.699Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v9'
       hash: 5418affaddf076f3a5a73619ac22fffb401c6d76
       body: ''
