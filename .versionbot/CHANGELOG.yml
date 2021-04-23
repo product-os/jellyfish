@@ -1,4 +1,25 @@
 - commits:
+    - subject: Update plugin-typeform requires
+      hash: 490e21ea91f4051a780d5cd1bbb7b6db68d16d16
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to v2'
+      hash: ce435ef40328df5b52a9e095c482b576cb36337f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.66
+  date: 2021-04-23T03:55:41.356Z
+- commits:
     - subject: 'patch: Update dependency memoize-one to ^5.2.0'
       hash: aa65753fb385c25a5f24cf18b0d002d734eb13b8
       body: ''
