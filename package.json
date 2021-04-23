@@ -99,7 +99,7 @@
     "mustache": "^4.2.0",
     "nock": "^13.0.11",
     "node-jose": "^2.0.0",
-    "puppeteer": "^8.0.0",
+    "puppeteer": "^9.0.0",
     "random-words": "^1.1.1",
     "randomstring": "^1.1.5",
     "request": "^2.88.2",
