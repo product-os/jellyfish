@@ -29,7 +29,7 @@
     "@balena/jellyfish-plugin-channels": "^1.1.52",
     "@balena/jellyfish-plugin-default": "^9.1.6",
     "@balena/jellyfish-plugin-product-os": "^1.2.73",
-    "@balena/jellyfish-plugin-typeform": "^1.0.51",
+    "@balena/jellyfish-plugin-typeform": "^2.0.8",
     "@balena/jellyfish-queue": "^1.0.0",
     "@balena/jellyfish-sync": "^6.0.48",
     "@balena/jellyfish-uuid": "^1.0.84",
