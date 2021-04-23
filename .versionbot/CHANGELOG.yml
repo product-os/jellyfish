@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to v9'
+      hash: 5418affaddf076f3a5a73619ac22fffb401c6d76
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.64
+  date: 2021-04-22T22:16:18.547Z
+- commits:
     - subject: 'patch: Update dependency aws-sdk to ^2.891.0'
       hash: ef8d8b51aaab848ad59aef2c8a8411fa64ca2dd9
       body: ''
