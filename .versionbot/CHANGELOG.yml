@@ -1,4 +1,19 @@
 - commits:
+    - subject: Move tests from core repo to jellyfish-worker repo
+      hash: cbcdcc529921fd658a438eb28bc5b9451d5aa0ae
+      body: >
+        This change also includes the upgrade to the Typescript version of the
+        worker
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.2.76
+  date: 2021-04-24T20:28:27.683Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: f201ce40916241972d9c26a9691d1c9c1b2c1697
       body: ''
