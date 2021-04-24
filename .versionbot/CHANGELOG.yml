@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: b692c71e5fccf437211bed3eccbc31ee4ea0c5df
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.77
+  date: 2021-04-24T22:06:11.280Z
+- commits:
     - subject: Move tests from core repo to jellyfish-worker repo
       hash: cbcdcc529921fd658a438eb28bc5b9451d5aa0ae
       body: >
