@@ -5,7 +5,9 @@
  */
 
 const request = require('request')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const TOKEN = process.argv[2]
 
 if (!TOKEN) {
@@ -58,7 +60,7 @@ const action = (slug) => {
 
 const run = async () => {
 	while (true) {
-		await action(`card-test-${await uuid.random()}`)
+		await action(`card-test-${uuidv4()}`)
 	}
 }
 

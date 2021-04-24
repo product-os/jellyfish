@@ -5,7 +5,9 @@
  */
 
 const ava = require('ava')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const helpers = require('../sdk/helpers')
 
 ava.serial.before(helpers.before)
@@ -22,7 +24,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 	const view = await sdk.card.create({
 		name: 'Foos',
 		type: 'view@1.0.0',
-		slug: `view-all-foos-${await uuid.random()}`,
+		slug: `view-all-foos-${uuidv4()}`,
 		data: {
 			allOf: [
 				{
@@ -57,7 +59,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 	})
 
 	const subscription = await sdk.card.create({
-		slug: `subscription-${await uuid.random()}`,
+		slug: `subscription-${uuidv4()}`,
 		name: 'Subscription to foo',
 		type: 'subscription@1.0.0',
 		data: {}
@@ -67,7 +69,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 
 	const card = await sdk.card.create({
 		type: 'card@1.0.0',
-		slug: `card-${await uuid.random()}`,
+		slug: `card-${uuidv4()}`,
 		data: {
 			baz: 'qux'
 		}
@@ -109,7 +111,7 @@ ava('Should not generate a notification if subscribed view filter does not match
 	const view = await sdk.card.create({
 		name: 'Foos',
 		type: 'view@1.0.0',
-		slug: `view-all-foos-${await uuid.random()}`,
+		slug: `view-all-foos-${uuidv4()}`,
 		data: {
 			allOf: [
 				{
@@ -144,7 +146,7 @@ ava('Should not generate a notification if subscribed view filter does not match
 	})
 
 	const subscription = await sdk.card.create({
-		slug: `subscription-${await uuid.random()}`,
+		slug: `subscription-${uuidv4()}`,
 		name: 'Subscription to foo',
 		type: 'subscription@1.0.0',
 		data: {}
@@ -154,7 +156,7 @@ ava('Should not generate a notification if subscribed view filter does not match
 
 	const card = await sdk.card.create({
 		type: 'card@1.0.0',
-		slug: `card-${await uuid.random()}`,
+		slug: `card-${uuidv4()}`,
 		data: {
 			baz: 'bar'
 		}
@@ -196,7 +198,7 @@ ava('Should not generate a notification if view is not subscribed, but filter ma
 	await sdk.card.create({
 		name: 'Foos',
 		type: 'view@1.0.0',
-		slug: `view-all-foos-${await uuid.random()}`,
+		slug: `view-all-foos-${uuidv4()}`,
 		data: {
 			allOf: [
 				{
@@ -232,7 +234,7 @@ ava('Should not generate a notification if view is not subscribed, but filter ma
 
 	const card = await sdk.card.create({
 		type: 'card@1.0.0',
-		slug: `card-${await uuid.random()}`,
+		slug: `card-${uuidv4()}`,
 		data: {
 			baz: 'qux'
 		}

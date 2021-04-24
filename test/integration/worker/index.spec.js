@@ -9,7 +9,9 @@ const helpers = require('./helpers')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
 const Worker = require('@balena/jellyfish-worker').Worker
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 
 ava.serial.before(async (test) => {
 	await helpers.worker.before(test)
@@ -82,10 +84,10 @@ ava('should not re-enqueue requests after duplicated execute events', async (tes
 	const enqueuedRequest1 = await test.context.dequeue()
 
 	await test.context.queue.consumer.postResults(
-		await uuid.random(), test.context.context, enqueuedRequest1, {
+		uuidv4(), test.context.context, enqueuedRequest1, {
 			error: false,
 			data: {
-				id: await uuid.random(),
+				id: uuidv4(),
 				type: 'card@1.0.0',
 				slug
 			}
@@ -879,10 +881,10 @@ ava('should not re-enqueue requests after execute failure', async (test) => {
 		})
 
 	await test.context.queue.consumer.postResults(
-		await uuid.random(), test.context.context, enqueuedRequest1, {
+		uuidv4(), test.context.context, enqueuedRequest1, {
 			error: false,
 			data: {
-				id: await uuid.random(),
+				id: uuidv4(),
 				type: 'card@1.0.0',
 				slug: 'foo'
 			}

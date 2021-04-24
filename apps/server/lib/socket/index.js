@@ -8,7 +8,9 @@ const _ = require('lodash')
 const socketIo = require('socket.io')
 const redisAdapter = require('socket.io-redis')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const express = require('express')
 const http = require('http')
 const basicAuth = require('express-basic-auth')
@@ -38,12 +40,13 @@ module.exports = (jellyfish, server) => {
 				})
 			}
 
-			return uuid.random().then((id) => {
+			const id = uuidv4()
+			return new Promise((resolve) => {
 				const context = {
 					id: `SOCKET-REQUEST-${packageJSON.version}-${id}`
 				}
 
-				return jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
+				return resolve(jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
 					let emitCount = 0
 					const updateEmitCount = () => {
 						emitCount++
@@ -117,7 +120,7 @@ module.exports = (jellyfish, server) => {
 							data: results
 						})
 					})
-				})
+				}))
 			}).catch((error) => {
 				socket.emit('streamError', {
 					error: true,

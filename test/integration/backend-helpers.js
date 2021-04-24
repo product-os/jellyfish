@@ -9,11 +9,13 @@ const Cache = require('@balena/jellyfish-core/lib/cache')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const errors = require('@balena/jellyfish-core/lib/errors')
 const Kernel = require('@balena/jellyfish-core/lib/kernel')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const utils = require('./utils')
 
 const backendBefore = async (test, options = {}) => {
-	const suffix = options.suffix || await uuid.random()
+	const suffix = options.suffix || uuidv4()
 	const dbName = `test_${suffix.replace(/-/g, '_')}`
 
 	test.context.cache = new Cache(
@@ -22,7 +24,7 @@ const backendBefore = async (test, options = {}) => {
 		}))
 
 	test.context.context = {
-		id: `CORE-TEST-${await uuid.random()}`
+		id: `CORE-TEST-${uuidv4()}`
 	}
 
 	if (test.context.cache) {

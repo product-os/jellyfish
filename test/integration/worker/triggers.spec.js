@@ -10,7 +10,9 @@ const {
 	triggers,
 	errors
 } = require('@balena/jellyfish-worker')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const Promise = require('bluebird')
 
 ava.serial.before(async (test) => {
@@ -82,7 +84,7 @@ ava('.getRequest() should return null if the filter only has a type but there is
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -130,7 +132,7 @@ ava('.getRequest() should return a request if the filter only has a type and the
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'foo@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -283,7 +285,7 @@ ava('.getRequest() should return a request given a complex matching filter', asy
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'foo@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -350,7 +352,7 @@ ava('.getRequest() should return null given a complex non-matching filter', asyn
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'foo@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -413,7 +415,7 @@ ava('.getRequest() should parse source templates in the triggered action argumen
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -492,7 +494,7 @@ ava('.getRequest() should return the request if the mode matches on update', asy
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -571,7 +573,7 @@ ava('.getRequest() should return the request if the mode matches on insert', asy
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
 		type: 'card@1.0.0',
 		version: '1.0.0',
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		active: true,
 		links: {},
 		tags: [],
@@ -648,7 +650,7 @@ ava('.getRequest() should return null if the mode does not match', async (test) 
 	const date = new Date()
 
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		type: 'card@1.0.0',
 		version: '1.0.0',
 		active: true,
@@ -697,7 +699,7 @@ ava('.getRequest() should parse timestamp templates in the triggered action argu
 	const currentDate = new Date()
 
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		type: 'card@1.0.0',
 		version: '1.0.0',
 		active: true,
@@ -772,7 +774,7 @@ ava('.getRequest() should return null if one of the templates is unsatisfied', a
 	}
 
 	const insertedCard = await test.context.jellyfish.insertCard(test.context.context, test.context.session, {
-		slug: await uuid.random(),
+		slug: uuidv4(),
 		type: 'card@1.0.0',
 		version: '1.0.0',
 		active: true,

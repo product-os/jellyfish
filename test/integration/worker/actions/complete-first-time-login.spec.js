@@ -7,7 +7,9 @@
 const ava = require('ava')
 const nock = require('nock')
 const helpers = require('../helpers')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const MAIL_OPTIONS = environment.mail.options
@@ -25,7 +27,7 @@ const createOrgLinkAction = async ({
 		arguments: {
 			reason: 'for testing',
 			properties: {
-				slug: `link-${fromId}-has-member-${toId}-${await uuid.random()}`,
+				slug: `link-${fromId}-has-member-${toId}-${uuidv4()}`,
 				version: '1.0.0',
 				name: 'has member',
 				data: {
@@ -222,7 +224,7 @@ ava('should fail when the first-time login does not match a valid card', async (
 
 	const user = await createUser(test, false)
 
-	const fakeToken = await uuid.random()
+	const fakeToken = uuidv4()
 
 	await test.throwsAsync(processAction(session, {
 		action: 'action-complete-first-time-login@1.0.0',

@@ -7,7 +7,9 @@
 const Bluebird = require('bluebird')
 const _ = require('lodash')
 const helpers = require('../backend-helpers')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const Consumer = require('@balena/jellyfish-queue').Consumer
 const Producer = require('@balena/jellyfish-queue').Producer
 const Worker = require('@balena/jellyfish-worker').Worker
@@ -61,7 +63,7 @@ const before = async (test, options) => {
 		consumedActionRequests.push(actionRequest)
 	})
 
-	test.context.queueActor = await uuid.random()
+	test.context.queueActor = uuidv4()
 
 	test.context.dequeue = async (times = 50) => {
 		if (consumedActionRequests.length === 0) {

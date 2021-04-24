@@ -5,7 +5,9 @@
  */
 
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const packageJSON = require('../../../package.json')
 const bootstrap = require('./bootstrap')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
@@ -26,16 +28,17 @@ process.on('unhandledRejection', (error) => {
 })
 
 const startDate = new Date()
-uuid.random().then((id) => {
-	const context = {
-		id: `WORKER-${packageJSON.version}-${id}`
-	}
+const id = uuidv4()
+const context = {
+	id: `WORKER-${packageJSON.version}-${id}`
+}
 
-	logger.info(context, 'Starting worker', {
-		time: startDate.getTime()
-	})
+logger.info(context, 'Starting worker', {
+	time: startDate.getTime()
+})
 
-	return bootstrap.worker(context, {
+try {
+	bootstrap.worker(context, {
 		metricsPort: environment.metrics.ports.app,
 		onError: (serverContext, error) => {
 			return onError(serverContext, error)
@@ -57,6 +60,6 @@ uuid.random().then((id) => {
 	}).catch((error) => {
 		return onError(context, error)
 	})
-}).catch((error) => {
-	return onError(DEFAULT_ERROR_CONTEXT, error)
-})
+} catch (error) {
+	onError(DEFAULT_ERROR_CONTEXT, error)
+}

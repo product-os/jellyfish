@@ -9,7 +9,9 @@ const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const fs = require('fs')
 const AWS = require('aws-sdk')
 const startOfToday = require('date-fns/startOfToday')
-const uuid = require('@balena/jellyfish-uuid')
+const {
+	v4: uuidv4
+} = require('uuid')
 const {
 	execSync
 } = require('child_process')
@@ -91,7 +93,7 @@ exports.upload = async (path) => {
 
 	console.log('Uploading screenshot to S3...')
 	const day = startOfToday().getTime()
-	const id = await uuid.random()
+	const id = uuidv4()
 	const key = `screenshots/${day}/${id}.png`
 	const object = {
 		ACL: 'public-read',
