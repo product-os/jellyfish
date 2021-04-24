@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace jellyfish-uuid with uuid
+      hash: 8beda2d61ce045ce677a703111c71283ffcdfbdf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.2.71
+  date: 2021-04-24T03:10:55.579Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 2862adf9c7d748db9a0db8d1885826c0a58972c9
       body: ''
