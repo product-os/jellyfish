@@ -24,8 +24,6 @@ upstream:
     url: 'https://github.com/product-os/jellyfish-queue'
   - repo: 'jellyfish-sync'
     url: 'https://github.com/product-os/jellyfish-sync'
-  - repo: 'jellyfish-uuid'
-    url: 'https://github.com/product-os/jellyfish-uuid'
   - repo: 'jellyfish-worker'
     url: 'https://github.com/product-os/jellyfish-worker'
   - repo: 'jellyfish-assert'
