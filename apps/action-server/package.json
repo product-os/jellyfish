@@ -22,7 +22,7 @@
     "@balena/jellyfish-plugin-typeform": "^2.0.14",
     "@balena/jellyfish-queue": "^1.0.12",
     "@balena/jellyfish-sync": "^6.0.57",
-    "@balena/jellyfish-worker": "^3.1.49",
+    "@balena/jellyfish-worker": "^4.1.17",
     "bluebird": "^3.7.2",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"
