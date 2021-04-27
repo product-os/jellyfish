@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'Katapult: Reduce action-server replica count by half.'
+      hash: ea69703dc05deb0bf5715e060c38bd570049ba14
+      body: |
+        This avoids choking the database and allows jobs to be queued.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 34.2.87
+  date: 2021-04-27T01:11:19.232Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 6c57c8ed41e2431fe13b6457f0aab1d3920f98f9
       body: ''
