@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: b13b74d3e72ce7a42d4611a435209652fedf143e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.2.88
+  date: 2021-04-27T07:41:26.040Z
+- commits:
     - subject: 'Katapult: Reduce action-server replica count by half.'
       hash: ea69703dc05deb0bf5715e060c38bd570049ba14
       body: |
