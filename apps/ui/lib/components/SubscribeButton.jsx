@@ -16,10 +16,10 @@ import {
 } from '@balena/jellyfish-ui-components'
 import {
 	useTask
-} from '@balena/jellyfish-chat-widget/lib/hooks'
+} from '@balena/jellyfish-chat-widget/build/hooks'
 import {
 	TaskButton
-} from '@balena/jellyfish-chat-widget/lib/components/TaskButton'
+} from '@balena/jellyfish-chat-widget/build/components/task-button'
 
 const getSubscriptionQuery = (view) => {
 	return {

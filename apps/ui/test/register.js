@@ -16,6 +16,7 @@ const _ = require('lodash')
 // Some modules (such as rendition) import CSS files, as a result we need to
 // stub these imports when testing UI code with ava.
 hook.hook('.css', _.constant(''))
+hook.hook('.svg', _.constant(''))
 
 require('@babel/register')({
 	presets: [
