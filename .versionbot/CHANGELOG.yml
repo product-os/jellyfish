@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update chat widget major change
+      hash: 7aefe557594900bce3e3b75c105fa8be2436e593
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 34.3.0
+  date: 2021-04-28T11:46:46.470Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 205c0ec469ae728ca7b57441724e052b2c9f0eef
       body: ''
