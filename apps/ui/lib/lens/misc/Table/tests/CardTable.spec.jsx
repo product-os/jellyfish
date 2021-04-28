@@ -106,28 +106,17 @@ ava('It should render', (test) => {
 	})
 })
 
-ava('It should trigger setPage when clicking the pager button next', (test) => {
+ava('It should trigger setPage when clicking the pager button next', async (test) => {
 	const {
-		setPageStub
+		setPageStub,
+		actions
 	} = test.context
 
-	const component = shallow(<CardTable
-		channel={channel}
-		tail={tail}
-		page={page}
-		totalPages={totalPages}
-		type={type}
-		user={user}
-		allTypes={allTypes}
-		setPage={setPageStub}
-		lensState={{}}
-	/>)
+	const cardTableComponent = await mountCardTable(actions, setPageStub)
 
-	component.find('Table')
-		.dive()
-		.find('BasePager')
-		.dive()
+	cardTableComponent
 		.find('.rendition-pager__btn--next')
+		.first()
 		.simulate('click')
 
 	test.true(setPageStub.calledOnce)

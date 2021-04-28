@@ -7,10 +7,10 @@
 import React from 'react'
 import {
 	useTask
-} from '@balena/jellyfish-chat-widget/lib/hooks'
+} from '@balena/jellyfish-chat-widget/build/hooks'
 import {
 	Task
-} from '@balena/jellyfish-chat-widget/lib/components/Task'
+} from '@balena/jellyfish-chat-widget/build/components/task'
 import {
 	useSetup
 } from '@balena/jellyfish-ui-components'

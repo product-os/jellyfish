@@ -6,3 +6,4 @@
 
 const browserEnv = require('browser-env')
 browserEnv([ 'window', 'document', 'navigator', 'XMLHttpRequest', 'HTMLAnchorElement', 'NodeFilter', 'NodeList', 'File', 'Blob' ])
+global.self = window.self
