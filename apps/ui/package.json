@@ -94,7 +94,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "rendition": "^20.11.0",
-    "skhema": "^5.3.3",
+    "skhema": "^5.3.4",
     "style-loader": "^2.0.0",
     "styled-components": "^5.2.3",
     "uuid": "^8.3.2",
