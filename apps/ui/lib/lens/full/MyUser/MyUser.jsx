@@ -81,6 +81,7 @@ export default class MyUser extends React.Component {
 		const userProfileSchema = _.pick(userTypeCard.data.schema, [
 			'properties.data.type',
 			'properties.data.properties.avatar',
+			'properties.data.properties.email',
 			'properties.data.properties.profile.properties.name',
 			'properties.data.properties.profile.properties.startDate',
 			'properties.data.properties.profile.properties.birthday',
