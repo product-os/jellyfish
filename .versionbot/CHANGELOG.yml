@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow users to edit email address
+      hash: babc3ff631d33ff2ab6c0551c8cd91c271b657dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.3.8
+  date: 2021-04-30T04:48:41.907Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 554c9c8297b2ffc0676d43b19fbccd174ed1d8c6
       body: ''
