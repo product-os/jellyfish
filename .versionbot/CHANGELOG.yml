@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 871cb9ddb164b0f2389789d177eeab2d14f0e03a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.3.9
+  date: 2021-04-30T06:44:41.158Z
+- commits:
     - subject: Allow users to edit email address
       hash: babc3ff631d33ff2ab6c0551c8cd91c271b657dc
       body: ''
