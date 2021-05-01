@@ -406,22 +406,3 @@ make test-e2e-server \
 	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
 	POSTGRES_DATABASE=$POSTGRES_DATABASE
 ```
-
-### Multiple Integration Tests
-Run multiple integration tests with two `make test` commands. Note that as some external service tokens/keys are not passed as variables in this example, not all tests will run. For example, since `INTEGRATION_FRONT_TOKEN` is not set, the Front sync tests will get skipped.
-```
-make test-integration-core test-integration-queue test-integration-sync test-integration-worker SCRUB=0 && \
-	make test-integration-server \
-		SCRUB=0 \
-		INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
-		INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
-		INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
-		OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
-		SERVER_HOST=http://localhost \
-		SERVER_PORT=8000 \
-		POSTGRES_HOST=$POSTGRES_HOST \
-		POSTGRES_USER=$POSTGRES_USER \
-		POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-		POSTGRES_DATABASE=$POSTGRES_DATABASE \
-		REDIS_HOST=localhost
-```
