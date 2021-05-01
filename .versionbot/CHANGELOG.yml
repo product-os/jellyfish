@@ -1,4 +1,17 @@
 - commits:
+    - subject: Upgrade product-os plugin to v2
+      hash: deb07ea6f31eaa68396b9d9b6b8c6349533c13e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.3.14
+  date: 2021-05-01T00:57:15.831Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-jsdoc to v33'
       hash: 64679dbea8bdc1ebca03d3c361fcc2f3a4f83a6d
       body: ''
