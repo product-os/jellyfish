@@ -94,20 +94,6 @@ tasks:
         value: ''
     dependencies:
       - 'front-mirror'
-  - name: 'integration-worker'
-    description: 'Worker Integration Tests'
-    command: 'make test-integration-worker'
-    cwd: '/usr/src/jellyfish'
-    required: true
-    environment:
-      - name: 'MAILGUN_TOKEN'
-        value: ''
-      - name: 'INTEGRATION_BALENA_API_APP_SECRET'
-        value: ''
-      - name: 'INTEGRATION_BALENA_API_APP_ID'
-        value: ''
-    dependencies:
-      - 'integration-server'
   - name: 'postgres-export'
     description: 'Export Postgres dump'
     command: './scripts/ci/postgres/export.js e2e-server'
@@ -115,7 +101,7 @@ tasks:
     required: true
     dependencies:
       - 'github-mirror'
-      - 'integration-worker'
+      - 'integration-server'
       - 'e2e-server'
   - name: 'postgres-import'
     description: 'Import Postgres dump from most recently merged commit'
