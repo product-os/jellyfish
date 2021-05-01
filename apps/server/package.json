@@ -32,7 +32,7 @@
     "@balena/jellyfish-plugin-typeform": "^2.0.40",
     "@balena/jellyfish-queue": "^1.0.30",
     "@balena/jellyfish-sync": "^6.0.86",
-    "@balena/jellyfish-worker": "^4.1.54",
+    "@balena/jellyfish-worker": "^4.1.59",
     "aws-sdk": "^2.896.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
