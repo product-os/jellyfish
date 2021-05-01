@@ -13,7 +13,9 @@ const {
 } = require('@balena/jellyfish-plugin-channels')
 const ActionLibrary = require('@balena/jellyfish-action-library')
 const DefaultPlugin = require('@balena/jellyfish-plugin-default')
-const ProductOSPlugin = require('@balena/jellyfish-plugin-product-os')
+const {
+	ProductOsPlugin
+} = require('@balena/jellyfish-plugin-product-os')
 const {
 	TypeformPlugin
 } = require('@balena/jellyfish-plugin-typeform')
@@ -25,7 +27,7 @@ exports.getPluginManager = (context) => {
 			ActionLibrary,
 			DefaultPlugin,
 			ChannelsPlugin,
-			ProductOSPlugin,
+			ProductOsPlugin,
 			TypeformPlugin
 		]
 	})
