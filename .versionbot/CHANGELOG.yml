@@ -1,4 +1,48 @@
 - commits:
+    - subject: Remove unneeded test dev dependencies
+      hash: 9db3bf6d84597b230645fd31d879eef97d00fd08
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove outdated test documentation
+      hash: 55ca00f5941e6fbdb24b7db598ba69cb20362fab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove integration-worker test CI task
+      hash: 339ada3f60f6410d244a267a1aeed7ae461d1fa7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove worker/action integration tests
+      hash: 002eefdcbe34360308e477fb13952c1dd75d278f
+      body: |
+        These tests are now fouund in the worker module.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.3.15
+  date: 2021-05-01T23:50:08.174Z
+- commits:
     - subject: Upgrade product-os plugin to v2
       hash: deb07ea6f31eaa68396b9d9b6b8c6349533c13e7
       body: ''
