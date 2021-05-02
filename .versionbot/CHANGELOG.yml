@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 95102b6e60f5cbfcc819c023c34984214410fa56
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.3.16
+  date: 2021-05-02T05:38:27.942Z
+- commits:
     - subject: Remove unneeded test dev dependencies
       hash: 9db3bf6d84597b230645fd31d879eef97d00fd08
       body: ''
