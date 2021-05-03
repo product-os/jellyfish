@@ -4,12 +4,6 @@
 
 FROM balena/open-balena-base:v11.1.2 as base
 
-ARG SERVER_HOST
-ENV SERVER_HOST $SERVER_HOST
-
-ARG SERVER_PORT
-ENV SERVER_PORT $SERVER_PORT
-
 WORKDIR /usr/src/jellyfish/apps/ui
 
 ARG NPM_TOKEN
@@ -19,7 +13,7 @@ COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/Makefile
+COPY ./apps/ui /usr/src/jellyfish/apps/ui
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
@@ -28,19 +22,9 @@ COPY ./apps/ui/Makefile /usr/src/jellyfish/apps/ui/Makefile
 #dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 RUN rm -f ~/.npmrc
-COPY ./apps/ui/lib/ /usr/src/jellyfish/apps/ui/lib/
-
-ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
-
-ENV SERVER_HOST=${SERVER_HOST:-https://api.ly.fish}
-ENV SERVER_PORT=${SERVER_PORT:-443}
 
 RUN make build-ui \
 	NODE_ENV=production \
-	SENTRY_DSN_UI=$SENTRY_DSN_UI \
-	SERVER_HOST=$SERVER_HOST \
-	SERVER_PORT=$SERVER_PORT \
-	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
 	NODE_OPTIONS=--max-old-space-size=3072
 
 ###########################################################
@@ -48,6 +32,13 @@ RUN make build-ui \
 ###########################################################
 
 FROM nginx:1.20
-WORKDIR /usr/src/jellyfish
+WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
+COPY apps/ui/conf/env.sh /usr/share/nginx/html
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Make our shell script executable
+RUN chmod +x /usr/share/nginx/html/env.sh
+
+# Start Nginx server
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
