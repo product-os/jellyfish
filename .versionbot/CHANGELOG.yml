@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 9bb1f0630aedb55cf904cf6437264a89c395dd27
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.1
+  date: 2021-05-03T17:42:08.031Z
+- commits:
     - subject: Allow UI containers to be configurable at runtime
       hash: 0dcb73cba8b993925983b4b1bf239391ab841a63
       body: >
