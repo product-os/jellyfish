@@ -1,4 +1,40 @@
 - commits:
+    - subject: Allow UI containers to be configurable at runtime
+      hash: 0dcb73cba8b993925983b4b1bf239391ab841a63
+      body: >
+        Injecting environment variables using a shell script allows the UI
+        docker
+
+        container to be parameterised at runtime, which means we can create a
+        single
+
+        UI container and point it at differnet backends as required.
+
+        This is very useful for testing, where we build containers (that may be
+
+        deployed to production) and also test these containers in CI.
+
+        For a more in-depth explanation of this approach take a look at:
+
+        https://www.freecodecamp.org/news/how-to-implement-runtime-environment-variables-with-create-react-app-docker-and-nginx-7f9d42a91d70/
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^8.0.30'
+      hash: c617fab149e89cfe47582c4c03cae1c725cff816
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.0
+  date: 2021-05-03T12:48:54.895Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 26d5efc4ebee9c9f18d50390f7dbbc8c1497c093
       body: ''
