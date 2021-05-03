@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        fix: don't use version of card as version of type when inserting default
+        cards
+      hash: 432a0ac3f1c58f5255b9948f93a2cfa958e3d92a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Martin Rauscher
+      nested: []
+  version: 34.3.20
+  date: 2021-05-03T00:00:11.297Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 817e1fe66b4a062b33519218a9371ef88f5fbe51
       body: ''
