@@ -1,5 +1,16 @@
 - commits:
     - subject: 'patch: Update non-major-frontend'
+      hash: 62971071cab2fe2706702f35318565ef4c01f106
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.4
+  date: 2021-05-03T22:45:12.188Z
+- commits:
+    - subject: 'patch: Update non-major-frontend'
       hash: 1cc386993462790fa53b7af73a46103ada9979d3
       body: ''
       footer:
