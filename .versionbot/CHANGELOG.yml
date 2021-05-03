@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 43e9daecbd747f3ba39696c039fbcefedab0b10c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.3.21
+  date: 2021-05-03T04:10:00.945Z
+- commits:
     - subject: >-
         fix: don't use version of card as version of type when inserting default
         cards
