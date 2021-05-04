@@ -40,7 +40,7 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/register": "^7.13.16",
     "@balena/jellyfish-chat-widget": "^8.0.36",
-    "@balena/jellyfish-client-sdk": "^3.2.151",
+    "@balena/jellyfish-client-sdk": "^3.2.161",
     "@balena/jellyfish-environment": "^4.1.8",
     "@balena/jellyfish-ui-components": "^9.1.46",
     "@primer/styled-octicons": "^13.0.0",
