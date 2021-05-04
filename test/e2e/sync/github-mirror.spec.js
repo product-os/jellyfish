@@ -6,6 +6,7 @@
 
 const ava = require('ava')
 const _ = require('lodash')
+const Bluebird = require('bluebird')
 const {
 	v4: uuid
 } = require('uuid')
@@ -47,6 +48,46 @@ const getMirrorWaitSchema = (slug) => {
 							type: 'string',
 							pattern: '^https:\\/\\/github\\.com'
 						}
+					}
+				}
+			}
+		}
+	}
+}
+
+const getSyncMessage = (targetId, message) => {
+	return {
+		type: 'object',
+		required: [ 'type', 'data' ],
+		properties: {
+			type: {
+				const: 'message@1.0.0'
+			},
+			data: {
+				type: 'object',
+				required: [ 'payload' ],
+				properties: {
+					payload: {
+						type: 'object',
+						required: [ 'message' ],
+						properties: {
+							message: {
+								regexp: {
+									pattern: message
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				required: [ 'id' ],
+				properties: {
+					id: {
+						const: targetId
 					}
 				}
 			}
@@ -268,4 +309,80 @@ avaTest('should be able to create an issue with a comment', async (test) => {
 	test.is(externalMessages.data.length, 1)
 	test.is(externalMessages.data[0].body, `[${test.context.username}] First comment`)
 	test.is(externalMessages.data[0].user.login, currentUser.data.login)
+})
+
+avaTest('linking a support/sales thread to an issue results in a message on that issue\'s timeline', async (test) => {
+	const issueSlug = test.context.getIssueSlug()
+	const title = `Test Issue ${uuid()}`
+	const issue = await test.context.createIssue(
+		test.context.repository, issueSlug, title, {
+			body: 'Issue body',
+			status: 'open',
+			archived: false
+		})
+
+	const supportThread = await test.context.sdk.card.create({
+		type: 'support-thread',
+		name: 'test subject',
+		data: {
+			product: 'test-product',
+			inbox: 'S/Paid_Support',
+			status: 'open'
+		}
+	})
+
+	test.context.executeThenWait(async () => {
+		return test.context.sdk.card.link(supportThread, issue, 'support thread is attached to issue')
+	}, getSyncMessage(issue.id, 'This issue has attached support thread'))
+
+	const mirror = issue.data.mirrors[0]
+
+	const externalIssue = await test.context.github.issues.get({
+		owner: test.context.repository.owner,
+		repo: test.context.repository.repo,
+		issue_number: _.last(mirror.split('/'))
+	})
+
+	const attempts = 5
+	const externalMessages = await test.context.retry(() => {
+		return test.context.github.issues.listComments({
+			owner: test.context.repository.owner,
+			repo: test.context.repository.repo,
+			issue_number: externalIssue.data.number
+		})
+	}, (extMsgs) => {
+		return _.get(extMsgs, [ 'data', 'length' ]) === 1
+	}, attempts, 1000)
+
+	test.is(externalMessages.data[0].body, `[${test.context.username}] This issue has attached support thread https://jel.ly.fish/${supportThread.id}`)
+
+	// TOOD: Remove all the code below once we are confident we don't re-trigger a message on unlinking
+
+	// Now unlink the thread. We should not generate a second message
+	await test.context.sdk.card.unlink(supportThread, issue, 'support thread is attached to issue')
+
+	// Wait for a while to allow triggered actions to run.
+	await Bluebird.delay(5000)
+
+	const messages = await test.context.sdk.query({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'message@1.0.0'
+			}
+		},
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						const: issue.id
+					}
+				}
+			}
+		}
+	})
+
+	// There should still only be one message on this issue.
+	test.is(messages.length, 1)
 })
