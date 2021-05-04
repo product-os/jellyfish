@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: 2dd2adeb4dd828aeebebf82f3d467033bcb801b8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.7
+  date: 2021-05-04T03:34:52.744Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.44'
       hash: 32a477865209a73d1a946b67ce3b59ff90306fb2
       body: ''
