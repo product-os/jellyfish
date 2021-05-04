@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.1.46'
+      hash: 0c7ee713f2b33fb9aa55a77748b01268de1cd6f3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.9
+  date: 2021-05-04T06:24:32.761Z
+- commits:
     - subject: Add e2e sync test for GitHub thread linking message
       hash: a3e85b23f4ec852d40ab66b6941164940f7694dd
       body: >
