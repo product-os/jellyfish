@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add e2e sync test for GitHub thread linking message
+      hash: a3e85b23f4ec852d40ab66b6941164940f7694dd
+      body: >
+        Tests that when you link a support thread to a GitHub issue a message is
+        added to the issue's timeline with the URL of the support thread. Also
+        verifies that when you unlink the support thread, no further messages
+        are automatically added to the issue's timeline.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.4.8
+  date: 2021-05-04T05:01:30.504Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 2dd2adeb4dd828aeebebf82f3d467033bcb801b8
       body: ''
