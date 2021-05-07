@@ -621,6 +621,9 @@ module.exports = (application, jellyfish, worker, producer, options) => {
 						data
 					})
 				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error)
+				})
 		})
 			.catch((error) => {
 				return sendHTTPError(request, response, error)
