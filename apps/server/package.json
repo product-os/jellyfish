@@ -20,9 +20,9 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-action-library": "^9.1.27",
-    "@balena/jellyfish-assert": "^1.1.11",
-    "@balena/jellyfish-core": "^2.13.70",
-    "@balena/jellyfish-environment": "^4.1.8",
+    "@balena/jellyfish-assert": "^1.1.13",
+    "@balena/jellyfish-core": "^2.13.78",
+    "@balena/jellyfish-environment": "^4.1.10",
     "@balena/jellyfish-logger": "^2.1.41",
     "@balena/jellyfish-metrics": "^1.0.190",
     "@balena/jellyfish-plugin-base": "^1.2.41",
