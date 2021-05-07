@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump dependencies
+      hash: d86adda624484da86eb8aca83ccfdf982840b09f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.15
+  date: 2021-05-07T03:58:37.881Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.3.45'
       hash: 8f9f30c6135a25f315a5b4486e5c6f63a76c1a3e
       body: ''
