@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix broken sentry logging caused by incorrect module import
+      hash: 464ed0f1cde99cebd33ab8e6061397318087ab8b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.4.18
+  date: 2021-05-07T12:43:12.719Z
+- commits:
     - subject: Bump dependencies
       hash: 249ed47f2641aaa1991a5632790d1ca68e49ce90
       body: ''
