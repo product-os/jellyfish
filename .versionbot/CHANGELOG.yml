@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency lint-staged to v11'
+      hash: 9a02e85e969147218b11228be830c4c4e8fa4ebb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.19
+  date: 2021-05-08T02:12:38.603Z
+- commits:
     - subject: Fix broken sentry logging caused by incorrect module import
       hash: 464ed0f1cde99cebd33ab8e6061397318087ab8b
       body: ''
