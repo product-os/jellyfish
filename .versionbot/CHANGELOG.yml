@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-queue
+      hash: 3967c939fbbb40c0369fec274e92acca8752da18
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.24
+  date: 2021-05-09T13:17:31.275Z
+- commits:
     - subject: Bump plugins
       hash: 5d5b3d5c693e9508ab22e97d262f2ee3ea149ac8
       body: ''
