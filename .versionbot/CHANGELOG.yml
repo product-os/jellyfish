@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump third party dependencies
+      hash: 69e121db78484ecd18f7cb634aa2425c354ceac4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.20
+  date: 2021-05-09T01:02:52.777Z
+- commits:
     - subject: 'patch: Update dependency lint-staged to v11'
       hash: 9a02e85e969147218b11228be830c4c4e8fa4ebb
       body: ''
