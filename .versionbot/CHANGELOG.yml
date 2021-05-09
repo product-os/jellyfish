@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump jellyfish-client-sdk
+      hash: 9aaa4abb3430df39652dad260509e0492ddcb3a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump dependencies
+      hash: b48206df29dcc653d93eb8099d4e25eb500d013c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.22
+  date: 2021-05-09T09:37:33.126Z
+- commits:
     - subject: Bump dependencies
       hash: 569a37b55582e58a9ef5d481dde7227b0ad348a2
       body: ''
