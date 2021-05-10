@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-sync
+      hash: cfd6ecab7223b1ca2b21530d47fcbae9b7167004
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.26
+  date: 2021-05-10T05:13:11.282Z
+- commits:
     - subject: Bump jellyfish-worker
       hash: e9499daa681befed9f7727df1ef713101f8fa957
       body: ''
