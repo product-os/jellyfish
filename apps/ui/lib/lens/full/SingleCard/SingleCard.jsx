@@ -5,7 +5,7 @@
  */
 
 import {
-	circularDeepEqual
+	deepEqual
 } from 'fast-equals'
 import _ from 'lodash'
 import React from 'react'
@@ -57,7 +57,7 @@ export default class SingleCardFull extends React.Component {
 	}
 
 	shouldComponentUpdate (nextProps, nextState) {
-		return	!circularDeepEqual(nextState, this.state) || !circularDeepEqual(nextProps, this.props)
+		return !deepEqual(nextState, this.state) || !deepEqual(nextProps, this.props)
 	}
 
 	setActiveIndex (activeIndex) {
