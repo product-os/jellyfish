@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency eslint-plugin-jsdoc to v34'
+      hash: 0ff877f2b6146d0845f4fc8c7dd84b043c53f11c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.27
+  date: 2021-05-11T02:29:51.660Z
+- commits:
     - subject: Bump jellyfish-sync
       hash: cfd6ecab7223b1ca2b21530d47fcbae9b7167004
       body: ''
