@@ -22,6 +22,12 @@
         "patch"
       ],
       "automerge": true
+    },
+    {
+      "groupName": "jellyfish-action-library",
+      "matchPackageNames": [
+        "@balena/jellyfish-action-library"
+      ]
     }
   ]
 }
