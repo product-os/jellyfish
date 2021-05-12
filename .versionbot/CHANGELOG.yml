@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump fast-equals to v2.0.3
+      hash: e7e6bacd442d9369fef65955983e2816c63130c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.28
+  date: 2021-05-12T04:22:56.205Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-jsdoc to v34'
       hash: 0ff877f2b6146d0845f4fc8c7dd84b043c53f11c
       body: ''
