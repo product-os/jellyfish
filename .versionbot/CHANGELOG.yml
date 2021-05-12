@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Renovate: Temporarily add bump group for action-library'
+      hash: c4084beed60f0708f6a4d1269ac080b4a0c36cb9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.29
+  date: 2021-05-12T05:38:09.510Z
+- commits:
     - subject: Bump fast-equals to v2.0.3
       hash: e7e6bacd442d9369fef65955983e2816c63130c9
       body: ''
