@@ -92,6 +92,76 @@ const getMirrorWaitSchema = (slug) => {
 	}
 }
 
+const testSupportThreadReopen = async (test, triggerCardSeed, linkVerb) => {
+	const supportThread = await test.context.startSupportThread(
+		`My Issue ${uuid()}`,
+		`Foo Bar ${uuid()}`,
+		test.context.inboxes[0])
+
+	const triggerCard = await test.context.sdk.card.create(triggerCardSeed)
+
+	await test.context.sdk.card.link(supportThread, triggerCard, linkVerb)
+
+	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
+
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
+		}
+	])
+
+	// Give the sync pipeline time to run
+	await Bluebird.delay(3000)
+
+	const remoteConversationBefore = await retryWhile429(() => {
+		return test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+	})
+
+	test.is(remoteConversationBefore.status, 'archived')
+
+	// Close the issue, and then wait for the support thread to be re-opened
+	const newSupportThread = await test.context.executeThenWait(async () => {
+		return test.context.sdk.card.update(triggerCard.id, triggerCard.type, [
+			{
+				op: 'replace',
+				path: '/data/status',
+				value: 'closed'
+			}
+		])
+	}, {
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'open'
+					}
+				}
+			}
+		}
+	})
+
+	test.is(newSupportThread.data.status, 'open')
+
+	const remoteConversationAfter = await retryWhile429(() => {
+		return test.context.front.conversation.get({
+			conversation_id: conversationId
+		})
+	})
+
+	test.is(remoteConversationAfter.status, 'unassigned')
+}
+
 ava.serial.before(async (test) => {
 	await helpers.mirror.before(test)
 
@@ -347,12 +417,7 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 })
 
 avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		`My Issue ${uuid()}`,
-		`Foo Bar ${uuid()}`,
-		test.context.inboxes[0])
-
-	const issue = await test.context.sdk.card.create({
+	const issue = {
 		name: 'My issue',
 		slug: `issue-link-test-${uuid()}`,
 		type: 'issue',
@@ -364,69 +429,34 @@ avaTest('should re-open a closed support thread if an attached issue is closed',
 			mentionsUser: [],
 			alertsUser: []
 		}
-	})
+	}
+	await testSupportThreadReopen(test, issue, 'support thread is attached to issue')
+})
 
-	await test.context.sdk.card.link(
-		supportThread, issue, 'support thread is attached to issue')
-
-	const conversationId = _.last(supportThread.data.mirrors[0].split('/'))
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
+avaTest('should re-open a closed support thread if an attached pull request is closed', async (test) => {
+	const pullRequest = {
+		name: 'My PR',
+		slug: `pr-link-test-${uuid()}`,
+		type: 'pull-request',
+		version: '1.0.0',
+		data: {
+			status: 'open'
 		}
-	])
+	}
+	await testSupportThreadReopen(test, pullRequest, 'support thread is attached to pull request')
+})
 
-	// Give the sync pipeline time to run
-	await Bluebird.delay(3000)
-
-	const remoteConversationBefore = await retryWhile429(() => {
-		return test.context.front.conversation.get({
-			conversation_id: conversationId
-		})
-	})
-
-	test.is(remoteConversationBefore.status, 'archived')
-
-	// Close the issue, and then wait for the support thread to be re-opened
-	const newSupportThread = await test.context.executeThenWait(async () => {
-		return test.context.sdk.card.update(issue.id, issue.type, [
-			{
-				op: 'replace',
-				path: '/data/status',
-				value: 'closed'
-			}
-		])
-	}, {
-		type: 'object',
-		required: [ 'id', 'data' ],
-		properties: {
-			id: {
-				const: supportThread.id
-			},
-			data: {
-				type: 'object',
-				required: [ 'status' ],
-				properties: {
-					status: {
-						const: 'open'
-					}
-				}
-			}
+avaTest('should re-open a closed support thread if an attached pattern is closed', async (test) => {
+	const pattern = {
+		name: 'My pattern',
+		slug: `pattern-link-test-${uuid()}`,
+		type: 'pattern',
+		version: '1.0.0',
+		data: {
+			status: 'open'
 		}
-	})
-
-	test.is(newSupportThread.data.status, 'open')
-
-	const remoteConversationAfter = await retryWhile429(() => {
-		return test.context.front.conversation.get({
-			conversation_id: conversationId
-		})
-	})
-
-	test.is(remoteConversationAfter.status, 'unassigned')
+	}
+	await testSupportThreadReopen(test, pattern, 'has attached')
 })
 
 avaTest('should re-open a closed support thread if a new message is added', async (test) => {
