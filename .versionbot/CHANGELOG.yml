@@ -1,4 +1,41 @@
 - commits:
+    - subject: Fix e2e test to set improvement status
+      hash: a6f7783a368426996ebc8dc00e59fccc679a5488
+      body: |
+        This field now needs to be set when creating a new product improvement.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Bump jellyfish-plugin-default dependencies
+      hash: a4ed8cc0ef0b8fec5c9740d04653becb8068287b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add e2e tests to check reopen triggered actions
+      hash: f1013f534c0aa1bf06ec09ee71800413ce05f324
+      body: >
+        Abstracted the existing test that verified issues re-opened support
+        threads when closed and called this abstract test from three tests for
+        issues, pull requests and patterns.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.4.48
+  date: 2021-05-14T08:54:10.941Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: ab8d58be726d77add701c04c56ebc6a216678a90
       body: ''
