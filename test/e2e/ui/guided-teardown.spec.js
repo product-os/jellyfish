@@ -83,7 +83,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 			name,
 			data: {
 				phase: 'proposed',
-				status: 'open'
+				status: 'proposed'
 			}
 		})
 	}, productImprovement1Name)
@@ -107,7 +107,9 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	await macros.waitForThenClickSelector(page, selectors.addProductImprovement)
 	await page.waitForSelector('input#root_name')
 	await page.type('input#root_name', productImprovement2Name)
-	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]')
+	await macros.waitForThenClickSelector(page, '#root_data_status__input')
+	await macros.waitForThenClickSelector(page, '#root_data_status__select-drop button')
+	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]:not(:disabled)')
 
 	await page.waitForSelector(selectors.linkedProductImprovements)
 	let linkedProductImprovements = await page.$$(selectors.linkedProductImprovements)
