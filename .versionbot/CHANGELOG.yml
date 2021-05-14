@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: a2b9d58000db4e7eacc78203283679eeee0fe2dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.49
+  date: 2021-05-14T10:23:41.119Z
+- commits:
     - subject: Fix e2e test to set improvement status
       hash: a6f7783a368426996ebc8dc00e59fccc679a5488
       body: |
