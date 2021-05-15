@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: f837d504eed6b8b1eeafe9c18431cdf309466662
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.54
+  date: 2021-05-15T10:03:50.316Z
+- commits:
     - subject: Fix lint errors
       hash: 6d68c80ad799e067151dcb030f8b4777493bdc0b
       body: ''
