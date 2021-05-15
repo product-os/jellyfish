@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove action-library Renovate group
+      hash: eb03c38dedc2ecd9a6e91844c16b9dfca89305b0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.4.52
+  date: 2021-05-15T01:11:49.498Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: a99ae66d29ca9d2bdaff8fe7b28b090ed5b49cf4
       body: ''
