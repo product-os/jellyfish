@@ -149,12 +149,30 @@ const SCHEMA_ACTIVE_SUBSCRIPTIONS = {
 
 const SCHEMA_ACTIVE_TRANSFORMERS = {
 	type: 'object',
+	required: [ 'active', 'type', 'data' ],
 	properties: {
 		active: {
 			const: true
 		},
 		type: {
 			const: 'transformer@1.0.0'
+		},
+		data: {
+			type: 'object',
+			required: [ '$transformer' ],
+			properties: {
+				$transformer: {
+					type: 'object',
+					required: [ 'artifactReady' ],
+					properties: {
+						artifactReady: {
+							not: {
+								const: false
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 }
