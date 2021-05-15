@@ -1,4 +1,29 @@
 - commits:
+    - subject: Fix lint errors
+      hash: 6d68c80ad799e067151dcb030f8b4777493bdc0b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: ignore incomplete Transformers
+      hash: 945a15ce8b5b2010882b8c2149018082c6a6059c
+      body: >
+        this fixes the case where a new version of a transformercontract was
+        created but the image could not be uploaded
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.4.53
+  date: 2021-05-15T03:08:49.313Z
+- commits:
     - subject: Remove action-library Renovate group
       hash: eb03c38dedc2ecd9a6e91844c16b9dfca89305b0
       body: ''
