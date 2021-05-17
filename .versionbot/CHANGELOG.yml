@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @primer/styled-octicons to v14'
+      hash: 7f1e8250956845360c4655ce580eb1965f64266d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.64
+  date: 2021-05-17T02:13:49.794Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^9.4.14'
       hash: 8681c219adc63060879aec27edbc1b9667026111
       body: ''
