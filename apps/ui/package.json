@@ -43,7 +43,7 @@
     "@balena/jellyfish-client-sdk": "^3.4.1",
     "@balena/jellyfish-environment": "^4.1.13",
     "@balena/jellyfish-ui-components": "^9.1.73",
-    "@primer/styled-octicons": "^13.0.0",
+    "@primer/styled-octicons": "^14.1.0",
     "analytics-client": "^1.6.0",
     "babel-loader": "^8.2.2",
     "bluebird": "^3.7.2",
