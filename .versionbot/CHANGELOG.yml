@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency analytics-client to v1'
+      hash: 936e6bbcfbc30250ae0211618f93f6e25a09c5b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.62
+  date: 2021-05-16T23:17:36.816Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 08d37a7492d9d8b80ca9b111130118023dbc6e26
       body: ''
