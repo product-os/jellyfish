@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency query-string to v7'
+      hash: 99f8e76226f2b6e968cfddd2321d744f0d2b1212
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.68
+  date: 2021-05-17T17:16:02.010Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 73ef7216c597a4681fea621f32f9a86c9688698d
       body: ''
