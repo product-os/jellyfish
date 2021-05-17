@@ -7,7 +7,7 @@
 const {
 	v4: uuid
 } = require('uuid')
-const coreMixins = require('@balena/jellyfish-core/lib/cards/mixins')
+const coreMixins = require('@balena/jellyfish-core').cardMixins
 const {
 	getPluginManager
 } = require('../../apps/server/lib/plugins')
