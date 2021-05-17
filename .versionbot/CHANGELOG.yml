@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major'
+      hash: a1ea8d43bd8c6a60e2c68c17ca6221c0c6fa0996
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.65
+  date: 2021-05-17T10:33:00.006Z
+- commits:
     - subject: 'patch: Update dependency @primer/styled-octicons to v14'
       hash: 7f1e8250956845360c4655ce580eb1965f64266d
       body: ''
