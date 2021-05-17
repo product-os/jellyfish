@@ -58,7 +58,7 @@
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.151",
     "@balena/jellyfish-action-library": "^10.0.30",
-    "@balena/jellyfish-chat-widget": "^8.0.63",
+    "@balena/jellyfish-chat-widget": "^8.0.64",
     "@balena/jellyfish-client-sdk": "^3.4.1",
     "@balena/jellyfish-core": "^2.13.121",
     "@balena/jellyfish-environment": "^4.1.13",
