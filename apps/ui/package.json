@@ -108,7 +108,7 @@
     "@emotion/react": "^11.4.0",
     "ava": "^3.15.0",
     "browser-env": "^3.3.0",
-    "canvas": "^2.7.0",
+    "canvas": "^2.8.0",
     "depcheck": "^1.4.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
