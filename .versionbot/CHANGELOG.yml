@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 327593daab858ecd5ba21f22bcd8cc325121a9ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.69
+  date: 2021-05-17T18:45:10.648Z
+- commits:
     - subject: 'patch: Update dependency query-string to v7'
       hash: 99f8e76226f2b6e968cfddd2321d744f0d2b1212
       body: ''
