@@ -19,10 +19,10 @@
     "@balena/jellyfish-plugin-channels": "^1.1.107",
     "@balena/jellyfish-plugin-default": "^9.4.17",
     "@balena/jellyfish-plugin-product-os": "^2.0.41",
-    "@balena/jellyfish-plugin-typeform": "^2.0.118",
+    "@balena/jellyfish-plugin-typeform": "^2.0.119",
     "@balena/jellyfish-queue": "^1.0.82",
     "@balena/jellyfish-sync": "^6.0.164",
-    "@balena/jellyfish-worker": "^4.4.1",
+    "@balena/jellyfish-worker": "^4.4.2",
     "bluebird": "^3.7.2",
     "lodash": "^4.17.21",
     "uuid": "^8.3.2"
