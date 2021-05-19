@@ -1,4 +1,5 @@
 {
+  "status": "open",
   "user": "testuser",
   "mirrors": [
     "https://api.typeform.com/forms/NLYdaT/responses?included_response_ids=9r7yx6testuser9r7umjr6yksn"
