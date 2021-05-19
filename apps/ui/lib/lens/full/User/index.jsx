@@ -12,9 +12,21 @@ import {
 	bindActionCreators
 } from 'redux'
 import {
+	sdk,
+	selectors,
 	actionCreators
 } from '../../../core'
 import User from './User'
+
+const mapStateToProps = (state) => {
+	const balenaOrg = _.find(selectors.getOrgs(state), {
+		slug: 'org-balena'
+	})
+	return {
+		sdk,
+		balenaOrg
+	}
+}
 
 const mapDispatchToProps = (dispatch) => {
 	return {
@@ -34,7 +46,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(null, mapDispatchToProps)(User),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(User),
 		filter: {
 			type: 'object',
 			properties: {
