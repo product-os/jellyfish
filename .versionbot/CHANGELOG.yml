@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.1.76'
+      hash: 774044709edbbd304eb1746196c24f07c51ab6a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.4.78
+  date: 2021-05-20T01:33:46.612Z
+- commits:
     - subject: 'patch: Update non-major'
       hash: 5df8297a6039a6ddf7745fe0a9d1e2dc9aa27678
       body: ''
