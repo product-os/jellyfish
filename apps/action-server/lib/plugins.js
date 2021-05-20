@@ -19,6 +19,9 @@ const {
 const {
 	TypeformPlugin
 } = require('@balena/jellyfish-plugin-typeform')
+const {
+	GitHubPlugin
+} = require('@balena/jellyfish-plugin-github')
 
 exports.getPluginManager = (context) => {
 	logger.info(context, 'Loading plugins')
@@ -28,7 +31,8 @@ exports.getPluginManager = (context) => {
 			DefaultPlugin,
 			ChannelsPlugin,
 			ProductOsPlugin,
-			TypeformPlugin
+			TypeformPlugin,
+			GitHubPlugin
 		]
 	})
 }

@@ -19,7 +19,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^10.1.4",
+    "@balena/jellyfish-action-library": "11.0.0-remove-github-61228fed57e91a1988ebdd8959a4fce1555506d8",
     "@balena/jellyfish-assert": "^1.1.17",
     "@balena/jellyfish-core": "^2.13.124",
     "@balena/jellyfish-environment": "^4.1.13",
@@ -27,7 +27,8 @@
     "@balena/jellyfish-metrics": "^1.0.211",
     "@balena/jellyfish-plugin-base": "^2.1.89",
     "@balena/jellyfish-plugin-channels": "^1.1.107",
-    "@balena/jellyfish-plugin-default": "^9.8.2",
+    "@balena/jellyfish-plugin-default": "10.0.0-remove-github-15fc42c185f9557d72537f6a18ead31fe35b461a",
+    "@balena/jellyfish-plugin-github": "1.0.0-add-code-8b5debf8a0c726ccc6158c130244f4cb182a8ee1",
     "@balena/jellyfish-plugin-product-os": "^2.0.41",
     "@balena/jellyfish-plugin-typeform": "^2.0.125",
     "@balena/jellyfish-queue": "^1.0.82",
