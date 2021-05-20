@@ -13,9 +13,6 @@ import {
 	mount
 } from 'enzyme'
 import sinon from 'sinon'
-import {
-	sdk
-} from '../../../core'
 import React from 'react'
 
 // TODO: Remove this unused import if we resolve the circular dependency
@@ -37,6 +34,11 @@ const {
 	}
 })
 
+const BALENA_ORG = {
+	slug: 'org-balena',
+	type: 'org@1.0.0'
+}
+
 const USER = {
 	slug: 'user-operator',
 	type: 'user@1.0.0'
@@ -44,35 +46,51 @@ const USER = {
 
 const CARD = {
 	slug: 'user-hannahmontana',
-	type: 'user@1.0.0'
+	type: 'user@1.0.0',
+	data: {
+		roles: [ 'user-community' ]
+	}
 }
 
 const sandbox = sinon.createSandbox()
+
+ava.beforeEach((test) => {
+	const sdk = {
+		query: sandbox.stub(),
+		card: {
+			update: sandbox.stub(),
+			unlink: sandbox.stub()
+		}
+	}
+	test.context.userProps = {
+		sdk,
+		balenaOrg: BALENA_ORG,
+		card: CARD,
+		user: USER,
+		actions: {
+			sendFirstTimeLoginLink: sandbox.stub()
+		}
+	}
+})
 
 ava.afterEach(() => {
 	sandbox.restore()
 })
 
-ava.serial('actionItem "send first-time login link"  can be used to fire' +
+ava('actionItem "send first-time login link"  can be used to fire' +
 ' the sendFirstTimeLoginLink action when the user has an operator role', async (test) => {
-	sdk.query = sandbox.stub()
-	sdk.query.resolves([ {
+	const {
+		userProps
+	} = test.context
+	userProps.sdk.query.resolves([ {
 		...USER,
 		data: {
 			roles: [ 'user-community', 'user-operator' ]
 		}
 	} ])
 
-	const actions = {
-		sendFirstTimeLoginLink: sandbox.stub()
-	}
-
 	const component = mount(
-		<User
-			card={CARD}
-			user={USER}
-			actions={actions}
-		/>, {
+		<User	{...userProps} />, {
 			wrappingComponent: wrapper
 		}
 	)
@@ -88,18 +106,70 @@ ava.serial('actionItem "send first-time login link"  can be used to fire' +
 
 	sendFirstTimeLoginLink.simulate('click')
 
-	test.is(actions.sendFirstTimeLoginLink.callCount, 1)
-	test.deepEqual(actions.sendFirstTimeLoginLink.args, [
+	test.is(userProps.actions.sendFirstTimeLoginLink.callCount, 1)
+	test.deepEqual(userProps.actions.sendFirstTimeLoginLink.args, [
 		[ {
 			user: CARD
 		} ]
 	])
 })
 
-ava.serial('actionItem "send first-time login link"  does not appear ' +
+ava('actionItem "Offboard user"  can be used to update' +
+' the user\'s card and link to org when the user has an operator role', async (test) => {
+	const {
+		userProps
+	} = test.context
+
+	userProps.sdk.query.resolves([ {
+		...USER,
+		data: {
+			roles: [ 'user-community', 'user-operator' ]
+		}
+	} ])
+
+	const component = mount(
+		<User {...userProps} />, {
+			wrappingComponent: wrapper
+		}
+	)
+
+	await flushPromises()
+	component.update()
+
+	const actionMenu = component.find('button[data-test="card-action-menu"]')
+	actionMenu.simulate('click')
+
+	const offboardUserLink = component.find('a[data-test="card-action-menu__offboard-user"]')
+	test.is(offboardUserLink.length, 1)
+
+	offboardUserLink.simulate('click')
+
+	await flushPromises()
+	component.update()
+
+	test.is(userProps.sdk.card.update.callCount, 1)
+	test.deepEqual(userProps.sdk.card.update.getCall(0).args[2], [
+		{
+			op: 'replace',
+			path: '/data/roles/0',
+			value: 'user-external-support'
+		}
+	])
+
+	test.is(userProps.sdk.card.unlink.callCount, 1)
+	const unlinkCallArgs = userProps.sdk.card.unlink.getCall(0).args
+	test.is(unlinkCallArgs[0].slug, CARD.slug)
+	test.is(unlinkCallArgs[1].slug, BALENA_ORG.slug)
+	test.is(unlinkCallArgs[2], 'is member of')
+})
+
+ava('actionItem "send first-time login link"  does not appear ' +
 'in the action menu when the user has no operator role', async (test) => {
-	sdk.query = sandbox.stub()
-	sdk.query.resolves([ {
+	const {
+		userProps
+	} = test.context
+
+	userProps.sdk.query.resolves([ {
 		...USER,
 		data: {
 			roles: [ 'user-community' ]
@@ -107,10 +177,7 @@ ava.serial('actionItem "send first-time login link"  does not appear ' +
 	} ])
 
 	const component = mount(
-		<User
-			card={CARD}
-			user={USER}
-		/>, {
+		<User {...userProps} />, {
 			wrappingComponent: wrapper
 		}
 	)
@@ -122,4 +189,32 @@ ava.serial('actionItem "send first-time login link"  does not appear ' +
 
 	const sendFirstTimeLoginLink = component.find('a[data-test="card-action-menu__send-first-time-login"]')
 	test.is(sendFirstTimeLoginLink.length, 0)
+})
+
+ava('actionItem "Offboard user"  does not appear ' +
+'in the action menu when the user has no operator role', async (test) => {
+	const {
+		userProps
+	} = test.context
+
+	userProps.sdk.query.resolves([ {
+		...USER,
+		data: {
+			roles: [ 'user-community' ]
+		}
+	} ])
+
+	const component = mount(
+		<User {...userProps} />, {
+			wrappingComponent: wrapper
+		}
+	)
+	await flushPromises()
+	component.update()
+
+	const actionMenu = component.find('button[data-test="card-action-menu"]')
+	actionMenu.simulate('click')
+
+	const offboardUserLink = component.find('a[data-test="card-action-menu__offboard-user"]')
+	test.is(offboardUserLink.length, 0)
 })
