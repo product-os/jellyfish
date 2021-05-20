@@ -1,4 +1,26 @@
 - commits:
+    - subject: Fix e2e tests
+      hash: f1ecabcab84aabd45bb63ad21881be3a670b9d25
+      body: |
+        Add now-required status field
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update internal-non-major'
+      hash: 4cbcf2b8d8edf37f1613eba1ae7cf6a3833e6f09
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.5.1
+  date: 2021-05-20T06:02:31.624Z
+- commits:
     - subject: Add Offboard User action link for operators
       hash: f67a7d12a71bac2f82f86c65a98b3f200a8a0d87
       body: |
