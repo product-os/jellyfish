@@ -1,4 +1,30 @@
 - commits:
+    - subject: Add Offboard User action link for operators
+      hash: f67a7d12a71bac2f82f86c65a98b3f200a8a0d87
+      body: |
+        Clicking the 'Offboard user' link will:
+        1. Set the user's roles to `[ 'user-externl-support' ]`
+        2. Remove the user from the balena org
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add env-config.js to ignored filenames
+      hash: 5557b4db3b6cca808b8ec6d5ba2dea5cb342d07f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.5.0
+  date: 2021-05-20T04:02:37.725Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^8.0.67'
       hash: 81d04bdcb9fcaab870537df9b2dcaf0adc61adee
       body: ''
