@@ -104,7 +104,7 @@ ava.serial('files upload: Users should be able to upload an image', async (test)
 	test.pass()
 })
 
-ava.serial('file upload: Users should be able to upload an image to a support thread', async (test) => {
+ava.serial.only('file upload: Users should be able to upload an image to a support thread', async (test) => {
 	const {
 		page
 	} = context
@@ -114,7 +114,10 @@ ava.serial('file upload: Users should be able to upload an image to a support th
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread@1.0.0'
+			type: 'support-thread@1.0.0',
+			data: {
+				status: 'open'
+			}
 		})
 	})
 
@@ -171,7 +174,10 @@ ava.serial('file upload: Users should be able to upload a text file to a support
 	// Create a new thread
 	const thread = await page.evaluate(() => {
 		return window.sdk.card.create({
-			type: 'support-thread@1.0.0'
+			type: 'support-thread@1.0.0',
+			data: {
+				status: 'open'
+			}
 		})
 	})
 
