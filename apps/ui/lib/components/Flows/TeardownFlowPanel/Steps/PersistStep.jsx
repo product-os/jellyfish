@@ -18,12 +18,12 @@ import Segment from '../../../../lens/common/Segment'
 
 const cardLinks = [
 	{
-		id: 'productImprovements',
-		label: 'Product improvements',
+		id: 'patterns',
+		label: 'Patterns',
 		segment: {
-			title: 'Product improvement',
-			link: 'is attached to',
-			type: 'product-improvement'
+			title: 'Pattern',
+			link: 'has attached',
+			type: 'pattern'
 		}
 	},
 	{

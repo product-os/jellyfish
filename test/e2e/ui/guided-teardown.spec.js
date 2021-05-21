@@ -24,10 +24,10 @@ const selectors = {
 	closeThreadBtn: '[data-test="support-thread__close-thread"]',
 	archiveThreadBtn: '[data-test="support-thread__archive-thread"]',
 	closedBadge: '.column--support-thread span[data-test="status-closed"]',
-	addProductImprovement: '[data-test="add-product-improvement"]',
-	linkProductImprovement: '[data-test="link-to-product-improvement"]',
-	linkedProductImprovements: '[data-test="segment-card--product-improvements"] [data-test="snippet--card"]',
-	summaryProductImprovements: '[data-test="summary--product-improvements"] ul li',
+	addPattern: '[data-test="add-pattern"]',
+	linkPattern: '[data-test="link-to-pattern"]',
+	linkedPatterns: '[data-test="segment-card--patterns"] [data-test="snippet--card"]',
+	summaryPatterns: '[data-test="summary--patterns"] ul li',
 	summaryTextArea: '[data-test="gf__ta-summary"]',
 	summary: '.event-card--summary [data-test="event-card__message"]'
 }
@@ -73,20 +73,19 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 		}
 	} = context
 
-	const productImprovement1Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
-	const productImprovement2Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
+	const pattern1Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
+	const pattern2Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
 
 	// Create a product improvement that we'll link later on
-	const productImprovement1 = await page.evaluate((name) => {
+	const pattern1 = await page.evaluate((name) => {
 		return window.sdk.card.create({
-			type: 'product-improvement@1.0.0',
+			type: 'pattern@1.0.0',
 			name,
 			data: {
-				phase: 'proposed',
-				status: 'proposed'
+				status: 'open'
 			}
 		})
-	}, productImprovement1Name)
+	}, pattern1Name)
 
 	// Create a new support thread
 	await guidedFlowUtils.createSupportThreadAndNavigate(page)
@@ -103,30 +102,28 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 
 	await guidedFlowUtils.nextStep(page)
 
-	// Add a new Product Improvement
-	await macros.waitForThenClickSelector(page, selectors.addProductImprovement)
+	// Add a new Pattern
+	await macros.waitForThenClickSelector(page, selectors.addPattern)
 	await page.waitForSelector('input#root_name')
-	await page.type('input#root_name', productImprovement2Name)
-	await macros.waitForThenClickSelector(page, '#root_data_status__input')
-	await macros.waitForThenClickSelector(page, '#root_data_status__select-drop button')
+	await page.type('input#root_name', pattern2Name)
 	await macros.waitForThenClickSelector(page, '[data-test="card-creator__submit"]:not(:disabled)')
 
-	await page.waitForSelector(selectors.linkedProductImprovements)
-	let linkedProductImprovements = await page.$$(selectors.linkedProductImprovements)
-	test.is(linkedProductImprovements.length, 1)
+	await page.waitForSelector(selectors.linkedPatterns)
+	let linkedPatterns = await page.$$(selectors.linkedPatterns)
+	test.is(linkedPatterns.length, 1)
 
-	// Link to an existing Product Improvement
-	await macros.waitForThenClickSelector(page, selectors.linkProductImprovement)
+	// Link to an existing Pattern
+	await macros.waitForThenClickSelector(page, selectors.linkPattern)
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
-	await page.type('.jellyfish-async-select__input input', productImprovement1Name)
+	await page.type('.jellyfish-async-select__input input', pattern1Name)
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
 
-	const pi1CardChatSummary = `[data-test="snippet--card"][data-test-id="snippet-card-${productImprovement1.id}"]`
-	await page.waitForSelector(`[data-test="segment-card--product-improvements"] ${pi1CardChatSummary}`)
-	linkedProductImprovements = await page.$$(selectors.linkedProductImprovements)
-	test.is(linkedProductImprovements.length, 2)
+	const p1CardChatSummary = `[data-test="snippet--card"][data-test-id="snippet-card-${pattern1.id}"]`
+	await page.waitForSelector(`[data-test="segment-card--patterns"] ${p1CardChatSummary}`)
+	linkedPatterns = await page.$$(selectors.linkedPatterns)
+	test.is(linkedPatterns.length, 2)
 
 	// Rate
 	await guidedFlowUtils.nextStep(page)
@@ -138,7 +135,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 
 	await page.waitForFunction((selector) => {
 		return document.querySelectorAll(selector).length === 2
-	}, {}, selectors.summaryProductImprovements)
+	}, {}, selectors.summaryPatterns)
 
 	await guidedFlowUtils.action(page)
 
