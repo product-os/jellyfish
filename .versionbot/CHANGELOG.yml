@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix teardown flow
+      hash: 1af65d7ad25ca0ba8ca86b83d201c64a9c93db46
+      body: >
+        Support threads are now linked to patterns as opposed to product
+        improvements.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update internal-non-major'
+      hash: 28cbc8a761f8d1c17ea39d9864081e1e9b4f7eee
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.6.0
+  date: 2021-05-21T03:09:21.802Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^8.0.68'
       hash: 3ff4a7c532cd5e9dcc86658389c1a17afbd5f5c8
       body: ''
