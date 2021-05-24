@@ -1,4 +1,23 @@
 - commits:
+    - subject: Convert ui to typescript
+      hash: 2233801a35f2d9ebe416a2e145f80688a9379450
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: 1d94f3050a2547fd19bbc22f026a431ba9e86064
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.7.0
+  date: 2021-05-24T14:00:33.218Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^8.0.71'
       hash: 534fcf302945283d041b0235c715033b8255700d
       body: ''
