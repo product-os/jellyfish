@@ -33,26 +33,9 @@ endif
 MATCH ?=
 export MATCH
 
-AVA_ARGS = $(AVA_OPTS)
-ifndef CI
-AVA_ARGS += --fail-fast
-endif
-ifdef MATCH
-AVA_ARGS += --match $(MATCH)
-endif
-
-ifeq ($(FIX),)
-ESLINT_OPTION_FIX =
-else
-ESLINT_OPTION_FIX = --fix
-endif
-
-FILES ?= "'./{lib,test}/**/*.spec.{js,jsx}'"
-
 .PHONY: test
-test: LOGLEVEL = warning
 test:
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
+	npm run test
 
 .PHONY: dev-ui
 dev-ui:
@@ -62,15 +45,14 @@ dev-ui:
 	./conf/env.sh && \
 	cp ./env-config.js ./dist/ui/ && \
 	./node_modules/.bin/webpack serve \
-		--config=./lib/webpack.config.js \
+		--config=./webpack.config.js \
 		--color
 
 .PHONY: build-ui
 build-ui:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./lib/webpack.config.js
+		./node_modules/.bin/webpack --config=./webpack.config.js
 
 .PHONY: lint
 lint:
-	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib test
-	npx depcheck --ignore-bin-package --ignores='@ava/babel,@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server'
+	npm run lint

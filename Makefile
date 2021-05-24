@@ -2,6 +2,7 @@
 	lint \
 	node \
 	test \
+	docs \ 
 	build-ui \
 	build-livechat \
 	start-server \
@@ -484,3 +485,7 @@ deploy-%:
 # Execute a command under each app directory
 exec-apps:
 	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
+
+# TODO: make use of exec-apps once all apps are converted to TypeScript
+docs:
+	cd apps/ui && npm run doc

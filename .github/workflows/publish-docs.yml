@@ -1,0 +1,39 @@
+# This workflow will install the dependencies and then build and deploy the
+# TypeScript documentation website to the docs branch.
+
+name: Publish Documentation
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out
+        uses: actions/checkout@v2
+      
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+
+      - name: Update .npmrc file with NPM Token
+        uses: dkershner6/use-npm-token-action@v1
+        with:
+          token: "${{ secrets.NPM_TOKEN }}"
+
+      - name: Install NPM dependencies
+        run: make npm-install
+
+      - name: Generate docs
+        run: make docs
+
+      - name: Publish generated docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: docs
+          publish_branch: docs

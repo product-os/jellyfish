@@ -25,7 +25,7 @@ RUN rm -f ~/.npmrc
 
 RUN make build-ui \
 	NODE_ENV=production \
-	NODE_OPTIONS=--max-old-space-size=3072
+	NODE_OPTIONS=--max-old-space-size=6144
 
 ###########################################################
 # Runtime

@@ -7,29 +7,15 @@
   "engines": {
     "node": ">=14.2.0"
   },
-  "ava": {
-    "timeout": "10m",
-    "verbose": true,
-    "serial": true,
-    "failWithoutAssertions": true,
-    "extensions": [
-      "jsx"
-    ],
-    "babel": {
-      "testOptions": {
-        "plugins": [
-          "@babel/plugin-syntax-jsx"
-        ]
-      }
-    },
-    "files": [
-      "./**/*.spec.{js,jsx}"
-    ],
-    "require": [
-      "./test/browser-setup",
-      "./test/register",
-      "./test/max-listeners"
-    ]
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc",
+    "lint": "balena-lint --typescript lib test && depcheck --ignore-bin-package --ignores=@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server,@types/jest",
+    "lint-fix": "balena-lint --typescript --fix lib test",
+    "unit": "jest",
+    "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run unit",
+    "doc": "typedoc lib/",
+    "prepack": "npm run build"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
@@ -59,7 +45,7 @@
     "deep-copy": "^1.4.2",
     "deepmerge": "^4.2.2",
     "fast-equals": "^2.0.3",
-    "fast-json-patch": "^2.2.1",
+    "fast-json-patch": "^3.0.0-1",
     "file-loader": "^6.2.0",
     "file-saver": "^2.0.5",
     "flat": "^5.0.2",
@@ -102,20 +88,31 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "devDependencies": {
-    "@ava/babel": "^1.0.1",
     "@babel/cli": "^7.14.3",
+    "@babel/preset-env": "^7.14.1",
+    "@balena/jellyfish-types": "^0.5.114",
+    "@balena/lint": "^5.4.2",
     "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.4.0",
-    "ava": "^3.15.0",
+    "@types/jest": "^26.0.23",
+    "@types/sinon": "^10.0.0",
     "browser-env": "^3.3.0",
     "canvas": "^2.8.0",
+    "catch-uncommitted": "^2.0.0",
     "depcheck": "^1.4.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "eslint": "^7.27.0",
-    "node-hook": "^1.0.0",
+    "grommet": "^2.17.2",
+    "jest": "^26.6.3",
+    "json-schema": "^0.3.0",
     "redux-mock-store": "^1.5.4",
+    "rimraf": "^3.0.2",
     "sinon": "^10.0.0",
+    "ts-jest": "^26.5.6",
+    "ts-loader": "^8.0.0",
+    "typedoc": "^0.20.36",
+    "typescript": "^4.2.4",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2",
     "workbox-core": "^6.1.5",
