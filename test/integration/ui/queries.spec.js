@@ -4,15 +4,13 @@
  * Proprietary and confidential.
  */
 
-import ava from 'ava'
-import {
-	v4 as uuid
-} from 'uuid'
-import _ from 'lodash'
-import {
+const ava = require('ava')
+const uuid = require('uuid').v4
+const _ = require('lodash')
+const {
 	getPingQuery
-} from '../../../apps/ui/core/queries'
-import helpers from '../../../apps/server/test/integration/helpers'
+} = require('../../../apps/ui/dist/ui/queries').queries
+const helpers = require('../../../apps/server/test/integration/helpers')
 
 ava.before(async (test) => {
 	await helpers.before(test)

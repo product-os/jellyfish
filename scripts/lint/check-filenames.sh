@@ -27,8 +27,8 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 		continue
 	fi
 
-	# JSX capitalized files are OK
-	if [[ $BASENAME =~ ^[A-Z].*\.jsx ]]; then
+	# JSX and TSX capitalized files are OK
+	if [[ $BASENAME =~ ^[A-Z].*\.[tj]sx ]]; then
 		continue
 	fi
 
