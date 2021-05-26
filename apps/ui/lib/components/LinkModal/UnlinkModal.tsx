@@ -143,6 +143,7 @@ export const UnlinkModal: React.FunctionComponent<any> = ({
 							value,
 							{
 								fullTextSearchFieldsOnly: true,
+								includeIdAndSlug: true,
 							},
 						);
 						if (filter) {

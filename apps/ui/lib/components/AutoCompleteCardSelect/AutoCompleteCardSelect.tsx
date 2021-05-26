@@ -109,6 +109,7 @@ export default class AutoCompleteCardSelect extends React.Component<any, any> {
 							value,
 							{
 								fullTextSearchFieldsOnly: true,
+								includeIdAndSlug: true,
 							},
 						);
 						if (!searchFilter) {

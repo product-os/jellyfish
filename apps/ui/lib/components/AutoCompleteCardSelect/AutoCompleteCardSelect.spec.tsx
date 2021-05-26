@@ -244,6 +244,19 @@ describe('AutoCompleteCardSelect', () => {
 				{
 					additionalProperties: true,
 					properties: {
+						slug: {
+							const: 'test',
+						},
+						type: {
+							const: 'user@1.0.0',
+						},
+					},
+					required: ['slug', 'type'],
+					type: 'object',
+				},
+				{
+					additionalProperties: true,
+					properties: {
 						title: {
 							fullTextSearch: {
 								term: 'test',
@@ -255,6 +268,19 @@ describe('AutoCompleteCardSelect', () => {
 						},
 					},
 					required: ['title', 'type'],
+					type: 'object',
+				},
+				{
+					additionalProperties: true,
+					properties: {
+						slug: {
+							const: 'test',
+						},
+						type: {
+							const: 'issue@1.0.0',
+						},
+					},
+					required: ['slug', 'type'],
 					type: 'object',
 				},
 			],
