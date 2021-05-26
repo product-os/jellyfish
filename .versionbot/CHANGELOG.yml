@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-github
+      hash: 5b4448d4d963908aac92c7569431a69e1ebdacfd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.7.14
+  date: 2021-05-26T08:07:35.607Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^10.1.47'
       hash: de851a939b69a265946b66ee27ac13800f6660ec
       body: ''
