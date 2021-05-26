@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: c1e3d1972d53e3427d2a62f1da5884b10a99258e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.7.16
+  date: 2021-05-26T13:24:52.036Z
+- commits:
     - subject: Correctly highlight summary when channel target uses a versioned slug
       hash: 0258a1d1432060aa58122bae439d1bbed3a732b9
       body: |
