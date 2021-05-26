@@ -303,15 +303,21 @@ export class SupportThreads extends React.Component<any, any> {
 											'data.timestamp',
 										);
 
+										// Mark the summary as active if there are any channels open that target this contract, either by slug, slug@version, or id
+										const summaryActive = !!_.find(threadTargets, (target) => {
+											return (
+												target === card.slug ||
+												target === `${card.slug}@${card.version}` ||
+												target === card.id
+											);
+										});
+
 										return (
 											<CardChatSummary
 												displayOwner
 												getActor={this.props.actions.getActor}
 												key={card.id}
-												active={
-													_.includes(threadTargets, card.slug) ||
-													_.includes(threadTargets, card.id)
-												}
+												active={summaryActive}
 												card={card}
 												timeline={timeline}
 												highlightedFields={['data.status', 'data.inbox']}
