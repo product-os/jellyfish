@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 2a365eb9de768c9d35378163fdf5ced883299684
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.7.10
+  date: 2021-05-26T01:37:03.917Z
+- commits:
     - subject: Update lint command and config
       hash: e6227a913c0184177fbf0fcda7c8e7dcec65f43d
       body: ''
