@@ -67,3 +67,8 @@ The Jellyfish HTTP and WebSockets API.
 This is the main Jellyfish web user interface, and what most people will
 interact with.
 
+## Modules
+
+Jellyfish is split in many more modules than deployable units. The following diagrams give a overview of their interdependencies:
+* [Package Dependencies](https://drive.google.com/file/d/1Q9b7whyhIlql1mvYWdzKPdBQy_eeMxCA/view)
+* [Dev Dependencies](https://drive.google.com/file/d/10YahqaWGjQ4dcTPo1HuiMJYZig6DXZAn/view)
