@@ -1,5 +1,5 @@
 {
-	"extends": "./node_modules/@balena/lint/config/tslint-prettier.json",
+	"extends": "@balena/jellyfish-config/config/tslint.json",
 	"rules": {
 		"ban-ts-ignore": false
 	}

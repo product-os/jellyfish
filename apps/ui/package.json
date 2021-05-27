@@ -91,6 +91,7 @@
     "@babel/cli": "^7.14.3",
     "@babel/preset-env": "^7.14.1",
     "@balena/jellyfish-types": "^0.5.127",
+    "@balena/jellyfish-config": "^1.2.4",
     "@balena/lint": "^6.1.1",
     "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.4.0",

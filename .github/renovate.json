@@ -1,27 +1,5 @@
 {
   "extends": [
-    "github>product-os/jellyfish-renovate-config"
-  ],
-  "ignoreDeps": [
-    "monaco-editor",
-    "monaco-editor-webpack-plugin"
-  ],
-  "packageRules": [
-    {
-      "groupName": "non-major-frontend",
-      "matchPackageNames": [
-        "@balena/jellyfish-ui-components",
-        "@balena/jellyfish-chat-widget",
-        "rendition",
-        "react",
-        "react-dom",
-        "styled-components"
-      ],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    }
+    "github>product-os/jellyfish-config//config/renovate"
   ]
 }

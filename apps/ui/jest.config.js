@@ -4,8 +4,10 @@
  * Proprietary and confidential.
  */
 
+const base = require('@balena/jellyfish-config/config/jest.config')
+
 module.exports = {
-	preset: 'ts-jest',
+	preset: base.preset,
 	testEnvironment: 'jsdom',
 	transformIgnorePatterns: [],
 	globals: {
