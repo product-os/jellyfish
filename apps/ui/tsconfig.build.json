@@ -1,7 +1,3 @@
 {
-  "extends": "./tsconfig.json",
-  "exclude": [
-    "lib/**/*.spec.{ts,tsx}",
-    "test/**/*"
-  ]
+  "extends": "@balena/jellyfish-config/config/tsconfig.build.json"
 }

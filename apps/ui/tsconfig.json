@@ -1,31 +1,11 @@
 {
-  "extends": "@balena/lint/tsconfig.json",
+  "extends": "@balena/jellyfish-config/config/tsconfig.json",
   "compilerOptions": {
-    "noImplicitAny": false,
-    "allowJs": false,
-    "outDir": "./build",
-    "esModuleInterop": true,
-    "removeComments": false,
-    "resolveJsonModule": true,
-    "strict": true,
-    "declaration": false,
-    "skipLibCheck": true,
     "noUnusedParameters": false,
     "noUnusedLocals": false,
-    "jsx": "react",
+    "jsx": "react"
   },
   "typedocOptions": {
-    "excludePrivate": true,
-    "excludeProtected": true,
-    "excludeExternals": true,
-    "gitRevision": "master",
     "out": "../../docs/typedoc/ui"
-  },
-  "include": [
-    "./lib/**/*.ts",
-    "./lib/**/*.tsx",
-    "./test/**/*.ts",
-    "./test/**/*.tsx",
-    "./@types/**/*.d.ts"
-  ]
+  }
 }
