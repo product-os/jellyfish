@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use jellyfish-config
+      hash: 65f8a1ff9f1d4c40543113a14ac82c43818825cf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.7.20
+  date: 2021-05-27T23:10:44.929Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 9ad9dd091b711ea82a31d6ea6b660fa56d37c52e
       body: ''
