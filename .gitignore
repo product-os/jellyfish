@@ -1,3 +1,6 @@
+# This file is auto-synced from product-os/jellyfish-config/.gitignore
+# and should only be edited there!
+
 # Created by https://www.gitignore.io/api/node
 
 ### Node ###
@@ -62,17 +65,15 @@ jspm_packages/
 
 # End of https://www.gitignore.io/api/node
 
-postgres_data
 dump.rdb
 .tar.gz
 *.lock
 
 # Built files
+build/
 dist/
 .cache-loader/
 *.0x
-
-# End of https://www.gitignore.io/api/node
 
 # Development Files
 .scratch/
@@ -87,18 +88,13 @@ dist/
 # NYC instrumented code
 .nyc-root
 
-# Katapult generated files
-deploy-templates/jellyfish-product/product/deploy/kubernetes/templates
-
 # tmp directory
 tmp/
-
-# Cryptographic keys used for testing
-*.p8
-*.pem
 
 # Optional custom dotenv file
 custom.env
 
-# macOS
-.DS_Store
+# Doc files should not be committed. They are generated using
+# the command 'npm run doc' and committed to the root of the
+# 'docs' branch.
+docs/
