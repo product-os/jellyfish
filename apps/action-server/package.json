@@ -18,7 +18,7 @@
     "@balena/jellyfish-plugin-base": "^2.1.111",
     "@balena/jellyfish-plugin-channels": "^1.1.133",
     "@balena/jellyfish-plugin-default": "^10.0.1",
-    "@balena/jellyfish-plugin-github": "^1.0.1",
+    "@balena/jellyfish-plugin-github": "^1.0.2",
     "@balena/jellyfish-plugin-product-os": "^2.0.71",
     "@balena/jellyfish-plugin-typeform": "^2.0.160",
     "@balena/jellyfish-queue": "^1.0.106",
