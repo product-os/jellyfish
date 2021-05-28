@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update to typescript version of jellyfish-core
+      hash: 462b3e9566c7b33251e5fef2cfaac5d5ece01f02
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.8.0
+  date: 2021-05-28T10:08:25.897Z
+- commits:
     - subject: Use jellyfish-config
       hash: 65f8a1ff9f1d4c40543113a14ac82c43818825cf
       body: ''
