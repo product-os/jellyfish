@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withSetup } from '@balena/jellyfish-ui-components';
 import { selectors } from '../../core';
-import AutoCompleteCardSelect from './AutoCompleteCardSelect';
+import { AutoCompleteCardSelect as AutoCompleteCardSelectInner } from './AutoCompleteCardSelect';
 
 const mapStateToProps = (state: any) => {
 	return {
@@ -16,7 +16,7 @@ const mapStateToProps = (state: any) => {
 	};
 };
 
-export default compose<any>(
+export const AutoCompleteCardSelect = compose<any>(
 	withSetup,
 	connect(mapStateToProps),
-)(AutoCompleteCardSelect);
+)(AutoCompleteCardSelectInner);

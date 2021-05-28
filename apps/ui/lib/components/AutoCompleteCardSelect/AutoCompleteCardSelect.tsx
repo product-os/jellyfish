@@ -19,7 +19,7 @@ const preventClickPropagation = (event: any) => {
 	event.preventDefault();
 };
 
-export default class AutoCompleteCardSelect extends React.Component<any, any> {
+export class AutoCompleteCardSelect extends React.Component<any, any> {
 	container: any;
 	_isMounted: boolean = false;
 

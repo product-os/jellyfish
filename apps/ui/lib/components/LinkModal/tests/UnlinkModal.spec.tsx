@@ -63,7 +63,7 @@ const mockAutoCompleteCardSelect = () => {
 	};
 	const autoCompleteCardSelectComponentStub = sandbox.stub(
 		AutoCompleteCardSelect,
-		'default',
+		'AutoCompleteCardSelect',
 	);
 	autoCompleteCardSelectComponentStub.callsFake((props) =>
 		FakeAutoCompleteCardSelect(props),
