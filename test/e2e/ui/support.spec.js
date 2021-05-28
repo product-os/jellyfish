@@ -229,7 +229,7 @@ ava.serial('You should be able to link support threads to existing support issue
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-linker-action--existing"]')
 
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"] input:not(:disabled)')
+	await page.waitForSelector('.jellyfish-async-select__input input:not(:disabled)')
 
 	await page.type('.jellyfish-async-select__input input', name, {
 		delay: 300

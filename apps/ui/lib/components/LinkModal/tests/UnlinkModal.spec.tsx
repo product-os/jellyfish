@@ -101,6 +101,7 @@ describe('UnlinkModal', () => {
 			autoCompleteCallbacks: mockAutoCompleteCardSelect(),
 			commonProps: {
 				onHide,
+				allTypes: types,
 				actions: {
 					removeLink: sandbox.stub().resolves(null),
 				},
@@ -116,7 +117,7 @@ describe('UnlinkModal', () => {
 		const { commonProps, onHidePromise, autoCompleteCallbacks } = context;
 
 		const unlinkModalComponent = await mount(
-			<UnlinkModal {...commonProps} cards={[card]} types={types} />,
+			<UnlinkModal {...commonProps} cards={[card]} targetTypes={types} />,
 			{
 				wrappingComponent: Wrapper,
 			},
@@ -137,7 +138,11 @@ describe('UnlinkModal', () => {
 		const { commonProps, onHidePromise, autoCompleteCallbacks } = context;
 
 		const unlinkModalComponent = await mount(
-			<UnlinkModal {...commonProps} cards={[card, card2]} types={types} />,
+			<UnlinkModal
+				{...commonProps}
+				cards={[card, card2]}
+				targetTypes={types}
+			/>,
 			{
 				wrappingComponent: Wrapper,
 			},
@@ -163,7 +168,7 @@ describe('UnlinkModal', () => {
 				<UnlinkModal
 					{...commonProps}
 					cards={[card, orgInstanceCard]}
-					types={types}
+					targetTypes={types}
 				/>,
 				{
 					wrappingComponent: Wrapper,

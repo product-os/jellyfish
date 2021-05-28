@@ -4,14 +4,26 @@
  * Proprietary and confidential.
  */
 
+import {
+	Contract,
+	ContractSummary,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import { helpers } from '@balena/jellyfish-ui-components';
+import { linkConstraints } from '@balena/jellyfish-client-sdk';
+import { LinkConstraint } from '@balena/jellyfish-client-sdk/build/types';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 
-const getTypes = memoize((inputCards) => {
+export interface LinkType extends LinkConstraint {
+	title: string;
+}
+
+const getTypes = memoize((inputCards: Contract[]): string[] => {
 	return _.uniq(_.map(inputCards, 'type'));
 });
 
-export const getCommonTypeBase = memoize((cards) => {
+export const getCommonTypeBase = memoize((cards: Contract[]): string => {
 	const cardTypes = getTypes(cards);
 	if (cardTypes.length > 1) {
 		throw new Error('All cards must be of the same type');
@@ -22,3 +34,76 @@ export const getCommonTypeBase = memoize((cards) => {
 	}
 	return fromType;
 });
+
+// Convert the selected contract to an object compatible with AutoCompleteCardSelect
+export const getContractSelectOption = (
+	types: TypeContract[],
+	contract?: Contract,
+) => {
+	if (!contract) {
+		return null;
+	}
+
+	// Convert the type to a shade index to use with a Badge component
+	const contractTypeIndex = _.findIndex(types, {
+		slug: helpers.getTypeBase(contract.type),
+	});
+
+	return {
+		value: contract.id,
+		label: contract.name || contract.slug,
+		type: types[contractTypeIndex].name,
+		shade: contractTypeIndex % 22,
+	};
+};
+
+export const getFilteredLinkConstraints = (
+	fromType: string,
+	linkVerb?: string,
+	target?: Contract,
+): LinkType[] => {
+	const matcher: any = {
+		data: {
+			from: fromType,
+		},
+	};
+	if (linkVerb) {
+		matcher.name = linkVerb;
+	}
+	if (target) {
+		matcher.data.to = helpers.getTypeBase(target.type);
+	}
+	return _.map(_.filter(linkConstraints, matcher), (linkConstraint) => {
+		// Move the data.title property to the root of the object, as the rendition Select
+		// component can't use a non-root field for the `labelKey` prop
+		return Object.assign({}, linkConstraint, {
+			title: linkConstraint.data.title,
+		});
+	});
+};
+
+export const getValidTypes = (
+	types: TypeContract[],
+	fromType: string,
+	linkVerb?: string,
+	target?: Contract,
+): TypeContract[] => {
+	const constraints = getFilteredLinkConstraints(fromType, linkVerb, target);
+	const validTypes = _.reduce<TypeContract, TypeContract[]>(
+		types,
+		(acc, type) => {
+			if (
+				_.find(constraints, {
+					data: {
+						to: type.slug,
+					},
+				})
+			) {
+				acc.push(type);
+			}
+			return acc;
+		},
+		[],
+	);
+	return _.sortBy(validTypes, 'name');
+};

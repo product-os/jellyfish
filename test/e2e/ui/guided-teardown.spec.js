@@ -114,7 +114,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 
 	// Link to an existing Pattern
 	await macros.waitForThenClickSelector(page, selectors.linkPattern)
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await page.waitForSelector('[data-test="card-linker--existing__submit"]')
 	await page.type('.jellyfish-async-select__input input', pattern1Name)
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')
