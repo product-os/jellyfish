@@ -13,9 +13,13 @@ import props from './fixtures/props.json';
 
 const sandbox = sinon.createSandbox();
 
-const wrappingComponent = getWrapper().wrapper;
-
 const { channel, tail, page, totalPages, type, user, allTypes } = props;
+
+const wrappingComponent = getWrapper({
+	core: {
+		types: allTypes,
+	},
+}).wrapper;
 
 const mountCardTable = async (actions, setPageStub) => {
 	return mount(

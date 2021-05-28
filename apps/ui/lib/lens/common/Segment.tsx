@@ -231,7 +231,7 @@ class Segment extends React.Component<any, any> {
 					<LinkModal
 						linkVerb={segment.link}
 						cards={[card]}
-						types={[type]}
+						targetTypes={[type]}
 						onHide={this.hideLinkModal}
 						onSave={onSave}
 						onSaved={this.getData}
