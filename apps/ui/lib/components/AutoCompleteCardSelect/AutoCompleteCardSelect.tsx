@@ -222,6 +222,7 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 								</Badge>
 							)}
 							<Txt
+								tooltip={option.label as string}
 								style={{
 									flex: 1,
 									whiteSpace: 'nowrap',
