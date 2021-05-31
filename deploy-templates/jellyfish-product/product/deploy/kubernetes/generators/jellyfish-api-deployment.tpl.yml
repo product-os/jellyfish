@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
       app: jellyfish
-  replicas: 16
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
