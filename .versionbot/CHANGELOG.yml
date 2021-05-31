@@ -1,4 +1,52 @@
 - commits:
+    - subject: Update props passed to LinkModal and UnlinkModal
+      hash: 9c12d325f25c6abf06064a9794f9bbf4f4916849
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add ability to filter by type when linking/unlinking
+      hash: 1b5f11deec42f924105f48381afe92c83d0321ba
+      body: >
+        This involves a re-write of the LinkModal component. It is now a
+        functional component and shares much of its logic with UnlinkModal.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add tooltip of label to AutoCompleteCardSelect options
+      hash: 2abf84e395641324d330e6612caf9fd013b55f1b
+      body: >
+        This is useful in situations where the label is long and is cut-off by
+        the edge of the drop-down/select component.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Move AutoCompleteCardSelect to a named export
+      hash: e0b0be58d43c13cd756d397b7a9ccc1e0d7e9d7b
+      body: |
+        This makes it show up in enzyme tests as the correctly named component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.10.0
+  date: 2021-05-31T12:07:34.030Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: e4bc8ad6d0b77d4689c8a01d69ba15bccb8f2b7a
       body: ''
