@@ -237,7 +237,7 @@ export default class CardTable extends React.Component<any, any> {
 					{showLinkModal === 'link' && (
 						<LinkModal
 							cards={checkedCards}
-							types={allTypes}
+							targetTypes={allTypes}
 							onHide={this.hideLinkModal}
 						/>
 					)}

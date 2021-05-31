@@ -11,7 +11,7 @@ import * as flatten from 'flat';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Button, Flex, Heading } from 'rendition';
 import { Icon, helpers } from '@balena/jellyfish-ui-components';
-import AutoCompleteCardSelect from '../../../components/AutoCompleteCardSelect';
+import { AutoCompleteCardSelect } from '../../../components/AutoCompleteCardSelect';
 import SaveCardButton from '../../../components/SaveCardButton';
 
 const NEW_CHART_CONFIGURATION_ID = '00000000-0000-0000-0000-000000000000';

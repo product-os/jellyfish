@@ -19,7 +19,7 @@ const preventClickPropagation = (event: any) => {
 	event.preventDefault();
 };
 
-export default class AutoCompleteCardSelect extends React.Component<any, any> {
+export class AutoCompleteCardSelect extends React.Component<any, any> {
 	container: any;
 	_isMounted: boolean = false;
 
@@ -222,6 +222,7 @@ export default class AutoCompleteCardSelect extends React.Component<any, any> {
 								</Badge>
 							)}
 							<Txt
+								tooltip={option.label as string}
 								style={{
 									flex: 1,
 									whiteSpace: 'nowrap',

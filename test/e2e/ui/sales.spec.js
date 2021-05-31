@@ -190,7 +190,7 @@ ava.serial('should let users create new opportunities and directly link existing
 
 	// Create new Link to Account
 	await macros.waitForThenClickSelector(page, '[data-test="link-to-account"]')
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__input"]')
+	await page.waitForSelector('[data-test="card-linker--existing__submit"]')
 	await page.type('.jellyfish-async-select__input input', 'test')
 	await page.waitForSelector('.jellyfish-async-select__option--is-focused')
 	await page.keyboard.press('Enter')

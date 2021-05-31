@@ -11,19 +11,26 @@ import { actionCreators, selectors } from '../../core';
 import { LinkModal as LinkModalInner } from './LinkModal';
 import { UnlinkModal as UnlinkModalInner } from './UnlinkModal';
 
-export const LinkModal = connect<any, any, any>(null, (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['createLink']),
-			dispatch,
-		),
-	};
-})(LinkModalInner);
+export const LinkModal = connect<any, any, any>(
+	(state) => {
+		return {
+			allTypes: selectors.getTypes(state),
+		};
+	},
+	(dispatch) => {
+		return {
+			actions: bindActionCreators(
+				_.pick(actionCreators, ['createLink']),
+				dispatch,
+			),
+		};
+	},
+)(LinkModalInner);
 
 export const UnlinkModal = connect<any, any, any>(
 	(state) => {
 		return {
-			types: selectors.getTypes(state),
+			allTypes: selectors.getTypes(state),
 		};
 	},
 	(dispatch) => {

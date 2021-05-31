@@ -63,7 +63,7 @@ const mockAutoCompleteCardSelect = () => {
 	};
 	const autoCompleteCardSelectComponentStub = sandbox.stub(
 		AutoCompleteCardSelect,
-		'default',
+		'AutoCompleteCardSelect',
 	);
 	autoCompleteCardSelectComponentStub.callsFake((props) =>
 		FakeAutoCompleteCardSelect(props),
@@ -107,6 +107,7 @@ describe('LinkModal', () => {
 			commonProps: {
 				onHide,
 				onSaved: sandbox.stub(),
+				allTypes: types,
 				actions: {
 					createLink: sandbox.stub().resolves(null),
 				},
@@ -122,7 +123,7 @@ describe('LinkModal', () => {
 		const { commonProps, onHidePromise, autoCompleteCallbacks } = context;
 
 		const linkModalComponent = await mount(
-			<LinkModal {...commonProps} cards={[card]} types={types} />,
+			<LinkModal {...commonProps} cards={[card]} targetTypes={types} />,
 			{
 				wrappingComponent: Wrapper,
 			},
@@ -141,7 +142,7 @@ describe('LinkModal', () => {
 		const { commonProps, onHidePromise, autoCompleteCallbacks } = context;
 
 		const linkModalComponent = await mount(
-			<LinkModal {...commonProps} cards={[card, card2]} types={types} />,
+			<LinkModal {...commonProps} cards={[card, card2]} targetTypes={types} />,
 			{
 				wrappingComponent: Wrapper,
 			},
@@ -168,7 +169,7 @@ describe('LinkModal', () => {
 				<LinkModal
 					{...commonProps}
 					cards={[card, orgInstanceCard]}
-					types={types}
+					targetTypes={types}
 				/>,
 				{
 					wrappingComponent: Wrapper,
@@ -176,4 +177,43 @@ describe('LinkModal', () => {
 			);
 		}).toThrow('All cards must be of the same type');
 	});
+
+	test('disables the select element if target is specified', async () => {
+		const { commonProps, onHidePromise } = context;
+
+		const linkModalComponent = await mount(
+			<LinkModal
+				{...commonProps}
+				cards={[card]}
+				targetTypes={types}
+				target={selectedTarget}
+			/>,
+			{
+				wrappingComponent: Wrapper,
+			},
+		);
+
+		const autoComplete = linkModalComponent
+			.find('AutoCompleteCardSelect')
+			.first();
+		expect(autoComplete.prop('isDisabled')).toBe(true);
+
+		submit(linkModalComponent);
+
+		await onHidePromise.promise;
+
+		verifyCard(commonProps, 0, card);
+	});
 });
+
+/**
+ * Scenarios:
+ *
+ * 1. Source and target are specified (disabled select), only one link
+ *    verb option (type filter not displayed)
+ * 2. Multiple target types (verify type buttons), simulate select
+ *    verify link type select, simulate link type select
+ * 3. Multiple target types - select type filter, simulate select
+ *    only one link verb option
+ *
+ */

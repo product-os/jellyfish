@@ -168,7 +168,11 @@ class CardLinker extends React.Component<any, any> {
 				</span>
 
 				{showLinkModal === 'link' && (
-					<LinkModal cards={[card]} types={types} onHide={this.hideLinkModal} />
+					<LinkModal
+						cards={[card]}
+						targetTypes={types}
+						onHide={this.hideLinkModal}
+					/>
 				)}
 
 				{showLinkModal === 'unlink' && (

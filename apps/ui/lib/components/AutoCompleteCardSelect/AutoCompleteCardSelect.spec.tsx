@@ -10,7 +10,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
 import Bluebird from 'bluebird';
-import AutoCompleteCardSelect from './AutoCompleteCardSelect';
+import { AutoCompleteCardSelect } from './AutoCompleteCardSelect';
 
 const wrappingComponent = getWrapper().wrapper;
 

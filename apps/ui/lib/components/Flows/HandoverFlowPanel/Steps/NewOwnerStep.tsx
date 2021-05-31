@@ -9,7 +9,7 @@ import _ from 'lodash';
 import { Flex, RadioButton, Txt } from 'rendition';
 import styled from 'styled-components';
 import { helpers } from '@balena/jellyfish-ui-components';
-import AutoCompleteCardSelect from '../../../AutoCompleteCardSelect';
+import { AutoCompleteCardSelect } from '../../../AutoCompleteCardSelect';
 
 const UserSelect = styled<any>(AutoCompleteCardSelect)`
 	min-width: 180px;
