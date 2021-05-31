@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/name: jellyfish-action-server
 spec:
-  replicas: 12
+  replicas: 3
   strategy:
     type: RollingUpdate
     rollingUpdate:
