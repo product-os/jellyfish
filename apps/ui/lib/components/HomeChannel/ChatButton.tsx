@@ -24,15 +24,15 @@ export const ChatButton = ({
     ...rest
 }) => {
     const { sdk } = useSetup()!;
-	const [notifications, setNotifications] = React.useState<null | any[]>(null);
+    const [notifications, setNotifications] = React.useState<null | any[]>(null);
 
-	React.useEffect(() => {
-		let stream: any = null;
+    React.useEffect(() => {
+        let stream: any = null;
 
-		(async () => {
+        (async () => {
             const query: JSONSchema = {
                 type: 'object',
-                required: [ 'type' ],
+                required: ['type'],
                 properties: {
                     type: {
                         const: 'notification@1.0.0'
@@ -42,7 +42,7 @@ export const ChatButton = ({
                     $$links: {
                         'is read by': {
                             type: 'object',
-                            required: [ 'type', 'id' ],
+                            required: ['type', 'id'],
                             properties: {
                                 type: {
                                     const: 'user@1.0.0'
@@ -56,14 +56,14 @@ export const ChatButton = ({
                 }
             };
 
-			stream = await sdk.stream(query);
+            stream = await sdk.stream(query);
 
-			stream.on('dataset', ({ data: { cards } }) => {
-				setNotifications(cards)
-			});
+            stream.on('dataset', ({ data: { cards } }) => {
+                setNotifications(cards)
+            });
 
-			stream.on('update', ({ data: { id, type, after: card } }) => {
-				if (type === 'insert') {
+            stream.on('update', ({ data: { id, type, after: card } }) => {
+                if (type === 'insert') {
                     setNotifications((existingNotifications) => {
                         return existingNotifications.concat(card)
                     })
@@ -75,23 +75,23 @@ export const ChatButton = ({
                         })
                     })
                 }
-			});
+            });
 
-			stream.emit('queryDataset', {
-				id: uuid(),
-				data: {
-					schema: query
-				},
-			});
-		})();
+            stream.emit('queryDataset', {
+                id: uuid(),
+                data: {
+                    schema: query
+                },
+            });
+        })();
 
-		return () => {
-			if (stream) {
-				stream.close();
-			}
-		};
-	}, [sdk]);
-    
+        return () => {
+            if (stream) {
+                stream.close();
+            }
+        };
+    }, [sdk]);
+
     return (
         <Container {...rest}>
             <Button
