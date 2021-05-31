@@ -22,7 +22,7 @@ import * as skhema from 'skhema';
 import { actionCreators, analytics, sdk } from '../../core';
 import { getUiSchema, UI_SCHEMA_MODE } from '../schema-util';
 
-class EditLens extends React.Component<any, any> {
+export class EditLens extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 

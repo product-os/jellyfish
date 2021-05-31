@@ -22,7 +22,7 @@ import { Column } from '@balena/jellyfish-ui-components';
 import { actionCreators, selectors } from '../../core';
 import { getLens } from '../';
 
-class CardList extends React.Component<any, any> {
+export class CardList extends React.Component<any, any> {
 	clearCellCache;
 	loadMore;
 	isRowLoaded;

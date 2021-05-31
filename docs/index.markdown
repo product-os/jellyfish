@@ -18,7 +18,7 @@
 
 ## TypeDoc documentation
 
-* [Jellyfish UI](/typedoc/ui/index.html)
+* [Jellyfish UI](./typedoc/ui/index.html)
 * Jellyfish Livepush (_docs coming soon_)
 * Jellyfish Server (_docs coming soon_)
 * Jellyfish Action Server (_docs coming soon_)
