@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 6f20f1e6ac28d688e27e6c671949b3906fcb8b8b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.10.4
+  date: 2021-05-31T18:43:10.650Z
+- commits:
     - subject: 'Jellyfish: Set components pod count to 3.'
       hash: 726d5d54f6ec6940c4004f01ec2f659cccada423
       body: |
