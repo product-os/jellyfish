@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump dependencies
+      hash: c82612a69d1064f10f80cfa6e3f2ad51d192522f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Search by id or slug when linking/unlinking cards
+      hash: 11f3d072d15e7eb192d8b19e2d70756cbe698168
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.9.0
+  date: 2021-05-31T01:45:13.863Z
+- commits:
     - subject: Update to typescript version of jellyfish-core
       hash: 462b3e9566c7b33251e5fef2cfaac5d5ece01f02
       body: ''
