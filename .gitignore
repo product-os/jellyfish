@@ -102,3 +102,6 @@ custom.env
 
 # macOS
 .DS_Store
+
+# Typedoc generated docs
+docs/typedoc/*
