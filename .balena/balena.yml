@@ -1,6 +1,7 @@
 build-variables:
   global:
     - SENTRY_DSN_UI=0
+    - NPM_TOKEN=4d2046c5-ba4d-4c7b-ad6b-85429f0c9c2d
   services:
     ui:
       - SERVER_HOST=http://api.ly.fish.local

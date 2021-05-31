@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import memoize from 'memoize-one';
 import * as _ from 'lodash';
 import React from 'react';
-import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
+import { Badge, Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
 import styled from 'styled-components';
 import {
@@ -26,6 +26,7 @@ import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
 import { registerForNotifications } from '../../services/notifications';
+import { ChatButton } from './ChatButton';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;
@@ -756,17 +757,7 @@ export default class HomeChannel extends React.Component<any, any> {
 								}}
 							/>
 
-							<Button
-								ml={2}
-								plain
-								icon={<Icon name="comment-alt" />}
-								data-test="open-chat-widget"
-								onClick={this.openChatWidget}
-								tooltip={{
-									placement: 'right',
-									text: 'Open the JellyFish support chat',
-								}}
-							/>
+							<ChatButton onClick={this.openChatWidget} />
 						</Box>
 
 						<Link
