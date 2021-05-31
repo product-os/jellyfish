@@ -5,12 +5,29 @@
  */
 
 import React from 'react';
-import { Flex, Heading } from 'rendition';
+import { CSVLink } from 'react-csv';
+import { Box, Flex, Heading, Txt } from 'rendition';
+import { flatten } from 'flat';
 import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
 import Markers from '../../../../components/Markers';
 import { LensSelection } from './LensSelection';
 import SliceOptions from './SliceOptions';
 import ViewFilters from './ViewFilters';
+import styled from 'styled-components';
+
+// Style CSV link to match rendition theme
+const CSVLinkWrapper = styled(Box)`
+	a {
+		display: block;
+		font-size: 10px;
+		color: #00aeef;
+		text-decoration: none;
+
+		&: hover {
+			color: #008bbf;
+		}
+	}
+`;
 
 export default class Header extends React.Component<any, any> {
 	render() {
@@ -34,11 +51,38 @@ export default class Header extends React.Component<any, any> {
 			pageOptions,
 			setSortByField,
 			timelineFilter,
+			tail,
 		} = this.props;
 
 		if (!channel.data.head) {
 			return null;
 		}
+
+		const csvName = `${channel.data.head.slug}_${new Date().toISOString()}.csv`;
+		const csvData = tail
+			? tail.map((contract) => {
+					// To keep the CSV functionality simple, don't include any link data in the output
+					return flatten(
+						{
+							...contract,
+							links: {},
+						},
+						{
+							// "safe" option preserves arrays, preventing a new header being created for each tag/marker
+							safe: true,
+						},
+					);
+			  })
+			: [];
+
+		const csvHeaders = csvData.length
+			? Object.keys(csvData[0]).map((key) => {
+					return {
+						key,
+						label: key.split('.').pop(),
+					};
+			  })
+			: [];
 
 		return (
 			<React.Fragment>
@@ -113,7 +157,14 @@ export default class Header extends React.Component<any, any> {
 					/>
 				</Flex>
 
-				<Markers card={channel.data.head} />
+				<Flex justifyContent="space-between">
+					<Markers card={channel.data.head} />
+					<CSVLinkWrapper mr={3}>
+						<CSVLink data={csvData} headers={csvHeaders} filename={csvName}>
+							Download as CSV
+						</CSVLink>
+					</CSVLinkWrapper>
+				</Flex>
 			</React.Fragment>
 		);
 	}

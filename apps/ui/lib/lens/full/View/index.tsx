@@ -895,6 +895,7 @@ export class ViewRenderer extends React.Component<any, any> {
 					pageOptions={options}
 					setSortByField={this.setSortByField}
 					timelineFilter={TIMELINE_FILTER_PROP}
+					tail={tail}
 				/>
 				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>
 					<Content
