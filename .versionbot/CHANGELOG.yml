@@ -1,4 +1,17 @@
 - commits:
+    - subject: change overy tight check of error type in test
+      hash: dc63b7c425967519ebc84209894409bed1dace2d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.2
+  date: 2021-05-31T16:34:58.163Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-logger to v3'
       hash: 607f87f213297d0618231f9a1001feb6f29af703
       body: |
