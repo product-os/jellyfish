@@ -1,4 +1,36 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-ui-components to ^9.2.6'
+      hash: 0b0e685563e35de581ec121f9556f8318bbb08aa
+      body: |
+        Update @balena/jellyfish-ui-components from 9.1.87 to 9.2.6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Fix Typedoc generation
+      hash: 96039c0a4bdcbf098577edcb2fed4ebfd5ff64a7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix lint errors relating to typedoc
+      hash: 9b9a662e2d4ef617f0948ea00994aec0777ea3dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.9.1
+  date: 2021-05-31T05:03:16.066Z
+- commits:
     - subject: Bump dependencies
       hash: c82612a69d1064f10f80cfa6e3f2ad51d192522f
       body: ''
