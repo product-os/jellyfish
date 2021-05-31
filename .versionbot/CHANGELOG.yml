@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Jellyfish: Set components pod count to 3.'
+      hash: 726d5d54f6ec6940c4004f01ec2f659cccada423
+      body: |
+        This is to have at least 1 pod per node in every AZ while avoiding
+        over-consumption of resources.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 34.10.3
+  date: 2021-05-31T17:43:15.065Z
+- commits:
     - subject: change overy tight check of error type in test
       hash: dc63b7c425967519ebc84209894409bed1dace2d
       body: ''
