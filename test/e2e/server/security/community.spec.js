@@ -533,7 +533,8 @@ ava.serial('users with the "user-community" role should not be able to change ot
 		]
 	))
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	const hash = /[a-f0-9]{19,}/
+	test.false(hash.test(error.message))
 })
 
 ava.serial('users with the "user-community" role should not be able to change other users roles', async (test) => {
