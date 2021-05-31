@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-logger to v3'
+      hash: 607f87f213297d0618231f9a1001feb6f29af703
+      body: |
+        Update @balena/jellyfish-logger from 2.1.94 to 3.0.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.10.1
+  date: 2021-05-31T13:27:09.865Z
+- commits:
     - subject: Update props passed to LinkModal and UnlinkModal
       hash: 9c12d325f25c6abf06064a9794f9bbf4f4916849
       body: ''
