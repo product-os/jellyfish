@@ -13,7 +13,7 @@ import { CloseButton, Column, helpers } from '@balena/jellyfish-ui-components';
 import { actionCreators, sdk } from '../../core';
 import ReactResizeObserver from 'react-resize-observer';
 
-class CreateLens extends React.Component<any, any> {
+export class LinksGraphLens extends React.Component<any, any> {
 	graph;
 	simulation;
 	$canvas;
@@ -237,13 +237,13 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default {
-	slug: 'lens-action-create',
+	slug: 'lens-action-links-graph',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default list lens',
 	data: {
 		format: 'visualizeLinks',
-		renderer: connect(null, mapDispatchToProps)(CreateLens),
+		renderer: connect(null, mapDispatchToProps)(LinksGraphLens),
 		icon: 'address-card',
 		type: '*',
 		filter: {
