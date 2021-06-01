@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump libs for logger v3
+      hash: 87fa9fd12e4683c3e8a8003c414bd064131ed10b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.10.6
+  date: 2021-06-01T03:07:45.240Z
+- commits:
     - subject: Use NPM_TOKEN in all apps when publishing docs
       hash: 8bb042ecfba73b3f3378e139a203cb74b70b8791
       body: |
