@@ -1,4 +1,17 @@
 - commits:
+    - subject: Upgrade Worker to 5.x
+      hash: 129ec7a628274e8de54d3aa0ccea9d72f2f4ec96
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.9
+  date: 2021-06-01T10:10:47.312Z
+- commits:
     - subject: don't test error names to validate security
       hash: 5776933db3ce1fcd724f254f63070d7cdc8aef64
       body: ''
