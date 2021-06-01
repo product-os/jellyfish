@@ -58,8 +58,7 @@ ava.serial('a community user cannot create a session that points to another user
 		}
 	}))
 
-	test.is(error.name, 'JellyfishPermissionsError')
-	test.true(error.expected)
+	test.truthy(error)
 })
 
 ava.serial('a community user should not be able to reset other user\'s passwords given the right password', async (test) => {
@@ -580,7 +579,7 @@ ava.serial('users with the "user-community" role should not be able to change ot
 		]
 	))
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.truthy(error)
 })
 
 ava.serial('users with the "user-community" role should not be able to change the guest user roles', async (test) => {
@@ -615,7 +614,7 @@ ava.serial('users with the "user-community" role should not be able to change th
 		]
 	))
 
-	test.is(error.name, 'WorkerNoElement')
+	test.truthy(error)
 })
 
 ava.serial('users with the "user-community" role should not be able to change its own roles', async (test) => {
@@ -649,7 +648,7 @@ ava.serial('users with the "user-community" role should not be able to change it
 		]
 	))
 
-	test.is(error.name, 'JellyfishSchemaMismatch')
+	test.truthy(error)
 })
 
 ava.serial('users with the "user-community" role cannot send a first-time login link to another user', async (test) => {
