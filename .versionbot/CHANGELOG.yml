@@ -1,4 +1,17 @@
 - commits:
+    - subject: update core
+      hash: 3d663559f8588367abce77a9d602dfad10ce5a1f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.10
+  date: 2021-06-01T15:04:43.940Z
+- commits:
     - subject: Upgrade Worker to 5.x
       hash: 129ec7a628274e8de54d3aa0ccea9d72f2f4ec96
       body: ''
