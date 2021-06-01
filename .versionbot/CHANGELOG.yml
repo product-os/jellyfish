@@ -1,4 +1,29 @@
 - commits:
+    - subject: Add doc generation to npm test script
+      hash: 778cc6a51b682909395286de0ef5d854fec11071
+      body: >
+        This ensures that the document generation must pass in order for the
+        tests to pass.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix Typedoc error
+      hash: b696f8233c0c1e069171adfd27cd1e53370baed3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.10.7
+  date: 2021-06-01T05:15:46.748Z
+- commits:
     - subject: Bump libs for logger v3
       hash: 87fa9fd12e4683c3e8a8003c414bd064131ed10b
       body: ''
