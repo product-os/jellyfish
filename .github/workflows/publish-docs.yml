@@ -20,9 +20,33 @@ jobs:
         with:
           node-version: '14'
 
-      - name: Update .npmrc file with NPM Token
+      - name: Update top-level .npmrc file with NPM Token
         uses: dkershner6/use-npm-token-action@v1
         with:
+          token: '${{ secrets.NPM_TOKEN }}'
+
+      - name: Update livechat .npmrc file with NPM Token
+        uses: dkershner6/use-npm-token-action@v1
+        with:
+          workspace: ./apps/livechat
+          token: '${{ secrets.NPM_TOKEN }}'
+
+      - name: Update action-server .npmrc file with NPM Token
+        uses: dkershner6/use-npm-token-action@v1
+        with:
+          workspace: ./apps/action-server
+          token: '${{ secrets.NPM_TOKEN }}'
+
+      - name: Update server .npmrc file with NPM Token
+        uses: dkershner6/use-npm-token-action@v1
+        with:
+          workspace: ./apps/server
+          token: '${{ secrets.NPM_TOKEN }}'
+
+      - name: Update ui .npmrc file with NPM Token
+        uses: dkershner6/use-npm-token-action@v1
+        with:
+          workspace: ./apps/ui
           token: '${{ secrets.NPM_TOKEN }}'
 
       - name: Install NPM dependencies
