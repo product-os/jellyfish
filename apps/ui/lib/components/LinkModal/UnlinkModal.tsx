@@ -24,7 +24,7 @@ import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
 import { LinkConstraint } from '@balena/jellyfish-client-sdk/build/types';
 
-interface UnlinkModalProps {
+export interface UnlinkModalProps {
 	actions: {
 		removeLink: (
 			fromCard: ContractSummary,
