@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use NPM_TOKEN in all apps when publishing docs
+      hash: 8bb042ecfba73b3f3378e139a203cb74b70b8791
+      body: |
+        Need to inject the NPM token into all .npmrc files!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.10.5
+  date: 2021-06-01T00:45:19.727Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 6f20f1e6ac28d688e27e6c671949b3906fcb8b8b
       body: ''
