@@ -1,4 +1,17 @@
 - commits:
+    - subject: don't test error names to validate security
+      hash: 5776933db3ce1fcd724f254f63070d7cdc8aef64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.8
+  date: 2021-06-01T08:33:46.153Z
+- commits:
     - subject: Add doc generation to npm test script
       hash: 778cc6a51b682909395286de0ef5d854fec11071
       body: >
