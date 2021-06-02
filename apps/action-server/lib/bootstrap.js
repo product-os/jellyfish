@@ -17,6 +17,7 @@ const {
 	v4: uuidv4
 } = require('uuid')
 const metrics = require('@balena/jellyfish-metrics')
+const http = require('./http')
 const {
 	getPluginManager
 } = require('./plugins')
@@ -178,6 +179,17 @@ const SCHEMA_ACTIVE_TRANSFORMERS = {
 }
 
 const bootstrap = async (context, options) => {
+	logger.info(context, 'Configuring HTTP server')
+
+	const webServer = await http({
+		port: options.port
+	})
+	logger.info(context, 'Starting web server')
+
+	// Start the webserver so that liveness and readiness endpoints can begin
+	// serving traffic
+	await webServer.start()
+
 	logger.info(context, 'Loading plugin actions')
 	const actionLibrary = options.pluginManager.getActions(context)
 
@@ -352,12 +364,18 @@ const bootstrap = async (context, options) => {
 		})
 	}
 
+	// Signal that this instance has started
+	webServer.started()
+
 	return {
 		jellyfish,
 		worker,
 		consumer,
 		producer,
-		stop: closeWorker
+		stop: async () => {
+			await webServer.stop()
+			await closeWorker()
+		}
 	}
 }
 
@@ -377,7 +395,8 @@ exports.worker = async (context, options) => {
 				.catch(errorHandler)
 		},
 		database: options.database,
-		pluginManager: getPluginManager(context)
+		pluginManager: getPluginManager(context),
+		port: environment.http.workerPort
 	})
 }
 
@@ -395,6 +414,7 @@ exports.tick = async (context, options) => {
 				currentDate: new Date()
 			})
 		},
-		pluginManager: getPluginManager(context)
+		pluginManager: getPluginManager(context),
+		port: environment.http.tickPort
 	})
 }

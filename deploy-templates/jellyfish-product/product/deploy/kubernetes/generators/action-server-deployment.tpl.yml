@@ -241,19 +241,24 @@ spec:
             secretKeyRef:
               key: QUEUE_CONCURRENCY
               name: queue-concurrency
+        - name: HTTP_WORKER_PORT
+          valueFrom:
+            secretKeyRef:
+              key: HTTP_WORKER_PORT
+              name: http-worker-port
         stdin: true
         tty: true
         ports:
           - containerPort: {{{METRICS_PORT}}}
             name: prometheus-a
-        readinessProbe:
-          exec:
-            command:
-            - sh
-            - -c
-            - netstat -nltp | grep 8888
-          failureThreshold: 3
-          initialDelaySeconds: 60
-          periodSeconds: 5
+          - containerPort: {{{HTTP_WORKER_PORT}}}
+            name: healthcheck-port
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: healthcheck-port
+          failureThreshold: 12
+          periodSeconds: 10
+          timeoutSeconds: 1
       imagePullSecrets:
         - name: com.docker.hub.travisciresin

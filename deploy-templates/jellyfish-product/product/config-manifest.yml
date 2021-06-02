@@ -110,3 +110,7 @@ properties:
     type: string?
   REGISTRY_TOKEN_AUTH_JWT_ALGO:
     type: string?
+  HTTP_WORKER_PORT:
+    type: number
+  HTTP_TICK_PORT:
+    type: number
