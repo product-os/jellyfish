@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-flowdock
+      hash: d4bfd464af2fad6fd0b79811bb9e03d1c1e2db19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.10.12
+  date: 2021-06-02T07:06:54.338Z
+- commits:
     - subject: Do not generate docs as part of test
       hash: a5d82ae92ccd3aa54a66044a7b6f5cc3a83aaffd
       body: >
