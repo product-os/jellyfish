@@ -57,7 +57,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/ci-task-runner": "^0.2.151",
-    "@balena/jellyfish-action-library": "^10.0.26",
+    "@balena/jellyfish-action-library": "10.1.0-add-loop-to-action-create-card-2c770c036fdef04a67787592f95ac08171ebb2ac",
     "@balena/jellyfish-chat-widget": "^8.0.63",
     "@balena/jellyfish-client-sdk": "^3.4.1",
     "@balena/jellyfish-core": "^2.13.120",

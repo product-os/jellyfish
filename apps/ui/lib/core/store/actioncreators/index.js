@@ -77,6 +77,23 @@ const allGroupsWithUsersQuery = {
 	}
 }
 
+const globalQuerySchema = (loop) => {
+	if (!loop) {
+		return null
+	}
+	return {
+		type: 'object',
+		required: [ 'loop' ],
+		properties: {
+			loop: {
+				// TODO: Use a simple const once all contracts have been assigned to a loop
+				enum: [ loop, null ],
+				type: 'string'
+			}
+		}
+	}
+}
+
 const createChannel = (data = {}) => {
 	const id = uuid()
 	if (!data.hasOwnProperty('canonical')) {
@@ -180,6 +197,7 @@ export const selectors = {
 		return _.get(state.ui, [ 'chatWidget', 'open' ])
 	},
 	getTypes: (state) => { return state.core.types },
+	getLoops: (state) => { return state.core.loops },
 	getGroups: (state) => { return state.core.groups },
 	getMyGroupNames: (state) => { return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name') },
 	getUIState: (state) => { return state.ui },
@@ -221,6 +239,10 @@ export const selectors = {
 	getHomeView: (state) => {
 		const user = selectors.getCurrentUser(state)
 		return _.get(user, [ 'data', 'profile', 'homeView' ], null)
+	},
+	getActiveLoop: (state) => {
+		const user = selectors.getCurrentUser(state)
+		return _.get(user, [ 'data', 'profile', 'activeLoop' ], null)
 	},
 	getInboxQuery: (state) => {
 		const user = selectors.getCurrentUser(state)
@@ -349,9 +371,10 @@ export const getSeedData = (viewCard, user) => {
 	}
 
 	// Always inherit markers from the view card
-	return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
-		markers: viewCard.markers
-	})
+	return Object.assign(
+		helpers.getUpdateObjectFromSchema(schema),
+		_.pick(viewCard, [ 'loop', 'markers' ])
+	)
 }
 
 export const actionCreators = {
@@ -822,89 +845,97 @@ export const actionCreators = {
 		return (dispatch, getState, {
 			sdk, errorReporter
 		}) => {
-			return Bluebird.props({
-				user: sdk.auth.whoami(),
-				orgs: sdk.card.getAllByType('org'),
-				types: sdk.card.getAllByType('type'),
-				groups: sdk.query(allGroupsWithUsersQuery),
-				config: sdk.getConfig()
-			})
-				.then(async ({
-					user, types, groups, orgs, config
-				}) => {
+			return sdk.auth.whoami()
+				.then((user) => {
 					if (!user) {
 						throw new Error('Could not retrieve user')
 					}
-					const state = getState()
+					sdk.setGlobalQuerySchema(globalQuerySchema(_.get(user, [ 'data', 'profile', 'activeLoop' ], null)))
 
-					// Check to see if we're still logged in
-					if (selectors.getSessionToken(state)) {
-						dispatch(actionCreators.setUser(user))
-						dispatch(actionCreators.setTypes(types))
-						dispatch(actionCreators.setOrgs(orgs))
-						dispatch(actionCreators.setGroups(groups, user))
-						dispatch({
-							type: actions.SET_CONFIG,
-							value: config
-						})
-						const channels = selectors.getChannels(state)
-						channels.forEach((channel) => {
-							return dispatch(actionCreators.loadChannelData(channel))
-						})
-					}
-
-					errorReporter.setUser({
-						id: user.id,
-						slug: user.slug,
-						email: _.get(user, [ 'data', 'email' ])
+					return Bluebird.props({
+						loops: sdk.card.getAllByType('loop', {
+							ignoreGlobalQuerySchema: true
+						}),
+						orgs: sdk.card.getAllByType('org'),
+						types: sdk.card.getAllByType('type'),
+						groups: sdk.query(allGroupsWithUsersQuery),
+						config: sdk.getConfig()
 					})
+						.then(async ({
+							loops, types, groups, orgs, config
+						}) => {
+							const state = getState()
 
-					tokenRefreshInterval = setInterval(async () => {
-						const newToken = await sdk.auth.refreshToken()
-						dispatch(actionCreators.setAuthToken(newToken))
-					}, TOKEN_REFRESH_INTERVAL)
-
-					if (commsStream) {
-						commsStream.close()
-					}
-
-					// Open a stream for messages, whispers and uses. This allows us to
-					// listen for message edits, sync status, alerts/pings and changes in
-					// other users statuses
-					commsStream = await sdk.stream({
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								enum: [
-									'message@1.0.0',
-									'whisper@1.0.0',
-									'summary@1.0.0',
-									'rating@1.0.0',
-									'user@1.0.0'
-								]
+							// Check to see if we're still logged in
+							if (selectors.getSessionToken(state)) {
+								dispatch(actionCreators.setUser(user))
+								dispatch(actionCreators.setLoops(loops))
+								dispatch(actionCreators.setTypes(types))
+								dispatch(actionCreators.setOrgs(orgs))
+								dispatch(actionCreators.setGroups(groups, user))
+								dispatch({
+									type: actions.SET_CONFIG,
+									value: config
+								})
+								const channels = selectors.getChannels(state)
+								channels.forEach((channel) => {
+									return dispatch(actionCreators.loadChannelData(channel))
+								})
 							}
-						},
-						required: [ 'type' ]
-					})
 
-					commsStream.on('update', (payload) => streamUpdate(payload, getState, dispatch, user, types))
+							errorReporter.setUser({
+								id: user.id,
+								slug: user.slug,
+								email: _.get(user, [ 'data', 'email' ])
+							})
 
-					// TODO handle typing notifications in a more generic way, this is an
-					// abomination. (A small abomination, but still an abomination)
-					commsStream.on('typing', (payload) => streamTyping(dispatch, payload))
+							tokenRefreshInterval = setInterval(async () => {
+								const newToken = await sdk.auth.refreshToken()
+								dispatch(actionCreators.setAuthToken(newToken))
+							}, TOKEN_REFRESH_INTERVAL)
 
-					commsStream.on('error', (error) => {
-						console.error('A stream error occurred', error)
-					})
+							if (commsStream) {
+								commsStream.close()
+							}
 
-					// Load unread message pings
-					const groupNames = selectors.getMyGroupNames(getState())
-					const unreadQuery = getUnreadQuery(user, groupNames)
+							// Open a stream for messages, whispers and uses. This allows us to
+							// listen for message edits, sync status, alerts/pings and changes in
+							// other users statuses
+							commsStream = await sdk.stream({
+								type: 'object',
+								properties: {
+									type: {
+										type: 'string',
+										enum: [
+											'message@1.0.0',
+											'whisper@1.0.0',
+											'summary@1.0.0',
+											'rating@1.0.0',
+											'user@1.0.0'
+										]
+									}
+								},
+								required: [ 'type' ]
+							})
 
-					dispatch(actionCreators.loadViewData(unreadQuery))
+							commsStream.on('update', (payload) => streamUpdate(payload, getState, dispatch, user, types))
 
-					return user
+							// TODO handle typing notifications in a more generic way, this is an
+							// abomination. (A small abomination, but still an abomination)
+							commsStream.on('typing', (payload) => streamTyping(dispatch, payload))
+
+							commsStream.on('error', (error) => {
+								console.error('A stream error occurred', error)
+							})
+
+							// Load unread message pings
+							const groupNames = selectors.getMyGroupNames(getState())
+							const unreadQuery = getUnreadQuery(user, groupNames)
+
+							dispatch(actionCreators.loadViewData(unreadQuery))
+
+							return user
+						})
 				})
 		}
 	},
@@ -1026,6 +1057,13 @@ export const actionCreators = {
 		}
 	},
 
+	setLoops (loops) {
+		return {
+			type: actions.SET_LOOPS,
+			value: loops
+		}
+	},
+
 	setGroups (groups, user) {
 		return {
 			type: actions.SET_GROUPS,
@@ -1088,6 +1126,27 @@ export const actionCreators = {
 		return {
 			type: actions.REMOVE_VIEW_NOTICE,
 			value: id
+		}
+	},
+
+	setActiveLoop (loopSlug) {
+		return async (dispatch, getState, context) => {
+			const state = getState()
+			const user = selectors.getCurrentUser(state)
+			const patches = helpers.patchPath(
+				user,
+				[ 'data', 'profile', 'activeLoop' ],
+				loopSlug
+			)
+			const activeLoop = _.find(selectors.getLoops(state), {
+				slug: loopSlug
+			})
+			const successNotification = loopSlug
+				? `Active loop is now '${activeLoop.name}'`
+				: 'No active loop'
+			await actionCreators.updateUser(patches, successNotification)(dispatch, getState, context)
+			actionCreators.bootstrap()(dispatch, getState, context)
+			dispatch(push('/'))
 		}
 	},
 

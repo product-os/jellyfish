@@ -37,6 +37,7 @@ import TreeMenu from './TreeMenu'
 import UserStatusMenuItem from '../UserStatusMenuItem'
 import ViewLink from '../ViewLink'
 import OmniSearch from '../OmniSearch'
+import LoopSelector from '../LoopSelector'
 import {
 	registerForNotifications
 } from '../../services/notifications'
@@ -441,7 +442,8 @@ export default class HomeChannel extends React.Component {
 	}
 
 	componentDidUpdate (prevProps) {
-		if (!prevProps.channel.data.head && this.props.channel.data.head) {
+		if ((!prevProps.channel.data.head && this.props.channel.data.head) ||
+				(prevProps.activeLoop !== this.props.activeLoop)) {
 			this.props.actions.loadViewData(this.props.channel.data.head)
 		}
 		if (this.state.showMenu && prevProps.location.pathname !== this.props.location.pathname) {
@@ -607,6 +609,7 @@ export default class HomeChannel extends React.Component {
 								)}
 							</Flex>
 							<OmniSearch ml={3} mr={2} />
+							<LoopSelector ml={3} mr={2} mb={2} />
 						</Flex>
 
 						{this.state.showMenu && (

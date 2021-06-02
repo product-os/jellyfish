@@ -10,7 +10,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-action-library": "^10.0.26",
+    "@balena/jellyfish-action-library": "10.1.0-add-loop-to-action-create-card-2c770c036fdef04a67787592f95ac08171ebb2ac",
     "@balena/jellyfish-core": "^2.13.120",
     "@balena/jellyfish-environment": "^4.1.13",
     "@balena/jellyfish-logger": "^2.1.59",

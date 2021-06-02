@@ -241,12 +241,17 @@ export class CreateLens extends React.Component {
 	}
 
 	handleLinkOptionSelect (payload) {
+		const {
+			seed
+		} = this.props.channel.data.head
+
 		const option = payload.value
 		const selectedTypeTarget = _.find(this.props.allTypes, {
 			slug: option.data.to
 		})
 
 		this.setState({
+			newCardModel: seed,
 			selectedTypeTarget,
 			linkOption: option
 		})
@@ -311,6 +316,8 @@ export class CreateLens extends React.Component {
 			return <Redirect push to={redirectTo} />
 		}
 
+		const baseCardType = helpers.getType('card', allTypes)
+
 		const localSchema = helpers.getLocalSchema(this.state.newCardModel)
 
 		const freeFieldData = _.reduce(localSchema.properties, (carry, _value, key) => {
@@ -338,6 +345,9 @@ export class CreateLens extends React.Component {
 				// We only support relationships that define a particular link
 				return typeof relationship.type !== 'undefined' && typeof relationship.link !== 'undefined'
 			})
+
+		// Always show specific base card fields
+		_.set(schema, [ 'properties', 'loop' ], baseCardType.data.schema.properties.loop)
 
 		// Always show tags input
 		if (!schema.properties.tags) {
