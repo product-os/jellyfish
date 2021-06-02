@@ -1,4 +1,19 @@
 - commits:
+    - subject: upgrade core to 3.0.15
+      hash: 0792cbf2cc6479dc69a54cfded11f9eaac22a1b6
+      body: |
+        changes patchCard locking from serializable transactions
+        to SELECT ... FOR UPDATE
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.13
+  date: 2021-06-02T11:21:25.121Z
+- commits:
     - subject: Use plugin-flowdock
       hash: d4bfd464af2fad6fd0b79811bb9e03d1c1e2db19
       body: ''
