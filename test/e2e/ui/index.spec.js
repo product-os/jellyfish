@@ -347,6 +347,9 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
 	await page.waitForSelector('.column--view-all-support-issues')
 
+	// Allow some time for the lens selection to be stored
+	await bluebird.delay(5000)
+
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-paid-support-threads"]')
 	await page.waitForSelector('.column--view-paid-support-threads')
 

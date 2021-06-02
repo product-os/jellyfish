@@ -93,7 +93,7 @@ module.exports = {
 		await test.context.sdk.auth.loginWithToken(test.context.session.id)
 		test.context.user = await test.context.sdk.auth.whoami()
 
-		test.context.waitForMatch = async (query, times = 30) => {
+		test.context.waitForMatch = async (query, times = 40) => {
 			if (times === 0) {
 				throw new Error('The wait query did not resolve')
 			}
