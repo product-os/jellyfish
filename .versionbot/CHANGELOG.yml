@@ -1,4 +1,22 @@
 - commits:
+    - subject: Do not generate docs as part of test
+      hash: a5d82ae92ccd3aa54a66044a7b6f5cc3a83aaffd
+      body: >
+        This is a temporary measure as Typedoc generation  will be broken when
+        we upgrade to TypeScript v4.3 until Typedoc supports this version
+        (should be very soon:
+        https://github.com/TypeStrong/typedoc/issues/1589#issuecomment-850734031).
+        At that point, we can re-instate this.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.10.11
+  date: 2021-06-02T04:15:30.277Z
+- commits:
     - subject: update core
       hash: 3d663559f8588367abce77a9d602dfad10ce5a1f
       body: ''
