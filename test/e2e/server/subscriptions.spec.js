@@ -21,6 +21,8 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 		sdk
 	} = test.context
 
+	const identifier = uuidv4()
+
 	const view = await sdk.card.create({
 		name: 'Foos',
 		type: 'view@1.0.0',
@@ -39,7 +41,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 							data: {
 								properties: {
 									baz: {
-										const: 'qux'
+										const: identifier
 									}
 								},
 								required: [
@@ -71,7 +73,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 		type: 'card@1.0.0',
 		slug: `card-${uuidv4()}`,
 		data: {
-			baz: 'qux'
+			baz: identifier
 		}
 	})
 
@@ -108,6 +110,8 @@ ava('Should not generate a notification if subscribed view filter does not match
 		sdk
 	} = test.context
 
+	const identifier = uuidv4()
+
 	const view = await sdk.card.create({
 		name: 'Foos',
 		type: 'view@1.0.0',
@@ -126,7 +130,7 @@ ava('Should not generate a notification if subscribed view filter does not match
 							data: {
 								properties: {
 									baz: {
-										const: 'qux'
+										const: identifier
 									}
 								},
 								required: [
@@ -158,7 +162,7 @@ ava('Should not generate a notification if subscribed view filter does not match
 		type: 'card@1.0.0',
 		slug: `card-${uuidv4()}`,
 		data: {
-			baz: 'bar'
+			baz: 'foobarbaz'
 		}
 	})
 
@@ -185,15 +189,15 @@ ava('Should not generate a notification if subscribed view filter does not match
 				]
 			}
 		}
-	}, {
-		times: 1
-	}))
+	}, 3))
 })
 
 ava('Should not generate a notification if view is not subscribed, but filter matches inserted card', async (test) => {
 	const {
 		sdk
 	} = test.context
+
+	const identifier = uuidv4()
 
 	await sdk.card.create({
 		name: 'Foos',
@@ -213,7 +217,7 @@ ava('Should not generate a notification if view is not subscribed, but filter ma
 							data: {
 								properties: {
 									baz: {
-										const: 'qux'
+										const: identifier
 									}
 								},
 								required: [
@@ -236,7 +240,7 @@ ava('Should not generate a notification if view is not subscribed, but filter ma
 		type: 'card@1.0.0',
 		slug: `card-${uuidv4()}`,
 		data: {
-			baz: 'qux'
+			baz: identifier
 		}
 	})
 
@@ -263,7 +267,5 @@ ava('Should not generate a notification if view is not subscribed, but filter ma
 				]
 			}
 		}
-	}, {
-		times: 1
-	}))
+	}, 3))
 })

@@ -26,26 +26,26 @@ exports.before = async (test) => {
 
 	test.context.token = session.id
 
-	test.context.executeThenWait = async (asyncFn, waitQuery, times = 20) => {
-		if (times === 0) {
-			throw new Error('The wait query did not resolve')
-		}
-
+	test.context.executeThenWait = async (asyncFn, waitQuery) => {
 		if (asyncFn) {
 			await asyncFn()
 		}
 
-		const results = await test.context.sdk.query(waitQuery)
+		return test.context.waitForMatch(waitQuery)
+	}
+
+	test.context.waitForMatch = async (query, times = 20) => {
+		if (times === 0) {
+			throw new Error('The wait query did not resolve')
+		}
+
+		const results = await test.context.sdk.query(query)
+
 		if (results.length > 0) {
 			return results[0]
 		}
-
 		await Bluebird.delay(1000)
-		return test.context.executeThenWait(null, waitQuery, times - 1)
-	}
-
-	test.context.waitForMatch = async (query, options = {}) => {
-		return test.context.executeThenWait(null, query, options.times)
+		return test.context.waitForMatch(query, times - 1)
 	}
 }
 
