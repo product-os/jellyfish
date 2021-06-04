@@ -1,4 +1,17 @@
 - commits:
+    - subject: update core to 3.0.21
+      hash: 950f51f449b56f6b6e1479d331e8517703aab18a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.15
+  date: 2021-06-04T12:59:35.175Z
+- commits:
     - subject: Fix error in test helper that would rerun commands unnecessarily
       hash: e7629ec2ef3cfc25e098a03886e78d80e6c9e66c
       body: ''
