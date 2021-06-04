@@ -7,14 +7,22 @@
 const ava = require('ava')
 const _ = require('lodash')
 const Bluebird = require('bluebird')
-const request = require('request')
 const {
 	v4: uuid
 } = require('uuid')
 const helpers = require('./helpers')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const randomWords = require('random-words')
+const Discourse = require('discourse-js').default
 const TOKEN = environment.integration.discourse
+
+const discourse = new Discourse()
+const baseUrl = 'https://forums.balena.io'
+discourse.config({
+	userApiKey: TOKEN.api,
+	apiUsername: TOKEN.username,
+	baseUrl
+})
 
 // Filter out the sync notice that is created when a new support thread is
 // created. The notice is created by an async triggered action and causes
@@ -176,107 +184,22 @@ ava.serial.before(async (test) => {
 	}
 
 	test.context.deleteTopic = async (id) => {
-		return new Bluebird((resolve, reject) => {
-			request({
-				method: 'DELETE',
-				baseUrl: 'https://forums.balena.io',
-				json: true,
-				uri: `/t/${id}.json`,
-				headers: {
-					'Api-Key': TOKEN.api,
-					'Api-Username': TOKEN.username
-				}
-			}, (error, response, body) => {
-				if (error) {
-					return reject(error)
-				}
-
-				if (response.statusCode === 429) {
-					return test.context.deleteTopic(id)
-						.then(resolve)
-						.catch(reject)
-				}
-
-				if (response.statusCode !== 200) {
-					return reject(new Error(
-						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
-				}
-
-				return resolve()
-			})
+		return discourse.topics.deleteTopic({
+			id
 		})
 	}
 
 	test.context.getTopic = async (id) => {
-		return new Bluebird((resolve, reject) => {
-			request({
-				method: 'GET',
-				baseUrl: 'https://forums.balena.io',
-				json: true,
-				uri: `/t/${id}.json?include_raw=1`,
-				headers: {
-					'Api-Key': TOKEN.api,
-					'Api-Username': TOKEN.username
-				}
-			}, (error, response, body) => {
-				if (error) {
-					return reject(error)
-				}
-
-				if (response.statusCode === 429) {
-					return test.context.getTopic(id)
-						.then(resolve)
-						.catch(reject)
-				}
-
-				if (response.statusCode === 404) {
-					return resolve(null)
-				}
-
-				if (response.statusCode !== 200) {
-					return reject(new Error(
-						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
-				}
-
-				return resolve(body)
-			})
+		return discourse.topics.getTopic({
+			id
 		})
 	}
 
 	const createSupportThread = async (username, title, description) => {
-		return new Bluebird((resolve, reject) => {
-			request({
-				method: 'POST',
-				baseUrl: 'https://forums.balena.io',
-				json: true,
-				uri: '/posts.json',
-				body: {
-					title,
-					raw: description,
-					category: _.parseInt(test.context.category)
-				},
-				headers: {
-					'Api-Key': TOKEN.api,
-					'Api-Username': username
-				}
-			}, (error, response, body) => {
-				if (error) {
-					return reject(error)
-				}
-
-				if (response.statusCode === 429) {
-					return createSupportThread(username, title, description)
-						.then(resolve)
-						.catch(reject)
-				}
-
-				if (response.statusCode !== 200) {
-					return reject(new Error(
-						`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`))
-				}
-
-				return resolve(body)
-			})
+		return discourse.posts.create({
+			title,
+			raw: description,
+			category: _.parseInt(test.context.category)
 		})
 	}
 
@@ -290,6 +213,9 @@ ava.serial.before(async (test) => {
 			throw new Error(`No topic id in post: ${JSON.stringify(post, null, 2)}`)
 		}
 
+		// Note that normally this support thread would be created automatically
+		// by a webhook from discourse. In the future we should expolore running
+		// discourse in a container to truly e2e test this behaviour
 		const result = await test.context.sdk.card.create({
 			name: title,
 			slug,
