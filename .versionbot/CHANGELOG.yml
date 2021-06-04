@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix error in test helper that would rerun commands unnecessarily
+      hash: e7629ec2ef3cfc25e098a03886e78d80e6c9e66c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Balena CI
+      nested: []
+  version: 34.10.14
+  date: 2021-06-04T07:16:34.815Z
+- commits:
     - subject: upgrade core to 3.0.15
       hash: 0792cbf2cc6479dc69a54cfded11f9eaac22a1b6
       body: |
