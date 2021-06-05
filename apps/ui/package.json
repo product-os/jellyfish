@@ -91,7 +91,7 @@
   "devDependencies": {
     "@babel/cli": "^7.14.3",
     "@babel/preset-env": "^7.14.1",
-    "@balena/jellyfish-types": "^0.5.137",
+    "@balena/jellyfish-types": "^0.6.2",
     "@balena/jellyfish-config": "^1.2.7",
     "@balena/lint": "^6.1.1",
     "@emotion/cache": "^11.4.0",
