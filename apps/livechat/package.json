@@ -17,20 +17,20 @@
     "@balena/jellyfish-client-sdk": "^4.4.17",
     "@balena/jellyfish-ui-components": "^9.2.7",
     "babel-loader": "^8.2.2",
-    "css-loader": "^5.2.5",
+    "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
-    "rendition": "^20.15.1",
+    "rendition": "^20.15.3",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "devDependencies": {
     "depcheck": "^1.4.1",
-    "eslint": "^7.27.0",
+    "eslint": "^7.28.0",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
   }

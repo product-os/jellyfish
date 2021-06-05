@@ -35,7 +35,7 @@
     "@balena/jellyfish-queue": "^1.0.124",
     "@balena/jellyfish-sync": "^6.0.212",
     "@balena/jellyfish-worker": "^5.0.0",
-    "aws-sdk": "^2.912.0",
+    "aws-sdk": "^2.922.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "errio": "^1.2.2",
@@ -57,8 +57,8 @@
     "@balena/jellyfish-client-sdk": "^4.4.17",
     "ava": "^3.15.0",
     "depcheck": "^1.4.1",
-    "eslint": "^7.27.0",
-    "nock": "^13.0.11",
+    "eslint": "^7.28.0",
+    "nock": "^13.1.0",
     "nodemon": "^2.0.7",
     "request": "^2.88.2"
   }
