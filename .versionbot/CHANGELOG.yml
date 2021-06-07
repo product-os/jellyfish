@@ -1,4 +1,25 @@
 - commits:
+    - subject: Fix imports to jellyfish-ui-components
+      hash: 3b5b9e07789fa2607abd1eef88b22bd9a8658bd6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update internal-patch'
+      hash: d26ee6e1a39e080fe55ae2eddcc22d07ce3f4d72
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.10.18
+  date: 2021-06-07T04:17:16.297Z
+- commits:
     - subject: Bring back Renovate frontend group
       hash: 39003a31a88f3d59011d7570a4057edb3061b1fd
       body: ''
