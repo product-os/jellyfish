@@ -1,4 +1,17 @@
 - commits:
+    - subject: fix nodemon after TypeScript conversion
+      hash: 7474ef91323f20a1ee142dacea19a593dcbea28f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.10.19
+  date: 2021-06-07T10:16:03.763Z
+- commits:
     - subject: Fix imports to jellyfish-ui-components
       hash: 3b5b9e07789fa2607abd1eef88b22bd9a8658bd6
       body: ''
