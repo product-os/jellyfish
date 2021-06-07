@@ -3,19 +3,19 @@
   "ignoreRoot": [],
   "watch": [
     "lib/**/*.js",
-    "node_modules/@balena/jellyfish-action-library/lib/**/*.js",
+    "node_modules/@balena/jellyfish-action-library/build/**/*.js",
     "node_modules/@balena/jellyfish-assert/build/*.js",
-    "node_modules/@balena/jellyfish-core/lib/**/*.js",
-    "node_modules/@balena/jellyfish-environment/lib/**/*.js",
-    "node_modules/@balena/jellyfish-jellyscript/lib/**/*.js",
-    "node_modules/@balena/jellyfish-logger/lib/**/*.js",
-    "node_modules/@balena/jellyfish-mail/lib/**/*.js",
-    "node_modules/@balena/jellyfish-metrics/lib/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-base/lib/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-default/lib/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-product-os/lib/**/*.js",
-    "node_modules/@balena/jellyfish-queue/lib/**/*.js",
-    "node_modules/@balena/jellyfish-sync/lib/**/*.js",
-    "node_modules/@balena/jellyfish-worker/lib/**/*.js"
+    "node_modules/@balena/jellyfish-core/build/**/*.js",
+    "node_modules/@balena/jellyfish-environment/build/**/*.js",
+    "node_modules/@balena/jellyfish-jellyscript/build/**/*.js",
+    "node_modules/@balena/jellyfish-logger/build/**/*.js",
+    "node_modules/@balena/jellyfish-mail/build/**/*.js",
+    "node_modules/@balena/jellyfish-metrics/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-base/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-default/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-product-os/build/**/*.js",
+    "node_modules/@balena/jellyfish-queue/build/**/*.js",
+    "node_modules/@balena/jellyfish-sync/build/**/*.js",
+    "node_modules/@balena/jellyfish-worker/build/**/*.js"
   ]
 }
