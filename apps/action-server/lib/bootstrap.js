@@ -114,18 +114,6 @@ const SCHEMA_ACTIVE_SUBSCRIPTIONS = {
 	},
 	required: [ 'id', 'slug', 'active', 'type', 'data' ],
 	$$links: {
-		'is attached to': {
-			type: 'object',
-			properties: {
-				type: {
-					const: 'view@1.0.0'
-				},
-				active: {
-					const: true
-				}
-			},
-			required: [ 'type', 'active' ]
-		},
 		'has attached element': {
 			type: 'object',
 			properties: {
