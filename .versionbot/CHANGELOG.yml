@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bring back Renovate frontend group
+      hash: 39003a31a88f3d59011d7570a4057edb3061b1fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.10.17
+  date: 2021-06-07T03:26:25.980Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-types to ^0.6.2'
       hash: de8ff8cca2cbab40de762aa9789b36bdef4465c7
       body: |
