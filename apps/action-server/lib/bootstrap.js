@@ -131,6 +131,15 @@ const SCHEMA_ACTIVE_SUBSCRIPTIONS = {
 				}
 			},
 			required: [ 'type', 'data' ]
+		},
+		'is attached to': {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'view@1.0.0'
+				}
+			},
+			required: [ 'type' ]
 		}
 	}
 }

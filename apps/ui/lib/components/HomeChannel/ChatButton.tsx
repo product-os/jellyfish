@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { v4 as uuid } from 'uuid';
+import uniq from 'lodash/uniq';
 import { Badge, Box, Button } from 'rendition';
 import styled from 'styled-components';
 import { Icon, useSetup } from '@balena/jellyfish-ui-components';
@@ -37,21 +38,31 @@ export const ChatButton = ({ onClick, ...rest }) => {
 				$$links: {
 					'is attached to': {
 						type: 'object',
-						required: ['type', 'data'],
+						required: [ 'type' ],
 						properties: {
 							type: {
-								const: 'support-thread@1.0.0',
-							},
-							data: {
-								type: 'object',
-								required: ['product'],
+								const: 'message@1.0.0'
+							}
+						},
+						$$links: {
+							'is attached to': {
+								required: ['type', 'data'],
 								properties: {
-									product: {
-										const: 'jellyfish',
+									type: {
+										const: 'support-thread@1.0.0',
+									},
+									data: {
+										type: 'object',
+										required: ['product'],
+										properties: {
+											product: {
+												const: 'jellyfish',
+											},
+										},
 									},
 								},
-							},
-						},
+							}
+						}
 					},
 				},
 				not: {
@@ -79,9 +90,9 @@ export const ChatButton = ({ onClick, ...rest }) => {
 			});
 
 			stream.on('update', ({ data: { id, type, after: card } }) => {
-				if (type === 'insert') {
+				if (type === 'insert' || type === 'update') {
 					setNotifications((existingNotifications) => {
-						return existingNotifications!.concat(card);
+						return uniq(existingNotifications!.concat(card));
 					});
 				} else if (type === 'unmatch') {
 					setNotifications((existingNotifications) => {
