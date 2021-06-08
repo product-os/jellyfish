@@ -1,6 +1,7 @@
 {
   "extends": "@balena/jellyfish-config/config/tsconfig.json",
   "compilerOptions": {
+    "target": "es2018",
     "noUnusedParameters": false,
     "noUnusedLocals": false,
     "jsx": "react"
