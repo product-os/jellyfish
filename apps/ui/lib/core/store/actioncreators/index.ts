@@ -24,6 +24,7 @@ import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
+import { JSONSchema } from '@balena/jellyfish-types';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -58,6 +59,23 @@ const allGroupsWithUsersQuery = {
 		},
 	},
 };
+
+const buildGlobalQueryMask = (loop: string | null): JSONSchema | null => {
+	if (!loop) {
+		return null
+	}
+	return {
+		type: 'object',
+		required: [ 'loop' ],
+		properties: {
+			loop: {
+				// TODO: Use a simple const once all contracts have been assigned to a loop
+				enum: [ loop, null ],
+				type: 'string'
+			}
+		}
+	}
+}
 
 const createChannel = (data: any = {}) => {
 	const id = uuid();
@@ -857,19 +875,21 @@ export const actionCreators = {
 
 	bootstrap() {
 		return (dispatch, getState, { sdk, errorReporter }) => {
-			return (Bluebird as any)
-				.props({
-					user: sdk.auth.whoami(),
-					loops: sdk.card.getAllByType('loop'),
-					orgs: sdk.card.getAllByType('org'),
-					types: sdk.card.getAllByType('type'),
-					groups: sdk.query(allGroupsWithUsersQuery),
-					config: sdk.getConfig(),
-				})
-				.then(async ({ user, loops, types, groups, orgs, config }) => {
+			return sdk.auth.whoami()
+				.then((user) => {
 					if (!user) {
 						throw new Error('Could not retrieve user');
 					}
+					sdk.globalQueryMask = buildGlobalQueryMask(_.get(user, [ 'data', 'profile', 'activeLoop' ], null));
+
+					return (Bluebird as any).props({
+						loops: sdk.card.getAllByType('loop'),
+						orgs: sdk.card.getAllByType('org'),
+						types: sdk.card.getAllByType('type'),
+						groups: sdk.query(allGroupsWithUsersQuery),
+						config: sdk.getConfig(),
+					})
+				.then(async ({ loops, types, groups, orgs, config }) => {
 					const state = getState();
 
 					// Check to see if we're still logged in
@@ -946,6 +966,7 @@ export const actionCreators = {
 
 					return user;
 				});
+			});
 		};
 	},
 
@@ -1153,7 +1174,7 @@ export const actionCreators = {
 				).newDocument;
 
 				// Optimistically update the user in local state
-				dispatch(actionCreators.setUser(optimisticUpdate));
+				await dispatch(actionCreators.setUser(optimisticUpdate));
 
 				await sdk.card.update(user.id, 'user', patches);
 
