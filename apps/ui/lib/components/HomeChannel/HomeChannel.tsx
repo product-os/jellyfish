@@ -9,7 +9,7 @@ import classnames from 'classnames';
 import memoize from 'memoize-one';
 import * as _ from 'lodash';
 import React from 'react';
-import { Badge, Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
+import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
 import styled from 'styled-components';
 import {

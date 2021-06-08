@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import uniq from 'lodash/uniq';
 import { Badge, Box, Button } from 'rendition';
 import styled from 'styled-components';
 import { Icon, useSetup } from '@balena/jellyfish-ui-components';
-import type { JSONSchema } from '@balena/jellyfish-types';
+import type { JSONSchema, core } from '@balena/jellyfish-types';
+import { selectors } from '../../core';
 
 const StyledBadge = styled(Badge)`
 	position: absolute;
@@ -22,6 +24,7 @@ const Container = styled(Box)`
 export const ChatButton = ({ onClick, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [notifications, setNotifications] = React.useState<null | any[]>(null);
+	const currentUser = useSelector<any, core.UserContract>(selectors.getCurrentUser);
 
 	React.useEffect(() => {
 		let stream: any = null;
@@ -75,7 +78,7 @@ export const ChatButton = ({ onClick, ...rest }) => {
 									const: 'user@1.0.0',
 								},
 								id: {
-									const: (await sdk.auth.whoami()).id,
+									const: currentUser.id,
 								},
 							},
 						},
@@ -116,7 +119,7 @@ export const ChatButton = ({ onClick, ...rest }) => {
 				stream.close();
 			}
 		};
-	}, [sdk]);
+	}, [sdk, currentUser.id]);
 
 	return (
 		<Container {...rest}>
