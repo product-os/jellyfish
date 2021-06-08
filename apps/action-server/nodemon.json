@@ -12,7 +12,7 @@
     "node_modules/@balena/jellyfish-mail/build/**/*.js",
     "node_modules/@balena/jellyfish-metrics/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-base/build/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-default/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-default/lib/**/*.js",
     "node_modules/@balena/jellyfish-plugin-product-os/build/**/*.js",
     "node_modules/@balena/jellyfish-queue/build/**/*.js",
     "node_modules/@balena/jellyfish-sync/build/**/*.js",
