@@ -233,12 +233,17 @@ export class CreateLens extends React.Component<any, any> {
 	}
 
 	handleLinkOptionSelect(payload) {
+		const {
+			seed
+		} = this.props.channel.data.head
+
 		const option = payload.value;
 		const selectedTypeTarget = _.find(this.props.allTypes, {
 			slug: option.data.to,
 		});
 
 		this.setState({
+			newCardModel: seed,
 			selectedTypeTarget,
 			linkOption: option,
 		});
@@ -318,6 +323,10 @@ export class CreateLens extends React.Component<any, any> {
 		const uiSchema = getUiSchema(selectedTypeTarget, UI_SCHEMA_MODE.create);
 
 		const relationships = getRelationshipsBySlug(selectedTypeTarget.slug);
+
+		// Always show specific base card fields
+		const baseCardType = helpers.getType('card', allTypes)
+		_.set(schema, [ 'properties', 'loop' ], baseCardType.data.schema.properties.loop)
 
 		// Always show tags input
 		if (!schema.properties.tags) {

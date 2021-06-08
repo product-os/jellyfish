@@ -33,9 +33,7 @@ export class EditLens extends React.Component<any, any> {
 
 		const { types, card } = this.props.channel.data.head;
 
-		const cardType = _.find(types, {
-			slug: card.type.split('@')[0],
-		});
+		const cardType = helpers.getType(card.type, types)
 
 		// Omit known computed values from the schema
 		const schema = _.omit(cardType ? cardType.data.schema : {}, [
@@ -51,6 +49,11 @@ export class EditLens extends React.Component<any, any> {
 			// see: https://github.com/resin-io/jellyfish/issues/390
 			'properties.data.properties.password',
 		]);
+		
+		// Always show specific base card fields
+		const baseCardType = helpers.getType('card', types)
+		_.set(schema, [ 'properties', 'loop' ], baseCardType.data.schema.properties.loop)
+
 		this.state = {
 			// Omit known immutable values
 			editModel: _.omit(clone(card), ['id', 'slug']),
@@ -133,7 +136,7 @@ export class EditLens extends React.Component<any, any> {
 
 	// TODO: Homogenise form rendering between the create and edit lenses
 	render() {
-		const { editModel } = this.state;
+		const { schema, editModel } = this.state;
 		const localSchema = helpers.getLocalSchema(editModel);
 		const { types, card } = this.props.channel.data.head;
 
@@ -152,8 +155,6 @@ export class EditLens extends React.Component<any, any> {
 		const cardType = helpers.getType(card.type, types);
 
 		const uiSchema = getUiSchema(cardType, UI_SCHEMA_MODE.edit);
-
-		const schema = this.state.schema;
 
 		// Always show tags input
 		if (!schema.properties.tags) {
