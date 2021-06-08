@@ -185,6 +185,9 @@ export const selectors = {
 	getTypes: (state) => {
 		return state.core.types;
 	},
+	getLoops: (state) => {
+		return state.core.loops
+	},
 	getGroups: (state) => {
 		return state.core.groups;
 	},
@@ -857,12 +860,13 @@ export const actionCreators = {
 			return (Bluebird as any)
 				.props({
 					user: sdk.auth.whoami(),
+					loops: sdk.card.getAllByType('loop'),
 					orgs: sdk.card.getAllByType('org'),
 					types: sdk.card.getAllByType('type'),
 					groups: sdk.query(allGroupsWithUsersQuery),
 					config: sdk.getConfig(),
 				})
-				.then(async ({ user, types, groups, orgs, config }) => {
+				.then(async ({ user, loops, types, groups, orgs, config }) => {
 					if (!user) {
 						throw new Error('Could not retrieve user');
 					}
@@ -871,6 +875,7 @@ export const actionCreators = {
 					// Check to see if we're still logged in
 					if (selectors.getSessionToken(state)) {
 						dispatch(actionCreators.setUser(user));
+						dispatch(actionCreators.setLoops(loops))
 						dispatch(actionCreators.setTypes(types));
 						dispatch(actionCreators.setOrgs(orgs));
 						dispatch(actionCreators.setGroups(groups, user));
@@ -1062,6 +1067,13 @@ export const actionCreators = {
 			type: actions.SET_TYPES,
 			value: types,
 		};
+	},
+
+	setLoops (loops) {
+		return {
+			type: actions.SET_LOOPS,
+			value: loops
+		}
 	},
 
 	setGroups(groups, user) {

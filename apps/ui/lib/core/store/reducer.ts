@@ -46,6 +46,7 @@ export const defaultState: any = {
 			},
 		],
 		types: [],
+		loops: [],
 		groups: {},
 		session: null,
 		viewNotices: {},
@@ -340,6 +341,13 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 					$set: action.value,
 				},
 			});
+		}
+		case actions.SET_LOOPS: {
+			return update(state, {
+				loops: {
+					$set: action.value
+				}
+			})
 		}
 		case actions.SET_GROUPS: {
 			const { groups, userSlug } = action.value;
