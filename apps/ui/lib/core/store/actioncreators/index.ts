@@ -264,6 +264,10 @@ export const selectors = {
 		const user = selectors.getCurrentUser(state);
 		return _.get(user, ['data', 'profile', 'homeView'], null);
 	},
+	getActiveLoop: (state) => {
+		const user = selectors.getCurrentUser(state)
+		return _.get(user, [ 'data', 'profile', 'activeLoop' ], null)
+	},
 	getInboxQuery: (state) => {
 		const user = selectors.getCurrentUser(state);
 		const groupNames = selectors.getMyGroupNames(state);
@@ -1161,6 +1165,33 @@ export const actionCreators = {
 		return {
 			type: actions.REMOVE_VIEW_NOTICE,
 			value: id,
+		};
+	},
+
+	setActiveLoop(loopSlug: string | null) {
+		return async (dispatch, getState, context) => {
+			const state = getState();
+			const user = selectors.getCurrentUser(state);
+			const patches = helpers.patchPath(
+				user,
+				['data', 'profile', 'activeLoop'],
+				loopSlug,
+			);
+			const [activeLoopSlug, activeLoopVersion] = (loopSlug || '').split('@');
+			const activeLoop = _.find(selectors.getLoops(state), {
+				slug: activeLoopSlug,
+				version: activeLoopVersion,
+			});
+			const successNotification = loopSlug
+				? `Active loop is now '${activeLoop.name}'`
+				: 'No active loop';
+			await actionCreators.updateUser(patches, successNotification)(
+				dispatch,
+				getState,
+				context,
+			);
+			actionCreators.bootstrap()(dispatch, getState, context);
+			dispatch(push('/'));
 		};
 	},
 

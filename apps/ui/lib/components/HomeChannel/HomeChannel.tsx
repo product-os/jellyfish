@@ -25,6 +25,7 @@ import TreeMenu from './TreeMenu';
 import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
+import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/notifications';
 import { ChatButton } from './ChatButton';
 
@@ -454,7 +455,7 @@ export default class HomeChannel extends React.Component<any, any> {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (!prevProps.channel.data.head && this.props.channel.data.head) {
+		if (prevProps.channel.data.head !== this.props.channel.data.head) {
 			this.props.actions.loadViewData(this.props.channel.data.head);
 		}
 		if (
@@ -635,6 +636,7 @@ export default class HomeChannel extends React.Component<any, any> {
 								)}
 							</Flex>
 							<OmniSearch ml={3} mr={2} />
+							<LoopSelector ml={2} mr={2} mb={2} />
 						</Flex>
 
 						{this.state.showMenu && (

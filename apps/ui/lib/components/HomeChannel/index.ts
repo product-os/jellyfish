@@ -30,6 +30,7 @@ const mapStateToProps = (state, ownProps) => {
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
 		starredViews: selectors.getStarredViews(state),
+		activeLoop: selectors.getActiveLoop(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 		user,
 		homeView: selectors.getHomeView(state),
