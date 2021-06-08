@@ -396,9 +396,10 @@ export const getSeedData = (viewCard, user) => {
 	}
 
 	// Always inherit markers from the view card
-	return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
-		markers: viewCard.markers,
-	});
+	return Object.assign(
+		helpers.getUpdateObjectFromSchema(schema),
+		_.pick(viewCard, [ 'loop', 'markers' ])
+	)
 };
 
 export const actionCreators = {
