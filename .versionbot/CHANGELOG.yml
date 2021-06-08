@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix plugin-default nodemon watch path
+      hash: f24707d0344d36140a26a7b65ccb09e205f13f63
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.10.20
+  date: 2021-06-08T23:11:05.229Z
+- commits:
     - subject: fix nodemon after TypeScript conversion
       hash: 7474ef91323f20a1ee142dacea19a593dcbea28f
       body: ''
