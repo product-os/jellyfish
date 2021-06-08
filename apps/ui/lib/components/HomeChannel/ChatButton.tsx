@@ -24,7 +24,9 @@ const Container = styled(Box)`
 export const ChatButton = ({ onClick, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [notifications, setNotifications] = React.useState<null | any[]>(null);
-	const currentUser = useSelector<any, core.UserContract>(selectors.getCurrentUser);
+	const currentUser = useSelector<any, core.UserContract>(
+		selectors.getCurrentUser,
+	);
 
 	React.useEffect(() => {
 		let stream: any = null;
@@ -41,11 +43,11 @@ export const ChatButton = ({ onClick, ...rest }) => {
 				$$links: {
 					'is attached to': {
 						type: 'object',
-						required: [ 'type' ],
+						required: ['type'],
 						properties: {
 							type: {
-								const: 'message@1.0.0'
-							}
+								const: 'message@1.0.0',
+							},
 						},
 						$$links: {
 							'is attached to': {
@@ -64,8 +66,8 @@ export const ChatButton = ({ onClick, ...rest }) => {
 										},
 									},
 								},
-							}
-						}
+							},
+						},
 					},
 				},
 				not: {
