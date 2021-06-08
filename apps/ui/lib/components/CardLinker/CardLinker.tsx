@@ -64,6 +64,7 @@ class CardLinker extends React.Component<any, any> {
 		this.props.actions.addChannel({
 			head: {
 				seed: {
+					loop: this.props.card.loop,
 					markers: this.props.card.markers,
 				},
 				onDone: {
