@@ -202,8 +202,22 @@ spec:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
+        - name: HTTP_TICK_PORT
+          valueFrom:
+            secretKeyRef:
+              key: HTTP_TICK_PORT
+              name: http-tick-port
         stdin: true
         tty: true
-
+        ports:
+          - containerPort: {{{HTTP_TICK_PORT}}}
+            name: healthcheck-port
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: healthcheck-port
+          failureThreshold: 12
+          periodSeconds: 10
+          timeoutSeconds: 1
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
