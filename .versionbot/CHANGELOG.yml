@@ -1,4 +1,17 @@
 - commits:
+    - subject: Optimistically update the user in the client when updating
+      hash: 069565e12efd57fb91afecd4c15858b977a310fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.7
+  date: 2021-06-09T14:46:25.577Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: d6b69f82b0df43acd5a5464c1442fbe1ef046de8
       body: ''
