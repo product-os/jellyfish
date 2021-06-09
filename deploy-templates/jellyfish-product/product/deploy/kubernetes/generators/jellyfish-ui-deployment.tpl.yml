@@ -39,26 +39,14 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 5
           failureThreshold: 4
+        envFrom:
+          - configMapRef:
+              name: jellyfish-ui
         env:
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: NGINX_PORT
-          value: '80'
-        - name: NODE_ENV
-          valueFrom:
-            secretKeyRef:
-              key: NODE_ENV
-              name: node-env
-        - name: SENTRY_DSN_UI
-          value: 'https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139'
-        - name: SERVER_HOST
-          value: 'https://api.ly.fish'
-        - name: SERVER_PORT
-          value: '443'
-        - name: OAUTH_REDIRECT_BASE_URL
-          value: 'https://jel.ly.fish'
         stdin: true
         tty: true
         ports:

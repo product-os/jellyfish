@@ -19,11 +19,12 @@ spec:
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-tick-server.data.assets.image.url%>>
         name: tick-server
+        envFrom:
+          - configMapRef:
+              name: jellyfish
+          - configMapRef:
+              name: tick-server
         env:
-        - name: UV_THREADPOOL_SIZE
-          value: '128'
-        - name: DATABASE
-          value: 'postgres'
         - name: POSTGRES_DATABASE
           valueFrom:
             secretKeyRef:
@@ -39,51 +40,16 @@ spec:
             secretKeyRef:
               key: POSTGRES_PASSWORD
               name: postgres-password
-        - name: POSTGRES_PORT
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_PORT
-              name: postgres-port
-        - name: POSTGRES_HOST
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_HOST
-              name: postgres-host
-        - name: REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_HOST
-              name: redis-host
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
               key: REDIS_PASSWORD
               name: redis-password
-        - name: NODE_ENV
-          valueFrom:
-            secretKeyRef:
-              key: NODE_ENV
-              name: node-env
-        - name: SENTRY_DSN_SERVER
-          valueFrom:
-            secretKeyRef:
-              key: SENTRY_DSN_SERVER
-              name: sentry-dsn-server
         - name: LOGENTRIES_TOKEN
           valueFrom:
             secretKeyRef:
               key: LOGENTRIES_TOKEN
               name: logentries-token
-        - name: LOGENTRIES_REGION
-          valueFrom:
-            secretKeyRef:
-              key: LOGENTRIES_REGION
-              name: logentries-region
-        - name: LOGLEVEL
-          valueFrom:
-            secretKeyRef:
-              key: LOGLEVEL
-              name: loglevel
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
@@ -180,37 +146,20 @@ spec:
             secretKeyRef:
               key: INTEGRATION_GOOGLE_MEET_CREDENTIALS
               name: integration-google-meet-credentials
-        - name: MAIL_TYPE
-          value: 'mailgun'
         - name: MAILGUN_TOKEN
           valueFrom:
             secretKeyRef:
               key: MAILGUN_TOKEN
               name: mailgun-token
-        - name: MAILGUN_DOMAIN
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_DOMAIN
-              name: mailgun-domain
-        - name: MAILGUN_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_BASE_URL
-              name: mailgun-base-url
         - name: RESET_PASSWORD_SECRET_TOKEN
           valueFrom:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
-        - name: HTTP_TICK_PORT
-          valueFrom:
-            secretKeyRef:
-              key: HTTP_TICK_PORT
-              name: http-tick-port
         stdin: true
         tty: true
         ports:
-          - containerPort: {{{HTTP_TICK_PORT}}}
+          - containerPort: 8001
             name: healthcheck-port
         startupProbe:
           httpGet:

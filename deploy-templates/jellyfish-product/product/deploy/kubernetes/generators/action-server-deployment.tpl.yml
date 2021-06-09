@@ -24,15 +24,16 @@ spec:
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-action-server.data.assets.image.url%>>
         name: action-server
+        envFrom:
+          - configMapRef:
+              name: jellyfish
+          - configMapRef:
+              name: action-server
         env:
-        - name: UV_THREADPOOL_SIZE
-          value: '128'
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: DATABASE
-          value: 'postgres'
         - name: POSTGRES_DATABASE
           valueFrom:
             secretKeyRef:
@@ -48,56 +49,16 @@ spec:
             secretKeyRef:
               key: POSTGRES_PASSWORD
               name: postgres-password
-        - name: POSTGRES_PORT
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_PORT
-              name: postgres-port
-        - name: POSTGRES_HOST
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_HOST
-              name: postgres-host
-        - name: REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_HOST
-              name: redis-host
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
               key: REDIS_PASSWORD
               name: redis-password
-        - name: NODE_ENV
-          valueFrom:
-            secretKeyRef:
-              key: NODE_ENV
-              name: node-env
-        - name: SENTRY_DSN_SERVER
-          valueFrom:
-            secretKeyRef:
-              key: SENTRY_DSN_SERVER
-              name: sentry-dsn-server
         - name: LOGENTRIES_TOKEN
           valueFrom:
             secretKeyRef:
               key: LOGENTRIES_TOKEN
               name: logentries-token
-        - name: LOGENTRIES_REGION
-          valueFrom:
-            secretKeyRef:
-              key: LOGENTRIES_REGION
-              name: logentries-region
-        - name: LOGLEVEL
-          valueFrom:
-            secretKeyRef:
-              key: LOGLEVEL
-              name: loglevel
-        - name: METRICS_PORT
-          valueFrom:
-            secretKeyRef:
-              key: METRICS_PORT
-              name: metrics-port
         - name: INTEGRATION_BALENA_API_APP_ID
           valueFrom:
             secretKeyRef:
@@ -108,11 +69,6 @@ spec:
             secretKeyRef:
               key: INTEGRATION_BALENA_API_APP_SECRET
               name: integration-balena-api-app-secret
-        - name: INTEGRATION_BALENA_API_OAUTH_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: INTEGRATION_BALENA_API_OAUTH_BASE_URL
-              name: integration-balena-api-oauth-base-url
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
@@ -209,23 +165,11 @@ spec:
             secretKeyRef:
               key: INTEGRATION_GOOGLE_MEET_CREDENTIALS
               name: integration-google-meet-credentials
-        - name: MAIL_TYPE
-          value: 'mailgun'
         - name: MAILGUN_TOKEN
           valueFrom:
             secretKeyRef:
               key: MAILGUN_TOKEN
               name: mailgun-token
-        - name: MAILGUN_DOMAIN
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_DOMAIN
-              name: mailgun-domain
-        - name: MAILGUN_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_BASE_URL
-              name: mailgun-base-url
         - name: RESET_PASSWORD_SECRET_TOKEN
           valueFrom:
             secretKeyRef:
@@ -236,22 +180,12 @@ spec:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
-        - name: QUEUE_CONCURRENCY
-          valueFrom:
-            secretKeyRef:
-              key: QUEUE_CONCURRENCY
-              name: queue-concurrency
-        - name: HTTP_WORKER_PORT
-          valueFrom:
-            secretKeyRef:
-              key: HTTP_WORKER_PORT
-              name: http-worker-port
         stdin: true
         tty: true
         ports:
-          - containerPort: {{{METRICS_PORT}}}
+          - containerPort: 8888
             name: prometheus-a
-          - containerPort: {{{HTTP_WORKER_PORT}}}
+          - containerPort: 8002
             name: healthcheck-port
         startupProbe:
           httpGet:

@@ -39,18 +39,14 @@ spec:
           periodSeconds: 5
           timeoutSeconds: 5
           failureThreshold: 4
+        envFrom:
+          - configMapRef:
+              name: jellyfish-livechat
         env:
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: NGINX_PORT
-          value: '80'
-        - name: NODE_ENV
-          valueFrom:
-            secretKeyRef:
-              key: NODE_ENV
-              name: node-env
         stdin: true
         tty: true
         ports:
