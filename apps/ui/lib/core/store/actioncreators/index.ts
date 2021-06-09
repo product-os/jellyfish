@@ -14,6 +14,7 @@ import clone from 'deep-copy';
 import * as fastEquals from 'fast-equals';
 import merge from 'deepmerge';
 import { once } from 'events';
+import * as jsonpatch from 'fast-json-patch';
 import * as _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
@@ -1134,11 +1135,16 @@ export const actionCreators = {
 			try {
 				const user = selectors.getCurrentUser(getState());
 
+				const optimisticUpdate = jsonpatch.applyPatch(
+					clone(user),
+					clone(patches),
+				).newDocument;
+
+				// Optimistically update the user in local state
+				dispatch(actionCreators.setUser(optimisticUpdate));
+
 				await sdk.card.update(user.id, 'user', patches);
 
-				const updatedUser = await sdk.getById(user.id);
-
-				dispatch(actionCreators.setUser(updatedUser));
 				if (successNotification !== null) {
 					notifications.addNotification(
 						'success',
