@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'Katapult: Move configuration variables to configmaps.'
+      hash: 045c15711b79ba080110467e0d658d6aaa038d44
+      body: |
+        This gives better visibility for configuration changes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+    - subject: 'Katapult: Move configuration variables to configmaps.'
+      hash: e4883f7b88187e2e5c9a5174bb6eee89fef654ce
+      body: |
+        This gives better visibility for configuration changes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel Cruz <carloc@balena.io>
+      author: Carlo Miguel Cruz
+      nested: []
+  version: 34.11.4
+  date: 2021-06-09T10:55:34.063Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to ^4.6.0'
       hash: 3e93abc5b557ee93f61e34715baa2a3087985551
       body: |
