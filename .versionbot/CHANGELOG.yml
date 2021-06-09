@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow for asynchronous mirroring in outreach tests
+      hash: 535902ca15cb0c0d421b74b20ab7737c50e1c3d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.10
+  date: 2021-06-09T19:26:45.607Z
+- commits:
     - subject: Don't escalate privileges when mirroring or in action-broadcast
       hash: 1b501b1b72902e0de037dd77804d52d83bc66b5f
       body: ''
