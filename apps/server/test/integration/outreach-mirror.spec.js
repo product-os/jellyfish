@@ -137,6 +137,28 @@ ava.serial.afterEach(async (test) => {
 	nock.cleanAll()
 })
 
+const waitForContactWithMirror = async (test, username) => {
+	return test.context.waitForMatch({
+		type: 'object',
+		required: [ 'slug', 'data' ],
+		properties: {
+			slug: {
+				const: `contact-${username}`
+			},
+			data: {
+				type: 'object',
+				required: [ 'mirrors' ],
+				properties: {
+					mirrors: {
+						type: 'array',
+						minItems: 1
+					}
+				}
+			}
+		}
+	})
+}
+
 // Skip all tests if there is no Outreach app id and secret
 const avaTest = _.some(_.values(TOKEN), _.isEmpty) ? ava.serial.skip : ava.serial
 
@@ -166,7 +188,8 @@ avaTest('should update mirror URL to prospect with new email address', async (te
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
+
 	test.deepEqual(contact.data.mirrors, [
 		'https://api.outreach.io/api/v2/prospects/3'
 	])
@@ -210,7 +233,7 @@ avaTest('should not update remote prospects that do not exist', async (test) => 
 		}
 	])
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: [
@@ -229,7 +252,7 @@ avaTest('should not update remote prospects that do not exist', async (test) => 
 avaTest('should handle pointless contact updates', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -239,7 +262,7 @@ avaTest('should handle pointless contact updates', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -300,7 +323,8 @@ avaTest('should add a tag with the linked user external event slug origin type',
 
 	test.truthy(user.id)
 
-	const contact = await test.context.sdk.card.get(`contact-${username}`)
+	const contact = await waitForContactWithMirror(test, username)
+
 	test.is(contact.data.mirrors.length, 1)
 	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
 	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
@@ -347,7 +371,8 @@ avaTest('should store the user country and city', async (test) => {
 
 	test.truthy(user.id)
 
-	const contact = await test.context.sdk.card.get(`contact-${username}`)
+	const contact = await waitForContactWithMirror(test, username)
+
 	test.is(contact.data.mirrors.length, 1)
 	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
 	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
@@ -392,7 +417,8 @@ avaTest('should add a tag with the linked user external event id origin type', a
 
 	test.truthy(user.id)
 
-	const contact = await test.context.sdk.card.get(`contact-${username}`)
+	const contact = await waitForContactWithMirror(test, username)
+
 	test.is(contact.data.mirrors.length, 1)
 	test.true(contact.data.mirrors[0].startsWith('https://api.outreach.io/api/v2/prospects/'))
 	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/')))
@@ -469,7 +495,7 @@ avaTest('should correctly add an email address to a contact with more than one a
 		}
 	])
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -513,7 +539,7 @@ avaTest('should not update a synced contact with an excluded address', async (te
 		}
 	])
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -547,7 +573,7 @@ avaTest('should link a user with an existing prospect', async (test) => {
 
 	test.is(prospectResult.code, 201)
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -559,7 +585,7 @@ avaTest('should link a user with an existing prospect', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -591,7 +617,7 @@ avaTest('should link a user with an existing prospect', async (test) => {
 avaTest('should sync a contact with multiple emails', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -602,7 +628,7 @@ avaTest('should sync a contact with multiple emails', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -632,7 +658,7 @@ avaTest('should sync a contact with multiple emails', async (test) => {
 avaTest('should create a simple contact', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -642,7 +668,7 @@ avaTest('should create a simple contact', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -667,7 +693,7 @@ avaTest('should create a simple contact', async (test) => {
 avaTest('should sync the contact type', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -679,7 +705,7 @@ avaTest('should sync the contact type', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -707,7 +733,7 @@ avaTest('should sync the contact type', async (test) => {
 avaTest('should sync company name', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -718,7 +744,7 @@ avaTest('should sync company name', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -744,7 +770,7 @@ avaTest('should sync company name', async (test) => {
 avaTest('should truncate long first names', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -757,7 +783,7 @@ avaTest('should truncate long first names', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -785,7 +811,7 @@ avaTest('should truncate long first names', async (test) => {
 avaTest('should truncate long last names', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -798,7 +824,7 @@ avaTest('should truncate long last names', async (test) => {
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -827,7 +853,7 @@ avaTest('should use username as GitHub handle if slug starts with user-gh- (from
 	const handle = uuid()
 	const username = `gh-${handle}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -837,7 +863,7 @@ avaTest('should use username as GitHub handle if slug starts with user-gh- (from
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -861,13 +887,13 @@ avaTest('should use username as GitHub handle if slug starts with user-gh- (from
 avaTest('should create a simple contact without an email', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors
@@ -956,7 +982,7 @@ avaTest('should not create a prospect with an excluded email address', async (te
 avaTest('should not sync emails on contacts with new@change.me', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -966,7 +992,7 @@ avaTest('should not sync emails on contacts with new@change.me', async (test) =>
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
@@ -990,7 +1016,7 @@ avaTest('should not sync emails on contacts with new@change.me', async (test) =>
 avaTest('should not sync emails on contacts with unknown@change.me', async (test) => {
 	const username = `test-${uuid()}`
 
-	const createResult = await test.context.sdk.card.create({
+	await test.context.sdk.card.create({
 		slug: `contact-${username}`,
 		type: 'contact',
 		data: {
@@ -1000,7 +1026,7 @@ avaTest('should not sync emails on contacts with unknown@change.me', async (test
 		}
 	})
 
-	const contact = await test.context.sdk.card.get(createResult.id)
+	const contact = await waitForContactWithMirror(test, username)
 
 	test.deepEqual(contact.data, {
 		mirrors: contact.data.mirrors,
