@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 71e69d47940672d50f56a54fdb9c478043e6a5a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.11.5
+  date: 2021-06-09T12:14:57.026Z
+- commits:
     - subject: 'Katapult: Move configuration variables to configmaps.'
       hash: 045c15711b79ba080110467e0d658d6aaa038d44
       body: |
