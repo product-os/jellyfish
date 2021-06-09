@@ -283,15 +283,6 @@ describe('Redux action creators', () => {
 				slug: 'my-view',
 			};
 
-			sdk.getById = sandbox.fake.resolves({
-				id: '1',
-				data: {
-					profile: {
-						starredViews: [view.slug],
-					},
-				},
-			});
-
 			await actionCreators.setViewStarred(view, true)(
 				dispatch,
 				getState,
@@ -314,10 +305,6 @@ describe('Redux action creators', () => {
 					},
 				],
 			]);
-
-			// Then the user is fetched via the SDK
-			expect(sdk.getById.calledOnce).toBe(true);
-			expect(sdk.getById.getCall(0).args[0]).toBe('1');
 
 			// And the user is updated in the store
 			expect(dispatch.getCall(0).args).toEqual([
@@ -388,10 +375,6 @@ describe('Redux action creators', () => {
 				],
 			]);
 
-			// Then the user is fetched via the SDK
-			expect(sdk.getById.calledOnce).toBe(true);
-			expect(sdk.getById.getCall(0).args[0]).toBe('1');
-
 			// And the user is updated in the store
 			expect(dispatch.getCall(0).args).toEqual([
 				{
@@ -457,10 +440,6 @@ describe('Redux action creators', () => {
 					},
 				],
 			]);
-
-			// Then the user is fetched via the SDK
-			expect(sdk.getById.calledOnce).toBe(true);
-			expect(sdk.getById.getCall(0).args[0]).toBe('1');
 
 			// And the user is updated in the store
 			expect(dispatch.getCall(0).args).toEqual([
