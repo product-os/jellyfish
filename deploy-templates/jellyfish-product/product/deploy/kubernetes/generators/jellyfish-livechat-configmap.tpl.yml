@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+data:
+  NGINX_PORT: "80"
+  NODE_ENV: "production"
+kind: ConfigMap
+metadata:
+  name: jellyfish-livechat
+  namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'

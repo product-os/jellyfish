@@ -40,37 +40,26 @@ spec:
           periodSeconds: 10
           timeoutSeconds: 8
           failureThreshold: 30
+        envFrom:
+          - configMapRef:
+              name: jellyfish
+          - configMapRef:
+              name: jellyfish-api
         env:
-        - name: UV_THREADPOOL_SIZE
-          value: '128'
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
               key: AWS_ACCESS_KEY_ID
               name: aws-access-key-id
-        - name: AWS_S3_BUCKET_NAME
-          valueFrom:
-            secretKeyRef:
-              key: AWS_S3_BUCKET_NAME
-              name: aws-s3-bucket-name
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               key: AWS_SECRET_ACCESS_KEY
               name: aws-secret-access-key
-        - name: FS_DRIVER
-          valueFrom:
-            secretKeyRef:
-              key: FS_DRIVER
-              name: fs-driver
         - name: POD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: PORT
-          value: '8000'
-        - name: DATABASE
-          value: 'postgres'
         - name: POSTGRES_DATABASE
           valueFrom:
             secretKeyRef:
@@ -86,51 +75,16 @@ spec:
             secretKeyRef:
               key: POSTGRES_PASSWORD
               name: postgres-password
-        - name: POSTGRES_PORT
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_PORT
-              name: postgres-port
-        - name: POSTGRES_HOST
-          valueFrom:
-            secretKeyRef:
-              key: POSTGRES_HOST
-              name: postgres-host
-        - name: REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              key: REDIS_HOST
-              name: redis-host
         - name: REDIS_PASSWORD
           valueFrom:
             secretKeyRef:
               key: REDIS_PASSWORD
               name: redis-password
-        - name: NODE_ENV
-          valueFrom:
-            secretKeyRef:
-              key: NODE_ENV
-              name: node-env
-        - name: SENTRY_DSN_SERVER
-          valueFrom:
-            secretKeyRef:
-              key: SENTRY_DSN_SERVER
-              name: sentry-dsn-server
         - name: LOGENTRIES_TOKEN
           valueFrom:
             secretKeyRef:
               key: LOGENTRIES_TOKEN
               name: logentries-token
-        - name: LOGENTRIES_REGION
-          valueFrom:
-            secretKeyRef:
-              key: LOGENTRIES_REGION
-              name: logentries-region
-        - name: LOGLEVEL
-          valueFrom:
-            secretKeyRef:
-              key: LOGLEVEL
-              name: loglevel
         - name: INTEGRATION_BALENA_API_PRIVATE_KEY
           valueFrom:
             secretKeyRef:
@@ -156,11 +110,6 @@ spec:
             secretKeyRef:
               key: INTEGRATION_BALENA_API_APP_SECRET
               name: integration-balena-api-app-secret
-        - name: INTEGRATION_BALENA_API_OAUTH_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: INTEGRATION_BALENA_API_OAUTH_BASE_URL
-              name: integration-balena-api-oauth-base-url
         - name: INTEGRATION_DEFAULT_USER
           valueFrom:
             secretKeyRef:
@@ -242,63 +191,21 @@ spec:
             secretKeyRef:
               key: INTEGRATION_GOOGLE_MEET_CREDENTIALS
               name: integration-google-meet-credentials
-        - name: MAIL_TYPE
-          value: 'mailgun'
         - name: MAILGUN_TOKEN
           valueFrom:
             secretKeyRef:
               key: MAILGUN_TOKEN
               name: mailgun-token
-        - name: MAILGUN_DOMAIN
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_DOMAIN
-              name: mailgun-domain
-        - name: MAILGUN_BASE_URL
-          valueFrom:
-            secretKeyRef:
-              key: MAILGUN_BASE_URL
-              name: mailgun-base-url
         - name: RESET_PASSWORD_SECRET_TOKEN
           valueFrom:
             secretKeyRef:
               key: RESET_PASSWORD_SECRET_TOKEN
               name: reset-password-secret-token
-        - name: TEST_USER_USERNAME
-          value: 'jellyfish'
-        - name: TEST_USER_ROLE
-          value: 'user-community'
-        - name: SERVER_PORT
-          value: '8000'
-        - name: METRICS_PORT
-          valueFrom:
-            secretKeyRef:
-              key: METRICS_PORT
-              name: metrics-port
-        - name: SOCKET_METRICS_PORT
-          valueFrom:
-            secretKeyRef:
-              key: SOCKET_METRICS_PORT
-              name: socket-metrics-port
         - name: MONITOR_SECRET_TOKEN
           valueFrom:
             secretKeyRef:
               key: MONITOR_SECRET_TOKEN
               name: monitor-secret-token
-        {{#REGISTRY_HOST}}
-        - name: REGISTRY_HOST
-          valueFrom:
-            secretKeyRef:
-              key: REGISTRY_HOST
-              name: registry-host
-        {{/REGISTRY_HOST}}
-        {{#REGISTRY_TOKEN_AUTH_CERT_ISSUER}}
-        - name: REGISTRY_TOKEN_AUTH_CERT_ISSUER
-          valueFrom:
-            secretKeyRef:
-              key: REGISTRY_TOKEN_AUTH_CERT_ISSUER
-              name: registry-token-auth-cert-issuer
-        {{/REGISTRY_TOKEN_AUTH_CERT_ISSUER}}
         {{#REGISTRY_TOKEN_AUTH_CERT_KEY}}
         - name: REGISTRY_TOKEN_AUTH_CERT_KEY
           valueFrom:
@@ -313,22 +220,15 @@ spec:
               key: REGISTRY_TOKEN_AUTH_CERT_KID
               name: registry-token-auth-cert-kid
         {{/REGISTRY_TOKEN_AUTH_CERT_KID}}
-        {{#REGISTRY_TOKEN_AUTH_JWT_ALGO}}
-        - name: REGISTRY_TOKEN_AUTH_JWT_ALGO
-          valueFrom:
-            secretKeyRef:
-              key: REGISTRY_TOKEN_AUTH_JWT_ALGO
-              name: registry-token-auth-jwt-algo
-        {{/REGISTRY_TOKEN_AUTH_JWT_ALGO}}
         stdin: true
         tty: true
         ports:
         - containerPort: 8000
         - containerPort: 9229
           name: debug
-        - containerPort: {{{METRICS_PORT}}}
+        - containerPort: 8888
           name: prometheus-a
-        - containerPort: {{{SOCKET_METRICS_PORT}}}
+        - containerPort: 8889
           name: prometheus-b
       imagePullSecrets:
         - name: com.docker.hub.travisciresin
