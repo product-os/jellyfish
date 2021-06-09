@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't escalate privileges when mirroring or in action-broadcast
+      hash: 1b501b1b72902e0de037dd77804d52d83bc66b5f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.9
+  date: 2021-06-09T18:19:08.207Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^11.1.5'
       hash: c39ca80f3e6baafaaebab278cb6ad688d9cdde92
       body: |
