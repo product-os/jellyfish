@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add k8s checks to action-server
+      hash: 7b3413016f787baac058129b3de7e14e92a2836e
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.11.0
+  date: 2021-06-09T03:56:19.284Z
+- commits:
     - subject: Fix plugin-default nodemon watch path
       hash: f24707d0344d36140a26a7b65ccb09e205f13f63
       body: ''
