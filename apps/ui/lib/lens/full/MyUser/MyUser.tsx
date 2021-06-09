@@ -28,6 +28,7 @@ import {
 	Icon,
 	UserAvatar,
 } from '@balena/jellyfish-ui-components';
+import { RelationshipsTab, customQueryTabs } from '../../common';
 import CardLayout from '../../../layouts/CardLayout';
 
 const SLUG = 'lens-my-user';
@@ -195,7 +196,7 @@ export default class MyUser extends React.Component<any, any> {
 	}
 
 	render() {
-		const { channel, card: user } = this.props;
+		const { types, channel, card: user } = this.props;
 
 		const {
 			changePassword,
@@ -240,6 +241,8 @@ export default class MyUser extends React.Component<any, any> {
 		const emails = Array.isArray(user.data.email)
 			? user.data.email.join(', ')
 			: user.data.email;
+
+		const userTypeCard = helpers.getType('user', types);
 
 		return (
 			<CardLayout
@@ -374,6 +377,9 @@ export default class MyUser extends React.Component<any, any> {
 							</TextWithCopy>
 						</Box>
 					</Tab>
+
+					{customQueryTabs(user, userTypeCard)}
+					<RelationshipsTab card={user} />
 				</Tabs>
 			</CardLayout>
 		);

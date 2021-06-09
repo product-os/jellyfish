@@ -15,6 +15,7 @@ import CardFields from '../../../components/CardFields';
 import CardLayout from '../../../layouts/CardLayout';
 import Timeline from '../../list/Timeline';
 import { UI_SCHEMA_MODE } from '../../schema-util';
+import { RelationshipsTab, customQueryTabs } from '../../common';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;
@@ -60,11 +61,8 @@ export default class SingleCardFull extends React.Component<any, any> {
 	render() {
 		const { actions, card, channel, types, actionItems } = this.props;
 
-		const type = _.find(types, {
-			slug: card.type.split('@')[0],
-		});
+		const type = helpers.getType(card.type, types);
 
-		const relationships = _.get(type, ['data', 'meta', 'relationships']);
 		const tail = _.get(card.links, ['has attached element'], []);
 
 		// Never display a timeline segment for a user card. The `contact` card type
@@ -107,24 +105,8 @@ export default class SingleCardFull extends React.Component<any, any> {
 						</Tab>
 					)}
 
-					{_.map(relationships, (segment, index) => {
-						return (
-							<Tab
-								title={segment.title}
-								key={segment.title}
-								data-test={`card-relationship-tab-${helpers.slugify(
-									segment.title,
-								)}`}
-							>
-								<Segment
-									card={card}
-									segment={segment}
-									types={types}
-									actions={actions}
-								/>
-							</Tab>
-						);
-					})}
+					{customQueryTabs(card, type)}
+					<RelationshipsTab card={card} />
 				</SingleCardTabs>
 			</CardLayout>
 		);

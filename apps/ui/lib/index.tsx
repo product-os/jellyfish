@@ -80,6 +80,10 @@ const customTheme: any = {
 		background: '#fff',
 		border: '#eee',
 	},
+	tab: {
+		// Keep tab height consistent with height of Select component
+		extend: `${Theme.tab.extend}; height: 32px;`,
+	},
 };
 
 const widgets: any = {

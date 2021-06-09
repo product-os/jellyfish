@@ -11,6 +11,7 @@ import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
+import styled from 'styled-components';
 import { Box, Button, Flex, Heading, Form } from 'rendition';
 import {
 	notifications,
@@ -21,6 +22,10 @@ import CardLayout from '../../layouts/CardLayout';
 import * as skhema from 'skhema';
 import { actionCreators, analytics, sdk } from '../../core';
 import { getUiSchema, UI_SCHEMA_MODE } from '../schema-util';
+
+const FormBox = styled(Box)`
+	overflow-y: auto;
+`;
 
 export class EditLens extends React.Component<any, any> {
 	constructor(props) {
@@ -172,7 +177,6 @@ export class EditLens extends React.Component<any, any> {
 
 		return (
 			<CardLayout
-				overflowY
 				noActions
 				onClose={this.close}
 				card={card}
@@ -183,23 +187,24 @@ export class EditLens extends React.Component<any, any> {
 					</Heading.h4>
 				}
 			>
-				<Box p={3}>
-					<Form
-						uiSchema={uiSchema}
-						schema={schema}
-						value={editModel}
-						onFormChange={this.handleFormChange}
-						hideSubmitButton={true}
-					/>
+				<Flex flexDirection="column" minHeight={0}>
+					<FormBox p={3}>
+						<Form
+							uiSchema={uiSchema}
+							schema={schema}
+							value={editModel}
+							onFormChange={this.handleFormChange}
+							hideSubmitButton={true}
+						/>
 
-					<FreeFieldForm
-						schema={localSchema}
-						data={freeFieldData}
-						onDataChange={this.setFreeFieldData}
-						onSchemaChange={this.setLocalSchema}
-					/>
-
-					<Flex justifyContent="flex-end" mt={4}>
+						<FreeFieldForm
+							schema={localSchema}
+							data={freeFieldData}
+							onDataChange={this.setFreeFieldData}
+							onSchemaChange={this.setLocalSchema}
+						/>
+					</FormBox>
+					<Flex justifyContent="flex-end" my={3}>
 						<Button onClick={this.close} mr={2}>
 							Cancel
 						</Button>
@@ -213,7 +218,7 @@ export class EditLens extends React.Component<any, any> {
 							Submit
 						</Button>
 					</Flex>
-				</Box>
+				</Flex>
 			</CardLayout>
 		);
 	}
