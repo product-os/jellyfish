@@ -160,11 +160,11 @@ spec:
         tty: true
         ports:
           - containerPort: 8001
-            name: healthcheck-port
+            name: healthcheck
         startupProbe:
           httpGet:
             path: /startup
-            port: healthcheck-port
+            port: healthcheck
           failureThreshold: 12
           periodSeconds: 10
           timeoutSeconds: 1

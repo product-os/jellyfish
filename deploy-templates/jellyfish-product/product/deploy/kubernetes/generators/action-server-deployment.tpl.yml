@@ -186,11 +186,11 @@ spec:
           - containerPort: 8888
             name: prometheus-a
           - containerPort: 8002
-            name: healthcheck-port
+            name: healthcheck
         startupProbe:
           httpGet:
             path: /startup
-            port: healthcheck-port
+            port: healthcheck
           failureThreshold: 12
           periodSeconds: 10
           timeoutSeconds: 1
