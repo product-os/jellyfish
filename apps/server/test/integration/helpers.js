@@ -92,6 +92,20 @@ module.exports = {
 
 		await test.context.sdk.auth.loginWithToken(test.context.session.id)
 		test.context.user = await test.context.sdk.auth.whoami()
+
+		test.context.waitForMatch = async (query, times = 30) => {
+			if (times === 0) {
+				throw new Error('The wait query did not resolve')
+			}
+
+			const results = await test.context.sdk.query(query)
+
+			if (results.length > 0) {
+				return results[0]
+			}
+			await Bluebird.delay(1000)
+			return test.context.waitForMatch(query, times - 1)
+		}
 	},
 	after: async (test) => {
 		test.context.sdk.cancelAllStreams()
