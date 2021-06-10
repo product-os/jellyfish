@@ -1,4 +1,26 @@
 - commits:
+    - subject: Fix bugged date comparison in Front inbox cleanup script
+      hash: f56d01c5ccb8514a1e66bb4965ff9c5001238a26
+      body: >
+        When check front conversations, we were previously comparing the wrong
+        unit
+
+        level: seconds to milliseconds.
+
+
+        This change also switches to the slightly more correct /readiness
+
+        endpoint when waiting for the API to start up in e2e tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.19
+  date: 2021-06-10T22:12:25.240Z
+- commits:
     - subject: Refactor front mirror tests
       hash: e313a4e7d7e8075b9cdf0e1a2cdbf131cd2a6d7d
       body: |
