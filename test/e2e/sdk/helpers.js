@@ -34,7 +34,7 @@ exports.before = async (test) => {
 		return test.context.waitForMatch(waitQuery)
 	}
 
-	test.context.waitForMatch = async (query, times = 20) => {
+	test.context.waitForMatch = async (query, times = 100) => {
 		if (times === 0) {
 			throw new Error('The wait query did not resolve')
 		}
