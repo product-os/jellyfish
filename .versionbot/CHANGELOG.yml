@@ -1,4 +1,20 @@
 - commits:
+    - subject: Refactor front mirror tests
+      hash: e313a4e7d7e8075b9cdf0e1a2cdbf131cd2a6d7d
+      body: |
+        This change now tests triggered action behaviour seperately to front
+        interactions and adds additional checks for mirroring and editing
+        messages in front.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.18
+  date: 2021-06-10T16:05:22.216Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 80b2539988984d451a9a138943e3c6d10d89d9c4
       body: ''
