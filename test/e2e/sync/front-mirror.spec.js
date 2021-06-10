@@ -11,9 +11,14 @@ const {
 	v4: uuid
 } = require('uuid')
 const Front = require('front-sdk').Front
+const randomWords = require('random-words')
 const helpers = require('./helpers')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const TOKEN = environment.integration.front
+
+const generateRandomWords = (number) => {
+	return randomWords(number).join(' ')
+}
 
 // Because Front might take a while to process
 // message creation requests.
@@ -23,6 +28,7 @@ const retryWhile404 = async (fn, times = 5) => {
 		return await fn()
 	} catch (error) {
 		if (error.status === 404 && times > 0) {
+			console.log('Received 404 status: waiting 500ms')
 			await Bluebird.delay(500)
 			return retryWhile404(fn, times - 1)
 		}
@@ -37,6 +43,7 @@ const retryWhile429 = async (fn, times = 100) => {
 	} catch (error) {
 		if (error.name === 'FrontError' && error.status === 429 && times > 0) {
 			const delay = _.parseInt(_.first(error.message.match(/(\d+)/))) || 2000
+			console.log(`Received 429 status: waiting ${delay}ms`)
 			await Bluebird.delay(delay)
 			return retryWhile429(fn, times - 1)
 		}
@@ -215,21 +222,11 @@ ava.serial.before(async (test) => {
 		}, getMirrorWaitSchema(slug))
 	}
 
-	test.context.createComment = async (target, slug, body) => {
-		return test.context.executeThenWait(async () => {
-			return test.context.sdk.event.create({
-				slug,
-				target,
-				type: 'whisper',
-				payload: {
-					mentionsUser: [],
-					alertsUser: [],
-					message: body
-				}
-			})
-		}, getMirrorWaitSchema(slug))
-	}
-
+	// The Front integration won't create new Front conversation when mirroring, so
+	// we need to start by creating a conversation in Front and then manually adding
+	// the "mirror" field to a support thread in Jellyfish. This roughly emulates
+	// what happens when Jellyfish receives a webhook from Front. In the future
+	// we should find a better way to test this completely e2e
 	test.context.startSupportThread = async (title, description, inbox) => {
 		// We need a "custom" channel in order to simulate an inbound
 		const channels = await retryWhile429(() => {
@@ -257,6 +254,10 @@ ava.serial.before(async (test) => {
 			})
 		})
 
+		// Add a small delay for the message to become available from the Front API
+		// This means we spend less time loop in `retryWhile404` and reduces API requests
+		await Bluebird.delay(1000)
+
 		const message = await retryWhile404(async () => {
 			return retryWhile429(() => {
 				return test.context.front.message.get({
@@ -275,28 +276,23 @@ ava.serial.before(async (test) => {
 			})
 		})
 
-		const slug = test.context.generateRandomSlug({
-			prefix: 'support-thread'
+		const result = await test.context.sdk.card.create({
+			name: title,
+			type: 'support-thread',
+			version: '1.0.0',
+			data: {
+				// eslint-disable-next-line no-underscore-dangle
+				mirrors: [ message._links.related.conversation ],
+				environment: 'production',
+				inbox: remoteInbox.name,
+				mentionsUser: [],
+				alertsUser: [],
+				description,
+				status: 'open'
+			}
 		})
 
-		const supportThread = await test.context.executeThenWait(async () => {
-			return test.context.sdk.card.create({
-				name: title,
-				slug,
-				type: 'support-thread',
-				version: '1.0.0',
-				data: {
-					// eslint-disable-next-line no-underscore-dangle
-					mirrors: [ message._links.related.conversation ],
-					environment: 'production',
-					inbox: remoteInbox.name,
-					mentionsUser: [],
-					alertsUser: [],
-					description,
-					status: 'open'
-				}
-			})
-		}, getMirrorWaitSchema(slug))
+		const supportThread = await test.context.sdk.card.get(result.id)
 
 		await test.context.waitForThreadSyncWhisper(supportThread.id)
 
@@ -364,10 +360,20 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 	test.is(supportThread.data.status, 'open')
 
 	// Send a message and then wait for the thread to close
-	const thread = await test.context.executeThenWait(async () => {
-		return test.context.createComment(supportThread,
-			test.context.getWhisperSlug(), '#summary Foo Bar')
-	}, {
+	const whisper = await test.context.sdk.event.create({
+		target: supportThread,
+		type: 'whisper',
+		payload: {
+			mentionsUser: [],
+			alertsUser: [],
+			message: `#summary ${generateRandomWords(5)}`
+		}
+	})
+
+	// Wait for the whisper to be mirrored
+	await test.context.waitForMatch(getMirrorWaitSchema(whisper.slug))
+
+	const thread = await test.context.waitForMatch({
 		type: 'object',
 		required: [ 'id', 'data' ],
 		properties: {
@@ -385,6 +391,7 @@ avaTest('should close a thread with a #summary whisper', async (test) => {
 			}
 		}
 	})
+
 	test.true(thread.active)
 	test.is(thread.data.status, 'closed')
 
@@ -540,6 +547,7 @@ avaTest('should be able to tag an unassigned conversation', async (test) => {
 		test.context.inboxes[0])
 
 	const id = _.last(supportThread.data.mirrors[0].split('/'))
+
 	await retryWhile429(() => {
 		return test.context.front.conversation.update({
 			conversation_id: id,
