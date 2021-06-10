@@ -25,6 +25,9 @@ const {
 const {
 	FlowdockPlugin
 } = require('@balena/jellyfish-plugin-flowdock')
+const {
+	DiscoursePlugin
+} = require('@balena/jellyfish-plugin-discourse')
 
 exports.getPluginManager = (context) => {
 	logger.info(context, 'Loading plugins')
@@ -36,7 +39,8 @@ exports.getPluginManager = (context) => {
 			ProductOsPlugin,
 			TypeformPlugin,
 			GitHubPlugin,
-			FlowdockPlugin
+			FlowdockPlugin,
+			DiscoursePlugin
 		]
 	})
 }
