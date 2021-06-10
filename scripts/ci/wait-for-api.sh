@@ -11,7 +11,7 @@
 
 set -eu
 
-ENDPOINT="$SERVER_HOST:$SERVER_PORT/ping"
+ENDPOINT="$SERVER_HOST:$SERVER_PORT/readiness"
 while :
 do
 	echo "Waiting for API at $ENDPOINT..."

@@ -91,7 +91,9 @@ const deleteConversation = async (context, inbox, conversation) => {
 	if (_.includes(context.deleted, conversation.id)) {
 		return
 	}
-	if (conversation.created_at <= BEFORE && conversation.status !== 'deleted') {
+
+	// `created_at` is in seconds and we want to compare it in ms
+	if (conversation.created_at * 1000 <= BEFORE && conversation.status !== 'deleted') {
 		try {
 			await context.front.conversation.update({
 				inbox_id: inbox,
