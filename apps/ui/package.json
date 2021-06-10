@@ -26,7 +26,7 @@
     "@babel/preset-react": "^7.13.13",
     "@babel/register": "^7.13.16",
     "@balena/jellyfish-chat-widget": "^8.0.104",
-    "@balena/jellyfish-client-sdk": "^4.6.0",
+    "@balena/jellyfish-client-sdk": "^4.7.0",
     "@balena/jellyfish-environment": "^4.2.2",
     "@balena/jellyfish-ui-components": "^9.2.23",
     "@primer/styled-octicons": "^14.1.0",
