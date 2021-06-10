@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-discourse
+      hash: 569f3df8ec91e892545edd935a0aa2ddb0c9785f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.11.13
+  date: 2021-06-10T05:24:51.872Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: ae22fa582bcbeb4e8528429e161a01d34bb387c0
       body: ''
