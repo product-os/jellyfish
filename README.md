@@ -8,6 +8,9 @@ gathers all information company wide and makes it a platform to implement
 processes that enhance the team's productivity and understanding. Think of it
 as a cross between Slack and Excel!
 
+A "living specification" for the intended functioning of Jellyfish can be found [here](https://docs.google.com/document/d/1psa9upjr__LDbF0442ndW72Nj8jAuA48mmqPdahQBUs/edit?usp=sharing).
+Many parts of Jellyfish are still under development, and this document aims to create a source of truth for how the platform *should* work, even if it doesn't represent the current functionality.
+
 ***
 
 ![Jellyfish Screenshot](./docs/assets/screenshot.png)
