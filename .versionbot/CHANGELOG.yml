@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: ada1410fe670cccd4f82f372aec956035e487957
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.11.20
+  date: 2021-06-11T00:20:51.027Z
+- commits:
     - subject: Fix bugged date comparison in Front inbox cleanup script
       hash: f56d01c5ccb8514a1e66bb4965ff9c5001238a26
       body: >
