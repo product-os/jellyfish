@@ -6,7 +6,6 @@
 
 const ava = require('ava')
 
-// Const { v4: uuid } = require('uuid')
 const {
 	v4: uuid
 } = require('uuid')
@@ -55,6 +54,18 @@ ava.serial.beforeEach(async () => {
 			},
 			active: {
 				const: true
+			},
+			data: {
+				type: 'object',
+				required: [ 'product' ],
+				properties: {
+					product: {
+						// This is a heuristic for finding just the threads created via livechat,
+						// so that we don't accidentally delete other test data (e.g. sync tests)
+						type: 'string',
+						const: 'jellyfish'
+					}
+				}
 			}
 		},
 		additionalProperties: true
