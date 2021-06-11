@@ -1,4 +1,26 @@
 - commits:
+    - subject: Add a link the the Jellyfish "living spec" in README
+      hash: a7c66f74da1cc2aaded28049b7c05aab3b5fec09
+      body: >
+        Many parts of Jellyfish are still under development, and this document
+        aims to
+
+        create a source of truth for how the platform *should* work, even if it
+        doesn't
+
+        represent the current functionality. As we develop the design further
+
+        and make decisions on functionality, this document will be updated.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.11.25
+  date: 2021-06-11T10:07:54.006Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 71bc42be827eaede6332dd7a6c7621f20ffb89f1
       body: ''
