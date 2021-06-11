@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 1473c462c1ba6245de524986cff1a8e9cf160b4b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.11.26
+  date: 2021-06-11T11:39:31.833Z
+- commits:
     - subject: Add a link the the Jellyfish "living spec" in README
       hash: a7c66f74da1cc2aaded28049b7c05aab3b5fec09
       body: >
