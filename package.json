@@ -99,7 +99,7 @@
     "lodash": "^4.17.21",
     "mermaid.cli": "^0.5.1",
     "mustache": "^4.2.0",
-    "nock": "^13.0.11",
+    "nock": "^13.1.0",
     "node-jose": "^2.0.0",
     "puppeteer": "^9.1.1",
     "random-words": "^1.1.1",
