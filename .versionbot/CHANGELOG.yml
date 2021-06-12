@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update dependencies
+      hash: 9efbc3756ef4f533ed1e6fd0a2762ceb6ed02936
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Rename product-improvement to improvement
+      hash: 83ddd3997226cd2c32cebaa4b57fca6d70f1561f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.12.0
+  date: 2021-06-12T06:44:53.144Z
+- commits:
     - subject: 'patch: Update dependency rendition to ^20.17.0'
       hash: 950b661cbebf412ff9e6a9a3d8a4eeae03930d34
       body: ''
