@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump nock to v13.1.0
+      hash: b633495116b755d567c387a208e12ac8255dae77
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.4
+  date: 2021-06-12T12:10:55.064Z
+- commits:
     - subject: Bump octokit deps
       hash: 699e53b31171bcc34adc06cdaba63a462e9b8078
       body: ''
