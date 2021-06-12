@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump css-loader to v5.2.6
+      hash: 6321cd78e8f8806fa16bda7d4f8521dfb086a35e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.7
+  date: 2021-06-12T22:58:30.516Z
+- commits:
     - subject: Bump date-fns to v2.22.1
       hash: 919e6c9d1cd66047b6d65f16086130dc86fd2a20
       body: ''
