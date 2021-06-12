@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump aws-sdk to v2.927.0
+      hash: a98fec5d8026dbb8cf55f01fe25edcaebf20f69a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.5
+  date: 2021-06-12T13:12:01.426Z
+- commits:
     - subject: Bump nock to v13.1.0
       hash: b633495116b755d567c387a208e12ac8255dae77
       body: ''
