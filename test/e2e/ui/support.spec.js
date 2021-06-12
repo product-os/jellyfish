@@ -429,7 +429,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 
 	test.pass('A closed support thread should display the audit panel')
 
-	await macros.waitForThenClickSelector(page, '[data-test="create-product-improvement"]')
+	await macros.waitForThenClickSelector(page, '[data-test="create-improvement"]')
 	await page.waitForSelector('[data-test="create-lens"]')
 
 	const name = 'test product issue'
@@ -441,13 +441,13 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 	await Bluebird.delay(5000)
 
 	const threadWithIssue = await page.evaluate((id) => {
-		return window.sdk.card.getWithLinks(id, 'support thread is attached to product improvement')
+		return window.sdk.card.getWithLinks(id, 'support thread is attached to improvement')
 	}, supportThread.id)
 
-	const issueFromDB = threadWithIssue.links['support thread is attached to product improvement'][0]
+	const issueFromDB = threadWithIssue.links['support thread is attached to improvement'][0]
 
 	test.is(issueFromDB.name, name)
-	test.is(issueFromDB.type, 'product-improvement', 'Should be able to create a new product improvement')
+	test.is(issueFromDB.type, 'improvement', 'Should be able to create a new improvement')
 	test.is(issueFromDB.data.repository, 'balena-io/balena', 'The issue should be created on the balena product repo')
 
 	await macros.waitForThenClickSelector(page, '[data-test="open-agent-feedback-modal"]')

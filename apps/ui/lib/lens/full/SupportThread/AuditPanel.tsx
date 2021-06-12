@@ -53,15 +53,15 @@ export default function AuditPanel(props) {
 		setStep(step + 1);
 	};
 
-	const createProductImprovement = () => {
+	const createImprovement = () => {
 		props.actions.addChannel({
 			head: {
 				types: _.find(props.types, {
-					slug: 'product-improvement',
+					slug: 'improvement',
 				}),
 				onDone: {
 					action: 'link',
-					name: 'support thread is attached to product improvement',
+					name: 'support thread is attached to improvement',
 					targets: [props.card],
 					callback: skipStep,
 				},
@@ -111,7 +111,7 @@ export default function AuditPanel(props) {
 					status={step > 0 ? 'completed' : 'pending'}
 					onClick={step > 0 ? () => setStep(0) : (null as any)}
 				>
-					Suggest product improvements
+					Suggest improvements
 				</Step>
 				<Step
 					status={step > 1 ? 'completed' : 'pending'}
@@ -150,10 +150,10 @@ export default function AuditPanel(props) {
 							<Button
 								mr={2}
 								primary
-								onClick={createProductImprovement}
-								data-test="create-product-improvement"
+								onClick={createImprovement}
+								data-test="create-improvement"
 							>
-								Suggest a product improvement
+								Suggest an improvement
 							</Button>
 
 							<Button onClick={skipStep} data-test="skip-step">
