@@ -17,7 +17,7 @@
     "@balena/jellyfish-client-sdk": "^5.0.1",
     "@balena/jellyfish-ui-components": "^9.2.29",
     "babel-loader": "^8.2.2",
-    "css-loader": "^5.2.5",
+    "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
     "react": "^16.14.0",
