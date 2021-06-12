@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump date-fns to v2.22.1
+      hash: 919e6c9d1cd66047b6d65f16086130dc86fd2a20
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.6
+  date: 2021-06-12T15:18:45.324Z
+- commits:
     - subject: Bump aws-sdk to v2.927.0
       hash: a98fec5d8026dbb8cf55f01fe25edcaebf20f69a
       body: ''
