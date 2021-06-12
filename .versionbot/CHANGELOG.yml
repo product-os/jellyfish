@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump base images
+      hash: 55edc139f2c97dca6cc24a6baaf5c921cfe3037a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.1
+  date: 2021-06-12T08:21:23.526Z
+- commits:
     - subject: Update dependencies
       hash: 9efbc3756ef4f533ed1e6fd0a2762ceb6ed02936
       body: ''
