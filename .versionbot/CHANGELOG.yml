@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump eslint deps
+      hash: 0b84d9dda9c9f65790ef6039bd95ff99d6b9f945
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.2
+  date: 2021-06-12T09:22:07.425Z
+- commits:
     - subject: Bump base images
       hash: 55edc139f2c97dca6cc24a6baaf5c921cfe3037a
       body: ''
