@@ -76,7 +76,7 @@ ava.serial('You can teardown a support thread following a specific flow', async 
 	const pattern1Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
 	const pattern2Name = `UI-INTEGRATION-TEST-PI-${uuid()}`
 
-	// Create a product improvement that we'll link later on
+	// Create a pattern that we'll link later on
 	const pattern1 = await page.evaluate((name) => {
 		return window.sdk.card.create({
 			type: 'pattern@1.0.0',

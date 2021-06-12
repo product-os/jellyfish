@@ -428,11 +428,11 @@
   },
   {
     "id": "44ca0138-3821-4e0a-844e-8937426eee6d",
-    "slug": "view-all-product-improvements",
+    "slug": "view-all-improvements",
     "type": "view@1.0.0",
     "active": true,
     "version": "1.0.0",
-    "name": "Product improvements",
+    "name": "Improvements",
     "tags": [],
     "markers": [
       "org-balena"
@@ -444,7 +444,7 @@
     "data": {
       "allOf": [
         {
-          "name": "All Product Improvements",
+          "name": "All Improvements",
           "schema": {
             "type": "object",
             "$$links": {
@@ -458,7 +458,7 @@
             "properties": {
               "type": {
                 "type": "string",
-                "const": "product-improvement@1.0.0"
+                "const": "improvement@1.0.0"
               }
             },
             "additionalProperties": true

@@ -66,11 +66,11 @@ const LINKS = [
 			`Support thread by id ${id} attached to support issue`,
 	},
 	{
-		verb: 'support thread is attached to product improvement',
+		verb: 'support thread is attached to improvement',
 		icon: <JellyIcon />,
-		testId: 'linked-product-improvement',
+		testId: 'linked-improvement',
 		description: ({ id }) =>
-			`Support thread by id ${id} attached to product improvement`,
+			`Support thread by id ${id} attached to improvement`,
 	},
 	{
 		verb: 'has attached',
