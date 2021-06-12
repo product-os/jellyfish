@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump octokit deps
+      hash: 699e53b31171bcc34adc06cdaba63a462e9b8078
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.3
+  date: 2021-06-12T10:27:27.765Z
+- commits:
     - subject: Bump eslint deps
       hash: 0b84d9dda9c9f65790ef6039bd95ff99d6b9f945
       body: ''
