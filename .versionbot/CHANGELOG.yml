@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump babel deps
+      hash: a631e0a66b33df45c5b9bc66448ed520ecfbe7bd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.13
+  date: 2021-06-13T04:40:36.453Z
+- commits:
     - subject: Bump grommet to v2.17.3
       hash: 0c841829a8e15fd76f68d8e73db2bca6ed8fa345
       body: ''
