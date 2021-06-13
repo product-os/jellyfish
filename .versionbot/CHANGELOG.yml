@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump ts-loader to v8.3.0
+      hash: 50f10ccc1686ecd5183815e7395ca539b61875d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.8
+  date: 2021-06-12T23:55:01.369Z
+- commits:
     - subject: Bump css-loader to v5.2.6
       hash: 6321cd78e8f8806fa16bda7d4f8521dfb086a35e
       body: ''
