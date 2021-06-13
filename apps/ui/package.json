@@ -97,7 +97,7 @@
     "@emotion/cache": "^11.4.0",
     "@emotion/react": "^11.4.0",
     "@types/jest": "^26.0.23",
-    "@types/sinon": "^10.0.0",
+    "@types/sinon": "^10.0.2",
     "browser-env": "^3.3.0",
     "canvas": "^2.8.0",
     "catch-uncommitted": "^2.0.0",
