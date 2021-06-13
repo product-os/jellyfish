@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump sinon types to v10.0.2
+      hash: 39dcc04ec8a6de2cfa6f021dcdffe0d834925f0a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.10
+  date: 2021-06-13T01:37:51.009Z
+- commits:
     - subject: Bump webpack-cli to v4.7.2
       hash: e1623ba261178c7b189cc9e966dbc12fc1812fa2
       body: ''
