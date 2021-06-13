@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump grommet to v2.17.3
+      hash: 0c841829a8e15fd76f68d8e73db2bca6ed8fa345
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.12
+  date: 2021-06-13T03:41:04.812Z
+- commits:
     - subject: Bump styled-octicons to v14.2.2
       hash: 4f231857a5ab4a9dac4fe485d0cc08d4d8f1a907
       body: ''
