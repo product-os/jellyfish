@@ -59,7 +59,7 @@
     "localforage": "^1.9.0",
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.0",
-    "monaco-editor": "^0.20.0",
+    "monaco-editor": "^0.25.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
     "plotly.js": "^1.58.4",
     "pluralize": "^8.0.0",
