@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump styled-octicons to v14.2.2
+      hash: 4f231857a5ab4a9dac4fe485d0cc08d4d8f1a907
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.11
+  date: 2021-06-13T02:48:32.774Z
+- commits:
     - subject: Bump sinon types to v10.0.2
       hash: 39dcc04ec8a6de2cfa6f021dcdffe0d834925f0a
       body: ''
