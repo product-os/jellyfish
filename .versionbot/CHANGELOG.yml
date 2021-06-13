@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move babel deps to dev dependencies
+      hash: 84051b0eeb3e14e3782e8639114f180e968c4190
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.12.16
+  date: 2021-06-13T12:45:15.038Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 0833ec715e43c34c6c60b568b2a6535e33865b80
       body: ''
