@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 0833ec715e43c34c6c60b568b2a6535e33865b80
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.12.15
+  date: 2021-06-13T07:35:56.455Z
+- commits:
     - subject: Bump octokit deps
       hash: 5164364f01e5d2ca93d03724be2ca439b5f984ad
       body: ''
