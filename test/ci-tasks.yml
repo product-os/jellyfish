@@ -4,6 +4,8 @@ attemptsDefault: 3
 environment:
   - name: 'AVA_OPTS'
     value: '--fail-fast'
+  - name: 'NODE_ENV'
+    value: 'production'
 tasks:
   - name: 'wait-for-api'
     description: 'Wait for API to be available'
