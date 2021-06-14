@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to ^3.0.64'
+      hash: 152cb796c6064a5f8918eca3e84b5352b061432e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.12.17
+  date: 2021-06-14T00:07:45.643Z
+- commits:
     - subject: Move babel deps to dev dependencies
       hash: 84051b0eeb3e14e3782e8639114f180e968c4190
       body: ''
