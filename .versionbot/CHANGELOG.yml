@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix bug where livechat test code would delete support threads
+      hash: 97d5a4f5228512f403cbda5b12789180d4733712
+      body: |
+        This issue would cause other test cases that interact with support
+        thread to fail randomly.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.12.18
+  date: 2021-06-14T19:20:44.432Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to ^3.0.64'
       hash: 152cb796c6064a5f8918eca3e84b5352b061432e
       body: ''
