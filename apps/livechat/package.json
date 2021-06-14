@@ -10,6 +10,10 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
+    "@babel/core": "^7.14.5",
+    "@babel/polyfill": "^7.12.1",
+    "@babel/preset-react": "^7.14.5",
+    "babel-loader": "^8.2.2",
     "@balena/jellyfish-chat-widget": "^8.0.107",
     "@balena/jellyfish-client-sdk": "^5.0.1",
     "@balena/jellyfish-ui-components": "^9.2.29",
@@ -25,10 +29,6 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.5",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-react": "^7.14.5",
-    "babel-loader": "^8.2.2",
     "depcheck": "^1.4.1",
     "eslint": "^7.28.0",
     "webpack-cli": "^4.7.2",
