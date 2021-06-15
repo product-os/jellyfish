@@ -1163,22 +1163,6 @@
     "requires": [],
     "capabilities": [],
     "data": {
-      "meta": {
-        "relationships": [
-          {
-            "link": "has attached",
-            "type": "opportunity",
-            "title": "Opportunities"
-          },
-          { "link": "has", "type": "contact", "title": "Contacts" },
-          { "link": "is owned by", "type": "user", "title": "Owner" },
-          {
-            "link": "has backup owner",
-            "type": "user",
-            "title": "Backup owners"
-          }
-        ]
-      },
       "schema": {
         "type": "object",
         "required": ["name", "data"],
@@ -1361,22 +1345,6 @@
       "requires": [],
       "capabilities": [],
       "data": {
-        "meta": {
-          "relationships": [
-            {
-              "link": "has attached",
-              "type": "opportunity",
-              "title": "Opportunities"
-            },
-            { "link": "has", "type": "contact", "title": "Contacts" },
-            { "link": "is owned by", "type": "user", "title": "Owner" },
-            {
-              "link": "has backup owner",
-              "type": "user",
-              "title": "Backup owners"
-            }
-          ]
-        },
         "schema": {
           "type": "object",
           "required": ["name", "data"],

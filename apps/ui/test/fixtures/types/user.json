@@ -4,11 +4,6 @@
     "meta": {
       "relationships": [
         {
-          "link": "has attached contact",
-          "type": "contact",
-          "title": "Contact"
-        },
-        {
           "query": [
             {
               "type": "object",
@@ -87,41 +82,6 @@
             }
           ],
           "title": "Support"
-        },
-        {
-          "query": [
-            {
-              "type": "object",
-              "$$links": {
-                "is owned by": {
-                  "type": "object",
-                  "required": [
-                    "id"
-                  ],
-                  "properties": {
-                    "id": {
-                      "const": {
-                        "$eval": "result.id"
-                      }
-                    },
-                    "type": {
-                      "const": "user@1.0.0"
-                    }
-                  }
-                }
-              },
-              "properties": {
-                "type": {
-                  "enum": [
-                    "support-thread@1.0.0",
-                    "sales-thread@1.0.0"
-                  ]
-                }
-              },
-              "additionalProperties": true
-            }
-          ],
-          "title": "Owned conversations"
         }
       ]
     },

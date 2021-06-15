@@ -4,21 +4,6 @@
     "meta": {
       "relationships": [
         {
-          "link": "is member of",
-          "type": "account",
-          "title": "Account"
-        },
-        {
-          "link": "is owned by",
-          "type": "user",
-          "title": "Owner"
-        },
-        {
-          "link": "has backup owner",
-          "type": "user",
-          "title": "Backup owners"
-        },
-        {
           "query": [
             {
               "link": "is attached to user",
