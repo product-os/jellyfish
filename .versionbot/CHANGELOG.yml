@@ -1,4 +1,30 @@
 - commits:
+    - subject: Handle * link constraints
+      hash: 606ebc2c305269844f3aada65ccddd62e5ad4966
+      body: |
+        These link constraints target _any_ type.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove redundant meta relationships
+      hash: 7bd8b20036b24fe57d864a884ae0d21330d554a8
+      body: >
+        These are now materialized automatically on the front-end using link
+        constraints.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.13.2
+  date: 2021-06-15T05:15:46.570Z
+- commits:
     - subject: Use NODE_ENV=production in CI
       hash: 4858f114ae584a701f08e545952262b235cc4dcd
       body: ''
