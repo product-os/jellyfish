@@ -156,7 +156,7 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	test.truthy(result.headers['x-api-id'])
 })
 
-if (environment.isProduction()) {
+if (environment.isProduction() && !environment.isCI()) {
 	ava.serial('should not login as the default test user', async (test) => {
 		const result = await test.context.http(
 			'POST', '/api/v2/action', {
