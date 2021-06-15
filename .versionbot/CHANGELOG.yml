@@ -1,4 +1,19 @@
 - commits:
+    - subject: Refactor duplicated tests and trigger tests for discourse mirror
+      hash: de8449c4c01b89d6552c241895fa5d5e3239782b
+      body: |
+        Remove some tests that test duplicate behaviour on support threads, and
+        moves logic that tests triggered action behaviour.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.13.3
+  date: 2021-06-15T14:56:55.947Z
+- commits:
     - subject: Handle * link constraints
       hash: 606ebc2c305269844f3aada65ccddd62e5ad4966
       body: |
