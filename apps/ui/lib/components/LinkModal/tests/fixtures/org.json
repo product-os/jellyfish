@@ -1,15 +1,6 @@
 {
   "id": "11d22be7-1be3-493b-986f-54522b004c22",
   "data": {
-    "meta": {
-      "relationships": [
-        {
-          "link": "has member",
-          "type": "user",
-          "title": "Members"
-        }
-      ]
-    },
     "schema": {
       "type": "object",
       "required": [
