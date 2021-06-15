@@ -1,4 +1,25 @@
 - commits:
+    - subject: Expose all relationships in tabs
+      hash: fc9f1f324f53fa5edb8fdc65b524e90a62ff2925
+      body: >
+        Abstract this functionality into a reusable RelationshipsTab component.
+
+
+        Also refactored the CreateLens and EditLens components to always display
+        the submit and cancel buttons at the bottom and make the form itself
+        scrollable. This should improve the UX as the user can always quickly
+        press cancel or submit and its clear (from the submit disabled state)
+        whether the form data is valid.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.13.0
+  date: 2021-06-14T23:34:03.745Z
+- commits:
     - subject: Fix bug where livechat test code would delete support threads
       hash: 97d5a4f5228512f403cbda5b12789180d4733712
       body: |
