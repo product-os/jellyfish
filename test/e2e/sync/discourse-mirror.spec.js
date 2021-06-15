@@ -65,70 +65,6 @@ const generateRandomWords = (number) => {
 	return randomWords(number).join(' ')
 }
 
-const testSupportThreadReopen = async (test, triggerCardSeed, linkVerb) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	const triggerCard = await test.context.sdk.card.create(triggerCardSeed)
-
-	await test.context.sdk.card.link(supportThread, triggerCard, linkVerb)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
-		}
-	])
-
-	const mirrorId = supportThread.data.mirrors[0]
-	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
-
-	test.falsy(topicBefore.deleted_at)
-	test.false(topicBefore.closed)
-	test.true(topicBefore.visible)
-
-	// Close the trigger card, and then wait for the support thread to be re-opened
-	const newSupportThread = await test.context.executeThenWait(async () => {
-		return test.context.sdk.card.update(triggerCard.id, triggerCard.type, [
-			{
-				op: 'replace',
-				path: '/data/status',
-				value: 'closed'
-			}
-		])
-	}, {
-		type: 'object',
-		required: [ 'id', 'data' ],
-		properties: {
-			id: {
-				const: supportThread.id
-			},
-			data: {
-				type: 'object',
-				required: [ 'status' ],
-				properties: {
-					status: {
-						const: 'open'
-					}
-				}
-			}
-		}
-	})
-
-	test.is(newSupportThread.data.status, 'open')
-
-	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
-
-	// We never close remote topics
-	test.falsy(topicAfter.deleted_at)
-	test.false(topicAfter.closed)
-	test.true(topicAfter.visible)
-}
-
 ava.serial.before(async (test) => {
 	await helpers.mirror.before(test)
 	test.context.category = environment.test.integration.discourse.category
@@ -340,7 +276,7 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 	const topicId = _.last(mirrorId.split('/'))
 	await test.context.deleteTopic(topicId)
 
-	const message = '#summary Foo Bar'
+	const message = generateRandomWords(5)
 
 	const eventResponse = await test.context.sdk.event.create({
 		slug: test.context.getWhisperSlug(),
@@ -466,70 +402,6 @@ avaTest('should send a message as a non moderator user', async (test) => {
 	await helpers.mirror.afterEach(test)
 })
 
-avaTest('should re-open a closed support thread if an attached issue is closed', async (test) => {
-	const issue = {
-		name: 'My issue',
-		slug: `issue-link-test-${uuid()}`,
-		type: 'issue',
-		version: '1.0.0',
-		data: {
-			repository: 'product-os/jellyfish-test-github',
-			description: 'Foo bar',
-			status: 'open',
-			mentionsUser: [],
-			alertsUser: []
-		}
-	}
-	await testSupportThreadReopen(test, issue, 'support thread is attached to issue')
-})
-
-avaTest('should re-open a closed support thread if an attached pull request is closed', async (test) => {
-	const pullRequest = {
-		name: 'My PR',
-		slug: `pr-link-test-${uuid()}`,
-		type: 'pull-request',
-		version: '1.0.0',
-		data: {
-			status: 'open'
-		}
-	}
-	await testSupportThreadReopen(test, pullRequest, 'support thread is attached to pull request')
-})
-
-avaTest('should re-open a closed support thread if an attached pattern is closed', async (test) => {
-	const pattern = {
-		name: 'My pattern',
-		slug: `pattern-link-test-${uuid()}`,
-		type: 'pattern',
-		version: '1.0.0',
-		data: {
-			status: 'open'
-		}
-	}
-	await testSupportThreadReopen(test, pattern, 'has attached')
-})
-
-avaTest('should not update a post by posting a #summary whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await helpers.mirror.beforeEach(
-		test, environment.test.integration.discourse.username)
-
-	const content = generateRandomWords(50)
-
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), `#summary ${content}`)
-
-	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const firstPost = withoutSyncNotice(topic.post_stream.posts)[0]
-	test.is(firstPost.updated_at, firstPost.created_at)
-})
-
 avaTest('should not update a post by defining no new tags', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
@@ -555,38 +427,6 @@ avaTest('should not update a post by defining no new tags', async (test) => {
 	test.is(firstPost.updated_at, firstPost.created_at)
 })
 
-avaTest('should not re-open a closed thread by marking a message as read', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	const content = generateRandomWords(50)
-	const message = await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), content)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
-		}
-	])
-
-	await test.context.sdk.card.update(message.id, message.type, [
-		{
-			op: 'add',
-			path: '/data/readBy',
-			value: [ 'johndoe' ]
-		}
-	])
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'closed')
-})
-
 avaTest('should fail with a user error if posting an invalid message', async (test) => {
 	const supportThread = await test.context.startSupportThread(
 		test.context.username,
@@ -598,128 +438,6 @@ avaTest('should fail with a user error if posting an invalid message', async (te
 		test.context.getMessageSlug(), '.'))
 	test.is(error.name, 'SyncInvalidRequest')
 	test.true(error.expected)
-})
-
-avaTest('should not re-open a closed thread with a whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
-		}
-	])
-
-	const content = generateRandomWords(50)
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), content)
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'closed')
-})
-
-avaTest('should not re-open an archived thread with a whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'archived'
-		}
-	])
-
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), 'Hello')
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'archived')
-})
-
-avaTest('should re-open a closed thread with a message', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'closed'
-		}
-	])
-
-	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), 'Hello')
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'open')
-})
-
-avaTest('should re-open an archived thread with a message', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
-		{
-			op: 'replace',
-			path: '/data/status',
-			value: 'archived'
-		}
-	])
-
-	const content = generateRandomWords(50)
-	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), content)
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'open')
-})
-
-avaTest('should close a thread with a #summary whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	test.is(supportThread.data.status, 'open')
-
-	const content = generateRandomWords(50)
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), `#summary ${content}`)
-
-	const thread = await test.context.sdk.getById(supportThread.id)
-	test.true(thread.active)
-	test.is(thread.data.status, 'closed')
-
-	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-
-	// We will not close the remote thread as this is an internal thing
-	test.truthy(topic.visible)
-	test.falsy(topic.closed)
-	test.falsy(topic.archived)
-	test.falsy(topic.deleted_by)
-	test.falsy(topic.deleted_at)
 })
 
 avaTest('should add and remove a thread tag', async (test) => {

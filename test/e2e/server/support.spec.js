@@ -5,6 +5,7 @@
  */
 
 const ava = require('ava')
+const Bluebird = require('bluebird')
 const randomWords = require('random-words')
 const helpers = require('../sdk/helpers')
 
@@ -263,4 +264,150 @@ ava('should re-open a closed support thread if a new message is added', async (t
 	})
 
 	test.is(newSupportThread.data.status, 'open')
+})
+
+ava('should not re-open a closed thread by marking a message as read', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const supportThread = await sdk.card.create({
+		type: 'support-thread',
+		data: {
+			status: 'open'
+		}
+	})
+
+	// Add a new message to the thread
+	const message = await sdk.event.create({
+		target: supportThread,
+		type: 'message',
+		payload: {
+			message: generateRandomWords(5)
+		}
+	})
+
+	// Close the thread
+	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
+		{
+			op: 'replace',
+			path: '/data/status',
+			value: 'closed'
+		}
+	])
+
+	// Mark the message as read
+	await test.context.sdk.card.update(message.id, message.type, [
+		{
+			op: 'add',
+			path: '/data/readBy',
+			value: [ 'johndoe' ]
+		}
+	])
+
+	// Wait a while to verify no triggered actions run
+	await Bluebird.delay(5000)
+
+	// Check that the thread is still closed
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'closed')
+})
+
+ava('should not re-open a closed thread with a whisper', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const supportThread = await sdk.card.create({
+		type: 'support-thread',
+		data: {
+			status: 'closed'
+		}
+	})
+
+	await sdk.event.create({
+		target: supportThread,
+		type: 'whisper',
+		payload: {
+			message: generateRandomWords(5)
+		}
+	})
+
+	// Wait a while to verify no triggered actions run
+	await Bluebird.delay(5000)
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'closed')
+})
+
+ava('should re-open an archived thread with a message', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const supportThread = await sdk.card.create({
+		type: 'support-thread',
+		data: {
+			status: 'archived'
+		}
+	})
+
+	await sdk.event.create({
+		target: supportThread,
+		type: 'message',
+		payload: {
+			message: generateRandomWords(5)
+		}
+	})
+
+	const thread = await test.context.waitForMatch({
+		type: 'object',
+		required: [ 'id', 'data' ],
+		properties: {
+			id: {
+				const: supportThread.id
+			},
+			data: {
+				type: 'object',
+				required: [ 'status' ],
+				properties: {
+					status: {
+						const: 'open'
+					}
+				}
+			}
+		}
+	})
+	test.true(thread.active)
+	test.is(thread.data.status, 'open')
+})
+
+ava('should not re-open an archived thread with a whisper', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const supportThread = await sdk.card.create({
+		type: 'support-thread',
+		data: {
+			status: 'archived'
+		}
+	})
+
+	await sdk.event.create({
+		target: supportThread,
+		type: 'whisper',
+		payload: {
+			message: generateRandomWords(5)
+		}
+	})
+
+	// Wait a while to verify no triggered actions run
+	await Bluebird.delay(5000)
+
+	const thread = await test.context.sdk.getById(supportThread.id)
+	test.true(thread.active)
+	test.is(thread.data.status, 'archived')
 })
