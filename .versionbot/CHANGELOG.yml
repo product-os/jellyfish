@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use NODE_ENV=production in CI
+      hash: 4858f114ae584a701f08e545952262b235cc4dcd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.1
+  date: 2021-06-15T03:49:17.397Z
+- commits:
     - subject: Expose all relationships in tabs
       hash: fc9f1f324f53fa5edb8fdc65b524e90a62ff2925
       body: >
