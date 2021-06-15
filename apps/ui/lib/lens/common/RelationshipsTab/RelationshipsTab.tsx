@@ -122,7 +122,10 @@ export const RelationshipsTab: React.FunctionComponent<RelationshipsTabProps> =
 					const links = _.get(cardWithLinks, ['links', relationship.link]);
 					if (links && links.length) {
 						const linkTypeBase = helpers.getTypeBase(links[0].type);
-						if (relationship.type === linkTypeBase) {
+						if (
+							relationship.type === linkTypeBase ||
+							relationship.type === '*'
+						) {
 							relationship.count = links.length;
 						}
 					}
@@ -157,11 +160,14 @@ export const RelationshipsTab: React.FunctionComponent<RelationshipsTabProps> =
 									type: 'object',
 									required: ['type'],
 									additionalProperties: false,
-									properties: {
-										type: {
-											const: `${relationship.type}@1.0.0`,
-										},
-									},
+									properties:
+										relationship.type === '*'
+											? {}
+											: {
+													type: {
+														const: `${relationship.type}@1.0.0`,
+													},
+											  },
 								},
 							},
 						} as JSONSchema;

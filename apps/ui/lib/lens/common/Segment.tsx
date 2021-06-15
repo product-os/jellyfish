@@ -83,7 +83,7 @@ class Segment extends React.Component<any, any> {
 				},
 				card,
 				segment.link,
-				`${segment.type}@1.0.0`,
+				segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
 			);
 			this.updateResults(results);
 		} else if (segment.query) {
