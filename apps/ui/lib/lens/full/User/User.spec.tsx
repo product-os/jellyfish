@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+jest.mock('../../common/RelationshipsTab');
+
 import { getWrapper, flushPromises } from '../../../../test/ui-setup';
 import { mount } from 'enzyme';
 import sinon from 'sinon';

@@ -10,10 +10,10 @@ import React from 'react';
 import _ from 'lodash';
 import { Box, Heading, Flex, Tab, Table, Txt, Divider } from 'rendition';
 import { helpers } from '@balena/jellyfish-ui-components';
-import Segment from '../../common/Segment';
 import CardLayout from '../../../layouts/CardLayout';
 import { DeviceMetrics } from '../../../components/Metrics/DeviceMetrics';
 import { SingleCardTabs } from '../SingleCard';
+import { RelationshipsTab, customQueryTabs } from '../../common';
 
 export const SLUG = 'lens-full-transformer-worker';
 
@@ -56,13 +56,10 @@ export const TransformerWorker = ({
 }) => {
 	const [activeIndex, setActiveIndex] = React.useState(0);
 
-	const type = _.find(types, {
-		slug: card.type.split('@')[0],
-	});
+	const type = helpers.getType(card.type, types);
 
 	const os = _.get(card, ['data', 'os']);
 	const architecture = _.get(card, ['data', 'architecture']);
-	const relationships = _.get(type, ['data', 'meta', 'relationships']);
 
 	const metrics = React.useMemo(() => {
 		const cpuUsage = _.get(card, ['data', 'cpu_load']);
@@ -114,18 +111,9 @@ export const TransformerWorker = ({
 						/>
 					</Flex>
 				</Tab>
-				{_.map(relationships, (segment, index) => {
-					return (
-						<Tab title={segment.title} key={segment.title}>
-							<Segment
-								card={card}
-								segment={segment}
-								types={types}
-								actions={actions}
-							/>
-						</Tab>
-					);
-				})}
+
+				{customQueryTabs(card, type)}
+				<RelationshipsTab card={card} />
 			</SingleCardTabs>
 		</CardLayout>
 	);

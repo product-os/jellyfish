@@ -4,6 +4,8 @@
  * Proprietary and confidential.
  */
 
+jest.mock('../../../common/RelationshipsTab');
+
 import { getWrapper } from '../../../../../test/ui-setup';
 import '../../../../../test/react-select-mock';
 import sinon from 'sinon';

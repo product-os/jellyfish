@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as redux from 'redux';
 import { Box, Button, Card, Flex, Heading, Select, Txt, Form } from 'rendition';
+import styled from 'styled-components';
 import {
 	notifications,
 	FreeFieldForm,
@@ -31,6 +32,13 @@ import {
 } from '../../core';
 import Segment from '../common/Segment';
 import { getUiSchema, UI_SCHEMA_MODE } from '../schema-util';
+import { getRelationships } from '../common/RelationshipsTab';
+
+const FormBox = styled(Box)`
+	overflow-y: auto;
+`;
+
+const getRelationshipsBySlug = memoize((slug) => getRelationships(slug));
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
@@ -309,17 +317,7 @@ export class CreateLens extends React.Component<any, any> {
 
 		const uiSchema = getUiSchema(selectedTypeTarget, UI_SCHEMA_MODE.create);
 
-		const relationships = _.get(
-			selectedTypeTarget,
-			['data', 'meta', 'relationships'],
-			[],
-		).filter((relationship) => {
-			// We only support relationships that define a particular link
-			return (
-				typeof relationship.type !== 'undefined' &&
-				typeof relationship.link !== 'undefined'
-			);
-		});
+		const relationships = getRelationshipsBySlug(selectedTypeTarget.slug);
 
 		// Always show tags input
 		if (!schema.properties.tags) {
@@ -364,7 +362,6 @@ export class CreateLens extends React.Component<any, any> {
 		return (
 			<CardLayout
 				noActions
-				overflowY
 				onClose={this.close}
 				card={card}
 				channel={channel}
@@ -375,63 +372,64 @@ export class CreateLens extends React.Component<any, any> {
 					</Heading.h4>
 				}
 			>
-				<Box px={3} pb={3}>
-					{Boolean(linkOption) && (
-						<Flex alignItems="center" pb={3} mt={2}>
-							<Txt>Create a new</Txt>
+				<Flex flexDirection="column" minHeight={0}>
+					<FormBox px={3} flex={1}>
+						{Boolean(linkOption) && (
+							<Flex alignItems="center" pb={3} mt={2}>
+								<Txt>Create a new</Txt>
 
-							<Select
-								ml={2}
-								value={linkOption}
-								onChange={this.handleLinkOptionSelect}
-								options={linkTypeTargets}
-								labelKey="title"
-								valueKey={{
-									key: 'slug',
-									reduce: false,
-								}}
-							/>
-						</Flex>
-					)}
-
-					<Form
-						uiSchema={uiSchema}
-						schema={schema}
-						value={this.state.newCardModel}
-						onFormChange={this.handleFormChange}
-						hideSubmitButton={true}
-					/>
-
-					<FreeFieldForm
-						schema={localSchema}
-						data={freeFieldData}
-						onDataChange={this.setFreeFieldData}
-						onSchemaChange={this.setLocalSchema}
-					/>
-
-					{_.map(relationships, (segment) => {
-						const key = getLinkKey(segment.type, segment.link);
-						return (
-							<Card
-								p={3}
-								mt={3}
-								key={key}
-								data-test={`segment-card--${_.get(segment, ['type'])}`}
-								title={segment.title}
-							>
-								<Segment
-									card={selectedTypeTarget}
-									segment={segment}
-									types={allTypes}
-									actions={actions}
-									onSave={this.saveLink}
-									draftCards={_.map(links[key], 'target')}
+								<Select
+									ml={2}
+									value={linkOption}
+									onChange={this.handleLinkOptionSelect}
+									options={linkTypeTargets}
+									labelKey="title"
+									valueKey={{
+										key: 'slug',
+										reduce: false,
+									}}
 								/>
-							</Card>
-						);
-					})}
+							</Flex>
+						)}
 
-					<Flex justifyContent="flex-end" mt={4}>
+						<Form
+							uiSchema={uiSchema}
+							schema={schema}
+							value={this.state.newCardModel}
+							onFormChange={this.handleFormChange}
+							hideSubmitButton={true}
+						/>
+
+						<FreeFieldForm
+							schema={localSchema}
+							data={freeFieldData}
+							onDataChange={this.setFreeFieldData}
+							onSchemaChange={this.setLocalSchema}
+						/>
+
+						{_.map(relationships, (segment) => {
+							const key = getLinkKey(segment.type, segment.link);
+							return (
+								<Card
+									p={3}
+									mt={3}
+									key={key}
+									data-test={`segment-card--${_.get(segment, ['type'])}`}
+									title={segment.title}
+								>
+									<Segment
+										card={selectedTypeTarget}
+										segment={segment}
+										types={allTypes}
+										actions={actions}
+										onSave={this.saveLink}
+										draftCards={_.map(links[key], 'target')}
+									/>
+								</Card>
+							);
+						})}
+					</FormBox>
+					<Flex justifyContent="flex-end" my={3} flex={0}>
 						<Button onClick={this.close} mr={2}>
 							Cancel
 						</Button>
@@ -444,7 +442,7 @@ export class CreateLens extends React.Component<any, any> {
 							{this.state.submitting ? <Icon spin name="cog" /> : 'Submit'}
 						</Button>
 					</Flex>
-				</Box>
+				</Flex>
 			</CardLayout>
 		);
 	}

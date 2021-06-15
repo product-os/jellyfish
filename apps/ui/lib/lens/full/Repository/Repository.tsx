@@ -20,7 +20,7 @@ import {
 } from 'rendition';
 import styled from 'styled-components';
 import { helpers, Icon } from '@balena/jellyfish-ui-components';
-import Segment from '../../common/Segment';
+import { RelationshipsTab, customQueryTabs } from '../../common';
 import CardFields from '../../../components/CardFields';
 import CardLayout from '../../../layouts/CardLayout';
 import { getContextualThreadsQuery, getLensBySlug } from '../../';
@@ -168,14 +168,11 @@ export default class RepositoryFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { actions, card, channel, types } = this.props;
+		const { card, channel, types } = this.props;
 		const { searchTerm, expanded } = this.state;
-		const type = _.find(types, {
-			slug: card.type.split('@')[0],
-		});
+		const type = helpers.getType(card.type, types);
 
 		const threadType = helpers.getType('thread', types);
-		const relationships = _.get(type, ['data', 'meta', 'relationships']);
 		const messages = _.sortBy(this.props.messages, 'created_at');
 
 		const Interleaved = getLensBySlug('lens-interleaved').data.renderer;
@@ -229,18 +226,8 @@ export default class RepositoryFull extends React.Component<any, any> {
 							</Box>
 						</Tab>
 
-						{_.map(relationships, (segment) => {
-							return (
-								<Tab title={segment.title} key={segment.title}>
-									<Segment
-										card={card}
-										segment={segment}
-										types={types}
-										actions={actions}
-									/>
-								</Tab>
-							);
-						})}
+						{customQueryTabs(card, type)}
+						<RelationshipsTab card={card} />
 					</SingleCardTabs>
 				)}
 
