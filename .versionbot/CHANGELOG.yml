@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix pgp import
+      hash: 04ac92ae1063bc1ed8222a70a1d7cb730993243f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 34.13.5
+  date: 2021-06-16T09:03:31.326Z
+- commits:
     - subject: Fix counting in RelationshipsTab
       hash: 247df455800ca40fece09049f8a9d51e865a7252
       body: >
