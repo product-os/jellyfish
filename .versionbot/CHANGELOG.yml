@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add Grafana dashboards as configmaps
+      hash: aced158c3ff48b57b67480fb75beecf53e312499
+      body: >
+        * allows for auto-discovery of dashboards by balena-monitor running in
+        k8s
+
+        * adjust ingress stanzas to use k8s 1.19 schema
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 34.13.7
+  date: 2021-06-16T14:35:09.456Z
+- commits:
     - subject: >-
         Update to latest default plugin that removes redundant relationships
         metadata
