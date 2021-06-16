@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix counting in RelationshipsTab
+      hash: 247df455800ca40fece09049f8a9d51e865a7252
+      body: >
+        Also ensure that the active relationship state variable is updated after
+        a re-count.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.13.4
+  date: 2021-06-16T05:44:42.423Z
+- commits:
     - subject: Refactor duplicated tests and trigger tests for discourse mirror
       hash: de8449c4c01b89d6552c241895fa5d5e3239782b
       body: |
