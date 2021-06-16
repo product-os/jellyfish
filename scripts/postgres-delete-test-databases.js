@@ -6,7 +6,7 @@
  * Proprietary and confidential.
  */
 
-const pgp = require('@balena/jellyfish-core/lib/backend/postgres/pg-promise')
+const pgp = require('@balena/jellyfish-core/build/backend/postgres/pg-promise').default
 const Bluebird = require('bluebird')
 const Spinner = require('cli-spinner').Spinner
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
