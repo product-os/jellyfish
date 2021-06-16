@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't mirror empty values to outreach
+      hash: 4780da9cee2debdccc73797e34f05b1f193b241b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.13.8
+  date: 2021-06-16T19:05:46.016Z
+- commits:
     - subject: Add Grafana dashboards as configmaps
       hash: aced158c3ff48b57b67480fb75beecf53e312499
       body: >
