@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Update to latest default plugin that removes redundant relationships
+        metadata
+      hash: 78e23aff2555fc6053ff279e99b5a3b751aeebc8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.13.6
+  date: 2021-06-16T11:36:34.841Z
+- commits:
     - subject: Fix pgp import
       hash: 04ac92ae1063bc1ed8222a70a1d7cb730993243f
       body: ''
