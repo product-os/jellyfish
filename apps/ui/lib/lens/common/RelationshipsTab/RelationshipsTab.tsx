@@ -27,7 +27,7 @@ const TabTitleSelect = styled(Select)`
 `;
 
 interface LinkRelationship {
-	count?: number;
+	count: number;
 	title: string;
 	link: string;
 	type: string;
@@ -119,16 +119,17 @@ export const RelationshipsTab: React.FunctionComponent<RelationshipsTabProps> =
 			const [cardWithLinks] = viewData;
 			if (cardWithLinks) {
 				newRelationships.forEach((relationship) => {
+					relationship.count = 0;
 					const links = _.get(cardWithLinks, ['links', relationship.link]);
-					if (links && links.length) {
-						const linkTypeBase = helpers.getTypeBase(links[0].type);
+					_.forEach(links, (link) => {
+						const linkTypeBase = helpers.getTypeBase(link.type);
 						if (
 							relationship.type === linkTypeBase ||
 							relationship.type === '*'
 						) {
-							relationship.count = links.length;
+							relationship.count += 1;
 						}
-					}
+					});
 				});
 			}
 			setRelationships(
@@ -138,6 +139,15 @@ export const RelationshipsTab: React.FunctionComponent<RelationshipsTabProps> =
 					['desc', 'asc', 'asc'],
 				),
 			);
+			if (activeRelationship) {
+				const newActiveRelationship = _.find<LinkRelationship>(
+					newRelationships,
+					_.pick(activeRelationship, 'type', 'link', 'title'),
+				);
+				if (newActiveRelationship) {
+					setActiveRelationship(newActiveRelationship);
+				}
+			}
 		}, [viewData]);
 
 		// Fetch relationships as view data when the component loads
