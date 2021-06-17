@@ -15,7 +15,6 @@ const path = require('path')
 const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
-const WatchIgnorePlugin = require('webpack/lib/WatchIgnorePlugin')
 
 const root = __dirname
 const resourcesRoot = path.resolve(__dirname, 'lib')
@@ -86,12 +85,6 @@ if (process.env.NODE_ENV === 'production') {
 	commonConfig.optimization = {
 		minimize: true
 	}
-} else {
-	commonConfig.plugins.push(
-		new WatchIgnorePlugin([
-			/node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
-		])
-	)
 }
 
 const appConfig = {
@@ -108,7 +101,10 @@ const appConfig = {
 			disableDotRule: true
 		},
 		disableHostCheck: true,
-		publicPath: '/'
+		publicPath: '/',
+		watchOptions: {
+			ignored: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
+		}
 	},
 
 	node: {
