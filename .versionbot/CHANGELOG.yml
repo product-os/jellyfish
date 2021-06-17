@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update webpack-dev-server ignored
+      hash: 4c389f93d623453134d161bef034698b7e9b0442
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.10
+  date: 2021-06-17T22:57:55.495Z
+- commits:
     - subject: 'Livepush: Ignore lib TypeScript source'
       hash: ada1be458a12d6aafa81a00c47163accd965b958
       body: ''
