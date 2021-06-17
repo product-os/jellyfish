@@ -42,6 +42,32 @@ const getActiveLens = (lenses, lensSlug) => {
 	);
 };
 
+const setSliceFilter = (currentFilters, lens, slice, sliceOptions) => {
+	// All slice options have the same path so we just use the first of the options
+	const sliceFilterId = _.get(sliceOptions, [0, 'value', 'path']);
+
+	// Remove any existing slice filter
+	const filters = sliceFilterId
+		? currentFilters.filter((filter) => {
+				return filter.$id !== sliceFilterId;
+		  })
+		: currentFilters;
+
+	// We only want to filter by slice if the lens does not supports slices itself!
+	if (
+		!_.get(lens, ['data', 'supportsSlices']) &&
+		_.get(sliceOptions, 'length')
+	) {
+		const sliceFilter = createSliceFilter(slice);
+		filters.push({
+			$id: sliceFilter.$id,
+			anyOf: [sliceFilter],
+		});
+	}
+
+	return filters;
+};
+
 const getSearchViewId = (targetId) => `$$search-${targetId}`;
 
 // Search the view card's filters for a slice filter. If one is found
@@ -356,9 +382,10 @@ export class ViewRenderer extends React.Component<any, any> {
 		const sliceFilter =
 			activeSliceFilterId &&
 			filtersWithoutSearch.find((item) => {
-				return item.anyOf && item.anyOf[0].$id === activeSliceFilterId;
+				return item.$id === activeSliceFilterId;
 			});
 
+		// If the slice filter has been removed from the summary, reset to the default slice
 		if (!sliceFilter && _.get(this.state, ['sliceOptions', 'length'])) {
 			this.setSlice({
 				value: getDefaultSliceOption(this.state.sliceOptions),
@@ -439,9 +466,20 @@ export class ViewRenderer extends React.Component<any, any> {
 			return;
 		}
 
+		// Some lenses ignore the slice filter, so recalculate the filters using
+		// the new lens.
+		const filters = setSliceFilter(
+			this.state.filters,
+			lens,
+			this.state.activeSlice,
+			this.state.sliceOptions,
+		);
+
 		const newOptions = this.getQueryOptions(slug, false);
 
-		const reloadRequired = !deepEqual(this.state.options, newOptions);
+		const reloadRequired =
+			!deepEqual(this.state.filters, filters) ||
+			!deepEqual(this.state.options, newOptions);
 
 		if (reloadRequired) {
 			this.props.actions.clearViewData(this.props.channel.data.head.id);
@@ -454,6 +492,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			() => {
 				return {
 					options: newOptions,
+					filters,
 					activeLens: lens.slug,
 				};
 			},
@@ -471,19 +510,19 @@ export class ViewRenderer extends React.Component<any, any> {
 		this.setState({
 			activeSlice: value,
 		});
-		const filter = createSliceFilter(value);
 
-		// Remove any pre-existing filter with the same $id
-		const parsedFilters = this.state.filters.filter((item) => {
-			return item.anyOf && item.anyOf[0].$id !== filter.$id;
+		const lens = _.find(this.props.lenses, {
+			slug: this.state.activeLens,
 		});
 
-		parsedFilters.push({
-			$id: filter.$id,
-			anyOf: [filter],
-		});
+		const newFilters = setSliceFilter(
+			this.state.filters,
+			lens,
+			value,
+			this.state.sliceOptions,
+		);
 
-		this.updateFilters(parsedFilters);
+		this.updateFilters(newFilters);
 
 		this.props.actions.setViewSlice(this.props.card.id, value);
 	}
@@ -562,7 +601,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			return;
 		}
 		this.props.actions.clearViewData(head.id);
-		const filters = head
+		let filters = head
 			? _.map(
 					_.filter(head.data.allOf, {
 						name: USER_FILTER_NAME,
@@ -571,10 +610,9 @@ export class ViewRenderer extends React.Component<any, any> {
 			  )
 			: [];
 
-		const activeLens = _.get(
-			getActiveLens(this.props.lenses, this.props.userActiveLens),
-			['slug'],
-			null,
+		const activeLens = getActiveLens(
+			this.props.lenses,
+			this.props.userActiveLens,
 		);
 
 		const viewTailTypes = helpers.getTypesFromViewCard(head);
@@ -599,19 +637,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			// Otherwise just select the first slice option
 			activeSlice = activeSlice || _.first(sliceOptions);
 
-			const filter = createSliceFilter(activeSlice);
-
-			const existingFilter = filters.find((item) => {
-				return item.anyOf && item.anyOf[0].$id === filter.$id;
-			});
-
-			// If a matching filter already exists, don't add it twice
-			if (!existingFilter) {
-				filters.push({
-					$id: filter.$id,
-					anyOf: [filter],
-				});
-			}
+			filters = setSliceFilter(filters, activeLens, activeSlice, sliceOptions);
 		}
 
 		const initialSearchTerm = _.get(seed, ['searchTerm']);
@@ -629,7 +655,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		// Set default state
 		this.setState(
 			{
-				activeLens,
+				activeLens: _.get(activeLens, 'slug', null),
 				filters,
 				tailTypes,
 				activeSlice,

@@ -71,11 +71,13 @@ export default class Header extends React.Component<any, any> {
 								justifyContent="flex-end"
 								minWidth={['100%', '100%', 'auto']}
 							>
-								<SliceOptions
-									sliceOptions={sliceOptions}
-									activeSlice={activeSlice}
-									setSlice={setSlice}
-								/>
+								{!lens.data.supportsSlices && (
+									<SliceOptions
+										sliceOptions={sliceOptions}
+										activeSlice={activeSlice}
+										setSlice={setSlice}
+									/>
+								)}
 								<LensSelection
 									ml={3}
 									lenses={lenses}
