@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use production Grafana dashboard for dev
+      hash: 84295c2572db02a1cd6857209268dc003192e189
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.12
+  date: 2021-06-18T05:53:41.200Z
+- commits:
     - subject: Update metrics dashboard link
       hash: 8561b5de86a2df8989e32c9e04ca9a8524ae47d5
       body: ''
