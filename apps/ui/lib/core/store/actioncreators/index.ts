@@ -208,6 +208,9 @@ export const selectors = {
 	getViewNotices: (state) => {
 		return state.core.viewNotices;
 	},
+	getChannelViewers: (state, card) => {
+		return _.keys(_.get(state.core, ['channelViewers', card], []));
+	},
 	getUsersTypingOnCard: (state, card) => {
 		return _.keys(_.get(state.core, ['usersTyping', card], {}));
 	},
@@ -264,6 +267,9 @@ export const selectors = {
 
 // TODO: Fix these side effects
 const streams: any = {};
+
+// A separate look-up of sockets that have joined a chat 'room'
+const chats: { [idOrSlug: string]: any } = {};
 
 let commsStream: any = null;
 let tokenRefreshInterval: any = null;
@@ -581,7 +587,7 @@ export const actionCreators = {
 	},
 
 	loadChannelData(channel) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (dispatch, getState, context) => {
 			if (channel.data.canonical === false) {
 				return;
 			}
@@ -589,12 +595,10 @@ export const actionCreators = {
 
 			const query = actionCreators.createChannelQuery(target);
 
-			const stream = await actionCreators.getStream(
-				{
-					sdk,
-				},
-				target,
-				query,
+			const stream = await actionCreators.getStream(target, query)(
+				dispatch,
+				getState,
+				context,
 			);
 
 			stream.on('dataset', ({ data: { cards: channels } }) => {
@@ -944,12 +948,6 @@ export const actionCreators = {
 
 					commsStream.on('update', (payload) =>
 						streamUpdate(payload, getState, dispatch, user, types),
-					);
-
-					// TODO handle typing notifications in a more generic way, this is an
-					// abomination. (A small abomination, but still an abomination)
-					commsStream.on('typing', (payload) =>
-						streamTyping(dispatch, payload),
 					);
 
 					commsStream.on('error', (error) => {
@@ -1375,27 +1373,74 @@ export const actionCreators = {
 		};
 	},
 
-	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getStream({ sdk }, streamId, query) {
-		if (streams[streamId]) {
-			streams[streamId].close();
-			Reflect.deleteProperty(streams, streamId);
-		}
+	getStream(streamId, query) {
+		return async (dispatch, _getState, { sdk }) => {
+			if (streams[streamId]) {
+				streams[streamId].close();
+				Reflect.deleteProperty(streams, streamId);
+			}
 
-		return sdk.stream(query).then((stream) => {
-			streams[streamId] = stream;
-			return stream;
-		});
+			// TBD: Is there a more correct way to identify the target contract
+			//      from a query?
+			let targetCard =
+				_.get(query, ['properties', 'slug', 'const']) ||
+				_.get(query, ['properties', 'id', 'const']);
+
+			// TBD: Can we avoid having to fetch the card (to get the ID) if the query identifies
+			//      it by the slug?
+			if (targetCard && !isUUID(targetCard)) {
+				const card = await sdk.card.get(targetCard);
+				targetCard = card.id;
+			}
+
+			if (targetCard && chats[targetCard]) {
+				Reflect.deleteProperty(chats, targetCard);
+			}
+
+			return sdk.stream(query).then((stream) => {
+				streams[streamId] = stream;
+				if (targetCard) {
+					chats[targetCard] = stream;
+				}
+
+				stream.on('typing', (payload) => {
+					streamTyping(dispatch, payload);
+				});
+
+				stream.on('room-occupants', (payload) => {
+					dispatch({
+						type: actions.SET_CHANNEL_VIEWERS,
+						value: payload,
+					});
+				});
+
+				stream.on('user-joined', (payload) => {
+					// TODO: Highlight in the UI that a particular user has joined
+					dispatch({
+						type: actions.SET_CHANNEL_VIEWERS,
+						value: _.pick(payload, 'room', 'users'),
+					});
+				});
+
+				stream.on('user-left', (payload) => {
+					// TODO: Highlight in the UI that a particular user has left
+					dispatch({
+						type: actions.SET_CHANNEL_VIEWERS,
+						value: _.pick(payload, 'room', 'users'),
+					});
+				});
+
+				return stream;
+			});
+		};
 	},
 
 	setupStream(streamId, query, options, handlers) {
-		return async (dispatch, getState, { sdk }) => {
-			const stream = await actionCreators.getStream(
-				{
-					sdk,
-				},
-				streamId,
-				query,
+		return async (dispatch, getState, context) => {
+			const stream = await actionCreators.getStream(streamId, query)(
+				dispatch,
+				getState,
+				context,
 			);
 
 			stream.on('update', (response) => {
@@ -1611,11 +1656,15 @@ export const actionCreators = {
 		};
 	},
 
-	signalTyping(card) {
-		return (dispatch, getState) => {
+	signalTyping(cardId) {
+		return (_dispatch, getState) => {
 			const user = selectors.getCurrentUser(getState());
-
-			commsStream.type(user.slug, card);
+			const stream = chats[cardId];
+			if (stream) {
+				stream.type(user.slug, cardId);
+			} else {
+				console.warn(`signalTyping: no cached chat stream found for ${cardId}`);
+			}
 		};
 	},
 

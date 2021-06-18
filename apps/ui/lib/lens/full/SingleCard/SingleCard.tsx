@@ -58,6 +58,10 @@ export default class SingleCardFull extends React.Component<any, any> {
 		});
 	}
 
+	closeCard = () => {
+		this.props.actions.removeChannel(this.props.channel);
+	};
+
 	render() {
 		const { actions, card, channel, types, actionItems } = this.props;
 
@@ -77,6 +81,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 				card={card}
 				channel={channel}
 				actionItems={actionItems}
+				onClose={this.closeCard}
 			>
 				<Divider width="100%" color={helpers.colorHash(card.type)} />
 

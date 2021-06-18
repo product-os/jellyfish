@@ -408,6 +408,22 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				},
 			});
 		}
+		case actions.SET_CHANNEL_VIEWERS: {
+			return update(state, {
+				channelViewers: (channelViewers) =>
+					update(channelViewers || {}, {
+						[action.value.room]: { $set: action.value.users },
+					}),
+			});
+		}
+		case actions.CLEAR_CHANNEL_VIEWERS: {
+			return update(state, {
+				channelViewers: (channelViewers) =>
+					update(channelViewers || {}, {
+						$unset: [action.value.room],
+					}),
+			});
+		}
 		case actions.USER_STARTED_TYPING: {
 			return update(state, {
 				usersTyping: (usersTyping) =>

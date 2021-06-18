@@ -24,6 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 			_.pick(actionCreators, [
 				'createLink',
 				'addChannel',
+				'removeChannel',
 				'getLinks',
 				'queryAPI',
 			]),
