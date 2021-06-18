@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update metrics dashboard link
+      hash: 8561b5de86a2df8989e32c9e04ca9a8524ae47d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.11
+  date: 2021-06-18T00:02:10.460Z
+- commits:
     - subject: Update webpack-dev-server ignored
       hash: 4c389f93d623453134d161bef034698b7e9b0442
       body: ''
