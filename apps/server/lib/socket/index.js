@@ -17,8 +17,10 @@ const basicAuth = require('express-basic-auth')
 const prometheus = require('socket.io-prometheus-metrics')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const packageJSON = require('../../../../package.json')
+const initRooms = require('./rooms')
 
 module.exports = (jellyfish, server) => {
+	const rooms = initRooms(jellyfish)
 	const socketServer = socketIo(server, {
 		pingTimeout: 60000,
 		transports: [ 'websocket', 'polling' ]
@@ -46,7 +48,7 @@ module.exports = (jellyfish, server) => {
 					id: `SOCKET-REQUEST-${packageJSON.version}-${id}`
 				}
 
-				return resolve(jellyfish.stream(context, payload.token, payload.data.query).then((stream) => {
+				return resolve(jellyfish.stream(context, payload.token, payload.data.query).then(async (stream) => {
 					let emitCount = 0
 					const updateEmitCount = () => {
 						emitCount++
@@ -55,6 +57,11 @@ module.exports = (jellyfish, server) => {
 								query: payload.data.query
 							})
 						}
+					}
+
+					const room = await rooms.getRoomId(context, payload.token, payload.data.query)
+					if (room.id) {
+						await rooms.joinRoom(context, payload.token, socket, room.id)
 					}
 
 					socket.on('queryDataset', (queryPayload) => {
@@ -94,6 +101,12 @@ module.exports = (jellyfish, server) => {
 					})
 
 					openStreams[context.id] = stream
+
+					socket.on('disconnecting', () => {
+						// Note - we can't do this in the disconnected event handler as socket.rooms
+						//        has been deleted by then.
+						rooms.leaveRoom(context, socket)
+					})
 
 					socket.on('disconnect', () => {
 						stream.close()
@@ -142,7 +155,7 @@ module.exports = (jellyfish, server) => {
 				card
 			} = payload
 
-			return socket.broadcast.emit('typing', {
+			return socket.broadcast.to(card).emit('typing', {
 				user,
 				card
 			})
