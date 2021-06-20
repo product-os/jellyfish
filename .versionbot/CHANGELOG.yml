@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal dependencies
+      hash: 129f0bcc1700cc1ee7a4acc487c31553f445283b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.17
+  date: 2021-06-20T05:12:51.043Z
+- commits:
     - subject: Bump ci-task-runner to v0.2.168
       hash: 589574267eee7c929cd51dfddea5f75ee9b702e6
       body: ''
