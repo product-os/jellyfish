@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-logger to v3.0.19
+      hash: 84f39f30d9101b60e85327dbc91fa53263b33668
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.15
+  date: 2021-06-20T02:33:34.886Z
+- commits:
     - subject: Bump jellyfish-metrics to v1.0.278
       hash: 334005de1935694da43006168c92ae42c545fea9
       body: ''
