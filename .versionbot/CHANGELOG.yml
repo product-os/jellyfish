@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-action-library to v13.0.56
+      hash: f1b6fed848af590155f6df83b07c98b3dc0ea9f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.18
+  date: 2021-06-20T06:15:45.508Z
+- commits:
     - subject: Bump internal dependencies
       hash: 129f0bcc1700cc1ee7a4acc487c31553f445283b
       body: ''
