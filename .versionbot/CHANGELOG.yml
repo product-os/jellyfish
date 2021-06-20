@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-assert to v1.1.49
+      hash: 228458edf02da2077339045a6b314d871709a9a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.13
+  date: 2021-06-20T00:18:51.175Z
+- commits:
     - subject: Use production Grafana dashboard for dev
       hash: 84295c2572db02a1cd6857209268dc003192e189
       body: ''
