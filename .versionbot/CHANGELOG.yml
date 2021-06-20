@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump ci-task-runner to v0.2.168
+      hash: 589574267eee7c929cd51dfddea5f75ee9b702e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.13.16
+  date: 2021-06-20T03:44:16.122Z
+- commits:
     - subject: Bump jellyfish-logger to v3.0.19
       hash: 84f39f30d9101b60e85327dbc91fa53263b33668
       body: ''
