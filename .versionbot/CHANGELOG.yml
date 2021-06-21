@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^3.2.8'
+      hash: 77a5192b2e253a519115ac7232d55116b33552c1
+      body: |
+        Update @balena/jellyfish-core from 3.1.12 to 3.2.8
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.13.24
+  date: 2021-06-21T00:17:44.970Z
+- commits:
     - subject: Bump jellyfish plugins
       hash: e6af97897d5f1f5899aece488593141532294226
       body: ''
