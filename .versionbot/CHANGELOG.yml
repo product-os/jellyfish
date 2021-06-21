@@ -1,4 +1,26 @@
 - commits:
+    - subject: Ignore slice filtering if lens supports slices
+      hash: d7ff1ea3e8d345a9235a7dd823222745f51cbf8e
+      body: >
+        If the lens defines `data.supportsSlices: true` then we:
+
+        a) hide the slice filter drop-down
+
+        b) remove the slice filter from the list of active filters
+
+
+        We need to (re)calculate filters based on the active slice and lens when
+        the view component is loaded and whenever the lens is changed.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.14.0
+  date: 2021-06-21T07:05:16.581Z
+- commits:
     - subject: Bump UI dependencies
       hash: ed57a2d656181272d1b7ab63835849f2d7d576be
       body: ''
