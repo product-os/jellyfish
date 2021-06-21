@@ -1,4 +1,25 @@
 - commits:
+    - subject: Bump UI dependencies
+      hash: ed57a2d656181272d1b7ab63835849f2d7d576be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update internal-patch'
+      hash: ba5032639ae4c16d226520a7d58a898ec4b36eb5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.13.25
+  date: 2021-06-21T05:53:47.128Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^3.2.8'
       hash: 77a5192b2e253a519115ac7232d55116b33552c1
       body: |
