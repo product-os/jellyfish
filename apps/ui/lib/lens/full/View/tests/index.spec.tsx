@@ -39,13 +39,20 @@ const lenses = [
 			renderer: _.constant(null),
 		},
 	},
+	{
+		slug: 'lens-kanban',
+		data: {
+			supportsSlices: true,
+			renderer: _.constant(null),
+		},
+	},
 ];
 
 const types = [supportThreadType];
 
 let context: any = {};
 
-describe('SupportThreads lens', () => {
+describe('View lens', () => {
 	beforeEach(() => {
 		context = {
 			commonProps: {
@@ -104,7 +111,6 @@ describe('SupportThreads lens', () => {
 		expect(wrapper.state().filters).toEqual([
 			{
 				$id: 'properties.data.properties.status',
-				type: 'object',
 				anyOf: [
 					{
 						$id: 'properties.data.properties.status',
@@ -116,7 +122,6 @@ describe('SupportThreads lens', () => {
 								properties: {
 									status: {
 										const: 'archived',
-										title: 'status',
 									},
 								},
 							},
@@ -178,5 +183,49 @@ describe('SupportThreads lens', () => {
 		);
 
 		expect(wrapper.state().activeLens).toBe('lens-chart');
+	});
+
+	test('Slice filter is ignored if lens supports slices', () => {
+		const { commonProps } = context;
+
+		// First load with a lens that does *not* support slices
+		let wrapper = shallow(
+			<ViewRenderer
+				{...commonProps}
+				lenses={lenses}
+				userActiveLens="lens-chart"
+			/>,
+		);
+
+		expect(wrapper.state().activeLens).toBe('lens-chart');
+		let filters = wrapper.state().filters;
+		let sliceFilter = filters.find((filter) => {
+			return (
+				_.get(filter, ['anyOf', 0, '$id']) ===
+				'properties.data.properties.status'
+			);
+		});
+		// An active slice filter is set
+		expect(sliceFilter).not.toBeUndefined();
+
+		// Now load with a lens that *does* support slices
+		wrapper = shallow(
+			<ViewRenderer
+				{...commonProps}
+				lenses={lenses}
+				userActiveLens="lens-kanban"
+			/>,
+		);
+
+		expect(wrapper.state().activeLens).toBe('lens-kanban');
+		filters = wrapper.state().filters;
+		sliceFilter = filters.find((filter) => {
+			return (
+				_.get(filter, ['anyOf', 0, '$id']) ===
+				'properties.data.properties.status'
+			);
+		});
+		// A slice filter is *not* set
+		expect(sliceFilter).toBeUndefined();
 	});
 });
