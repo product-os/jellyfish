@@ -11,7 +11,7 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^8.0.107",
-    "@balena/jellyfish-client-sdk": "^5.0.1",
+    "@balena/jellyfish-client-sdk": "^5.0.5",
     "@balena/jellyfish-ui-components": "^9.2.29",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
