@@ -255,5 +255,5 @@ ava.serial('external support user should not be able to view other card types', 
 		return typeCard.slug
 	}).sort()
 
-	test.deepEqual([ 'card', 'link', 'message', 'support-thread' ], types)
+	test.deepEqual([ 'card', 'create', 'link', 'message', 'support-thread', 'update' ], types)
 })
