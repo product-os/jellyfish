@@ -68,7 +68,7 @@
     "@balena/jellyfish-plugin-default": "^14.1.0",
     "@balena/jellyfish-plugin-discourse": "^1.0.10",
     "@balena/jellyfish-plugin-flowdock": "^1.0.39",
-    "@balena/jellyfish-plugin-github": "^1.0.159",
+    "@balena/jellyfish-plugin-github": "^1.0.161",
     "@balena/jellyfish-plugin-product-os": "^2.0.140",
     "@balena/jellyfish-plugin-typeform": "^3.0.89",
     "@balena/jellyfish-queue": "^1.0.174",
