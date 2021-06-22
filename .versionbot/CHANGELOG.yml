@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/server
+      hash: 8153020acc12cfa39ae5d12b7bf9db98606aeaa1
+      body: >
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
+
+        - [Release
+        notes](https://github.com/sindresorhus/normalize-url/releases)
+
+        - [Commits](https://github.com/sindresorhus/normalize-url/commits)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: normalize-url
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 34.15.2
+  date: 2021-06-22T23:05:40.532Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.0.161'
       hash: e4a42ffe7fecf14d6d1ae8f3c59c573f4a3db0b3
       body: ''
