@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.0.161'
+      hash: e4a42ffe7fecf14d6d1ae8f3c59c573f4a3db0b3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.15.1
+  date: 2021-06-22T21:50:31.668Z
+- commits:
     - subject: Allow external support users to read/write create and update events
       hash: fe3210f8f8112b05f263d9b1c7578f11d89046c2
       body: ''
