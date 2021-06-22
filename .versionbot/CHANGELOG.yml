@@ -1,4 +1,37 @@
 - commits:
+    - subject: Run a reduced set of tests against prior Postgres dumps
+      hash: 63d827e2def17774843116d0a07efe3cfc3dfecd
+      body: |
+        The intention of running the tests against a previous dump of the DB is
+        to rule out a category of errors where basic operations would fail when
+        bootstrapping the stack with a pre-existing database. As such we only
+        need to run a limited set of smoke tests to verify this.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^9.0.4'
+      hash: 0af92e75cabfb86eb43ac84842299e68f2abca69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update internal-patch'
+      hash: 36ccd589acfe67214becb0e66b790c2fbb2340b6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.14.8
+  date: 2021-06-22T13:53:17.844Z
+- commits:
     - subject: Bump redis from 3.0.2 to 3.1.2 in /apps/server
       hash: 2bce629e08849266e77b7e208761d63e942400d5
       body: >
