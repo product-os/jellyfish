@@ -113,10 +113,13 @@ tasks:
     dependencies:
       - 'postgres-export'
   - name: 'e2e-server-previous-dump'
-    description: 'E2E Server Tests (Previous Dump)'
-    command: 'make test-e2e-server'
+    description: 'E2E Server Smoke Tests (Previous Dump)'
+    command: 'make test'
     cwd: '/usr/src/jellyfish'
     required: true
+    environment:
+      - name: 'FILES'
+        value: './test/e2e/server/index.spec.js'
     dependencies:
       - 'postgres-import'
   - name: 'summary'
