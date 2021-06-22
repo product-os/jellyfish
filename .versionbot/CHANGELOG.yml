@@ -1,4 +1,17 @@
 - commits:
+    - subject: Allow external support users to read/write create and update events
+      hash: fe3210f8f8112b05f263d9b1c7578f11d89046c2
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.15.0
+  date: 2021-06-22T20:53:10.184Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 16636e551adc97f5b56eea95be5dd294eefa0100
       body: ''
