@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 7eeffaf00edf875b49a1ca038007d46a8c809312
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.14.5
+  date: 2021-06-22T05:08:42.921Z
+- commits:
     - subject: Fix handling of anyOf in Rendition's Renderer component
       hash: b52d5b85f68e233e854e6fcf961079963aba9990
       body: |
