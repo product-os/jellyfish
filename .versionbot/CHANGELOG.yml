@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 8070d2913b65bf08826ecf8f9cbd9638899b5343
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.14.2
+  date: 2021-06-22T01:02:07.172Z
+- commits:
     - subject: Bump grafana and prometheus images
       hash: a70629c84a8ef9d27b0ec7ad5ed18f97aa020b48
       body: ''
