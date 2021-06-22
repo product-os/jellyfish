@@ -12,14 +12,14 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^9.0.1",
     "@balena/jellyfish-client-sdk": "^5.0.5",
-    "@balena/jellyfish-ui-components": "^9.2.36",
+    "@balena/jellyfish-ui-components": "^9.2.37",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.2.0",
-    "rendition": "^20.17.2",
+    "rendition": "^20.18.0",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.2"
