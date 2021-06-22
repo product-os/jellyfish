@@ -16,37 +16,17 @@ const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const randomWords = require('random-words')
 const TOKEN = environment.integration.discourse
 
-// Filter out the sync notice that is created when a new support thread is
-// created. The notice is created by an async triggered action and causes
-// disruption to these tests as it is not predictable where in the list of posts
-// it will appear.
-// TODO: remove this code once sync tests are run in isolation. This code is
-// a symptom of our e2e tests "bleeding" into each other, instead of being
-// tested as seperate units.
-const withoutSyncNotice = (posts) => {
-	return posts.filter((post) => {
-		return !_.includes(post.raw, 'This thread is synced to Jellyfish')
-	})
-}
-
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
-		required: [ 'id', 'type', 'slug', 'data' ],
+		required: [ 'slug', 'data' ],
 		properties: {
-			id: {
-				type: 'string'
-			},
-			type: {
-				type: 'string'
-			},
 			slug: {
 				type: 'string',
 				const: slug
 			},
 			data: {
 				type: 'object',
-				additionalProperties: true,
 				required: [ 'mirrors' ],
 				properties: {
 					mirrors: {
@@ -65,50 +45,31 @@ const generateRandomWords = (number) => {
 	return randomWords(number).join(' ')
 }
 
-ava.serial.before(async (test) => {
+ava.before(async (test) => {
 	await helpers.mirror.before(test)
 	test.context.category = environment.test.integration.discourse.category
 
-	test.context.getWhisperSlug = () => {
-		return test.context.generateRandomSlug({
-			prefix: 'whisper'
+	test.context.createWhisper = async (target, body) => {
+		const whisper = await test.context.sdk.event.create({
+			target,
+			type: 'whisper',
+			payload: {
+				message: body
+			}
 		})
+		return test.context.waitForMatch(getMirrorWaitSchema(whisper.slug))
 	}
 
-	test.context.getMessageSlug = () => {
-		return test.context.generateRandomSlug({
-			prefix: 'message'
+	test.context.createMessage = async (target, body) => {
+		const message = await test.context.sdk.event.create({
+			target,
+			type: 'message',
+			payload: {
+				message: body
+			}
 		})
-	}
 
-	test.context.createWhisper = async (target, slug, body) => {
-		return test.context.executeThenWait(async () => {
-			return test.context.sdk.event.create({
-				slug,
-				target,
-				type: 'whisper',
-				payload: {
-					mentionsUser: [],
-					alertsUser: [],
-					message: body
-				}
-			})
-		}, getMirrorWaitSchema(slug))
-	}
-
-	test.context.createMessage = async (target, slug, body) => {
-		return test.context.executeThenWait(async () => {
-			return test.context.sdk.event.create({
-				slug,
-				target,
-				type: 'message',
-				payload: {
-					mentionsUser: [],
-					alertsUser: [],
-					message: body
-				}
-			})
-		}, getMirrorWaitSchema(slug))
+		return test.context.waitForMatch(getMirrorWaitSchema(message.slug))
 	}
 
 	test.context.deleteTopic = async (id) => {
@@ -216,7 +177,10 @@ ava.serial.before(async (test) => {
 		})
 	}
 
-	test.context.startSupportThread = async (username, title, description) => {
+	test.context.startSupportThread = async (username) => {
+		const title = generateRandomWords(5)
+		const description = generateRandomWords(10)
+
 		const post = await createSupportThread(username, title, description)
 		const slug = test.context.generateRandomSlug({
 			prefix: 'support-thread-discourse-test'
@@ -250,27 +214,21 @@ ava.serial.before(async (test) => {
 	}
 })
 
-ava.serial.after.always(helpers.mirror.after)
-ava.serial.beforeEach(async (test) => {
+ava.after.always(helpers.mirror.after)
+
+ava.beforeEach(async (test) => {
 	test.timeout(1000 * 60 * 5)
 	await helpers.mirror.beforeEach(
 		test, environment.integration.discourse.username)
 })
 
-ava.serial.afterEach.always(helpers.mirror.afterEach)
+ava.afterEach.always(helpers.mirror.afterEach)
 
 // Skip all tests if there is no Discourse token
-const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.skip : ava.serial
+const avaTest = _.some(_.values(TOKEN), _.isEmpty) || environment.test.integration.skip ? ava.skip : ava
 
 avaTest('should send, but not sync, a whisper to a deleted thread', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await helpers.mirror.beforeEach(
-		test, environment.test.integration.discourse.username)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicId = _.last(mirrorId.split('/'))
@@ -279,7 +237,6 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 	const message = generateRandomWords(5)
 
 	const eventResponse = await test.context.sdk.event.create({
-		slug: test.context.getWhisperSlug(),
 		target: supportThread,
 		type: 'whisper',
 		payload: {
@@ -302,14 +259,7 @@ avaTest('should send, but not sync, a whisper to a deleted thread', async (test)
 })
 
 avaTest('should send, but not sync, a message to a deleted thread', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await helpers.mirror.beforeEach(
-		test, environment.test.integration.discourse.username)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topicId = _.last(mirrorId.split('/'))
@@ -318,7 +268,6 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 	const message = 'Test message'
 
 	const eventResponse = await test.context.sdk.event.create({
-		slug: test.context.getMessageSlug(),
 		target: supportThread,
 		type: 'message',
 		payload: {
@@ -341,22 +290,22 @@ avaTest('should send, but not sync, a message to a deleted thread', async (test)
 })
 
 avaTest('should send a whisper as a non moderator user', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const content = generateRandomWords(50)
 
+	// Switch to a non-moderator user for the SDK session
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), content)
+
+	const whisper = await test.context.createWhisper(supportThread, content)
+	const postNumber = parseInt(whisper.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
+	const lastPost = _.find(topic.post_stream.posts, {
+		post_number: postNumber
+	})
 
 	test.not(test.context.username, lastPost.username)
 	test.is(environment.integration.discourse.username, lastPost.username)
@@ -378,22 +327,22 @@ avaTest('should send a whisper as a non moderator user', async (test) => {
 })
 
 avaTest('should send a message as a non moderator user', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const content = generateRandomWords(50)
 
+	// Switch to a non-moderator user for the SDK session
 	await helpers.mirror.beforeEach(
 		test, environment.test.integration.discourse.nonModeratorUsername)
-	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), content)
+
+	const message = await test.context.createMessage(supportThread, content)
+	const postNumber = parseInt(message.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
+	const lastPost = _.find(topic.post_stream.posts, {
+		post_number: postNumber
+	})
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -403,14 +352,7 @@ avaTest('should send a message as a non moderator user', async (test) => {
 })
 
 avaTest('should not update a post by defining no new tags', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	await helpers.mirror.beforeEach(
-		test, environment.test.integration.discourse.username)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -423,29 +365,12 @@ avaTest('should not update a post by defining no new tags', async (test) => {
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	test.deepEqual(topic.tags, [])
-	const firstPost = withoutSyncNotice(topic.post_stream.posts)[0]
+	const firstPost = topic.post_stream.posts[0]
 	test.is(firstPost.updated_at, firstPost.created_at)
 })
 
-avaTest('should fail with a user error if posting an invalid message', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
-
-	const error = await test.throwsAsync(test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), '.'))
-	test.is(error.name, 'SyncInvalidRequest')
-	test.true(error.expected)
-})
-
 avaTest('should add and remove a thread tag', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -469,11 +394,7 @@ avaTest('should add and remove a thread tag', async (test) => {
 })
 
 avaTest('should add a thread tag', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -484,16 +405,18 @@ avaTest('should add a thread tag', async (test) => {
 	])
 
 	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	test.deepEqual(topic.tags, [ 'foo' ])
+
+	await test.context.retry(() => {
+		return test.context.getTopic(_.last(mirrorId.split('/')))
+	}, (topic) => {
+		return _.isEqual(topic.tags, [ 'foo' ])
+	})
+
+	test.pass()
 })
 
 avaTest('should not sync top level tags', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	await test.context.sdk.card.update(supportThread.id, supportThread.type, [
 		{
@@ -503,25 +426,28 @@ avaTest('should not sync top level tags', async (test) => {
 		}
 	])
 
+	// Wait to make sure no syncing happens
+	await Bluebird.delay(5000)
+
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
 	test.deepEqual(topic.tags, [])
 })
 
 avaTest('should send a whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const content = generateRandomWords(50)
-	await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), content)
+	const whisper = await test.context.createWhisper(supportThread, content)
+	const postNumber = parseInt(whisper.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
+
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
+
+	const lastPost = _.find(topic.post_stream.posts, {
+		post_number: postNumber
+	})
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -529,20 +455,15 @@ avaTest('should send a whisper', async (test) => {
 })
 
 avaTest('should update a whisper', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
-	const content = generateRandomWords(50)
-	const whisper = await test.context.createWhisper(supportThread,
-		test.context.getWhisperSlug(), content)
+	const content = generateRandomWords(10)
+	const whisper = await test.context.createWhisper(supportThread, content)
+	const postNumber = parseInt(whisper.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
-	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
-	const newContent = generateRandomWords(50)
+	const newContent = generateRandomWords(10)
 	await test.context.sdk.card.update(whisper.id, whisper.type, [
 		{
 			op: 'replace',
@@ -551,29 +472,33 @@ avaTest('should update a whisper', async (test) => {
 		}
 	])
 
-	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topicAfter.post_stream.posts))
+	await test.context.retry(async () => {
+		const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
+		const lastPost = _.find(topicAfter.post_stream.posts, {
+			post_number: postNumber
+		})
+		return lastPost
+	}, (lastPost) => {
+		return _.isEqual(test.context.username, lastPost.username) &&
+			_.isEqual(lastPost.cooked, `<p>${newContent}</p>`) &&
+			_.isEqual(lastPost.post_type, 4)
+	})
 
-	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, `<p>${newContent}</p>`)
-	test.is(lastPost.post_type, 4)
-	test.is(withoutSyncNotice(topicBefore.post_stream.posts).length, withoutSyncNotice(topicAfter.post_stream.posts).length)
+	test.pass()
 })
 
 avaTest('should send a message', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const content = generateRandomWords(50)
-	await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), content)
+	const message = await test.context.createMessage(supportThread, content)
+	const postNumber = parseInt(message.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
 	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topic.post_stream.posts))
+	const lastPost = _.find(topic.post_stream.posts, {
+		post_number: postNumber
+	})
 
 	test.is(test.context.username, lastPost.username)
 	test.is(lastPost.cooked, `<p>${content}</p>`)
@@ -581,18 +506,13 @@ avaTest('should send a message', async (test) => {
 })
 
 avaTest('should update a message', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const content = generateRandomWords(50)
-	const message = await test.context.createMessage(supportThread,
-		test.context.getMessageSlug(), content)
+	const message = await test.context.createMessage(supportThread, content)
+	const postNumber = parseInt(message.data.mirrors[0].split('/').pop(), 10)
 
 	const mirrorId = supportThread.data.mirrors[0]
-	const topicBefore = await test.context.getTopic(_.last(mirrorId.split('/')))
 
 	const newContent = generateRandomWords(50)
 	await test.context.sdk.card.update(message.id, message.type, [
@@ -603,21 +523,23 @@ avaTest('should update a message', async (test) => {
 		}
 	])
 
-	const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
-	const lastPost = _.last(withoutSyncNotice(topicAfter.post_stream.posts))
+	await test.context.retry(async () => {
+		const topicAfter = await test.context.getTopic(_.last(mirrorId.split('/')))
+		const lastPost = _.find(topicAfter.post_stream.posts, {
+			post_number: postNumber
+		})
+		return lastPost
+	}, (lastPost) => {
+		return _.isEqual(test.context.username, lastPost.username) &&
+			_.isEqual(lastPost.cooked, `<p>${newContent}</p>`) &&
+			_.isEqual(lastPost.post_type, 1)
+	})
 
-	test.is(test.context.username, lastPost.username)
-	test.is(lastPost.cooked, `<p>${newContent}</p>`)
-	test.is(lastPost.post_type, 1)
-	test.is(withoutSyncNotice(topicBefore.post_stream.posts).length, withoutSyncNotice(topicAfter.post_stream.posts).length)
+	test.pass()
 })
 
 avaTest('should update the thread title', async (test) => {
-	const supportThread = await test.context.startSupportThread(
-		test.context.username,
-		generateRandomWords(5),
-		generateRandomWords(10)
-	)
+	const supportThread = await test.context.startSupportThread(test.context.username)
 
 	const newTitle = `${generateRandomWords(10)} ${uuid()}`
 
@@ -630,6 +552,12 @@ avaTest('should update the thread title', async (test) => {
 	])
 
 	const mirrorId = supportThread.data.mirrors[0]
-	const topic = await test.context.getTopic(_.last(mirrorId.split('/')))
-	test.is(topic.title, newTitle)
+
+	await test.context.retry(() => {
+		return test.context.getTopic(_.last(mirrorId.split('/')))
+	}, (topic) => {
+		return _.isEqual(topic.title, newTitle)
+	})
+
+	test.pass()
 })
