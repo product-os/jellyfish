@@ -345,9 +345,9 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 		case actions.SET_LOOPS: {
 			return update(state, {
 				loops: {
-					$set: action.value
-				}
-			})
+					$set: action.value,
+				},
+			});
 		}
 		case actions.SET_GROUPS: {
 			const { groups, userSlug } = action.value;

@@ -46,8 +46,10 @@ const LoopDisplay: React.FunctionComponent<LoopDisplayProps> = React.memo(
 // A drop-down component for selecting a loop
 export const LoopSelector: React.FunctionComponent<any> = React.memo(
 	({ onSetLoop, loops, user, ...rest }) => {
-		const activeLoopVersionedSlug = _.get(user, 'data.profile.activeLoop') || '';
-		const [ activeLoopSlug, activeLoopVersion ] = activeLoopVersionedSlug.split('@');
+		const activeLoopVersionedSlug =
+			_.get(user, 'data.profile.activeLoop') || '';
+		const [activeLoopSlug, activeLoopVersion] =
+			activeLoopVersionedSlug.split('@');
 		const [activeLoop, setActiveLoop] = React.useState(
 			_.find(loops, {
 				slug: activeLoopSlug,
@@ -56,7 +58,9 @@ export const LoopSelector: React.FunctionComponent<any> = React.memo(
 		);
 
 		const loopOptions = React.useMemo(() => {
-			return ([allLoops] as Array<DefaultOption | core.Contract>).concat(...loops);
+			return ([allLoops] as Array<DefaultOption | core.Contract>).concat(
+				...loops,
+			);
 		}, [loops]);
 
 		const onChange = ({ value }) => {

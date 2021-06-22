@@ -29,4 +29,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export const LoopSelector = connect(mapStateToProps, mapDispatchToProps)(InnerLoopSelector);
+export const LoopSelector = connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(InnerLoopSelector);
