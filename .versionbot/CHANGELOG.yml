@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix handling of anyOf in Rendition's Renderer component
+      hash: b52d5b85f68e233e854e6fcf961079963aba9990
+      body: |
+        Also fixes paragraph spacing in Markdown components.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.14.4
+  date: 2021-06-22T03:50:17.202Z
+- commits:
     - subject: Bump glob-parent from 5.1.1 to 5.1.2 in /apps/oauth-provider-example
       hash: 840ca95b5692b00b63284d51de73f24d1d8e5cfe
       body: >
