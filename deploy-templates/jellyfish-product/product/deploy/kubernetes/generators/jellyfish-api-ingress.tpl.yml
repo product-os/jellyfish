@@ -1,4 +1,5 @@
-apiVersion: extensions/v1beta1
+---
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   labels:
@@ -30,10 +31,16 @@ spec:
     http:
       paths:
       - path: /*
+        pathType: ImplementationSpecific
         backend:
-          serviceName: ssl-redirect
-          servicePort: use-annotation
+          service:
+            name: ssl-redirect
+            port:
+              name: use-annotation
       - path: /*
+        pathType: ImplementationSpecific
         backend:
-          serviceName: jellyfish-api
-          servicePort: 8000
+          service:
+            name: jellyfish-api
+            port:
+              number: 8000
