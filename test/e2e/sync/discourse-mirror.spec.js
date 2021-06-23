@@ -206,11 +206,7 @@ ava.before(async (test) => {
 			}
 		})
 
-		await test.context.waitForThreadSyncWhisper(result.id)
-
-		return test.context.sdk.getById(result.id, {
-			type: 'support-thread'
-		})
+		return test.context.sdk.getById(result.id)
 	}
 })
 
