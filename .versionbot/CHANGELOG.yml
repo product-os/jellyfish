@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update Ingress resourses/schema
+      hash: c0e258778125b71901830a2adab9ef724aac22bb
+      body: |
+        * match running k8s APIs (v1.19)
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 34.15.12
+  date: 2021-06-23T17:33:05.733Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 158704a3d5f33595470b94434e9686a2df48fb26
       body: ''
