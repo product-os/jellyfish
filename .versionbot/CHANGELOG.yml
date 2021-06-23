@@ -1,4 +1,36 @@
 - commits:
+    - subject: Bump glob-parent from 5.1.1 to 5.1.2 in /apps/server
+      hash: bc495ffdabb58a73e99b5f055f535b6ad819a307
+      body: >
+        Bumps [glob-parent](https://github.com/gulpjs/glob-parent) from 5.1.1 to
+        5.1.2.
+
+        - [Release notes](https://github.com/gulpjs/glob-parent/releases)
+
+        -
+        [Changelog](https://github.com/gulpjs/glob-parent/blob/main/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/gulpjs/glob-parent/compare/v5.1.1...v5.1.2)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: glob-parent
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 34.15.3
+  date: 2021-06-23T00:53:29.156Z
+- commits:
     - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/server
       hash: 8153020acc12cfa39ae5d12b7bf9db98606aeaa1
       body: >
