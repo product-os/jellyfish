@@ -1,4 +1,22 @@
 - commits:
+    - subject: >-
+        Refactor discourse mirror tests to be more concise and work with async
+        actions
+      hash: 297dbd7c68a220ecde22e7862d5c77d0632770a8
+      body: |
+        This change refactors a number of functions to be more concise and to
+        also work with asynchronous action execution, future proofing them for
+        changes to our triggered action code in the future.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.15.6
+  date: 2021-06-23T07:27:57.919Z
+- commits:
     - subject: Bump hosted-git-info from 2.8.8 to 2.8.9 in /apps/server
       hash: 416eefae621115e7a463195e5093915d0ed994e6
       body: >
