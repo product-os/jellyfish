@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix broken png icons
+      hash: 678a7df7f3809dc2d6ddd9e035aad60396d7b21d
+      body: >
+        These appear to have been accidentally broken in [this
+        commit](https://github.com/product-os/jellyfish/commit/2233801a35f2d9ebe416a2e145f80688a9379450?short_path=600706d#diff-600706d3b79c97743b90bbaa82c30d3211dcf3867929354e7a26e4f91706087b)
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.15.7
+  date: 2021-06-23T08:31:29.181Z
+- commits:
     - subject: >-
         Refactor discourse mirror tests to be more concise and work with async
         actions
