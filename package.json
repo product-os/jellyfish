@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "34.15.10",
+  "version": "34.15.11",
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
@@ -58,7 +58,7 @@
   "devDependencies": {
     "@balena/ci-task-runner": "^0.3.1",
     "@balena/jellyfish-action-library": "^13.0.67",
-    "@balena/jellyfish-chat-widget": "^9.0.4",
+    "@balena/jellyfish-chat-widget": "^9.0.6",
     "@balena/jellyfish-client-sdk": "^5.0.7",
     "@balena/jellyfish-config": "^1.3.3",
     "@balena/jellyfish-core": "^3.2.14",
@@ -73,7 +73,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.94",
     "@balena/jellyfish-queue": "^1.0.176",
     "@balena/jellyfish-sync": "^6.0.253",
-    "@balena/jellyfish-ui-components": "^9.2.38",
+    "@balena/jellyfish-ui-components": "^9.2.39",
     "@balena/jellyfish-worker": "^5.0.53",
     "@octokit/plugin-retry": "^3.0.8",
     "@octokit/plugin-throttling": "^3.5.0",
