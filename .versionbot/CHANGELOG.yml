@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove unnecessary wait helper from discourse tests
+      hash: 0a5d8d9715962b53b0d8c4a0db1bbda41e1e7e21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.15.8
+  date: 2021-06-23T11:11:18.542Z
+- commits:
     - subject: Fix broken png icons
       hash: 678a7df7f3809dc2d6ddd9e035aad60396d7b21d
       body: >
