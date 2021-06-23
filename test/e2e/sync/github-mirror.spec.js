@@ -25,25 +25,19 @@ const TOKEN = environment.integration.github
 const getMirrorWaitSchema = (slug) => {
 	return {
 		type: 'object',
-		required: [ 'id', 'type', 'slug', 'data' ],
+		required: [ 'slug', 'data' ],
 		properties: {
-			id: {
-				type: 'string'
-			},
-			type: {
-				type: 'string'
-			},
 			slug: {
 				type: 'string',
 				const: slug
 			},
 			data: {
 				type: 'object',
-				additionalProperties: true,
 				required: [ 'mirrors' ],
 				properties: {
 					mirrors: {
 						type: 'array',
+						minItems: 1,
 						items: {
 							type: 'string',
 							pattern: '^https:\\/\\/github\\.com'
@@ -198,19 +192,18 @@ avaTest('should be able to create an issue with a comment and update the comment
 		}
 	])
 
-	const externalIssue = await test.context.github.issues.get({
-		owner: test.context.repository.owner,
-		repo: test.context.repository.repo,
-		issue_number: _.last(issue.data.mirrors[0].split('/'))
+	await test.context.retry(() => {
+		return test.context.github.issues.get({
+			owner: test.context.repository.owner,
+			repo: test.context.repository.repo,
+			issue_number: _.last(issue.data.mirrors[0].split('/'))
+		})
+	}, (externalIssue) => {
+		return _.isEqual(externalIssue.data.body, `[${test.context.username}] Issue body`) &&
+			_.isEqual(externalIssue.data.comments, 0)
 	})
 
-	test.is(externalIssue.data.body, `[${test.context.username}] Issue body`)
-	test.is(externalIssue.data.comments, 0)
-
-	const messageCard = await test.context.sdk.card.get(message.id)
-
-	// Normal users can't see deleted cards
-	test.falsy(messageCard)
+	test.pass()
 })
 
 avaTest('should be able to create an issue without comments', async (test) => {
@@ -224,6 +217,9 @@ avaTest('should be able to create an issue without comments', async (test) => {
 		})
 
 	const mirror = issue.data.mirrors[0]
+
+	await Bluebird.delay(2000)
+
 	const external = await test.context.github.issues.get({
 		owner: test.context.repository.owner,
 		repo: test.context.repository.repo,
@@ -343,7 +339,8 @@ avaTest('linking a support/sales thread to an issue results in a message on that
 		issue_number: _.last(mirror.split('/'))
 	})
 
-	const attempts = 5
+	await Bluebird.delay(5000)
+
 	const externalMessages = await test.context.retry(() => {
 		return test.context.github.issues.listComments({
 			owner: test.context.repository.owner,
@@ -352,7 +349,7 @@ avaTest('linking a support/sales thread to an issue results in a message on that
 		})
 	}, (extMsgs) => {
 		return _.get(extMsgs, [ 'data', 'length' ]) === 1
-	}, attempts, 1000)
+	})
 
 	test.is(externalMessages.data[0].body, `[${test.context.username}] This issue has attached support thread https://jel.ly.fish/${supportThread.id}`)
 
