@@ -183,7 +183,8 @@ if (process.env.NODE_ENV === 'production' ||
 
 			// The vendors.js file is BIG - set this to a safe value of 40MB
 			maximumFileSizeToCacheInBytes: 40000000,
-			swSrc: './lib/service-worker.js'
+			swSrc: './lib/service-worker.js',
+			exclude: [ /build\/.*/, /index\.html/ ]
 		})
 	)
 }
