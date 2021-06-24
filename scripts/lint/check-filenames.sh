@@ -18,6 +18,7 @@ for file in $(find "${DIRECTORIES[@]}" -type f | grep -v -E node_modules); do
 		[ "$BASENAME" = "LICENSE" ] || \
 		[ "$BASENAME" = "README.md" ] || \
 		[ "$BASENAME" = "Makefile" ] || \
+		[[ $file =~ ^apps\/.*\/build ]] || \
 		[[ $BASENAME =~ ^Dockerfile ]]; then
 		continue
 	fi

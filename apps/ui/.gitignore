@@ -4,3 +4,6 @@ env-config.js
 # the command 'npm run doc' and committed to the root of the 
 # 'docs' branch.
 docs/
+
+# Ignore local build output (typescript definition files)
+build/
