@@ -22,7 +22,7 @@ const getSchemaForFilters = (tailTypes, timelineFilter) => {
 	// instead of just the first one.
 	const schemaForFilters = skhema.merge([_.first(tailSchemas)]);
 
-	// Always expose the created_at and updated_at field for filtering
+	// Always expose the loop, created_at and updated_at field for filtering
 	_.set(schemaForFilters, ['properties', 'created_at'], {
 		title: 'Created at',
 		type: 'string',
@@ -32,6 +32,10 @@ const getSchemaForFilters = (tailTypes, timelineFilter) => {
 		title: 'Last updated',
 		type: 'string',
 		format: 'date-time',
+	});
+	_.set(schemaForFilters, ['properties', 'loop'], {
+		title: 'Loop',
+		type: 'string',
 	});
 
 	// Add the timeline link prop to spoof the filters component into generating
