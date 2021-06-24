@@ -20,12 +20,12 @@
   "license": "UNLICENSED",
   "dependencies": {
     "@balena/jellyfish-action-library": "^14.0.7",
-    "@balena/jellyfish-assert": "^1.1.50",
+    "@balena/jellyfish-assert": "^1.1.51",
     "@balena/jellyfish-core": "^4.0.0",
     "@balena/jellyfish-environment": "^4.2.8",
-    "@balena/jellyfish-logger": "^3.0.23",
-    "@balena/jellyfish-metrics": "^1.0.284",
-    "@balena/jellyfish-plugin-base": "^2.1.162",
+    "@balena/jellyfish-logger": "^3.0.24",
+    "@balena/jellyfish-metrics": "^1.0.286",
+    "@balena/jellyfish-plugin-base": "^2.1.163",
     "@balena/jellyfish-plugin-channels": "^1.1.198",
     "@balena/jellyfish-plugin-default": "^15.0.7",
     "@balena/jellyfish-plugin-discourse": "^1.0.15",
@@ -56,7 +56,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^5.0.7",
+    "@balena/jellyfish-client-sdk": "^5.0.8",
     "ava": "^3.15.0",
     "depcheck": "^1.4.1",
     "eslint": "^7.28.0",
