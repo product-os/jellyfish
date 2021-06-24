@@ -26,6 +26,7 @@ import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
 import { registerForNotifications } from '../../services/notifications';
+import { ChatButton } from './ChatButton';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;
@@ -756,17 +757,7 @@ export default class HomeChannel extends React.Component<any, any> {
 								}}
 							/>
 
-							<Button
-								ml={2}
-								plain
-								icon={<Icon name="comment-alt" />}
-								data-test="open-chat-widget"
-								onClick={this.openChatWidget}
-								tooltip={{
-									placement: 'right',
-									text: 'Open the JellyFish support chat',
-								}}
-							/>
+							<ChatButton onClick={this.openChatWidget} />
 						</Box>
 
 						<Link
