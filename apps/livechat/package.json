@@ -10,9 +10,9 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-chat-widget": "^9.0.6",
+    "@balena/jellyfish-chat-widget": "^9.0.8",
     "@balena/jellyfish-client-sdk": "^5.0.8",
-    "@balena/jellyfish-ui-components": "^9.2.39",
+    "@balena/jellyfish-ui-components": "^9.2.40",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
