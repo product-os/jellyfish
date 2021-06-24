@@ -685,6 +685,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			created_at: message.created_at,
 			name: null,
 			active: true,
+			loop: null,
 			tags: [],
 			requires: [],
 			capabilities: [],

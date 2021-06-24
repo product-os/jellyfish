@@ -541,6 +541,7 @@ ava.serial('should be able to resolve links', async (test) => {
 			requires: [],
 			capabilities: [],
 			tags: [],
+			loop: null,
 			markers: [],
 			links: {
 				'is attached to': [
