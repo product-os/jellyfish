@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump jellyfish dependencies
+      hash: 0a03734cf7ebf83df8901945f2bf5fc64841d996
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fix test expected results
+      hash: eff8243b87c280af7624969cb741a1d0cac11480
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.17.0
+  date: 2021-06-24T06:54:54.326Z
+- commits:
     - subject: Use plugin-outreach
       hash: f5cd0c1107e0cfed8d73b452d69f2c85eabd5b71
       body: ''
