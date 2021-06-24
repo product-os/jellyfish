@@ -1,4 +1,35 @@
 - commits:
+    - subject: >-
+        Exclude index.html and build folder output from service worker precache
+        manifest
+      hash: 68a511d81cff499ae65da743afa5c0687b32c09e
+      body: >
+        The build folder output (as opposed to the dist folder) contains only
+        TypeScript definition files.
+
+
+        Excluding index.html will hopefully fix the problem where some people
+        are seeing blank screens on start-up.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Exclude build folder
+      hash: c7ec7bedb3c473dcb213ca7940d69883db8ec63b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.16.0
+  date: 2021-06-24T03:47:58.047Z
+- commits:
     - subject: Bump ws from 7.4.2 to 7.4.6 in /apps/server
       hash: 290cf4e61f375f21653e1c87eb2635e40ee48e50
       body: |
