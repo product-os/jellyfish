@@ -1,4 +1,27 @@
 - commits:
+    - subject: Refactor triggered-action test into seperate file and cleanup utilities
+      hash: 48700ec8673857eebc1ec97c5a95c5f8c1362cab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Refactor GitHub mirror tests to support async actions
+      hash: a310bc3866e30c2f15c4f0506fb220063b7a0e76
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 34.17.2
+  date: 2021-06-24T09:46:52.802Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 7148cc235e5641a653946c5fb764112dd6aba4fc
       body: ''
