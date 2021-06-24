@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-outreach
+      hash: f5cd0c1107e0cfed8d73b452d69f2c85eabd5b71
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.16.1
+  date: 2021-06-24T04:44:16.952Z
+- commits:
     - subject: >-
         Exclude index.html and build folder output from service worker precache
         manifest
