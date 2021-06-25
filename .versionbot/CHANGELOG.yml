@@ -1,4 +1,26 @@
 - commits:
+    - subject: Bump ws from 6.2.1 to 6.2.2 in /apps/livechat
+      hash: ab099ef35161ed3170986cab6c2fbef079c7a979
+      body: |
+        Bumps [ws](https://github.com/websockets/ws) from 6.2.1 to 6.2.2.
+        - [Release notes](https://github.com/websockets/ws/releases)
+        - [Commits](https://github.com/websockets/ws/compare/6.2.1...6.2.2)
+
+        ---
+        updated-dependencies:
+        - dependency-name: ws
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 34.17.7
+  date: 2021-06-25T00:49:57.994Z
+- commits:
     - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/oauth-provider-example
       hash: f7cb6adf33bb7fb44bb94eaabd04dc096092226c
       body: >
