@@ -21,6 +21,7 @@ import {
 	MenuPanel,
 	UserAvatarLive,
 } from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
 import TreeMenu from './TreeMenu';
 import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
@@ -268,17 +269,44 @@ const groupViews = memoize<any>(
 			}),
 		});
 
-		const [myViews, otherViews] = _.partition(nonDefaults, (view) => {
-			return (
-				_.startsWith(view.slug, 'view-121') ||
-				_.includes(view.markers, userSlug)
-			);
-		});
+		const splitViews: {
+			myViews: core.ViewContract[];
+			oneToOneViews: core.ViewContract[];
+			otherViews: core.ViewContract[];
+		} = {
+			myViews: [],
+			oneToOneViews: [],
+			otherViews: [],
+		};
+
+		const { myViews, oneToOneViews, otherViews } = _.reduce(
+			nonDefaults,
+			(acc, view) => {
+				if (view.slug.startsWith('view-121')) {
+					acc.oneToOneViews.push(view);
+				} else if (view.markers.includes(userSlug)) {
+					acc.myViews.push(view);
+				} else {
+					acc.otherViews.push(view);
+				}
+				return acc;
+			},
+			splitViews,
+		);
+
 		if (myViews.length) {
 			groups.main.children.push(
 				viewsToTree(userStarredViews, myViews, {
 					name: 'My views',
 					key: '__myViews',
+				}),
+			);
+		}
+		if (oneToOneViews.length) {
+			groups.main.children.push(
+				viewsToTree(userStarredViews, oneToOneViews, {
+					name: 'Private chats',
+					key: '__oneToOneViews',
 				}),
 			);
 		}
