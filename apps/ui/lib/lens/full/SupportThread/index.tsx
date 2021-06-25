@@ -35,6 +35,7 @@ import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
 import { FLOW_IDS, TeardownFlowPanel } from '../../../components/Flows';
 import { IssueOpenedIcon, GitPullRequestIcon } from '@primer/styled-octicons';
+import { SubscribeButton } from './SubscribeButton';
 
 const JellyIcon = styled.img.attrs({
 	src: '/icons/jellyfish.svg',
@@ -175,7 +176,8 @@ class SupportThreadBase extends React.Component<any, any> {
 				},
 				{
 					limit: 1,
-					sortBy: ['data', 'timestamp'],
+					// TS-TODO: Improve SdkQueryOptions typings in jellyfish-client-sdk module
+					sortBy: ['data', 'timestamp'] as any,
 					sortDir: 'desc',
 				},
 			);
@@ -205,7 +207,7 @@ class SupportThreadBase extends React.Component<any, any> {
 				},
 				{
 					limit: 1,
-					sortBy: ['data', 'timestamp'],
+					sortBy: ['data', 'timestamp'] as any,
 					sortDir: 'desc',
 				},
 			);
@@ -407,6 +409,8 @@ class SupportThreadBase extends React.Component<any, any> {
 
 							<TagList tags={_.get(card, ['data', 'tags'], [])} />
 						</Flex>
+
+						<SubscribeButton card={card} />
 
 						{status === 'open' && (
 							<PlainButton

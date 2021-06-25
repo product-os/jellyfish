@@ -8,6 +8,10 @@ const ava = require('ava')
 const {
 	v4: uuidv4
 } = require('uuid')
+const {
+	getSdk
+} = require('@balena/jellyfish-client-sdk')
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('../sdk/helpers')
 
 ava.serial.before(helpers.before)
@@ -16,47 +20,58 @@ ava.serial.after.always(helpers.after)
 ava.serial.beforeEach(helpers.beforeEach)
 ava.serial.afterEach.always(helpers.afterEach)
 
-ava('Should generate a notification if subscribed view filter matches inserted card', async (test) => {
+const reply = async (test, thread, message) => {
+	const userType = await test.context.sdk.card.get('user@1.0.0')
+	const username = uuidv4()
+	const password = uuidv4()
+	const email = `${uuidv4()}@test.test`
+
+	await test.context.sdk.action({
+		card: userType.id,
+		action: 'action-create-user@1.0.0',
+		type: userType.type,
+		arguments: {
+			username: `user-${username}`,
+			password,
+			email
+		}
+	})
+
+	const sdk = getSdk({
+		apiPrefix: 'api/v2',
+		apiUrl: `${environment.http.host}:${environment.http.port}`
+	})
+
+	await sdk.auth.login({
+		username,
+		password
+	})
+
+	return sdk.event.create({
+		target: thread,
+		type: 'message',
+		slug: `message-${uuidv4()}`,
+		payload: {
+			mentionsUser: [],
+			alertsUser: [],
+			mentionsGroup: [],
+			alertsGroup: [],
+			message
+		}
+	})
+}
+
+ava('Should generate a notification if message is added to subscribed thread', async (test) => {
 	const {
 		sdk
 	} = test.context
 
-	const identifier = uuidv4()
-
-	const view = await sdk.card.create({
-		name: 'Foos',
-		type: 'view@1.0.0',
-		slug: `view-all-foos-${uuidv4()}`,
+	const thread = await sdk.card.create({
+		type: 'support-thread@1.0.0',
+		slug: `support-thread-${uuidv4()}`,
 		data: {
-			allOf: [
-				{
-					name: 'All foos',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'card@1.0.0'
-							},
-							data: {
-								properties: {
-									baz: {
-										const: identifier
-									}
-								},
-								required: [
-									'baz'
-								]
-							}
-						},
-						additionalProperties: true,
-						required: [
-							'type',
-							'data'
-						]
-					}
-				}
-			]
+			product: 'jellyfish',
+			status: 'open'
 		}
 	})
 
@@ -67,15 +82,51 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 		data: {}
 	})
 
-	await sdk.card.link(view, subscription, 'has attached')
+	await sdk.card.link(thread, subscription, 'has attached')
 
-	const card = await sdk.card.create({
-		type: 'card@1.0.0',
-		slug: `card-${uuidv4()}`,
-		data: {
-			baz: identifier
+	const message = await sdk.event.create({
+		target: thread,
+		type: 'message',
+		slug: `message-${uuidv4()}`,
+		payload: {
+			mentionsUser: [],
+			alertsUser: [],
+			mentionsGroup: [],
+			alertsGroup: [],
+			message: 'Message text'
 		}
 	})
+
+	await test.throwsAsync(test.context.waitForMatch({
+		type: 'object',
+		properties: {
+			type: {
+				const: 'notification@1.0.0'
+			}
+		},
+		required: [
+			'type'
+		],
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						const: message.id
+					}
+				},
+				required: [
+					'id'
+				]
+			}
+		}
+	}, 3), null, 'Should not generate notification to the sender')
+
+	const response = await reply(
+		test,
+		thread,
+		'Response from other user'
+	)
 
 	const notification = await test.context.waitForMatch({
 		type: 'object',
@@ -92,7 +143,7 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 				type: 'object',
 				properties: {
 					id: {
-						const: card.id
+						const: response.id
 					}
 				},
 				required: [
@@ -100,172 +151,10 @@ ava('Should generate a notification if subscribed view filter matches inserted c
 				]
 			}
 		}
-	})
+	}, 3)
 
-	test.truthy(notification)
-})
-
-ava('Should not generate a notification if subscribed view filter does not match inserted card', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const identifier = uuidv4()
-
-	const view = await sdk.card.create({
-		name: 'Foos',
-		type: 'view@1.0.0',
-		slug: `view-all-foos-${uuidv4()}`,
-		data: {
-			allOf: [
-				{
-					name: 'All foos',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'card@1.0.0'
-							},
-							data: {
-								properties: {
-									baz: {
-										const: identifier
-									}
-								},
-								required: [
-									'baz'
-								]
-							}
-						},
-						additionalProperties: true,
-						required: [
-							'type',
-							'data'
-						]
-					}
-				}
-			]
-		}
-	})
-
-	const subscription = await sdk.card.create({
-		slug: `subscription-${uuidv4()}`,
-		name: 'Subscription to foo',
-		type: 'subscription@1.0.0',
-		data: {}
-	})
-
-	await sdk.card.link(view, subscription, 'has attached')
-
-	const card = await sdk.card.create({
-		type: 'card@1.0.0',
-		slug: `card-${uuidv4()}`,
-		data: {
-			baz: 'foobarbaz'
-		}
-	})
-
-	await test.throwsAsync(test.context.waitForMatch({
-		type: 'object',
-		properties: {
-			type: {
-				const: 'notification@1.0.0'
-			}
-		},
-		required: [
-			'type'
-		],
-		$$links: {
-			'is attached to': {
-				type: 'object',
-				properties: {
-					id: {
-						const: card.id
-					}
-				},
-				required: [
-					'id'
-				]
-			}
-		}
-	}, 3))
-})
-
-ava('Should not generate a notification if view is not subscribed, but filter matches inserted card', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const identifier = uuidv4()
-
-	await sdk.card.create({
-		name: 'Foos',
-		type: 'view@1.0.0',
-		slug: `view-all-foos-${uuidv4()}`,
-		data: {
-			allOf: [
-				{
-					name: 'All foos',
-					schema: {
-						type: 'object',
-						properties: {
-							type: {
-								type: 'string',
-								const: 'card@1.0.0'
-							},
-							data: {
-								properties: {
-									baz: {
-										const: identifier
-									}
-								},
-								required: [
-									'baz'
-								]
-							}
-						},
-						additionalProperties: true,
-						required: [
-							'type',
-							'data'
-						]
-					}
-				}
-			]
-		}
-	})
-
-	const card = await sdk.card.create({
-		type: 'card@1.0.0',
-		slug: `card-${uuidv4()}`,
-		data: {
-			baz: identifier
-		}
-	})
-
-	await test.throwsAsync(test.context.waitForMatch({
-		type: 'object',
-		properties: {
-			type: {
-				const: 'notification@1.0.0'
-			}
-		},
-		required: [
-			'type'
-		],
-		$$links: {
-			'is attached to': {
-				type: 'object',
-				properties: {
-					id: {
-						const: card.id
-					}
-				},
-				required: [
-					'id'
-				]
-			}
-		}
-	}, 3))
+	test.truthy(
+		notification,
+		'Should generate notification for user who received the message'
+	)
 })

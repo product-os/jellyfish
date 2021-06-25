@@ -17,7 +17,11 @@ let context: any = {};
 const sandbox = sinon.createSandbox();
 
 const initialState = {
-	core: {},
+	core: {
+		session: {
+			user: {},
+		},
+	},
 };
 
 describe('HomeChannel', () => {

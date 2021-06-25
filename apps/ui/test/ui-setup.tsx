@@ -23,6 +23,7 @@ import createCache from '@emotion/cache';
 import { CardLoaderContext } from '@balena/jellyfish-ui-components/build/CardLoader';
 
 import Adapter from 'enzyme-adapter-react-16';
+import { SetupProvider } from '@balena/jellyfish-ui-components';
 
 const emotionCache = createCache({
 	key: 'test',
@@ -86,15 +87,23 @@ export const getWrapper = (
 			return (
 				<CacheProvider value={emotionCache}>
 					<MemoryRouter>
-						<ReduxProvider store={store}>
-							<Provider>
-								<DndProvider backend={HTML5Backend}>
-									<CardLoaderContext.Provider value={cardLoader}>
-										{children}
-									</CardLoaderContext.Provider>
-								</DndProvider>
-							</Provider>
-						</ReduxProvider>
+						<SetupProvider
+							actions={{}}
+							sdk={{} as any}
+							analytics={{} as any}
+							errorReporter={{} as any}
+							environment={{}}
+						>
+							<ReduxProvider store={store}>
+								<Provider>
+									<DndProvider backend={HTML5Backend}>
+										<CardLoaderContext.Provider value={cardLoader}>
+											{children}
+										</CardLoaderContext.Provider>
+									</DndProvider>
+								</Provider>
+							</ReduxProvider>
+						</SetupProvider>
 					</MemoryRouter>
 				</CacheProvider>
 			);

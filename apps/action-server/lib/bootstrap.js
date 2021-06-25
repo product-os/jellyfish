@@ -103,51 +103,6 @@ const SCHEMA_ACTIVE_TRIGGERS = {
 	required: [ 'id', 'slug', 'active', 'type', 'data' ]
 }
 
-const SCHEMA_ACTIVE_SUBSCRIPTIONS = {
-	type: 'object',
-	properties: {
-		active: {
-			const: true
-		},
-		type: {
-			const: 'subscription@1.0.0'
-		}
-	},
-	required: [ 'id', 'slug', 'active', 'type', 'data' ],
-	$$links: {
-		'is attached to': {
-			type: 'object',
-			properties: {
-				type: {
-					const: 'view@1.0.0'
-				},
-				active: {
-					const: true
-				}
-			},
-			required: [ 'type', 'active' ]
-		},
-		'has attached element': {
-			type: 'object',
-			properties: {
-				type: {
-					const: 'create@1.0.0'
-				},
-				data: {
-					type: 'object',
-					properties: {
-						actor: {
-							type: 'string'
-						}
-					},
-					required: [ 'actor' ]
-				}
-			},
-			required: [ 'type', 'data' ]
-		}
-	}
-}
-
 const SCHEMA_ACTIVE_TRANSFORMERS = {
 	type: 'object',
 	required: [ 'active', 'type', 'data' ],
@@ -174,6 +129,19 @@ const SCHEMA_ACTIVE_TRANSFORMERS = {
 					}
 				}
 			}
+		}
+	}
+}
+
+const SCHEMA_ACTIVE_TYPE_CONTRACTS = {
+	type: 'object',
+	required: [ 'active', 'type' ],
+	properties: {
+		active: {
+			const: true
+		},
+		type: {
+			const: 'type@1.0.0'
 		}
 	}
 }
@@ -228,9 +196,6 @@ const bootstrap = async (context, options) => {
 	const triggerStream = await jellyfish.stream(
 		context, session, SCHEMA_ACTIVE_TRIGGERS)
 
-	const subscriptionStream = await jellyfish.stream(
-		context, session, SCHEMA_ACTIVE_SUBSCRIPTIONS)
-
 	const transformerStream = await jellyfish.stream(
 		context, session, SCHEMA_ACTIVE_TRANSFORMERS)
 
@@ -239,8 +204,6 @@ const bootstrap = async (context, options) => {
 		await consumer.cancel()
 		triggerStream.removeAllListeners()
 		await triggerStream.close()
-		subscriptionStream.removeAllListeners()
-		await subscriptionStream.close()
 		await jellyfish.disconnect(context)
 		if (cache) {
 			await cache.disconnect()
@@ -282,34 +245,6 @@ const bootstrap = async (context, options) => {
 
 	worker.setTriggers(context, triggers.map(transformTriggerCard))
 
-	// --------> SUBSCRIPTIONS
-	subscriptionStream.once('error', errorHandler)
-
-	// On a stream event, update the stored subscriptions in the worker
-	subscriptionStream.on('data', (data) => {
-		if (data.type === 'update' || data.type === 'insert' || data.type === 'unmatch') {
-			// If `after` is null, the card is no longer available: most likely it has
-			// been soft-deleted, having its `active` state set to false
-			if (data.after === null) {
-				worker.removeSubscription(context, data.id)
-			} else {
-				worker.upsertSubscription(context, data.after)
-			}
-		}
-
-		if (data.type === 'delete') {
-			worker.removeSubscription(context, data.id)
-		}
-	})
-
-	const subscriptions = await jellyfish.query(context, session, SCHEMA_ACTIVE_SUBSCRIPTIONS)
-
-	logger.info(context, 'Loading subscriptions', {
-		subscriptions: subscriptions.length
-	})
-
-	worker.setSubscriptions(context, subscriptions)
-
 	// --------> TRANSFORMERS
 	// TODO: Replace triggered actions with transformers
 	transformerStream.once('error', errorHandler)
@@ -338,6 +273,11 @@ const bootstrap = async (context, options) => {
 	})
 
 	worker.setTransformers(context, transformers)
+
+	// --------> TYPE_Contracts
+	const typeContracts = await jellyfish.query(context, session, SCHEMA_ACTIVE_TYPE_CONTRACTS)
+
+	worker.setTypeContracts(context, typeContracts)
 
 	// FIXME we should really have 2 workers, the consuming worker and the tick worker
 	if (options.onLoop) {
