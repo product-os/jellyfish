@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump normalize-url from 4.5.0 to 4.5.1 in /apps/oauth-provider-example
+      hash: f7cb6adf33bb7fb44bb94eaabd04dc096092226c
+      body: >
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
+
+        - [Release
+        notes](https://github.com/sindresorhus/normalize-url/releases)
+
+        - [Commits](https://github.com/sindresorhus/normalize-url/commits)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: normalize-url
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 34.17.6
+  date: 2021-06-24T23:26:20.618Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-environment to ^4.3.0'
       hash: 8b44c936133def66c5d3ee229d62f8252708fedd
       body: |
