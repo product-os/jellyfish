@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add notifications support
+      hash: d85d5a95b48a24fef84616840ef8139965f49c5f
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 34.18.0
+  date: 2021-06-25T14:07:26.893Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to ^5.1.0'
       hash: 6cca6d58807365f3e885ab3783eade07d3cfbc75
       body: |
