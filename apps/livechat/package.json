@@ -12,7 +12,7 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^9.0.8",
     "@balena/jellyfish-client-sdk": "^5.0.9",
-    "@balena/jellyfish-ui-components": "^9.3.1",
+    "@balena/jellyfish-ui-components": "^9.3.2",
     "css-loader": "^5.2.6",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.2",
