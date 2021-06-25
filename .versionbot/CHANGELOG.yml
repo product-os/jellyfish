@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 622b2583576e78da6588b901562677ed1ad6ffc4
+      body: |
+        Update @balena/jellyfish-ui-components from 9.2.40 to 9.3.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.17.9
+  date: 2021-06-25T03:03:03.990Z
+- commits:
     - subject: Bump dns-packet from 1.3.1 to 1.3.4 in /apps/livechat
       hash: 1d95e3374006dd8b3e81ca640b50271c94a0cb35
       body: >
