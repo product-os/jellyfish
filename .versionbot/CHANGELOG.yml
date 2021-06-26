@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump deps
+      hash: d721c90bad44be0815f8df593e7b0bb88e034557
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.7
+  date: 2021-06-26T07:31:12.807Z
+- commits:
     - subject: Bump docker images
       hash: b61c6647bf5f4e8581aa1a54869bba7ef6e93986
       body: ''
