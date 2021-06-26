@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump puppeteer to v10.0.0
+      hash: 3529a12c875dcc8e5ef22d181636ce956d5a6d0a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.11
+  date: 2021-06-26T14:21:59.589Z
+- commits:
     - subject: Bump grafana/grafana to v8.0.3
       hash: 6d36284a8bac08680e2ba6d8b302cc570e367297
       body: ''
