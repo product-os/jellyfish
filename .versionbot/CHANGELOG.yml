@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump octokit deps
+      hash: f7c8b4d3cfded71f71d12c3e1453c67b233a2ad2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.5
+  date: 2021-06-26T03:53:57.903Z
+- commits:
     - subject: Bump babel dependencies
       hash: 786ddb3e06d2395b67d5a1f54d40c1057f8bbdc1
       body: ''
