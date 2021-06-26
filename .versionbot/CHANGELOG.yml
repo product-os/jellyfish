@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump query-string to v7.0.1
+      hash: 7dd9cb1b4bedb97c13fde8bed2d1bfccacb40934
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.8
+  date: 2021-06-26T08:17:17.860Z
+- commits:
     - subject: Bump deps
       hash: d721c90bad44be0815f8df593e7b0bb88e034557
       body: ''
