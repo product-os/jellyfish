@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump babel dependencies
+      hash: 786ddb3e06d2395b67d5a1f54d40c1057f8bbdc1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.4
+  date: 2021-06-26T02:49:30.640Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-worker to ^6.0.3'
       hash: 977dfd6f1f010cc54227e3aada4855a64e434352
       body: ''
