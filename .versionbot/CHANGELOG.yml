@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 50ed9c2fba851de203f015c4a8e9f72a2e1326db
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.18.14
+  date: 2021-06-27T05:52:04.381Z
+- commits:
     - subject: Bump sinon to v11.1.1
       hash: 84279d0020f637baab0628ea0977fc954a1fd7eb
       body: ''
