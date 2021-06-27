@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external deps
+      hash: 40445d1fc6087786b18de9fabc85fa8cade5dc28
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.16
+  date: 2021-06-27T09:50:12.785Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 1ba73455902acacc08938de19c972a0173811e42
       body: ''
