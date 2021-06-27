@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump sinon to v11.1.1
+      hash: 84279d0020f637baab0628ea0977fc954a1fd7eb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 34.18.13
+  date: 2021-06-27T02:27:42.084Z
+- commits:
     - subject: Bump eslint-plugin-jsdoc to v35.4.0
       hash: d0120843eccff84ecf11bd2cce1665a868874dea
       body: ''
