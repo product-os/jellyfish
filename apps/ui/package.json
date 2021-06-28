@@ -54,7 +54,7 @@
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.0",
     "monaco-editor": "^0.25.2",
-    "monaco-editor-webpack-plugin": "^1.9.1",
+    "monaco-editor-webpack-plugin": "^4.0.0",
     "plotly.js": "^1.58.4",
     "pluralize": "^8.0.0",
     "query-string": "^7.0.1",
