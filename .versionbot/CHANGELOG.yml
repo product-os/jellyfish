@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^15.1.8'
+      hash: b73e6d8a05f5e057813d4035533bcc0e99a3a851
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.18.20
+  date: 2021-06-29T05:09:34.849Z
+- commits:
     - subject: Fix favicon
       hash: 2c572f2d6d1bb779e90294a15395d5f901647adc
       body: >
