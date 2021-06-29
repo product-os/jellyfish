@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix favicon
+      hash: 2c572f2d6d1bb779e90294a15395d5f901647adc
+      body: >
+        This seems to have been broken in this commit -
+        https://github.com/product-os/jellyfish/commit/2233801a35f2d9ebe416a2e145f80688a9379450#diff-47238de71e29ae4962c0e05dfc6c59719a173ddb613aea139121755185c98fa7
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.18.19
+  date: 2021-06-29T04:09:42.809Z
+- commits:
     - subject: Bump external dependencies
       hash: 8c6f117a33951e7788d5e436e0f36d55782beb11
       body: ''
