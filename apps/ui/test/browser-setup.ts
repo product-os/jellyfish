@@ -21,7 +21,7 @@ browserEnv([
 const oldWindowLocation = window.location;
 Reflect.deleteProperty(window, 'location');
 
-window.location = Object.defineProperties(
+(window.location as any) = Object.defineProperties(
 	{},
 	{
 		...Object.getOwnPropertyDescriptors(oldWindowLocation),
