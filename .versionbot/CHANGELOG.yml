@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 9d7db573b8104a60fba33f1577b490b7f612ec25
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.18.22
+  date: 2021-06-29T16:25:00.513Z
+- commits:
     - subject: Fix for TypeScript error on mock Location object
       hash: 5580534cb10aa58a1d527e4e76a805433488e7e3
       body: ''
