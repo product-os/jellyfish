@@ -8,6 +8,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Rating } from 'rendition';
 import { AutoCompleteWidget } from '@balena/jellyfish-ui-components';
+import { LoopWidget } from '../components/Widgets/LoopWidget';
 
 export const UI_SCHEMA_MODE = {
 	edit: 'edit',
@@ -20,6 +21,7 @@ export const UI_SCHEMA_MODE = {
 // This object acts as a lookup for widgets by widget component name
 const Widgets = {
 	AutoCompleteWidget,
+	Loop: LoopWidget,
 
 	// TODO: Just using `Rating: Rating` does not work for some reason.
 	Rating: (props) => {

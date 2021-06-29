@@ -32,7 +32,7 @@ import JellyfishUI from './JellyfishUI';
 import { ConnectedRouter } from 'connected-react-router';
 import * as environment from './environment';
 import PWA from './pwa';
-import { JellyfishWidgets } from './components/Widgets';
+import { JellyfishWidgets, LoopWidget } from './components/Widgets';
 import MermaidEditor from './components/MermaidEditor';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
@@ -103,6 +103,11 @@ const widgets: any = {
 				name: 'Rating',
 				format: '.*',
 				widget: Rating,
+			},
+			{
+				name: 'Loop',
+				format: '.*',
+				widget: LoopWidget,
 			},
 		],
 	},

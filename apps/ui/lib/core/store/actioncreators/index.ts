@@ -24,7 +24,7 @@ import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
-import { JSONSchema } from '@balena/jellyfish-types';
+import { JSONSchema, core } from '@balena/jellyfish-types';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -203,7 +203,7 @@ export const selectors = {
 	getTypes: (state) => {
 		return state.core.types;
 	},
-	getLoops: (state) => {
+	getLoops: (state): core.LoopContract[] => {
 		return state.core.loops;
 	},
 	getGroups: (state) => {
@@ -1184,7 +1184,7 @@ export const actionCreators = {
 				slug: activeLoopSlug,
 				version: activeLoopVersion,
 			});
-			const successNotification = loopSlug
+			const successNotification = activeLoop
 				? `Active loop is now '${activeLoop.name}'`
 				: 'No active loop';
 			await actionCreators.updateUser(patches, successNotification)(

@@ -10,6 +10,8 @@ import { withOptionProps } from 'rendition/dist/components/Renderer/widgets/widg
 import { JellyfishLinkWidget } from './JellyfishLinkWidget';
 import { JellyfishUserWidget } from './JellyfishUserWidget';
 
+export { LoopWidget } from './LoopWidget';
+
 export const JellyfishWidgets = [
 	{
 		name: 'markdown',
