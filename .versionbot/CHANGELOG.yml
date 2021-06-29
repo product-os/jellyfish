@@ -1,4 +1,36 @@
 - commits:
+    - subject: Fix for TypeScript error on mock Location object
+      hash: 5580534cb10aa58a1d527e4e76a805433488e7e3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Update monaco-editor-webpack-plugin
+      hash: 48f14f495ff7926058326f1ba7f15809613b36cd
+      body: |
+        Older versioned resulted in build errors.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update external-non-major'
+      hash: fabbe0f632d855056235290a51d6579055f56cf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.18.21
+  date: 2021-06-29T06:18:38.299Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^15.1.8'
       hash: b73e6d8a05f5e057813d4035533bcc0e99a3a851
       body: ''
