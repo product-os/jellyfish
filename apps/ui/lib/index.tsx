@@ -20,6 +20,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { createGlobalStyle } from 'styled-components';
 import {
+	AutoCompleteWidget,
 	DocumentVisibilityProvider,
 	ErrorBoundary,
 	helpers,
@@ -103,6 +104,11 @@ const widgets: any = {
 				name: 'Rating',
 				format: '.*',
 				widget: Rating,
+			},
+			{
+				name: 'AutoCompleteWidget',
+				format: '.*',
+				widget: AutoCompleteWidget,
 			},
 		],
 	},
