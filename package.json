@@ -70,7 +70,7 @@
     "@balena/jellyfish-plugin-flowdock": "^1.0.52",
     "@balena/jellyfish-plugin-github": "^1.0.207",
     "@balena/jellyfish-plugin-outreach": "^1.0.29",
-    "@balena/jellyfish-plugin-product-os": "^2.1.19",
+    "@balena/jellyfish-plugin-product-os": "^2.2.0",
     "@balena/jellyfish-plugin-typeform": "^3.0.130",
     "@balena/jellyfish-queue": "^1.0.194",
     "@balena/jellyfish-sync": "^6.0.267",
