@@ -91,6 +91,8 @@ services:
       timeout: 10s
     expose:
       - 80
+    ports:
+      - 9229
     restart: always
   livechat:
     build:
@@ -149,6 +151,8 @@ services:
     restart: always
     networks:
       - internal
+    ports:
+      - 9230:9229
   ui:
     build:
       args:
@@ -231,6 +235,8 @@ services:
     restart: always
     networks:
       - internal
+    ports:
+      - 923{{idx}}:9229
   {{/workers}}
   balena-mdns-publisher:
     image: 'balena/balena-mdns-publisher:master'
