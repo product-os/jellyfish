@@ -22,7 +22,7 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^10.0.7",
     "@balena/jellyfish-client-sdk": "^5.1.1",
-    "@balena/jellyfish-environment": "^4.3.4",
+    "@balena/jellyfish-environment": "^4.3.5",
     "@balena/jellyfish-ui-components": "^9.3.4",
     "@primer/styled-octicons": "^14.2.2",
     "analytics-client": "^1.6.0",
