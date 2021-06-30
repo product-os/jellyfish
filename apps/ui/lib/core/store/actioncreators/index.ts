@@ -264,7 +264,7 @@ export const selectors = {
 		const user = selectors.getCurrentUser(state);
 		return _.get(user, ['data', 'profile', 'homeView'], null);
 	},
-	getActiveLoop: (state) => {
+	getActiveLoop: (state): string | null => {
 		const user = selectors.getCurrentUser(state);
 		return _.get(user, ['data', 'profile', 'activeLoop'], null);
 	},
@@ -399,10 +399,15 @@ export const getSeedData = (viewCard, user) => {
 		return {};
 	}
 
-	// Always inherit markers from the view card
+	const activeLoop = _.get(user, ['data', 'profile', 'activeLoop'], null);
+
 	return Object.assign(
-		helpers.getUpdateObjectFromSchema(schema),
-		_.pick(viewCard, ['loop', 'markers']),
+		helpers.getUpdateObjectFromSchema(schema), {
+			// Always inherit markers from the view card
+			markers: viewCard.markers,
+			// Inherit the loop from the view card or the active loop
+			loop: viewCard.loop || activeLoop,
+		},
 	);
 };
 
@@ -1170,16 +1175,16 @@ export const actionCreators = {
 		};
 	},
 
-	setActiveLoop(loopSlug: string | null) {
+	setActiveLoop(loopVersionedSlug: string | null) {
 		return async (dispatch, getState, context) => {
 			const state = getState();
 			const user = selectors.getCurrentUser(state);
 			const patches = helpers.patchPath(
 				user,
 				['data', 'profile', 'activeLoop'],
-				loopSlug,
+				loopVersionedSlug,
 			);
-			const [activeLoopSlug, activeLoopVersion] = (loopSlug || '').split('@');
+			const [activeLoopSlug, activeLoopVersion] = (loopVersionedSlug || '').split('@');
 			const activeLoop = _.find(selectors.getLoops(state), {
 				slug: activeLoopSlug,
 				version: activeLoopVersion,
@@ -1193,6 +1198,8 @@ export const actionCreators = {
 				context,
 			);
 			actionCreators.bootstrap()(dispatch, getState, context);
+			// TODO: Ideally we should just re-query all existing streams and we won't need
+			// this redirect to 'reset' the UI.
 			dispatch(push('/'));
 		};
 	},

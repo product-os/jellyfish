@@ -64,7 +64,7 @@ class CardLinker extends React.Component<any, any> {
 		this.props.actions.addChannel({
 			head: {
 				seed: {
-					loop: this.props.card.loop,
+					loop: this.props.card.loop || this.props.activeLoop,
 					markers: this.props.card.markers,
 				},
 				onDone: {
@@ -197,4 +197,6 @@ const cardSource = {
 	},
 };
 
-export default DragSource('channel', cardSource, collect)(CardLinker);
+const DragSourceCardLinker = DragSource('channel', cardSource, collect)(CardLinker);
+
+export default (props) => <DragSourceCardLinker {...props} />;
