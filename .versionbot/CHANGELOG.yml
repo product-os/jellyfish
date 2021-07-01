@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.0.209'
+      hash: b59a5b23216a7f115760e1f0b7310075cc558a71
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.19.4
+  date: 2021-07-01T12:49:45.260Z
+- commits:
     - subject: remove time dependency from test
       hash: ed54ba2bb203a203ed0424d84c0497e0a87246d8
       body: |
