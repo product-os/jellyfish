@@ -1,4 +1,17 @@
 - commits:
+    - subject: Enable filtering by loop in views
+      hash: 8d1502537992f702435b6e9c00d24e4c8347fc00
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 34.19.0
+  date: 2021-07-01T04:18:49.111Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: b76eda337a807d00a183e9638ef0c19f7cfa9086
       body: ''
