@@ -9,8 +9,9 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
+import { core } from '@balena/jellyfish-types';
 import actions from '../actions';
-import { actionCreators } from './';
+import { actionCreators, getSeedData } from './';
 
 const sandbox = sinon.createSandbox();
 
@@ -475,5 +476,92 @@ describe('Redux action creators', () => {
 			expect(query.properties.slug.const).toBe(cardSlug);
 			expect(query.properties.version.const).toBe('2.4.5');
 		});
+	});
+});
+
+describe('getSeedData', () => {
+	const baseViewCard: core.ViewContract = {
+		id: '1234',
+		slug: 'my-view',
+		version: '1.0.0',
+		type: 'view@1.0.0',
+		tags: [],
+		markers: [],
+		created_at: '2019-06-19T08:32:33.142Z',
+		active: true,
+		requires: [],
+		capabilities: [],
+		data: {
+			allOf: [
+				{
+					name: 'All users',
+					schema: {
+						type: 'object',
+						properties: {
+							type: {
+								const: 'user@1.0.0',
+							},
+						},
+					},
+				},
+			],
+		},
+	};
+
+	const baseUser: core.UserContract = {
+		id: '1235',
+		slug: 'user-my-user',
+		version: '1.0.0',
+		type: 'user@1.0.0',
+		tags: [],
+		markers: [],
+		created_at: '2019-06-19T08:32:33.142Z',
+		active: true,
+		requires: [],
+		capabilities: [],
+		data: {
+			hash: '1234',
+			roles: [],
+		},
+	};
+
+	test("extracts the update type from the view card's schema", () => {
+		const viewCard = baseViewCard;
+		const user = baseUser;
+		const seedData = getSeedData(viewCard, user);
+		expect(seedData.type).toBe('user@1.0.0');
+	});
+
+	test("returns the view card's markers if set", () => {
+		const markers = ['user-my-user'];
+		const viewCard = _.merge({}, baseViewCard, {
+			markers,
+		});
+		const user = baseUser;
+		const seedData = getSeedData(viewCard, user);
+		expect(seedData.markers).toBe(viewCard.markers);
+	});
+
+	test("returns the view card's loop if set", () => {
+		const loop = 'myloop@1.0.0';
+		const viewCard = _.merge({}, baseViewCard, {
+			loop,
+		});
+		const user = baseUser;
+		const seedData = getSeedData(viewCard, user);
+		expect(seedData.loop).toBe(viewCard.loop);
+	});
+
+	test("returns the user's active loop if set and the view card does not specify a loop", () => {
+		const activeLoop = 'another-loop@1.0.0';
+		const viewCard = _.merge({}, baseViewCard, {
+			loop: null,
+		});
+		const user = _.merge({}, baseUser, {
+			data: { profile: { activeLoop } },
+		});
+		const seedData = getSeedData(viewCard, user);
+		expect(viewCard.loop).toBeNull();
+		expect(seedData.loop).toBe(activeLoop);
 	});
 });
