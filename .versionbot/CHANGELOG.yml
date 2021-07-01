@@ -1,4 +1,36 @@
 - commits:
+    - subject: Bump socket.io-parser from 3.3.1 to 3.3.2 in /apps/server
+      hash: 0f7b63ed050a96b81ee55166650d87bea9eacf5d
+      body: >
+        Bumps [socket.io-parser](https://github.com/socketio/socket.io-parser)
+        from 3.3.1 to 3.3.2.
+
+        - [Release notes](https://github.com/socketio/socket.io-parser/releases)
+
+        -
+        [Changelog](https://github.com/socketio/socket.io-parser/blob/3.3.2/CHANGELOG.md)
+
+        -
+        [Commits](https://github.com/socketio/socket.io-parser/compare/3.3.1...3.3.2)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: socket.io-parser
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 34.18.29
+  date: 2021-07-01T00:50:26.163Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^4.0.21'
       hash: 130655ea0257576170408157b575bd5024225220
       body: ''
