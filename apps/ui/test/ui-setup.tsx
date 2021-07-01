@@ -24,6 +24,8 @@ import { CardLoaderContext } from '@balena/jellyfish-ui-components/build/CardLoa
 
 import Adapter from 'enzyme-adapter-react-16';
 import { SetupProvider } from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
+import { v4 as uuid } from 'uuid';
 
 const emotionCache = createCache({
 	key: 'test',
@@ -71,6 +73,29 @@ export const getPromiseResolver = () => {
 		promise,
 		resolver,
 	};
+};
+
+export const withDefaults = (
+	cardFields: core.ContractDefinition,
+): core.Contract => {
+	return Object.assign(
+		{
+			id: uuid(),
+			created_at: '2020-01-01T00:00:00.000Z',
+			updated_at: null,
+			linked_at: {},
+			active: true,
+			version: '1.0.0',
+			tags: [],
+			markers: [],
+			loop: null,
+			links: {},
+			requires: [],
+			capabilities: [],
+			data: {},
+		},
+		cardFields,
+	);
 };
 
 export const getWrapper = (
