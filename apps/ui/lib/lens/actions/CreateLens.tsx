@@ -239,6 +239,7 @@ export class CreateLens extends React.Component<any, any> {
 		});
 
 		this.setState({
+			newCardModel: Object.assign({}, this.props.channel.data.head.seed),
 			selectedTypeTarget,
 			linkOption: option,
 		});
