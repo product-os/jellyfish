@@ -30,7 +30,7 @@ const waitForServer = async (test, retries = 50) => {
 
 module.exports = {
 	before: async (test) => {
-		test.context.retry = async (fn, checkResult, times = 5, delay = 500) => {
+		test.context.retry = async (fn, checkResult, times = 10, delay = 500) => {
 			const result = await fn()
 			if (!checkResult(result)) {
 				if (times > 0) {
