@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to ^5.2.3'
+      hash: ef9b31d239e811b1aceaf5a279f1a29a1823e3f9
+      body: |
+        Update @balena/jellyfish-client-sdk from 5.1.1 to 5.2.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 34.18.30
+  date: 2021-07-01T01:45:34.287Z
+- commits:
     - subject: Bump socket.io-parser from 3.3.1 to 3.3.2 in /apps/server
       hash: 0f7b63ed050a96b81ee55166650d87bea9eacf5d
       body: >
