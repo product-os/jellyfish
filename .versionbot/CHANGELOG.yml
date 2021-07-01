@@ -1,4 +1,17 @@
 - commits:
+    - subject: Always re-enqueue requests from triggered-actions
+      hash: a476936f089280cefcd714139489f8f620700270
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 35.0.0
+  date: 2021-07-01T13:37:43.993Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.0.209'
       hash: b59a5b23216a7f115760e1f0b7310075cc558a71
       body: ''
