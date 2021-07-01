@@ -368,6 +368,9 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 		}
 	})
 
+	const correlationId = test.context.generateRandomSlug({
+		prefix: 'time-trigger'
+	})
 	const trigger = await sdk.card.create({
 		type: 'triggered-action',
 		slug: test.context.generateRandomSlug({
@@ -382,11 +385,8 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 				reason: null,
 				properties: {
 					version: '1.0.0',
-					slug: {
-						$eval: 'str(epoch)'
-					},
 					data: {
-						origin: 'time-trigger'
+						origin: correlationId
 					}
 				}
 			}
@@ -409,7 +409,8 @@ ava.serial('should add and evaluate a time triggered action', async (test) => {
 					required: [ 'origin' ],
 					properties: {
 						origin: {
-							type: 'string'
+							type: 'string',
+							const: correlationId
 						}
 					}
 				}
