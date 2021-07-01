@@ -4,6 +4,14 @@
  * Proprietary and confidential.
  */
 
+import { connect } from 'react-redux';
+import { selectors } from '../../core';
 import CardLinker from './CardLinker';
 
-export default CardLinker;
+const mapStateToProps = (state: any) => {
+	return {
+		activeLoop: selectors.getActiveLoop(state),
+	};
+};
+
+export default connect(mapStateToProps)(CardLinker);
