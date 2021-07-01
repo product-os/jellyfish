@@ -16,7 +16,7 @@ COPY ./apps/server/Makefile /usr/src/jellyfish/apps/server/Makefile
 #dev-copy=./apps/server/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npx nodemon ./lib/index.js
+#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npx nodemon --inspect=0.0.0.0 ./lib/index.js
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/@balena/
 RUN rm -f ~/.npmrc
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
