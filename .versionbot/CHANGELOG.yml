@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add functionality to download view results as a CSV
+      hash: f3b31e277be27a7256607ca36d2c18dcc75467d8
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 35.1.0
+  date: 2021-07-01T16:32:54.723Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.1.0'
       hash: 95c92f89cd7cdd7f7231eafc1321e0e2169377a4
       body: |
