@@ -1,4 +1,13 @@
 - commits:
+    - subject: 'patch: Enable remote debugging for live push by default'
+      hash: faa3c4b17cf4337f41dfc3f368df248d64d7310a
+      body: ''
+      footer: {}
+      author: Thomas Manning
+      nested: []
+  version: 34.19.2
+  date: 2021-07-01T06:10:58.474Z
+- commits:
     - subject: Reset card model when switching contract type
       hash: 40bb43036b9f73f2705d32634d6d39eff9e4a872
       body: >
