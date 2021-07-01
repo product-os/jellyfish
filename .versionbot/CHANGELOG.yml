@@ -1,4 +1,19 @@
 - commits:
+    - subject: remove time dependency from test
+      hash: ed54ba2bb203a203ed0424d84c0497e0a87246d8
+      body: |
+        previously slug was based on unix-timestamp which would results in
+        "ElementAlreadyExists" errors during test runs
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 34.19.3
+  date: 2021-07-01T09:16:07.512Z
+- commits:
     - subject: 'patch: Enable remote debugging for live push by default'
       hash: faa3c4b17cf4337f41dfc3f368df248d64d7310a
       body: ''
