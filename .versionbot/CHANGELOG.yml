@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.1.0'
+      hash: 95c92f89cd7cdd7f7231eafc1321e0e2169377a4
+      body: |
+        Update @balena/jellyfish-plugin-github from 1.0.209 to 1.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.0.1
+  date: 2021-07-01T15:06:22.768Z
+- commits:
     - subject: Always re-enqueue requests from triggered-actions
       hash: a476936f089280cefcd714139489f8f620700270
       body: ''
