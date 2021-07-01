@@ -30,7 +30,7 @@
     "@balena/jellyfish-plugin-default": "^16.0.0",
     "@balena/jellyfish-plugin-discourse": "^1.0.30",
     "@balena/jellyfish-plugin-flowdock": "^1.0.53",
-    "@balena/jellyfish-plugin-github": "^1.0.209",
+    "@balena/jellyfish-plugin-github": "^1.1.0",
     "@balena/jellyfish-plugin-outreach": "^1.0.31",
     "@balena/jellyfish-plugin-product-os": "^2.2.0",
     "@balena/jellyfish-plugin-typeform": "^3.0.131",
