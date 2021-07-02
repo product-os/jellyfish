@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: b26003cf0e179465afac976979beea59839cbab4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.2.1
+  date: 2021-07-02T10:25:04.982Z
+- commits:
     - subject: Split private chats out of my views in sidebar
       hash: e09f05fc196d4e23bd300d41761e4e157e950039
       body: >
