@@ -34,6 +34,8 @@ JAVASCRIPT_FILES="$(find . \( -name '*.js' -or -name '*.jsx' \) \
 	-and -not -path '**/node_modules/*' \
 	-and -not -path '**/env-config.js' \
 	-and -not -path '**/dist/*' \
+	-and -not -path '**/build/*' \
+	-and -not -path '**/docs/*' \
 	-and -not -path '**/env-config.js' \
 	-and -not -path '**/.libs/*' \
 	-and -not -path '**/.tmp/*')"

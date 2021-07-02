@@ -1,0 +1,3 @@
+{
+	"extends": "@balena/jellyfish-config/config/tslint.json"
+}
