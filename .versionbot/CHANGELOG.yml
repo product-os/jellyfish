@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix csv link error
+      hash: d6316344c04e01ba315a5111edac75148d31ddb7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 35.2.2
+  date: 2021-07-02T12:49:23.605Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: b26003cf0e179465afac976979beea59839cbab4
       body: ''
