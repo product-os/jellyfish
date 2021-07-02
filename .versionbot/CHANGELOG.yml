@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-types to ^0.8.1'
+      hash: 089ba5d76adbc6bb01e59e57cb7b02e7db53cba9
+      body: |
+        Update @balena/jellyfish-types from 0.7.3 to 0.8.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.2.3
+  date: 2021-07-02T13:55:04.711Z
+- commits:
     - subject: Fix csv link error
       hash: d6316344c04e01ba315a5111edac75148d31ddb7
       body: ''
