@@ -19,23 +19,20 @@ NODE = "node"
 endif
 endif
 
-ifeq ($(FIX),)
-ESLINT_OPTION_FIX =
-else
-ESLINT_OPTION_FIX = --fix
-endif
+.PHONY: test
+test:
+	npm run test
 
 .PHONY: lint
 lint:
-	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib
-	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon'
+	npm run lint
 
 .PHONY: start-worker
 start-worker: LOGLEVEL = info
 start-worker:
-	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) lib/worker.js
+	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) build/worker.js
 
 .PHONY: start-tick
 start-tick: LOGLEVEL = info
 start-tick:
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) lib/tick.js
+	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) build/tick.js

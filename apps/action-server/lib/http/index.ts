@@ -4,30 +4,30 @@
  * Proprietary and confidential.
  */
 
-const Bluebird = require('bluebird')
-const http = require('http')
-const express = require('express')
+import Bluebird from 'bluebird';
+import { Server } from 'http';
+import express from 'express';
 
-module.exports = (configuration) => {
-	const application = express()
+export const http = (configuration) => {
+	const application = express();
 
-	const server = http.Server(application)
-	let started = false
-	application.set('port', configuration.port)
+	const server = new Server(application);
+	let started = false;
+	application.set('port', configuration.port);
 
 	application.get('/startup', (_request, response) => {
 		if (started) {
-			return response.status(200).end()
+			return response.status(200).end();
 		}
-		return response.status(503).end()
-	})
+		return response.status(503).end();
+	});
 
 	return {
 		server,
 		port: configuration.port,
 		start: () => {
 			return new Promise((resolve, reject) => {
-				server.once('error', reject)
+				server.once('error', reject);
 
 				// The .listen callback will be called regardless of if there is an
 				// EADDRINUSE error, which means that the promise will resolve with
@@ -35,20 +35,20 @@ module.exports = (configuration) => {
 				// this, we add a listener for the `listening` event, which can be
 				// removed if the port bind fails
 				server.once('listening', () => {
-					return resolve()
-				})
+					return resolve();
+				});
 
-				server.listen(application.get('port'))
-			})
+				server.listen(application.get('port'));
+			});
 		},
 		started: () => {
-			started = true
+			started = true;
 		},
 		stop: async () => {
 			await new Bluebird((resolve) => {
-				server.close()
-				server.once('close', resolve)
-			})
-		}
-	}
-}
+				server.close();
+				server.once('close', resolve);
+			});
+		},
+	};
+};

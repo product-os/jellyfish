@@ -15,7 +15,7 @@
   "scripts": {},
   "deplint": {
     "files": [
-      "apps/action-server/lib/**/*.js",
+      "apps/action-server/lib/**/*.ts",
       "apps/server/*.js",
       "apps/server/http/**/*.js",
       "apps/server/socket/**/*.js"

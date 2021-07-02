@@ -7,6 +7,7 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 COPY ./apps/action-server/package.json /usr/src/jellyfish/apps/action-server/package.json
 COPY ./apps/action-server/package-lock.json /usr/src/jellyfish/apps/action-server/package-lock.json
 RUN npm ci
+RUN npm run build
 
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/Makefile
@@ -16,10 +17,10 @@ COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/Makefil
 #dev-copy=./apps/action-server/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./lib/tick.js
+#dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./build/tick.js
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/action-server/node_modules/@balena/
 RUN rm -f ~/.npmrc
-COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/
+COPY ./apps/action-server/build/ /usr/src/jellyfish/apps/action-server/build/
 
 # Production debugging scripts
 COPY ./scripts/production /usr/src/jellyfish/scripts/production

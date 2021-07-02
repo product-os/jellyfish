@@ -49,7 +49,7 @@ module.exports = async (context, options) => {
 	logger.info(context, 'Instantiating core library')
 	const backendOptions = (options && options.database) ? Object.assign({}, environment.database.options, options.database)
 		: environment.database.options
-	const jellyfish = await core.create(context, cache, {
+	const jellyfish = await core.createJellyfishCore(context, cache, {
 		backend: backendOptions
 	})
 
