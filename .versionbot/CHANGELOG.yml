@@ -1,4 +1,19 @@
 - commits:
+    - subject: Split private chats out of my views in sidebar
+      hash: e09f05fc196d4e23bd300d41761e4e157e950039
+      body: >
+        1-2-1 conversations will now appear in their own 'Private chats' section
+        in the sidebar.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 35.2.0
+  date: 2021-07-02T00:26:50.099Z
+- commits:
     - subject: Add functionality to download view results as a CSV
       hash: f3b31e277be27a7256607ca36d2c18dcc75467d8
       body: ''
