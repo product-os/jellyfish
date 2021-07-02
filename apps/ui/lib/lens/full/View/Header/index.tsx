@@ -66,6 +66,7 @@ export default class Header extends React.Component<any, any> {
 						{
 							...contract,
 							links: {},
+							linked_at: contract.linked_at || {},
 						},
 						{
 							// "safe" option preserves arrays, preventing a new header being created for each tag/marker
