@@ -2,7 +2,7 @@
 # Runtime
 ###########################################################
 
-FROM resinci/jellyfish-test:v1.3.48
+FROM resinci/jellyfish-test:v1.4.0
 
 WORKDIR /usr/src/jellyfish
 
@@ -18,5 +18,6 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 
 COPY ./test ./test
 COPY ./Makefile ./Makefile
+COPY ./Taskfile.yml ./Taskfile.yml
 
-CMD /bin/bash -c "npx ci-task-runner run --config /usr/src/jellyfish/test/ci-tasks.yml"
+CMD /bin/bash -c "task test"

@@ -1,0 +1,83 @@
+version: '3'
+
+output: 'prefixed'
+
+env:
+  AVA_OPTS: --fail-fast
+  NODE_ENV: production
+
+tasks:
+  clean-github:
+    cmds:
+      - cmd: make clean-github
+        ignore_error: true
+
+  clean-front:
+    cmds:
+      - cmd: make clean-front
+        ignore_error: true
+
+  wait-for-api:
+    cmds:
+      - ./scripts/ci/wait-for-api.sh
+
+  front-mirror:
+    cmds:
+      - make test FILES=./test/e2e/sync/front-mirror.spec.js
+
+  discourse-mirror:
+    cmds:
+      - make test FILES=./test/e2e/sync/discourse-mirror.spec.js
+
+  github-mirror:
+    cmds:
+      - make test FILES=./test/e2e/sync/github-mirror.spec.js
+
+  e2e-livechat:
+    cmds:
+      - make test-e2e-livechat
+
+  e2e-ui:
+    cmds:
+      - INTEGRATION_OUTREACH_APP_ID= make test-e2e-ui
+
+  e2e-server:
+    cmds:
+      - make test-e2e-server
+
+  integration-server:
+    cmds:
+      - SERVER_HOST=http://localhost INTEGRATION_BALENA_API_APP_SECRET= INTEGRATION_BALENA_API_APP_ID= make test-integration-server
+
+  export-database:
+    cmds:
+      - ./scripts/ci/postgres/export.js e2e-server
+
+  import-database:
+    cmds:
+      - ./scripts/ci/postgres/import.js e2e-server
+
+  e2e-server-previous-dump:
+    cmds:
+      - make test FILES=./test/e2e/server/index.spec.js
+
+  post-summary:
+    cmds:
+      - ./scripts/ci/summary.js
+
+  test:
+    cmds:
+      - task: clean-github
+      - task: clean-front
+      - task: wait-for-api
+      - task: front-mirror
+      - task: discourse-mirror
+      - task: github-mirror
+      - task: e2e-livechat
+      - task: e2e-ui
+      - task: e2e-server
+      - task: integration-server
+      - task: export-database
+      - task: import-database
+      - task: e2e-server-previous-dump
+      - task: post-summary
