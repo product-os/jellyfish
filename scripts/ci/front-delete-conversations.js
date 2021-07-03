@@ -3,7 +3,7 @@
  * Unauthorized copying of this file, via any medium is strictly prohibited.
  * Proprietary and confidential.
  */
-/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-underscore-dangle, id-length */
 
 /*
  * This script looks through Front inboxes and deletes conversations that were created two or more days ago.
@@ -48,6 +48,7 @@ const deleteConversations = async (options) => {
 			try {
 				conversations = await context.front.inbox.listConversations({
 					inbox_id: inbox,
+					q: 'q[statuses][]=unassigned&q[statuses][]=assigned&q[statuses][]=archived',
 					limit: CONVERSATION_LIMIT,
 					page_token: pageToken
 				})
