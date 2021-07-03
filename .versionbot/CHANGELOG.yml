@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-config to ^1.4.2'
+      hash: fe0b585f077ed570c0703128ffe44bcabe6ee6ec
+      body: |
+        Update @balena/jellyfish-config from 1.3.4 to 1.4.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.2.6
+  date: 2021-07-03T05:02:59.886Z
+- commits:
     - subject: Only query for non-deleted Front conversations
       hash: f3c8f765b19382d9fc262562e4c47a7b00618148
       body: ''
