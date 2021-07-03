@@ -1,4 +1,17 @@
 - commits:
+    - subject: Replace ci-task-runner with go-task
+      hash: 4be78581db75c778d083e281bad5cde6e4d1bacc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.2.9
+  date: 2021-07-03T12:58:43.196Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 6e6d9ea84c57f647c37e11cb11fbbfa3a1ccfb52
       body: ''
