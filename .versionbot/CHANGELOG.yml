@@ -1,4 +1,17 @@
 - commits:
+    - subject: Only query for non-deleted Front conversations
+      hash: f3c8f765b19382d9fc262562e4c47a7b00618148
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.2.5
+  date: 2021-07-03T03:35:58.228Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to v5'
       hash: e1773d41c337d218558a1e4c72cded544e078fb9
       body: |
