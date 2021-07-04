@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump Grafana and Prometheus base images
+      hash: 06b8ed667d959af0132daec119a40b432409fb91
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.2.16
+  date: 2021-07-04T12:17:55.221Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to ^3.0.144'
       hash: baf06fefdddd97d06ac07c9428c1d6315a8e5bd2
       body: ''
