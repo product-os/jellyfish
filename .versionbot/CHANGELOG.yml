@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 71e668b81d00baa7486affe0a4b8b8fb0f59b1da
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.2.17
+  date: 2021-07-04T15:22:42.549Z
+- commits:
     - subject: Bump Grafana and Prometheus base images
       hash: 06b8ed667d959af0132daec119a40b432409fb91
       body: ''
