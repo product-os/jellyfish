@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump eslint dependencies
+      hash: c95a262a1994cbcc9840e794c89ae8146b18adf7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.2.14
+  date: 2021-07-04T09:28:56.986Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 1daf70670b1eb7ff927bde26313eb1e7ac6e8c10
       body: ''
