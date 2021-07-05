@@ -1,4 +1,54 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 7b5763eb8a571f1493dbbb9755e09bc63ab15376
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Add custom 'LoopSelect' form widget
+      hash: 04f93fdca0a16043f6a64d3b88f446f3fa0070a8
+      body: >
+        This widget will be used for setting the `loop` field of contracts,
+        which require a slug@version format.
+
+
+        Loop options are fetched from the cache in the Redux store.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Remove redundant custom widget replacement code
+      hash: 24416d767e14ff239b1473d3e975657bc2ff2e49
+      body: >
+        This is no longer required as we define widgets in Rendition's Provider
+        component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Fetch and cache all loops on startup
+      hash: e3a0a773ab45552097fa91dfe4f28d57c12d288f
+      body: >
+        These cached loops will be used when selecting a loop when editing a
+        contract and when selecting a loop as a global filter.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 35.3.0
+  date: 2021-07-05T11:58:24.665Z
+- commits:
     - subject: Use plugin-front
       hash: e220e61ecb5917f340721bf2e7f5b04db5f47da2
       body: ''
