@@ -46,7 +46,7 @@ logger.info(context, 'Starting tick worker', {
 
 try {
 	bootstrapTick(context, {
-		onError: (serverContext, error) => {
+		onError: (serverContext: core.Context, error: Error) => {
 			return onError(serverContext, error);
 		},
 	})

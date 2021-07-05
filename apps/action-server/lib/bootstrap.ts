@@ -11,7 +11,7 @@ import { getLogger } from '@balena/jellyfish-logger';
 import { Worker } from '@balena/jellyfish-worker';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Sync } from '@balena/jellyfish-sync';
-import { MemoryCache, createJellyfishCore } from '@balena/jellyfish-core';
+import { MemoryCache, create } from '@balena/jellyfish-core';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { v4 as uuidv4 } from 'uuid';
 import * as metrics from '@balena/jellyfish-metrics';
@@ -78,10 +78,11 @@ const getActorKey = async (
 	);
 };
 
+// TS-TODO: Add 'schedule' to WorkerTriggerObjectInput interface definition
 const transformTriggerCard = (
 	trigger: TriggeredActionContract,
-): WorkerTriggerObjectInput => {
-	const object: WorkerTriggerObjectInput = {
+): WorkerTriggerObjectInput & { schedule?: any } => {
+	const object: WorkerTriggerObjectInput & { schedule?: any } = {
 		id: trigger.id,
 		slug: trigger.slug,
 		action: trigger.data.action,
@@ -232,7 +233,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	const backendOptions = options.database
 		? Object.assign({}, environment.database.options, options.database)
 		: environment.database.options;
-	const jellyfish = await createJellyfishCore(context, cache, {
+	const jellyfish = await create(context, cache, {
 		backend: backendOptions,
 	});
 
@@ -387,7 +388,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		);
 		await producer.initialize(context);
 
-		const loop = async () => {
+		const loop = async (): Promise<any> => {
 			if (run) {
 				await options.onLoop!(context, worker, session);
 			}
@@ -437,7 +438,10 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	};
 };
 
-export const bootstrapWorker = async (context, options) => {
+export const bootstrapWorker = async (
+	context: core.Context,
+	options: any,
+): Promise<any> => {
 	metrics.startServer(context, options.metricsPort);
 	metrics.markQueueConcurrency();
 	return bootstrap(context, {
@@ -474,7 +478,10 @@ export const bootstrapWorker = async (context, options) => {
 	});
 };
 
-export const bootstrapTick = async (context, options) => {
+export const bootstrapTick = async (
+	context: core.Context,
+	options: any,
+): Promise<any> => {
 	return bootstrap(context, {
 		enablePriorityBuffer: false,
 		delay: 2000,

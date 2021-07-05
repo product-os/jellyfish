@@ -7,20 +7,22 @@ RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 COPY ./apps/action-server/package.json /usr/src/jellyfish/apps/action-server/package.json
 COPY ./apps/action-server/package-lock.json /usr/src/jellyfish/apps/action-server/package-lock.json
 RUN npm ci
-RUN npm run build
 
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/Makefile
+COPY ./apps/action-server/tsconfig.json /usr/src/jellyfish/apps/action-server/tsconfig.json
+COPY ./apps/action-server/tsconfig.build.json /usr/src/jellyfish/apps/action-server/tsconfig.build.json
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/action-server/nodemon.json /usr/src/jellyfish/apps/action-server/nodemon.json
 #dev-copy=./apps/action-server/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./build/tick.js
+#dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./lib/tick.ts
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/action-server/node_modules/@balena/
 RUN rm -f ~/.npmrc
-COPY ./apps/action-server/build/ /usr/src/jellyfish/apps/action-server/build/
+COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/
+RUN npm run build
 
 # Production debugging scripts
 COPY ./scripts/production /usr/src/jellyfish/scripts/production
