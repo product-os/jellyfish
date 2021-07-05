@@ -1,7 +1,0 @@
-deploy-artifacts
-environments.yml
-keyframe.yml
-jellyfish_pk
-kubeconfig
-katapult
-kubectl

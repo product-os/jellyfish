@@ -1,17 +1,18 @@
-.tmp
 .cache-loader
 .nyc_ouput
+.tmp
 .versionbot
 coverage
 dist
+Dockerfile
 dump.rdb
 node_modules
-Dockerfile
 postgres_data
 **/node_modules
 **/package*.json.*
-.libs/*/package*.json
 .libs/*/*.tgz*
 .libs/*/lib
+.libs/*/package*.json
 # TS-TODO: remove this once plugin-default is TypeScript
 !.libs/jellyfish-plugin-default/lib
+!.git/
