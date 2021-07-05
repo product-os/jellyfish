@@ -1,0 +1,189 @@
+{
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": 454541,
+  "links": [],
+  "panels": [
+    {
+      "datasource": "loki",
+      "description": "Jellyfish API pods",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{name=\"jellyfish\", source_type=\"kubernetes_logs\"} != \"kube-probe\" != \"ELB-HealthChecker\"",
+          "refId": "Jellyfish API"
+        }
+      ],
+      "title": "jellyfish",
+      "type": "logs"
+    },
+    {
+      "datasource": "loki",
+      "description": "Jellyfish tick-server pods",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 4,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{name=\"tick-server\", source_type=\"kubernetes_logs\"} != \"kube-probe\" != \"ELB-HealthChecker\"",
+          "hide": false,
+          "refId": "tick-server"
+        }
+      ],
+      "title": "tick-server",
+      "type": "logs"
+    },
+    {
+      "datasource": "loki",
+      "description": "Jellyfish livechat pods",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 33
+      },
+      "id": 6,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{name=\"jellyfish-livechat\", source_type=\"kubernetes_logs\"} != \"kube-probe\" != \"ELB-HealthChecker\"",
+          "hide": false,
+          "refId": "tick-server"
+        }
+      ],
+      "title": "jellyfish-livechat",
+      "type": "logs"
+    },
+    {
+      "datasource": "loki",
+      "description": "Jellyfish UI pods",
+      "fieldConfig": {
+        "defaults": {
+          "color": {},
+          "custom": {},
+          "thresholds": {
+            "mode": "absolute",
+            "steps": []
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 11,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 5,
+      "options": {
+        "showLabels": true,
+        "showTime": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
+      },
+      "pluginVersion": "7.4.3",
+      "targets": [
+        {
+          "expr": "{name=\"jellyfish-ui\", source_type=\"kubernetes_logs\"} != \"kube-probe\" != \"ELB-HealthChecker\"",
+          "hide": false,
+          "refId": "tick-server"
+        }
+      ],
+      "title": "jellyfish-ui",
+      "type": "logs"
+    }
+  ],
+  "refresh": "",
+  "schemaVersion": 27,
+  "style": "dark",
+  "tags": [],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "timepicker": {},
+  "timezone": "",
+  "title": "Jellyfish Logs",
+  "uid": "oX4QUWeMk",
+  "version": 7
+}
