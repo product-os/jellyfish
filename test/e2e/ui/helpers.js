@@ -8,13 +8,20 @@ const screenshot = require('../screenshot')
 
 exports.puppeteerOptions = {
 	headless: !environment.flags.visual,
+
+	// (TBC) allow self-signed certificates in chain (e.g. mDNS .local)
+	ignoreHTTPSErrors: true,
 	dumpio: true,
 	args: [
 		'--window-size=1366,768',
 
 		// Set extra flags so puppeteer runs on docker
 		'--no-sandbox',
-		'--disable-setuid-sandbox'
+		'--disable-setuid-sandbox',
+
+		// Reliability
+		'--disable-gpu',
+		'--disable-dev-shm-usage'
 	]
 }
 
