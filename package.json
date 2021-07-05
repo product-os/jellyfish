@@ -14,9 +14,9 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps && npm run lint:livechat && npm run lint:server && npm run lint:ui",
-    "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh",
+    "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh",
+    "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/,.balena/,Dockerfile.template",
     "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck",
-    "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:livechat": "(cd apps/livechat && npm run lint)",
     "lint:server": "(cd apps/server && npm run lint)",
     "lint:ui": "(cd apps/ui && npm run lint)",
@@ -130,7 +130,6 @@
     "puppeteer": "^13.1.1",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "shellcheck": "^1.1.0",
     "simple-git-hooks": "^2.7.0",
     "uuid": "^8.3.2"
   },
@@ -139,5 +138,81 @@
   },
   "versionist": {
     "publishedAt": "2022-01-23T15:22:24.767Z"
+  },
+  "balena": {
+    "environment": [
+      {
+          "name": "LOGLEVEL",
+          "value": "info"
+      },
+      {
+          "name": "NODE_ENV",
+          "value": "development"
+      },
+      {
+          "name": "NODE_ENV",
+          "serviceName": "jellyfish-tests",
+          "value": "test"
+      }
+    ],
+    "secrets": [
+      {
+          "serviceName": "jellyfish-tests",
+          "value": "aws_access_key_id"
+      },
+      {
+          "serviceName": "jellyfish-tests",
+          "value": "aws_s3_bucket_name"
+      },
+      {
+          "serviceName": "jellyfish-tests",
+          "value": "aws_secret_access_key"
+      },
+      {
+          "value": "integration_balena_api_private_key"
+      },
+      {
+          "value": "integration_balena_api_public_key_production"
+      },
+      {
+          "value": "integration_discourse_signature_key"
+      },
+      {
+          "value": "integration_discourse_token"
+      },
+      {
+          "value": "integration_discourse_username"
+      },
+      {
+          "value": "integration_flowdock_signature_key"
+      },
+      {
+          "value": "integration_flowdock_token"
+      },
+      {
+          "value": "integration_front_token"
+      },
+      {
+          "value": "integration_github_app_id"
+      },
+      {
+          "value": "integration_github_private_key"
+      },
+      {
+          "value": "integration_github_signature_key"
+      },
+      {
+          "value": "integration_github_token"
+      },
+      {
+          "value": "integration_intercom_token"
+      },
+      {
+          "value": "integration_outreach_signature_key"
+      },
+      {
+          "value": "integration_typeform_signature_key"
+      }
+    ]
   }
 }
