@@ -1,0 +1,7 @@
+- name: 'standard'
+  org_id: 1
+  folder: 'standard'
+  folderUid: 'standard'
+  type: file
+  options:
+    path: '/etc/grafana/dashboards/standard'
