@@ -1,0 +1,47 @@
+# https://github.com/product-os/jellyfish-base-images
+# https://registry.hub.docker.com/r/resinci/jellyfish-test
+FROM resinci/jellyfish-test:build-ab77-jellyfish-on-balena AS build
+
+COPY .nvmrc ${NVM_DIR}/
+
+SHELL [ "/bin/bash", "-c" ]
+
+RUN [[ -s "$NVM_DIR/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh" \
+  && nvm install "$(cat < "${NVM_DIR}/.nvmrc")" && nvm install-latest-npm
+
+
+# --- run unit tests
+FROM build AS test
+
+ARG CI=1
+ARG SUT=1
+
+ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD true
+
+WORKDIR /usr/src/jellyfish
+
+COPY . ./
+
+# --- Local Mode livepush
+#dev-copy=. ./
+#dev-run=systemctl enable confd
+#dev-cmd-live=/usr/bin/entry.sh
+# --- stops here
+
+SHELL [ "/bin/bash", "-c" ]
+
+RUN set -axe \
+  && PATH="/root/.nvm/versions/node/v$(cat < .nvmrc)/bin:${PATH}" \
+  && if [[ $SUT -eq 1 ]]; then npm ci && task catch-uncommitted lint unit; fi
+
+
+# --- tests runtime
+FROM build
+
+ENV CI 1
+
+WORKDIR /usr/src/jellyfish
+
+RUN systemctl enable confd
+
+COPY . ./
