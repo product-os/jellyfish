@@ -48,9 +48,21 @@ Jellyfish is split in many more modules than deployable units. The following dia
 
 ## Deployable Components
 
+### [`apps/grafana`](https://github.com/product-os/jellyfish/tree/master/apps/grafana)
+
+Metrics dashboards.
+
+### [`apps/haproxy`](https://github.com/product-os/jellyfish/tree/master/apps/haproxy)
+
+Reverse proxy.
+
 ### [`apps/livechat`](https://github.com/product-os/jellyfish/tree/master/apps/livechat)
 
 This is the demo project for developing chat-widget.
+
+### [`apps/prometheus`](https://github.com/product-os/jellyfish/tree/master/apps/prometheus)
+
+Metrics collector.
 
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
@@ -60,4 +72,8 @@ The Jellyfish HTTP and WebSockets API.
 
 This is the main Jellyfish web user interface, and what most people will
 interact with.
+
+### [`apps/wifi-connect`](https://github.com/product-os/jellyfish/tree/master/apps/wifi-connect)
+
+Easy WiFi setup for Linux devices from your mobile phone or laptop.
 
