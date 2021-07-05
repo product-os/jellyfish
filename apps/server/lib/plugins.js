@@ -31,6 +31,9 @@ const {
 const {
 	OutreachPlugin
 } = require('@balena/jellyfish-plugin-outreach')
+const {
+	FrontPlugin
+} = require('@balena/jellyfish-plugin-front')
 
 exports.getPluginManager = (context) => {
 	logger.info(context, 'Loading plugins')
@@ -44,7 +47,8 @@ exports.getPluginManager = (context) => {
 			GitHubPlugin,
 			FlowdockPlugin,
 			DiscoursePlugin,
-			OutreachPlugin
+			OutreachPlugin,
+			FrontPlugin
 		]
 	})
 }
