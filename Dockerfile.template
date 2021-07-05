@@ -1,0 +1,58 @@
+# https://github.com/product-os/jellyfish-base-images
+# https://registry.hub.docker.com/r/resinci/jellyfish-test
+FROM resinci/jellyfish-test:v1.4.17 AS build
+
+ARG NVM_VERSION=v0.39.0
+ARG PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true
+# https://github.com/balena-io/balena-cli/issues/2397
+ARG YQ_VERSION=v4.15.1
+
+ENV HOME /root
+ENV NVM_DIR "$HOME/.nvm"
+
+COPY .nvmrc $NVM_DIR/
+
+SHELL [ "/bin/bash", "-c" ]
+
+RUN apt-get update && apt-get install -y shellcheck libnss3-tools \
+  && rm -rf /var/lib/apt/lists/* \
+  && wget -q https://github.com/mikefarah/yq/releases/download/${YQ_VERSION}/yq_linux_%%BALENA_ARCH%%.tar.gz -O - \
+  | tar xz && mv yq_linux_%%BALENA_ARCH%% /usr/bin/yq \
+  && wget -qO- "https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh" | bash \
+  && [[ -s "$NVM_DIR/nvm.sh" ]] && source "${NVM_DIR}/nvm.sh" \
+  && nvm install "$(cat < "${NVM_DIR}/.nvmrc")" && nvm install-latest-npm
+
+
+# --- run unit tests
+FROM build AS test
+
+ARG CI=1
+ARG SUT=1
+
+WORKDIR /usr/src/jellyfish
+
+COPY . ./
+
+# --- Local Mode livepush
+#dev-copy=. ./
+#dev-run=systemctl enable confd
+#dev-cmd-live=/usr/bin/entry.sh
+# --- stops here
+
+SHELL [ "/bin/bash", "-c" ]
+
+RUN set -axe \
+  && PATH="/root/.nvm/versions/node/v$(cat < .nvmrc)/bin:${PATH}" \
+  && if [[ $SUT -eq 1 ]]; then npm ci && task catch-uncommitted lint unit; fi
+
+
+# --- tests runtime
+FROM build
+
+ENV CI 1
+
+WORKDIR /usr/src/jellyfish
+
+RUN systemctl enable confd
+
+COPY . ./

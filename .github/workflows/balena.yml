@@ -1,0 +1,408 @@
+name: deploy Jellyfish to balenaCloud
+
+on:
+ pull_request:
+    types: [opened, synchronize, closed]
+    branches:
+      - master
+
+env:
+  # https://github.com/product-os/environment-production/pull/277
+  AWS_EC2_INSTANCE_TYPE: c5n.2xlarge
+  AWS_EC2_LAUNCH_TEMPLATE: lt-0716bda3583150eaa
+  AWS_EC2_LT_VERSION: 1
+  AWS_REGION: us-east-1
+  AWS_VPC_SECURITY_GROUP_IDS: sg-09f3c836cfe28939c
+  AWS_VPC_SUBNET_ID: subnet-0235593b90b9d5262
+  DNS_TLD: ly.fish.local
+  ENVIRONMENT: balena-cloud.com
+  FLEET: product_os/jellyfish-on-balena
+  JELLYFISH_TESTS_SERVICE: jellyfish-tests
+  LIVECHAT_PORT: 443
+  NODE_ENV: test
+  POSTGRES_DATABASE: jellyfish
+  POSTGRES_HOST: postgres
+  POSTGRES_PASSWORD: docker
+  POSTGRES_USER: docker
+  REDIS_HOST: redis
+  REGISTRY2_CACHE_ADDR: redis:6379
+  REGISTRY2_STORAGEPATH: /data
+  SERVER_PORT: 443
+  UI_PORT: 443
+
+jobs:
+  build-test-deploy:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: push release
+        id: push-release
+        uses: balena-io/balena-ci@master
+        with:
+          balena_token: ${{ secrets.BALENA_API_KEY_PUSH }}
+          cache: false
+          create_ref: true
+          environment: ${{ env.ENVIRONMENT }}
+          fleet: ${{ env.FLEET }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          versionbot: true
+
+      - name: import GPG key
+        id: import-gpg-key
+        uses: crazy-max/ghaction-import-gpg@v4
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
+
+      - name: imported GPG key
+        id: imported-gpg-key
+        run: |
+          echo "fingerprint: ${{ steps.import-gpg-key.outputs.fingerprint }}"
+          echo "keyid:       ${{ steps.import-gpg-key.outputs.keyid }}"
+          echo "name:        ${{ steps.import-gpg-key.outputs.name }}"
+          echo "email:       ${{ steps.import-gpg-key.outputs.email }}"
+
+      - name: reveal secrets
+        id: reveal-secrets
+        run: |
+          set -axeu
+
+          sudo apt install git-secret
+
+          git secret reveal -fp "${{ secrets.GPG_PASSPHRASE }}"
+
+      - name: provision ephemeral test device
+        id: provision-test-device
+        run: |
+          set -axeu
+
+          aws sts get-caller-identity
+
+          response="$(aws ec2 run-instances \
+            --launch-template "LaunchTemplateId=${{ env.AWS_EC2_LAUNCH_TEMPLATE }},Version=${{ env.AWS_EC2_LT_VERSION }}" \
+            --instance-type "${{ env.AWS_EC2_INSTANCE_TYPE }}" \
+            --instance-market-options MarketType=spot,SpotOptions={SpotInstanceType=one-time} \
+            --security-group-ids "${{ env.AWS_VPC_SECURITY_GROUP_IDS }}" \
+            --subnet-id "${{ env.AWS_VPC_SUBNET_ID }}" \
+            --associate-public-ip-address \
+            --tag-specifications "ResourceType=instance,Tags=[{Key=Name,Value=${{ env.JELLYFISH_TEST_SERVICE }}}]")"
+
+          instance_id="$(echo "${response}" | jq -r '.Instances[].InstanceId')"
+
+          aws ec2 wait instance-running --instance-ids "${instance_id}"
+
+          aws ec2 wait instance-status-ok --instance-ids "${instance_id}"
+
+          echo "::set-output name=instance_id::${instance_id}"
+
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}
+
+      # https://github.com/balena-io/balena-cli/issues/1543
+      - name: pin device to draft release
+        id: pin-device
+        uses: balena-io/balena-ci@master
+        with:
+          entrypoint: /bin/sh
+          args: -c
+          cmd: |
+            set -axeu
+
+            apk add curl jq
+
+            balena login --token "${{ secrets.BALENA_API_KEY_TEST }}"
+
+            balena whoami
+
+            # get ephemeral test device uuid
+            for device in $(balena devices --fleet "${{ env.FLEET }}" --json | jq -r '.[].uuid'); do
+                tag="$(balena tags --device "${device}" | grep instance-id | awk '{print $2}')"
+                if [[ "${tag}" =~ "${{ steps.provision-test-device.outputs.instance_id }}" ]]; then
+                    # obtain numeric device id
+                    device_id="$(curl --silent --retry 3 --fail \
+                      "https://api.${{ env.ENVIRONMENT }}/v6/device?\$filter=uuid%20eq%20'${device}'" \
+                      -H 'authorization: Bearer ${{ secrets.BALENA_API_KEY_TEST }}' \
+                      -H 'content-type: application/json' \
+                      --compressed | jq -r .d[].id)"
+
+                    break
+                fi
+            done
+
+            balena_releases="$(mktemp)"
+            balena releases "${{ env.FLEET }}" | tail -n +2 > "${balena_releases}"
+
+            # convert to JSON and find the last draft release id and commit
+            release_id="$(while IFS=' ' read -r id commit created_at status semver is_final
+            do
+              printf '{"id":%s,"commit":"%s","created_at":"%s","status":"%s","semver":"%s","is_final":%s}\n' \
+              "${id}" "${commit}" "${created_at}" "${status}" "${semver}" "${is_final}"
+            done < "${balena_releases}" | jq -s | jq -r '.[] | select((.id==${{ steps.push-release.outputs.release_id }}) and (.is_final==false) and (.status=="success")).id')"
+
+            commit="$(while IFS=' ' read -r id commit created_at status semver is_final
+            do
+              printf '{"id":%s,"commit":"%s","created_at":"%s","status":"%s","semver":"%s","is_final":%s}\n' \
+              "${id}" "${commit}" "${created_at}" "${status}" "${semver}" "${is_final}"
+            done < "${balena_releases}" | jq -s | jq -r '.[] | select(.id==${{ steps.push-release.outputs.release_id }}).commit')"
+
+            if ! [ "${device_id}" = '' ] && ! [ "${release_id}" = ''] && ! [ "${commit}" = '']; then
+                # pin DUT to draft release
+                curl --silent --retry 3 --fail \
+                  "https://api.${{ env.ENVIRONMENT }}/v6/device?\$filter=id%20in%20(${device_id})" \
+                  -X PATCH \
+                  -H 'authorization: Bearer ${{ secrets.BALENA_API_KEY_TEST }}' \
+                  -H 'content-type: application/json' \
+                  --data-raw "{\"should_be_running__release\":${release_id}}" \
+                  --compressed
+
+                # wait for provisioning
+                while ! balena device "${device}" | grep COMMIT | cut -c 24- | grep -q "${commit}"; do
+                    balena device "${device}"
+                    sleep 15s
+                done
+            fi
+
+            echo "::set-output name=balena_device_uuid::${device}"
+            echo "::set-output name=balena_device_id::${device_id}"
+
+      - name: configure test device environment
+        id: configure-test-env
+        uses: balena-io/balena-ci@master
+        with:
+          entrypoint: /bin/sh
+          args: -c
+          cmd: |
+            set -uxe
+
+            balena login --token "${{ secrets.BALENA_API_KEY_TEST }}"
+
+            balena whoami
+
+            balena env add NODE_ENV "${{ env.NODE_ENV }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add DNS_TLD "${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add POSTGRES_HOST "${{ env.POSTGRES_HOST }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add POSTGRES_DATABASE "${{ env.POSTGRES_DATABASE }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add POSTGRES_USER "${{ env.POSTGRES_USER }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add POSTGRES_PASSWORD "${{ env.POSTGRES_PASSWORD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REDIS_HOST "${{ env.REDIS_HOST }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add API_HOST "api.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add LIVECHAT_HOST "https://livechat.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add UI_HOST "https://jel.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add OAUTH_REDIRECT_BASE_URL "https://jel.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add SERVER_HOST "https://api.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add SENTRY_DSN_UI '' --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+            balena env add SENTRY_DSN_SERVER '' --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+            balena env add AWS_ACCESS_KEY_ID '' --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+            balena env add AWS_SECRET_ACCESS_KEY '' --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+            balena env add AWS_S3_BUCKET_NAME '' --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add LIVECHAT_PORT "${{ env.LIVECHAT_PORT }}" \
+              --service jellyfish-tests \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add SERVER_PORT "${{ env.SERVER_PORT }}" \
+              --service jellyfish-tests \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add UI_PORT "${{ env.UI_PORT }}" \
+              --service jellyfish-tests \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add MDNS_TLD "${{ env.DNS_TLD }}" \
+              --service mdns \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY_HOST "registry.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_HOST "registry.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_TOKEN_AUTH_ISSUER "api.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_TOKEN_AUTH_REALM "https://api.${{ steps.pin-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_STORAGEPATH "${{ env.REGISTRY2_STORAGEPATH }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_CACHE_ADDR "${{ env.REGISTRY2_CACHE_ADDR }}" \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_S3_CLOUDFRONT_ENDPOINT '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_S3_CLOUDFRONT_KEYPAIR_ID '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_S3_CLOUDFRONT_PRIVATEKEY '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_S3_KEY '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add REGISTRY2_S3_SECRET '' \
+              --service registry \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+      - name: configure test device secrets
+        id: configure-test-secrets
+        uses: balena-io/balena-ci@master
+        with:
+          entrypoint: /bin/sh
+          args: -c
+          cmd: |
+            set -uxe
+
+            balena login --token "${{ secrets.BALENA_API_KEY_TEST }}"
+
+            balena whoami
+
+            balena env add AWS_ACCESS_KEY_ID "$(cat < .balena/secrets/aws_access_key_id)" \
+              --service "${{ env.JELLYFISH_TEST_SERVICE }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add AWS_SECRET_ACCESS_KEY "$(cat < .balena/secrets/aws_secret_access_key)" \
+              --service "${{ env.JELLYFISH_TEST_SERVICE }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add AWS_S3_BUCKET_NAME "$(cat < .balena/secrets/s3_bucket_name)" \
+              --service "${{ env.JELLYFISH_TEST_SERVICE }}" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_BALENA_API_PRIVATE_KEY "$(cat < .balena/secrets/integration_balena_api_private_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION "$(cat < .balena/secrets/integration_balena_api_public_key_production)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_DISCOURSE_SIGNATURE_KEY "$(cat < .balena/secrets/integration_discourse_signature_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_DISCOURSE_TOKEN "$(cat < .balena/secrets/integration_discourse_token)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_FLOWDOCK_SIGNATURE_KEY "$(cat < .balena/secrets/integration_flowdock_signature_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_FLOWDOCK_TOKEN "$(cat < .balena/secrets/integration_flowdock_token)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_FRONT_TOKEN "$(cat < .balena/secrets/integration_front_token)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_GITHUB_APP_ID "$(cat < .balena/secrets/integration_github_app_id)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_GITHUB_PRIVATE_KEY "$(cat < .balena/secrets/integration_github_private_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_GITHUB_SIGNATURE_KEY "$(cat < .balena/secrets/integration_github_signature_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_GITHUB_TOKEN "$(cat < .balena/secrets/integration_github_token)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_GOOGLE_MEET_CREDENTIALS "$(cat < .balena/secrets/integration_google_meet_credentials)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_INTERCOM_TOKEN "$(cat < .balena/secrets/integration_intercom_token)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_OUTREACH_SIGNATURE_KEY "$(cat < .balena/secrets/integration_outreach_signature_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+            balena env add INTEGRATION_TYPEFORM_SIGNATURE_KEY "$(cat < .balena/secrets/integration_typeform_signature_key)" \
+              --device "${{ steps.pin-device.outputs.balena_device_uuid }}"
+
+      # (TBC) https://github.com/balena-io/balena-cli/issues/1482
+      - name: test release
+        id: test-release
+        uses: balena-io/balena-ci@master
+        with:
+          entrypoint: /bin/sh
+          args: -c
+          cmd: |
+            set -uxe
+
+            balena login --token "${{ secrets.BALENA_API_KEY_TEST }}"
+
+            balena whoami
+
+            stdout="$(echo 'balena exec $(balena ps \
+              --filter name=${{ env.JELLYFISH_TESTS_SERVICE }} \
+              --format {{.ID}}) scripts/ci/run-tests.sh \
+              wait-for-api \
+              e2e \
+              e2e-ui \
+              integration-server \
+              export-database \
+              import-database \
+              e2e-server-previous-dump \
+              post-summary; echo "rc=$?"; exit' \
+              | balena ssh "${{ steps.pin-device.outputs.balena_device_uuid }}")"
+
+            echo "${stdout}" | grep -Eq 'rc=0$'
+
+      - name: destroy ephemeral test device
+        id: destroy-test-device
+        run: |
+          set -uxe
+
+          aws sts get-caller-identity
+
+          aws ec2 terminate-instances \
+            --instance-ids "${{ steps.provision-test-device.outputs.instance_id }}"
+
+          curl -X DELETE --silent --retry 3 --fail \
+            "https://api.${{ env.ENVIRONMENT }}/v6/device?\$filter=id%20in%20(${{ steps.pin-device.outputs.balena_device_id }})" \
+            -H 'authorization: Bearer ${{ secrets.BALENA_API_KEY_TEST }}'
+
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_DEFAULT_REGION: ${{ env.AWS_REGION }}

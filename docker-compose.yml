@@ -1,203 +1,613 @@
 version: '2.1'
 
+volumes:
+  cert-manager-data: null
+  certs-data: null
+  haproxy-data: null
+  pki-data: null
+  postgres-data: null
+  redis-data: null
+  registry-data: null
+  resin-data: null
+  s3-data: null
+
+x-default-environment: &default-environment
+  # https://github.com/balena-io-modules/open-balena-base/blob/master/src/configure-balena.sh
+  DNS_TLD: ly.fish.local
+  # https://github.com/balena-io/balena-mdns-publisher/blob/master/src/app.ts#L187-L190
+  MDNS_TLD: ly.fish.local
+
 services:
-  livechat:
-    image: balena/jellyfish-livechat
+  jellyfish-tests:
     build:
       context: .
-      dockerfile: ./apps/livechat/Dockerfile
+      dockerfile: Dockerfile.template
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor=unconfined
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
     depends_on:
       - api
-      - balena-mdns-publisher
-    networks:
-      - internal
+      - haproxy
+      - livechat
+      - ui
+    restart: no
+    volumes:
+      - resin-data:/balena
+      - certs-data:/certs
     environment:
-      - SENTRY_DSN_UI=0
-      - SERVER_HOST=http://api.ly.fish.local
-      - SERVER_PORT=80
-      - NGINX_PORT=80
-      - LIVECHAT_PORT=80
-  postgres:
-    image: balena/open-balena-db:4.1.0
-    restart: always
-    networks:
-      - internal
-  redis:
-    image: balena/balena-redis:0.0.3
-    command: [sh, -c, "redis-server /usr/local/etc/redis/redis.conf --save ''"]
-    restart: always
-    networks:
-      - internal
-  ui:
-    image: balena/jellyfish-ui
-    build:
-      context: .
-      dockerfile: ./apps/ui/Dockerfile
-    depends_on:
-      - api
-      - balena-mdns-publisher
-    environment:
-      - SENTRY_DSN_UI=0
-      - SERVER_HOST=http://api.ly.fish.local
-      - SERVER_PORT=80
-      - NGINX_PORT=80
-      - UI_PORT=80
-      - NODE_ENV
-    networks:
-      - internal
+      <<: *default-environment
+      LIVECHAT_PORT: 443
+      NODE_ENV: test
+      POSTGRES_DATABASE: jellyfish
+      POSTGRES_HOST: postgres
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      REDIS_HOST: redis
+      SERVER_PORT: 443
+      UI_PORT: 443
+      HOSTS_CONFIG: ','
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: ','
+
   api:
-    image: balena/jellyfish
-    build:
-      context: .
-      dockerfile: ./apps/server/Dockerfile
+    entrypoint:
+      - /bin/bash
+      - '-c'
+    command:
+      - |
+        set -axe
+
+        # (TBC) could switch to systemd|confd runtime to avoid
+        /usr/sbin/configure-balena.sh && source /etc/docker.env
+
+        # (TBC) can be auto-configured in open-balena-base with configure-balena.sh
+        SERVER_HOST=https://${API_HOST}
+        UI_HOST=https://${UI_HOST}
+        LIVECHAT_HOST=https://${LIVECHAT_HOST}
+        OAUTH_REDIRECT_BASE_URL=https://${OAUTH_REDIRECT_BASE_URL}
+
+        # HAProxy bypass if not defined
+        POSTGRES_HOST=${POSTGRES_HOST:-postgres}
+        REDIS_HOST=${REDIS_HOST:-redis}
+
+        # (TBC) restore original Dockerfile CMD
+        cd /usr/src/jellyfish/apps/server
+
+        if [[ "${BALENA_APP_NAME}" == 'localapp' ]] && [[ $BALENA_APP_ID -eq 1 ]]; then
+            npm run dev
+        else
+            # (TBC) should then become a systemd service (e.g jellyfish-api)
+            npm start
+        fi
+
+    environment:
+      <<: *default-environment
+      # /etc/docker.env:API_HOST=api.{{balena_device_uuid}}.{{dns_tld}}
+      # /etc/docker.env:LIVECHAT_HOST=livechat.{{balena_device_uuid}}.{{dns_tld}}
+      # ...
+      HOSTS_CONFIG: API_HOST:api,LIVECHAT_HOST:livechat,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
+      SENTRY_CONFIG: ','
+      # /etc/docker.env:RESET_PASSWORD_SECRET_TOKEN="$(openssl rand -hex 16)"
+      # /etc/docker.env:MONITOR_SECRET_TOKEN="$(openssl rand -hex 16)"
+      TOKENS_CONFIG: RESET_PASSWORD_SECRET_TOKEN:hex,MONITOR_SECRET_TOKEN:hex
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: curl --fail http://localhost/health
+      timeout: 5s
+    ports:
+      - '8000:80'
     depends_on:
       - postgres
       - redis
-      - balena-mdns-publisher
-    environment:
-      - LOGLEVEL=crit
-      - NO_LOG_SUCCESS=1
-      - NODE_ENV
-      - SENTRY_DSN_SERVER
-      - FS_DRIVER
-      - AWS_ACCESS_KEY_ID
-      - AWS_S3_BUCKET_NAME
-      - AWS_SECRET_ACCESS_KEY
-      - INTEGRATION_BALENA_API_APP_ID
-      - INTEGRATION_BALENA_API_APP_SECRET
-      - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=foobar
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_APP_ID
-      - INTEGRATION_GITHUB_PRIVATE_KEY
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GOOGLE_MEET_CREDENTIALS
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-      - INTEGRATION_TYPEFORM_SIGNATURE_KEY
-      - MAILGUN_TOKEN
-      - MONITOR_SECRET_TOKEN
-      - RESET_PASSWORD_SECRET_TOKEN
-      - CI
-      - REGISTRY_TOKEN_AUTH_CERT_KEY="LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU4xWUw1WVRjb3NVVnhHdXlXMGt4cGE0ekxzbEpGQ2JvZUxIUWlpaW1vTkhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFR0RRQ2FpK1FnNG9GZE9HMXZNdWdtMFA5bTViSUR3R29MNjg1aGVYR0hwZWJVblgxOGQvYwpQUTZGbDBQaklQam9iUzlCNW5oSTF1Y0p3MW8vclE2UXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="
-      - REGISTRY_TOKEN_AUTH_CERT_KID="UkNVNTo2Q1RaOkJITjc6RlBCUjpKWUJIOjVHRVI6QVdQSDpIRk9aOjZaT0c6VVUzTzo3Q0gzOjZFU0sK"
-    restart: always
-    networks:
-      - internal
-    expose:
-      - 80
-    ports:
-      - 9230:9229
-  worker_1:
-    image: balena/jellyfish
+      - mdns
+    restart: unless-stopped
+    labels:
+      io.balena.features.supervisor-api: 1
+      io.balena.features.balena-api: 1
+    volumes:
+      - resin-data:/balena
+      - certs-data:/certs
     build:
       context: .
-      dockerfile: ./apps/server/Dockerfile
-    depends_on:
-      - postgres
-      - redis
-      - balena-mdns-publisher
+      dockerfile: apps/server/Dockerfile
+
+  ui:
+    entrypoint:
+      - /bin/bash
+      - '-c'
+    command:
+      - |
+        set -axe
+
+        /usr/sbin/configure-balena.sh && source /etc/docker.env
+
+        SERVER_HOST=https://${API_HOST}
+        UI_HOST=https://${UI_HOST}
+        LIVECHAT_HOST=https://${LIVECHAT_HOST}
+        OAUTH_REDIRECT_BASE_URL=https://${OAUTH_REDIRECT_BASE_URL}
+
+        if [[ "${BALENA_APP_NAME}" == 'localapp' ]] && [[ $BALENA_APP_ID -eq 1 ]]; then
+            cd /usr/src/jellyfish/apps/ui && npm run dev
+        else
+            /tmp/env.sh && nginx -g "daemon off;"
+        fi
+
     environment:
-      - LOGLEVEL=crit
-      - NO_LOG_SUCCESS=1
-      - NODE_ENV
-      - SENTRY_DSN_SERVER
-      - FS_DRIVER
-      - AWS_ACCESS_KEY_ID
-      - AWS_S3_BUCKET_NAME
-      - AWS_SECRET_ACCESS_KEY
-      - INTEGRATION_BALENA_API_APP_ID
-      - INTEGRATION_BALENA_API_APP_SECRET
-      - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=foobar
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_APP_ID
-      - INTEGRATION_GITHUB_PRIVATE_KEY
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GOOGLE_MEET_CREDENTIALS
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-      - INTEGRATION_TYPEFORM_SIGNATURE_KEY
-      - MAILGUN_TOKEN
-      - MONITOR_SECRET_TOKEN
-      - RESET_PASSWORD_SECRET_TOKEN
-      - CI
-      - REGISTRY_TOKEN_AUTH_CERT_KEY="LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU4xWUw1WVRjb3NVVnhHdXlXMGt4cGE0ekxzbEpGQ2JvZUxIUWlpaW1vTkhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFR0RRQ2FpK1FnNG9GZE9HMXZNdWdtMFA5bTViSUR3R29MNjg1aGVYR0hwZWJVblgxOGQvYwpQUTZGbDBQaklQam9iUzlCNW5oSTF1Y0p3MW8vclE2UXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo="
-      - REGISTRY_TOKEN_AUTH_CERT_KID="UkNVNTo2Q1RaOkJITjc6RlBCUjpKWUJIOjVHRVI6QVdQSDpIRk9aOjZaT0c6VVUzTzo3Q0gzOjZFU0sK"
-    restart: always
-    networks:
-      - internal
-    expose:
-      - 88
+      <<: *default-environment
+      HOSTS_CONFIG: API_HOST:api,LIVECHAT_HOST:livechat,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: ','
+      SERVER_PORT: 443
+      UI_PORT: 80
+    volumes:
+      - resin-data:/balena
+      - certs-data:/certs
+    depends_on:
+      - api
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: curl --fail http://localhost/
+      timeout: 5s
+    restart: unless-stopped
     ports:
-      - 9231:9229
-  balena-mdns-publisher:
-    image: 'balena/balena-mdns-publisher:1.10.1'
+      - '8001:80'
+    build:
+      context: .
+      dockerfile: apps/ui/Dockerfile
+
+  livechat:
+    entrypoint:
+      - /bin/bash
+      - '-c'
+    command:
+      - |
+        set -axe
+
+        /usr/sbin/configure-balena.sh && source /etc/docker.env
+
+        SERVER_HOST=https://${API_HOST}
+        UI_HOST=https://${UI_HOST}
+        LIVECHAT_HOST=https://${LIVECHAT_HOST}
+        OAUTH_REDIRECT_BASE_URL=https://${OAUTH_REDIRECT_BASE_URL}
+
+        if [[ "${BALENA_APP_NAME}" == 'localapp' ]] && [[ $BALENA_APP_ID -eq 1 ]]; then
+            cd /usr/src/jellyfish/apps/livechat && npm run dev
+        else
+            /tmp/env.sh && nginx -g "daemon off;"
+        fi
+
+    environment:
+      <<: *default-environment
+      HOSTS_CONFIG: API_HOST:api,LIVECHAT_HOST:livechat,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: ','
+      SERVER_PORT: 443
+      LIVECHAT_PORT: 80
+    volumes:
+      - resin-data:/balena
+      - certs-data:/certs
+    depends_on:
+      - api
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: curl --fail http://localhost/
+      timeout: 5s
+    restart: unless-stopped
+    ports:
+      - '8003:80'
+    build:
+      context: .
+      dockerfile: apps/livechat/Dockerfile
+
+  # https://github.com/balena-io/open-balena-db
+  postgres:
+    # pg12 (pg_dump) dependency on jellyfish-tests
+    image: balena/open-balena-db:v4.1.0
+    restart: unless-stopped
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pg_isready -U "${POSTGRES_USER}"
+      timeout: 5s
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+  # https://hub.docker.com/_/redis
+  redis:
+    image: redis:6-alpine
+    restart: unless-stopped
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: echo INFO | redis-cli | grep redis_version
+      timeout: 5s
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+
+  # https://github.com/balena-io/open-balena-s3
+  s3:
+    image: balena/open-balena-s3:v2.13.1
+    volumes:
+      - s3-data:/export
+      - certs-data:/certs
+      - resin-data:/balena
+    environment:
+      <<: *default-environment
+      BUCKETS: jellyfish
+      # (TBC) MinIO/S3 untested
+      # https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Config.html#s3ForcePathStyle-property
+      HOSTS_CONFIG: AWS_S3_ENDPOINT:s3
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: S3_MINIO_ACCESS_KEY:hex,S3_MINIO_SECRET_KEY:hex,AWS_ACCESS_KEY_ID:S3_MINIO_ACCESS_KEY,AWS_SECRET_ACCESS_KEY:S3_MINIO_SECRET_KEY
+      # (TBC) MINIO_DOMAIN: https://docs.min.io/docs/minio-server-configuration-guide.html
+      MINIO_DOMAIN: ly.fish.local
+    healthcheck:
+      test: /usr/src/app/docker-hc
+      interval: 45s
+      timeout: 15s
+      retries: 3
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor=unconfined
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    restart: unless-stopped
+
+  # https://github.com/balena-io/open-balena-registry
+  registry:
+    image: balena/open-balena-registry:v2.23.0
+    ports:
+      - '8004:80'
+    depends_on:
+      - mdns
+      - haproxy
+    restart: unless-stopped
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor=unconfined
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: /usr/src/app/docker-hc
+      timeout: 5s
+    volumes:
+      - registry-data:/data
+      - certs-data:/certs
+      - resin-data:/balena
+    environment:
+      <<: *default-environment
+      REGISTRY2_CACHE_ADDR: redis:6379
+      REGISTRY2_CACHE_DB: 1
+      REGISTRY2_CACHE_ENABLED: 'true'
+      # (TBC) use S3/MinIO
+      REGISTRY2_STORAGEPATH: /data
+      HOSTS_CONFIG: REGISTRY_HOST:registry,REGISTRY2_HOST:registry,REGISTRY2_TOKEN_AUTH_ISSUER:api,REGISTRY_TOKEN_AUTH_CERT_ISSUER:api,REGISTRY2_TOKEN_AUTH_REALM:api
+      TOKENS_CONFIG: REGISTRY2_SECRETKEY:hex
+      SENTRY_CONFIG: ','
+
+  prometheus:
+    build: apps/prometheus
+    command: '--config.file=/etc/prometheus/prometheus.yaml'
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pgrep prometheus
+    restart: unless-stopped
+
+  grafana:
+    build: apps/grafana
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pgrep grafana-server
+    restart: unless-stopped
+
+  # https://github.com/balena-io/balena-mdns-publisher
+  mdns:
+    image: balena/balena-mdns-publisher:v1.14.2
     network_mode: host
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
     security_opt:
-      - 'apparmor=unconfined'
+      - apparmor=unconfined
     tmpfs:
       - /run
       - /sys/fs/cgroup
+    volumes:
+      - certs-data:/certs
+      - resin-data:/balena
     labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.supervisor-api: '1'
+      io.balena.features.dbus: 1
+    restart: unless-stopped
     environment:
-      MDNS_TLD: ly.fish.local
-      MDNS_SUBDOMAINS: >-
-        ["jel", "livechat", "api", "registry"]
-      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
-      CONFD_BACKEND: 'ENV'
+      <<: *default-environment
+      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,stats,ui
+      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,LIVECHAT_HOST:livechat,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: ','
+    healthcheck:
+      test: /usr/src/app/docker-hc
+      interval: 45s
+      timeout: 15s
+      retries: 3
+
+  # https://github.com/balena-io/ca-private
+  balena-ca:
+    image: balena/ca-private:v0.0.3
+    environment:
+      <<: *default-environment
+      ORG_UNIT: productOS
+    healthcheck:
+      interval: 45s
+      retries: 3
+      test: curl -I --fail http://localhost:8888
+      timeout: 15s
+    labels:
+      io.balena.features.balena-api: '1'
+    restart: unless-stopped
+    volumes:
+      - pki-data:/pki
+      - certs-data:/certs
+
+  # https://github.com/balena-io/cert-manager
+  cert-manager:
+    image: balena/cert-manager:v0.0.9
+    depends_on:
+      - balena-ca
+    environment:
+      <<: *default-environment
+      # wildcard certificate for reverse proxy
+      SUBJECT_ALTERNATE_NAMES: '*'
+      ORG_UNIT: productOS
+      # we don't want any
+      SSH_KEY_NAMES: ','
+      # (optional) otherwise full (balena/JWT) API_TOKEN is required (not API key)
+      ACME_EMAIL: devops@balena.io
+    entrypoint:
+      - /bin/bash
+      - '-c'
+    command:
+      - |
+        set -euxa
+
+        # we don't want any
+        rm -f /opt/keys.json
+
+        cat << EOF > /opt/certs.json
+        [
+          {
+            "request": {
+              "key": {
+                "algo": "\${key_algo}",
+                "size": \${key_size}
+              },
+              "hosts": \${hosts},
+              "names": [
+                {
+                  "C": "\${country}",
+                  "L": "\${locality_name}",
+                  "O": "\${org}",
+                  "OU": "\${org_unit}",
+                  "ST": "\${state}"
+                }
+              ],
+              "CN": "\${TLD}"
+            }
+          },
+          {
+            "request": {
+              "key": {
+              "algo": "\${key_algo}",
+              "size": \${key_size}
+              },
+              "hosts": [
+                "api.\${TLD}"
+              ],
+              "names": [
+                {
+                  "C": "\${country}",
+                  "L": "\${locality_name}",
+                  "O": "\${org}",
+                  "OU": "\${org_unit}",
+                  "ST": "\${state}"
+                }
+              ],
+              "CN": "api.\${TLD}"
+            }
+          }
+        ]
+        EOF
+
+        exec /usr/local/bin/entry.sh "$@"
+
+    healthcheck:
+      interval: 45s
+      retries: 3
+      test: test -f /certs/.ready
+      timeout: 15s
+    labels:
+      io.balena.features.balena-api: '1'
+    restart: unless-stopped
+    volumes:
+      - cert-manager-data:/etc/letsencrypt
+      - certs-data:/certs
+      - resin-data:/balena
+
+  # https://github.com/balena-io/open-balena-haproxy
   haproxy:
-    build:
-      context: ./haproxy
-      dockerfile: Dockerfile
+    build: apps/haproxy
+    depends_on:
+      - cert-manager
     healthcheck:
       test: /bin/sh -c 'ls -la /proc/*/exe | grep -q /usr/local/sbin/haproxy'
       interval: 60s
       timeout: 10s
       retries: 3
     ports:
-      - "80:80"
-      - "5432:5432"
-      - "6379:6379"
+      - 80
+      - 443
+      - 1936
+      - 5432
+      - 6379
     environment:
+      <<: *default-environment
       LOGLEVEL: info
+    volumes:
+      - certs-data:/certs
     sysctls:
       net.ipv4.ip_unprivileged_port_start: 0
-    networks:
-      internal:
-        aliases:
-          - jel.ly.fish.local
-          - livechat.ly.fish.local
-          - api.ly.fish.local
-          - postgres.ly.fish.local
-          - redis.ly.fish.local
     restart: unless-stopped
 
-networks:
-  internal: {}
+  # dynamically configure Docker network aliases based on DNS_TLD and ALIAS list
+  # allows DNS resolution from systemd-less images on the Docker network
+  # (TBC) https://github.com/prometheus/prometheus/issues/2537
+  haproxy-sidecar:
+    image: docker
+    depends_on:
+      - haproxy
+    restart: unless-stopped
+    entrypoint:
+      - /bin/sh
+      - '-c'
+    command:
+      - |
+        set -exa
 
+        which curl || apk add curl --no-cache
+        which jq || apk add jq --no-cache
+
+        network="${BALENA_APP_ID}_default"
+
+        for alias in $(echo "${ALIASES}" | sed 's/,/ /g'); do
+            hostname="${alias}.${DNS_TLD}"
+            aliases="--alias ${hostname} ${aliases}"
+        done
+
+        while true; do
+            while [ "$(curl --silent --retry 3 --fail \
+              "${BALENA_SUPERVISOR_ADDRESS}/v1/device?apikey=${BALENA_SUPERVISOR_API_KEY}" \
+              -H "Content-Type:application/json" | jq -r '.update_pending')" = 'true' ]; do
+                sleep "$((RANDOM%1+1))s"
+            done
+            sleep "$((RANDOM%5+5))s"
+
+            while [ "$(docker ps \
+              --filter "name=haproxy_" \
+              --filter "status=running" \
+              --filter "network=${network}" \
+              --format "{{.ID}}")" = '' ]; do
+                sleep "$((RANDOM%1+1))s"
+            done
+
+            haproxy="$(docker ps \
+              --filter "name=haproxy_" \
+              --filter "status=running" \
+              --filter "network=${network}" \
+              --format "{{.ID}}")"
+
+            if ! [ "${restarted}" = "${haproxy}" ]; then
+                docker network disconnect "${network}" "${haproxy}"
+
+                docker network connect ${aliases} "${network}" "${haproxy}"
+
+                docker restart "${haproxy}"
+
+                restarted="${haproxy}"
+            fi
+
+            sleep "$((RANDOM%15+15))s"
+        done
+
+    environment:
+      <<: *default-environment
+      # resolved internally as {{service}}.{{tld-without-balena-device-uuid}}
+      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3
+    labels:
+      io.balena.features.balena-socket: '1'
+      io.balena.features.supervisor-api	: '1'
+
+  # only relevant when running in AWS/EC2
+  tag-sidecar:
+    image: bash:alpine3.14
+    restart: 'no'
+    entrypoint:
+      - /usr/local/bin/bash
+      - '-c'
+    command:
+      - |
+        set -euxa
+
+        [[ $ENABLED == 'true' ]] || exit
+
+        curl_with_opts() {
+            curl --fail --silent --retry 3 --connect-timeout 3 --compressed "$@"
+        }
+
+        get_aws_meta() {
+            if [[ $1 =~ ^.*/$ ]]; then
+                for key in $(curl_with_opts "$1"); do
+                    get_aws_meta "$1${key}"
+                done
+            else
+                echo "$(echo "$1" | cut -c41-);$(curl_with_opts "$1" | tr '\n' ',')"
+            fi
+        }
+
+        which curl || apk add curl --no-cache
+        which jq || apk add jq --no-cache
+
+        device_id="$(curl_with_opts \
+          "${BALENA_API_URL}/v6/device?\$filter=uuid%20eq%20'${BALENA_DEVICE_UUID}'" \
+          -H "Content-Type: application/json" \
+          -H "Authorization: Bearer ${BALENA_API_KEY}" | jq -r .d[].id)"
+
+        for key in $(curl_with_opts http://169.254.169.254/latest/meta-data \
+          | grep -Ev 'iam|metrics|identity-credentials|network|events'); do
+            for kv in $(get_aws_meta "http://169.254.169.254/latest/meta-data/${key}"); do
+                tag_key="$(echo "${kv}" | awk -F';' '{print $1}')"
+                value="$(echo "${kv}" | awk -F';' '{print $2}')"
+
+                curl_with_opts "${BALENA_API_URL}/v6/device_tag" \
+                  -H "Content-Type: application/json" \
+                  -H "Authorization: Bearer ${BALENA_API_KEY}" \
+                  --data "{\"device\":\"${device_id}\",\"tag_key\":\"${tag_key}\",\"value\":\"${value}\"}"
+            done
+        done
+    environment:
+      <<: *default-environment
+      ENABLED: true
+    labels:
+      io.balena.features.balena-api: '1'
+
+  # https://github.com/balena-os/wifi-connect
+  wifi-connect:
+    restart: unless-stopped
+    build: apps/wifi-connect
+    depends_on:
+      - haproxy
+    labels:
+      io.balena.features.dbus: 1
+    environment:
+      DBUS_SYSTEM_BUS_ADDRESS: unix:path=/host/run/dbus/system_bus_socket
+      PORTAL_LISTENING_PORT: 1337
+    cap_add:
+      - NET_ADMIN
+    network_mode: host
