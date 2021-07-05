@@ -64,6 +64,7 @@ const config = {
 
 	devServer: {
 		/* https://stackoverflow.com/a/69247166/1559300 */
+		/* https://github.com/webpack/webpack-dev-server/blob/master/CHANGELOG.md#-breaking-changes-4 */
 		sockPort: 'location',
 		host: '0.0.0.0',
 		port: process.env.LIVECHAT_PORT,
