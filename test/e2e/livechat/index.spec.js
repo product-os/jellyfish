@@ -30,6 +30,12 @@ const context = {
 	}
 }
 
+// Default waitForSelector timeout (milliseconds).
+const timeoutMs = 60 * 1000
+const waitForSelectorTimeout = {
+	timeout: timeoutMs
+}
+
 ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
@@ -96,21 +102,21 @@ ava.serial('Initial create conversation page', async (test) => {
 	await initChat(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-create-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-create-conversation-page"]', waitForSelectorTimeout),
 		'should be displayed when there are no conversations'
 	)
 
 	await createConversation(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="chat-page"]'),
+		page.waitForSelector('[data-test="chat-page"]', waitForSelectorTimeout),
 		'should navigate to created conversation chat page'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should navigate to initial short conversation list page when pressing back button'
 	)
 })
@@ -124,7 +130,7 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await initChat(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should be displayed initially when there is at least one conversation'
 	)
 
@@ -141,28 +147,30 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await page.click(`[data-test-id="${selectedConversationId}"]`)
 
 	await test.notThrowsAsync(
-		page.waitForSelector(`[data-test="chat-page"][data-test-id="${selectedConversationId}"]`),
+		page.waitForSelector(`[data-test="chat-page"][data-test-id="${selectedConversationId}"]`,
+			waitForSelectorTimeout
+		),
 		'should navigate to respective chat page when clicked on the conversation'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should navigate back to short conversation list page when pressing back button'
 	)
 
 	await page.click('[data-test="start-new-conversation-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="create-new-conversation-page"]'),
+		page.waitForSelector('[data-test="create-new-conversation-page"]', waitForSelectorTimeout),
 		'should navigate to create conversation page when clicking "Start new conversation" button'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should navigate back to short conversation list page when pressing back button'
 	)
 
@@ -175,23 +183,21 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await createThreads(context, 2, 1)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="view-all-conversations-button"]', {
-			timeout: 60 * 1000
-		}),
+		page.waitForSelector('[data-test="view-all-conversations-button"]', waitForSelectorTimeout),
 		'should display "View all conversations" link when there are more then two conversations'
 	)
 
 	await page.click('[data-test="view-all-conversations-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		page.waitForSelector('[data-test="full-conversation-list-page"]', waitForSelectorTimeout),
 		'should navigate to full conversation list page when pressing "View all conversations" link'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should navigate back to short conversation list page when pressing back button'
 	)
 
@@ -200,14 +206,14 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await initChat(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should be displayed initially when there is at least one conversation'
 	)
 
 	await page.click('[data-test="view-all-conversations-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		page.waitForSelector('[data-test="full-conversation-list-page"]', waitForSelectorTimeout),
 		'should navigate to full conversation list page when pressing "View all conversations" link'
 	)
 
@@ -227,48 +233,54 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await scrollToLatestConversationListItem(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${threads[0].id}"]`),
+		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${threads[0].id}"]`,
+			waitForSelectorTimeout
+		),
 		'should load older conversations when scrolled down'
 	)
 
 	const dynamicallyCreatedThread = (await createThreads(context, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1, 1))[0]
 
 	await test.notThrowsAsync(
-		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${dynamicallyCreatedThread.id}"]`),
+		page.waitForSelector(`[data-test-component="card-chat-summary"][data-test-id="${dynamicallyCreatedThread.id}"]`,
+			waitForSelectorTimeout
+		),
 		'should display dynamically created conversation'
 	)
 
 	await page.click(`[data-test-component="card-chat-summary"][data-test-id="${dynamicallyCreatedThread.id}"]`)
 
 	await test.notThrowsAsync(
-		page.waitForSelector(`[data-test="chat-page"][data-test-id="${dynamicallyCreatedThread.id}"]`),
+		page.waitForSelector(`[data-test="chat-page"][data-test-id="${dynamicallyCreatedThread.id}"]`,
+			waitForSelectorTimeout
+		),
 		'should navigate to respective chat page when clicked on the conversation'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		page.waitForSelector('[data-test="full-conversation-list-page"]', waitForSelectorTimeout),
 		'should navigate back to full conversation list page when pressing back button'
 	)
 
 	await page.click('[data-test="start-new-conversation-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="create-new-conversation-page"]'),
+		page.waitForSelector('[data-test="create-new-conversation-page"]', waitForSelectorTimeout),
 		'should navigate to create conversation page when clicking "Start new conversation" button'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="full-conversation-list-page"]'),
+		page.waitForSelector('[data-test="full-conversation-list-page"]', waitForSelectorTimeout),
 		'should navigate back to full conversation list page when pressing back button'
 	)
 })
 
 ava.serial('Create conversation page', async (test) => {
-	test.timeout(10 * 60 * 1000)
+	test.timeout(10 * timeoutMs)
 
 	const {
 		page
@@ -277,23 +289,23 @@ ava.serial('Create conversation page', async (test) => {
 	await createThreads(context, 0, 1)
 	await initChat(context)
 
-	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
+	await page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout)
 
-	await page.click('[data-test="start-new-conversation-button"]')
+	await page.click('[data-test="start-new-conversation-button"]', waitForSelectorTimeout)
 
-	await page.waitForSelector('[data-test="create-new-conversation-page"]')
+	await page.waitForSelector('[data-test="create-new-conversation-page"]', waitForSelectorTimeout)
 
 	await createConversation(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="chat-page"]'),
+		page.waitForSelector('[data-test="chat-page"]', waitForSelectorTimeout),
 		'should navigate to created conversation chat page'
 	)
 
 	await page.click('[data-test="navigate-back-button"]')
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should navigate back to short conversation list page when pressing back button'
 	)
 
@@ -305,11 +317,11 @@ ava.serial('Create conversation page', async (test) => {
 
 	await initChat(context)
 
-	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
+	await page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout)
 
 	await page.click(`[data-test-component="card-chat-summary"][data-test-id="${thread.id}"]`)
 
-	await page.waitForSelector('[data-test="chat-page"]')
+	await page.waitForSelector('[data-test="chat-page"]', waitForSelectorTimeout)
 
 	console.log('##################### STAGE 2 #####################')
 
@@ -374,7 +386,7 @@ ava.serial('Create conversation page', async (test) => {
 	await initChat(context)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		page.waitForSelector('[data-test="initial-short-conversation-page"]', waitForSelectorTimeout),
 		'should be displayed initially when there is at least one conversation'
 	)
 
@@ -384,6 +396,6 @@ ava.serial('Create conversation page', async (test) => {
 
 	console.log('##################### STAGE 11 #####################')
 
-	await page.waitForSelector(`[data-test="chat-page"][data-test-id="${thread.id}"]`)
+	await page.waitForSelector(`[data-test="chat-page"][data-test-id="${thread.id}"]`, waitForSelectorTimeout)
 	test.pass('should navigate to thread')
 })
