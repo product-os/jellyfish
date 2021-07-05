@@ -1,5 +1,0 @@
-# Config store connection definition
-version: v1.0.0
-
-config-store:
-  kubernetes:
