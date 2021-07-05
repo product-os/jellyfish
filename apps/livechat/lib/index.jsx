@@ -130,9 +130,19 @@ const actions = {
 			}, event.origin)
 		}
 
+		const onNotificationsChange = (notifications) => {
+			event.source.postMessage({
+				type: 'notifications-change',
+				payload: {
+					data: notifications
+				}
+			}, event.origin)
+		}
+
 		return init({
 			...event.data.payload,
-			onClose
+			onClose,
+			onNotificationsChange
 		})
 	}
 }
