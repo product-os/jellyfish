@@ -126,6 +126,9 @@ const config = {
 		new NodePolyfillPlugin()
 	],
 	devServer: {
+		client: {
+			webSocketURL: 'auto://0.0.0.0:0/ws'
+		},
 		static: {
 			directory: outDir
 		},
