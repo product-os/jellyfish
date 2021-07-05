@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-front
+      hash: e220e61ecb5917f340721bf2e7f5b04db5f47da2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.2.19
+  date: 2021-07-05T00:54:32.440Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: a342998d3007d48974bcaa436f44e3cfba27cf3d
       body: ''
