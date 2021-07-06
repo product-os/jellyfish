@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: ed3ecbace4afb267a847ab3d3bd6f8f045611013
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.5.4
+  date: 2021-07-06T13:11:35.000Z
+- commits:
     - subject: Remove optional chaining
       hash: 41d9e90366b2286de88decb080f58c176823c860
       body: |
