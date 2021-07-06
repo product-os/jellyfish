@@ -21,6 +21,8 @@
     "node_modules/@balena/jellyfish-plugin-discourse/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-flowdock/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-github/build/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-typeform/build/**/*.js"
+    "node_modules/@balena/jellyfish-plugin-typeform/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-outreach/build/**/*.js",
+    "node_modules/@balena/jellyfish-plugin-front/build/**/*.js"
   ]
 }
