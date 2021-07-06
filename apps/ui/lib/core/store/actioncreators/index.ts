@@ -247,6 +247,10 @@ export const selectors = {
 		const user = selectors.getCurrentUser(state);
 		return _.get(user, ['data', 'profile', 'homeView'], null);
 	},
+	getActiveLoop: (state): string | null => {
+		const user = selectors.getCurrentUser(state);
+		return _.get(user, ['data', 'profile', 'activeLoop'], null);
+	},
 	getInboxQuery: (state) => {
 		const user = selectors.getCurrentUser(state);
 		const groupNames = selectors.getMyGroupNames(state);

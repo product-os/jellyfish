@@ -211,7 +211,7 @@ const cleanPath = (location) => {
 };
 
 const groupViews = memoize<any>(
-	(tail, usersStarredViews, userSlug, productOS, orgs) => {
+	(tail, usersStarredViews, userSlug, repos: core.Contract[], orgs) => {
 		const sortedTail = _.sortBy(tail, 'name');
 		const groups: any = {
 			defaults: [],
@@ -236,7 +236,7 @@ const groupViews = memoize<any>(
 				starredViews.push(view);
 			}
 		};
-		_.forEach(productOS, addToStarredViewsIfStarred);
+		_.forEach(repos, addToStarredViewsIfStarred);
 		_.forEach(sortedTail, addToStarredViewsIfStarred);
 
 		if (starredViews.length) {
@@ -252,17 +252,15 @@ const groupViews = memoize<any>(
 			groups.main.children.push(starredViewsTree);
 		}
 
-		// Add the productOS comms rooms to the top of the sidebar
-		// TODO: Replace this with a fully fledged loop mapping once the loop
-		// structure becomes concrete.
+		// Add the repositories to the top of the sidebar
 		groups.main.children.push({
-			name: 'productOS',
-			key: 'product-os',
-			children: (productOS || []).map((item) => {
+			name: 'Repositories',
+			key: 'repos',
+			children: (repos || []).map((repo) => {
 				return {
-					name: item.name.replace(/^.*\//, ''),
-					key: item.slug,
-					card: item,
+					name: (repo.name || repo.slug).replace(/^.*\//, ''),
+					key: repo.slug,
+					card: repo,
 					isStarred: false,
 					children: [],
 				};
@@ -354,6 +352,7 @@ export default class HomeChannel extends React.Component<any, any> {
 
 		if (this.props.channel.data.head) {
 			this.props.actions.loadViewData(this.props.channel.data.head);
+			this.fetchRepos();
 		}
 
 		this.wrapper = React.createRef();
@@ -431,6 +430,51 @@ export default class HomeChannel extends React.Component<any, any> {
 		}%, 0, 0)`;
 	};
 
+	fetchRepos = () => {
+		const { actions, activeLoop } = this.props;
+		// TODO: Filtering by owner is a temporary measure that is imperfect. Ultimately
+		//       we want to filter by the `loop` field. But first we will need to:
+		//       a) update the GitHub sync integration to automatically set the `loop` field
+		//          when syncing new repos.
+		//       b) manually migrate all existing repos to the correct loop
+		//       Then we can modify this query to filter based on the top-level loop field.
+		// Note: Currently this just defaults to product-os if no loop is specified ('All loops')
+		//       This avoids us fetching a ridiculous list of repos.
+		// Note: The loop slug prefix may change - at which point, if we're still filtering by
+		//       owner based on the active loop, this replace regex will need to change too!
+		const repoOwner = activeLoop
+			? activeLoop.replace(/^loop[-\/]/, '').split('@')[0]
+			: 'product-os';
+		actions
+			.queryAPI(
+				{
+					type: 'object',
+					required: ['type', 'data'],
+					properties: {
+						type: {
+							const: 'repository@1.0.0',
+						},
+						data: {
+							type: 'object',
+							required: ['owner'],
+							properties: {
+								owner: {
+									const: repoOwner,
+								},
+							},
+						},
+					},
+				},
+				{
+					sortBy: 'name',
+				},
+			)
+			// TS-TODO: results should be of type RepositoryContract[]
+			.then((repos: core.Contract[]) => {
+				this.setState({ repos });
+			});
+	};
+
 	logout = () => {
 		this.props.actions.logout();
 	};
@@ -453,37 +497,12 @@ export default class HomeChannel extends React.Component<any, any> {
 		// Register for desktop notifications now that we're safely logged in
 		// (This keeps Firefox happy)
 		registerForNotifications();
-
-		// TODO: Replace this with parsing loop cards to define the chat room
-		// structure
-		actions
-			.queryAPI(
-				{
-					type: 'object',
-					required: ['type', 'name'],
-					properties: {
-						type: {
-							const: 'repository@1.0.0',
-						},
-						name: {
-							pattern: '^product-os',
-						},
-					},
-				},
-				{
-					sortBy: ['data', 'name'],
-				},
-			)
-			.then((results) => {
-				this.setState({
-					productOS: results,
-				});
-			});
 	}
 
 	componentDidUpdate(prevProps) {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
 			this.props.actions.loadViewData(this.props.channel.data.head);
+			this.fetchRepos();
 		}
 		if (
 			this.state.showMenu &&
@@ -536,7 +555,7 @@ export default class HomeChannel extends React.Component<any, any> {
 		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
 		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
 
-		const { productOS, showDrawer, sliding } = this.state;
+		const { repos, showDrawer, sliding } = this.state;
 		const activeChannel = channels.length > 1 ? channels[1] : null;
 		const username = user ? user.name || user.slug.replace(/user-/, '') : null;
 		if (!head) {
@@ -546,13 +565,7 @@ export default class HomeChannel extends React.Component<any, any> {
 				</Box>
 			);
 		}
-		const groupedViews = groupViews(
-			tail,
-			starredViews,
-			user.slug,
-			productOS,
-			orgs,
-		);
+		const groupedViews = groupViews(tail, starredViews, user.slug, repos, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;
 		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
