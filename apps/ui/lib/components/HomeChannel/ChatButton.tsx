@@ -136,7 +136,7 @@ export const ChatButton = ({ onClick, ...rest }) => {
 					text: 'Open the JellyFish support chat',
 				}}
 			/>
-			{Boolean(notifications?.length) && (
+			{notifications && notifications.length && (
 				<StyledBadge shade={5}>{notifications!.length.toString()}</StyledBadge>
 			)}
 		</Container>
