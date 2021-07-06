@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: af637acbb664232c8530f5267d21c9fa4c7e54bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.5.2
+  date: 2021-07-06T08:17:55.486Z
+- commits:
     - subject: Add new plugins to nodemon configs
       hash: 2155fa8daee03ccf64c59cc0a791c8ea198647bc
       body: ''
