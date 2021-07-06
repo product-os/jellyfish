@@ -14,7 +14,7 @@ const {
 const express = require('express')
 const http = require('http')
 const basicAuth = require('express-basic-auth')
-const prometheus = require('socket.io-prometheus-metrics')
+const prometheus = require('@balena/socket-prometheus-metrics')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 const packageJSON = require('../../../../package.json')
 
@@ -161,9 +161,10 @@ module.exports = (jellyfish, server) => {
 			monitor: environment.metrics.token
 		}
 	}))
-	application.get('/metrics', (req, res) => {
+	application.get('/metrics', async (req, res) => {
 		res.set('Content-Type', metrics.register.contentType)
-		res.end(metrics.register.metrics())
+		res.send(await metrics.register.metrics())
+		res.end()
 	})
 	expressServer.listen(environment.metrics.ports.socket)
 
