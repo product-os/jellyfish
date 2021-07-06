@@ -151,7 +151,7 @@ ava('Should generate a notification if message is added to subscribed thread', a
 				]
 			}
 		}
-	}, 3)
+	})
 
 	test.truthy(
 		notification,
