@@ -57,7 +57,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^5.2.10",
+    "@balena/jellyfish-client-sdk": "^5.3.0",
     "ava": "^3.15.0",
     "depcheck": "^1.4.2",
     "eslint": "^7.30.0",
