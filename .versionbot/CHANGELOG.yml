@@ -1,4 +1,26 @@
 - commits:
+    - subject: Remove optional chaining
+      hash: 41d9e90366b2286de88decb080f58c176823c860
+      body: |
+        Not supported yet.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update non-major-frontend'
+      hash: e29eea0118b2f9ff7f0d67bdff6598166eaa9a71
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 35.5.3
+  date: 2021-07-06T09:31:14.958Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: af637acbb664232c8530f5267d21c9fa4c7e54bc
       body: ''
