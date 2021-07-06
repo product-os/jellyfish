@@ -1,4 +1,32 @@
 - commits:
+    - subject: Fetch repos in sidebar based on active loop
+      hash: 1023a32ca54ade0931259fd17d7a9e591f76eb6c
+      body: |
+        Defaults to 'product-os' if no active loop is set.
+
+        New section heading: 'Repositories'
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add getActiveLoop selector
+      hash: fcbed8cc7bbb359c0e27ef51422ed049c81c0b0f
+      body: >
+        Note - we don't currently set this `activeLoop` value in the user's
+        profile. It will be set by the Loop Selector - which is coming soon.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 35.5.0
+  date: 2021-07-06T05:23:41.161Z
+- commits:
     - subject: Emit notifications change event to parent window
       hash: 9ffbe40835c82b4a20a594885b2a3e55ef485262
       body: ''
