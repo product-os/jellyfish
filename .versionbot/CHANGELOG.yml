@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add new plugins to nodemon configs
+      hash: 2155fa8daee03ccf64c59cc0a791c8ea198647bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 35.5.1
+  date: 2021-07-06T07:12:47.781Z
+- commits:
     - subject: Fetch repos in sidebar based on active loop
       hash: 1023a32ca54ade0931259fd17d7a9e591f76eb6c
       body: |
