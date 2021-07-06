@@ -1,4 +1,15 @@
 - commits:
+    - subject: Emit notifications change event to parent window
+      hash: 9ffbe40835c82b4a20a594885b2a3e55ef485262
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 35.4.0
+  date: 2021-07-06T03:53:18.940Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 65e97a634064476bf0e0684675aa2c1cd8f7fd88
       body: ''
