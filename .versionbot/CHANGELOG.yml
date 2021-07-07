@@ -1,4 +1,15 @@
 - commits:
+    - subject: Improve livechat tests
+      hash: c9a4c940a042205503b1d4577f2ae7d6ef469272
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 36.1.0
+  date: 2021-07-07T18:18:04.888Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.1.0'
       hash: 4762cfd7133db855f4d11189d7d4d3f3e11bc3b5
       body: |
