@@ -5,7 +5,6 @@
  */
 
 const ava = require('ava')
-
 const {
 	v4: uuid
 } = require('uuid')
@@ -20,8 +19,9 @@ const {
 const helpers = require('./helpers')
 const {
 	createConversation,
-	createOrg,
 	createThreads,
+	subscribeToThread,
+	waitForNotifications,
 	getRenderedConversationIds,
 	initChat,
 	insertAgentReply,
@@ -40,9 +40,13 @@ ava.serial.before(async () => {
 		context
 	})
 
-	const org = await createOrg(context)
+	const org = await context.sdk.card.get('org-balena')
 	context.supportAgent = await prepareUser(context, org, 'user-community', 'Support Agent')
 	context.supportUser = await prepareUser(context, org, 'user-external-support', 'Support User')
+
+	for (const thread of await context.supportUser.sdk.card.getAllByType('support-thread@1.0.0')) {
+		await context.supportUser.sdk.card.remove(thread.id, 'support-thread@1.0.0')
+	}
 })
 
 ava.serial.beforeEach(async () => {
@@ -63,7 +67,7 @@ ava.serial.beforeEach(async () => {
 						// This is a heuristic for finding just the threads created via livechat,
 						// so that we don't accidentally delete other test data (e.g. sync tests)
 						type: 'string',
-						const: 'jellyfish'
+						const: 'balenaCloud'
 					}
 				}
 			}
@@ -315,6 +319,7 @@ ava.serial('Chat page', async (test) => {
 	} = context
 
 	const thread = (await createThreads(context, 0, 1))[0]
+	await subscribeToThread(context, thread)
 
 	await page.reload()
 	await initChat(context)
@@ -336,7 +341,7 @@ ava.serial('Chat page', async (test) => {
 		'should display support user\'s username'
 	)
 
-	await insertAgentReply(context, thread, 'Response from agent')
+	const response = await insertAgentReply(context, thread, 'Response from agent')
 
 	await test.notThrowsAsync(
 		waitForInnerText(
@@ -348,5 +353,11 @@ ava.serial('Chat page', async (test) => {
 		'should display support agent\'s username'
 	)
 
-	test.pass()
+	const [ notification ] = await waitForNotifications(context, 1)
+
+	test.is(
+		notification.links['is attached to'][0].id,
+		response.id,
+		'should receive notification'
+	)
 })

@@ -48,11 +48,13 @@ const Livechat = ({
 	}, [])
 
 	const sdk = React.useMemo(() => {
-		return getSdk({
+		window.sdk = getSdk({
 			apiPrefix: environment.api.prefix,
 			apiUrl: environment.api.url,
 			authToken: localStorage.getItem('token')
 		})
+
+		return window.sdk
 	}, [])
 
 	const errorReporter = React.useMemo(() => {
@@ -119,8 +121,6 @@ const init = (options = {}) => {
 		), document.getElementById('app'), resolve)
 	})
 }
-
-window.init = init
 
 const actions = {
 	async init (event) {
