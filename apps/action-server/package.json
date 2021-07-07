@@ -44,7 +44,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-config": "^1.3.4",
+    "@balena/jellyfish-config": "^1.4.3",
     "@balena/jellyfish-types": "^0.8.0",
     "@balena/lint": "^6.1.1",
     "@types/jest": "^26.0.23",
