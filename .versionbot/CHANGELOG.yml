@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 738c5ba49f20bc3e021bde579b8b6a0be51c1b6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.0.1
+  date: 2021-07-07T06:53:48.714Z
+- commits:
     - subject: Make changes for Livepush
       hash: a5aa4abda505df8d1fa6f97af354b1dc74df7b28
       body: ''
