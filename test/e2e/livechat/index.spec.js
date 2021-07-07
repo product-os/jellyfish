@@ -43,10 +43,6 @@ ava.serial.before(async () => {
 	const org = await context.sdk.card.get('org-balena')
 	context.supportAgent = await prepareUser(context, org, 'user-community', 'Support Agent')
 	context.supportUser = await prepareUser(context, org, 'user-external-support', 'Support User')
-
-	for (const thread of await context.supportUser.sdk.card.getAllByType('support-thread@1.0.0')) {
-		await context.supportUser.sdk.card.remove(thread.id, 'support-thread@1.0.0')
-	}
 })
 
 ava.serial.beforeEach(async () => {
