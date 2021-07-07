@@ -1,4 +1,38 @@
 - commits:
+    - subject: Make changes for Livepush
+      hash: a5aa4abda505df8d1fa6f97af354b1dc74df7b28
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Install dependencies in all apps before linting.
+      hash: 9352a00cf8cf2fa6df2e4aa10ada2d4a6f0963bf
+      body: |
+        Also build action-server before running any integration tests etc.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Convert action-server to TypeScript
+      hash: e4e64474555d0e6c5fd1f8ae2f09e38e2f2a948d
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.0.0
+  date: 2021-07-07T05:10:13.944Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: b1f33cccfe84fbe30b100b39a4c6397870cab85a
       body: ''
