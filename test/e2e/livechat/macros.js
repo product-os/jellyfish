@@ -22,7 +22,7 @@ exports.createThreads = async (context, start, count) => {
 			name: `Thread subject ${index}`,
 			markers,
 			data: {
-				product: 'jellyfish',
+				product: 'balenaCloud',
 				status: 'open'
 			}
 		})
@@ -31,6 +31,16 @@ exports.createThreads = async (context, start, count) => {
 	}
 
 	return threads
+}
+
+exports.subscribeToThread = async (context, thread) => {
+	const subscription = await context.supportUser.sdk.card.create({
+		type: 'subscription@1.0.0',
+		slug: `subscription-${uuid()}`,
+		data: {}
+	})
+
+	await context.supportUser.sdk.card.link(thread, subscription, 'has attached')
 }
 
 exports.getRenderedConversationIds = async (context) => {
@@ -53,16 +63,6 @@ exports.createConversation = async (context) => {
 	await context.page.type('[data-test="conversation-subject"]', 'Conversation subject')
 	await context.page.type('.new-message-input', 'Conversation first message')
 	await context.page.click('[data-test="start-conversation-button"]')
-}
-
-exports.createOrg = async (context) => {
-	const uniqueId = uuid()
-	return context.sdk.card.create({
-		type: 'org',
-		slug: `org-${uniqueId}`,
-		name: `Org ${uniqueId}`,
-		version: '1.0.0'
-	})
 }
 
 exports.prepareUser = async (context, org, role, name) => {
@@ -127,10 +127,19 @@ exports.initChat = async (context) => {
 	await context.page.evaluate(async (supportUserToken, supportUserSlug) => {
 		window.localStorage.setItem('token', supportUserToken)
 
-		await window.init({
-			product: 'jellyfish',
-			productTitle: 'Jelly',
-			userSlug: supportUserSlug
+		window.addEventListener('message', (event) => {
+			if (event.data.type === 'notifications-change') {
+				window.notifications = event.data.payload.data
+			}
+		})
+
+		window.postMessage({
+			type: 'init',
+			payload: {
+				product: 'balenaCloud',
+				productTitle: 'Balena',
+				userSlug: supportUserSlug
+			}
 		})
 	}, context.supportUser.sdk.getAuthToken(), context.supportUser.card.slug)
 }
@@ -149,4 +158,18 @@ exports.insertAgentReply = async (context, thread, message) => {
 			message
 		}
 	})
+}
+
+exports.waitForNotifications = (context, notificationsLength) => {
+	return context.page.evaluate(async (length) => {
+		const check = (cb) => {
+			if (window.notifications && window.notifications.length === length) {
+				return cb(window.notifications)
+			}
+
+			return window.setTimeout(check, 500, cb)
+		}
+
+		return new Promise(check)
+	}, notificationsLength)
 }
