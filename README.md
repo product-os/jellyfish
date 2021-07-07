@@ -33,6 +33,7 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Sentry**](https://sentry.io/organizations/balena/issues/?project=1366139)
 	- [**New Relic**](https://synthetics.newrelic.com/accounts/2054842/monitors/8bf2b38d-7c2a-4d71-9629-7cbf05b6bd21)
 	- [**Metrics**](https://monitor.balena-cloud.com/dashboards/f/auto/auto)
+	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
 - **Services**
 	- [**Using New Relic**](https://github.com/product-os/jellyfish/blob/master/docs/newrelic.markdown)
 	- [**Using Balena CI**](https://github.com/product-os/jellyfish/blob/master/docs/balenaci.markdown)
