@@ -7,6 +7,11 @@ env:
   NODE_ENV: production
 
 tasks:
+  build-action-server:
+    dir: apps/action-server
+    cmds:
+      - npm run build
+
   clean-github:
     cmds:
       - cmd: make clean-github
@@ -67,6 +72,7 @@ tasks:
 
   test:
     cmds:
+      - task: build-action-server
       - task: clean-github
       - task: clean-front
       - task: wait-for-api

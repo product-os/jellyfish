@@ -18,7 +18,9 @@ const bootstrap = require('../../lib/bootstrap')
 const {
 	getPluginManager
 } = require('../../lib/plugins')
-const actionServer = require('../../../action-server/lib/bootstrap')
+const {
+	bootstrapWorker
+} = require('../../../action-server/build/bootstrap')
 const utils = require('../../../../test/integration/utils')
 
 const workerOptions = {
@@ -40,7 +42,7 @@ module.exports = {
 			database: workerOptions.database,
 			pluginManager: getPluginManager(test.context.context)
 		})
-		test.context.actionWorker = await actionServer.worker(
+		test.context.actionWorker = await bootstrapWorker(
 			test.context.context, workerOptions)
 
 		test.context.sdk = getSdk({

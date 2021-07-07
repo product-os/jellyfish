@@ -14,7 +14,8 @@ COPY ./apps ./apps
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-    cd apps/server && npm ci && rm -f ~/.npmrc
+		cd apps/action-server && npm ci && \
+    cd ../../apps/server && npm ci && rm -f ~/.npmrc
 
 COPY ./test ./test
 COPY ./Makefile ./Makefile

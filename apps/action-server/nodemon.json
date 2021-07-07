@@ -2,7 +2,7 @@
   "verbose": true,
   "ignoreRoot": [],
   "watch": [
-    "lib/**/*.js",
+    "lib/",
     "node_modules/@balena/jellyfish-action-library/build/**/*.js",
     "node_modules/@balena/jellyfish-assert/build/*.js",
     "node_modules/@balena/jellyfish-core/build/**/*.js",
@@ -24,5 +24,9 @@
     "node_modules/@balena/jellyfish-plugin-typeform/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-outreach/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-front/build/**/*.js"
-  ]
+  ],
+  "execMap": {
+    "ts": "node -r ts-node/register"
+  },
+  "ext": "js,json,ts"
 }
