@@ -12,9 +12,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - tick
-      - worker_1
-      - worker_2
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres

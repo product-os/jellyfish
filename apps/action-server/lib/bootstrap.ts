@@ -11,7 +11,7 @@ import { getLogger } from '@balena/jellyfish-logger';
 import { Worker } from '@balena/jellyfish-worker';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Sync } from '@balena/jellyfish-sync';
-import { MemoryCache, create } from '@balena/jellyfish-core';
+import { MemoryCache, create, cardMixins } from '@balena/jellyfish-core';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { v4 as uuidv4 } from 'uuid';
 import * as metrics from '@balena/jellyfish-metrics';
@@ -22,6 +22,7 @@ import { WorkerTriggerObjectInput } from '@balena/jellyfish-worker/build/types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import { TransformerContract } from '@balena/jellyfish-plugin-product-os';
 import {
+	ContractDefinition,
 	SessionContract,
 	SessionData,
 	StreamChange,
@@ -372,11 +373,35 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	worker.setTransformers(context, transformers);
 
 	// --------> TYPE_Contracts
-	const typeContracts = await jellyfish.query<core.TypeContract>(
-		context,
-		session,
-		SCHEMA_ACTIVE_TYPE_CONTRACTS,
+	// Wait until all plugin card types have been inserted
+	let typeContracts: core.TypeContract[] = [];
+	const pluginTypeCards = _.map(
+		_.filter(options.pluginManager.getCards(context, cardMixins), {
+			type: 'type@1.0.0',
+		}),
+		(pluginTypeCard: ContractDefinition) => {
+			return pluginTypeCard.slug;
+		},
 	);
+	while (true) {
+		logger.info(context, 'Waiting for plugin type cards to be inserted');
+		typeContracts = await jellyfish.query<core.TypeContract>(
+			context,
+			session,
+			SCHEMA_ACTIVE_TYPE_CONTRACTS,
+		);
+		if (
+			_.difference(
+				pluginTypeCards,
+				_.map(typeContracts, (typeContract: core.TypeContract) => {
+					return typeContract.slug;
+				}),
+			).length === 0
+		) {
+			break;
+		}
+		await Bluebird.delay(500);
+	}
 
 	worker.setTypeContracts(context, typeContracts);
 
