@@ -321,8 +321,10 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 				switch (contractType) {
 					case 'triggered-action':
 						worker.removeTrigger(context, data.id);
+						break;
 					case 'transformer':
 						worker.removeTransformer(context, data.id);
+						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
 							return type.id !== data.id;
@@ -333,8 +335,10 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 				switch (contractType) {
 					case 'triggered-action':
 						worker.upsertTrigger(context, transformTriggerCard(data.after));
+						break;
 					case 'transformer':
 						worker.upsertTransformer(context, data.after);
+						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
 							return type.id !== data.id;
@@ -349,8 +353,10 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 			switch (contractType) {
 				case 'triggered-action':
 					worker.removeTrigger(context, data.id);
+					break;
 				case 'transformer':
 					worker.removeTransformer(context, data.id);
+					break;
 				case 'type':
 					const filteredContracts = _.filter(worker.typeContracts, (type) => {
 						return type.id !== data.id;
@@ -370,7 +376,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		return contract.type.split('@')[0];
 	});
 
-	const triggers = contractsMap['triggered-action'];
+	const triggers = contractsMap['triggered-action'] || [];
 
 	logger.info(context, 'Loading triggers', {
 		triggers: triggers.length,
@@ -378,7 +384,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTriggers(context, triggers.map(transformTriggerCard));
 
-	const transformers = contractsMap['transformer'];
+	const transformers = contractsMap['transformer'] || [];
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
@@ -386,7 +392,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTransformers(context, transformers);
 
-	const typeContracts = contractsMap['type'];
+	const typeContracts = contractsMap['type'] || [];
 
 	worker.setTypeContracts(context, typeContracts as TypeContract[]);
 
