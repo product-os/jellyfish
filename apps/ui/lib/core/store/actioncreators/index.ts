@@ -370,7 +370,16 @@ const getCardInternal = (idOrSlug, type, linkVerbs: any[] = []) => {
 	};
 };
 
-export const getSeedData = (viewCard, user) => {
+export interface SeedData {
+	markers?: string[];
+	loop?: string;
+	[key: string]: any;
+}
+
+export const getSeedData = (
+	viewCard: core.ViewContract,
+	user: core.UserContract,
+): SeedData => {
 	if (
 		!viewCard ||
 		(viewCard.type !== 'view' && viewCard.type !== 'view@1.0.0')
@@ -382,9 +391,13 @@ export const getSeedData = (viewCard, user) => {
 		return {};
 	}
 
-	// Always inherit markers from the view card
+	const activeLoop = _.get(user, ['data', 'profile', 'activeLoop'], null);
+
 	return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
+		// Always inherit markers from the view card
 		markers: viewCard.markers,
+		// Inherit the loop from the view card or the active loop
+		loop: viewCard.loop || activeLoop,
 	});
 };
 

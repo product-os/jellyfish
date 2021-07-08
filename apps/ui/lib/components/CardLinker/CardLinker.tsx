@@ -64,6 +64,7 @@ class CardLinker extends React.Component<any, any> {
 		this.props.actions.addChannel({
 			head: {
 				seed: {
+					loop: this.props.card.loop || this.props.activeLoop,
 					markers: this.props.card.markers,
 				},
 				onDone: {
@@ -196,4 +197,12 @@ const cardSource = {
 	},
 };
 
-export default DragSource('channel', cardSource, collect)(CardLinker);
+const DragSourceCardLinker = DragSource(
+	'channel',
+	cardSource,
+	collect,
+)(CardLinker);
+
+// TypeScript doesn't know how to handle DragSource as an input to redux's connect() function
+// so we just wrap it in a simple functional component.
+export default (props) => <DragSourceCardLinker {...props} />;
