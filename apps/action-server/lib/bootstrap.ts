@@ -55,7 +55,7 @@ const getActorKey = async (
 		`${keySlug}@1.0.0`,
 	);
 
-	if (key && key.data.actor === actorId) {
+	if (key && key.active && key.data.actor === actorId) {
 		return key;
 	}
 
@@ -64,18 +64,15 @@ const getActorKey = async (
 		actor: actorId,
 	});
 
-	return jellyfish.replaceCard<SessionData>(
-		context,
-		session,
-		jellyfish.defaults<SessionContract>({
-			slug: keySlug,
-			version: '1.0.0',
-			type: 'session@1.0.0',
-			data: {
-				actor: actorId,
-			},
-		}),
-	);
+	return jellyfish.replaceCard<SessionData>(context, session, {
+		slug: keySlug,
+		active: true,
+		version: '1.0.0',
+		type: 'session@1.0.0',
+		data: {
+			actor: actorId,
+		},
+	});
 };
 
 // TS-TODO: Add 'schedule' to WorkerTriggerObjectInput interface definition
