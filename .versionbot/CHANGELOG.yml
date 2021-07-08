@@ -1,4 +1,31 @@
 - commits:
+    - subject: Inherit loop when creating new contracts
+      hash: 93271e4b612eefe2f0867074cb3689d5a545ee2c
+      body: >
+        Inherit from view card's loop, if set; otherwise from the active loop
+        (if set).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Inherit loop when linking a card
+      hash: b0b9dde04c510e59a352a0d11632e511937fbc3b
+      body: >
+        Inherit from view card's loop, if set; otherwise from the active loop
+        (if set).
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.0
+  date: 2021-07-08T05:26:13.875Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-front to ^1.0.7'
       hash: 9a14e8506dcd1f68e5f825be197e890fd4300ec5
       body: ''
