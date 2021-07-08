@@ -1,4 +1,20 @@
 - commits:
+    - subject: Refactor action-maintain-contact spec
+      hash: ea34f3946bfc1c0f158ec5d3ef44b1963354b726
+      body: |
+        This change changes use of http method to SDK methods and fixes one case
+        where an async action was not waited for correctly, fixing some
+        flakiness.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 36.2.1
+  date: 2021-07-08T08:06:44.216Z
+- commits:
     - subject: Inherit loop when creating new contracts
       hash: 93271e4b612eefe2f0867074cb3689d5a545ee2c
       body: >
