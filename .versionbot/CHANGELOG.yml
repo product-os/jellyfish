@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't display '0' on chat button if no notifications
+      hash: 6f27ef6a88da6b6e9fef3d267eaed148ff265f7c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.2
+  date: 2021-07-08T09:48:13.052Z
+- commits:
     - subject: Refactor action-maintain-contact spec
       hash: ea34f3946bfc1c0f158ec5d3ef44b1963354b726
       body: |
