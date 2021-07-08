@@ -20,11 +20,11 @@ import { getPluginManager } from './plugins';
 import { core, JSONSchema } from '@balena/jellyfish-types';
 import { WorkerTriggerObjectInput } from '@balena/jellyfish-worker/build/types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
-import { TransformerContract } from '@balena/jellyfish-plugin-product-os';
 import {
 	SessionContract,
 	SessionData,
 	StreamChange,
+	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { PluginManager } from '@balena/jellyfish-plugin-base';
 import { ActionPayload } from '@balena/jellyfish-types/build/queue';
@@ -270,23 +270,24 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	let run = true;
 
-	const triggerStream = await jellyfish.stream(
+	const workerContractsSchema = {
+		anyOf: [
+			SCHEMA_ACTIVE_TRIGGERS,
+			SCHEMA_ACTIVE_TRANSFORMERS,
+			SCHEMA_ACTIVE_TYPE_CONTRACTS,
+		],
+	};
+
+	const workerContractsStream = await jellyfish.stream(
 		context,
 		session,
-		SCHEMA_ACTIVE_TRIGGERS,
+		workerContractsSchema,
 	);
-
-	const transformerStream = await jellyfish.stream(
-		context,
-		session,
-		SCHEMA_ACTIVE_TRANSFORMERS,
-	);
-
 	const closeWorker = async () => {
 		run = false;
 		await consumer.cancel();
-		triggerStream.removeAllListeners();
-		await triggerStream.close();
+		workerContractsStream.removeAllListeners();
+		await workerContractsStream.close();
 		await jellyfish.disconnect(context);
 		if (cache) {
 			await cache.disconnect();
@@ -302,44 +303,13 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 			.catch(errorFunction);
 	};
 
-	// --------> TRIGGERS
-	triggerStream.once('error', errorHandler);
+	workerContractsStream.once('error', errorHandler);
 
-	// On a stream event, update the stored triggers in the worker
-	triggerStream.on('data', (data: StreamChange) => {
-		if (data.type === 'update' || data.type === 'insert') {
-			// If `after` is null, the card is no longer available: most likely it has
-			// been soft-deleted, having its `active` state set to false
-			if (data.after === null) {
-				worker.removeTrigger(context, data.id);
-			} else {
-				worker.upsertTrigger(context, transformTriggerCard(data.after));
-			}
-		}
-
-		if (data.type === 'delete') {
-			worker.removeTrigger(context, data.id);
-		}
-	});
-
-	const triggers = await jellyfish.query<TriggeredActionContract>(
-		context,
-		session,
-		SCHEMA_ACTIVE_TRIGGERS,
-	);
-
-	logger.info(context, 'Loading triggers', {
-		triggers: triggers.length,
-	});
-
-	worker.setTriggers(context, triggers.map(transformTriggerCard));
-
-	// --------> TRANSFORMERS
-	// TODO: Replace triggered actions with transformers
-	transformerStream.once('error', errorHandler);
-
-	// On a stream event, update the stored transformers in the worker
-	transformerStream.on('data', (data: StreamChange) => {
+	// On a stream event, update the stored contracts in the worker
+	workerContractsStream.on('data', (data: StreamChange) => {
+		const contractType = (
+			data.after ? data.after.type : data.before.type
+		).split('@')[0];
 		if (
 			data.type === 'update' ||
 			data.type === 'insert' ||
@@ -348,22 +318,67 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 			// If `after` is null, the card is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
 			if (data.after === null) {
-				worker.removeTransformer(context, data.id);
+				switch (contractType) {
+					case 'triggered-action':
+						worker.removeTrigger(context, data.id);
+					case 'transformer':
+						worker.removeTransformer(context, data.id);
+					case 'type':
+						const filteredContracts = _.filter(worker.typeContracts, (type) => {
+							return type.id !== data.id;
+						});
+						worker.setTypeContracts(context, filteredContracts);
+				}
 			} else {
-				worker.upsertTransformer(context, data.after);
+				switch (contractType) {
+					case 'triggered-action':
+						worker.upsertTrigger(context, transformTriggerCard(data.after));
+					case 'transformer':
+						worker.upsertTransformer(context, data.after);
+					case 'type':
+						const filteredContracts = _.filter(worker.typeContracts, (type) => {
+							return type.id !== data.id;
+						});
+						filteredContracts.push(data.after as TypeContract);
+						worker.setTypeContracts(context, filteredContracts);
+				}
 			}
 		}
 
 		if (data.type === 'delete') {
-			worker.removeTransformer(context, data.id);
+			switch (contractType) {
+				case 'triggered-action':
+					worker.removeTrigger(context, data.id);
+				case 'transformer':
+					worker.removeTransformer(context, data.id);
+				case 'type':
+					const filteredContracts = _.filter(worker.typeContracts, (type) => {
+						return type.id !== data.id;
+					});
+					worker.setTypeContracts(context, filteredContracts);
+			}
 		}
 	});
 
-	const transformers = await jellyfish.query<TransformerContract>(
+	const workerContracts = await jellyfish.query<TriggeredActionContract>(
 		context,
 		session,
-		SCHEMA_ACTIVE_TRANSFORMERS,
+		workerContractsSchema,
 	);
+
+	const contractsMap = _.groupBy(workerContracts, (contract) => {
+		return contract.type.split('@')[0];
+	});
+
+	const triggers = contractsMap['triggered-action'];
+
+	logger.info(context, 'Loading triggers', {
+		triggers: triggers.length,
+	});
+
+	worker.setTriggers(context, triggers.map(transformTriggerCard));
+
+	const transformers = contractsMap['transformer'];
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
@@ -371,14 +386,9 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTransformers(context, transformers);
 
-	// --------> TYPE_Contracts
-	const typeContracts = await jellyfish.query<core.TypeContract>(
-		context,
-		session,
-		SCHEMA_ACTIVE_TYPE_CONTRACTS,
-	);
+	const typeContracts = contractsMap['type'];
 
-	worker.setTypeContracts(context, typeContracts);
+	worker.setTypeContracts(context, typeContracts as TypeContract[]);
 
 	// FIXME we should really have 2 workers, the consuming worker and the tick worker
 	if (options.onLoop) {
