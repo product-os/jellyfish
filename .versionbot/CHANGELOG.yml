@@ -1,4 +1,29 @@
 - commits:
+    - subject: Fix some bootstrap stream setup bugs
+      hash: 40a1a6c2a832db6a9eaf2d53e43e70faf3d672c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Merge action server contract loading into a single stream and query
+      hash: 4a4b6cc7e2e78a07e802c6cf7285c3720b04ac69
+      body: |
+        This change also updates type contracts in realtime, which previously
+        did not happen.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 36.2.3
+  date: 2021-07-08T23:41:16.182Z
+- commits:
     - subject: Don't display '0' on chat button if no notifications
       hash: 6f27ef6a88da6b6e9fef3d267eaed148ff265f7c
       body: ''
