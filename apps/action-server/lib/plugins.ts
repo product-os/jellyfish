@@ -16,6 +16,7 @@ import { FlowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
 import { DiscoursePlugin } from '@balena/jellyfish-plugin-discourse';
 import { OutreachPlugin } from '@balena/jellyfish-plugin-outreach';
 import { FrontPlugin } from '@balena/jellyfish-plugin-front';
+import { BalenaAPIPlugin } from '@balena/jellyfish-plugin-balena-api';
 import { core } from '@balena/jellyfish-types';
 
 const logger = getLogger(__filename);
@@ -34,6 +35,7 @@ export const getPluginManager = (context: core.Context): PluginManager => {
 			DiscoursePlugin,
 			OutreachPlugin,
 			FrontPlugin,
+			BalenaAPIPlugin,
 		],
 	});
 };

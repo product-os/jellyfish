@@ -12,10 +12,23 @@ const {
 	v4: uuid
 } = require('uuid')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const {
-	slugify
-} = require('@balena/jellyfish-plugin-default/lib/integrations/utils')
 const helpers = require('./helpers')
+
+/**
+ * @summary Convert to slug-compatible string
+ * @function
+ * @private
+ *
+ * @param {String} string - string to convert
+ * @returns {String} slugified string
+ */
+const slugify = (string) => {
+	return string
+		.trim()
+		.toLowerCase()
+		.replace(/[^a-z0-9-]/g, '-')
+		.replace(/-{1,}/g, '-')
+}
 
 const outreachTest =
 	environment.integration.outreach.appId &&
