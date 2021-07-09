@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: d194fe3917fd2a475cd7c33ca6400f829557eec7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.9
+  date: 2021-07-09T10:55:47.730Z
+- commits:
     - subject: Remove frontend Renovate group
       hash: aa9e6616ca1ac56cd510e49009db0b167c5eb7cd
       body: ''
