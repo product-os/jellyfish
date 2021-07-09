@@ -1,4 +1,15 @@
 - commits:
+    - subject: Ignore inactive session
+      hash: c25093249b64213dcb42e051fd5ecbdeff892fe1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 36.2.11
+  date: 2021-07-09T17:12:29.572Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.1.28'
       hash: 791d2f6e013efa69c6d51b8b26f2213f97046dcd
       body: ''
