@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bring in Balena API integration whoami retry fix
+      hash: 03ba3ee39fcc274f5a651f36e401e812a8d51433
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.2.12
+  date: 2021-07-09T22:56:26.940Z
+- commits:
     - subject: Ignore inactive session
       hash: c25093249b64213dcb42e051fd5ecbdeff892fe1
       body: ''
