@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: b94d44395902aae1eb4fe342ca86b32a41ed9bac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.5
+  date: 2021-07-09T04:54:56.293Z
+- commits:
     - subject: Use plugin-balena-api
       hash: 9d76c5d423b78ae44a43cf3b53b652555a1dc341
       body: ''
