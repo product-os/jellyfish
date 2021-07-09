@@ -52,7 +52,7 @@ tasks:
 
   integration-server:
     cmds:
-      - SERVER_HOST=http://localhost INTEGRATION_BALENA_API_APP_SECRET= INTEGRATION_BALENA_API_APP_ID= make test-integration-server
+      - SERVER_HOST=http://localhost make test-integration-server
 
   export-database:
     cmds:
