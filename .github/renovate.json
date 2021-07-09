@@ -1,22 +1,5 @@
 {
   "extends": [
     "github>product-os/jellyfish-config//config/renovate"
-  ],
-  "packageRules": [
-    {
-      "groupName": "non-major-frontend",
-      "matchPackageNames": [
-        "@balena/jellyfish-ui-components",
-        "@balena/jellyfish-chat-widget",
-        "rendition",
-        "styled-components"
-      ],
-      "matchPackagePatterns": ["^react"],
-      "matchUpdateTypes": [
-        "minor",
-        "patch"
-      ],
-      "automerge": true
-    }
   ]
 }
