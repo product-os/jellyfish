@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use plugin-balena-api
+      hash: 9d76c5d423b78ae44a43cf3b53b652555a1dc341
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.2.4
+  date: 2021-07-09T01:34:26.131Z
+- commits:
     - subject: Fix some bootstrap stream setup bugs
       hash: 40a1a6c2a832db6a9eaf2d53e43e70faf3d672c2
       body: ''
