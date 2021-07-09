@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use jellyfish-ui-components v10
+      hash: bd2ff338607b2d7f9f10ed59a9145fac1333e23d
+      body: |
+        This introduces a smarter way to merge $$links queries in a view.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch graham@balena.io
+        signed-off-by: Graham McCulloch graham@balena.io
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.6
+  date: 2021-07-09T06:15:54.463Z
+- commits:
     - subject: 'patch: Update external-non-major'
       hash: b94d44395902aae1eb4fe342ca86b32a41ed9bac
       body: ''
