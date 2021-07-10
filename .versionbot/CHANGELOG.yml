@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add link to translate test doc
+      hash: f5cc9a8132b81aa853aba01706e7f012b42333f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.2.13
+  date: 2021-07-09T23:59:04.504Z
+- commits:
     - subject: Bring in Balena API integration whoami retry fix
       hash: 03ba3ee39fcc274f5a651f36e401e812a8d51433
       body: ''
