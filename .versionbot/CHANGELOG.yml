@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add linting of TypeScript files to lint-staged actions
+      hash: fc07b2b87593849ffc8844936b2930dcf4621778
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.14
+  date: 2021-07-10T05:46:14.070Z
+- commits:
     - subject: Add link to translate test doc
       hash: f5cc9a8132b81aa853aba01706e7f012b42333f7
       body: ''
