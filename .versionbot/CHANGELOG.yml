@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 6489fb845dec9277171d8c6f89556e31a2edb612
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.15
+  date: 2021-07-10T08:32:13.330Z
+- commits:
     - subject: Add linting of TypeScript files to lint-staged actions
       hash: fc07b2b87593849ffc8844936b2930dcf4621778
       body: ''
