@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency nodemon to ^2.0.12'
+      hash: 120821f9f7724e5c4ed657c989378949ffb5e293
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.16
+  date: 2021-07-10T15:28:54.502Z
+- commits:
     - subject: 'patch: Update external-non-major'
       hash: 6489fb845dec9277171d8c6f89556e31a2edb612
       body: ''
