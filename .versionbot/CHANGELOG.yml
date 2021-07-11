@@ -1,4 +1,25 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 65326be57d45ce992850951140868da62bece5d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'patch: Update dependency typedoc to ^0.21.3'
+      hash: 8ba85077714f8fde33e09cd530be47bb7fff0662
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.17
+  date: 2021-07-11T06:54:47.545Z
+- commits:
     - subject: 'patch: Update dependency nodemon to ^2.0.12'
       hash: 120821f9f7724e5c4ed657c989378949ffb5e293
       body: ''
