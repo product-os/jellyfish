@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.2.0'
+      hash: daa71742e2c22cc5bcd5a57397688b29693af4e0
+      body: |
+        Update @balena/jellyfish-plugin-github from 1.1.39 to 1.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.21
+  date: 2021-07-12T10:09:54.587Z
+- commits:
     - subject: Bump jellyfish-client-sdk to v5.3.2
       hash: 46bb3140b753287cf02366a075d0d1716995a49a
       body: ''
