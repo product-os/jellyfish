@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "36.2.21",
+  "version": "36.2.22",
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
@@ -121,6 +121,6 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2021-07-12T10:09:55.144Z"
+    "publishedAt": "2021-07-12T15:02:13.960Z"
   }
 }

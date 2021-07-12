@@ -1,4 +1,23 @@
 - commits:
+    - subject: Add package lock
+      hash: 20651a77f89d6e86c82b62ff2470bc089fcd98a1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Dan Goodman
+      nested: []
+    - subject: Update worker version
+      hash: 5cca0717d2ea68def331c662fe1e8eeb26df34d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Dan Goodman
+      nested: []
+  version: 36.2.22
+  date: 2021-07-12T15:02:13.400Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.2.0'
       hash: daa71742e2c22cc5bcd5a57397688b29693af4e0
       body: |
