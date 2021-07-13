@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: d3fb8315db400e2eb67ce042709683822220b916
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.2.23
+  date: 2021-07-13T05:27:45.549Z
+- commits:
     - subject: Add package lock
       hash: 20651a77f89d6e86c82b62ff2470bc089fcd98a1
       body: ''
