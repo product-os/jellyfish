@@ -128,15 +128,18 @@ const getSliceOptions = (card, types) => {
 	}
 	const sliceOptions: any = [];
 	for (const slice of slices) {
-		for (const sliceValue of slice.values) {
+		_.forEach(slice.values, (sliceValue: string, index: number) => {
+			// If the slice defines user-friendly names (from the JSON schema's enumNames property) use that;
+			// otherwise just use the sliceValue (from the JSON schema's enum property)
+			const sliceOptionTitle = _.get(slice, ['names', index], sliceValue);
 			sliceOptions.push({
-				title: `${slice.title}: ${sliceValue}`,
+				title: `${slice.title}: ${sliceOptionTitle}`,
 				value: {
 					path: slice.path,
 					value: sliceValue,
 				},
 			});
-		}
+		});
 
 		sliceOptions.push({
 			title: `${slice.title}: All`,
