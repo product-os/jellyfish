@@ -41,6 +41,7 @@ export default class Header extends React.Component<any, any> {
 			lens,
 			filters,
 			tailTypes,
+			allTypes,
 			updateFilters,
 			saveView,
 			channel,
@@ -135,6 +136,7 @@ export default class Header extends React.Component<any, any> {
 						</Flex>
 						<ViewFilters
 							tailTypes={tailTypes}
+							allTypes={allTypes}
 							filters={filters}
 							searchFilter={searchFilter}
 							updateFilters={updateFilters}

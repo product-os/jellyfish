@@ -830,7 +830,7 @@ export class ViewRenderer extends React.Component<any, any> {
 	}
 
 	render() {
-		const { lenses, channel, isMobile, tail } = this.props;
+		const { lenses, channel, isMobile, tail, types } = this.props;
 
 		const { head } = channel.data;
 
@@ -886,6 +886,7 @@ export class ViewRenderer extends React.Component<any, any> {
 					lens={lens}
 					filters={filters}
 					tailTypes={tailTypes}
+					allTypes={types}
 					updateFilters={this.updateFilters}
 					saveView={this.saveView}
 					channel={channel}

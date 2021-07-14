@@ -1114,3 +1114,81 @@ ava.serial('Should be able to filter support threads by timeline message', async
 
 	test.pass()
 })
+
+ava.serial.only('Should be able to filter support threads by a field in a linked contract', async (test) => {
+	const {
+		page
+	} = context
+
+	const [ thread1, thread2 ] = await Promise.all([
+		addSupportThreadWithMessage(page),
+		addSupportThreadWithMessage(page)
+	])
+
+	const patternName = `Pattern ${uuid()}`
+
+	// Add a pattern and link it to the first thread
+	const pattern = await page.evaluate((name) => {
+		return window.sdk.card.create({
+			type: 'pattern@1.0.0',
+			name,
+			data: {
+				status: 'open'
+			}
+		})
+	}, patternName)
+
+	await page.evaluate((threadContract, patternContract) => {
+		return window.sdk.card.link(threadContract, patternContract, 'has attached')
+	}, thread1.supportThread, pattern)
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-paid-support-threads"]'
+	])
+
+	const selectors = {
+		threadSummary1: `[data-test-id="${thread1.supportThread.id}"]`,
+		threadSummary2: `[data-test-id="${thread2.supportThread.id}"]`,
+		addFilterButton: '//button[div[text()="Add filter"]]',
+		filterModalFieldSelect: '#filtermodal__fieldselect',
+		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
+		fieldSelectPatternNameOption:
+			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="🔗 Pattern: Name"]]]',
+		filterModalValueInput: 'input[operator="is"]',
+		filterModalSaveButton: '//button[text()="Save"]',
+		patternNameSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
+		'//button[div[div[text()="🔗 Pattern: Name is "]]]/following-sibling::button'
+	}
+
+	// Both threads should appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await page.waitForSelector(selectors.threadSummary2)
+
+	// Now filter by pattern name
+	await macros.waitForThenClickSelector(page, selectors.addFilterButton)
+	await macros.waitForThenClickSelector(page, selectors.filterModalFieldSelect)
+	await page.waitForSelector(selectors.fieldSelectSearch)
+	await macros.setInputValue(page, selectors.fieldSelectSearch, '🔗 Pattern: Name')
+	await Bluebird.delay(500)
+	await macros.waitForThenClickSelector(page, selectors.fieldSelectPatternNameOption)
+	await macros.setInputValue(page, selectors.filterModalValueInput, patternName)
+	await macros.waitForThenClickSelector(page, selectors.filterModalSaveButton)
+
+	// Only the first thread should now appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		'[data-test="infinitelist__scrollarea"]',
+		selectors.threadSummary2
+	)
+
+	// Now clear the filter
+	await macros.waitForThenClickSelector(page, selectors.patternNameSummaryClearButton)
+
+	// And the second thread should re-appear in the list
+	await page.waitForSelector(selectors.threadSummary2)
+
+	test.pass()
+})
