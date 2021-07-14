@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.3.3'
+      hash: eaf99e661e7ebeeca5ec8202b27b067677444840
+      body: |
+        Update @balena/jellyfish-plugin-github from 1.2.5 to 1.3.3
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Set the required field for slice filters
+      hash: 1b1b1a4c49ba612d2c74e7e5604f7c719e009280
+      body: |
+        This ensures that the slice filter field, if set, is required.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.31
+  date: 2021-07-14T14:42:45.408Z
+- commits:
     - subject: Move translate doc link
       hash: b604610877782dbb794a5126aab0f392e27b32e0
       body: ''
