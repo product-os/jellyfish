@@ -59,7 +59,7 @@ const setSliceFilter = (currentFilters, lens, slice, sliceOptions) => {
 		!_.get(lens, ['data', 'supportsSlices']) &&
 		_.get(sliceOptions, 'length')
 	) {
-		const sliceFilter = createSliceFilter(slice);
+		const sliceFilter = createSliceFilter(slice, true);
 		filters.push({
 			$id: sliceFilter.$id,
 			anyOf: [sliceFilter],
@@ -88,7 +88,7 @@ const getActiveSliceFromFilter = (sliceOptions, viewCard) => {
 	return null;
 };
 
-const createSliceFilter = (slice) => {
+const createSliceFilter = (slice, required = false) => {
 	const filter = {
 		// Use the slice path as a unique ID, as we don't want multiple slice constraints
 		// on the same path
@@ -108,12 +108,18 @@ const createSliceFilter = (slice) => {
 	});
 
 	const keys = slice.value.path.split('.');
+	const origKeys = _.clone(keys);
 
 	// Make sure that "property" keys correspond with { type: 'object' },
+	// and specify the required field as well
 	// otherwise the filter won't work
 	while (keys.length) {
 		if (keys.pop() === 'properties') {
+			const fieldName = _.get(origKeys, keys.length + 1);
 			_.set(filter, keys.concat('type'), 'object');
+			if (required && fieldName) {
+				_.set(filter, keys.concat('required'), [fieldName]);
+			}
 		}
 	}
 	return filter;
