@@ -1,4 +1,45 @@
 - commits:
+    - subject: Use user-friendly enumNames for slice options if available
+      hash: 0c9e21600a90b1eaa0e862b446e40743af1bbc2d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Use generic/extensible approach to filtering by timeline message
+      hash: 08282bfd0cab85ad77a64c84af7a912917763b42
+      body: >
+        This is a preliminary step towards supporting filtering by any linked
+        contract data.
+
+
+        Two e2e tests have been added that exercise the filters and the search
+        functionality. This adds a good check that the functionality is still
+        working!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'Test: Improve clearInput function'
+      hash: b6395322ad971925fdf348bb7ce9dc1f533f8946
+      body: |
+        The previous implementation was flaky with long input values.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.2.29
+  date: 2021-07-14T00:17:41.808Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.2.5'
       hash: afb12a65fd26e53bdd7af844537920aa14121637
       body: ''
