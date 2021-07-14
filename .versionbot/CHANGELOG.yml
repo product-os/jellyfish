@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move translate doc link
+      hash: b604610877782dbb794a5126aab0f392e27b32e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.2.30
+  date: 2021-07-14T01:55:15.735Z
+- commits:
     - subject: Use user-friendly enumNames for slice options if available
       hash: 0c9e21600a90b1eaa0e862b446e40743af1bbc2d
       body: ''
