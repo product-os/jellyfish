@@ -116,9 +116,11 @@ describe('View lens', () => {
 						$id: 'properties.data.properties.status',
 						type: 'object',
 						title: 'user-generated-filter',
+						required: ['data'],
 						properties: {
 							data: {
 								type: 'object',
+								required: ['status'],
 								properties: {
 									status: {
 										const: 'archived',
@@ -154,9 +156,11 @@ describe('View lens', () => {
 						$id: 'properties.data.properties.status',
 						type: 'object',
 						title: 'user-generated-filter',
+						required: ['data'],
 						properties: {
 							data: {
 								type: 'object',
+								required: ['status'],
 								properties: {
 									status: {
 										const: 'open',
