@@ -25,6 +25,40 @@ const user = {
 	password: 'password'
 }
 
+const addSupportThreadWithMessage = async (page) => {
+	// Create new support threads, each with a message
+	const supportThread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				inbox: 'S/Paid_Support',
+				status: 'open'
+			}
+		})
+	})
+
+	const messagePayload = `Message: ${uuid()}`
+
+	const messageEvent = {
+		target: supportThread,
+		slug: `message-${uuid()}`,
+		tags: [],
+		type: 'message',
+		payload: {
+			message: messagePayload
+		}
+	}
+
+	const message = await page.evaluate((event) => {
+		return window.sdk.event.create(event)
+	}, messageEvent)
+	return {
+		message,
+		supportThread,
+		messagePayload
+	}
+}
+
 ava.serial.before(async () => {
 	await helpers.browser.beforeEach({
 		context
@@ -972,4 +1006,111 @@ ava.serial('Closed support threads should be re-opened on new message', async (t
 		return window.sdk.card.get(id)
 	}, supportThread.id)
 	test.is(thread.data.status, 'open')
+})
+
+ava.serial('Should be able to filter support threads by simple search', async (test) => {
+	const {
+		page
+	} = context
+
+	const [ thread1, thread2 ] = await Promise.all([
+		addSupportThreadWithMessage(page),
+		addSupportThreadWithMessage(page)
+	])
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-paid-support-threads"]'
+	])
+
+	const selectors = {
+		threadSummary1: `[data-test-id="${thread1.supportThread.id}"]`,
+		threadSummary2: `[data-test-id="${thread2.supportThread.id}"]`,
+		searchInput: '.view__search input'
+	}
+
+	// Both threads should appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await page.waitForSelector(selectors.threadSummary2)
+
+	// Now search for text in the 1st thread's message
+	await macros.setInputValue(page, selectors.searchInput, thread1.messagePayload)
+
+	// Only the first thread should now appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		'[data-test="infinitelist__scrollarea"]',
+		selectors.threadSummary2
+	)
+
+	// Now clear the search
+	await macros.clearInput(page, selectors.searchInput)
+
+	// And the second thread should re-appear in the list
+	await page.waitForSelector(selectors.threadSummary2)
+
+	test.pass()
+})
+
+ava.serial('Should be able to filter support threads by timeline message', async (test) => {
+	const {
+		page
+	} = context
+
+	const [ thread1, thread2 ] = await Promise.all([
+		addSupportThreadWithMessage(page),
+		addSupportThreadWithMessage(page)
+	])
+
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-paid-support-threads"]'
+	])
+
+	const selectors = {
+		threadSummary1: `[data-test-id="${thread1.supportThread.id}"]`,
+		threadSummary2: `[data-test-id="${thread2.supportThread.id}"]`,
+		addFilterButton: '//button[div[text()="Add filter"]]',
+		filterModalFieldSelect: '#filtermodal__fieldselect',
+		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
+		fieldSelectTimelineOption:
+			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="Timeline message"]]]',
+		filterModalValueInput: 'input[operator="is"]',
+		filterModalSaveButton: '//button[text()="Save"]',
+		timelineSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
+		'//button[div[div[text()="Timeline message is "]]]/following-sibling::button'
+	}
+
+	// Both threads should appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await page.waitForSelector(selectors.threadSummary2)
+
+	// Now filter by timeline message for text in the 1st thread's message
+	await macros.waitForThenClickSelector(page, selectors.addFilterButton)
+	await macros.waitForThenClickSelector(page, selectors.filterModalFieldSelect)
+	await page.waitForSelector(selectors.fieldSelectSearch)
+	await macros.setInputValue(page, selectors.fieldSelectSearch, 'Timeline message')
+	await Bluebird.delay(500)
+	await macros.waitForThenClickSelector(page, selectors.fieldSelectTimelineOption)
+	await macros.setInputValue(page, selectors.filterModalValueInput, thread1.messagePayload)
+	await macros.waitForThenClickSelector(page, selectors.filterModalSaveButton)
+
+	// Only the first thread should now appear in the list
+	await page.waitForSelector(selectors.threadSummary1)
+	await macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		'[data-test="infinitelist__scrollarea"]',
+		selectors.threadSummary2
+	)
+
+	// Now clear the filter
+	await macros.waitForThenClickSelector(page, selectors.timelineSummaryClearButton)
+
+	// And the second thread should re-appear in the list
+	await page.waitForSelector(selectors.threadSummary2)
+
+	test.pass()
 })

@@ -168,13 +168,11 @@ exports.waitForInnerText = async (page, selector, text, index = 0, options = {})
 }
 
 exports.clearInput = async (page, selector) => {
-	const inputValue = await page.$eval(selector, (el) => {
-		return el.value
+	const input = await page.$(selector)
+	await input.click({
+		clickCount: 3
 	})
-	await page.click(selector)
-	for (let index = 0; index < inputValue.length; index++) {
-		await page.keyboard.press('Backspace')
-	}
+	await page.keyboard.press('Backspace')
 }
 
 exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => {

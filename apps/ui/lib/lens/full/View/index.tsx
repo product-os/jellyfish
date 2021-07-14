@@ -22,6 +22,7 @@ import {
 	withResponsiveContext,
 } from '@balena/jellyfish-ui-components';
 import jsf from 'json-schema-faker';
+import { JSONSchema } from '@balena/jellyfish-types';
 import { actionCreators, analytics, selectors, sdk } from '../../../core';
 import { getLenses } from '../../';
 import Header from './Header';
@@ -31,8 +32,8 @@ import {
 	USER_FILTER_NAME,
 	FULL_TEXT_SEARCH_TITLE,
 	EVENTS_FULL_TEXT_SEARCH_TITLE,
-	TIMELINE_FILTER_PROP,
 } from './constants';
+import { unpackLinksSchema } from './Header/ViewFilters/filter-utils';
 
 const getActiveLens = (lenses, lensSlug) => {
 	return (
@@ -127,15 +128,18 @@ const getSliceOptions = (card, types) => {
 	}
 	const sliceOptions: any = [];
 	for (const slice of slices) {
-		for (const sliceValue of slice.values) {
+		_.forEach(slice.values, (sliceValue: string, index: number) => {
+			// If the slice defines user-friendly names (from the JSON schema's enumNames property) use that;
+			// otherwise just use the sliceValue (from the JSON schema's enum property)
+			const sliceOptionTitle = _.get(slice, ['names', index], sliceValue);
 			sliceOptions.push({
-				title: `${slice.title}: ${sliceValue}`,
+				title: `${slice.title}: ${sliceOptionTitle}`,
 				value: {
 					path: slice.path,
 					value: sliceValue,
 				},
 			});
-		}
+		});
 
 		sliceOptions.push({
 			title: `${slice.title}: All`,
@@ -161,40 +165,33 @@ const createSyntheticViewCard = (view, filters) => {
 		: [];
 	syntheticViewCard.data.allOf = originalFilters;
 
-	// If the filter users the timeline filter prop, add a $$links expression to
-	// additionally filter by the timeline
-	// TODO: Make the filters component generate $$links statements natively
 	filters.forEach((filter) => {
-		const linkSchema = _.get(filter, [
-			'anyOf',
-			'0',
-			'properties',
-			TIMELINE_FILTER_PROP,
-		]);
-		const schema: any = linkSchema
-			? {
-					$$links: {
-						'has attached element': linkSchema,
-					},
-			  }
-			: _.assign(_.omit(filter, '$id'), {
-					type: 'object',
-			  });
-
-		// $$link queries don't work with full text search as they `anyOf` logic
-		// can't express the query on timeline elements, so the subschema has to be
-		// stripped from the full text search query schema
-		if (schema.title === FULL_TEXT_SEARCH_TITLE) {
-			_.forEach(_.filter(schema.anyOf, 'anyOf'), (subSchema) => {
-				subSchema.anyOf = subSchema.anyOf.filter((item) => {
-					return !item.properties.$$links;
-				});
+		if (
+			// Full text search filters do not need unpacking
+			filter.$id !== FULL_TEXT_SEARCH_TITLE &&
+			filter.$id !== EVENTS_FULL_TEXT_SEARCH_TITLE &&
+			filter.anyOf
+		) {
+			filter.anyOf = filter.anyOf.map((subSchema: JSONSchema) => {
+				const isLinkFilter = _.has(subSchema, 'properties.$$links');
+				// Only $$links filters need unflattening and re-structuring slightly
+				if (isLinkFilter) {
+					return {
+						$$links: unpackLinksSchema(
+							subSchema.properties!.$$links as JSONSchema,
+						),
+					};
+				}
+				return subSchema;
 			});
 		}
 
 		syntheticViewCard.data.allOf.push({
 			name: USER_FILTER_NAME,
-			schema,
+			schema: {
+				type: 'object',
+				..._.omit(filter, '$id'),
+			},
 		});
 	});
 
@@ -894,7 +891,6 @@ export class ViewRenderer extends React.Component<any, any> {
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
 					pageOptions={options}
 					setSortByField={this.setSortByField}
-					timelineFilter={TIMELINE_FILTER_PROP}
 					tail={tail}
 				/>
 				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>

@@ -50,7 +50,6 @@ export default class Header extends React.Component<any, any> {
 			updateFiltersFromSummary,
 			pageOptions,
 			setSortByField,
-			timelineFilter,
 			tail,
 		} = this.props;
 
@@ -145,7 +144,6 @@ export default class Header extends React.Component<any, any> {
 							updateFiltersFromSummary={updateFiltersFromSummary}
 							pageOptions={pageOptions}
 							setSortByField={setSortByField}
-							timelineFilter={timelineFilter}
 						/>
 					</Collapsible>
 					<CloseButton
