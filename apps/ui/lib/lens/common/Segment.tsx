@@ -11,6 +11,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Box, Button, Flex } from 'rendition';
 import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
 import { LinkModal } from '../../components/LinkModal';
 
 class Segment extends React.Component<any, any> {
@@ -120,6 +121,7 @@ class Segment extends React.Component<any, any> {
 			card,
 			segment,
 			types,
+			onSave,
 		} = this.props;
 
 		addChannel({
@@ -133,6 +135,11 @@ class Segment extends React.Component<any, any> {
 				onDone: {
 					action: 'link',
 					targets: [card],
+					onLink: onSave
+						? (newCard: core.Contract) => {
+								return onSave(null, newCard, segment.link);
+						  }
+						: null,
 					callback: this.getData,
 				},
 			},
@@ -202,17 +209,15 @@ class Segment extends React.Component<any, any> {
 
 				{segment.link && type && (
 					<Flex px={3} pb={3} flexWrap="wrap">
-						{!onSave && (
-							<Button
-								mr={2}
-								mt={2}
-								success
-								data-test={`add-${type.slug}`}
-								onClick={this.openCreateChannel}
-							>
-								Add new {type.name || type.slug}
-							</Button>
-						)}
+						<Button
+							mr={2}
+							mt={2}
+							success
+							data-test={`add-${type.slug}`}
+							onClick={this.openCreateChannel}
+						>
+							Add new {type.name || type.slug}
+						</Button>
 
 						{showLinkToExistingElementButton && (
 							<Button

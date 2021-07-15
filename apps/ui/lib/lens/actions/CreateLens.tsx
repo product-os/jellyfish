@@ -255,23 +255,27 @@ export class CreateLens extends React.Component<any, any> {
 				redirectTo: `/${newCard.slug || newCard.id}`,
 			});
 		} else if (_.get(onDone, ['action']) === 'link') {
-			const cards = onDone.targets;
-			const { linkOption, selectedTypeTarget } = this.state;
-			const createLink = async (card) => {
-				return this.props.actions.createLink(card, newCard, linkOption.name, {
-					skipSuccessMessage: true,
-				});
-			};
-			if (newCard && selectedTypeTarget) {
-				const linkTasks = cards.map(createLink);
-				await Bluebird.all(linkTasks);
-				notifications.addNotification(
-					'success',
-					`Created new link${cards.length > 1 ? 's' : ''}`,
-				);
-				this.close();
-				closed = true;
+			if (onDone.onLink) {
+				onDone.onLink(newCard);
+			} else {
+				const cards = onDone.targets;
+				const { linkOption, selectedTypeTarget } = this.state;
+				const createLink = async (card) => {
+					return this.props.actions.createLink(card, newCard, linkOption.name, {
+						skipSuccessMessage: true,
+					});
+				};
+				if (newCard && selectedTypeTarget) {
+					const linkTasks = cards.map(createLink);
+					await Bluebird.all(linkTasks);
+					notifications.addNotification(
+						'success',
+						`Created new link${cards.length > 1 ? 's' : ''}`,
+					);
+				}
 			}
+			this.close();
+			closed = true;
 		}
 		if (!closed) {
 			this.setState({
@@ -461,6 +465,7 @@ const mapDispatchToProps = (dispatch) => {
 		actions: redux.bindActionCreators(
 			_.pick(actionCreators, [
 				'createLink',
+				'addChannel',
 				'removeChannel',
 				'getLinks',
 				'queryAPI',
