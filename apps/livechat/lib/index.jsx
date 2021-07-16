@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom'
 import {
 	BrowserRouter as Router, Redirect, Route, Switch
 } from 'react-router-dom'
+import useEventListener from '@use-it/event-listener'
 import '@babel/polyfill'
 import {
 	getSdk
@@ -34,8 +35,11 @@ import {
 	AuthenticationTask
 } from './components/AuthenticationTask'
 import * as environment from './environment'
+import {
+	slugify
+} from '@balena/jellyfish-ui-components/build/services/helpers'
 
-const Livechat = ({
+const Livechat = React.memo(({
 	userSlug,
 	oauthUrl,
 	oauthProvider,
@@ -112,68 +116,71 @@ const Livechat = ({
 			</ThemeProvider>
 		</SetupProvider>
 	)
-}
-
-const init = (options = {}) => {
-	return new Promise((resolve) => {
-		ReactDOM.render((
-			<Livechat {...options} />
-		), document.getElementById('app'), resolve)
-	})
-}
-
-const actions = {
-	async init (event) {
-		const onClose = () => {
-			event.source.postMessage({
-				type: 'close'
-			}, event.origin)
-		}
-
-		const onNotificationsChange = (notifications) => {
-			event.source.postMessage({
-				type: 'notifications-change',
-				payload: {
-					data: notifications
-				}
-			}, event.origin)
-		}
-
-		return init({
-			...event.data.payload,
-			onClose,
-			onNotificationsChange
-		})
-	}
-}
-
-const respond = (event, response) => {
-	event.source.postMessage({
-		type: 'response',
-		payload: {
-			request: event.data,
-			...response
-		}
-	}, event.origin)
-}
-
-window.addEventListener('message', async (event) => {
-	const action = event.data && event.data.type && actions[event.data.type]
-
-	if (!action) {
-		return null
-	}
-
-	let result = null
-	try {
-		result = await action(event)
-	} catch (error) {
-		return respond(event, {
-			error
-		})
-	}
-
-	return respond(event, {
-		data: result
-	})
 })
+
+const ParentWindowCommunicator = () => {
+	const {
+		product,
+		productTitle,
+		username,
+		inbox
+	} = React.useMemo(() => {
+		return Object.fromEntries(new URLSearchParams(location.search).entries())
+	}, [ location.search ])
+
+	const onClose = React.useCallback(() => {
+		window.parent.postMessage({
+			type: 'close'
+		}, '*')
+	})
+
+	const onNotificationsChange = React.useCallback((notifications) => {
+		window.parent.postMessage({
+			type: 'notifications-change',
+			payload: {
+				data: notifications
+			}
+		}, '*')
+	})
+
+	const [ initialUrl, setInitialUrl ] = React.useState()
+
+	const handleMessage = React.useCallback((event) => {
+		if (!event.data) {
+			return
+		}
+
+		switch (event.data.type) {
+			case 'navigate':
+				setInitialUrl(event.data.payload)
+				break
+			default:
+				break
+		}
+	}, [ setInitialUrl ])
+
+	useEventListener('message', handleMessage, window)
+
+	return (
+		<Livechat
+			produc={product}
+			productTitle={productTitle}
+			inbox={inbox}
+			userSlug={`user-${slugify(username)}`}
+			oauthUrl={'https://dashboard.balena-cloud.com/login/oauth/jellyfish'}
+			oauthProvider={'balena-api'}
+			initialUrl={initialUrl}
+			onClose={onClose}
+			onNotificationsChange={onNotificationsChange}
+		/>
+	)
+}
+
+/*
+ * Init livechat.
+ */
+console.log('Initializing livechat:', location.href)
+
+ReactDOM.render((
+	<ParentWindowCommunicator />
+), document.getElementById('app'))

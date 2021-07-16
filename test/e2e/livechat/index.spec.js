@@ -8,7 +8,6 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const {
 	INITIAL_FETCH_CONVERSATIONS_LIMIT
 } = require('@balena/jellyfish-chat-widget/build/constants')
@@ -24,9 +23,11 @@ const {
 	waitForNotifications,
 	getRenderedConversationIds,
 	initChat,
+	setToken,
 	insertAgentReply,
 	prepareUser,
-	scrollToLatestConversationListItem
+	scrollToLatestConversationListItem,
+	navigateTo
 } = require('./macros')
 
 const context = {
@@ -42,7 +43,9 @@ ava.serial.before(async () => {
 
 	const org = await context.sdk.card.get('org-balena')
 	context.supportAgent = await prepareUser(context, org, 'user-community', 'Support Agent')
-	context.supportUser = await prepareUser(context, org, 'user-external-support', 'Support User')
+	context.supportUser = await prepareUser(context, null, 'user-external-support', 'Support User')
+
+	await setToken(context)
 })
 
 ava.serial.beforeEach(async () => {
@@ -96,7 +99,6 @@ ava.serial('Initial create conversation page', async (test) => {
 		page
 	} = context
 
-	await page.goto(`${environment.livechat.host}:${environment.livechat.port}`)
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -125,8 +127,6 @@ ava.serial('Initial short conversation list page', async (test) => {
 	} = context
 
 	const threads = await createThreads(context, 0, 2)
-
-	await page.reload()
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -206,8 +206,6 @@ ava.serial('Full conversation list page', async (test) => {
 	} = context
 
 	const threads = await createThreads(context, 0, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1)
-
-	await page.reload()
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -284,8 +282,6 @@ ava.serial('Create conversation page', async (test) => {
 	} = context
 
 	await createThreads(context, 0, 1)
-
-	await page.reload()
 	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
@@ -317,7 +313,6 @@ ava.serial('Chat page', async (test) => {
 	const thread = (await createThreads(context, 0, 1))[0]
 	await subscribeToThread(context, thread)
 
-	await page.reload()
 	await initChat(context)
 
 	await page.waitForSelector('[data-test="initial-short-conversation-page"]')
@@ -336,6 +331,14 @@ ava.serial('Chat page', async (test) => {
 		),
 		'should display support user\'s username'
 	)
+
+	await context.page.evaluate(() => {
+		window.addEventListener('message', (event) => {
+			if (event.data.type === 'notifications-change') {
+				window.notifications = event.data.payload.data
+			}
+		})
+	})
 
 	const response = await insertAgentReply(context, thread, 'Response from agent')
 
@@ -356,4 +359,23 @@ ava.serial('Chat page', async (test) => {
 		response.id,
 		'should receive notification'
 	)
+})
+
+ava.serial('External navigation request', async (test) => {
+	const {
+		page
+	} = context
+
+	const thread = (await createThreads(context, 0, 1))[0]
+	await initChat(context)
+
+	await test.notThrowsAsync(
+		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
+		'should be displayed initially when there is at least one conversation'
+	)
+
+	await navigateTo(context, `/chat/${thread.id}`)
+
+	await page.waitForSelector(`[data-test="chat-page"][data-test-id="${thread.id}"]`)
+	test.pass('should navigate to thread')
 })
