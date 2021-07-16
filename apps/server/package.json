@@ -28,7 +28,7 @@
     "@balena/jellyfish-plugin-balena-api": "^1.0.16",
     "@balena/jellyfish-plugin-base": "^2.1.196",
     "@balena/jellyfish-plugin-channels": "^1.1.241",
-    "@balena/jellyfish-plugin-default": "^19.0.1",
+    "@balena/jellyfish-plugin-default": "^19.1.0",
     "@balena/jellyfish-plugin-discourse": "^1.0.47",
     "@balena/jellyfish-plugin-flowdock": "^1.0.78",
     "@balena/jellyfish-plugin-front": "^1.0.22",
