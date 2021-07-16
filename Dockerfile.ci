@@ -9,16 +9,7 @@ WORKDIR /usr/src/jellyfish
 COPY ./.git ./.git
 COPY ./scripts ./scripts
 RUN /usr/src/jellyfish/scripts/ci/checkout-master.sh
-COPY package.json package-lock.json /usr/src/jellyfish/
-COPY ./apps ./apps
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
-    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci && \
-		cd apps/action-server && npm ci && \
-    cd ../../apps/server && npm ci && rm -f ~/.npmrc
 
-COPY ./test ./test
-COPY ./Makefile ./Makefile
-COPY ./Taskfile.yml ./Taskfile.yml
+COPY . ./
 
 CMD /bin/bash -c "task test"
