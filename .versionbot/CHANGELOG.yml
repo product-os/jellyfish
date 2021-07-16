@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'ui: Allow linking to  new contracts when creating a new contract'
+      hash: 4a9303e9c8689ee11e287983af48a4f6fe5b62f4
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.4.0
+  date: 2021-07-16T05:27:45.710Z
+- commits:
     - subject: Update test to match new pattern statuses
       hash: 7c7836a9a9e1133709d22014fc33367a2b83c8e1
       body: ''
