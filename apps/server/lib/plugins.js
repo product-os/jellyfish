@@ -12,7 +12,9 @@ const {
 	ChannelsPlugin
 } = require('@balena/jellyfish-plugin-channels')
 const ActionLibrary = require('@balena/jellyfish-action-library')
-const DefaultPlugin = require('@balena/jellyfish-plugin-default')
+const {
+	DefaultPlugin
+} = require('@balena/jellyfish-plugin-default')
 const {
 	ProductOsPlugin
 } = require('@balena/jellyfish-plugin-product-os')
