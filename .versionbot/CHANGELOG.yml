@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 3fdda03a78cdec153d81942dfec6181fca33072f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 36.4.2
+  date: 2021-07-16T08:01:31.186Z
+- commits:
     - subject: Run lint and unit tests in sut
       hash: e5a5e856a7a029fedfe8b79e3b1e1e1eb9dc5a84
       body: ''
