@@ -8,7 +8,7 @@ import { getLogger } from '@balena/jellyfish-logger';
 import { PluginManager } from '@balena/jellyfish-plugin-base';
 import { ChannelsPlugin } from '@balena/jellyfish-plugin-channels';
 import ActionLibrary from '@balena/jellyfish-action-library';
-import DefaultPlugin from '@balena/jellyfish-plugin-default';
+import { DefaultPlugin } from '@balena/jellyfish-plugin-default';
 import { ProductOsPlugin } from '@balena/jellyfish-plugin-product-os';
 import { TypeformPlugin } from '@balena/jellyfish-plugin-typeform';
 import { GitHubPlugin } from '@balena/jellyfish-plugin-github';
