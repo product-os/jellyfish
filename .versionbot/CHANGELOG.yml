@@ -1,4 +1,15 @@
 - commits:
+    - subject: Accept navigation event from parent window
+      hash: 5e6fd2a10880e94bacd0459b997702d7350241bb
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: Kakhaber
+      nested: []
+  version: 37.0.0
+  date: 2021-07-16T19:06:01.793Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-sync to ^6.1.0'
       hash: 76cce4305879014091dfcad6887fa10a766fbb34
       body: |
