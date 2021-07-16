@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update test to match new pattern statuses
+      hash: 7c7836a9a9e1133709d22014fc33367a2b83c8e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump plugin-default to v19.0.0
+      hash: 782c0ac8d46877159d70988da7834541fa45fcdb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.3.1
+  date: 2021-07-16T04:14:02.256Z
+- commits:
     - subject: Bump rendition dependency
       hash: 224fe17c033479054ad2f0d86ba9af2057197b71
       body: ''
