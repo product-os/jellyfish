@@ -77,7 +77,7 @@
     "@balena/jellyfish-plugin-product-os": "^2.4.16",
     "@balena/jellyfish-plugin-typeform": "^3.0.174",
     "@balena/jellyfish-queue": "^1.0.222",
-    "@balena/jellyfish-sync": "^6.0.288",
+    "@balena/jellyfish-sync": "^6.1.0",
     "@balena/jellyfish-ui-components": "^10.0.12",
     "@balena/jellyfish-worker": "^7.0.42",
     "@balena/lint": "^6.1.1",
