@@ -11,10 +11,16 @@ import clone from 'deep-copy';
 import type { JSONSchema7 } from 'json-schema';
 import { Box, Filters, Flex, SchemaSieve, Search, Theme } from 'rendition';
 import SortByButton from './SortByButton';
-import { JSONSchema } from '@balena/jellyfish-types';
-import { getLinkedContractDataFilterKey } from './filter-utils';
+import { core, JSONSchema } from '@balena/jellyfish-types';
+import { linkConstraints } from '@balena/jellyfish-client-sdk';
+import { helpers } from '@balena/jellyfish-ui-components';
+import {
+	getLinkedContractDataFilterKey,
+	compareFilterFields,
+	LINKED_CONTRACT_PREFIX,
+} from './filter-utils';
 
-const getSchemaForFilters = (tailTypes) => {
+const getSchemaForFilters = (tailTypes, allTypes) => {
 	const tailSchemas = _.map(tailTypes, (tailType) => {
 		return clone(_.get(tailType, ['data', 'schema'], {}));
 	});
@@ -54,6 +60,53 @@ const getSchemaForFilters = (tailTypes) => {
 		type: 'string',
 	});
 
+	// Get all relevant link constraints from the tail type
+	const firstTailType = tailTypes[0];
+	const filteredLinkConstraints = _.filter(linkConstraints, {
+		data: {
+			from: firstTailType.slug,
+		},
+	});
+
+	// For each relevant link constraint...
+	filteredLinkConstraints.forEach((linkConstraint) => {
+		// Get the flattened contract schema
+		const toType: core.TypeContract = helpers.getType(
+			linkConstraint.data.to,
+			allTypes,
+		);
+		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
+			toType.data.schema,
+		) as JSONSchema;
+
+		// For each flattened schema property...
+		_.forEach(
+			flattenedLinkContractSchema.properties,
+			(schema: JSONSchema, keyPath: string) => {
+				// Create a filter, encoding the link verb and the linked contract type in the filter key
+				const fieldTitle = _.startCase(
+					schema.title || _.last(keyPath.split('___')),
+				);
+				const linkedContractType = `${toType.slug}@${toType.version}`;
+				_.set(
+					schemaForFilters,
+					[
+						'properties',
+						getLinkedContractDataFilterKey(
+							linkConstraint.name,
+							linkedContractType,
+							`___${keyPath.replace(/^___/, '')}`,
+						),
+					],
+					{
+						...schema,
+						title: `${LINKED_CONTRACT_PREFIX} ${linkConstraint.data.title}: ${fieldTitle}`,
+					},
+				);
+			},
+		);
+	});
+
 	// Manually add a 'Timeline message' filter
 	_.set(
 		schemaForFilters,
@@ -76,6 +129,7 @@ const getSchemaForFilters = (tailTypes) => {
 const ViewFilters = React.memo<any>(
 	({
 		tailTypes,
+		allTypes,
 		filters,
 		searchFilter,
 		updateFilters,
@@ -91,7 +145,7 @@ const ViewFilters = React.memo<any>(
 		}, [filters, searchFilter]);
 
 		const schemaForFilters = React.useMemo(() => {
-			return getSchemaForFilters(tailTypes);
+			return getSchemaForFilters(tailTypes, allTypes);
 		}, [tailTypes]);
 
 		// Only render filters in compact mode for the first breakpoint
@@ -112,6 +166,7 @@ const ViewFilters = React.memo<any>(
 							onViewsUpdate={saveView}
 							compact={filtersBreakpointSettings}
 							renderMode={['add']}
+							filterFieldCompareFn={compareFilterFields}
 						/>
 						<Flex
 							flexWrap="wrap"
