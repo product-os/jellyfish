@@ -94,8 +94,10 @@ let context: any = {};
 describe('CreateLens', () => {
 	beforeEach(async () => {
 		const onDonePromise = getPromiseResolver();
+		const onLinkPromise = getPromiseResolver();
 		context = {
 			onDonePromise,
+			onLinkPromise,
 			commonProps: {
 				sdk: {
 					card: {
@@ -172,6 +174,43 @@ describe('CreateLens', () => {
 		expect(commonProps.actions.createLink.callCount).toBe(targets.length);
 		expect(commonProps.actions.removeChannel.calledOnce).toBe(true);
 		expect(callbackCard).toEqual(createdCard);
+	});
+
+	test('Calls the onLink callback if set', async () => {
+		const { commonProps, onDonePromise, onLinkPromise } = context;
+
+		let callbackCard = null;
+		let onLinkCard = null;
+		const targets = [account1, account2];
+
+		const card = {
+			onDone: {
+				action: 'link',
+				targets,
+				onLink: (newCard) => {
+					onLinkCard = newCard;
+					onLinkPromise.resolver();
+				},
+				callback: (newCard) => {
+					callbackCard = newCard;
+					onDonePromise.resolver();
+				},
+			},
+			seed,
+			types: [contact],
+		};
+
+		const createLensComponent = await mountCreateLens(commonProps, card);
+		enterName(createLensComponent);
+		submit(createLensComponent);
+
+		await onLinkPromise.promise;
+		await onDonePromise.promise;
+		expect(commonProps.sdk.card.create.calledOnce).toBe(true);
+		expect(commonProps.actions.createLink.callCount).toBe(0);
+		expect(commonProps.actions.removeChannel.calledOnce).toBe(true);
+		expect(callbackCard).toEqual(createdCard);
+		expect(onLinkCard).toEqual(createdCard);
 	});
 
 	test('throws exception if trying to link cards of different types', async () => {
