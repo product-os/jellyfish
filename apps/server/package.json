@@ -21,7 +21,7 @@
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.0.35",
     "@balena/jellyfish-assert": "^1.1.64",
-    "@balena/jellyfish-core": "^5.1.7",
+    "@balena/jellyfish-core": "^5.1.8",
     "@balena/jellyfish-environment": "^4.3.16",
     "@balena/jellyfish-logger": "^3.0.51",
     "@balena/jellyfish-metrics": "^1.0.322",
@@ -35,7 +35,7 @@
     "@balena/jellyfish-plugin-github": "^1.5.3",
     "@balena/jellyfish-plugin-outreach": "^1.0.85",
     "@balena/jellyfish-plugin-product-os": "^2.4.16",
-    "@balena/jellyfish-plugin-typeform": "^3.0.173",
+    "@balena/jellyfish-plugin-typeform": "^3.0.174",
     "@balena/jellyfish-queue": "^1.0.222",
     "@balena/jellyfish-sync": "^6.0.288",
     "@balena/jellyfish-worker": "^7.0.42",
