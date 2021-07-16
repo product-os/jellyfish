@@ -197,7 +197,7 @@ ava('should re-open a closed support thread if an attached pattern is closed', a
 		{
 			op: 'replace',
 			path: '/data/status',
-			value: 'closed'
+			value: 'closed-resolved'
 		}
 	])
 
