@@ -7,6 +7,7 @@
 const {
 	v4: uuid
 } = require('uuid')
+const qs = require('querystring')
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
@@ -14,7 +15,7 @@ const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 exports.createThreads = async (context, start, count) => {
 	const threads = []
-	const markers = [ `${context.supportUser.card.slug}+${context.supportUser.org.slug}` ]
+	const markers = [ `${context.supportUser.card.slug}+org-balena` ]
 
 	for (let index = start; index < start + count; index++) {
 		const thread = await context.supportUser.sdk.card.create({
@@ -107,7 +108,9 @@ exports.prepareUser = async (context, org, role, name) => {
 		]
 	)
 
-	await context.sdk.card.link(card, org, 'is member of')
+	if (org) {
+		await context.sdk.card.link(card, org, 'is member of')
+	}
 
 	const sdk = getSdk({
 		apiPrefix: 'api/v2',
@@ -123,25 +126,56 @@ exports.prepareUser = async (context, org, role, name) => {
 	}
 }
 
-exports.initChat = async (context) => {
-	await context.page.evaluate(async (supportUserToken, supportUserSlug) => {
+exports.setToken = async (context) => {
+	const {
+		page,
+		supportUser
+	} = context
+
+	await page.setRequestInterception(true)
+
+	const onRequest = (request) => {
+		request.respond({
+			status: 200,
+			contentType: 'text/plain',
+			body: 'Fake page for setting localStorage entry'
+		})
+	}
+
+	page.on('request', onRequest)
+
+	await page.goto(
+		`${environment.livechat.host}:${environment.livechat.port}`
+	)
+
+	await page.evaluate((supportUserToken) => {
 		window.localStorage.setItem('token', supportUserToken)
+	}, supportUser.sdk.getAuthToken())
 
-		window.addEventListener('message', (event) => {
-			if (event.data.type === 'notifications-change') {
-				window.notifications = event.data.payload.data
-			}
-		})
+	page.off('request', onRequest)
+	await page.setRequestInterception(false)
+}
 
+exports.initChat = async (context) => {
+	const queryString = qs.stringify({
+		username: context.supportUser.card.slug.replace('user-', ''),
+		product: 'balenaCloud',
+		productTitle: 'Livechat test',
+		inbox: 'paid'
+	})
+
+	await context.page.goto(
+		`${environment.livechat.host}:${environment.livechat.port}?${queryString}`
+	)
+}
+
+exports.navigateTo = async (context, to) => {
+	await context.page.evaluate(async (payload) => {
 		window.postMessage({
-			type: 'init',
-			payload: {
-				product: 'balenaCloud',
-				productTitle: 'Balena',
-				userSlug: supportUserSlug
-			}
+			type: 'navigate',
+			payload
 		})
-	}, context.supportUser.sdk.getAuthToken(), context.supportUser.card.slug)
+	}, to)
 }
 
 exports.insertAgentReply = async (context, thread, message) => {

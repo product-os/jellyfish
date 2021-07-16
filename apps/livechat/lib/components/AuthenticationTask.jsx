@@ -34,7 +34,7 @@ const authenticate = async ({
 }
 
 export const AuthenticationTask = ({
-	userSlug, oauthUrl, children
+	userSlug, oauthUrl, children, ...rest
 }) => {
 	const {
 		sdk
@@ -48,6 +48,6 @@ export const AuthenticationTask = ({
 	}, [ sdk, userSlug, oauthUrl ])
 
 	return (
-		<Task task={authenticationTask}>{children}</Task>
+		<Task task={authenticationTask} {...rest}>{children}</Task>
 	)
 }
