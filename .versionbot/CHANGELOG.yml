@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump rendition dependency
+      hash: 224fe17c033479054ad2f0d86ba9af2057197b71
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add filter options for all linked contract fields
+      hash: f6c3349915869cc8840e07ac8d7d494430b09ab5
+      body: "Linked contract filter options are displayed in the format:\n\U0001F517 <Link constraint name>: <field title>\n\nLinked contract filter options appear in the drop-down list _after_ the target contract's filter options.\n"
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 36.3.0
+  date: 2021-07-16T01:06:55.170Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.5.0'
       hash: 860aaedd5e3be0b6d66e3e324bafdbbe9a7fec5a
       body: |
