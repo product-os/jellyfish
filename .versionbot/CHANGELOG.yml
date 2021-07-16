@@ -1,4 +1,17 @@
 - commits:
+    - subject: Run lint and unit tests in sut
+      hash: e5a5e856a7a029fedfe8b79e3b1e1e1eb9dc5a84
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 36.4.1
+  date: 2021-07-16T06:43:44.589Z
+- commits:
     - subject: 'ui: Allow linking to  new contracts when creating a new contract'
       hash: 4a9303e9c8689ee11e287983af48a4f6fe5b62f4
       body: ''
