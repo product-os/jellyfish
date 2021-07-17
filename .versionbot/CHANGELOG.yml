@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency eslint to ^7.31.0'
+      hash: 6dde7bd6c946647209a73b49ba96ba13c566c03a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.0.6
+  date: 2021-07-17T22:19:00.321Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.6.2'
       hash: 3e2b5ff4dbefa79c88625ead271b8399a305105a
       body: ''
