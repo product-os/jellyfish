@@ -6,9 +6,6 @@
 # Proprietary and confidential.
 ###
 
-# This script is used in the sut container for the balenaCI docker pipeline.
-# This is necessary to make "master" accessible, which is needed to run scripts/ci/skip_tests_if_only.sh.
-
 set -eu
 
 ENDPOINT="$SERVER_HOST:$SERVER_PORT/readiness"

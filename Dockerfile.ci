@@ -1,15 +1,6 @@
-###########################################################
-# Runtime
-###########################################################
-
 FROM resinci/jellyfish-test:v1.4.2
 
 WORKDIR /usr/src/jellyfish
-
-COPY ./.git ./.git
-COPY ./scripts ./scripts
-RUN /usr/src/jellyfish/scripts/ci/checkout-master.sh
-
 COPY . ./
 
 CMD /bin/bash -c "task test"
