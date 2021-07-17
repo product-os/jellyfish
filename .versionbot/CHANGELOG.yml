@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update rendition dependency
+      hash: 0123dbf4ecf3276af856a6a96117e5697883a0c2
+      body: |
+        Adds support for the ProgressBar Renderer widget
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.0.1
+  date: 2021-07-16T23:07:26.866Z
+- commits:
     - subject: Accept navigation event from parent window
       hash: 5e6fd2a10880e94bacd0459b997702d7350241bb
       body: ''
