@@ -1,4 +1,25 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: f373bc571460328781a2b50b40072ccad944734d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Remove old unnecessary CI scripts
+      hash: b39415580135f483c1a862d5e6b0a5f8c6a6ff6d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.0.2
+  date: 2021-07-17T08:47:20.390Z
+- commits:
     - subject: Update rendition dependency
       hash: 0123dbf4ecf3276af856a6a96117e5697883a0c2
       body: |
