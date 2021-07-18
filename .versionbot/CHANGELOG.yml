@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.0.11'
+      hash: bab600ecd57a4ed15ec56e7a1775019f7d7d5721
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.0.7
+  date: 2021-07-17T23:51:31.775Z
+- commits:
     - subject: 'patch: Update dependency eslint to ^7.31.0'
       hash: 6dde7bd6c946647209a73b49ba96ba13c566c03a
       body: ''
