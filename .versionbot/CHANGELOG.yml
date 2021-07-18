@@ -1,4 +1,25 @@
 - commits:
+    - subject: Move section to architecture summary script
+      hash: 0c2c4ba88763f31bd1835d2af1ddb69326b4dd91
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: add docs links for dependency diagrams
+      hash: bcb3c6ee8f2985db079eec8d04d6c10e2ccd3b85
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Martin Rauscher
+      nested: []
+  version: 37.0.8
+  date: 2021-07-18T04:18:21.899Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.0.11'
       hash: bab600ecd57a4ed15ec56e7a1775019f7d7d5721
       body: ''
