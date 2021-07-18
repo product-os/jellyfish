@@ -43,6 +43,12 @@ GitHub. The API receives webhooks from these third party services, translates
 them into cards in the system, and mirrors changes back to the third party
 services as needed using actions.
 
+## Modules
+
+Jellyfish is split in many more modules than deployable units. The following diagrams give a overview of their interdependencies:
+* [Package Dependencies](https://drive.google.com/file/d/1Q9b7whyhIlql1mvYWdzKPdBQy_eeMxCA/view)
+* [Dev Dependencies](https://drive.google.com/file/d/10YahqaWGjQ4dcTPo1HuiMJYZig6DXZAn/view)
+
 ## Deployable Components
 
 ### [`apps/action-server`](https://github.com/product-os/jellyfish/tree/master/apps/action-server)
