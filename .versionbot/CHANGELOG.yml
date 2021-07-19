@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^19.2.0'
+      hash: fb360c5aa8308037eb27fa052b4cc64166bb1a58
+      body: |
+        Update @balena/jellyfish-plugin-default from 19.1.1 to 19.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.0.12
+  date: 2021-07-19T03:05:12.235Z
+- commits:
     - subject: Fix livechat oauth flow
       hash: fe3551e027896b3f2117d6f8199d2395afeefe19
       body: ''
