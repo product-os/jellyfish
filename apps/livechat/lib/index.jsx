@@ -174,7 +174,7 @@ const ParentWindowCommunicator = () => {
 
 	return (
 		<Livechat
-			produc={product}
+			product={product}
 			productTitle={productTitle}
 			inbox={inbox}
 			userSlug={`user-${slugify(username)}`}
