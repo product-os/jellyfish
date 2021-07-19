@@ -1,4 +1,15 @@
 - commits:
+    - subject: Fix livechat oauth flow
+      hash: fe3551e027896b3f2117d6f8199d2395afeefe19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Kakhaber
+      nested: []
+  version: 37.0.11
+  date: 2021-07-19T00:22:30.871Z
+- commits:
     - subject: 'patch: Update dependency eslint-plugin-jsdoc to ^35.4.5'
       hash: 57f723c40703417726efd0ea44ecfc190251c1ec
       body: ''
