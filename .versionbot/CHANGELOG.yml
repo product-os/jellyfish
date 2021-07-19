@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use enumNames for Kanban lane titles if available
+      hash: c14c4cee98447bf2e86d2260639d3006fd3e527d
+      body: |
+        These are more user-friendly than the actual enum values.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.0.13
+  date: 2021-07-19T08:41:49.231Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^19.2.0'
       hash: fb360c5aa8308037eb27fa052b4cc64166bb1a58
       body: |
