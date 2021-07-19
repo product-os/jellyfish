@@ -7,7 +7,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Divider, Tab, Tabs, Theme } from 'rendition';
+import { Flex, Divider, Tab, Tabs, Theme } from 'rendition';
 import styled from 'styled-components';
 import { helpers } from '@balena/jellyfish-ui-components';
 import Segment from '../../common/Segment';
@@ -85,8 +85,11 @@ export default class SingleCardFull extends React.Component<any, any> {
 					onActive={this.setActiveIndex}
 				>
 					<Tab title="Info">
-						<Box
+						<Flex
 							p={3}
+							flex={1}
+							alignItems="stretch"
+							flexDirection="column"
 							style={{
 								maxWidth: Theme.breakpoints[2],
 							}}
@@ -96,7 +99,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 								type={type}
 								viewMode={UI_SCHEMA_MODE.fields}
 							/>
-						</Box>
+						</Flex>
 					</Tab>
 
 					{displayTimeline && (
