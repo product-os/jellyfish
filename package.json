@@ -68,7 +68,7 @@
     "@balena/jellyfish-plugin-balena-api": "^1.0.19",
     "@balena/jellyfish-plugin-base": "^2.1.203",
     "@balena/jellyfish-plugin-channels": "^1.1.245",
-    "@balena/jellyfish-plugin-default": "^19.2.0",
+    "@balena/jellyfish-plugin-default": "19.3.0-improvement-snapbacks-4c7db79f586d6cfc74d0db5afd30b18088c419e3",
     "@balena/jellyfish-plugin-discourse": "^1.0.51",
     "@balena/jellyfish-plugin-flowdock": "^1.0.83",
     "@balena/jellyfish-plugin-front": "^1.0.26",
