@@ -162,11 +162,11 @@ class Kanban extends React.Component<any, any> {
 				},
 			];
 		}
-		slice.values.forEach((value) => {
+		slice.values.forEach((value, index) => {
 			const lane: any = {
 				id: `${slice.path}__${value}`,
 				cards: [],
-				title: value,
+				title: slice.names ? slice.names[index] : value,
 			};
 			if (!cards.length) {
 				lanes.push(lane);
