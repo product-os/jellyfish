@@ -119,14 +119,25 @@ const Livechat = React.memo(({
 })
 
 const ParentWindowCommunicator = () => {
+	const queryParams = React.useMemo(() => {
+		const {
+			state,
+			...rest
+		} = Object.fromEntries(new URLSearchParams(location.search).entries())
+
+		if (state) {
+			return JSON.parse(state)
+		}
+
+		return rest
+	}, [ location.search ])
+
 	const {
 		product,
 		productTitle,
 		username,
 		inbox
-	} = React.useMemo(() => {
-		return Object.fromEntries(new URLSearchParams(location.search).entries())
-	}, [ location.search ])
+	} = queryParams
 
 	const onClose = React.useCallback(() => {
 		window.parent.postMessage({
@@ -163,11 +174,11 @@ const ParentWindowCommunicator = () => {
 
 	return (
 		<Livechat
-			produc={product}
+			product={product}
 			productTitle={productTitle}
 			inbox={inbox}
 			userSlug={`user-${slugify(username)}`}
-			oauthUrl={'https://dashboard.balena-cloud.com/login/oauth/jellyfish'}
+			oauthUrl={`https://dashboard.balena-cloud.com/login/oauth/jellyfish?state=${JSON.stringify(queryParams)}`}
 			oauthProvider={'balena-api'}
 			initialUrl={initialUrl}
 			onClose={onClose}
