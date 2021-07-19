@@ -192,7 +192,7 @@ ava('should re-open a closed support thread if an attached pattern is closed', a
 
 	await sdk.card.link(supportThread, pattern, 'has attached')
 
-	// Close the PR, and then wait for the support thread to be re-opened
+	// Close the pattern, and then wait for the support thread to be re-opened
 	await sdk.card.update(pattern.id, pattern.type, [
 		{
 			op: 'replace',
