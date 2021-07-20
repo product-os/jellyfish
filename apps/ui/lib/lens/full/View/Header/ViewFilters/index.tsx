@@ -20,6 +20,32 @@ import {
 	LINKED_CONTRACT_PREFIX,
 } from './filter-utils';
 
+const simplifiedCardProperties = {
+	created_at: {
+		title: 'Created at',
+		type: 'string',
+		format: 'date-time',
+	},
+	updated_at: {
+		title: 'Last updated',
+		type: 'string',
+		format: 'date-time',
+	},
+	loop: {
+		title: 'Loop',
+		type: 'string',
+	},
+	slug: {
+		title: 'Slug',
+		type: 'string',
+	},
+	id: {
+		title: 'ID',
+		type: 'string',
+		format: 'uuid',
+	},
+};
+
 const getSchemaForFilters = (tailTypes, allTypes) => {
 	const tailSchemas = _.map(tailTypes, (tailType) => {
 		return clone(_.get(tailType, ['data', 'schema'], {}));
@@ -45,20 +71,10 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	});
 
 	// Always expose the loop, created_at and updated_at field for filtering
-	_.set(schemaForFilters, ['properties', 'created_at'], {
-		title: 'Created at',
-		type: 'string',
-		format: 'date-time',
-	});
-	_.set(schemaForFilters, ['properties', 'updated_at'], {
-		title: 'Last updated',
-		type: 'string',
-		format: 'date-time',
-	});
-	_.set(schemaForFilters, ['properties', 'loop'], {
-		title: 'Loop',
-		type: 'string',
-	});
+	_.merge(
+		schemaForFilters.properties,
+		_.pick(simplifiedCardProperties, 'created_at', 'updated_at', 'loop'),
+	);
 
 	// Get all relevant link constraints from the tail type
 	const firstTailType = tailTypes[0];
@@ -78,6 +94,9 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
 			toType.data.schema,
 		) as JSONSchema;
+
+		// Always expose certain fields for filtering by linked contracts
+		_.merge(flattenedLinkContractSchema.properties, simplifiedCardProperties);
 
 		// For each flattened schema property...
 		_.forEach(
