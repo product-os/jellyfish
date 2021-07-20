@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin dependencies
+      hash: 041abec7e56a0b7f2bf7b4f5a4b844b7f18d3e82
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.0.16
+  date: 2021-07-20T00:57:37.322Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 704b0722f47f1e245eaed9cac14c21e1057b3779
       body: ''
