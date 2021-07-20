@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'ui: allow filtering by common fields on a linked contract'
+      hash: 1f3697374b270bb44af415130eb3627668329545
+      body: >
+        This adds the ability to filter by the following 'common' fields on
+        linked contracts:
+
+        * slug
+
+        * id
+
+        * created_at
+
+        * updated_at
+
+        * loop
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.1.0
+  date: 2021-07-20T02:04:47.128Z
+- commits:
     - subject: Bump plugin dependencies
       hash: 041abec7e56a0b7f2bf7b4f5a4b844b7f18d3e82
       body: ''
