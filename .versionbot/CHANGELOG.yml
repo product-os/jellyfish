@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Gracefully ignore wildcard link constraints when generating filter
+        options.
+      hash: 991f639fd3431fbe40e28e79a2c69608d3417f75
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.4
+  date: 2021-07-21T12:31:48.585Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-channels to ^1.1.246'
       hash: b2983ceabe617af39c479e0898e15a12b615a62d
       body: ''
