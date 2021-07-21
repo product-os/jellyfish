@@ -78,11 +78,18 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 
 	// Get all relevant link constraints from the tail type
 	const firstTailType = tailTypes[0];
-	const filteredLinkConstraints = _.filter(linkConstraints, {
-		data: {
-			from: firstTailType.slug,
+	const filteredLinkConstraints = _.filter(
+		linkConstraints,
+		(linkConstraint) => {
+			// TODO: We exclude '*' link constraints that can link to any type as that would make for
+			// an insanely large list of filter options. But we should find _some_ way to accomodate
+			// this kind of link constraint in the future.
+			return (
+				linkConstraint.data.from === firstTailType.slug &&
+				linkConstraint.data.to !== '*'
+			);
 		},
-	});
+	);
 
 	// For each relevant link constraint...
 	filteredLinkConstraints.forEach((linkConstraint) => {
