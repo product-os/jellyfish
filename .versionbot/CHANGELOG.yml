@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^19.2.1'
+      hash: 3c96301636a519991cf0f7cddfa1c2e67945faac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.1
+  date: 2021-07-21T04:37:13.277Z
+- commits:
     - subject: Add missing card type fixture Needed by updated CreateLens test
       hash: 5f0be135da7048a2658a07f35d71d8b106bf59d1
       body: ''
