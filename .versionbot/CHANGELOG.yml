@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-channels to ^1.1.246'
+      hash: b2983ceabe617af39c479e0898e15a12b615a62d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.3
+  date: 2021-07-21T10:53:05.851Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 5704bef4bdccc6ddd0fe77164c3eec68c34329a8
       body: ''
