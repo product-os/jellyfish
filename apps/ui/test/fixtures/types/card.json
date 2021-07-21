@@ -1,0 +1,191 @@
+{
+  "id": "6ce6e7f6-3d3a-4781-8c84-9568a8bc38cc",
+  "data": {
+    "schema": {
+      "type": "object",
+      "required": [
+        "active",
+        "created_at",
+        "slug",
+        "capabilities",
+        "data",
+        "links",
+        "markers",
+        "requires",
+        "tags",
+        "type",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "data": {
+          "type": "object"
+        },
+        "loop": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "slug": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "type": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+@\\d+(\\.\\d+)?(\\.\\d+)?$"
+        },
+        "links": {
+          "type": "object"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "markers": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9-_/:+]+$"
+          }
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+        },
+        "requires": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        },
+        "linked_at": {
+          "type": "object",
+          "title": "linked at"
+        },
+        "created_at": {
+          "type": "string",
+          "title": "created at",
+          "format": "date-time"
+        },
+        "updated_at": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "updated at"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "uiSchema": {
+      "edit": {
+        "loop": {
+          "ui:widget": "LoopSelect"
+        },
+        "ui:order": [
+          "name",
+          "loop",
+          "tags",
+          "data",
+          "*"
+        ]
+      },
+      "create": {
+        "loop": {
+          "ui:widget": "LoopSelect"
+        },
+        "ui:order": [
+          "name",
+          "loop",
+          "tags",
+          "data",
+          "*"
+        ]
+      },
+      "fields": {
+        "id": null,
+        "data": {
+          "origin": null,
+          "ui:title": null,
+          "$$localSchema": null,
+          "translateDate": null
+        },
+        "loop": null,
+        "name": null,
+        "slug": null,
+        "tags": null,
+        "type": null,
+        "links": null,
+        "active": null,
+        "markers": null,
+        "version": null,
+        "requires": null,
+        "linked_at": null,
+        "created_at": null,
+        "updated_at": null,
+        "capabilities": null
+      },
+      "snippet": {
+        "data": {
+          "ui:title": null,
+          "ui:explicit": true
+        },
+        "ui:explicit": true
+      },
+      "definitions": {
+        "form": {
+          "loop": {
+            "ui:widget": "LoopSelect"
+          },
+          "ui:order": [
+            "name",
+            "loop",
+            "tags",
+            "data",
+            "*"
+          ]
+        }
+      }
+    }
+  },
+  "loop": null,
+  "name": "Jellyfish Card",
+  "slug": "card",
+  "tags": [],
+  "type": "type@1.0.0",
+  "links": {},
+  "active": true,
+  "markers": [],
+  "version": "1.0.0",
+  "requires": [],
+  "linked_at": null,
+  "created_at": "2018-12-14T17:18:25.859Z",
+  "updated_at": "2021-07-15T04:26:12.363Z",
+  "capabilities": []
+}

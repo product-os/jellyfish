@@ -1,0 +1,6 @@
+{
+	"extends": "@balena/jellyfish-config/config/tslint.json",
+	"rules": {
+		"ban-ts-ignore": false
+	}
+}

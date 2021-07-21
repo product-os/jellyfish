@@ -324,6 +324,14 @@ export class CreateLens extends React.Component<any, any> {
 
 		const relationships = getRelationshipsBySlug(selectedTypeTarget.slug);
 
+		// Always show specific base card fields
+		const baseCardType = helpers.getType('card', allTypes);
+		_.set(
+			schema,
+			['properties', 'loop'],
+			baseCardType.data.schema.properties.loop,
+		);
+
 		// Always show tags input
 		if (!schema.properties.tags) {
 			_.set(schema, ['properties', 'tags'], {
