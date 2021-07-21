@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.8.1'
+      hash: c7d99e575b11e93fb6dacf9cd25c97d4b28c8f11
+      body: |
+        Update @balena/jellyfish-plugin-github from 1.7.2 to 1.8.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.6
+  date: 2021-07-21T16:01:18.379Z
+- commits:
     - subject: Escape double quotes when generating CSV data
       hash: f60bcdf53ec85ffc4e12147a5ce2b7ca00c869c2
       body: >
