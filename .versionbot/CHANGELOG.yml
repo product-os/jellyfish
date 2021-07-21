@@ -1,4 +1,41 @@
 - commits:
+    - subject: Add missing card type fixture Needed by updated CreateLens test
+      hash: 5f0be135da7048a2658a07f35d71d8b106bf59d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add top-level tslint config
+      hash: 4604165b2bea6e447fe860d24da1175ad53e5d75
+      body: |
+        Needed for balena-lint to work correctly
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Surface the loop field in create/edit forms
+      hash: 10968febd8cf412e9ddf4b6209bce89363b6e332
+      body: >
+        The loop field is not required so this shouldn't directly affect any
+        tests etc. The loop field uses a special LoopSelector widget that lets
+        you pick a loop from a list of available loops.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.0
+  date: 2021-07-21T01:07:07.979Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: db21e1e954b21e98c5a2572f86c7ad1b253380ce
       body: ''
