@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import * as _ from 'lodash';
 import React from 'react';
 import { CSVLink } from 'react-csv';
 import { Box, Flex, Heading, Txt } from 'rendition';
@@ -62,7 +63,7 @@ export default class Header extends React.Component<any, any> {
 		const csvData = tail
 			? tail.map((contract) => {
 					// To keep the CSV functionality simple, don't include any link data in the output
-					return flatten(
+					const flattened = flatten(
 						{
 							...contract,
 							links: {},
@@ -73,6 +74,14 @@ export default class Header extends React.Component<any, any> {
 							safe: true,
 						},
 					);
+					// react-csv does not correctly escape double quotes in fields, so it has to be done here.
+					// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
+					return _.mapValues(flattened, (field) => {
+						// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
+						return _.isString(field)
+							? field.replace(/([^"]|^)"([^"]|$)/g, '$1""$2')
+							: field;
+					});
 			  })
 			: [];
 
