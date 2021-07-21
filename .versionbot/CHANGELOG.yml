@@ -1,4 +1,19 @@
 - commits:
+    - subject: Escape double quotes when generating CSV data
+      hash: f60bcdf53ec85ffc4e12147a5ce2b7ca00c869c2
+      body: >
+        A pull request to fix the root cause of this bug is here
+        https://github.com/react-csv/react-csv/pull/287
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 37.2.5
+  date: 2021-07-21T14:43:13.077Z
+- commits:
     - subject: >-
         Gracefully ignore wildcard link constraints when generating filter
         options.
