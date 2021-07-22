@@ -1,4 +1,22 @@
 - commits:
+    - subject: 'CSV export: fix double quote escaping'
+      hash: c7426e314c420ce6ad0a3bfa31fe052edd27665d
+      body: >
+        The previous regex didn't account for overlapping matches. For example,
+        the text `blah ":" blah` would be converted to `blah "":" blah` - with
+        the second double-quote not getting escaped. The new regex uses a
+        positive lookahead instead of a capture group to ensure we don't miss
+        these cases.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.7
+  date: 2021-07-22T08:13:02.369Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.8.1'
       hash: c7d99e575b11e93fb6dacf9cd25c97d4b28c8f11
       body: |
