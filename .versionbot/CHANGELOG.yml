@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-front to ^1.1.0'
+      hash: b89dc40d58d78a10598f9f605e0cec4caf95b34a
+      body: |
+        Update @balena/jellyfish-plugin-front from 1.0.26 to 1.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.8
+  date: 2021-07-22T09:26:31.085Z
+- commits:
     - subject: 'CSV export: fix double quote escaping'
       hash: c7426e314c420ce6ad0a3bfa31fe052edd27665d
       body: >
