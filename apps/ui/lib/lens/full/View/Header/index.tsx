@@ -79,7 +79,7 @@ export default class Header extends React.Component<any, any> {
 					return _.mapValues(flattened, (field) => {
 						// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
 						return _.isString(field)
-							? field.replace(/([^"]|^)"([^"]|$)/g, '$1""$2')
+							? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
 							: field;
 					});
 			  })
