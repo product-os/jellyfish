@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.0'
+      hash: 5271868f36612a9ffb01ddd87a92ec435b87dd65
+      body: |
+        Update @balena/jellyfish-plugin-discourse from 1.0.51 to 1.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.11
+  date: 2021-07-22T14:10:00.530Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-front to ^1.2.0'
       hash: 3903a34a9752b7eef131088febcd4f99aeead231
       body: |
