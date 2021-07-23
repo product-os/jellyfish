@@ -92,12 +92,16 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	);
 
 	// For each relevant link constraint...
-	filteredLinkConstraints.forEach((linkConstraint) => {
+	for (const linkConstraint of filteredLinkConstraints) {
 		// Get the flattened contract schema
 		const toType: core.TypeContract = helpers.getType(
 			linkConstraint.data.to,
 			allTypes,
 		);
+		if (!toType) {
+			// This link constraint points to a contract type that can't be found - so ignore it
+			continue;
+		}
 		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
 			toType.data.schema,
 		) as JSONSchema;
@@ -131,7 +135,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 				);
 			},
 		);
-	});
+	}
 
 	// Manually add a 'Timeline message' filter
 	_.set(
