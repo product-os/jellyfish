@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.9.1'
+      hash: 730593a4f05e09e4f348a69f4d6dbc12d0f9e084
+      body: |
+        Update @balena/jellyfish-plugin-github from 1.8.3 to 1.9.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.16
+  date: 2021-07-23T09:53:36.337Z
+- commits:
     - subject: Fix the layout for CardFields
       hash: 6bf9211ba03fe0744b0d628dc2cffb5803b0d895
       body: |
