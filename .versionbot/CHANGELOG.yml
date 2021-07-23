@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ViewFilters: ignore link constraints to types that cannot be found'
+      hash: 6e5d4003ae248a91bded8953d005463832ed4f4d
+      body: >
+        This fixes a bug where some views crashed if a contract type couldn't be
+        found.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.12
+  date: 2021-07-23T02:46:57.957Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.0'
       hash: 5271868f36612a9ffb01ddd87a92ec435b87dd65
       body: |
