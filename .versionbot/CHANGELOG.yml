@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 883be4f0e4c607171f1b84bb2f1e48096d63501c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.13
+  date: 2021-07-23T05:12:42.260Z
+- commits:
     - subject: 'ViewFilters: ignore link constraints to types that cannot be found'
       hash: 6e5d4003ae248a91bded8953d005463832ed4f4d
       body: >
