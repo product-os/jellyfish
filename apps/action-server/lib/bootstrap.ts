@@ -18,7 +18,6 @@ import * as metrics from '@balena/jellyfish-metrics';
 import { http } from './http';
 import { getPluginManager } from './plugins';
 import { core, JSONSchema } from '@balena/jellyfish-types';
-import { WorkerTriggerObjectInput } from '@balena/jellyfish-worker/build/types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	SessionContract,
@@ -77,40 +76,6 @@ const getActorKey = async (
 			},
 		}),
 	);
-};
-
-// TS-TODO: Add 'schedule' to WorkerTriggerObjectInput interface definition
-const transformTriggerCard = (
-	trigger: TriggeredActionContract,
-): WorkerTriggerObjectInput & { schedule?: any } => {
-	const object: WorkerTriggerObjectInput & { schedule?: any } = {
-		id: trigger.id,
-		slug: trigger.slug,
-		action: trigger.data.action,
-		target: trigger.data.target,
-		arguments: trigger.data.arguments,
-	};
-
-	if (trigger.data.filter) {
-		object.filter = trigger.data.filter;
-	}
-
-	if (trigger.data.interval) {
-		object.interval = trigger.data.interval;
-	}
-
-	if (trigger.data.mode) {
-		object.mode = trigger.data.mode;
-	}
-
-	// Triggered actions default to being asynchronous
-	if (_.has(trigger.data, ['schedule'])) {
-		object.schedule = trigger.data.schedule;
-	} else {
-		object.schedule = 'async';
-	}
-
-	return object;
 };
 
 const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
@@ -335,7 +300,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 			} else {
 				switch (contractType) {
 					case 'triggered-action':
-						worker.upsertTrigger(context, transformTriggerCard(data.after));
+						worker.upsertTrigger(context, data.after);
 						break;
 					case 'transformer':
 						worker.upsertTransformer(context, data.after);
@@ -383,7 +348,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		triggers: triggers.length,
 	});
 
-	worker.setTriggers(context, triggers.map(transformTriggerCard));
+	worker.setTriggers(context, triggers);
 
 	const transformers = contractsMap['transformer'] || [];
 
