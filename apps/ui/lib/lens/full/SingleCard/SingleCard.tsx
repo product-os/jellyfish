@@ -87,6 +87,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 					<Tab title="Info">
 						<Box
 							p={3}
+							flex={1}
 							style={{
 								maxWidth: Theme.breakpoints[2],
 							}}
