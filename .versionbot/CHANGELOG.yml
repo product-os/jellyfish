@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix the layout for CardFields
+      hash: 6bf9211ba03fe0744b0d628dc2cffb5803b0d895
+      body: |
+        Allow card fields to take up the full available horizontal width.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.15
+  date: 2021-07-23T08:48:07.857Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^19.3.0'
       hash: 4d10d73539fa885330cb512ed1b94dd415a0cb3a
       body: |
