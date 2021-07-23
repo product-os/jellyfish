@@ -1,4 +1,22 @@
 - commits:
+    - subject: Upgrade to v8 worker
+      hash: 130f02ff46b460f19da022de1f1e7adf5efd50f3
+      body: |
+        This update change the "trigger" input for the worker to be a plain
+        triggered-action contract, instead of a parsed intermediary object.
+        The only change we need to make to support this new worker version is to
+        no longer transform triggered action contracts before passing them to
+        the worker.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 37.2.17
+  date: 2021-07-23T16:07:56.021Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.9.1'
       hash: 730593a4f05e09e4f348a69f4d6dbc12d0f9e084
       body: |
