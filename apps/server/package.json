@@ -31,7 +31,7 @@
     "@balena/jellyfish-plugin-default": "^19.3.5",
     "@balena/jellyfish-plugin-discourse": "^1.1.1",
     "@balena/jellyfish-plugin-flowdock": "^1.0.89",
-    "@balena/jellyfish-plugin-front": "^1.2.5",
+    "@balena/jellyfish-plugin-front": "^1.2.6",
     "@balena/jellyfish-plugin-github": "^1.9.7",
     "@balena/jellyfish-plugin-outreach": "^1.0.98",
     "@balena/jellyfish-plugin-product-os": "^2.5.0",
