@@ -466,6 +466,9 @@ export default class HomeChannel extends React.Component<any, any> {
 					},
 				},
 				{
+					// TODO: Find a better way to display repositories when there are
+					// a _lot_ of them. For now just limit the number to a manageable amount.
+					limit: 50,
 					sortBy: 'name',
 				},
 			)
