@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 2f84022957d0b7c12d334e3a4267ad2e16263635
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.22
+  date: 2021-07-24T15:20:16.782Z
+- commits:
     - subject: 'ui: Avoid fetching (and displaying) too many repositories in the sidebar'
       hash: 636f78b7a3da9b5ce1ddba000b31f66a6fb1ef72
       body: >
