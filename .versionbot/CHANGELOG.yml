@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'ui: Avoid fetching (and displaying) too many repositories in the sidebar'
+      hash: 636f78b7a3da9b5ce1ddba000b31f66a6fb1ef72
+      body: >
+        This is a temporary measure until we come up with an improved UX for
+        displaying repositories that works when there are a _lot_ of
+        repositories in the same organization/loop.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.21
+  date: 2021-07-24T14:18:15.631Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: f17bf3e1696931568a1f082690cf725d3e0ec3d2
       body: ''
