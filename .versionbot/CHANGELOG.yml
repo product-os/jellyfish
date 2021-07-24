@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: d3b3556462285761593b735e8cb99e9228421894
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.18
+  date: 2021-07-24T00:21:46.544Z
+- commits:
     - subject: Upgrade to v8 worker
       hash: 130f02ff46b460f19da022de1f1e7adf5efd50f3
       body: |
