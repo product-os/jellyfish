@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 04c94a398368c25960f4699b7c73840823d547dc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.34
+  date: 2021-07-26T13:26:17.433Z
+- commits:
     - subject: Update jellyfish-action-library dependencies
       hash: bb592bdafff933209481a8b4a9591cd18bd07dfd
       body: ''
