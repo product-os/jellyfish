@@ -1,4 +1,29 @@
 - commits:
+    - subject: Load product-os plugin before default plugin
+      hash: 1389210a08e83c912d2dd15046048d6b0504453a
+      body: >
+        This is a temporary fix to ensure that loop contracts are available when
+        they are needed. In due course we should move loop contracts to
+        somewhere more central - perhaps the default plugin itself?
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^19.4.0'
+      hash: 8167cdb9a8e362457bd6e31236e37bb1cbf6ecbf
+      body: |
+        Update @balena/jellyfish-plugin-default from 19.3.5 to 19.4.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.31
+  date: 2021-07-26T05:07:24.817Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.3'
       hash: 96739c250748de86b7f39cd19747a4c444c2bb47
       body: ''
