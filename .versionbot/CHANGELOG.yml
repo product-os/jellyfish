@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update jellyfish-action-library dependencies
+      hash: bb592bdafff933209481a8b4a9591cd18bd07dfd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.33
+  date: 2021-07-26T09:16:57.558Z
+- commits:
     - subject: Bump jellyfish-ui-components dependencies
       hash: 02f06ff37c4b3d0b41d2346dc92bff920009d086
       body: ''
