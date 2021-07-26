@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-ui-components dependencies
+      hash: 02f06ff37c4b3d0b41d2346dc92bff920009d086
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.32
+  date: 2021-07-26T06:19:47.039Z
+- commits:
     - subject: Load product-os plugin before default plugin
       hash: 1389210a08e83c912d2dd15046048d6b0504453a
       body: >
