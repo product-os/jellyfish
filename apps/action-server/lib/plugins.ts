@@ -26,9 +26,9 @@ export const getPluginManager = (context: core.Context): PluginManager => {
 	return new PluginManager(context, {
 		plugins: [
 			ActionLibrary,
+			ProductOsPlugin,
 			DefaultPlugin,
 			ChannelsPlugin,
-			ProductOsPlugin,
 			TypeformPlugin,
 			GitHubPlugin,
 			FlowdockPlugin,
