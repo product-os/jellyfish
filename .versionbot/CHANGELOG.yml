@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: db4dc13ce3eec9864775b6c6755edb495ae4aa69
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.38
+  date: 2021-07-27T05:11:06.644Z
+- commits:
     - subject: Update jellyfish-worker dependencies
       hash: 6275160a74509120e3e1be4eda909c479103ee0d
       body: ''
