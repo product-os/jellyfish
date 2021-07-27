@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update jellyfish-worker dependencies
+      hash: 6275160a74509120e3e1be4eda909c479103ee0d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.37
+  date: 2021-07-27T03:42:49.218Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-front to ^1.2.9'
       hash: 33eeb9d3818e4b4efa325cd559e71f0f6a04c609
       body: ''
