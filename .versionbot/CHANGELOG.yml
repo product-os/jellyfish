@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^8.0.7'
+      hash: 1384ad5ee70bc8132c20197e90a87533d0dcded1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.41
+  date: 2021-07-28T09:20:46.387Z
+- commits:
     - subject: Update evaluted fields to reference 'contract' instead of 'this'
       hash: ea16c1cd5d5a573335070d47fe75cec03398cd61
       body: |
