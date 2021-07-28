@@ -89,14 +89,14 @@
               "type": "number",
               "title": "Sum Annual price",
               "readOnly": true,
-              "$$formula": "SUM(this.data.annualPrice * (1 - this.data.discountPercentage))",
+              "$$formula": "SUM(contract.data.annualPrice * (1 - contract.data.discountPercentage))",
               "description": "Calculated with the formula: annualPrice * (1 - discountPercentage). This number is excluding plan addons"
             },
             "SumMonthlyPrice": {
               "type": "number",
               "title": "Sum Monthly price",
               "readOnly": true,
-              "$$formula": "SUM(this.data.monthlyPrice * (1-this.data.discountPercentage))",
+              "$$formula": "SUM(contract.data.monthlyPrice * (1 - contract.data.discountPercentage))",
               "description": "Calculated with the formula: monthlyPrice * (1 - discountPercentage). This number is excluding plan addons"
             },
             "stageOfBusiness": {
