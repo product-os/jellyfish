@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update evaluted fields to reference 'contract' instead of 'this'
+      hash: ea16c1cd5d5a573335070d47fe75cec03398cd61
+      body: |
+        Compatible with latest jellyscript.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.40
+  date: 2021-07-28T04:20:16.562Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 19361244dc4c02b75760a6ab25481f82f133843e
       body: ''
