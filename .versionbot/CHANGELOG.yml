@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 5534ef0e70d1c7bc4460c7187504fe5105b5d14f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.45
+  date: 2021-07-29T04:51:03.566Z
+- commits:
     - subject: Bump jellyfish-ui-components dependency
       hash: ba776e99a49e042503fc8f704c800f60cb75257a
       body: ''
