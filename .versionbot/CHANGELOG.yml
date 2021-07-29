@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'Katapult: Increase component replica count.'
+      hash: 507d36fd7ecdffac526861838f0fe7d1fbe93c8a
+      body: |
+        This increases the replica count of action-server, jellyfish-api,
+        and jellyfish-ui to maximize the current EKS node count for
+        product-os.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 37.2.46
+  date: 2021-07-29T09:49:53.840Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 5534ef0e70d1c7bc4460c7187504fe5105b5d14f
       body: ''
