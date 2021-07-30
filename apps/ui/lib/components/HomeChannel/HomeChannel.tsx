@@ -212,7 +212,7 @@ const cleanPath = (location) => {
 
 const groupViews = memoize<any>(
 	(tail, usersStarredViews, userSlug, repos: core.Contract[], orgs) => {
-		const sortedTail = _.sortBy(tail, 'name');
+		const sortedTail = _.sortBy(tail, ['data.namespace', 'name']);
 		const groups: any = {
 			defaults: [],
 			main: {
