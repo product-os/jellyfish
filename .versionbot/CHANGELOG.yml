@@ -1,4 +1,20 @@
 - commits:
+    - subject: >-
+        Add an e2e test for the evaluated `lastMessage` field of a
+        support-thread
+      hash: 73426a517e4b00de144b8d5d18f6257f59f11f94
+      body: |
+        This tests the triggered action and $$formula execution in full.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.48
+  date: 2021-07-30T05:10:27.209Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 12900d22d5f76704126f0140a39e0bf913208c4f
       body: ''
