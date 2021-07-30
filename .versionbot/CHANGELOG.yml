@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 12900d22d5f76704126f0140a39e0bf913208c4f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.47
+  date: 2021-07-30T03:39:18.156Z
+- commits:
     - subject: 'Katapult: Increase component replica count.'
       hash: 507d36fd7ecdffac526861838f0fe7d1fbe93c8a
       body: |
