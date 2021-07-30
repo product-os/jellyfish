@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'ui: sort sidebar items by namespace first'
+      hash: 9fea62bb94650b394aa4d38ba1cf39d970672ea1
+      body: >
+        This ensures that namespaced items appear before non-namespaced items
+        and the namespaces are ordered alphabetically.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.50
+  date: 2021-07-30T07:28:53.704Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: c17b6221ac90d7e924bd15d23e030f77277b6d30
       body: ''
