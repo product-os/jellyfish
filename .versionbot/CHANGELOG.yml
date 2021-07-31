@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: ed11d34d629d228593ebf5735ae0bf00e616036e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.51
+  date: 2021-07-31T05:37:23.901Z
+- commits:
     - subject: 'ui: sort sidebar items by namespace first'
       hash: 9fea62bb94650b394aa4d38ba1cf39d970672ea1
       body: >
