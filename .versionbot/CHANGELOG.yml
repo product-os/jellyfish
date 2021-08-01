@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: f48d0c11a67a72b6b5452973c6acd3f5fbd7c5c0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.56
+  date: 2021-08-01T13:38:00.563Z
+- commits:
     - subject: 'patch: Update dependency @babel/preset-env to ^7.14.9'
       hash: fe340a3388700b13632e11986d26e5094aa60b26
       body: ''
