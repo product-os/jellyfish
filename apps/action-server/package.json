@@ -20,7 +20,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@balena/jellyfish-action-library": "^15.0.56",
+    "@balena/jellyfish-action-library": "^15.0.57",
     "@balena/jellyfish-core": "^5.1.12",
     "@balena/jellyfish-environment": "^4.3.18",
     "@balena/jellyfish-logger": "^3.0.54",
@@ -33,7 +33,7 @@
     "@balena/jellyfish-plugin-flowdock": "^1.0.97",
     "@balena/jellyfish-plugin-front": "^1.2.10",
     "@balena/jellyfish-plugin-github": "^1.10.12",
-    "@balena/jellyfish-plugin-outreach": "^1.0.111",
+    "@balena/jellyfish-plugin-outreach": "^1.0.112",
     "@balena/jellyfish-plugin-product-os": "^2.5.12",
     "@balena/jellyfish-plugin-typeform": "^3.0.204",
     "@balena/jellyfish-queue": "^1.0.236",
