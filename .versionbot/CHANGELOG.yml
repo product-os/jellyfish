@@ -1,4 +1,20 @@
 - commits:
+    - subject: Check contract override of loop field schema
+      hash: ca61a6391b1be041e1a2d7dae2dadbec0dc4bd6e
+      body: >
+        This ensures that if a contract schema overrides what the schema for a
+        loop field is, that this is used by the CreateLens and EditLens
+        components.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.59
+  date: 2021-08-02T02:32:29.434Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 3d1db22dd27f339846de5624409b0397246e8345
       body: ''
