@@ -329,7 +329,11 @@ export class CreateLens extends React.Component<any, any> {
 		_.set(
 			schema,
 			['properties', 'loop'],
-			baseCardType.data.schema.properties.loop,
+			_.merge(
+				{},
+				baseCardType.data.schema.properties.loop,
+				selectedTypeTarget.data.schema.properties.loop,
+			),
 		);
 
 		// Always show tags input

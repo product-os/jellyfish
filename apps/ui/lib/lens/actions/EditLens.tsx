@@ -55,7 +55,11 @@ export class EditLens extends React.Component<any, any> {
 		_.set(
 			schema,
 			['properties', 'loop'],
-			baseCardType.data.schema.properties.loop,
+			_.merge(
+				{},
+				baseCardType.data.schema.properties.loop,
+				cardType.data.schema.properties.loop,
+			),
 		);
 
 		this.state = {
