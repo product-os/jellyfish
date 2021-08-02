@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 95468b43207e4b5533670e064f5398d58b711a60
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.60
+  date: 2021-08-02T03:40:45.091Z
+- commits:
     - subject: Check contract override of loop field schema
       hash: ca61a6391b1be041e1a2d7dae2dadbec0dc4bd6e
       body: >
