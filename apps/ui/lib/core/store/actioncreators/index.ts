@@ -529,6 +529,11 @@ export const actionCreators = {
 				},
 				{
 					limit: 1,
+					links: {
+						[verb]: {
+							sortBy: 'created_at',
+						},
+					},
 				},
 			);
 
