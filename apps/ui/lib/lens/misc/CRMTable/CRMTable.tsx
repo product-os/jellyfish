@@ -31,15 +31,29 @@ class CRMTable extends React.Component<any, any> {
 		this.generateTableData = this.generateTableData.bind(this);
 	}
 
-	openCreateChannel() {
-		const {
-			type,
-			actions,
-			channel: {
-				data: { head },
+	openCreateChannel(item) {
+		const { allTypes, activeLoop, actions, tail } = this.props;
+		const accountType = helpers.getType('account', allTypes);
+		const opportunity = _.find(tail, { id: item.id });
+		if (!opportunity) {
+			console.warn(`Could not find opportunity ${item.id}`);
+			return;
+		}
+		actions.addChannel({
+			head: {
+				types: accountType,
+				seed: {
+					markers: opportunity.markers,
+					loop: opportunity.loop || activeLoop,
+				},
+				onDone: {
+					action: 'link',
+					targets: [opportunity],
+				},
 			},
-		} = this.props;
-		actions.openCreateChannel(head, type);
+			format: 'create',
+			canonical: false,
+		});
 	}
 
 	initColumns() {
@@ -65,7 +79,7 @@ class CRMTable extends React.Component<any, any> {
 								mr={2}
 								success
 								// TODO: This should open a linked account create modal
-								onClick={this.openCreateChannel}
+								onClick={() => this.openCreateChannel(item)}
 							>
 								Add new linked Account
 							</Button>
