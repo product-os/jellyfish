@@ -5,6 +5,7 @@
  */
 
 import Bluebird from 'bluebird';
+import { connect } from 'react-redux';
 import clone from 'deep-copy';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
@@ -13,6 +14,7 @@ import { Box, Button, Flex } from 'rendition';
 import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
 import { core } from '@balena/jellyfish-types';
 import { LinkModal } from '../../components/LinkModal';
+import { selectors } from '../../core';
 
 class Segment extends React.Component<any, any> {
 	constructor(props) {
@@ -122,6 +124,7 @@ class Segment extends React.Component<any, any> {
 			segment,
 			types,
 			onSave,
+			activeLoop,
 		} = this.props;
 
 		addChannel({
@@ -131,6 +134,7 @@ class Segment extends React.Component<any, any> {
 				}),
 				seed: {
 					markers: card.markers,
+					loop: card.loop || activeLoop,
 				},
 				onDone: {
 					action: 'link',
@@ -247,4 +251,10 @@ class Segment extends React.Component<any, any> {
 	}
 }
 
-export default withSetup(Segment);
+const mapStateToProps = (state: any) => {
+	return {
+		activeLoop: selectors.getActiveLoop(state),
+	};
+};
+
+export default withSetup(connect<any, any, any>(mapStateToProps)(Segment));

@@ -12,6 +12,7 @@
       "head": {
         "id": "7ff03977-e8ae-4ef4-8ac7-4519ecbb3de2",
         "slug": "view-all-customers",
+        "loop": "loop-balena-io@1.0.0",
         "type": "view@1.0.0",
         "active": true,
         "version": "1.0.0",
