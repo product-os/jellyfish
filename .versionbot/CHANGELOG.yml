@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: b0a538593e16121509d303147405d47c2dca22b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.2.63
+  date: 2021-08-03T07:58:18.160Z
+- commits:
     - subject: Sort linked contracts when fetching via SDK
       hash: a9beff2ea33edfcd01c5f3ec8f97d066bee3931f
       body: >
