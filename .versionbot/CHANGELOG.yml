@@ -1,4 +1,19 @@
 - commits:
+    - subject: Sort linked contracts when fetching via SDK
+      hash: a9beff2ea33edfcd01c5f3ec8f97d066bee3931f
+      body: >
+        This will ensure a reasonable and consistent ordering of contracts in
+        the `Segment` component (e.g. when viewing a list of linked contracts).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.62
+  date: 2021-08-03T06:50:48.621Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.10.13'
       hash: 812b62680f333e80b33f00adc0993156fdd3ff6c
       body: ''
