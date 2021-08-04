@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump nginx docker image to v1.21.1
+      hash: f73bed24e8d4064a3bdf478f4dea99d53ec8c316
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.2.65
+  date: 2021-08-04T03:13:17.077Z
+- commits:
     - subject: Use patched socket.io-prometheus-metrics fork
       hash: ba291293803a82f33bf8112061baa85655f8d5c9
       body: ''
