@@ -94,6 +94,10 @@ services:
     ports:
       - 9229
     restart: always
+    labels:
+      - "traefik.http.routers.api.rule=HostRegexp(`api.ly.fish.local`,`api.{uuid:[a-z0-9]+}.balena-devices.com`)"
+      - "traefik.http.services.api-service.loadbalancer.server.port=80"
+      - "traefik.enable=true"
   livechat:
     build:
       args:
@@ -103,6 +107,10 @@ services:
         - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
+    labels:
+      - "traefik.http.routers.livechat.rule=HostRegexp(`livechat.ly.fish.local`)"
+      - "traefik.http.services.livechat-service.loadbalancer.server.port=80"
+      - "traefik.enable=true"
     depends_on:
       - api
       - balena-mdns-publisher
@@ -116,12 +124,20 @@ services:
     restart: always
     networks:
       - internal
+    labels:
+      - "traefik.tcp.routers.postgres.rule=HostSNI(`postgres.ly.fish.local`)"
+      - "traefik.tcp.services.postgres-service.loadbalancer.server.port=5432"
+      - "traefik.enable=true"
   redis:
     image: balena/balena-redis:0.0.3
     command: [sh, -c, "redis-server /usr/local/etc/redis/redis.conf --save ''"]
     restart: always
     networks:
       - internal
+    labels:
+      - "traefik.tcp.routers.redis.rule=HostSNI(`redis.ly.fish.local`)"
+      - "traefik.tcp.services.redis-service.loadbalancer.server.port=6379"
+      - "traefik.enable=true"
   tick:
     build:
       context: .
@@ -171,6 +187,10 @@ services:
       - NODE_ENV
     networks:
       - internal
+    labels:
+      - "traefik.http.routers.ui.rule=HostRegexp(`jel.ly.fish.local`,`jel.{uuid:[a-z0-9]+}.balena-devices.com`)"
+      - "traefik.http.services.ui-service.loadbalancer.server.port=80"
+      - "traefik.enable=true"
   {{#workers}}
   worker_{{idx}}:
     build:
@@ -258,44 +278,23 @@ services:
         ["jel", "livechat", "api", "registry"]
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
-  haproxy:
-    image: 'balena/open-balena-haproxy:2.11.3'
-    cap_add:
-      - SYS_RESOURCE
-      - SYS_ADMIN
-    security_opt:
-      - 'apparmor=unconfined'
-    tmpfs:
-      - /run
-      - /sys/fs/cgroup
-    depends_on:
-      {{#workers}}
-      - worker_{{idx}}
-      {{/workers}}
-      - ui
-      - tick
-      - livechat
-      - api
-      - balena-mdns-publisher
+  reverse-proxy:
+    image: traefik:v2.4
+    command: --api.insecure=true --providers.docker --providers.docker.endpoint="unix:///var/run/balena.sock" --providers.docker.exposedByDefault=false
     ports:
-      - '80:80'
-      - '{{POSTGRES_PORT}}:{{POSTGRES_PORT}}'
-      - '{{REDIS_PORT}}:{{REDIS_PORT}}'
-    networks:
-      internal:
-        aliases:
-          - jel.ly.fish.local
-          - livechat.ly.fish.local
-          - api.ly.fish.local
-          - postgres.ly.fish.local
-          - redis.ly.fish.local
-    environment:
-      DOMAIN_INC_UUID: 'false'
-      AUTOGENERATE_CERTS: 'false'
-      AUTH_TOKEN: <token>
-      STATIC_DNS_IP: <ip>
-      CONFD_BACKEND: 'ENV'
-      PROXY_CONFIG: {{& HAPROXY_CONFIG}}
+      - "80:80/tcp"
+      - '5432:5432/tcp'
+      - '6379:6379/tcp'
+    labels:
+      io.balena.features.balena-socket: true
+    depends_on:
+          - worker_1
+          - worker_2
+          - ui
+          - tick
+          - livechat
+          - api
+          - balena-mdns-publisher
 
 networks:
   internal: {}
