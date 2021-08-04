@@ -107,10 +107,6 @@ services:
         - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
-    labels:
-      - "traefik.http.routers.livechat.rule=HostRegexp(`livechat.ly.fish.local`)"
-      - "traefik.http.services.livechat-service.loadbalancer.server.port=80"
-      - "traefik.enable=true"
     depends_on:
       - api
       - balena-mdns-publisher
