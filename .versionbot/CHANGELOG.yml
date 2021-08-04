@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use patched socket.io-prometheus-metrics fork
+      hash: ba291293803a82f33bf8112061baa85655f8d5c9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.2.64
+  date: 2021-08-04T01:25:28.263Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: b0a538593e16121509d303147405d47c2dca22b4
       body: ''
