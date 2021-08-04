@@ -957,7 +957,7 @@ export const actionCreators = {
 						streamTyping(dispatch, payload),
 					);
 
-					commsStream.on('error', (error) => {
+					commsStream.on('connect_error', (error) => {
 						console.error('A stream error occurred', error);
 					});
 
