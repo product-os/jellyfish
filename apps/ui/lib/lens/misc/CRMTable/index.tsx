@@ -17,7 +17,7 @@ const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
 		user: selectors.getCurrentUser(state),
-
+		activeLoop: selectors.getActiveLoop(state),
 		allTypes,
 		types: _.get(_.find(allTypes, ['slug', 'opportunity']), [
 			'data',

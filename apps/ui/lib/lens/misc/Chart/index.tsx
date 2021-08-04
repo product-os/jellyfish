@@ -23,6 +23,7 @@ const mapStateToProps = (state, ownProps) => {
 	const chartConfigurationType = helpers.getType('chart-configuration', types);
 	return {
 		sdk,
+		activeLoop: selectors.getActiveLoop(state),
 		chartConfigurationType,
 		ChartComponent: ChartLazy,
 	};

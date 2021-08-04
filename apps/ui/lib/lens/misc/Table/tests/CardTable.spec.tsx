@@ -145,6 +145,7 @@ describe('CardTable lens', () => {
 			head: {
 				seed: {
 					markers: channel.data.head.markers,
+					loop: channel.data.head.loop,
 				},
 				onDone: {
 					action: 'link',
