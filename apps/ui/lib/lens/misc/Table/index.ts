@@ -16,6 +16,7 @@ const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
 		allTypes: selectors.getTypes(state),
+		activeLoop: selectors.getActiveLoop(state),
 		user: selectors.getCurrentUser(state),
 		lensState: selectors.getLensState(state, SLUG, target),
 		SLUG,

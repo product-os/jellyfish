@@ -102,6 +102,7 @@ export default class CardTable extends React.Component<any, any> {
 			head: {
 				seed: {
 					markers: this.props.channel.data.head.markers,
+					loop: this.props.channel.data.head.loop || this.props.activeLoop,
 				},
 				onDone: {
 					action: 'link',

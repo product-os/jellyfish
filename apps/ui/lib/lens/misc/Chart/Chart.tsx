@@ -44,6 +44,7 @@ const ViewIcon = <Icon name="eye" />;
 export const Chart = React.memo<any>(
 	({
 		actions,
+		activeLoop,
 		channel,
 		chartConfigurationType,
 		history,
@@ -157,6 +158,7 @@ export const Chart = React.memo<any>(
 					types: chartConfigurationType,
 					seed: {
 						markers: channel.data.head.markers,
+						loop: channel.data.head.loop || activeLoop,
 						data: {
 							settings: stringifySettings(settings),
 						},
