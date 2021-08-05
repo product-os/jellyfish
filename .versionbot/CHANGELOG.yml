@@ -1,4 +1,38 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 3f4e3a5ac539ad747380f99a837eea49f475a82d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Fix linking to new accounts in CRM table
+      hash: 6d7c40f41589def04728ad750d0d3c1bd88bf706
+      body: |
+        This was sooooo broken before!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Inherit loop when creating new contracts
+      hash: 973debe31b7b56e3b8e131598ee0bf239d57d4b6
+      body: >
+        Turns out there's quite a few places in the code where we create new
+        contracts! (We should refactor/abstract this in a future PR).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.2.66
+  date: 2021-08-05T01:36:09.378Z
+- commits:
     - subject: Bump nginx docker image to v1.21.1
       hash: f73bed24e8d4064a3bdf478f4dea99d53ec8c316
       body: ''
