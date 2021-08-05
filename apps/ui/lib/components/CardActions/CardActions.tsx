@@ -19,6 +19,7 @@ import {
 import CardLinker from '../CardLinker';
 import CardOwner from '../CardOwner';
 import VideoLink from '../VideoLink';
+import { BookmarkButton } from '../BookmarkButton';
 
 export default class CardActions extends React.Component<any, any> {
 	delete = () => {
@@ -85,6 +86,8 @@ export default class CardActions extends React.Component<any, any> {
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
 					{this.props.inlineActionItems}
+					<BookmarkButton card={this.props.card} />
+
 					{supportsOwnership && (
 						<CardOwner
 							user={this.props.user}

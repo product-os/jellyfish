@@ -7,13 +7,13 @@
 import React from 'react';
 import { Select } from 'rendition';
 
-const SliceOptions = ({ sliceOptions, activeSlice, setSlice }) => {
+const SliceOptions = ({ sliceOptions, activeSlice, setSlice, ...rest }) => {
 	if (!sliceOptions || sliceOptions.length < 1) {
 		return null;
 	}
 	return (
 		<Select
-			ml={3}
+			{...rest}
 			options={sliceOptions}
 			value={activeSlice}
 			labelKey="title"

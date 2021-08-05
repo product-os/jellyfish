@@ -5,6 +5,7 @@
  */
 
 jest.mock('../../common/RelationshipsTab');
+jest.mock('../../../components/BookmarkButton');
 
 import { getWrapper, flushPromises } from '../../../../test/ui-setup';
 import { mount } from 'enzyme';

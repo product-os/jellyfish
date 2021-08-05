@@ -545,7 +545,7 @@ export const actionCreators = {
 		};
 	},
 
-	createChannelQuery(target): any {
+	createChannelQuery(target, user): any {
 		let properties = {};
 		if (isUUID(target)) {
 			properties = {
@@ -573,6 +573,22 @@ export const actionCreators = {
 			anyOf: [
 				{
 					$$links: {
+						'is bookmarked by': {
+							type: 'object',
+							required: ['type', 'id'],
+							properties: {
+								type: {
+									const: 'user@1.0.0',
+								},
+								id: {
+									const: user.id,
+								},
+							},
+						},
+					},
+				},
+				{
+					$$links: {
 						'has attached element': {
 							type: 'object',
 						},
@@ -591,8 +607,9 @@ export const actionCreators = {
 				return;
 			}
 			const { target } = channel.data;
+			const user = selectors.getCurrentUser(getState());
 
-			const query = actionCreators.createChannelQuery(target);
+			const query = actionCreators.createChannelQuery(target, user);
 
 			const stream = await actionCreators.getStream(
 				{

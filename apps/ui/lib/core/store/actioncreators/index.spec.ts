@@ -461,18 +461,21 @@ describe('Redux action creators', () => {
 
 	describe('createChannelQuery', () => {
 		test('handles IDs', () => {
-			const query = actionCreators.createChannelQuery(cardId);
+			const query = actionCreators.createChannelQuery(cardId, card);
 			expect(query.properties.id.const).toBe(cardId);
 		});
 
 		test('handles plain slugs', () => {
-			const query = actionCreators.createChannelQuery(cardSlug);
+			const query = actionCreators.createChannelQuery(cardSlug, card);
 			expect(query.properties.slug.const).toBe(cardSlug);
 			expect(query.properties.version.const).toBe('1.0.0');
 		});
 
 		test('handles versioned slugs', () => {
-			const query = actionCreators.createChannelQuery(`${cardSlug}@2.4.5`);
+			const query = actionCreators.createChannelQuery(
+				`${cardSlug}@2.4.5`,
+				card,
+			);
 			expect(query.properties.slug.const).toBe(cardSlug);
 			expect(query.properties.version.const).toBe('2.4.5');
 		});

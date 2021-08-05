@@ -11,6 +11,7 @@ import { Box, Flex, Heading, Txt } from 'rendition';
 import { flatten } from 'flat';
 import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
 import Markers from '../../../../components/Markers';
+import { BookmarkButton } from '../../../../components/BookmarkButton';
 import { LensSelection } from './LensSelection';
 import SliceOptions from './SliceOptions';
 import ViewFilters from './ViewFilters';
@@ -125,15 +126,18 @@ export default class Header extends React.Component<any, any> {
 								justifyContent="flex-end"
 								minWidth={['100%', '100%', 'auto']}
 							>
+								<BookmarkButton card={channel.data.head} ml={2} />
+
 								{!lens.data.supportsSlices && (
 									<SliceOptions
+										ml={2}
 										sliceOptions={sliceOptions}
 										activeSlice={activeSlice}
 										setSlice={setSlice}
 									/>
 								)}
 								<LensSelection
-									ml={3}
+									ml={2}
 									lenses={lenses}
 									lens={lens}
 									setLens={setLens}
