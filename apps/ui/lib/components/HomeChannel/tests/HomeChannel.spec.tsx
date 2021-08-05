@@ -11,6 +11,7 @@ import _ from 'lodash';
 import sinon from 'sinon';
 import HomeChannel from '../HomeChannel';
 import * as homeChannelProps from './fixtures';
+import { core } from '@balena/jellyfish-types';
 
 let context: any = {};
 
@@ -37,7 +38,6 @@ describe('HomeChannel', () => {
 					'setChatWidgetOpen',
 					'setDefault',
 					'setSidebarExpanded',
-					'setViewStarred',
 					'streamView',
 					'updateUser',
 					'loadViewData',
@@ -59,7 +59,7 @@ describe('HomeChannel', () => {
 		sandbox.restore();
 	});
 
-	test('Starred views appear in their own menu section', async () => {
+	test('Bookmarks appear in their own menu section', async () => {
 		const { wrapper } = getWrapper(initialState);
 		const homeChannel = await mount(
 			<HomeChannel
@@ -79,16 +79,15 @@ describe('HomeChannel', () => {
 			},
 		);
 
-		const starredViews = homeChannelProps.user.data.profile.starredViews;
-		const starredViewsDiv = homeChannel.find(
-			'div[data-test="home-channel__group__starredViews"]',
+		const bookmarksDiv = homeChannel.find(
+			'div[data-test="home-channel__group__bookmarks"]',
 		);
 
-		starredViews.forEach((starredView) => {
-			const starredViewLink = starredViewsDiv.find(
-				`a[data-test="home-channel__item--${starredView}"]`,
+		_.forEach(homeChannelProps.bookmarks, (bookmark: core.Contract) => {
+			const bookmarkLink = bookmarksDiv.find(
+				`a[data-test="home-channel__item--${bookmark.slug}"]`,
 			);
-			expect(starredViewLink.length).toBe(1);
+			expect(bookmarkLink.length).toBe(1);
 		});
 	});
 

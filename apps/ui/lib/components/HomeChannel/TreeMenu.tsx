@@ -16,7 +16,6 @@ const TreeMenu: React.FunctionComponent<any> = ({
 	activeChannel,
 	viewNotices,
 	subscriptions,
-	userSlug,
 	open,
 	actions,
 	node,
@@ -40,14 +39,12 @@ const TreeMenu: React.FunctionComponent<any> = ({
 		const update = viewNotices[card.id];
 		return (
 			<ViewLink
-				userSlug={userSlug}
 				subscription={subscriptions[card.id] || null}
 				actions={actions}
 				key={card.id}
 				card={card}
 				label={node.name}
 				isActive={isActive}
-				isStarred={node.isStarred}
 				activeSlice={activeSlice}
 				update={update}
 				open={open}
@@ -85,7 +82,6 @@ const TreeMenu: React.FunctionComponent<any> = ({
 				{node.children.map((child) => {
 					return (
 						<TreeMenu
-							userSlug={userSlug}
 							subscriptions={subscriptions}
 							actions={actions}
 							key={child.key}

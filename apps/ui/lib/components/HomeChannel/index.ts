@@ -29,7 +29,10 @@ const mapStateToProps = (state, ownProps) => {
 		types: selectors.getTypes(state),
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
-		starredViews: selectors.getStarredViews(state),
+		bookmarks: target
+			? selectors.getViewData(state, `${target}-bookmarks`)
+			: null,
+		repos: target ? selectors.getViewData(state, `${target}-repos`) : null,
 		activeLoop: selectors.getActiveLoop(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 		user,
@@ -53,7 +56,6 @@ const mapDispatchToProps = (dispatch) => {
 				'setChatWidgetOpen',
 				'setDefault',
 				'setSidebarExpanded',
-				'setViewStarred',
 			]),
 			dispatch,
 		),
