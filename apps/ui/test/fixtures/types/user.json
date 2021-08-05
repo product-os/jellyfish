@@ -288,13 +288,6 @@
                   "default": "shift+enter",
                   "description": "Command to send a message"
                 },
-                "starredViews": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  },
-                  "description": "List of view slugs that are starred"
-                },
                 "viewSettings": {
                   "type": "object",
                   "description": "A map of settings for view cards, keyed by the view id",
@@ -411,14 +404,6 @@
               },
               "ui:widget": "Markdown"
             },
-            "starredViews": {
-              "items": {
-                "ui:widget": "Link",
-                "ui:options": {
-                  "href": "https://jel.ly.fish/${source}"
-                }
-              }
-            },
             "viewSettings": null,
             "ui:description": null
           },
@@ -501,14 +486,6 @@
                 "then": "`${source}`"
               },
               "ui:widget": "Markdown"
-            },
-            "starredViews": {
-              "items": {
-                "ui:widget": "Link",
-                "ui:options": {
-                  "href": "https://jel.ly.fish/${source}"
-                }
-              }
             },
             "viewSettings": null,
             "ui:description": null

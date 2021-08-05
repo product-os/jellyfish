@@ -223,10 +223,6 @@ export const selectors = {
 	getSubscriptions: (state) => {
 		return state.views.subscriptions || {};
 	},
-	getStarredViews: (state) => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(user, ['data', 'profile', 'starredViews'], []);
-	},
 	getUsersViewLens: (state, viewId) => {
 		const user = selectors.getCurrentUser(state);
 		return _.get(
@@ -1604,32 +1600,6 @@ export const actionCreators = {
 				getState,
 				context,
 			);
-		};
-	},
-
-	setViewStarred(view, isStarred) {
-		return (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
-			const existingStarredViews = _.get(
-				user,
-				['data', 'profile', 'starredViews'],
-				[],
-			);
-			const newStarredViews = isStarred
-				? _.uniq(existingStarredViews.concat(view.slug))
-				: _.without(existingStarredViews, view.slug);
-			const patch = helpers.patchPath(
-				user,
-				['data', 'profile', 'starredViews'],
-				newStarredViews,
-			);
-
-			return actionCreators.updateUser(
-				patch,
-				`${isStarred ? 'Starred' : 'Un-starred'} view '${
-					view.name || view.slug
-				}'`,
-			)(dispatch, getState, context);
 		};
 	},
 
