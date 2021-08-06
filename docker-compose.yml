@@ -354,6 +354,9 @@ services:
           - worker_2
           - ui
           - tick
+          - livechat
+          - api
+          - balena-mdns-publisher
 
 networks:
   internal: {}
