@@ -4,12 +4,16 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
+import { core } from "@balena/jellyfish-types";
+
+import _ from 'lodash';
 const Bluebird = require('bluebird')
 const logger = require('@balena/jellyfish-logger').getLogger(__filename)
 
-module.exports = class QueryFacade {
-	constructor (jellyfish) {
+export class QueryFacade {
+	jellyfish: core.JellyfishKernel;
+
+	constructor (jellyfish: core.JellyfishKernel) {
 		this.jellyfish = jellyfish
 	}
 

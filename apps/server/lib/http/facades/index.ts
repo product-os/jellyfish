@@ -4,9 +4,7 @@
  * Proprietary and confidential.
  */
 
-module.exports = {
-	QueryFacade: require('./query'),
-	AuthFacade: require('./auth'),
-	ActionFacade: require('./action'),
-	ViewFacade: require('./view')
-}
+export { QueryFacade } from './query';
+export { AuthFacade } from './auth';
+export { ActionFacade } from './action';
+export { ViewFacade } from './view';

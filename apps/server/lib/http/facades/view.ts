@@ -4,13 +4,17 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
-const jsone = require('json-e')
-const skhema = require('skhema')
-const assert = require('@balena/jellyfish-assert')
+import _ from 'lodash';
+import jsone from 'json-e';
+import skhema from 'skhema';
+import * as assert from '@balena/jellyfish-assert';
+import { core } from '@balena/jellyfish-types';
 
-module.exports = class ViewFacade {
-	constructor (jellyfish, queryFacade) {
+export class ViewFacade {
+	jellyfish: core.JellyfishKernel;
+	queryFacade: any;
+
+	constructor (jellyfish: core.JellyfishKernel, queryFacade) {
 		this.jellyfish = jellyfish
 		this.queryFacade = queryFacade
 	}

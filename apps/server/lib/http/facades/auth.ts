@@ -4,10 +4,10 @@
  * Proprietary and confidential.
  */
 
-const assert = require('@balena/jellyfish-assert')
-const QueryFacade = require('./query')
+import * as assert from '@balena/jellyfish-assert';
+import { QueryFacade } from './query';
 
-module.exports = class AuthFacade extends QueryFacade {
+export class AuthFacade extends QueryFacade {
 	async whoami (context, sessionToken, ipAddress) {
 		// Use the admin session, as the user invoking this function
 		// might not have enough access to read its entire session card.
