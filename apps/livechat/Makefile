@@ -18,15 +18,14 @@ dev-livechat:
 	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 	NODE_ENV=development \
 	./node_modules/.bin/webpack serve \
-		--config=./lib/webpack.config.js \
+		--config=./webpack.config.js \
 		--color
 
 .PHONY: build-livechat
 build-livechat:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./lib/webpack.config.js
+		./node_modules/.bin/webpack --config=./webpack.config.js
 
 .PHONY: lint
 lint:
-	npx eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) lib
-	npx depcheck --ignore-bin-package --ignores='depcheck,css-loader,file-loader,babel-loader,style-loader,@babel/core,@babel/preset-react,webpack-cli,webpack-dev-server'
+	npm run lint
