@@ -223,10 +223,6 @@ export const selectors = {
 	getSubscriptions: (state) => {
 		return state.views.subscriptions || {};
 	},
-	getStarredViews: (state) => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(user, ['data', 'profile', 'starredViews'], []);
-	},
 	getUsersViewLens: (state, viewId) => {
 		const user = selectors.getCurrentUser(state);
 		return _.get(
@@ -545,7 +541,7 @@ export const actionCreators = {
 		};
 	},
 
-	createChannelQuery(target): any {
+	createChannelQuery(target, user): any {
 		let properties = {};
 		if (isUUID(target)) {
 			properties = {
@@ -573,6 +569,22 @@ export const actionCreators = {
 			anyOf: [
 				{
 					$$links: {
+						'is bookmarked by': {
+							type: 'object',
+							required: ['type', 'id'],
+							properties: {
+								type: {
+									const: 'user@1.0.0',
+								},
+								id: {
+									const: user.id,
+								},
+							},
+						},
+					},
+				},
+				{
+					$$links: {
 						'has attached element': {
 							type: 'object',
 						},
@@ -591,8 +603,9 @@ export const actionCreators = {
 				return;
 			}
 			const { target } = channel.data;
+			const user = selectors.getCurrentUser(getState());
 
-			const query = actionCreators.createChannelQuery(target);
+			const query = actionCreators.createChannelQuery(target, user);
 
 			const stream = await actionCreators.getStream(
 				{
@@ -1587,32 +1600,6 @@ export const actionCreators = {
 				getState,
 				context,
 			);
-		};
-	},
-
-	setViewStarred(view, isStarred) {
-		return (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
-			const existingStarredViews = _.get(
-				user,
-				['data', 'profile', 'starredViews'],
-				[],
-			);
-			const newStarredViews = isStarred
-				? _.uniq(existingStarredViews.concat(view.slug))
-				: _.without(existingStarredViews, view.slug);
-			const patch = helpers.patchPath(
-				user,
-				['data', 'profile', 'starredViews'],
-				newStarredViews,
-			);
-
-			return actionCreators.updateUser(
-				patch,
-				`${isStarred ? 'Starred' : 'Un-starred'} view '${
-					view.name || view.slug
-				}'`,
-			)(dispatch, getState, context);
 		};
 	},
 

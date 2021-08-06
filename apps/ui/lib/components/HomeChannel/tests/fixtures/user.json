@@ -43,10 +43,7 @@
       "name": {
         "last": "Lastname",
         "first": "Firstname"
-      },
-      "starredViews": [
-        "view-all-pipelines"
-      ]
+      }
     }
   },
   "updated_at": "2020-04-29T07:19:04.442Z",

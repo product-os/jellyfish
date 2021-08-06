@@ -261,138 +261,6 @@ describe('Redux action creators', () => {
 		});
 	});
 
-	describe('setViewStarred', () => {
-		test("setViewStarred(_, true) adds the view slug to the list of starred views in the user's profile", async () => {
-			const { sdk, dispatch, thunkContext } = context;
-
-			const getState = () => ({
-				core: {
-					session: {
-						user: {
-							id: '1',
-							data: {
-								profile: {
-									starredViews: [],
-								},
-							},
-						},
-					},
-				},
-			});
-
-			const view = {
-				slug: 'my-view',
-			};
-
-			await actionCreators.setViewStarred(view, true)(
-				dispatch,
-				getState,
-				thunkContext,
-			);
-
-			// 1: setUser
-			expect(dispatch.calledOnce).toBe(true);
-
-			// The user's card is updated via the SDK
-			expect(sdk.card.update.calledOnce).toBe(true);
-			expect(sdk.card.update.getCall(0).args).toEqual([
-				'1',
-				'user',
-				[
-					{
-						op: 'add',
-						path: '/data/profile/starredViews/0',
-						value: 'my-view',
-					},
-				],
-			]);
-
-			// And the user is updated in the store
-			expect(dispatch.getCall(0).args).toEqual([
-				{
-					type: actions.SET_USER,
-					value: {
-						id: '1',
-						data: {
-							profile: {
-								starredViews: [view.slug],
-							},
-						},
-					},
-				},
-			]);
-		});
-
-		test("setViewStarred(_, false) removes the view slug to the list of starred views in the user's profile", async () => {
-			const { sdk, dispatch, thunkContext } = context;
-
-			const view = {
-				slug: 'my-view',
-			};
-
-			const getState = () => ({
-				core: {
-					session: {
-						user: {
-							id: '1',
-							data: {
-								profile: {
-									starredViews: [view.slug],
-								},
-							},
-						},
-					},
-				},
-			});
-
-			sdk.getById = sandbox.fake.resolves({
-				id: '1',
-				data: {
-					profile: {
-						starredViews: [],
-					},
-				},
-			});
-
-			await actionCreators.setViewStarred(view, false)(
-				dispatch,
-				getState,
-				thunkContext,
-			);
-
-			// 1: setUser
-			expect(dispatch.calledOnce).toBe(true);
-
-			// The user's card is updated via the SDK
-			expect(sdk.card.update.calledOnce).toBe(true);
-			expect(sdk.card.update.getCall(0).args).toEqual([
-				'1',
-				'user',
-				[
-					{
-						op: 'remove',
-						path: '/data/profile/starredViews/0',
-					},
-				],
-			]);
-
-			// And the user is updated in the store
-			expect(dispatch.getCall(0).args).toEqual([
-				{
-					type: actions.SET_USER,
-					value: {
-						id: '1',
-						data: {
-							profile: {
-								starredViews: [],
-							},
-						},
-					},
-				},
-			]);
-		});
-	});
-
 	describe('setDefault', () => {
 		test("sets the homeView field in the user's profile", async () => {
 			const { sdk, dispatch, thunkContext } = context;
@@ -461,18 +329,21 @@ describe('Redux action creators', () => {
 
 	describe('createChannelQuery', () => {
 		test('handles IDs', () => {
-			const query = actionCreators.createChannelQuery(cardId);
+			const query = actionCreators.createChannelQuery(cardId, card);
 			expect(query.properties.id.const).toBe(cardId);
 		});
 
 		test('handles plain slugs', () => {
-			const query = actionCreators.createChannelQuery(cardSlug);
+			const query = actionCreators.createChannelQuery(cardSlug, card);
 			expect(query.properties.slug.const).toBe(cardSlug);
 			expect(query.properties.version.const).toBe('1.0.0');
 		});
 
 		test('handles versioned slugs', () => {
-			const query = actionCreators.createChannelQuery(`${cardSlug}@2.4.5`);
+			const query = actionCreators.createChannelQuery(
+				`${cardSlug}@2.4.5`,
+				card,
+			);
 			expect(query.properties.slug.const).toBe(cardSlug);
 			expect(query.properties.version.const).toBe('2.4.5');
 		});

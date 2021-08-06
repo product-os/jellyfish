@@ -6,6 +6,7 @@
 
 import { circularDeepEqual } from 'fast-equals';
 import React from 'react';
+import _ from 'lodash';
 import { Button, Box, Flex, Modal } from 'rendition';
 import {
 	ActionButton,
@@ -14,6 +15,7 @@ import {
 	helpers,
 	Icon,
 	MentionsCount,
+	notifications,
 } from '@balena/jellyfish-ui-components';
 
 export default class ViewLink extends React.Component<any, any> {
@@ -30,7 +32,14 @@ export default class ViewLink extends React.Component<any, any> {
 		this.removeView = this.removeView.bind(this);
 		this.showDeleteModal = this.showDeleteModal.bind(this);
 		this.hideDeleteModal = this.hideDeleteModal.bind(this);
-		this.toggleViewStarred = this.toggleViewStarred.bind(this);
+		this.toggleBookmark = this.toggleBookmark.bind(this);
+	}
+
+	isBookmarked() {
+		const bookmarks = _.get(this.props.card, ['links', 'is bookmarked by'], []);
+		return _.find(bookmarks, {
+			id: this.props.user.id,
+		});
 	}
 
 	toggleMenu(event) {
@@ -55,13 +64,15 @@ export default class ViewLink extends React.Component<any, any> {
 		});
 	}
 
-	toggleViewStarred() {
-		const {
-			card,
-			isStarred,
-			actions: { setViewStarred },
-		} = this.props;
-		setViewStarred(card, !isStarred);
+	async toggleBookmark() {
+		const { sdk, user, card } = this.props;
+		if (this.isBookmarked()) {
+			await sdk.card.unlink(card, user, 'is bookmarked by');
+			notifications.addNotification('success', 'Removed bookmark');
+		} else {
+			await sdk.card.link(card, user, 'is bookmarked by');
+			notifications.addNotification('success', 'Added bookmark');
+		}
 	}
 
 	setDefault() {
@@ -82,18 +93,10 @@ export default class ViewLink extends React.Component<any, any> {
 	}
 
 	render() {
-		const {
-			label,
-			isHomeView,
-			activeSlice,
-			card,
-			isActive,
-			isStarred,
-			userSlug,
-			update,
-		} = this.props;
-
-		const isCustomView = helpers.isCustomView(card, userSlug);
+		const { label, isHomeView, activeSlice, card, isActive, user, update } =
+			this.props;
+		const bookmarked = this.isBookmarked();
+		const isCustomView = helpers.isCustomView(card, user.slug);
 
 		return (
 			<Box>
@@ -110,7 +113,7 @@ export default class ViewLink extends React.Component<any, any> {
 						to={`/${card.slug || card.id}`}
 					>
 						<Flex justifyContent="space-between" alignItems="center">
-							{label || card.name}
+							{label || card.name || card.slug}
 							{isHomeView && (
 								<Box
 									fontSize="80%"
@@ -157,10 +160,10 @@ export default class ViewLink extends React.Component<any, any> {
 							</ActionButton>
 							<ActionButton
 								plain
-								data-test="view-link--star-view-btn"
-								onClick={this.toggleViewStarred}
+								data-test="view-link--bookmark-btn"
+								onClick={this.toggleBookmark}
 							>
-								{isStarred ? 'Un-star this view' : 'Star this view'}
+								{bookmarked ? 'Remove from bookmarks' : 'Add to bookmarks'}
 							</ActionButton>
 							{isCustomView && (
 								<ActionButton

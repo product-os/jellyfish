@@ -6,6 +6,7 @@
 
 import { getWrapper } from '../../../../test/ui-setup';
 import { shallow, mount } from 'enzyme';
+import _ from 'lodash';
 import sinon from 'sinon';
 import React from 'react';
 import ViewLink from '../ViewLink';
@@ -18,7 +19,7 @@ const wrappingComponent = getWrapper().wrapper;
 describe('ViewLink', () => {
 	test('should render', () => {
 		expect(() => {
-			shallow(<ViewLink userSlug={user.slug} card={view} />);
+			shallow(<ViewLink user={user} card={view} />);
 		}).not.toThrow();
 	});
 
@@ -27,12 +28,7 @@ describe('ViewLink', () => {
 			removeView: sinon.fake(),
 		};
 		const component = await mount(
-			<ViewLink
-				isActive
-				userSlug={user.slug}
-				card={customView}
-				actions={actions}
-			/>,
+			<ViewLink isActive user={user} card={customView} actions={actions} />,
 			{
 				wrappingComponent,
 			},
@@ -62,7 +58,7 @@ describe('ViewLink', () => {
 			removeView: sinon.fake(),
 		};
 		const component = await mount(
-			<ViewLink isActive userSlug={user.slug} card={view} actions={actions} />,
+			<ViewLink isActive user={user} card={view} actions={actions} />,
 			{
 				wrappingComponent,
 			},
@@ -79,6 +75,84 @@ describe('ViewLink', () => {
 		expect(deleteViewButton.length).toBe(0);
 	});
 
+	test('Contracts can be added to bookmarks', async () => {
+		const sdk = {
+			card: {
+				link: sinon.fake(),
+			},
+		};
+		const component = await mount(
+			<ViewLink
+				isActive
+				isHomeView={false}
+				user={user}
+				card={customView}
+				sdk={sdk}
+			/>,
+			{
+				wrappingComponent,
+			},
+		);
+
+		const contextMenuButton = component.find(
+			'button[data-test="view-link--context-menu-btn"]',
+		);
+		contextMenuButton.simulate('click');
+
+		const bookmarkButton = component.find(
+			'button[data-test="view-link--bookmark-btn"]',
+		);
+		expect(bookmarkButton.text()).toBe('Add to bookmarks');
+		bookmarkButton.simulate('click');
+
+		expect(sdk.card.link.calledOnce).toBe(true);
+		const [from, to, verb] = sdk.card.link.getCall(0).args;
+		expect(from.id).toBe(customView.id);
+		expect(to.id).toBe(user.id);
+		expect(verb).toBe('is bookmarked by');
+	});
+
+	test('Contracts can be removed from bookmarks', async () => {
+		const sdk = {
+			card: {
+				unlink: sinon.fake(),
+			},
+		};
+		const component = await mount(
+			<ViewLink
+				isActive
+				isHomeView={false}
+				user={user}
+				card={_.merge({}, customView, {
+					links: {
+						'is bookmarked by': [user],
+					},
+				})}
+				sdk={sdk}
+			/>,
+			{
+				wrappingComponent,
+			},
+		);
+
+		const contextMenuButton = component.find(
+			'button[data-test="view-link--context-menu-btn"]',
+		);
+		contextMenuButton.simulate('click');
+
+		const bookmarkButton = component.find(
+			'button[data-test="view-link--bookmark-btn"]',
+		);
+		expect(bookmarkButton.text()).toBe('Remove from bookmarks');
+		bookmarkButton.simulate('click');
+
+		expect(sdk.card.unlink.calledOnce).toBe(true);
+		const [from, to, verb] = sdk.card.unlink.getCall(0).args;
+		expect(from.id).toBe(customView.id);
+		expect(to.id).toBe(user.id);
+		expect(verb).toBe('is bookmarked by');
+	});
+
 	test("'setDefault' action called with view as arg when 'Set as default' context menu item clicked", async () => {
 		const actions = {
 			setDefault: sinon.fake(),
@@ -87,7 +161,7 @@ describe('ViewLink', () => {
 			<ViewLink
 				isActive
 				isHomeView={false}
-				userSlug={user.slug}
+				user={user}
 				card={customView}
 				actions={actions}
 			/>,
@@ -119,7 +193,7 @@ describe('ViewLink', () => {
 			<ViewLink
 				isActive
 				isHomeView
-				userSlug={user.slug}
+				user={user}
 				card={customView}
 				actions={actions}
 			/>,

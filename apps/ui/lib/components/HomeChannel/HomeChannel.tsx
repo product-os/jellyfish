@@ -149,18 +149,7 @@ const GrabHandleGrip = styled.div`
 // View slugs that should be displayed first
 const DEFAULT_VIEWS = ['view-my-conversations', 'view-my-orgs'];
 
-const getStarredViews = memoize((starredViews) => {
-	return _.reduce(
-		starredViews,
-		(acc, viewSlug) => {
-			acc[viewSlug] = true;
-			return acc;
-		},
-		{},
-	);
-});
-
-const viewsToTree = (starredViews, views, root = {}, namespaced = true) => {
+const viewsToTree = (views, root = {}, namespaced = true) => {
 	const result: any = _.defaults(root, {
 		name: null,
 		key: 'root',
@@ -196,7 +185,6 @@ const viewsToTree = (starredViews, views, root = {}, namespaced = true) => {
 		node.children.push({
 			name: view.name,
 			key: view.slug,
-			isStarred: Boolean(starredViews[view.slug]),
 			card: view,
 			children: [],
 		});
@@ -211,7 +199,7 @@ const cleanPath = (location) => {
 };
 
 const groupViews = memoize<any>(
-	(tail, usersStarredViews, userSlug, repos: core.Contract[], orgs) => {
+	(tail, bookmarks, userSlug, repos: core.Contract[], orgs) => {
 		const sortedTail = _.sortBy(tail, ['data.namespace', 'name']);
 		const groups: any = {
 			defaults: [],
@@ -222,34 +210,22 @@ const groupViews = memoize<any>(
 			},
 		};
 
-		const userStarredViews = getStarredViews(usersStarredViews);
-
 		// Sorty by name, then sort the priority views to the top
 		const [defaults, nonDefaults] = _.partition(sortedTail, (view) => {
 			return _.includes(DEFAULT_VIEWS, view.slug);
 		});
 		groups.defaults = defaults;
 
-		const starredViews: any[] = [];
-		const addToStarredViewsIfStarred = (view) => {
-			if (userStarredViews[view.slug]) {
-				starredViews.push(view);
-			}
-		};
-		_.forEach(repos, addToStarredViewsIfStarred);
-		_.forEach(sortedTail, addToStarredViewsIfStarred);
-
-		if (starredViews.length) {
-			const starredViewsTree = viewsToTree(
-				userStarredViews,
-				starredViews,
+		if (bookmarks && bookmarks.length) {
+			const bookmarksTree = viewsToTree(
+				bookmarks,
 				{
-					name: 'Starred',
-					key: '__starredViews',
+					name: 'Bookmarks',
+					key: '__bookmarks',
 				},
 				false,
 			);
-			groups.main.children.push(starredViewsTree);
+			groups.main.children.push(bookmarksTree);
 		}
 
 		// Add the repositories to the top of the sidebar
@@ -261,7 +237,6 @@ const groupViews = memoize<any>(
 					name: (repo.name || repo.slug).replace(/^.*\//, ''),
 					key: repo.slug,
 					card: repo,
-					isStarred: false,
 					children: [],
 				};
 			}),
@@ -294,7 +269,7 @@ const groupViews = memoize<any>(
 
 		if (myViews.length) {
 			groups.main.children.push(
-				viewsToTree(userStarredViews, myViews, {
+				viewsToTree(myViews, {
 					name: 'My views',
 					key: '__myViews',
 				}),
@@ -302,7 +277,7 @@ const groupViews = memoize<any>(
 		}
 		if (oneToOneViews.length) {
 			groups.main.children.push(
-				viewsToTree(userStarredViews, oneToOneViews, {
+				viewsToTree(oneToOneViews, {
 					name: 'Private chats',
 					key: '__oneToOneViews',
 				}),
@@ -315,7 +290,7 @@ const groupViews = memoize<any>(
 					slug: key,
 				});
 				groups.main.children.push(
-					viewsToTree(userStarredViews, views, {
+					viewsToTree(views, {
 						name: org ? org.name : 'Unknown organisation',
 						key,
 					}),
@@ -327,15 +302,83 @@ const groupViews = memoize<any>(
 	},
 );
 
-const viewLinkActionNames = ['setDefault', 'removeView', 'setViewStarred'];
-const treeMenuActionNames = [
-	'setDefault',
-	'removeView',
-	'setViewStarred',
-	'setSidebarExpanded',
-];
+const viewLinkActionNames = ['setDefault', 'removeView'];
+const treeMenuActionNames = ['setDefault', 'removeView', 'setSidebarExpanded'];
 const pickViewLinkActions = memoize(_.pick);
 const pickTreeMenuActions = memoize(_.pick);
+
+const bookmarksQuery = (userId) => {
+	return {
+		type: 'object',
+		$$links: {
+			'is bookmarked by': {
+				type: 'object',
+				required: ['id', 'type'],
+				properties: {
+					type: {
+						const: 'user@1.0.0',
+					},
+					id: {
+						const: userId,
+					},
+				},
+			},
+		},
+	};
+};
+
+const reposQuery = (userId: string, activeLoop: string) => {
+	// TODO: Filtering by owner is a temporary measure that is imperfect. Ultimately
+	//       we want to filter by the `loop` field. But first we will need to:
+	//       a) update the GitHub sync integration to automatically set the `loop` field
+	//          when syncing new repos.
+	//       b) manually migrate all existing repos to the correct loop
+	//       Then we can modify this query to filter based on the top-level loop field.
+	// Note: Currently this just defaults to product-os if no loop is specified ('All loops')
+	//       This avoids us fetching a ridiculous list of repos.
+	// Note: The loop slug prefix may change - at which point, if we're still filtering by
+	//       owner based on the active loop, this replace regex will need to change too!
+	const repoOwner = activeLoop
+		? activeLoop.replace(/^loop[-\/]/, '').split('@')[0]
+		: 'product-os';
+	return {
+		type: 'object',
+		anyOf: [
+			{
+				$$links: {
+					'is bookmarked by': {
+						type: 'object',
+						required: ['type', 'id'],
+						properties: {
+							type: {
+								const: 'user@1.0.0',
+							},
+							id: {
+								const: userId,
+							},
+						},
+					},
+				},
+			},
+			true,
+		],
+		required: ['type', 'data'],
+		properties: {
+			type: {
+				const: 'repository@1.0.0',
+			},
+			data: {
+				type: 'object',
+				required: ['owner'],
+				properties: {
+					owner: {
+						const: repoOwner,
+					},
+				},
+			},
+		},
+	};
+};
 
 export default class HomeChannel extends React.Component<any, any> {
 	wrapper: any;
@@ -351,12 +394,31 @@ export default class HomeChannel extends React.Component<any, any> {
 		};
 
 		if (this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head);
-			this.fetchRepos();
+			this.loadData();
 		}
 
 		this.wrapper = React.createRef();
 	}
+
+	loadData = () => {
+		const {
+			activeLoop,
+			actions: { loadViewData },
+			channel,
+			user,
+		} = this.props;
+		const card = channel.data.head;
+		loadViewData(card);
+		loadViewData(bookmarksQuery(user.id), {
+			viewId: `${card.id}-bookmarks`,
+			sortBy: 'name',
+		});
+		loadViewData(reposQuery(user.id, activeLoop), {
+			viewId: `${card.id}-repos`,
+			limit: 50,
+			sortBy: 'name',
+		});
+	};
 
 	openCreateViewChannel = () => {
 		this.props.actions.addChannel({
@@ -430,54 +492,6 @@ export default class HomeChannel extends React.Component<any, any> {
 		}%, 0, 0)`;
 	};
 
-	fetchRepos = () => {
-		const { actions, activeLoop } = this.props;
-		// TODO: Filtering by owner is a temporary measure that is imperfect. Ultimately
-		//       we want to filter by the `loop` field. But first we will need to:
-		//       a) update the GitHub sync integration to automatically set the `loop` field
-		//          when syncing new repos.
-		//       b) manually migrate all existing repos to the correct loop
-		//       Then we can modify this query to filter based on the top-level loop field.
-		// Note: Currently this just defaults to product-os if no loop is specified ('All loops')
-		//       This avoids us fetching a ridiculous list of repos.
-		// Note: The loop slug prefix may change - at which point, if we're still filtering by
-		//       owner based on the active loop, this replace regex will need to change too!
-		const repoOwner = activeLoop
-			? activeLoop.replace(/^loop[-\/]/, '').split('@')[0]
-			: 'product-os';
-		actions
-			.queryAPI(
-				{
-					type: 'object',
-					required: ['type', 'data'],
-					properties: {
-						type: {
-							const: 'repository@1.0.0',
-						},
-						data: {
-							type: 'object',
-							required: ['owner'],
-							properties: {
-								owner: {
-									const: repoOwner,
-								},
-							},
-						},
-					},
-				},
-				{
-					// TODO: Find a better way to display repositories when there are
-					// a _lot_ of them. For now just limit the number to a manageable amount.
-					limit: 50,
-					sortBy: 'name',
-				},
-			)
-			// TS-TODO: results should be of type RepositoryContract[]
-			.then((repos: core.Contract[]) => {
-				this.setState({ repos });
-			});
-	};
-
 	logout = () => {
 		this.props.actions.logout();
 	};
@@ -490,7 +504,7 @@ export default class HomeChannel extends React.Component<any, any> {
 	}
 
 	componentDidMount() {
-		const { actions, location, history, homeView } = this.props;
+		const { location, history, homeView } = this.props;
 		if (location.pathname === '/') {
 			if (homeView) {
 				history.push(homeView);
@@ -504,8 +518,7 @@ export default class HomeChannel extends React.Component<any, any> {
 
 	componentDidUpdate(prevProps) {
 		if (!prevProps.channel.data.head && this.props.channel.data.head) {
-			this.props.actions.loadViewData(this.props.channel.data.head);
-			this.fetchRepos();
+			this.loadData();
 		}
 		if (
 			this.state.showMenu &&
@@ -550,7 +563,8 @@ export default class HomeChannel extends React.Component<any, any> {
 			user,
 			orgs,
 			tail,
-			starredViews,
+			bookmarks,
+			repos,
 			isChatWidgetOpen,
 			mentions,
 		} = this.props;
@@ -558,7 +572,7 @@ export default class HomeChannel extends React.Component<any, any> {
 		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
 		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
 
-		const { repos, showDrawer, sliding } = this.state;
+		const { showDrawer, sliding } = this.state;
 		const activeChannel = channels.length > 1 ? channels[1] : null;
 		const username = user ? user.name || user.slug.replace(/user-/, '') : null;
 		if (!head) {
@@ -568,7 +582,7 @@ export default class HomeChannel extends React.Component<any, any> {
 				</Box>
 			);
 		}
-		const groupedViews = groupViews(tail, starredViews, user.slug, repos, orgs);
+		const groupedViews = groupViews(tail, bookmarks, user.slug, repos, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;
 		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
@@ -730,7 +744,6 @@ export default class HomeChannel extends React.Component<any, any> {
 										return (
 											<ViewLink
 												key={card.id}
-												userSlug={user.slug}
 												subscription={subscriptions[card.id] || null}
 												types={types}
 												actions={viewLinkActions}
@@ -772,7 +785,6 @@ export default class HomeChannel extends React.Component<any, any> {
 
 							{Boolean(tail) && (
 								<TreeMenu
-									userSlug={user.slug}
 									subscriptions={subscriptions}
 									node={groups}
 									actions={treeMenuActions}

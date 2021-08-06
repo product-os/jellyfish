@@ -5,12 +5,14 @@
  */
 
 import { connect } from 'react-redux';
-import { selectors } from '../../core';
+import { sdk, selectors } from '../../core';
 import ViewLink from './ViewLink';
 
 const mapStateToProps = (state, ownProps) => {
 	const homeView = selectors.getHomeView(state);
 	return {
+		sdk,
+		user: selectors.getCurrentUser(state),
 		isHomeView: ownProps.card.id === homeView,
 	};
 };
