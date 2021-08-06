@@ -1,4 +1,40 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 19cbd5e2521e949864458e8d28013c482cb2ce89
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Add loop drop-down to sidebar
+      hash: 6b3a6569e35490604bf76afdb567f64dea082cc0
+      body: >
+        When a loop is selected, the loop is used to create a global query mask
+        for the SDK that will affect all subsequent SDK calls. The app is then
+        re-bootstrapped (using this global query mask).
+
+
+        The active loop is also saved to the user's profile so that it persists
+        across sessions.
+
+
+        Note - for now, contracts with no loop specified will always be returned
+        regardless of what the global loop filter is. This allows us to slowly
+        migrate contracts in the appropriate loops. Once all contracts have been
+        migrated to a specific  loop, we can modify the global query mask to
+        filter out contracts with no loop specified when filtering by a
+        particular loop.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.4.0
+  date: 2021-08-06T07:54:28.594Z
+- commits:
     - subject: Remove references to starredViews
       hash: 211e8c41ecda44429aed16b8688fefceae5c8c50
       body: ''
