@@ -1,4 +1,60 @@
 - commits:
+    - subject: Remove references to starredViews
+      hash: 211e8c41ecda44429aed16b8688fefceae5c8c50
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add bookmark button to views and single channel
+      hash: 8ec412db70b5b88801851f7ba783fbcc4aec207e
+      body: >
+        Rather than checking for starredViews in the user's profile, we stream a
+        query for contracts that are bookmarked by the user.
+
+
+        This enables the user to add/remove the view/contract from their
+        bookmarks.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: 'HomeChannel: use bookmarks, not starred views'
+      hash: 2e3e8e3f5cd3962647e1360360445c8d53f0f500
+      body: >
+        Rather than checking for starredViews in the user's profile, we stream a
+        query for contracts that are bookmarked by the user.
+
+
+        This commit also uses a stream to fetch the repos. This means they get
+        updated when a user bookmarks a repo.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+    - subject: Add BookmarkButton component
+      hash: e433631c29d0d540c766aeff203acd169f300bad
+      body: |
+        This will be used for toggling whether a contract is bookmarked or not.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Graham McCulloch <graham@balena.io>
+        signed-off-by: Graham McCulloch <graham@balena.io>
+      author: Graham McCulloch
+      nested: []
+  version: 37.3.0
+  date: 2021-08-06T01:22:11.947Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to ^5.5.0'
       hash: ac27eb6c1b3d08859729d5562a769e0ccf503e0b
       body: |
