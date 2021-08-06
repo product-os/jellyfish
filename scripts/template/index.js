@@ -16,11 +16,11 @@ if (!TEMPLATE) {
 console.error(`Opening ${TEMPLATE}`)
 const contents = fs.readFileSync(TEMPLATE, 'utf8')
 
-console.log(mustache.render(contents, Object.assign({}, process.env, {
+process.stdout.write(mustache.render(contents, Object.assign({}, process.env, {
 	workers: [ {
 		idx: 1
 	}, {
 		idx: 2
 	} ]
 })))
-console.error(`Done rendering ${TEMPLATE}`)
+console.error(`\nDone rendering ${TEMPLATE}`)
