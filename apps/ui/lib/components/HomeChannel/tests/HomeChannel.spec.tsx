@@ -22,6 +22,7 @@ const initialState = {
 		session: {
 			user: {},
 		},
+		loops: [],
 	},
 };
 
