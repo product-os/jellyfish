@@ -1,4 +1,17 @@
 - commits:
+    - subject: Only run sut tests if CI is set
+      hash: de9fa9a8e700df7bbcdece0a69f296719037554e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.6
+  date: 2021-08-07T08:27:25.303Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: c0a2629afb82608bec35e3f6db58b3304c786d4b
       body: ''
