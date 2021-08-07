@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 5c869ed2be2a5c59284a9284093f0b36a3e8e0cf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.7
+  date: 2021-08-07T19:22:56.571Z
+- commits:
     - subject: Only run sut tests if CI is set
       hash: de9fa9a8e700df7bbcdece0a69f296719037554e
       body: ''
