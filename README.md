@@ -26,7 +26,8 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Working with the backend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/backend.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/local-development.markdown)
-	- [**Running in Compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-in-compose.markdown)
+	- [**Running in compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-in-compose.markdown)
+	- [**Running tests in compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests-in-compose.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
 	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
 - **Links**
