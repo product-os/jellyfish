@@ -79,7 +79,7 @@
     "@balena/jellyfish-queue": "^1.0.240",
     "@balena/jellyfish-sync": "^6.1.3",
     "@balena/jellyfish-ui-components": "^10.1.12",
-    "@balena/jellyfish-worker": "^8.0.29",
+    "@balena/jellyfish-worker": "^8.0.32",
     "@balena/lint": "^6.1.1",
     "@octokit/plugin-retry": "^3.0.9",
     "@octokit/plugin-throttling": "^3.5.1",
