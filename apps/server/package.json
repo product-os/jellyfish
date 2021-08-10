@@ -59,6 +59,7 @@
   },
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^5.5.1",
+    "@types/node": "^14.16.0",
     "ava": "^3.15.0",
     "depcheck": "^1.4.2",
     "eslint": "^7.32.0",

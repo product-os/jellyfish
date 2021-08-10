@@ -15,7 +15,7 @@ const metrics = require('@balena/jellyfish-metrics')
 module.exports = (context, configuration) => {
 	const application = metrics.initExpress(context)
 
-	const server = http.Server(application)
+	const server = new http.Server(application)
 	let ready = false
 	application.set('port', configuration.port)
 
@@ -54,6 +54,10 @@ module.exports = (context, configuration) => {
 				server.once('listening', () => {
 					return resolve()
 				})
+
+				server.timeout = configuration.timeout * 1000
+				server.headersTimeout = configuration.headersTimeout * 1000
+				server.requestTimeout = configuration.requestTimeout * 1000
 
 				server.listen(application.get('port'))
 			})
