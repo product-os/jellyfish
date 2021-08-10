@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-test image to v1.4.8
+      hash: e9d6da6e5e61ecb13d8bbbe28bdc302ffb605f63
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.8
+  date: 2021-08-10T04:16:56.476Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 5c869ed2be2a5c59284a9284093f0b36a3e8e0cf
       body: ''
