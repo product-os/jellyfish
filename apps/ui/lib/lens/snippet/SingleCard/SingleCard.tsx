@@ -55,6 +55,9 @@ export default class SingleCard extends React.Component<any, any> {
 			0,
 		);
 
+		const versionSuffix =
+			card.version && card.version !== '1.0.0' ? ` v${card.version}` : '';
+
 		return (
 			<CardBox
 				active={active}
@@ -65,7 +68,7 @@ export default class SingleCard extends React.Component<any, any> {
 				<Flex justifyContent="space-between">
 					<Txt>
 						<Link to={helpers.appendToChannelPath(channel, card)}>
-							<strong>{card.name || card.slug}</strong>
+							<strong>{card.name || card.slug}</strong> {versionSuffix}
 						</Link>
 					</Txt>
 

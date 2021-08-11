@@ -36,19 +36,21 @@ const CardLayout = (props) => {
 
 	const typeBase = card.type && card.type.split('@')[0];
 
-	const typeName = _.get(
+	const typeContract =
 		_.find(types, {
 			slug: typeBase,
-		}),
-		['name'],
-		null,
-	);
+		}) || {};
+	const typeName =
+		!typeContract.version || typeContract.version === '1.0.0'
+			? typeContract.name
+			: `${typeContract.name} v${typeContract.version}`;
+	const versionSuffix = card.version === '1.0.0' ? '' : ` v${card.version}`;
 
 	return (
 		<LinksProvider sdk={sdk} cards={typeBase ? [card] : []} link="is owned by">
 			<Column
 				className={`column--${typeBase || 'unknown'} column--slug-${
-					card.slug || 'unkown'
+					card.slug || 'unknown'
 				}`}
 				overflowY={overflowY}
 				data-test={props['data-test']}
@@ -69,7 +71,10 @@ const CardLayout = (props) => {
 
 						{!title && (
 							<div>
-								<Heading.h4>{card.name || card.slug || card.type}</Heading.h4>
+								<Heading.h4>
+									{card.name || card.slug || card.type}
+									{versionSuffix}
+								</Heading.h4>
 
 								{Boolean(typeName) && (
 									<Txt color="text.light" fontSize="0">
