@@ -24,7 +24,7 @@ dev-livechat:
 .PHONY: build-livechat
 build-livechat:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-		./node_modules/.bin/webpack --config=./webpack.config.js
+		npm run build
 
 .PHONY: lint
 lint:

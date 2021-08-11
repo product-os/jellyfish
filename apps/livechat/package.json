@@ -8,8 +8,12 @@
     "node": ">=14.2.0"
   },
   "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && webpack --config=./webpack.config.js",
     "lint": "balena-lint lib && depcheck --ignore-bin-package --ignores=@babel/*,@balena/jellyfish-config,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server,@types/jest,assert",
-    "lint-fix": "balena-lint --fix lib"
+    "lint-fix": "balena-lint --fix lib",
+    "doc": "typedoc lib/",
+    "prepack": "npm run build"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
@@ -40,6 +44,7 @@
     "eslint": "^7.32.0",
     "rimraf": "^3.0.2",
     "ts-loader": "^8.3.0",
+    "typedoc": "^0.21.5",
     "typescript": "^4.3.5",
     "webpack-cli": "^4.7.2",
     "webpack-dev-server": "^3.11.2"

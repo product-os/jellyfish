@@ -5,7 +5,8 @@
     "lib": [ "ES2019.Object", "DOM.Iterable" ],
     "noUnusedParameters": false,
     "noUnusedLocals": false,
-    "jsx": "react"
+    "jsx": "react",
+    "declaration": false
   },
   "typedocOptions": {
     "out": "../../docs/typedoc/livechat"
