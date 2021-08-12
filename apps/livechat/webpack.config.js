@@ -29,7 +29,7 @@ const config = {
 	target: 'web',
 
 	resolve: {
-		extensions: [ '.js', '.jsx', '.ts', '.tsx', '.json' ]
+		extensions: [ '.ts', '.tsx', '.json' ]
 	},
 
 	module: {
@@ -38,19 +38,6 @@ const config = {
 				test: /\.(ts|tsx)?$/,
 				use: 'ts-loader',
 				exclude: /node_modules/
-			},
-			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget))\/).*/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: [ '@babel/preset-react' ],
-							cacheDirectory: true
-						}
-					}
-				]
 			},
 			{
 				test: /\.css$/,
