@@ -1,4 +1,27 @@
 - commits:
+    - subject: remove whispers from lastMessage thread field
+      hash: 4996954aac246cb5ec331a3339edc66409b218f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: fix whisper leak
+      hash: 76ee8015f7619be335f2dc4ec3e3529c8e7c005e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.4.11
+  date: 2021-08-12T13:57:59.706Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 1aa1a801ef4b71660f393c11ecd3ffd63deafcf4
       body: ''
