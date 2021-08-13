@@ -29,7 +29,7 @@ const config = {
 	target: 'web',
 
 	resolve: {
-		extensions: [ '.ts', '.tsx', '.json', '.js' ]
+		extensions: [ '.ts', '.tsx', '.js', '.json' ]
 	},
 
 	module: {
