@@ -13,7 +13,6 @@ import {
 	Switch,
 } from 'react-router-dom';
 import useEventListener from '@use-it/event-listener';
-import '@babel/polyfill';
 import { getSdk, JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import {
 	Alert,
