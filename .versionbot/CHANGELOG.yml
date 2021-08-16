@@ -1,4 +1,15 @@
 - commits:
+    - subject: Convert livechat to typescript
+      hash: 0461371f24447ef4f63c27f030d6c6caeeccd532
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 37.5.0
+  date: 2021-08-16T08:46:37.748Z
+- commits:
     - subject: Bump jellyfish-environment to v4.4.0
       hash: eba50ad7d8e3bddfe616a7d44d4b295da3497532
       body: ''
