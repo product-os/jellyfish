@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-environment to v4.4.0
+      hash: eba50ad7d8e3bddfe616a7d44d4b295da3497532
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.12
+  date: 2021-08-16T06:10:28.176Z
+- commits:
     - subject: remove whispers from lastMessage thread field
       hash: 4996954aac246cb5ec331a3339edc66409b218f5
       body: ''
