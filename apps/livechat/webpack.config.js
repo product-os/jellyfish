@@ -13,8 +13,8 @@ const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const WatchIgnorePlugin = require('webpack/lib/WatchIgnorePlugin')
 
-const root = path.resolve(__dirname, '..')
-const resourcesRoot = __dirname
+const root = __dirname
+const resourcesRoot = path.resolve(__dirname, './lib')
 
 const UI_DIRECTORY = process.env.LIVECHAT_DIR || __dirname
 
@@ -29,23 +29,15 @@ const config = {
 	target: 'web',
 
 	resolve: {
-		extensions: [ '.js', '.jsx', '.json' ]
+		extensions: [ '.ts', '.tsx', '.js', '.json' ]
 	},
 
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget))\/).*/,
-				use: [
-					{
-						loader: 'babel-loader',
-						options: {
-							presets: [ '@babel/preset-react' ],
-							cacheDirectory: true
-						}
-					}
-				]
+				test: /\.(ts|tsx)?$/,
+				use: 'ts-loader',
+				exclude: /node_modules/
 			},
 			{
 				test: /\.css$/,
@@ -83,7 +75,7 @@ const config = {
 		fs: 'empty'
 	},
 
-	entry: path.join(uiRoot, 'index.jsx'),
+	entry: path.join(resourcesRoot, 'index.tsx'),
 
 	output: {
 		filename: '[name].[contenthash].js',
