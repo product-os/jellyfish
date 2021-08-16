@@ -1,4 +1,17 @@
 - commits:
+    - subject: allow configuration fo server timeouts
+      hash: 9cb29bf65a58cf6e78c2fa60f05015960090b5b7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.6.0
+  date: 2021-08-16T09:50:58.077Z
+- commits:
     - subject: Convert livechat to typescript
       hash: 0461371f24447ef4f63c27f030d6c6caeeccd532
       body: ''
