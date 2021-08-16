@@ -1,4 +1,32 @@
 - commits:
+    - subject: 'build(deps): bump path-parse from 1.0.6 to 1.0.7 in /apps/server'
+      hash: 6c8015d27a71c8603a264e6b2b4f5ab3d9864cc7
+      body: >
+        Bumps [path-parse](https://github.com/jbgutierrez/path-parse) from 1.0.6
+        to 1.0.7.
+
+        - [Release notes](https://github.com/jbgutierrez/path-parse/releases)
+
+        - [Commits](https://github.com/jbgutierrez/path-parse/commits/v1.0.7)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: path-parse
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 37.7.1
+  date: 2021-08-16T13:16:30.014Z
+- commits:
     - subject: display the version of contracts and their types IF it's not 1.0.0
       hash: 274c6f55f2de50729e5b591e04bd75895a107652
       body: ''
