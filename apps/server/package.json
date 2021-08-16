@@ -22,7 +22,7 @@
     "@balena/jellyfish-action-library": "^15.0.69",
     "@balena/jellyfish-assert": "^1.1.67",
     "@balena/jellyfish-core": "^5.1.16",
-    "@balena/jellyfish-environment": "^4.3.19",
+    "@balena/jellyfish-environment": "^4.4.0",
     "@balena/jellyfish-logger": "^3.0.58",
     "@balena/jellyfish-metrics": "^1.0.333",
     "@balena/jellyfish-plugin-balena-api": "^1.0.39",
