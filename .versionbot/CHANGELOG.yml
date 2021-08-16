@@ -1,4 +1,17 @@
 - commits:
+    - subject: display the version of contracts and their types IF it's not 1.0.0
+      hash: 274c6f55f2de50729e5b591e04bd75895a107652
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.7.0
+  date: 2021-08-16T11:06:50.358Z
+- commits:
     - subject: allow configuration fo server timeouts
       hash: 9cb29bf65a58cf6e78c2fa60f05015960090b5b7
       body: ''
