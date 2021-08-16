@@ -1,0 +1,35 @@
+
+FROM balenalib/%%BALENA_MACHINE_NAME%%-node:15-stretch-build as base
+# Install git
+RUN install_packages git
+# Defines our working directory in container
+WORKDIR /usr/src/app
+# Copies the package.json first for better cache on later pushes
+COPY package*.json ./
+# This install npm dependencies on the balena build server,
+# making sure to clean up the artifacts it creates in order to reduce the image size.
+RUN JOBS=MAX npm install --unsafe-perm && npm cache verify && rm -rf /tmp/*
+# Prepare for bootstrap
+COPY lerna.json ./
+
+FROM base as @balena/jellyfish-worker
+WORKDIR /usr/src/app/.libs/jellyfish-worker
+COPY .libs/jellyfish-worker/package*.json ./
+RUN cd ../.. && ./node_modules/.bin/lerna bootstrap --scope="@balena/jellyfish-worker" --include-dependencies
+COPY .libs/jellyfish-worker .
+RUN npm run build --if-present
+
+
+FROM base as jellyfish-server
+WORKDIR /usr/src/app/apps/server
+COPY apps/server/package*.json ./
+COPY --from=@balena/jellyfish-worker /usr/src/app/.libs/jellyfish-worker ../../.libs/jellyfish-worker
+RUN cd ../.. && ./node_modules/.bin/lerna bootstrap --scope="jellyfish-server" --include-dependencies
+COPY apps/server .
+RUN npm run build --if-present
+
+# We could skip all steps below if balena supported `target` field in docker-compose.
+FROM base
+COPY --from=jellyfish-server /usr/src/app/apps/server ./apps/server
+COPY --from=@balena/jellyfish-worker /usr/src/app/.libs/jellyfish-worker ./.libs/jellyfish-worker
+CMD npm start --prefix ./apps/server

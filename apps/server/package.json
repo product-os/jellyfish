@@ -16,6 +16,9 @@
       "test/**/*.spec.{js,jsx}"
     ]
   },
+  "scripts": {
+    "start": "./run.sh"
+  },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
