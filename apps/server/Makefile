@@ -41,7 +41,7 @@ FILES ?= "'./test/**/*.spec.js'"
 .PHONY: lint
 lint:
 	npx eslint --ext .js $(ESLINT_OPTION_FIX) lib test
-	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon'
+	npx depcheck --ignore-bin-package --ignores='depcheck,nodemon,@types/node'
 
 .PHONY: test
 test:
