@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal dependencies
+      hash: 9bdbab60694d19f54463ff054e08844b42f0744c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.3
+  date: 2021-08-17T01:25:49.135Z
+- commits:
     - subject: Bump jellyfish-logger to v3.0.60
       hash: cd71c9618d5bd5172e204094befcd7bd3316f6ed
       body: ''
