@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-logger to v3.0.60
+      hash: cd71c9618d5bd5172e204094befcd7bd3316f6ed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.2
+  date: 2021-08-16T23:31:28.407Z
+- commits:
     - subject: 'build(deps): bump path-parse from 1.0.6 to 1.0.7 in /apps/server'
       hash: 6c8015d27a71c8603a264e6b2b4f5ab3d9864cc7
       body: >
