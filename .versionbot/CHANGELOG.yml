@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump Dockerfile base images
+      hash: b0ef6255a434cebeddc7687e6a311430c7ff4ff2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.6
+  date: 2021-08-17T23:32:06.808Z
+- commits:
     - subject: Bump jellyfish plugins
       hash: 03b8385ae4bec6b3699972d39599d3dcb8b35a2f
       body: ''
