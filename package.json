@@ -85,7 +85,7 @@
     "@octokit/plugin-throttling": "^3.5.1",
     "@octokit/rest": "^18.9.1",
     "ava": "^3.15.0",
-    "aws-sdk": "^2.969.0",
+    "aws-sdk": "^2.971.0",
     "bluebird": "^3.7.2",
     "blueimp-md5": "^2.18.0",
     "cli-spinner": "^0.2.10",
@@ -113,7 +113,7 @@
     "randomstring": "^1.2.1",
     "request": "^2.88.2",
     "shellcheck": "^1.0.0",
-    "simple-git-hooks": "^2.5.1",
+    "simple-git-hooks": "^2.6.1",
     "uuid": "^8.3.2"
   },
   "simple-git-hooks": {
