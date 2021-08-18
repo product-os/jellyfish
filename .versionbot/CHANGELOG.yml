@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump babel dependencies
+      hash: e2d9b76c562397f4b7ebcf175d36dec08417890f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.9
+  date: 2021-08-18T03:30:13.702Z
+- commits:
     - subject: Bump external dependencies
       hash: 26e879e2bcf500594ecdfe962bb9a50c251413fc
       body: ''
