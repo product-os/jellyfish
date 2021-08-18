@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump workbox dependencies
+      hash: 10ba81675c14679fca6c409ae09c9251ab98cc80
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.10
+  date: 2021-08-18T04:44:50.441Z
+- commits:
     - subject: Bump babel dependencies
       hash: e2d9b76c562397f4b7ebcf175d36dec08417890f
       body: ''
