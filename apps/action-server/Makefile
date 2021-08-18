@@ -31,8 +31,3 @@ lint:
 start-worker: LOGLEVEL = info
 start-worker:
 	NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) build/worker.js
-
-.PHONY: start-tick
-start-tick: LOGLEVEL = info
-start-tick:
-	NSOLID_APP=tick exec $(NODE) $(NODE_ARGS) build/tick.js
