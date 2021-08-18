@@ -48,9 +48,6 @@ The flow goes like this:
 	the results
 - The API detects the execute event and forwards it to the user
 
-The tick server is an special type of worker that periodically checks the time
-triggered actions configured in the system and execute them when they are due.
-
 The Jellyfish system also interacts with various third party services as
 GitHub. The API receives webhooks from these third party services, translates
 them into cards in the system, and mirrors changes back to the third party

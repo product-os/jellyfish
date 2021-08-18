@@ -22,7 +22,6 @@ make start-redis
 make dev-ui
 make dev-livechat
 make start-server
-make start-tick
 make start-worker # Run more than once for more workers
 ```
 

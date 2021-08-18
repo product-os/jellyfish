@@ -4,7 +4,6 @@
  * Proprietary and confidential.
  */
 
-import Bluebird from 'bluebird';
 import { strict as nativeAssert } from 'assert';
 import _ from 'lodash';
 import { getLogger } from '@balena/jellyfish-logger';
@@ -13,7 +12,6 @@ import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Sync } from '@balena/jellyfish-sync';
 import { MemoryCache, create } from '@balena/jellyfish-core';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { v4 as uuidv4 } from 'uuid';
 import * as metrics from '@balena/jellyfish-metrics';
 import { http } from './http';
 import { getPluginManager } from './plugins';
@@ -27,10 +25,6 @@ import {
 } from '@balena/jellyfish-types/build/core';
 import { PluginManager } from '@balena/jellyfish-plugin-base';
 import { ActionPayload } from '@balena/jellyfish-types/build/queue';
-
-// Avoid including package.json in the build output!
-// tslint:disable-next-line: no-var-requires
-const packageJSON = require('../../../package.json');
 
 const logger = getLogger(__filename);
 
@@ -164,14 +158,6 @@ interface BootstrapOptions {
 		errorHandler: (error: Error) => void,
 	) => Promise<void>;
 	database?: string;
-
-	// Tick options
-	delay?: number;
-	onLoop?: (
-		context: core.Context,
-		worker: Worker,
-		session: string,
-	) => Promise<void>;
 }
 
 const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
@@ -234,8 +220,6 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	);
 	await worker.initialize(context);
 
-	let run = true;
-
 	const workerContractsSchema = {
 		anyOf: [
 			SCHEMA_ACTIVE_TRIGGERS,
@@ -250,7 +234,6 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		workerContractsSchema,
 	);
 	const closeWorker = async () => {
-		run = false;
 		await consumer.cancel();
 		workerContractsStream.removeAllListeners();
 		await workerContractsStream.close();
@@ -362,48 +345,21 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTypeContracts(context, typeContracts as TypeContract[]);
 
-	// FIXME we should really have 2 workers, the consuming worker and the tick worker
-	if (options.onLoop) {
+	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
 		nativeAssert(
-			!!options.delay,
-			'delay option must be provided when bootstrapping as the tick server',
+			!!options.onActionRequest,
+			'onActionRequest option must be provided when bootstrapping as the worker',
 		);
-		await producer.initialize(context);
-
-		const loop = async (): Promise<any> => {
-			if (run) {
-				await options.onLoop!(context, worker, session);
-			}
-
-			if (!run) {
-				return Bluebird.resolve();
-			}
-
-			await Bluebird.delay(options.delay!);
-			return loop();
-		};
-
-		loop().catch(errorHandler);
-	} else {
-		await consumer.initializeWithEventHandler(
+		await options.onActionRequest(
 			context,
-			async (actionRequest) => {
-				nativeAssert(
-					!!options.onActionRequest,
-					'onActionRequest option must be provided when bootstrapping as the worker',
-				);
-				await options.onActionRequest(
-					context,
-					jellyfish as any as core.JellyfishKernel,
-					worker,
-					consumer,
-					session,
-					actionRequest,
-					errorHandler,
-				);
-			},
+			jellyfish as any as core.JellyfishKernel,
+			worker,
+			consumer,
+			session,
+			actionRequest,
+			errorHandler,
 		);
-	}
+	});
 
 	// Signal that this instance has started
 	webServer.started();
@@ -457,32 +413,5 @@ export const bootstrapWorker = async (
 		database: options.database,
 		pluginManager: getPluginManager(context),
 		port: environment.http.workerPort,
-	});
-};
-
-export const bootstrapTick = async (
-	context: core.Context,
-	options: any,
-): Promise<any> => {
-	return bootstrap(context, {
-		enablePriorityBuffer: false,
-		delay: 2000,
-		onError: options.onError,
-		onLoop: async (serverContext, theWorker, session) => {
-			const id = uuidv4();
-			return theWorker.tick(
-				// TS-TODO: Should 'worker' be added to the context type used by tick?
-				{
-					id: `TICK-REQUEST-${packageJSON.version}-${id}`,
-					worker: serverContext.id,
-				} as core.Context,
-				session,
-				{
-					currentDate: new Date(),
-				},
-			);
-		},
-		pluginManager: getPluginManager(context),
-		port: environment.http.tickPort,
 	});
 };

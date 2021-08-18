@@ -15,16 +15,6 @@ children:
               url: 'balena/jellyfish-action-server:#JF_VERSION#'
             repo:
               url: 'https://github.com/balena-io/jellyfish.git'
-      jellyfish-tick-server:
-        slug: jellyfish-tick-server
-        version: #JF_VERSION#
-        type: sw.containerized-application
-        data:
-          assets:
-            image:
-              url: 'balena/jellyfish-tick-server:#JF_VERSION#'
-            repo:
-              url: 'https://github.com/balena-io/jellyfish.git'
       jellyfish-api:
         slug: jellyfish-api
         version: #JF_VERSION#

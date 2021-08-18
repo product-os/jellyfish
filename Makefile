@@ -7,7 +7,6 @@
 	build-livechat \
 	start-server \
 	start-worker \
-	start-tick \
 	start-redis \
 	start-postgres \
 	test-unit \
@@ -109,8 +108,6 @@ MONITOR_SECRET_TOKEN ?= TEST
 export MONITOR_SECRET_TOKEN
 RESET_PASSWORD_SECRET_TOKEN ?=
 export RESET_PASSWORD_SECRET_TOKEN
-HTTP_TICK_PORT ?= 8001
-export HTTP_TICK_PORT
 HTTP_WORKER_PORT ?= 8002
 export HTTP_WORKER_PORT
 
@@ -390,9 +387,6 @@ start-server:
 
 start-worker:
 	cd apps/action-server && make start-worker
-
-start-tick:
-	cd apps/action-server && make start-tick
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

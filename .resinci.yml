@@ -6,11 +6,7 @@ docker:
       docker_repo: balena/jellyfish
       publish: true
     - path: .
-      dockerfile: apps/action-server/Dockerfile.tick
-      docker_repo: balena/jellyfish-tick-server
-      publish: true
-    - path: .
-      dockerfile: apps/action-server/Dockerfile.worker
+      dockerfile: apps/action-server/Dockerfile
       docker_repo: balena/jellyfish-action-server
       publish: true
     - path: .

@@ -126,7 +126,6 @@ The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Do
 When using live push the API and action servers start with remote debugging enabled via the `--inspect` flag. Use Chrome dev tools, or your IDE to [start a debugging session](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients).
 
 - To debug API server connect to `<DEVICE-IP-ADDRESS>:9229`
-- To debug the tick server connect to `<DEVICE-IP-ADDRESS>:9230`
 - To debug the worker server connect to `<DEVICE-IP-ADDRESS>:923<WORKER-ID>`
 	- e.g. to connect to the first worker `<DEVICE-IP-ADDRESS>:9231`
 

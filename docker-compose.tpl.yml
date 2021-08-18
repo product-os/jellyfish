@@ -12,7 +12,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - tick
       {{#workers}}
       - worker_{{idx}}
       {{/workers}}
@@ -122,37 +121,6 @@ services:
     restart: always
     networks:
       - internal
-  tick:
-    build:
-      context: .
-      dockerfile: ./apps/action-server/Dockerfile.tick
-      args:
-        - NPM_TOKEN
-    depends_on:
-      - postgres
-      - redis
-      - balena-mdns-publisher
-    environment:
-      - DATABASE={{DATABASE}}
-      - LOGENTRIES_TOKEN
-      - LOGENTRIES_REGION
-      - NODE_ENV
-      - POSTGRES_DATABASE={{POSTGRES_DATABASE}}
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT={{POSTGRES_PORT}}
-      - POSTGRES_USER=docker
-      - REDIS_HOST=redis
-      - REDIS_PASSWORD=
-      - REDIS_PORT={{REDIS_PORT}}
-      - LOGLEVEL=crit
-      - SENTRY_DSN_SERVER
-      - CI
-    restart: always
-    networks:
-      - internal
-    ports:
-      - 9230:9229
   ui:
     build:
       args:
@@ -175,14 +143,13 @@ services:
   worker_{{idx}}:
     build:
       context: .
-      dockerfile: ./apps/action-server/Dockerfile.worker
+      dockerfile: ./apps/action-server/Dockerfile
       args:
         - NPM_TOKEN
     depends_on:
       - postgres
       - redis
       - balena-mdns-publisher
-      - tick
     environment:
       - DATABASE={{DATABASE}}
       - LOGLEVEL=crit
@@ -273,7 +240,6 @@ services:
       - worker_{{idx}}
       {{/workers}}
       - ui
-      - tick
       - livechat
       - api
       - balena-mdns-publisher
