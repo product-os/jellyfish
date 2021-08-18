@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: 20bb11768b7a3c4756feb40866bb29a2c8565f8e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.7
+  date: 2021-08-18T00:43:19.326Z
+- commits:
     - subject: Bump Dockerfile base images
       hash: b0ef6255a434cebeddc7687e6a311430c7ff4ff2
       body: ''
