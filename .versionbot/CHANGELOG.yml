@@ -1,4 +1,20 @@
 - commits:
+    - subject: Remove tick server
+      hash: eb4cfe6cbdb34f889e7651d6c069525e4cf005c1
+      body: >
+        Remove the tick server from our backend as we currently do not use it
+        and the intended functionality of tick will be handled by scheduled
+        actions: https://jel.ly.fish/88e737da-8692-49c8-bf5a-43d27c6b7a39.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.0
+  date: 2021-08-18T08:27:40.049Z
+- commits:
     - subject: Bump workbox dependencies
       hash: 10ba81675c14679fca6c409ae09c9251ab98cc80
       body: ''
