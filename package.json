@@ -83,7 +83,7 @@
     "@balena/lint": "^6.1.1",
     "@octokit/plugin-retry": "^3.0.9",
     "@octokit/plugin-throttling": "^3.5.1",
-    "@octokit/rest": "^18.7.2",
+    "@octokit/rest": "^18.9.1",
     "ava": "^3.15.0",
     "aws-sdk": "^2.969.0",
     "bluebird": "^3.7.2",
