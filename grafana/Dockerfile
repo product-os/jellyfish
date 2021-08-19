@@ -1,4 +1,4 @@
-FROM grafana/grafana:8.1.1
+FROM grafana/grafana:8.1.2
 
 USER root
 
