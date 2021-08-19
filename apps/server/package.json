@@ -7,17 +7,19 @@
   "engines": {
     "node": ">=14.2.0"
   },
-  "ava": {
-    "timeout": "10m",
-    "verbose": true,
-    "serial": true,
-    "failWithoutAssertions": true,
-    "files": [
-      "test/**/*.spec.{js,jsx}"
-    ]
-  },
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
+  "scripts": {
+    "clean": "rimraf build",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=depcheck,@types/jest,nodemon",
+    "lint-fix": "balena-lint --fix lib test",
+    "unit": "jest ./test/unit/.*.spec.ts$",
+    "integration": "jest --runInBand --testTimeout=50000 ./test/integration/.*.spec.ts$",
+    "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run unit && npm run integration",
+    "doc": "typedoc lib/",
+    "prepack": "npm run build"
+  },
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.0.69",
     "@balena/jellyfish-assert": "^1.1.67",
@@ -59,12 +61,20 @@
   },
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^5.5.2",
+    "@balena/jellyfish-config": "^1.4.8",
+    "@balena/jellyfish-types": "^0.9.5",
+    "@balena/lint": "^6.1.1",
+    "@types/jest": "^27.0.1",
     "@types/node": "^14.17.11",
-    "ava": "^3.15.0",
+    "catch-uncommitted": "^2.0.0",
     "depcheck": "^1.4.2",
-    "eslint": "^7.32.0",
+    "jest": "^27.0.6",
     "nock": "^13.1.2",
     "nodemon": "^2.0.12",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "rimraf": "^3.0.2",
+    "ts-jest": "^27.0.5",
+    "typedoc": "^0.21.5",
+    "typescript": "^4.3.5"
   }
 }

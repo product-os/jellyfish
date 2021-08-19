@@ -4,9 +4,4 @@
  * Proprietary and confidential.
  */
 
-module.exports = {
-	QueryFacade: require('./query'),
-	AuthFacade: require('./auth'),
-	ActionFacade: require('./action'),
-	ViewFacade: require('./view')
-}
+module.exports = require('@balena/jellyfish-config/config/jest.config')
