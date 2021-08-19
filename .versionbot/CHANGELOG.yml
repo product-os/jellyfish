@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: 450008fab24b15fa18b7cbb5c25e64b96e6afab7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.1
+  date: 2021-08-18T23:57:28.523Z
+- commits:
     - subject: Remove tick server
       hash: eb4cfe6cbdb34f889e7651d6c069525e4cf005c1
       body: >
