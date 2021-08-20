@@ -187,7 +187,8 @@ export const attachSocket = (jellyfish, server) => {
 				stream.close();
 			});
 
-			return socketServer.close();
+			expressServer.close();
+			socketServer.close();
 		},
 	};
 };

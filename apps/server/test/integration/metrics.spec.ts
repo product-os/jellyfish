@@ -23,7 +23,7 @@ beforeAll(async () => {
 });
 
 afterAll(async () => {
-	context.server?.close();
+	await context.server.close();
 });
 
 const getMetrics = async () => {

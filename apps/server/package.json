@@ -15,7 +15,7 @@
     "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=depcheck,@types/jest,nodemon",
     "lint-fix": "balena-lint --fix lib test",
     "unit": "jest ./test/unit/.*.spec.ts$",
-    "integration": "jest --runInBand --testTimeout=50000 ./test/integration/.*.spec.ts$",
+    "integration": "jest --runInBand --testTimeout=120000 --forceExit ./test/integration/.*.spec.ts$",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run unit && npm run integration",
     "doc": "typedoc lib/",
     "prepack": "npm run build"

@@ -35,6 +35,6 @@ export const getPluginManager = (context) => {
 			OutreachPlugin,
 			FrontPlugin,
 			BalenaAPIPlugin,
-		],
+		] as any[],
 	});
 };

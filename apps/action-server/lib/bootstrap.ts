@@ -144,6 +144,7 @@ interface BootstrapOptions {
 	// Common options
 	enablePriorityBuffer: boolean;
 	port: number;
+	metricsPort: number;
 	pluginManager: PluginManager;
 	onError: (context: core.Context, error: Error) => void;
 
@@ -161,6 +162,9 @@ interface BootstrapOptions {
 }
 
 const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
+	const metricsServer = metrics.startServer(context, options.metricsPort);
+	metrics.markQueueConcurrency();
+
 	logger.info(context, 'Configuring HTTP server');
 
 	const webServer = await http({
@@ -372,6 +376,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		stop: async () => {
 			await webServer.stop();
 			await closeWorker();
+			metricsServer.close();
 		},
 	};
 };
@@ -380,11 +385,10 @@ export const bootstrapWorker = async (
 	context: core.Context,
 	options: any,
 ): Promise<any> => {
-	metrics.startServer(context, options.metricsPort);
-	metrics.markQueueConcurrency();
 	return bootstrap(context, {
 		enablePriorityBuffer: true,
 		onError: options.onError,
+		metricsPort: options.metricsPort,
 		onActionRequest: async (
 			serverContext,
 			jellyfish,

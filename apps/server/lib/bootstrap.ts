@@ -57,7 +57,10 @@ export const bootstrap = async (context, options) => {
 		backend: backendOptions,
 	})) as any as coreType.JellyfishKernel;
 
-	metrics.startServer(context, environment.metrics.ports.app);
+	const metricsServer = metrics.startServer(
+		context,
+		environment.metrics.ports.app,
+	);
 
 	logger.info(context, 'Creating producer instance');
 	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
@@ -235,20 +238,22 @@ export const bootstrap = async (context, options) => {
 		}`,
 	);
 
-	_.forEach(channels, async (channel) => {
-		const channelCard = await jellyfish.getCardBySlug(
-			context,
-			jellyfish.sessions!.admin,
-			`${channel.slug}@${channel.version}`,
-		);
-		await producer.enqueue(worker.getId(), jellyfish.sessions!.admin, {
-			action: 'action-bootstrap-channel@1.0.0',
-			context,
-			card: channelCard!.id,
-			type: channelCard!.type,
-			arguments: {},
-		});
-	});
+	await Promise.all(
+		channels.map(async (channel) => {
+			const channelCard = await jellyfish.getCardBySlug(
+				context,
+				jellyfish.sessions!.admin,
+				`${channel.slug}@${channel.version}`,
+			);
+			return producer.enqueue(worker.getId(), jellyfish.sessions!.admin, {
+				action: 'action-bootstrap-channel@1.0.0',
+				context,
+				card: channelCard!.id,
+				type: channelCard!.type,
+				arguments: {},
+			});
+		}),
+	);
 
 	return {
 		worker,
@@ -257,7 +262,8 @@ export const bootstrap = async (context, options) => {
 		guestSession: results.guestSession.id,
 		port: webServer.port,
 		close: async () => {
-			await socketServer.close();
+			socketServer.close();
+			metricsServer.close();
 			await webServer.stop();
 			await jellyfish.disconnect(context);
 			if (cache) {
