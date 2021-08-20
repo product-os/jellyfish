@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import CheckRun from './CheckRun';
 import MyUser from './MyUser';
 import Repository from './Repository';
 import SingleCard from './SingleCard';
@@ -14,6 +15,7 @@ import User from './User';
 import TransformerWorker from './TransformerWorker';
 
 export default [
+	CheckRun,
 	MyUser,
 	Repository,
 	SingleCard,
