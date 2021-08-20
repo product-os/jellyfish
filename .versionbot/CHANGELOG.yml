@@ -1,4 +1,24 @@
 - commits:
+    - subject: Add a simple UI for check-runs
+      hash: 32fa788621c1015be759c971f296c6beccf45955
+      body: |
+        This commit adds a basic UI for check runs that shows all of the
+        contracts created by transformers from the commit the check run is
+        attached to. The graph is generated using mermaidJS, so doesn't add any
+        additional dependencies to the system. In the future I'd like to develop
+        this concept into a generic graph visualisation features, however there
+        are behavioural issues that need to be resolved, such as which links you
+        expand/display and to what depth.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.0.4
+  date: 2021-08-20T10:04:57.105Z
+- commits:
     - subject: Bump external dependencies
       hash: e7c2008858c025cc828a0269f662fd448b33f7a2
       body: ''
