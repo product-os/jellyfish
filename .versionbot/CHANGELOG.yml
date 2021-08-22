@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: 8df3f6c9c099a48808facacf0213f0fd6382ceeb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.5
+  date: 2021-08-22T02:40:25.994Z
+- commits:
     - subject: Add a simple UI for check-runs
       hash: 32fa788621c1015be759c971f296c6beccf45955
       body: |
