@@ -1,4 +1,17 @@
 - commits:
+    - subject: Set explicit version for mdns service image
+      hash: fd198e82a9e4acfcd56658f3bc1f558ee2aeef64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.9
+  date: 2021-08-23T08:50:53.885Z
+- commits:
     - subject: Bump jellyfish-chat-widget to v12.1.13
       hash: 99acfca05938b9ab9545ae8aa9d6a127c9537fc4
       body: ''
