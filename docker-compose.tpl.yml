@@ -206,7 +206,7 @@ services:
       - 923{{idx}}:9229
   {{/workers}}
   balena-mdns-publisher:
-    image: 'balena/balena-mdns-publisher:master'
+    image: 'balena/balena-mdns-publisher:1.10.1'
     network_mode: host
     cap_add:
       - SYS_RESOURCE

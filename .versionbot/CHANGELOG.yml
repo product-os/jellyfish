@@ -1,4 +1,43 @@
 - commits:
+    - subject: Set explicit version for mdns service image
+      hash: fd198e82a9e4acfcd56658f3bc1f558ee2aeef64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.9
+  date: 2021-08-23T08:50:53.885Z
+- commits:
+    - subject: Bump jellyfish-chat-widget to v12.1.13
+      hash: 99acfca05938b9ab9545ae8aa9d6a127c9537fc4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.8
+  date: 2021-08-23T03:15:19.740Z
+- commits:
+    - subject: Bump jellyfish-logger to v3.0.64
+      hash: f69be8e36aa465ea490fbc642f3644e5ec0550db
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.7
+  date: 2021-08-23T02:12:29.545Z
+- commits:
     - subject: Bump jellyfish-environment to v5.0.3
       hash: 4d913866d0d59f09846b1f1d2f5d1021442b62bc
       body: ''
