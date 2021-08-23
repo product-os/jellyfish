@@ -267,16 +267,10 @@ services:
     ports:
       - 9232:9229
   balena-mdns-publisher:
-    image: 'balena/balena-mdns-publisher:v1.10.1'
+    image: 'balena/balena-mdns-publisher:v1.11.0'
     network_mode: host
-    cap_add:
-      - SYS_RESOURCE
-      - SYS_ADMIN
-    security_opt:
-      - 'apparmor=unconfined'
-    tmpfs:
-      - /run
-      - /sys/fs/cgroup
+    volumes:
+      - /var/run/dbus/system_bus_socket:/var/run/dbus/system_bus_socket
     labels:
       io.balena.features.dbus: '1'
       io.balena.features.supervisor-api: '1'
@@ -284,7 +278,7 @@ services:
       MDNS_TLD: ly.fish.local
       MDNS_SUBDOMAINS: >-
         ["jel", "livechat", "api", "registry"]
-      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
+      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/var/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
   haproxy:
     image: 'balena/open-balena-haproxy:v4.0.1'
