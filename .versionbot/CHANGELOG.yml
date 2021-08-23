@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-chat-widget to v12.1.13
+      hash: 99acfca05938b9ab9545ae8aa9d6a127c9537fc4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.8
+  date: 2021-08-23T03:15:19.740Z
+- commits:
     - subject: Bump jellyfish-logger to v3.0.64
       hash: f69be8e36aa465ea490fbc642f3644e5ec0550db
       body: ''
