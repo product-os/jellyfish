@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-environment to v5.0.3
+      hash: 4d913866d0d59f09846b1f1d2f5d1021442b62bc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.0.6
+  date: 2021-08-22T23:12:14.358Z
+- commits:
     - subject: Bump external dependencies
       hash: 8df3f6c9c099a48808facacf0213f0fd6382ceeb
       body: ''
