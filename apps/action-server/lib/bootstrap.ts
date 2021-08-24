@@ -18,13 +18,15 @@ import { getPluginManager } from './plugins';
 import { core, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
+	ActionRequestContract,
+	Contract,
 	SessionContract,
 	SessionData,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { PluginManager } from '@balena/jellyfish-plugin-base';
-import { ActionPayload } from '@balena/jellyfish-types/build/queue';
+import { Transformer } from '@balena/jellyfish-worker/build/transformers';
 
 const logger = getLogger(__filename);
 
@@ -34,6 +36,24 @@ interface SessionContractWithActor extends SessionContract {
 		actor: string;
 	};
 }
+
+// TS-TODO: Review transformer type definitions and remove this if possible
+/**
+ * Convert a given contract to a transformer contract
+ *
+ * @param contract Contract to convert
+ * @returns transformer contract
+ */
+const toTransformer = function (contract: Contract): Transformer {
+	return Object.assign({}, contract, {
+		data: {
+			inputFilter: contract.data.inputFilter ? contract.data.inputFilter : {},
+			workerFilter: contract.data.workerFilter
+				? contract.data.workerFilter
+				: {},
+		},
+	});
+};
 
 const getActorKey = async (
 	context: core.Context,
@@ -155,7 +175,7 @@ interface BootstrapOptions {
 		worker: Worker,
 		queue: Consumer,
 		session: string,
-		actionRequest: ActionPayload,
+		actionRequest: ActionRequestContract,
 		errorHandler: (error: Error) => void,
 	) => Promise<void>;
 	database?: string;
@@ -290,7 +310,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 						worker.upsertTrigger(context, data.after);
 						break;
 					case 'transformer':
-						worker.upsertTransformer(context, data.after);
+						worker.upsertTransformer(context, toTransformer(data.after));
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
@@ -337,7 +357,12 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTriggers(context, triggers);
 
-	const transformers = contractsMap['transformer'] || [];
+	const transformers: Transformer[] = [];
+	if (contractsMap['transformer']) {
+		contractsMap['transformer'].forEach((contract) => {
+			transformers.push(toTransformer(contract));
+		});
+	}
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
