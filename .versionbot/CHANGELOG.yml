@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 4fd6c69ab0f67945431f6c6a10fd4c7fd78cad53
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.3
+  date: 2021-08-24T19:43:45.764Z
+- commits:
     - subject: Update toTransformer return value
       hash: d935e3b650880b7158ba8ac8eb748f26ab6e3862
       body: ''
