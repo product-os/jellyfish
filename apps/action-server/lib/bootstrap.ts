@@ -47,10 +47,8 @@ interface SessionContractWithActor extends SessionContract {
 const toTransformer = function (contract: Contract): Transformer {
 	return Object.assign({}, contract, {
 		data: {
-			inputFilter: contract.data.inputFilter ? contract.data.inputFilter : {},
-			workerFilter: contract.data.workerFilter
-				? contract.data.workerFilter
-				: {},
+			inputFilter: contract.data.inputFilter,
+			workerFilter: contract.data.workerFilter,
 		},
 	});
 };
