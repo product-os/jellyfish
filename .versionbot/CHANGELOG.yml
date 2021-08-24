@@ -1,4 +1,17 @@
 - commits:
+    - subject: Run e2e sdk tests
+      hash: 942c78dcc40044a7dca6c08d87634ba718f51b5f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.1
+  date: 2021-08-24T09:32:17.658Z
+- commits:
     - subject: Convert server app to ts
       hash: 1115b9a646d62a00c65b71f6a22c58c1825a896b
       body: ''
