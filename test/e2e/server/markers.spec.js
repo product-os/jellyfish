@@ -457,9 +457,9 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	const orgCard = await sdk.card.get('org-balena')
 	const entry = await sdk.card.create({
 		markers: [ orgCard.slug ],
-		type: 'support-issue',
+		type: 'thread',
 		slug: test.context.generateRandomSlug({
-			prefix: 'support-issue'
+			prefix: 'thread'
 		}),
 		version: '1.0.0',
 		name: 'Test entry'
@@ -467,7 +467,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	await sdk.auth.login(userDetails)
 	const unprivilegedResults = await sdk.card.get(entry.id, {
-		type: 'support-issue'
+		type: 'thread'
 	})
 
 	test.deepEqual(unprivilegedResults, null)
@@ -477,7 +477,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	await sdk.auth.login(userDetails)
 
 	const privilegedResults = await sdk.card.get(entry.id, {
-		type: 'support-issue'
+		type: 'thread'
 	})
 
 	test.truthy(privilegedResults)
