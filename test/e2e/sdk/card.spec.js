@@ -30,13 +30,14 @@ const createSupportThread = async (sdk) => {
 	})
 }
 
-const createSupportIssue = async (sdk) => {
+const createIssue = async (sdk) => {
 	return sdk.card.create({
-		type: 'support-issue@1.0.0',
-		name: `test-support-issue-${uuid()}`,
+		type: 'issue@1.0.0',
+		name: `test-issue-${uuid()}`,
 		data: {
 			inbox: 'S/Paid_Support',
-			status: 'open'
+			status: 'open',
+			repository: 'foobar'
 		}
 	})
 }
@@ -73,13 +74,13 @@ ava('If you call card.link twice with the same params you will get the same link
 	// Create a support thread and support issue
 	const supportThread = await createSupportThread(sdk)
 
-	const supportIssue = await createSupportIssue(sdk)
+	const issue = await createIssue(sdk)
 
-	// Link the support thread to the support issue
-	await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
+	// Link the support thread to the issue
+	await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
 
-	// Try to link the same support thread to the same support issue
-	const link = await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
+	// Try to link the same support thread to the same issue
+	const link = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
 
 	// Verify the link ID is the same
 	test.is(link, true)
@@ -90,19 +91,19 @@ ava('card.link will create a new link if the previous one was deleted', async (t
 		sdk
 	} = context
 
-	// Create a support thread and support issue
+	// Create a support thread and issue
 	const supportThread = await createSupportThread(sdk)
 
-	const supportIssue = await createSupportIssue(sdk)
+	const issue = await createIssue(sdk)
 
-	// Link the support thread to the support issue
-	const link1 = await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
+	// Link the support thread to the issue
+	const link1 = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
 
 	// Now remove the link
-	await sdk.card.unlink(supportThread, supportIssue, 'support thread is attached to support issue')
+	await sdk.card.unlink(supportThread, issue, 'support thread is attached to issue')
 
-	// Try to link the same support thread to the same support issue
-	const link2 = await sdk.card.link(supportThread, supportIssue, 'support thread is attached to support issue')
+	// Try to link the same support thread to the same issue
+	const link2 = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
 
 	// Verify the link ID is not the same
 	test.not(link1.id, link2.id)

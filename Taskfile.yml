@@ -51,6 +51,10 @@ tasks:
     cmds:
       - make test FILES=./test/e2e/sync/github-mirror.spec.js
 
+  e2e-sdk:
+    cmds:
+      - make test-e2e-sdk
+
   e2e-livechat:
     cmds:
       - make test-e2e-livechat
@@ -95,6 +99,7 @@ tasks:
       - task: front-mirror
       - task: discourse-mirror
       - task: github-mirror
+      - task: e2e-sdk
       - task: e2e-livechat
       - task: e2e-ui
       - task: e2e-server
