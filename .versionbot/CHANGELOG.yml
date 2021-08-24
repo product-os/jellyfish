@@ -1,4 +1,47 @@
 - commits:
+    - subject: Update toTransformer return value
+      hash: d935e3b650880b7158ba8ac8eb748f26ab6e3862
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update support-issue related tests
+      hash: de95e94c2f1cac6114eed59e95e90cfe6f3162ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Fix transformer type errors
+      hash: caf7e3e767bd36576d0afcdb98f0fa73037489b9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump internal packages
+      hash: 6277d6b255158bef42b620acde97584abe4bf82b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.2
+  date: 2021-08-24T11:51:44.968Z
+- commits:
     - subject: Run e2e sdk tests
       hash: 942c78dcc40044a7dca6c08d87634ba718f51b5f
       body: ''
