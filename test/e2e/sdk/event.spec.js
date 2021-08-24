@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const Bluebird = require('bluebird')
 const ava = require('ava')
 const {
 	v4: uuid
@@ -81,6 +82,7 @@ ava('Editing a message triggers an update to the edited_at field', async (test) 
 	let msg = await createMessage(sdk, supportThread, {
 		message: messageBefore
 	})
+	await Bluebird.delay(1000)
 
 	// Verify that initiall the edited_at field is undefined
 	test.is(typeof msg.data.edited_at, 'undefined')
@@ -91,6 +93,7 @@ ava('Editing a message triggers an update to the edited_at field', async (test) 
 		path: '/data/payload/message',
 		value: update1
 	} ])
+	await Bluebird.delay(1000)
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field now has a valid date-time value
@@ -104,6 +107,7 @@ ava('Editing a message triggers an update to the edited_at field', async (test) 
 		path: '/data/payload/message',
 		value: update2
 	} ])
+	await Bluebird.delay(1000)
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field has been updated again
@@ -126,6 +130,7 @@ ava('Updating a meta field in the message payload triggers an update to the edit
 		message: 'test',
 		mentionsUser: mentionsUserBefore
 	})
+	await Bluebird.delay(1000)
 
 	// Verify that initiall the edited_at field is undefined
 	test.is(typeof msg.data.edited_at, 'undefined')
@@ -136,6 +141,7 @@ ava('Updating a meta field in the message payload triggers an update to the edit
 		path: '/data/payload/mentionsUser/0',
 		value: user1
 	} ])
+	await Bluebird.delay(1000)
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field now has a valid date-time value
@@ -148,6 +154,7 @@ ava('Updating a meta field in the message payload triggers an update to the edit
 		op: 'remove',
 		path: '/data/payload/mentionsUser/0'
 	} ])
+	await Bluebird.delay(1000)
 	msg = await sdk.card.get(msg.id)
 
 	// And check that the edited_at field has been updated again
