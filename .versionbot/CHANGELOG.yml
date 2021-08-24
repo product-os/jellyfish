@@ -1,4 +1,15 @@
 - commits:
+    - subject: Convert server app to ts
+      hash: 1115b9a646d62a00c65b71f6a22c58c1825a896b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 38.1.0
+  date: 2021-08-23T19:20:10.949Z
+- commits:
     - subject: Set explicit version for mdns service image
       hash: fd198e82a9e4acfcd56658f3bc1f558ee2aeef64
       body: ''
