@@ -242,51 +242,6 @@ ava.serial('A message\'s mirror icon is automatically updated when the message i
 	test.pass()
 })
 
-ava.serial('You should be able to link support threads to existing support issues', async (test) => {
-	const {
-		page
-	} = context
-	const name = `test-support-issue-${uuid()}`
-
-	const supportIssue = await page.evaluate((cardName) => {
-		return window.sdk.card.create({
-			type: 'support-issue@1.0.0',
-			name: cardName,
-			data: {
-				inbox: 'S/Paid_Support',
-				status: 'open'
-			}
-		})
-	}, name)
-
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker-action"]')
-
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker-action--existing"]')
-
-	await page.waitForSelector('.jellyfish-async-select__input input:not(:disabled)')
-
-	await page.type('.jellyfish-async-select__input input', name, {
-		delay: 300
-	})
-
-	await macros.waitForThenClickSelector(page, '.jellyfish-async-select__option--is-focused')
-
-	await macros.waitForThenClickSelector(page, '[data-test="card-linker--existing__submit"]:not(:disabled)')
-
-	await macros.waitForThenClickSelector(page, '[data-test="support-thread-details__header"]')
-
-	await page.waitForSelector('[data-test="support-thread__linked-support-issue"]')
-
-	const issueWithLinks = await page.evaluate((card) => {
-		return window.sdk.card.getWithLinks(card.id, 'support issue has attached support thread')
-	}, supportIssue)
-
-	test.is(
-		issueWithLinks.links['support issue has attached support thread'][0].type,
-		'support-thread@1.0.0'
-	)
-})
-
 ava.serial('Support thread timeline should default to sending whispers', async (test) => {
 	const {
 		page

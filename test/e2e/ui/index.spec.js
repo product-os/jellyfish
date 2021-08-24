@@ -114,39 +114,38 @@ ava.serial('core: should stop users from seeing messages attached to cards they 
 	await macros.navigateToHomeChannelItem(page, [
 		'[data-test="home-channel__group-toggle--org-balena"]',
 		'[data-test="home-channel__group-toggle--Support"]',
-		'[data-test="home-channel__item--view-all-support-issues"]'
+		'[data-test="home-channel__item--view-all-forum-threads"]'
 	])
 
-	await page.waitForSelector('.column--view-all-support-issues')
-	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--support-issue"]')
+	await page.waitForSelector('.column--view-all-forum-threads')
+	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--support-thread"]')
 
 	await page.waitForSelector('.rendition-form__field--root_name', WAIT_OPTS)
 	await macros.setInputValue(
 		page,
 		'.rendition-form__field--root_name input',
-		`Test support issue ${uuid()}`
+		`Test forum thread ${uuid()}`
 	)
 
 	// Submit the form
 	await page.waitForSelector('[data-test="card-creator__submit"]:not([disabled])')
 	await page.click('[data-test="card-creator__submit"]')
 
-	await page.waitForSelector('.column--support-issue')
+	await page.waitForSelector('.column--support-thread')
 
 	const messageText = `My new message: ${uuid()}`
 
-	await macros.waitForThenClickSelector(page, '[role="tablist"] button:nth-of-type(2)')
-	await macros.createChatMessage(page, '.column--support-issue', messageText)
+	await macros.createChatMessage(page, '.column--support-thread', messageText)
 
-	// This reload checks that authorisation persists between reloads and tha the
+	// This reload checks that authorisation persists between reloads and that the
 	// app will correctly bootstrap based on the URL
 	await page.reload()
-	await page.waitForSelector('.column--support-issue')
+	await page.waitForSelector('.column--support-thread')
 
 	// Wait for a small delay then check again, this means the test will fail if
 	// there is a render issue in a subcomponent
 	await bluebird.delay(500)
-	await page.waitForSelector('.column--support-issue')
+	await page.waitForSelector('.column--support-thread')
 
 	await macros.logout(page)
 
@@ -344,8 +343,8 @@ ava.serial('lens: A lens selection should be remembered', async (test) => {
 
 	await page.waitForSelector('[data-test="lens--lens-kanban"]')
 
-	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-support-issues"]')
-	await page.waitForSelector('.column--view-all-support-issues')
+	await macros.waitForThenClickSelector(page, '[data-test="home-channel__item--view-all-forum-threads"]')
+	await page.waitForSelector('.column--view-all-forum-threads')
 
 	// Allow some time for the lens selection to be stored
 	await bluebird.delay(5000)
