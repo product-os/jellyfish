@@ -4,10 +4,10 @@
  * Proprietary and confidential.
  */
 
-const _ = require('lodash')
+import _ from 'lodash';
 
-let DATA = []
-const CREATOR_ID = 9999
+let DATA: any[] = [];
+const CREATOR_ID = 9999;
 
 const DEFAULT_ATTRIBUTES = {
 	addedAt: null,
@@ -25,8 +25,18 @@ const DEFAULT_ATTRIBUTES = {
 	campaignName: null,
 	clickCount: 0,
 	contactHistogram: [
-		[ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ],
-		[ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ], [ 0, 0 ]
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
+		[0, 0],
 	],
 	custom1: null,
 	custom10: null,
@@ -145,158 +155,160 @@ const DEFAULT_ATTRIBUTES = {
 	websiteUrl1: null,
 	websiteUrl2: null,
 	websiteUrl3: null,
-	workPhones: []
-}
+	workPhones: [],
+};
 
 const getRelationships = (id) => {
 	return {
 		account: {
 			data: {
 				type: 'account',
-				id: 95
-			}
+				id: 95,
+			},
 		},
 		activeSequenceStates: {
 			data: [],
 			links: {
-				related: `https://api.outreach.io/api/v2/sequenceStates?filter%5Bprospect%5D%5Bid%5D=${id}`
+				related: `https://api.outreach.io/api/v2/sequenceStates?filter%5Bprospect%5D%5Bid%5D=${id}`,
 			},
 			meta: {
-				count: 0
-			}
+				count: 0,
+			},
 		},
 		batches: {
 			links: {
-				related: `https://api.outreach.io/api/v2/batches?filter%5Bprospect%5D%5Bid%5D=${id}`
-			}
+				related: `https://api.outreach.io/api/v2/batches?filter%5Bprospect%5D%5Bid%5D=${id}`,
+			},
 		},
 		calls: {
 			links: {
-				related: `https://api.outreach.io/api/v2/calls?filter%5Bprospect%5D%5Bid%5D=${id}`
-			}
+				related: `https://api.outreach.io/api/v2/calls?filter%5Bprospect%5D%5Bid%5D=${id}`,
+			},
 		},
 		creator: {
 			data: {
 				type: 'user',
-				id: CREATOR_ID
-			}
+				id: CREATOR_ID,
+			},
 		},
 		defaultPluginMapping: {
-			data: null
+			data: null,
 		},
 		emailAddresses: {
 			data: [
 				{
 					type: 'emailAddress',
-					id
-				}
+					id,
+				},
 			],
 			links: {
-				related: `https://api.outreach.io/api/v2/emailAddresses?filter%5Bprospect%5D%5Bid%5D=${id}`
+				related: `https://api.outreach.io/api/v2/emailAddresses?filter%5Bprospect%5D%5Bid%5D=${id}`,
 			},
 			meta: {
-				count: 1
-			}
+				count: 1,
+			},
 		},
 		favorites: {
 			data: [],
 			links: {
-				related: `https://api.outreach.io/api/v2/favorites?filter%5Bprospect%5D%5Bid%5D=${id}`
+				related: `https://api.outreach.io/api/v2/favorites?filter%5Bprospect%5D%5Bid%5D=${id}`,
 			},
 			meta: {
-				count: 0
-			}
+				count: 0,
+			},
 		},
 		mailings: {
 			links: {
-				related: `https://api.outreach.io/api/v2/mailings?filter%5Bprospect%5D%5Bid%5D=${id}`
-			}
+				related: `https://api.outreach.io/api/v2/mailings?filter%5Bprospect%5D%5Bid%5D=${id}`,
+			},
 		},
 		opportunities: {
 			data: [],
 			links: {
-				related: `https://api.outreach.io/api/v2/opportunities?filter%5Bprospect%5D%5Bid%5D=${id}`
+				related: `https://api.outreach.io/api/v2/opportunities?filter%5Bprospect%5D%5Bid%5D=${id}`,
 			},
 			meta: {
-				count: 0
-			}
+				count: 0,
+			},
 		},
 		owner: {
-			data: null
+			data: null,
 		},
 		persona: {
-			data: null
+			data: null,
 		},
 		phoneNumbers: {
 			data: [],
 			links: {
-				related: `https://api.outreach.io/api/v2/phoneNumbers?filter%5Bprospect%5D%5Bid%5D=${id}`
+				related: `https://api.outreach.io/api/v2/phoneNumbers?filter%5Bprospect%5D%5Bid%5D=${id}`,
 			},
 			meta: {
-				count: 0
-			}
+				count: 0,
+			},
 		},
 		sequenceStates: {
 			links: {
-				related: `https://api.outreach.io/api/v2/sequenceStates?filter%5Bprospect%5D%5Bid%5D=${id}`
-			}
+				related: `https://api.outreach.io/api/v2/sequenceStates?filter%5Bprospect%5D%5Bid%5D=${id}`,
+			},
 		},
 		stage: {
-			data: null
+			data: null,
 		},
 		tasks: {
 			links: {
-				related: `https://api.outreach.io/api/v2/tasks?filter%5Bprospect%5D%5Bid%5D=${id}`
-			}
+				related: `https://api.outreach.io/api/v2/tasks?filter%5Bprospect%5D%5Bid%5D=${id}`,
+			},
 		},
 		updater: {
 			data: {
 				type: 'user',
-				id: CREATOR_ID
-			}
-		}
-	}
-}
+				id: CREATOR_ID,
+			},
+		},
+	};
+};
 
-exports.reset = () => {
-	DATA = []
-}
+export const reset = () => {
+	DATA = [];
+};
 
-exports.getProspectByEmail = (email) => {
+export const getProspectByEmail = (email) => {
 	if (!_.isString(email)) {
 		return {
 			code: 400,
-			response: {}
-		}
+			response: {},
+		};
 	}
 
 	const results = _.filter(DATA, (entry) => {
-		return entry.type === 'prospect' &&
-			entry.attributes.emails.includes(email)
-	})
+		return entry.type === 'prospect' && entry.attributes.emails.includes(email);
+	});
 
 	return {
 		code: 200,
 		response: {
 			data: results,
 			meta: {
-				count: results.length
-			}
-		}
-	}
-}
+				count: results.length,
+			},
+		},
+	};
+};
 
-exports.postProspect = (body) => {
-	const date = new Date().toISOString()
-	const index = DATA.length
-	const id = index + 1
+export const postProspect = (body) => {
+	const date = new Date().toISOString();
+	const index = DATA.length;
+	const id = index + 1;
 
-	body.data.attributes.name = body.data.attributes.name ||
-		body.data.attributes.nickname
+	body.data.attributes.name =
+		body.data.attributes.name || body.data.attributes.nickname;
 
 	// We don't really know what the exact limit is, and the
 	// Outreach API is not very helpful.
-	if (body.data.attributes.firstName && body.data.attributes.firstName.length > 50) {
+	if (
+		body.data.attributes.firstName &&
+		body.data.attributes.firstName.length > 50
+	) {
 		return {
 			code: 422,
 			response: {
@@ -304,16 +316,18 @@ exports.postProspect = (body) => {
 					{
 						id: 'validationDataTooLongError',
 						title: 'Validation Data Too Long Error',
-						detail: 'Data provided is too long.'
-					}
-				]
-			}
-		}
+						detail: 'Data provided is too long.',
+					},
+				],
+			},
+		};
 	}
 
-	if (_.some(body.data.attributes.emails, (email) => {
-		return /@balena\.io$/.test(email)
-	})) {
+	if (
+		_.some(body.data.attributes.emails, (email) => {
+			return /@balena\.io$/.test(email);
+		})
+	) {
 		return {
 			code: 422,
 			response: {
@@ -321,19 +335,21 @@ exports.postProspect = (body) => {
 					{
 						id: 'validationError',
 						source: {
-							pointer: '/data'
+							pointer: '/data',
 						},
 						title: 'Validation Error',
-						detail: 'Contacts contact is using an excluded email address.'
-					}
-				]
-			}
-		}
+						detail: 'Contacts contact is using an excluded email address.',
+					},
+				],
+			},
+		};
 	}
 
-	if (_.some(body.data.attributes.emails, (email) => {
-		return exports.getProspectByEmail(email).response.meta.count > 0
-	})) {
+	if (
+		_.some(body.data.attributes.emails, (email) => {
+			return getProspectByEmail(email).response.meta!.count > 0;
+		})
+	) {
 		return {
 			code: 422,
 			response: {
@@ -341,14 +357,14 @@ exports.postProspect = (body) => {
 					{
 						id: 'validationError',
 						source: {
-							pointer: '/data'
+							pointer: '/data',
 						},
 						title: 'Validation Error',
-						detail: 'Contacts email hash has already been taken.'
-					}
-				]
-			}
-		}
+						detail: 'Contacts email hash has already been taken.',
+					},
+				],
+			},
+		};
 	}
 
 	DATA[index] = {
@@ -356,27 +372,27 @@ exports.postProspect = (body) => {
 		id,
 		attributes: Object.assign({}, DEFAULT_ATTRIBUTES, body.data.attributes, {
 			createdAt: date,
-			updatedAt: date
+			updatedAt: date,
 		}),
 		relationships: getRelationships(id),
 		links: {
-			self: `https://api.outreach.io/api/v2/prospects/${id}`
-		}
-	}
+			self: `https://api.outreach.io/api/v2/prospects/${id}`,
+		},
+	};
 
 	return {
 		code: 201,
 		response: {
-			data: DATA[index]
-		}
-	}
-}
+			data: DATA[index],
+		},
+	};
+};
 
-exports.patchProspect = (body) => {
+export const patchProspect = (body) => {
 	const index = _.findIndex(DATA, {
 		type: 'prospect',
-		id: body.data.id
-	})
+		id: body.data.id,
+	});
 
 	if (index <= -1) {
 		return {
@@ -386,16 +402,19 @@ exports.patchProspect = (body) => {
 					{
 						id: 'resourceNotFound',
 						title: 'Resource Not Found',
-						detail: `Could not find 'prospect' with ID '${body.data.id}'.`
-					}
-				]
-			}
-		}
+						detail: `Could not find 'prospect' with ID '${body.data.id}'.`,
+					},
+				],
+			},
+		};
 	}
 
-	if (body.data.attributes.emails && _.some(body.data.attributes.emails, (email) => {
-		return /@balena\.io$/.test(email)
-	})) {
+	if (
+		body.data.attributes.emails &&
+		_.some(body.data.attributes.emails, (email) => {
+			return /@balena\.io$/.test(email);
+		})
+	) {
 		return {
 			code: 422,
 			response: {
@@ -403,21 +422,26 @@ exports.patchProspect = (body) => {
 					{
 						id: 'validationError',
 						source: {
-							pointer: '/data'
+							pointer: '/data',
 						},
 						title: 'Validation Error',
-						detail: 'Contacts contact is using an excluded email address.'
-					}
-				]
-			}
-		}
+						detail: 'Contacts contact is using an excluded email address.',
+					},
+				],
+			},
+		};
 	}
 
-	if (body.data.attributes.emails && _.some(body.data.attributes.emails, (email) => {
-		const prospect = exports.getProspectByEmail(email)
-		return prospect.response.meta.count > 0 &&
-			prospect.response.data[0].id !== body.data.id
-	})) {
+	if (
+		body.data.attributes.emails &&
+		_.some(body.data.attributes.emails, (email) => {
+			const prospect = getProspectByEmail(email);
+			return (
+				prospect.response.meta!.count > 0 &&
+				prospect.response.data![0].id !== body.data.id
+			);
+		})
+	) {
 		return {
 			code: 422,
 			response: {
@@ -425,19 +449,20 @@ exports.patchProspect = (body) => {
 					{
 						id: 'validationError',
 						source: {
-							pointer: '/data'
+							pointer: '/data',
 						},
 						title: 'Validation Error',
-						detail: 'Contacts email hash has already been taken.'
-					}
-				]
-			}
-		}
+						detail: 'Contacts email hash has already been taken.',
+					},
+				],
+			},
+		};
 	}
 
-	const currentAttributes = _.cloneDeep(DATA[index].attributes)
+	const currentAttributes = _.cloneDeep(DATA[index].attributes);
 	const newAttributes = _.cloneDeep(
-		Object.assign({}, DATA[index].attributes, body.data.attributes))
+		Object.assign({}, DATA[index].attributes, body.data.attributes),
+	);
 
 	// When nothing really changes
 	if (_.isEqual(currentAttributes, newAttributes)) {
@@ -448,40 +473,40 @@ exports.patchProspect = (body) => {
 					{
 						id: 'validationDuplicateValueError',
 						title: 'Validation Duplicate Value Error',
-						detail: 'A Contact with this email_hash already exists.'
-					}
-				]
-			}
-		}
+						detail: 'A Contact with this email_hash already exists.',
+					},
+				],
+			},
+		};
 	}
 
-	DATA[index].attributes = newAttributes
+	DATA[index].attributes = newAttributes;
 
 	return {
 		code: 200,
 		response: {
-			data: DATA[DATA.length]
-		}
-	}
-}
+			data: DATA[DATA.length],
+		},
+	};
+};
 
-exports.getProspect = (id) => {
+export const getProspect = (id) => {
 	const prospect = _.find(DATA, {
 		type: 'prospect',
-		id
-	})
+		id,
+	});
 
 	if (!prospect) {
 		return {
 			code: 404,
-			response: {}
-		}
+			response: {},
+		};
 	}
 
 	return {
 		code: 200,
 		response: {
-			data: prospect
-		}
-	}
-}
+			data: prospect,
+		},
+	};
+};
