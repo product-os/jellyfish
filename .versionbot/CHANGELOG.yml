@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: a94a5f397aaa4b286d9cfe3c866b6d24fa579144
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.8
+  date: 2021-08-25T13:01:27.499Z
+- commits:
     - subject: Bump balena/open-balena-base to v12.0.2
       hash: 4a22ebb386eea9998490c7690ee6ffd541130f51
       body: ''
