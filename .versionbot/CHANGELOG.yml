@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^9.1.5'
+      hash: 6260e9829df3aa11f05247c821f757d163fafea1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.6
+  date: 2021-08-25T01:42:58.970Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.1.14'
       hash: a723eff51daefd4d40dc8273eb93125402574da9
       body: ''
