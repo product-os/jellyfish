@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.1.22",
-    "@balena/jellyfish-core": "^5.1.20",
+    "@balena/jellyfish-core": "5.2.0-add-scheduled-action-6d1816189a0883b59e876fa6af0077571bc267d0",
     "@balena/jellyfish-environment": "^5.0.3",
     "@balena/jellyfish-logger": "^3.0.64",
     "@balena/jellyfish-metrics": "^1.0.333",
@@ -46,7 +46,7 @@
   },
   "devDependencies": {
     "@balena/jellyfish-config": "^1.4.8",
-    "@balena/jellyfish-types": "^0.9.9",
+    "@balena/jellyfish-types": "0.10.0-update-action-request-action-de237c0a1e7e148a615456a8cd83cacba961bc3a",
     "@balena/lint": "^6.1.1",
     "@types/jest": "^26.0.24",
     "@types/uuid": "^8.3.1",
