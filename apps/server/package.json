@@ -21,7 +21,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@balena/jellyfish-action-library": "^15.1.23",
+    "@balena/jellyfish-action-library": "^15.1.24",
     "@balena/jellyfish-assert": "^1.1.67",
     "@balena/jellyfish-core": "^5.1.25",
     "@balena/jellyfish-environment": "^5.0.3",
@@ -40,7 +40,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.248",
     "@balena/jellyfish-queue": "^1.0.251",
     "@balena/jellyfish-sync": "^6.1.8",
-    "@balena/jellyfish-worker": "^9.1.5",
+    "@balena/jellyfish-worker": "^9.1.7",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "aws-sdk": "^2.973.0",
     "bluebird": "^3.7.2",
