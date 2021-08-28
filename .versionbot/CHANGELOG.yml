@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump action-library to v15.1.26
+      hash: 58b4ff7f77ef0175000ecda3f1f4a1126147ac32
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.16
+  date: 2021-08-28T13:54:54.849Z
+- commits:
     - subject: Bump internal plugins
       hash: cd91b950fb7753ea23c6bb7a45caa4ff99019db1
       body: ''
