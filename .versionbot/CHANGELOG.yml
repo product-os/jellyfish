@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: 754af134ef757f0768254791a58b79a82a7f1224
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.17
+  date: 2021-08-28T15:09:44.552Z
+- commits:
     - subject: Bump action-library to v15.1.26
       hash: 58b4ff7f77ef0175000ecda3f1f4a1126147ac32
       body: ''
