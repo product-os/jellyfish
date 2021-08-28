@@ -20,7 +20,7 @@
     "prepack": "npm run build"
   },
   "dependencies": {
-    "@balena/jellyfish-action-library": "^15.1.24",
+    "@balena/jellyfish-action-library": "^15.1.26",
     "@balena/jellyfish-core": "^5.1.25",
     "@balena/jellyfish-environment": "^5.0.3",
     "@balena/jellyfish-logger": "^3.0.65",
