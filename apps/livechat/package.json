@@ -27,8 +27,8 @@
     "html-webpack-plugin": "^4.5.2",
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
-    "react-router-dom": "^5.2.0",
-    "rendition": "^21.6.0",
+    "react-router-dom": "^5.2.1",
+    "rendition": "^21.6.1",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.4.2"
