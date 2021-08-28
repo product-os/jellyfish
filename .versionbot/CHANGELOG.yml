@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-worker to v9.1.11
+      hash: a9a29d23f6505f0e77e3656ae26f1c12ae137c4e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.12
+  date: 2021-08-28T07:08:15.261Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: dfb8792257aeae05e6f0d346487f7fc439a18909
       body: ''
