@@ -87,7 +87,7 @@ export const attachMiddlewares = (
 
 			request.context = context;
 			return next();
-		} catch (error) {
+		} catch (error: any) {
 			logger.exception(request.context, 'Context set error', error);
 			return next();
 		}

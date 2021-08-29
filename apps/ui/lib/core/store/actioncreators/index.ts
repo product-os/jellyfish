@@ -861,7 +861,7 @@ export const actionCreators = {
 							type: cardData.type,
 						},
 					});
-				} catch (error) {
+				} catch (error: any) {
 					notifications.addNotification('danger', error.message);
 				}
 			} else {
@@ -1251,7 +1251,7 @@ export const actionCreators = {
 						successNotification || 'Successfully updated user',
 					);
 				}
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message || error);
 			}
 		};
@@ -1276,7 +1276,7 @@ export const actionCreators = {
 					return true;
 				}
 				return false;
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message);
 				return false;
 			}
@@ -1297,7 +1297,7 @@ export const actionCreators = {
 					'Sent first-time login token to user',
 				);
 				return true;
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message);
 				return false;
 			}
@@ -1366,7 +1366,7 @@ export const actionCreators = {
 					'success',
 					'Successfully changed password',
 				);
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message || error);
 			}
 		};
@@ -1416,7 +1416,7 @@ export const actionCreators = {
 				if (!options.skipSuccessMessage) {
 					notifications.addNotification('success', 'Created new link');
 				}
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message);
 			}
 		};
@@ -1429,7 +1429,7 @@ export const actionCreators = {
 				if (!options.skipSuccessMessage) {
 					notifications.addNotification('success', 'Removed link');
 				}
-			} catch (error) {
+			} catch (error: any) {
 				notifications.addNotification('danger', error.message);
 			}
 		};

@@ -250,7 +250,7 @@ class SupportThreadBase extends React.Component<any, any> {
 		this.removeLink = async (fromCard, toCard, verb) => {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb);
-			} catch (err) {
+			} catch (err: any) {
 				notifications.addNotification('danger', err.message);
 				return;
 			}

@@ -231,7 +231,7 @@ describe('CreateLens', () => {
 
 		try {
 			await mountCreateLens(commonProps, card);
-		} catch (e) {
+		} catch (e: any) {
 			expect(e.message).toBe('All target cards must be of the same type');
 		}
 	});

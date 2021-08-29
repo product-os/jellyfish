@@ -357,7 +357,7 @@ export const attachRoutes = (
 				access_token: createSessionResult.data.id,
 				token_type: 'Bearer',
 			});
-		} catch (error) {
+		} catch (error: any) {
 			if (
 				['OAuthUnsuccessfulResponse', 'SyncNoMatchingUser'].includes(error.name)
 			) {

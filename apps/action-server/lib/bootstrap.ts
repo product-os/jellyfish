@@ -433,7 +433,7 @@ export const bootstrapWorker = async (
 				const requestData = actionRequest.data as any;
 				requestData.context.worker = serverContext.id;
 				await worker.execute(key.id, actionRequest);
-			} catch (error) {
+			} catch (error: any) {
 				errorHandler(error);
 			}
 		},
