@@ -1,5 +1,10 @@
 {
   "extends": [
     "github>product-os/jellyfish-config//config/renovate"
+  ],
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["puppeteer"]
+    }
   ]
 }
