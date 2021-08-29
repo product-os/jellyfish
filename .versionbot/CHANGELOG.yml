@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.2.0'
+      hash: 6804dc2f18a1cbd9f2303ed6c0fc5a72a8a464cc
+      body: |
+        Update @balena/jellyfish-core from 5.1.25 to 5.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.20
+  date: 2021-08-29T15:34:45.946Z
+- commits:
     - subject: Bump grommet to v2.17.5
       hash: 83688f4373771e63311fe806ca1415648f12c324
       body: ''
