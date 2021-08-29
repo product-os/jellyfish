@@ -1,4 +1,30 @@
 - commits:
+    - subject: Bump grommet to v2.17.5
+      hash: 83688f4373771e63311fe806ca1415648f12c324
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Add Renovate group for puppeteer
+      hash: cb10b76ae175531004ff393a53719acef50903b5
+      body: |
+        The latest version of puppeteer is currently breaking some of our E2E
+        tests. Delegating puppeteer to its own Renovate group until this issue
+        is resolved.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.19
+  date: 2021-08-29T12:22:06.467Z
+- commits:
     - subject: Fix error type unknown type errors
       hash: 2e714520fe146de9f08d6f030e4f675c855bdcbc
       body: ''
