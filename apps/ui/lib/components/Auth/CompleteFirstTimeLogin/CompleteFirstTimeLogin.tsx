@@ -51,7 +51,7 @@ export default class CompleteFirstTimeLogin extends React.Component<any, any> {
 					});
 					notifications.addNotification('success', 'Successfully set password');
 					this.props.history.push('/');
-				} catch (error) {
+				} catch (error: any) {
 					notifications.addNotification('danger', error.message || error);
 					this.setState({
 						completingFirstTimeLogin: false,

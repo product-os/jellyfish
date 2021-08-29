@@ -54,7 +54,7 @@ export default class CompletePasswordReset extends React.Component<any, any> {
 						'Successfully reset password',
 					);
 					this.props.history.push('/');
-				} catch (error) {
+				} catch (error: any) {
 					notifications.addNotification('danger', error.message || error);
 					this.setState({
 						completePasswordReset: false,
