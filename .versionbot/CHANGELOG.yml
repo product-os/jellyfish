@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix error type unknown type errors
+      hash: 2e714520fe146de9f08d6f030e4f675c855bdcbc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump typedoc and typescript
+      hash: 794c0ec31faf4a9b23f1250f300b4c45bf8b120f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.18
+  date: 2021-08-29T03:31:24.520Z
+- commits:
     - subject: Bump external dependencies
       hash: 754af134ef757f0768254791a58b79a82a7f1224
       body: ''
