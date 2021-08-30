@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: a665ff3642f9d8d0e36649a4017c66008407eb97
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.23
+  date: 2021-08-30T10:42:08.814Z
+- commits:
     - subject: Bump typedoc to v0.21.9
       hash: 818f874a9b9924bdc898dd6bfebd0e7abf0c2980
       body: ''
