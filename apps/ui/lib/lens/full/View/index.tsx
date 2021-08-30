@@ -783,7 +783,6 @@ export class ViewRenderer extends React.Component<any, any> {
 			name: USER_FILTER_NAME,
 		});
 		newView.data.actor = user.id;
-		newView.markers = [user.slug];
 		view.filters.forEach((filter) => {
 			newView.data.allOf.push({
 				name: USER_FILTER_NAME,
