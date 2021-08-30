@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external packages
+      hash: b92ef609f1936991a0744d63a22b8f2bd711c22c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.21
+  date: 2021-08-29T23:29:00.609Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.2.0'
       hash: 6804dc2f18a1cbd9f2303ed6c0fc5a72a8a464cc
       body: |
