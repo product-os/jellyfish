@@ -4,7 +4,8 @@
   ],
   "packageRules": [
     {
-      "matchPackagePatterns": ["puppeteer"]
+      "matchPackagePatterns": ["puppeteer"],
+      "groupName": "puppeteer"
     }
   ]
 }
