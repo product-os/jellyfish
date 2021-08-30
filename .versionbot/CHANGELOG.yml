@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump typedoc to v0.21.9
+      hash: 818f874a9b9924bdc898dd6bfebd0e7abf0c2980
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Add groupName to puppeteer Renovate group
+      hash: e9fa0219dd123062c9fcac74a686d8b291459f97
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.22
+  date: 2021-08-30T04:16:24.754Z
+- commits:
     - subject: Bump external packages
       hash: b92ef609f1936991a0744d63a22b8f2bd711c22c
       body: ''
