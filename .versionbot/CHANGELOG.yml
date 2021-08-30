@@ -1,4 +1,22 @@
 - commits:
+    - subject: Don't restrict access to user created views
+      hash: 323b2a4d6b6c31a6c35d2983b0ba8e7fb1239686
+      body: |
+        With this change, user created views no longer have the users marker and
+        will now be viewable by other users. This will have the side effect of
+        fixing the issue where users will unintentionally create contracts that
+        are viewable only by them when they create the contract in the context
+        of their custom view.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.1.24
+  date: 2021-08-30T16:01:29.760Z
+- commits:
     - subject: 'patch: Update external-non-major'
       hash: a665ff3642f9d8d0e36649a4017c66008407eb97
       body: ''
