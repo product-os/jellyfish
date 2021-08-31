@@ -200,7 +200,7 @@ const cleanPath = (location) => {
 };
 
 const groupViews = memoize<any>(
-	(tail, bookmarks, userSlug, repos: core.Contract[], orgs) => {
+	(tail, bookmarks, userId, repos: core.Contract[], orgs) => {
 		const sortedTail = _.sortBy(tail, ['data.namespace', 'name']);
 		const groups: any = {
 			defaults: [],
@@ -258,7 +258,7 @@ const groupViews = memoize<any>(
 			(acc, view) => {
 				if (view.slug.startsWith('view-121')) {
 					acc.oneToOneViews.push(view);
-				} else if (view.markers.includes(userSlug)) {
+				} else if (view.data.actor === userId) {
 					acc.myViews.push(view);
 				} else {
 					acc.otherViews.push(view);
@@ -583,7 +583,7 @@ export default class HomeChannel extends React.Component<any, any> {
 				</Box>
 			);
 		}
-		const groupedViews = groupViews(tail, bookmarks, user.slug, repos, orgs);
+		const groupedViews = groupViews(tail, bookmarks, user.id, repos, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;
 		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
