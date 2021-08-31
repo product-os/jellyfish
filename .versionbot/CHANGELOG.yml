@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal dependencies
+      hash: 0e2fcf1bfbc045cc5c4d8ebe92fa09ee09801209
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.1.25
+  date: 2021-08-31T01:08:26.863Z
+- commits:
     - subject: Don't restrict access to user created views
       hash: 323b2a4d6b6c31a6c35d2983b0ba8e7fb1239686
       body: |
