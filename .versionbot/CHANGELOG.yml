@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.3.2'
+      hash: 950794e0f22754309130e006be6bbc77ff9d57c0
+      body: |
+        Update @balena/jellyfish-core from 5.2.0 to 5.3.2
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.1.27
+  date: 2021-09-01T10:03:44.525Z
+- commits:
     - subject: Aggregate user created views by ID instead of marker
       hash: d4d864b90fa5c7ed15a66466470097a519f8cd78
       body: |
