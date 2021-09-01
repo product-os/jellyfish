@@ -1,4 +1,20 @@
 - commits:
+    - subject: Aggregate user created views by ID instead of marker
+      hash: d4d864b90fa5c7ed15a66466470097a519f8cd78
+      body: |
+        A recent means that custom views no longer have the users marker set on
+        them, and instead we need to recently on the `data.actor` field to find
+        custom views.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.1.26
+  date: 2021-09-01T08:43:34.300Z
+- commits:
     - subject: Bump internal dependencies
       hash: 0e2fcf1bfbc045cc5c4d8ebe92fa09ee09801209
       body: ''
