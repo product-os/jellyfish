@@ -20,7 +20,7 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.1.14",
     "@balena/jellyfish-client-sdk": "^6.0.0",
-    "@balena/jellyfish-ui-components": "^10.1.12",
+    "@balena/jellyfish-ui-components": "^10.1.15",
     "@use-it/event-listener": "^0.1.6",
     "css-loader": "^5.2.7",
     "file-loader": "^6.2.0",
