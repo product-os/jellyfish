@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use slugs for permalinks instead of ids
+      hash: 40a72779a71cb955a60801d7afcd89038b4e1499
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.0
+  date: 2021-09-03T09:24:04.912Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.4.1'
       hash: b3bd344518d8de28c2f69ededb38f774900ab71d
       body: |
