@@ -76,7 +76,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.249",
     "@balena/jellyfish-queue": "^1.0.251",
     "@balena/jellyfish-sync": "^6.1.15",
-    "@balena/jellyfish-ui-components": "^10.1.12",
+    "@balena/jellyfish-ui-components": "^10.1.15",
     "@balena/jellyfish-worker": "^9.2.0",
     "@balena/lint": "^6.1.1",
     "@octokit/plugin-retry": "^3.0.9",
