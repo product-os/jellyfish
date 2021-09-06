@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v12.0.2 as base
+FROM balena/open-balena-base:v12.0.3 as base
 
 ARG SERVER_HOST
 ENV SERVER_HOST $SERVER_HOST
