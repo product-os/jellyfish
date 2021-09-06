@@ -1,4 +1,17 @@
 - commits:
+    - subject: Generate slugs in kernel instead of action-create-card
+      hash: 89c738e95b3b9702721e7935df7a4458bdf6ab1d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.1
+  date: 2021-09-06T09:23:31.945Z
+- commits:
     - subject: Use slugs for permalinks instead of ids
       hash: 40a72779a71cb955a60801d7afcd89038b4e1499
       body: ''
