@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 43c3c3131ec0a98fb4a84d5e9c8738b0738ef369
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.2.2
+  date: 2021-09-06T11:53:29.588Z
+- commits:
     - subject: Generate slugs in kernel instead of action-create-card
       hash: 89c738e95b3b9702721e7935df7a4458bdf6ab1d
       body: ''
