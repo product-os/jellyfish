@@ -85,7 +85,6 @@
     "ava": "^3.15.0",
     "aws-sdk": "^2.983.0",
     "bluebird": "^3.7.2",
-    "blueimp-md5": "^2.18.0",
     "cli-spinner": "^0.2.10",
     "date-fns": "^2.23.0",
     "depcheck": "^1.4.2",

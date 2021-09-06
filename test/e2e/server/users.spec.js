@@ -5,8 +5,6 @@
  */
 
 const ava = require('ava')
-const md5 = require('blueimp-md5')
-const nock = require('nock')
 const {
 	v4: uuid
 } = require('uuid')
@@ -25,72 +23,6 @@ const createUserDetails = () => {
 		password: 'foobarbaz'
 	}
 }
-
-ava.serial('Users should have an avatar value set to null if it doesn\'t exist', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const userDetails = createUserDetails()
-
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-
-	await sdk.auth.login(userDetails)
-
-	const user = await sdk.auth.whoami()
-
-	// Since the email is randomly generated, we expect the gravatar value to be
-	// null
-	test.falsy(user.data.avatar)
-})
-
-// TODO: Get nock to successfully intercept calls to Gravatar so we can enable
-// this test
-ava.serial.skip('Users should have an avatar value calculated on signup', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	// Use nock to simulate a successful gravatar request
-	nock.cleanAll()
-	await nock('https://www.gravatar.com')
-		.head((uri) => {
-			uri.includes('avatar')
-		})
-		.reply(200, 'domain matched')
-
-	const userDetails = createUserDetails()
-
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-
-	await sdk.auth.login(userDetails)
-
-	const user = await sdk.auth.whoami()
-
-	const avatarUrl = `https://www.gravatar.com/avatar/${md5(user.data.email.trim())}?d=404`
-
-	test.is(user.data.avatar, avatarUrl)
-
-	nock.cleanAll()
-})
 
 ava.serial('Users should be able to read other users, even if they don\'t have an email address', async (test) => {
 	const {
