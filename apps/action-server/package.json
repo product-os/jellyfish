@@ -34,7 +34,7 @@
     "@balena/jellyfish-plugin-front": "^1.2.24",
     "@balena/jellyfish-plugin-github": "^1.11.39",
     "@balena/jellyfish-plugin-outreach": "^1.0.140",
-    "@balena/jellyfish-plugin-product-os": "^2.5.35",
+    "@balena/jellyfish-plugin-product-os": "^2.6.1",
     "@balena/jellyfish-plugin-typeform": "^3.0.249",
     "@balena/jellyfish-queue": "^1.0.251",
     "@balena/jellyfish-sync": "^6.1.15",
