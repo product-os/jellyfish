@@ -19,7 +19,6 @@ import { core, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	ActionRequestContract,
-	Contract,
 	SessionContract,
 	SessionData,
 	StreamChange,
@@ -36,22 +35,6 @@ interface SessionContractWithActor extends SessionContract {
 		actor: string;
 	};
 }
-
-// TS-TODO: Review transformer type definitions and remove this if possible
-/**
- * Convert a given contract to a transformer contract
- *
- * @param contract Contract to convert
- * @returns transformer contract
- */
-const toTransformer = function (contract: Contract): Transformer {
-	return Object.assign({}, contract, {
-		data: {
-			inputFilter: contract.data.inputFilter,
-			workerFilter: contract.data.workerFilter,
-		},
-	});
-};
 
 const getActorKey = async (
 	context: core.Context,
@@ -308,7 +291,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 						worker.upsertTrigger(context, data.after);
 						break;
 					case 'transformer':
-						worker.upsertTransformer(context, toTransformer(data.after));
+						worker.upsertTransformer(context, data.after as Transformer);
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
@@ -355,12 +338,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTriggers(context, triggers);
 
-	const transformers: Transformer[] = [];
-	if (contractsMap['transformer']) {
-		contractsMap['transformer'].forEach((contract) => {
-			transformers.push(toTransformer(contract));
-		});
-	}
+	const transformers = (contractsMap['transformer'] || []) as Transformer[];
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
