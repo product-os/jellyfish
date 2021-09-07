@@ -1,4 +1,43 @@
 - commits:
+    - subject: Remove remove redundant full-text search tests
+      hash: a9010f8236c7e00b56dd739a1b88e994bc6ac790
+      body: |
+        These tests are now (correctly) implemented at the kernel level.
+        See https://github.com/product-os/jellyfish-core/pull/971
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove duplicate test code for action-increment-tag
+      hash: 867fee11a8299a6ddc609eb40279827b49aab257
+      body: >
+        The functionality is already tested here
+        https://github.com/product-os/jellyfish-action-library/blob/master/test/integration/actions/action-increment-tag.spec.ts
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove tests for user avatar
+      hash: d8a3bec6d72200cf2adba4956a5a7351ee9edc80
+      body: >
+        The test cases are already covered by the action function here
+        https://github.com/product-os/jellyfish-action-library/blob/master/test/integration/actions/action-set-user-avatar.spec.ts
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.7
+  date: 2021-09-07T09:59:30.797Z
+- commits:
     - subject: Bump jellyfish-core to v5.7.2
       hash: 720ac6d8db60ce7b14dff4973077d0fb34adca36
       body: ''
