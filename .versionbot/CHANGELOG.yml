@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update worker to 9.2.9
+      hash: 8fe34d5e2ef434eab1f1506806b0f0bdc29b69c6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: simplify Transformer bootstrap
+      hash: 071a0aa0b945f936d3f2a2c41ff8e82b321fe38c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.8
+  date: 2021-09-07T12:47:45.331Z
+- commits:
     - subject: Remove remove redundant full-text search tests
       hash: a9010f8236c7e00b56dd739a1b88e994bc6ac790
       body: |
