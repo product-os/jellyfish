@@ -338,7 +338,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	worker.setTriggers(context, triggers);
 
-	const transformers = contractsMap['transformer'] as Transformer[];
+	const transformers = (contractsMap['transformer'] || []) as Transformer[];
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
