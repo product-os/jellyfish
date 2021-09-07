@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-core to v5.7.2
+      hash: 720ac6d8db60ce7b14dff4973077d0fb34adca36
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.6
+  date: 2021-09-07T00:07:35.103Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-product-os to ^2.6.1'
       hash: 92201954472b9c36ef07bb2314a0e1f65e734e03
       body: |
