@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove unnecessary dependency on randomstring module
+      hash: 9c3d853022b54e3f9f2ac0da26b9f7ba61e66db9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.16
+  date: 2021-09-08T19:33:21.842Z
+- commits:
     - subject: Remove redundant UI integration tests
       hash: b6dfc52c16a5fec7d4715a9f0b4334a92b0ab7be
       body: |
