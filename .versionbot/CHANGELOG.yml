@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove waitForServer from helpers
+      hash: 5ced89730640e9e0660e62e465bafea9ed8cbf02
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.10
+  date: 2021-09-08T03:39:00.501Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^20.1.0'
       hash: 14c307ed54fd0e32f91e1ec0de0e282b7c31e830
       body: |
