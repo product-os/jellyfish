@@ -12,22 +12,6 @@ const _ = require('lodash')
 const request = require('request')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
-const waitForServer = async (test, retries = 50) => {
-	try {
-		await test.context.http('GET', '/readiness')
-	} catch (error) {
-		if (retries > 0 &&
-			(error.code === 'ECONNREFUSED' || error.code === 'ECONNRESET')) {
-			console.error('Waiting for API...')
-			await Bluebird.delay(5000)
-			await waitForServer(test, retries - 1)
-			return
-		}
-
-		throw error
-	}
-}
-
 module.exports = {
 	before: async (test) => {
 		test.context.retry = async (fn, checkResult, times = 10, delay = 500) => {
@@ -78,14 +62,6 @@ module.exports = {
 				})
 			})
 		}
-
-		/*
-		 * Ensure that the system is healthy before attempting to
-		 * run the end to end tests, given Docker Compose doesn't
-		 * seem to wait for healthchecks to pass before resolving
-		 * from the "docker-compose up" command.
-		 */
-		await waitForServer(test)
 	},
 
 	after: _.noop
