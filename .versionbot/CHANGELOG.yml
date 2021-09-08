@@ -1,4 +1,17 @@
 - commits:
+    - subject: Clean up e2e server tests
+      hash: d10dc8dad71d04bca540df424a5d22581c44c926
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.11
+  date: 2021-09-08T07:48:32.490Z
+- commits:
     - subject: Remove waitForServer from helpers
       hash: 5ced89730640e9e0660e62e465bafea9ed8cbf02
       body: ''
