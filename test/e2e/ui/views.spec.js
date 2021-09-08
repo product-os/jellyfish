@@ -10,7 +10,6 @@ const {
 } = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const context = {
 	context: {
@@ -83,7 +82,7 @@ ava.serial('the filter summary displays the search term correctly', async (test)
 
 	const opportunityCardSelector = `[data-test-id="snippet-card-${opportunity.id}"]`
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-all-opportunities`)
+	await macros.goto(page, '/view-all-opportunities')
 	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-list"]')
 	await page.waitForSelector('.view__search')
 

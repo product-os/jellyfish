@@ -11,7 +11,6 @@ const {
 } = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const context = {
 	context: {
@@ -34,7 +33,7 @@ ava.serial.before(async () => {
 		page
 	} = context
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await macros.goto(page, '/')
 	const user1 = await context.createUser(userDetails1)
 	await macros.loginUser(page, userDetails1)
 	await context.addUserToBalenaOrg(user1.id)

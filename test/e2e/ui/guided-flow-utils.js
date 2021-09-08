@@ -5,7 +5,6 @@
  */
 
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const selectors = {
 	nextBtn: '[data-test="steps-flow__next-btn"]',
@@ -42,6 +41,6 @@ exports.createSupportThreadAndNavigate = async (page, owner = null) => {
 			supportThread, owner
 		})
 	}
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	return supportThread
 }

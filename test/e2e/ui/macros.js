@@ -14,12 +14,15 @@ exports.WAIT_OPTS = {
 	timeout: exports.TIMEOUT
 }
 
-exports.retry = async (times, functionToTry) => {
+exports.retry = async (times, functionToTry, delay = 0) => {
 	try {
 		const result = await functionToTry()
 		return result
 	} catch (error) {
 		if (times) {
+			if (delay > 0) {
+				await bluebird.delay(delay)
+			}
 			return exports.retry(times - 1, functionToTry)
 		}
 
@@ -42,8 +45,22 @@ exports.getElementAttribute = async (page, element, attributeName) => {
 	)
 }
 
+// Navigate to a page by manipulating the UIs react router instead of a full page reload
+exports.goto = async (page, path) => {
+	const baseURL = `${environment.ui.host}:${environment.ui.port}`
+	await exports.retry(5, async () => {
+		if (page.url().includes(baseURL)) {
+			await page.evaluate((pathParam) => {
+				return window.routerHistory.push(pathParam)
+			}, path)
+		} else {
+			await page.goto(`${baseURL}${path}`)
+		}
+	}, 500)
+}
+
 exports.loginUser = async (page, user) => {
-	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await exports.goto(page, '/')
 
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
 

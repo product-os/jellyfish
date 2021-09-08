@@ -8,7 +8,6 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -107,7 +106,7 @@ ava.serial('Messages can be filtered by searching for them', async (test) => {
 	const msg1 = await addMessageToThread(page, thread1, 'First message')
 	const msg2 = await addMessageToThread(page, thread1, 'Second message')
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${repo.id}`)
+	await macros.goto(page, `/${repo.id}`)
 
 	// Initially both messages are displayed in the repo list
 	await page.waitForSelector(`#event-${msg1.id}`)

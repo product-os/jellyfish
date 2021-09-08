@@ -122,7 +122,7 @@ ava.serial.only('file upload: Users should be able to upload an image to a suppo
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const selector = '.column--support-thread'
 
@@ -151,7 +151,7 @@ ava.serial('file upload: Users should be able to upload a text file', async (tes
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	await page.waitForSelector(`.column--slug-${thread.slug}`)
 
@@ -182,7 +182,7 @@ ava.serial('file upload: Users should be able to upload a text file to a support
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const selector = '.column--support-thread'
 
