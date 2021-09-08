@@ -1,10 +1,10 @@
 {
   "name": "jellyfish",
   "version": "40.0.45",
-  "codename": "special circumstances",
-  "private": true,
-  "description": "The Jellyfish Project",
   "homepage": "https://github.com/product-os/jellyfish",
+  "description": "The Jellyfish Project",
+  "codename": "#STPLTG",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git@github.com:product-os/jellyfish.git"
@@ -15,12 +15,10 @@
   "scripts": {},
   "deplint": {
     "files": [
-      "apps/action-server/lib/**/*.ts",
       "apps/server/lib/**/*.ts"
     ],
     "modules": [
-      "apps/server",
-      "apps/action-server"
+      "apps/server"
     ]
   },
   "ava": {

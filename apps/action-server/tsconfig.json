@@ -1,6 +1,0 @@
-{
-  "extends": "@balena/jellyfish-config/config/tsconfig.json",
-  "typedocOptions": {
-    "out": "../../docs/typedoc/action-server"
-  }
-}

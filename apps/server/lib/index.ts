@@ -44,6 +44,7 @@ logger.info(context, 'Starting server', {
 try {
 	const options = {
 		pluginManager: getPluginManager(context),
+		onError,
 	};
 
 	bootstrap(context, options)

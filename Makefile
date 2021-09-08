@@ -311,7 +311,6 @@ lint:
 	./node_modules/.bin/deplint
 	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
 	cd apps/server && make lint FIX=$(FIX)
-	cd apps/action-server && make lint
 	cd apps/livechat && make lint FIX=$(FIX)
 	cd apps/ui && make lint FIX=$(FIX)
 
@@ -362,9 +361,6 @@ node:
 start-server: LOGLEVEL = info
 start-server:
 	cd apps/server && make start-server
-
-start-worker:
-	cd apps/action-server && make start-worker
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)

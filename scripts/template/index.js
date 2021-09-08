@@ -12,9 +12,13 @@ const contents = fs.readFileSync(TEMPLATE, 'utf8')
 
 console.log(mustache.render(contents, Object.assign({}, process.env, {
 	workers: [ {
-		idx: 1
+		name: 'api',
+		idx: 0,
+		port: 80
 	}, {
-		idx: 2
+		name: 'worker_1',
+		idx: 1,
+		port: 88
 	} ]
 })))
 console.error(`Done rendering ${TEMPLATE}`)
