@@ -107,7 +107,6 @@
     "node-jose": "^2.0.0",
     "puppeteer": "^10.1.0",
     "random-words": "^1.1.1",
-    "randomstring": "^1.2.1",
     "request": "^2.88.2",
     "shellcheck": "^1.0.0",
     "simple-git-hooks": "^2.6.1",
