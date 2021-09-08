@@ -10,7 +10,6 @@ const jose = require('node-jose')
 const {
 	v4: uuid
 } = require('uuid')
-const randomstring = require('randomstring')
 const jws = require('jsonwebtoken')
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
@@ -39,7 +38,7 @@ balenaAvaTest('should take application/jose balena-api webhooks', async (test) =
 		expiresIn: 10 * 60 * 1000,
 		audience: 'jellyfish',
 		issuer: 'api.balena-cloud.com',
-		jwtid: randomstring.generate(20),
+		jwtid: uuid(),
 		subject: uuid()
 	})
 
