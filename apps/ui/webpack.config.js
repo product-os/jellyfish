@@ -103,7 +103,7 @@ const appConfig = {
 		disableHostCheck: true,
 		publicPath: '/',
 		watchOptions: {
-			ignored: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/).*/
+			ignored: /node_modules\/(?!(\/@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/|rendition\/).*/
 		}
 	},
 
