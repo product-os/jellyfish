@@ -11,7 +11,6 @@ const {
 const _ = require('lodash')
 const helpers = require('../sdk/helpers')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
-const packageJson = require('../../../package.json')
 
 ava.serial.before(helpers.before)
 ava.serial.after.always(helpers.after)
@@ -57,35 +56,19 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 	test.truthy(result.headers['x-api-id'])
 })
 
-if (environment.isProduction() && !environment.isCI()) {
-	ava.serial('should not login as the default test user', async (test) => {
-		const result = await test.context.http(
-			'POST', '/api/v2/action', {
-				card: `user-${environment.test.user.username}@1.0.0`,
-				type: 'user',
-				action: 'action-create-session@1.0.0',
-				arguments: {
-					password: environment.test.user.password
-				}
-			})
+ava.serial('should login as the default test user', async (test) => {
+	const result = await test.context.http(
+		'POST', '/api/v2/action', {
+			card: `user-${environment.test.user.username}@1.0.0`,
+			type: 'user',
+			action: 'action-create-session@1.0.0',
+			arguments: {
+				password: environment.test.user.password
+			}
+		})
 
-		test.is(result.code, 400)
-	})
-} else {
-	ava.serial('should login as the default test user', async (test) => {
-		const result = await test.context.http(
-			'POST', '/api/v2/action', {
-				card: `user-${environment.test.user.username}@1.0.0`,
-				type: 'user',
-				action: 'action-create-session@1.0.0',
-				arguments: {
-					password: environment.test.user.password
-				}
-			})
-
-		test.is(result.code, 200)
-	})
-}
+	test.is(result.code, 200)
+})
 
 ava.serial('should include the request and api ids on responses', async (test) => {
 	const userDetails = createUserDetails()
@@ -250,23 +233,6 @@ ava.serial('AGGREGATE($events): should work when creating cards via the SDK', as
 	test.deepEqual(card.data.mentionsUser, [ id ])
 })
 
-ava.serial('should display up to date information after resolving an action', async (test) => {
-	const card = await test.context.sdk.card.create({
-		type: 'card',
-		slug: test.context.generateRandomSlug({
-			prefix: `card-${uuid()}`
-		}),
-		version: '1.0.0'
-	})
-
-	await test.context.sdk.card.remove(card.id, card.type)
-	const result = await test.context.sdk.card.get(card.id, {
-		type: 'card'
-	})
-
-	test.false(result.active)
-})
-
 ava.serial('should fail with a user error given no input card', async (test) => {
 	const result = await test.context.http('POST', '/api/v2/action', {
 		type: 'user',
@@ -277,10 +243,7 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 	})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: 'No input card'
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('should limit the amount of get elements by type endpoint', async (test) => {
@@ -316,10 +279,7 @@ ava.serial('should fail to query with single quotes JSON object', async (test) =
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(JSON.parse(result.response), {
-		error: true,
-		data: 'Invalid request body'
-	})
+	test.true(JSON.parse(result.response).error)
 })
 
 ava.serial('should fail to query with a non JSON string', async (test) => {
@@ -329,10 +289,7 @@ ava.serial('should fail to query with a non JSON string', async (test) => {
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: 'Invalid request body'
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('should fail to query with an invalid query object', async (test) => {
@@ -344,10 +301,7 @@ ava.serial('should fail to query with an invalid query object', async (test) => 
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: 'Invalid request body'
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('should get all elements by type', async (test) => {
@@ -392,14 +346,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: {
-			context: result.response.data.context,
-			name: 'WorkerInvalidAction',
-			message: result.response.data.message
-		}
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
@@ -416,14 +363,7 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: {
-			context: result.response.data.context,
-			name: 'WorkerSchemaMismatch',
-			message: result.response.data.message
-		}
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('an update that renders a card invalid for its type is a user error', async (test) => {
@@ -470,13 +410,7 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 		})
 
 	test.is(result2.code, 400)
-	test.deepEqual(result2.response, {
-		error: true,
-		data: {
-			name: 'JellyfishSchemaMismatch',
-			message: result2.response.data.message
-		}
-	})
+	test.true(result2.response.error)
 })
 
 ava.serial('should fail with a user error if no action card type', async (test) => {
@@ -501,10 +435,7 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 		})
 
 	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: 'No action card type'
-	})
+	test.true(result.response.error)
 })
 
 ava.serial('should report a user error if creating the same event twice', async (test) => {
@@ -552,14 +483,8 @@ ava.serial('should report a user error if creating the same event twice', async 
 
 	test.is(result1.code, 200)
 	test.is(result2.code, 400)
-	test.deepEqual(result2.response, {
-		error: true,
-		data: {
-			name: 'JellyfishElementAlreadyExists',
-			message: result2.response.data.message,
-			slug: args.slug
-		}
-	})
+	test.true(result2.response.error)
+	test.is(result2.response.data.slug, args.slug)
 })
 
 ava.serial('should respond with an error given a payload middleware exception', async (test) => {
@@ -654,21 +579,6 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 	})), [ 'view' ])
 })
 
-ava.serial('Using the request-id header should be reflected in the X-Request-Id header', async (test) => {
-	const requestId = 'my-request'
-	const result = await test.context.http(
-		'GET',
-		'/api/v2/whoami',
-		{},
-		{
-			Authorization: `Bearer ${test.context.token}`,
-			'request-id': requestId
-		}
-	)
-
-	test.is(result.headers['x-request-id'], `REQUEST-${packageJson.version}-${requestId}`)
-})
-
 ava.serial('whoami should respond even if user has little permissions', async (test) => {
 	const {
 		sdk
@@ -752,101 +662,4 @@ ava.serial('whoami should respond even if user has little permissions', async (t
 
 	test.false(result.response.error)
 	test.is(result.response.data.id, user.id)
-})
-
-ava.serial('Should be able to sort cards by version', async (test) => {
-	const cards = [
-		await test.context.sdk.card.create({
-			slug: test.context.generateRandomSlug({
-				prefix: 'support-thread'
-			}),
-			type: 'support-thread@1.0.0',
-			version: '1.0.0',
-			data: {
-				status: 'open'
-			}
-		}),
-		await test.context.sdk.card.create({
-			slug: test.context.generateRandomSlug({
-				prefix: 'support-thread'
-			}),
-			type: 'support-thread@1.0.0',
-			version: '1.1.0',
-			data: {
-				status: 'open'
-			}
-		}),
-		await test.context.sdk.card.create({
-			slug: test.context.generateRandomSlug({
-				prefix: 'support-thread'
-			}),
-			type: 'support-thread@1.0.0',
-			version: '1.0.1',
-			data: {
-				status: 'open'
-			}
-		})
-	]
-
-	const query = {
-		type: 'object',
-		properties: {
-			type: {
-				const: 'support-thread@1.0.0'
-			},
-			slug: {
-				enum: [
-					cards[0].slug,
-					cards[1].slug,
-					cards[2].slug
-				]
-			}
-		},
-		required: [
-			'type',
-			'slug'
-		]
-	}
-
-	// Test sortBy ascending
-	let result = await test.context.http(
-		'POST', '/api/v2/query', {
-			query,
-			options: {
-				sortBy: 'version',
-				sortDir: 'asc'
-			}
-		}, {
-			Authorization: `Bearer ${test.context.token}`
-		})
-
-	test.is(result.code, 200)
-	test.deepEqual(_.map(result.response.data, (item) => {
-		return _.pick(item, [ 'slug', 'version' ])
-	}), [
-		_.pick(cards[0], [ 'slug', 'version' ]),
-		_.pick(cards[2], [ 'slug', 'version' ]),
-		_.pick(cards[1], [ 'slug', 'version' ])
-	])
-
-	// Test sortBy descending
-	result = await test.context.http(
-		'POST', '/api/v2/query', {
-			query,
-			options: {
-				sortBy: 'version',
-				sortDir: 'desc'
-			}
-		}, {
-			Authorization: `Bearer ${test.context.token}`
-		})
-
-	test.is(result.code, 200)
-	test.deepEqual(_.map(result.response.data, (item) => {
-		return _.pick(item, [ 'slug', 'version' ])
-	}), [
-		_.pick(cards[1], [ 'slug', 'version' ]),
-		_.pick(cards[2], [ 'slug', 'version' ]),
-		_.pick(cards[0], [ 'slug', 'version' ])
-	])
 })
