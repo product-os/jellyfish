@@ -1,4 +1,19 @@
 - commits:
+    - subject: >-
+        Watch Rendition node module and fix "JavaScript heap out of memory"
+        FATAL ERROR
+      hash: 1b11650c50158a6330a68b6a71a1da7bd244fd3a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+        signed-off-by: Matthew Yarmolinsky <matthew-timothy@balena.io>
+      author: Matthew Yarmolinsky
+      nested: []
+  version: 38.2.13
+  date: 2021-09-08T14:09:13.061Z
+- commits:
     - subject: use balena convention for npm script names
       hash: d4495d10745a22af8aa99d4f9031701973e7e69d
       body: |
