@@ -1,4 +1,74 @@
 - commits:
+    - subject: Remove redundant UI integration tests
+      hash: b6dfc52c16a5fec7d4715a9f0b4334a92b0ab7be
+      body: |
+        The interface for these tests is already covered by the e2e inbox tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove redundant UI tests for link tabs
+      hash: 660644048681d24b001a00b2c73311028b95b579
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Move tests for search terms to a view specific test file
+      hash: ebbf97ea624717e7e86ae43da67b9dc66fb2fc29
+      body: |
+        The remaining "sales" UI test was actually a test of view functionality,
+        so renaming the test file made a lot of sense. I think that ideally this
+        functionality could actually be tested at the component level, but this
+        requires further discussion.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove redundant UI tests for creating contracts
+      hash: b92391326035230d16e137f22331a69fda010354
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove redundant test for creating workflow contracts
+      hash: 4d7be6f05a825914834e1acce60db577442c59fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Move message permission test from UI tests to server security tests
+      hash: c6c04f29588f9e74982b15a15c6ca50f65b40b0f
+      body: |
+        e2e UI tests are the wrong place to test permissions, and can be done
+        alongside the other security/permissions tests instead
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.15
+  date: 2021-09-08T16:51:57.388Z
+- commits:
     - subject: Move action-maintain-contact tests to plugin repo
       hash: 5b7a3ad3da6aa51af637dd83b4b2f49bfb7c8c75
       body: |
