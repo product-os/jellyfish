@@ -14,10 +14,6 @@ const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('./helpers')
 const macros = require('./macros')
 
-const WAIT_OPTS = {
-	timeout: 180 * 1000
-}
-
 const context = {
 	context: {
 		id: `UI-INTEGRATION-TEST-${uuid()}`
@@ -102,85 +98,6 @@ ava.serial('core: should let users login', async (test) => {
 	await macros.loginUser(page, users.community)
 
 	test.pass()
-})
-
-ava.serial('core: should stop users from seeing messages attached to cards they can\'t view', async (test) => {
-	const {
-		page
-	} = context
-
-	await ensureCommunityLogin(page)
-
-	await macros.navigateToHomeChannelItem(page, [
-		'[data-test="home-channel__group-toggle--org-balena"]',
-		'[data-test="home-channel__group-toggle--Support"]',
-		'[data-test="home-channel__item--view-all-forum-threads"]'
-	])
-
-	await page.waitForSelector('.column--view-all-forum-threads')
-	await macros.waitForThenClickSelector(page, '[data-test="viewfooter__add-btn--support-thread"]')
-
-	await page.waitForSelector('.rendition-form__field--root_name', WAIT_OPTS)
-	await macros.setInputValue(
-		page,
-		'.rendition-form__field--root_name input',
-		`Test forum thread ${uuid()}`
-	)
-
-	// Submit the form
-	await page.waitForSelector('[data-test="card-creator__submit"]:not([disabled])')
-	await page.click('[data-test="card-creator__submit"]')
-
-	await page.waitForSelector('.column--support-thread')
-
-	const messageText = `My new message: ${uuid()}`
-
-	await macros.createChatMessage(page, '.column--support-thread', messageText)
-
-	// This reload checks that authorisation persists between reloads and that the
-	// app will correctly bootstrap based on the URL
-	await page.reload()
-	await page.waitForSelector('.column--support-thread')
-
-	// Wait for a small delay then check again, this means the test will fail if
-	// there is a render issue in a subcomponent
-	await bluebird.delay(500)
-	await page.waitForSelector('.column--support-thread')
-
-	await macros.logout(page)
-
-	await context.createUser(users.community2)
-
-	const lastMessage = await page.evaluate((text) => {
-		return window.sdk.query({
-			type: 'object',
-			properties: {
-				type: {
-					const: 'message@1.0.0',
-					type: 'string'
-				},
-				data: {
-					type: 'object',
-					properties: {
-						payload: {
-							type: 'object',
-							properties: {
-								message: {
-									type: 'string',
-									pattern: text
-								}
-							},
-							required: [ 'message' ]
-						}
-					},
-					required: [ 'payload' ]
-				}
-			},
-			required: [ 'type', 'data' ]
-		})
-	}, messageText)
-
-	test.not(messageText, lastMessage)
 })
 
 // Card actions
