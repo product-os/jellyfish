@@ -1,4 +1,19 @@
 - commits:
+    - subject: Move action-maintain-contact tests to plugin repo
+      hash: 5b7a3ad3da6aa51af637dd83b4b2f49bfb7c8c75
+      body: |
+        action-maintain-contact tests are now ran in the plugin default module.
+        See https://github.com/product-os/jellyfish-plugin-default/pull/665
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.14
+  date: 2021-09-08T15:30:42.741Z
+- commits:
     - subject: >-
         Watch Rendition node module and fix "JavaScript heap out of memory"
         FATAL ERROR
