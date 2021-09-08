@@ -10,6 +10,7 @@ const {
 } = require('uuid')
 const _ = require('lodash')
 const helpers = require('../../sdk/helpers')
+const randomWords = require('random-words')
 
 ava.serial.before(helpers.before)
 ava.serial.after.always(helpers.after)
@@ -786,4 +787,57 @@ ava.serial('users should not be able to expose private data using an invalid upd
 			message: 'The updated card is invalid'
 		}
 	})
+})
+
+ava.serial('users with should not be able to view messages on contracts they cannot view', async (test) => {
+	const {
+		sdk
+	} = test.context
+
+	const user1Details = createUserDetails()
+	const user1 = await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${user1Details.username}`,
+			email: user1Details.email,
+			password: user1Details.password
+		}
+	})
+
+	const user2Details = createUserDetails()
+	await test.context.sdk.action({
+		card: 'user@1.0.0',
+		type: 'type',
+		action: 'action-create-user@1.0.0',
+		arguments: {
+			username: `user-${user2Details.username}`,
+			email: user2Details.email,
+			password: user2Details.password
+		}
+	})
+
+	await sdk.auth.login(user1Details)
+
+	const contract = await sdk.card.create({
+		type: 'card@1.0.0',
+		markers: [ user1.slug ]
+	})
+
+	const message = await sdk.event.create({
+		target: contract,
+		type: 'message',
+		payload: {
+			message: randomWords(5).join(' ')
+		}
+	})
+
+	await sdk.auth.logout()
+
+	await sdk.auth.login(user2Details)
+
+	const result = await sdk.card.get(message.id)
+
+	test.falsy(result)
 })
