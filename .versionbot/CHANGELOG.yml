@@ -1,4 +1,18 @@
 - commits:
+    - subject: use balena convention for npm script names
+      hash: d4495d10745a22af8aa99d4f9031701973e7e69d
+      body: |
+        i.e. base-cmd:sub-cmd
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.12
+  date: 2021-09-08T11:39:31.785Z
+- commits:
     - subject: Clean up e2e server tests
       hash: d10dc8dad71d04bca540df424a5d22581c44c926
       body: ''
