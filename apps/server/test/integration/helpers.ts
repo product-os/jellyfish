@@ -13,7 +13,6 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { bootstrap } from '../../lib/bootstrap';
 import { getPluginManager } from '../../lib/plugins';
 import { bootstrapWorker } from '../../../action-server/lib/bootstrap';
-import * as utils from '../../../../test/integration/utils';
 
 const workerOptions = {
 	onError: (_context, error) => {
@@ -107,7 +106,14 @@ export const after = async (context) => {
 };
 
 export const beforeEach = (context) => {
-	context.generateRandomSlug = utils.generateRandomSlug;
+	context.generateRandomSlug = (options: { prefix?: string } = {}): string => {
+		const slug = uuid();
+		if (options.prefix) {
+			return `${options.prefix}-${slug}`;
+		}
+
+		return slug;
+	};
 
 	context.http = (method, uri, payload, headers, options: any = {}) => {
 		return new Bluebird((resolve, reject) => {
