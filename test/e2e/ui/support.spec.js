@@ -11,7 +11,6 @@ const {
 } = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const context = {
 	context: {
@@ -160,7 +159,7 @@ ava.serial('Updates to messages should be reflected in the thread\'s timeline', 
 		return window.sdk.event.create(event)
 	}, messageEvent)
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	// Verify the message text
 	const messageText = await macros.getElementText(page, '[data-test="event-card__message"]')
@@ -217,7 +216,7 @@ ava.serial('A message\'s mirror icon is automatically updated when the message i
 		return window.sdk.event.create(event)
 	}, messageEvent)
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	// Verify the mirror icon is present but not synced
 	await page.waitForSelector('.unsynced[data-test="mirror-icon"]')
@@ -257,7 +256,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -286,7 +285,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -315,7 +314,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -346,7 +345,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
@@ -377,7 +376,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 	await page.waitForSelector('[data-test="audit-panel"]')
@@ -501,8 +500,9 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 		})
 	})
 
-	await page.goto(
-		`${environment.ui.host}:${environment.ui.port}/view-paid-support-threads...properties.data.properties.status+is+open`
+	await macros.goto(
+		page,
+		'/view-paid-support-threads...properties.data.properties.status+is+open'
 	)
 	await page.waitForSelector('[data-test="lens--lens-support-threads"]')
 
@@ -588,7 +588,7 @@ ava.serial('My Participation shows only support threads that the logged-in user 
 	await page.waitForSelector('[data-test="home-channel__group-toggle--org-balena"]')
 
 	// Go to the My Participation view and verify there are no threads listed
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-support-threads-participation`)
+	await macros.goto(page, '/view-support-threads-participation')
 	await page.waitForSelector('[data-test="alt-text--no-results"]')
 
 	// Add a new support thread and send a message in it
@@ -661,7 +661,7 @@ ava.serial('A user can edit their own message', async (test) => {
 	}, messageEvent)
 
 	// Navigate to the thread and wait for the message event to be displayed
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	const eventSelector = '.column--support-thread .event-card--message'
 	await page.waitForSelector(eventSelector)
 
@@ -702,7 +702,7 @@ ava.serial('You can trigger a quick search for cards from the message input', as
 	})
 
 	// Navigate to the thread and wait for the thread to be displayed
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
@@ -759,7 +759,7 @@ ava.serial('You can select a user and a group from the auto-complete options', a
 	})
 
 	// Navigate to the thread and wait for the thread to be displayed
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
@@ -847,7 +847,7 @@ ava.serial('Only users with a name matching the search string are returned by th
 	})
 
 	// Navigate to the thread and wait for the thread to be displayed
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${supportThread.id}`)
+	await macros.goto(page, `/${supportThread.id}`)
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 

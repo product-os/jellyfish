@@ -27,7 +27,13 @@ import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin';
 import AuthContainer from './components/Auth';
 import Splash from './components/Splash';
 import { actionCreators, selectors } from './core';
-import { useLocation, Route, Redirect, Switch } from 'react-router-dom';
+import {
+	useLocation,
+	useHistory,
+	Route,
+	Redirect,
+	Switch,
+} from 'react-router-dom';
 import { name } from './manifest.json';
 import { isProduction } from './environment';
 
@@ -60,6 +66,10 @@ const webTracker = createWebTracker(analyticsClient, 'UI');
 
 const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 	const location = useLocation();
+
+	// Expose the router history object on the window so that UI navigation
+	// can be driven from puppeteer, without having to reload the page
+	(window as any).routerHistory = useHistory();
 
 	React.useEffect(() => {
 		webTracker.trackPageView();

@@ -12,7 +12,6 @@ const {
 } = require('uuid')
 const helpers = require('./helpers')
 const macros = require('./macros')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 const messageSelector = '[data-test="event-card__message"]'
 const searchSelector = '.inbox__search input'
@@ -57,7 +56,7 @@ ava.serial.before(async () => {
 		browser
 	} = context
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await macros.goto(page, '/')
 	const user1 = await context.createUser(userDetails1)
 	await macros.loginUser(page, userDetails1)
 	await context.addUserToBalenaOrg(user1.id)
@@ -76,7 +75,7 @@ ava.serial.before(async () => {
 		console.log(err)
 	})
 
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await macros.goto(incognitoPage, '/')
 	const user2 = await context.createUser(userDetails2)
 	await macros.loginUser(incognitoPage, userDetails2)
 	await context.addUserToBalenaOrg(user2.id)
@@ -117,8 +116,8 @@ ava.serial('A notice should be displayed when another user is typing', async (te
 	})
 
 	// Navigate to the thread page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(incognitoPage, `/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	await page.waitForSelector('.column--thread')
 	await incognitoPage.waitForSelector('.column--thread')
@@ -153,7 +152,7 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread1.id}`)
+	await macros.goto(page, `/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const rand = uuid()
@@ -165,10 +164,10 @@ ava.serial('Messages typed but not sent should be preserved when navigating away
 	// to the message preservation being debounced in the UI
 	await Bluebird.delay(5000)
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread2.id}`)
+	await macros.goto(page, `/${thread2.id}`)
 	await page.waitForSelector(`.column--slug-${thread2.slug}`)
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread1.id}`)
+	await macros.goto(page, `/${thread1.id}`)
 	await page.waitForSelector(`.column--slug-${thread1.slug}`)
 
 	const messageText = await macros.getElementText(page, 'textarea')
@@ -192,7 +191,7 @@ ava.serial('Messages that mention a user should appear in their inbox', async (t
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -204,7 +203,7 @@ ava.serial('Messages that mention a user should appear in their inbox', async (t
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -227,7 +226,7 @@ ava.serial('Messages that alert a user should appear in their inbox', async (tes
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -239,7 +238,7 @@ ava.serial('Messages that alert a user should appear in their inbox', async (tes
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -262,7 +261,7 @@ ava.serial('Messages that alert a user should appear in their inbox and in the h
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -274,7 +273,7 @@ ava.serial('Messages that alert a user should appear in their inbox and in the h
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	await incognitoPage.waitForSelector('[data-test="event-card__message"]')
 	const inboxmessages = await incognitoPage.$$('[data-test="event-card__message"]')
@@ -313,7 +312,7 @@ ava.serial('Messages that mention a user\'s group should appear in their inbox',
 	}, group, user2)
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -325,7 +324,7 @@ ava.serial('Messages that mention a user\'s group should appear in their inbox',
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -361,7 +360,7 @@ ava.serial('Messages that alert a user\'s group should appear in their inbox', a
 	}, group, user2)
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -373,7 +372,7 @@ ava.serial('Messages that alert a user\'s group should appear in their inbox', a
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -398,7 +397,7 @@ ava.serial('One-to-one messages to a user should appear in their inbox', async (
 	}, user1, user2)
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -410,7 +409,7 @@ ava.serial('One-to-one messages to a user should appear in their inbox', async (
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -476,7 +475,7 @@ ava.serial(
 		})
 
 		// Then we send 2 tagged messages to the user
-		await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+		await macros.goto(page, `/${thread.id}`)
 
 		const columnSelector = `.column--slug-${thread.slug}`
 		await page.waitForSelector(columnSelector)
@@ -490,7 +489,7 @@ ava.serial(
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// And send a message to our own group
-		await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+		await macros.goto(incognitoPage, `/${thread.id}`)
 
 		await incognitoPage.waitForSelector(columnSelector)
 
@@ -501,7 +500,7 @@ ava.serial(
 		await macros.createChatMessage(incognitoPage, columnSelector, ownGroupMsg)
 
 		// Navigate to the inbox page
-		await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+		await macros.goto(incognitoPage, '/inbox')
 
 		await Bluebird.delay(10000)
 
@@ -566,7 +565,7 @@ ava.serial.skip('When having two chats side-by-side both should update with new 
 		})
 	})
 
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -601,7 +600,7 @@ ava.skip('Username pings should be case insensitive', async (test) => {
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -613,7 +612,7 @@ ava.skip('Username pings should be case insensitive', async (test) => {
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	// Navigate to the inbox page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
 
@@ -636,7 +635,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 	})
 
 	// Navigate to the thread page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
 
 	const columnSelector = `.column--slug-${thread.slug}`
 	await page.waitForSelector(columnSelector)
@@ -647,7 +646,7 @@ ava.serial('Users should be able to mark all messages as read from their inbox',
 
 	await macros.createChatMessage(page, columnSelector, msg)
 
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 	await incognitoPage.waitForSelector(messageSelector)
 	await markAllAsRead(test, incognitoPage)
 })
@@ -660,7 +659,7 @@ ava.serial('When filtering unread messages, only filtered messages can be marked
 	} = context
 
 	// Start by marking all messages as read
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 	await markAllAsRead(test, incognitoPage)
 
 	// Create three new messages
@@ -691,7 +690,7 @@ ava.serial('When filtering unread messages, only filtered messages can be marked
 	}, messageDetails)
 
 	// Navigate to the inbox page and reload
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	// All three messages should appear in the inbox
 	await incognitoPage.waitForSelector(messageSelector)
@@ -718,7 +717,7 @@ ava.serial('When filtering unread messages, only filtered messages can be marked
 	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[1].id}]`)
 
 	// Reload the page
-	await incognitoPage.goto(`${environment.ui.host}:${environment.ui.port}/inbox`)
+	await macros.goto(incognitoPage, '/inbox')
 
 	// And wait for the other two messages to re-appear (still unread)
 	await incognitoPage.waitForSelector(`[id="event-${messages[0].id}"]`)

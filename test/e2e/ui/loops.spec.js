@@ -8,7 +8,6 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const helpers = require('./helpers')
 const macros = require('./macros')
 
@@ -62,7 +61,7 @@ ava.serial.before(async () => {
 	await setLoop(context.sdk, 'view-all-faqs', `${context.loop2.slug}@${context.loop2.version}`)
 
 	// Navigate to the home page again (to force the sidebar views to be refreshed)
-	await context.page.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await macros.goto(context.page, '/')
 
 	// Open up the balena sidebar menu section
 	await macros.navigateToHomeChannelItem(context.page, [
@@ -157,7 +156,7 @@ ava.serial('The selected loop is persisted and selected next time Jellyfish is l
 	await page.waitForSelector(selectors.loopSelectValue(loop1), macros.WAIT_OPTS)
 
 	// Refresh the page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}`)
+	await macros.goto(page, '/')
 
 	// Verify that loop1 is still selected in the loop selector
 	await page.waitForSelector(selectors.loopSelectValue(loop1), macros.WAIT_OPTS)

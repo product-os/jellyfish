@@ -119,8 +119,7 @@ ava.serial.skip('card actions: should let users copy a working permalink', async
 		type: 'thread@1.0.0'
 	})
 
-	await context.page.goto(
-		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+	await macros.goto(page, `/${card.id}`)
 
 	await context.page.waitForSelector('.column--thread')
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu"]')
@@ -153,8 +152,7 @@ ava.serial.skip('card actions: should let users copy a card as JSON', async (tes
 		type: 'thread@1.0.0'
 	})
 
-	await context.page.goto(
-		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+	await macros.goto(page, `/${card.id}`)
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu"]')
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__json"]')
@@ -184,8 +182,7 @@ ava.serial.skip('card actions: should let users delete a card', async (test) => 
 		type: 'thread@1.0.0'
 	})
 
-	await context.page.goto(
-		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+	await macros.goto(page, `/${card.id}`)
 
 	await macros.waitForThenClickSelector(page, '[data-test="card-action-menu__delete"]')
 	await macros.waitForThenClickSelector(page, '[data-test="card-delete__submit"]')
@@ -212,8 +209,7 @@ ava.serial('card actions: should let users add a custom field to a card', async 
 		type: 'thread@1.0.0'
 	})
 
-	await context.page.goto(
-		`${environment.ui.host}:${environment.ui.port}/${card.id}`)
+	await macros.goto(page, `/${card.id}`)
 
 	// Edit the card
 	await macros.waitForThenClickSelector(page, '.card-actions__btn--edit')
@@ -331,7 +327,7 @@ ava.serial('user profile: The send command should default to "shift+enter"', asy
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
+	await macros.goto(page, `/${user.id}/${thread.id}`)
 
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
 
@@ -379,7 +375,7 @@ ava.serial('user profile: You should be able to change the send command to "ente
 	})
 
 	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${user.id}/${thread.id}`)
+	await macros.goto(page, `/${user.id}/${thread.id}`)
 
 	await page.waitForSelector('[data-test="lens--lens-my-user"]')
 	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(3)')
@@ -422,7 +418,7 @@ ava.serial.skip('views: Should be able to save a new view', async (test) => {
 	const name = `test-view-${uuid()}`
 
 	// Navigate to the all messages view
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/view-all-messages`)
+	await macros.goto(page, '/view-all-messages')
 
 	await page.waitForSelector('.column--view-all-messages')
 
