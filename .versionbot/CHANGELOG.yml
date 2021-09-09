@@ -1,4 +1,21 @@
 - commits:
+    - subject: Avoid full page loads in e2e UI tests by using router programatically
+      hash: e3754df703fa47ce9745f5829880968480fcd405
+      body: |
+        This change exposes the react router `history` object on the browser
+        window as `routerHistory`. This allows us to make navigation changes
+        from puppeteer without having to reload the page using `page.goto`,
+        which is an expensive process.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.17
+  date: 2021-09-09T11:12:20.479Z
+- commits:
     - subject: Remove unnecessary dependency on randomstring module
       hash: 9c3d853022b54e3f9f2ac0da26b9f7ba61e66db9
       body: ''
