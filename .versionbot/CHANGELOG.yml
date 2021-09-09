@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump axios from 0.21.1 to 0.21.4 in /apps/server
+      hash: 5fe29cc4be628f24b61d55b46823ffe278364b35
+      body: |
+        Bumps [axios](https://github.com/axios/axios) from 0.21.1 to 0.21.4.
+        - [Release notes](https://github.com/axios/axios/releases)
+        - [Changelog](https://github.com/axios/axios/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/axios/axios/compare/v0.21.1...v0.21.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: axios
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 38.2.19
+  date: 2021-09-09T23:01:53.704Z
+- commits:
     - subject: Update jellyfish-core v5.7.2->v5.7.4
       hash: c523ed80f6f158c76d3aab095a808612ef45a680
       body: ''
