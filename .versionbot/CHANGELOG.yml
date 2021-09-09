@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update jellyfish-core v5.7.2->v5.7.4
+      hash: c523ed80f6f158c76d3aab095a808612ef45a680
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@ereski.org>
+        signed-off-by: Carol Schulze <carol@ereski.org>
+      author: Carol Schulze
+      nested: []
+  version: 38.2.18
+  date: 2021-09-09T16:52:33.877Z
+- commits:
     - subject: Avoid full page loads in e2e UI tests by using router programatically
       hash: e3754df703fa47ce9745f5829880968480fcd405
       body: |
