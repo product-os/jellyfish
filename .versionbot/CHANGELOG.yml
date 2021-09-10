@@ -1,4 +1,27 @@
 - commits:
+    - subject: Bump axios from 0.21.1 to 0.21.4 in /apps/livechat
+      hash: 4ba9a91641ce03570ee6543171b21e3d0a0feda4
+      body: |
+        Bumps [axios](https://github.com/axios/axios) from 0.21.1 to 0.21.4.
+        - [Release notes](https://github.com/axios/axios/releases)
+        - [Changelog](https://github.com/axios/axios/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/axios/axios/compare/v0.21.1...v0.21.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: axios
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 38.2.20
+  date: 2021-09-10T00:21:47.352Z
+- commits:
     - subject: Bump axios from 0.21.1 to 0.21.4 in /apps/server
       hash: 5fe29cc4be628f24b61d55b46823ffe278364b35
       body: |
