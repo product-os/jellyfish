@@ -37,6 +37,7 @@ import { JellyfishWidgets, LoopSelectWidget } from './components/Widgets';
 import MermaidEditor from './components/MermaidEditor';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
+import getHistory from "../lib/services/history";
 
 export const pwa = new PWA();
 pwa.init();
@@ -78,8 +79,8 @@ const GlobalStyle = createGlobalStyle`
 
 const customTheme: any = {
 	colors: {
-		background: '#fff',
-		border: '#eee',
+		background: "#fff",
+		border: "#eee",
 	},
 	tab: {
 		// Keep tab height consistent with height of Select component
@@ -91,28 +92,28 @@ const widgets: any = {
 	form: {
 		formats: [
 			{
-				name: 'markdown',
-				format: '.*',
+				name: "markdown",
+				format: ".*",
 				widget: MarkdownEditor,
 			},
 			{
-				name: 'mermaid',
-				format: '.*',
+				name: "mermaid",
+				format: ".*",
 				widget: MermaidEditor,
 			},
 			{
-				name: 'Rating',
-				format: '.*',
+				name: "Rating",
+				format: ".*",
 				widget: Rating,
 			},
 			{
-				name: 'LoopSelect',
-				format: '.*',
+				name: "LoopSelect",
+				format: ".*",
 				widget: LoopSelectWidget,
 			},
 			{
-				name: 'AutoCompleteWidget',
-				format: '.*',
+				name: "AutoCompleteWidget",
+				format: ".*",
 				widget: AutoCompleteWidget,
 			},
 		],
@@ -127,9 +128,10 @@ ReactDOM.render(
 		theme={customTheme}
 		widgets={widgets}
 		style={{
-			height: '100%',
+			height: "100%",
 			fontSize: 14,
 		}}
+		history={getHistory}
 	>
 		<ResponsiveProvider>
 			<DocumentVisibilityProvider>
@@ -160,5 +162,5 @@ ReactDOM.render(
 			</DocumentVisibilityProvider>
 		</ResponsiveProvider>
 	</RProvider>,
-	document.getElementById('app'),
+	document.getElementById("app")
 );

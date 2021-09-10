@@ -8,7 +8,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { actionCreators, selectors } from '../../../core';
-import CardTable from './CardTable';
+import { CardTable } from "./CardTable";
 
 const SLUG = 'lens-table';
 
@@ -27,12 +27,13 @@ const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, [
-				'addChannel',
-				'openCreateChannel',
-				'createLink',
-				'setLensState',
+				"addChannel",
+				"openCreateChannel",
+				"createLink",
+				"setLensState",
+				"addCard",
 			]),
-			dispatch,
+			dispatch
 		),
 	};
 };

@@ -5,305 +5,232 @@
  */
 
 import _ from 'lodash';
-import React from 'react';
-import skhema from 'skhema';
-import { Box, Flex, Table, DropDownButton, TextWithCopy } from 'rendition';
+import React from "react";
 import {
-	ActionLink,
-	Column,
-	helpers,
-	Link,
-} from '@balena/jellyfish-ui-components';
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
-import flatten from 'flat';
-import { LinkModal, UnlinkModal } from '../../../components/LinkModal';
-import { ColumnHider } from './ColumnHider';
+	Box,
+	AutoUICollection,
+	AutoUIAction,
+	autoUIGetModelForCollection,
+	autoUIRunTransformers,
+} from "rendition";
+import styled from "styled-components";
+import { CSVLink } from "react-csv";
+import flatten from "flat";
+import { LinkModal, UnlinkModal } from "../../../components/LinkModal";
+import {
+	model as modelFunction,
+	transformers,
+} from "../../../autoui/models/defaultModel";
+import { formats } from "../../../autoui/formats";
+import getHistory from "../../../../lib/services/history";
+import { getCsvData } from "../../full/View/Header";
 
-const PAGE_SIZE = 25;
-
-// Do not include markdown or mermaid fields in our table
-const OMISSIONS: any[] = [
-	{
-		key: 'format',
-		value: 'markdown',
-	},
-	{
-		key: 'format',
-		value: 'mermaid',
-	},
-];
-
-export default class CardTable extends React.Component<any, any> {
-	static defaultProps;
-
-	constructor(props) {
-		super(props);
-		this.generateTableData = this.generateTableData.bind(this);
-		this.generateTableColumns = this.generateTableColumns.bind(this);
-		this.state = {
-			checkedCards: [],
-			showLinkModal: null,
-			tableColumns: props.columns || this.generateTableColumns(),
-		};
-		this.onChecked = this.onChecked.bind(this);
-		this.showLinkModal = this.showLinkModal.bind(this);
-		this.showUnlinkModal = this.showUnlinkModal.bind(this);
-		this.hideLinkModal = this.hideLinkModal.bind(this);
-		this.toggleColumns = this.toggleColumns.bind(this);
-		this.openCreateChannel = this.openCreateChannel.bind(this);
-		this.openCreateChannelForLinking =
-			this.openCreateChannelForLinking.bind(this);
+const CSVLinkWrapper = styled(Box)`
+	a {
+		display: none;
 	}
+`;
 
-	openCreateChannel() {
-		const {
-			type,
-			actions,
-			channel: {
-				data: { head },
-			},
-		} = this.props;
-		actions.openCreateChannel(head, type);
-	}
+export const CardTable = (props) => {
+	const {
+		allTypes,
+		generateData,
+		actions,
+		channel,
+		activeLoop,
+		tailTypes,
+		modelProp,
+		transformersProp,
+	} = props;
 
-	onChecked(checkedRows) {
-		const { tail } = this.props;
-		this.setState({
-			checkedCards: checkedRows.map(({ slug }) => {
-				return _.find(tail, {
-					slug,
-				});
-			}),
+	console.log("*** type", tailTypes[0]);
+
+	const [csvData, setCsvData] = React.useState<any>(null);
+	const csvHeaders = React.useMemo(
+		() =>
+			!csvData
+				? []
+				: csvData.length
+				? Object.keys(csvData[0]).map((key) => {
+						return {
+							key,
+							label: key.split(".").pop(),
+						};
+				  })
+				: [],
+		[csvData]
+	);
+	const csvName = React.useMemo(
+		() => `${channel.data.head.slug}_${new Date().toISOString()}.csv`,
+		[channel, csvHeaders]
+	);
+	const csvLinkRef = React.useRef<any>(null);
+
+	React.useEffect(() => {
+		if (csvData && csvData.length && csvHeaders.length) {
+			setCsvData([]);
+		}
+	}, [csvName]);
+
+	React.useEffect(() => {
+		if (csvData && !csvData.length) {
+			csvLinkRef.current?.link.click();
+		}
+	}, [csvData]);
+
+	const generateTableData = () => {
+		return _.map(props.tail, flatten);
+	};
+
+	const data = generateData ? generateData() : generateTableData();
+
+	console.log("*** data", data);
+
+	const baseCardSchema = _.find(allTypes, {
+		slug: "card",
+	}).data.schema;
+
+	// Select the "default" schema cards from the "card" definition, as they may
+	// not be explicitly defined on the specified type card
+	const defaultSchema: any = _.pick(baseCardSchema, [
+		"properties.name",
+		"properties.id",
+		"properties.slug",
+		"properties.created_at",
+		"properties.updated_at",
+	]);
+
+	const type = tailTypes[0];
+
+	const model = modelProp || modelFunction(type, defaultSchema);
+
+	console.log("*** model", model);
+
+	const onAddCard = React.useCallback(async () => {
+		await actions.addCard(channel, type, {
+			synchronous: type.slug === "thread",
 		});
-	}
+	}, [actions.addCard, channel, type]);
 
-	showLinkModal() {
-		this.setState({
-			showLinkModal: 'link',
-		});
-	}
-
-	showUnlinkModal() {
-		this.setState({
-			showLinkModal: 'unlink',
-		});
-	}
-
-	hideLinkModal() {
-		this.setState({
-			showLinkModal: null,
-		});
-	}
-
-	openCreateChannelForLinking() {
-		const { checkedCards } = this.state;
-		this.props.actions.addChannel({
-			head: {
-				seed: {
-					markers: this.props.channel.data.head.markers,
-					loop: this.props.channel.data.head.loop || this.props.activeLoop,
+	const onCreateNewElementToLinkTo = React.useCallback(
+		async (affectedEntries) => {
+			await actions.addChannel({
+				head: {
+					seed: {
+						markers: channel.data.head.markers,
+						loop: channel.data.head.loop || activeLoop,
+					},
+					onDone: {
+						action: "link",
+						targets: affectedEntries,
+					},
 				},
-				onDone: {
-					action: 'link',
-					targets: checkedCards,
+				format: "create",
+				canonical: false,
+			});
+		},
+		[channel, activeLoop]
+	);
+
+	const memoizedData = React.useMemo(
+		() =>
+			autoUIRunTransformers(data, transformersProp || transformers, {
+				model,
+			}),
+		[model, data, transformers]
+	);
+
+	const memoizedModel = React.useMemo(
+		() => autoUIGetModelForCollection(model),
+		[model]
+	);
+
+	const memoizedActions: Array<AutoUIAction<any>> = React.useMemo(
+		() => [
+			{
+				title: `Add ${type.name || type.slug}`,
+				type: "create",
+				renderer: () => null,
+				actionFn: () => {
+					onAddCard();
 				},
 			},
-			format: 'create',
-			canonical: false,
-		});
-	}
-
-	toggleColumns(items, active = null) {
-		const targetColumnFields = _.map(_.castArray(items), 'field');
-
-		const tableColumns = _.map(this.state.tableColumns, (column) => {
-			if (_.includes(targetColumnFields, column.field)) {
-				if (active === null) {
-					column.active = !column.active;
-				} else {
-					column.active = active;
-				}
-			}
-			return column;
-		});
-
-		// Set lens state action here
-		const target = _.get(this.props, ['channel', 'data', 'head', 'id']);
-		this.props.actions.setLensState(this.props.SLUG, target, {
-			columns: tableColumns.map((column) => {
-				return _.pick(column, ['field', 'active']);
-			}),
-		});
-
-		this.setState({
-			tableColumns,
-		});
-	}
-
-	generateTableColumns() {
-		const { channel, allTypes, lensState, tailTypes } = this.props;
-
-		const typesSchemas = _.map(tailTypes, 'data.schema');
-
-		const baseCardSchema = _.find(allTypes, {
-			slug: 'card',
-		}).data.schema;
-
-		// Select the "default" schema cards from the "card" definition, as they may
-		// not be explicitly defined on the specified type card
-		const defaultSchema: any = _.pick(baseCardSchema, [
-			'properties.name',
-			'properties.id',
-			'properties.slug',
-			'properties.created_at',
-			'properties.updated_at',
-		]);
-
-		// TODO: Improve safety of skhema.merge so that it doesn't throw if the
-		// skhemas can't be merged. That way we can merge all the typesSchemas
-		// instead of just the first one.
-		const paths = helpers.getPathsInSchema(
-			skhema.merge([defaultSchema, _.first(typesSchemas)]) as any,
-			OMISSIONS,
-		);
-
-		// For some columns like card.name we use a render function
-		const renderers = {
-			name: (name, item) => {
-				return (
-					<Link to={helpers.appendToChannelPath(channel, item)}>
-						{name || 'click to view'}
-					</Link>
-				);
-			},
-			id: (id) => {
-				return (
-					<TextWithCopy monospace showCopyButton="always" copy={id}>
-						{id.slice(0, 7)}
-					</TextWithCopy>
-				);
-			},
-			slug: (slug, item) => {
-				return (
-					<Link to={helpers.appendToChannelPath(channel, item)}>{slug}</Link>
-				);
-			},
-			created_at: (timestamp, item) => {
-				return format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss');
-			},
-			updated_at: (timestamp, item) => {
-				return timestamp
-					? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
-					: null;
-			},
-		};
-
-		return _.map(paths, ({ title, path }) => {
-			const field = _.join(path, '.');
-			const render = renderers[field];
-			return {
-				label: title,
-				field,
-				sortable: true,
-				render,
-				active: _.get(
-					_.find(lensState.columns, {
-						field,
-					}),
-					['active'],
-					true,
-				),
-			};
-		});
-	}
-
-	generateTableData() {
-		return _.map(this.props.tail, flatten);
-	}
-
-	render() {
-		const { allTypes, generateData } = this.props;
-		const { checkedCards, showLinkModal, tableColumns } = this.state;
-		const data = generateData ? generateData() : this.generateTableData();
-
-		return (
-			<Column overflowY flex="1">
-				<Box
-					flex="1"
-					style={{
-						position: 'relative',
-					}}
-				>
-					{showLinkModal === 'link' && (
+			{
+				title: "Link to existing element",
+				type: "update",
+				renderer: ({ onDone, affectedEntries }) => {
+					return (
 						<LinkModal
-							cards={checkedCards}
+							cards={affectedEntries}
 							targetTypes={allTypes}
-							onHide={this.hideLinkModal}
+							onHide={() => onDone(true)}
 						/>
-					)}
+					);
+				},
+			},
+			{
+				title: "Unlink from existing element",
+				type: "update",
+				renderer: ({ onDone, affectedEntries }) => {
+					return (
+						<UnlinkModal cards={affectedEntries} onHide={() => onDone(true)} />
+					);
+				},
+			},
+			{
+				title: "Create a new element to link to",
+				type: "update",
+				renderer: () => {
+					return null;
+				},
+				actionFn: ({ affectedEntries }) => {
+					onCreateNewElementToLinkTo(affectedEntries);
+				},
+			},
+			{
+				title: "Download as CSV",
+				type: "update",
+				renderer: () => null,
+				actionFn: ({ affectedEntries }) => {
+					setCsvData(getCsvData(affectedEntries));
+				},
+			},
+		],
+		[
+			type,
+			channel,
+			allTypes,
+			onAddCard,
+			csvLinkRef,
+			csvData,
+			csvHeaders,
+			csvName,
+		]
+	);
 
-					{showLinkModal === 'unlink' && (
-						<UnlinkModal cards={checkedCards} onHide={this.hideLinkModal} />
-					)}
-
-					{Boolean(data) && data.length > 0 && (
-						<React.Fragment>
-							<Flex>
-								<DropDownButton
-									data-test="cardTableActions__dropdown"
-									m={2}
-									joined
-									label={`With ${checkedCards.length} selected`}
-									disabled={!checkedCards.length}
-								>
-									<ActionLink
-										data-test="cardTableActions__link-existing"
-										onClick={this.showLinkModal}
-									>
-										Link to existing element
-									</ActionLink>
-									<ActionLink
-										data-test="cardTableActions__link-new"
-										onClick={this.openCreateChannelForLinking}
-									>
-										Create a new element to link to
-									</ActionLink>
-									<ActionLink
-										data-test="cardTableActions__unlink-existing"
-										onClick={this.showUnlinkModal}
-									>
-										Unlink from existing element
-									</ActionLink>
-								</DropDownButton>
-
-								<ColumnHider
-									toggleColumns={this.toggleColumns}
-									tableColumns={tableColumns}
-								/>
-							</Flex>
-
-							<Table
-								rowKey={this.props.rowKey}
-								data={data}
-								columns={_.filter(tableColumns, {
-									active: true,
-								})}
-								usePager={true}
-								itemsPerPage={PAGE_SIZE}
-								pagerPosition="bottom"
-								data-test="table-component"
-								onPageChange={this.props.setPage}
-								onCheck={this.onChecked}
-							/>
-						</React.Fragment>
-					)}
-				</Box>
-			</Column>
-		);
-	}
-}
-
-CardTable.defaultProps = {
-	rowKey: 'id',
+	return (
+		<Box m={3}>
+			<AutoUICollection<any>
+				model={memoizedModel}
+				data={memoizedData}
+				actions={memoizedActions}
+				getBaseUrl={(entity) =>
+					`${getHistory.location.pathname}/${entity.slug}${
+						entity.version ? `@${entity.version}` : ""
+					}`
+				}
+				formats={formats}
+			/>
+			<CSVLinkWrapper>
+				<CSVLink
+					data={csvData ?? []}
+					headers={csvHeaders}
+					filename={csvName}
+					ref={csvLinkRef}
+				>
+					Download as CSV
+				</CSVLink>
+			</CSVLinkWrapper>
+		</Box>
+	);
 };

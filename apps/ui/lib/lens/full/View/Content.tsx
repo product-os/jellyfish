@@ -43,7 +43,7 @@ export default class Content extends React.Component<any, any> {
 					flexDirection="column"
 					data-test="inner-flex"
 					style={{
-						overflowY: 'auto',
+						overflowY: "auto",
 					}}
 				>
 					{!sortedTail && (
@@ -69,7 +69,7 @@ export default class Content extends React.Component<any, any> {
 					)}
 				</Flex>
 				{tailTypes.length && (
-					<ViewFooter types={tailTypes} justifyContent="flex-end" />
+					<ViewFooter types={tailTypes} lens={lens} justifyContent="flex-end" />
 				)}
 			</Flex>
 		);

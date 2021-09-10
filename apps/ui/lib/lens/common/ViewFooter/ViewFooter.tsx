@@ -32,6 +32,7 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 	channel,
 	types,
 	actions,
+	lens,
 	...rest
 }) => {
 	const [isBusy, setIsBusy] = React.useState(false);
@@ -42,7 +43,7 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 			event.stopPropagation();
 			onAddCard(types[0]);
 		},
-		[types],
+		[types]
 	);
 
 	const onAddCard = React.useCallback(
@@ -53,7 +54,7 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 			});
 			setIsBusy(false);
 		},
-		[actions.addCard, channel, types],
+		[actions.addCard, channel, types]
 	);
 
 	return (
@@ -80,16 +81,18 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 					))}
 				</DropUpButton>
 			) : (
-				<Button
-					disabled={isBusy}
-					success
-					data-test={`viewfooter__add-btn--${types[0].slug}`}
-					onClick={() => {
-						onAddCard(types[0]);
-					}}
-				>
-					<ButtonLabel isBusy={isBusy} type={types[0]} />
-				</Button>
+				!["lens-table", "lens-crm-table"].includes(lens.slug) && (
+					<Button
+						disabled={isBusy}
+						success
+						data-test={`viewfooter__add-btn--${types[0].slug}`}
+						onClick={() => {
+							onAddCard(types[0]);
+						}}
+					>
+						<ButtonLabel isBusy={isBusy} type={types[0]} />
+					</Button>
+				)
 			)}
 		</Footer>
 	);

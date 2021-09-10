@@ -7,15 +7,15 @@
 import * as _ from 'lodash';
 import React from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, Flex, Heading, Txt } from 'rendition';
-import { flatten } from 'flat';
-import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
-import Markers from '../../../../components/Markers';
-import { BookmarkButton } from '../../../../components/BookmarkButton';
-import { LensSelection } from './LensSelection';
-import SliceOptions from './SliceOptions';
-import ViewFilters from './ViewFilters';
-import styled from 'styled-components';
+import { Box, Flex, Heading } from "rendition";
+import { flatten } from "flat";
+import { CloseButton, Collapsible } from "@balena/jellyfish-ui-components";
+import Markers from "../../../../components/Markers";
+import { BookmarkButton } from "../../../../components/BookmarkButton";
+import { LensSelection } from "./LensSelection";
+import SliceOptions from "./SliceOptions";
+import ViewFilters from "./ViewFilters";
+import styled from "styled-components";
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -30,6 +30,32 @@ const CSVLinkWrapper = styled(Box)`
 		}
 	}
 `;
+
+export const getCsvData = (tail) =>
+	tail
+		? tail.map((contract) => {
+				// To keep the CSV functionality simple, don't include any link data in the output
+				const flattened = flatten(
+					{
+						...contract,
+						links: {},
+						linked_at: contract.linked_at || {},
+					},
+					{
+						// "safe" option preserves arrays, preventing a new header being created for each tag/marker
+						safe: true,
+					}
+				);
+				// react-csv does not correctly escape double quotes in fields, so it has to be done here.
+				// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
+				return _.mapValues(flattened, (field) => {
+					// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
+					return _.isString(field)
+						? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
+						: field;
+				});
+		  })
+		: [];
 
 export default class Header extends React.Component<any, any> {
 	render() {
@@ -61,36 +87,14 @@ export default class Header extends React.Component<any, any> {
 		}
 
 		const csvName = `${channel.data.head.slug}_${new Date().toISOString()}.csv`;
-		const csvData = tail
-			? tail.map((contract) => {
-					// To keep the CSV functionality simple, don't include any link data in the output
-					const flattened = flatten(
-						{
-							...contract,
-							links: {},
-							linked_at: contract.linked_at || {},
-						},
-						{
-							// "safe" option preserves arrays, preventing a new header being created for each tag/marker
-							safe: true,
-						},
-					);
-					// react-csv does not correctly escape double quotes in fields, so it has to be done here.
-					// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
-					return _.mapValues(flattened, (field) => {
-						// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
-						return _.isString(field)
-							? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
-							: field;
-					});
-			  })
-			: [];
+
+		const csvData = getCsvData(tail);
 
 		const csvHeaders = csvData.length
 			? Object.keys(csvData[0]).map((key) => {
 					return {
 						key,
-						label: key.split('.').pop(),
+						label: key.split(".").pop(),
 					};
 			  })
 			: [];
@@ -115,16 +119,16 @@ export default class Header extends React.Component<any, any> {
 					>
 						<Flex
 							mt={[2, 2, 0]}
-							flexWrap={['wrap', 'wrap', 'nowrap']}
+							flexWrap={["wrap", "wrap", "nowrap"]}
 							flexDirection="row-reverse"
 							justifyContent="space-between"
-							alignItems={['flex-start', 'flex-start', 'center']}
+							alignItems={["flex-start", "flex-start", "center"]}
 						>
 							<Flex
 								mb={3}
 								alignItems="center"
 								justifyContent="flex-end"
-								minWidth={['100%', '100%', 'auto']}
+								minWidth={["100%", "100%", "auto"]}
 							>
 								<BookmarkButton card={channel.data.head} ml={2} />
 
@@ -147,19 +151,21 @@ export default class Header extends React.Component<any, any> {
 								<Heading.h4 mb={3}>{channel.data.head.name}</Heading.h4>
 							)}
 						</Flex>
-						<ViewFilters
-							tailTypes={tailTypes}
-							allTypes={allTypes}
-							filters={filters}
-							searchFilter={searchFilter}
-							updateFilters={updateFilters}
-							saveView={saveView}
-							searchTerm={searchTerm}
-							updateSearch={updateSearch}
-							updateFiltersFromSummary={updateFiltersFromSummary}
-							pageOptions={pageOptions}
-							setSortByField={setSortByField}
-						/>
+						{!["lens-table", "lens-crm-table"].includes(lens.slug) && (
+							<ViewFilters
+								tailTypes={tailTypes}
+								allTypes={allTypes}
+								filters={filters}
+								searchFilter={searchFilter}
+								updateFilters={updateFilters}
+								saveView={saveView}
+								searchTerm={searchTerm}
+								updateSearch={updateSearch}
+								updateFiltersFromSummary={updateFiltersFromSummary}
+								pageOptions={pageOptions}
+								setSortByField={setSortByField}
+							/>
+						)}
 					</Collapsible>
 					<CloseButton
 						flex={0}
@@ -173,11 +179,13 @@ export default class Header extends React.Component<any, any> {
 
 				<Flex justifyContent="space-between">
 					<Markers card={channel.data.head} />
-					<CSVLinkWrapper mr={3}>
-						<CSVLink data={csvData} headers={csvHeaders} filename={csvName}>
-							Download as CSV
-						</CSVLink>
-					</CSVLinkWrapper>
+					{!["lens-table", "lens-crm-table"].includes(lens.slug) && (
+						<CSVLinkWrapper mr={3}>
+							<CSVLink data={csvData} headers={csvHeaders} filename={csvName}>
+								Download as CSV
+							</CSVLink>
+						</CSVLinkWrapper>
+					)}
 				</Flex>
 			</React.Fragment>
 		);

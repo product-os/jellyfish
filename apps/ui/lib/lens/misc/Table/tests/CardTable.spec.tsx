@@ -8,7 +8,7 @@ import { getWrapper } from '../../../../../test/ui-setup';
 import { shallow, mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
-import CardTable from '../CardTable';
+import { CardTable } from "../CardTable";
 import props from './fixtures/props.json';
 
 const sandbox = sinon.createSandbox();
