@@ -204,8 +204,8 @@ conditionalTest(
 
 		const contact = await waitForContactWithMirror(username);
 
-		expect(contact.data.mirrors).toEqual([
-			'https://api.outreach.io/api/v2/prospects/3',
+		expect(contact.data.mirrors).not.toEqual([
+			prospectResult.response.data.links.self,
 		]);
 
 		await context.sdk.card.update(createResult.id, createResult.type, [
