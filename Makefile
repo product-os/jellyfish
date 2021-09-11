@@ -15,7 +15,6 @@
 	test-e2e \
 	scrub \
 	clean-front \
-	clean-github \
 	npm-install \
 	push \
 	ssh \
@@ -142,20 +141,10 @@ export MAILGUN_DOMAIN
 MAILGUN_BASE_URL = https://api.mailgun.net/v3
 export MAILGUN_BASE_URL
 
-# GitHub
-INTEGRATION_GITHUB_APP_ID ?=
-export INTEGRATION_GITHUB_APP_ID
-
-# The base64 encoded PEM key
-INTEGRATION_GITHUB_PRIVATE_KEY ?=
-export INTEGRATION_GITHUB_PRIVATE_KEY
-
 # -----------------------------------------------
 # Test Runtime Configuration
 # -----------------------------------------------
 
-TEST_INTEGRATION_GITHUB_REPO ?= product-os/jellyfish-test-github
-export TEST_INTEGRATION_GITHUB_REPO
 TEST_INTEGRATION_FRONT_INBOX_1 ?= inb_qf8q # Jellyfish Testfront
 export TEST_INTEGRATION_FRONT_INBOX_1
 TEST_INTEGRATION_FRONT_INBOX_2 ?= inb_8t8y # Jellyfish Test Inbox
@@ -366,10 +355,6 @@ clean-front:
 	FRONT_INBOX_1=$(TEST_INTEGRATION_FRONT_INBOX_1) \
 	FRONT_INBOX_2=$(TEST_INTEGRATION_FRONT_INBOX_2) \
 	node ./scripts/ci/front-delete-conversations.js
-
-clean-github:
-	GITHUB_REPO=$(TEST_INTEGRATION_GITHUB_REPO) \
-	node ./scripts/ci/github-close-issues.js
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)

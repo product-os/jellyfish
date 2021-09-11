@@ -43,10 +43,6 @@ tasks:
     cmds:
       - make test FILES=./test/e2e/sync/front-mirror.spec.js
 
-  github-mirror:
-    cmds:
-      - make test FILES=./test/e2e/sync/github-mirror.spec.js
-
   e2e-sdk:
     cmds:
       - make test-e2e-sdk
@@ -93,7 +89,6 @@ tasks:
       - task: clean-front
       - task: wait-for-api
       - task: front-mirror
-      - task: github-mirror
       - task: e2e-sdk
       - task: e2e-livechat
       - task: e2e-ui
