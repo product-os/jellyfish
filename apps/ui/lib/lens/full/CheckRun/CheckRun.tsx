@@ -55,7 +55,7 @@ const makeGraph = (baseContract: Contract) => {
 			}
 		});
 
-		buf.push(`click ${contract.id} "/${contract.slug}"`);
+		buf.push(`click ${contract.id} "/${contract.slug}@${contract.version}"`);
 
 		return buf;
 	};
