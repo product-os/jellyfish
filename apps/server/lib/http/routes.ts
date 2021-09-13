@@ -16,6 +16,7 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
+import { core } from '@balena/jellyfish-types';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -600,20 +601,11 @@ export const attachRoutes = (
 		async (request, response) => {
 			const card = await jellyfish.getCardById(
 				request.context,
-				request.sessionToken,
+				jellyfish.sessions.admin,
 				request.params.cardId,
 			);
 			if (!card) {
 				return response.send(404);
-			}
-
-			const sessionCard = await jellyfish.getCardById(
-				request.context,
-				request.sessionToken,
-				request.sessionToken,
-			);
-			if (!sessionCard) {
-				return response.send(401);
 			}
 
 			const attachment = _.find(
@@ -624,6 +616,15 @@ export const attachRoutes = (
 			);
 
 			if (attachment) {
+				const sessionCard = await jellyfish.getCardById(
+					request.context,
+					request.sessionToken,
+					request.sessionToken,
+				);
+				if (!sessionCard) {
+					return response.send(401);
+				}
+
 				return options.sync
 					.getFile(
 						'front',
