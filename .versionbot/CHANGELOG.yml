@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.8.0'
+      hash: f8010a0d98a098dbf5f675281efdaa9c61016193
+      body: |
+        Update @balena/jellyfish-core from 5.7.4 to 5.8.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.2.25
+  date: 2021-09-13T17:47:47.254Z
+- commits:
     - subject: Move discourse mirror tests to discourse plugin
       hash: 6597dde53a58dafb513840cb3cb7d060c9733900
       body: |
