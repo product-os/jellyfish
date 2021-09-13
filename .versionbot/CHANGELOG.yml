@@ -1,4 +1,19 @@
 - commits:
+    - subject: Move discourse mirror tests to discourse plugin
+      hash: 6597dde53a58dafb513840cb3cb7d060c9733900
+      body: |
+        The mirror tests are now run in the discourse plugin
+        See https://github.com/product-os/jellyfish-plugin-discourse/pull/89
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.24
+  date: 2021-09-13T16:07:25.151Z
+- commits:
     - subject: Add versions to links in check run graph
       hash: 3bcc2cf4193f742efeb656fcf1f16a0d817013b3
       body: ''
