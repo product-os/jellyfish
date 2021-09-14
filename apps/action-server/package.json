@@ -38,7 +38,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.249",
     "@balena/jellyfish-queue": "^1.0.251",
     "@balena/jellyfish-sync": "^6.1.15",
-    "@balena/jellyfish-worker": "^9.2.9",
+    "@balena/jellyfish-worker": "^10.0.5",
     "bluebird": "^3.7.2",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
