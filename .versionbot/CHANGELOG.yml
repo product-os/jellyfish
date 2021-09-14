@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove duplicate action-create-session test
+      hash: a628b8b0d40462299815a7d46427329cfd432849
+      body: |
+        This test already exists in jellyfish-action-library
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.27
+  date: 2021-09-14T05:25:45.486Z
+- commits:
     - subject: Remove GitHub mirror tests and cleanup script
       hash: 85b04930f8f4103ec9aa5c988610c1494953038b
       body: ''
