@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove GitHub mirror tests and cleanup script
+      hash: 85b04930f8f4103ec9aa5c988610c1494953038b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.26
+  date: 2021-09-14T02:16:58.507Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^5.8.0'
       hash: f8010a0d98a098dbf5f675281efdaa9c61016193
       body: |
