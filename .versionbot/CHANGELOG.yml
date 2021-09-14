@@ -1,4 +1,27 @@
 - commits:
+    - subject: update to worker v10
+      hash: 236ee219bee745ac4980bf1d4f7a61aca94a5b05
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: make outreach test less fragile
+      hash: f754f07a90774f857f8f5f567c4743e791ded794
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.28
+  date: 2021-09-14T11:05:43.262Z
+- commits:
     - subject: Remove duplicate action-create-session test
       hash: a628b8b0d40462299815a7d46427329cfd432849
       body: |
