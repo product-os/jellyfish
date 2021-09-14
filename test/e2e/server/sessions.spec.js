@@ -13,21 +13,6 @@ ava.serial.after.always(helpers.after)
 ava.serial.beforeEach(helpers.beforeEach)
 ava.serial.afterEach.always(helpers.afterEach)
 
-ava.serial('should fail with a user error given the wrong username during login', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/action', {
-		card: 'user-nonexistentuser12345@1.0.0',
-		type: 'user',
-		action: 'action-create-session@1.0.0',
-		arguments: {
-			password: '1234'
-		}
-	})
-
-	test.is(result.code, 400)
-	test.true(result.response.error)
-	test.is(result.response.data.name, 'WorkerAuthenticationError')
-})
-
 ava.serial('should fail with a user error when querying an id with an expired session', async (test) => {
 	const admin = await test.context.sdk.card.get('user-admin')
 
