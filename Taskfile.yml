@@ -25,23 +25,9 @@ tasks:
     cmds:
       - npm run build
 
-  clean-github:
-    cmds:
-      - cmd: make clean-github
-        ignore_error: true
-
-  clean-front:
-    cmds:
-      - cmd: make clean-front
-        ignore_error: true
-
   wait-for-api:
     cmds:
       - ./scripts/ci/wait-for-api.sh
-
-  front-mirror:
-    cmds:
-      - make test FILES=./test/e2e/sync/front-mirror.spec.js
 
   e2e-sdk:
     cmds:
@@ -85,10 +71,7 @@ tasks:
       - task: lint
       - task: unit
       - task: build-action-server
-      - task: clean-github
-      - task: clean-front
       - task: wait-for-api
-      - task: front-mirror
       - task: e2e-sdk
       - task: e2e-livechat
       - task: e2e-ui
