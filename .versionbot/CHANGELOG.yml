@@ -1,4 +1,27 @@
 - commits:
+    - subject: Reduce e2e-ui boostrapping time by condesnign tests into a single suite
+      hash: 15000853fc5daa714b7e6a160df675f353be25fd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove redundant check for loaded channel views
+      hash: 4e9d516772c83bf69e98fc326dc486ba0a8c1949
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.33
+  date: 2021-09-15T10:27:24.120Z
+- commits:
     - subject: Remove defunct test/e2e/sync directory
       hash: f1dd0685de78eea0081a3fa8ab0e0d9b1c7fb926
       body: ''
