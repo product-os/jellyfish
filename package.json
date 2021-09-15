@@ -97,7 +97,6 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^5.1.0",
     "eslint-plugin-react": "^7.25.1",
-    "front-sdk": "^0.8.1",
     "jsonwebtoken": "^8.5.1",
     "lint-staged": "^11.1.2",
     "lodash": "^4.17.21",
