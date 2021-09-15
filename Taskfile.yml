@@ -45,6 +45,9 @@ tasks:
     cmds:
       - make test-e2e-server
 
+  e2e:
+    deps: [e2e-sdk, e2e-livechat, e2e-server]
+
   integration-server:
     cmds:
       - SERVER_HOST=http://localhost make test-integration-server
@@ -72,10 +75,8 @@ tasks:
       - task: unit
       - task: build-action-server
       - task: wait-for-api
-      - task: e2e-sdk
-      - task: e2e-livechat
+      - task: e2e
       - task: e2e-ui
-      - task: e2e-server
       - task: integration-server
       - task: export-database
       - task: import-database
