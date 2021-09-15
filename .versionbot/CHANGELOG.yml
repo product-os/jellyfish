@@ -1,4 +1,19 @@
 - commits:
+    - subject: Remove issue triggered action test
+      hash: e0eac6e0c0a99df8fc2cf95675a1ca8c8d47e89d
+      body: |
+        Moving test to jellyfish-plugin-github to exist beside the triggered
+        action this test is meant for.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.30
+  date: 2021-09-15T00:43:54.016Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to v6'
       hash: fa42bb3c449f435891e8c646f90dedd734868a2d
       body: |
