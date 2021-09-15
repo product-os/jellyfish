@@ -8,6 +8,7 @@ import _ from 'lodash';
 import bodyParser from 'body-parser';
 import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
+import cookieParser from 'cookie-parser';
 import { getLogger } from '@balena/jellyfish-logger';
 
 // Avoid including package.json in the build output!
@@ -45,6 +46,8 @@ export const attachMiddlewares = (
 			},
 		}),
 	);
+
+	application.use(cookieParser());
 
 	application.use((_request, response, next) => {
 		response.header('Access-Control-Allow-Origin', '*');
@@ -114,8 +117,14 @@ export const attachMiddlewares = (
 	);
 
 	application.use((request, _response, next) => {
-		const authorization = request.headers.authorization;
-		const token = _.last(_.split(authorization, ' '));
+		let token: string | undefined;
+		if (request.headers.authorization) {
+			const authorization = request.headers.authorization;
+			token = _.last(_.split(authorization, ' '));
+		} else {
+			token = request.cookies.token;
+		}
+
 		request.sessionToken = token || options.guestSession;
 		return next();
 	});

@@ -16,6 +16,7 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
+import type { Request, Response, NextFunction } from 'express';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -69,6 +70,23 @@ const sendHTTPError = (request, response, error) => {
 	});
 };
 
+interface CustomRequest extends Request {
+	context: any;
+	sessionToken: string;
+}
+
+const asyncErrorHandler = (
+	fn: (req: CustomRequest, res: Response, next: NextFunction) => Promise<void>,
+) => {
+	return async (req: CustomRequest, res: Response, next: NextFunction) => {
+		try {
+			await fn(req, res, next);
+		} catch (err) {
+			sendHTTPError(req, res, err);
+		}
+	};
+};
+
 export const attachRoutes = (
 	application,
 	jellyfish,
@@ -77,8 +95,8 @@ export const attachRoutes = (
 	options,
 ) => {
 	const queryFacade = new facades.QueryFacade(jellyfish);
-	const authFacade = new facades.AuthFacade(jellyfish);
 	const actionFacade = new facades.ActionFacade(worker, producer, fileStore);
+	const authFacade = new facades.AuthFacade(jellyfish, actionFacade);
 	const viewFacade = new facades.ViewFacade(jellyfish, queryFacade);
 
 	application.get('/api/v2/config', (_request, response) => {
@@ -852,4 +870,63 @@ export const attachRoutes = (
 				return sendHTTPError(request, response, error);
 			});
 	});
+
+	application.post(
+		'/api/v2/auth/login',
+		asyncErrorHandler(async (req, res) => {
+			const { username, password } = req.body;
+
+			const session = await authFacade.logIn(req.context, req.sessionToken, {
+				username,
+				password,
+			});
+
+			res.cookie('token', session.id, {
+				httpOnly: true,
+			});
+
+			res.json({
+				error: false,
+				data: {
+					token: session.id,
+				},
+			});
+		}),
+	);
+
+	application.post(
+		'/api/v2/auth/refresh',
+		asyncErrorHandler(async (req, res) => {
+			const session = await authFacade.refreshToken(
+				req.context,
+				req.sessionToken,
+				req.ip,
+			);
+
+			res.cookie('token', session.id, {
+				httpOnly: true,
+			});
+
+			res.json({
+				error: false,
+				data: {
+					token: session.id,
+				},
+			});
+		}),
+	);
+
+	application.post(
+		'/api/v2/auth/logout',
+		asyncErrorHandler(async (req, res) => {
+			await authFacade.logOut(req.context, req.sessionToken);
+
+			res.clearCookie('token');
+
+			res.json({
+				error: false,
+				data: null,
+			});
+		}),
+	);
 };
