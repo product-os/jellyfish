@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove defunct test/e2e/sync directory
+      hash: f1dd0685de78eea0081a3fa8ab0e0d9b1c7fb926
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.32
+  date: 2021-09-15T07:32:55.901Z
+- commits:
     - subject: Remove Front mirror tests and cleanup script
       hash: 7717996d63d11f86c715189e2fd8b8888bd74604
       body: ''
