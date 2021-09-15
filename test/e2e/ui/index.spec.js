@@ -7,6 +7,9 @@
 const ava = require('ava')
 const bluebird = require('bluebird')
 const _ = require('lodash')
+const nock = require('nock')
+const path = require('path')
+const querystring = require('querystring')
 const {
 	v4: uuid
 } = require('uuid')
@@ -434,6 +437,494 @@ ava.serial.skip('views: Should be able to save a new view', async (test) => {
 
 	await macros.waitForThenClickSelector(page, '[data-test="home-channel__group-toggle--__myViews"]')
 	await macros.waitForThenClickSelector(page, `[data-test*="${name}"]`)
+
+	test.pass()
+})
+
+ava.serial('views: the filter summary displays the search term correctly', async (test) => {
+	const {
+		page,
+		sdk
+	} = context
+	const device = `device-${uuid()}`
+	const searchTerm = 'test'
+	const searchInputSelector = '.view__search input'
+	const filterButtonText = `Any field contains ${searchTerm}`
+	const clearAllButtonSelector = '//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "Clear all")]'
+	const filterButtonSelector = `//*[@data-test="view__filters-summary-wrapper"]//button[contains(., "${filterButtonText}")]`
+	const closeFilterButtonSelector = `${filterButtonSelector}/following-sibling::button`
+	const scrollableSelector = '.column--view-all-opportunities .ReactVirtualized__Grid.ReactVirtualized__List'
+
+	const account = await sdk.card.create({
+		type: 'account@1.0.0',
+		name: `account-${uuid()}`,
+		data: {
+			type: 'Lead'
+		}
+	})
+
+	const opportunity = await sdk.card.create({
+		type: 'opportunity@1.0.0',
+		data: {
+			device,
+			status: 'Created'
+		}
+	})
+
+	await sdk.card.link(opportunity, account, 'is attached to')
+
+	const opportunityCardSelector = `[data-test-id="snippet-card-${opportunity.id}"]`
+
+	await macros.goto(page, '/view-all-opportunities')
+	await macros.waitForThenClickSelector(page, '[data-test="lens-selector--lens-list"]')
+	await page.waitForSelector('.view__search')
+
+	// The created opportunity is displayed as we have no active filter
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		scrollableSelector,
+		opportunityCardSelector
+	))
+
+	// Enter a search term
+	await macros.setInputValue(page, searchInputSelector, searchTerm)
+
+	// Check that the search term appears in the filters summary
+	await page.waitForXPath(filterButtonSelector)
+
+	// The created opportunity should now be hidden as it doesn't match the search term
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		scrollableSelector,
+		opportunityCardSelector
+	))
+
+	// Click the 'x' button next to the search filter summary item to remove the search filter
+	const closeButton = await page.waitForXPath(closeFilterButtonSelector)
+	await closeButton.click()
+
+	// The search term has now been cleared from the search input
+	let searchText = await macros.getElementText(page, searchInputSelector)
+	test.is(searchText.trim(), '')
+
+	// ...and the created opportunity is displayed once again
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		scrollableSelector,
+		opportunityCardSelector
+	))
+
+	// Enter the search term again
+	await macros.setInputValue(page, searchInputSelector, searchTerm)
+
+	// Check that the search term appears in the filters summary again
+	await page.waitForXPath(filterButtonSelector)
+
+	// ... and that the created opportunity should be hidden again
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollableToDisappear(
+		page,
+		scrollableSelector,
+		opportunityCardSelector
+	))
+
+	// This time click the 'Clear all' button to remove all filters
+	const clearAllButton = await page.waitForXPath(clearAllButtonSelector)
+	await clearAllButton.click()
+
+	// The search term has been cleared again from the search input
+	searchText = await macros.getElementText(page, searchInputSelector)
+	test.is(searchText.trim(), '')
+
+	// ...and the created opportunity is displayed once again
+	await test.notThrowsAsync(macros.waitForSelectorInsideScrollable(
+		page,
+		scrollableSelector,
+		opportunityCardSelector
+	))
+})
+
+// Chat widget
+// =============================================================================
+
+ava.serial('chat-widget: A user can start a Jellyfish support thread from the chat widget', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const jfThreadsViewSelector = '.column--view-all-jellyfish-support-threads'
+	const jfThreadSelector = '.column--support-thread'
+	const cwWrapper = '[data-test="chat-widget"]'
+	const cwConvList = '[data-test="initial-short-conversation-page"]'
+
+	const subject = `Subject ${uuid()}`
+	const message = `Message ${uuid()}`
+	const replyMessage = `Reply ${uuid()}`
+
+	// Use the chat widget to start a new conversation
+	await macros.waitForThenClickSelector(page, '[data-test="open-chat-widget"]')
+
+	// Wait for the chat widget to open
+	await macros.waitForThenClickSelector(page, '[data-test="chat-widget"]')
+
+	// If there's existing threads we need to click on the 'Start new conversation' button first
+	try {
+		await macros.waitForThenClickSelector(page, '[data-test="start-new-conversation-button"]', {
+			timeout: 10 * 1000
+		})
+	} catch (err) {
+		// We are probably already in 'Create Thread mode' as there are no existing threads
+	}
+
+	await macros.setInputValue(page, `${cwWrapper} [data-test="conversation-subject"]`, subject)
+	await macros.setInputValue(page, `${cwWrapper} textarea.new-message-input`, message)
+	await macros.waitForThenClickSelector(page, `${cwWrapper} [data-test="start-conversation-button"]`)
+
+	// Verify the conversation timeline is displayed in the chat widget
+	const threadSelector = '[data-test="chat-page"]'
+	const threadElement = await page.waitForSelector(threadSelector)
+	const threadId = await macros.getElementAttribute(page, threadElement, 'data-test-id')
+	const messageText = await macros.getElementText(page, `${threadSelector} [data-test="event-card__message"] p`)
+	test.is(messageText.trim(), message)
+
+	// Return to the conversation list...
+	await macros.waitForThenClickSelector(page, '[data-test="navigate-back-button"]')
+
+	// ...and verify the new conversation is also now listed in the conversation list in the chat widget
+	let messageSnippet = await macros.getElementText(page,
+		`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`)
+	test.is(messageSnippet.trim(), message)
+
+	// Now close the chat widget and navigate to the 'Jellyfish threads' support view
+	await macros.waitForThenClickSelector(page, '[data-test="chat-widget"] [data-test="close-chat-widget"]')
+	await macros.navigateToHomeChannelItem(page, [
+		'[data-test="home-channel__group-toggle--org-balena"]',
+		'[data-test="home-channel__group-toggle--Support"]',
+		'[data-test="home-channel__item--view-all-jellyfish-support-threads"]'
+	])
+
+	// And verify the new conversation appears in the list of support threads in this view.
+	const threadSummarySelector = `${jfThreadsViewSelector} [data-test-id="${threadId}"]`
+	const messageSnippetInThread = await macros.getElementText(page,
+		`${threadSummarySelector} [data-test="card-chat-summary__message"] p`)
+	test.is(messageSnippetInThread.trim(), message)
+
+	// Now open the support thread view and reply
+	await macros.waitForThenClickSelector(page, threadSummarySelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline__whisper-toggle"]')
+	await bluebird.delay(500)
+	await macros.createChatMessage(page, jfThreadSelector, replyMessage)
+
+	// And finally verify the reply shows up in the chat widget conversation summary
+	await macros.waitForThenClickSelector(page, '[data-test="open-chat-widget"]')
+	messageSnippet = await macros.waitForInnerText(
+		page,
+		`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`,
+		replyMessage
+	)
+})
+
+// File upload
+// =============================================================================
+
+ava.serial('file upload: Users should be able to upload an image', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the user profile page
+	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+
+	await page.waitForSelector(`.column--slug-${thread.slug}`)
+
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
+
+	await page.waitForSelector('.column--thread [data-test="event-card__image"]')
+
+	test.pass()
+})
+
+ava.serial.only('file upload: Users should be able to upload an image to a support thread', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the user profile page
+	await macros.goto(page, `/${thread.id}`)
+
+	const selector = '.column--support-thread'
+
+	await page.waitForSelector(selector)
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
+
+	await page.waitForSelector(`${selector} [data-test="event-card__image"]`)
+
+	test.pass()
+})
+
+ava.serial('file upload: Users should be able to upload a text file', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the user profile page
+	await macros.goto(page, `/${thread.id}`)
+
+	await page.waitForSelector(`.column--slug-${thread.slug}`)
+
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
+
+	await page.waitForSelector('.column--thread [data-test="event-card__file"]')
+
+	test.pass()
+})
+
+ava.serial('file upload: Users should be able to upload a text file to a support thread', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'support-thread@1.0.0',
+			data: {
+				status: 'open'
+			}
+		})
+	})
+
+	// Navigate to the user profile page
+	await macros.goto(page, `/${thread.id}`)
+
+	const selector = '.column--support-thread'
+
+	await page.waitForSelector(selector)
+	await page.waitForSelector('input[type="file"]')
+	const input = await page.$('input[type="file"]')
+	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
+
+	await page.waitForSelector(`${selector} [data-test="event-card__file"]`)
+
+	test.pass()
+})
+
+// Outreach oauth
+// =============================================================================
+
+const outreachTest =
+	environment.integration.outreach.appId &&
+	environment.integration.outreach.appSecret &&
+	!environment.test.integration.skip
+		? ava.serial
+		: ava.serial.skip
+
+outreachTest('outreach: A user should be able to connect their account to outreach', async (test) => {
+	const {
+		page
+	} = context
+
+	const user = await ensureCommunityLogin(page)
+
+	// Navigate to the user profile page
+	await macros.goto(page, `/${user.slug}`)
+
+	await macros.waitForThenClickSelector(page, 'button[role="tab"]:nth-of-type(4)')
+
+	// Wait for the outreach API redirect to occur before continuing
+	await new Promise((resolve) => {
+		const requestListener = (req) => {
+			if (
+				req.isNavigationRequest() &&
+				req.frame() === page.mainFrame() &&
+				req.url().includes('https://accounts.outreach.io/oauth/authorize')
+			) {
+				req.abort('aborted')
+				page.removeListener('request', requestListener)
+				resolve()
+			} else {
+				req.continue()
+			}
+		}
+
+		page.on('request', requestListener)
+
+		page.setRequestInterception(true).then(() => {
+			macros.waitForThenClickSelector(page, '[data-test="integration-connection--outreach"]')
+		})
+	})
+
+	await page.setRequestInterception(false)
+
+	nock.cleanAll()
+
+	// Nock is used here to proxy the authorization request to the outreach API
+	await nock('https://api.outreach.io')
+		.post('/oauth/token')
+		.reply(function (uri, request, callback) {
+			const body = querystring.decode(request)
+
+			if (_.isEqual(body, {
+				grant_type: 'authorization_code',
+				client_id: environment.integration.outreach.appId,
+				client_secret: environment.integration.outreach.appSecret,
+				redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+				code: '123456'
+			})) {
+				return callback(null, [ 200, {
+					access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+					token_type: 'bearer',
+					expires_in: 3600,
+					refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+					scope: 'create'
+				} ])
+			}
+
+			return callback(null, [ 400, {
+				error: 'invalid_request',
+				error_description: 'Something went wrong'
+			} ])
+		})
+
+	await macros.goto(page, `/oauth/outreach?code=123456&state=${user.slug}`)
+
+	await page.waitForSelector('[data-test="lens--lens-my-user"]')
+
+	const updatedUser = await page.evaluate(() => {
+		return window.sdk.auth.whoami()
+	})
+
+	test.deepEqual(updatedUser.data.oauth, {
+		outreach: {
+			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
+			token_type: 'bearer',
+			expires_in: 3600,
+			refresh_token: 'POolsdYTlmM2YxOTQ5MGE3YmNmMDFkNTVk',
+			scope: 'create'
+		}
+	})
+})
+
+// Repository
+// =============================================================================
+
+ava.serial('repository: Messages can be filtered by searching for them', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const repoName = `repository-${uuid()}`
+	const repoData = {
+		type: 'repository@1.0.0',
+		slug: repoName,
+		name: repoName,
+		data: {
+			name: repoName
+		}
+	}
+	const repo = await page.evaluate((repository) => {
+		return window.sdk.card.create(repository)
+	}, repoData)
+
+	const selectors = {
+		searchBox: '[data-test="repository__search"] input'
+	}
+
+	const addThreadToRepo = async (targetRepo) => {
+		const threadData = {
+			type: 'thread',
+			slug: `thread-${uuid()}`,
+			data: {}
+		}
+		const repoThread = await page.evaluate(async (card) => {
+			const threadDetails = await window.sdk.card.create(card)
+			return window.sdk.card.get(threadDetails.id)
+		}, threadData)
+		await page.evaluate((thread, repository) => {
+			return window.sdk.card.link(thread, repository, 'is of')
+		}, repoThread, targetRepo)
+		return repoThread
+	}
+
+	const addMessageToThread = async (thread, message) => {
+		const msgData = {
+			type: 'message',
+			target: thread,
+			slug: `message-${uuid()}`,
+			payload: {
+				message
+			}
+		}
+
+		return page.evaluate((event) => {
+			return window.sdk.event.create(event)
+		}, msgData)
+	}
+
+	// Create a thread and add two messages to them
+	const thread1 = await addThreadToRepo(repo)
+	const msg1 = await addMessageToThread(thread1, 'First message')
+	const msg2 = await addMessageToThread(thread1, 'Second message')
+
+	await macros.goto(page, `/${repo.id}`)
+
+	// Initially both messages are displayed in the repo list
+	await page.waitForSelector(`#event-${msg1.id}`)
+	await page.waitForSelector(`#event-${msg2.id}`)
+
+	// Now search for the first message
+	await page.type(selectors.searchBox, 'First')
+
+	// The second message should disappear from the results
+	await macros.waitForSelectorToDisappear(page, `#event-${msg2.id}`)
+
+	// Now clear the search input
+	await macros.clearInput(page, selectors.searchBox)
+
+	// Both messages should be displayed again
+	await page.waitForSelector(`#event-${msg1.id}`)
+	await page.waitForSelector(`#event-${msg2.id}`)
 
 	test.pass()
 })
