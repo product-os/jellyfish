@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add missing dependency for nodemon in livepush
+      hash: 1c6113a01b1d8247ad28802e4ca0b9da2c4b8551
+      body: |
+        ts-node is required for nodemon to rebuild the API service on change
+        when developing via livepush.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.34
+  date: 2021-09-15T12:55:44.875Z
+- commits:
     - subject: Reduce e2e-ui boostrapping time by condesnign tests into a single suite
       hash: 15000853fc5daa714b7e6a160df675f353be25fd
       body: ''
