@@ -90,10 +90,7 @@ describe('RequestPasswordReset', () => {
 		expect(requestPasswordResetAction.callCount).toBe(1);
 		expect(addNotification.callCount).toBe(1);
 		expect(addNotification.args).toEqual([
-			[
-				'success',
-				'Thanks! Please check your email for a link to reset your password',
-			],
+			['info', 'If this user exists, we have sent you a password reset email'],
 		]);
 	});
 
