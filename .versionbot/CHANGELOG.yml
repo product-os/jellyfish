@@ -1,4 +1,17 @@
 - commits:
+    - subject: Condense e2e chat tests into main test suite for better performance
+      hash: 3e932446401532ece35bfd17f1f67635da05d4dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.41
+  date: 2021-09-16T11:30:30.993Z
+- commits:
     - subject: Remove test/e2e/server/messages.spec.js
       hash: 253d39133150a5f85f33528ec3e629ee0dc71de6
       body: |
