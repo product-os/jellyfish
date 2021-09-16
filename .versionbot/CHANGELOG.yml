@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove test/e2e/server/messages.spec.js
+      hash: 253d39133150a5f85f33528ec3e629ee0dc71de6
+      body: |
+        Moving to plugin-default: jellyfish-plugin-default/pull/682
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.40
+  date: 2021-09-16T10:13:26.378Z
+- commits:
     - subject: Remove e2e subscriptions test
       hash: d317f61389edcfdd8cbfe6c00dc73b3c153395c4
       body: |
