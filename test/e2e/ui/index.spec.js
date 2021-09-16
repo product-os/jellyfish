@@ -23,6 +23,17 @@ const context = {
 	}
 }
 
+const selectors = {
+	chat: {
+		message: '[data-test="event-card__message"]',
+		search: '.inbox__search input',
+		markAsReadButton: '[data-test="inbox__mark-all-as-read"]'
+	},
+	repo: {
+		searchBox: '[data-test="repository__search"] input'
+	}
+}
+
 const users = {
 	community: {
 		username: `johndoe-${uuid()}`,
@@ -43,7 +54,7 @@ const users = {
 
 // If the current user is not the community user, logout, then login as the
 // community user.
-const ensureCommunityLogin = async (page) => {
+const ensureCommunityLogin = async (page, user = users.community) => {
 	const baseURL = `${environment.ui.host}:${environment.ui.port}`
 
 	if (!page.url().includes(baseURL)) {
@@ -54,9 +65,9 @@ const ensureCommunityLogin = async (page) => {
 		return window.sdk.auth.whoami()
 	})
 
-	if (currentUser.slug !== `user-${users.community.username}`) {
+	if (currentUser.slug !== `user-${user.username}`) {
 		await macros.logout(page)
-		await macros.loginUser(page, users.community)
+		await macros.loginUser(page, user)
 
 		return page.evaluate(() => {
 			return window.sdk.auth.whoami()
@@ -73,6 +84,10 @@ ava.serial.before(async () => {
 
 	const user = await context.createUser(users.community)
 	await context.addUserToBalenaOrg(user.id)
+	const user2 = await context.createUser(users.community2)
+	await context.addUserToBalenaOrg(user2.id)
+	context.user = user
+	context.user2 = user2
 })
 
 ava.serial.afterEach.always(async (test) => {
@@ -867,10 +882,6 @@ ava.serial('repository: Messages can be filtered by searching for them', async (
 		return window.sdk.card.create(repository)
 	}, repoData)
 
-	const selectors = {
-		searchBox: '[data-test="repository__search"] input'
-	}
-
 	const addThreadToRepo = async (targetRepo) => {
 		const threadData = {
 			type: 'thread',
@@ -914,17 +925,691 @@ ava.serial('repository: Messages can be filtered by searching for them', async (
 	await page.waitForSelector(`#event-${msg2.id}`)
 
 	// Now search for the first message
-	await page.type(selectors.searchBox, 'First')
+	await page.type(selectors.repo.searchBox, 'First')
 
 	// The second message should disappear from the results
 	await macros.waitForSelectorToDisappear(page, `#event-${msg2.id}`)
 
 	// Now clear the search input
-	await macros.clearInput(page, selectors.searchBox)
+	await macros.clearInput(page, selectors.repo.searchBox)
 
 	// Both messages should be displayed again
 	await page.waitForSelector(`#event-${msg1.id}`)
 	await page.waitForSelector(`#event-${msg2.id}`)
 
 	test.pass()
+})
+
+// Chat
+// =============================================================================
+
+ava.serial('Chat: A notice should be displayed when another user is typing', async (test) => {
+	const {
+		incognitoPage,
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	// Create a new thread
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(incognitoPage, `/${thread.id}`)
+	await macros.goto(page, `/${thread.id}`)
+
+	await page.waitForSelector('.column--thread')
+	await incognitoPage.waitForSelector('.column--thread')
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="typing-notice"]')
+
+	test.is(messageText, `${users.community2.username} is typing...`)
+
+	test.pass()
+})
+
+ava.serial('Chat: Messages typed but not sent should be preserved when navigating away', async (test) => {
+	const {
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const thread1 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	const thread2 = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread1.id}`)
+	await page.waitForSelector(`.column--slug-${thread1.slug}`)
+
+	const rand = uuid()
+
+	await page.waitForSelector('.new-message-input')
+	await page.type('textarea', rand)
+
+	// The delay here isn't ideal, but it helps mitigate issues that can occur due
+	// to the message preservation being debounced in the UI
+	await bluebird.delay(5000)
+
+	await macros.goto(page, `/${thread2.id}`)
+	await page.waitForSelector(`.column--slug-${thread2.slug}`)
+
+	await macros.goto(page, `/${thread1.id}`)
+	await page.waitForSelector(`.column--slug-${thread1.slug}`)
+
+	const messageText = await macros.getElementText(page, 'textarea')
+
+	test.is(messageText, rand)
+
+	test.pass()
+})
+
+ava.serial('Chat: Messages that mention a user should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Chat: Messages that alert a user should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `!${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial(
+	'Chat: Messages that alert a user should appear in their inbox and in the mentions count',
+	async (test) => {
+		const {
+			user2,
+			page,
+			incognitoPage
+		} = context
+
+		await ensureCommunityLogin(page)
+		await ensureCommunityLogin(incognitoPage, users.community2)
+
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Navigate to the thread page
+		await macros.goto(page, `/${thread.id}`)
+
+		const columnSelector = `.column--slug-${thread.slug}`
+		await page.waitForSelector(columnSelector)
+
+		const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+		await page.waitForSelector('.new-message-input')
+		await macros.createChatMessage(page, columnSelector, msg)
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		// Navigate to the inbox page
+		await macros.goto(incognitoPage, '/inbox')
+
+		await incognitoPage.waitForSelector('[data-test="event-card__message"]')
+		const inboxmessages = await incognitoPage.$$('[data-test="event-card__message"]')
+
+		await incognitoPage.waitForSelector('[data-test="homechannel-mentions-count"]')
+		const mentionscount = await macros.getElementText(incognitoPage, '[data-test="homechannel-mentions-count"]')
+
+		// Assert that they are equal count
+		test.deepEqual(Number(mentionscount), inboxmessages.length)
+	})
+
+ava.serial('Chat: Messages that mention a user\'s group should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Create a group and add the user to it
+	const groupName = `group-${uuid()}`
+	const group = await page.evaluate((name) => {
+		return window.sdk.card.create({
+			type: 'group@1.0.0',
+			name
+		})
+	}, groupName)
+
+	await page.evaluate((grp, usr) => {
+		return window.sdk.card.link(grp, usr, 'has group member')
+	}, group, user2)
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@@${groupName} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Chat: Messages that alert a user\'s group should appear in their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Create a group and add the user to it
+	const groupName = `group-${uuid()}`
+	const group = await page.evaluate((name) => {
+		return window.sdk.card.create({
+			type: 'group@1.0.0',
+			name
+		})
+	}, groupName)
+
+	await page.evaluate((grp, usr) => {
+		return window.sdk.card.link(grp, usr, 'has group member')
+	}, group, user2)
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `!!${groupName} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Chat: One-to-one messages to a user should appear in their inbox', async (test) => {
+	const {
+		user1,
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate((u1, u2) => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0',
+			markers: [ `${u1.slug}+${u2.slug}` ]
+		})
+	}, user1, user2)
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `1-to-1 ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial(
+	'Chat: Only messages that ping a user or one of their groups or their 1-to-1 conversations should appear in their inbox',
+	async (test) => {
+		const {
+			user2,
+			page,
+			incognitoPage
+		} = context
+
+		await ensureCommunityLogin(page)
+		await ensureCommunityLogin(incognitoPage, users.community2)
+
+		const userGroups = await page.evaluate((usr) => {
+			return window.sdk.query({
+				type: 'object',
+				required: [ 'type', 'name' ],
+				$$links: {
+					'has group member': {
+						type: 'object',
+						required: [ 'slug' ],
+						properties: {
+							slug: {
+								const: usr.slug
+							}
+						},
+						additionalProperties: false
+					}
+				},
+				properties: {
+					type: {
+						const: 'group@1.0.0'
+					}
+				}
+			})
+		}, user2)
+
+		const userGroupNames = _.map(userGroups, 'name')
+
+		// Do things with the SDK to trigger the "status messages"
+		// like getting refresh tokens
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		await page.evaluate(() => {
+			return window.sdk.auth.refreshToken()
+		})
+
+		// Making a thread
+		const thread = await page.evaluate(() => {
+			return window.sdk.card.create({
+				type: 'thread@1.0.0'
+			})
+		})
+
+		// Then we send 2 tagged messages to the user
+		await macros.goto(page, `/${thread.id}`)
+
+		const columnSelector = `.column--slug-${thread.slug}`
+		await page.waitForSelector(columnSelector)
+
+		const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+		await page.waitForSelector('.new-message-input')
+
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		await macros.createChatMessage(page, columnSelector, msg)
+
+		// And send a message to our own group
+		await macros.goto(incognitoPage, `/${thread.id}`)
+
+		await incognitoPage.waitForSelector(columnSelector)
+
+		const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`
+
+		await incognitoPage.waitForSelector('.new-message-input')
+
+		await macros.createChatMessage(incognitoPage, columnSelector, ownGroupMsg)
+
+		// Navigate to the inbox page
+		await macros.goto(incognitoPage, '/inbox')
+
+		await bluebird.delay(10000)
+
+		// Get all children of the messageList-ListWrapper
+		// These should be all messages
+		const children = await incognitoPage.$$('[data-test="messageList-event"]')
+
+		const messagesWithUser = []
+
+		// Loop throught all the children to get the labels
+		for (const child of children) {
+			// Get the labels
+			const text = await incognitoPage.evaluate((ele) => {
+				return ele.textContent
+			}, child)
+
+			const eventId = (await macros.getElementAttribute(incognitoPage, child, 'id')).replace(/^event-/, '')
+			console.log('eventId', eventId)
+			if (eventId === ownGroupMsg.id) {
+				test.fail('Message to own group found in inbox')
+			}
+
+			const mentionsGroup = (groupName) => {
+				return text.includes(groupName)
+			}
+
+			// Check if labels include the @user2
+			if (text.includes(user2.slug.slice(5)) || _.some(userGroupNames, mentionsGroup)) {
+				// Push all texts to an array
+				messagesWithUser.push(true)
+			} else {
+				// Check if it is a 1-to-1 message that includes user2
+				const event = await incognitoPage.evaluate((id) => {
+					return window.sdk.card.get(id)
+				}, eventId)
+				const userInMarkerRegExp = new RegExp(`(\\+|^)${user2.slug}(\\+|$)`)
+				if (_.some(_.invokeMap(event.markers, 'match', userInMarkerRegExp))) {
+					messagesWithUser.push(true)
+				} else {
+					messagesWithUser.push(false)
+				}
+			}
+		}
+
+		// Check if array is Expected length
+		test.is(messagesWithUser.every((currentValue) => {
+			return currentValue === true
+		}), true)
+
+		test.pass()
+	})
+
+ava.serial.skip('Chat: When having two chats side-by-side both should update with new messages', async (test) => {
+	const {
+		user1,
+		page
+	} = context
+
+	await ensureCommunityLogin(page)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	await macros.goto(page, `/${thread.id}/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	await page.waitForSelector('.new-message-input')
+
+	const msg = `@${user1.slug.slice(5)} ${uuid()}`
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	await bluebird.delay(5000)
+
+	const messagesOnPages = await page.$$('.event-card--message')
+
+	test.is(messagesOnPages.length === 2, true)
+
+	test.pass()
+})
+
+// TODO re-enable this test once
+// https://github.com/product-os/jellyfish/issues/3703 is resolved
+ava.skip('Chat: Username pings should be case insensitive', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5).toUpperCase()} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	// Navigate to the inbox page
+	await macros.goto(incognitoPage, '/inbox')
+
+	const messageText = await macros.getElementText(incognitoPage, '[data-test="event-card__message"]')
+
+	test.is(messageText.trim(), msg)
+
+	test.pass()
+})
+
+ava.serial('Chat: Users should be able to mark all messages as read from their inbox', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	const thread = await page.evaluate(() => {
+		return window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+	})
+
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
+
+	const columnSelector = `.column--slug-${thread.slug}`
+	await page.waitForSelector(columnSelector)
+
+	const msg = `@${user2.slug.slice(5)} ${uuid()}`
+
+	await page.waitForSelector('.new-message-input')
+
+	await macros.createChatMessage(page, columnSelector, msg)
+
+	await macros.goto(incognitoPage, '/inbox')
+	await incognitoPage.waitForSelector(selectors.chat.message)
+	await macros.waitForThenClickSelector(incognitoPage, selectors.chat.markAsReadButton)
+	await macros.waitForSelectorToDisappear(incognitoPage, selectors.chat.message)
+	const messages = await page.$$(selectors.chat.message)
+
+	// Assert that there are no longer messages in the inbox
+	test.is(messages.length, 0)
+})
+
+ava.serial('Chat: When filtering unread messages, only filtered messages can be marked as read', async (test) => {
+	const {
+		user2,
+		page,
+		incognitoPage
+	} = context
+
+	await ensureCommunityLogin(page)
+	await ensureCommunityLogin(incognitoPage, users.community2)
+
+	// Start by marking all messages as read
+	await macros.goto(incognitoPage, '/inbox')
+	await macros.waitForThenClickSelector(incognitoPage, selectors.chat.markAsReadButton)
+	await macros.waitForSelectorToDisappear(incognitoPage, selectors.chat.message)
+	const inboxMessages = await page.$$(selectors.chat.message)
+
+	// Assert that there are no longer messages in the inbox
+	test.is(inboxMessages.length, 0)
+
+	// Create three new messages
+	const messageDetails = _.range(3).map(() => {
+		return {
+			mentionsUser: [ user2.slug ],
+			slug: `message-${uuid()}`,
+			payload: `@${user2.slug.slice(5)} ${uuid()}`
+		}
+	})
+
+	const messages = await page.evaluate(async (msgs) => {
+		const thread = await window.sdk.card.create({
+			type: 'thread@1.0.0'
+		})
+		return Promise.all(msgs.map((msg) => {
+			return window.sdk.event.create({
+				target: thread,
+				slug: msg.slug,
+				tags: [],
+				type: 'message',
+				payload: {
+					mentionsUser: msg.mentionsUser,
+					message: msg.payload
+				}
+			})
+		}))
+	}, messageDetails)
+
+	// Navigate to the inbox page and reload
+	await macros.goto(incognitoPage, '/inbox')
+
+	// All three messages should appear in the inbox
+	await incognitoPage.waitForSelector(selectors.chat.message)
+	let messageElements = await incognitoPage.$$(selectors.chat.message)
+	test.is(messageElements.length, 3)
+	let markAsReadButtonText = await macros.getElementText(incognitoPage, selectors.chat.markAsReadButton)
+	test.is(markAsReadButtonText, 'Mark 3 as read')
+
+	// Now search for the 2nd message
+	await macros.setInputValue(incognitoPage, selectors.chat.search, messageDetails[1].payload)
+
+	// Verify only the 2nd message is left in the inbox
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[0].id}]`)
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[2].id}]`)
+	messageElements = await incognitoPage.$$(selectors.chat.message)
+	test.is(messageElements.length, 1)
+	markAsReadButtonText = await macros.getElementText(incognitoPage, selectors.chat.message)
+	test.is(markAsReadButtonText, 'Mark 1 as read')
+
+	// Mark just the filtered message as read
+	await macros.waitForThenClickSelector(incognitoPage, selectors.chat.markAsReadButton)
+
+	// The filtered message should disappear from the unread inbox
+	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[1].id}]`)
+
+	// Reload the page
+	await macros.goto(incognitoPage, '/inbox')
+
+	// And wait for the other two messages to re-appear (still unread)
+	await incognitoPage.waitForSelector(`[id="event-${messages[0].id}"]`)
+	await incognitoPage.waitForSelector(`[id="event-${messages[2].id}"]`)
 })
