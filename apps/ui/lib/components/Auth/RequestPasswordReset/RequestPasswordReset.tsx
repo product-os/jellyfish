@@ -48,8 +48,8 @@ export default class RequestPasswordReset extends React.Component<any, any> {
 			})
 			.then(() => {
 				notifications.addNotification(
-					'success',
-					'Thanks! Please check your email for a link to reset your password',
+					'info',
+					'If this user exists, we have sent you a password reset email',
 				);
 			})
 			.catch(() => {
