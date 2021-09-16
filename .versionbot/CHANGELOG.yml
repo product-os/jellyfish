@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update request password reset notification
+      hash: baa7ab86e4125eeaf8b673526465aed1e0f53328
+      body: |
+        Update the notification type and message to reflect actual action logic.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.37
+  date: 2021-09-16T00:54:56.333Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-product-os to ^2.7.6'
       hash: d4d87fbc418241c97ab11de4054ccc9735e03758
       body: |
