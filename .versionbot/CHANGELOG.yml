@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove e2e subscriptions test
+      hash: d317f61389edcfdd8cbfe6c00dc73b3c153395c4
+      body: |
+        Moving test to jellyfish-worker to exist alongside subscription logic.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.39
+  date: 2021-09-16T06:42:16.444Z
+- commits:
     - subject: Remove e2e-server support tests
       hash: 4beed8da1e5e9f03fa57c1051447137ac48e8839
       body: |
