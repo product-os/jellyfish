@@ -90,6 +90,21 @@ exports.browser = {
 
 		this.addPageHandlers(test.context.page, exports.puppeteerOptions.headless)
 
+		const incognitoContext = await test.context.browser.createIncognitoBrowserContext()
+		const incognitoPage = await incognitoContext.newPage()
+		incognitoPage.setViewport({
+			width: 1366,
+			height: 768
+		})
+
+		incognitoPage.on('pageerror', function (err) {
+			const theTempValue = err.toString()
+			console.log(`Page error: ${theTempValue}`)
+			console.log(err)
+		})
+
+		test.context.incognitoPage = incognitoPage
+
 		test.context.createUser = async (user) => {
 			const result = await test.context.sdk.action({
 				card: 'user@1.0.0',
