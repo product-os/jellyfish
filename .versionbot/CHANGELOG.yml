@@ -1,4 +1,17 @@
 - commits:
+    - subject: update github plugin
+      hash: bbce11fbb9a51fe225f4b98800845b521d1e73db
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.42
+  date: 2021-09-17T14:55:35.349Z
+- commits:
     - subject: Condense e2e chat tests into main test suite for better performance
       hash: 3e932446401532ece35bfd17f1f67635da05d4dd
       body: ''
