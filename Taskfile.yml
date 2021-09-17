@@ -7,14 +7,6 @@ env:
   NODE_ENV: production
 
 tasks:
-  install-deps:
-    cmds:
-      - echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-      - make npm-install
-      - rm -f ~/.npmrc
-    env:
-      PUPPETEER_SKIP_CHROMIUM_DOWNLOAD: true
-
   catch-uncommitted:
     cmds:
       - make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
@@ -93,7 +85,6 @@ tasks:
 
   test:
     cmds:
-      - task: install-deps
       - task: catch-uncommitted
       - task: lint
       - task: unit

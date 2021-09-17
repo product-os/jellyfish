@@ -1,6 +1,10 @@
-FROM resinci/jellyfish-test:v1.4.7
+FROM resinci/jellyfish-test:v1.4.8
 
 WORKDIR /usr/src/jellyfish
 COPY . ./
 
-CMD /bin/bash -c "task test"
+ARG NPM_TOKEN
+RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
+
+CMD /bin/bash -c "if [ "$CI" ]; then task test; else trap : TERM INT; sleep infinity; fi"

@@ -235,6 +235,9 @@ DOCKER_COMPOSE_FILES = --file docker-compose.yml
 ifdef MONITOR
 DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
 endif
+ifdef SUT
+DOCKER_COMPOSE_FILES += --file docker-compose.test.yml
+endif
 
 DOCKER_COMPOSE_OPTIONS = \
 	$(DOCKER_COMPOSE_FILES) \

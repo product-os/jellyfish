@@ -1,4 +1,271 @@
 - commits:
+    - subject: Bump jellyfish plugins
+      hash: 03b8385ae4bec6b3699972d39599d3dcb8b35a2f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.5
+  date: 2021-08-17T04:46:41.523Z
+- commits:
+    - subject: Bump jellyfish-core to v5.1.18
+      hash: 21f329ae3d397c9553ac41fca4444c641de24a5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.4
+  date: 2021-08-17T02:33:49.378Z
+- commits:
+    - subject: Bump internal dependencies
+      hash: 9bdbab60694d19f54463ff054e08844b42f0744c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.3
+  date: 2021-08-17T01:25:49.135Z
+- commits:
+    - subject: Bump jellyfish-logger to v3.0.60
+      hash: cd71c9618d5bd5172e204094befcd7bd3316f6ed
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.7.2
+  date: 2021-08-16T23:31:28.407Z
+- commits:
+    - subject: 'build(deps): bump path-parse from 1.0.6 to 1.0.7 in /apps/server'
+      hash: 6c8015d27a71c8603a264e6b2b4f5ab3d9864cc7
+      body: >
+        Bumps [path-parse](https://github.com/jbgutierrez/path-parse) from 1.0.6
+        to 1.0.7.
+
+        - [Release notes](https://github.com/jbgutierrez/path-parse/releases)
+
+        - [Commits](https://github.com/jbgutierrez/path-parse/commits/v1.0.7)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: path-parse
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 37.7.1
+  date: 2021-08-16T13:16:30.014Z
+- commits:
+    - subject: display the version of contracts and their types IF it's not 1.0.0
+      hash: 274c6f55f2de50729e5b591e04bd75895a107652
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.7.0
+  date: 2021-08-16T11:06:50.358Z
+- commits:
+    - subject: allow configuration fo server timeouts
+      hash: 9cb29bf65a58cf6e78c2fa60f05015960090b5b7
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.6.0
+  date: 2021-08-16T09:50:58.077Z
+- commits:
+    - subject: Convert livechat to typescript
+      hash: 0461371f24447ef4f63c27f030d6c6caeeccd532
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Kakhaber
+      nested: []
+  version: 37.5.0
+  date: 2021-08-16T08:46:37.748Z
+- commits:
+    - subject: Bump jellyfish-environment to v4.4.0
+      hash: eba50ad7d8e3bddfe616a7d44d4b295da3497532
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.12
+  date: 2021-08-16T06:10:28.176Z
+- commits:
+    - subject: remove whispers from lastMessage thread field
+      hash: 4996954aac246cb5ec331a3339edc66409b218f5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: fix whisper leak
+      hash: 76ee8015f7619be335f2dc4ec3e3529c8e7c005e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 37.4.11
+  date: 2021-08-12T13:57:59.706Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 1aa1a801ef4b71660f393c11ecd3ffd63deafcf4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.10
+  date: 2021-08-10T13:33:11.216Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 18bfb8883683a7058a209598e752f2d3c5d667e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.9
+  date: 2021-08-10T05:32:27.111Z
+- commits:
+    - subject: Bump jellyfish-test image to v1.4.8
+      hash: e9d6da6e5e61ecb13d8bbbe28bdc302ffb605f63
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.8
+  date: 2021-08-10T04:16:56.476Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 5c869ed2be2a5c59284a9284093f0b36a3e8e0cf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.7
+  date: 2021-08-07T19:22:56.571Z
+- commits:
+    - subject: Only run sut tests if CI is set
+      hash: de9fa9a8e700df7bbcdece0a69f296719037554e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 37.4.6
+  date: 2021-08-07T08:27:25.303Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: c0a2629afb82608bec35e3f6db58b3304c786d4b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.5
+  date: 2021-08-07T04:25:27.311Z
+- commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^8.0.25'
+      hash: 4bc4547dc5ba7b9cfd085c12ddbe9fe49ab80eab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.4
+  date: 2021-08-06T18:44:00.095Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 397fa3594dce1dc20351c80ec07b7c03f64e1b21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.3
+  date: 2021-08-06T17:29:07.788Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: ca5cf11f66b1d3cefd5cc9851521fa329698270a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.2
+  date: 2021-08-06T15:50:30.028Z
+- commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 9e9a0f9dd8055e7355eb0153a0d408ff4d0daf19
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 37.4.1
+  date: 2021-08-06T14:26:03.866Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 19cbd5e2521e949864458e8d28013c482cb2ce89
       body: ''

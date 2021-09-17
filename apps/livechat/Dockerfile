@@ -20,6 +20,7 @@ RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/Makefile
+COPY ./apps/livechat/tsconfig.json ./apps/livechat/webpack.config.js ./
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/livechat/packages/ /usr/src/jellyfish/packages/

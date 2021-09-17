@@ -40,7 +40,7 @@ services:
       - REDIS_PORT=6379
       - SCRUB=0
       - COVERAGE=0
-      - CI=1
+      - CI
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
       - AWS_S3_BUCKET_NAME

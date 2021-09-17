@@ -457,7 +457,7 @@ ava('should not re-open an archived thread with a whisper', async (test) => {
 	test.is(thread.data.status, 'archived')
 })
 
-ava('should evaluate the last message/whisper in a support thread', async (test) => {
+ava('should evaluate the last message in a support thread', async (test) => {
 	const {
 		sdk
 	} = test.context
@@ -475,20 +475,20 @@ ava('should evaluate the last message/whisper in a support thread', async (test)
 	test.falsy(supportThread.data.lastMessage)
 
 	// Now we add a whisper to the thread's timeline
-	const whisper1Text = generateRandomWords(5)
-	const whisper1Summary = await sdk.event.create({
+	const message0Text = generateRandomWords(5)
+	const message0Summary = await sdk.event.create({
 		target: supportThread,
-		type: 'whisper',
+		type: 'message',
 		payload: {
-			message: whisper1Text
+			message: message0Text
 		}
 	})
-	const whisper1 = await sdk.card.get(whisper1Summary.id)
+	const message0 = await sdk.card.get(message0Summary.id)
 
 	// Now we wait for the lastMessage field to be updated to the whisper
 	// we just added to the thread's timeline
-	supportThread = await waitForThreadWithLastMessage(test.context, supportThread, whisper1)
-	test.deepEqual(supportThread.data.lastMessage, whisper1)
+	supportThread = await waitForThreadWithLastMessage(test.context, supportThread, message0)
+	test.deepEqual(supportThread.data.lastMessage, message0)
 
 	// Now let's add a message to the thread's timeline
 	const message1Text = generateRandomWords(5)

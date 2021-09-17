@@ -1,6 +1,6 @@
-# Running Tests
+# Running tests
 
-This document attempts to give an overview of the tests we currently have in Jellyfish and how they can be executed.
+This document attempts to give an overview of the tests we currently have in Jellyfish and how they can be executed locally.
 
 ## Test Types
 Jellyfish currently runs the following types of tests:
@@ -90,277 +90,27 @@ Below are a number of `make test` command examples. They assume that some variab
 It should be noted that in many cases the default values for the options set below are correct, meaning that they may be omitted when running `make test`. This is especially true for `SERVER_HOST`, `SERVER_PORT`, etc. when developing locally.
 
 ### Lint
-Run ESLint tests:
-```
-npm test
+Run lint checks:
+```sh
+$ make lint
 ```
 
 ### Unit
 Run unit tests:
-```
-make test-unit
-```
-
-### Front Mirror
-Run Front mirror tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/e2e/sync/front-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN \
-	INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
+```sh
+$ make test-unit
 ```
 
-Run the same tests without keys and token set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/e2e/sync/front-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FRONT_TOKEN= \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### Front Translate
-Run Front translate tests with proper keys and token set:
-```
-make test \
-	FILES=./test/integration/sync/front-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FRONT_TOKEN=$FRONT_TOKEN \
-	INTEGRATION_INTERCOM_TOKEN=$INTERCOM_TOKEN \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/front-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FRONT_TOKEN= \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### Discourse Mirror
-Run Discourse mirror tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/e2e/sync/discourse-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN \
-	INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY \
-	INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/e2e/sync/discourse-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_DISCOURSE_TOKEN= \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### Discourse Translate
-Run Discourse translate tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/integration/sync/discourse-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_DISCOURSE_TOKEN=$DISCOURSE_TOKEN \
-	INTEGRATION_DISCOURSE_SIGNATURE_KEY=$DISCOURSE_SIGNATURE_KEY \
-	INTEGRATION_DISCOURSE_USERNAME=$DISCOURSE_USERNAME \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/discourse-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_DISCOURSE_TOKEN= \
-	SERVER_HOST=http://api \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### Outreach Mirror
-Run Outreach mirror tests with proper keys and tokens set.
-```
-make test \
-	FILES=./test/integration/server/outreach-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
-	INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
-	INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
-	SERVER_HOST=http://localhost \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE \
-	REDIS_HOST=localhost
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/server/outreach-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_OUTREACH_APP_ID= \
-	INTEGRATION_OUTREACH_APP_SECRET= \
-	INTEGRATION_OUTREACH_SIGNATURE_KEY=
-```
-
-### Outreach Translate
-Run Outreach translate tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/integration/sync/outreach-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
-	INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
-	INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/outreach-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_OUTREACH_APP_ID= \
-	INTEGRATION_OUTREACH_APP_SECRET= \
-	INTEGRATION_OUTREACH_SIGNATURE_KEY=
-```
-
-### Balena API Translate
-Run Balena API translate tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/integration/sync/balena-api-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$BALENA_API_PUBLIC_KEY_PRODUCTION \
-	INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$BALENA_API_PUBLIC_KEY_STAGING \
-	INTEGRATION_BALENA_API_PRIVATE_KEY=$BALENA_API_PRIVATE_KEY
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/balena-api-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION= \
-	INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING= \
-	INTEGRATION_BALENA_API_PRIVATE_KEY=
-```
-
-### GitHub Mirror
-Run GitHub mirror tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/e2e/sync/github-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
-	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/e2e/sync/github-mirror.spec.js \
-	SCRUB=0 \
-	INTEGRATION_GITHUB_TOKEN= \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### GitHub Translate
-Run GitHub translate tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/integration/sync/github-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
-	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/github-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_GITHUB_TOKEN=
-```
-
-### Flowdock Translate
-Run Flowdock translate tests with proper keys and tokens set:
-```
-make test \
-	FILES=./test/integration/sync/flowdock-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY \
-	INTEGRATION_FLOWDOCK_TOKEN=$FLOWDOCK_TOKEN
-```
-
-Run the same tests without keys and tokens set (cases requiring them should get skipped):
-```
-make test \
-	FILES=./test/integration/sync/flowdock-translate.spec.js \
-	SCRUB=0 \
-	INTEGRATION_FLOWDOCK_SIGNATURE_KEY= \
-	INTEGRATION_FLOWDOCK_TOKEN=
+### Server Integration
+Run server integration tests:
+```sh
+$ make test-integration-server
 ```
 
 ### E2E UI
 Run UI e2e tests, passing along variables indicating where all necessary services are located:
-```
-make test-e2e-ui \
+```sh
+sh make test-e2e-ui \
 	SCRUB=0 \
 	UI_HOST=http://ui \
 	UI_PORT=80 \
@@ -374,8 +124,8 @@ make test-e2e-ui \
 
 ### E2E Livechat
 Run Livechat e2e tests, passing along variables indicating where all necessary services are located:
-```
-make test-e2e-livechat \
+```sh
+$ make test-e2e-livechat \
 	SCRUB=0 \
 	LIVECHAT_HOST=http://livechat \
 	LIVECHAT_PORT=80 \
@@ -389,8 +139,8 @@ make test-e2e-livechat \
 
 ### E2E Server
 Run server e2e tests, passing along some external service keys as well as where all necessary local services are located:
-```
-make test-e2e-server \
+```sh
+$ make test-e2e-server \
 	SCRUB=0 \
 	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
 	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY \
