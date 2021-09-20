@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop unused force directed graph for links
+      hash: d394800a02cb63551252834affc37663fc506fd6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.43
+  date: 2021-09-20T13:32:57.942Z
+- commits:
     - subject: update github plugin
       hash: bbce11fbb9a51fe225f4b98800845b521d1e73db
       body: ''
