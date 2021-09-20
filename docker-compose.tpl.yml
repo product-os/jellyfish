@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   api:
+    image: balena/jellyfish
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
@@ -122,6 +123,7 @@ services:
     networks:
       - internal
   ui:
+    image: balena/jellyfish-ui
     build:
       args:
         - NPM_TOKEN
@@ -141,6 +143,7 @@ services:
       - internal
   {{#workers}}
   worker_{{idx}}:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile
