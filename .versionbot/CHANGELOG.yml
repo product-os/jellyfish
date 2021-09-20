@@ -1,4 +1,17 @@
 - commits:
+    - subject: update ot gh plugin 1.11.79
+      hash: 3738f8ad0df607fdc8ecc86fbf604c10af387b34
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.44
+  date: 2021-09-20T14:36:22.868Z
+- commits:
     - subject: Drop unused force directed graph for links
       hash: d394800a02cb63551252834affc37663fc506fd6
       body: ''
