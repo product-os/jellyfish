@@ -1,4 +1,19 @@
 - commits:
+    - subject: Only generate a webpack bundle report if the ANALYZE env var is used
+      hash: 0300e865035f6abe133305fe47a8ab40efd2455a
+      body: |
+        Generating the bundle report on every production build is unnecessary
+        and time consuming.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.45
+  date: 2021-09-20T16:30:34.621Z
+- commits:
     - subject: update ot gh plugin 1.11.79
       hash: 3738f8ad0df607fdc8ecc86fbf604c10af387b34
       body: ''
