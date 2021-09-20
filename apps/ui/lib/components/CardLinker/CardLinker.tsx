@@ -30,7 +30,6 @@ class CardLinker extends React.Component<any, any> {
 		this.hideLinkModal = this.hideLinkModal.bind(this);
 		this.toggleMenu = this.toggleMenu.bind(this);
 		this.openCreateChannel = this.openCreateChannel.bind(this);
-		this.openVisualizeChannel = this.openVisualizeChannel.bind(this);
 	}
 
 	openLinkModal() {
@@ -73,16 +72,6 @@ class CardLinker extends React.Component<any, any> {
 				},
 			},
 			format: 'create',
-			canonical: false,
-		});
-	}
-
-	openVisualizeChannel() {
-		this.props.actions.addChannel({
-			head: {
-				card: this.props.card,
-			},
-			format: 'visualizeLinks',
 			canonical: false,
 		});
 	}
@@ -155,14 +144,6 @@ class CardLinker extends React.Component<any, any> {
 								data-test="card-linker-action--unlink"
 							>
 								Unlink from existing element
-							</ActionButton>
-
-							<ActionButton
-								plain
-								onClick={this.openVisualizeChannel}
-								data-test="card-linker-action--visualize"
-							>
-								Visualize links
 							</ActionButton>
 						</ContextMenu>
 					)}
