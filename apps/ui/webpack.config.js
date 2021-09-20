@@ -189,7 +189,7 @@ if (process.env.NODE_ENV === 'production' ||
 	)
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ANALYZE) {
 	appConfig.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',

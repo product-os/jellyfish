@@ -112,11 +112,7 @@ const config = {
 	]
 }
 
-if (process.env.NODE_ENV === 'production') {
-	config.mode = 'production'
-	config.optimization = {
-		minimize: true
-	}
+if (process.env.ANALYZE) {
 	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
@@ -124,6 +120,13 @@ if (process.env.NODE_ENV === 'production') {
 			openAnalyzer: false
 		})
 	)
+}
+
+if (process.env.NODE_ENV === 'production') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
 } else {
 	config.plugins.push(
 		new WatchIgnorePlugin([
