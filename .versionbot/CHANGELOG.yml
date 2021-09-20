@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove redundant AGGREGATE test
+      hash: 3e9025b6ea1488450a042a05f042e78943656483
+      body: |
+        This behaviour is already tested in the jellyfish-worker module
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.46
+  date: 2021-09-20T19:09:20.410Z
+- commits:
     - subject: Only generate a webpack bundle report if the ANALYZE env var is used
       hash: 0300e865035f6abe133305fe47a8ab40efd2455a
       body: |
