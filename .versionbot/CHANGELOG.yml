@@ -1,4 +1,20 @@
 - commits:
+    - subject: Make links->user security test more targeted
+      hash: e958c6fc85bf651b1517b6c1f7c0397adee0188c
+      body: |
+        This change makes the test much more targeted: rather than matching the
+        entire contract, it instead asserts that certain values are not present.
+        In the long-term this test should be done at the core level and not e2e.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.55
+  date: 2021-09-21T16:25:28.682Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 8e8093e02e9f66d5418c8b80798970e803135f40
       body: ''
