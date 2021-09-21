@@ -1,4 +1,26 @@
 - commits:
+    - subject: Bump tmpl from 1.0.4 to 1.0.5 in /apps/server
+      hash: ed32f859917f0fe69edf85c7659dece3a43d4058
+      body: |
+        Bumps [tmpl](https://github.com/daaku/nodejs-tmpl) from 1.0.4 to 1.0.5.
+        - [Release notes](https://github.com/daaku/nodejs-tmpl/releases)
+        - [Commits](https://github.com/daaku/nodejs-tmpl/commits/v1.0.5)
+
+        ---
+        updated-dependencies:
+        - dependency-name: tmpl
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 38.2.50
+  date: 2021-09-21T03:42:55.272Z
+- commits:
     - subject: Simplify attachment tests
       hash: d99ede6bc0dbdb2a1a106a2f6cbdd8487aca3b5d
       body: ''
