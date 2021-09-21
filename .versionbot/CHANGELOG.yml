@@ -1,4 +1,17 @@
 - commits:
+    - subject: Simplify attachment tests
+      hash: d99ede6bc0dbdb2a1a106a2f6cbdd8487aca3b5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.49
+  date: 2021-09-21T02:48:50.196Z
+- commits:
     - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/livechat
       hash: 3336eb4b4d6ecbd539b2829103b82a0472040892
       body: >
