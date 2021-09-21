@@ -612,7 +612,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 
 	const id = uuid()
 
-	const messageRequest = await sdk.event.create({
+	await sdk.event.create({
 		type: 'message',
 		tags: [],
 		target: targetUser,
@@ -620,8 +620,6 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			message: id
 		}
 	})
-
-	const message = await sdk.card.get(messageRequest.id)
 
 	const results = await sdk.query({
 		$$links: {
@@ -674,37 +672,11 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 		}
 	})
 
-	test.deepEqual(results, [
-		{
-			id: message.id,
-			slug: message.slug,
-			type: message.type,
-			version: '1.0.0',
-			updated_at: null,
-			linked_at: message.linked_at,
-			created_at: message.created_at,
-			name: null,
-			active: true,
-			loop: null,
-			tags: [],
-			requires: [],
-			capabilities: [],
-			markers: [],
-			links: {
-				'is attached to': [
-					Object.assign({}, targetUser, {
-						links: results[0].links['is attached to'][0].links,
-						linked_at: results[0].links['is attached to'][0].linked_at,
-						updated_at: results[0].links['is attached to'][0].updated_at,
-						data: Object.assign(_.omit(targetUser.data, [ 'hash', 'roles', 'profile' ]), {
-							avatar: null
-						})
-					})
-				]
-			},
-			data: message.data
-		}
-	])
+	const linkedUser = results[0].links['is attached to'][0]
+
+	test.falsy(linkedUser.data.hash)
+	test.falsy(linkedUser.data.roles)
+	test.falsy(linkedUser.data.profile)
 })
 
 ava.serial('Users should not be able to create sessions as other users', async (test) => {
