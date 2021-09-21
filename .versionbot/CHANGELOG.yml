@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external base images
+      hash: 907ffa9d9be7519aa4c5ac40b52032d2d3120c98
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.52
+  date: 2021-09-21T05:58:21.412Z
+- commits:
     - subject: Remove e2e SDK event tests
       hash: 946ac466f631ff37f683eeaf5b63048c569ac109
       body: |
