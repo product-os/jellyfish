@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove e2e SDK event tests
+      hash: 946ac466f631ff37f683eeaf5b63048c569ac109
+      body: |
+        Moved tests: jellyfish-plugin-default/pull/691
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.51
+  date: 2021-09-21T04:35:20.751Z
+- commits:
     - subject: Bump tmpl from 1.0.4 to 1.0.5 in /apps/server
       hash: ed32f859917f0fe69edf85c7659dece3a43d4058
       body: |
