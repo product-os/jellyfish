@@ -1,4 +1,32 @@
 - commits:
+    - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/livechat
+      hash: 3336eb4b4d6ecbd539b2829103b82a0472040892
+      body: >
+        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to
+        2.0.1.
+
+        - [Release notes](https://github.com/fb55/nth-check/releases)
+
+        - [Commits](https://github.com/fb55/nth-check/compare/v2.0.0...v2.0.1)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: nth-check
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 38.2.48
+  date: 2021-09-21T01:12:00.156Z
+- commits:
     - subject: Bring back frontend Renovate group
       hash: 9505533f640790b0d6a20cf12e591cf320507b78
       body: ''
