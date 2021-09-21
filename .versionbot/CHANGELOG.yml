@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bring back frontend Renovate group
+      hash: 9505533f640790b0d6a20cf12e591cf320507b78
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.47
+  date: 2021-09-21T00:11:51.393Z
+- commits:
     - subject: Remove redundant AGGREGATE test
       hash: 3e9025b6ea1488450a042a05f042e78943656483
       body: |
