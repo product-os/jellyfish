@@ -6,6 +6,21 @@
     {
       "matchPackagePatterns": ["puppeteer"],
       "groupName": "puppeteer"
+    },
+    {
+      "groupName": "non-major-frontend",
+      "matchPackageNames": [
+        "@balena/jellyfish-ui-components",
+        "@balena/jellyfish-chat-widget",
+        "rendition",
+        "styled-components"
+      ],
+      "matchPackagePatterns": ["^react"],
+      "matchUpdateTypes": [
+        "minor",
+        "patch"
+      ],
+      "automerge": true
     }
   ]
 }
