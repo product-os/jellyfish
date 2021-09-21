@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 7bbdec47531bff47c58b97e38927c91832a84de8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.2.53
+  date: 2021-09-21T07:53:03.695Z
+- commits:
     - subject: Bump external base images
       hash: 907ffa9d9be7519aa4c5ac40b52032d2d3120c98
       body: ''
