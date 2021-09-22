@@ -782,14 +782,29 @@ ava.serial('Users should not be able to view create cards that create users', as
 	const user2Details = createUserDetails()
 
 	await sdk.auth.signup(user1Details)
-	await sdk.auth.signup(user2Details)
+	const user2 = await sdk.auth.signup(user2Details)
 
 	await sdk.auth.login(user1Details)
 
-	const user2 = await sdk.card.getWithTimeline(`user-${user1Details.username}`)
-	const createCard = _.find(user2.links['has attached element'], {
-		type: 'create@1.0.0'
+	// The create event for user 2 should not be visible to user 1
+	const results = await sdk.query({
+		$$links: {
+			'is attached to': {
+				type: 'object',
+				properties: {
+					id: {
+						const: user2.id
+					}
+				}
+			}
+		},
+		type: 'object',
+		properties: {
+			type: {
+				const: 'create@1.0.0'
+			}
+		}
 	})
 
-	test.falsy(createCard)
+	test.is(results.length, 0)
 })
