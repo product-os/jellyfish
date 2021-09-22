@@ -322,6 +322,7 @@ export class ViewRenderer extends React.Component<any, any> {
 				totalPages: Infinity,
 				limit: 100,
 				sortBy: ['created_at'],
+				sortDir: 'desc',
 			},
 		};
 
@@ -339,7 +340,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			'updateFiltersFromSummary',
 			'updateFilters',
 			'getQueryOptions',
-			'setSortByField',
+			'handleSortOptionsChange',
 		];
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this);
@@ -569,14 +570,14 @@ export class ViewRenderer extends React.Component<any, any> {
 			});
 	}
 
-	setSortByField(field) {
+	handleSortOptionsChange(sortOptions) {
 		this.setState(
 			({ options }) => ({
 				options: {
 					...options,
 					page: 0,
 					totalPages: Infinity,
-					sortBy: field,
+					...sortOptions,
 				},
 			}),
 			() => {
@@ -693,6 +694,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		if (keepState) {
 			options.page = this.state.options.page;
 			options.sortBy = this.state.options.sortBy;
+			options.sortDir = this.state.options.sortDir;
 		}
 
 		// The backend will throw an error if you make a request with a "limit"
@@ -896,7 +898,7 @@ export class ViewRenderer extends React.Component<any, any> {
 					}}
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
 					pageOptions={options}
-					setSortByField={this.setSortByField}
+					onSortOptionsChange={this.handleSortOptionsChange}
 					tail={tail}
 				/>
 				<Flex height="100%" minHeight="0" mt={filters.length ? 0 : 3}>

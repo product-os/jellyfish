@@ -52,7 +52,7 @@ export default class Header extends React.Component<any, any> {
 			updateSearch,
 			updateFiltersFromSummary,
 			pageOptions,
-			setSortByField,
+			onSortOptionsChange,
 			tail,
 		} = this.props;
 
@@ -158,7 +158,7 @@ export default class Header extends React.Component<any, any> {
 							updateSearch={updateSearch}
 							updateFiltersFromSummary={updateFiltersFromSummary}
 							pageOptions={pageOptions}
-							setSortByField={setSortByField}
+							onSortOptionsChange={onSortOptionsChange}
 						/>
 					</Collapsible>
 					<CloseButton
