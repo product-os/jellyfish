@@ -260,60 +260,56 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	workerContractsStream.once('error', errorHandler);
 
 	// On a stream event, update the stored contracts in the worker
-	workerContractsStream.on('data', (data: StreamChange) => {
-		const contractType = (
-			data.after ? data.after.type : data.before.type
-		).split('@')[0];
+	workerContractsStream.on('data', (change: StreamChange) => {
+		const contract = change.after;
 		if (
-			data.type === 'update' ||
-			data.type === 'insert' ||
-			data.type === 'unmatch'
+			change.type === 'update' ||
+			change.type === 'insert' ||
+			change.type === 'unmatch'
 		) {
 			// If `after` is null, the card is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
-			if (data.after === null) {
-				switch (contractType) {
+			if (!contract) {
+				switch (change.contractType) {
 					case 'triggered-action':
-						worker.removeTrigger(context, data.id);
+						worker.removeTrigger(context, change.id);
 						break;
 					case 'transformer':
-						worker.removeTransformer(context, data.id);
+						worker.removeTransformer(context, change.id);
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== data.id;
+							return type.id !== change.id;
 						});
 						worker.setTypeContracts(context, filteredContracts);
 				}
 			} else {
-				switch (contractType) {
+				switch (change.contractType) {
 					case 'triggered-action':
-						worker.upsertTrigger(context, data.after);
+						worker.upsertTrigger(context, contract);
 						break;
 					case 'transformer':
-						worker.upsertTransformer(context, data.after as Transformer);
+						worker.upsertTransformer(context, contract as Transformer);
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== data.id;
+							return type.id !== change.id;
 						});
-						filteredContracts.push(data.after as TypeContract);
+						filteredContracts.push(contract as TypeContract);
 						worker.setTypeContracts(context, filteredContracts);
 				}
 			}
-		}
-
-		if (data.type === 'delete') {
-			switch (contractType) {
+		} else if (change.type === 'delete') {
+			switch (change.contractType) {
 				case 'triggered-action':
-					worker.removeTrigger(context, data.id);
+					worker.removeTrigger(context, change.id);
 					break;
 				case 'transformer':
-					worker.removeTransformer(context, data.id);
+					worker.removeTransformer(context, change.id);
 					break;
 				case 'type':
 					const filteredContracts = _.filter(worker.typeContracts, (type) => {
-						return type.id !== data.id;
+						return type.id !== change.id;
 					});
 					worker.setTypeContracts(context, filteredContracts);
 			}
