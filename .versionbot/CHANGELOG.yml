@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to ^3.0.298'
+      hash: 4e1646b4219f304e871d4e9ebcbeca4a57629a84
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.2.60
+  date: 2021-09-22T10:39:26.470Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: faf2ebf9640f7e1fcf3220ee43fd54a9bb39a546
       body: ''
