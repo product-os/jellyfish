@@ -1,4 +1,22 @@
 - commits:
+    - subject: Make security test for user create events more targeted.
+      hash: 41d31030b57f1fb5ea517e517b10eef08b917927
+      body: |
+        The previous version of this test did not query for the create contract
+        directly, which exposed it to subtle bugs, such as `.getWithTimeline()`
+        returning null. This change makes the test more targeted and explicitly
+        tests that *other* users cannot read the create event, which is more
+        close to the intention of the test.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 38.2.61
+  date: 2021-09-22T12:00:40.377Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-typeform to ^3.0.298'
       hash: 4e1646b4219f304e871d4e9ebcbeca4a57629a84
       body: ''
