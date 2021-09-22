@@ -1,4 +1,27 @@
 - commits:
+    - subject: update core and types
+      hash: c1354677f61579e7e46a4fda1b526268cf15357d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: prevent bootstrapping stream to fail on unmatch
+      hash: bf44486fde62819c05b5f50c1891d496b157a5b1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 38.2.62
+  date: 2021-09-22T15:19:11.570Z
+- commits:
     - subject: Make security test for user create events more targeted.
       hash: 41d31030b57f1fb5ea517e517b10eef08b917927
       body: |
