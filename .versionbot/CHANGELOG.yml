@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: 00498c9a376ff19b0170b478377ea46a37a55a75
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.2.58
+  date: 2021-09-22T03:33:36.682Z
+- commits:
     - subject: Bump axios from 0.21.1 to 0.21.4 in /apps/action-server
       hash: 2b9230a3d0ca881e7b5755c5e8b3fc277b3eef2e
       body: |
