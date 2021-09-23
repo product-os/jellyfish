@@ -29,14 +29,17 @@ const mapStateToProps = (state, ownProps) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
+	const card = ownProps.card;
 	return bindActionCreators(
-		_.pick(actionCreators, [
-			'setTimelineMessage',
-			'signalTyping',
-			'getActor',
-			'loadMoreChannelData',
-		]),
+		{
+			..._.pick(actionCreators, [
+				'setTimelineMessage',
+				'signalTyping',
+				'getActor',
+			]),
+			next: () => actionCreators.loadMoreChannelData(card.id),
+		},
 		dispatch,
 	);
 };
