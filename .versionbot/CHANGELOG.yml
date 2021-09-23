@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add table sorting functionality
+      hash: 5a0aab83d334c6ec414c9a6cf6fd21fbac0a79ae
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 38.3.0
+  date: 2021-09-22T21:27:02.633Z
+- commits:
     - subject: update core and types
       hash: c1354677f61579e7e46a4fda1b526268cf15357d
       body: ''
