@@ -126,7 +126,7 @@ ava.serial('Initial short conversation list page', async (test) => {
 		page
 	} = context
 
-	const threads = await createThreads(context, 0, 2)
+	const threads1 = await createThreads(context, 0, 2)
 	await initChat(context)
 
 	await test.notThrowsAsync(
@@ -134,16 +134,16 @@ ava.serial('Initial short conversation list page', async (test) => {
 		'should be displayed initially when there is at least one conversation'
 	)
 
-	const conversationIds = await getRenderedConversationIds(context)
+	const conversationIds1 = await getRenderedConversationIds(context)
 
 	test.true(
-		threads.reverse().every((thread, index) => {
-			return conversationIds[index] === thread.id
+		threads1.reverse().every((thread, index) => {
+			return conversationIds1[index] === thread.id
 		}),
 		'should display latest two conversations'
 	)
 
-	const selectedConversationId = conversationIds[conversationIds.length - 1]
+	const selectedConversationId = conversationIds1[conversationIds1.length - 1]
 	await page.click(`[data-test-id="${selectedConversationId}"]`)
 
 	await test.notThrowsAsync(
@@ -198,13 +198,8 @@ ava.serial('Initial short conversation list page', async (test) => {
 		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
 		'should navigate back to short conversation list page when pressing back button'
 	)
-})
 
-ava.serial('Full conversation list page', async (test) => {
-	const {
-		page
-	} = context
-
+	// Test Full conversation list page
 	const threads = await createThreads(context, 0, INITIAL_FETCH_CONVERSATIONS_LIMIT + 1)
 	await initChat(context)
 
@@ -303,13 +298,8 @@ ava.serial('Create conversation page', async (test) => {
 		page.waitForSelector('[data-test="initial-short-conversation-page"]'),
 		'should navigate back to short conversation list page when pressing back button'
 	)
-})
 
-ava.serial('Chat page', async (test) => {
-	const {
-		page
-	} = context
-
+	// Test Chat page
 	const thread = (await createThreads(context, 0, 1))[0]
 	await subscribeToThread(context, thread)
 
@@ -359,14 +349,8 @@ ava.serial('Chat page', async (test) => {
 		response.id,
 		'should receive notification'
 	)
-})
 
-ava.serial('External navigation request', async (test) => {
-	const {
-		page
-	} = context
-
-	const thread = (await createThreads(context, 0, 1))[0]
+	// External navigation request
 	await initChat(context)
 
 	await test.notThrowsAsync(
