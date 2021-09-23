@@ -14,11 +14,7 @@ const sortTail = (tail, options) => {
 	if (!tail) {
 		return null;
 	}
-	const sortedTail = _.sortBy(tail, options.sortBy);
-	if (options.sortDir) {
-		return sortedTail.reverse();
-	}
-	return sortedTail;
+	return _.orderBy(tail, options.sortBy, options.sortDir);
 };
 
 export default class Content extends React.Component<any, any> {

@@ -11,6 +11,7 @@ import clone from 'deep-copy';
 import type { JSONSchema7 } from 'json-schema';
 import { Box, Filters, Flex, SchemaSieve, Search, Theme } from 'rendition';
 import SortByButton from './SortByButton';
+import { SortDirButton } from './SortDirButton';
 import { core, JSONSchema } from '@balena/jellyfish-types';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import { helpers } from '@balena/jellyfish-ui-components';
@@ -168,7 +169,7 @@ const ViewFilters = React.memo<any>(
 		updateSearch,
 		updateFiltersFromSummary,
 		pageOptions,
-		setSortByField,
+		onSortOptionsChange,
 	}) => {
 		const summaryFilters = React.useMemo(() => {
 			return _.compact([...filters, searchFilter]);
@@ -184,6 +185,24 @@ const ViewFilters = React.memo<any>(
 				Boolean(index <= 0),
 			);
 		}, [Theme.breakpoints]);
+
+		const handleSortByChange = React.useCallback(
+			(sortBy) => {
+				onSortOptionsChange({
+					sortBy,
+				});
+			},
+			[onSortOptionsChange],
+		);
+
+		const handleSortDirChange = React.useCallback(
+			(sortDir) => {
+				onSortOptionsChange({
+					sortDir,
+				});
+			},
+			[onSortOptionsChange],
+		);
 
 		return (
 			<React.Fragment>
@@ -213,11 +232,18 @@ const ViewFilters = React.memo<any>(
 							</Box>
 							<SortByButton
 								pageOptions={pageOptions}
-								setSortByField={setSortByField}
+								setSortByField={handleSortByChange}
 								tailTypes={tailTypes}
 								ml={2}
 								mb={3}
 								minWidth="150px"
+							/>
+							<SortDirButton
+								value={pageOptions.sortDir}
+								onChange={handleSortDirChange}
+								ml={2}
+								mb={3}
+								minWidth="50px"
 							/>
 						</Flex>
 					</Flex>

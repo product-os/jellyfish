@@ -206,6 +206,7 @@ class Segment extends React.Component<any, any> {
 							pageOptions={{
 								limit: 30,
 								sortBy: ['created_at'],
+								sortDir: 'desc',
 							}}
 						/>
 					)}

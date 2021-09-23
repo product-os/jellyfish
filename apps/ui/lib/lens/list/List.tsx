@@ -121,16 +121,24 @@ export class CardList extends React.Component<any, any> {
 	}
 
 	componentDidUpdate(
-		{ tail: prevTail, pageOptions: { sortBy: previousSortBy } },
+		{
+			tail: prevTail,
+			pageOptions: { sortBy: previousSortBy, sortDir: previousSortDir },
+		},
 		prevState,
 		previousTailDataChanged,
 	) {
 		const currentSortBy = this.props.pageOptions.sortBy;
+		const currentSortDir = this.props.pageOptions.sortDir;
 
 		// If sort-by value changes (such that the tail order also changes),
 		// scroll to the top row and then immediately reset to undefined.
 		// This is so we can scroll up again when/if the sort-by changes again
-		if (previousSortBy !== currentSortBy && previousTailDataChanged) {
+		if (
+			(previousSortBy !== currentSortBy ||
+				previousSortDir !== currentSortDir) &&
+			previousTailDataChanged
+		) {
 			this.setState(
 				{
 					scrollToIndex: 0,
