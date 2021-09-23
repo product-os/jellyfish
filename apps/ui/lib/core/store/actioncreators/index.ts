@@ -25,6 +25,7 @@ import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import { JSONSchema, core } from '@balena/jellyfish-types';
+import { Contract } from '@balena/jellyfish-types/build/core';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -701,8 +702,8 @@ export const actionCreators = {
 		};
 	},
 
-	loadMoreChannelData({ target, query, queryOptions }) {
-		return async (dispatch, getState) => {
+	loadMoreChannelData(target: string) {
+		return async (dispatch, getState): Promise<Contract[]> => {
 			// The target value can be a slug or id. We can find the corresponding
 			// full card from the stored channel data and then use that to find the
 			// cached stream reference.
@@ -731,7 +732,42 @@ export const actionCreators = {
 					'Stream not found: Did you forget to call loadChannelData?',
 				);
 			}
+
+			if (!stream.page) {
+				stream.page = 1;
+			}
+
+			stream.page++;
+
+			const pageSize = 20;
+
+			const query = {
+				type: 'object',
+				properties: {
+					id: {
+						const: targetId,
+					},
+				},
+				$$links: {
+					'has attached element': {
+						type: 'object',
+					},
+				},
+			};
+
+			const queryOptions = {
+				links: {
+					'has attached element': {
+						sortBy: 'created_at',
+						sortDir: 'desc',
+						limit: stream.page * pageSize,
+						skip: (stream.page - 1) * pageSize,
+					},
+				},
+			};
+
 			const queryId = uuid();
+
 			stream.emit('queryDataset', {
 				data: {
 					id: queryId,
@@ -742,7 +778,12 @@ export const actionCreators = {
 			return new Promise((resolve, reject) => {
 				const handler = ({ data }) => {
 					if (data.id === queryId) {
-						resolve(data.cards);
+						const results = _.get(
+							data.cards[0],
+							['links', 'has attached element'],
+							[],
+						);
+						resolve(results);
 						stream.off('dataset', handler);
 					}
 				};
