@@ -164,9 +164,24 @@ exports.initChat = async (context) => {
 		inbox: 'paid'
 	})
 
-	await context.page.goto(
-		`${environment.livechat.host}:${environment.livechat.port}?${queryString}`
-	)
+	const url = `${environment.livechat.host}:${environment.livechat.port}?${queryString}`
+
+	if (context.page.url().includes(url)) {
+		// If puppeteer is already on the right URL, navigate back to the "home" panel of the chat widget
+		await context.page.click('[data-test="navigate-back-button"]')
+		try {
+			await context.page.waitForSelector('[data-test="navigate-back-button"]', {
+				timeout: 5000
+			})
+
+			await context.page.click('[data-test="navigate-back-button"]')
+		} catch (err) {
+			console.log('Already on initial page')
+		}
+		await context.page.waitForSelector('[data-test="initial-create-conversation-page"]')
+	} else {
+		await context.page.goto(url)
+	}
 }
 
 exports.navigateTo = async (context, to) => {
