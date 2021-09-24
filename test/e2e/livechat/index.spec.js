@@ -299,6 +299,8 @@ ava.serial('Create conversation page', async (test) => {
 		'should navigate back to short conversation list page when pressing back button'
 	)
 
+	console.log('##################### STAGE 1 #####################')
+
 	// Test Chat page
 	const thread = (await createThreads(context, 0, 1))[0]
 	await subscribeToThread(context, thread)
@@ -311,7 +313,11 @@ ava.serial('Create conversation page', async (test) => {
 
 	await page.waitForSelector('[data-test="chat-page"]')
 
+	console.log('##################### STAGE 2 #####################')
+
 	await createChatMessage(page, '', 'Message from user')
+
+	console.log('##################### STAGE 3 #####################')
 
 	await test.notThrowsAsync(
 		waitForInnerText(
@@ -322,6 +328,8 @@ ava.serial('Create conversation page', async (test) => {
 		'should display support user\'s username'
 	)
 
+	console.log('##################### STAGE 4 #####################')
+
 	await context.page.evaluate(() => {
 		window.addEventListener('message', (event) => {
 			if (event.data.type === 'notifications-change') {
@@ -330,7 +338,11 @@ ava.serial('Create conversation page', async (test) => {
 		})
 	})
 
+	console.log('##################### STAGE 5 #####################')
+
 	const response = await insertAgentReply(context, thread, 'Response from agent')
+
+	console.log('##################### STAGE 6 #####################')
 
 	await test.notThrowsAsync(
 		waitForInnerText(
@@ -342,13 +354,19 @@ ava.serial('Create conversation page', async (test) => {
 		'should display support agent\'s username'
 	)
 
+	console.log('##################### STAGE 7 #####################')
+
 	const [ notification ] = await waitForNotifications(context, 1)
+
+	console.log('##################### STAGE 8 #####################')
 
 	test.is(
 		notification.links['is attached to'][0].id,
 		response.id,
 		'should receive notification'
 	)
+
+	console.log('##################### STAGE 9 #####################')
 
 	// External navigation request
 	await initChat(context)
@@ -358,7 +376,11 @@ ava.serial('Create conversation page', async (test) => {
 		'should be displayed initially when there is at least one conversation'
 	)
 
+	console.log('##################### STAGE 10 #####################')
+
 	await navigateTo(context, `/chat/${thread.id}`)
+
+	console.log('##################### STAGE 11 #####################')
 
 	await page.waitForSelector(`[data-test="chat-page"][data-test-id="${thread.id}"]`)
 	test.pass('should navigate to thread')
