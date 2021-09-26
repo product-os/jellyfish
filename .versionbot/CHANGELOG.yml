@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: b49556acac8cb2d8cc8a79443f6d10135a34df3f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.3.2
+  date: 2021-09-26T11:36:39.166Z
+- commits:
     - subject: Don't run a full page load in e2e livechat tests if not necessary
       hash: 37798a756a9c9d701701294d4f0b6b823ac26f1e
       body: ''
