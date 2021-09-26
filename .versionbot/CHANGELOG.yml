@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump base images
+      hash: b4569453fd83ec1caac191bc439c592e2bbc0137
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.3.3
+  date: 2021-09-26T14:02:51.944Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: b49556acac8cb2d8cc8a79443f6d10135a34df3f
       body: ''
