@@ -272,6 +272,8 @@ ava.serial('Initial short conversation list page', async (test) => {
 })
 
 ava.serial('Create conversation page', async (test) => {
+	test.timeout(10 * 60 * 1000)
+
 	const {
 		page
 	} = context
