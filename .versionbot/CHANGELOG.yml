@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^21.1.20'
+      hash: 51a638fb39468f1624ed37ab992ce693ac9a22a4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 38.3.4
+  date: 2021-09-27T09:03:35.095Z
+- commits:
     - subject: Bump base images
       hash: b4569453fd83ec1caac191bc439c592e2bbc0137
       body: ''
