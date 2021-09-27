@@ -9,10 +9,8 @@
 
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
 const path = require('path')
-const webpack = require('webpack')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 
@@ -119,18 +117,6 @@ const appConfig = {
 		publicPath: '/'
 	},
 
-	optimization: {
-		splitChunks: {
-			cacheGroups: {
-				monaco: {
-					test: /[\\/]monaco-editor[\\/]/,
-					name: 'monaco-editor',
-					chunks: 'all'
-				}
-			}
-		}
-	},
-
 	plugins: [
 		new CopyWebpackPlugin({
 			patterns: [
@@ -164,14 +150,7 @@ const appConfig = {
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
-		}),
-
-		new webpack.ContextReplacementPlugin(
-			/monaco-editor(\\|\/)esm(\\|\/)vs(\\|\/)editor(\\|\/)common(\\|\/)services/,
-			__dirname
-		),
-
-		new MonacoWebpackPlugin()
+		})
 	]
 }
 
