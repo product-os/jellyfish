@@ -1,4 +1,27 @@
 - commits:
+    - subject: Remove random-words dependency
+      hash: a0536bd905f0dc1b6785e6f04b4bf4eeca02cd55
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove community.spec.js
+      hash: e590eaf1cb79ade75244002d66bb297655d9a048
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 38.3.5
+  date: 2021-09-28T03:30:47.872Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^21.1.20'
       hash: 51a638fb39468f1624ed37ab992ce693ac9a22a4
       body: ''
