@@ -1,4 +1,24 @@
 - commits:
+    - subject: Remove MermaidEditor component
+      hash: 254869ac71beec0b6f6bd4666e14dc449fbcbb61
+      body: |
+        The mermaid editor bundles the Monaco editor, which is a very large
+        package and adds considerable weight to the UI for what is a relatively
+        small feature that is almost never used. I suggest removing Monaco and
+        the specialised mermaid editor for the time being and re-introducing
+        a generic code editing function at some point in the future, possible
+        lazy loaded or added as a seperate service, dedicated to editing
+        functionality.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.0.0
+  date: 2021-09-28T14:50:48.913Z
+- commits:
     - subject: Remove random-words dependency
       hash: a0536bd905f0dc1b6785e6f04b4bf4eeca02cd55
       body: ''
