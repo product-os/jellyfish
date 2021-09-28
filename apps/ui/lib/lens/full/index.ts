@@ -6,6 +6,7 @@
 
 import CheckRun from './CheckRun';
 import MyUser from './MyUser';
+import Loop from './Loop';
 import Repository from './Repository';
 import SingleCard from './SingleCard';
 import SupportThread from './SupportThread';
@@ -17,6 +18,7 @@ import TransformerWorker from './TransformerWorker';
 export default [
 	CheckRun,
 	MyUser,
+	Loop,
 	Repository,
 	SingleCard,
 	SupportThread,
