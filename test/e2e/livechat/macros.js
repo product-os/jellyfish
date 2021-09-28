@@ -21,7 +21,6 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 	} catch (error) {
 		if (times) {
 			if (delay > 0) {
-				console.log(`retrying in ${delay}ms`)
 				await bluebird.delay(delay)
 			}
 			return exports.retry(times - 1, functionToTry, delay)
