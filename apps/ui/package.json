@@ -52,8 +52,6 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.0",
-    "monaco-editor": "^0.27.0",
-    "monaco-editor-webpack-plugin": "^4.1.2",
     "plotly.js": "^1.58.5",
     "pluralize": "^8.0.0",
     "query-string": "^7.0.1",

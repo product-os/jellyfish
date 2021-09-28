@@ -34,7 +34,6 @@ import { ConnectedRouter } from 'connected-react-router';
 import * as environment from './environment';
 import PWA from './pwa';
 import { JellyfishWidgets, LoopSelectWidget } from './components/Widgets';
-import MermaidEditor from './components/MermaidEditor';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
 
@@ -98,7 +97,7 @@ const widgets: any = {
 			{
 				name: 'mermaid',
 				format: '.*',
-				widget: MermaidEditor,
+				widget: MarkdownEditor,
 			},
 			{
 				name: 'Rating',
