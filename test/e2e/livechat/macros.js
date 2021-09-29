@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const bluebird = require('bluebird')
 const {
 	v4: uuid
 } = require('uuid')
@@ -12,6 +13,23 @@ const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
+
+exports.retry = async (times, functionToTry, delay = 0) => {
+	try {
+		const result = await functionToTry()
+		return result
+	} catch (error) {
+		if (times) {
+			if (delay > 0) {
+				console.log(`retrying in ${delay}ms`)
+				await bluebird.delay(delay)
+			}
+			return exports.retry(times - 1, functionToTry, delay)
+		}
+
+		throw error
+	}
+}
 
 exports.createThreads = async (context, start, count) => {
 	const threads = []
@@ -210,15 +228,13 @@ exports.insertAgentReply = async (context, thread, message) => {
 }
 
 exports.waitForNotifications = (context, notificationsLength) => {
-	return context.page.evaluate(async (length) => {
-		const check = (cb) => {
-			if (window.notifications && window.notifications.length === length) {
-				return cb(window.notifications)
-			}
-
-			return window.setTimeout(check, 500, cb)
+	return exports.retry(60, async () => {
+		const notifications = await context.page.evaluate(() => {
+			return window.notifications
+		})
+		if (notifications && notifications.length === notificationsLength) {
+			return notifications
 		}
-
-		return new Promise(check)
-	}, notificationsLength)
+		throw new Error('No notifications found')
+	}, 5000)
 }
