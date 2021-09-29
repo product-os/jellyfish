@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 7ad9508e93da711857c778f6759721f82219de64
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.0.1
+  date: 2021-09-29T03:41:36.026Z
+- commits:
     - subject: Remove MermaidEditor component
       hash: 254869ac71beec0b6f6bd4666e14dc449fbcbb61
       body: |
