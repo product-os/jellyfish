@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+const bluebird = require('bluebird')
 const {
 	v4: uuid
 } = require('uuid')
@@ -12,6 +13,22 @@ const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
+
+exports.retry = async (times, functionToTry, delay = 0) => {
+	try {
+		const result = await functionToTry()
+		return result
+	} catch (error) {
+		if (times) {
+			if (delay > 0) {
+				await bluebird.delay(delay)
+			}
+			return exports.retry(times - 1, functionToTry, delay)
+		}
+
+		throw error
+	}
+}
 
 exports.createThreads = async (context, start, count) => {
 	const threads = []
@@ -167,17 +184,7 @@ exports.initChat = async (context) => {
 	const url = `${environment.livechat.host}:${environment.livechat.port}?${queryString}`
 
 	if (context.page.url().includes(url)) {
-		// If puppeteer is already on the right URL, navigate back to the "home" panel of the chat widget
-		await context.page.click('[data-test="navigate-back-button"]')
-		try {
-			await context.page.waitForSelector('[data-test="navigate-back-button"]', {
-				timeout: 5000
-			})
-
-			await context.page.click('[data-test="navigate-back-button"]')
-		} catch (err) {
-			console.log('Already on initial page')
-		}
+		await exports.navigateTo('/')
 		await context.page.waitForSelector('[data-test="initial-create-conversation-page"]')
 	} else {
 		await context.page.goto(url)
@@ -210,15 +217,13 @@ exports.insertAgentReply = async (context, thread, message) => {
 }
 
 exports.waitForNotifications = (context, notificationsLength) => {
-	return context.page.evaluate(async (length) => {
-		const check = (cb) => {
-			if (window.notifications && window.notifications.length === length) {
-				return cb(window.notifications)
-			}
-
-			return window.setTimeout(check, 500, cb)
+	return exports.retry(60, async () => {
+		const notifications = await context.page.evaluate(() => {
+			return window.notifications
+		})
+		if (notifications && notifications.length === notificationsLength) {
+			return notifications
 		}
-
-		return new Promise(check)
-	}, notificationsLength)
+		throw new Error('No notifications found')
+	}, 5000)
 }

@@ -23,7 +23,7 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 			if (delay > 0) {
 				await bluebird.delay(delay)
 			}
-			return exports.retry(times - 1, functionToTry)
+			return exports.retry(times - 1, functionToTry, delay)
 		}
 
 		throw error
