@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: b74e63966f40713d1305448740836132abd280e1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.0.3
+  date: 2021-09-30T18:57:19.758Z
+- commits:
     - subject: Improve reliability of livechat e2e tests
       hash: ed45873f7c9905be2fddcc955dd430c3b95c4889
       body: >
