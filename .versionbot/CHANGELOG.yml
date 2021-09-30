@@ -1,4 +1,25 @@
 - commits:
+    - subject: Refactor timeline so that content loading happens in the HOC
+      hash: beb233602bf2d0ba4f0d1047281e03d0cb0e12ea
+      body: >
+        This change incorporates a major update to the ui components package,
+
+        that delegates Timeline page content loading directly to the higher
+        order component.
+
+        This will allow us to provide different types of data to the Timeline
+
+        and have it paginate correctly.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.0.4
+  date: 2021-09-30T20:21:46.544Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: b74e63966f40713d1305448740836132abd280e1
       body: ''
