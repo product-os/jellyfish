@@ -274,7 +274,7 @@ ava.serial('Initial short conversation list page', async (test) => {
 })
 
 ava.serial('Create conversation page', async (test) => {
-	test.timeout(10 * 60 * 1000)
+	test.timeout(20 * 60 * 1000)
 
 	const {
 		page
@@ -336,6 +336,8 @@ ava.serial('Create conversation page', async (test) => {
 
 	await context.page.evaluate(() => {
 		window.addEventListener('message', (event) => {
+			console.log('@@@@@@@@@@@@@ got event! @@@@@@@@@@@')
+			console.log(JSON.stringify(event, null, 2))
 			if (event.data.type === 'notifications-change') {
 				window.notifications = event.data.payload.data
 			}
@@ -348,6 +350,18 @@ ava.serial('Create conversation page', async (test) => {
 
 	console.log('##################### STAGE 6 #####################')
 
+	const [ notification ] = await waitForNotifications(context, 1)
+
+	console.log('##################### STAGE 7 #####################')
+
+	test.is(
+		notification.links['is attached to'][0].id,
+		response.id,
+		'should receive notification'
+	)
+
+	console.log('##################### STAGE 8 #####################')
+
 	await test.notThrowsAsync(
 		waitForInnerText(
 			page,
@@ -356,18 +370,6 @@ ava.serial('Create conversation page', async (test) => {
 			1
 		),
 		'should display support agent\'s username'
-	)
-
-	console.log('##################### STAGE 7 #####################')
-
-	const [ notification ] = await waitForNotifications(context, 1)
-
-	console.log('##################### STAGE 8 #####################')
-
-	test.is(
-		notification.links['is attached to'][0].id,
-		response.id,
-		'should receive notification'
 	)
 
 	console.log('##################### STAGE 9 #####################')

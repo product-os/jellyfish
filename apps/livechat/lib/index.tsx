@@ -151,6 +151,7 @@ const ParentWindowCommunicator = () => {
 	}, []);
 
 	const onNotificationsChange = React.useCallback((notifications) => {
+		console.log('NOTIFICATONS CHANGE', notifications);
 		window.parent.postMessage(
 			{
 				type: 'notifications-change',

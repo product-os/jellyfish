@@ -217,7 +217,7 @@ exports.insertAgentReply = async (context, thread, message) => {
 }
 
 exports.waitForNotifications = (context, notificationsLength) => {
-	return exports.retry(60, async () => {
+	return exports.retry(20, async () => {
 		const notifications = await context.page.evaluate(() => {
 			return window.notifications
 		})
@@ -225,5 +225,5 @@ exports.waitForNotifications = (context, notificationsLength) => {
 			return notifications
 		}
 		throw new Error('No notifications found')
-	}, 5000)
+	}, 500)
 }
