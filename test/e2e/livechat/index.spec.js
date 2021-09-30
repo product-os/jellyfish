@@ -346,6 +346,10 @@ ava.serial('Create conversation page', async (test) => {
 
 	console.log('##################### STAGE 6 #####################')
 
+	const [ notification ] = await waitForNotifications(context, 1)
+
+	console.log('##################### STAGE 7 #####################')
+
 	await test.notThrowsAsync(
 		waitForInnerText(
 			page,
@@ -355,10 +359,6 @@ ava.serial('Create conversation page', async (test) => {
 		),
 		'should display support agent\'s username'
 	)
-
-	console.log('##################### STAGE 7 #####################')
-
-	const [ notification ] = await waitForNotifications(context, 1)
 
 	console.log('##################### STAGE 8 #####################')
 
