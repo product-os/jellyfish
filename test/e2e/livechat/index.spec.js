@@ -28,9 +28,8 @@ const {
 	insertAgentReply,
 	prepareUser,
 	scrollToLatestConversationListItem,
-	retry
-
-	// NavigateTo
+	retry,
+	navigateTo
 } = require('./macros')
 
 const context = {
@@ -348,6 +347,8 @@ ava.serial('Create conversation page', async (test) => {
 	})
 
 	console.log('##################### STAGE 5 #####################')
+
+	await navigateTo('/')
 
 	const response = await insertAgentReply(context, thread, 'Response from agent')
 	console.log(response)
