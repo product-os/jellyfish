@@ -262,6 +262,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 	// On a stream event, update the stored contracts in the worker
 	workerContractsStream.on('data', (change: StreamChange) => {
 		const contract = change.after;
+		const contractType = change.contractType.split('@')[0];
 		if (
 			change.type === 'update' ||
 			change.type === 'insert' ||
@@ -270,7 +271,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 			// If `after` is null, the card is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
 			if (!contract) {
-				switch (change.contractType) {
+				switch (contractType) {
 					case 'triggered-action':
 						worker.removeTrigger(context, change.id);
 						break;
@@ -284,7 +285,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 						worker.setTypeContracts(context, filteredContracts);
 				}
 			} else {
-				switch (change.contractType) {
+				switch (contractType) {
 					case 'triggered-action':
 						worker.upsertTrigger(context, contract);
 						break;
@@ -300,7 +301,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 				}
 			}
 		} else if (change.type === 'delete') {
-			switch (change.contractType) {
+			switch (contractType) {
 				case 'triggered-action':
 					worker.removeTrigger(context, change.id);
 					break;
