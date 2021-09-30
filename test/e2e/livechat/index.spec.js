@@ -181,7 +181,9 @@ ava.serial('Initial short conversation list page', async (test) => {
 	await createThreads(context, 2, 1)
 
 	await test.notThrowsAsync(
-		page.waitForSelector('[data-test="view-all-conversations-button"]'),
+		page.waitForSelector('[data-test="view-all-conversations-button"]', {
+			timeout: 60 * 1000
+		}),
 		'should display "View all conversations" link when there are more then two conversations'
 	)
 
