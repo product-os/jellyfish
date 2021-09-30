@@ -1,4 +1,29 @@
 - commits:
+    - subject: Improve reliability of livechat e2e tests
+      hash: ed45873f7c9905be2fddcc955dd430c3b95c4889
+      body: >
+        This change fixes an issue where types inserted after the initial worker
+
+        bootstrap would not be updated correctly in the worker cache. As
+
+        a result of this, notification generation could fail if the notification
+
+        contract type was inserted after the worker bootstrap phase, resulting
+
+        in notifications not being generated.
+
+        This change also improves the retry logic when checking for
+        notifications.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.0.2
+  date: 2021-09-30T17:20:11.800Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 7ad9508e93da711857c778f6759721f82219de64
       body: ''
