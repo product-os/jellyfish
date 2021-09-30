@@ -217,7 +217,7 @@ exports.insertAgentReply = async (context, thread, message) => {
 }
 
 exports.waitForNotifications = (context, notificationsLength) => {
-	return exports.retry(20, async () => {
+	return exports.retry(120, async () => {
 		const notifications = await context.page.evaluate(() => {
 			return window.notifications
 		})
