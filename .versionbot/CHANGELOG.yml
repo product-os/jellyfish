@@ -1,4 +1,20 @@
 - commits:
+    - subject: Clean up e2e server security tests
+      hash: 3cd8886c52a4a3ad39eb8978555974b276ce8c9c
+      body: |
+        Moved with:
+        https://github.com/product-os/jellyfish-action-library/pull/1301
+        https://github.com/product-os/jellyfish-plugin-default/pull/703
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.0.5
+  date: 2021-10-01T00:51:58.858Z
+- commits:
     - subject: Refactor timeline so that content loading happens in the HOC
       hash: beb233602bf2d0ba4f0d1047281e03d0cb0e12ea
       body: >
