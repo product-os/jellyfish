@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: d50413a605de2ab0e650f614047dd3848966110f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.0.6
+  date: 2021-10-03T10:29:15.681Z
+- commits:
     - subject: Clean up e2e server security tests
       hash: 3cd8886c52a4a3ad39eb8978555974b276ce8c9c
       body: |
