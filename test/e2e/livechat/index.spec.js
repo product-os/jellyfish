@@ -336,7 +336,7 @@ ava.serial('Create conversation page', async (test) => {
 
 	await context.page.evaluate(() => {
 		window.addEventListener('message', (event) => {
-			console.log('@@@@@@@@@@@@@ got event! @@@@@@@@@@@')
+			console.log('@@@@@@@@@@@@ got event! @@@@@@@@@@@')
 			console.log(JSON.stringify(event, null, 2))
 			if (event.data.type === 'notifications-change') {
 				window.notifications = event.data.payload.data
