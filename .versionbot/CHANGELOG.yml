@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump normalize-url from 4.5.0 to 4.5.1
+      hash: e95c7d603e8158e92290163a7cbd2f44e1dbb6be
+      body: >
+        Bumps [normalize-url](https://github.com/sindresorhus/normalize-url)
+        from 4.5.0 to 4.5.1.
+
+        - [Release
+        notes](https://github.com/sindresorhus/normalize-url/releases)
+
+        - [Commits](https://github.com/sindresorhus/normalize-url/commits)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: normalize-url
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 39.0.12
+  date: 2021-10-05T04:43:06.006Z
+- commits:
     - subject: Remove migrated tests
       hash: d64e46cb1ac36929d198a8fa6c616b30f0a29ef0
       body: |
