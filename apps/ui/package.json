@@ -23,7 +23,7 @@
     "@balena/jellyfish-chat-widget": "^12.2.0",
     "@balena/jellyfish-client-sdk": "^6.0.0",
     "@balena/jellyfish-environment": "^5.0.3",
-    "@balena/jellyfish-ui-components": "^12.0.0",
+    "@balena/jellyfish-ui-components": "^12.0.2-timeline-fix-2de67b3553936cb1bb22d4d987be6342e3bf9fad",
     "@primer/styled-octicons": "^14.2.2",
     "analytics-client": "^1.7.0",
     "assert": "^2.0.0",
