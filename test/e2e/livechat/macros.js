@@ -20,7 +20,9 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 		return result
 	} catch (error) {
 		if (times) {
+			console.log('retrying test fn', Date.now())
 			if (delay > 0) {
+				console.log('delaying', delay)
 				await bluebird.delay(delay)
 			}
 			return exports.retry(times - 1, functionToTry, delay)
@@ -218,9 +220,11 @@ exports.insertAgentReply = async (context, thread, message) => {
 
 exports.waitForNotifications = (context, notificationsLength) => {
 	return exports.retry(60, async () => {
+		console.log('checking notifications')
 		const notifications = await context.page.evaluate(() => {
 			return window.notifications
 		})
+		console.log('got notifications', [])
 		if (notifications && notifications.length === notificationsLength) {
 			return notifications
 		}
