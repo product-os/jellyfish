@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^6.2.0'
+      hash: b39d53147e14f034137504d008bb46c4a19c89f1
+      body: |
+        Update @balena/jellyfish-core from 6.1.22 to 6.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.1
+  date: 2021-10-05T14:31:45.501Z
+- commits:
     - subject: Add a primitive visualisation for loops
       hash: ba27c45a7c9d910637d59b5670ba14a02d664edc
       body: |
