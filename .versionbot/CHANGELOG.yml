@@ -1,4 +1,20 @@
 - commits:
+    - subject: Ignore falsey notification events in livechat e2e tests
+      hash: 947f32471f57688f1142756a74d5d4ec0c89efa5
+      body: |
+        This change should fix a source of flakiness where a falsey event is
+        emitted shortly after the first emission, resulting in no notifications
+        being found.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.2
+  date: 2021-10-05T17:04:21.792Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^6.2.0'
       hash: b39d53147e14f034137504d008bb46c4a19c89f1
       body: |
