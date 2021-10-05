@@ -336,7 +336,7 @@ ava.serial('Create conversation page', async (test) => {
 
 	await context.page.evaluate(() => {
 		window.addEventListener('message', (event) => {
-			if (event.data.type === 'notifications-change') {
+			if (event.data.type === 'notifications-change' && event.data.payload.data) {
 				window.notifications = event.data.payload.data
 			}
 		})
