@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump UI components v12
+      hash: 1645753109d4c4b38017b8190c703c30a7d56487
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 39.0.10
+  date: 2021-10-04T23:38:06.518Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: d665005d2836d94deba1f3bf1366caa3bafb0421
       body: ''
