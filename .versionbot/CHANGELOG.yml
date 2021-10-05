@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add a primitive visualisation for loops
+      hash: ba27c45a7c9d910637d59b5670ba14a02d664edc
+      body: |
+        This is very basic and has a lot of hardcoded values, but it is a first
+        step towards having a visual representation of a loop in the system.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.0
+  date: 2021-10-05T08:15:03.870Z
+- commits:
     - subject: Bump axios from 0.21.1 to 0.21.4
       hash: e4105f969a19e2ea7d6701cc706ced959a38e6aa
       body: |
