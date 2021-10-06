@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal dependencies
+      hash: 46315d642b3aa23912772b8eb8d1c00bb6ef2fb3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.4
+  date: 2021-10-06T05:02:19.763Z
+- commits:
     - subject: Bump path-parse from 1.0.6 to 1.0.7
       hash: 58ce27aecd317c2b48a8dd30e0ab0eddf70106da
       body: >
