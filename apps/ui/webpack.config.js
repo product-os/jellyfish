@@ -41,18 +41,26 @@ const commonConfig = {
 		rules: [
 			{
 				test: /\.(ts|tsx)?$/,
-				use: 'ts-loader',
-				exclude: /node_modules/
+				exclude: /node_modules/,
+				use: [
+					{
+						loader: 'esbuild-loader',
+						options: {
+							loader: 'tsx',
+							target: 'es2015'
+						}
+					}
+				]
 			},
 			{
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget))\/).*/,
 				use: [
 					{
-						loader: 'babel-loader',
+						loader: 'esbuild-loader',
 						options: {
-							presets: [ '@babel/preset-react' ],
-							cacheDirectory: true
+							loader: 'jsx',
+							target: 'es2015'
 						}
 					}
 				]
