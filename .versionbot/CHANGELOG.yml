@@ -1,4 +1,17 @@
 - commits:
+    - subject: Switch to esbuild loader for faster UI bundling
+      hash: 8a7282235c915754be060c0fd156aff7687ba3e7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.7
+  date: 2021-10-07T18:34:20.736Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 5f7217971492b5281c91a61a2818351d66901931
       body: ''
