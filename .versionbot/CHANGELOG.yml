@@ -1,4 +1,19 @@
 - commits:
+    - subject: Improve reliability of e2e livechat tests
+      hash: 3adefd7de1c487fd525fabf366e24c40fc41940f
+      body: |
+        This change prevents the situation where the stored notifications get
+        overwritten by an empty array before the test can check them.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.8
+  date: 2021-10-08T06:39:43.367Z
+- commits:
     - subject: Switch to esbuild loader for faster UI bundling
       hash: 8a7282235c915754be060c0fd156aff7687ba3e7
       body: ''
