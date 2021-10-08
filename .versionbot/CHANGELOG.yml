@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update to latest version of rendition
+      hash: 8eea5175728bd43fed66781b90084360ee1fe281
+      body: |
+        This update notably drops the `recompose` package, which is deprecated
+        and causes React to issue warnings.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.9
+  date: 2021-10-08T07:42:32.016Z
+- commits:
     - subject: Improve reliability of e2e livechat tests
       hash: 3adefd7de1c487fd525fabf366e24c40fc41940f
       body: |
