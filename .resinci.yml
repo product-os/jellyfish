@@ -5,15 +5,35 @@ docker:
       dockerfile: apps/server/Dockerfile
       docker_repo: balena/jellyfish
       publish: true
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+      secrets:
+        - id: npmrc
+          src: .balena/secrets/npmrc.txt
     - path: .
       dockerfile: apps/action-server/Dockerfile
       docker_repo: balena/jellyfish-action-server
       publish: true
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+      secrets:
+        - id: npmrc
+          src: .balena/secrets/npmrc.txt
     - path: .
       dockerfile: apps/ui/Dockerfile
       docker_repo: balena/jellyfish-ui
       publish: true
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+      secrets:
+        - id: npmrc
+          src: .balena/secrets/npmrc.txt
     - path: .
       dockerfile: apps/livechat/Dockerfile
       docker_repo: balena/jellyfish-livechat
       publish: true
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+      secrets:
+        - id: npmrc
+          src: .balena/secrets/npmrc.txt

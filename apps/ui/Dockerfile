@@ -6,12 +6,14 @@ FROM balena/open-balena-base:v12.1.0 as base
 
 WORKDIR /usr/src/jellyfish/apps/ui
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+RUN --mount=type=secret,id=npmrc set -eux \
+	&& ln -s /run/secrets/npmrc ~/.npmrc
+
 COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
 COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
+# Do we need the root package.json?
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/ui /usr/src/jellyfish/apps/ui
 
