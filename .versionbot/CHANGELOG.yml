@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 2643b9f6a328142e5de7c23088e320a0dd0ffcb2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.10
+  date: 2021-10-09T05:38:04.212Z
+- commits:
     - subject: Update to latest version of rendition
       hash: 8eea5175728bd43fed66781b90084360ee1fe281
       body: |
