@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove clean-front from Makefile
+      hash: cc336f291e1c229f15a7cba5dc0d4b248b312b9f
+      body: |
+        Already moved the Front cleanup script to plugin-front
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.13
+  date: 2021-10-09T14:35:40.228Z
+- commits:
     - subject: Parallelise e2e tests in CI
       hash: 88c3b97a31fb2e4c11f8a27e6fe6323c703771be
       body: ''
