@@ -23,7 +23,7 @@
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.1.88",
     "@balena/jellyfish-assert": "^1.1.68",
-    "@balena/jellyfish-core": "^6.2.5",
+    "@balena/jellyfish-core": "^6.2.6",
     "@balena/jellyfish-environment": "^5.0.4",
     "@balena/jellyfish-logger": "^3.0.83",
     "@balena/jellyfish-metrics": "^1.0.342",
@@ -38,7 +38,7 @@
     "@balena/jellyfish-plugin-outreach": "^1.0.199",
     "@balena/jellyfish-plugin-product-os": "^2.7.33",
     "@balena/jellyfish-plugin-typeform": "^3.0.305",
-    "@balena/jellyfish-queue": "^1.0.284",
+    "@balena/jellyfish-queue": "^1.0.285",
     "@balena/jellyfish-sync": "^6.1.26",
     "@balena/jellyfish-worker": "^10.0.38",
     "@balena/socket-prometheus-metrics": "^0.0.3",
