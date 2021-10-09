@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: ba7cf5ecd85f4d3365e00b3fe1c88f3cc4f08cdd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.14
+  date: 2021-10-09T20:27:33.560Z
+- commits:
     - subject: Remove clean-front from Makefile
       hash: cc336f291e1c229f15a7cba5dc0d4b248b312b9f
       body: |
