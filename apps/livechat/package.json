@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && webpack --config=./webpack.config.js",
-    "lint": "balena-lint lib && depcheck --ignore-bin-package --ignores=@balena/jellyfish-config,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server,@types/jest,assert",
+    "lint": "balena-lint lib && depcheck --ignore-bin-package --ignores=@balena/jellyfish-config,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server,assert",
     "lint:fix": "balena-lint --fix lib",
     "doc": "typedoc lib/",
     "prepack": "npm run build"
