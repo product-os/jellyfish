@@ -14,7 +14,6 @@
 	test-integration \
 	test-e2e \
 	scrub \
-	clean-front \
 	npm-install \
 	push \
 	ssh \
@@ -350,11 +349,6 @@ test-integration-%:
 
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
-
-clean-front:
-	FRONT_INBOX_1=$(TEST_INTEGRATION_FRONT_INBOX_1) \
-	FRONT_INBOX_2=$(TEST_INTEGRATION_FRONT_INBOX_2) \
-	node ./scripts/ci/front-delete-conversations.js
 
 ngrok-%:
 	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
