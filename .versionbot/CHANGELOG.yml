@@ -1,4 +1,17 @@
 - commits:
+    - subject: Parallelise e2e tests in CI
+      hash: 88c3b97a31fb2e4c11f8a27e6fe6323c703771be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.12
+  date: 2021-10-09T12:09:43.995Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: dd56bc41259f0759ca174bfd847a3dc3b7413a2b
       body: ''
