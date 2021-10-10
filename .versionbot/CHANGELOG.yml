@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external dependencies
+      hash: eda2131c68ab6b9319f0167b51816652c4e16991
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.19
+  date: 2021-10-10T04:24:23.709Z
+- commits:
     - subject: Add typedoc to depcheck ignore list
       hash: 7b44368c13fb1bf1136449d1e648c852524a07b1
       body: ''
