@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "npm run clean && tsc -p tsconfig.build.json",
-    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=depcheck,@types/jest,nodemon",
+    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=depcheck,@types/jest,nodemon,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit",
     "test:unit": "jest",
@@ -48,16 +48,16 @@
     "@balena/jellyfish-config": "^1.5.4",
     "@balena/jellyfish-types": "^1.2.3",
     "@balena/lint": "^6.1.1",
-    "@types/jest": "^27.0.1",
+    "@types/jest": "^27.0.2",
     "@types/uuid": "^8.3.1",
     "catch-uncommitted": "^2.0.0",
     "depcheck": "^1.4.2",
     "jest": "^27.2.2",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.13",
     "rimraf": "^3.0.2",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
-    "typedoc": "^0.21.9",
-    "typescript": "^4.4.2"
+    "typedoc": "^0.22.4",
+    "typescript": "^4.4.3"
   }
 }
