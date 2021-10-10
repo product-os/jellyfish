@@ -1,4 +1,27 @@
 - commits:
+    - subject: Add typedoc to depcheck ignore list
+      hash: 7b44368c13fb1bf1136449d1e648c852524a07b1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump external dependencies
+      hash: eaedc001348d3b97f5312160d122f31651cc06d4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.18
+  date: 2021-10-10T02:43:43.620Z
+- commits:
     - subject: Bump jest dependencies
       hash: 7f513c9da40a4b3d209f091b8afa4e93113b18aa
       body: ''
