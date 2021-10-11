@@ -105,3 +105,26 @@ custom.env
 
 # Typedoc generated docs
 docs/typedoc/*
+
+# Decrypted secret files
+.balena/secrets/npmrc.txt
+.balena/secrets/npm_token.txt
+.balena/secrets/integration_typeform_signature_key.txt
+.balena/secrets/integration_balena_api_private_key.txt
+.balena/secrets/integration_balena_api_public_key_production.txt
+.balena/secrets/integration_outreach_app_id.txt
+.balena/secrets/integration_outreach_app_secret.txt
+.balena/secrets/integration_outreach_signature_key.txt
+.balena/secrets/integration_flowdock_signature_key.txt
+.balena/secrets/integration_flowdock_token.txt
+.balena/secrets/integration_github_app_id.txt
+.balena/secrets/integration_github_private_key.txt
+.balena/secrets/integration_github_signature_key.txt
+.balena/secrets/integration_github_token.txt
+.balena/secrets/integration_front_token.txt
+.balena/secrets/integration_intercom_token.txt
+.balena/secrets/integration_discourse_signature_key.txt
+.balena/secrets/integration_discourse_token.txt
+.balena/secrets/integration_discourse_username.txt
+.balena/secrets/integration_google_meet_credentials.txt
+.balena/secrets/mailgun_token.txt
