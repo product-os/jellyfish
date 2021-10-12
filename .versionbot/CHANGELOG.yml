@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 6a4c33098ca2c44925bb3d9a2949db8c82b480d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.26
+  date: 2021-10-12T19:20:29.499Z
+- commits:
     - subject: Add secrets
       hash: 096f4c4d37d06acb1e75f6d8f52c683192069d05
       body: ''
