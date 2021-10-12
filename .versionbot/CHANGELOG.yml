@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add secrets
+      hash: 096f4c4d37d06acb1e75f6d8f52c683192069d05
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.25
+  date: 2021-10-12T04:13:14.865Z
+- commits:
     - subject: 'patch: Update dependency lint-staged to ^11.2.3'
       hash: 4fe34dd6611f28e1022cebc6797e4940c20d5803
       body: ''
