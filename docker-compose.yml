@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   api:
+    image: balena/jellyfish
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
@@ -91,6 +92,7 @@ services:
       - 9229
     restart: always
   livechat:
+    image: balena/jellyfish-livechat
     build:
       args:
         - SENTRY_DSN_UI='0'
@@ -118,6 +120,7 @@ services:
     networks:
       - internal
   ui:
+    image: balena/jellyfish-ui
     build:
       context: .
       dockerfile: ./apps/ui/Dockerfile
@@ -134,6 +137,7 @@ services:
     networks:
       - internal
   worker_1:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile
@@ -196,6 +200,7 @@ services:
     ports:
       - 9231:9229
   worker_2:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile

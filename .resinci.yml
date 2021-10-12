@@ -37,3 +37,12 @@ docker:
       secrets:
         - id: npmrc
           src: .balena/secrets/npmrc.txt
+    - path: .
+      dockerfile: Dockerfile.ci
+      docker_repo: balena/jellyfish-sut
+      publish: false
+      args:
+        - BUILDKIT_INLINE_CACHE=1
+      secrets:
+        - id: npmrc
+          src: .balena/secrets/npmrc.txt

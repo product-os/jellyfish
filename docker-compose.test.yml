@@ -9,6 +9,7 @@ services:
     expose:
       - 80
   sut:
+    image: balena/jellyfish-sut
     build:
       context: .
       dockerfile: Dockerfile.ci

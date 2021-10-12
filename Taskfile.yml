@@ -9,6 +9,7 @@ env:
 tasks:
   catch-uncommitted:
     cmds:
+      - rm balena-jellyfish-*.tar
       - make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
       - npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
 
@@ -35,6 +36,7 @@ tasks:
 
   e2e-livechat:
     cmds:
+      - echo "test-e2e-livechat"
       - make test-e2e-livechat
 
   e2e-ui:

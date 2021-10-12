@@ -15,7 +15,8 @@ ENV SERVER_PORT $SERVER_PORT
 WORKDIR /usr/src/jellyfish/apps/livechat
 
 RUN --mount=type=secret,id=npmrc set -eux \
-	&& ln -s /run/secrets/npmrc ~/.npmrc
+	&& ls /run/secrets \
+	&& cp /run/secrets/npmrc ~/.npmrc
 COPY ./apps/livechat/package.json /usr/src/jellyfish/apps/livechat/package.json
 COPY ./apps/livechat/package-lock.json /usr/src/jellyfish/apps/livechat/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci

@@ -5,7 +5,8 @@ FROM balena/open-balena-base:v12.1.1
 WORKDIR /usr/src/jellyfish/apps/action-server
 
 RUN --mount=type=secret,id=npmrc set -eux \
-	&& ln -s /run/secrets/npmrc ~/.npmrc
+	&& ls /run/secrets \
+	&& cp /run/secrets/npmrc ~/.npmrc
 COPY ./apps/action-server/package.json /usr/src/jellyfish/apps/action-server/package.json
 COPY ./apps/action-server/package-lock.json /usr/src/jellyfish/apps/action-server/package-lock.json
 RUN npm ci
