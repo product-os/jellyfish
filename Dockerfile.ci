@@ -1,10 +1,12 @@
+# syntax=docker/dockerfile:1
+
 FROM resinci/jellyfish-test:v1.4.9
 
 WORKDIR /usr/src/jellyfish
 COPY . ./
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
+RUN --mount=type=secret,id=npmrc set -eux \
+	&& ln -s /run/secrets/npmrc ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
 
 CMD /bin/bash -c "if [ "$CI" ]; then task test; else trap : TERM INT; sleep infinity; fi"

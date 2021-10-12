@@ -1,3 +1,5 @@
+# syntax=docker/dockerfile:1
+
 ###########################################################
 # Base
 ###########################################################
@@ -12,12 +14,13 @@ ENV SERVER_PORT $SERVER_PORT
 
 WORKDIR /usr/src/jellyfish/apps/livechat
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+RUN --mount=type=secret,id=npmrc set -eux \
+	&& ln -s /run/secrets/npmrc ~/.npmrc
 COPY ./apps/livechat/package.json /usr/src/jellyfish/apps/livechat/package.json
 COPY ./apps/livechat/package-lock.json /usr/src/jellyfish/apps/livechat/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
+# Do we need the root package.json?
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/Makefile
 COPY ./apps/livechat/tsconfig.json ./apps/livechat/webpack.config.js ./

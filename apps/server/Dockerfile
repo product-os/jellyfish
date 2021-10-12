@@ -1,13 +1,16 @@
+# syntax=docker/dockerfile:1
+
 FROM balena/open-balena-base:v12.1.1
 
 WORKDIR /usr/src/jellyfish/apps/server
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
+RUN --mount=type=secret,id=npmrc set -eux \
+	&& ln -s /run/secrets/npmrc ~/.npmrc
 COPY ./apps/server/package.json /usr/src/jellyfish/apps/server/package.json
 COPY ./apps/server/package-lock.json /usr/src/jellyfish/apps/server/package-lock.json
 RUN npm ci
 
+# Do we need the root package.json?
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/server/Makefile /usr/src/jellyfish/apps/server/Makefile
 COPY ./apps/server/tsconfig.json /usr/src/jellyfish/apps/server/tsconfig.json
