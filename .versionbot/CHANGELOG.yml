@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency ts-jest to ^27.0.7'
+      hash: b07564a7820b65d006b348f49dba79b28f05e02d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.33
+  date: 2021-10-16T11:03:34.249Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 63f3e7beca8c9b8fff3f7130d763aa90920f17c6
       body: ''
