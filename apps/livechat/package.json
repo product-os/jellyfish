@@ -31,7 +31,7 @@
     "rendition": "^21.8.5",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
-    "webpack-bundle-analyzer": "^4.4.2"
+    "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
     "@balena/jellyfish-config": "^1.5.4",
@@ -42,7 +42,7 @@
     "eslint": "^7.32.0",
     "rimraf": "^3.0.2",
     "typedoc": "^0.22.5",
-    "typescript": "^4.4.3",
+    "typescript": "^4.4.4",
     "webpack-cli": "^4.9.0",
     "webpack-dev-server": "^3.11.2"
   }
