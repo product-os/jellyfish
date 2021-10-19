@@ -1,4 +1,27 @@
 - commits:
+    - subject: Use env vars for Livechat build
+      hash: 64851e026d70514b3175ca5144d50a68072efbc8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Set images in compose configs
+      hash: d60274bdb34cb157875b84bab590c02c6ae13c6a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.45
+  date: 2021-10-19T05:55:15.272Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 4b51d3f0e635fbdd1ac4cc5c251220a802f09afa
       body: ''
