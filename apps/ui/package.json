@@ -20,7 +20,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-chat-widget": "^12.3.19",
+    "@balena/jellyfish-chat-widget": "^12.3.20",
     "@balena/jellyfish-client-sdk": "^6.0.1",
     "@balena/jellyfish-environment": "^5.0.4",
     "@balena/jellyfish-ui-components": "^12.0.12",
@@ -72,7 +72,7 @@
     "redux": "^4.1.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rendition": "^21.8.5",
+    "rendition": "^21.8.6",
     "skhema": "^5.3.4",
     "style-loader": "^2.0.0",
     "styled-components": "^5.3.1",
