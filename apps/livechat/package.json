@@ -18,7 +18,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "UNLICENSED",
   "dependencies": {
-    "@balena/jellyfish-chat-widget": "^12.3.19",
+    "@balena/jellyfish-chat-widget": "^12.3.20",
     "@balena/jellyfish-client-sdk": "^6.0.1",
     "@balena/jellyfish-ui-components": "^12.0.12",
     "@use-it/event-listener": "^0.1.6",
@@ -28,7 +28,7 @@
     "react": "^16.14.0",
     "react-dom": "^16.14.0",
     "react-router-dom": "^5.3.0",
-    "rendition": "^21.8.5",
+    "rendition": "^21.8.6",
     "style-loader": "^2.0.0",
     "webpack": "^4.46.0",
     "webpack-bundle-analyzer": "^4.5.0"
