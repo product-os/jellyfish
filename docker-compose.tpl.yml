@@ -2,6 +2,7 @@ version: '2.1'
 
 services:
   api:
+    image: balena/jellyfish
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
@@ -94,11 +95,9 @@ services:
       - 9229
     restart: always
   livechat:
+    image: balena/jellyfish-livechat
     build:
       args:
-        - SENTRY_DSN_UI='0'
-        - SERVER_HOST=http://api.ly.fish.local
-        - SERVER_PORT=80
         - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
@@ -108,6 +107,9 @@ services:
     networks:
       - internal
     environment:
+      - SENTRY_DSN_UI='0'
+      - SERVER_HOST=http://api.ly.fish.local
+      - SERVER_PORT=80
       - NGINX_PORT=80
       - LIVECHAT_PORT=80
   postgres:
@@ -122,6 +124,7 @@ services:
     networks:
       - internal
   ui:
+    image: balena/jellyfish-ui
     build:
       args:
         - NPM_TOKEN
@@ -141,6 +144,7 @@ services:
       - internal
   {{#workers}}
   worker_{{idx}}:
+    image: balena/jellyfish-action-server
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile

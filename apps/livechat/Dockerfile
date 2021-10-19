@@ -4,12 +4,6 @@
 
 FROM balena/open-balena-base:v12.1.1 as base
 
-ARG SERVER_HOST
-ENV SERVER_HOST $SERVER_HOST
-
-ARG SERVER_PORT
-ENV SERVER_PORT $SERVER_PORT
-
 WORKDIR /usr/src/jellyfish/apps/livechat
 
 ARG NPM_TOKEN
@@ -19,8 +13,7 @@ COPY ./apps/livechat/package-lock.json /usr/src/jellyfish/apps/livechat/package-
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
 COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/livechat/Makefile /usr/src/jellyfish/apps/livechat/Makefile
-COPY ./apps/livechat/tsconfig.json ./apps/livechat/webpack.config.js ./
+COPY ./apps/livechat /usr/src/jellyfish/apps/livechat
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/livechat/packages/ /usr/src/jellyfish/packages/
@@ -28,25 +21,22 @@ COPY ./apps/livechat/tsconfig.json ./apps/livechat/webpack.config.js ./
 
 #dev-cmd-live=cd /usr/src/jellyfish/apps/livechat && make dev-livechat
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/livechat/node_modules/@balena/
-RUN rm ~/.npmrc
-COPY ./apps/livechat/lib/ /usr/src/jellyfish/apps/livechat/lib/
+RUN rm -f ~/.npmrc
 
-ARG SENTRY_DSN_UI=https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
-
-ENV SERVER_HOST=${SERVER_HOST:-https://api.ly.fish}
-ENV SERVER_PORT=${SERVER_PORT:-443}
-
-RUN make build-livechat \
-	NODE_ENV=production \
-	SENTRY_DSN_UI=$SENTRY_DSN_UI \
-	SERVER_HOST=$SERVER_HOST \
-	SERVER_PORT=$SERVER_PORT
+RUN make build-livechat NODE_ENV=production
 
 ###########################################################
 # Runtime
 ###########################################################
 
 FROM nginx:1.21.3
-WORKDIR /usr/src/jellyfish
+WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/livechat/dist/livechat /usr/share/nginx/html
+COPY apps/livechat/conf/env.sh /usr/share/nginx/html
 COPY apps/livechat/conf/nginx.conf /etc/nginx/conf.d/default.conf
+
+# Make our shell script executable
+RUN chmod +x /usr/share/nginx/html/env.sh
+
+# Start Nginx server
+CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
