@@ -22,7 +22,7 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.4.0",
     "@balena/jellyfish-client-sdk": "^6.0.1",
-    "@balena/jellyfish-environment": "^5.0.4",
+    "@balena/jellyfish-environment": "^5.0.5",
     "@balena/jellyfish-ui-components": "^12.0.13",
     "@primer/styled-octicons": "^14.2.2",
     "analytics-client": "^1.7.0",
@@ -88,7 +88,7 @@
     "@babel/preset-react": "^7.14.5",
     "@babel/register": "^7.15.3",
     "@balena/jellyfish-config": "^1.5.4",
-    "@balena/jellyfish-types": "^1.2.3",
+    "@balena/jellyfish-types": "^1.2.4",
     "@balena/lint": "^6.1.1",
     "@emotion/cache": "^11.5.0",
     "@emotion/react": "^11.5.0",
