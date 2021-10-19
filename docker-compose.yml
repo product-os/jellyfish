@@ -97,9 +97,6 @@ services:
     image: balena/jellyfish-livechat
     build:
       args:
-        - SENTRY_DSN_UI='0'
-        - SERVER_HOST=http://api.ly.fish.local
-        - SERVER_PORT=80
         - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
@@ -109,6 +106,9 @@ services:
     networks:
       - internal
     environment:
+      - SENTRY_DSN_UI='0'
+      - SERVER_HOST=http://api.ly.fish.local
+      - SERVER_PORT=80
       - NGINX_PORT=80
       - LIVECHAT_PORT=80
   postgres:
