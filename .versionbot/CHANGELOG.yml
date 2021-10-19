@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 376dad07fba9f4c7cbad4693a6001b081294e7d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.46
+  date: 2021-10-19T10:00:47.018Z
+- commits:
     - subject: Use env vars for Livechat build
       hash: 64851e026d70514b3175ca5144d50a68072efbc8
       body: ''
