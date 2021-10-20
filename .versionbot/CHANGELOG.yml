@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: a47602ce123da7f54cc97e60c532d6503223dbad
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.51
+  date: 2021-10-20T11:35:55.928Z
+- commits:
     - subject: Move image tar rm to sut Dockerfile
       hash: 38bf79ffbfae2f5e69ee2c6fc7ec2bcc74fb94d2
       body: ''
