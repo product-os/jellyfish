@@ -3,6 +3,9 @@ FROM resinci/jellyfish-test:v1.4.9
 WORKDIR /usr/src/jellyfish
 COPY . ./
 
+# Delete image archives created during CI build stage
+RUN rm -f balena-jellyfish-*.tar
+
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc && \
 	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
