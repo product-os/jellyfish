@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix sentry variable name for apps/ui
+      hash: 7435f34950b8897429fe6e887b13f111e0c79bb3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.49
+  date: 2021-10-20T02:05:14.071Z
+- commits:
     - subject: Update env vars for livechat
       hash: de625c0e75719e356a38a99601c999358cc6216d
       body: ''
