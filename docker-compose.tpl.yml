@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
-      args:
-        - NPM_TOKEN
     networks:
       - internal
     depends_on:
@@ -97,8 +95,6 @@ services:
   livechat:
     image: balena/jellyfish-livechat
     build:
-      args:
-        - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
     depends_on:
@@ -126,8 +122,6 @@ services:
   ui:
     image: balena/jellyfish-ui
     build:
-      args:
-        - NPM_TOKEN
       context: .
       dockerfile: ./apps/ui/Dockerfile
     depends_on:
@@ -148,8 +142,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
