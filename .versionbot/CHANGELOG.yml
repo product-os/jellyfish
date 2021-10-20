@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move image tar rm to sut Dockerfile
+      hash: 38bf79ffbfae2f5e69ee2c6fc7ec2bcc74fb94d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.50
+  date: 2021-10-20T03:31:33.504Z
+- commits:
     - subject: Fix sentry variable name for apps/ui
       hash: 7435f34950b8897429fe6e887b13f111e0c79bb3
       body: ''
