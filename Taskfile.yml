@@ -9,7 +9,6 @@ env:
 tasks:
   catch-uncommitted:
     cmds:
-      - rm -f balena-jellyfish-*.tar
       - make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
       - npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
 
