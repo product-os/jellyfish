@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: f73c223ea725b6c472a7c3a920c4c963627d08bf
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.55
+  date: 2021-10-21T22:43:35.156Z
+- commits:
     - subject: fix types in bootstrapping
       hash: eae8731ab11cd88683e221a8a06c284b4941ac9a
       body: ''
