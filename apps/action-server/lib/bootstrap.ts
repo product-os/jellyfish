@@ -19,6 +19,7 @@ import { core, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	ActionRequestContract,
+	Contract,
 	SessionContract,
 	SessionData,
 	StreamChange,
@@ -325,7 +326,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 
 	const contractsMap = _.groupBy(workerContracts, (contract) => {
 		return contract.type.split('@')[0];
-	});
+	}) as _.Dictionary<[Contract<unknown>, ...Array<Contract<unknown>>]>;
 
 	const triggers = contractsMap['triggered-action'] || [];
 
@@ -333,7 +334,7 @@ const bootstrap = async (context: core.Context, options: BootstrapOptions) => {
 		triggers: triggers.length,
 	});
 
-	worker.setTriggers(context, triggers);
+	worker.setTriggers(context, triggers as TriggeredActionContract[]);
 
 	const transformers = (contractsMap['transformer'] || []) as Transformer[];
 
