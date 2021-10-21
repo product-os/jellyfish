@@ -17,6 +17,7 @@
 echo "Generating env-config.js file..."
 
 BASE_FILENAME="env-config.js"
+PUBLIC_DIR="/usr/share/nginx/html"
 
 # Recreate config file
 rm -rf "./$BASE_FILENAME"
@@ -34,9 +35,9 @@ touch "./$BASE_FILENAME"
 } >> "./$BASE_FILENAME"
 
 HASHED_FILENAME="env-config.$(md5sum "./$BASE_FILENAME" | cut -f1 -d" ").js"
-mv "./$BASE_FILENAME" "./$HASHED_FILENAME"
+mv "./$BASE_FILENAME" "$PUBLIC_DIR/$HASHED_FILENAME"
 
 echo "$HASHED_FILENAME file generated:"
-cat "./$HASHED_FILENAME"
+cat "$PUBLIC_DIR/$HASHED_FILENAME"
 
-sed -i "s/${BASE_FILENAME}/${HASHED_FILENAME}/" index.html
+sed -i "s/${BASE_FILENAME}/${HASHED_FILENAME}/" "$PUBLIC_DIR/index.html"
