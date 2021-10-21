@@ -1,4 +1,25 @@
 - commits:
+    - subject: fix types in bootstrapping
+      hash: eae8731ab11cd88683e221a8a06c284b4941ac9a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: 'patch: Update internal-patch'
+      hash: 65c3911d6259647e4e079e904b2bb9635662b979
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.54
+  date: 2021-10-21T11:01:24.122Z
+- commits:
     - subject: Stop copying env.sh to public html dir
       hash: 5fa0a9970acfc33a50682ffbe1b94f45bcd96034
       body: ''

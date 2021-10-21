@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "39.1.53",
+  "version": "39.1.54",
   "codename": "cephea",
   "private": true,
   "description": "The Jellyfish Project",
@@ -114,6 +114,6 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2021-10-21T04:15:20.474Z"
+    "publishedAt": "2021-10-21T11:01:24.744Z"
   }
 }
