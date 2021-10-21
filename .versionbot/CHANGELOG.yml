@@ -1,4 +1,27 @@
 - commits:
+    - subject: Stop copying env.sh to public html dir
+      hash: 5fa0a9970acfc33a50682ffbe1b94f45bcd96034
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Include md5sum hash in env-config.js filename
+      hash: 3806791b678cc829d73b4f463e1c611483309390
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.53
+  date: 2021-10-21T04:15:19.858Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.4.0'
       hash: 68404d38ed4d7a0641974d6f3f114f27c8b21274
       body: |
