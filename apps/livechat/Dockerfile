@@ -32,11 +32,11 @@ RUN make build-livechat NODE_ENV=production
 FROM nginx:1.21.3
 WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/livechat/dist/livechat /usr/share/nginx/html
-COPY apps/livechat/conf/env.sh /usr/share/nginx/html
+COPY apps/livechat/conf/env.sh /tmp
 COPY apps/livechat/conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Make our shell script executable
-RUN chmod +x /usr/share/nginx/html/env.sh
+RUN chmod +x /tmp/env.sh
 
 # Start Nginx server
-CMD ["/bin/bash", "-c", "/usr/share/nginx/html/env.sh && nginx -g \"daemon off;\""]
+CMD ["/bin/bash", "-c", "/tmp/env.sh && nginx -g \"daemon off;\""]

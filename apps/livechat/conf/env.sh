@@ -16,9 +16,12 @@
 
 echo "Generating env-config.js file..."
 
+BASE_FILENAME="env-config.js"
+PUBLIC_DIR="/usr/share/nginx/html"
+
 # Recreate config file
-rm -rf ./env-config.js
-touch ./env-config.js
+rm -rf "./$BASE_FILENAME"
+touch "./$BASE_FILENAME"
 
 {
 	echo "window._env_ = {"
@@ -29,7 +32,12 @@ touch ./env-config.js
 	echo "  SENTRY_DSN_UI: \"$SENTRY_DSN_UI\","
 
 	echo "}"
-} >> ./env-config.js
+} >> "./$BASE_FILENAME"
 
-echo "env-config.js file generated:"
-cat ./env-config.js
+HASHED_FILENAME="env-config.$(md5sum "./$BASE_FILENAME" | cut -f1 -d" ").js"
+mv "./$BASE_FILENAME" "$PUBLIC_DIR/$HASHED_FILENAME"
+
+echo "$HASHED_FILENAME file generated:"
+cat "$PUBLIC_DIR/$HASHED_FILENAME"
+
+sed -i "s/${BASE_FILENAME}/${HASHED_FILENAME}/" "$PUBLIC_DIR/index.html"
