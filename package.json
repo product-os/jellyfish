@@ -58,7 +58,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/jellyfish-action-library": "^15.1.101",
-    "@balena/jellyfish-chat-widget": "^12.4.3",
+    "@balena/jellyfish-chat-widget": "^12.4.4",
     "@balena/jellyfish-client-sdk": "^6.0.1",
     "@balena/jellyfish-config": "^1.5.5",
     "@balena/jellyfish-core": "^7.0.9",
