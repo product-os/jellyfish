@@ -98,7 +98,7 @@
     "eslint-plugin-promise": "^5.1.1",
     "eslint-plugin-react": "^7.26.1",
     "jsonwebtoken": "^8.5.1",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^11.2.4",
     "lodash": "^4.17.21",
     "mermaid.cli": "^0.5.1",
     "mustache": "^4.2.0",
