@@ -58,7 +58,7 @@
   "license": "UNLICENSED",
   "devDependencies": {
     "@balena/jellyfish-action-library": "^15.1.101",
-    "@balena/jellyfish-chat-widget": "^12.4.4",
+    "@balena/jellyfish-chat-widget": "^12.4.7",
     "@balena/jellyfish-client-sdk": "^6.0.1",
     "@balena/jellyfish-config": "^1.5.5",
     "@balena/jellyfish-core": "^7.0.9",
@@ -76,7 +76,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.321",
     "@balena/jellyfish-queue": "^1.0.299",
     "@balena/jellyfish-sync": "^6.1.34",
-    "@balena/jellyfish-ui-components": "^12.0.15",
+    "@balena/jellyfish-ui-components": "^12.0.17",
     "@balena/jellyfish-worker": "^10.0.54",
     "@balena/lint": "^6.1.1",
     "@octokit/plugin-retry": "^3.0.9",
