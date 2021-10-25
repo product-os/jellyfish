@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.1.104",
-    "@balena/jellyfish-core": "^7.0.12",
+    "@balena/jellyfish-core": "^7.0.13",
     "@balena/jellyfish-environment": "^5.0.8",
     "@balena/jellyfish-logger": "^3.0.93",
     "@balena/jellyfish-metrics": "^1.0.353",
@@ -38,7 +38,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.326",
     "@balena/jellyfish-queue": "^1.0.303",
     "@balena/jellyfish-sync": "^6.1.38",
-    "@balena/jellyfish-worker": "^10.0.58",
+    "@balena/jellyfish-worker": "^10.0.59",
     "bluebird": "^3.7.2",
     "express": "^4.17.1",
     "lodash": "^4.17.21",
