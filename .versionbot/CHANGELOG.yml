@@ -1,4 +1,27 @@
 - commits:
+    - subject: update worker and core deps
+      hash: e55e4b6d30c79120980a873c29ae416263938dc9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: add transformer related e2e test
+      hash: c1c28ed3909b375652ce32ceef0e558bf888097f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 39.1.65
+  date: 2021-10-25T13:06:57.267Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 29734525d9c3af8323031e386ce0d361527f44e6
       body: ''
