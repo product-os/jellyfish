@@ -151,26 +151,23 @@ exports.setToken = async (context) => {
 
 	await page.setRequestInterception(true)
 
-	const onRequest = (request) => {
+	const onRequest = async (request) => {
 		request.respond({
 			status: 200,
-			contentType: 'text/plain',
-			body: 'Fake page for setting localStorage entry'
+			contentType: 'text/html',
+			body: `<html><body>
+				<p>Fake page for setting localStorage entry</p>
+				<script>window.localStorage.setItem('token', '${supportUser.sdk.getAuthToken()}')</script>
+			</body></html>`
 		})
+		await page.setRequestInterception(false)
 	}
 
-	page.on('request', onRequest)
+	page.once('request', onRequest)
 
 	await page.goto(
 		`${environment.livechat.host}:${environment.livechat.port}`
 	)
-
-	await page.evaluate((supportUserToken) => {
-		window.localStorage.setItem('token', supportUserToken)
-	}, supportUser.sdk.getAuthToken())
-
-	page.off('request', onRequest)
-	await page.setRequestInterception(false)
 }
 
 exports.initChat = async (context) => {
