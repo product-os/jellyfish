@@ -7,7 +7,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Divider, Tab, Tabs, Theme } from 'rendition';
+import { Box, Divider, Link, Tab, Tabs, Theme, Txt } from 'rendition';
 import styled from 'styled-components';
 import { helpers } from '@balena/jellyfish-ui-components';
 import CardFields from '../../../components/CardFields';
@@ -189,6 +189,18 @@ export default class SingleCardFull extends React.Component<any, any> {
 								type={type}
 								viewMode={UI_SCHEMA_MODE.fields}
 							/>
+
+							<Txt pb={3}>
+								The logs for all transformer runs can be found{' '}
+								<Link
+									target="_blank"
+									href="https://monitor.balena-cloud.com/explore?orgId=1&left=%5B%22now-30m%22,%22now%22,%22loki%22,%7B%22expr%22:%22%7Bfleet%3D%5C%22transformers-workers%5C%22,service!%3D%5C%22fleet-launcher%5C%22,service!%3D%5C%22balena_supervisor%5C%22,service!%3D%5C%22logshipper%5C%22,service!%3D%5C%22garbage-collector%5C%22,source_type%3D%5C%22balena%5C%22%7D%20%22%7D%5D"
+								>
+									here
+								</Link>
+								.
+							</Txt>
+
 							{!!this.state.tree && (
 								<Mermaid value={makeGraph(this.state.tree)} />
 							)}
