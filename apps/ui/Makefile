@@ -39,10 +39,11 @@ test:
 
 .PHONY: dev-ui
 dev-ui:
+	mkdir -p ./dist/ui && \
 	SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) \
+	PUBLIC_DIR="./" \
 	NODE_ENV=development \
 	NODE_OPTIONS=--max-old-space-size=8192 \
-	mkdir -p ./dist/ui && \
 	./conf/env.sh && \
 	cp ./env-config.js ./dist/ui/ && \
 	./node_modules/.bin/webpack serve \
