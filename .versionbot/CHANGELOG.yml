@@ -1,4 +1,21 @@
 - commits:
+    - subject: Fix `dev-ui` command to work locally
+      hash: 4f5150c3fff13d8f381d9c78454de860156fd83a
+      body: |
+        Recent changes for cache busting prevented the `dev-ui` command from
+        working on your local machine. This change fixes this by only applying
+        the cachebusting suffix to the filename if the current node environment
+        isn't "development".
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.68
+  date: 2021-10-27T12:11:35.180Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-product-os to ^2.7.51'
       hash: f521d09ac8e4fd248a81f34dd83e689a5a2fc2e7
       body: ''
