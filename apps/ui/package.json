@@ -72,7 +72,7 @@
     "redux": "^4.1.1",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
-    "rendition": "^21.9.1",
+    "rendition": "^21.9.3",
     "skhema": "^5.3.4",
     "style-loader": "^2.0.0",
     "styled-components": "^5.3.3",
