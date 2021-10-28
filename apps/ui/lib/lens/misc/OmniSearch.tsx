@@ -4,6 +4,7 @@
  * Proprietary and confidential.
  */
 
+import findPathDeep from 'deepdash/findPathDeep';
 import React from 'react';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
@@ -18,10 +19,14 @@ const getFullTextSearchTypes = memoize((types) => {
 		if (typesToExclude.includes(type.slug)) {
 			return fullTextSearchTypes;
 		}
-		const flatSchema: any = SchemaSieve.flattenSchema(type.data.schema);
-		const fullTextSearchFieldFound = _.find(flatSchema.properties, {
-			fullTextSearch: true,
-		});
+		const flatSchema = SchemaSieve.flattenSchema(type.data.schema);
+		const fullTextSearchFieldFound = findPathDeep(
+			flatSchema.properties,
+			(value, key) => {
+				return Boolean(key === 'fullTextSearch' && value);
+			},
+		);
+
 		if (fullTextSearchFieldFound) {
 			fullTextSearchTypes.push(`${type.slug}@${type.version}`);
 		}
