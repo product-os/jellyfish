@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add a link to transformer logs on the Check Run UI
+      hash: 39682e2adda626bc5b9921b5a0c06c52c42403fd
+      body: |
+        This is a small addition to make it easy for developers working on
+        transformers to access the logs they need.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.71
+  date: 2021-10-28T07:17:55.970Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 58dec796b7eaac024d8395278faa59b482650160
       body: ''
