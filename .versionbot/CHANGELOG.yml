@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 310e267bb439b52508421daf78f1bb7a9969b13a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.69
+  date: 2021-10-28T03:59:15.576Z
+- commits:
     - subject: Fix `dev-ui` command to work locally
       hash: 4f5150c3fff13d8f381d9c78454de860156fd83a
       body: |
