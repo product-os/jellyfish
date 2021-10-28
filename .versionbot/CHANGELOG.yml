@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 1cb2ef604351651956774a1da5789b17c2b3cca7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.72
+  date: 2021-10-28T10:56:56.798Z
+- commits:
     - subject: Add a link to transformer logs on the Check Run UI
       hash: 39682e2adda626bc5b9921b5a0c06c52c42403fd
       body: |
