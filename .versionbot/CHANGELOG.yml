@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix OmniSearch lens search types logic
+      hash: 975208cc83791ca97e768868050e29c54aedce42
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.1.74
+  date: 2021-10-28T16:47:00.030Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 76e2c1a4cc19b7245d9167c7cd27a7e7fb45a77a
       body: ''
