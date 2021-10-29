@@ -1,4 +1,23 @@
 - commits:
+    - subject: Ensure streams are closed correctly when navigating through the UI
+      hash: c446e772e98b207c7dfbc2c33078f91fd38fa617
+      body: >
+        Previously streams would only be closed if the `removeChannel` action
+
+        was called explicitly. Now streams are always tidied up after a
+        navigation
+
+        event, when the `setChannels` action is called.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.76
+  date: 2021-10-29T11:10:37.385Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 278f8ff7a71ab732818597075592d7b3f310f3d7
       body: ''
