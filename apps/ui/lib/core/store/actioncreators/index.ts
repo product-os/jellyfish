@@ -844,7 +844,15 @@ export const actionCreators = {
 			return createChannel(channel);
 		});
 
-		return (dispatch) => {
+		return (dispatch, getState) => {
+			const state = getState();
+			const currentChannels = selectors.getChannels(state);
+
+			// For each current channel that isn't in the new channels, remove the corresponding stream
+			const diff = _.differenceBy(currentChannels, channels, 'data.target');
+			for (const removedChannel of diff) {
+				dispatch(actionCreators.removeChannel(removedChannel));
+			}
 			dispatch({
 				type: actions.SET_CHANNELS,
 				value: channels,
