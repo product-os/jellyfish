@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'After UI bootstrap, refresh token if it will expire in the next 24 hours'
+      hash: c3ff6bbf839ca8262e156866c8093e4535d5c7a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Don't refresh auth token on every page load
+      hash: 7f521c800ab94e74e1dee8ab9124b77647a6f112
+      body: |
+        This change reduces UI boostrap time from ~8.5s to ~6s on my local
+        machine, which is a very healthy improvement.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.77
+  date: 2021-10-29T14:44:08.441Z
+- commits:
     - subject: Ensure streams are closed correctly when navigating through the UI
       hash: c446e772e98b207c7dfbc2c33078f91fd38fa617
       body: >
