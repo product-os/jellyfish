@@ -1000,6 +1000,18 @@ export const actionCreators = {
 							email: _.get(user, ['data', 'email']),
 						});
 
+						// Check token expiration and refresh it if it is due to expire in the next 24 hours
+						sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
+							if (
+								tokenCard &&
+								tokenCard.data.expiration &&
+								new Date(tokenCard.data.expiration).getTime() <
+									Date.now() + 1000 * 60 * 60 * 24
+							) {
+								sdk.auth.refreshToken();
+							}
+						});
+
 						tokenRefreshInterval = setInterval(async () => {
 							const newToken = await sdk.auth.refreshToken();
 							dispatch(actionCreators.setAuthToken(newToken));
