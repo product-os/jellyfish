@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 2a6723b3d940b435cd8cceff8a48f75b15e0057c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.78
+  date: 2021-10-29T16:57:18.647Z
+- commits:
     - subject: 'After UI bootstrap, refresh token if it will expire in the next 24 hours'
       hash: c3ff6bbf839ca8262e156866c8093e4535d5c7a2
       body: ''
