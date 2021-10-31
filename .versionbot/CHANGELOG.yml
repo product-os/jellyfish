@@ -1,4 +1,25 @@
 - commits:
+    - subject: Update .gitattributes
+      hash: 030447304b9682c7454e86338b87ad18d185f6ef
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: "\U0001F504 Synced file(s) with product-os/secrets"
+      hash: a978fc8496ca169aed3e1fa7128f45f2b84663dd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+      nested: []
+  version: 39.1.84
+  date: 2021-10-31T03:26:32.940Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-front to ^1.3.55'
       hash: 6e3a23427cc9bbcb4eb87f63125db70c5b142a32
       body: ''
