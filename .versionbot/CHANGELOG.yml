@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 24b7c0b4bdf90126f2b5d115cb58edf024e62328
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.1.85
+  date: 2021-10-31T20:41:13.498Z
+- commits:
     - subject: Update .gitattributes
       hash: 030447304b9682c7454e86338b87ad18d185f6ef
       body: ''
