@@ -88,7 +88,7 @@ export const ChatButton = ({ onClick, ...rest }) => {
 				},
 			};
 
-			stream = await sdk.stream(query);
+			stream = sdk.stream(query);
 
 			stream.on('dataset', ({ data: { cards } }) => {
 				setNotifications(cards);

@@ -8,8 +8,9 @@ import { selectors } from '../../../core';
 export const SubscribeButton = ({ card, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [loading, setLoading] = React.useState(true);
-	const [subscription, setSubscription] =
-		React.useState<core.Contract | core.ContractDefinition | null>(null);
+	const [subscription, setSubscription] = React.useState<
+		core.Contract | core.ContractDefinition | null
+	>(null);
 	const currentUser = useSelector<any, core.UserContract>(
 		selectors.getCurrentUser,
 	);
@@ -60,7 +61,7 @@ export const SubscribeButton = ({ card, ...rest }) => {
 				},
 			};
 
-			stream = await sdk.stream(query);
+			stream = sdk.stream(query);
 			setLoading(true);
 
 			stream.on('dataset', ({ data: { cards } }) => {

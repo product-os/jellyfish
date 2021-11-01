@@ -33,114 +33,121 @@ export const attachSocket = (jellyfish, server) => {
 
 	socketServer.on('connection', (socket) => {
 		socket.setMaxListeners(50);
+		const id = uuidv4();
 
-		// The query property can be either a JSON schema, view ID or a view card
-		socket.on('query', (payload) => {
-			if (!payload.token) {
-				return socket.emit({
+		const context = {
+			id: `SOCKET-REQUEST-${packageJSON.version}-${id}`,
+		};
+
+		const ready = new Promise<{ stream: any; payload: any }>((resolve) => {
+			// The query property can be either a JSON schema, view ID or a view card
+			socket.on('query', async (payload) => {
+				if (!payload.token) {
+					return socket.emit('streamError', {
+						error: true,
+						data: 'No session token',
+					});
+				}
+
+				let stream: any = null;
+				try {
+					stream = await jellyfish.stream(
+						context,
+						payload.token,
+						payload.data.query,
+					);
+				} catch (err: any) {
+					return socket.emit('streamError', {
+						error: true,
+						data: err.message,
+					});
+				}
+
+				stream.on('error', (error) => {
+					socket.emit('streamError', {
+						error: true,
+						data: error.message,
+					});
+				});
+
+				stream.on('dataset', (data) => {
+					socket.emit('dataset', {
+						error: false,
+						data,
+					});
+				});
+
+				stream.on('data', (results) => {
+					// The event name is changed to `update` to indicate that this is
+					// partial data and not the full result set
+					socket.emit('update', {
+						error: false,
+						data: results,
+					});
+				});
+
+				openStreams[context.id] = stream;
+
+				socket.emit('ready');
+
+				resolve({
+					stream,
+					payload,
+				});
+			});
+		});
+
+		const emit = (() => {
+			let emitCount = 0;
+			return async <TData>(event: string, data: TData) => {
+				const { stream, payload } = await ready;
+				stream.emit(event, data);
+
+				emitCount++;
+				if (emitCount % 100 === 0) {
+					logger.info(context, `stream has emitted ${emitCount} events`, {
+						query: payload.data.query,
+					});
+				}
+			};
+		})();
+
+		const close = async () => {
+			const { stream } = await ready;
+			stream.close();
+		};
+
+		socket.on('queryDataset', (queryPayload) => {
+			// TODO: maybe worth doing a more thorough check
+			if (
+				!('data' in queryPayload) ||
+				!('schema' in queryPayload.data) ||
+				!_.isPlainObject(queryPayload.data.schema)
+			) {
+				socket.emit({
 					error: true,
-					data: 'No session token',
+					data: 'Malformed request for: queryDataset',
 				} as any);
 			}
 
-			const id = uuidv4();
-			return new Promise((resolve) => {
-				const context = {
-					id: `SOCKET-REQUEST-${packageJSON.version}-${id}`,
-				};
+			emit('query', queryPayload.data);
+		});
 
-				return resolve(
-					jellyfish
-						.stream(context, payload.token, payload.data.query)
-						.then((stream) => {
-							let emitCount = 0;
-							const updateEmitCount = () => {
-								emitCount++;
-								if (emitCount % 100 === 0) {
-									logger.info(
-										context,
-										`stream has emitted ${emitCount} events`,
-										{
-											query: payload.data.query,
-										},
-									);
-								}
-							};
-
-							socket.on('queryDataset', (queryPayload) => {
-								// TODO: maybe worth doing a more thorough check
-								if (
-									!('data' in queryPayload) ||
-									!('schema' in queryPayload.data) ||
-									!_.isPlainObject(queryPayload.data.schema)
-								) {
-									socket.emit({
-										error: true,
-										data: 'Malformed request for: queryDataset',
-									} as any);
-								}
-
-								stream.emit('query', queryPayload.data);
-							});
-
-							stream.on('error', (error) => {
-								updateEmitCount();
-								socket.emit('streamError', {
-									error: true,
-									data: error.message,
-								});
-							});
-
-							socket.on('setSchema', (schemaPayload) => {
-								// TODO: maybe worth doing a more thorough check
-								if (
-									!('data' in schemaPayload) ||
-									!('schema' in schemaPayload.data)
-								) {
-									socket.emit({
-										error: true,
-										data: 'Malformed request for: setSchema',
-									} as any);
-								}
-
-								stream.emit('setSchema', schemaPayload.data);
-							});
-
-							openStreams[context.id] = stream;
-
-							socket.on('disconnect', () => {
-								stream.close();
-								Reflect.deleteProperty(openStreams, context.id);
-							});
-
-							socket.emit('ready');
-
-							stream.on('dataset', (data) => {
-								updateEmitCount();
-								socket.emit('dataset', {
-									error: false,
-									data,
-								});
-							});
-
-							stream.on('data', (results) => {
-								updateEmitCount();
-
-								// The event name is changed to `update` to indicate that this is
-								// partial data and not the full result set
-								socket.emit('update', {
-									error: false,
-									data: results,
-								});
-							});
-						}),
-				);
-			}).catch((error) => {
-				socket.emit('streamError', {
+		socket.on('setSchema', (schemaPayload) => {
+			// TODO: maybe worth doing a more thorough check
+			if (!('data' in schemaPayload) || !('schema' in schemaPayload.data)) {
+				socket.emit({
 					error: true,
-					data: error.message,
-				});
-			});
+					data: 'Malformed request for: setSchema',
+				} as any);
+			}
+
+			emit('setSchema', schemaPayload.data);
+		});
+
+		socket.on('disconnect', () => {
+			close();
+			Reflect.deleteProperty(openStreams, context.id);
 		});
 
 		socket.on('typing', (payload) => {
