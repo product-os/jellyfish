@@ -625,7 +625,7 @@ export const actionCreators = {
 
 			const query = actionCreators.createChannelQuery(target, user);
 
-			const stream = await actionCreators.getStream(
+			const stream = actionCreators.getStream(
 				{
 					sdk,
 				},
@@ -1024,7 +1024,7 @@ export const actionCreators = {
 						// Open a stream for messages, whispers and uses. This allows us to
 						// listen for message edits, sync status, alerts/pings and changes in
 						// other users statuses
-						commsStream = await sdk.stream({
+						commsStream = sdk.stream({
 							type: 'object',
 							properties: {
 								type: {
@@ -1513,15 +1513,15 @@ export const actionCreators = {
 			Reflect.deleteProperty(streams, streamId);
 		}
 
-		return sdk.stream(query).then((stream) => {
-			streams[streamId] = stream;
-			return stream;
-		});
+		const stream = sdk.stream(query);
+
+		streams[streamId] = stream;
+		return stream;
 	},
 
 	setupStream(streamId, query, options, handlers) {
 		return async (dispatch, getState, { sdk }) => {
-			const stream = await actionCreators.getStream(
+			const stream = actionCreators.getStream(
 				{
 					sdk,
 				},

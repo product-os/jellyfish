@@ -60,7 +60,7 @@ export const SubscribeButton = ({ card, ...rest }) => {
 				},
 			};
 
-			stream = await sdk.stream(query);
+			stream = sdk.stream(query);
 			setLoading(true);
 
 			stream.on('dataset', ({ data: { cards } }) => {
