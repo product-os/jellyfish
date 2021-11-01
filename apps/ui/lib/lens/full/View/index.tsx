@@ -535,17 +535,19 @@ export class ViewRenderer extends React.Component<any, any> {
 		if (page + 1 >= this.state.options.totalPages) {
 			return;
 		}
-		this.setState(
-			({ options }) => ({
-				options: {
-					...options,
-					page,
+		return new Promise((resolve, reject) => {
+			this.setState(
+				({ options }) => ({
+					options: {
+						...options,
+						page,
+					},
+				}),
+				() => {
+					this.updateView().then(resolve).catch(reject);
 				},
-			}),
-			() => {
-				this.updateView();
-			},
-		);
+			);
+		});
 	}
 
 	updateView() {
@@ -556,7 +558,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			filters,
 		);
 		const queryOptions = this.getQueryOptions(activeLens);
-		this.props.actions
+		return this.props.actions
 			.loadMoreViewData(syntheticViewCard, queryOptions)
 			.then((data) => {
 				if (data.length < options.limit) {

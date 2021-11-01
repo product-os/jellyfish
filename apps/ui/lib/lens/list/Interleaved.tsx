@@ -263,19 +263,66 @@ const lens = {
 		)(Interleaved),
 		filter: {
 			type: 'array',
-			items: {
-				type: 'object',
-				required: ['id', 'type'],
-				properties: {
-					id: {
-						type: 'string',
-					},
-					type: {
-						type: 'string',
-						const: 'thread@1.0.0',
+			oneOf: [
+				{
+					items: {
+						type: 'object',
+						required: ['id', 'type', 'slug'],
+						properties: {
+							id: {
+								type: 'string',
+							},
+							slug: {
+								type: 'string',
+							},
+							type: {
+								type: 'string',
+								const: 'thread@1.0.0',
+							},
+						},
 					},
 				},
-			},
+				{
+					items: {
+						type: 'object',
+						required: ['id', 'type', 'data'],
+						properties: {
+							id: {
+								type: 'string',
+							},
+							slug: {
+								type: 'string',
+							},
+							type: {
+								type: 'string',
+								const: 'message@1.0.0',
+							},
+							data: {
+								type: 'object',
+								properties: {
+									timestamp: {
+										type: 'string',
+										format: 'date-time',
+									},
+									actor: {
+										type: 'string',
+										format: 'uuid',
+									},
+									payload: {
+										type: 'object',
+										properties: {
+											message: {
+												type: 'string',
+											},
+										},
+									},
+								},
+								required: ['timestamp', 'actor', 'payload'],
+							},
+						},
+					},
+				},
+			],
 		},
 		queryOptions: {
 			limit: 30,

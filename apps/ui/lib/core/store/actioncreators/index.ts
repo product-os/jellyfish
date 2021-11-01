@@ -1570,13 +1570,14 @@ export const actionCreators = {
 	},
 
 	paginateStream(viewId, query, options, appendHandler) {
-		return async (dispatch, getState) => {
+		return async (dispatch, getState, context) => {
 			const stream = streams[viewId];
 			if (!stream) {
 				throw new Error(
 					'Stream not found: Did you forget to call loadViewData?',
 				);
 			}
+			const user = selectors.getCurrentUser(getState());
 			const queryId = uuid();
 
 			const queryOptions = {
@@ -1586,10 +1587,13 @@ export const actionCreators = {
 				sortDir: options.sortDir,
 			};
 
+			const rawSchema = await loadSchema(context.sdk, query, user);
+			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema;
+
 			stream.emit('queryDataset', {
 				data: {
 					id: queryId,
-					schema: query,
+					schema,
 					options: queryOptions,
 				},
 			});
@@ -1653,7 +1657,7 @@ export const actionCreators = {
 				query,
 				options,
 				appendHandler,
-			)(dispatch, getState);
+			)(dispatch, getState, context);
 		};
 	},
 
