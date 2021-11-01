@@ -1,4 +1,39 @@
 - commits:
+    - subject: Update Interleaved lens to work correctly with lens selection in views
+      hash: 19de7e67d40148c3221eadd76ed7ec7f3ab54503
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Ensure that calling `setPage` in a lens returns a promise
+      hash: 392309b9474b22416cb9651fc14a518a8e842693
+      body: |
+        This allows lenses to correctly wait for paged date to be loaded before
+        continuing.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Ensure that lens masks are correctly applied when paginating view data
+      hash: 29736793757a3b6194adcaffe158e527c6ef52bb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.1.87
+  date: 2021-11-01T11:07:38.942Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-worker to ^10.0.71'
       hash: 23115732924cb26a3ca2e3f7a47c511594d9b85c
       body: ''
