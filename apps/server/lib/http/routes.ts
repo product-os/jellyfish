@@ -394,24 +394,17 @@ export const attachRoutes = (
 			.measureHttpType(() => {
 				const [base, version] = request.params.type.split('@');
 				return jellyfish
-					.query(
-						request.context,
-						request.sessionToken,
-						{
-							type: 'object',
-							additionalProperties: true,
-							required: ['type'],
-							properties: {
-								type: {
-									type: 'string',
-									const: `${base}@${version || '1.0.0'}`,
-								},
+					.query(request.context, request.sessionToken, {
+						type: 'object',
+						additionalProperties: true,
+						required: ['type'],
+						properties: {
+							type: {
+								type: 'string',
+								const: `${base}@${version || '1.0.0'}`,
 							},
 						},
-						{
-							limit: 100,
-						},
-					)
+					})
 					.then((results) => {
 						return response.status(200).json(results);
 					});
