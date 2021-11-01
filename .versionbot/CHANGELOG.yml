@@ -1,4 +1,15 @@
 - commits:
+    - subject: Bump sdk to v7
+      hash: a1422ca5c1261bc2aa6aad4b27bb989cf9f75e27
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 39.2.0
+  date: 2021-11-01T11:59:51.176Z
+- commits:
     - subject: Update Interleaved lens to work correctly with lens selection in views
       hash: 19de7e67d40148c3221eadd76ed7ec7f3ab54503
       body: ''
