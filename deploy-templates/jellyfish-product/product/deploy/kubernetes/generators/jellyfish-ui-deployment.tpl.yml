@@ -4,11 +4,12 @@ metadata:
   name: jellyfish-ui
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   labels:
+    app.kubernetes.io/instance: jellyfish-ui
     app.kubernetes.io/name: jellyfish-ui
 spec:
   selector:
     matchLabels:
-      app: jellyfish-ui
+      app.kubernetes.io/name: jellyfish-ui
   replicas: 4
   strategy:
     type: RollingUpdate
@@ -18,7 +19,7 @@ spec:
   template:
     metadata:
       labels:
-        app: jellyfish-ui
+        app.kubernetes.io/name: jellyfish-ui
     spec:
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-ui.data.assets.image.url%>>

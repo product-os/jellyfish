@@ -14,11 +14,11 @@ spec:
        maxUnavailable: 0
   selector:
     matchLabels:
-      app: action-server
+      app.kubernetes.io/name: jellyfish-action-server
   template:
     metadata:
       labels:
-        app: action-server
+        app.kubernetes.io/name: jellyfish-action-server
     spec:
       terminationGracePeriodSeconds: 120
       containers:

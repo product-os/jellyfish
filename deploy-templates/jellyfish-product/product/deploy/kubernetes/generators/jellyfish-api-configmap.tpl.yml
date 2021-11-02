@@ -14,5 +14,7 @@ data:
   UV_THREADPOOL_SIZE: "128"
 kind: ConfigMap
 metadata:
+  labels:
+    app.kubernetes.io/name: jellyfish-api
   name: jellyfish-api
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'

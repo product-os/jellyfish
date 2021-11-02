@@ -2,3 +2,6 @@ kind: Namespace
 apiVersion: v1
 metadata:
   name: '{{{KATAPULT_KUBE_NAMESPACE}}}'
+  labels:
+    elbv2.k8s.aws/pod-readiness-gate-inject: enabled
+    kustomize.toolkit.fluxcd.io/prune: disabled

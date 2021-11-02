@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   labels:
-    name: jellyfish-livechat
+    app.kubernetes.io/name: jellyfish-livechat
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   name: jellyfish-livechat
   # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/#deploy-ingress-for-echoserver

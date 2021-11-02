@@ -9,5 +9,7 @@ data:
   UV_THREADPOOL_SIZE: "128"
 kind: ConfigMap
 metadata:
+  labels:
+    app.kubernetes.io/name: jellyfish-action-server
   name: action-server
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
