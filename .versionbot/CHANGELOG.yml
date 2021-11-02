@@ -1,4 +1,17 @@
 - commits:
+    - subject: Don't limit the results of the /type endpoint
+      hash: 720ab9eae78678709acecb836bb2e7f0a7aa83d2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 39.2.1
+  date: 2021-11-01T23:01:36.672Z
+- commits:
     - subject: Bump sdk to v7
       hash: a1422ca5c1261bc2aa6aad4b27bb989cf9f75e27
       body: ''
