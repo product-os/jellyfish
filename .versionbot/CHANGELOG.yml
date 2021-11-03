@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^10.0.72'
+      hash: 3fd3cb4f20f7f10b1e4b9fba715e7606f31210e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.2
+  date: 2021-11-03T11:08:58.019Z
+- commits:
     - subject: Don't limit the results of the /type endpoint
       hash: 720ab9eae78678709acecb836bb2e7f0a7aa83d2
       body: ''
