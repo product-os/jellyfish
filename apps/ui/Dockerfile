@@ -8,8 +8,8 @@ FROM balena/open-balena-base:v12.2.0 as base
 
 WORKDIR /usr/src/jellyfish/apps/ui
 
-RUN --mount=type=secret,id=npmrc set -eux \
-	&& cp /run/secrets/npmrc ~/.npmrc
+RUN set -eu && cp /run/secrets/npmrc ~/.npmrc || true
+RUN --mount=type=secret,id=npmrc set -eux && cp /run/secrets/npmrc ~/.npmrc || true
 COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
 COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci

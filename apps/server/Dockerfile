@@ -4,8 +4,8 @@ FROM balena/open-balena-base:v12.2.0
 
 WORKDIR /usr/src/jellyfish/apps/server
 
-RUN --mount=type=secret,id=npmrc set -eux \
-	&& cp /run/secrets/npmrc ~/.npmrc
+RUN set -eu && cp /run/secrets/npmrc ~/.npmrc || true
+RUN --mount=type=secret,id=npmrc set -eux && cp /run/secrets/npmrc ~/.npmrc || true
 COPY ./apps/server/package.json /usr/src/jellyfish/apps/server/package.json
 COPY ./apps/server/package-lock.json /usr/src/jellyfish/apps/server/package-lock.json
 RUN npm ci

@@ -8,8 +8,8 @@ FROM balena/open-balena-base:v12.2.0 as base
 
 WORKDIR /usr/src/jellyfish/apps/livechat
 
-RUN --mount=type=secret,id=npmrc set -eux \
-	&& cp /run/secrets/npmrc ~/.npmrc
+RUN set -eu && cp /run/secrets/npmrc ~/.npmrc || true
+RUN --mount=type=secret,id=npmrc set -eux && cp /run/secrets/npmrc ~/.npmrc || true
 COPY ./apps/livechat/package.json /usr/src/jellyfish/apps/livechat/package.json
 COPY ./apps/livechat/package-lock.json /usr/src/jellyfish/apps/livechat/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci

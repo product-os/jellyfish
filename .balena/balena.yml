@@ -8,3 +8,7 @@ build-variables:
     livechat:
       - SERVER_HOST=http://api.ly.fish.local
       - SERVER_PORT=80
+build-secrets:
+  global:
+    - source: npmrc.txt
+      dest: npmrc

@@ -8,8 +8,8 @@ COPY . ./
 # Delete image archives created during CI build stage
 RUN rm -f balena-jellyfish-*.tar
 
-RUN --mount=type=secret,id=npmrc set -eux \
-	&& cp /run/secrets/npmrc ~/.npmrc && \
-	PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
+RUN set -eu && cp /run/secrets/npmrc ~/.npmrc || true
+RUN --mount=type=secret,id=npmrc set -eux && cp /run/secrets/npmrc ~/.npmrc || true
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
 
 CMD /bin/bash -c "if [ "$CI" ]; then task test; else trap : TERM INT; sleep infinity; fi"
