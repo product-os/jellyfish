@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix broken git secrets
+      hash: 9c94244cc6215fb5eece90e271a086469e1113f7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 39.2.4
+  date: 2021-11-04T00:27:16.205Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 39faa6805e82b5ee4a2212356b7ef23b5572299c
       body: |
