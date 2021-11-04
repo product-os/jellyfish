@@ -1,4 +1,17 @@
 - commits:
+    - subject: add test to ensure type triggers work for multiple versions of a type
+      hash: 9d90586645cbf564f62f2c356f5cb2d56b6dd87a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 39.2.6
+  date: 2021-11-04T09:08:37.297Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-ui-components to v13'
       hash: 9d0ee95074cf723eddb8a2e1a979ba5fdde9f070
       body: |
