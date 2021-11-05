@@ -13,6 +13,7 @@ import { getLogger } from '@balena/jellyfish-logger';
 import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
+	Contract,
 	SessionContract,
 	SessionData,
 	StreamChange,
@@ -294,13 +295,21 @@ export const bootstrap = async (context, options) => {
 
 	const contractsMap = _.groupBy(workerContracts, (contract) => {
 		return contract.type.split('@')[0];
-	});
+	}) as _.Dictionary<[Contract<unknown>, ...Array<Contract<unknown>>]>;
 
 	const triggers = contractsMap['triggered-action'] || [];
 
-	worker.setTriggers(context, triggers);
+	logger.info(context, 'Loading triggers', {
+		triggers: triggers.length,
+	});
+
+	worker.setTriggers(context, triggers as TriggeredActionContract[]);
 
 	const transformers = (contractsMap['transformer'] || []) as Transformer[];
+
+	logger.info(context, 'Loading transformers', {
+		transformers: transformers.length,
+	});
 
 	worker.setTransformers(context, transformers);
 
