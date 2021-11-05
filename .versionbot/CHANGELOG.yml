@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: b3735151965c6985ff1ccec79392874d6c015f97
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.7
+  date: 2021-11-05T13:22:42.602Z
+- commits:
     - subject: add test to ensure type triggers work for multiple versions of a type
       hash: 9d90586645cbf564f62f2c356f5cb2d56b6dd87a
       body: ''
