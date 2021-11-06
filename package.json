@@ -83,7 +83,7 @@
     "@octokit/plugin-throttling": "^3.5.2",
     "@octokit/rest": "^18.12.0",
     "ava": "^3.15.0",
-    "aws-sdk": "^2.1018.0",
+    "aws-sdk": "^2.1023.0",
     "bluebird": "^3.7.2",
     "cli-spinner": "^0.2.10",
     "date-fns": "^2.25.0",
