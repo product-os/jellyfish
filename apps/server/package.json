@@ -42,7 +42,7 @@
     "@balena/jellyfish-sync": "^6.1.52",
     "@balena/jellyfish-worker": "^10.0.75",
     "@balena/socket-prometheus-metrics": "^0.0.3",
-    "aws-sdk": "^2.1018.0",
+    "aws-sdk": "^2.1023.0",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.0",
     "errio": "^1.2.2",
