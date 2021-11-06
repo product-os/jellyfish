@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 4d544a5b933d50de436932ea8861e44a2a7becf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.12
+  date: 2021-11-06T15:08:23.564Z
+- commits:
     - subject: Bump path-parse from 1.0.6 to 1.0.7 in /apps/ui
       hash: 719a6303e63ff27d6b125795be4eef3b88bcdae3
       body: >
