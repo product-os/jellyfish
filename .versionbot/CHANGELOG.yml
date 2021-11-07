@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to v11'
+      hash: 5d9a872d24f1bebf80de3f3b5a3b0711240ad3be
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.14
+  date: 2021-11-07T00:34:53.989Z
+- commits:
     - subject: Bump tmpl from 1.0.4 to 1.0.5 in /apps/ui
       hash: dbcb6842aed80c866f6faa95a200fcebf715468f
       body: |
