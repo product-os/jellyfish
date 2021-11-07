@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 59ee6096639ef84c3e42d319079aa8d0766c3b2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.15
+  date: 2021-11-07T03:27:59.072Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v11'
       hash: 5d9a872d24f1bebf80de3f3b5a3b0711240ad3be
       body: ''
