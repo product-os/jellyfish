@@ -70,6 +70,9 @@ const verifyCardOwner = async (test, page, isAssigned, expectedOwnerText) => {
 }
 
 const getWhisperText = async (page) => {
+	// Switch to the timeline tab
+	await macros.waitForThenClickSelector(page, 'button[data-test="timeline-tab"]')
+
 	const whisperText = await macros.getElementText(page, selectors.whisper)
 	return whisperText.trim()
 }
