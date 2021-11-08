@@ -35,28 +35,6 @@ export const getCommonTypeBase = memoize((cards: Contract[]): string => {
 	return fromType;
 });
 
-// Convert the selected contract to an object compatible with AutoCompleteCardSelect
-export const getContractSelectOption = (
-	types: TypeContract[],
-	contract?: Contract,
-) => {
-	if (!contract) {
-		return null;
-	}
-
-	// Convert the type to a shade index to use with a Badge component
-	const contractTypeIndex = _.findIndex(types, {
-		slug: helpers.getTypeBase(contract.type),
-	});
-
-	return {
-		value: contract.id,
-		label: contract.name || contract.slug,
-		type: types[contractTypeIndex].name,
-		shade: contractTypeIndex % 22,
-	};
-};
-
 export const getFilteredLinkConstraints = (
 	fromType: string,
 	linkVerb?: string,

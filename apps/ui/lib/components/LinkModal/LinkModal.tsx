@@ -9,7 +9,6 @@ import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
 import { Modal, Select, Txt, Box } from 'rendition';
-import styled from 'styled-components';
 import { notifications, Icon, helpers } from '@balena/jellyfish-ui-components';
 import {
 	Contract,
@@ -57,8 +56,9 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	targetTypes,
 	linkVerb,
 }) => {
-	const [selectedTarget, setSelectedTarget] =
-		React.useState<Contract | undefined>(target);
+	const [selectedTarget, setSelectedTarget] = React.useState<
+		Contract | undefined
+	>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
 	const [linkType, setLinkType] = React.useState<linkUtils.LinkType>();
@@ -141,17 +141,13 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 		return `Link ${titleSource} to ${titleTarget}`;
 	}, [linkVerb, fromTypeContract, validTypes, cards, linkTypeTargets]);
 
-	const selectedTargetValue = React.useMemo(() => {
-		return linkUtils.getContractSelectOption(targetTypes, selectedTarget);
-	}, [targetTypes, selectedTarget]);
-
 	return (
 		<Modal
 			title={title}
 			cancel={onHide}
 			primaryButtonProps={
 				{
-					disabled: !linkType || !selectedTargetValue || submitting,
+					disabled: !linkType || !selectedTarget || submitting,
 					'data-test': 'card-linker--existing__submit',
 				} as any
 			}
@@ -169,7 +165,7 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 			<AutoCompleteCardSelect
 				placeholder="Search..."
 				autoFocus
-				value={selectedTargetValue}
+				value={selectedTarget}
 				cardType={_.map(_.castArray(cardType || validTypes), 'slug')}
 				isDisabled={Boolean(target)}
 				onChange={setSelectedTarget}

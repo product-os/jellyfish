@@ -13,6 +13,7 @@ import AsyncSelect from 'react-select/async';
 import { Badge, Flex, Txt } from 'rendition';
 import debounce from 'debounce-promise';
 import { helpers } from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
 
 const preventClickPropagation = (event: any) => {
 	event.stopPropagation();
@@ -25,10 +26,6 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 
 	constructor(props: any) {
 		super(props);
-		this.state = {
-			results: [],
-		};
-
 		this.getTargets = debounce(this.getTargets.bind(this), 500);
 		this.onChange = this.onChange.bind(this);
 	}
@@ -58,22 +55,12 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 	componentDidUpdate(prevProps: { cardType: any }) {
 		// If the card type is changed, we should reset
 		if (!_.isEqual(prevProps.cardType, this.props.cardType)) {
-			this.setState({
-				results: [],
-			});
 			this.props.onChange(null);
 		}
 	}
 
 	onChange(option: any) {
-		// Find the full card from cached results and return it
-		const selectedCard = option
-			? _.find(this.state.results, {
-					id: option.value,
-			  }) || null
-			: null;
-
-		this.props.onChange(selectedCard);
+		this.props.onChange(option);
 	}
 
 	async getTargets(value: string) {
@@ -149,28 +136,45 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 			return [];
 		}
 
-		if (this._isMounted) {
-			this.setState({
-				results,
-			});
-		}
-
 		// Return the results in a format understood by the AsyncSelect component
-		return results.map(
-			(card: { type: string; name: any; slug: any; id: any }) => {
-				const typeCardIndex = _.findIndex(types, {
-					slug: helpers.getTypeBase(card.type),
-				});
-
-				return {
-					label: card.name || card.slug || card.id,
-					value: card.id,
-					type: types[typeCardIndex].name,
-					shade: typeCardIndex,
-				};
-			},
-		);
+		return results;
 	}
+
+	getOptionValue = (card: core.Contract) => {
+		return card.id;
+	};
+
+	formatOptionLabel = (card) => {
+		const { types, cardType } = this.props;
+
+		const typeCardIndex = types.findIndex((type) => {
+			return type.slug === helpers.getTypeBase(card.type);
+		});
+
+		const typeName = types[typeCardIndex]?.name;
+		const label = card.name || card.slug || card.id;
+
+		return (
+			<Flex alignItems="center" justifyContent="center">
+				{_.isArray(cardType) && typeName && (
+					<Badge shade={typeCardIndex} mr={2}>
+						{typeName}
+					</Badge>
+				)}
+				<Txt
+					tooltip={label}
+					style={{
+						flex: 1,
+						whiteSpace: 'nowrap',
+						overflow: 'hidden',
+						textOverflow: 'ellipsis',
+					}}
+				>
+					{label}
+				</Txt>
+			</Flex>
+		);
+	};
 
 	render() {
 		const {
@@ -203,40 +207,14 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 						};
 					},
 				}}
-				formatOptionLabel={(option: {
-					type: string & React.ReactNode;
-					shade: number | undefined;
-					label:
-						| boolean
-						| React.ReactChild
-						| React.ReactFragment
-						| React.ReactPortal
-						| null
-						| undefined;
-				}) => {
-					return (
-						<Flex alignItems="center" justifyContent="center">
-							{_.isArray(cardType) && option.type && (
-								<Badge shade={option.shade} mr={2}>
-									{option.type}
-								</Badge>
-							)}
-							<Txt
-								tooltip={option.label as string}
-								style={{
-									flex: 1,
-									whiteSpace: 'nowrap',
-									overflow: 'hidden',
-									textOverflow: 'ellipsis',
-								}}
-							>
-								{option.label}
-							</Txt>
-						</Flex>
-					);
-				}}
+				getOptionValue={this.getOptionValue}
+				formatOptionLabel={this.formatOptionLabel}
 				{...rest}
 			/>
 		);
 	}
+
+	static defaultProps = {
+		types: [],
+	};
 }

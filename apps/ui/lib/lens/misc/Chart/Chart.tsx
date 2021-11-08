@@ -132,13 +132,6 @@ export const Chart = React.memo<any>(
 			parseSettings(defaultChartConfiguration),
 		);
 
-		const selectedChartValue = React.useMemo(() => {
-			return {
-				value: selectedChart.id,
-				label: selectedChart.name,
-			};
-		}, [selectedChart]);
-
 		const onPlotlyEditorUpdate = React.useCallback(
 			(newSettings) => {
 				setSettings(newSettings);
@@ -222,7 +215,7 @@ export const Chart = React.memo<any>(
 						key={saveCount}
 						classNamePrefix="chart-config-select"
 						cardType="chart-configuration"
-						value={selectedChartValue}
+						value={selectedChart}
 						onChange={selectChartConfiguration}
 						cardFilter={linkedToViewFilter}
 					/>
