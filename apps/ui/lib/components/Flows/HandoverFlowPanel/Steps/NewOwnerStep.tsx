@@ -24,13 +24,6 @@ export default function NewOwnerStep({
 	flowState: { card, newOwner, userError, unassigned },
 	setFlow,
 }) {
-	const newOwnerValue = newOwner
-		? {
-				value: newOwner.id,
-				label: newOwner.name || newOwner.slug,
-		  }
-		: null;
-
 	const setNewOwnerTeamMember = (event) => {
 		if (event.target.checked) {
 			setFlow({
@@ -93,7 +86,7 @@ export default function NewOwnerStep({
 					data-test="ghf__sel-new-owner"
 					classNamePrefix="ghf-async-select"
 					cardType="user"
-					value={newOwnerValue}
+					value={newOwner}
 					isDisabled={unassigned}
 					onChange={setNewOwner}
 					menuPlacement="top"

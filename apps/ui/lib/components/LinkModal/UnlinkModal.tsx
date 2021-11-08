@@ -189,10 +189,6 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 		return `Unlink ${titleSource} from another element`;
 	}, [fromTypeContract, cards]);
 
-	const selectedTargetValue = React.useMemo(() => {
-		return linkUtils.getContractSelectOption(allTypes, selectedTarget);
-	}, [allTypes, selectedTarget]);
-
 	return (
 		<Modal
 			title={title}
@@ -218,7 +214,7 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 				placeholder="Search..."
 				autoFocus
 				getQueryFilter={getLinkedCardsQuery}
-				value={selectedTargetValue}
+				value={selectedTarget}
 				cardType={_.map(_.castArray(cardType || validTypes), 'slug')}
 				isDisabled={Boolean(target)}
 				onChange={setSelectedTarget}

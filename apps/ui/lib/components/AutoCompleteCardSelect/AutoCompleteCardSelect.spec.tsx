@@ -93,64 +93,6 @@ describe('AutoCompleteCardSelect', () => {
 		sandbox.restore();
 	});
 
-	test('results are cleared when card type changes', async () => {
-		const { sdk, onChange } = context;
-		let usersQueryResolver: any = null;
-		let issuesQueryResolver: any = null;
-		const usersQueryPromise = new Promise((resolve) => {
-			usersQueryResolver = resolve;
-		});
-		const issuesQueryPromise = new Promise((resolve) => {
-			issuesQueryResolver = resolve;
-		});
-		sdk.query.onCall(0).returns(usersQueryPromise);
-		sdk.query.onCall(1).returns(issuesQueryPromise);
-		const autoComplete = await mount(
-			<AutoCompleteCardSelect
-				sdk={sdk}
-				cardType="user"
-				types={types}
-				onChange={onChange}
-			/>,
-			{
-				wrappingComponent,
-			},
-		);
-
-		// Wait for the debounced search
-		await Bluebird.delay(1000);
-
-		// Initially we've got no results but the SDK query has been called
-		expect(autoComplete.state('results')).toEqual([]);
-		expect(sdk.query.callCount).toBe(1);
-
-		// Now we switch card types
-		autoComplete.setProps({
-			...autoComplete.props(),
-			cardType: 'issue',
-		});
-
-		// Wait for the debounced search
-		await Bluebird.delay(1000);
-
-		// Note that we've now called the SDK query a second time
-		expect(sdk.query.callCount).toBe(2);
-
-		// Before returning the initial SDK query with users
-		usersQueryResolver(users);
-		await flushPromises();
-
-		// The users results should not be saved to state
-		expect(autoComplete.state('results')).toEqual([]);
-
-		// When the SDK query returns with the issues...
-		issuesQueryResolver(issues);
-		await flushPromises();
-
-		// ...we should now have issues in the results state!
-		expect(autoComplete.state('results')).toEqual(issues);
-	});
-
 	test('initially, no search term is supplied and the component queries for any cards of the given types', async () => {
 		const { sdk, onChange } = context;
 		await mount(
