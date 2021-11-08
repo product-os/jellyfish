@@ -1,4 +1,15 @@
 - commits:
+    - subject: Simplify AutocompleteCardSelect component
+      hash: 3f838321f2a91e5a239def8521cc4d0fcaae9c72
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 39.2.20
+  date: 2021-11-08T10:01:29.147Z
+- commits:
     - subject: Bump tar from 6.1.0 to 6.1.11 in /apps/ui
       hash: 932b15a55e5fadfa0786dda13ccdc6c4c29de7ae
       body: |
