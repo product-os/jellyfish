@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 7624bd94896dbfc624f7acb4f084c37b1ffcf5e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 39.2.21
+  date: 2021-11-09T00:10:04.029Z
+- commits:
     - subject: Simplify AutocompleteCardSelect component
       hash: 3f838321f2a91e5a239def8521cc4d0fcaae9c72
       body: ''
