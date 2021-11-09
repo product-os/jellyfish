@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'Katapult: Remove namespace from deployment templates.'
+      hash: 6d2d26deb5f10fae54da180508a46ca5d2d50e01
+      body: |
+        We can assume that the namespace already exists before a component
+        is deployed.  Deploying the namespace configuration affects the
+        required labels of the namespace.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 39.2.23
+  date: 2021-11-09T02:47:05.001Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 715daa04bcc2fa7b05e7bc42ba155d3bec621600
       body: ''
