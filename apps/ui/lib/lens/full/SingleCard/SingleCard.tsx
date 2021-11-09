@@ -24,6 +24,7 @@ export const SingleCardTabs = styled(Tabs)`
 	}
 	> [role='tabpanel'] {
 		flex: 1;
+		overflow-y: auto;
 	}
 `;
 
@@ -59,7 +60,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { actions, card, channel, types, actionItems } = this.props;
+		const { card, channel, types, actionItems } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
@@ -101,7 +102,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 					</Tab>
 
 					{displayTimeline && (
-						<Tab title="Timeline">
+						<Tab data-test="timeline-tab" title="Timeline">
 							<Timeline.data.renderer card={card} allowWhispers tail={tail} />
 						</Tab>
 					)}

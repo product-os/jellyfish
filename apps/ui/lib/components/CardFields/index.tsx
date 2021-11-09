@@ -6,7 +6,7 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { Renderer } from 'rendition';
+import { Box, Renderer, Txt } from 'rendition';
 import { helpers } from '@balena/jellyfish-ui-components';
 import {
 	getUiSchema,
@@ -38,15 +38,40 @@ export default function CardFields({
 	);
 
 	return (
-		<Renderer
-			value={card}
-			schema={schema}
-			uiSchema={getUiSchema(type, viewMode)}
-			extraContext={{
-				root: card,
-				fns: jsonSchemaFns,
-			}}
-			validate={false}
-		/>
+		<>
+			<Box py={2}>
+				{!!card.created_at && (
+					<Txt>
+						<em>Created {helpers.formatTimestamp(card.created_at)}</em>
+					</Txt>
+				)}
+
+				{!!card.updated_at && (
+					<Txt>
+						<em>
+							Updated{' '}
+							{helpers.timeAgo(
+								_.get(
+									helpers.getLastUpdate(card),
+									['data', 'timestamp'],
+									card.updated_at,
+								) as any,
+							)}
+						</em>
+					</Txt>
+				)}
+			</Box>
+
+			<Renderer
+				value={card}
+				schema={schema}
+				uiSchema={getUiSchema(type, viewMode)}
+				extraContext={{
+					root: card,
+					fns: jsonSchemaFns,
+				}}
+				validate={false}
+			/>
+		</>
 	);
 }

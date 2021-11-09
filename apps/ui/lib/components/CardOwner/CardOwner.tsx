@@ -11,11 +11,10 @@ import { Txt, DropDownButton } from 'rendition';
 import styled from 'styled-components';
 import {
 	ActionLink,
+	Icon,
 	notifications,
 	helpers,
 } from '@balena/jellyfish-ui-components';
-import { FLOW_IDS } from '../Flows/flow-utils';
-import * as handoverUtils from '../Flows/HandoverFlowPanel/handover-utils';
 
 const OwnerTxt = styled(Txt.span)`
 	white-space: nowrap;
@@ -29,15 +28,18 @@ export default class CardOwner extends React.Component<any, any> {
 		super(props);
 		this.assignToMe = this.assignToMe.bind(this);
 		this.unassign = this.unassign.bind(this);
-		this.assign = this.assign.bind(this);
-		this.handover = this.handover.bind(this);
 		this.openOwnerChannel = this.openOwnerChannel.bind(this);
 		this.handleButtonClick = this.handleButtonClick.bind(this);
+
+		this.state = {
+			isChangingOwner: false,
+		};
 	}
 
 	async assignToMe() {
 		const { cardOwner, card, sdk, types, user } = this.props;
 		const cardTypeName = helpers.getType(card.type, types).name;
+		this.setState({ isChangingOwner: true });
 
 		try {
 			if (cardOwner) {
@@ -52,21 +54,6 @@ export default class CardOwner extends React.Component<any, any> {
 				'success',
 				`${cardTypeName} assigned to me`,
 			);
-
-			// Now generate a whisper in this card's timeline to detail the self-assignment
-			const whisper = handoverUtils.getHandoverWhisperEventCard(
-				card,
-				cardOwner,
-				user,
-				null,
-				_.get(card, ['data', 'statusDescription']),
-			);
-			if (whisper) {
-				await sdk.event.create(whisper).catch((err) => {
-					notifications.addNotification('danger', 'Failed to create whisper');
-					console.error('Failed to create whisper', err);
-				});
-			}
 		} catch (err) {
 			notifications.addNotification(
 				'danger',
@@ -74,30 +61,32 @@ export default class CardOwner extends React.Component<any, any> {
 			);
 			console.error('Failed to create link', err);
 		}
+
+		this.setState({ isChangingOwner: false });
 	}
 
-	handover(unassigned) {
-		const { actions, card } = this.props;
-		const flowState: any = {
-			isOpen: true,
-			card,
-			unassigned,
-			statusDescription: _.get(card, ['data', 'statusDescription'], ''),
-		};
+	async unassign() {
+		const { cardOwner, card, sdk, types } = this.props;
+		const cardTypeName = helpers.getType(card.type, types).name;
+		this.setState({ isChangingOwner: true });
 
-		if (unassigned) {
-			flowState.newOwner = null;
-			flowState.userError = null;
+		try {
+			if (cardOwner) {
+				await sdk.card.unlink(card, cardOwner, 'is owned by');
+
+				this.props.updateCardOwnerCache(null);
+
+				notifications.addNotification('success', `Unassigned ${cardTypeName}`);
+			}
+		} catch (err) {
+			notifications.addNotification(
+				'danger',
+				`Failed to unassign ${cardTypeName}`,
+			);
+			console.error('Failed to create link', err);
 		}
-		actions.setFlow(FLOW_IDS.GUIDED_HANDOVER, card.id, flowState);
-	}
 
-	unassign() {
-		this.handover(true);
-	}
-
-	assign() {
-		this.handover(false);
+		this.setState({ isChangingOwner: false });
 	}
 
 	openOwnerChannel() {
@@ -121,6 +110,7 @@ export default class CardOwner extends React.Component<any, any> {
 
 	render() {
 		const { card, cardOwner, types, user } = this.props;
+		const { isChangingOwner } = this.state;
 
 		const cardTypeName = helpers.getType(card.type, types).name;
 
@@ -132,7 +122,9 @@ export default class CardOwner extends React.Component<any, any> {
 				quartenary={cardOwner && cardOwner.id !== user.id}
 				onClick={this.handleButtonClick}
 				label={
-					cardOwner ? (
+					isChangingOwner ? (
+						<Icon name="cog" spin />
+					) : cardOwner ? (
 						<OwnerTxt
 							bold
 							data-test="card-owner-dropdown__label--assigned"
@@ -179,14 +171,6 @@ export default class CardOwner extends React.Component<any, any> {
 						Unassign
 					</ActionLink>
 				)}
-
-				<ActionLink
-					mx={-3}
-					onClick={this.assign}
-					data-test="card-owner-menu__assign"
-				>
-					Assign to someone else
-				</ActionLink>
 			</DropDownButton>
 		);
 	}

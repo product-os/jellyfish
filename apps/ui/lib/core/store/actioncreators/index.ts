@@ -154,9 +154,6 @@ const getViewId = (query) => {
 };
 
 export const selectors = {
-	getFlow: (flowId, cardId) => (state) => {
-		return _.get(state.ui, ['flows', flowId, cardId]) || null;
-	},
 	getCard: (idOrSlug, type) => (state) => {
 		const cards = _.get(state.core, ['cards', helpers.getTypeBase(type)]);
 		if (!cards) {
@@ -1852,31 +1849,6 @@ export const actionCreators = {
 				.catch((error) => {
 					notifications.addNotification('danger', error.message);
 				});
-		};
-	},
-
-	setFlow(flowId, cardId, flowState) {
-		return (dispatch) => {
-			return dispatch({
-				type: actions.SET_FLOW,
-				value: {
-					flowId,
-					cardId,
-					flowState,
-				},
-			});
-		};
-	},
-
-	removeFlow(flowId, cardId) {
-		return (dispatch) => {
-			return dispatch({
-				type: actions.REMOVE_FLOW,
-				value: {
-					flowId,
-					cardId,
-				},
-			});
 		};
 	},
 };

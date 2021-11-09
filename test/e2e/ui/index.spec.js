@@ -662,6 +662,8 @@ ava.serial('file upload: Users should be able to upload an image', async (test) 
 
 	await page.waitForSelector(`.column--slug-${thread.slug}`)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
+
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
@@ -694,6 +696,7 @@ ava.serial.only('file upload: Users should be able to upload an image to a suppo
 	const selector = '.column--support-thread'
 
 	await page.waitForSelector(selector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
@@ -721,6 +724,7 @@ ava.serial('file upload: Users should be able to upload a text file', async (tes
 	await macros.goto(page, `/${thread.id}`)
 
 	await page.waitForSelector(`.column--slug-${thread.slug}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
@@ -754,6 +758,7 @@ ava.serial('file upload: Users should be able to upload a text file to a support
 	const selector = '.column--support-thread'
 
 	await page.waitForSelector(selector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))

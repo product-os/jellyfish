@@ -24,7 +24,6 @@
     "@balena/jellyfish-client-sdk": "^7.0.0",
     "@balena/jellyfish-environment": "^5.0.14",
     "@balena/jellyfish-ui-components": "^13.0.4",
-    "@primer/styled-octicons": "^14.2.2",
     "analytics-client": "^1.7.0",
     "assert": "^2.0.0",
     "bluebird": "^3.7.2",

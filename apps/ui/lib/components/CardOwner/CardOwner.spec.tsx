@@ -109,11 +109,6 @@ describe('CardOwner', () => {
 			expect(
 				cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
 			).toBe(true);
-
-			// "Assign to someone else" menu item is displayed'
-			expect(
-				cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
-			).toBe(true);
 		});
 
 		test('when there is no owner', async () => {
@@ -140,11 +135,6 @@ describe('CardOwner', () => {
 			expect(
 				cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
 			).toBe(false);
-
-			// "Assign to someone else" menu item is displayed'
-			expect(
-				cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
-			).toBe(true);
 		});
 
 		test('when other user is an owner', async () => {
@@ -170,11 +160,6 @@ describe('CardOwner', () => {
 			// "Unassign" menu item is displayed'
 			expect(
 				cardOwner.find('[data-test="card-owner-menu__unassign"]').exists(),
-			).toBe(true);
-
-			// Assign to someone else" menu item is displayed'
-			expect(
-				cardOwner.find('[data-test="card-owner-menu__assign"]').exists(),
 			).toBe(true);
 		});
 	});
