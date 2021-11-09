@@ -14,9 +14,6 @@ import {
 	LinksProvider,
 } from '@balena/jellyfish-ui-components';
 import CardActions from '../../components/CardActions';
-import SlideInFlowPanel from '../../components/Flows/SlideInFlowPanel';
-import { FLOW_IDS } from '../../components/Flows/flow-utils';
-import HandoverFlowPanel from '../../components/Flows/HandoverFlowPanel';
 import Markers from '../../components/Markers';
 import { selectors, sdk } from '../../core';
 
@@ -102,15 +99,6 @@ const CardLayout = (props) => {
 				<Markers card={card} />
 
 				{children}
-				<SlideInFlowPanel
-					slideInPanelProps={{
-						height: 480,
-					}}
-					card={card}
-					flowId={FLOW_IDS.GUIDED_HANDOVER}
-				>
-					<HandoverFlowPanel user={user} />
-				</SlideInFlowPanel>
 			</Column>
 		</LinksProvider>
 	);

@@ -55,7 +55,6 @@ export const defaultState: any = {
 		config: {},
 	},
 	ui: {
-		flows: {},
 		sidebar: {
 			expanded: [],
 		},
@@ -185,32 +184,6 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 							message: {
 								$set: message,
 							},
-						}),
-				},
-			});
-		}
-		case actions.SET_FLOW: {
-			const { flowId, cardId, flowState } = action.value;
-			return update(state, {
-				flows: {
-					[flowId]: (flowsById) =>
-						update(flowsById || {}, {
-							[cardId]: {
-								$apply: (existingFlowState) => {
-									return _.merge({}, existingFlowState || {}, flowState);
-								},
-							},
-						}),
-				},
-			});
-		}
-		case actions.REMOVE_FLOW: {
-			const { flowId, cardId } = action.value;
-			return update(state, {
-				flows: {
-					[flowId]: (flowsById) =>
-						update(flowsById || {}, {
-							$unset: [cardId],
 						}),
 				},
 			});
@@ -460,7 +433,6 @@ const corePersistConfig = {
 const uiPersistConfig = {
 	...commonConfig,
 	key: 'ui',
-	blacklist: ['flows'],
 };
 
 const viewsPersistConfig = {

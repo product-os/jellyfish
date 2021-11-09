@@ -12,7 +12,6 @@ import { CardLoader, helpers, Link } from '@balena/jellyfish-ui-components';
 
 // This widget fetches the user corresponding to the id or slug specified in the value
 // and renders a link to the user, displaying the username.
-//
 export const JellyfishUserWidget = ({
 	value,
 	schema,

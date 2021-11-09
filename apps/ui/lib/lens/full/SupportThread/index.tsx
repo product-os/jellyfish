@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-import { Box, Divider, Flex, Tab, Theme, Txt } from 'rendition';
+import { Box, Divider, Flex, Tab, Txt } from 'rendition';
 import styled from 'styled-components';
 import {
 	notifications,
@@ -24,12 +24,10 @@ import {
 	withDefaultGetActorHref,
 } from '@balena/jellyfish-ui-components';
 import { actionCreators, selectors, sdk } from '../../../core';
-import SlideInFlowPanel from '../../../components/Flows/SlideInFlowPanel';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import Timeline from '../../list/Timeline';
 import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
-import { FLOW_IDS, TeardownFlowPanel } from '../../../components/Flows';
 import SingleCardFull, { SingleCardTabs } from '../SingleCard/SingleCard';
 import { SubscribeButton } from './SubscribeButton';
 
@@ -89,83 +87,30 @@ class SupportThreadBase extends SingleCardFull {
 			});
 	}
 
-	async close() {
-		const {
-			card,
-			actions: { setFlow },
-		} = this.props;
+	close() {
+		const { card } = this.props;
+		this.setState({
+			isClosing: true,
+		});
 
-		const [summaryCard] = await sdk.query(
-			{
-				type: 'object',
-				required: ['type'],
-				properties: {
-					type: {
-						const: 'summary@1.0.0',
-					},
+		sdk.card
+			.update(card.id, card.type, [
+				{
+					op: 'replace',
+					path: '/data/status',
+					value: 'closed',
 				},
-				$$links: {
-					'is attached to': {
-						type: 'object',
-						additionalProperties: false,
-						required: ['id'],
-						properties: {
-							id: {
-								type: 'string',
-								const: card.id,
-							},
-						},
-					},
-				},
-			},
-			{
-				limit: 1,
-				// TS-TODO: Improve SdkQueryOptions typings in jellyfish-client-sdk module
-				sortBy: ['data', 'timestamp'] as any,
-				sortDir: 'desc',
-			},
-		);
-
-		const [ratingCard] = await sdk.query(
-			{
-				type: 'object',
-				required: ['type'],
-				properties: {
-					type: {
-						const: 'rating@1.0.0',
-					},
-				},
-				$$links: {
-					'is attached to': {
-						type: 'object',
-						additionalProperties: false,
-						required: ['id'],
-						properties: {
-							id: {
-								type: 'string',
-								const: card.id,
-							},
-						},
-					},
-				},
-			},
-			{
-				limit: 1,
-				sortBy: ['data', 'timestamp'] as any,
-				sortDir: 'desc',
-			},
-		);
-
-		const flowState = {
-			isOpen: true,
-			card,
-			summary: _.get(summaryCard, ['data', 'payload', 'message'], ''),
-			rating: _.get(ratingCard, ['data', 'payload'], {
-				score: null,
-				comment: '',
-			}),
-		};
-		setFlow(FLOW_IDS.GUIDED_TEARDOWN, card.id, flowState);
+			])
+			.then(() => {
+				notifications.addNotification('success', 'Closed support thread');
+				this.props.actions.removeChannel(this.props.channel);
+			})
+			.catch((error) => {
+				notifications.addNotification('danger', error.message || error);
+				this.setState({
+					isClosing: false,
+				});
+			});
 	}
 
 	archive() {
@@ -439,16 +384,6 @@ class SupportThreadBase extends SingleCardFull {
 					{customQueryTabs(card, typeContract)}
 					<RelationshipsTab card={card} />
 				</SingleCardTabs>
-
-				<SlideInFlowPanel
-					slideInPanelProps={{
-						height: 500,
-					}}
-					card={card}
-					flowId={FLOW_IDS.GUIDED_TEARDOWN}
-				>
-					<TeardownFlowPanel />
-				</SlideInFlowPanel>
 			</CardLayout>
 		);
 	}
@@ -470,7 +405,6 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'getActor',
 				'loadMoreViewData',
-				'setFlow',
 				'removeChannel',
 			]),
 			dispatch,
