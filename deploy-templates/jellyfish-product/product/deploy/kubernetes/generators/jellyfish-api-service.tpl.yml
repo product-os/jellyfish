@@ -7,7 +7,8 @@ metadata:
   name: jellyfish-api
 spec:
   selector:
-    app: jellyfish
+    app.kubernetes.io/instance: jellyfish-api
+    app.kubernetes.io/name: jellyfish-api
   ports:
   - port: 8000
   sessionAffinity: ClientIP
