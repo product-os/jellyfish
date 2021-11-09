@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 09a768b747b4d86638adf685bf75625b13a113e3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.1
+  date: 2021-11-09T18:58:40.073Z
+- commits:
     - subject: Remove guided teardown and handover panels
       hash: 7d00e3911783c9dbdb39edcdb15fbe5c8235d91c
       body: |
