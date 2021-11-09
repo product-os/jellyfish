@@ -1,4 +1,47 @@
 - commits:
+    - subject: Remove guided teardown and handover panels
+      hash: 7d00e3911783c9dbdb39edcdb15fbe5c8235d91c
+      body: |
+        The guided flow functionality is tied to work that has stalled and is
+        will not be progressing at any time in the near future. When we are
+        ready to tackle handover and teardown workflows again we can revive the
+        components and functionality and make a targeted team effort to
+        implement a cohesive process around this functionality.
+        Currently there isn't a clear process for how to use these features, and
+        they may no longer be fit for purpose. Retaining them is simply adding
+        overhead and maintenance burden to the team
+
+        This change also removes the ability to assign a contract to someone
+        else. I strongly feel that this emphasises top-down delegation, when we
+        should be emphasising concensual ownership. If someone takes ownership
+        of a contract, they should do it themselves.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Use generic contract UI features for support threads
+      hash: 8fb35ab4ef3a76d2b7eb1e061213eca2f01c3525
+      body: |
+        This replaces much of the hardcoding on the support thread lens with the
+        generic capabilities created for rendering contracts. The most notable
+        changes is that the auto-generated "Links" tab is now available on
+        support threads and the timeline is in a seperate tab to the thread
+        info.
+        This change also displays the created and updated timestamps on the
+        `info` tab, making it more discoverable for all contracts.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 40.0.0
+  date: 2021-11-09T17:43:14.619Z
+- commits:
     - subject: 'Katapult: Remove namespace from deployment templates.'
       hash: 6d2d26deb5f10fae54da180508a46ca5d2d50e01
       body: |
