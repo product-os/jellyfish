@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Katapult: Add deployment anti-affinity rules.'
+      hash: 904cdb32777063c7872d57a0a86a7829a7687241
+      body: |
+        Also updates the deployment labels.  The anti-affinity rules
+        prefers spreading of the pods across the kubernetes nodes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 40.0.3
+  date: 2021-11-09T23:57:11.371Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 9fc1038ba82d09d8167effd1bd897e207194b904
       body: ''
