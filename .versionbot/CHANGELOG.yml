@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.12'
+      hash: c64e42bf9503d8787c258d8596ac79b3fb62f704
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.5
+  date: 2021-11-10T03:30:12.647Z
+- commits:
     - subject: 'Revert "Katapult: Add deployment anti-affinity rules."'
       hash: c0a757a6fcfd44667955bb1b56523d8bd2fef412
       body: ''
