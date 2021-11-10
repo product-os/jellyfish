@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump url-parse from 1.5.1 to 1.5.3 in /apps/ui
+      hash: affe9a3b9f3b7d05314c271f189deae2823416d2
+      body: >
+        Bumps [url-parse](https://github.com/unshiftio/url-parse) from 1.5.1 to
+        1.5.3.
+
+        - [Release notes](https://github.com/unshiftio/url-parse/releases)
+
+        -
+        [Commits](https://github.com/unshiftio/url-parse/compare/1.5.1...1.5.3)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: url-parse
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 40.0.6
+  date: 2021-11-10T23:14:22.634Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.12'
       hash: c64e42bf9503d8787c258d8596ac79b3fb62f704
       body: ''
