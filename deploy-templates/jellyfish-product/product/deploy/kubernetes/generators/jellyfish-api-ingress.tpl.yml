@@ -3,8 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfish-api
-    app.kubernetes.io/name: jellyfish-api
+    name: jellyfish-api
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   name: jellyfish-api
   # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/#deploy-ingress-for-echoserver
