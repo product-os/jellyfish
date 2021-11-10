@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Revert "Katapult: Add deployment anti-affinity rules."'
+      hash: c0a757a6fcfd44667955bb1b56523d8bd2fef412
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 40.0.4
+  date: 2021-11-10T02:07:49.876Z
+- commits:
     - subject: 'Katapult: Add deployment anti-affinity rules.'
       hash: 904cdb32777063c7872d57a0a86a7829a7687241
       body: |
