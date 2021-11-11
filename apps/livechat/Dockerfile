@@ -6,8 +6,6 @@ FROM balena/open-balena-base:v12.2.0 as base
 
 WORKDIR /usr/src/jellyfish/apps/livechat
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 COPY ./apps/livechat/package.json /usr/src/jellyfish/apps/livechat/package.json
 COPY ./apps/livechat/package-lock.json /usr/src/jellyfish/apps/livechat/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
@@ -21,7 +19,6 @@ COPY ./apps/livechat /usr/src/jellyfish/apps/livechat
 
 #dev-cmd-live=cd /usr/src/jellyfish/apps/livechat && make dev-livechat
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/livechat/node_modules/@balena/
-RUN rm -f ~/.npmrc
 
 RUN make build-livechat NODE_ENV=production
 

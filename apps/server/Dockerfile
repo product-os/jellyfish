@@ -2,8 +2,6 @@ FROM balena/open-balena-base:v12.2.0
 
 WORKDIR /usr/src/jellyfish/apps/server
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 COPY ./apps/server/package.json /usr/src/jellyfish/apps/server/package.json
 COPY ./apps/server/package-lock.json /usr/src/jellyfish/apps/server/package-lock.json
 RUN npm ci
@@ -20,7 +18,6 @@ COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.b
 
 #dev-cmd-live=cd /usr/src/jellyfish/apps/server && npx nodemon --inspect=0.0.0.0 ./lib/index.ts
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/@balena/
-RUN rm -f ~/.npmrc
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 RUN npm run build
 

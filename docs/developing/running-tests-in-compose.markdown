@@ -3,11 +3,6 @@
 This document outlines how developers can run CI tests/tasks in a local `docker-compose` cluster.
 This method closely emulates how tests/tasks are executed in balenaCI and may help tests that may be passing "natively", but are failing/flaky in balenaCI.
 
-First off, export an `NPM_TOKEN` so containers have access to private packages during build:
-```sh
-$ export NPM_TOKEN=xxxxx
-```
-
 Next, run a couple `make` commands to build images and start the cluster:
 ```sh
 $ SUT=1 make compose-build

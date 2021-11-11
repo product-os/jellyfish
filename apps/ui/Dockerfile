@@ -6,8 +6,6 @@ FROM balena/open-balena-base:v12.2.0 as base
 
 WORKDIR /usr/src/jellyfish/apps/ui
 
-ARG NPM_TOKEN
-RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
 COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
 COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
@@ -21,7 +19,6 @@ COPY ./apps/ui /usr/src/jellyfish/apps/ui
 
 #dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
-RUN rm -f ~/.npmrc
 
 RUN make build-ui \
 	NODE_ENV=production \
