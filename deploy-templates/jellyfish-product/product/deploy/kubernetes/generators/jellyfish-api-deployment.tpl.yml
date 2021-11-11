@@ -1,14 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  labels:
+    app.kubernetes.io/instance: jellyfish-api
+    app.kubernetes.io/name: jellyfish-api
   name: jellyfish
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
-  labels:
-    app.kubernetes.io/name: jellyfish-api
 spec:
   selector:
     matchLabels:
-      app: jellyfish
+      app.kubernetes.io/instance: jellyfish-api
+      app.kubernetes.io/name: jellyfish-api
   replicas: 4
   strategy:
     type: RollingUpdate
@@ -18,8 +20,25 @@ spec:
   template:
     metadata:
       labels:
-        app: jellyfish
+        app.kubernetes.io/instance: jellyfish-api
+        app.kubernetes.io/name: jellyfish-api
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAntiAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - jellyfish-api
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - jellyfish-api
+              topologyKey: kubernetes.io/hostname
       terminationGracePeriodSeconds: 120
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-api.data.assets.image.url%>>
