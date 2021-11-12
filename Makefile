@@ -31,129 +31,9 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Project name
 NAME ?= jellyfish
 
-DATABASE ?= postgres
-export DATABASE
-
-# The default postgres user is your local user
-POSTGRES_USER ?= $(shell whoami)
-export POSTGRES_USER
-POSTGRES_PASSWORD ?=
-export POSTGRES_PASSWORD
-POSTGRES_PORT ?= 5432
-export POSTGRES_PORT
-POSTGRES_HOST ?= localhost
-export POSTGRES_HOST
-POSTGRES_DATABASE ?= jellyfish
-export POSTGRES_DATABASE
-
 # silence graphile-worker logs
 NO_LOG_SUCCESS = 1
 export NO_LOG_SUCCESS
-
-PORT ?= 8000
-export PORT
-LOGLEVEL ?= info
-export LOGLEVEL
-DB_HOST ?= localhost
-export DB_HOST
-DB_PORT ?= 28015
-export DB_PORT
-DB_USER ?=
-export DB_USER
-DB_PASSWORD ?=
-export DB_PASSWORD
-SERVER_HOST ?= http://localhost
-export SERVER_HOST
-SERVER_PORT ?= $(PORT)
-export SERVER_PORT
-METRICS_PORT ?= 9000
-export METRICS_PORT
-SOCKET_METRICS_PORT ?= 9001
-export SOCKET_METRICS_PORT
-SERVER_DATABASE ?= jellyfish
-export SERVER_DATABASE
-UI_PORT ?= 9000
-export UI_PORT
-UI_HOST ?= $(SERVER_HOST)
-export UI_HOST
-LIVECHAT_HOST ?= $(SERVER_HOST)
-export LIVECHAT_HOST
-LIVECHAT_PORT ?= 9100
-export LIVECHAT_PORT
-DB_CERT ?=
-export DB_CERT
-LOGENTRIES_TOKEN ?=
-export LOGENTRIES_TOKEN
-LOGENTRIES_REGION ?=
-export LOGENTRIES_REGION
-SENTRY_DSN_SERVER ?=
-export SENTRY_DSN_SERVER
-NODE_ENV ?= test
-export NODE_ENV
-REDIS_NAMESPACE ?= $(SERVER_DATABASE)
-export REDIS_NAMESPACE
-REDIS_PASSWORD ?=
-export REDIS_PASSWORD
-REDIS_PORT ?= 6379
-export REDIS_PORT
-REDIS_HOST ?= localhost
-export REDIS_HOST
-POD_NAME ?= localhost
-export POD_NAME
-OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
-export OAUTH_REDIRECT_BASE_URL
-MONITOR_SECRET_TOKEN ?= TEST
-export MONITOR_SECRET_TOKEN
-RESET_PASSWORD_SECRET_TOKEN ?=
-export RESET_PASSWORD_SECRET_TOKEN
-HTTP_WORKER_PORT ?= 8002
-export HTTP_WORKER_PORT
-
-FS_DRIVER ?= localFS
-export FS_DRIVER
-AWS_ACCESS_KEY_ID ?=
-export AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY ?=
-export AWS_SECRET_ACCESS_KEY
-AWS_S3_BUCKET_NAME ?=
-export AWS_S3_BUCKET_NAME
-INTEGRATION_DEFAULT_USER ?= admin
-export INTEGRATION_DEFAULT_USER
-
-# Automatically created user
-# when not running in production
-TEST_USER_USERNAME ?= jellyfish
-export TEST_USER_USERNAME
-TEST_USER_PASSWORD ?= jellyfish
-export TEST_USER_PASSWORD
-TEST_USER_ROLE ?= user-test
-export TEST_USER_ROLE
-TEST_USER_ORGANIZATION ?= balena
-export TEST_USER_ORGANIZATION
-
-MAIL_TYPE ?= mailgun
-export MAIL_TYPE
-MAILGUN_TOKEN ?=
-export MAILGUN_TOKEN
-MAILGUN_DOMAIN ?= mail.ly.fish
-export MAILGUN_DOMAIN
-MAILGUN_BASE_URL = https://api.mailgun.net/v3
-export MAILGUN_BASE_URL
-
-# -----------------------------------------------
-# Test Runtime Configuration
-# -----------------------------------------------
-
-TEST_INTEGRATION_FRONT_INBOX_1 ?= inb_qf8q # Jellyfish Testfront
-export TEST_INTEGRATION_FRONT_INBOX_1
-TEST_INTEGRATION_FRONT_INBOX_2 ?= inb_8t8y # Jellyfish Test Inbox
-export TEST_INTEGRATION_FRONT_INBOX_2
-TEST_INTEGRATION_DISCOURSE_CATEGORY ?= 44 # sandbox
-export TEST_INTEGRATION_DISCOURSE_CATEGORY
-TEST_INTEGRATION_DISCOURSE_USERNAME ?= jellyfish
-export TEST_INTEGRATION_DISCOURSE_USERNAME
-TEST_INTEGRATION_DISCOURSE_NON_MODERATOR_USERNAME ?= jellyfish-test
-export TEST_INTEGRATION_DISCOURSE_NON_MODERATOR_USERNAME
 
 # -----------------------------------------------
 # Build Configuration
@@ -187,11 +67,7 @@ export MATCH
 SCRUB ?= 1
 export SCRUB
 FIX ?=
-CI ?=
 DETACH ?=
-export CI
-VISUAL ?=
-export VISUAL
 NOCACHE ?=
 
 # Set balena push --nocache flag if necessary
@@ -199,21 +75,6 @@ ifeq ($(NOCACHE),1)
 NOCACHE_FLAG = --nocache
 else
 NOCACHE_FLAG =
-endif
-
-# Set dotenv variables for local development/testing
-ifndef CI
-    # Defaults are set in local.env
-    ifneq ("$(wildcard local.env)","")
-        include local.env
-        export $(shell sed 's/=.*//' local.env)
-    endif
-
-    # Developers can override local.env with a custom.env
-    ifneq ("$(wildcard custom.env)","")
-        include custom.env
-        export $(shell sed 's/=.*//' custom.env)
-    endif
 endif
 
 DOCKER_COMPOSE_FILES = --file docker-compose.yml
@@ -249,9 +110,6 @@ ESLINT_OPTION_FIX = --fix
 endif
 
 AVA_ARGS = $(AVA_OPTS)
-ifndef CI
-AVA_ARGS += --fail-fast
-endif
 ifdef MATCH
 AVA_ARGS += --match $(MATCH)
 endif
@@ -368,17 +226,14 @@ start-worker:
 	cd apps/action-server && make start-worker
 
 start-redis:
-	exec redis-server --port $(REDIS_PORT)
+	exec redis-server
 
 # You might need to increase the maximum amount of semaphores
 # system-wide in order to set the max connections parameters.
 # In OpenBSD, set kern.seminfo.semmns=200 in /etc/sysctl.conf
 # See https://www.postgresql.org/docs/11/kernel-resources.html
 start-postgres: postgres_data
-	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
-
-start-static-%:
-	cd apps/ui/dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
+	exec postgres -N 100 -D $<
 
 # -----------------------------------------------
 # Build
@@ -386,11 +241,11 @@ start-static-%:
 
 build-ui:
 	cd apps/ui && \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-ui
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) make build-ui
 
 build-livechat:
 	cd apps/livechat && \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-livechat
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) make build-livechat
 
 # -----------------------------------------------
 # Development
@@ -417,44 +272,11 @@ compose-%: docker-compose.yml
 		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 dev-%:
-	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
+	cd apps/$(subst dev-,,$@) && make dev-$(subst dev-,,$@)
 
 push:
 	CMD="rm -f ./packages/*" make exec-apps
-	balena push jel.ly.fish.local $(NOCACHE_FLAG) \
-		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
-		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
-		--env INTEGRATION_BALENA_API_PRIVATE_KEY=$(INTEGRATION_BALENA_API_PRIVATE_KEY) \
-		--env INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION) \
-		--env INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=$(INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING) \
-		--env INTEGRATION_BALENA_API_APP_ID=$(INTEGRATION_BALENA_API_APP_ID) \
-		--env INTEGRATION_BALENA_API_APP_SECRET=$(INTEGRATION_BALENA_API_APP_SECRET) \
-		--env INTEGRATION_DISCOURSE_SIGNATURE_KEY=$(INTEGRATION_DISCOURSE_SIGNATURE_KEY) \
-		--env INTEGRATION_DISCOURSE_TOKEN=$(INTEGRATION_DISCOURSE_TOKEN) \
-		--env INTEGRATION_DISCOURSE_USERNAME=$(INTEGRATION_DISCOURSE_USERNAME) \
-		--env INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$(INTEGRATION_FLOWDOCK_SIGNATURE_KEY) \
-		--env INTEGRATION_FLOWDOCK_TOKEN=$(INTEGRATION_FLOWDOCK_TOKEN) \
-		--env INTEGRATION_GITHUB_APP_ID=$(INTEGRATION_GITHUB_APP_ID) \
-		--env INTEGRATION_GITHUB_PRIVATE_KEY=$(INTEGRATION_GITHUB_PRIVATE_KEY) \
-		--env INTEGRATION_GITHUB_SIGNATURE_KEY=$(INTEGRATION_GITHUB_SIGNATURE_KEY) \
-		--env INTEGRATION_GITHUB_TOKEN=$(INTEGRATION_GITHUB_TOKEN) \
-		--env INTEGRATION_INTERCOM_TOKEN=$(INTEGRATION_INTERCOM_TOKEN) \
-		--env INTEGRATION_OUTREACH_APP_ID=$(INTEGRATION_OUTREACH_APP_ID) \
-		--env INTEGRATION_OUTREACH_APP_SECRET=$(INTEGRATION_OUTREACH_APP_SECRET) \
-		--env INTEGRATION_OUTREACH_SIGNATURE_KEY=$(INTEGRATION_OUTREACH_SIGNATURE_KEY) \
-		--env INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
-		--env INTEGRATION_BALENA_API_OAUTH_BASE_URL=$(INTEGRATION_BALENA_API_OAUTH_BASE_URL) \
-		--env INTEGRATION_TYPEFORM_SIGNATURE_KEY=$(INTEGRATION_TYPEFORM_SIGNATURE_KEY) \
-		--env MONITOR_SECRET_TOKEN=$(MONITOR_SECRET_TOKEN) \
-		--env TEST_INTEGRATION_SKIP=$(TEST_INTEGRATION_SKIP) \
-		--env LOGLEVEL=$(LOGLEVEL) \
-		--env NPM_TOKEN=$(NPM_TOKEN) \
-		--env NODE_ENV=$(NODE_ENV) \
-		--env REGISTRY_TOKEN_AUTH_CERT_ISSUER=api.ly.fish.local \
-		--env REGISTRY_TOKEN_AUTH_CERT_KEY="LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU4xWUw1WVRjb3NVVnhHdXlXMGt4cGE0ekxzbEpGQ2JvZUxIUWlpaW1vTkhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFR0RRQ2FpK1FnNG9GZE9HMXZNdWdtMFA5bTViSUR3R29MNjg1aGVYR0hwZWJVblgxOGQvYwpQUTZGbDBQaklQam9iUzlCNW5oSTF1Y0p3MW8vclE2UXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=" \
-		--env REGISTRY_TOKEN_AUTH_CERT_KID="UkNVNTo2Q1RaOkJITjc6RlBCUjpKWUJIOjVHRVI6QVdQSDpIRk9aOjZaT0c6VVUzTzo3Q0gzOjZFU0sK" \
-		--env REGISTRY_TOKEN_AUTH_JWT_ALGO=ES256 \
-		--env REGISTRY_HOST=registry.ly.fish.local
+	balena push jel.ly.fish.local $(NOCACHE_FLAG)
 
 ssh:
 	balena ssh jel.ly.fish.local
