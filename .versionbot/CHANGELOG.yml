@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Katapult: Add deployment anti-affinity rules.'
+      hash: f579adcca5f173f0a27395dc43df0ecbc38ae876
+      body: |
+        Also updates the deployment labels. The anti-affinity rules
+        prefers spreading of the pods across the kubernetes nodes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 40.0.8
+  date: 2021-11-11T01:29:07.482Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-environment to ^5.1.0'
       hash: 93a5a2acc98dd8dfc1e12a179a51a3a1d9e7cee6
       body: |
