@@ -4,10 +4,13 @@ metadata:
   name: jellyfish-livechat
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   labels:
+    app.kubernetes.io/instance: jellyfish-livechat
     app.kubernetes.io/name: jellyfish-livechat
 spec:
   selector:
     matchLabels:
+      app.kubernetes.io/instance: jellyfish-livechat
+      app.kubernetes.io/name: jellyfish-livechat
       app: jellyfish-livechat
   replicas: 3
   strategy:
@@ -18,8 +21,25 @@ spec:
   template:
     metadata:
       labels:
-        app: jellyfish-livechat
+        app.kubernetes.io/instance: jellyfish-livechat
+        app.kubernetes.io/name: jellyfish-livechat
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAntiAffinityTerm:
+              preference:
+                matchExpressions:
+                - key: app.kubernetes.io/instance
+                  operator: In
+                  values:
+                  - jellyfish-livechat
+                - key: app.kubernetes.io/name
+                  operator: In
+                  values:
+                  - jellyfish-livechat
+              topologyKey: kubernetes.io/hostname
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-livechat.data.assets.image.url%>>
         name: jellyfish-livechat
