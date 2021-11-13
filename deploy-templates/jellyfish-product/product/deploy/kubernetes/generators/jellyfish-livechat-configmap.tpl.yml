@@ -8,5 +8,8 @@ data:
   SERVER_PORT: "443"
 kind: ConfigMap
 metadata:
+  labels:
+    app.kubernetes.io/instance: jellyfish-livechat
+    app.kubernetes.io/name: jellyfish-livechat
   name: jellyfish-livechat
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
