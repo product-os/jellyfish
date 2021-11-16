@@ -28,7 +28,7 @@ spec:
           preferredDuringSchedulingIgnoredDuringExecution:
           - weight: 100
             podAntiAffinityTerm:
-              labelSelector:
+              preference:
                 matchExpressions:
                 - key: app.kubernetes.io/instance
                   operator: In
