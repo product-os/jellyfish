@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Katapult: Fixup anti-affinity configuration.'
+      hash: cf30f08176c5300222cf6992dcfb947aa87a1588
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 40.0.10
+  date: 2021-11-16T10:29:28.561Z
+- commits:
     - subject: 'Katapult: Add pod anti-affinity rules for livechat & UI.'
       hash: 8a488852214513bd01886140b880641fdbc90b73
       body: ''
