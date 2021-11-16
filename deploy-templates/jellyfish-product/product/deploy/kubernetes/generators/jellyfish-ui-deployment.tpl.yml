@@ -26,19 +26,19 @@ spec:
       affinity:
         podAntiAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 100
-            podAntiAffinityTerm:
-              preference:
-                matchExpressions:
-                - key: app.kubernetes.io/instance
-                  operator: In
-                  values:
-                  - jellyfish-ui
-                - key: app.kubernetes.io/name
-                  operator: In
-                  values:
-                  - jellyfish-ui
-              topologyKey: kubernetes.io/hostname
+            - weight: 100
+              podAffinityTerm:
+                labelSelector:
+                  matchExpressions:
+                    - key: app.kubernetes.io/instance
+                      operator: In
+                      values:
+                        - jellyfish-ui
+                    - key: app.kubernetes.io/name
+                      operator: In
+                      values:
+                        - jellyfish-ui
+                topologyKey: kubernetes.io/hostname
       containers:
       - image: <<%&children.sw.containerized-application.jellyfish-ui.data.assets.image.url%>>
         name: jellyfish-ui
