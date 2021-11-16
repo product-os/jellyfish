@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 11929825975bccdfecf16d1c7d7155a12629c083
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.11
+  date: 2021-11-16T11:16:54.988Z
+- commits:
     - subject: 'Katapult: Fixup anti-affinity configuration.'
       hash: cf30f08176c5300222cf6992dcfb947aa87a1588
       body: ''
