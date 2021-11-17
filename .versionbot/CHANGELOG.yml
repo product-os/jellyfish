@@ -1,4 +1,17 @@
 - commits:
+    - subject: Correctly type View lens component
+      hash: e606eb9505fca63f715031a5df1ba05e497245b8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 40.0.19
+  date: 2021-11-17T14:08:17.421Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 8fed06fc1137bd60fa91942949cc4107e7d21a21
       body: ''
