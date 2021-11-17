@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix up livechat selector.
+      hash: a79bb79e56e6cef15d09918f5b1ac6cd6e5030d5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 40.0.16
+  date: 2021-11-17T04:19:23.407Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: e160b43b1003fa856c45e1ed0297829b942f1d38
       body: ''
