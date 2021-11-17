@@ -11,8 +11,7 @@ spec:
     matchLabels:
       app.kubernetes.io/instance: jellyfish-livechat
       app.kubernetes.io/name: jellyfish-livechat
-      app: jellyfish-livechat
-  replicas: 3
+  replicas: 4
   strategy:
     type: RollingUpdate
     rollingUpdate:
