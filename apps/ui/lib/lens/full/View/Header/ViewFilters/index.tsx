@@ -9,7 +9,15 @@ import _ from 'lodash';
 import skhema from 'skhema';
 import clone from 'deep-copy';
 import type { JSONSchema7 } from 'json-schema';
-import { Box, Filters, Flex, SchemaSieve, Search, Theme } from 'rendition';
+import {
+	Box,
+	Filters,
+	FiltersProps,
+	Flex,
+	SchemaSieve,
+	Search,
+	Theme,
+} from 'rendition';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
 import { core, JSONSchema } from '@balena/jellyfish-types';
@@ -157,7 +165,24 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	return schemaForFilters;
 };
 
-const ViewFilters = React.memo<any>(
+interface ViewFiltersProps {
+	onSortOptionsChange: (sortOptions: {
+		sortBy?: string;
+		sortDir?: 'desc' | 'asc';
+	}) => void;
+	pageOptions: { sortBy: string; sortDir: 'desc' | 'asc' };
+	searchTerm: string;
+	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
+	updateSearch: (value: any) => void;
+	allTypes: core.TypeContract[];
+	filters: JSONSchema7[];
+	saveView: FiltersProps['onViewsUpdate'];
+	searchFilter: JSONSchema;
+	tailTypes: core.TypeContract[];
+	updateFilters: (filters: JSONSchema7[]) => void;
+}
+
+const ViewFilters = React.memo<ViewFiltersProps>(
 	({
 		tailTypes,
 		allTypes,

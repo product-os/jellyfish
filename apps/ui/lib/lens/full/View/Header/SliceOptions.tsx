@@ -5,9 +5,27 @@
  */
 
 import React from 'react';
-import { Select } from 'rendition';
+import { Select, SelectProps } from 'rendition';
 
-const SliceOptions = ({ sliceOptions, activeSlice, setSlice, ...rest }) => {
+export interface SliceOption {
+	title: string;
+	value: {
+		path: string;
+		value?: any;
+	};
+}
+
+interface SliceOptionsSelectProps
+	extends Omit<SelectProps<SliceOption>, 'options'> {
+	sliceOptions: SliceOption[];
+	activeSlice: SliceOption;
+}
+
+const SliceOptionsSelect = ({
+	sliceOptions,
+	activeSlice,
+	...rest
+}: SliceOptionsSelectProps) => {
 	if (!sliceOptions || sliceOptions.length < 1) {
 		return null;
 	}
@@ -17,9 +35,8 @@ const SliceOptions = ({ sliceOptions, activeSlice, setSlice, ...rest }) => {
 			options={sliceOptions}
 			value={activeSlice}
 			labelKey="title"
-			onChange={setSlice}
 		/>
 	);
 };
 
-export default SliceOptions;
+export default SliceOptionsSelect;

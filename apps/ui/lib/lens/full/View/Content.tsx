@@ -8,7 +8,13 @@ import React from 'react';
 import _ from 'lodash';
 import { Box, Flex, Txt } from 'rendition';
 import { Icon } from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
 import { ViewFooter } from '../../common/ViewFooter';
+import {
+	BoundActionCreators,
+	ChannelContract,
+	LensContract,
+} from '../../../types';
 
 const sortTail = (tail, options) => {
 	if (!tail) {
@@ -17,7 +23,29 @@ const sortTail = (tail, options) => {
 	return _.orderBy(tail, options.sortBy, options.sortDir);
 };
 
-export default class Content extends React.Component<any, any> {
+interface ContentProps {
+	lens: LensContract;
+	activeLens: string;
+	tail: null | core.Contract[];
+	channel: ChannelContract;
+	getQueryOptions: (
+		lensSlug: string,
+		keepState?: boolean,
+	) => {
+		limit: number;
+		page: number;
+		sortBy: string;
+		sortDir: string;
+	};
+	tailTypes: core.TypeContract[];
+	setPage: (page: number) => Promise<void>;
+	pageOptions: {
+		page: number;
+		totalPages: number;
+	};
+}
+
+export default class Content extends React.Component<ContentProps, any> {
 	render() {
 		const {
 			lens,
@@ -47,7 +75,7 @@ export default class Content extends React.Component<any, any> {
 							<Icon spin name="cog" />
 						</Box>
 					)}
-					{Boolean(tail) && tail.length === 0 && (
+					{tail != null && tail.length === 0 && (
 						<Txt.p data-test="alt-text--no-results" p={3}>
 							No results found
 						</Txt.p>

@@ -5,17 +5,21 @@
  */
 
 import * as _ from 'lodash';
+import type { JSONSchema7 } from 'json-schema';
 import React from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, Flex, Heading, Txt } from 'rendition';
+import { Box, FiltersProps, Flex, Heading, SelectProps, Txt } from 'rendition';
 import { flatten } from 'flat';
 import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
 import Markers from '../../../../components/Markers';
 import { BookmarkButton } from '../../../../components/BookmarkButton';
+import { LensContract, ChannelContract } from '../../../../types';
 import { LensSelection } from './LensSelection';
-import SliceOptions from './SliceOptions';
+import SliceOptionsSelect, { SliceOption } from './SliceOptions';
 import ViewFilters from './ViewFilters';
 import styled from 'styled-components';
+import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import { JSONSchema } from '@balena/jellyfish-types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -31,7 +35,33 @@ const CSVLinkWrapper = styled(Box)`
 	}
 `;
 
-export default class Header extends React.Component<any, any> {
+interface HeaderProps {
+	activeSlice: SliceOption;
+	allTypes: TypeContract[];
+	channel: ChannelContract;
+	filters: JSONSchema7[];
+	isMobile: boolean;
+	lens: LensContract;
+	lenses: LensContract[];
+	onSortOptionsChange: (sortOptions: {
+		sortBy?: string;
+		sortDir?: 'desc' | 'asc';
+	}) => void;
+	pageOptions: { sortBy: string; sortDir: 'asc' | 'desc' };
+	saveView: FiltersProps['onViewsUpdate'];
+	searchFilter: JSONSchema;
+	searchTerm: string;
+	setLens: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+	setSlice: SelectProps<SliceOption>['onChange'];
+	sliceOptions: SliceOption[];
+	tail: null | Contract[];
+	tailTypes: TypeContract[];
+	updateFilters: (filters: JSONSchema7[]) => void;
+	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
+	updateSearch: (value: any) => void;
+}
+
+export default class Header extends React.Component<HeaderProps, any> {
 	render() {
 		const {
 			isMobile,
@@ -129,11 +159,11 @@ export default class Header extends React.Component<any, any> {
 								<BookmarkButton card={channel.data.head} ml={2} />
 
 								{!lens.data.supportsSlices && (
-									<SliceOptions
+									<SliceOptionsSelect
 										ml={2}
 										sliceOptions={sliceOptions}
 										activeSlice={activeSlice}
-										setSlice={setSlice}
+										onChange={setSlice}
 									/>
 								)}
 								<LensSelection

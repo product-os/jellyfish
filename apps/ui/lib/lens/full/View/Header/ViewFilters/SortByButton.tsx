@@ -10,7 +10,8 @@ import skhema from 'skhema';
 import memoize from 'memoize-one';
 import { circularDeepEqual } from 'fast-equals';
 import clone from 'deep-copy';
-import { Select } from 'rendition';
+import { Select, SelectProps } from 'rendition';
+import { core } from '@balena/jellyfish-types';
 import { helpers } from '@balena/jellyfish-ui-components';
 import { sdk } from '../../../../../core';
 
@@ -63,8 +64,23 @@ const getSortByOptions = (cardSchema, tailTypes) => {
 	});
 };
 
-export default class SortByDropdown extends React.Component<any, any> {
-	constructor(props) {
+type SortByOption = {
+	title: string;
+	value: string;
+};
+
+interface SortByDropdownProps
+	extends Omit<SelectProps<SortByOption>, 'options' | 'onChange'> {
+	pageOptions: { sortBy: string; sortDir: 'desc' | 'asc' };
+	tailTypes: core.TypeContract[];
+	setSortByField: SelectProps<SortByOption>['onChange'];
+}
+
+export default class SortByDropdown extends React.Component<
+	SortByDropdownProps,
+	any
+> {
+	constructor(props: SortByDropdownProps) {
 		super(props);
 		this.state = {
 			sortByOptions: [],
@@ -138,8 +154,6 @@ export default class SortByDropdown extends React.Component<any, any> {
 		};
 
 		return (
-			// @ts-ignore: Rendition's Select's children prop requires a functional component
-			// which is overly restrictive - should be ReactNode<...>
 			<Select
 				{...rest}
 				labelKey="title"

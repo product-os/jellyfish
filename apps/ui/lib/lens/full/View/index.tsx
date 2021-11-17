@@ -13,7 +13,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import * as redux from 'redux';
-import { Box, Flex, SchemaSieve } from 'rendition';
+import { Box, FiltersView, Flex, FlexProps, SchemaSieve } from 'rendition';
 import { v4 as uuid } from 'uuid';
 import {
 	notifications,
@@ -22,8 +22,13 @@ import {
 	withResponsiveContext,
 } from '@balena/jellyfish-ui-components';
 import jsf from 'json-schema-faker';
-import { JSONSchema } from '@balena/jellyfish-types';
+import { JSONSchema, core } from '@balena/jellyfish-types';
 import { actionCreators, analytics, selectors, sdk } from '../../../core';
+import {
+	BoundActionCreators,
+	ChannelContract,
+	LensContract,
+} from '../../../types';
 import { getLenses } from '../../';
 import Header from './Header';
 import Content from './Content';
@@ -34,6 +39,11 @@ import {
 	EVENTS_FULL_TEXT_SEARCH_TITLE,
 } from './constants';
 import { unpackLinksSchema } from './Header/ViewFilters/filter-utils';
+import {
+	Contract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 
 const getActiveLens = (lenses, lensSlug) => {
 	return (
@@ -303,8 +313,32 @@ const createEventSearchFilter = (types, term) => {
 	};
 };
 
-export class ViewRenderer extends React.Component<any, any> {
-	constructor(props) {
+interface ViewRendererProps {
+	types: TypeContract[];
+	lenses: LensContract[];
+	channel: ChannelContract;
+	card: Contract;
+	user: UserContract;
+	userActiveLens: string | null;
+	userActiveSlice: string | null;
+	isMobile: boolean;
+	tail: null | Contract[];
+	flex: FlexProps['flex'];
+	actions: BoundActionCreators<
+		Pick<
+			typeof actionCreators,
+			| 'clearViewData'
+			| 'setViewLens'
+			| 'setViewSlice'
+			| 'loadMoreViewData'
+			| 'loadViewData'
+			| 'setViewData'
+		>
+	>;
+}
+
+export class ViewRenderer extends React.Component<ViewRendererProps, any> {
+	constructor(props: ViewRendererProps) {
 		super(props);
 
 		this.state = {
@@ -349,7 +383,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
 	}
 
-	saveView([view]) {
+	saveView([view]: FiltersView[]) {
 		if (!view) {
 			return;
 		}
@@ -485,7 +519,7 @@ export class ViewRenderer extends React.Component<any, any> {
 			!deepEqual(this.state.filters, filters) ||
 			!deepEqual(this.state.options, newOptions);
 
-		if (reloadRequired) {
+		if (reloadRequired && this.props.channel.data.head) {
 			this.props.actions.clearViewData(this.props.channel.data.head.id);
 			this.props.actions.clearViewData(
 				getSearchViewId(this.props.channel.data.head.id),
@@ -531,7 +565,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		this.props.actions.setViewSlice(this.props.card.id, value);
 	}
 
-	setPage(page) {
+	async setPage(page): Promise<void> {
 		if (page + 1 >= this.state.options.totalPages) {
 			return;
 		}
@@ -595,7 +629,9 @@ export class ViewRenderer extends React.Component<any, any> {
 	componentWillUnmount() {
 		const { head } = this.props.channel.data;
 
-		this.props.actions.clearViewData(head.id);
+		if (head) {
+			this.props.actions.clearViewData(head.id);
+		}
 	}
 
 	bootstrap(channel) {
@@ -734,21 +770,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		) {
 			this.bootstrap(this.props.channel);
 		}
-		if (!this.props.channel.data.head && prevProps.channel.data.head) {
-			// Convert jellyfish view into a format that rendition can understand
-			this.setState({
-				filters: _.map(
-					_.filter(this.props.channel.data.head.data.allOf, {
-						name: USER_FILTER_NAME,
-					}),
-					(item) => {
-						return {
-							anyOf: [item.schema],
-						};
-					},
-				),
-			});
-		}
+
 		if (
 			!_.get(prevProps, ['lenses', 'length']) &&
 			_.get(this.props, ['lenses', 'length'])
@@ -775,7 +797,7 @@ export class ViewRenderer extends React.Component<any, any> {
 
 	createView(view) {
 		const { user, channel } = this.props;
-		const newView = clone(channel.data.head);
+		const newView = clone<core.ViewContract>(channel.data.head!);
 		newView.name = view.name;
 		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
 			view.name,
@@ -788,7 +810,7 @@ export class ViewRenderer extends React.Component<any, any> {
 		});
 		newView.data.actor = user.id;
 		view.filters.forEach((filter) => {
-			newView.data.allOf.push({
+			newView.data.allOf!.push({
 				name: USER_FILTER_NAME,
 				schema: _.assign(SchemaSieve.unflattenSchema(filter), {
 					type: 'object',
@@ -883,7 +905,7 @@ export class ViewRenderer extends React.Component<any, any> {
 					activeSlice={activeSlice}
 					setSlice={this.setSlice}
 					lenses={lenses}
-					setLens={(event) => {
+					setLens={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 						this.setLens(event.currentTarget.dataset.slug);
 					}}
 					lens={lens}

@@ -1567,7 +1567,7 @@ export const actionCreators = {
 	},
 
 	paginateStream(viewId, query, options, appendHandler) {
-		return async (dispatch, getState, context) => {
+		return async (dispatch, getState, context): Promise<Contract[]> => {
 			const stream = streams[viewId];
 			if (!stream) {
 				throw new Error(
