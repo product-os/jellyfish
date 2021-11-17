@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-balena-api to ^1.0.145'
+      hash: 50a74c334e8052779e3f2e9aa6a57295591e176b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.17
+  date: 2021-11-17T05:19:42.724Z
+- commits:
     - subject: Fix up livechat selector.
       hash: a79bb79e56e6cef15d09918f5b1ac6cd6e5030d5
       body: ''
