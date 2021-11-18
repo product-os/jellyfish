@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-product-os to ^2.7.92'
+      hash: 3987dd155ca3f6fc066a1b56d9c51bf9426e130d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.29
+  date: 2021-11-18T20:43:10.250Z
+- commits:
     - subject: Set license
       hash: 2e5a446d11088ae0c05a7b714b0dc3179ca3658b
       body: ''

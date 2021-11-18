@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "40.0.28",
+  "version": "40.0.29",
   "codename": "special circumstances",
   "private": true,
   "description": "The Jellyfish Project",
@@ -114,6 +114,6 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2021-11-18T11:53:44.114Z"
+    "publishedAt": "2021-11-18T20:43:10.993Z"
   }
 }
