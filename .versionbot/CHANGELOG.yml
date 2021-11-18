@@ -1,4 +1,26 @@
 - commits:
+    - subject: 'build(deps): bump ws from 6.2.1 to 6.2.2 in /apps/ui'
+      hash: 2ebb96f29f718572bb649aa5228eac8312b87a25
+      body: |
+        Bumps [ws](https://github.com/websockets/ws) from 6.2.1 to 6.2.2.
+        - [Release notes](https://github.com/websockets/ws/releases)
+        - [Commits](https://github.com/websockets/ws/compare/6.2.1...6.2.2)
+
+        ---
+        updated-dependencies:
+        - dependency-name: ws
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: 'dependabot[bot] <support@github.com>'
+        signed-off-by: 'dependabot[bot] <support@github.com>'
+      author: 'dependabot[bot]'
+      nested: []
+  version: 40.0.22
+  date: 2021-11-18T04:45:13.899Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^15.1.124'
       hash: 90fea0ead142a6ac4bdcfad851c71b8ab0f7c141
       body: ''
