@@ -16,7 +16,7 @@
     "prepack": "npm run build"
   },
   "author": "Balena.io. <hello@balena.io>",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0",
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.5.27",
     "@balena/jellyfish-client-sdk": "^7.0.3",

@@ -55,7 +55,7 @@
     ]
   },
   "author": "Balena.io. <hello@balena.io>",
-  "license": "UNLICENSED",
+  "license": "AGPL-3.0",
   "devDependencies": {
     "@balena/jellyfish-action-library": "^15.1.124",
     "@balena/jellyfish-chat-widget": "^12.5.27",
