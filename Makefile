@@ -5,6 +5,8 @@
 	docs \
 	build-ui \
 	build-livechat \
+	dev-ui \
+	dev-livechat \
 	start-server \
 	start-worker \
 	start-redis \
@@ -240,7 +242,7 @@ else
 SCRUB_COMMAND =
 endif
 
-SENTRY_DSN_UI ?=
+SENTRY_DSN_UI ?= https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
 
 ifeq ($(FIX),)
 ESLINT_OPTION_FIX =
@@ -310,11 +312,11 @@ lint:
 	./scripts/lint/check-apps.sh
 	npx shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
-	cd apps/server && make lint FIX=$(FIX)
-	cd apps/action-server && make lint
-	cd apps/livechat && make lint FIX=$(FIX)
-	cd apps/ui && make lint FIX=$(FIX)
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
+	cd apps/server && npm run lint
+	cd apps/action-server && npm run lint
+	cd apps/livechat && npm run lint
+	cd apps/ui && npm run lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -325,7 +327,7 @@ test: scrub
 
 test-unit:
 	cd apps/ui && make test
-	cd apps/server && make test-unit
+	cd apps/server && npm run unit
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -342,7 +344,7 @@ test-unit-ui:
 	cd apps/ui && make test
 
 test-integration-server:
-	cd apps/server && make test-integration
+	cd apps/server && npm run integration
 
 test-integration-%:
 	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
@@ -360,12 +362,11 @@ node:
 # Entry Points
 # -----------------------------------------------
 
-start-server: LOGLEVEL = info
 start-server:
-	cd apps/server && make start-server
+	cd apps/server && NSOLID_APP=server exec $(NODE) $(NODE_ARGS) build/index.js
 
 start-worker:
-	cd apps/action-server && make start-worker
+	cd apps/action-server && NSOLID_APP=worker exec $(NODE) $(NODE_ARGS) build/worker.js
 
 start-redis:
 	exec redis-server --port $(REDIS_PORT)
@@ -386,11 +387,12 @@ start-static-%:
 
 build-ui:
 	cd apps/ui && \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-ui
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+			./node_modules/.bin/webpack --config=./webpack.config.js
 
 build-livechat:
 	cd apps/livechat && \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-livechat
+		SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) npm run build
 
 # -----------------------------------------------
 # Development
@@ -418,6 +420,31 @@ compose-%: docker-compose.yml
 
 dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
+
+dev-ui:
+	cd apps/ui && \
+		mkdir -p ./dist/ui && \
+		SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) \
+		PUBLIC_DIR="./" \
+		NODE_ENV=development \
+		NODE_OPTIONS=--max-old-space-size=8192 \
+		./conf/env.sh && \
+		cp ./env-config.js ./dist/ui/ && \
+		./node_modules/.bin/webpack serve \
+			--config=./webpack.config.js \
+			--color
+
+dev-livechat:
+	cd apps/livechat && \
+		API_URL=$(SERVER_HOST):$(SERVER_PORT) \
+		SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) \
+		NODE_ENV=development \
+		mkdir -p ./dist/livechat && \
+		./conf/env.sh && \
+		cp ./env-config.js ./dist/livechat/ && \
+		./node_modules/.bin/webpack serve \
+			--config=./webpack.config.js \
+			--color
 
 push:
 	CMD="rm -f ./packages/*" make exec-apps

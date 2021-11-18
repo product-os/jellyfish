@@ -1,13 +1,12 @@
 FROM balena/open-balena-base:v12.2.0
 
-WORKDIR /usr/src/jellyfish/apps/action-server
+WORKDIR /usr/src/jellyfish
 
 COPY ./apps/action-server/package.json /usr/src/jellyfish/apps/action-server/package.json
 COPY ./apps/action-server/package-lock.json /usr/src/jellyfish/apps/action-server/package-lock.json
-RUN npm ci
+RUN cd apps/action-server && npm ci
 
-COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/Makefile
+COPY ./package.json ./Makefile /usr/src/jellyfish/
 COPY ./apps/action-server/tsconfig.json /usr/src/jellyfish/apps/action-server/tsconfig.json
 COPY ./apps/action-server/tsconfig.build.json /usr/src/jellyfish/apps/action-server/tsconfig.build.json
 
@@ -19,7 +18,7 @@ COPY ./apps/action-server/tsconfig.build.json /usr/src/jellyfish/apps/action-ser
 #dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./lib/worker.ts
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/action-server/node_modules/@balena/
 COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/
-RUN npm run build
+RUN cd apps/action-server && npm run build
 
 # Production debugging scripts
 COPY ./scripts/production /usr/src/jellyfish/scripts/production

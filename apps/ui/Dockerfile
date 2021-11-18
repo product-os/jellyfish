@@ -4,20 +4,20 @@
 
 FROM balena/open-balena-base:v12.2.0 as base
 
-WORKDIR /usr/src/jellyfish/apps/ui
+WORKDIR /usr/src/jellyfish
 
 COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
 COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
+RUN cd apps/ui && PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
 
-COPY ./package.json /usr/src/jellyfish/package.json
+COPY ./package.json ./Makefile /usr/src/jellyfish/
 COPY ./apps/ui /usr/src/jellyfish/apps/ui
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
+#dev-cmd-live=cd /usr/src/jellyfish && make dev-ui
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 
 RUN make build-ui \
