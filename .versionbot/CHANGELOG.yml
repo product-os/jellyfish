@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.85'
+      hash: 6f16bca1d0a672493e34b0599510726af2713c5f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.84'
+      hash: ea6605725f92ce932ec61e1d8f3fc0103fcd1063
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.20
+  date: 2021-11-18T00:03:59.383Z
+- commits:
     - subject: Correctly type View lens component
       hash: e606eb9505fca63f715031a5df1ba05e497245b8
       body: ''
