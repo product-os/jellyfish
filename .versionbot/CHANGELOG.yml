@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 3c1af294b82b37f915ba8564e900aba62e2b0543
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.23
+  date: 2021-11-18T05:30:58.320Z
+- commits:
     - subject: 'build(deps): bump ws from 6.2.1 to 6.2.2 in /apps/ui'
       hash: 2ebb96f29f718572bb649aa5228eac8312b87a25
       body: |
