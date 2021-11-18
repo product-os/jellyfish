@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'Renovate: Add resinci/jellyfish-test group'
+      hash: b9b18f58148bb887c555ff1d217f113a852bb987
+      body: |
+        The latest version of the resinci/jellyfish-test image
+        uses node v16 which is still too new for this repo.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 40.0.24
+  date: 2021-11-18T06:06:57.668Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 3c1af294b82b37f915ba8564e900aba62e2b0543
       body: ''
