@@ -29,7 +29,7 @@ RUN make build-livechat NODE_ENV=production
 # Runtime
 ###########################################################
 
-FROM nginx:1.21.3
+FROM nginx:1.21.4
 WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/livechat/dist/livechat /usr/share/nginx/html
 COPY apps/livechat/conf/env.sh /tmp
