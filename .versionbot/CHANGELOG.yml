@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: dc9f58098b84bc6907f74c8bd3692be018487836
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.25
+  date: 2021-11-18T06:59:02.529Z
+- commits:
     - subject: 'Renovate: Add resinci/jellyfish-test group'
       hash: b9b18f58148bb887c555ff1d217f113a852bb987
       body: |
