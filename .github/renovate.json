@@ -8,6 +8,10 @@
       "groupName": "puppeteer"
     },
     {
+      "matchPackageNames": ["resinci/jellyfish-test"],
+      "groupName": "jellyfish-test-image"
+    },
+    {
       "groupName": "non-major-frontend",
       "matchPackageNames": [
         "@balena/jellyfish-ui-components",
