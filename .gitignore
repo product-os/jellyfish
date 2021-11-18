@@ -106,6 +106,10 @@ custom.env
 # Typedoc generated docs
 docs/typedoc/*
 
+# Front app environment configuration files
+apps/ui/env-config.js
+apps/livechat/env-config.js
+
 # Decrypted secret files
 .balena/secrets/integration_typeform_signature_key
 .balena/secrets/integration_balena_api_private_key

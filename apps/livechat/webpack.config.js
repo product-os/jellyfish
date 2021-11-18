@@ -63,6 +63,8 @@ const config = {
 	devtool: 'source-map',
 
 	devServer: {
+		/* https://stackoverflow.com/a/69247166/1559300 */
+		sockPort: 'location',
 		host: '0.0.0.0',
 		port: process.env.LIVECHAT_PORT,
 		compress: true,

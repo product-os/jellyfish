@@ -4,19 +4,16 @@ SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
+API_URL ?= $(SERVER_HOST):$(SERVER_PORT)
+export API_URL
 SENTRY_DSN_UI ?= https://ff836b1e4abc4d0699bcaaf07ce4ea08@sentry.io/1366139
 
 .PHONY: dev-livechat
 dev-livechat:
-	API_URL=$(SERVER_HOST):$(SERVER_PORT) \
-	SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) \
-	NODE_ENV=development \
 	mkdir -p ./dist/livechat && \
-	./conf/env.sh && \
+	NODE_ENV=development PUBLIC_DIR="./" ./conf/env.sh && \
 	cp ./env-config.js ./dist/livechat/ && \
-	./node_modules/.bin/webpack serve \
-		--config=./webpack.config.js \
-		--color
+	NODE_ENV=development npx webpack serve --config=./webpack.config.js --color
 
 .PHONY: build-livechat
 build-livechat:
