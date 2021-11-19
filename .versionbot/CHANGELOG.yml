@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 1dbf6a517790df522f8b656018806a835ffdaea4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.33
+  date: 2021-11-19T12:37:31.760Z
+- commits:
     - subject: Remove NPM_TOKEN
       hash: e5b5c966d2c76b1e659a3c4335e2f818bb82d76c
       body: ''
