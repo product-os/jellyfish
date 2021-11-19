@@ -179,6 +179,22 @@ export const bootstrap = async (context, options) => {
 	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
 	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
 	await producer.initialize(context);
+	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
+		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
+		try {
+			const key = await getActorKey(
+				context,
+				jellyfish,
+				jellyfish.sessions!.admin,
+				actionRequest.data.actor!,
+			);
+			const requestData = actionRequest.data;
+			requestData.context.worker = context.id;
+			await worker.execute(key.id, actionRequest);
+		} catch (error: any) {
+			errorHandler(error);
+		}
+	});
 
 	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
@@ -316,23 +332,6 @@ export const bootstrap = async (context, options) => {
 	const typeContracts = contractsMap['type'] || [];
 
 	worker.setTypeContracts(context, typeContracts as TypeContract[]);
-
-	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
-		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
-		try {
-			const key = await getActorKey(
-				context,
-				jellyfish,
-				jellyfish.sessions!.admin,
-				actionRequest.data.actor!,
-			);
-			const requestData = actionRequest.data;
-			requestData.context.worker = context.id;
-			await worker.execute(key.id, actionRequest);
-		} catch (error: any) {
-			errorHandler(error);
-		}
-	});
 
 	const results = await loadCards(
 		context,
