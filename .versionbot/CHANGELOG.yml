@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency ansi-regex to 5.0.1 [SECURITY]'
+      hash: c20d8e973e074adca5dc46e20865b4a434b2e671
+      body: |
+        Update ansi-regex from 5.0.0 to 5.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.34
+  date: 2021-11-19T13:25:54.893Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 1dbf6a517790df522f8b656018806a835ffdaea4
       body: ''
