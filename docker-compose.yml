@@ -6,8 +6,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/server/Dockerfile
-      args:
-        - NPM_TOKEN
     networks:
       - internal
     depends_on:
@@ -71,7 +69,6 @@ services:
       - MAILGUN_BASE_URL
       - MAILGUN_TOKEN
       - MONITOR_SECRET_TOKEN
-      - NPM_TOKEN
       - RESET_PASSWORD_SECRET_TOKEN
       - CI
       - REGISTRY_TOKEN_AUTH_CERT_ISSUER=api.ly.fish.local
@@ -96,8 +93,6 @@ services:
   livechat:
     image: balena/jellyfish-livechat
     build:
-      args:
-        - NPM_TOKEN
       context: .
       dockerfile: ./apps/livechat/Dockerfile
     depends_on:
@@ -125,8 +120,6 @@ services:
   ui:
     image: balena/jellyfish-ui
     build:
-      args:
-        - NPM_TOKEN
       context: .
       dockerfile: ./apps/ui/Dockerfile
     depends_on:
@@ -146,8 +139,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
@@ -198,7 +189,6 @@ services:
       - MAILGUN_BASE_URL
       - MAILGUN_TOKEN
       - MONITOR_SECRET_TOKEN
-      - NPM_TOKEN
       - RESET_PASSWORD_SECRET_TOKEN
       - CI
     restart: always
@@ -211,8 +201,6 @@ services:
     build:
       context: .
       dockerfile: ./apps/action-server/Dockerfile
-      args:
-        - NPM_TOKEN
     depends_on:
       - postgres
       - redis
@@ -263,7 +251,6 @@ services:
       - MAILGUN_BASE_URL
       - MAILGUN_TOKEN
       - MONITOR_SECRET_TOKEN
-      - NPM_TOKEN
       - RESET_PASSWORD_SECRET_TOKEN
       - CI
     restart: always

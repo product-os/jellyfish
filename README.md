@@ -77,10 +77,6 @@ Add endpoints to local hosts file:
 
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
 
-Then, add your npm token to `.balena/balena.yml` under `build-variables.global` in the form of
-`- NPM_TOKEN=xxxxx` so image builds on the device will have access to our private libraries.
-**Remember to remove this token before committing and pushing your changes!**
-
 Finally, deploy everything to the device by executing `make push` from the repository root.
 
 Once deployed, app and library source changes will cause quick service reloads. Adding and removing

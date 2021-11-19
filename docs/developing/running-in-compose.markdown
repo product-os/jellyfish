@@ -4,7 +4,6 @@ This is the easiest way to run Jellyfish locally given you have [`docker-compose
 
 First build all of the containers:
 ```sh
-$ export NPM_TOKEN=xxxxx
 $ make compose-build
 ```
 
