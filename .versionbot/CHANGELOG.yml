@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-worker to ^10.0.95'
+      hash: 13f4d27dcd23d135e40c697629e59e48f8d0590f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.35
+  date: 2021-11-19T14:33:23.716Z
+- commits:
     - subject: 'patch: Update dependency ansi-regex to 5.0.1 [SECURITY]'
       hash: c20d8e973e074adca5dc46e20865b4a434b2e671
       body: |
