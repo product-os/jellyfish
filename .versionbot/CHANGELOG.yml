@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: Update dependency nth-check to 2.0.1 [SECURITY]'
+      hash: 88080daa6511cdf589df60db8dd1f0889e24e0d9
+      body: |
+        Update nth-check from 1.0.2 to 2.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-discourse to ^1.1.87'
+      hash: 62712bfade8dd05296918c1fbf57a146551f9914
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.38
+  date: 2021-11-20T02:37:24.010Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-flowdock to ^1.0.200'
       hash: 05d3596abf58d93f828ce43c9f91ea8e9ac3a98c
       body: ''
