@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import _ from 'lodash';
 import * as core from '@balena/jellyfish-core';
 import { Producer } from '@balena/jellyfish-queue';

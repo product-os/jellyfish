@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import queryString from 'query-string';
 import React from 'react';
 import { Box } from 'rendition';

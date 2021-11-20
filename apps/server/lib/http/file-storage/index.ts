@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { LocalFS } from './local-fs';
 import { S3FS } from './s3-fs';
 import { getLogger } from '@balena/jellyfish-logger';

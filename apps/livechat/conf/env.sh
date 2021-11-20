@@ -1,11 +1,5 @@
 #!/bin/bash
 
-###
-# Copyright (C) Balena.io - All Rights Reserved
-# Unauthorized copying of this file, via any medium is strictly prohibited.
-# Proprietary and confidential.
-###
-
 # Injecting environment variables using a shell script allows the Livechat docker
 # container to be parameterised at runtime, which means we can create a single
 # Livechat container and point it at different backends as required.

@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import _ from 'lodash';
 import * as socketIo from 'socket.io';
 import redisAdapter from 'socket.io-redis';

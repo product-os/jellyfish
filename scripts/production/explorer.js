@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 const pgp = require('@balena/jellyfish-core/lib/backend/postgres/pg-promise')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 

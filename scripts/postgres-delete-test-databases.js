@@ -1,11 +1,5 @@
 #!/usr/bin/env node
 
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 const pgp = require('@balena/jellyfish-core/build/backend/postgres/pg-promise').default
 const Bluebird = require('bluebird')
 const Spinner = require('cli-spinner').Spinner

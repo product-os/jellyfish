@@ -49,9 +49,6 @@
     ],
     "*.sh": [
       "shellcheck"
-    ],
-    "*.{js,jsx,sh}": [
-      "./scripts/lint/check-licenses.sh"
     ]
   },
   "author": "Balena.io. <hello@balena.io>",

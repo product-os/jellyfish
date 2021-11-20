@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { getLogger } from '@balena/jellyfish-logger';
 import { v4 as uuidv4 } from 'uuid';
 import { bootstrapWorker } from './bootstrap';

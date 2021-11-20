@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { strict as nativeAssert } from 'assert';
 import _ from 'lodash';
 import { getLogger } from '@balena/jellyfish-logger';
