@@ -1,4 +1,24 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 6c9b224aee475bdb0f0fa9d4e4b706335a1353ea
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'patch: Update dependency @balena/jellyfish-core to ^8.1.0'
+      hash: a59b4f44173672dc6df0d37716b42cf15c335cca
+      body: |
+        Update @balena/jellyfish-core from 8.0.20 to 8.1.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.41
+  date: 2021-11-20T12:41:06.731Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.28'
       hash: 202d25b9d9a6ed3bd142aaea5fffd96254646bf3
       body: ''
