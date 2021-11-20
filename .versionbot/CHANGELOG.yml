@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-flowdock to ^1.0.200'
+      hash: 05d3596abf58d93f828ce43c9f91ea8e9ac3a98c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.37
+  date: 2021-11-20T01:08:14.229Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 10d393263add4d590ce2d8a7e37e35ba6631c5d4
       body: ''
