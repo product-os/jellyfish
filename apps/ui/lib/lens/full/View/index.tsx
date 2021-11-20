@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import clone from 'deep-copy';
 import { circularDeepEqual, deepEqual } from 'fast-equals';
 import skhema from 'skhema';

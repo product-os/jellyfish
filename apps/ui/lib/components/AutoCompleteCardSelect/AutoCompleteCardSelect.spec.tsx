@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { getWrapper, flushPromises } from '../../../test/ui-setup';
 import '../../../test/react-select-mock';
 import { mount } from 'enzyme';

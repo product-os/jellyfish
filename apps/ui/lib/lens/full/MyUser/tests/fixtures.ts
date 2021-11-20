@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 export const userType = {
 	id: '1d69caf6-6694-4cd0-8c9e-0a70e2078ad5',
 	slug: 'user',

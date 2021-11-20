@@ -306,7 +306,6 @@ lint:
 	./scripts/lint/check-filenames.sh
 	./scripts/lint/check-descriptions.sh
 	./scripts/lint/check-tests.sh
-	./scripts/lint/check-licenses.sh
 	./scripts/lint/check-apps.sh
 	npx shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint

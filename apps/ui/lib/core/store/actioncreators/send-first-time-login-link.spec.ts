@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import sinon from 'sinon';
 import { notifications } from '@balena/jellyfish-ui-components';
 import _ from 'lodash';

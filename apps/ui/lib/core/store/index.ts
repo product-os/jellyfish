@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import * as redux from 'redux';
 import reduxThunk from 'redux-thunk';
 import { routerMiddleware } from 'connected-react-router';

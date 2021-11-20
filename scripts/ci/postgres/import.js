@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 
 /*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
-/*
  * This script imports the most recent Postgres dump stored on S3.
  * The <TYPE> argument refers to the dump type, e2e-server for example.
  * Usage: AWS_ACCESS_KEY_ID=<...> AWS_S3_BUCKET_NAME=<...> AWS_SECRET_ACCESS_KEY=<...> \

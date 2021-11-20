@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { ensureTypeHasVersion } from '../../lib/card-loader';
 
 test('ensureTypeHasVersion() should throw on invalid version', async () => {

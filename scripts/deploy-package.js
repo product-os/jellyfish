@@ -1,12 +1,6 @@
 #!/usr/bin/env node
 
 /*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
-/*
  * This script is a part of the Livepush development flow.
  * It creates an npm tarball of a library cloned under .libs
  * and copies it to package directories for apps that use it.

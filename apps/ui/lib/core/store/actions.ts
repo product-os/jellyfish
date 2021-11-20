@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 export default {
 	ADD_CHANNEL: 'ADD_CHANNEL',
 	ADD_VIEW_NOTICE: 'ADD_VIEW_NOTICE',

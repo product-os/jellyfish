@@ -1,9 +1,3 @@
-/*
- * Copyright (C) Balena.io - All Rights Reserved
- * Unauthorized copying of this file, via any medium is strictly prohibited.
- * Proprietary and confidential.
- */
-
 import { v4 as uuid } from 'uuid';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import update from 'immutability-helper';
