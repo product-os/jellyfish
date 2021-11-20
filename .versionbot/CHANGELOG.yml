@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 96ef969f02c1005fde4300fe5f3267e146340e6e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.39
+  date: 2021-11-20T08:23:59.493Z
+- commits:
     - subject: 'patch: Update dependency nth-check to 2.0.1 [SECURITY]'
       hash: 88080daa6511cdf589df60db8dd1f0889e24e0d9
       body: |
