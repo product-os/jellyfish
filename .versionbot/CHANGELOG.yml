@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 750abaab6126af876ab63a94d2a5ef7b3d0fac6a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 40.0.43
+  date: 2021-11-21T09:04:39.821Z
+- commits:
     - subject: Remove unused CI script
       hash: 502849d708ba623e9a8793f3da1582833d2cb284
       body: ''
