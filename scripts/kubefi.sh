@@ -44,7 +44,7 @@ usage() {
 	echo "" 1>&2
 	echo "    $0 status" 1>&2
 	echo "    $0 logs jellyfish-ui-5bd87fbb4-29zj5" 1>&2
-	echo "    $0 shell action-server" 1>&2
+	echo "    $0 shell jellyfish" 1>&2
 	echo "    $0 slug user-admin" 1>&2
 	exit 1
 }
@@ -102,7 +102,7 @@ fi
 
 if [ "$COMMAND" = "slug" ]; then
 	check "$SUBCOMMAND" "You must specify a slug as an argument"
-	CONTAINER="$(get_container "action-server")"
+	CONTAINER="$(get_container "jellyfish")"
 	check "$CONTAINER" "No workers alive"
 	echo "Running command at $CONTAINER..." 1>&2
 	kubectl exec "$CONTAINER" \
@@ -113,7 +113,7 @@ fi
 
 if [ "$COMMAND" = "id" ]; then
 	check "$SUBCOMMAND" "You must specify an id as an argument"
-	CONTAINER="$(get_container "action-server")"
+	CONTAINER="$(get_container "jellyfish")"
 	check "$CONTAINER" "No workers alive"
 	echo "Running command at $CONTAINER..." 1>&2
 	kubectl exec "$CONTAINER" \

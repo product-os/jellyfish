@@ -20,11 +20,6 @@ tasks:
     cmds:
       - make test-unit COVERAGE=0
 
-  build-action-server:
-    dir: apps/action-server
-    cmds:
-      - npm run build
-
   wait-for-api:
     cmds:
       - ./scripts/ci/wait-for-api.sh
@@ -73,7 +68,6 @@ tasks:
       - task: catch-uncommitted
       - task: lint
       - task: unit
-      - task: build-action-server
       - task: wait-for-api
       - task: e2e
       - task: e2e-ui

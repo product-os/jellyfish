@@ -6,7 +6,6 @@ import { getSdk } from '@balena/jellyfish-client-sdk';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { bootstrap } from '../../lib/bootstrap';
 import { getPluginManager } from '../../lib/plugins';
-import { bootstrapWorker } from '../../../action-server/lib/bootstrap';
 
 const workerOptions = {
 	onError: (_context, error) => {
@@ -23,10 +22,9 @@ export const before = async (context) => {
 	};
 
 	context.server = await bootstrap(context.context, {
-		database: workerOptions.database,
+		...workerOptions,
 		pluginManager: getPluginManager(context.context),
 	});
-	context.actionWorker = await bootstrapWorker(context.context, workerOptions);
 
 	context.sdk = getSdk({
 		apiPrefix: 'api/v2',
@@ -95,7 +93,6 @@ export const before = async (context) => {
 export const after = async (context) => {
 	context.sdk.cancelAllStreams();
 	context.sdk.cancelAllRequests();
-	await context.actionWorker.stop();
 	await context.server.close();
 };
 

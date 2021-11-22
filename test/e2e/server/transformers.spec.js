@@ -10,14 +10,6 @@ ava.serial.after.always(helpers.after)
 ava.serial.beforeEach(helpers.beforeEach)
 ava.serial.afterEach.always(helpers.afterEach)
 
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
-
 ava.serial(
 	'type triggers should exist per version',
 	async (test) => {
@@ -135,24 +127,6 @@ ava.serial(
 		const {
 			sdk
 		} = test.context
-
-		const user1Details = createUserDetails()
-
-		// Create user 1 and login as them
-		await sdk.action({
-			card: 'user@1.0.0',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				username: `user-${user1Details.username}`,
-				email: user1Details.email,
-				password: user1Details.password
-			}
-		})
-
-		await sdk.auth.login(user1Details)
-
-		await sdk.auth.whoami()
 
 		const src1 = await sdk.card.create({
 			type: 'service-source@1.0.0',

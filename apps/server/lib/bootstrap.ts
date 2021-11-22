@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import * as core from '@balena/jellyfish-core';
-import { Producer } from '@balena/jellyfish-queue';
-import { Consumer } from '@balena/jellyfish-queue';
+import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Worker } from '@balena/jellyfish-worker';
 import { Sync } from '@balena/jellyfish-sync';
 import * as assert from '@balena/jellyfish-assert';
@@ -11,27 +10,147 @@ import { createServer } from './http';
 import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { core as coreType } from '@balena/jellyfish-types';
+import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
+import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
+import {
+	Contract,
+	SessionContract,
+	SessionData,
+	StreamChange,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import { Transformer } from '@balena/jellyfish-worker/build/transformers';
 
 const logger = getLogger(__filename);
 
-export const bootstrap = async (context, options) => {
-	logger.info(context, 'Loading plugin sync integrations');
-	const integrations = options.pluginManager.getSyncIntegrations(context);
+// A session with a guaranteed actor set
+interface SessionContractWithActor extends SessionContract {
+	data: SessionContract['data'] & {
+		actor: string;
+	};
+}
 
-	logger.info(context, 'Injecting integrations into Sync');
+const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
+	type: 'object',
+	properties: {
+		id: {
+			type: 'string',
+		},
+		slug: {
+			type: 'string',
+		},
+		active: {
+			type: 'boolean',
+			const: true,
+		},
+		type: {
+			type: 'string',
+			const: 'triggered-action@1.0.0',
+		},
+		data: {
+			type: 'object',
+			additionalProperties: true,
+		},
+	},
+	required: ['id', 'slug', 'active', 'type', 'data'],
+};
+
+const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
+	type: 'object',
+	required: ['active', 'type', 'data'],
+	properties: {
+		active: {
+			const: true,
+		},
+		type: {
+			const: 'transformer@1.0.0',
+		},
+		data: {
+			type: 'object',
+			required: ['$transformer'],
+			properties: {
+				$transformer: {
+					type: 'object',
+					required: ['artifactReady'],
+					properties: {
+						artifactReady: {
+							not: {
+								const: false,
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+};
+
+const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
+	type: 'object',
+	required: ['active', 'type'],
+	properties: {
+		active: {
+			const: true,
+		},
+		type: {
+			const: 'type@1.0.0',
+		},
+	},
+};
+
+const getActorKey = async (
+	context: coreType.Context,
+	jellyfish: coreType.JellyfishKernel,
+	session: string,
+	actorId: string,
+): Promise<SessionContractWithActor> => {
+	const keySlug = `session-action-${actorId}`;
+	const key = await jellyfish.getCardBySlug<SessionContract>(
+		context,
+		session,
+		`${keySlug}@1.0.0`,
+	);
+
+	if (key && key.active && key.data.actor === actorId) {
+		return key;
+	}
+
+	logger.info(context, 'Create worker key', {
+		slug: keySlug,
+		actor: actorId,
+	});
+
+	return jellyfish.replaceCard<SessionData>(
+		context,
+		session,
+		jellyfish.defaults<SessionContract>({
+			slug: keySlug,
+			active: true,
+			version: '1.0.0',
+			type: 'session@1.0.0',
+			data: {
+				actor: actorId,
+			},
+		}),
+	);
+};
+
+export const bootstrap = async (context, options) => {
+	// Load plugin data
+	const integrations = options.pluginManager.getSyncIntegrations(context);
+	const actionLibrary = options.pluginManager.getActions(context);
+	const cards = options.pluginManager.getCards(context, core.cardMixins);
+
+	// Set up a sync instance using integrations from plugins
 	context.sync = new Sync({
 		integrations,
 	});
 
 	logger.info(context, 'Configuring HTTP server');
-
 	const webServer = await createServer(context, {
 		port: environment.http.port,
 	});
-
 	logger.info(context, 'Starting web server');
-
 	// Start the webserver so that liveness and readiness endpoints can begin
 	// serving traffic
 	await webServer.start();
@@ -42,7 +161,7 @@ export const bootstrap = async (context, options) => {
 		await cache.connect();
 	}
 
-	logger.info(context, 'Instantiating core library');
+	// Instantiate a core instance that will handle DB operations
 	const backendOptions =
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
@@ -56,38 +175,163 @@ export const bootstrap = async (context, options) => {
 		environment.metrics.ports.app,
 	);
 
-	logger.info(context, 'Creating producer instance');
+	// Create queue instances
 	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
-	logger.info(context, 'Initializing producer instance');
+	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
 	await producer.initialize(context);
+	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
+		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
+		try {
+			const key = await getActorKey(
+				context,
+				jellyfish,
+				jellyfish.sessions!.admin,
+				actionRequest.data.actor!,
+			);
+			const requestData = actionRequest.data;
+			requestData.context.worker = context.id;
+			await worker.execute(key.id, actionRequest);
+		} catch (error: any) {
+			errorHandler(error);
+		}
+	});
 
-	// The main server has a special worker for itself so that
-	// it can bootstrap without needing any external workers
-	// to process the default cards
-	logger.info(context, 'Creating built-in worker');
-
-	// FIXME this abomination is due to calling worker.execute right after producer.storeRequest
-	// Fix that, and this one will disappear (but it will leave the scars)
-	const uninitializedConsumer = new Consumer(
-		jellyfish,
-		jellyfish.sessions.admin,
-	);
-
-	logger.info(context, 'Loading plugin actions');
-	const actionLibrary = options.pluginManager.getActions(context);
-
+	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
 		jellyfish as any,
 		jellyfish.sessions!.admin,
 		actionLibrary,
-		uninitializedConsumer as any,
+		consumer,
 		producer,
 	);
-	logger.info(context, 'Initializing built-in worker');
 	await worker.initialize(context);
 
-	logger.info(context, 'Inserting cards');
-	const cards = options.pluginManager.getCards(context, core.cardMixins);
+	const workerContractsSchema = {
+		anyOf: [
+			SCHEMA_ACTIVE_TRIGGERS,
+			SCHEMA_ACTIVE_TRANSFORMERS,
+			SCHEMA_ACTIVE_TYPE_CONTRACTS,
+		],
+	};
+
+	// For better performance, commonly accessed contracts are stored in cache in the worker.
+	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
+	const workerContractsStream = await jellyfish.stream(
+		context,
+		jellyfish.sessions!.admin,
+		workerContractsSchema,
+	);
+
+	const closeWorker = async () => {
+		await consumer.cancel();
+		workerContractsStream.removeAllListeners();
+		await workerContractsStream.close();
+		await jellyfish.disconnect(context);
+		if (cache) {
+			await cache.disconnect();
+		}
+	};
+
+	const errorFunction = _.partial(options.onError, context);
+
+	// TODO: Should the worker crash if an exception is raised from executing a task or a stream error?
+	const errorHandler = (error: Error) => {
+		closeWorker()
+			.then(() => {
+				errorFunction(error);
+			})
+			.catch(errorFunction);
+	};
+
+	workerContractsStream.once('error', errorHandler);
+
+	// On a stream event, update the stored contracts in the worker
+	workerContractsStream.on('data', (change: StreamChange) => {
+		const contract = change.after;
+		const contractType = change.contractType.split('@')[0];
+		if (
+			change.type === 'update' ||
+			change.type === 'insert' ||
+			change.type === 'unmatch'
+		) {
+			// If `after` is null, the card is no longer available: most likely it has
+			// been soft-deleted, having its `active` state set to false
+			if (!contract) {
+				switch (contractType) {
+					case 'triggered-action':
+						worker.removeTrigger(context, change.id);
+						break;
+					case 'transformer':
+						worker.removeTransformer(context, change.id);
+						break;
+					case 'type':
+						const filteredContracts = _.filter(worker.typeContracts, (type) => {
+							return type.id !== change.id;
+						});
+						worker.setTypeContracts(context, filteredContracts);
+				}
+			} else {
+				switch (contractType) {
+					case 'triggered-action':
+						worker.upsertTrigger(context, contract);
+						break;
+					case 'transformer':
+						worker.upsertTransformer(context, contract as Transformer);
+						break;
+					case 'type':
+						const filteredContracts = _.filter(worker.typeContracts, (type) => {
+							return type.id !== change.id;
+						});
+						filteredContracts.push(contract as TypeContract);
+						worker.setTypeContracts(context, filteredContracts);
+				}
+			}
+		} else if (change.type === 'delete') {
+			switch (contractType) {
+				case 'triggered-action':
+					worker.removeTrigger(context, change.id);
+					break;
+				case 'transformer':
+					worker.removeTransformer(context, change.id);
+					break;
+				case 'type':
+					const filteredContracts = _.filter(worker.typeContracts, (type) => {
+						return type.id !== change.id;
+					});
+					worker.setTypeContracts(context, filteredContracts);
+			}
+		}
+	});
+
+	const workerContracts = await jellyfish.query<TriggeredActionContract>(
+		context,
+		jellyfish.sessions!.admin,
+		workerContractsSchema,
+	);
+
+	const contractsMap = _.groupBy(workerContracts, (contract) => {
+		return contract.type.split('@')[0];
+	}) as _.Dictionary<[Contract<unknown>, ...Array<Contract<unknown>>]>;
+
+	const triggers = contractsMap['triggered-action'] || [];
+
+	logger.info(context, 'Loading triggers', {
+		triggers: triggers.length,
+	});
+
+	worker.setTriggers(context, triggers as TriggeredActionContract[]);
+
+	const transformers = (contractsMap['transformer'] || []) as Transformer[];
+
+	logger.info(context, 'Loading transformers', {
+		transformers: transformers.length,
+	});
+
+	worker.setTransformers(context, transformers);
+
+	const typeContracts = contractsMap['type'] || [];
+
+	worker.setTypeContracts(context, typeContracts as TypeContract[]);
 
 	const results = await loadCards(
 		context,
@@ -259,6 +503,7 @@ export const bootstrap = async (context, options) => {
 			socketServer.close();
 			metricsServer.close();
 			await webServer.stop();
+			await closeWorker();
 			await jellyfish.disconnect(context);
 			if (cache) {
 				await cache.disconnect();

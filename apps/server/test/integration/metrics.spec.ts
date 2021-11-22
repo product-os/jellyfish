@@ -12,6 +12,9 @@ beforeAll(async () => {
 		id: `SERVER-TEST-${uuid()}`,
 	};
 	context.server = await bootstrap(context.context, {
+		onError: (_context, error) => {
+			throw error;
+		},
 		pluginManager: getPluginManager(context.context),
 	});
 });

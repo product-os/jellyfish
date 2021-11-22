@@ -31,12 +31,6 @@ jobs:
           workspace: ./apps/livechat
           token: '${{ secrets.NPM_TOKEN }}'
 
-      - name: Update action-server .npmrc file with NPM Token
-        uses: dkershner6/use-npm-token-action@v1
-        with:
-          workspace: ./apps/action-server
-          token: '${{ secrets.NPM_TOKEN }}'
-
       - name: Update server .npmrc file with NPM Token
         uses: dkershner6/use-npm-token-action@v1
         with:

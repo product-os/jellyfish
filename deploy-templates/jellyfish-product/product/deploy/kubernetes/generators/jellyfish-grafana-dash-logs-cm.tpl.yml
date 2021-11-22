@@ -68,44 +68,6 @@ data:
         },
         {
           "datasource": "loki",
-          "description": "Jellyfish Action Server pods",
-          "fieldConfig": {
-            "defaults": {
-              "color": {},
-              "custom": {},
-              "thresholds": {
-                "mode": "absolute",
-                "steps": []
-              }
-            },
-            "overrides": []
-          },
-          "gridPos": {
-            "h": 11,
-            "w": 24,
-            "x": 0,
-            "y": 11
-          },
-          "id": 3,
-          "options": {
-            "showLabels": true,
-            "showTime": true,
-            "sortOrder": "Descending",
-            "wrapLogMessage": true
-          },
-          "pluginVersion": "7.4.3",
-          "targets": [
-            {
-              "expr": "{name=\"action-server\", source_type=\"kubernetes_logs\"} != \"kube-probe\" != \"ELB-HealthChecker\"",
-              "hide": false,
-              "refId": "action-server"
-            }
-          ],
-          "title": "action-server",
-          "type": "logs"
-        },
-        {
-          "datasource": "loki",
           "description": "Jellyfish tick-server pods",
           "fieldConfig": {
             "defaults": {

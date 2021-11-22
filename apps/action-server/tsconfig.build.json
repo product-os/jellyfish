@@ -1,6 +1,0 @@
-{
-  "extends": "@balena/jellyfish-config/config/tsconfig.build.json",
-  "compilerOptions": {
-    "declaration": false,
-  }
-}
