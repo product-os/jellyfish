@@ -1,4 +1,75 @@
 - commits:
+    - subject: Bring back registry env vars
+      hash: 6db2233297b2313c203d6c3bc0061c4cc2d37077
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: ensure consumer is initialized asap
+      hash: 8522fd8357aa26a17417b16367a333f7698472a5
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: 'e2e-transformer: don''t use new user'
+      hash: abc97e0b6ef604e7d50458b316fa40e6f9fd9737
+      body: |
+        transformer contracts are inserted by the mirror integration
+        so with a privileged session.
+        This code was there from copy&paste only
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: Add QUEUE_CONCURRENCY to configmap
+      hash: 6a5ff2a74918ae78093d029ccb71eeb61e6cc0c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Fix bootstrap types
+      hash: fa57e4e97e5cb9c8fe1d42fbd8cb861d77aeac80
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Merge action-server and server services into a single instance
+      hash: 86210d19235af9e62230cae902ebb554a143e91d
+      body: |
+        Since both services have the same dependencies, running the core, worker
+        and queue modules as well as loading plugins, the only realy difference
+        is that the server can receive external http traffic. Unifying the two
+        services is a no-brainer and brings us closer to being able to create
+        a unified jellyfish system, with less indirection and more simplicity.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 41.0.0
+  date: 2021-11-22T07:47:19.595Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.32'
       hash: a85d0475171222f34849d1ae285dfda73af5c487
       body: ''
