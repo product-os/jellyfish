@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 90fac01d8d081ad92667c64f8f114c71c2d68229
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.1
+  date: 2021-11-22T10:52:30.864Z
+- commits:
     - subject: Bring back registry env vars
       hash: 6db2233297b2313c203d6c3bc0061c4cc2d37077
       body: ''
