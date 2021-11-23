@@ -1,4 +1,29 @@
 - commits:
+    - subject: 'Katapult: Increase Jellyfish server pod count to 8.'
+      hash: e0c2d659b58370fba4d04e27c8ba72a8f178e8b4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+    - subject: 'Cloudformation: Update jellyfish database template.'
+      hash: 350e0abdc41d208e5ca2b4ca8d8638035ad17815
+      body: |
+        This is to add a new instance type option and set the latest
+        PostgreSQL engine version.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 41.0.5
+  date: 2021-11-23T23:28:37.928Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 1ab96d8c10a9fee8b2eda772b99688a68898f35f
       body: ''
