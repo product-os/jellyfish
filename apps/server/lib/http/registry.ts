@@ -1,3 +1,4 @@
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import jsonwebtoken from 'jsonwebtoken';
 import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
@@ -5,16 +6,6 @@ import Bluebird from 'bluebird';
 import { getLogger } from '@balena/jellyfish-logger';
 
 const logger = getLogger(__filename);
-
-const {
-	REGISTRY_HOST,
-	REGISTRY_TOKEN_AUTH_CERT_ISSUER,
-	REGISTRY_TOKEN_AUTH_JWT_ALGO,
-	REGISTRY_TOKEN_AUTH_CERT_KEY,
-	REGISTRY_TOKEN_AUTH_CERT_KID,
-
-	// eslint-disable-next-line no-process-env
-} = process.env;
 
 // eslint-disable-next-line
 const SCOPE_PARSE_REGEX =
@@ -52,11 +43,16 @@ export const authenticate = async (request, response, jellyfish) => {
 	// Respond with 'service unavailable' if we are not configured to provide
 	// registry token auth
 	if (
-		!REGISTRY_HOST ||
-		!REGISTRY_TOKEN_AUTH_CERT_ISSUER ||
-		!REGISTRY_TOKEN_AUTH_CERT_KEY ||
-		!REGISTRY_TOKEN_AUTH_CERT_KID ||
-		!REGISTRY_TOKEN_AUTH_JWT_ALGO
+		_.some(
+			[
+				environment.registry.host,
+				environment.registry.tokenAuthCertIssuer,
+				environment.registry.tokenAuthCertKey,
+				environment.registry.tokenAuthCertKid,
+				environment.registry.tokenAuthJwtAlgo,
+			],
+			_.isEmpty,
+		)
 	) {
 		logger.info(
 			request.context,
@@ -65,14 +61,14 @@ export const authenticate = async (request, response, jellyfish) => {
 				envvars: _.keys(
 					_.pickBy(
 						{
-							REGISTRY_HOST,
-							REGISTRY_TOKEN_AUTH_CERT_ISSUER,
-							REGISTRY_TOKEN_AUTH_CERT_KEY,
-							REGISTRY_TOKEN_AUTH_CERT_KID,
-							REGISTRY_TOKEN_AUTH_JWT_ALGO,
+							host: environment.registry.host,
+							tokenAuthCertIssuer: environment.registry.tokenAuthCertIssuer,
+							tokenAuthCertKey: environment.registry.tokenAuthCertKey,
+							tokenAuthCertKid: environment.registry.tokenAuthCertKid,
+							tokenAuthJwtAlgo: environment.registry.tokenAuthJwtAlgo,
 						},
-						(envvar) => {
-							return !envvar;
+						(envvar: string) => {
+							return _.isEmpty(envvar);
 						},
 					),
 				),
@@ -191,20 +187,20 @@ export const authenticate = async (request, response, jellyfish) => {
 	});
 
 	const jwtOptions = {
-		algorithm: REGISTRY_TOKEN_AUTH_JWT_ALGO,
-		issuer: REGISTRY_TOKEN_AUTH_CERT_ISSUER,
-		audience: REGISTRY_HOST,
+		algorithm: environment.registry.tokenAuthJwtAlgo,
+		issuer: environment.registry.tokenAuthCertIssuer,
+		audience: environment.registry.host,
 		subject: '',
 		expiresIn: 60 * 240,
 		header: {
-			kid: b64decode(REGISTRY_TOKEN_AUTH_CERT_KID),
+			kid: b64decode(environment.registry.tokenAuthCertKid),
 		},
 	};
 
 	return response.status(200).json({
 		token: jsonwebtoken.sign(
 			payload,
-			b64decode(REGISTRY_TOKEN_AUTH_CERT_KEY),
+			b64decode(environment.registry.tokenAuthCertKey),
 			jwtOptions as any,
 		),
 	});
