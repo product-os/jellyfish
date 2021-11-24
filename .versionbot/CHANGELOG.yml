@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: ccb0d3b695c60482fee04484adfad9d35869bfe0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.7
+  date: 2021-11-24T08:29:51.774Z
+- commits:
     - subject: Fix exception in chart lens caused by missing contract type
       hash: af3c556a04b6089684b2e5d49e00997b1cedb813
       body: |
