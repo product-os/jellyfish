@@ -64,6 +64,7 @@ export const Chart = React.memo<any>(
 
 				const defaultChartConfig = {
 					id: NEW_CHART_CONFIGURATION_ID,
+					type: `${chartConfigurationType.slug}@${chartConfigurationType.version}`,
 					name: 'New chart',
 					data: {
 						settings: stringifySettings({
