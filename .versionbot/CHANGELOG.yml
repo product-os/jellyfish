@@ -1,4 +1,22 @@
 - commits:
+    - subject: Fix exception in chart lens caused by missing contract type
+      hash: af3c556a04b6089684b2e5d49e00997b1cedb813
+      body: |
+        The chart lens uses a in memory default contract for setting up the
+        initial chart configuration. This contract did not have a type set,
+        which caused a downstream error that made the lens crash.
+        A long term fix for this kind of problem is to add correct type
+        annotations to the UI, but I will leave a later PR.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 41.0.6
+  date: 2021-11-24T00:22:01.101Z
+- commits:
     - subject: 'Katapult: Increase Jellyfish server pod count to 8.'
       hash: e0c2d659b58370fba4d04e27c8ba72a8f178e8b4
       body: ''
