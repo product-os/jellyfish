@@ -21,7 +21,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.5.37",
-    "@balena/jellyfish-client-sdk": "^7.0.15",
+    "@balena/jellyfish-client-sdk": "^7.0.16",
     "@balena/jellyfish-environment": "^5.1.19",
     "@balena/jellyfish-ui-components": "^13.0.21",
     "analytics-client": "^1.7.0",
