@@ -5,7 +5,7 @@ services:
     image: balena/jellyfish
     build:
       context: .
-      dockerfile: ./apps/server/Dockerfile
+      target: jellyfish-server
       args:
         - NPM_TOKEN
     networks:
@@ -14,7 +14,6 @@ services:
       - postgres
       - redis
       - worker_1
-      - worker_2
       - balena-mdns-publisher
     environment:
       - DATABASE=postgres
@@ -93,24 +92,6 @@ services:
     ports:
       - 9229
     restart: always
-  livechat:
-    image: balena/jellyfish-livechat
-    build:
-      args:
-        - NPM_TOKEN
-      context: .
-      dockerfile: ./apps/livechat/Dockerfile
-    depends_on:
-      - api
-      - balena-mdns-publisher
-    networks:
-      - internal
-    environment:
-      - SENTRY_DSN_UI=0
-      - SERVER_HOST=http://api.ly.fish.local
-      - SERVER_PORT=80
-      - NGINX_PORT=80
-      - LIVECHAT_PORT=80
   postgres:
     image: balena/open-balena-db:4.1.0
     restart: always
@@ -128,7 +109,7 @@ services:
       args:
         - NPM_TOKEN
       context: .
-      dockerfile: ./apps/ui/Dockerfile
+      target: jellyfish-ui
     depends_on:
       - api
       - balena-mdns-publisher
@@ -145,7 +126,7 @@ services:
     image: balena/jellyfish-action-server
     build:
       context: .
-      dockerfile: ./apps/action-server/Dockerfile
+      target: jellyfish-action-server
       args:
         - NPM_TOKEN
     depends_on:
@@ -206,71 +187,6 @@ services:
       - internal
     ports:
       - 9231:9229
-  worker_2:
-    image: balena/jellyfish-action-server
-    build:
-      context: .
-      dockerfile: ./apps/action-server/Dockerfile
-      args:
-        - NPM_TOKEN
-    depends_on:
-      - postgres
-      - redis
-      - balena-mdns-publisher
-    environment:
-      - DATABASE=postgres
-      - LOGLEVEL=crit
-      - NODE_ENV
-      - POSTGRES_DATABASE=jellyfish
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=docker
-      - REDIS_HOST=redis
-      - REDIS_PASSWORD=
-      - REDIS_PORT=6379
-      - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - LOGENTRIES_REGION
-      - FS_DRIVER
-      - AWS_ACCESS_KEY_ID
-      - AWS_S3_BUCKET_NAME
-      - AWS_SECRET_ACCESS_KEY
-      - INTEGRATION_BALENA_API_APP_ID
-      - INTEGRATION_BALENA_API_APP_SECRET
-      - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
-      - INTEGRATION_BALENA_API_PRIVATE_KEY
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION
-      - INTEGRATION_BALENA_API_PUBLIC_KEY_STAGING=foobar
-      - INTEGRATION_DEFAULT_USER
-      - INTEGRATION_DISCOURSE_SIGNATURE_KEY
-      - INTEGRATION_DISCOURSE_TOKEN
-      - INTEGRATION_DISCOURSE_USERNAME
-      - INTEGRATION_FLOWDOCK_SIGNATURE_KEY
-      - INTEGRATION_FLOWDOCK_TOKEN
-      - INTEGRATION_FRONT_TOKEN
-      - INTEGRATION_GITHUB_APP_ID
-      - INTEGRATION_GITHUB_PRIVATE_KEY
-      - INTEGRATION_GITHUB_SIGNATURE_KEY
-      - INTEGRATION_GITHUB_TOKEN
-      - INTEGRATION_GOOGLE_MEET_CREDENTIALS
-      - INTEGRATION_INTERCOM_TOKEN
-      - INTEGRATION_OUTREACH_APP_ID
-      - INTEGRATION_OUTREACH_APP_SECRET
-      - INTEGRATION_OUTREACH_SIGNATURE_KEY
-      - INTEGRATION_TYPEFORM_SIGNATURE_KEY
-      - MAILGUN_DOMAIN
-      - MAILGUN_BASE_URL
-      - MAILGUN_TOKEN
-      - MONITOR_SECRET_TOKEN
-      - NPM_TOKEN
-      - RESET_PASSWORD_SECRET_TOKEN
-      - CI
-    restart: always
-    networks:
-      - internal
-    ports:
-      - 9232:9229
   balena-mdns-publisher:
     image: 'balena/balena-mdns-publisher:1.10.1'
     network_mode: host
@@ -288,7 +204,7 @@ services:
     environment:
       MDNS_TLD: ly.fish.local
       MDNS_SUBDOMAINS: >-
-        ["jel", "livechat", "api", "registry"]
+        ["jel", "api", "registry"]
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
   haproxy:
@@ -303,9 +219,7 @@ services:
       - /sys/fs/cgroup
     depends_on:
       - worker_1
-      - worker_2
       - ui
-      - livechat
       - api
       - balena-mdns-publisher
     ports:
@@ -316,7 +230,6 @@ services:
       internal:
         aliases:
           - jel.ly.fish.local
-          - livechat.ly.fish.local
           - api.ly.fish.local
           - postgres.ly.fish.local
           - redis.ly.fish.local

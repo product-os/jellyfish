@@ -26,7 +26,7 @@ const audioFolderPath = path.join(resourcesRoot, 'audio')
 const faviconPath = path.join(resourcesRoot, 'favicon.ico')
 const manifestPath = path.join(resourcesRoot, 'manifest.json')
 const outDir = path.join(root, 'dist/ui')
-const packageJSON = require('../../package.json')
+const packageJSON = require('./package.json')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
@@ -47,19 +47,6 @@ const commonConfig = {
 						loader: 'esbuild-loader',
 						options: {
 							loader: 'tsx',
-							target: 'es2015'
-						}
-					}
-				]
-			},
-			{
-				test: /\.(js|jsx)$/,
-				exclude: /node_modules\/(?!(@balena\/jellyfish-(ui-components|chat-widget))\/).*/,
-				use: [
-					{
-						loader: 'esbuild-loader',
-						options: {
-							loader: 'jsx',
 							target: 'es2015'
 						}
 					}

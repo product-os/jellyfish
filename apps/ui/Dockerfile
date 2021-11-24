@@ -4,25 +4,15 @@
 
 FROM balena/open-balena-base:v12.2.0 as base
 
-WORKDIR /usr/src/jellyfish/apps/ui
+WORKDIR /usr/src/app
 
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-COPY ./apps/ui/package.json /usr/src/jellyfish/apps/ui/package.json
-COPY ./apps/ui/package-lock.json /usr/src/jellyfish/apps/ui/package-lock.json
+COPY package*.json ./
 RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm ci
-
-COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/ui /usr/src/jellyfish/apps/ui
-
-#dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
-#dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
-#dev-run=/usr/src/jellyfish/scripts/install-packages.js
-
-#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
-#dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 RUN rm -f ~/.npmrc
 
+COPY . .
 RUN make build-ui \
 	NODE_ENV=production \
 	NODE_OPTIONS=--max-old-space-size=6144
@@ -33,9 +23,9 @@ RUN make build-ui \
 
 FROM nginx:1.21.3
 WORKDIR /usr/share/nginx/html
-COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
-COPY apps/ui/conf/env.sh /tmp
-COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=base ./dist/ui /usr/share/nginx/html
+COPY ./conf/env.sh /tmp
+COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
 
 # Make our shell script executable
 RUN chmod +x /tmp/env.sh

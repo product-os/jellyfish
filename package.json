@@ -12,7 +12,9 @@
   "engines": {
     "node": ">=14.2.0"
   },
-  "scripts": {},
+  "scripts": {
+    "generate-dockerfile": "node scripts/generate-dockerfile"
+  },
   "deplint": {
     "files": [
       "apps/action-server/lib/**/*.ts",

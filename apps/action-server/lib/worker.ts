@@ -12,7 +12,7 @@ import { core } from '@balena/jellyfish-types';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
-const packageJSON = require('../../../package.json');
+const packageJSON = require('../package.json');
 
 const logger = getLogger(__filename);
 

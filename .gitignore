@@ -128,3 +128,6 @@ docs/typedoc/*
 .balena/secrets/integration_discourse_username.txt
 .balena/secrets/integration_google_meet_credentials.txt
 .balena/secrets/mailgun_token.txt
+
+# Development dockerfile
+Dockerfile

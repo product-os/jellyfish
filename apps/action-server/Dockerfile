@@ -1,34 +1,20 @@
 FROM balena/open-balena-base:v12.2.0
 
-WORKDIR /usr/src/jellyfish/apps/action-server
+WORKDIR /usr/src/app
 
 ARG NPM_TOKEN
 RUN echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" > ~/.npmrc
-COPY ./apps/action-server/package.json /usr/src/jellyfish/apps/action-server/package.json
-COPY ./apps/action-server/package-lock.json /usr/src/jellyfish/apps/action-server/package-lock.json
+COPY package*.json ./
 RUN npm ci
-
-COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/action-server/Makefile /usr/src/jellyfish/apps/action-server/Makefile
-COPY ./apps/action-server/tsconfig.json /usr/src/jellyfish/apps/action-server/tsconfig.json
-COPY ./apps/action-server/tsconfig.build.json /usr/src/jellyfish/apps/action-server/tsconfig.build.json
-
-#dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
-#dev-copy=./apps/action-server/nodemon.json /usr/src/jellyfish/apps/action-server/nodemon.json
-#dev-copy=./apps/action-server/packages/ /usr/src/jellyfish/packages/
-#dev-run=/usr/src/jellyfish/scripts/install-packages.js
-
-#dev-cmd-live=cd /usr/src/jellyfish/apps/action-server && npx nodemon --inspect=0.0.0.0 ./lib/worker.ts
-#dev-copy=./.libs/ /usr/src/jellyfish/apps/action-server/node_modules/@balena/
 RUN rm -f ~/.npmrc
-COPY ./apps/action-server/lib/ /usr/src/jellyfish/apps/action-server/lib/
-RUN npm run build
 
-# Production debugging scripts
-COPY ./scripts/production /usr/src/jellyfish/scripts/production
+COPY tsconfig.json tsconfig.build.json ./
+COPY ./lib ./lib
+RUN npm run build
 
 ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
 
+COPY ./Makefile .
 RUN echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-worker >> run.sh && \
 	chmod +x run.sh && cat run.sh
