@@ -20,7 +20,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@balena/jellyfish-chat-widget": "^12.5.45",
+    "@balena/jellyfish-chat-widget": "^12.5.46",
     "@balena/jellyfish-client-sdk": "^7.0.16",
     "@balena/jellyfish-environment": "^5.1.19",
     "@balena/jellyfish-ui-components": "^13.0.26",
