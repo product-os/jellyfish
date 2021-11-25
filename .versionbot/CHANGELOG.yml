@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Registry: Use jellyfish-environment for env vars'
+      hash: 217625e66ff4d291bb9f4fb1e264fa6bac94d9ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.11
+  date: 2021-11-25T01:30:11.807Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 4ee3b58e5232f9b99c97d638ca1da0c9cb68e1d3
       body: ''
