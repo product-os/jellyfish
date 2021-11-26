@@ -1,4 +1,17 @@
 - commits:
+    - subject: Use product-os/renovate-config
+      hash: ea9fdb2284f5903652c150f0bc2bc0e00514ae4a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.18
+  date: 2021-11-26T07:32:44.780Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 1785cb4f4d460c7815585d8acf9300eef3f33fa1
       body: ''
