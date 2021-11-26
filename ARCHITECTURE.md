@@ -52,10 +52,6 @@ Jellyfish is split in many more modules than deployable units. The following dia
 
 This is the demo project for developing chat-widget.
 
-### [`apps/oauth-provider-example`](https://github.com/product-os/jellyfish/tree/master/apps/oauth-provider-example)
-
-Oauth provider example app
-
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.

@@ -1,13 +1,6 @@
 version: '2.1'
 
 services:
-  oauth-provider-example:
-    build:
-      context: ./apps/oauth-provider-example
-    networks:
-      - internal
-    expose:
-      - 80
   sut:
     image: balena/jellyfish-sut
     build:
@@ -19,7 +12,6 @@ services:
       - postgres
       - ui
       - balena-mdns-publisher
-      - oauth-provider-example
     environment:
       - DATABASE=postgres
       - LOGLEVEL=crit
