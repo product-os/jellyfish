@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop oauth-provider-example app
+      hash: 8f44c76cd62837afb4c7353e0a2b29e044ef52c7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.16
+  date: 2021-11-26T01:06:11.465Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-product-os to ^2.8.0'
       hash: 9cf923a33ff8c2d5440ff6f675c11347f7ec1926
       body: |
