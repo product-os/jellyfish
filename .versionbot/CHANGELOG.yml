@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 1785cb4f4d460c7815585d8acf9300eef3f33fa1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.17
+  date: 2021-11-26T02:31:42.749Z
+- commits:
     - subject: Drop oauth-provider-example app
       hash: 8f44c76cd62837afb4c7353e0a2b29e044ef52c7
       body: ''
