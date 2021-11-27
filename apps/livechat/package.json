@@ -34,7 +34,7 @@
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
-    "@balena/jellyfish-config": "^1.5.17",
+    "@balena/jellyfish-config": "^2.0.1",
     "@balena/lint": "^6.1.1",
     "babel-loader": "^8.2.3",
     "depcheck": "^1.4.2",
