@@ -88,7 +88,7 @@
     "@babel/preset-react": "^7.16.0",
     "@babel/register": "^7.16.0",
     "@balena/jellyfish-config": "^1.5.17",
-    "@balena/jellyfish-types": "^1.2.34",
+    "@balena/jellyfish-types": "^1.2.35",
     "@balena/lint": "^6.1.1",
     "@emotion/cache": "^11.6.0",
     "@emotion/react": "^11.6.0",
