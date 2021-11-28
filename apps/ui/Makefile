@@ -7,7 +7,6 @@ export SERVER_HOST
 SERVER_PORT ?= 8000
 export SERVER_PORT
 SENTRY_DSN_UI ?=
-FIX ?=
 
 NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
 NODE_DEBUG_ARGS = $(NODE_ARGS) \
@@ -54,7 +53,3 @@ dev-ui:
 build-ui:
 	SENTRY_DSN_UI=$(SENTRY_DSN_UI) API_URL=$(SERVER_HOST):$(SERVER_PORT) \
 		./node_modules/.bin/webpack --config=./webpack.config.js
-
-.PHONY: lint
-lint:
-	npm run lint
