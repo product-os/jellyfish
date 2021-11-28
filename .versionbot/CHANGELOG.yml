@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump aws-sdk to 2.1037.0
+      hash: 3ff15666ed09dde58943d73b1eaf632988355634
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.33
+  date: 2021-11-28T12:07:39.482Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: ced1ca8dfc24dfcfd606c0a25b5c1adf472336e3
       body: ''
