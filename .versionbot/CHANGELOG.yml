@@ -1,4 +1,37 @@
 - commits:
+    - subject: Update secret paths in gitignore
+      hash: 3cdc83f38668aa2b43b9e5de2ae823c617df1385
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove old .txt secrets
+      hash: 3a77111e3d8fcda341cacafe2fc152730b0c25c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update secrets
+      hash: 5c1473ff8c8d5009155aa9269ccdd80d2aa32d04
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.29
+  date: 2021-11-28T03:34:38.166Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 317675c751d001b0753abca57dfa81cbd85ee41b
       body: ''
