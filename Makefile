@@ -1,5 +1,4 @@
-.PHONY: clean \
-	lint \
+.PHONY: lint \
 	node \
 	test \
 	docs \
@@ -16,8 +15,6 @@
 	scrub \
 	npm-install \
 	push \
-	ssh \
-	npm-ci \
 	exec-apps
 
 # See https://stackoverflow.com/a/18137056
@@ -263,9 +260,6 @@ endif
 npm-install:
 	npm install && CMD="npm install" make exec-apps
 
-npm-ci:
-	npm ci && CMD="npm ci" make exec-apps
-
 .tmp:
 	mkdir -p $@
 
@@ -276,17 +270,6 @@ docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
 	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
 		node scripts/template $< > $@
 
-clean:
-	rm -rf \
-		*.0x \
-		*.lock \
-		dump.rdb \
-		postgres_data \
-		webpack-bundle-report.html \
-		webpack-bundle-report.chat-widget.html \
-		dist \
-		.cache-loader
-
 docs/assets/architecture.png: docs/diagrams/architecture.mmd
 	./node_modules/.bin/mmdc -i $< -o $@ -w 2560 -H 1600
 
@@ -294,9 +277,6 @@ ARCHITECTURE.md: scripts/architecture-summary.sh \
 	apps/*/DESCRIPTION.markdown \
 	docs/assets/architecture.png
 	./$< > $@
-
-dist:
-	mkdir $@
 
 postgres_data:
 	initdb --locale=en_US.UTF8 --pgdata $@
@@ -309,10 +289,10 @@ lint:
 	./scripts/lint/check-apps.sh
 	npx shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
 	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/ci-task-runner,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
-	cd apps/server && make lint FIX=$(FIX)
-	cd apps/livechat && make lint FIX=$(FIX)
-	cd apps/ui && make lint FIX=$(FIX)
+	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
+	cd apps/server && npm run lint
+	cd apps/livechat && npm run lint
+	cd apps/ui && npm run lint
 
 scrub:
 	$(SCRUB_COMMAND)
@@ -322,8 +302,8 @@ test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
 
 test-unit:
-	cd apps/ui && make test
-	cd apps/server && make test-unit
+	cd apps/ui && npm run test
+	cd apps/server && npm run test:unit
 
 test-integration:
 	FILES="'./test/integration/**/*.spec.js'" make test
@@ -331,25 +311,11 @@ test-integration:
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
-# As a company policy, UI unit tests shall live alongside the
-# production code. This policy only applies to *unit* tests,
-# and integration/e2e UI tests will still live under `test`.
-#
-# These Make rules override the above conventions for this case.
-test-unit-ui:
-	cd apps/ui && make test
-
 test-integration-server:
-	cd apps/server && make test-integration
-
-test-integration-%:
-	FILES="'./test/integration/$(subst test-integration-,,$@)/**/*.spec.js'" make test
+	cd apps/server && npm run test:integration
 
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
-
-ngrok-%:
-	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)
@@ -372,9 +338,6 @@ start-redis:
 start-postgres: postgres_data
 	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
 
-start-static-%:
-	cd apps/ui/dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
-
 # -----------------------------------------------
 # Build
 # -----------------------------------------------
@@ -390,22 +353,6 @@ build-livechat:
 # -----------------------------------------------
 # Development
 # -----------------------------------------------
-
-docker-exec-%:
-	docker exec $(subst docker-exec-,,$@) $(COMMAND) $(ARGS)
-
-compose-exec-%: docker-compose.yml
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
-		exec $(subst compose-exec-,,$@) $(COMMAND) $(ARGS) \
-		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
-
-compose-up-%: docker-compose.yml
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
-		up $(DOCKER_COMPOSE_COMMAND_OPTIONS) $(subst compose-up-,,$@) $(ARGS)
-
-compose-logs-%: docker-compose.yml
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) \
-		logs $(subst compose-logs-,,$@) $(DOCKER_COMPOSE_COMMAND_OPTIONS)
 
 compose-%: docker-compose.yml
 	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
@@ -450,9 +397,6 @@ push:
 		--env REGISTRY_TOKEN_AUTH_JWT_ALGO=ES256 \
 		--env REGISTRY_HOST=registry.ly.fish.local
 
-ssh:
-	balena ssh jel.ly.fish.local
-
 deploy-%:
 	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
 
@@ -460,6 +404,5 @@ deploy-%:
 exec-apps:
 	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
 
-# TODO: make use of exec-apps once all apps are converted to TypeScript
 docs:
-	cd apps/ui && npm run doc
+	CMD="npm run doc" make exec-apps

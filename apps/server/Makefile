@@ -21,22 +21,6 @@ NODE = "node"
 endif
 endif
 
-.PHONY: lint
-lint:
-	npm run lint
-
-.PHONY: test
-test:
-	npm run test
-
-.PHONY: test-unit
-test-unit:
-	npm run unit
-
-.PHONY: test-integration
-test-integration:
-	npm run integration
-
 .PHONY: start-server
 start-server: LOGLEVEL = info
 start-server:
