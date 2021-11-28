@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-config to v2'
+      hash: 3d738010eb9ec989ae3a7aeaba814f83fb7bffd2
+      body: |
+        Update @balena/jellyfish-config from 1.5.17 to 2.0.1
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.30
+  date: 2021-11-28T04:10:20.917Z
+- commits:
     - subject: Update secret paths in gitignore
       hash: 3cdc83f38668aa2b43b9e5de2ae823c617df1385
       body: ''
