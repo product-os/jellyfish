@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump @emotion/react to v11.7.0
+      hash: be56829e541d97be5285f1bdb04ae7b5637e0efb
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.36
+  date: 2021-11-28T22:25:19.292Z
+- commits:
     - subject: Bump redux-thunk to v2.4.1
       hash: f2f95ea4905738c5828acb4346530b33ad050ec7
       body: ''
