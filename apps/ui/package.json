@@ -71,7 +71,7 @@
     "react-virtualized": "^9.22.3",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
-    "redux-thunk": "^2.4.0",
+    "redux-thunk": "^2.4.1",
     "rendition": "^21.12.7",
     "skhema": "^5.3.4",
     "style-loader": "^2.0.0",
