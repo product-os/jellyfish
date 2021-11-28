@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump redux-thunk to v2.4.1
+      hash: f2f95ea4905738c5828acb4346530b33ad050ec7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.35
+  date: 2021-11-28T14:07:47.862Z
+- commits:
     - subject: Bump typedoc to v0.22.10
       hash: fe97285a74cfa3b1ab7d4f544542b544852c832e
       body: ''
