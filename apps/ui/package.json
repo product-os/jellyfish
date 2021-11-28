@@ -89,7 +89,7 @@
     "@babel/register": "^7.16.0",
     "@balena/jellyfish-config": "^2.0.1",
     "@balena/jellyfish-types": "^1.2.35",
-    "@balena/lint": "^6.1.1",
+    "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.6.0",
     "@emotion/react": "^11.6.0",
     "@types/jest": "^26.0.24",
