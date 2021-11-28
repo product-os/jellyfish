@@ -21,10 +21,6 @@ NODE = "node"
 endif
 endif
 
-.PHONY: lint
-lint:
-	npm run lint
-
 .PHONY: test
 test:
 	npm run test
