@@ -8,7 +8,6 @@
 	start-worker \
 	start-redis \
 	start-postgres \
-	test-unit \
 	test-integration-server \
 	test-e2e \
 	scrub \
@@ -299,10 +298,6 @@ scrub:
 test: LOGLEVEL = warning
 test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
-
-test-unit:
-	cd apps/ui && make test
-	cd apps/server && make test-unit
 
 test-e2e:
 	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test

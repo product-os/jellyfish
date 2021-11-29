@@ -29,13 +29,6 @@ NODE = "node"
 endif
 endif
 
-MATCH ?=
-export MATCH
-
-.PHONY: test
-test:
-	npm run test
-
 .PHONY: dev-ui
 dev-ui:
 	mkdir -p ./dist/ui && \
