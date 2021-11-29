@@ -68,7 +68,7 @@
     "@balena/jellyfish-plugin-github": "^1.11.200",
     "@balena/jellyfish-plugin-outreach": "^1.0.305",
     "@balena/jellyfish-plugin-product-os": "^2.8.16",
-    "@balena/jellyfish-plugin-typeform": "^3.0.393",
+    "@balena/jellyfish-plugin-typeform": "^3.0.394",
     "@balena/jellyfish-queue": "^1.0.364",
     "@balena/jellyfish-sync": "^6.1.115",
     "@balena/jellyfish-ui-components": "^13.0.32",
