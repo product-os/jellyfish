@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update docs
+      hash: 5221da819f5163c096527e30832bfcd7fc416d25
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove unused make commands
+      hash: 1734f74e4e20e5d79e74421d97c98552fbba2647
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.38
+  date: 2021-11-29T00:35:41.060Z
+- commits:
     - subject: Clean up Makefile lint
       hash: 23a1ce0a35ad759b8e7711966dc27c9633a1d7db
       body: ''
