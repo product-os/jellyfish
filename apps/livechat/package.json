@@ -19,7 +19,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.5.55",
-    "@balena/jellyfish-client-sdk": "^7.0.20",
+    "@balena/jellyfish-client-sdk": "^7.0.21",
     "@balena/jellyfish-ui-components": "^13.0.32",
     "@use-it/event-listener": "^0.1.7",
     "css-loader": "^5.2.7",
@@ -34,7 +34,7 @@
     "webpack-bundle-analyzer": "^4.5.0"
   },
   "devDependencies": {
-    "@balena/jellyfish-config": "^2.0.1",
+    "@balena/jellyfish-config": "^2.0.2",
     "@balena/lint": "^6.2.0",
     "babel-loader": "^8.2.3",
     "depcheck": "^1.4.2",
