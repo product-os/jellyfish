@@ -113,7 +113,7 @@ The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Do
 
 ### Troubleshooting
 - Tail individual service logs with `balena logs jel.ly.fish.local --service <name>`
-- Log into device with `make ssh`, which allows you to then:
+- Log into device with `balena ssh`, which allows you to then:
 	- Check running containers with `balena ps`
 	- Enter running container with `balena exec -ti <name> bash`
 	- Check container logs directly from within device using `balena logs <name>`
@@ -141,10 +141,9 @@ Frontend components store their unit tests along with the production code (compa
 We provide GNU Make utility rules to run different test suites, for example:
 
 ```sh
-make test-integration-queue                      # Run all the queue integration tests
 make test-e2e-server                             # Run all the server end to end tests
 make test-e2e                                    # Run all the end to end tests
-make test FILES=./test/unit/worker/utils.spec.js # Run a specific unit test file inside "worker"
+make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
 ```
 
 Some suites may provide or require various options. Consult the corresponding
