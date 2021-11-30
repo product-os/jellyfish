@@ -33,9 +33,9 @@ const MERGE_VERB = 'was merged as';
 // TODO: Make this a generic tool
 const makeGraph = (baseContract: Contract) => {
 	const formatContract = (contract: Contract) => {
-		return `${contract.id}(${contract.name || contract.slug}<br/>v${
-			contract.version
-		})`;
+		return `${contract.id}(<i>${contract.type}</i><br/>${
+			contract.name || contract.slug
+		}<br/>v${contract.version})`;
 	};
 
 	const buildGraphCode = (contract: Contract): string[] => {
