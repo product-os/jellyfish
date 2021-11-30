@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency json-schema to 0.4.0 [SECURITY]'
+      hash: 28d23434f114509e1b7e02c0acec1abdb1d4c41a
+      body: |
+        Update json-schema from 0.2.3 to 0.4.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.44
+  date: 2021-11-29T19:17:51.527Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 3862c5f58a95fb529312d1c47bbf7b86ef42be8d
       body: ''
