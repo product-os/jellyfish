@@ -24,7 +24,7 @@ export const SingleCardTabs = styled(Tabs)`
 `;
 
 // The maximum depth to explore the graph
-const GRAPH_DEPTH = 3;
+const GRAPH_DEPTH = 10;
 const BUILT_VERB = 'was built into';
 const MERGE_VERB = 'was merged as';
 
