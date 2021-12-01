@@ -18,7 +18,8 @@ tasks:
 
   unit:
     cmds:
-      - make test-unit COVERAGE=0
+      - cd apps/ui && npm run test
+      - cd apps/server && npm run test:unit
 
   wait-for-api:
     cmds:

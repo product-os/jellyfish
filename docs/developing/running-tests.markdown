@@ -98,7 +98,8 @@ $ make lint
 ### Unit
 Run unit tests:
 ```sh
-$ make test-unit
+$ cd apps/server && npm run test:unit
+$ cd apps/ui && npm run test:unit
 ```
 
 ### Server Integration

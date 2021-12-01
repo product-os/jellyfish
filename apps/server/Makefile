@@ -21,17 +21,9 @@ NODE = "node"
 endif
 endif
 
-.PHONY: test
-test:
-	npm run test
-
-.PHONY: test-unit
-test-unit:
-	npm run unit
-
 .PHONY: test-integration
 test-integration:
-	npm run integration
+	npm run test:integration
 
 .PHONY: start-server
 start-server: LOGLEVEL = info
