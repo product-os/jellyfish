@@ -1,4 +1,17 @@
 - commits:
+    - subject: Clean up unit test make commands
+      hash: e11f9a0ead1ba6ae7669f989e434f219eae77c0f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.0.45
+  date: 2021-12-01T01:30:46.316Z
+- commits:
     - subject: 'patch: Update dependency json-schema to 0.4.0 [SECURITY]'
       hash: 28d23434f114509e1b7e02c0acec1abdb1d4c41a
       body: |
