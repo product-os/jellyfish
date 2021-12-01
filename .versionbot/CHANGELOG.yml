@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-environment to ^5.2.0'
+      hash: 23a521efacf0a431a8eb8b666bdd02616e2a7152
+      body: |
+        Update @balena/jellyfish-environment from 5.1.26 to 5.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.1.1
+  date: 2021-12-01T17:40:29.803Z
+- commits:
     - subject: add types to check-run lense
       hash: 9ed811b59b966dcdfc9bf6aaf9d69727f781b6cb
       body: ''
