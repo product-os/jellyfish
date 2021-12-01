@@ -1,4 +1,17 @@
 - commits:
+    - subject: add types to check-run lense
+      hash: 9ed811b59b966dcdfc9bf6aaf9d69727f781b6cb
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 41.1.0
+  date: 2021-12-01T16:46:20.074Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to v12'
       hash: 7ffbaa6ede6e1a98d7739d72e5aba74b7be790c3
       body: ''
