@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to v12'
+      hash: 7ffbaa6ede6e1a98d7739d72e5aba74b7be790c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 41.0.47
+  date: 2021-12-01T05:18:41.029Z
+- commits:
     - subject: Fix dev-livechat make command
       hash: 7050e08c43790bedb94d74bea0b2ade781e8a0dc
       body: ''
