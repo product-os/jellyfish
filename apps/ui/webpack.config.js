@@ -24,13 +24,20 @@ const packageJSON = require('../../package.json')
 
 console.log(`Generating bundle from ${uiRoot}`)
 
-const commonConfig = {
+const config = {
+	entry: path.join(uiRoot, 'index.tsx'),
+	target: 'web',
+	devtool: 'source-map',
 	mode: 'development',
 
+	output: {
+		filename: '[name].[contenthash].js',
+		path: outDir,
+		publicPath: '/'
+	},
 	resolve: {
 		extensions: [ '.js', '.jsx', '.ts', '.tsx', '.json' ]
 	},
-
 	module: {
 		rules: [
 			{
@@ -77,48 +84,6 @@ const commonConfig = {
 			}
 		]
 	},
-	plugins: []
-}
-
-if (process.env.NODE_ENV === 'production') {
-	commonConfig.mode = 'production'
-	commonConfig.optimization = {
-		minimize: true
-	}
-}
-
-const appConfig = {
-	...commonConfig,
-	target: 'web',
-	devtool: 'source-map',
-
-	devServer: {
-		contentBase: outDir,
-		host: '0.0.0.0',
-		port: process.env.UI_PORT,
-		compress: true,
-		historyApiFallback: {
-			disableDotRule: true
-		},
-		disableHostCheck: true,
-		publicPath: '/',
-		watchOptions: {
-			ignored: /node_modules\/(?!(\/@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/|rendition\/).*/
-		}
-	},
-
-	node: {
-		fs: 'empty'
-	},
-
-	entry: path.join(uiRoot, 'index.tsx'),
-
-	output: {
-		filename: '[name].[contenthash].js',
-		path: outDir,
-		publicPath: '/'
-	},
-
 	plugins: [
 		new CopyWebpackPlugin({
 			patterns: [
@@ -153,12 +118,36 @@ const appConfig = {
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
 		})
-	]
+	],
+	devServer: {
+		contentBase: outDir,
+		host: '0.0.0.0',
+		port: process.env.UI_PORT,
+		compress: true,
+		historyApiFallback: {
+			disableDotRule: true
+		},
+		disableHostCheck: true,
+		publicPath: '/',
+		watchOptions: {
+			ignored: /node_modules\/(?!(\/@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/|rendition\/).*/
+		}
+	},
+	node: {
+		fs: 'empty'
+	}
+}
+
+if (process.env.NODE_ENV === 'production') {
+	config.mode = 'production'
+	config.optimization = {
+		minimize: true
+	}
 }
 
 if (process.env.NODE_ENV === 'production' ||
 		process.env.JF_DEBUG_SW === '1') {
-	appConfig.plugins.push(
+	config.plugins.push(
 		new WorkboxPlugin.InjectManifest({
 			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 
@@ -171,7 +160,7 @@ if (process.env.NODE_ENV === 'production' ||
 }
 
 if (process.env.ANALYZE) {
-	appConfig.plugins.push(
+	config.plugins.push(
 		new BundleAnalyzerPlugin({
 			analyzerMode: 'static',
 			reportFilename: path.resolve(outDir, 'webpack-bundle-report.html'),
@@ -180,19 +169,4 @@ if (process.env.ANALYZE) {
 	)
 }
 
-const librariesConfig = {
-	...commonConfig,
-	target: 'node',
-	entry: path.join(uiRoot, 'core/queries.ts'),
-	output: {
-		path: outDir,
-		filename: 'queries.js',
-		library: 'queries',
-		libraryTarget: 'commonjs'
-	}
-}
-
-module.exports = [
-	appConfig,
-	librariesConfig
-]
+module.exports = config
