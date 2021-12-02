@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Clean up Makefile, update npm lint scripts'
+      hash: 3449ebc3acd5c2b935230290b1205af6176a954f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.1.4
+  date: 2021-12-02T04:26:13.294Z
+- commits:
     - subject: Remove more old bits from Makefiles
       hash: 3aa2c99f4426d924f33c6d44f390b5d60625a56e
       body: ''
