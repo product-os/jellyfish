@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove more old bits from Makefiles
+      hash: 3aa2c99f4426d924f33c6d44f390b5d60625a56e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 41.1.3
+  date: 2021-12-02T00:28:48.950Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 61b6d56455ad42f2072e2402823089792fe0ae10
       body: ''
