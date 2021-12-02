@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update to default plugin 21.1.130
+      hash: d635a76bb81deab9e4ff38306a5f067071a1e4c4
+      body: |
+        This change includes fixes to the user->contact trigger.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 42.0.1
+  date: 2021-12-02T14:09:32.741Z
+- commits:
     - subject: Don't build queries.js deparately
       hash: fdec8db4e49582d01cc60c8698dc298dab9adf03
       body: ''
