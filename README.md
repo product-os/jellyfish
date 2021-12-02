@@ -45,13 +45,8 @@ Many parts of Jellyfish are still under development, and this document aims to c
 Installing dependencies
 -----------------------
 
-In order to develop Jellyfish, you must have an [npmjs](https://npmjs.com) account
-that has read access to the private Jellyfish packages. Provide your npmjs account
-information with ops and request access.
-
 ```sh
-npm login
-make npm-install
+$ npm i
 ```
 
 Developing with Livepush
@@ -66,7 +61,7 @@ To start developing, you must first install [balenaCLI](https://github.com/balen
 ### Deploy code
 Now that the device is up and running in local mode, we need to get its local IP address:
 ```
-sudo balena scan | grep address
+$ sudo balena scan | grep address
   address:       <DEVICE-IP-ADDRESS>
 ```
 
@@ -85,10 +80,10 @@ removing library dependencies is a bit different. The following is an example wh
 `jellyfish-worker` library:
 
 ```sh
-cd .libs/jellyfish-worker
-npm install new-dependency
-cd ../..
-make deploy-worker
+$ cd .libs/jellyfish-worker
+$ npm install new-dependency
+$ cd ../..
+$ make deploy-worker
 ```
 
 What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
@@ -131,8 +126,7 @@ Testing
 You can run the linter like this:
 
 ```sh
-make lint
-make lint FIX=1 # Optionally try to fix some of the linting issues
+$ npm run lint
 ```
 
 The tests live in `test/<type>/**/*.spec.js` and `apps/server/test/<type>/**/*.spec.js`.
@@ -141,9 +135,8 @@ Frontend components store their unit tests along with the production code (compa
 We provide GNU Make utility rules to run different test suites, for example:
 
 ```sh
-make test-e2e-server                             # Run all the server end to end tests
-make test-e2e                                    # Run all the end to end tests
-make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
+$ make test-e2e-server                             # Run all the server end to end tests
+$ make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
 ```
 
 Some suites may provide or require various options. Consult the corresponding

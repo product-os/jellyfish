@@ -6,6 +6,6 @@ COPY . ./
 # Delete image archives created during CI build stage
 RUN rm -f balena-jellyfish-*.tar
 
-RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true make npm-install
+RUN PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true npm install --unsafe-perm
 
 CMD /bin/bash -c "if [ "$CI" ]; then task test; else trap : TERM INT; sleep infinity; fi"
