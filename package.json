@@ -12,7 +12,10 @@
   "engines": {
     "node": ">=14.2.0"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx scripts test && ./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh && deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*",
+    "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js"
+  },
   "deplint": {
     "files": [
       "apps/server/lib/**/*.ts"
@@ -31,13 +34,6 @@
     ]
   },
   "lint-staged": {
-    "*": [
-      "./scripts/lint/check-filenames.sh"
-    ],
-    "apps/*": [
-      "./scripts/lint/check-descriptions.sh",
-      "./scripts/lint/check-apps.sh"
-    ],
     "*.{js,jsx}": [
       "eslint --cache --fix",
       "deplint"

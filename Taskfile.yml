@@ -12,22 +12,52 @@ tasks:
       - make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
       - npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
 
+  lint-server:
+    dir: apps/server
+    cmds:
+      - npm run lint
+
+  lint-livechat:
+    dir: apps/livechat
+    cmds:
+      - npm run lint
+
+  lint-ui:
+    dir: apps/ui
+    cmds:
+      - npm run lint
+
   lint:
     cmds:
-      - make lint
+      - npm run lint
+      - task: lint-server
+      - task: lint-livechat
+      - task: lint-ui
+
+  unit-server:
+    dir: apps/server
+    cmds:
+      - npm run test:unit
+
+  unit-ui:
+    dir: apps/ui
+    cmds:
+      - npm run test
 
   unit:
     cmds:
-      - cd apps/ui && npm run test
-      - cd apps/server && npm run test:unit
+      - task: unit-ui
+      - task: unit-server
 
   wait-for-api:
     cmds:
       - ./scripts/ci/wait-for-api.sh
 
   e2e-sdk:
+    env:
+      LOGLEVEL: warning
     cmds:
-      - make test-e2e-sdk
+      - npm run test:e2e:sdk
 
   e2e-livechat:
     cmds:

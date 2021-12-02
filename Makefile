@@ -1,5 +1,4 @@
-.PHONY: lint \
-	node \
+.PHONY: node \
 	test \
 	docs \
 	build-ui \
@@ -161,8 +160,6 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--stack_trace_on_illegal
 
 # User parameters
-MATCH ?=
-export MATCH
 SCRUB ?= 1
 export SCRUB
 FIX ?=
@@ -231,9 +228,6 @@ AVA_ARGS = $(AVA_OPTS)
 ifndef CI
 AVA_ARGS += --fail-fast
 endif
-ifdef MATCH
-AVA_ARGS += --match $(MATCH)
-endif
 
 # -----------------------------------------------
 # Rules
@@ -262,19 +256,6 @@ ARCHITECTURE.md: scripts/architecture-summary.sh \
 
 postgres_data:
 	initdb --locale=en_US.UTF8 --pgdata $@
-
-lint:
-	./node_modules/.bin/eslint --ext .js,.jsx $(ESLINT_OPTION_FIX) scripts test
-	./scripts/lint/check-filenames.sh
-	./scripts/lint/check-descriptions.sh
-	./scripts/lint/check-tests.sh
-	./scripts/lint/check-apps.sh
-	npx shellcheck ./scripts/*.sh ./scripts/*/*.sh ./deploy-templates/*.sh
-	./node_modules/.bin/deplint
-	./node_modules/.bin/depcheck --ignore-bin-package --ignores='@babel/*,assignment,@ava/babel,canvas,history,@balena/jellyfish-sync,@balena/jellyfish-plugin-base,@balena/jellyfish-action-library,@balena/jellyfish-plugin-default,@balena/jellyfish-plugin-product-os,@balena/jellyfish-plugin-channels,@balena/jellyfish-plugin-typeform,@balena/jellyfish-plugin-github,@balena/jellyfish-plugin-flowdock,@balena/jellyfish-plugin-discourse,@balena/jellyfish-plugin-outreach,@balena/jellyfish-plugin-front,@balena/jellyfish-plugin-balena-api,@balena/jellyfish-worker,@balena/jellyfish-queue,@balena/jellyfish-config,webpack,shellcheck'
-	cd apps/server && npm run lint
-	cd apps/livechat && npm run lint
-	cd apps/ui && npm run lint
 
 scrub:
 	$(SCRUB_COMMAND)
