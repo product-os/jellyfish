@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "npm run clean && tsc",
-    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@babel/*,canvas,history,depcheck,css-loader,file-loader,babel-loader,style-loader,webpack-cli,webpack-dev-server,@types/jest,assert,typedoc",
+    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@babel/*,@types/jest,assert,babel-loader,canvas,history,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit",
     "test:unit": "jest",

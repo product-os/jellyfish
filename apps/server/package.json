@@ -12,7 +12,7 @@
   "scripts": {
     "clean": "rimraf build",
     "build": "npm run clean && tsc -p tsconfig.build.json",
-    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=depcheck,@types/jest,nodemon,typedoc",
+    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test:unit": "jest ./test/unit/.*.spec.ts$",
     "test:integration": "jest --runInBand --testTimeout=120000 --forceExit ./test/integration/.*.spec.ts$",
