@@ -160,22 +160,6 @@ NODE_DEBUG_ARGS = $(NODE_ARGS) \
 									--trace-warnings \
 									--stack_trace_on_illegal
 
-ifeq ($(NODE_ENV),profile)
-# See https://github.com/davidmarkclements/0x
-NODE = 0x --open -- node
-else
-
-# Assumes nsolid-console is running on the background
-ifeq ($(NODE_ENV),nsolid)
-NODE = "nsolid"
-NSOLID_COMMAND ?= localhost:9001
-export NSOLID_COMMAND
-
-else
-NODE = "node"
-endif
-endif
-
 # User parameters
 MATCH ?=
 export MATCH
@@ -308,9 +292,6 @@ test-integration-server:
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
 
-ngrok-%:
-	ngrok start -config ./ngrok.yml $(subst ngrok-,,$@)
-
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)
 
@@ -331,9 +312,6 @@ start-redis:
 # See https://www.postgresql.org/docs/11/kernel-resources.html
 start-postgres: postgres_data
 	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
-
-start-static-%:
-	cd apps/ui/dist/$(subst start-static-,,$@) && exec python2 -m SimpleHTTPServer $(UI_PORT)
 
 # -----------------------------------------------
 # Build
