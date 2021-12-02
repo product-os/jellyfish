@@ -1,4 +1,15 @@
 - commits:
+    - subject: Don't build queries.js deparately
+      hash: fdec8db4e49582d01cc60c8698dc298dab9adf03
+      body: ''
+      footer:
+        Change-type: major
+        change-type: major
+      author: karaxuna
+      nested: []
+  version: 42.0.0
+  date: 2021-12-02T10:41:51.501Z
+- commits:
     - subject: 'Clean up Makefile, update npm lint scripts'
       hash: 3449ebc3acd5c2b935230290b1205af6176a954f
       body: ''
