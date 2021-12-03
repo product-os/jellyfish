@@ -1,4 +1,17 @@
 - commits:
+    - subject: Migrate make commands to npm scripts
+      hash: a00c74e63a57436c12dc5622fcddc755be841a43
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.2
+  date: 2021-12-03T02:30:15.091Z
+- commits:
     - subject: Update to default plugin 21.1.130
       hash: d635a76bb81deab9e4ff38306a5f067071a1e4c4
       body: |
