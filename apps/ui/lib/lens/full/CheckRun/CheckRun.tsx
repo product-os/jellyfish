@@ -121,12 +121,16 @@ export default class SingleCardFull extends React.Component<any, any> {
 					anyOf: [
 						{
 							$$links: {
-								[MERGE_VERB]: {
-									type: 'object',
-								},
 								[BUILT_VERB]: {
 									type: 'object',
 									...fragment,
+								},
+							},
+						},
+						{
+							$$links: {
+								[MERGE_VERB]: {
+									type: 'object',
 								},
 							},
 						},
