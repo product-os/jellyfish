@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 2303e36b12651b7e0b11f039fbca3b571e8a812d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.7
+  date: 2021-12-03T20:32:53.396Z
+- commits:
     - subject: 'check-runs: show unmerged contracts'
       hash: 3cb21005b77a4a12de5681e299569ce019bfc6cd
       body: ''
