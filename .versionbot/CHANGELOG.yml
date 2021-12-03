@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update npm backend script
+      hash: 9a0191c325a9a6aa8b991efb34cc6fb02741ca81
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.4
+  date: 2021-12-03T06:49:53.514Z
+- commits:
     - subject: Remove local.env
       hash: 572da5e3363fc6e4cc570c46f7732c1c20734a8f
       body: ''
