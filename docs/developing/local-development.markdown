@@ -16,7 +16,8 @@ You can then run these commands in different terminal emulators, which will run
 all services in non-daemon mode:
 
 ```sh
-$ npm run backend
+$ npm run postgres
+$ npm run redis
 $ make dev-ui
 $ make dev-livechat
 $ make start-server
