@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'check-runs: show unmerged contracts'
+      hash: 3cb21005b77a4a12de5681e299569ce019bfc6cd
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+    - subject: escape strings for mermaid
+      hash: 847c4f1b8d6504acea916a051bf3352998b1bff6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 42.0.6
+  date: 2021-12-03T19:43:30.467Z
+- commits:
     - subject: 'Remove old secrets, update gitignore'
       hash: fd0bcc5bcde43f2519b39d494d51db6b37e55ae1
       body: ''
