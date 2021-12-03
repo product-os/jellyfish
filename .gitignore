@@ -97,9 +97,6 @@ tmp/
 *.p8
 *.pem
 
-# Optional custom dotenv file
-custom.env
-
 # macOS
 .DS_Store
 
