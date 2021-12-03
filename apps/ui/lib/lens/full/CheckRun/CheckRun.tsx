@@ -32,10 +32,15 @@ const MERGE_VERB = 'was merged as';
 // Each node in the graph shows the contracts name or slug and its version.
 // TODO: Make this a generic tool
 const makeGraph = (baseContract: Contract) => {
+	const escapeMermaid = (s: string) => `"${s.replaceAll('"', "'")}"`;
+
+	const shorten = (s: string) => (s.length > 16 ? s.substr(0, 20) + '…' : s);
+
 	const formatContract = (contract: Contract) => {
-		return `${contract.id}(<i>${contract.type}</i><br/>${
+		const label = `⟪${contract.type}⟫<br/>${
 			contract.name || contract.slug
-		}<br/>v${contract.version})`;
+		}<br/>v${shorten(contract.version)}`;
+		return `${contract.id}(${escapeMermaid(label)})`;
 	};
 
 	const buildGraphCode = (contract: Contract): string[] => {
@@ -116,12 +121,16 @@ export default class SingleCardFull extends React.Component<any, any> {
 					anyOf: [
 						{
 							$$links: {
-								[MERGE_VERB]: {
-									type: 'object',
-								},
 								[BUILT_VERB]: {
 									type: 'object',
 									...fragment,
+								},
+							},
+						},
+						{
+							$$links: {
+								[MERGE_VERB]: {
+									type: 'object',
 								},
 							},
 						},
