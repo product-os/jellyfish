@@ -169,21 +169,6 @@ else
 NOCACHE_FLAG =
 endif
 
-# Set dotenv variables for local development/testing
-ifndef CI
-    # Defaults are set in local.env
-    ifneq ("$(wildcard local.env)","")
-        include local.env
-        export $(shell sed 's/=.*//' local.env)
-    endif
-
-    # Developers can override local.env with a custom.env
-    ifneq ("$(wildcard custom.env)","")
-        include custom.env
-        export $(shell sed 's/=.*//' custom.env)
-    endif
-endif
-
 DOCKER_COMPOSE_FILES = --file docker-compose.yml
 ifdef MONITOR
 DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
