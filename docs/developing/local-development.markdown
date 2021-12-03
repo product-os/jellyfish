@@ -2,27 +2,24 @@
 
 If you want to develop Jellyfish on your local machine, the pre-requisites are:
 
-- Redis (`brew install redis` on macOS)
-- PostgreSQL (`brew install postgresql` on macOS)
+- Docker
+- Docker Compose
 - Node.js
-- Python 2
 
 Install the dependencies:
 
 ```sh
-make npm-install
+$ npm i
 ```
 
 You can then run these commands in different terminal emulators, which will run
 all services in non-daemon mode:
 
 ```sh
-make start-postgres
-make start-redis
-make dev-ui
-make dev-livechat
-make start-server
-make start-worker # Run more than once for more workers
+$ npm run backend
+$ make dev-ui
+$ make dev-livechat
+$ make start-server
 ```
 
 The API will listen on `8000` and the UI will listen on `9000`. Open

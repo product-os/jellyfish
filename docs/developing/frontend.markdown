@@ -18,5 +18,5 @@ make build-ui test-e2e-ui VISUAL=1
 You can run the unit and end to end SDK tests as follows:
 
 ```sh
-make test-e2e-sdk
+npm run test:e2e:sdk
 ```

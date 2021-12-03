@@ -14,7 +14,11 @@
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && ./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh && deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*",
-    "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js"
+    "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
+    "backend": "docker-compose up redis postgres haproxy",
+    "docs": "(cd apps/livechat && npm run doc); (cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
+    "clean": "rimraf apps/*/packages/*",
+    "postinstall": "(cd apps/livechat && npm i); (cd apps/server && npm i); (cd apps/ui && npm i)"
   },
   "deplint": {
     "files": [
@@ -97,6 +101,7 @@
     "node-jose": "^2.0.0",
     "puppeteer": "^12.0.1",
     "request": "^2.88.2",
+    "rimraf": "^3.0.2",
     "shellcheck": "^1.0.0",
     "simple-git-hooks": "^2.7.0",
     "uuid": "^8.3.2"

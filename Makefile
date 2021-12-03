@@ -1,18 +1,11 @@
 .PHONY: node \
 	test \
-	docs \
 	build-ui \
 	build-livechat \
 	start-server \
-	start-worker \
-	start-redis \
-	start-postgres \
 	test-integration-server \
-	test-e2e \
 	scrub \
-	npm-install \
-	push \
-	exec-apps
+	push
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -164,7 +157,6 @@ SCRUB ?= 1
 export SCRUB
 FIX ?=
 CI ?=
-DETACH ?=
 export CI
 VISUAL ?=
 export VISUAL
@@ -204,11 +196,6 @@ DOCKER_COMPOSE_OPTIONS = \
 	$(DOCKER_COMPOSE_FILES) \
 	--project-name $(NAME) \
 	--compatibility
-ifeq ($(DETACH),1)
-DOCKER_COMPOSE_COMMAND_OPTIONS = --detach
-else
-DOCKER_COMPOSE_COMMAND_OPTIONS =
-endif
 
 ifeq ($(SCRUB),1)
 SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
@@ -233,9 +220,6 @@ endif
 # Rules
 # -----------------------------------------------
 
-npm-install:
-	npm install && CMD="npm install" make exec-apps
-
 .tmp:
 	mkdir -p $@
 
@@ -254,18 +238,12 @@ ARCHITECTURE.md: scripts/architecture-summary.sh \
 	docs/assets/architecture.png
 	./$< > $@
 
-postgres_data:
-	initdb --locale=en_US.UTF8 --pgdata $@
-
 scrub:
 	$(SCRUB_COMMAND)
 
 test: LOGLEVEL = warning
 test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(AVA_ARGS) $(FILES)
-
-test-e2e:
-	FILES="'./test/e2e/**/*.spec.{js,jsx}'" SCRUB=0 make test
 
 test-integration-server:
 	cd apps/server && make test-integration
@@ -284,16 +262,6 @@ start-server: LOGLEVEL = info
 start-server:
 	cd apps/server && make start-server
 
-start-redis:
-	exec redis-server --port $(REDIS_PORT)
-
-# You might need to increase the maximum amount of semaphores
-# system-wide in order to set the max connections parameters.
-# In OpenBSD, set kern.seminfo.semmns=200 in /etc/sysctl.conf
-# See https://www.postgresql.org/docs/11/kernel-resources.html
-start-postgres: postgres_data
-	exec postgres -N 100 -D $< -p $(POSTGRES_PORT)
-
 # -----------------------------------------------
 # Build
 # -----------------------------------------------
@@ -311,14 +279,13 @@ build-livechat:
 # -----------------------------------------------
 
 compose-%: docker-compose.yml
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@) \
-		$(DOCKER_COMPOSE_COMMAND_OPTIONS)
+	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@)
 
 dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
 
 push:
-	CMD="rm -f ./packages/*" make exec-apps
+	npm run clean
 	balena push jel.ly.fish.local $(NOCACHE_FLAG) \
 		--env INTEGRATION_DEFAULT_USER=$(INTEGRATION_DEFAULT_USER) \
 		--env INTEGRATION_GOOGLE_MEET_CREDENTIALS=$(INTEGRATION_GOOGLE_MEET_CREDENTIALS) \
@@ -355,10 +322,3 @@ push:
 
 deploy-%:
 	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
-
-# Execute a command under each app directory
-exec-apps:
-	for app in $(shell find $(MAKEFILE_DIR)/apps -maxdepth 1 -mindepth 1 -type d | sort -g); do cd $$app && echo - $$app: && $(CMD); done
-
-docs:
-	CMD="npm run doc" make exec-apps
