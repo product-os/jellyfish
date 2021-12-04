@@ -1,4 +1,17 @@
 - commits:
+    - subject: Clean up root Makefile some more
+      hash: 3b552f13d7b8af4c2d730cdfffaf504f551f23d8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.8
+  date: 2021-12-04T02:43:58.808Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 2303e36b12651b7e0b11f039fbca3b571e8a812d
       body: ''
