@@ -15,9 +15,6 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Runtime Configuration
 # -----------------------------------------------
 
-DATABASE ?= postgres
-export DATABASE
-
 # The default postgres user is your local user
 POSTGRES_USER ?= $(shell whoami)
 export POSTGRES_USER
