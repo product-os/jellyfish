@@ -15,9 +15,6 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Runtime Configuration
 # -----------------------------------------------
 
-# Project name
-NAME ?= jellyfish
-
 DATABASE ?= postgres
 export DATABASE
 
@@ -155,7 +152,7 @@ endif
 
 DOCKER_COMPOSE_OPTIONS = \
 	$(DOCKER_COMPOSE_FILES) \
-	--project-name $(NAME) \
+	--project-name jellyfish \
 	--compatibility
 
 ifeq ($(SCRUB),1)
