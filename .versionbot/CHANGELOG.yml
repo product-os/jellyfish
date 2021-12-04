@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove DB_CERT from Makefile
+      hash: b6f91176cb08f5e991b602fcc0f7ec9f916fe066
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.9
+  date: 2021-12-04T13:58:45.642Z
+- commits:
     - subject: Clean up root Makefile some more
       hash: 3b552f13d7b8af4c2d730cdfffaf504f551f23d8
       body: ''
