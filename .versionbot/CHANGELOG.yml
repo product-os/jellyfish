@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop POD_NAME from Makefile
+      hash: a61ed99bfc19136e7affdc1400ead80e844cc531
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.14
+  date: 2021-12-04T23:26:26.511Z
+- commits:
     - subject: 'patch: Update external-non-major'
       hash: ee841dbe4aa05b54c4e1359a6963d7910413b6ad
       body: ''
