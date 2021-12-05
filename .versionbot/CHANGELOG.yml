@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: cfb4443c358b363c0dcdd829bfed6616e99510c2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.25
+  date: 2021-12-05T12:25:01.530Z
+- commits:
     - subject: Drop mailgun vars from Makefile and compose configs
       hash: 032b3b9d7b8d3cd173a2e7d9b00ebc139e7925e3
       body: ''
