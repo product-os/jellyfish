@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency ts-jest to ^27.1.0'
+      hash: b1f2991cbee3379a682a180c398d644811963745
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.23
+  date: 2021-12-05T09:40:58.078Z
+- commits:
     - subject: Enable failFast in ava options
       hash: 122702d3b6bc9130b2290b58106e7a131c01a0af
       body: ''
