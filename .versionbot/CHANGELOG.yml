@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop remaining TEST vars from Makefile
+      hash: 2d51c88016a65421ccafc786e742359c7936c693
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.16
+  date: 2021-12-05T03:07:18.772Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 9088e5cd6ee63d45699dba53f79dbfdc4ecd9c5e
       body: ''
