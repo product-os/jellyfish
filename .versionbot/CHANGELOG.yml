@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop mailgun vars from Makefile and compose configs
+      hash: 032b3b9d7b8d3cd173a2e7d9b00ebc139e7925e3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.24
+  date: 2021-12-05T10:26:17.471Z
+- commits:
     - subject: 'patch: Update dependency ts-jest to ^27.1.0'
       hash: b1f2991cbee3379a682a180c398d644811963745
       body: ''
