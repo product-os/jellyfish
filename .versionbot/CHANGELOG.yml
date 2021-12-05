@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 3919f9c809248034e1a82fa617ac83ee72ec1752
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.18
+  date: 2021-12-05T04:43:44.975Z
+- commits:
     - subject: More Makefile cleanup
       hash: fdb3f24aea4a448fdc0647d5c1675520cc5ffeb1
       body: ''
