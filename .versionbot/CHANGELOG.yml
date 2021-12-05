@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 9088e5cd6ee63d45699dba53f79dbfdc4ecd9c5e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.15
+  date: 2021-12-05T00:49:33.328Z
+- commits:
     - subject: Drop POD_NAME from Makefile
       hash: a61ed99bfc19136e7affdc1400ead80e844cc531
       body: ''
