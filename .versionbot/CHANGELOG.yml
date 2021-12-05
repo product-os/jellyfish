@@ -1,4 +1,17 @@
 - commits:
+    - subject: Enable failFast in ava options
+      hash: 122702d3b6bc9130b2290b58106e7a131c01a0af
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.22
+  date: 2021-12-05T08:51:50.138Z
+- commits:
     - subject: Drop logentries from Makefile and compose
       hash: cbfeafbd6f741e7bc1cef1b8d404a0c1c5c89768
       body: ''
