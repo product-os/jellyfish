@@ -60,8 +60,10 @@ tasks:
       - npm run test:e2e:sdk
 
   e2e-livechat:
+    env:
+      LOGLEVEL: warning
     cmds:
-      - make test-e2e-livechat
+      - npm run test:e2e:livechat
 
   e2e-ui:
     cmds:

@@ -15,6 +15,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && ./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh && deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*",
     "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
+    "test:e2e:livechat": "ava ./test/e2e/livechat/**/*.spec.js",
     "postgres": "docker run -i --rm -p5432:5432 balena/open-balena-db:4.1.0",
     "redis": "docker run -i --rm -p6379:6379 balena/balena-redis:0.0.3 sh -c \"redis-server /usr/local/etc/redis/redis.conf --save ''\"",
     "docs": "(cd apps/livechat && npm run doc); (cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
