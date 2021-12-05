@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop logentries from Makefile and compose
+      hash: cbfeafbd6f741e7bc1cef1b8d404a0c1c5c89768
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.21
+  date: 2021-12-05T07:53:49.308Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 7d97ab9cc2336011360cba786eb8896972a96e60
       body: ''
