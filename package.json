@@ -35,6 +35,7 @@
     "verbose": true,
     "serial": true,
     "failWithoutAssertions": true,
+    "failFast": true,
     "files": [
       "test/**/*.spec.js"
     ]

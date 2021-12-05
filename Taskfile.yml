@@ -3,7 +3,6 @@ version: '3'
 output: 'prefixed'
 
 env:
-  AVA_OPTS: --fail-fast
   NODE_ENV: production
 
 tasks:
