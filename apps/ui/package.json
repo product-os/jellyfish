@@ -20,10 +20,10 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@balena/jellyfish-chat-widget": "^12.5.57",
+    "@balena/jellyfish-chat-widget": "^12.5.62",
     "@balena/jellyfish-client-sdk": "^7.0.22",
     "@balena/jellyfish-environment": "^5.2.1",
-    "@balena/jellyfish-ui-components": "^13.0.35",
+    "@balena/jellyfish-ui-components": "^13.0.39",
     "analytics-client": "^1.7.0",
     "assert": "^2.0.0",
     "bluebird": "^3.7.2",
