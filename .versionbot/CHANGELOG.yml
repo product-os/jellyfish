@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 7d97ab9cc2336011360cba786eb8896972a96e60
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.0.20
+  date: 2021-12-05T06:14:25.751Z
+- commits:
     - subject: Remove default user var from Makefile
       hash: 1b9eac1f1f77cbcbb42d6d3229eed9460bb79fc0
       body: ''
