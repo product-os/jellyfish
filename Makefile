@@ -74,8 +74,6 @@ AWS_SECRET_ACCESS_KEY ?=
 export AWS_SECRET_ACCESS_KEY
 AWS_S3_BUCKET_NAME ?=
 export AWS_S3_BUCKET_NAME
-MAILGUN_TOKEN ?=
-export MAILGUN_TOKEN
 
 # -----------------------------------------------
 # Build Configuration
