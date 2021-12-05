@@ -96,18 +96,6 @@ AWS_S3_BUCKET_NAME ?=
 export AWS_S3_BUCKET_NAME
 INTEGRATION_DEFAULT_USER ?= admin
 export INTEGRATION_DEFAULT_USER
-
-# Automatically created user
-# when not running in production
-TEST_USER_USERNAME ?= jellyfish
-export TEST_USER_USERNAME
-TEST_USER_PASSWORD ?= jellyfish
-export TEST_USER_PASSWORD
-TEST_USER_ROLE ?= user-test
-export TEST_USER_ROLE
-TEST_USER_ORGANIZATION ?= balena
-export TEST_USER_ORGANIZATION
-
 MAILGUN_TOKEN ?=
 export MAILGUN_TOKEN
 
