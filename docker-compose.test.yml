@@ -13,12 +13,10 @@ services:
       - ui
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
       - LOGLEVEL=crit
       - LIVECHAT_HOST=http://livechat
       - LIVECHAT_PORT=80
       - NODE_ENV
-      - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
       - POSTGRES_USER=docker

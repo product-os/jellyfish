@@ -55,10 +55,8 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
       - LOGLEVEL=crit
       - NODE_ENV
-      - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
       - POSTGRES_PORT=5432
@@ -67,8 +65,6 @@ services:
       - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - LOGENTRIES_REGION
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
       - AWS_S3_BUCKET_NAME
@@ -124,10 +120,8 @@ services:
       - redis
       - balena-mdns-publisher
     environment:
-      - DATABASE=postgres
       - LOGLEVEL=crit
       - NODE_ENV
-      - POSTGRES_DATABASE=jellyfish
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
       - POSTGRES_PORT=5432
@@ -136,8 +130,6 @@ services:
       - REDIS_PASSWORD=
       - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
-      - LOGENTRIES_TOKEN
-      - LOGENTRIES_REGION
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
       - AWS_S3_BUCKET_NAME
