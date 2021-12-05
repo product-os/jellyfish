@@ -15,27 +15,15 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Runtime Configuration
 # -----------------------------------------------
 
-# The default postgres user is your local user
-POSTGRES_USER ?= $(shell whoami)
-export POSTGRES_USER
-POSTGRES_PASSWORD ?=
-export POSTGRES_PASSWORD
-POSTGRES_PORT ?= 5432
-export POSTGRES_PORT
-POSTGRES_HOST ?= localhost
-export POSTGRES_HOST
-
 # silence graphile-worker logs
 NO_LOG_SUCCESS = 1
 export NO_LOG_SUCCESS
 
-PORT ?= 8000
-export PORT
 LOGLEVEL ?= info
 export LOGLEVEL
 SERVER_HOST ?= http://localhost
 export SERVER_HOST
-SERVER_PORT ?= $(PORT)
+SERVER_PORT ?= 8000
 export SERVER_PORT
 METRICS_PORT ?= 9000
 export METRICS_PORT
@@ -53,20 +41,10 @@ LIVECHAT_PORT ?= 9100
 export LIVECHAT_PORT
 LOGENTRIES_TOKEN ?=
 export LOGENTRIES_TOKEN
-LOGENTRIES_REGION ?=
-export LOGENTRIES_REGION
 SENTRY_DSN_SERVER ?=
 export SENTRY_DSN_SERVER
 NODE_ENV ?= test
 export NODE_ENV
-REDIS_NAMESPACE ?= $(SERVER_DATABASE)
-export REDIS_NAMESPACE
-REDIS_PASSWORD ?=
-export REDIS_PASSWORD
-REDIS_PORT ?= 6379
-export REDIS_PORT
-REDIS_HOST ?= localhost
-export REDIS_HOST
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
 export OAUTH_REDIRECT_BASE_URL
 HTTP_WORKER_PORT ?= 8002
