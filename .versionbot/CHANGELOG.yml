@@ -1,4 +1,17 @@
 - commits:
+    - subject: More Makefile cleanup
+      hash: fdb3f24aea4a448fdc0647d5c1675520cc5ffeb1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.17
+  date: 2021-12-05T03:54:18.487Z
+- commits:
     - subject: Drop remaining TEST vars from Makefile
       hash: 2d51c88016a65421ccafc786e742359c7936c693
       body: ''
