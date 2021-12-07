@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop INTEGRATION_DEFAULT_USER env var
+      hash: 6d1dce16baf10150ebb22c95f7c4df8e9979b629
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.34
+  date: 2021-12-07T08:25:55.140Z
+- commits:
     - subject: Drop more env vars from docker-compose.test.yml
       hash: fde957afc6c9982b7ed40fe707d70b554f85cef8
       body: ''
