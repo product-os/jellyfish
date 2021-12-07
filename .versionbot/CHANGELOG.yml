@@ -1,4 +1,17 @@
 - commits:
+    - subject: More Makefile and compose test config cleanup
+      hash: 7064887874f9902c5acc6b85f5e0bd89566b40d7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.30
+  date: 2021-12-07T01:35:08.941Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 0a83bc52d6ad514eb3bb422c1df0188337e768fd
       body: ''
