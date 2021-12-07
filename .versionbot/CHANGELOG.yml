@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove Discourse vars from docker-compose.test.yml
+      hash: f4a249677b6bfd2f41db05f6e110f025d89c6405
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.31
+  date: 2021-12-07T03:39:32.925Z
+- commits:
     - subject: More Makefile and compose test config cleanup
       hash: 7064887874f9902c5acc6b85f5e0bd89566b40d7
       body: ''
