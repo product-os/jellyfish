@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop more env vars from docker-compose.test.yml
+      hash: fde957afc6c9982b7ed40fe707d70b554f85cef8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.33
+  date: 2021-12-07T06:36:54.620Z
+- commits:
     - subject: Remove more vars from docker-compose.test.yml
       hash: 625863f71fb999b3495951cae6608d78423ff963
       body: ''
