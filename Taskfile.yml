@@ -8,8 +8,11 @@ env:
 tasks:
   catch-uncommitted:
     cmds:
-      - make docs/assets/architecture.png ARCHITECTURE.md docker-compose.yml
-      - npx catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/
+      - npm run docs:diagram
+      - npm run docs:summary
+      - npm run config:haproxy
+      - npm run config:compose
+      - npm run lint:catch
 
   lint-server:
     dir: apps/server

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const mustache = require('mustache')
 const fs = require('fs')
 const TEMPLATE = process.argv[2]

@@ -40,7 +40,7 @@
 	"redis": {
 		"backend": [
 			{
-				"url": "tcp://redis:{{REDIS_PORT}}",
+				"url": "tcp://redis:6379",
 				"server": {
 					"resolvers": "docker-bridge-resolver",
 					"resolve-prefer": "ipv4",
@@ -54,14 +54,14 @@
 				"protocol": "tcp",
 				"domain": "ly.fish.local",
 				"subdomain": "redis",
-				"port": "{{REDIS_PORT}}"
+				"port": "6379"
 			}
 		]
 	},
 	"postgres": {
 		"backend": [
 			{
-				"url": "tcp://postgres:{{POSTGRES_PORT}}",
+				"url": "tcp://postgres:5432",
 				"server": {
 					"resolvers": "docker-bridge-resolver",
 					"resolve-prefer": "ipv4",
@@ -75,7 +75,7 @@
 				"protocol": "tcp",
 				"domain": "ly.fish.local",
 				"subdomain": "postgres",
-				"port": "{{POSTGRES_PORT}}"
+				"port": "5432"
 			}
 		]
 	},

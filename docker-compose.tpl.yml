@@ -60,11 +60,11 @@ services:
       - NODE_ENV
       - POSTGRES_HOST=postgres
       - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT={{POSTGRES_PORT}}
+      - POSTGRES_PORT=5432
       - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=
-      - REDIS_PORT={{REDIS_PORT}}
+      - REDIS_PORT=6379
       - SENTRY_DSN_SERVER
       - FS_DRIVER
       - AWS_ACCESS_KEY_ID
@@ -148,8 +148,8 @@ services:
       - balena-mdns-publisher
     ports:
       - '80:80'
-      - '{{POSTGRES_PORT}}:{{POSTGRES_PORT}}'
-      - '{{REDIS_PORT}}:{{REDIS_PORT}}'
+      - '5432:5432'
+      - '6379:6379'
     networks:
       internal:
         aliases:
