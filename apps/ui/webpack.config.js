@@ -7,6 +7,7 @@ const WorkboxPlugin = require('workbox-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin')
 
 const root = __dirname
 const resourcesRoot = path.resolve(__dirname, 'lib')
@@ -117,31 +118,33 @@ const config = {
 				// So that it matches git tags
 				VERSION: JSON.stringify(`v${packageJSON.version}`)
 			}
-		})
+		}),
+
+		new NodePolyfillPlugin()
 	],
 	devServer: {
-		contentBase: outDir,
+		static: {
+			directory: outDir
+		},
 		host: '0.0.0.0',
 		port: process.env.UI_PORT,
 		compress: true,
+		allowedHosts: 'all',
 		historyApiFallback: {
 			disableDotRule: true
 		},
-		disableHostCheck: true,
-		publicPath: '/',
-		watchOptions: {
-			ignored: /node_modules\/(?!(\/@balena\/jellyfish-(ui-components|chat-widget|client-sdk|environment))\/|rendition\/).*/
-		}
-	},
-	node: {
-		fs: 'empty'
-	}
-}
-
-if (process.env.NODE_ENV === 'production') {
-	config.mode = 'production'
-	config.optimization = {
-		minimize: true
+		hot: false,
+		liveReload: true,
+		watchFiles: [
+			'ui-components',
+			'chat-widget',
+			'client-sdk',
+			'environment'
+		].map((name) => {
+			return `@balena/jellyfish-${name}`
+		}).concat('rendition').map((name) => {
+			return `/node_modules/${name}/**/*`
+		}).concat('lib/**/*')
 	}
 }
 

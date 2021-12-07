@@ -28,7 +28,7 @@ import {
 	Redirect,
 	Switch,
 } from 'react-router-dom';
-import { name } from './manifest.json';
+import manifestJSON from './manifest.json';
 import { isProduction } from './environment';
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
@@ -125,7 +125,7 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 					height: '100%',
 				}}
 			>
-				<PageTitle siteName={name} />
+				<PageTitle siteName={manifestJSON.name} />
 				<HomeChannel channel={home} />
 
 				<Switch>
