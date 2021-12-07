@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove more vars from docker-compose.test.yml
+      hash: 625863f71fb999b3495951cae6608d78423ff963
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.0.32
+  date: 2021-12-07T05:32:03.684Z
+- commits:
     - subject: Remove Discourse vars from docker-compose.test.yml
       hash: f4a249677b6bfd2f41db05f6e110f025d89c6405
       body: ''
