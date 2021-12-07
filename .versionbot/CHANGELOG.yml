@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 05c1b86f484413946691da5cd46034377d61efa6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.1.1
+  date: 2021-12-07T17:03:33.072Z
+- commits:
     - subject: Upgrade to webpack 5
       hash: 7d14ae29984ca6ef804cfdf144c46fb08eea818d
       body: ''
