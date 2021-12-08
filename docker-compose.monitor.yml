@@ -13,8 +13,8 @@ services:
       - internal
   grafana:
     build:
-      context: .
-      dockerfile: grafana/Dockerfile
+      context: ./grafana
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     restart: always
