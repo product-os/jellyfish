@@ -24,8 +24,6 @@ RUN npm run build
 # Production debugging scripts
 COPY ./scripts/production /usr/src/jellyfish/scripts/production
 
-ENV OAUTH_REDIRECT_BASE_URL https://jel.ly.fish
-
 RUN echo "#!/bin/sh" > run.sh && \
 	make --dry-run start-server >> run.sh && \
 	chmod +x run.sh && cat run.sh

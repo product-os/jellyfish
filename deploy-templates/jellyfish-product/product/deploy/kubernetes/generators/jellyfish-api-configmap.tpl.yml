@@ -13,6 +13,7 @@ data:
   TEST_USER_ROLE: "user-community"
   UV_THREADPOOL_SIZE: "128"
   QUEUE_CONCURRENCY: "4"
+  OAUTH_REDIRECT_BASE_URL: "https://jel.ly.fish"
 kind: ConfigMap
 metadata:
   labels:

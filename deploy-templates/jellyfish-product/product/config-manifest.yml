@@ -114,3 +114,5 @@ properties:
     type: number
   HTTP_TICK_PORT:
     type: number
+  OAUTH_REDIRECT_BASE_URL:
+    type: string?
