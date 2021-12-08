@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: cf47a44dd0fa73c638545914f7694127103fbffc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.1.8
+  date: 2021-12-08T12:30:27.756Z
+- commits:
     - subject: Fix compose Grafana setup
       hash: deab4af09ec1611d886bdeac46608d082653affc
       body: ''
