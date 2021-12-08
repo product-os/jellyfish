@@ -30,7 +30,8 @@
     "config:compose": "HAPROXY_CONFIG=$(cat .tmp/haproxy.manifest.json | base64 | tr -d '\\n') ./scripts/template.js docker-compose.tpl.yml > docker-compose.yml",
     "compose:build": "docker-compose --file docker-compose.yml build",
     "compose:up": "docker-compose --file docker-compose.yml up",
-    "compose:test": "docker-compose --file docker-compose.yml --file docker-compose.test.yml up"
+    "compose:test": "docker-compose --file docker-compose.yml --file docker-compose.test.yml up",
+    "compose:monitor": "docker-compose --file docker-compose.yml --file docker-compose.monitor.yml up"
   },
   "deplint": {
     "files": [
