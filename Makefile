@@ -126,24 +126,6 @@ SENTRY_DSN_UI ?=
 # Rules
 # -----------------------------------------------
 
-.tmp:
-	mkdir -p $@
-
-.tmp/haproxy.manifest.json: haproxy.manifest.tpl.json | .tmp
-	node scripts/template $< > $@
-
-docker-compose.yml: docker-compose.tpl.yml .tmp/haproxy.manifest.json | .tmp
-	HAPROXY_CONFIG=$(shell cat $(word 2,$^) | base64 | tr -d '\n') \
-		node scripts/template $< > $@
-
-docs/assets/architecture.png: docs/diagrams/architecture.mmd
-	./node_modules/.bin/mmdc -i $< -o $@ -w 2560 -H 1600
-
-ARCHITECTURE.md: scripts/architecture-summary.sh \
-	apps/*/DESCRIPTION.markdown \
-	docs/assets/architecture.png
-	./$< > $@
-
 scrub:
 	$(SCRUB_COMMAND)
 
