@@ -82,7 +82,7 @@
     "@balena/jellyfish-queue": "^1.0.380",
     "@balena/jellyfish-sync": "^6.1.126",
     "@balena/jellyfish-ui-components": "^13.1.1",
-    "@balena/jellyfish-worker": "^10.0.147",
+    "@balena/jellyfish-worker": "10.1.0-remove-bluebird-4d061189301d0e822a6f73c684bfc1dd93224da9",
     "@balena/lint": "^6.2.0",
     "@octokit/plugin-retry": "^3.0.9",
     "@octokit/plugin-throttling": "^3.5.2",
