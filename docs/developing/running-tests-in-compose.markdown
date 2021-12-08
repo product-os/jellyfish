@@ -3,10 +3,10 @@
 This document outlines how developers can run CI tests/tasks in a local `docker-compose` cluster.
 This method closely emulates how tests/tasks are executed in balenaCI and may help tests that may be passing "natively", but are failing/flaky in balenaCI.
 
-Next, run a couple `make` commands to build images and start the cluster:
+Next, run the following to build and start the cluster:
 ```sh
-$ SUT=1 make compose-build
-$ SUT=1 make compose-up
+$ npm run compose:build
+$ npm run compose:test
 ```
 
 All tests and tasks executed in CI are defined in `Taskfile.yml` and are executed with [task](https://github.com/go-task/task).
