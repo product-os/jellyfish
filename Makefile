@@ -101,19 +101,6 @@ else
 NOCACHE_FLAG =
 endif
 
-DOCKER_COMPOSE_FILES = --file docker-compose.yml
-ifdef MONITOR
-DOCKER_COMPOSE_FILES += --file docker-compose.monitor.yml
-endif
-ifdef SUT
-DOCKER_COMPOSE_FILES += --file docker-compose.test.yml
-endif
-
-DOCKER_COMPOSE_OPTIONS = \
-	$(DOCKER_COMPOSE_FILES) \
-	--project-name jellyfish \
-	--compatibility
-
 ifeq ($(SCRUB),1)
 SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
 else
@@ -165,9 +152,6 @@ build-livechat:
 # -----------------------------------------------
 # Development
 # -----------------------------------------------
-
-compose-%: docker-compose.yml
-	docker-compose $(DOCKER_COMPOSE_OPTIONS) $(subst compose-,,$@)
 
 dev-%:
 	cd apps/$(subst dev-,,$@) && SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make dev-$(subst dev-,,$@)
