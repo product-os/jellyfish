@@ -27,7 +27,10 @@
     "clean": "rimraf apps/*/packages/*",
     "postinstall": "(cd apps/livechat && npm i); (cd apps/server && npm i); (cd apps/ui && npm i)",
     "config:haproxy": "mkdir -p .tmp && ./scripts/template.js haproxy.manifest.tpl.json > .tmp/haproxy.manifest.json",
-    "config:compose": "HAPROXY_CONFIG=$(cat .tmp/haproxy.manifest.json | base64 | tr -d '\\n') ./scripts/template.js docker-compose.tpl.yml > docker-compose.yml"
+    "config:compose": "HAPROXY_CONFIG=$(cat .tmp/haproxy.manifest.json | base64 | tr -d '\\n') ./scripts/template.js docker-compose.tpl.yml > docker-compose.yml",
+    "compose:build": "docker-compose --file docker-compose.yml build",
+    "compose:up": "docker-compose --file docker-compose.yml up",
+    "compose:test": "docker-compose --file docker-compose.yml --file docker-compose.test.yml up"
   },
   "deplint": {
     "files": [
