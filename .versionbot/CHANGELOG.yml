@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-worker to v10.1.0
+      hash: d1b8b107519427f4a4271d1bbd6b78ebde80d5a0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.4
+  date: 2021-12-08T04:19:28.935Z
+- commits:
     - subject: Move make compose commands
       hash: a81ecbea2b1fd6a5f98578f52f3f7fbd629304c4
       body: ''
