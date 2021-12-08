@@ -2,8 +2,6 @@
 	test \
 	build-ui \
 	build-livechat \
-	start-server \
-	test-integration-server \
 	scrub \
 	push
 
@@ -120,22 +118,11 @@ test: LOGLEVEL = warning
 test: scrub
 	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(FILES)
 
-test-integration-server:
-	cd apps/server && make test-integration
-
 test-e2e-%:
 	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
 
 node:
 	node $(NODE_DEBUG_ARGS) $(FILE)
-
-# -----------------------------------------------
-# Entry Points
-# -----------------------------------------------
-
-start-server: LOGLEVEL = info
-start-server:
-	cd apps/server && make start-server
 
 # -----------------------------------------------
 # Build

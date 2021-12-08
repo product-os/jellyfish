@@ -20,7 +20,7 @@ $ npm run postgres
 $ npm run redis
 $ make dev-ui
 $ make dev-livechat
-$ make start-server
+$ cd apps/server && SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev
 ```
 
 The API will listen on `8000` and the UI will listen on `9000`. Open
