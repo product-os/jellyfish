@@ -40,7 +40,7 @@
     "@balena/jellyfish-plugin-typeform": "^3.0.410",
     "@balena/jellyfish-queue": "^1.0.380",
     "@balena/jellyfish-sync": "^6.1.126",
-    "@balena/jellyfish-worker": "^10.0.147",
+    "@balena/jellyfish-worker": "^10.1.0",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "aws-sdk": "^2.1043.0",
     "bluebird": "^3.7.2",
