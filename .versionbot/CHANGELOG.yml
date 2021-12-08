@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move generation make commands to npm scripts
+      hash: 913444690794be38d8b2eb525744fac35333df8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.2
+  date: 2021-12-08T00:38:06.507Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 05c1b86f484413946691da5cd46034377d61efa6
       body: ''
