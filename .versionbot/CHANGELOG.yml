@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix Grafana dashboard definition
+      hash: 20c17215c77a340451742b410bff67ed0c1ccdd0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.6
+  date: 2021-12-08T05:48:43.606Z
+- commits:
     - subject: Fix grafana service and configs
       hash: 558603dce3947e734035e0fb801419a798ed7498
       body: ''
