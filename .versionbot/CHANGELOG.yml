@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix compose Grafana setup
+      hash: deab4af09ec1611d886bdeac46608d082653affc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.7
+  date: 2021-12-08T07:05:48.446Z
+- commits:
     - subject: Fix Grafana dashboard definition
       hash: 20c17215c77a340451742b410bff67ed0c1ccdd0
       body: ''
