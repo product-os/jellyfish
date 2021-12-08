@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix grafana service and configs
+      hash: 558603dce3947e734035e0fb801419a798ed7498
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 'Add compose:monitor script, update docs'
+      hash: 07fd685aedb7685e9ef8a06137f29fa2ea054ce7
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.5
+  date: 2021-12-08T05:05:18.991Z
+- commits:
     - subject: Bump jellyfish-worker to v10.1.0
       hash: d1b8b107519427f4a4271d1bbd6b78ebde80d5a0
       body: ''
