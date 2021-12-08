@@ -1,4 +1,17 @@
 - commits:
+    - subject: Move make compose commands
+      hash: a81ecbea2b1fd6a5f98578f52f3f7fbd629304c4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.3
+  date: 2021-12-08T03:35:11.961Z
+- commits:
     - subject: Move generation make commands to npm scripts
       hash: 913444690794be38d8b2eb525744fac35333df8c
       body: ''
