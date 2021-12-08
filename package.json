@@ -71,7 +71,7 @@
     "@balena/jellyfish-client-sdk": "^7.0.23",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^8.1.44",
-    "@balena/jellyfish-environment": "^5.2.2",
+    "@balena/jellyfish-environment": "6.0.0-joshbwlng-drop-test-group-b7b2b23b0e3ed33f27084eaa90e1d0816aa9be2b",
     "@balena/jellyfish-plugin-balena-api": "^1.0.195",
     "@balena/jellyfish-plugin-base": "^2.1.320",
     "@balena/jellyfish-plugin-channels": "^1.1.400",

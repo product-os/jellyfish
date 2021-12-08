@@ -24,7 +24,7 @@
     "@balena/jellyfish-action-library": "^15.1.185",
     "@balena/jellyfish-assert": "^1.1.101",
     "@balena/jellyfish-core": "^8.1.44",
-    "@balena/jellyfish-environment": "^5.2.2",
+    "@balena/jellyfish-environment": "6.0.0-joshbwlng-drop-test-group-b7b2b23b0e3ed33f27084eaa90e1d0816aa9be2b",
     "@balena/jellyfish-logger": "^3.0.163",
     "@balena/jellyfish-metrics": "^1.0.430",
     "@balena/jellyfish-plugin-balena-api": "^1.0.195",
