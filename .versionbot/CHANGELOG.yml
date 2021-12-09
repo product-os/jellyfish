@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove apps/server Makefile
+      hash: a68e69a0ee66be923fe220b12e557ade199b3be4
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.13
+  date: 2021-12-09T02:59:16.979Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 7601b756e8c6c24e35aa63e93ebe8a27edd278b0
       body: ''
