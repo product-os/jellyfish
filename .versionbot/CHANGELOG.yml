@@ -1,5 +1,18 @@
 - commits:
     - subject: Remove more vars from test compose config
+      hash: dc9688bd634f99d377d93bde62c1afaa28c19bd8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.1.15
+  date: 2021-12-09T06:10:34.553Z
+- commits:
+    - subject: Remove more vars from test compose config
       hash: e6dcce3a3513ce2d587d77d775c25f255c220b0e
       body: ''
       footer:
