@@ -79,8 +79,9 @@ tasks:
     deps: [e2e-sdk, e2e-livechat, e2e-server]
 
   integration-server:
+    dir: apps/server
     cmds:
-      - SERVER_HOST=http://localhost make test-integration-server
+      - npm run test:integration
 
   export-database:
     cmds:

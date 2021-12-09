@@ -7,7 +7,6 @@ COPY ./apps/server/package-lock.json /usr/src/jellyfish/apps/server/package-lock
 RUN npm ci
 
 COPY ./package.json /usr/src/jellyfish/package.json
-COPY ./apps/server/Makefile /usr/src/jellyfish/apps/server/Makefile
 COPY ./apps/server/tsconfig.json /usr/src/jellyfish/apps/server/tsconfig.json
 COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.build.json
 
@@ -16,7 +15,7 @@ COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.b
 #dev-copy=./apps/server/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npx nodemon --inspect=0.0.0.0 ./lib/index.ts
+#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npm run dev
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/@balena/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 RUN npm run build
@@ -24,7 +23,4 @@ RUN npm run build
 # Production debugging scripts
 COPY ./scripts/production /usr/src/jellyfish/scripts/production
 
-RUN echo "#!/bin/sh" > run.sh && \
-	make --dry-run start-server >> run.sh && \
-	chmod +x run.sh && cat run.sh
-CMD [ "sh", "run.sh" ]
+CMD [ "npm", "start" ]

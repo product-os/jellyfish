@@ -15,10 +15,12 @@
     "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test:unit": "jest ./test/unit/.*.spec.ts$",
-    "test:integration": "jest --runInBand --testTimeout=120000 --forceExit ./test/integration/.*.spec.ts$",
+    "test:integration": "CI=1 SERVER_HOST=http://localhost jest --runInBand --testTimeout=120000 --forceExit ./test/integration/.*.spec.ts$",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit && npm run test:integration",
     "doc": "typedoc lib/",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "start": "node --abort-on-uncaught-exception --stack-trace-limit=100 build/index.js",
+    "dev": "nodemon --inspect=0.0.0.0 ./lib/index.ts"
   },
   "dependencies": {
     "@balena/jellyfish-action-library": "^15.1.185",
