@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 1335c77c834be87ba9566b529b94042494547037
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.1.11
+  date: 2021-12-09T01:36:08.413Z
+- commits:
     - subject: Remove OAuth redirect ENV from Dockerfile
       hash: e4a97eadee291af1ff1891dff237dba08a34efcc
       body: ''
