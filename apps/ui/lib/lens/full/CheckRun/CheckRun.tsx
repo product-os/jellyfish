@@ -65,6 +65,8 @@ const makeGraph = (baseContract: Contract) => {
 };
 
 export default class SingleCardFull extends React.Component<any, any> {
+	interval: NodeJS.Timeout | null = null;
+
 	constructor(props) {
 		super(props);
 
@@ -97,7 +99,19 @@ export default class SingleCardFull extends React.Component<any, any> {
 	}
 
 	componentDidMount() {
-		this.loadTransformerData();
+		this.interval = setInterval(async () => {
+			try {
+				await this.loadTransformerData();
+			} catch (error) {
+				console.error(error);
+			}
+		}, 5000);
+	}
+
+	componentWillUnmount() {
+		if (this.interval) {
+			clearInterval(this.interval);
+		}
 	}
 
 	// Loads the commit contract attached to this check run and then recursively loads all
