@@ -1,4 +1,18 @@
 - commits:
+    - subject: 'CheckRun: Poll for updates to build graph'
+      hash: 051919fa59f46b026684a04eee187a2ac14b610d
+      body: |
+        Polls the API every 5 seconds for update to the check run build graph.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 42.2.0
+  date: 2021-12-09T08:13:33.276Z
+- commits:
     - subject: Remove more vars from test compose config
       hash: 6f27a17f0bb4803227f2308e14e078162814ce84
       body: ''
