@@ -10,8 +10,6 @@ tasks:
     cmds:
       - npm run docs:diagram
       - npm run docs:summary
-      - npm run config:haproxy
-      - npm run config:compose
       - npm run lint:catch
 
   lint-server:
