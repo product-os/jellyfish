@@ -16,8 +16,7 @@ You can then run these commands in different terminal emulators, which will run
 all services in non-daemon mode:
 
 ```sh
-$ npm run postgres
-$ npm run redis
+$ npm run compose:database
 $ make dev-ui
 $ make dev-livechat
 $ cd apps/server && SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev
