@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 3445de017e7b1c6f29ed7bed0d66a8cb6752600e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.1
+  date: 2021-12-09T13:24:25.199Z
+- commits:
     - subject: 'CheckRun: Poll for updates to build graph'
       hash: 051919fa59f46b026684a04eee187a2ac14b610d
       body: |
