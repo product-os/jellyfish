@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update non-major-frontend'
+      hash: 706a0e0fff96c61193b29cc500d5c846c7c018a0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.5
+  date: 2021-12-10T05:29:00.035Z
+- commits:
     - subject: Migrate last test commands to npm scripts
       hash: 289b90fe1eca7a6b2bce66da7774edcfefef0a6b
       body: ''
