@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove more vars from root Makefile
+      hash: a9a80fb092ee836bbee3aae4c9a0810fa9c319e0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.8
+  date: 2021-12-10T09:54:38.283Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: de6c7b699e9ac8c7893462ebb5fe910092ba699a
       body: ''
