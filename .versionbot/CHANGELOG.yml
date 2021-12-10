@@ -1,4 +1,17 @@
 - commits:
+    - subject: Migrate last test commands to npm scripts
+      hash: 289b90fe1eca7a6b2bce66da7774edcfefef0a6b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.4
+  date: 2021-12-10T04:02:40.058Z
+- commits:
     - subject: Remove more vars from test compose config
       hash: 0f7c3be4e9c5950abb5feda6e2489d0805509400
       body: ''
