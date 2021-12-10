@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove more vars from test compose config
+      hash: 0f7c3be4e9c5950abb5feda6e2489d0805509400
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.3
+  date: 2021-12-10T02:02:26.103Z
+- commits:
     - subject: Update redis/postgres npm scripts and docs
       hash: 120b6e65b1b08223da217d9774d19ba04a7ead52
       body: ''
