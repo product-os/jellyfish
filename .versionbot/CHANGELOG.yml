@@ -1,4 +1,17 @@
 - commits:
+    - subject: More test compose config cleanup
+      hash: 16cdbd7050366a917c08e395eb7516bdd4429902
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.6
+  date: 2021-12-10T06:53:06.080Z
+- commits:
     - subject: 'patch: Update non-major-frontend'
       hash: 706a0e0fff96c61193b29cc500d5c846c7c018a0
       body: ''
