@@ -1,4 +1,27 @@
 - commits:
+    - subject: Update redis/postgres npm scripts and docs
+      hash: 120b6e65b1b08223da217d9774d19ba04a7ead52
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove config templating
+      hash: e16272ee7dcc2a3011d340c8709c4c58379d0558
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.2
+  date: 2021-12-10T01:17:00.785Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 3445de017e7b1c6f29ed7bed0d66a8cb6752600e
       body: ''
