@@ -70,7 +70,7 @@
     "@balena/jellyfish-client-sdk": "^7.0.23",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^8.1.48",
-    "@balena/jellyfish-environment": "^5.2.2",
+    "@balena/jellyfish-environment": "^6.0.0",
     "@balena/jellyfish-plugin-balena-api": "^1.0.198",
     "@balena/jellyfish-plugin-base": "^2.1.321",
     "@balena/jellyfish-plugin-channels": "^1.1.401",
