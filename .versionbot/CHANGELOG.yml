@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: de6c7b699e9ac8c7893462ebb5fe910092ba699a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.7
+  date: 2021-12-10T07:26:47.645Z
+- commits:
     - subject: More test compose config cleanup
       hash: 16cdbd7050366a917c08e395eb7516bdd4429902
       body: ''
