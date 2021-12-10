@@ -54,24 +54,20 @@ tasks:
       - ./scripts/ci/wait-for-api.sh
 
   e2e-sdk:
-    env:
-      LOGLEVEL: warning
     cmds:
       - npm run test:e2e:sdk
 
   e2e-livechat:
-    env:
-      LOGLEVEL: warning
     cmds:
       - npm run test:e2e:livechat
 
   e2e-ui:
     cmds:
-      - INTEGRATION_OUTREACH_APP_ID= make test-e2e-ui
+      - npm run test:e2e:ui
 
   e2e-server:
     cmds:
-      - make test-e2e-server
+      - npm run test:e2e:server
 
   e2e:
     deps: [e2e-sdk, e2e-livechat, e2e-server]

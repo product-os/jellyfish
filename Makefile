@@ -1,8 +1,5 @@
-.PHONY: node \
-	test \
-	build-ui \
+.PHONY: build-ui \
 	build-livechat \
-	scrub \
 	push
 
 # See https://stackoverflow.com/a/18137056
@@ -77,15 +74,7 @@ export AWS_S3_BUCKET_NAME
 # Build Configuration
 # -----------------------------------------------
 
-# To make sure we don't silently swallow errors
-NODE_ARGS = --abort-on-uncaught-exception --stack-trace-limit=100
-NODE_DEBUG_ARGS = $(NODE_ARGS) \
-									--trace-warnings \
-									--stack_trace_on_illegal
-
 # User parameters
-SCRUB ?= 1
-export SCRUB
 CI ?=
 export CI
 VISUAL ?=
@@ -99,30 +88,7 @@ else
 NOCACHE_FLAG =
 endif
 
-ifeq ($(SCRUB),1)
-SCRUB_COMMAND = ./scripts/postgres-delete-test-databases.js
-else
-SCRUB_COMMAND =
-endif
-
 SENTRY_DSN_UI ?=
-
-# -----------------------------------------------
-# Rules
-# -----------------------------------------------
-
-scrub:
-	$(SCRUB_COMMAND)
-
-test: LOGLEVEL = warning
-test: scrub
-	node $(NODE_DEBUG_ARGS) ./node_modules/.bin/ava $(FILES)
-
-test-e2e-%:
-	FILES="'./test/e2e/$(subst test-e2e-,,$@)/**/*.spec.{js,jsx}'" make test
-
-node:
-	node $(NODE_DEBUG_ARGS) $(FILE)
 
 # -----------------------------------------------
 # Build
