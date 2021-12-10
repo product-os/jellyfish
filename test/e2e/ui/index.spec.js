@@ -667,7 +667,7 @@ ava.serial('file upload: Users should be able to upload an image', async (test) 
 	test.pass()
 })
 
-ava.serial.only('file upload: Users should be able to upload an image to a support thread', async (test) => {
+ava.serial('file upload: Users should be able to upload an image to a support thread', async (test) => {
 	const {
 		page
 	} = context

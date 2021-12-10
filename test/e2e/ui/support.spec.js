@@ -1064,7 +1064,7 @@ ava.serial('Should be able to filter support threads by timeline message', async
 	test.pass()
 })
 
-ava.serial.only('Should be able to filter support threads by a field in a linked contract', async (test) => {
+ava.serial('Should be able to filter support threads by a field in a linked contract', async (test) => {
 	const {
 		page
 	} = context
