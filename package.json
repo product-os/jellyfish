@@ -19,19 +19,16 @@
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
     "test:e2e:livechat": "ava ./test/e2e/livechat/**/*.spec.js",
-    "postgres": "docker run -i --rm -p5432:5432 balena/open-balena-db:4.1.0",
-    "redis": "docker run -i --rm -p6379:6379 balena/balena-redis:0.0.3 sh -c \"redis-server /usr/local/etc/redis/redis.conf --save ''\"",
     "docs": "(cd apps/livechat && npm run doc); (cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
     "docs:diagram": "mmdc -i docs/diagrams/architecture.mmd -o docs/assets/architecture.png -w 2560 -H 1600",
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
     "clean": "rimraf apps/*/packages/*",
     "postinstall": "(cd apps/livechat && npm i); (cd apps/server && npm i); (cd apps/ui && npm i)",
-    "config:haproxy": "mkdir -p .tmp && ./scripts/template.js haproxy.manifest.tpl.json > .tmp/haproxy.manifest.json",
-    "config:compose": "HAPROXY_CONFIG=$(cat .tmp/haproxy.manifest.json | base64 | tr -d '\\n') ./scripts/template.js docker-compose.tpl.yml > docker-compose.yml",
-    "compose:build": "docker-compose --file docker-compose.yml build",
-    "compose:up": "docker-compose --file docker-compose.yml up",
-    "compose:test": "docker-compose --file docker-compose.yml --file docker-compose.test.yml up",
-    "compose:monitor": "docker-compose --file docker-compose.yml --file docker-compose.monitor.yml up"
+    "compose:build": "docker-compose build",
+    "compose:up": "docker-compose up",
+    "compose:test": "docker-compose -f docker-compose.yml -f docker-compose.test.yml up",
+    "compose:monitor": "docker-compose -f docker-compose.yml -f docker-compose.monitor.yml up",
+    "compose:database": "docker-compose up postgres redis haproxy"
   },
   "deplint": {
     "files": [
@@ -111,7 +108,6 @@
     "lint-staged": "^11.2.6",
     "lodash": "^4.17.21",
     "mermaid.cli": "^0.5.1",
-    "mustache": "^4.2.0",
     "nock": "^13.2.1",
     "node-jose": "^2.0.0",
     "puppeteer": "^12.0.1",
