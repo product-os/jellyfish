@@ -19,6 +19,8 @@
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
     "test:e2e:livechat": "ava ./test/e2e/livechat/**/*.spec.js",
+    "test:e2e:ui": "INTEGRATION_OUTREACH_APP_ID= ava ./test/e2e/ui/**/*.spec.js",
+    "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
     "docs": "(cd apps/livechat && npm run doc); (cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
     "docs:diagram": "mmdc -i docs/diagrams/architecture.mmd -o docs/assets/architecture.png -w 2560 -H 1600",
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
