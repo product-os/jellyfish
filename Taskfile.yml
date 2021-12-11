@@ -87,7 +87,7 @@ tasks:
 
   e2e-server-previous-dump:
     cmds:
-      - make test FILES=./test/e2e/server/index.spec.js
+      - task: integration-server
 
   post-summary:
     cmds:
