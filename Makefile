@@ -10,16 +10,6 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Runtime Configuration
 # -----------------------------------------------
 
-# The default postgres user is your local user
-POSTGRES_USER ?= $(shell whoami)
-export POSTGRES_USER
-POSTGRES_PASSWORD ?=
-export POSTGRES_PASSWORD
-POSTGRES_PORT ?= 5432
-export POSTGRES_PORT
-POSTGRES_HOST ?= localhost
-export POSTGRES_HOST
-
 # silence graphile-worker logs
 NO_LOG_SUCCESS = 1
 export NO_LOG_SUCCESS
