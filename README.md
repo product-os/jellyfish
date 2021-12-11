@@ -129,14 +129,14 @@ You can run the linter like this:
 $ npm run lint
 ```
 
-The tests live in `test/<type>/**/*.spec.js` and `apps/server/test/<type>/**/*.spec.js`.
+The tests live in `test/e2e/**/*.spec.js` and `apps/server/test/<type>/**/*.spec.js`.
 Frontend components store their unit tests along with the production code (company policy).
 
-We provide GNU Make utility rules to run different test suites, for example:
-
 ```sh
-$ make test-e2e-server                             # Run all the server end to end tests
-$ make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
+$ npm run test:unit
+$ npm run test:unit:ui
+$ npm run test:e2e:server
+$ npx jest test/e2e/sdk/card.spec.js
 ```
 
 Some suites may provide or require various options. Consult the corresponding

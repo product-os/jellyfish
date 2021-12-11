@@ -19,7 +19,7 @@ all services in non-daemon mode:
 $ npm run compose:database
 $ make dev-ui
 $ make dev-livechat
-$ cd apps/server && SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev
+$ SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev:server
 ```
 
 The API will listen on `8000` and the UI will listen on `9000`. Open
