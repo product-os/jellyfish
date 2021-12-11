@@ -44,9 +44,9 @@
     "@balena/jellyfish-sync": "^6.1.128",
     "@balena/jellyfish-worker": "^10.1.2",
     "@balena/socket-prometheus-metrics": "^0.0.3",
-    "aws-sdk": "^2.1043.0",
+    "aws-sdk": "^2.1046.0",
     "bluebird": "^3.7.2",
-    "body-parser": "^1.19.0",
+    "body-parser": "^1.19.1",
     "errio": "^1.2.2",
     "express": "^4.17.1",
     "express-basic-auth": "^1.2.0",
@@ -54,7 +54,7 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "mkdirp-promise": "^5.0.1",
-    "multer": "^1.4.3",
+    "multer": "^1.4.4",
     "response-time": "^2.3.2",
     "skhema": "^5.3.4",
     "socket.io": "^4.4.0",
@@ -70,14 +70,14 @@
     "@types/node": "^14.18.0",
     "catch-uncommitted": "^2.0.0",
     "depcheck": "^1.4.2",
-    "jest": "^27.4.3",
+    "jest": "^27.4.4",
     "nock": "^13.2.1",
     "nodemon": "^2.0.15",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
-    "ts-jest": "^27.1.0",
+    "ts-jest": "^27.1.1",
     "ts-node": "^10.4.0",
     "typedoc": "^0.22.10",
-    "typescript": "^4.5.2"
+    "typescript": "^4.5.3"
   }
 }
