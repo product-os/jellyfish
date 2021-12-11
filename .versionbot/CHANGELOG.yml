@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop Redis vars from Makefile/compose
+      hash: 27c4ca236d47822155ee8f03a33590641b3fd6d3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.16
+  date: 2021-12-11T13:37:33.585Z
+- commits:
     - subject: Drop Postgres vars from Makefile/compose
       hash: 4ff8310ef837b4ec07d92899129d54bbebecaf2a
       body: ''
