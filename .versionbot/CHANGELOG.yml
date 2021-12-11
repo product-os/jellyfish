@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop Postgres vars from Makefile/compose
+      hash: 4ff8310ef837b4ec07d92899129d54bbebecaf2a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.15
+  date: 2021-12-11T12:51:30.595Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.74'
       hash: 86bc79fe95f34dab4bb3c14294b1e357de502f3d
       body: ''
