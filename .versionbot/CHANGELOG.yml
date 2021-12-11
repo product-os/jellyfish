@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop registry vars from compose configs
+      hash: 6cb9c55e4507e8893866aac1beb823def4a70f84
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.17
+  date: 2021-12-11T14:24:20.398Z
+- commits:
     - subject: Drop Redis vars from Makefile/compose
       hash: 27c4ca236d47822155ee8f03a33590641b3fd6d3
       body: ''
