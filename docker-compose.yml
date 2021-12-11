@@ -57,10 +57,6 @@ services:
     environment:
       - LOGLEVEL=crit
       - NODE_ENV
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=
       - REDIS_PORT=6379
@@ -119,10 +115,6 @@ services:
     environment:
       - LOGLEVEL=crit
       - NODE_ENV
-      - POSTGRES_HOST=postgres
-      - POSTGRES_PASSWORD=docker
-      - POSTGRES_PORT=5432
-      - POSTGRES_USER=docker
       - REDIS_HOST=redis
       - REDIS_PASSWORD=
       - REDIS_PORT=6379
