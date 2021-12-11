@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop AWS vars from Makefile
+      hash: 0d134dcfc72594474d6b8f046d883a04a2e8478b
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.18
+  date: 2021-12-11T15:09:44.420Z
+- commits:
     - subject: Drop registry vars from compose configs
       hash: 6cb9c55e4507e8893866aac1beb823def4a70f84
       body: ''
