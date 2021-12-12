@@ -14,6 +14,7 @@ data:
   UV_THREADPOOL_SIZE: "128"
   QUEUE_CONCURRENCY: "4"
   OAUTH_REDIRECT_BASE_URL: "https://jel.ly.fish"
+  NO_LOG_SUCCESS: "1"
 kind: ConfigMap
 metadata:
   labels:
