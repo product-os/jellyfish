@@ -18,10 +18,6 @@ SERVER_HOST ?= http://localhost
 export SERVER_HOST
 SERVER_PORT ?= $(PORT)
 export SERVER_PORT
-METRICS_PORT ?= 9000
-export METRICS_PORT
-SOCKET_METRICS_PORT ?= 9001
-export SOCKET_METRICS_PORT
 UI_PORT ?= 9000
 export UI_PORT
 UI_HOST ?= $(SERVER_HOST)
@@ -34,8 +30,6 @@ NODE_ENV ?= test
 export NODE_ENV
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
 export OAUTH_REDIRECT_BASE_URL
-HTTP_WORKER_PORT ?= 8002
-export HTTP_WORKER_PORT
 
 # -----------------------------------------------
 # Build Configuration
