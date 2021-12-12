@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop some port vars from root Makefile
+      hash: 920ea10f2c97a92d90b9a2d7781b901d7dfcf012
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.23
+  date: 2021-12-12T07:22:12.230Z
+- commits:
     - subject: 'Move ''make deploy'' to ''npm run push:lib'''
       hash: 8b26620a5d13da14edd458914deb1d75e2685518
       body: ''
