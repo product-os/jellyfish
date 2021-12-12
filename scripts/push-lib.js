@@ -4,7 +4,7 @@
  * This script is a part of the Livepush development flow.
  * It creates an npm tarball of a library cloned under .libs
  * and copies it to package directories for apps that use it.
- * Usage: ./scripts/deploy-package.js <library-name>
+ * Usage: ./scripts/push-lib.js <library-name>
  */
 
 const childProcess = require('child_process')
@@ -22,7 +22,7 @@ if (pkg.length < 1) {
 const tarball = childProcess.execSync('npm pack', {
 	cwd: path.join(process.cwd(), '.libs', pkg),
 	stdio: 'pipe'
-}).toString().trim()
+}).toString().trim().split('\n').pop()
 const tarballPath = path.join(process.cwd(), '.libs', pkg, tarball)
 console.log(`Created ${tarballPath}`)
 
