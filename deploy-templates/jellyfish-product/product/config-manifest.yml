@@ -32,6 +32,8 @@ properties:
     type: string?
   NODE_ENV:
     type: string
+  NO_LOG_SUCCESS:
+    type: string?
   SENTRY_DSN_SERVER:
     type: string?
   LOGENTRIES_TOKEN:

@@ -10,10 +10,6 @@ MAKEFILE_DIR := $(patsubst %/,%,$(dir $(MAKEFILE_PATH)))
 # Runtime Configuration
 # -----------------------------------------------
 
-# silence graphile-worker logs
-NO_LOG_SUCCESS = 1
-export NO_LOG_SUCCESS
-
 PORT ?= 8000
 export PORT
 LOGLEVEL ?= info
