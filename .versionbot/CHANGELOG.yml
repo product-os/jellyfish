@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency express-basic-auth to ^1.2.1'
+      hash: 1fefcab3e3d0a3d228140ff132755e0c3948149c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.20
+  date: 2021-12-12T01:31:30.071Z
+- commits:
     - subject: Move graphile-worker NO_LOG_SUCCESS var
       hash: ad0ac1bb724016c8f193e56f7612fcc71653fa44
       body: |
