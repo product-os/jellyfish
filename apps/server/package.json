@@ -40,7 +40,7 @@
     "@balena/jellyfish-plugin-outreach": "^1.0.336",
     "@balena/jellyfish-plugin-product-os": "^2.9.6",
     "@balena/jellyfish-plugin-typeform": "^3.0.413",
-    "@balena/jellyfish-queue": "^1.0.386",
+    "@balena/jellyfish-queue": "^1.0.388",
     "@balena/jellyfish-sync": "^6.1.131",
     "@balena/jellyfish-worker": "^10.1.5",
     "@balena/socket-prometheus-metrics": "^0.0.3",
