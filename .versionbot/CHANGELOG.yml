@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Move ''make deploy'' to ''npm run push:lib'''
+      hash: 8b26620a5d13da14edd458914deb1d75e2685518
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.22
+  date: 2021-12-12T05:35:44.278Z
+- commits:
     - subject: Remove more vars from root Makefile
       hash: f2147fa401f032f8976544c4311753cc3b838681
       body: ''
