@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency esbuild-loader to ^2.17.0'
+      hash: d0d6fc3849b1732a32c479090edb0f89f5518336
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.24
+  date: 2021-12-12T08:08:34.690Z
+- commits:
     - subject: Drop some port vars from root Makefile
       hash: 920ea10f2c97a92d90b9a2d7781b901d7dfcf012
       body: ''
