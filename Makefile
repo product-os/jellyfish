@@ -30,8 +30,6 @@ LIVECHAT_HOST ?= $(SERVER_HOST)
 export LIVECHAT_HOST
 LIVECHAT_PORT ?= 9100
 export LIVECHAT_PORT
-SENTRY_DSN_SERVER ?=
-export SENTRY_DSN_SERVER
 NODE_ENV ?= test
 export NODE_ENV
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
@@ -43,14 +41,8 @@ export HTTP_WORKER_PORT
 # Build Configuration
 # -----------------------------------------------
 
-# User parameters
-CI ?=
-export CI
-VISUAL ?=
-export VISUAL
-NOCACHE ?=
-
 # Set balena push --nocache flag if necessary
+NOCACHE ?=
 ifeq ($(NOCACHE),1)
 NOCACHE_FLAG = --nocache
 else
@@ -97,7 +89,6 @@ push:
 		--env INTEGRATION_OUTREACH_SIGNATURE_KEY=$(INTEGRATION_OUTREACH_SIGNATURE_KEY) \
 		--env INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
 		--env INTEGRATION_TYPEFORM_SIGNATURE_KEY=$(INTEGRATION_TYPEFORM_SIGNATURE_KEY) \
-		--env LOGLEVEL=$(LOGLEVEL) \
 		--env NODE_ENV=$(NODE_ENV)
 
 deploy-%:
