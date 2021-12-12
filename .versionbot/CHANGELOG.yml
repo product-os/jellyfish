@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: a491277868131ebad18b4c195f838c7ee7e78098
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.25
+  date: 2021-12-12T09:03:08.548Z
+- commits:
     - subject: 'patch: Update dependency esbuild-loader to ^2.17.0'
       hash: d0d6fc3849b1732a32c479090edb0f89f5518336
       body: ''
