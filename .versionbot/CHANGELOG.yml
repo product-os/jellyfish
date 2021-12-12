@@ -1,4 +1,21 @@
 - commits:
+    - subject: Move graphile-worker NO_LOG_SUCCESS var
+      hash: ad0ac1bb724016c8f193e56f7612fcc71653fa44
+      body: |
+        Move the NO_LOG_SUCCESS environment variable used
+        by graphile worker. Without this variable being set
+        graphile worker will output all success logs, which
+        is unnecessary and noisy.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.19
+  date: 2021-12-12T00:51:32.253Z
+- commits:
     - subject: Drop AWS vars from Makefile
       hash: 0d134dcfc72594474d6b8f046d883a04a2e8478b
       body: ''
