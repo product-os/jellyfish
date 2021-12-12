@@ -83,7 +83,7 @@ removing library dependencies is a bit different. The following is an example wh
 $ cd .libs/jellyfish-worker
 $ npm install new-dependency
 $ cd ../..
-$ make deploy-worker
+$ npm run push:lib jellyfish-worker
 ```
 
 What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then

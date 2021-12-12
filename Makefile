@@ -90,6 +90,3 @@ push:
 		--env INTEGRATION_FRONT_TOKEN=$(INTEGRATION_FRONT_TOKEN) \
 		--env INTEGRATION_TYPEFORM_SIGNATURE_KEY=$(INTEGRATION_TYPEFORM_SIGNATURE_KEY) \
 		--env NODE_ENV=$(NODE_ENV)
-
-deploy-%:
-	./scripts/deploy-package.js jellyfish-$(subst deploy-,,$@)
