@@ -49,7 +49,7 @@
     "body-parser": "^1.19.1",
     "errio": "^1.2.2",
     "express": "^4.17.1",
-    "express-basic-auth": "^1.2.0",
+    "express-basic-auth": "^1.2.1",
     "json-e": "^4.4.3",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
