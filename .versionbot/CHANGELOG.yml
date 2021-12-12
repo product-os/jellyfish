@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major to ^11.7.1'
+      hash: 924ff3f0cea304fd9b3b928159e321dee75a4c94
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.28
+  date: 2021-12-12T22:46:30.896Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-queue to ^1.0.388'
       hash: 0e5f9614ff4553367b3f1c6ede38fce7e0df153b
       body: ''
