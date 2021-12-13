@@ -23,7 +23,7 @@
     "dev": "nodemon --inspect=0.0.0.0 ./lib/index.ts"
   },
   "dependencies": {
-    "@balena/jellyfish-action-library": "^15.1.190",
+    "@balena/jellyfish-action-library": "^15.1.192",
     "@balena/jellyfish-assert": "^1.1.102",
     "@balena/jellyfish-core": "^8.1.50",
     "@balena/jellyfish-environment": "^6.0.1",
