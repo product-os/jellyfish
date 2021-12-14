@@ -72,7 +72,7 @@ Add endpoints to local hosts file:
 
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
 
-Finally, deploy everything to the device by executing `make push` from the repository root.
+Finally, deploy everything to the device by executing `npm run push` from the repository root.
 
 Once deployed, app and library source changes will cause quick service reloads. Adding and removing
 app dependencies will cause that service's image to be rebuilt from its `npm ci` layer. Adding and
@@ -88,6 +88,7 @@ $ npm run push:lib jellyfish-worker
 
 What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
 copies the resulting tarball into apps `packages` subdirectories. This triggers partial image rebuilds.
+Execute `npm run clean` to delete these tarballs when you no longer need them.
 
 ### Connecting to Postgres and Redis
 The Postgres and Redis services running on the Livepush device can be accessed with:
@@ -102,7 +103,7 @@ reset that library to it's original state in the app(s) on your Livepush device.
 state in which your local source doesn't correctly mirror what's being executed on your device. To reset your
 device back to a clean state:
 - `rm -fr .libs/*` (Assuming you no longer need these libraries)
-- `make push NOCACHE=1`
+- `NOCACHE=1 npm run push`
 
 The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Documentation](https://www.balena.io/docs/reference/balena-cli/#-c---nocache)
 
@@ -114,7 +115,8 @@ The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Do
 	- Check container logs directly from within device using `balena logs <name>`
 
 ### Debugging
-When using live push the API and action servers start with remote debugging enabled via the `--inspect` flag. Use Chrome dev tools, or your IDE to [start a debugging session](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients).
+First, try executing a push with the balenaCLI debug flag enabled: `DEBUG=1 npm run push`.
+When using livepush the backend services start with remote debugging enabled via the `--inspect` flag. Use Chrome dev tools, or your IDE to [start a debugging session](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients).
 
 - To debug API server connect to `<DEVICE-IP-ADDRESS>:9229`
 - To debug the worker server connect to `<DEVICE-IP-ADDRESS>:923<WORKER-ID>`
