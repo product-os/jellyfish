@@ -30,7 +30,7 @@
     "@balena/jellyfish-logger": "^3.0.167",
     "@balena/jellyfish-metrics": "^1.0.438",
     "@balena/jellyfish-plugin-balena-api": "^1.0.204",
-    "@balena/jellyfish-plugin-base": "^2.1.324",
+    "@balena/jellyfish-plugin-base": "^2.2.1",
     "@balena/jellyfish-plugin-channels": "^1.1.407",
     "@balena/jellyfish-plugin-default": "^21.1.149",
     "@balena/jellyfish-plugin-discourse": "^1.1.115",
