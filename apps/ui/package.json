@@ -8,16 +8,16 @@
     "node": ">=14.2.0"
   },
   "scripts": {
-    "clean": "rimraf build",
-    "build": "npm run clean && tsc",
+    "clean": "rimraf dist",
+    "build": "npm run clean && webpack --config=./webpack.config.js",
     "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@babel/*,@types/jest,assert,babel-loader,canvas,history,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit",
     "test:unit": "jest",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
-    "webpack": "webpack --config=./webpack.config.js",
-    "dev": "mkdir -p ./dist/ui && PUBLIC_DIR='./' NODE_ENV=development ./conf/env.sh && cp ./env-config.js ./dist/ui/ && webpack serve --config=./webpack.config.js --color"
+    "env": "mkdir -p ./dist/ui && NODE_ENV=development PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/ui/",
+    "dev": "npm run env && NODE_ENV=development webpack serve --config=./webpack.config.js --color"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
