@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop apps/ui Makefile
+      hash: 229f03305723407d425d3bb14d616be8dec8939d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.41
+  date: 2021-12-15T02:29:24.807Z
+- commits:
     - subject: Migrate 'make push' to 'npm run push'
       hash: 9b930e790f1a24620e807adff5df112ebc853b18
       body: ''
