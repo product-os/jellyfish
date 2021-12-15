@@ -32,7 +32,9 @@
     "compose:monitor": "docker-compose -f docker-compose.yml -f docker-compose.monitor.yml up",
     "compose:database": "docker-compose up postgres redis haproxy",
     "push": "./scripts/push.sh",
+    "build:livechat": "(cd apps/livechat && npm run build)",
     "build:ui": "(cd apps/ui && npm run webpack)",
+    "dev:livechat": "(cd apps/livechat && npm run dev)",
     "dev:ui": "(cd apps/ui && npm run dev)"
   },
   "deplint": {

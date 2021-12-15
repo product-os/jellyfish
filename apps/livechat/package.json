@@ -13,7 +13,8 @@
     "lint": "balena-lint lib && depcheck --ignore-bin-package --ignores=@balena/*,babel-loader,typedoc",
     "lint:fix": "balena-lint --fix lib",
     "doc": "typedoc lib/",
-    "prepack": "npm run build"
+    "prepack": "npm run build",
+    "dev": "NODE_ENV=development mkdir -p ./dist/livechat && PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/livechat/ && webpack serve --config=./webpack.config.js --color"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",

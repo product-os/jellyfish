@@ -17,10 +17,10 @@ COPY ./apps/livechat /usr/src/jellyfish/apps/livechat
 #dev-copy=./apps/livechat/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/livechat && make dev-livechat
+#dev-cmd-live=cd /usr/src/jellyfish/apps/livechat && npm run dev
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/livechat/node_modules/@balena/
 
-RUN make build-livechat NODE_ENV=production
+RUN NODE_ENV=production npm run build
 
 ###########################################################
 # Runtime
