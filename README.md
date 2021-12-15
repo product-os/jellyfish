@@ -22,16 +22,15 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
 	- [**JellyFish Core**](https://github.com/product-os/jellyfish-core/blob/master/README.md) the low-level internal SDK to interact with cards and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
-	- [**Working with the frontend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/frontend.markdown)
-	- [**Working with the backend**](https://github.com/product-os/jellyfish/blob/master/docs/developing/backend.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/local-development.markdown)
 	- [**Running in compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-in-compose.markdown)
+	- [**Running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown)
 	- [**Running tests in compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests-in-compose.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
 	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
 - **Links**
-	- [**Rapid7**](https://eu.ops.insight.rapid7.com/op/8306227C3C134F65ACF1#/search?logs=%5B%225df30105-2e0a-4e5a-b76a-baa5fc997b36%22%5D&range=Last%2020%20Minutes)
+	- [**Production logs**](https://monitor.balena-cloud.com/explore?left=%5B%22now-3h%22,%22now%22,%22loki%22,%7B%22expr%22:%22%22,%22datasource%22:%22loki%22,%22refId%22:%22A%22%7D%5D&orgId=1)
 	- [**Sentry**](https://sentry.io/organizations/balena/issues/?project=1366139)
 	- [**New Relic**](https://synthetics.newrelic.com/accounts/2054842/monitors/8bf2b38d-7c2a-4d71-9629-7cbf05b6bd21)
 	- [**Metrics**](https://monitor.balena-cloud.com/dashboards/f/auto/auto)
@@ -47,6 +46,16 @@ Installing dependencies
 
 ```sh
 $ npm i
+```
+
+Revealing secrets
+-----------------------
+We use [`git secret`](https://git-secret.io/) to safely share secrets used during testing and development.
+Contact someone on the Jellyfish team if you work at Balena and need access.
+
+Once you have been given access, you can reveal secrets stored under `.balena/secrets` with:
+```sh
+$ git secret reveal -f
 ```
 
 Developing with Livepush
@@ -122,36 +131,15 @@ When using livepush the backend services start with remote debugging enabled via
 - To debug the worker server connect to `<DEVICE-IP-ADDRESS>:923<WORKER-ID>`
 	- e.g. to connect to the first worker `<DEVICE-IP-ADDRESS>:9231`
 
-Testing
--------
-
-You can run the linter like this:
-
-```sh
-$ npm run lint
-```
-
-The tests live in `test/<type>/**/*.spec.js` and `apps/server/test/<type>/**/*.spec.js`.
-Frontend components store their unit tests along with the production code (company policy).
-
-We provide GNU Make utility rules to run different test suites, for example:
-
-```sh
-$ make test-e2e-server                             # Run all the server end to end tests
-$ make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
-```
-
-Some suites may provide or require various options. Consult the corresponding ["Developing" guides](https://github.com/product-os/jellyfish/tree/master/docs/developing) if unsure.
+### Testing
+See this guide on [**running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown) to learn how you can run tests against your up and running Jellyfish instance.
 
 Reporting problems
 ------------------
 
-If you're having any problem, please [raise an
-issue](https://github.com/product-os/jellyfish/issues/new) on GitHub and the
-Jellyfish team will be happy to help.
+If you're having any problems, please [raise an issue](https://github.com/product-os/jellyfish/issues/new) on GitHub and the Jellyfish team will be happy to help.
 
 License
 -------
 
-Jellyfish is propietary software. Unauthorized distribution of any files in
-this repository via any medium is strictly prohibited.
+Jellyfish is open-source software. See the LICENSE file for more information.

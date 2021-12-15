@@ -9,78 +9,70 @@ Jellyfish currently runs the following types of tests:
 - E2E
 - Integration
 
-The source for all tests can be found under `tests/` and are executed primarily by the `make test` command. Examples can be found at the bottom of this document.
+The source for all tests can be found under `tests/`, `apps/server/test`, and `apps/ui/lib/**/*.spec.ts`. Tests are primarily executed with `npm run` commands, see the examples below.
+
+## Environment Variables
+A number of environment variables are required for the system to function properly and, in some cases, for tests to run. Sane defaults are in place for development/testing in the [`@balena/jellyfish-environment`](https://github.com/product-os/jellyfish-environment) package. These defaults can be overridden by exporting values in your local shell, e.g. `$ export POSTGRES_HOST=localhost`. Also be sure and take a look through the [`@balena/jellyfish-environment`](https://github.com/product-os/jellyfish-environment) package's codebase to better understand what environment variables we use to run the system.
 
 ## Secrets
-Most tests require a number of variables to be passed to the test runner in order for them to execute properly. For example, in order to run GitHub translate tests against the real GitHub API, you need to pass along the GitHub token and signature key.
+We provide secrets through git secrets under `.balena/secrets` that can be decrypted if you have access by executing `git secret reveal -f`. Contact someone on the Jellyfish team if you require access.
 
-These secrets are stored in our Passpack account and are not open for everyone in the company to see. Should you require access to these keys/tokens/secrets, ask the operations team for access.
+## Examples
+Below are a number of command examples.
+
+A number of tests require that multiple services be running and can talk to one another. The easiest to do this is with [Livepush](https://github.com/product-os/jellyfish#developing-with-livepush), but examples are also given for when Jellyfish is running locally. See the [local development guide](https://github.com/product-os/jellyfish/tree/master/docs/developing) for more on how to run Jellyfish locally. Also, if the output is a bit too noisy, try `LOGLEVEL=crit`.
 
 ### Lint
 Run lint checks:
 ```sh
-$ make lint
+$ npm run lint
+$ npm run lint:livechat
+$ npm run lint:server
+$ npm run lint:ui
 ```
 
 ### Unit
 Run unit tests:
 ```sh
-$ cd apps/server && npm run test:unit
-$ cd apps/ui && npm run test:unit
+$ npm run test:unit
+$ npm run test:unit:server
+$ npm run test:unit:ui
+```
+
+### E2E SDK
+Run SDK E2E tests:
+```sh
+$ UI_HOST=http://jel.ly.fish.local npm run test:e2e:sdk
+$ UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
+```
+
+### E2E UI
+Run UI E2E tests:
+```sh
+$ UI_HOST=http://jel.ly.fish.local npm run test:e2e:ui
+$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:ui
+```
+
+### E2E Livechat
+Run Livechat E2E tests:
+```sh
+$ LIVECHAT_HOST=http://livechat.ly.fish.local npm run test:e2e:livechat
+$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 LIVECHAT_HOST=http://localhost LIVECHAT_PORT=8001 npm run test:e2e:livechat
+```
+
+### E2E Server
+Run server E2E tests:
+```sh
+$ SERVER_HOST=http://api.ly.fish.local npm run test:e2e:server
+$ SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
 ```
 
 ### Server Integration
 Run server integration tests:
 ```sh
-$ make test-integration-server
-```
-
-### E2E UI
-Run UI e2e tests, passing along variables indicating where all necessary services are located:
-```sh
-sh make test-e2e-ui \
-	SCRUB=0 \
-	UI_HOST=http://ui \
-	UI_PORT=80 \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### E2E Livechat
-Run Livechat e2e tests, passing along variables indicating where all necessary services are located:
-```sh
-$ make test-e2e-livechat \
-	SCRUB=0 \
-	LIVECHAT_HOST=http://livechat \
-	LIVECHAT_PORT=80 \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
-```
-
-### E2E Server
-Run server e2e tests, passing along some external service keys as well as where all necessary local services are located:
-```sh
-$ make test-e2e-server \
-	SCRUB=0 \
-	INTEGRATION_GITHUB_TOKEN=$GITHUB_TOKEN \
-	INTEGRATION_GITHUB_SIGNATURE_KEY=$GITHUB_SIGNATURE_KEY \
-	INTEGRATION_OUTREACH_APP_ID=$OUTREACH_APP_ID \
-	INTEGRATION_OUTREACH_APP_SECRET=$OUTREACH_APP_SECRET \
-	INTEGRATION_OUTREACH_SIGNATURE_KEY=$OUTREACH_SIGNATURE_KEY \
-	INTEGRATION_FLOWDOCK_SIGNATURE_KEY=$FLOWDOCK_SIGNATURE_KEY \
-	OAUTH_REDIRECT_BASE_URL=https://jel.ly.fish \
-	SERVER_HOST=http://api \
-	SERVER_PORT=8000 \
-	POSTGRES_HOST=$POSTGRES_HOST \
-	POSTGRES_USER=$POSTGRES_USER \
-	POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
-	POSTGRES_DATABASE=$POSTGRES_DATABASE
+$ export INTEGRATION_OUTREACH_SIGNATURE_KEY=$(cat .balena/secrets/integration_outreach_signature_key)
+$ export INTEGRATION_BALENA_API_PRIVATE_KEY=$(cat .balena/secrets/integration_balena_api_private_key)
+$ export INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(cat .balena/secrets/integration_balena_api_public_key_production)
+$ SERVER_PORT=8000 POSTGRES_HOST=postgres.ly.fish.local REDIS_HOST=redis.ly.fish.local npm run test:integration:server
+$ SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
 ```
