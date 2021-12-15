@@ -1,4 +1,17 @@
 - commits:
+    - subject: Migrate 'make push' to 'npm run push'
+      hash: 9b930e790f1a24620e807adff5df112ebc853b18
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.40
+  date: 2021-12-15T00:04:42.144Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 67b756b0399bec9a56b6c47473ac64ee6e4f90b4
       body: ''
