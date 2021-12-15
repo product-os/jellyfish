@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 28b28afde6285a8b7ccc3137ef5c701dc62796e6
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.44
+  date: 2021-12-15T09:27:23.984Z
+- commits:
     - subject: 'Update docs, add more helper npm scripts'
       hash: 70179c9dc2b25933f465aeb097b3d04a4f46cfac
       body: ''
