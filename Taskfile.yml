@@ -12,42 +12,13 @@ tasks:
       - npm run docs:summary
       - npm run lint:catch
 
-  lint-server:
-    dir: apps/server
-    cmds:
-      - npm run lint
-
-  lint-livechat:
-    dir: apps/livechat
-    cmds:
-      - npm run lint
-
-  lint-ui:
-    dir: apps/ui
-    cmds:
-      - npm run lint
-
   lint:
     cmds:
       - npm run lint
-      - task: lint-server
-      - task: lint-livechat
-      - task: lint-ui
-
-  unit-server:
-    dir: apps/server
-    cmds:
-      - npm run test:unit
-
-  unit-ui:
-    dir: apps/ui
-    cmds:
-      - npm run test
 
   unit:
     cmds:
-      - task: unit-ui
-      - task: unit-server
+      - npm run test:unit
 
   wait-for-api:
     cmds:
@@ -73,9 +44,8 @@ tasks:
     deps: [e2e-sdk, e2e-livechat, e2e-server]
 
   integration-server:
-    dir: apps/server
     cmds:
-      - npm run test:integration
+      - npm run test:integration:server
 
   export-database:
     cmds:

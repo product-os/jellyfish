@@ -14,7 +14,7 @@
     "lint:fix": "balena-lint --fix lib",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
-    "dev": "NODE_ENV=development mkdir -p ./dist/livechat && PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/livechat/ && webpack serve --config=./webpack.config.js --color"
+    "dev": "mkdir -p ./dist/livechat && NODE_ENV=development PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/livechat/ && NODE_ENV=development webpack serve --config=./webpack.config.js --color"
   },
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",

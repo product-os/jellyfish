@@ -13,14 +13,21 @@
     "node": ">=14.2.0"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps",
+    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps && npm run lint:livechat && npm run lint:server && npm run lint:ui",
     "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh",
     "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
+    "lint:livechat": "(cd apps/livechat && npm run lint)",
+    "lint:server": "(cd apps/server && npm run lint)",
+    "lint:ui": "(cd apps/ui && npm run lint)",
+    "test:unit": "npm run test:unit:ui && npm run test:unit:server",
+    "test:unit:ui": "(cd apps/ui && npm run test:unit)",
+    "test:unit:server": "(cd apps/server && npm run test:unit)",
     "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
     "test:e2e:livechat": "ava ./test/e2e/livechat/**/*.spec.js",
     "test:e2e:ui": "INTEGRATION_OUTREACH_APP_ID= ava ./test/e2e/ui/**/*.spec.js",
     "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
+    "test:integration:server": "(cd apps/server && npm run test:integration)",
     "docs": "(cd apps/livechat && npm run doc); (cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
     "docs:diagram": "mmdc -i docs/diagrams/architecture.mmd -o docs/assets/architecture.png -w 2560 -H 1600",
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
@@ -33,8 +40,10 @@
     "compose:database": "docker-compose up postgres redis haproxy",
     "push": "./scripts/push.sh",
     "build:livechat": "(cd apps/livechat && npm run build)",
+    "build:server": "(cd apps/server && npm run build)",
     "build:ui": "(cd apps/ui && npm run webpack)",
     "dev:livechat": "(cd apps/livechat && npm run dev)",
+    "dev:server": "(cd apps/server && npm run dev)",
     "dev:ui": "(cd apps/ui && npm run dev)"
   },
   "deplint": {
