@@ -32,7 +32,8 @@
     "compose:monitor": "docker-compose -f docker-compose.yml -f docker-compose.monitor.yml up",
     "compose:database": "docker-compose up postgres redis haproxy",
     "push": "./scripts/push.sh",
-    "push:lib": "./scripts/push-lib.js"
+    "build:ui": "(cd apps/ui && npm run webpack)",
+    "dev:ui": "(cd apps/ui && npm run dev)"
   },
   "deplint": {
     "files": [

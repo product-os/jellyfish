@@ -17,12 +17,10 @@ COPY ./apps/ui /usr/src/jellyfish/apps/ui
 #dev-copy=./apps/ui/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && make dev-ui
+#dev-cmd-live=cd /usr/src/jellyfish/apps/ui && npm run dev
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 
-RUN make build-ui \
-	NODE_ENV=production \
-	NODE_OPTIONS=--max-old-space-size=6144
+RUN NODE_ENV=production NODE_OPTIONS=--max-old-space-size=6144 npm run webpack
 
 ###########################################################
 # Runtime

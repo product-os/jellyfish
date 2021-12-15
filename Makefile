@@ -1,5 +1,4 @@
-.PHONY: build-ui \
-	build-livechat
+.PHONY: build-livechat
 
 # See https://stackoverflow.com/a/18137056
 MAKEFILE_PATH := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -29,28 +28,11 @@ NODE_ENV ?= test
 export NODE_ENV
 OAUTH_REDIRECT_BASE_URL ?= $(SERVER_HOST):$(UI_PORT)
 export OAUTH_REDIRECT_BASE_URL
-
-# -----------------------------------------------
-# Build Configuration
-# -----------------------------------------------
-
-# Set balena push --nocache flag if necessary
-NOCACHE ?=
-ifeq ($(NOCACHE),1)
-NOCACHE_FLAG = --nocache
-else
-NOCACHE_FLAG =
-endif
-
 SENTRY_DSN_UI ?=
 
 # -----------------------------------------------
 # Build
 # -----------------------------------------------
-
-build-ui:
-	cd apps/ui && \
-		SENTRY_DSN_UI=$(SENTRY_DSN_UI) SERVER_HOST=$(SERVER_HOST) SERVER_PORT=$(SERVER_PORT) make build-ui
 
 build-livechat:
 	cd apps/livechat && \

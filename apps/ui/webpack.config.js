@@ -1,6 +1,9 @@
 /* eslint-env node */
 /* eslint-disable no-process-env */
 
+const {
+	defaultEnvironment: environment
+} = require('@balena/jellyfish-environment')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WorkboxPlugin = require('workbox-webpack-plugin')
@@ -127,7 +130,7 @@ const config = {
 			directory: outDir
 		},
 		host: '0.0.0.0',
-		port: process.env.UI_PORT,
+		port: environment.ui.port,
 		compress: true,
 		allowedHosts: 'all',
 		historyApiFallback: {
