@@ -141,11 +141,7 @@ $ make test-e2e-server                             # Run all the server end to e
 $ make test FILES=./test/e2e/sdk/card.spec.js      # Run a specific test file
 ```
 
-Some suites may provide or require various options. Consult the corresponding
-["Developing"
-guides](https://github.com/product-os/jellyfish/tree/master/docs/developing) or
-the [`Makefile`](https://github.com/product-os/jellyfish/blob/master/Makefile)
-if unsure.
+Some suites may provide or require various options. Consult the corresponding ["Developing" guides](https://github.com/product-os/jellyfish/tree/master/docs/developing) if unsure.
 
 Reporting problems
 ------------------

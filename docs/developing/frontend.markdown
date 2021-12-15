@@ -6,7 +6,7 @@ Note that the frontend services require the backend service to be running to be 
 
 ```sh
 $ UI_PORT=9000 npm run dev:ui
-$ make dev-livechat
+$ LIVECHAT_PORT=9001 npm run dev:livechat
 ```
 
 You can run the UI relevant unit and end to end test suites as follows:
