@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Update docs, add more helper npm scripts'
+      hash: 70179c9dc2b25933f465aeb097b3d04a4f46cfac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.43
+  date: 2021-12-15T08:49:51.986Z
+- commits:
     - subject: Drop apps/livechat Makefile
       hash: 166969b5f565cfff768bdf552bdbb83531fa23a2
       body: ''
