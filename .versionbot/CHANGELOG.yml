@@ -1,4 +1,17 @@
 - commits:
+    - subject: Drop apps/livechat Makefile
+      hash: 166969b5f565cfff768bdf552bdbb83531fa23a2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.42
+  date: 2021-12-15T04:41:11.962Z
+- commits:
     - subject: Drop apps/ui Makefile
       hash: 229f03305723407d425d3bb14d616be8dec8939d
       body: ''
