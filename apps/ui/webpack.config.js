@@ -32,7 +32,7 @@ const config = {
 	entry: path.join(uiRoot, 'index.tsx'),
 	target: 'web',
 	devtool: 'source-map',
-	mode: 'development',
+	mode: process.env.NODE_ENV || 'production',
 
 	output: {
 		filename: '[name].[contenthash].js',

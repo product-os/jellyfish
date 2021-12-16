@@ -20,7 +20,7 @@ COPY ./apps/ui /usr/src/jellyfish/apps/ui
 #dev-cmd-live=cd /usr/src/jellyfish/apps/ui && npm run dev
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/ui/node_modules/@balena/
 
-RUN NODE_ENV=production NODE_OPTIONS=--max-old-space-size=6144 npm run build
+RUN npm run build
 
 ###########################################################
 # Runtime

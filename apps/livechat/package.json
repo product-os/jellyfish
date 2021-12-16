@@ -9,7 +9,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "build": "npm run clean && webpack --config=./webpack.config.js",
+    "build": "npm run clean && NODE_ENV=production webpack --config=./webpack.config.js",
     "lint": "balena-lint lib && depcheck --ignore-bin-package --ignores=@balena/*,babel-loader,typedoc",
     "lint:fix": "balena-lint --fix lib",
     "doc": "typedoc lib/",
