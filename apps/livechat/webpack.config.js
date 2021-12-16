@@ -19,7 +19,7 @@ const outDir = path.join(root, 'dist/livechat')
 console.log(`Generating bundle from ${uiRoot}`)
 
 const config = {
-	mode: 'development',
+	mode: process.env.NODE_ENV || 'production',
 	target: 'web',
 
 	resolve: {
