@@ -108,7 +108,6 @@ const config = {
 
 		new DefinePlugin({
 			env: {
-				API_URL: JSON.stringify(process.env.API_URL),
 				NODE_ENV: JSON.stringify(process.env.NODE_ENV),
 				SENTRY_DSN_UI: JSON.stringify(process.env.SENTRY_DSN_UI)
 			}

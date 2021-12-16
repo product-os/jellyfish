@@ -41,7 +41,7 @@
     "push": "./scripts/push.sh",
     "build:livechat": "(cd apps/livechat && npm run build)",
     "build:server": "(cd apps/server && npm run build)",
-    "build:ui": "(cd apps/ui && npm run webpack)",
+    "build:ui": "(cd apps/ui && npm run build)",
     "dev:livechat": "(cd apps/livechat && npm run dev)",
     "dev:server": "(cd apps/server && npm run dev)",
     "dev:ui": "(cd apps/ui && npm run dev)"
