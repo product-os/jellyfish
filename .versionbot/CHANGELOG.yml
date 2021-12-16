@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix mode in webpack build config
+      hash: 6eba1a5e0cc33baaef528e032282acfff52ac2f5
+      body: |
+        Fallback to production mode when building with webpack.
+        Explicitly set NODE_ENV for both prod and dev build commands.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.48
+  date: 2021-12-16T04:51:29.303Z
+- commits:
     - subject: Update frontend build config/scripts
       hash: 89b69b9f6f4c9eb284b089d975be4539277b2179
       body: ''
