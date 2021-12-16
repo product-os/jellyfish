@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update frontend build config/scripts
+      hash: 89b69b9f6f4c9eb284b089d975be4539277b2179
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.47
+  date: 2021-12-16T03:54:40.147Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.11.246'
       hash: 9f8a9f839874a24a80e7f2d6f2dc95d9f883a772
       body: ''
