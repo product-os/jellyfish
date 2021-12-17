@@ -1,0 +1,15 @@
+#direction: down
+#ranker: tight-tree
+#padding: 16
+#spacing: 40
+
+[<actor>User] HTTP ->[jel.ly.fish]
+[jel.ly.fish]->[UI Container]
+[UI Container] WebSocket/AJAX <->[api.ly.fish]
+[api.ly.fish]<->[API Container]
+[API Container]->[Redis]
+[API Container]<->[Postgres]
+[Worker]->[Postgres]
+[Worker]->[Redis]
+[Worker]-> HTTP [External Services]
+[External Services] Webhook ->[api.ly.fish]
