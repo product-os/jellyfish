@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: d394907f2e9400af9e7946ab99414bf70aa4c223
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.57
+  date: 2021-12-17T11:03:30.467Z
+- commits:
     - subject: Replace mermaid.cli with nomnoml
       hash: cc3c467a6bdeb3b1d8d7891fae5f6d4f7600d0c1
       body: |
