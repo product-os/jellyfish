@@ -12,7 +12,7 @@ model relationships.
 This is a complete graph of all the components we have in production and how
 they connect to each other:
 
-![Architecture Diagram](./docs/assets/architecture.png)
+![Architecture Diagram](./docs/assets/architecture.svg)
 
 The users load the web application from https://jel.ly.fish using one of the UI
 container replicas. The UI containers communicate with the API at

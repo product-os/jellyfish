@@ -1,0 +1,67 @@
+<svg version="1.1" baseProfile="full" width="645.25" height="602" viewbox="0 0 645.25 602" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font:bold  12pt Helvetica, Helvetica, sans-serif;;stroke-linejoin:round;stroke-linecap:round">
+  <desc >#direction: down
+#ranker: tight-tree
+#padding: 16
+#spacing: 40
+
+[&lt;actor&gt;User] HTTP -&gt;[jel.ly.fish]
+[jel.ly.fish]-&gt;[UI Container]
+[UI Container] WebSocket/AJAX &lt;-&gt;[api.ly.fish]
+[api.ly.fish]&lt;-&gt;[API Container]
+[API Container]-&gt;[Redis]
+[API Container]&lt;-&gt;[Postgres]
+[Worker]-&gt;[Postgres]
+[Worker]-&gt;[Redis]
+[Worker]-&gt; HTTP [External Services]
+[External Services] Webhook -&gt;[api.ly.fish]
+</desc>
+  <rect x="0" y="0" height="602" width="645.25" style="stroke:none; fill:transparent;"></rect>
+  <text x="205.5" y="159.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;">HTTP</text>
+  <path d="M189.5 131.5 L189.5 151.5 L189.5 164.8 L189.5 164.8 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M184.2 158.2 L189.5 164.8 L194.8 158.2 L189.5 171.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M189.5 218.5 L189.5 238.5 L189.5 251.8 L189.5 251.8 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M184.2 245.2 L189.5 251.8 L194.8 245.2 L189.5 258.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="36.5" y="333.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;">WebSocket/AJAX</text>
+  <path d="M189.5 312.2 L189.5 325.5 L227.2 342.7 L227.2 342.7 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M218.9 344.8 L227.2 342.7 L223.4 335.1 L233.3 345.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M194.8 318.8 L189.5 312.2 L184.2 318.8 L189.5 305.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M284.8 399.2 L284.8 412.5 L284.8 425.8 L284.8 425.8 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M279.4 419.2 L284.8 425.8 L290.1 419.2 L284.8 432.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M290.1 405.8 L284.8 399.2 L279.4 405.8 L284.8 392.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M284.8 479.5 L284.8 499.5 L308 515.7 L308 515.7 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M299.5 516.3 L308 515.7 L305.6 507.5 L313.5 519.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M361.8 468.9 L545 499.5 L560.8 514.9 L560.8 514.9 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M552.3 514 L560.8 514.9 L559.7 506.4 L565.6 519.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M369.3 464.7 L361.8 468.9 L367.5 475.2 L355.3 467.8 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M549.5 213.5 L609.8 238.5 L609.8 282 L609.8 282 L609.8 325.5 L609.8 325.5 L609.8 369 L609.8 369 L609.8 412.5 L609.8 412.5 L609.8 456 L609.8 456 L609.8 499.5 L609.8 499.5 L603.3 513.4 L603.3 513.4 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M601.3 505.2 L603.3 513.4 L611 509.6 L600.6 519.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M505 218.5 L505 238.5 L505 282 L505 282 L505 325.5 L505 325.5 L505 369 L505 369 L505 412.5 L505 412.5 L505 456 L505 456 L505 499.5 L505 499.5 L392.2 530.6 L392.2 530.6 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M397.2 523.7 L392.2 530.6 L400 534 L385.8 532.4 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="321" y="242.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;">HTTP</text>
+  <path d="M460.5 210.5 L380 238.5 L380 251.8 L380 251.8 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M374.7 245.2 L380 251.8 L385.3 245.2 L380 258.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="396" y="333.5" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;">Webhook</text>
+  <path d="M380 305.5 L380 325.5 L342.3 342.7 L342.3 342.7 " style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M346.1 335.1 L342.3 342.7 L350.6 344.8 L336.2 345.5 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;stroke-width:3;"></path>
+  <circle r="8" cx="189.5" cy="60.5" data-name="User" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></circle>
+  <path d="M189.5 68.5 L189.5 84.5" data-name="User" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M181.5 76.5 L197.5 76.5" data-name="User" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <path d="M181.5 92.5 L189.5 84.5 L197.5 92.5" data-name="User" style="stroke:#33322E;fill:none;stroke-dasharray:none;stroke-width:3;"></path>
+  <text x="189.5" y="114" style="fill: #33322E;font:normal  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="User">User</text>
+  <rect x="139" y="171.5" height="47" width="101" data-name="jel.ly.fish" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="189.5" y="201" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="jel.ly.fish">jel.ly.fish</text>
+  <rect x="124" y="258.5" height="47" width="131" data-name="UI Container" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="189.5" y="288" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="UI Container">UI Container</text>
+  <rect x="231" y="345.5" height="47" width="107" data-name="api.ly.fish" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="284.5" y="375" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="api.ly.fish">api.ly.fish</text>
+  <rect x="214" y="432.5" height="47" width="141" data-name="API Container" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="284.5" y="462" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="API Container">API Container</text>
+  <rect x="309" y="519.5" height="47" width="77" data-name="Redis" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="347.5" y="549" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Redis">Redis</text>
+  <rect x="539" y="519.5" height="47" width="102" data-name="Postgres" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="590" y="549" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Postgres">Postgres</text>
+  <rect x="461" y="171.5" height="47" width="89" data-name="Worker" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="505.5" y="201" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="Worker">Worker</text>
+  <rect x="295" y="258.5" height="47" width="170" data-name="External Services" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;stroke-width:3;"></rect>
+  <text x="380" y="288" style="fill: #33322E;font:bold  12pt Helvetica, Helvetica, sans-serif;text-anchor: middle;" data-name="External Services">External Services</text>
+</svg>
