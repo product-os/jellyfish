@@ -1,3 +1,4 @@
+const assert = require('assert').strict
 const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
@@ -167,15 +168,12 @@ exports.getElementText = async (page, selector) => {
 	})
 }
 
-exports.waitForInnerText = async (page, selector, text, index = 0, options = {}) => {
-	await page.waitForFunction(
-		(sel, txt, ind) => {
-			const matches = document.querySelectorAll(sel)
-			return matches[ind] && matches[ind].innerText === txt
-		},
-		options,
-		selector, text, index
-	)
+exports.waitForInnerText = async (page, selector, text, index = 0) => {
+	const selected = await page.$$(selector)
+	const innerText = await page.evaluate((element) => {
+		return element.innerText
+	}, selected[index])
+	assert(innerText === text)
 }
 
 exports.clearInput = async (page, selector) => {
