@@ -1,4 +1,19 @@
 - commits:
+    - subject: Replace mermaid.cli with nomnoml
+      hash: cc3c467a6bdeb3b1d8d7891fae5f6d4f7600d0c1
+      body: |
+        mermaid.cli works fine but requires a full
+        chromium binary download to function
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.56
+  date: 2021-12-17T09:37:15.548Z
+- commits:
     - subject: Bump puppeteer to v13
       hash: 196a2502ef965bab358d8bc2ab9e3e01cd970701
       body: ''
