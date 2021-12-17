@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump puppeteer to v13
+      hash: 196a2502ef965bab358d8bc2ab9e3e01cd970701
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.55
+  date: 2021-12-17T06:39:49.939Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-chat-widget to ^12.5.80'
       hash: db9b1e0bdd526c7e4b8437afb34f04075be1b7e4
       body: ''
