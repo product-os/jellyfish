@@ -23,7 +23,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.5.86",
-    "@balena/jellyfish-client-sdk": "^7.0.27",
+    "@balena/jellyfish-client-sdk": "^7.0.28",
     "@balena/jellyfish-environment": "^6.0.4",
     "@balena/jellyfish-ui-components": "^13.1.11",
     "analytics-client": "^1.7.0",
@@ -87,7 +87,7 @@
     "@babel/preset-react": "^7.16.5",
     "@babel/register": "^7.16.5",
     "@balena/jellyfish-config": "^2.0.2",
-    "@balena/jellyfish-types": "^1.2.41",
+    "@balena/jellyfish-types": "^1.2.42",
     "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.7.1",
