@@ -1,4 +1,17 @@
 - commits:
+    - subject: Alerting user should show desktop notification
+      hash: c21f9e578b4d2c502bcab2c4ad8910b0d0cd70f9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Connects-to: '#6268'
+        connects-to: '#6268'
+      author: karaxuna
+      nested: []
+  version: 42.2.70
+  date: 2021-12-20T13:24:27.027Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-queue to ^1.0.395'
       hash: 3abccabcd99f874e3c5e986c36b4d9f73717cb7f
       body: ''
