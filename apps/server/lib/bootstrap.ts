@@ -14,21 +14,13 @@ import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	Contract,
-	SessionContract,
-	SessionData,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { Transformer } from '@balena/jellyfish-worker/build/transformers';
+import { getActorKey } from '@balena/jellyfish-worker/build/utils';
 
 const logger = getLogger(__filename);
-
-// A session with a guaranteed actor set
-interface SessionContractWithActor extends SessionContract {
-	data: SessionContract['data'] & {
-		actor: string;
-	};
-}
 
 const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
 	type: 'object',
@@ -98,43 +90,6 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
 	},
 };
 
-const getActorKey = async (
-	context: coreType.Context,
-	jellyfish: coreType.JellyfishKernel,
-	session: string,
-	actorId: string,
-): Promise<SessionContractWithActor> => {
-	const keySlug = `session-action-${actorId}`;
-	const key = await jellyfish.getCardBySlug<SessionContract>(
-		context,
-		session,
-		`${keySlug}@1.0.0`,
-	);
-
-	if (key && key.active && key.data.actor === actorId) {
-		return key;
-	}
-
-	logger.info(context, 'Create worker key', {
-		slug: keySlug,
-		actor: actorId,
-	});
-
-	return jellyfish.replaceCard<SessionData>(
-		context,
-		session,
-		jellyfish.defaults<SessionContract>({
-			slug: keySlug,
-			active: true,
-			version: '1.0.0',
-			type: 'session@1.0.0',
-			data: {
-				actor: actorId,
-			},
-		}),
-	);
-};
-
 export const bootstrap = async (context, options) => {
 	// Load plugin data
 	const integrations = options.pluginManager.getSyncIntegrations(context);
@@ -184,7 +139,7 @@ export const bootstrap = async (context, options) => {
 		try {
 			const key = await getActorKey(
 				context,
-				jellyfish,
+				jellyfish as any,
 				jellyfish.sessions!.admin,
 				actionRequest.data.actor!,
 			);
