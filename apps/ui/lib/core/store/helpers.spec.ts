@@ -88,6 +88,30 @@ describe('Redux store helpers', () => {
 			expect(mentionsUser(card, user, groups)).toBe(true);
 		});
 
+		test('returns true if user in alertsUser array', () => {
+			const user = {
+				slug: 'user-1',
+			};
+			const card = {
+				type: 'message',
+				markers: [],
+				data: {
+					payload: {
+						alertsUser: [user.slug],
+						alertsGroup: ['group1'],
+					},
+				},
+			};
+			const groups = {
+				group1: {
+					name: 'group1',
+					users: ['some-other-user'],
+					isMine: false,
+				},
+			};
+			expect(mentionsUser(card, user, groups)).toBe(true);
+		});
+
 		test("returns true if card type is 'message' and user in one of the markers", () => {
 			const user = {
 				slug: 'user-1',
@@ -136,7 +160,31 @@ describe('Redux store helpers', () => {
 			expect(mentionsUser(card, user, groups)).toBe(true);
 		});
 
-		test('returns false if user not in mentionsUser array or in any group in mentionsGroup or in any markers', () => {
+		test('returns true if user in a group in the alertsGroup array', () => {
+			const user = {
+				slug: 'user-1',
+			};
+			const card = {
+				type: 'message',
+				markers: [],
+				data: {
+					payload: {
+						alertsUser: ['some-other-user'],
+						alertsGroup: ['group1'],
+					},
+				},
+			};
+			const groups = {
+				group1: {
+					name: 'group1',
+					users: [user.slug],
+					isMine: true,
+				},
+			};
+			expect(mentionsUser(card, user, groups)).toBe(true);
+		});
+
+		test('returns false if user not in mentionsUser/alertsUser array or in any group in mentionsGroup/alertsGroup or in any markers', () => {
 			const user = {
 				slug: 'user-1',
 			};
@@ -147,6 +195,8 @@ describe('Redux store helpers', () => {
 					payload: {
 						mentionsUser: ['some-other-user'],
 						mentionsGroup: ['group1'],
+						alertsUser: ['some-other-user'],
+						alertsGroup: ['group1'],
 					},
 				},
 			};
