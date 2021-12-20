@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-default to ^21.1.163'
+      hash: 835cdc3a370a48908bfe128b6bf997fd6bab1b5d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.71
+  date: 2021-12-20T15:15:09.214Z
+- commits:
     - subject: Alerting user should show desktop notification
       hash: c21f9e578b4d2c502bcab2c4ad8910b0d0cd70f9
       body: ''
