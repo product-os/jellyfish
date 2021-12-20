@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import update from 'immutability-helper';
+import { core } from '@balena/jellyfish-types';
 
 /**
  * Given a target card id and a card that's been updated, finds all channels
@@ -56,7 +57,15 @@ export const updateThreadChannels = (targetId, card, allChannels) => {
 // function should be removed as it is a temporary and sub-optimal approach
 // to determining if a user should be notified about a card.
 export const mentionsUser = (card, user, groups) => {
-	if (_.includes(_.get(card, ['data', 'payload', 'mentionsUser']), user.slug)) {
+	if (
+		_.includes(
+			_.concat(
+				_.get(card, ['data', 'payload', 'mentionsUser'], []),
+				_.get(card, ['data', 'payload', 'alertsUser'], []),
+			),
+			user.slug,
+		)
+	) {
 		return true;
 	}
 
@@ -67,7 +76,11 @@ export const mentionsUser = (card, user, groups) => {
 		return true;
 	}
 
-	const groupMentions = _.get(card, ['data', 'payload', 'mentionsGroup'], []);
+	const groupMentions = _.union<string>(
+		_.get(card, ['data', 'payload', 'mentionsGroup'], []),
+		_.get(card, ['data', 'payload', 'alertsGroup'], []),
+	);
+
 	return _.some(groupMentions, (groupName) => {
 		return _.get(groups, [groupName, 'isMine']);
 	});
