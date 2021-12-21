@@ -1153,3 +1153,59 @@ conditionalTest(
 		);
 	},
 );
+
+conditionalTest('should sync tags', async () => {
+	const username = `test-${uuid()}`;
+	const email = `${username}@test.io`;
+	const tags = ['foo'];
+
+	await context.sdk.card.create({
+		slug: `contact-${username}`,
+		type: 'contact',
+		data: {
+			profile: {
+				email,
+			},
+		},
+		tags,
+	});
+
+	const contact = await waitForContactWithMirror(username);
+	expect(contact.data).toEqual({
+		mirrors: contact.data.mirrors,
+		profile: {
+			email,
+		},
+	});
+	expect(contact.tags).toEqual(tags);
+
+	expect(contact.data.mirrors.length).toBe(1);
+	expect(
+		contact.data.mirrors[0].startsWith(
+			'https://api.outreach.io/api/v2/prospects/',
+		),
+	).toBe(true);
+	const prospectId = _.parseInt(_.last(contact.data.mirrors[0].split('/'))!);
+	const prospect = await context.getProspect(prospectId);
+
+	expect(prospect.data.attributes.emails).toEqual([email]);
+	expect(prospect.data.attributes.name).toBe(username);
+	expect(prospect.data.attributes.nickname).toBe(username);
+	expect(prospect.data.attributes.tags).toEqual(tags);
+	expect(prospect.data.attributes.githubUsername).toBeFalsy();
+	expect(prospect.data.attributes.custom1).toBe(
+		`https://jel.ly.fish/${contact.id}`,
+	);
+
+	// Update the contact with a new tag
+	tags.push('bar');
+	await context.sdk.card.update(contact.id, contact.type, [
+		{
+			op: 'add',
+			path: '/tags/1',
+			value: tags[1],
+		},
+	]);
+	const updatedProspect = await context.getProspect(prospectId);
+	expect(updatedProspect.data.attributes.tags).toEqual(tags);
+});
