@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 7410fc3a913ecc1db4d80fc234cc0c68bd54e919
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.74
+  date: 2021-12-21T10:41:38.355Z
+- commits:
     - subject: 'Bump plugin-default, add outreach tag sync test'
       hash: 14c16624ae2336bfbaeaf4dac706c44885b2fbb8
       body: ''
