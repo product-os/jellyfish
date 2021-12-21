@@ -1,4 +1,27 @@
 - commits:
+    - subject: 'Bump plugin-default, add outreach tag sync test'
+      hash: 14c16624ae2336bfbaeaf4dac706c44885b2fbb8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Bump jellyfish-plugin-outreach to v1.0.357
+      hash: a0425eada1924f8c8fa39859791e2073473a4e8e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.73
+  date: 2021-12-21T05:56:25.598Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-core to ^8.2.7'
       hash: def03a750b356561a11d25e18e5fe1e9c3fdadcd
       body: ''
