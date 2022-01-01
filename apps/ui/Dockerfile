@@ -26,7 +26,7 @@ RUN npm run build
 # Runtime
 ###########################################################
 
-FROM nginx:1.21.4
+FROM nginx:1.21.5
 WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
 COPY apps/ui/conf/env.sh /tmp
