@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 47103e0f6d4a121054acb375691c150ec24159ac
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.89
+  date: 2022-01-02T23:51:32.528Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to ^13.0.1'
       hash: f208ec35d0df070dc19c595692e9911482af9cd0
       body: ''
