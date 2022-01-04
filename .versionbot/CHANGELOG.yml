@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-metrics to v2'
+      hash: db79b181aa5f919ef4c04dc5c4926870b5da0c09
+      body: |
+        Update @balena/jellyfish-metrics from 1.0.446 to 2.0.9
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.2.92
+  date: 2022-01-04T06:51:53.792Z
+- commits:
     - subject: Bump jellyfish-plugin-outreach to v1.0.373
       hash: 01af507258144e8828417459f9f3e0ac3f8f40ad
       body: ''
