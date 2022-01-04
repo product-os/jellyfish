@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin-outreach and sync
+      hash: f75423f0c53d4fefd23bc57de90bbba5889ce815
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.93
+  date: 2022-01-04T07:33:32.409Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-metrics to v2'
       hash: db79b181aa5f919ef4c04dc5c4926870b5da0c09
       body: |
