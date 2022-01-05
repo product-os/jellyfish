@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-sync to v6.2.14
+      hash: 7217196bcf18e23981f0d53417ab366841dca17a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.95
+  date: 2022-01-05T05:42:35.722Z
+- commits:
     - subject: 'Add push:lib npm script'
       hash: 54be5d0ee750137ae6e416c2348b3b92b3eefc49
       body: ''
