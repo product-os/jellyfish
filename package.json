@@ -39,6 +39,7 @@
     "compose:monitor": "docker-compose -f docker-compose.yml -f docker-compose.monitor.yml up",
     "compose:database": "docker-compose up postgres redis haproxy",
     "push": "./scripts/push.sh",
+    "push:lib": "./scripts/push-lib.js",
     "build:livechat": "(cd apps/livechat && npm run build)",
     "build:server": "(cd apps/server && npm run build)",
     "build:ui": "(cd apps/ui && npm run build)",
