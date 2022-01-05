@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'Add push:lib npm script'
+      hash: 54be5d0ee750137ae6e416c2348b3b92b3eefc49
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.2.94
+  date: 2022-01-05T02:19:49.231Z
+- commits:
     - subject: Bump plugin-outreach and sync
       hash: f75423f0c53d4fefd23bc57de90bbba5889ce815
       body: ''
