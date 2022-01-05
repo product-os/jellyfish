@@ -81,7 +81,7 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "@balena/jellyfish-action-library": "^16.1.12",
-    "@balena/jellyfish-chat-widget": "^12.5.92",
+    "@balena/jellyfish-chat-widget": "^12.5.98",
     "@balena/jellyfish-client-sdk": "^7.0.32",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^8.2.7",
@@ -99,7 +99,7 @@
     "@balena/jellyfish-plugin-typeform": "^4.0.26",
     "@balena/jellyfish-queue": "^1.0.395",
     "@balena/jellyfish-sync": "^6.2.14",
-    "@balena/jellyfish-ui-components": "^13.1.14",
+    "@balena/jellyfish-ui-components": "^13.1.17",
     "@balena/jellyfish-worker": "^10.1.28",
     "@balena/lint": "^6.2.0",
     "@octokit/plugin-retry": "^3.0.9",
