@@ -1,4 +1,15 @@
 - commits:
+    - subject: Improve webpack performance
+      hash: 801de260c9576e8213fbb414c30ece4640bd090b
+      body: ''
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 42.3.0
+  date: 2022-01-05T22:25:28.593Z
+- commits:
     - subject: 'patch: bump up open-balena-base Docker image version 12.2.0 => 13.0.3'
       hash: cc51a1388dddd9fb85b529555023b4983b645c58
       body: ''
