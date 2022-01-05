@@ -31,7 +31,7 @@ console.log(`Generating bundle from ${uiRoot}`)
 const config = {
 	entry: path.join(uiRoot, 'index.tsx'),
 	target: 'web',
-	devtool: 'source-map',
+	devtool: process.env.NODE_ENV === 'production' ? 'eval' : 'eval-cheap-module-source-map',
 	mode: process.env.NODE_ENV || 'production',
 
 	output: {
