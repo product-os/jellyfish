@@ -1,25 +1,34 @@
 import _ from 'lodash';
-import * as core from '@balena/jellyfish-core';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Worker } from '@balena/jellyfish-worker';
 import { Sync } from '@balena/jellyfish-sync';
 import * as assert from '@balena/jellyfish-assert';
-import * as metrics from '@balena/jellyfish-metrics';
 import { loadCards } from './card-loader';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
+	Context,
 	Contract,
+	JellyfishKernel,
 	SessionContract,
 	SessionData,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { Transformer } from '@balena/jellyfish-worker/build/transformers';
+import {
+	cardMixins,
+	create as createKernel,
+	MemoryCache,
+} from '@balena/jellyfish-core';
+import {
+	markActionRequest,
+	startServer as startMetricsServer,
+} from '@balena/jellyfish-metrics';
 
 const logger = getLogger(__filename);
 
@@ -30,7 +39,7 @@ interface SessionContractWithActor extends SessionContract {
 	};
 }
 
-const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRIGGERS: JsonSchema = {
 	type: 'object',
 	properties: {
 		id: {
@@ -55,7 +64,7 @@ const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
 	required: ['id', 'slug', 'active', 'type', 'data'],
 };
 
-const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type', 'data'],
 	properties: {
@@ -85,7 +94,7 @@ const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
 	},
 };
 
-const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
+const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type'],
 	properties: {
@@ -99,8 +108,8 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
 };
 
 const getActorKey = async (
-	context: coreType.Context,
-	jellyfish: coreType.JellyfishKernel,
+	context: Context,
+	jellyfish: JellyfishKernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
@@ -139,7 +148,7 @@ export const bootstrap = async (context, options) => {
 	// Load plugin data
 	const integrations = options.pluginManager.getSyncIntegrations(context);
 	const actionLibrary = options.pluginManager.getActions(context);
-	const cards = options.pluginManager.getCards(context, core.cardMixins);
+	const cards = options.pluginManager.getCards(context, cardMixins);
 
 	// Set up a sync instance using integrations from plugins
 	context.sync = new Sync({
@@ -156,7 +165,7 @@ export const bootstrap = async (context, options) => {
 	await webServer.start();
 
 	logger.info(context, 'Setting up cache');
-	const cache = new core.MemoryCache(environment.redis);
+	const cache = new MemoryCache(environment.redis);
 	if (cache) {
 		await cache.connect();
 	}
@@ -166,11 +175,12 @@ export const bootstrap = async (context, options) => {
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
-	const jellyfish = (await core.create(context, cache, {
-		backend: backendOptions,
-	})) as any as coreType.JellyfishKernel;
 
-	const metricsServer = metrics.startServer(
+	const jellyfish = (await createKernel(context, cache, {
+		backend: backendOptions,
+	})) as any as JellyfishKernel;
+
+	const metricsServer = startMetricsServer(
 		context,
 		environment.metrics.ports.app,
 	);
@@ -180,7 +190,7 @@ export const bootstrap = async (context, options) => {
 	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
 	await producer.initialize(context);
 	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
-		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
+		markActionRequest(actionRequest.data.action.split('@')[0]);
 		try {
 			const key = await getActorKey(
 				context,
