@@ -15,11 +15,11 @@ import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	Contract,
 	SessionContract,
-	SessionData,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { Transformer } from '@balena/jellyfish-worker/build/transformers';
+import { Kernel } from '@balena/jellyfish-core/build/kernel';
 
 const logger = getLogger(__filename);
 
@@ -100,7 +100,7 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
 
 const getActorKey = async (
 	context: coreType.Context,
-	jellyfish: coreType.JellyfishKernel,
+	jellyfish: Kernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
@@ -120,7 +120,7 @@ const getActorKey = async (
 		actor: actorId,
 	});
 
-	return jellyfish.replaceCard<SessionData>(
+	return jellyfish.replaceCard<SessionContractWithActor>(
 		context,
 		session,
 		jellyfish.defaults<SessionContract>({
@@ -166,9 +166,10 @@ export const bootstrap = async (context, options) => {
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
-	const jellyfish = (await core.create(context, cache, {
+
+	const jellyfish = await core.create(context, cache, {
 		backend: backendOptions,
-	})) as any as coreType.JellyfishKernel;
+	});
 
 	const metricsServer = metrics.startServer(
 		context,
@@ -176,8 +177,8 @@ export const bootstrap = async (context, options) => {
 	);
 
 	// Create queue instances
-	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
-	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
+	const producer = new Producer(jellyfish as any, jellyfish.sessions!.admin);
+	const consumer = new Consumer(jellyfish as any, jellyfish.sessions!.admin);
 	await producer.initialize(context);
 	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
 		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
@@ -410,7 +411,13 @@ export const bootstrap = async (context, options) => {
 		const request = await producer.storeRequest(
 			worker.getId(),
 			jellyfish.sessions!.admin,
-			requestOptions,
+			{
+				logContext: requestOptions.context,
+				action: requestOptions.action,
+				arguments: requestOptions.arguments,
+				card: requestOptions.card,
+				type: requestOptions.type,
+			},
 		);
 		const result = await worker.execute(jellyfish.sessions!.admin, request);
 		assert.INTERNAL(
@@ -485,7 +492,7 @@ export const bootstrap = async (context, options) => {
 			);
 			return producer.enqueue(worker.getId(), jellyfish.sessions!.admin, {
 				action: 'action-bootstrap-channel@1.0.0',
-				context,
+				logContext: context,
 				card: channelCard!.id,
 				type: channelCard!.type,
 				arguments: {},
