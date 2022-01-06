@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: e55f3d139fc61c8307b5230f7e3679577de9f6e8
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.1
+  date: 2022-01-06T12:15:20.335Z
+- commits:
     - subject: Improve webpack performance
       hash: 801de260c9576e8213fbb414c30ece4640bd090b
       body: ''
