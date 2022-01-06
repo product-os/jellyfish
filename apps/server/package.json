@@ -23,7 +23,7 @@
     "dev": "nodemon --inspect=0.0.0.0 ./lib/index.ts"
   },
   "dependencies": {
-    "@balena/jellyfish-action-library": "^16.1.12",
+    "@balena/jellyfish-action-library": "^16.1.13",
     "@balena/jellyfish-assert": "^1.2.5",
     "@balena/jellyfish-core": "^8.2.7",
     "@balena/jellyfish-environment": "^6.0.7",
@@ -39,7 +39,7 @@
     "@balena/jellyfish-plugin-github": "^1.11.277",
     "@balena/jellyfish-plugin-outreach": "^1.0.376",
     "@balena/jellyfish-plugin-product-os": "^2.9.40",
-    "@balena/jellyfish-plugin-typeform": "^4.0.26",
+    "@balena/jellyfish-plugin-typeform": "^4.0.28",
     "@balena/jellyfish-queue": "^1.0.395",
     "@balena/jellyfish-sync": "^6.2.14",
     "@balena/jellyfish-worker": "^10.1.28",
