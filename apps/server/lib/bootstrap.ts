@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import * as core from '@balena/jellyfish-core';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
 import { Worker } from '@balena/jellyfish-worker';
 import { Sync } from '@balena/jellyfish-sync';
@@ -9,17 +8,22 @@ import { loadCards } from './card-loader';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger } from '@balena/jellyfish-logger';
-import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import { JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
 	Contract,
 	SessionContract,
-	SessionData,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { Transformer } from '@balena/jellyfish-worker/build/transformers';
+import {
+	Cache,
+	cardMixins,
+	Kernel,
+	PostgresBackendOptions,
+} from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 
@@ -99,14 +103,14 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
 };
 
 const getActorKey = async (
-	context: coreType.Context,
-	jellyfish: coreType.JellyfishKernel,
+	logContext: LogContext,
+	jellyfish: Kernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
 	const keySlug = `session-action-${actorId}`;
 	const key = await jellyfish.getCardBySlug<SessionContract>(
-		context,
+		logContext,
 		session,
 		`${keySlug}@1.0.0`,
 	);
@@ -115,13 +119,13 @@ const getActorKey = async (
 		return key;
 	}
 
-	logger.info(context, 'Create worker key', {
+	logger.info(logContext, 'Create worker key', {
 		slug: keySlug,
 		actor: actorId,
 	});
 
-	return jellyfish.replaceCard<SessionData>(
-		context,
+	return jellyfish.replaceCard<SessionContractWithActor>(
+		logContext,
 		session,
 		jellyfish.defaults<SessionContract>({
 			slug: keySlug,
@@ -139,7 +143,7 @@ export const bootstrap = async (context, options) => {
 	// Load plugin data
 	const integrations = options.pluginManager.getSyncIntegrations(context);
 	const actionLibrary = options.pluginManager.getActions(context);
-	const cards = options.pluginManager.getCards(context, core.cardMixins);
+	const cards = options.pluginManager.getCards(context, cardMixins);
 
 	// Set up a sync instance using integrations from plugins
 	context.sync = new Sync({
@@ -156,19 +160,18 @@ export const bootstrap = async (context, options) => {
 	await webServer.start();
 
 	logger.info(context, 'Setting up cache');
-	const cache = new core.MemoryCache(environment.redis);
+	const cache = new Cache(environment.redis);
 	if (cache) {
 		await cache.connect();
 	}
 
 	// Instantiate a core instance that will handle DB operations
-	const backendOptions =
+	const backendOptions: PostgresBackendOptions =
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
-	const jellyfish = (await core.create(context, cache, {
-		backend: backendOptions,
-	})) as any as coreType.JellyfishKernel;
+
+	const jellyfish = await Kernel.withPostgres(context, cache, backendOptions);
 
 	const metricsServer = metrics.startServer(
 		context,
@@ -176,8 +179,8 @@ export const bootstrap = async (context, options) => {
 	);
 
 	// Create queue instances
-	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
-	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
+	const producer = new Producer(jellyfish as any, jellyfish.sessions!.admin);
+	const consumer = new Consumer(jellyfish as any, jellyfish.sessions!.admin);
 	await producer.initialize(context);
 	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
 		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
