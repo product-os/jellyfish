@@ -100,6 +100,10 @@ export const getWrapper = (
 	},
 ) => {
 	const store = mockStore(initialState);
+	const stream = {
+		on: sinon.stub(),
+		emit: sinon.stub(),
+	};
 	return {
 		store,
 		wrapper: ({ children }: any) => {
@@ -108,10 +112,11 @@ export const getWrapper = (
 					<MemoryRouter>
 						<SetupProvider
 							actions={{}}
-							sdk={{} as any}
+							sdk={{ stream: () => stream } as any}
 							analytics={{} as any}
 							errorReporter={{} as any}
 							environment={{}}
+							stream={{} as any}
 						>
 							<ReduxProvider store={store}>
 								<Provider>
