@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        Revert "patch: bump up open-balena-base Docker image version 12.2.0 =>
+        13.0.3"
+      hash: 9b9cf04ebb4e5943bcdcdb4c7a2ac9a338b12210
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Josh Bowling
+      nested: []
+  version: 42.3.3
+  date: 2022-01-07T00:52:01.917Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 66747d55e8ad392c2e69cb1c907c7dba7bb763c3
       body: ''
