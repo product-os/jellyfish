@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-sync to v6.2.15
+      hash: 306d5f07373ae710bd049a484ff4acd0e11e9730
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.4
+  date: 2022-01-07T06:37:28.137Z
+- commits:
     - subject: >-
         Revert "patch: bump up open-balena-base Docker image version 12.2.0 =>
         13.0.3"
