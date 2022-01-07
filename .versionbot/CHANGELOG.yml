@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: b209810c96b0b5f3a1bb901b34f9ed6e8d2d10fc
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.6
+  date: 2022-01-07T11:11:14.118Z
+- commits:
     - subject: 'patch: Update dependency mermaid to 8.13.8 [SECURITY]'
       hash: d8e6969d39ff8c6125051f9fa88463362ac34273
       body: |
