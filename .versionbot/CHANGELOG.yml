@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency mermaid to 8.13.8 [SECURITY]'
+      hash: d8e6969d39ff8c6125051f9fa88463362ac34273
+      body: |
+        Update mermaid from 8.13.3 to 8.13.8
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.5
+  date: 2022-01-07T10:32:28.037Z
+- commits:
     - subject: Bump jellyfish-sync to v6.2.15
       hash: 306d5f07373ae710bd049a484ff4acd0e11e9730
       body: ''
