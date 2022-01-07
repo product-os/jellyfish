@@ -41,7 +41,7 @@
     "@balena/jellyfish-plugin-product-os": "^2.9.40",
     "@balena/jellyfish-plugin-typeform": "^4.0.28",
     "@balena/jellyfish-queue": "^1.0.395",
-    "@balena/jellyfish-sync": "^6.2.14",
+    "@balena/jellyfish-sync": "^6.2.15",
     "@balena/jellyfish-worker": "^10.1.28",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "aws-sdk": "^2.1048.0",
