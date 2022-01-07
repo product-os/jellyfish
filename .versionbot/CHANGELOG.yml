@@ -1,4 +1,25 @@
 - commits:
+    - subject: Add shellcheck to depcheck ignore list
+      hash: d6101fc36c0bd990a4807ba768b67a2ebdae324c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: >-
+        patch: generate package-lock.json to see if it works with
+        resinci/jellyfish-test:v1.4.17
+      hash: 8e214c99d56822aac4d1c2667762431b835e06c6
+      body: ''
+      footer: {}
+      author: Taro Murao
+      nested: []
+  version: 42.3.1
+  date: 2022-01-07T04:51:05.743Z
+- commits:
     - subject: Improve webpack performance
       hash: 801de260c9576e8213fbb414c30ece4640bd090b
       body: ''
