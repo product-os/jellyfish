@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-plugin-outreach to ^1.0.383'
+      hash: 4bb5a0ffb1d1a5668f37fc2aa0f462ba62c47329
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.13
+  date: 2022-01-08T10:58:48.900Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: addcd11ee3a881117d4f6fdcb503c4783d332e1e
       body: ''
