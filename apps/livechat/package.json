@@ -39,7 +39,7 @@
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/lint": "^6.2.0",
     "babel-loader": "^8.2.3",
-    "depcheck": "^1.4.2",
+    "depcheck": "^1.4.3",
     "esbuild-loader": "^2.18.0",
     "eslint": "^7.32.0",
     "rimraf": "^3.0.2",
