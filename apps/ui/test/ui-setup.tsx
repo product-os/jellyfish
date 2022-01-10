@@ -110,13 +110,13 @@ export const getWrapper = (
 			return (
 				<CacheProvider value={emotionCache}>
 					<MemoryRouter>
+						{/* @ts-ignore: TS-TODO - add missing props to SetupProvider test instance */}
 						<SetupProvider
 							actions={{}}
 							sdk={{ stream: () => stream } as any}
 							analytics={{} as any}
 							errorReporter={{} as any}
 							environment={{}}
-							stream={{} as any}
 						>
 							<ReduxProvider store={store}>
 								<Provider>
