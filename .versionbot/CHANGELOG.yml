@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update internal-patch'
+      hash: 26a7f20e973dea6ff37c5bd8c1cd24a25ae32c8c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.21
+  date: 2022-01-10T10:00:14.626Z
+- commits:
     - subject: 'patch: Update dependency depcheck to ^1.4.3'
       hash: 7da6017299deffeafedb5f902b1c430e4fcfcd7d
       body: ''
