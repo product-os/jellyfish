@@ -13,7 +13,6 @@ import { getLogger } from '@balena/jellyfish-logger';
 import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
 import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import {
-	Contract,
 	SessionContract,
 	SessionData,
 	StreamChange,
@@ -57,7 +56,7 @@ const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
 
 const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
 	type: 'object',
-	required: ['active', 'type', 'data'],
+	required: ['active', 'type', 'data', 'version'],
 	properties: {
 		active: {
 			const: true,
@@ -65,6 +64,8 @@ const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
 		type: {
 			const: 'transformer@1.0.0',
 		},
+		// ignoring draft versions
+		version: { not: { pattern: '-' } },
 		data: {
 			type: 'object',
 			required: ['$transformer'],
@@ -206,20 +207,18 @@ export const bootstrap = async (context, options) => {
 	);
 	await worker.initialize(context);
 
-	const workerContractsSchema = {
-		anyOf: [
-			SCHEMA_ACTIVE_TRIGGERS,
-			SCHEMA_ACTIVE_TRANSFORMERS,
-			SCHEMA_ACTIVE_TYPE_CONTRACTS,
-		],
-	};
-
 	// For better performance, commonly accessed contracts are stored in cache in the worker.
 	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
 	const workerContractsStream = await jellyfish.stream(
 		context,
 		jellyfish.sessions!.admin,
-		workerContractsSchema,
+		{
+			anyOf: [
+				SCHEMA_ACTIVE_TRIGGERS,
+				SCHEMA_ACTIVE_TRANSFORMERS,
+				SCHEMA_ACTIVE_TYPE_CONTRACTS,
+			],
+		},
 	);
 
 	const closeWorker = async () => {
@@ -303,34 +302,29 @@ export const bootstrap = async (context, options) => {
 		}
 	});
 
-	const workerContracts = await jellyfish.query<TriggeredActionContract>(
-		context,
-		jellyfish.sessions!.admin,
-		workerContractsSchema,
+	const [triggers, transformers, typeContracts] = await Promise.all(
+		[
+			SCHEMA_ACTIVE_TRIGGERS,
+			SCHEMA_ACTIVE_TRANSFORMERS,
+			SCHEMA_ACTIVE_TYPE_CONTRACTS,
+		].map((schema) =>
+			jellyfish.query(context, jellyfish.sessions!.admin, schema),
+		),
 	);
-
-	const contractsMap = _.groupBy(workerContracts, (contract) => {
-		return contract.type.split('@')[0];
-	}) as _.Dictionary<[Contract<unknown>, ...Array<Contract<unknown>>]>;
-
-	const triggers = contractsMap['triggered-action'] || [];
 
 	logger.info(context, 'Loading triggers', {
 		triggers: triggers.length,
 	});
-
 	worker.setTriggers(context, triggers as TriggeredActionContract[]);
-
-	const transformers = (contractsMap['transformer'] || []) as Transformer[];
 
 	logger.info(context, 'Loading transformers', {
 		transformers: transformers.length,
 	});
+	worker.setTransformers(context, transformers as Transformer[]);
 
-	worker.setTransformers(context, transformers);
-
-	const typeContracts = contractsMap['type'] || [];
-
+	logger.info(context, 'Loading types', {
+		transformers: transformers.length,
+	});
 	worker.setTypeContracts(context, typeContracts as TypeContract[]);
 
 	const results = await loadCards(
