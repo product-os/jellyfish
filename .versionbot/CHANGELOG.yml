@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-sync to v6.2.22
+      hash: 5d24f5f86dbdf586e1d7973c6029ec4cf8ab62c1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.17
+  date: 2022-01-10T02:13:40.116Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-plugin-github to ^1.11.284'
       hash: 86a1a54ed12b1c5fba45704f7360806630477d1a
       body: ''
