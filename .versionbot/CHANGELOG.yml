@@ -1,4 +1,21 @@
 - commits:
+    - subject: workaround >1000 bootstrapped worker contracts
+      hash: 7027e9b9661b2c19469f689bbbb9083914b3b4de
+      body: >
+        load different contract types in separate but parallel queries to allow
+        each to have its own limit.
+
+        Also draft Transformers are filtered out anyway, so we don't query them
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 42.3.22
+  date: 2022-01-10T12:11:36.924Z
+- commits:
     - subject: 'patch: Update internal-patch'
       hash: 26a7f20e973dea6ff37c5bd8c1cd24a25ae32c8c
       body: ''
