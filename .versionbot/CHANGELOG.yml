@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency depcheck to ^1.4.3'
+      hash: 7da6017299deffeafedb5f902b1c430e4fcfcd7d
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.20
+  date: 2022-01-10T05:18:12.029Z
+- commits:
     - subject: Bump jellyfish-sync to v6.3.0
       hash: 21affb79b3aefe8d32a13b3c17af607dd59deab0
       body: ''
