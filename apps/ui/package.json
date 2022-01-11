@@ -5,7 +5,7 @@
   "private": true,
   "description": "The Jellyfish UI App",
   "engines": {
-    "node": ">=14.2.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "clean": "rimraf dist",
