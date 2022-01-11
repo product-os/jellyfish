@@ -10,12 +10,12 @@
     "url": "git@github.com:product-os/jellyfish.git"
   },
   "engines": {
-    "node": ">=14.2.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps && npm run lint:livechat && npm run lint:server && npm run lint:ui",
     "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh",
-    "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*",
+    "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:livechat": "(cd apps/livechat && npm run lint)",
     "lint:server": "(cd apps/server && npm run lint)",
