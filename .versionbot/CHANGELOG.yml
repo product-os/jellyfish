@@ -1,4 +1,23 @@
 - commits:
+    - subject: 'patch: Upgrade open-balena-base v12.2.0 => v13.0.3'
+      hash: fcd8f710ae1f46e7c18dcb39c26a72e9bdd680ba
+      body: ''
+      footer: {}
+      author: Taro Murao
+      nested: []
+    - subject: Add shellcheck to depcheck ignore list
+      hash: 33fc79ed4a2271c5a80eb79e0b494f8def86adda
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.26
+  date: 2022-01-11T11:12:28.314Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-client-sdk to v7'
       hash: c8a780f1ad56272562134c3d5ca5615e6606f093
       body: |
