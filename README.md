@@ -44,6 +44,7 @@ Many parts of Jellyfish are still under development, and this document aims to c
 Installing dependencies
 -----------------------
 
+We use Node v16 to develop Jellyfish. First install dependencies with:
 ```sh
 $ npm i
 ```
