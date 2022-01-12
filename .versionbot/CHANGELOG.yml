@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update configs/docs to Node v16
+      hash: 870187b734acd4d1e99556746a3ac179c5d644c3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.27
+  date: 2022-01-12T04:27:04.552Z
+- commits:
     - subject: 'patch: Upgrade open-balena-base v12.2.0 => v13.0.3'
       hash: fcd8f710ae1f46e7c18dcb39c26a72e9bdd680ba
       body: ''
