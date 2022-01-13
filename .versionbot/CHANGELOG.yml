@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.4.18'
+      hash: e89f5208b3da3052d2f5257cb96d46857029e22c
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.29
+  date: 2022-01-13T03:02:47.444Z
+- commits:
     - subject: "\U0001F504 Synced file(s) with product-os/secrets"
       hash: de7ee3c1535978bff7ea262eb9099c11b7bbb532
       body: ''
