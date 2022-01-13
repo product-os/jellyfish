@@ -1,4 +1,19 @@
 - commits:
+    - subject: 'View: Improve layout of sort controls on small screens'
+      hash: 73de22385f619d277551a93a10f490b27c25a264
+      body: |
+        This change places the sort controls side by side on small screens,
+        using less vertical space.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 42.3.30
+  date: 2022-01-13T15:09:50.490Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.4.18'
       hash: e89f5208b3da3052d2f5257cb96d46857029e22c
       body: ''
