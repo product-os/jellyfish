@@ -225,8 +225,12 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 
 		return (
 			<React.Fragment>
-				<Box flex="1">
-					<Flex mt={0} flex="1 0 auto" justifyContent="space-between">
+				<Flex mt={0} flexWrap="wrap" justifyContent="space-between">
+					<Flex
+						alignItems="center"
+						justifyContent="flex-start"
+						flex="1 1 300px"
+					>
 						<Filters
 							schema={schemaForFilters as JSONSchema7}
 							filters={filters}
@@ -236,37 +240,31 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 							renderMode={['add']}
 							filterFieldCompareFn={compareFilterFields}
 						/>
-						<Flex
-							flexWrap="wrap"
-							alignItems="center"
-							justifyContent="flex-end"
-							flex={1}
-						>
-							<Box mb={3} flex="0 1 500px">
-								<Search
-									className="view__search"
-									value={searchTerm}
-									onChange={updateSearch}
-								/>
-							</Box>
-							<SortByButton
-								pageOptions={pageOptions}
-								setSortByField={handleSortByChange}
-								tailTypes={tailTypes}
-								ml={2}
-								mb={3}
-								minWidth="150px"
+						<Box mb={3} flex="0 1 500px">
+							<Search
+								className="view__search"
+								value={searchTerm}
+								onChange={updateSearch}
 							/>
-							<SortDirButton
-								value={pageOptions.sortDir}
-								onChange={handleSortDirChange}
-								ml={2}
-								mb={3}
-								minWidth="50px"
-							/>
-						</Flex>
+						</Box>
 					</Flex>
-				</Box>
+					<Flex alignItems="center" justifyContent="space-between" flex={1}>
+						<SortByButton
+							pageOptions={pageOptions}
+							setSortByField={handleSortByChange}
+							tailTypes={tailTypes}
+							mb={3}
+							minWidth="150px"
+						/>
+						<SortDirButton
+							value={pageOptions.sortDir}
+							onChange={handleSortDirChange}
+							ml={2}
+							mb={3}
+							minWidth="50px"
+						/>
+					</Flex>
+				</Flex>
 				{summaryFilters.length > 0 && (
 					<Box
 						flex="1 0 auto"
