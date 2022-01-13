@@ -62,7 +62,7 @@ $ git secret reveal -f
 Developing with Livepush
 ------------------------
 
-To start developing, you must first install [balenaCLI](https://github.com/balena-io/balena-cli) and set up a local-mode device.
+To start developing, you must first install [balenaCLI](https://github.com/balena-io/balena-cli) and set up a local-mode device. This could be a virtual machine [in VirtualBox](https://www.balena.io/blog/no-hardware-use-virtualbox/) with at least 32 GB of disk space, 4 GB RAM, and 4 CPU cores. It could also be a separate device, such as an Intel NUC (i7 CPU and at least 8GB memory recommended), on your local network to move the heavy lifting off of your main machine.
 
 ### Prepare the device
 1. Create a new balenaCloud app as described [here](https://www.balena.io/docs/learn/getting-started/intel-nuc/nodejs/)
@@ -83,6 +83,8 @@ Add endpoints to local hosts file:
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
 
 Finally, deploy everything to the device by executing `npm run push` from the repository root.
+
+During the bootstrap phase a default user contract with username and password equal to jellyfish is inserted. With those credentials you can start interacting with Jellyfish, for instance using [Jellyfish client SDK](https://github.com/product-os/jellyfish-client-sdk).
 
 Once deployed, app and library source changes will cause quick service reloads. Adding and removing
 app dependencies will cause that service's image to be rebuilt from its `npm ci` layer. Adding and
