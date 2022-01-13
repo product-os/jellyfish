@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^16.2.0'
+      hash: f0797a15f9d438685fd287af875fbb22800f2d7c
+      body: |
+        Update @balena/jellyfish-action-library from 16.1.21 to 16.2.0
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.31
+  date: 2022-01-13T15:58:15.661Z
+- commits:
     - subject: 'View: Improve layout of sort controls on small screens'
       hash: 73de22385f619d277551a93a10f490b27c25a264
       body: |
