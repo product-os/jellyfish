@@ -1,4 +1,17 @@
 - commits:
+    - subject: >-
+        patch: Document that a user with user name jellyfish and password
+        jellyfish is created at bootstrap.
+      hash: 513261b035d11ff7fc1814acfbd62558620551ae
+      body: ''
+      footer:
+        Co-authored-by: Josh Bowling <45343541+joshbwlng@users.noreply.github.com>
+        co-authored-by: Josh Bowling <45343541+joshbwlng@users.noreply.github.com>
+      author: Taro Murao
+      nested: []
+  version: 42.3.32
+  date: 2022-01-13T16:36:35.979Z
+- commits:
     - subject: 'patch: Update dependency @balena/jellyfish-action-library to ^16.2.0'
       hash: f0797a15f9d438685fd287af875fbb22800f2d7c
       body: |
