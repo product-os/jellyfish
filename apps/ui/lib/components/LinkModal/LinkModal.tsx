@@ -50,8 +50,9 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	targetTypes,
 	linkVerb,
 }) => {
-	const [selectedTarget, setSelectedTarget] =
-		React.useState<Contract | undefined>(target);
+	const [selectedTarget, setSelectedTarget] = React.useState<
+		Contract | undefined
+	>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
 	const [linkType, setLinkType] = React.useState<linkUtils.LinkType>();

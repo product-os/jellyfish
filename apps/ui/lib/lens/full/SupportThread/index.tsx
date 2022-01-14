@@ -160,13 +160,14 @@ class SupportThreadBase extends SingleCardFull {
 				},
 				additionalProperties: true,
 			},
+			// TS-TODO: Make sure that `links` is an allowed query option key
 			{
 				links: {
 					'has attached element': {
 						sortBy: ['data', 'timestamp'],
 					},
 				},
-			},
+			} as any,
 		);
 
 		const highlights =
@@ -314,13 +315,20 @@ class SupportThreadBase extends SingleCardFull {
 				}
 				actionItems={
 					<React.Fragment>
-						<ActionRouterLink append="view-all-issues">
-							Search GitHub issues
-						</ActionRouterLink>
+						{
+							// Todo: Resolve the broken typing on ActionRouterLink
+							// @ts-ignore
+							<ActionRouterLink append="view-all-issues">
+								Search GitHub issues
+							</ActionRouterLink>
+						}
 
-						<ActionRouterLink append="view-all-patterns">
-							Search patterns
-						</ActionRouterLink>
+						{
+							// @ts-ignore
+							<ActionRouterLink append="view-all-patterns">
+								Search patterns
+							</ActionRouterLink>
+						}
 					</React.Fragment>
 				}
 			>
