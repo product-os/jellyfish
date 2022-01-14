@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update vulnerable engine.io sub-dependency
+      hash: f454bcccc0247f27c5a44dc67b2a779da47611da
+      body: >
+        This fixes an issue where a specially crafted HTTP request can
+
+        trigger an uncaught exception on the Engine.IO server (used by
+        socket.io), thus killing the Node.js process.
+
+
+        See https://github.com/advisories/GHSA-273r-mgr4-v34f
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 42.3.33
+  date: 2022-01-14T01:50:37.754Z
+- commits:
     - subject: >-
         patch: Document that a user with user name jellyfish and password
         jellyfish is created at bootstrap.
