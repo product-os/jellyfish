@@ -388,7 +388,7 @@ export const attachRoutes = (
 			.measureHttpType(() => {
 				const [base, version] = request.params.type.split('@');
 				return jellyfish
-					.query(request.context, request.sessionToken, {
+					.query(request.context, request.session, {
 						type: 'object',
 						additionalProperties: true,
 						required: ['type'],
@@ -412,7 +412,7 @@ export const attachRoutes = (
 		return metrics
 			.measureHttpId(() => {
 				return jellyfish
-					.getCardById(request.context, request.sessionToken, request.params.id)
+					.getCardById(request.context, request.session, request.params.id)
 					.then((card) => {
 						if (card) {
 							return response.status(200).json(card);
@@ -432,7 +432,7 @@ export const attachRoutes = (
 				return jellyfish
 					.getCardBySlug(
 						request.context,
-						request.sessionToken,
+						request.session,
 						`${request.params.slug}@latest`,
 						{
 							type: request.params.type,
@@ -587,7 +587,7 @@ export const attachRoutes = (
 		async (request, response) => {
 			const card = await jellyfish.getCardById(
 				request.context,
-				request.sessionToken,
+				request.session,
 				request.params.cardId,
 			);
 			if (!card) {
@@ -596,8 +596,8 @@ export const attachRoutes = (
 
 			const sessionCard = await jellyfish.getCardById(
 				request.context,
-				request.sessionToken,
-				request.sessionToken,
+				request.session,
+				request.session,
 			);
 			if (!sessionCard) {
 				return response.send(401);
@@ -698,7 +698,7 @@ export const attachRoutes = (
 					}
 
 					return actionFacade
-						.processAction(request.context, request.sessionToken, action, {
+						.processAction(request.context, request.session, action, {
 							files: request.files,
 						})
 						.then((data) => {
@@ -732,7 +732,7 @@ export const attachRoutes = (
 				return queryFacade
 					.queryAPI(
 						request.context,
-						request.sessionToken,
+						request.session,
 						request.body.query,
 						request.body.options,
 						request.ip,
@@ -754,7 +754,7 @@ export const attachRoutes = (
 		viewFacade
 			.queryByView(
 				request.context,
-				request.sessionToken,
+				request.session,
 				request.params.slug,
 				request.body.params,
 				request.body.options,
@@ -780,7 +780,7 @@ export const attachRoutes = (
 			.measureHttpWhoami(async () => {
 				const user = await authFacade.whoami(
 					request.context,
-					request.sessionToken,
+					request.session,
 					request.ip,
 				);
 
@@ -828,7 +828,7 @@ export const attachRoutes = (
 		};
 
 		return actionFacade
-			.processAction(request.context, request.sessionToken, action)
+			.processAction(request.context, request.session, action)
 			.then((data) => {
 				return response.status(200).json({
 					error: false,

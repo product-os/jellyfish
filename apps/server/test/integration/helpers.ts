@@ -6,6 +6,7 @@ import { getSdk } from '@balena/jellyfish-client-sdk';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { bootstrap } from '../../lib/bootstrap';
 import { getPluginManager } from '../../lib/plugins';
+import bcrypt from 'bcrypt';
 
 const workerOptions = {
 	onError: (_context, error) => {
@@ -62,6 +63,8 @@ export const before = async (context) => {
 
 	const userCard = await context.createUser(context.username);
 
+	context.sessionToken = uuid();
+
 	// Force login, even if we don't know the password
 	context.session = await context.sdk.card.create({
 		slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
@@ -69,6 +72,9 @@ export const before = async (context) => {
 		version: '1.0.0',
 		data: {
 			actor: userCard.id,
+			token: {
+				authentication: await bcrypt.hash(context.sessionToken, 12),
+			},
 		},
 	});
 

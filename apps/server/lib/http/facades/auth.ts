@@ -2,13 +2,13 @@ import * as assert from '@balena/jellyfish-assert';
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {
-	async whoami(context, sessionToken, ipAddress) {
+	async whoami(context, session, ipAddress) {
 		// Use the admin session, as the user invoking this function
 		// might not have enough access to read its entire session card.
 		const result = await this.jellyfish.getCardById(
 			context,
 			this.jellyfish.sessions.admin,
-			sessionToken,
+			session,
 		);
 		assert.USER(
 			context,
@@ -47,7 +47,7 @@ export class AuthFacade extends QueryFacade {
 		// TODO: Fix our broken queries so that we can optionally get linked data
 		let user = await this.queryAPI(
 			context,
-			sessionToken,
+			session,
 			schema,
 			{
 				limit: 1,
@@ -60,7 +60,7 @@ export class AuthFacade extends QueryFacade {
 		if (!user) {
 			user = await this.jellyfish.getCardById(
 				context,
-				sessionToken,
+				session,
 				result.data.actor,
 			);
 		}
