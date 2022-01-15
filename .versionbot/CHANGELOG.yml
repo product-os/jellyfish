@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 60ed737c37c5d5e2ce9f842703b941ac3c6a0325
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.3.34
+  date: 2022-01-15T00:10:17.017Z
+- commits:
     - subject: Update vulnerable engine.io sub-dependency
       hash: f454bcccc0247f27c5a44dc67b2a779da47611da
       body: >
