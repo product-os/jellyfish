@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 775be7016d095f593943ff99c7cb8323a6923b61
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.37
+  date: 2022-01-16T08:22:47.198Z
+- commits:
     - subject: Bump jellyfish-assert to v1.2.7
       hash: 27ba601a984ee9743861ec26aae200fe91c51f35
       body: ''
