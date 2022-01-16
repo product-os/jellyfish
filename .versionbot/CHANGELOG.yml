@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin-product-os and plugin-flowdock
+      hash: d5d2c7775a9239ab32ad4021821c4350bb4dfc21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.40
+  date: 2022-01-16T10:38:57.948Z
+- commits:
     - subject: Bump plugin-base and plugin-channels
       hash: 5dbf9c0041966542fe40803cdba97f6a910d01ab
       body: ''
