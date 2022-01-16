@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin-base and plugin-channels
+      hash: 5dbf9c0041966542fe40803cdba97f6a910d01ab
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.39
+  date: 2022-01-16T09:36:18.424Z
+- commits:
     - subject: Bump jellyfish-sync to v6.3.1
       hash: f3f4e6239d73fba8c8c9bcd9238bb48420a3da0a
       body: ''
