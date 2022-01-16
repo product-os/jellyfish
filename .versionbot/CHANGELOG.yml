@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-assert to v1.2.7
+      hash: 27ba601a984ee9743861ec26aae200fe91c51f35
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 42.3.36
+  date: 2022-01-16T07:10:59.031Z
+- commits:
     - subject: 'patch: Update dependency ts-jest to ^27.1.3'
       hash: 8912a65ebff5d3abd4467a75ac2c5e0a3f6f22b8
       body: ''
