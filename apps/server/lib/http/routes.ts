@@ -231,7 +231,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				producer,
-				options.guestSession,
+				kernel.adminSession()!,
 				request.params.provider,
 				{
 					code,
