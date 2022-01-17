@@ -42,7 +42,7 @@ ava.serial(
 	'The guest user should not be able to see execute events',
 	async (test) => {
 		const {
-			sdk
+			sdk, token
 		} = test.context
 
 		await sdk.auth.logout()
@@ -50,6 +50,8 @@ ava.serial(
 		const results = await sdk.card.getAllByType('execute')
 
 		test.is(results.length, 0)
+
+		await sdk.setAuthToken(token)
 	}
 )
 

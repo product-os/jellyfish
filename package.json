@@ -89,7 +89,7 @@
     "@balena/jellyfish-plugin-balena-api": "^1.0.239",
     "@balena/jellyfish-plugin-base": "^2.2.24",
     "@balena/jellyfish-plugin-channels": "^1.1.441",
-    "@balena/jellyfish-plugin-default": "^21.2.14",
+    "@balena/jellyfish-plugin-default": "22.0.0-lucianbuzzo-lock-down-guest-role-9914d133fb2f4b445ad883f1d076c5325216f77e",
     "@balena/jellyfish-plugin-discourse": "^1.1.129",
     "@balena/jellyfish-plugin-flowdock": "^1.0.273",
     "@balena/jellyfish-plugin-front": "^1.3.147",
