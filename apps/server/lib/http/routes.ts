@@ -794,6 +794,186 @@ export const attachRoutes = (
 			});
 	});
 
+	// The login route dispatches the login request to the auth facade using
+	// the admin session. This is a special case because we don't want anonymous
+	// users to be able to access execute contracts
+	application.post('/api/v2/login', async (request, response) => {
+		const { username, password } = request.body;
+
+		// Verify parameters
+		const parameters = {
+			username,
+			password,
+		};
+		for (const [key, value] of Object.entries(parameters).sort()) {
+			if (!_.isString(value)) {
+				return response.status(400).json({
+					error: true,
+					data: `Invalid ${key}`,
+				});
+			}
+		}
+
+		// Normalize username to lower case
+		const slug = `user-${username}`.toLowerCase();
+		const action = {
+			card: slug,
+			type: 'user',
+			action: 'action-create-session@1.0.0',
+			arguments: {
+				password,
+			},
+		};
+
+		return actionFacade
+			.processAction(request.context, jellyfish.sessions.admin, action)
+			.then((data) => {
+				return response.status(200).json({
+					error: false,
+					data,
+				});
+			})
+			.catch((error) => {
+				return sendHTTPError(request, response, error);
+			});
+	});
+
+	application.post(
+		'/api/v2/request-password-reset',
+		async (request, response) => {
+			const { username } = request.body;
+
+			// Verify parameters
+			const parameters = {
+				username,
+			};
+			for (const [key, value] of Object.entries(parameters).sort()) {
+				if (!_.isString(value)) {
+					return response.status(400).json({
+						error: true,
+						data: `Invalid ${key}`,
+					});
+				}
+			}
+
+			const userType = await jellyfish.getCardBySlug(
+				request.context,
+				jellyfish.sessions.admin,
+				'user@latest',
+			);
+			const action = {
+				card: userType.id,
+				action: 'action-request-password-reset@1.0.0',
+				type: userType.type,
+				arguments: {
+					username,
+				},
+			};
+
+			// Always return a 200 OK status, to prevent data leaking to unauthorized users
+			return actionFacade
+				.processAction(request.context, jellyfish.sessions.admin, action)
+				.finally(() => {
+					return response.status(200).json({
+						error: false,
+						data: 'ok',
+					});
+				});
+		},
+	);
+
+	application.post(
+		'/api/v2/complete-password-reset',
+		async (request, response) => {
+			const { newPassword, resetToken } = request.body;
+
+			// Verify parameters
+			const parameters = {
+				newPassword,
+				resetToken,
+			};
+			for (const [key, value] of Object.entries(parameters).sort()) {
+				if (!_.isString(value)) {
+					return response.status(400).json({
+						error: true,
+						data: `Invalid ${key}`,
+					});
+				}
+			}
+
+			const userType = await jellyfish.getCardBySlug(
+				request.context,
+				jellyfish.sessions.admin,
+				'user@latest',
+			);
+			const action = {
+				card: userType.id,
+				action: 'action-complete-password-reset@1.0.0',
+				type: userType.type,
+				arguments: {
+					newPassword,
+					resetToken,
+				},
+			};
+
+			// Always return a 200 OK status, to prevent data leaking to unauthorized users
+			return actionFacade
+				.processAction(request.context, jellyfish.sessions.admin, action)
+				.finally(() => {
+					return response.status(200).json({
+						error: false,
+						data: 'ok',
+					});
+				});
+		},
+	);
+
+	application.post(
+		'/api/v2/complete-first-time-login',
+		async (request, response) => {
+			const { newPassword, firstTimeLoginToken } = request.body;
+
+			// Verify parameters
+			const parameters = {
+				newPassword,
+				firstTimeLoginToken,
+			};
+			for (const [key, value] of Object.entries(parameters).sort()) {
+				if (!_.isString(value)) {
+					return response.status(400).json({
+						error: true,
+						data: `Invalid ${key}`,
+					});
+				}
+			}
+
+			const userType = await jellyfish.getCardBySlug(
+				request.context,
+				jellyfish.sessions.admin,
+				'user@latest',
+			);
+			const action = {
+				card: userType.id,
+				action: 'action-complete-first-time-login@1.0.0',
+				type: userType.type,
+				arguments: {
+					newPassword,
+					firstTimeLoginToken,
+				},
+			};
+
+			// Always return a 200 OK status, to prevent data leaking to unauthorized users
+			return actionFacade
+				.processAction(request.context, jellyfish.sessions.admin, action)
+				.finally(() => {
+					return response.status(200).json({
+						error: false,
+						data: 'ok',
+					});
+				});
+		},
+	);
+
 	application.post('/api/v2/signup', async (request, response) => {
 		const { username, email, password } = request.body;
 

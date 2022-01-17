@@ -19,235 +19,256 @@ const createUserDetails = () => {
 	}
 }
 
-ava.serial('querying whoami with an invalid session should return the guest user info', async (test) => {
-	const result = await test.context.http('GET', '/api/v2/whoami', null, {
-		Authorization: `Bearer ${uuid()}`
-	})
+ava.serial(
+	'querying whoami with an invalid session should return the guest user info',
+	async (test) => {
+		const result = await test.context.http('GET', '/api/v2/whoami', null, {
+			Authorization: `Bearer ${uuid()}`
+		})
 
-	test.is(result.code, 200)
-	test.is(result.response.data.slug, 'user-guest')
-})
+		test.is(result.code, 200)
+		test.is(result.response.data.slug, 'user-guest')
+	}
+)
 
-ava.serial('Users should not be able to view other users passwords', async (test) => {
-	const {
-		sdk
-	} = test.context
+ava.serial(
+	'Users should not be able to view other users passwords',
+	async (test) => {
+		const {
+			sdk
+		} = test.context
 
-	const userDetails = createUserDetails()
-	const targetUser = await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
+		const userDetails = createUserDetails()
+		const targetUser = await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${userDetails.username}`,
+				email: userDetails.email,
+				password: userDetails.password
+			}
+		})
 
-	const activeUserDetails = createUserDetails()
+		const activeUserDetails = createUserDetails()
 
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${activeUserDetails.username}`,
-			email: activeUserDetails.email,
-			password: activeUserDetails.password
-		}
-	})
-	await sdk.auth.login(activeUserDetails)
+		await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${activeUserDetails.username}`,
+				email: activeUserDetails.email,
+				password: activeUserDetails.password
+			}
+		})
+		await sdk.auth.login(activeUserDetails)
 
-	const fetchedUser = await sdk.card.get(targetUser.id, {
-		type: 'user'
-	})
+		const fetchedUser = await sdk.card.get(targetUser.id, {
+			type: 'user'
+		})
 
-	test.is(fetchedUser.data.password, undefined)
-})
+		test.is(fetchedUser.data.password, undefined)
+	}
+)
 
-ava.serial('timeline cards should reference the correct actor', async (test) => {
-	const {
-		sdk
-	} = test.context
-	const userDetails = createUserDetails()
+ava.serial(
+	'timeline cards should reference the correct actor',
+	async (test) => {
+		const {
+			sdk
+		} = test.context
+		const userDetails = createUserDetails()
 
-	const user = await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
+		const user = await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${userDetails.username}`,
+				email: userDetails.email,
+				password: userDetails.password
+			}
+		})
 
-	await sdk.auth.login(userDetails)
+		await sdk.auth.login(userDetails)
 
-	const thread = await sdk.card.create({
-		type: 'thread'
-	})
+		const thread = await sdk.card.create({
+			type: 'thread'
+		})
 
-	// Set up the watcher before the card is updated to stop race conditions from
-	// happening
-	// Wait for links to be materialized
-	const waitQuery = {
-		type: 'object',
-		additionalProperties: true,
-		$$links: {
-			'has attached element': {
-				type: 'object',
-				required: [ 'type' ],
-				properties: {
-					type: {
-						type: 'string',
-						const: 'update@1.0.0'
+		// Set up the watcher before the card is updated to stop race conditions from
+		// happening
+		// Wait for links to be materialized
+		const waitQuery = {
+			type: 'object',
+			additionalProperties: true,
+			$$links: {
+				'has attached element': {
+					type: 'object',
+					required: [ 'type' ],
+					properties: {
+						type: {
+							type: 'string',
+							const: 'update@1.0.0'
+						}
 					}
 				}
-			}
-		},
-		properties: {
-			id: {
-				type: 'string',
-				const: thread.id
-			}
-		},
-		required: [ 'id' ]
-	}
-
-	await test.context.executeThenWait(async () => {
-		const result = await test.context.http(
-			'POST', '/api/v2/action', {
-				card: `${thread.slug}@${thread.version}`,
-				type: thread.type,
-				action: 'action-update-card@1.0.0',
-				arguments: {
-					reason: null,
-					patch: [
-						{
-							op: 'add',
-							path: '/data/description',
-							value: 'Lorem ipsum dolor sit amet'
-						}
-					]
+			},
+			properties: {
+				id: {
+					type: 'string',
+					const: thread.id
 				}
-			}, {
-				Authorization: `Bearer ${sdk.getAuthToken()}`
+			},
+			required: [ 'id' ]
+		}
+
+		await test.context.executeThenWait(async () => {
+			const result = await test.context.http(
+				'POST',
+				'/api/v2/action',
+				{
+					card: `${thread.slug}@${thread.version}`,
+					type: thread.type,
+					action: 'action-update-card@1.0.0',
+					arguments: {
+						reason: null,
+						patch: [
+							{
+								op: 'add',
+								path: '/data/description',
+								value: 'Lorem ipsum dolor sit amet'
+							}
+						]
+					}
+				},
+				{
+					Authorization: `Bearer ${sdk.getAuthToken()}`
+				}
+			)
+
+			if (result.code !== 200) {
+				throw new Error(`Error code: ${result.code}`)
+			}
+		}, waitQuery)
+
+		const card = await sdk.card.getWithTimeline(thread.id, {
+			type: 'thread@1.0.0'
+		})
+		test.truthy(card)
+
+		const timelineActors = _.uniq(
+			card.links['has attached element'].map((item) => {
+				return item.data.actor
 			})
+		)
 
-		if (result.code !== 200) {
-			throw new Error(`Error code: ${result.code}`)
-		}
-	}, waitQuery)
+		test.deepEqual(timelineActors, [ user.id ])
+	}
+)
 
-	const card = await sdk.card.getWithTimeline(thread.id, {
-		type: 'thread@1.0.0'
-	})
-	test.truthy(card)
+ava.serial(
+	'Users should not be able to login as the core admin user',
+	async (test) => {
+		const {
+			sdk
+		} = test.context
 
-	const timelineActors = _.uniq(card.links['has attached element'].map((item) => {
-		return item.data.actor
-	}))
+		// First check that the guest user cannot login
+		sdk.auth.logout()
 
-	test.deepEqual(timelineActors, [ user.id ])
-})
+		await test.throwsAsync(
+			sdk.auth.login({
+				username: 'admin'
+			})
+		)
 
-ava.serial('Users should not be able to login as the core admin user', async (test) => {
-	const {
-		sdk
-	} = test.context
+		sdk.setAuthToken(test.context.token)
+		const userData = createUserDetails()
 
-	// First check that the guest user cannot login
-	sdk.auth.logout()
-
-	const error1 = await test.throwsAsync(sdk.auth.login({
-		username: 'admin'
-	}))
-
-	test.is(error1.name, 'WorkerAuthenticationError')
-
-	sdk.setAuthToken(test.context.token)
-	const userData = createUserDetails()
-
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userData.username}`,
-			email: userData.email,
-			password: userData.password
-		}
-	})
-
-	await sdk.auth.login(userData)
-
-	const error2 = await test.throwsAsync(sdk.auth.login({
-		username: 'admin'
-	}))
-
-	test.is(error2.name, 'WorkerAuthenticationError')
-})
-
-ava.serial('.query() additionalProperties should not affect listing users as a new user', async (test) => {
-	const id = uuid()
-
-	const details = createUserDetails()
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${details.username}`,
-			email: details.email,
-			password: details.password
-		}
-	})
-
-	const userDetails = createUserDetails()
-	await test.context.sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-	await test.context.sdk.auth.login(userDetails)
-	const results1 = await test.context.sdk.query({
-		type: 'object',
-		required: [ 'type' ],
-		properties: {
-			type: {
-				type: 'string',
-				const: 'user@1.0.0'
-			},
-			id: {
-				type: 'string',
-				const: id
+		await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${userData.username}`,
+				email: userData.email,
+				password: userData.password
 			}
-		}
-	})
-	const results2 = await test.context.sdk.query({
-		type: 'object',
-		additionalProperties: true,
-		required: [ 'type' ],
-		properties: {
-			type: {
-				type: 'string',
-				const: 'user@1.0.0'
-			},
-			id: {
-				type: 'string',
-				const: id
+		})
+
+		await sdk.auth.login(userData)
+
+		await test.throwsAsync(
+			sdk.auth.login({
+				username: 'admin'
+			})
+		)
+	}
+)
+
+ava.serial(
+	'.query() additionalProperties should not affect listing users as a new user',
+	async (test) => {
+		const id = uuid()
+
+		const details = createUserDetails()
+		await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${details.username}`,
+				email: details.email,
+				password: details.password
 			}
-		}
-	})
-	test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
-})
+		})
+
+		const userDetails = createUserDetails()
+		await test.context.sdk.action({
+			card: 'user@1.0.0',
+			type: 'type',
+			action: 'action-create-user@1.0.0',
+			arguments: {
+				username: `user-${userDetails.username}`,
+				email: userDetails.email,
+				password: userDetails.password
+			}
+		})
+		await test.context.sdk.auth.login(userDetails)
+		const results1 = await test.context.sdk.query({
+			type: 'object',
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'user@1.0.0'
+				},
+				id: {
+					type: 'string',
+					const: id
+				}
+			}
+		})
+		const results2 = await test.context.sdk.query({
+			type: 'object',
+			additionalProperties: true,
+			required: [ 'type' ],
+			properties: {
+				type: {
+					type: 'string',
+					const: 'user@1.0.0'
+				},
+				id: {
+					type: 'string',
+					const: id
+				}
+			}
+		})
+		test.deepEqual(_.map(results1, 'id'), _.map(results2, 'id'))
+	}
+)
 
 ava.serial('should apply permissions on resolved links', async (test) => {
 	const {
@@ -349,38 +370,41 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 	test.falsy(linkedUser.data.profile)
 })
 
-ava.serial('Users should not be able to view create cards that create users', async (test) => {
-	const {
-		sdk
-	} = test.context
+ava.serial(
+	'Users should not be able to view create cards that create users',
+	async (test) => {
+		const {
+			sdk
+		} = test.context
 
-	const user1Details = createUserDetails()
-	const user2Details = createUserDetails()
+		const user1Details = createUserDetails()
+		const user2Details = createUserDetails()
 
-	await sdk.auth.signup(user1Details)
-	const user2 = await sdk.auth.signup(user2Details)
+		await sdk.auth.signup(user1Details)
+		const user2 = await sdk.auth.signup(user2Details)
 
-	await sdk.auth.login(user1Details)
+		await sdk.auth.login(user1Details)
 
-	// The create event for user 2 should not be visible to user 1
-	const results = await sdk.query({
-		$$links: {
-			'is attached to': {
-				type: 'object',
-				properties: {
-					id: {
-						const: user2.id
+		// The create event for user 2 should not be visible to user 1
+		const results = await sdk.query({
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					properties: {
+						id: {
+							const: user2.id
+						}
 					}
 				}
+			},
+			type: 'object',
+			properties: {
+				type: {
+					const: 'create@1.0.0'
+				}
 			}
-		},
-		type: 'object',
-		properties: {
-			type: {
-				const: 'create@1.0.0'
-			}
-		}
-	})
+		})
 
-	test.is(results.length, 0)
-})
+		test.is(results.length, 0)
+	}
+)

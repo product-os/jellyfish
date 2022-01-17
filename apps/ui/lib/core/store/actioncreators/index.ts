@@ -1359,44 +1359,19 @@ export const actionCreators = {
 	requestPasswordReset({ username }) {
 		return async (dispatch, getState, { sdk }) => {
 			const userType = await sdk.getBySlug('user@latest');
-			return sdk.action({
-				card: userType.id,
-				action: 'action-request-password-reset@1.0.0',
-				type: userType.type,
-				arguments: {
-					username,
-				},
-			});
+			return sdk.auth.requestPasswordReset(username);
 		};
 	},
 
 	completePasswordReset({ password, resetToken }) {
 		return async (dispatch, getState, { sdk }) => {
-			const userType = await sdk.getBySlug('user@latest');
-			return sdk.action({
-				card: userType.id,
-				action: 'action-complete-password-reset@1.0.0',
-				type: userType.type,
-				arguments: {
-					newPassword: password,
-					resetToken,
-				},
-			});
+			return sdk.auth.completePasswordReset(password, resetToken);
 		};
 	},
 
 	completeFirstTimeLogin({ password, firstTimeLoginToken }) {
 		return async (dispatch, getState, { sdk }) => {
-			const userType = await sdk.getBySlug('user@latest');
-			return sdk.action({
-				card: userType.id,
-				action: 'action-complete-first-time-login@1.0.0',
-				type: userType.type,
-				arguments: {
-					newPassword: password,
-					firstTimeLoginToken,
-				},
-			});
+			return sdk.auth.completeFirstTimeLogin(password, firstTimeLoginToken);
 		};
 	},
 
