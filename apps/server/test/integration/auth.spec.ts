@@ -1,10 +1,14 @@
-import { before, beforeEach } from './helpers';
+import { before, beforeEach, after } from './helpers';
 
 const context: any = {};
 
 beforeAll(async () => {
 	await before(context);
 	await beforeEach(context);
+});
+
+afterAll(async () => {
+	await after(context);
 });
 
 const getSelfWithHeaders = async (headers = {}) => {
