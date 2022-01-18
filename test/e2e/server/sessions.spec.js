@@ -154,7 +154,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 	})
 })
 
-ava.serial('should fail when querying an invalid session with an invalid session', async (test) => {
+ava.serial('should fail with a 404 when querying an invalid session with an invalid session', async (test) => {
 	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 
 	const result = await test.context.http(
@@ -162,13 +162,10 @@ ava.serial('should fail when querying an invalid session with an invalid session
 			Authorization: `Bearer ${session}`
 		})
 
-	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: {
-			context: result.response.data.context,
-			name: 'JellyfishInvalidSession',
-			message: result.response.data.message
-		}
-	})
+	// When an invalid session ID is provided in the request,
+	// the guest session will be used by the server to authenticate
+	// any calls to Jellyfish core. Therefore, if the queried ID is
+	// invalid/does not exist, and the guest session has read access
+	// to it, a 404 should be returned.
+	test.is(result.code, 404)
 })
