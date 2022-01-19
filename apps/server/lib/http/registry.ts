@@ -77,14 +77,14 @@ export const authenticate = async (request, response, jellyfish) => {
 		return response.sendStatus(503);
 	}
 
-	let sessionToken: string | null = null;
+	let session: string | null = null;
 	let actorSlug: string | null = null;
 	try {
-		// Get id and sessionToken from basic auth header
-		[actorSlug, sessionToken] = b64decode(
+		// Get id and session from basic auth header
+		[actorSlug, session] = b64decode(
 			(request.headers.authorization || '').split(' ')[1] || '',
 		).split(':');
-		if (!actorSlug || !sessionToken) {
+		if (!actorSlug || !session) {
 			logger.info(request.context, 'Session token missing');
 			return response.status(400).send('session token missing');
 		}
@@ -93,7 +93,7 @@ export const authenticate = async (request, response, jellyfish) => {
 		// TODO figure out why we need the version on the slug here
 		const actor = await jellyfish.getCardBySlug(
 			request.context,
-			sessionToken,
+			session,
 			`${actorSlug}@latest`,
 		);
 		if (!actor) {
@@ -101,12 +101,12 @@ export const authenticate = async (request, response, jellyfish) => {
 		}
 
 		// Retrieve session card
-		const session = await jellyfish.getCardById(
+		const sessionCard = await jellyfish.getCardById(
 			request.context,
-			sessionToken,
-			sessionToken,
+			session,
+			session,
 		);
-		if (!session || session.data.actor !== actor.id) {
+		if (!session || sessionCard.data.actor !== actor.id) {
 			throw new Error('Invalid session');
 		}
 	} catch (error) {
@@ -155,7 +155,7 @@ export const authenticate = async (request, response, jellyfish) => {
 					// have the same permissions set
 					contract = await jellyfish.getCardBySlug(
 						request.context,
-						sessionToken,
+						session,
 						`${name}@latest`,
 					);
 				} catch (error) {

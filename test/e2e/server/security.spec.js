@@ -19,20 +19,13 @@ const createUserDetails = () => {
 	}
 }
 
-ava.serial('querying whoami with an invalid session should fail', async (test) => {
+ava.serial('querying whoami with an invalid session should return the guest user info', async (test) => {
 	const result = await test.context.http('GET', '/api/v2/whoami', null, {
 		Authorization: `Bearer ${uuid()}`
 	})
 
-	test.is(result.code, 400)
-	test.deepEqual(result.response, {
-		error: true,
-		data: {
-			context: result.response.data.context,
-			name: 'JellyfishInvalidSession',
-			message: 'Session does not exist'
-		}
-	})
+	test.is(result.code, 200)
+	test.is(result.response.data.slug, 'user-guest')
 })
 
 ava.serial('Users should not be able to view other users passwords', async (test) => {

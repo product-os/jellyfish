@@ -3,6 +3,8 @@ import bodyParser from 'body-parser';
 import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
 import { getLogger } from '@balena/jellyfish-logger';
+import { JellyfishKernel } from '@balena/jellyfish-types/build/core';
+import { authMiddleware } from './auth';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -13,8 +15,10 @@ const logger = getLogger(__filename);
 export const attachMiddlewares = (
 	rootContext,
 	application,
-	_jellyfish,
-	options,
+	jellyfish: JellyfishKernel,
+	options: {
+		guestSession: string;
+	},
 ) => {
 	application.use(
 		bodyParser.text({
@@ -107,10 +111,7 @@ export const attachMiddlewares = (
 		}),
 	);
 
-	application.use((request, _response, next) => {
-		const authorization = request.headers.authorization;
-		const token = _.last(_.split(authorization, ' '));
-		request.sessionToken = token || options.guestSession;
-		return next();
-	});
+	application.use(
+		authMiddleware(jellyfish, { guestSession: options.guestSession }),
+	);
 };

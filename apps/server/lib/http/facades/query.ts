@@ -11,7 +11,7 @@ export class QueryFacade {
 		this.jellyfish = jellyfish;
 	}
 
-	async queryAPI(context, sessionToken, query, options, ipAddress) {
+	async queryAPI(context, session, query, options, ipAddress) {
 		return Bluebird.try(async () => {
 			if (!_.isString(query)) {
 				return query;
@@ -20,7 +20,7 @@ export class QueryFacade {
 			// Now try and load the view by slug
 			const viewCardFromSlug = await this.jellyfish.getCardBySlug(
 				context,
-				sessionToken,
+				session,
 				`${query}@latest`,
 			);
 
@@ -32,7 +32,7 @@ export class QueryFacade {
 				// Try and load the view by id first
 				const viewCardFromId = await this.jellyfish.getCardById(
 					context,
-					sessionToken,
+					session,
 					query,
 				);
 
@@ -59,7 +59,7 @@ export class QueryFacade {
 
 			const data = await this.jellyfish.query(
 				context,
-				sessionToken,
+				session,
 				schema,
 				options,
 			);

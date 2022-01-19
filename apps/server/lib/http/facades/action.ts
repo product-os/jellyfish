@@ -35,7 +35,7 @@ export class ActionFacade {
 
 	async processAction(
 		context,
-		sessionToken,
+		session,
 		action,
 		options: ActionFacadeOptions = {},
 	) {
@@ -63,10 +63,10 @@ export class ActionFacade {
 			});
 		}
 
-		const finalRequest = await (this.worker as any).pre(sessionToken, action);
+		const finalRequest = await (this.worker as any).pre(session, action);
 		const actionRequest = await this.producer.enqueue(
 			(this.worker as any).getId(),
-			sessionToken,
+			session,
 			finalRequest,
 		);
 

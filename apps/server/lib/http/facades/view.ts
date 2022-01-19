@@ -14,20 +14,13 @@ export class ViewFacade {
 		this.queryFacade = queryFacade;
 	}
 
-	async queryByView(
-		context,
-		sessionToken,
-		viewSlug,
-		params,
-		options,
-		ipAddress,
-	) {
+	async queryByView(context, session, viewSlug, params, options, ipAddress) {
 		if (!_.includes(viewSlug, '@')) {
 			throw new Error('View slug must include a version');
 		}
 
 		return this.jellyfish
-			.getCardBySlug(context, sessionToken, viewSlug)
+			.getCardBySlug(context, session, viewSlug)
 			.then((view) => {
 				if (!view) {
 					return null;
@@ -49,7 +42,7 @@ export class ViewFacade {
 
 				return this.queryFacade.queryAPI(
 					context,
-					sessionToken,
+					session,
 					query,
 					options,
 					ipAddress,
