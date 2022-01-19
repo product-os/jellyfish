@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update dependency typedoc to ^0.22.11'
+      hash: ef9667f14ca2672927182261e45427baa647b6a5
+      body: |
+        Update typedoc from 0.22.10 to 0.22.11
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.4.1
+  date: 2022-01-19T00:33:26.613Z
+- commits:
     - subject: Update JF server to support session tokens
       hash: 96b4dde0417da15cbcb60ba4d3a2b7165568e841
       body: ''
