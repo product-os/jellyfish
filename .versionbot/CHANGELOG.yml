@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update grafana/grafana Docker tag to v8.3.4'
+      hash: 25c0fd765bc58eb0fba45c131d6859d4516b5598
+      body: |
+        Update grafana/grafana from 8.3.3 to 8.3.4
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.4.2
+  date: 2022-01-19T12:17:44.128Z
+- commits:
     - subject: 'patch: Update dependency typedoc to ^0.22.11'
       hash: ef9667f14ca2672927182261e45427baa647b6a5
       body: |
