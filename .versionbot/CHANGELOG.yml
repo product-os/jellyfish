@@ -1,4 +1,17 @@
 - commits:
+    - subject: make Transformer log link dynamic
+      hash: 56372cb4489395b8a28f95a7df2664854e7989d1
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Martin Rauscher <martin@balena.io>
+        signed-off-by: Martin Rauscher <martin@balena.io>
+      author: Martin Rauscher
+      nested: []
+  version: 42.4.4
+  date: 2022-01-20T15:01:07.362Z
+- commits:
     - subject: 'patch: Update dependency json-schema-faker to ^0.5.0-rcv.41'
       hash: 6b9d23cd3f555115108c84a79151371448a1e69e
       body: |
