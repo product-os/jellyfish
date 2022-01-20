@@ -64,7 +64,22 @@ const makeGraph = (baseContract: Contract) => {
 	return graph;
 };
 
-export default class SingleCardFull extends React.Component<any, any> {
+const hourInMs = 60 * 60 * 1000;
+
+const makeLogLink = (commit?: Contract) => {
+	if (!commit) {
+		return '';
+	}
+	const startUnix = new Date(commit.created_at).getTime();
+	const endUnix = startUnix + 2 * hourInMs;
+	const sha = (commit.data as any).head.sha;
+	return `https://monitor.balena-cloud.com/explore?orgId=1&left=%5B%22${startUnix}%22,%22${endUnix}%22,%22loki%22,%7B%22expr%22:%22%7Bfleet%3D%5C%22transformers-workers%5C%22,service!%3D%5C%22fleet-launcher%5C%22,service!%3D%5C%22balena_supervisor%5C%22,service!%3D%5C%22logshipper%5C%22,service!%3D%5C%22garbage-collector%5C%22,source_type%3D%5C%22balena%5C%22%7D%20%7C%20json%20%7C%20%20line_format%20%5C%22%7B%7B.name_extracted%7D%7D:%20%7B%7B.msg%7D%7D%20%7B%7B.line_status%7D%7D%20%7B%7B.slug%7D%7D%20%7B%7B.version%7D%7D%20%7B%7B.id%7D%7D%5C%22%5Cn%20%20%7C%20commit%3D%5C%22${sha}%5C%22%22,%22refId%22:%22A%22%7D%5D`;
+};
+
+export default class SingleCardFull extends React.Component<
+	{ card: Contract; channel: any; types: any; actionItems: any },
+	{ tree?: Contract; commit?: Contract; activeIndex: number }
+> {
 	interval: NodeJS.Timeout | null = null;
 
 	constructor(props) {
@@ -79,7 +94,6 @@ export default class SingleCardFull extends React.Component<any, any> {
 
 		this.state = {
 			activeIndex: comms.length ? 1 : 0,
-			tree: null,
 		};
 
 		this.setActiveIndex = this.setActiveIndex.bind(this);
@@ -170,6 +184,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 
 		this.setState({
 			tree: result,
+			commit,
 		});
 	}
 
@@ -209,10 +224,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 
 							<Txt pb={3}>
 								The logs for all transformer runs can be found{' '}
-								<Link
-									target="_blank"
-									href="https://monitor.balena-cloud.com/explore?orgId=1&left=%5B%22now-30m%22,%22now%22,%22loki%22,%7B%22expr%22:%22%7Bfleet%3D%5C%22transformers-workers%5C%22,service!%3D%5C%22fleet-launcher%5C%22,service!%3D%5C%22balena_supervisor%5C%22,service!%3D%5C%22logshipper%5C%22,service!%3D%5C%22garbage-collector%5C%22,source_type%3D%5C%22balena%5C%22%7D%20%22%7D%5D"
-								>
+								<Link target="_blank" href={makeLogLink(this.state.commit)}>
 									here
 								</Link>
 								.
