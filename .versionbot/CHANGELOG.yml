@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.4.20'
+      hash: 84070b4543b64bb03bd2d2aa168df46a0bef2b95
+      body: |
+        Update resinci/jellyfish-test from v1.4.18 to v1.4.20
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 42.4.5
+  date: 2022-01-20T15:43:11.615Z
+- commits:
     - subject: make Transformer log link dynamic
       hash: 56372cb4489395b8a28f95a7df2664854e7989d1
       body: ''
