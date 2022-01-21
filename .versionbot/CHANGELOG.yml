@@ -1,4 +1,22 @@
 - commits:
+    - subject: Use single purpose endpoints for actions performed by anonymous users
+      hash: 6e366290e9521b232996a31be316dd0fba7b8ff1
+      body: |
+        Using single purpose endpoints for actions performed by anonymous users
+        allow us to run the actions using a privileged user session and remove
+        the ability for the guest user to do it directly. This allows us to
+        reduce the scope of access that the guest user has, and therefore
+        anonymous users that the guest user represents.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 43.0.0
+  date: 2022-01-21T17:39:05.743Z
+- commits:
     - subject: 'patch: Update resinci/jellyfish-test Docker tag to v1.4.20'
       hash: 84070b4543b64bb03bd2d2aa168df46a0bef2b95
       body: |
