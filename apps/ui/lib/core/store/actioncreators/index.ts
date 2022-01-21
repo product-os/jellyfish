@@ -407,12 +407,6 @@ export const getSeedData = (
 };
 
 export const actionCreators = {
-	getIntegrationAuthUrl(user, integration) {
-		return async (dispatch, getState, { sdk }) => {
-			return sdk.integrations.getAuthorizationUrl(user, integration);
-		};
-	},
-
 	getCard(cardIdOrSlug, cardType, linkVerbs) {
 		return async (dispatch, getState, context) => {
 			return getCardInternal(cardIdOrSlug, cardType, linkVerbs)(

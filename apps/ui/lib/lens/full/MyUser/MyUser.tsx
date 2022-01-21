@@ -11,7 +11,6 @@ import {
 	Tab,
 	Tabs,
 	Divider,
-	Link,
 	Form,
 	TextWithCopy,
 } from 'rendition';
@@ -19,11 +18,11 @@ import * as skhema from 'skhema';
 import {
 	helpers,
 	timezones,
-	Icon,
 	UserAvatar,
 } from '@balena/jellyfish-ui-components';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import CardLayout from '../../../layouts/CardLayout';
+import { OauthIntegrations } from './OauthIntegrations';
 
 const SLUG = 'lens-my-user';
 
@@ -68,7 +67,6 @@ export default class MyUser extends React.Component<any, any> {
 			'handleProfileFormSubmit',
 			'handleInterfaceFormSubmit',
 			'changePassword',
-			'startAuthorize',
 		]);
 
 		const userTypeCard = helpers.getType('user', props.types);
@@ -127,18 +125,6 @@ export default class MyUser extends React.Component<any, any> {
 		methods.forEach((method) => {
 			this[method] = this[method].bind(this);
 		});
-	}
-
-	async startAuthorize() {
-		this.setState({
-			fetchingIntegrationUrl: true,
-		});
-		const user = this.props.card;
-		const url = await this.props.actions.getIntegrationAuthUrl(
-			user,
-			'outreach',
-		);
-		window.location.href = url;
 	}
 
 	handlePasswordFormChange(data) {
@@ -324,31 +310,7 @@ export default class MyUser extends React.Component<any, any> {
 
 					<Tab title="Oauth" data-test="tab_oauth">
 						<Box mt={3}>
-							<Divider color="#eee" />
-
-							<Flex justifyContent="space-between" alignItems="center">
-								<Link href="https://www.outreach.io/" blank>
-									<Txt bold mr={2}>
-										Outreach
-									</Txt>
-								</Link>
-
-								{_.get(user, ['data', 'oauth', 'outreach']) ? (
-									<Txt>Authorized</Txt>
-								) : (
-									<Button
-										data-test="integration-connection--outreach"
-										onClick={this.startAuthorize}
-									>
-										{this.state.fetchingIntegrationUrl ? (
-											<Icon spin name="cog" />
-										) : (
-											'Connect'
-										)}
-									</Button>
-								)}
-							</Flex>
-
+							<OauthIntegrations user={user} />
 							<Divider color="#eee" />
 						</Box>
 					</Tab>

@@ -202,7 +202,10 @@ export const attachRoutes = (
 		);
 		const status = associateUrl ? 200 : 400;
 		return response.status(status).json({
-			url: associateUrl,
+			error: false,
+			data: {
+				url: associateUrl,
+			},
 		});
 	});
 
