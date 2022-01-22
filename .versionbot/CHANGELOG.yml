@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin-product-os to 2.9.53
+      hash: dc72c42915f01685409a1d9e22803909ecb4c40e
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.8
+  date: 2022-01-22T12:23:55.306Z
+- commits:
     - subject: 'patch: Update dependency puppeteer to ^13.1.1'
       hash: 566e4b8e66fc8bf6781b98e7d254699dfff32cf0
       body: ''
