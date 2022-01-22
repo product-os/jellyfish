@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency @babel/core to ^7.16.12'
+      hash: d55f0fa2f15b68de0e9bc223f5a8b0299408778a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 43.0.10
+  date: 2022-01-22T16:56:41.986Z
+- commits:
     - subject: Bump jellyfish-plugin-outreach to 1.0.398
       hash: dbdd7ca06c14d43d713d59a572800b434164562f
       body: ''
