@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump external types
+      hash: 32f4d9c8ef8df2609f08a70e518e399c3e901d27
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.3
+  date: 2022-01-22T07:16:23.865Z
+- commits:
     - subject: Bump aws-sdk to 2.1062.0
       hash: b5f05081262d5930b0a867e9ce86af9b8d4b5474
       body: ''
