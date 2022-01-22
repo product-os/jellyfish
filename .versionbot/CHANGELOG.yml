@@ -1,4 +1,16 @@
 - commits:
+    - subject: 'patch: Update balena/open-balena-haproxy Docker tag to v4.0.6'
+      hash: d3f9d12bfb06ccea1cf58c8577e32f8029917921
+      body: |
+        Update balena/open-balena-haproxy from v4.0.5 to v4.0.6
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 43.0.1
+  date: 2022-01-22T03:20:27.683Z
+- commits:
     - subject: Use single purpose endpoints for actions performed by anonymous users
       hash: 6e366290e9521b232996a31be316dd0fba7b8ff1
       body: |
