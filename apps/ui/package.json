@@ -92,7 +92,7 @@
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.7.1",
     "@types/jest": "^26.0.24",
-    "@types/sinon": "^10.0.6",
+    "@types/sinon": "^10.0.8",
     "babel-loader": "^8.2.3",
     "browser-env": "^3.3.0",
     "canvas": "^2.8.0",
