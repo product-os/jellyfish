@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump jellyfish-plugin-outreach to 1.0.398
+      hash: dbdd7ca06c14d43d713d59a572800b434164562f
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.9
+  date: 2022-01-22T13:48:48.999Z
+- commits:
     - subject: Bump plugin-product-os to 2.9.53
       hash: dc72c42915f01685409a1d9e22803909ecb4c40e
       body: ''
