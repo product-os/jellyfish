@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update external-non-major'
+      hash: 90c22f31f97fc2363e19e1d5691ee4ed0d1e3de2
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 43.0.5
+  date: 2022-01-22T09:42:07.653Z
+- commits:
     - subject: Bump typescript to 4.5.5
       hash: 8ab3e81975692c0e250bbaf26ce2c13d00759d77
       body: ''
