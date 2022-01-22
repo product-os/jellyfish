@@ -1,4 +1,15 @@
 - commits:
+    - subject: 'patch: Update dependency puppeteer to ^13.1.1'
+      hash: 566e4b8e66fc8bf6781b98e7d254699dfff32cf0
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 43.0.7
+  date: 2022-01-22T11:20:55.269Z
+- commits:
     - subject: Bump action-library to 16.2.5
       hash: 60395f4395c765aa68967f2c1dc0dcb137d2d3e9
       body: ''
