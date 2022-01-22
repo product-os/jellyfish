@@ -68,7 +68,7 @@
     "@balena/jellyfish-types": "^1.2.42",
     "@balena/lint": "^6.2.0",
     "@types/jest": "^27.4.0",
-    "@types/node": "^14.18.5",
+    "@types/node": "^14.18.9",
     "catch-uncommitted": "^2.0.0",
     "depcheck": "^1.4.3",
     "jest": "^27.4.7",
