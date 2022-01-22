@@ -94,7 +94,7 @@
     "@balena/jellyfish-plugin-flowdock": "^1.0.273",
     "@balena/jellyfish-plugin-front": "^1.3.147",
     "@balena/jellyfish-plugin-github": "^1.11.284",
-    "@balena/jellyfish-plugin-outreach": "^1.0.386",
+    "@balena/jellyfish-plugin-outreach": "^1.0.398",
     "@balena/jellyfish-plugin-product-os": "^2.9.53",
     "@balena/jellyfish-plugin-typeform": "^4.0.31",
     "@balena/jellyfish-queue": "^1.0.395",
