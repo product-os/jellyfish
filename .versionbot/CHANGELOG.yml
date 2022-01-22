@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump action-library to 16.2.5
+      hash: 60395f4395c765aa68967f2c1dc0dcb137d2d3e9
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.6
+  date: 2022-01-22T10:27:31.789Z
+- commits:
     - subject: 'patch: Update external-non-major'
       hash: 90c22f31f97fc2363e19e1d5691ee4ed0d1e3de2
       body: ''
