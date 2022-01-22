@@ -80,7 +80,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-action-library": "^16.2.4",
+    "@balena/jellyfish-action-library": "^16.2.5",
     "@balena/jellyfish-chat-widget": "^12.5.102",
     "@balena/jellyfish-client-sdk": "^8.0.0",
     "@balena/jellyfish-config": "^2.0.2",
