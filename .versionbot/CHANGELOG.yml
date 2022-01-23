@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump internal packages
+      hash: f78d4715d18ce2eb836d1c3c0f7d9602a6a04109
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.16
+  date: 2022-01-23T15:22:24.013Z
+- commits:
     - subject: Bump react-csv to 2.2.2
       hash: 0df0b40637a390fdd4c351bb98ba24b1887cb55a
       body: ''
