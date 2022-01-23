@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump react-csv to 2.2.2
+      hash: 0df0b40637a390fdd4c351bb98ba24b1887cb55a
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.15
+  date: 2022-01-23T05:51:20.485Z
+- commits:
     - subject: Bump plugin-default and plugin-discourse
       hash: 325d6b50dd66047835ab1dae11c30cde40d3f331
       body: ''
