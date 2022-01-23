@@ -1,4 +1,17 @@
 - commits:
+    - subject: Bump plugin-default and plugin-discourse
+      hash: 325d6b50dd66047835ab1dae11c30cde40d3f331
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 43.0.14
+  date: 2022-01-23T04:34:51.811Z
+- commits:
     - subject: Bump jellyfish-client-sdk to 8.0.1
       hash: 46b78d93e7d3e58820a328a5e70a81366b8bf8a3
       body: ''
