@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 import React from 'react';
 import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
-import styled from 'styled-components';
+import styled, { StyledComponent } from 'styled-components';
 import {
 	ActionButton,
 	ActionRouterLink,
@@ -69,10 +69,10 @@ const HomeChannelBackdrop = styled(Box)`
 	}
 `;
 
-const HomeChannelDrawer = styled(Flex)`
+const HomeChannelDrawer = styled(Flex)<{ isMobile: boolean }>`
 	transition-property: transform;
 	transition-duration: ${DELAY / 2}s;
-	z-index: 16;
+	z-index: ${(props) => (props.isMobile ? '16' : 'auto')};
 	.collapsed & {
 		position: absolute;
 		top: 0;
@@ -619,6 +619,7 @@ export default class HomeChannel extends React.Component<any, any> {
 					data-test="home-channel__drawer"
 					ref={this.wrapper}
 					onClick={helpers.swallowEvent as any}
+					isMobile={isMobile}
 				>
 					{collapsed && (
 						<GrabHandle
