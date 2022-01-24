@@ -1,4 +1,20 @@
 - commits:
+    - subject: 'UI: Only give the homechannel high z-index on small screen sizes'
+      hash: 27f92933da46180681a94cec6b5b7fe7ded8f63e
+      body: >
+        This fixes an issue where full screen overlays (like the markdown
+        editor) would be obscured by the home channel sidebar on large screen
+        widths.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 43.0.17
+  date: 2022-01-24T14:25:03.234Z
+- commits:
     - subject: Bump internal packages
       hash: f78d4715d18ce2eb836d1c3c0f7d9602a6a04109
       body: ''
