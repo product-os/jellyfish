@@ -2,7 +2,7 @@ import _ from 'lodash';
 import path from 'path';
 import React from 'react';
 import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ReactResizeObserver from 'react-resize-observer';
 import { compose } from 'redux';
 import { Box, Flex } from 'rendition';
@@ -14,6 +14,8 @@ import {
 } from '@balena/jellyfish-ui-components';
 import { sdk, selectors } from '../../core';
 import { withChannelContext } from '../../hooks';
+import { LensContract, LensRendererProps } from '../../types';
+import { core } from '@balena/jellyfish-types';
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -40,71 +42,90 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 	return false;
 };
 
-export class Interleaved extends React.Component<any, any> {
-	shouldScroll;
-	loadingPage;
-	scrollBottomOffset;
-	scrollToBottom;
-	openChannel;
-	handleEventToggle;
-	handleScroll;
-	scrollArea;
+interface StateProps {
+	types: core.TypeContract[];
+	groups: core.Contract[];
+	user: core.UserContract;
+}
 
-	constructor(props) {
+type OwnProps = LensRendererProps;
+
+type Props = RouteComponentProps &
+	OwnProps &
+	StateProps & {
+		// From `withDefaultGetActorHref`
+		getActorHref: (actor: any) => string;
+	};
+
+interface State {
+	newMessage: string;
+	showNewCardModal: boolean;
+	messagesOnly: boolean;
+	loadingPage: boolean;
+}
+
+export class Interleaved extends React.Component<Props, State> {
+	shouldScroll: boolean = true;
+	loadingPage: boolean = false;
+	scrollBottomOffset: number = 0;
+	scrollArea: HTMLDivElement | undefined;
+
+	constructor(props: Props) {
 		super(props);
-		this.shouldScroll = true;
-		this.loadingPage = false;
-		this.scrollBottomOffset = 0;
-		this.scrollToBottom = () => {
-			if (!this.scrollArea) {
-				return;
-			}
-			if (this.shouldScroll) {
-				this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
-			}
-		};
-		this.openChannel = (target) => {
-			// Remove everything after the current channel, then append the target.
-			const current = this.props.channel.data.target;
-			this.props.history.push(
-				path.join(window.location.pathname.split(current)[0], current, target),
-			);
-		};
-		this.handleEventToggle = () => {
-			this.setState({
-				messagesOnly: !this.state.messagesOnly,
-			});
-		};
-		this.handleScroll = async () => {
-			const { scrollArea, loadingPage } = this;
-			if (!scrollArea) {
-				return;
-			}
-			this.scrollBottomOffset =
-				scrollArea.scrollHeight -
-				(scrollArea.scrollTop + scrollArea.offsetHeight);
-			if (loadingPage) {
-				return;
-			}
-			if (scrollArea.scrollTop > 200) {
-				return;
-			}
-			this.loadingPage = true;
-			await this.props.setPage(this.props.page + 1);
-			this.loadingPage = false;
-		};
+
 		this.state = {
 			newMessage: '',
 			showNewCardModal: false,
 			messagesOnly: true,
 			loadingPage: false,
 		};
+
 		setTimeout(() => {
 			return this.scrollToBottom();
 		});
-		this.handleCardVisible = this.handleCardVisible.bind(this);
-		this.bindScrollArea = this.bindScrollArea.bind(this);
 	}
+
+	scrollToBottom = () => {
+		if (!this.scrollArea) {
+			return;
+		}
+		if (this.shouldScroll) {
+			this.scrollArea.scrollTop = this.scrollArea.scrollHeight;
+		}
+	};
+
+	openChannel = (target: string) => {
+		// Remove everything after the current channel, then append the target.
+		const current = this.props.channel.data.target;
+		this.props.history.push(
+			path.join(window.location.pathname.split(current)[0], current, target),
+		);
+	};
+
+	handleEventToggle = () => {
+		this.setState({
+			messagesOnly: !this.state.messagesOnly,
+		});
+	};
+
+	handleScroll = async () => {
+		const { scrollArea, loadingPage } = this;
+		if (!scrollArea) {
+			return;
+		}
+		this.scrollBottomOffset =
+			scrollArea.scrollHeight -
+			(scrollArea.scrollTop + scrollArea.offsetHeight);
+		if (loadingPage) {
+			return;
+		}
+		if (scrollArea.scrollTop > 200) {
+			return;
+		}
+		this.loadingPage = true;
+		await this.props.setPage(this.props.page + 1);
+		this.loadingPage = false;
+	};
 
 	getSnapshotBeforeUpdate() {
 		if (this.scrollArea) {
@@ -117,7 +138,7 @@ export class Interleaved extends React.Component<any, any> {
 		return null;
 	}
 
-	componentDidUpdate(prevProps) {
+	componentDidUpdate(prevProps: Props) {
 		// Scroll to bottom if the component has been updated with new items
 		this.scrollToBottom();
 		if (
@@ -138,21 +159,21 @@ export class Interleaved extends React.Component<any, any> {
 		}
 	}
 
-	handleCardVisible(card) {
+	handleCardVisible = (contract: core.Contract) => {
 		sdk.card
 			.markAsRead(
 				this.props.user.slug,
-				card,
-				_.map(_.filter(this.props.groups, 'isMine'), 'name'),
+				contract as any,
+				_.map(_.filter(this.props.groups, 'isMine'), 'name') as string[],
 			)
 			.catch((error) => {
 				console.error(error);
 			});
-	}
+	};
 
-	bindScrollArea(ref) {
+	bindScrollArea = (ref: HTMLDivElement) => {
 		this.scrollArea = ref;
-	}
+	};
 
 	render() {
 		const { messagesOnly } = this.state;
@@ -161,26 +182,17 @@ export class Interleaved extends React.Component<any, any> {
 		const firstMessagesByThreads = {};
 
 		// If tail has expanded links, interleave them in with the head cards
-		_.forEach(tail, (card) => {
-			_.forEach(card.links, (collection, verb) => {
-				// If the $link property is present, the link hasn't been expanded, so
-				// exit early
-				if (collection[0] && collection[0].$link) {
-					return;
-				}
-				for (const item of collection) {
-					// TODO: Due to a bug in links, its possible for an event to get
-					// linked to a card twice, so remove any duplicates here
-					if (
-						!_.find(tail, {
-							id: item.id,
-						})
-					) {
-						tail.push(item);
+		if (tail !== null) {
+			for (const card of tail) {
+				if (card.links) {
+					for (const verb of Object.keys(card.links)) {
+						for (const item of card.links[verb]) {
+							tail.push(item);
+						}
 					}
 				}
-			});
-		});
+			}
+		}
 
 		tail = _.sortBy(tail, 'created_at');
 
@@ -201,17 +213,17 @@ export class Interleaved extends React.Component<any, any> {
 						</Box>
 					)}
 
-					{Boolean(tail) &&
+					{tail !== null &&
 						tail.length > 0 &&
-						_.map(tail, (card, index: any) => {
+						tail.map((card, index: any) => {
 							if (messagesOnly && isHiddenEventType(card.type)) {
 								return null;
 							}
 							return (
 								<Box key={card.id}>
 									<Event
-										previousEvent={tail[index - 1]}
-										nextEvent={tail[index + 1]}
+										previousEvent={tail![index - 1]}
+										nextEvent={tail![index + 1]}
 										onCardVisible={this.handleCardVisible}
 										openChannel={this.openChannel}
 										user={this.props.user}
@@ -232,7 +244,7 @@ export class Interleaved extends React.Component<any, any> {
 	}
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		types: selectors.getTypes(state),
 		groups: selectors.getGroups(state),
@@ -240,7 +252,7 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const lens = {
+const lens: LensContract = {
 	slug: 'lens-interleaved',
 	type: 'lens',
 	version: '1.0.0',
@@ -249,11 +261,11 @@ const lens = {
 		label: 'Interleaved',
 		icon: 'list',
 		format: 'list',
-		renderer: compose(
+		renderer: compose<React.ComponentType<LensRendererProps>>(
 			withRouter,
 			withChannelContext,
-			connect(mapStateToProps),
 			withDefaultGetActorHref(),
+			connect<StateProps, {}, OwnProps>(mapStateToProps),
 		)(Interleaved),
 		filter: {
 			type: 'array',
@@ -323,7 +335,7 @@ const lens = {
 			sortBy: 'created_at',
 			sortDir: 'desc',
 
-			// The interleaved lens is inerested in messages that are attached to the
+			// The interleaved lens is interested in messages that are attached to the
 			// main query resource. Here we invert the query so that we retrieve all
 			// the messages attached to the main queried resource
 			mask: (query) => {

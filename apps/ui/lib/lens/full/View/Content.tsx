@@ -4,13 +4,12 @@ import { Box, Flex, Txt } from 'rendition';
 import { Icon } from '@balena/jellyfish-ui-components';
 import { core } from '@balena/jellyfish-types';
 import { ViewFooter } from '../../common/ViewFooter';
-import {
-	BoundActionCreators,
-	ChannelContract,
-	LensContract,
-} from '../../../types';
+import { ChannelContract, LensContract } from '../../../types';
 
-const sortTail = (tail, options) => {
+const sortTail = (
+	tail: core.Contract[] | null,
+	options: { limit?: number; page?: number; sortBy: any; sortDir: any },
+) => {
 	if (!tail) {
 		return null;
 	}
