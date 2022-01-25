@@ -55,6 +55,7 @@ export interface ChannelContract
 }
 
 export interface LensRendererProps {
+	card: Contract;
 	channel: ChannelContract;
 	tail: null | Contract[];
 	setPage: (page: number) => Promise<void>;

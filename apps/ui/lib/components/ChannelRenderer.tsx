@@ -7,6 +7,7 @@ import { LinkModal } from './LinkModal';
 import ChannelNotFound from './ChannelNotFound';
 import { ChannelContextProvider } from '../hooks';
 import { getLens } from '../lens';
+import { LensContract } from '../types';
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component<any, any> {
@@ -90,7 +91,11 @@ class ChannelRenderer extends React.Component<any, any> {
 			);
 		}
 
-		const lens = getLens(_.get(channel.data, ['format'], 'full'), head, user);
+		const lens: LensContract = getLens(
+			_.get(channel.data, ['format'], 'full'),
+			head,
+			user,
+		);
 
 		return (
 			<ChannelContextProvider channel={channel}>
