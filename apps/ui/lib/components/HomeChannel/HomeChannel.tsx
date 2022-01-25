@@ -193,109 +193,93 @@ const cleanPath = (location) => {
 	return location.pathname.replace(/\.$/, '');
 };
 
-const groupViews = memoize<any>(
-	(tail, bookmarks, userId, repos: core.Contract[], orgs) => {
-		const sortedTail = _.sortBy(tail, ['data.namespace', 'name']);
-		const groups: any = {
-			defaults: [],
-			main: {
-				name: null,
-				key: 'root',
-				children: [],
+const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
+	const sortedTail = _.sortBy(tail, ['data.namespace', 'name']);
+	const groups: any = {
+		defaults: [],
+		main: {
+			name: null,
+			key: 'root',
+			children: [],
+		},
+	};
+
+	// Sorty by name, then sort the priority views to the top
+	const [defaults, nonDefaults] = _.partition(sortedTail, (view) => {
+		return _.includes(DEFAULT_VIEWS, view.slug);
+	});
+	groups.defaults = defaults;
+
+	if (bookmarks && bookmarks.length) {
+		const bookmarksTree = viewsToTree(
+			bookmarks,
+			{
+				name: 'Bookmarks',
+				key: '__bookmarks',
 			},
-		};
-
-		// Sorty by name, then sort the priority views to the top
-		const [defaults, nonDefaults] = _.partition(sortedTail, (view) => {
-			return _.includes(DEFAULT_VIEWS, view.slug);
-		});
-		groups.defaults = defaults;
-
-		if (bookmarks && bookmarks.length) {
-			const bookmarksTree = viewsToTree(
-				bookmarks,
-				{
-					name: 'Bookmarks',
-					key: '__bookmarks',
-				},
-				false,
-			);
-			groups.main.children.push(bookmarksTree);
-		}
-
-		// Add the repositories to the top of the sidebar
-		groups.main.children.push({
-			name: 'Repositories',
-			key: 'repos',
-			children: (repos || []).map((repo) => {
-				return {
-					name: (repo.name || repo.slug).replace(/^.*\//, ''),
-					key: repo.slug,
-					card: repo,
-					children: [],
-				};
-			}),
-		});
-
-		const splitViews: {
-			myViews: core.ViewContract[];
-			oneToOneViews: core.ViewContract[];
-			otherViews: core.ViewContract[];
-		} = {
-			myViews: [],
-			oneToOneViews: [],
-			otherViews: [],
-		};
-
-		const { myViews, oneToOneViews, otherViews } = _.reduce(
-			nonDefaults,
-			(acc, view) => {
-				if (view.slug.startsWith('view-121')) {
-					acc.oneToOneViews.push(view);
-				} else if (view.data.actor === userId) {
-					acc.myViews.push(view);
-				} else {
-					acc.otherViews.push(view);
-				}
-				return acc;
-			},
-			splitViews,
+			false,
 		);
+		groups.main.children.push(bookmarksTree);
+	}
 
-		if (myViews.length) {
-			groups.main.children.push(
-				viewsToTree(myViews, {
-					name: 'My views',
-					key: '__myViews',
-				}),
-			);
-		}
-		if (oneToOneViews.length) {
-			groups.main.children.push(
-				viewsToTree(oneToOneViews, {
-					name: 'Private chats',
-					key: '__oneToOneViews',
-				}),
-			);
-		}
-		const remaining = _.groupBy(otherViews, 'markers[0]');
-		_.forEach(remaining, (views, key) => {
-			if (key !== 'undefined') {
-				const org = _.find(orgs, {
-					slug: key,
-				});
-				groups.main.children.push(
-					viewsToTree(views, {
-						name: org ? org.name : 'Unknown organisation',
-						key,
-					}),
-				);
+	const splitViews: {
+		myViews: core.ViewContract[];
+		oneToOneViews: core.ViewContract[];
+		otherViews: core.ViewContract[];
+	} = {
+		myViews: [],
+		oneToOneViews: [],
+		otherViews: [],
+	};
+
+	const { myViews, oneToOneViews, otherViews } = _.reduce(
+		nonDefaults,
+		(acc, view) => {
+			if (view.slug.startsWith('view-121')) {
+				acc.oneToOneViews.push(view);
+			} else if (view.data.actor === userId) {
+				acc.myViews.push(view);
+			} else {
+				acc.otherViews.push(view);
 			}
-		});
+			return acc;
+		},
+		splitViews,
+	);
 
-		return groups;
-	},
-);
+	if (myViews.length) {
+		groups.main.children.push(
+			viewsToTree(myViews, {
+				name: 'My views',
+				key: '__myViews',
+			}),
+		);
+	}
+	if (oneToOneViews.length) {
+		groups.main.children.push(
+			viewsToTree(oneToOneViews, {
+				name: 'Private chats',
+				key: '__oneToOneViews',
+			}),
+		);
+	}
+	const remaining = _.groupBy(otherViews, 'markers[0]');
+	_.forEach(remaining, (views, key) => {
+		if (key !== 'undefined') {
+			const org = _.find(orgs, {
+				slug: key,
+			});
+			groups.main.children.push(
+				viewsToTree(views, {
+					name: org ? org.name : 'Unknown organisation',
+					key,
+				}),
+			);
+		}
+	});
+
+	return groups;
+});
 
 const viewLinkActionNames = ['setDefault', 'removeView'];
 const treeMenuActionNames = ['setDefault', 'removeView', 'setSidebarExpanded'];
@@ -315,59 +299,6 @@ const bookmarksQuery = (userId) => {
 					},
 					id: {
 						const: userId,
-					},
-				},
-			},
-		},
-	};
-};
-
-const reposQuery = (userId: string, activeLoop: string) => {
-	// TODO: Filtering by owner is a temporary measure that is imperfect. Ultimately
-	//       we want to filter by the `loop` field. But first we will need to:
-	//       a) update the GitHub sync integration to automatically set the `loop` field
-	//          when syncing new repos.
-	//       b) manually migrate all existing repos to the correct loop
-	//       Then we can modify this query to filter based on the top-level loop field.
-	// Note: Currently this just defaults to product-os if no loop is specified ('All loops')
-	//       This avoids us fetching a ridiculous list of repos.
-	// Note: The loop slug prefix may change - at which point, if we're still filtering by
-	//       owner based on the active loop, this replace regex will need to change too!
-	const repoOwner = activeLoop
-		? activeLoop.replace(/^loop[-\/]/, '').split('@')[0]
-		: 'product-os';
-	return {
-		type: 'object',
-		anyOf: [
-			{
-				$$links: {
-					'is bookmarked by': {
-						type: 'object',
-						required: ['type', 'id'],
-						properties: {
-							type: {
-								const: 'user@1.0.0',
-							},
-							id: {
-								const: userId,
-							},
-						},
-					},
-				},
-			},
-			true,
-		],
-		required: ['type', 'data'],
-		properties: {
-			type: {
-				const: 'repository@1.0.0',
-			},
-			data: {
-				type: 'object',
-				required: ['owner'],
-				properties: {
-					owner: {
-						const: repoOwner,
 					},
 				},
 			},
@@ -406,11 +337,6 @@ export default class HomeChannel extends React.Component<any, any> {
 		loadViewData(card);
 		loadViewData(bookmarksQuery(user.id), {
 			viewId: `${card.id}-bookmarks`,
-			sortBy: 'name',
-		});
-		loadViewData(reposQuery(user.id, activeLoop), {
-			viewId: `${card.id}-repos`,
-			limit: 50,
 			sortBy: 'name',
 		});
 	};
@@ -559,7 +485,6 @@ export default class HomeChannel extends React.Component<any, any> {
 			orgs,
 			tail,
 			bookmarks,
-			repos,
 			isChatWidgetOpen,
 			mentions,
 		} = this.props;
@@ -577,7 +502,7 @@ export default class HomeChannel extends React.Component<any, any> {
 				</Box>
 			);
 		}
-		const groupedViews = groupViews(tail, bookmarks, user.id, repos, orgs);
+		const groupedViews = groupViews(tail, bookmarks, user.id, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;
 		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
