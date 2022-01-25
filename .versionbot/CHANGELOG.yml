@@ -1,4 +1,17 @@
 - commits:
+    - subject: 'UI: Remove unused level prop in ChannelRenderer'
+      hash: e6247e9cf7869c2c4f8f7625760b75b5ed5b4f21
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 43.0.19
+  date: 2022-01-25T13:53:45.241Z
+- commits:
     - subject: 'UI: Improve typings for Interleaved component'
       hash: caba3be3b11453a033eb1afd8ddb50ee1e1c7fa7
       body: >
