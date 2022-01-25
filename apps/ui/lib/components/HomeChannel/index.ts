@@ -26,7 +26,6 @@ const mapStateToProps = (state, ownProps) => {
 		bookmarks: target
 			? selectors.getViewData(state, `${target}-bookmarks`)
 			: null,
-		repos: target ? selectors.getViewData(state, `${target}-repos`) : null,
 		activeLoop: selectors.getActiveLoop(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 		user,
