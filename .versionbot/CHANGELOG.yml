@@ -1,4 +1,65 @@
 - commits:
+    - subject: 'UI: Improve typings for Interleaved component'
+      hash: caba3be3b11453a033eb1afd8ddb50ee1e1c7fa7
+      body: >
+        This change improves the typings for the Interleaved lens, and tightens
+
+        up lens renderer types, although this hasn't been applied in all places.
+
+
+        This commit also introduces the pattern for typing redux connected
+
+        components, where three interfaces are defined:
+
+        - `StateProps`: The type for the props provided by `mapStateToProps()`
+
+        - `DispatchProps`: The type for the props provided by
+        `mapDispatchToProps()`
+
+        - `OwnProps`: The type for the props provided by the parent component
+
+
+        These three types are combined for the code implementing the component:
+
+        ```
+
+        type Props = StateProps & DispatchProps & OwnProps
+
+
+        interface State {
+          internalComponentStateField: string
+        }
+
+
+        class MyComponent extends React.Component<Props, State> {
+          ...
+        }
+
+        ```
+
+
+        These three seperate types are then used as type paramaters to the
+
+        `connect` function, ensuring that the correct prop interface is exposed
+
+        to any parent component:
+
+
+        ```
+
+        export default connect<StateProps, DispatchProps, OwnProps>
+          (mapStateToProps, mapDispatchToProps)(MyComponent)
+        ```
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 43.0.18
+  date: 2022-01-25T12:41:18.184Z
+- commits:
     - subject: 'UI: Only give the homechannel high z-index on small screen sizes'
       hash: 27f92933da46180681a94cec6b5b7fe7ded8f63e
       body: >
