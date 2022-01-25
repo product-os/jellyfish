@@ -58,12 +58,12 @@ export interface LensRendererProps {
 	card: Contract;
 	channel: ChannelContract;
 	tail: null | Contract[];
-	setPage: (page: number) => Promise<void>;
-	pageOptions: {
+	setPage?: (page: number) => Promise<void>;
+	pageOptions?: {
 		page: number;
 		totalPages: number;
 	};
-	page: number;
-	totalPages: number;
-	tailTypes: TypeContract[];
+	page?: number;
+	totalPages?: number;
+	tailTypes?: TypeContract[];
 }

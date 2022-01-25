@@ -102,7 +102,12 @@ class ChannelRenderer extends React.Component<any, any> {
 				<ErrorBoundary style={style}>
 					{connectDropTarget(
 						<div style={style}>
-							<lens.data.renderer card={head} {...this.props} />
+							<lens.data.renderer
+								channel={channel}
+								card={head}
+								tail={null}
+								{...this.props}
+							/>
 						</div>,
 					)}
 
