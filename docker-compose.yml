@@ -21,9 +21,14 @@ x-default-environment: &default-environment
 
 services:
   jellyfish-tests:
+    # (TBC) https://www.flowdock.com/app/rulemotion/r-beginners/threads/uPPfzU-DGRehSDk-TkS-vZs7Q58
+    # ? https://github.com/docker/compose/issues/7262
     build:
       context: .
       dockerfile: Dockerfile.template
+      # https://docs.docker.com/compose/compose-file/compose-file-v2/#target
+      #target: runtime
+    #command: /usr/bin/entry.sh
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
@@ -219,7 +224,8 @@ services:
   # https://github.com/balena-io/open-balena-db
   postgres:
     # pg12 (pg_dump) dependency on jellyfish-tests
-    image: balena/open-balena-db:v5.0.2
+    # v4.1.0 https://github.com/balena-io/open-balena-db/commit/30eb64e12b8adf9169059719162383cab6cc0296
+    image: balena/open-balena-db:v4.1.0
     restart: unless-stopped
     healthcheck:
       interval: 15s
