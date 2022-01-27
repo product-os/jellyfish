@@ -107,6 +107,10 @@ class ChannelRenderer extends React.Component<any, any> {
 								card={head}
 								tail={null}
 								{...this.props}
+								setPage={_.noop as any}
+								pageOptions={{ page: 0, totalPages: 1 }}
+								page={0}
+								totalPages={1}
 							/>
 						</div>,
 					)}

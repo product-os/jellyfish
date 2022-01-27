@@ -122,9 +122,11 @@ export class Interleaved extends React.Component<Props, State> {
 		if (scrollArea.scrollTop > 200) {
 			return;
 		}
-		this.loadingPage = true;
-		await this.props.setPage(this.props.page + 1);
-		this.loadingPage = false;
+		if (this.props.setPage && this.props.page) {
+			this.loadingPage = true;
+			await this.props.setPage(this.props.page + 1);
+			this.loadingPage = false;
+		}
 	};
 
 	getSnapshotBeforeUpdate() {

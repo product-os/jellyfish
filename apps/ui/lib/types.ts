@@ -27,20 +27,20 @@ export type BoundActionCreators<
 export interface LensContract
 	extends Pick<Contract, 'slug' | 'type' | 'version' | 'name' | 'data'> {
 	data: {
-		label: string;
+		label?: string;
 		pathRegExp?: string;
 		type?: 'view' | '*';
 		supportsSlices?: boolean;
 		icon: string;
-		format: 'list' | 'full' | 'summary' | 'snippet';
-		renderer: React.ComponentType<LensRendererProps>;
 		filter: JSONSchema;
-		queryOptions: {
+		queryOptions?: {
 			limit?: number;
 			sortBy?: string;
 			sortDir?: 'asc' | 'desc';
 			mask: (query: JSONSchema) => JSONSchema;
 		};
+		format: 'list' | 'create' | 'full' | 'summary' | 'snippet';
+		renderer: React.ComponentType<LensRendererProps>;
 	};
 }
 
@@ -58,12 +58,12 @@ export interface LensRendererProps {
 	card: Contract;
 	channel: ChannelContract;
 	tail: null | Contract[];
-	setPage?: (page: number) => Promise<void>;
-	pageOptions?: {
+	setPage: (page: number) => Promise<void>;
+	// TODO: Why is this data duplicated?
+	pageOptions: {
 		page: number;
 		totalPages: number;
 	};
-	page?: number;
-	totalPages?: number;
-	tailTypes?: TypeContract[];
+	page: number;
+	totalPages: number;
 }
