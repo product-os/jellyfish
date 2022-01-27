@@ -1,14 +1,15 @@
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { getLogger } from '@balena/jellyfish-logger';
+import { Kernel, errors as coreErrors } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 
 export class QueryFacade {
-	jellyfish;
+	kernel: Kernel;
 
-	constructor(jellyfish) {
-		this.jellyfish = jellyfish;
+	constructor(kernel: Kernel) {
+		this.kernel = kernel;
 	}
 
 	async queryAPI(context, session, query, options, ipAddress) {
@@ -18,7 +19,7 @@ export class QueryFacade {
 			}
 
 			// Now try and load the view by slug
-			const viewCardFromSlug = await this.jellyfish.getCardBySlug(
+			const viewCardFromSlug = await this.kernel.getContractBySlug(
 				context,
 				session,
 				`${query}@latest`,
@@ -30,23 +31,19 @@ export class QueryFacade {
 
 			try {
 				// Try and load the view by id first
-				const viewCardFromId = await this.jellyfish.getCardById(
+				const viewCardFromId = await this.kernel.getContractById(
 					context,
 					session,
 					query,
 				);
 
 				if (!viewCardFromId || viewCardFromId.type.split('@')[0] !== 'view') {
-					throw new this.jellyfish.errors.JellyfishNoView(
-						`Unknown view: ${query}`,
-					);
+					throw new coreErrors.JellyfishNoView(`Unknown view: ${query}`);
 				}
 
 				return viewCardFromId;
 			} catch (error) {
-				throw new this.jellyfish.errors.JellyfishNoView(
-					`Unknown view: ${query}`,
-				);
+				throw new coreErrors.JellyfishNoView(`Unknown view: ${query}`);
 			}
 		}).then(async (schema) => {
 			const startDate = new Date();
@@ -57,12 +54,7 @@ export class QueryFacade {
 				schema,
 			});
 
-			const data = await this.jellyfish.query(
-				context,
-				session,
-				schema,
-				options,
-			);
+			const data = await this.kernel.query(context, session, schema, options);
 			const endDate = new Date();
 			const queryTime = endDate.getTime() - startDate.getTime();
 			logger.info(context, 'JSON Schema query end', {

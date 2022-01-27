@@ -5,6 +5,7 @@ import * as metrics from '@balena/jellyfish-metrics';
 import { getLogger } from '@balena/jellyfish-logger';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
+import { Kernel } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 
@@ -58,12 +59,12 @@ export const createServer = (context, configuration) => {
 				server.listen(application.get('port'));
 			});
 		},
-		ready: (jellyfish, worker, producer, options) => {
-			attachMiddlewares(context, application, jellyfish, {
+		ready: (kernel: Kernel, worker, producer, options) => {
+			attachMiddlewares(context, application, kernel, {
 				guestSession: options.guestSession,
 			});
 
-			attachRoutes(application, jellyfish, worker, producer, {
+			attachRoutes(application, kernel, worker, producer, {
 				sync: context.sync,
 				guestSession: options.guestSession,
 			});

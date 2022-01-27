@@ -1,19 +1,21 @@
 import * as assert from '@balena/jellyfish-assert';
+import { errors as coreErrors } from '@balena/jellyfish-core';
+import { Contract, SessionContract } from '@balena/jellyfish-types/build/core';
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {
 	async whoami(context, session, ipAddress) {
 		// Use the admin session, as the user invoking this function
 		// might not have enough access to read its entire session card.
-		const result = await this.jellyfish.getCardById(
+		const result = await this.kernel.getContractById<SessionContract>(
 			context,
-			this.jellyfish.sessions.admin,
+			this.kernel.adminSession()!,
 			session,
 		);
 		assert.USER(
 			context,
 			result,
-			this.jellyfish.errors.JellyfishInvalidSession,
+			coreErrors.JellyfishInvalidSession,
 			'Session does not exist',
 		);
 
@@ -28,7 +30,7 @@ export class AuthFacade extends QueryFacade {
 			properties: {
 				id: {
 					type: 'string',
-					const: result.data.actor,
+					const: result!.data.actor,
 				},
 				type: {
 					type: 'string',
@@ -45,23 +47,23 @@ export class AuthFacade extends QueryFacade {
 
 		// Try and load the user with attached org data, otherwise load them without it.
 		// TODO: Fix our broken queries so that we can optionally get linked data
-		let user = await this.queryAPI(
-			context,
-			session,
-			schema,
-			{
-				limit: 1,
-			},
-			ipAddress,
-		).then((elements) => {
-			return elements[0] || null;
-		});
-
-		if (!user) {
-			user = await this.jellyfish.getCardById(
+		let user = (
+			await this.queryAPI(
 				context,
 				session,
-				result.data.actor,
+				schema,
+				{
+					limit: 1,
+				},
+				ipAddress,
+			)
+		)[0] as Contract | null;
+
+		if (!user) {
+			user = await this.kernel.getContractById(
+				context,
+				session,
+				result!.data.actor,
 			);
 		}
 
