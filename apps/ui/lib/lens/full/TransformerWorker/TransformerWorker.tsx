@@ -41,13 +41,7 @@ const Field = ({ label, value, ...rest }) => {
 	);
 };
 
-export const TransformerWorker = ({
-	actions,
-	actionItems,
-	card,
-	channel,
-	types,
-}) => {
+export const TransformerWorker = ({ actions, card, channel, types }) => {
 	const [activeIndex, setActiveIndex] = React.useState(0);
 
 	const type = helpers.getType(card.type, types);
@@ -77,7 +71,6 @@ export const TransformerWorker = ({
 			card={card}
 			overflowY
 			channel={channel}
-			actionItems={actionItems}
 			title={<Heading.h4>{card.name || card.slug}</Heading.h4>}
 		>
 			<Divider width="100%" color={helpers.colorHash(card.type)} />

@@ -77,7 +77,7 @@ const makeLogLink = (commit?: Contract) => {
 };
 
 export default class SingleCardFull extends React.Component<
-	{ card: Contract; channel: any; types: any; actionItems: any },
+	{ card: Contract; channel: any; types: any },
 	{ tree?: Contract; commit?: Contract; activeIndex: number }
 > {
 	interval: NodeJS.Timeout | null = null;
@@ -189,19 +189,14 @@ export default class SingleCardFull extends React.Component<
 	}
 
 	render() {
-		const { card, channel, types, actionItems } = this.props;
+		const { card, channel, types } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
 		const tail = _.get(card.links, ['has attached element'], []);
 
 		return (
-			<CardLayout
-				overflowY
-				card={card}
-				channel={channel}
-				actionItems={actionItems}
-			>
+			<CardLayout overflowY card={card} channel={channel}>
 				<Divider width="100%" color={helpers.colorHash(card.type)} />
 
 				<SingleCardTabs
