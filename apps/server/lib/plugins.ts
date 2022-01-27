@@ -10,7 +10,7 @@ import { GitHubPlugin } from '@balena/jellyfish-plugin-github';
 import { OutreachPlugin } from '@balena/jellyfish-plugin-outreach';
 import { ProductOsPlugin } from '@balena/jellyfish-plugin-product-os';
 import { TypeformPlugin } from '@balena/jellyfish-plugin-typeform';
-import { PluginManager } from '@balena/jellyfish-worker/build/plugin';
+import { PluginManager } from '@balena/jellyfish-worker';
 
 const logger = getLogger(__filename);
 
