@@ -6,8 +6,8 @@ import { Box, Heading, Flex, Tab, Table, Txt, Divider } from 'rendition';
 import { helpers } from '@balena/jellyfish-ui-components';
 import CardLayout from '../../../layouts/CardLayout';
 import { DeviceMetrics } from '../../../components/Metrics/DeviceMetrics';
-import { SingleCardTabs } from '../SingleCard';
 import { RelationshipsTab, customQueryTabs } from '../../common';
+import { ContractTabs } from '../../common/ContractRenderer';
 
 export const SLUG = 'lens-full-transformer-worker';
 
@@ -75,7 +75,7 @@ export const TransformerWorker = ({ actions, card, channel, types }) => {
 		>
 			<Divider width="100%" color={helpers.colorHash(card.type)} />
 
-			<SingleCardTabs activeIndex={activeIndex} onActive={setActiveIndex}>
+			<ContractTabs activeIndex={activeIndex} onActive={setActiveIndex}>
 				<Tab title="Metrics">
 					<Box flex={1} p={3}>
 						<Field label="Operating System" value={os} mb={3} />
@@ -101,7 +101,7 @@ export const TransformerWorker = ({ actions, card, channel, types }) => {
 
 				{customQueryTabs(card, type)}
 				<RelationshipsTab card={card} />
-			</SingleCardTabs>
+			</ContractTabs>
 		</CardLayout>
 	);
 };

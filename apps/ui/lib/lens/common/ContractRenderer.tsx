@@ -1,17 +1,46 @@
 import { circularDeepEqual } from 'fast-equals';
-import _ from 'lodash';
+import * as _ from 'lodash';
+import { connect } from 'react-redux';
 import React from 'react';
 import { Box, Divider, Tab, Tabs, Theme } from 'rendition';
 import styled from 'styled-components';
 import { helpers } from '@balena/jellyfish-ui-components';
-import Segment from '../../common/Segment';
-import CardFields from '../../../components/CardFields';
-import CardLayout from '../../../layouts/CardLayout';
-import Timeline from '../../list/Timeline';
-import { UI_SCHEMA_MODE } from '../../schema-util';
-import { RelationshipsTab, customQueryTabs } from '../../common';
+import { bindActionCreators } from '../../bindactioncreators';
+import CardFields from '../../components/CardFields';
+import CardLayout from '../../layouts/CardLayout';
+import Timeline from '../list/Timeline';
+import { UI_SCHEMA_MODE } from '../schema-util';
+import { RelationshipsTab, customQueryTabs } from '../common';
+import { actionCreators, selectors } from '../../core';
+import { BoundActionCreators, LensRendererProps } from '../../types';
+import { core } from '@balena/jellyfish-types';
 
-export const SingleCardTabs = styled(Tabs)`
+export type OwnProps = LensRendererProps & {
+	actionItems?: React.ReactNode;
+	'data-test'?: string;
+	children?: React.ReactNode;
+};
+
+export interface StateProps {
+	types: core.TypeContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<
+		Pick<
+			typeof actionCreators,
+			'createLink' | 'addChannel' | 'getLinks' | 'queryAPI'
+		>
+	>;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+interface State {
+	activeIndex: number;
+}
+
+export const ContractTabs = styled(Tabs)`
 	flex: 1;
 	> [role='tablist'] {
 		height: 100%;
@@ -22,8 +51,8 @@ export const SingleCardTabs = styled(Tabs)`
 	}
 `;
 
-export default class SingleCardFull extends React.Component<any, any> {
-	constructor(props) {
+export class ContractRenderer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		const tail = _.get(this.props.card.links, ['has attached element'], []);
@@ -54,7 +83,7 @@ export default class SingleCardFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { card, channel, types } = this.props;
+		const { card, channel, types, actionItems } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
@@ -67,10 +96,15 @@ export default class SingleCardFull extends React.Component<any, any> {
 		const displayTimeline = card.type !== 'user';
 
 		return (
-			<CardLayout overflowY card={card} channel={channel}>
+			<CardLayout
+				overflowY
+				card={card}
+				channel={channel}
+				actionItems={actionItems}
+			>
 				<Divider width="100%" color={helpers.colorHash(card.type)} />
 
-				<SingleCardTabs
+				<ContractTabs
 					activeIndex={this.state.activeIndex}
 					onActive={this.setActiveIndex}
 				>
@@ -82,11 +116,15 @@ export default class SingleCardFull extends React.Component<any, any> {
 								maxWidth: Theme.breakpoints[2],
 							}}
 						>
-							<CardFields
-								card={card}
-								type={type}
-								viewMode={UI_SCHEMA_MODE.fields}
-							/>
+							{!!this.props.children ? (
+								this.props.children
+							) : (
+								<CardFields
+									card={card}
+									type={type}
+									viewMode={UI_SCHEMA_MODE.fields}
+								/>
+							)}
 						</Box>
 					</Tab>
 
@@ -98,8 +136,33 @@ export default class SingleCardFull extends React.Component<any, any> {
 
 					{customQueryTabs(card, type)}
 					<RelationshipsTab card={card} />
-				</SingleCardTabs>
+				</ContractTabs>
 			</CardLayout>
 		);
 	}
 }
+
+const mapStateToProps = (state): StateProps => {
+	return {
+		types: selectors.getTypes(state),
+	};
+};
+
+const mapDispatchToProps = (dispatch): DispatchProps => {
+	return {
+		actions: bindActionCreators(
+			_.pick(actionCreators, [
+				'createLink',
+				'addChannel',
+				'getLinks',
+				'queryAPI',
+			]),
+			dispatch,
+		),
+	};
+};
+
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps,
+)(ContractRenderer);

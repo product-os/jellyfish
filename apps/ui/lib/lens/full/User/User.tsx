@@ -5,10 +5,31 @@ import {
 	helpers,
 	notifications,
 } from '@balena/jellyfish-ui-components';
-import singleCardLens from '../SingleCard';
+import { sdk, actionCreators } from '../../../core';
+import ContractRenderer from '../../common/ContractRenderer';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { core } from '@balena/jellyfish-types';
 
-export default class User extends React.Component<any, any> {
-	constructor(props) {
+export type OwnProps = LensRendererProps;
+
+export type StateProps = {
+	balenaOrg: core.Contract;
+};
+
+export interface DispatchProps {
+	actions: BoundActionCreators<
+		Pick<typeof actionCreators, 'sendFirstTimeLoginLink' | 'createLink'>
+	>;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+interface State {
+	isOperator: boolean;
+}
+
+export default class User extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 		this.sendFirstTimeLoginLink = this.sendFirstTimeLoginLink.bind(this);
 		this.offboardUser = this.offboardUser.bind(this);
@@ -18,7 +39,7 @@ export default class User extends React.Component<any, any> {
 	}
 
 	componentDidMount() {
-		return this.props.sdk
+		return sdk
 			.query({
 				type: 'object',
 				required: ['id', 'type', 'data'],
@@ -40,9 +61,13 @@ export default class User extends React.Component<any, any> {
 						},
 					},
 				},
-			})
+			} as any)
 			.then(([userWithRoles]) => {
-				const roles = _.get(userWithRoles, ['data', 'roles']);
+				const roles: string[] = _.get(
+					userWithRoles,
+					['data', 'roles'],
+					[],
+				) as string[];
 				if (_.includes(roles, 'user-operator')) {
 					this.setState({
 						isOperator: true,
@@ -59,7 +84,7 @@ export default class User extends React.Component<any, any> {
 	}
 
 	async offboardUser() {
-		const { sdk, card, balenaOrg } = this.props;
+		const { card, balenaOrg } = this.props;
 
 		// First, set the user's role
 		const patches = helpers.patchPath(
@@ -73,13 +98,13 @@ export default class User extends React.Component<any, any> {
 		await sdk.card.unlink(card, balenaOrg, 'is member of');
 		notifications.addNotification(
 			'success',
-			`Offboarded user '${helpers.userDisplayName(card)}'`,
+			`Offboarded user '${helpers.userDisplayName(card as core.UserContract)}'`,
 		);
 	}
 
 	render() {
 		return (
-			<singleCardLens.data.renderer
+			<ContractRenderer
 				{...this.props}
 				actionItems={
 					this.state.isOperator ? (

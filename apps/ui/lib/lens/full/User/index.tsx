@@ -1,20 +1,19 @@
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { sdk, selectors, actionCreators } from '../../../core';
-import User from './User';
+import { selectors, actionCreators } from '../../../core';
+import { bindActionCreators } from '../../../bindactioncreators';
+import User, { StateProps, DispatchProps, OwnProps } from './User';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	const balenaOrg = _.find(selectors.getOrgs(state), {
 		slug: 'org-balena',
 	});
 	return {
-		sdk,
 		balenaOrg,
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, ['sendFirstTimeLoginLink', 'createLink']),
@@ -31,7 +30,10 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(User),
+		renderer: connect<StateProps, DispatchProps, OwnProps>(
+			mapStateToProps,
+			mapDispatchToProps,
+		)(User),
 		filter: {
 			type: 'object',
 			properties: {

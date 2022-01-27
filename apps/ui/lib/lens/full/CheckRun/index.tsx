@@ -8,28 +8,19 @@ import styled from 'styled-components';
 import { helpers } from '@balena/jellyfish-ui-components';
 import { Contract } from '@balena/jellyfish-types/build/core';
 import { RelationshipsTab, customQueryTabs } from '../../common';
-import { bindActionCreators } from '../../../bindActionCreators';
+import { bindActionCreators } from '../../../bindactioncreators';
 import Timeline from '../../list/Timeline';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 import CardFields from '../../../components/CardFields';
 import { actionCreators, sdk, selectors } from '../../../core';
 import CardLayout from '../../../layouts/CardLayout';
+import ContractRenderer from '../../common/ContractRenderer';
 import {
 	BoundActionCreators,
 	LensContract,
 	LensRendererProps,
 } from '../../../types';
 import { core } from '@balena/jellyfish-types';
-
-export const SingleCardTabs = styled(Tabs)`
-	flex: 1;
-	> [role='tablist'] {
-		height: 100%;
-	}
-	> [role='tabpanel'] {
-		flex: 1;
-	}
-`;
 
 // The maximum depth to explore the graph
 const GRAPH_DEPTH = 3;
@@ -88,18 +79,9 @@ interface StateProps {
 	types: core.TypeContract[];
 }
 
-interface DispatchProps {
-	actions: BoundActionCreators<
-		Pick<
-			typeof actionCreators,
-			'createLink' | 'addChannel' | 'getLinks' | 'queryAPI'
-		>
-	>;
-}
-
 type OwnProps = LensRendererProps;
 
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = OwnProps & StateProps;
 
 interface State {
 	tree?: Contract;
@@ -217,56 +199,36 @@ class CheckRun extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { card, channel, types } = this.props;
+		const { card, types } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
-		const tail = _.get(card.links, ['has attached element'], []);
-
 		return (
-			<CardLayout overflowY card={card} channel={channel}>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
-
-				<SingleCardTabs
-					activeIndex={this.state.activeIndex}
-					onActive={this.setActiveIndex}
+			<ContractRenderer {...this.props}>
+				<Box
+					p={3}
+					flex={1}
+					style={{
+						maxWidth: Theme.breakpoints[2],
+					}}
 				>
-					<Tab title="Info">
-						<Box
-							p={3}
-							flex={1}
-							style={{
-								maxWidth: Theme.breakpoints[2],
-							}}
-						>
-							<CardFields
-								card={card}
-								type={type}
-								viewMode={UI_SCHEMA_MODE.fields}
-							/>
+					<CardFields
+						card={card}
+						type={type}
+						viewMode={UI_SCHEMA_MODE.fields}
+					/>
 
-							<Txt pb={3}>
-								The logs for all transformer runs can be found{' '}
-								<Link target="_blank" href={makeLogLink(this.state.commit)}>
-									here
-								</Link>
-								.
-							</Txt>
+					<Txt pb={3}>
+						The logs for all transformer runs can be found{' '}
+						<Link target="_blank" href={makeLogLink(this.state.commit)}>
+							here
+						</Link>
+						.
+					</Txt>
 
-							{!!this.state.tree && (
-								<Mermaid value={makeGraph(this.state.tree)} />
-							)}
-						</Box>
-					</Tab>
-
-					<Tab title="Timeline">
-						<Timeline.data.renderer card={card} allowWhispers tail={tail} />
-					</Tab>
-
-					{customQueryTabs(card, type)}
-					<RelationshipsTab card={card} />
-				</SingleCardTabs>
-			</CardLayout>
+					{!!this.state.tree && <Mermaid value={makeGraph(this.state.tree)} />}
+				</Box>
+			</ContractRenderer>
 		);
 	}
 }
@@ -274,20 +236,6 @@ class CheckRun extends React.Component<Props, State> {
 const mapStateToProps = (state) => {
 	return {
 		types: selectors.getTypes(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'createLink',
-				'addChannel',
-				'getLinks',
-				'queryAPI',
-			]),
-			dispatch,
-		),
 	};
 };
 
@@ -299,10 +247,7 @@ const lens: LensContract = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect<StateProps, DispatchProps, OwnProps>(
-			mapStateToProps,
-			mapDispatchToProps,
-		)(CheckRun),
+		renderer: connect<StateProps, {}, OwnProps>(mapStateToProps)(CheckRun),
 		filter: {
 			type: 'object',
 			properties: {

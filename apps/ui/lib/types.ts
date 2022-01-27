@@ -1,5 +1,5 @@
 import { JSONSchema } from '@balena/jellyfish-types';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import { core } from '@balena/jellyfish-types';
 import React from 'react';
 
 // Utility type that allows you to change the return type of a function
@@ -25,7 +25,7 @@ export type BoundActionCreators<
 };
 
 export interface LensContract
-	extends Pick<Contract, 'slug' | 'type' | 'version' | 'name' | 'data'> {
+	extends Pick<core.Contract, 'slug' | 'type' | 'version' | 'name' | 'data'> {
 	data: {
 		label?: string;
 		pathRegExp?: string;
@@ -45,19 +45,23 @@ export interface LensContract
 }
 
 export interface ChannelContract
-	extends Pick<Contract, 'slug' | 'type' | 'active' | 'data' | 'created_at'> {
+	extends Pick<
+		core.Contract,
+		'slug' | 'type' | 'active' | 'data' | 'created_at'
+	> {
 	data: {
 		canonical?: boolean;
 		target: 'string';
-		head?: Contract;
+		head?: core.Contract;
 		cardType?: string;
 	};
 }
 
 export interface LensRendererProps {
-	card: Contract;
+	card: core.Contract;
+	user: core.UserContract;
 	channel: ChannelContract;
-	tail: null | Contract[];
+	tail: null | core.Contract[];
 	setPage: (page: number) => Promise<void>;
 	// TODO: Why is this data duplicated?
 	pageOptions: {

@@ -22,14 +22,15 @@ import { RelationshipsTab, customQueryTabs } from '../../common';
 import Timeline from '../../list/Timeline';
 import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
-import SingleCardFull, { SingleCardTabs } from '../SingleCard/SingleCard';
+import ContractRenderer, { ContractTabs } from '../../common/ContractRenderer';
 import { SubscribeButton } from './SubscribeButton';
+import { any } from 'bluebird';
 
 const Extract = styled(Box)`
 	background: lightyellow;
 `;
 
-class SupportThreadBase extends SingleCardFull {
+class SupportThreadBase extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
@@ -194,6 +195,12 @@ class SupportThreadBase extends SingleCardFull {
 		}
 	}
 
+	setActiveIndex(activeIndex) {
+		this.setState({
+			activeIndex,
+		});
+	}
+
 	render() {
 		const { card, channel, getActorHref, types } = this.props;
 		const { actor, highlights, isClosing } = this.state;
@@ -326,7 +333,7 @@ class SupportThreadBase extends SingleCardFull {
 			>
 				<Divider width="100%" color={helpers.colorHash(card.type)} />
 
-				<SingleCardTabs
+				<ContractTabs
 					activeIndex={this.state.activeIndex}
 					onActive={this.setActiveIndex}
 				>
@@ -377,7 +384,7 @@ class SupportThreadBase extends SingleCardFull {
 
 					{customQueryTabs(card, typeContract)}
 					<RelationshipsTab card={card} />
-				</SingleCardTabs>
+				</ContractTabs>
 			</CardLayout>
 		);
 	}

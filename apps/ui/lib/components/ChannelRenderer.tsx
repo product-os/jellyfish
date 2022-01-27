@@ -8,6 +8,7 @@ import ChannelNotFound from './ChannelNotFound';
 import { ChannelContextProvider } from '../hooks';
 import { getLens } from '../lens';
 import { LensContract } from '../types';
+import { core } from '../libraries';
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component<any, any> {
@@ -106,6 +107,7 @@ class ChannelRenderer extends React.Component<any, any> {
 								channel={channel}
 								card={head}
 								tail={null}
+								user={this.props.user}
 								{...this.props}
 								setPage={_.noop as any}
 								pageOptions={{ page: 0, totalPages: 1 }}
