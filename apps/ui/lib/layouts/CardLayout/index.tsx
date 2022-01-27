@@ -10,10 +10,30 @@ import {
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors, sdk } from '../../core';
+import { core } from '@balena/jellyfish-types';
 
-const CardLayout = (props) => {
+interface OwnProps {
+	onClose?: any;
+	actionItems?: React.ReactNode;
+	card: core.Contract;
+	channel?: any;
+	children?: React.ReactNode;
+	noActions?: boolean;
+	overflowY?: boolean;
+	title?: any;
+	types?: any;
+	user?: any;
+}
+
+interface StateProps {
+	user: core.UserContract;
+	types: core.TypeContract[];
+}
+
+type Props = OwnProps & StateProps;
+
+const CardLayout = (props: Props) => {
 	const {
-		inlineActionItems,
 		actionItems,
 		card,
 		channel,
@@ -22,7 +42,6 @@ const CardLayout = (props) => {
 		overflowY,
 		title,
 		types,
-		user,
 	} = props;
 
 	const typeBase = card.type && card.type.split('@')[0];
@@ -76,11 +95,7 @@ const CardLayout = (props) => {
 						)}
 					</Flex>
 					<Flex alignSelf={['flex-end', 'flex-end', 'flex-start']}>
-						{!noActions && (
-							<CardActions card={card} inlineActionItems={inlineActionItems}>
-								{actionItems}
-							</CardActions>
-						)}
+						{!noActions && <CardActions card={card}>{actionItems}</CardActions>}
 						<CloseButton
 							flex={0}
 							mr={-2}
@@ -98,11 +113,11 @@ const CardLayout = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		user: selectors.getCurrentUser(state),
 		types: selectors.getTypes(state),
 	};
 };
 
-export default connect(mapStateToProps)(CardLayout);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(CardLayout);
