@@ -1,18 +1,22 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
 import { actionCreators, selectors } from '../../../core';
-import CreateUserLens from './CreateUserLens';
+import { bindActionCreators } from '../../../bindactioncreators';
+import CreateUserLens, {
+	StateProps,
+	OwnProps,
+	DispatchProps,
+} from './CreateUserLens';
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		user: selectors.getCurrentUser(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: redux.bindActionCreators(
+		actions: bindActionCreators(
 			_.pick(actionCreators, ['removeChannel', 'addUser']),
 			dispatch,
 		),

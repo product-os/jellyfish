@@ -4,6 +4,9 @@ import { Box, Button, Flex, Heading, Txt, Form } from 'rendition';
 import { notifications, helpers, Icon } from '@balena/jellyfish-ui-components';
 import * as skhema from 'skhema';
 import CardLayout from '../../../layouts/CardLayout';
+import { actionCreators } from '../../../core';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { core } from '@balena/jellyfish-types';
 
 const FORM_SCHEMA = {
 	type: 'object',
@@ -19,9 +22,31 @@ const FORM_SCHEMA = {
 	},
 };
 
+export type OwnProps = LensRendererProps;
+
+export interface DispatchProps {
+	actions: BoundActionCreators<
+		Pick<typeof actionCreators, 'removeChannel' | 'addUser'>
+	>;
+}
+
+export interface StateProps {
+	user: core.UserContract;
+}
+
+type Props = OwnProps & DispatchProps & StateProps;
+
+interface State {
+	orgs: core.Contract[];
+	submitting: boolean;
+	formData: any;
+	cardIsValid: boolean;
+	formSchema: any;
+}
+
 // TODO autogenerate this based on user creation action card
-class CreateUserLens extends React.Component<any, any> {
-	constructor(props) {
+class CreateUserLens extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		const { user } = this.props;
