@@ -24,6 +24,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.template
+    # (TBC) https://www.flowdock.com/app/rulemotion/r-beginners/threads/uPPfzU-DGRehSDk-TkS-vZs7Q58
+    # https://github.com/balena-io-modules/open-balena-base/blob/master/Dockerfile#L105
+    command: /usr/bin/entry.sh
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
