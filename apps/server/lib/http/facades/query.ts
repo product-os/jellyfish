@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import Bluebird from 'bluebird';
-import { getLogger } from '@balena/jellyfish-logger';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import { Kernel, errors as coreErrors } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
@@ -12,7 +12,7 @@ export class QueryFacade {
 		this.kernel = kernel;
 	}
 
-	async queryAPI(context, session, query, options, ipAddress) {
+	async queryAPI(logContext: LogContext, session, query, options, ipAddress) {
 		return Bluebird.try(async () => {
 			if (!_.isString(query)) {
 				return query;
@@ -20,7 +20,7 @@ export class QueryFacade {
 
 			// Now try and load the view by slug
 			const viewCardFromSlug = await this.kernel.getContractBySlug(
-				context,
+				logContext,
 				session,
 				`${query}@latest`,
 			);
@@ -32,7 +32,7 @@ export class QueryFacade {
 			try {
 				// Try and load the view by id first
 				const viewCardFromId = await this.kernel.getContractById(
-					context,
+					logContext,
 					session,
 					query,
 				);
@@ -48,16 +48,21 @@ export class QueryFacade {
 		}).then(async (schema) => {
 			const startDate = new Date();
 
-			logger.info(context, 'JSON Schema query start', {
+			logger.info(logContext, 'JSON Schema query start', {
 				date: startDate,
 				ip: ipAddress,
 				schema,
 			});
 
-			const data = await this.kernel.query(context, session, schema, options);
+			const data = await this.kernel.query(
+				logContext,
+				session,
+				schema,
+				options,
+			);
 			const endDate = new Date();
 			const queryTime = endDate.getTime() - startDate.getTime();
-			logger.info(context, 'JSON Schema query end', {
+			logger.info(logContext, 'JSON Schema query end', {
 				time: queryTime,
 			});
 
