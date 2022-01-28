@@ -1,4 +1,16 @@
 - commits:
+    - subject: 🔄 Synced file(s) with product-os/secrets
+      hash: a798d5a18b70c2d27e1fe7208703fd7283f15f1a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+      nested: []
+  version: 44.0.2
+  title: 🔄 Synced file(s) with product-os/secrets
+  date: 2022-01-28T04:06:10.353Z
+- commits:
     - subject: Update balena/balena-redis Docker tag to v0.0.4
       hash: e6c43cadfbe3c1dbb6d04acf655587f4bc7c6436
       body: ""
