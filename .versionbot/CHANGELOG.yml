@@ -1,4 +1,31 @@
 - commits:
+    - subject: Update resinci/jellyfish-test Docker tag to v1.4.21
+      hash: 0c33f23cc9cb6193b437ded50e5e9f08107dd6a3
+      body: ''
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 'UI: Remove special handling of repository contracts'
+      hash: 6ade0248f11568f4463d2300378662f1c579da19
+      body: |
+        This change removes the special handling for repository contracts.
+        Previously we were experimenting with the idea that the repository would
+        behave like a chat room or flow in flowdock, that focused conversation
+        around a specific repository. The approach we want to try now is to
+        focus conversation around specific products, and use tags to create
+        views for specific topics.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 44.0.0
+  date: 2022-01-27T00:35:45.616Z
+- commits:
     - subject: 'UI: Remove unused level prop in ChannelRenderer'
       hash: e6247e9cf7869c2c4f8f7625760b75b5ed5b4f21
       body: ''
