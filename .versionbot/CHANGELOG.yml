@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependencies (external non-major bumps)
+      hash: b7640ef4cda117cf42a4f1fdee2b36faf412a3e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 44.0.6
+  title: Update dependencies (external non-major bumps)
+  date: 2022-01-29T13:21:28.096Z
+- commits:
     - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/ui
       hash: 5814d95fca8fb897fe23b2f462fff0ec17d79f09
       body: >
