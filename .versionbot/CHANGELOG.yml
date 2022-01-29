@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump nth-check from 2.0.0 to 2.0.1 in /apps/ui
+      hash: 5814d95fca8fb897fe23b2f462fff0ec17d79f09
+      body: >
+        Bumps [nth-check](https://github.com/fb55/nth-check) from 2.0.0 to
+        2.0.1.
+
+        - [Release notes](https://github.com/fb55/nth-check/releases)
+
+        - [Commits](https://github.com/fb55/nth-check/compare/v2.0.0...v2.0.1)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: nth-check
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 44.0.5
+  title: Bump nth-check from 2.0.0 to 2.0.1 in /apps/ui
+  date: 2022-01-29T09:20:04.847Z
+- commits:
     - subject: Update balena/balena-mdns-publisher Docker tag to v1.14.3
       hash: fc120eeb2fb1b8756a892730dcc2af303b90e8fe
       body: ""
