@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @types/sinon from 10.0.8 to 10.0.9
+      hash: 68159bee41b385ca654ea5602ae106d1b3506e52
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 44.0.7
+  title: Update @types/sinon from 10.0.8 to 10.0.9
+  date: 2022-01-30T02:41:12.660Z
+- commits:
     - subject: Update dependencies (external non-major bumps)
       hash: b7640ef4cda117cf42a4f1fdee2b36faf412a3e1
       body: ""
