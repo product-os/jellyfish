@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update grommet from 2.20.0 to 2.20.1
+      hash: 7fd746b5d8773607ef00d18af87eca1805f54f22
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 44.0.9
+  title: Update grommet from 2.20.0 to 2.20.1
+  date: 2022-01-30T04:26:02.903Z
+- commits:
     - subject: Update aws-sdk from 2.1062.0 to 2.1066.0
       hash: bd571add42331195607338e88bfdf0a023dccb39
       body: ""
