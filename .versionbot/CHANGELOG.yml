@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependencies (external non-major bumps)
+      hash: 393841e42029d2631546148fe6d7f142de00a1b8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 44.0.10
+  title: Update dependencies (external non-major bumps)
+  date: 2022-01-30T05:11:13.075Z
+- commits:
     - subject: Update grommet from 2.20.0 to 2.20.1
       hash: 7fd746b5d8773607ef00d18af87eca1805f54f22
       body: ""
