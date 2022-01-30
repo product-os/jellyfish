@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update aws-sdk from 2.1062.0 to 2.1066.0
+      hash: bd571add42331195607338e88bfdf0a023dccb39
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 44.0.8
+  title: Update aws-sdk from 2.1062.0 to 2.1066.0
+  date: 2022-01-30T03:36:00.206Z
+- commits:
     - subject: Update @types/sinon from 10.0.8 to 10.0.9
       hash: 68159bee41b385ca654ea5602ae106d1b3506e52
       body: ""
