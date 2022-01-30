@@ -24,7 +24,7 @@
   "dependencies": {
     "@balena/jellyfish-chat-widget": "^12.5.102",
     "@balena/jellyfish-client-sdk": "^8.0.2",
-    "@balena/jellyfish-environment": "^6.0.12",
+    "@balena/jellyfish-environment": "^6.0.14",
     "@balena/jellyfish-ui-components": "^13.1.19",
     "analytics-client": "^1.7.0",
     "assert": "^2.0.0",
