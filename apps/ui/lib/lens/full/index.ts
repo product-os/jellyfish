@@ -1,3 +1,4 @@
+import Channel from './Channel';
 import CheckRun from './CheckRun';
 import MyUser from './MyUser';
 import Loop from './Loop';
@@ -9,6 +10,7 @@ import User from './User';
 import TransformerWorker from './TransformerWorker';
 
 export default [
+	Channel,
 	CheckRun,
 	MyUser,
 	Loop,

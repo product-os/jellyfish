@@ -41,7 +41,7 @@ export type BoundActionCreators<
 export interface LensContract
 	extends Pick<Contract, 'slug' | 'type' | 'version' | 'name' | 'data'> {
 	data: {
-		label: string;
+		label?: string;
 		pathRegExp?: string;
 		type?: 'view' | '*';
 		supportsSlices?: boolean;
