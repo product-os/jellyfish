@@ -40,17 +40,10 @@ export default class SingleCard extends React.Component<any, any> {
 			_.includes(threadTargets, card.slug) ||
 			_.includes(threadTargets, card.id);
 
-		// Count the number of non-event links the card has
-		const numLinks = _.reduce(
-			card.links,
-			(carry, value, key) => {
-				return key === 'has attached element' ? carry : carry + value.length;
-			},
-			0,
-		);
-
 		const versionSuffix =
 			card.version && card.version !== '1.0.0' ? ` v${card.version}` : '';
+
+		console.log({ card });
 
 		return (
 			<CardBox
@@ -65,12 +58,6 @@ export default class SingleCard extends React.Component<any, any> {
 							<strong>{card.name || card.slug}</strong> {versionSuffix}
 						</Link>
 					</Txt>
-
-					{numLinks > 0 && (
-						<Box>
-							{numLinks} <Icon name="bezier-curve" />
-						</Box>
-					)}
 				</Flex>
 
 				<TagList tags={card.tags} mb={1} />
