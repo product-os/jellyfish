@@ -517,6 +517,17 @@ export const actionCreators = {
 									const: linkedType,
 								},
 							},
+							// Always load the owner if there is one
+							anyOf: [
+								{
+									$$links: {
+										'is owned by': {
+											type: 'object',
+										},
+									},
+								},
+								true,
+							],
 						},
 					},
 					description: `Get card with links ${card.id}`,

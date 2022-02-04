@@ -3,7 +3,13 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex, Txt } from 'rendition';
-import { helpers, Icon, Link, TagList } from '@balena/jellyfish-ui-components';
+import {
+	helpers,
+	Link,
+	TagList,
+	UserAvatar,
+} from '@balena/jellyfish-ui-components';
+import { core } from '@balena/jellyfish-types';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 
@@ -40,17 +46,12 @@ export default class SingleCard extends React.Component<any, any> {
 			_.includes(threadTargets, card.slug) ||
 			_.includes(threadTargets, card.id);
 
-		// Count the number of non-event links the card has
-		const numLinks = _.reduce(
-			card.links,
-			(carry, value, key) => {
-				return key === 'has attached element' ? carry : carry + value.length;
-			},
-			0,
-		);
-
 		const versionSuffix =
 			card.version && card.version !== '1.0.0' ? ` v${card.version}` : '';
+
+		const owner: core.UserContract = _.first(
+			_.get(card, ['links', 'is owned by'], []),
+		) as any;
 
 		return (
 			<CardBox
@@ -65,12 +66,7 @@ export default class SingleCard extends React.Component<any, any> {
 							<strong>{card.name || card.slug}</strong> {versionSuffix}
 						</Link>
 					</Txt>
-
-					{numLinks > 0 && (
-						<Box>
-							{numLinks} <Icon name="bezier-curve" />
-						</Box>
-					)}
+					{!!owner && <UserAvatar user={owner} tooltipPlacement="left" />}
 				</Flex>
 
 				<TagList tags={card.tags} mb={1} />
