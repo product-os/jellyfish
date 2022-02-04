@@ -1,4 +1,29 @@
 - commits:
+    - subject: "UI: Always show owner in snippet lens"
+      hash: b45762cc9868247abc9e86c4a33f561f2583fc34
+      body: |
+        Fixes https://github.com/product-os/jellyfish/issues/7850
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Remove flakey "number of links" display on snippet
+      hash: a0afd9e010b491bbe54ec7ad212bdafb4b4a69a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 44.0.14
+  title: "'UI: Always show owner in snippet lens'"
+  date: 2022-02-04T10:55:34.107Z
+- commits:
     - subject: Update resinci/jellyfish-test Docker tag to v1.4.22
       hash: ac3a635879a48af48de429fdd575e030e271e11a
       body: ""
