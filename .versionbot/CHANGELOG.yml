@@ -1,4 +1,23 @@
 - commits:
+    - subject: "UI: Always show the link tab for the next entity type in the loop"
+      hash: 7b1156d0a8eaa6a8c13c83ccf4135fb8c04c0a29
+      body: |
+        When viewing a contract, if that contract is part of the loop structure,
+        always show the link tab for the next type in the loop flow. E.g. if
+        looking at a pattern, the link tab for improvements will always be shown
+
+        Fixes https://github.com/product-os/jellyfish/issues/7853
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 44.1.0
+  title: "'UI: Always show the link tab for the next entity type in the loop'"
+  date: 2022-02-04T11:52:11.697Z
+- commits:
     - subject: "UI: Always show owner in snippet lens"
       hash: b45762cc9868247abc9e86c4a33f561f2583fc34
       body: |
