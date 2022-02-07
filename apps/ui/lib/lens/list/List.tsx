@@ -1,5 +1,5 @@
 import { circularDeepEqual } from 'fast-equals';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import ReactResizeObserver from 'react-resize-observer';

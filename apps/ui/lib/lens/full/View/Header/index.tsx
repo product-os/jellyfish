@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type { JSONSchema7 } from 'json-schema';
 import React from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, FiltersProps, Flex, Heading, SelectProps, Txt } from 'rendition';
+import { Box, FiltersProps, Flex, Heading, SelectProps } from 'rendition';
 import { flatten } from 'flat';
 import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
 import Markers from '../../../../components/Markers';
@@ -12,8 +12,11 @@ import { LensSelection } from './LensSelection';
 import SliceOptionsSelect, { SliceOption } from './SliceOptions';
 import ViewFilters from './ViewFilters';
 import styled from 'styled-components';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { JSONSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -43,7 +46,7 @@ interface HeaderProps {
 	}) => void;
 	pageOptions: { sortBy: string; sortDir: 'asc' | 'desc' };
 	saveView: FiltersProps['onViewsUpdate'];
-	searchFilter: JSONSchema;
+	searchFilter: JsonSchema;
 	searchTerm: string;
 	setLens: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	setSlice: SelectProps<SliceOption>['onChange'];

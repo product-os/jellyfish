@@ -14,8 +14,12 @@ import {
 } from '@balena/jellyfish-ui-components';
 import { sdk, selectors } from '../../core';
 import { withChannelContext } from '../../hooks';
-import { LensContract, LensRendererProps } from '../../types';
-import { core } from '@balena/jellyfish-types';
+import type { LensContract, LensRendererProps } from '../../types';
+import type {
+	Contract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -43,9 +47,9 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 };
 
 interface StateProps {
-	types: core.TypeContract[];
-	groups: core.Contract[];
-	user: core.UserContract;
+	types: TypeContract[];
+	groups: Contract[];
+	user: UserContract;
 }
 
 type OwnProps = LensRendererProps;
@@ -159,7 +163,7 @@ export class Interleaved extends React.Component<Props, State> {
 		}
 	}
 
-	handleCardVisible = (contract: core.Contract) => {
+	handleCardVisible = (contract: Contract) => {
 		sdk.card
 			.markAsRead(
 				this.props.user.slug,

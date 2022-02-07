@@ -2,7 +2,7 @@ import clone from 'deep-copy';
 import { circularDeepEqual, deepEqual } from 'fast-equals';
 import skhema from 'skhema';
 import update from 'immutability-helper';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -16,9 +16,10 @@ import {
 	withResponsiveContext,
 } from '@balena/jellyfish-ui-components';
 import jsf from 'json-schema-faker';
-import { JSONSchema, core } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { ViewContract } from '@balena/jellyfish-types/build/core';
 import { actionCreators, analytics, selectors, sdk } from '../../../core';
-import {
+import type {
 	BoundActionCreators,
 	ChannelContract,
 	LensContract,
@@ -182,13 +183,13 @@ const createSyntheticViewCard = (view, filters) => {
 			filter.$id !== EVENTS_FULL_TEXT_SEARCH_TITLE &&
 			filter.anyOf
 		) {
-			filter.anyOf = filter.anyOf.map((subSchema: JSONSchema) => {
+			filter.anyOf = filter.anyOf.map((subSchema: JsonSchema) => {
 				const isLinkFilter = _.has(subSchema, 'properties.$$links');
 				// Only $$links filters need unflattening and re-structuring slightly
 				if (isLinkFilter) {
 					return {
 						$$links: unpackLinksSchema(
-							subSchema.properties!.$$links as JSONSchema,
+							subSchema.properties!.$$links as JsonSchema,
 						),
 					};
 				}
@@ -791,7 +792,7 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 
 	createView(view) {
 		const { user, channel } = this.props;
-		const newView = clone<core.ViewContract>(channel.data.head!);
+		const newView = clone<ViewContract>(channel.data.head!);
 		newView.name = view.name;
 		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
 			view.name,

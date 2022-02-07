@@ -2,23 +2,27 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { Icon, PlainButton, useSetup } from '@balena/jellyfish-ui-components';
-import type { core, JSONSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	ContractDefinition,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 import { selectors } from '../../../core';
 
 export const SubscribeButton = ({ card, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [loading, setLoading] = React.useState(true);
-	const [subscription, setSubscription] =
-		React.useState<core.Contract | core.ContractDefinition | null>(null);
-	const currentUser = useSelector<any, core.UserContract>(
-		selectors.getCurrentUser,
-	);
+	const [subscription, setSubscription] = React.useState<
+		Contract | ContractDefinition | null
+	>(null);
+	const currentUser = useSelector<any, UserContract>(selectors.getCurrentUser);
 
 	React.useEffect(() => {
 		let stream: any = null;
 
 		(async () => {
-			const query: JSONSchema = {
+			const query: JsonSchema = {
 				type: 'object',
 				required: ['type', 'active'],
 				properties: {

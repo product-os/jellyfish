@@ -1,5 +1,8 @@
-import { JSONSchema } from '@balena/jellyfish-types';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import React from 'react';
 
 // Utility type that allows you to change the return type of a function
@@ -34,12 +37,12 @@ export interface LensContract
 		icon: string;
 		format: 'list' | 'full' | 'summary' | 'snippet';
 		renderer: React.ComponentType<LensRendererProps>;
-		filter: JSONSchema;
+		filter: JsonSchema;
 		queryOptions: {
 			limit?: number;
 			sortBy?: string;
 			sortDir?: 'asc' | 'desc';
-			mask: (query: JSONSchema) => JSONSchema;
+			mask: (query: JsonSchema) => JsonSchema;
 		};
 	};
 }

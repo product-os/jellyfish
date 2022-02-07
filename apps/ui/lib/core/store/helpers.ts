@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import update from 'immutability-helper';
-import { core } from '@balena/jellyfish-types';
 
 /**
  * Given a target card id and a card that's been updated, finds all channels

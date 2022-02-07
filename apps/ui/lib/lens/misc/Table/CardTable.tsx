@@ -8,8 +8,7 @@ import {
 	helpers,
 	Link,
 } from '@balena/jellyfish-ui-components';
-import format from 'date-fns/format';
-import parseISO from 'date-fns/parseISO';
+import { format, parseISO } from 'date-fns';
 import flatten from 'flat';
 import { LinkModal, UnlinkModal } from '../../../components/LinkModal';
 import { ColumnHider } from './ColumnHider';

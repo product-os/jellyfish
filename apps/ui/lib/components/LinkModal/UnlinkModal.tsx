@@ -8,7 +8,7 @@ import {
 	getReverseConstraint,
 } from '@balena/jellyfish-client-sdk';
 import { notifications, Icon, helpers } from '@balena/jellyfish-ui-components';
-import {
+import type {
 	Contract,
 	ContractSummary,
 	TypeContract,
@@ -16,7 +16,7 @@ import {
 import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
-import { LinkConstraint } from '@balena/jellyfish-client-sdk/build/types';
+import type { LinkConstraint } from '@balena/jellyfish-client-sdk';
 
 export interface UnlinkModalProps {
 	actions: {
@@ -40,8 +40,9 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 	allTypes,
 	onHide,
 }) => {
-	const [selectedTarget, setSelectedTarget] =
-		React.useState<Contract | undefined>(target);
+	const [selectedTarget, setSelectedTarget] = React.useState<
+		Contract | undefined
+	>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
 

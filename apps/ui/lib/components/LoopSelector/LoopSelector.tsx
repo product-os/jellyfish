@@ -1,6 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
-import { core } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	LoopContract,
+} from '@balena/jellyfish-types/build/core';
 import { HighlightedName, Select, RenditionSystemProps } from 'rendition';
 import { helpers } from '@balena/jellyfish-ui-components';
 
@@ -39,7 +42,7 @@ const LoopDisplay: React.FunctionComponent<LoopDisplayProps> = React.memo(
 
 export interface LoopSelectorProps extends RenditionSystemProps {
 	onSetLoop: (loopVersionedSlug?: string) => void;
-	loops: core.LoopContract[];
+	loops: LoopContract[];
 	activeLoop: string;
 }
 
@@ -56,7 +59,7 @@ export const LoopSelector: React.FunctionComponent<LoopSelectorProps> =
 		);
 
 		const loopOptions = React.useMemo(() => {
-			return _.concat<DefaultOption | core.Contract>([allLoops], ...loops);
+			return _.concat<DefaultOption | Contract>([allLoops], ...loops);
 		}, [loops]);
 
 		const onChange = ({ value }) => {

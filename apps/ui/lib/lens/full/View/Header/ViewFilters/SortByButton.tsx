@@ -5,7 +5,7 @@ import memoize from 'memoize-one';
 import { circularDeepEqual } from 'fast-equals';
 import clone from 'deep-copy';
 import { Select, SelectProps } from 'rendition';
-import { core } from '@balena/jellyfish-types';
+import type { TypeContract } from '@balena/jellyfish-types/build/core';
 import { helpers } from '@balena/jellyfish-ui-components';
 import { sdk } from '../../../../../core';
 
@@ -66,7 +66,7 @@ type SortByOption = {
 interface SortByDropdownProps
 	extends Omit<SelectProps<SortByOption>, 'options' | 'onChange'> {
 	pageOptions: { sortBy: string; sortDir: 'desc' | 'asc' };
-	tailTypes: core.TypeContract[];
+	tailTypes: TypeContract[];
 	setSortByField: SelectProps<SortByOption>['onChange'];
 }
 

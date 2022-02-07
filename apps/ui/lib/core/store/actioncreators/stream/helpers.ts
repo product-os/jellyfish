@@ -1,5 +1,5 @@
 import { helpers } from '@balena/jellyfish-ui-components';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { selectors } from '..';
 import { mentionsUser } from '../../helpers';
 import { createNotification } from '../../../../services/notifications';

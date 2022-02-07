@@ -4,7 +4,7 @@ import sinon from 'sinon';
 import React from 'react';
 import { CreateLens } from '../CreateLens';
 import { contact, allTypes } from '../../../../test/fixtures/types';
-import { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 const sandbox = sinon.createSandbox();
 

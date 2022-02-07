@@ -8,7 +8,6 @@ import CardLayout from '../../../layouts/CardLayout';
 import Timeline from '../../list/Timeline';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import { sdk } from '../../../core';
-import { Contract } from '@balena/jellyfish-types/build/core';
 
 const WIDTH = 160;
 

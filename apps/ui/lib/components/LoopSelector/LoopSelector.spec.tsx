@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
 import { LoopSelector } from './LoopSelector';
-import { core } from '@balena/jellyfish-types';
+import type { LoopContract } from '@balena/jellyfish-types/build/core';
 
 const sandbox = sinon.createSandbox();
 
@@ -22,7 +22,7 @@ const loop2 = withDefaults({
 });
 
 describe('LoopSelector', () => {
-	const loops: core.LoopContract[] = [loop1, loop2];
+	const loops: LoopContract[] = [loop1, loop2];
 	const onSetLoop = sandbox.stub();
 
 	afterEach(() => {

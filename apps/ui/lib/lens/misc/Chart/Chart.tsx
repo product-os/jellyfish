@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import 'react-chart-editor/lib/react-chart-editor.css';
-import * as flatten from 'flat';
+import flatten from 'flat';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Button, Flex, Heading } from 'rendition';
 import { Icon, helpers } from '@balena/jellyfish-ui-components';

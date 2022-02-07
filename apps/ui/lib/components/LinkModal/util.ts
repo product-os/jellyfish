@@ -1,11 +1,9 @@
-import {
+import type {
 	Contract,
-	ContractSummary,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { helpers } from '@balena/jellyfish-ui-components';
-import { linkConstraints } from '@balena/jellyfish-client-sdk';
-import { LinkConstraint } from '@balena/jellyfish-client-sdk/build/types';
+import { linkConstraints, LinkConstraint } from '@balena/jellyfish-client-sdk';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 
