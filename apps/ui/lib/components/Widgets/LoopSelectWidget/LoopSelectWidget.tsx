@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Select } from 'rendition';
-import { LoopContract } from '@balena/jellyfish-types/build/core';
+import type { LoopContract } from '@balena/jellyfish-types/build/core';
 
 export interface LoopSelectWidgetProps {
 	value: string | null;

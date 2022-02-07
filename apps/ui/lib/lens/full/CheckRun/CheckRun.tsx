@@ -11,7 +11,7 @@ import { UI_SCHEMA_MODE } from '../../schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import { sdk } from '../../../core';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
-import { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;

@@ -6,7 +6,10 @@ import styled from 'styled-components';
 import { helpers, useDebounce } from '@balena/jellyfish-ui-components';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import Segment from '../Segment';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import { JSONSchema } from 'rendition/dist/components/Renderer/types';
 
 const TabTitleSelect = styled(Select)`

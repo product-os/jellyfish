@@ -14,7 +14,8 @@ import {
 } from 'rendition';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
-import { core, JSONSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { TypeContract } from '@balena/jellyfish-types/build/core';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import { helpers } from '@balena/jellyfish-ui-components';
 import {
@@ -59,7 +60,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	// instead of just the first one.
 	const unflattenedSchemaForFilters = skhema.merge([
 		_.first(tailSchemas),
-	]) as JSONSchema;
+	]) as JsonSchema;
 
 	// The filters component doesn't care if our schema is flat or not, but
 	// by flattening it, it's easier to set the title field for each item.
@@ -69,7 +70,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 
 	// Set the filter titles to be Start Case
 	_.forEach(schemaForFilters.properties, (prop, propName) => {
-		const filterSchema = prop as JSONSchema;
+		const filterSchema = prop as JsonSchema;
 		filterSchema.title = _.startCase(filterSchema.title || propName);
 	});
 
@@ -97,7 +98,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	// For each relevant link constraint...
 	for (const linkConstraint of filteredLinkConstraints) {
 		// Get the flattened contract schema
-		const toType: core.TypeContract = helpers.getType(
+		const toType: TypeContract = helpers.getType(
 			linkConstraint.data.to,
 			allTypes,
 		);
@@ -107,7 +108,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 		}
 		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
 			toType.data.schema,
-		) as JSONSchema;
+		) as JsonSchema;
 
 		// Always expose certain fields for filtering by linked contracts
 		_.merge(flattenedLinkContractSchema.properties, simplifiedCardProperties);
@@ -115,7 +116,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 		// For each flattened schema property...
 		_.forEach(
 			flattenedLinkContractSchema.properties,
-			(schema: JSONSchema, keyPath: string) => {
+			(schema: JsonSchema, keyPath: string) => {
 				// Create a filter, encoding the link verb and the linked contract type in the filter key
 				const fieldTitle = _.startCase(
 					schema.title || _.last(keyPath.split('___')),
@@ -168,11 +169,11 @@ interface ViewFiltersProps {
 	searchTerm: string;
 	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
 	updateSearch: (value: any) => void;
-	allTypes: core.TypeContract[];
+	allTypes: TypeContract[];
 	filters: JSONSchema7[];
 	saveView: FiltersProps['onViewsUpdate'];
-	searchFilter: JSONSchema;
-	tailTypes: core.TypeContract[];
+	searchFilter: JsonSchema;
+	tailTypes: TypeContract[];
 	updateFilters: (filters: JSONSchema7[]) => void;
 }
 

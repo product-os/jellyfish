@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Heading, Txt } from 'rendition';

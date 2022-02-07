@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { sdk, actionCreators, selectors } from '../../../core';

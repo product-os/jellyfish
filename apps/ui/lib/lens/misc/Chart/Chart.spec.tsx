@@ -1,4 +1,3 @@
-import { act } from 'react-dom/test-utils';
 import { getWrapper, flushPromises } from '../../../../test/ui-setup';
 import _ from 'lodash';
 import React from 'react';

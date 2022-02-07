@@ -1,8 +1,6 @@
 import { getWrapper, flushPromises } from '../../../../test/ui-setup';
 import _ from 'lodash';
-import subDays from 'date-fns/subDays';
-import subHours from 'date-fns/subHours';
-import subBusinessDays from 'date-fns/subBusinessDays';
+import { subBusinessDays, subDays, subHours } from 'date-fns';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';

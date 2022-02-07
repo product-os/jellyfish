@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import actions from '../../actions';
 import { updateThreadChannels } from '../../helpers';
 import { selectors } from '../';

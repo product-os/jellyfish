@@ -7,7 +7,7 @@ import AsyncSelect from 'react-select/async';
 import { Badge, Flex, Txt } from 'rendition';
 import debounce from 'debounce-promise';
 import { helpers } from '@balena/jellyfish-ui-components';
-import { core } from '@balena/jellyfish-types';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 const preventClickPropagation = (event: any) => {
 	event.stopPropagation();
@@ -134,7 +134,7 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 		return results;
 	}
 
-	getOptionValue = (card: core.Contract) => {
+	getOptionValue = (card: Contract) => {
 		return card.id;
 	};
 

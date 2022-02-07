@@ -3,7 +3,7 @@ import update from 'immutability-helper';
 import storage from 'localforage';
 import { persistReducer } from 'redux-persist';
 import { connectRouter } from 'connected-react-router';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
 import actions from './actions';

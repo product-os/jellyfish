@@ -2,12 +2,15 @@ import React from 'react';
 import _ from 'lodash';
 import { Box, Flex, Txt } from 'rendition';
 import { Icon } from '@balena/jellyfish-ui-components';
-import { core } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import { ViewFooter } from '../../common/ViewFooter';
-import { ChannelContract, LensContract } from '../../../types';
+import type { ChannelContract, LensContract } from '../../../types';
 
 const sortTail = (
-	tail: core.Contract[] | null,
+	tail: Contract[] | null,
 	options: { limit?: number; page?: number; sortBy: any; sortDir: any },
 ) => {
 	if (!tail) {
@@ -19,7 +22,7 @@ const sortTail = (
 interface ContentProps {
 	lens: LensContract;
 	activeLens: string;
-	tail: null | core.Contract[];
+	tail: null | Contract[];
 	channel: ChannelContract;
 	getQueryOptions: (
 		lensSlug: string,
@@ -30,7 +33,7 @@ interface ContentProps {
 		sortBy: string;
 		sortDir: string;
 	};
-	tailTypes: core.TypeContract[];
+	tailTypes: TypeContract[];
 	setPage: (page: number) => Promise<void>;
 	pageOptions: {
 		page: number;

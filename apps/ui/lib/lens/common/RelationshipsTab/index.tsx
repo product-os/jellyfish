@@ -1,6 +1,4 @@
-import React from 'react';
 import _ from 'lodash';
-import memoize from 'memoize-one';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { selectors, actionCreators } from '../../../core';

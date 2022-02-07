@@ -3,7 +3,10 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
-import { core } from '@balena/jellyfish-types';
+import type {
+	UserContract,
+	ViewContract,
+} from '@balena/jellyfish-types/build/core';
 import actions from '../actions';
 import { actionCreators, getSeedData } from './';
 
@@ -345,7 +348,7 @@ describe('Redux action creators', () => {
 });
 
 describe('getSeedData', () => {
-	const baseViewCard: core.ViewContract = {
+	const baseViewCard: ViewContract = {
 		id: '1234',
 		slug: 'my-view',
 		version: '1.0.0',
@@ -373,7 +376,7 @@ describe('getSeedData', () => {
 		},
 	};
 
-	const baseUser: core.UserContract = {
+	const baseUser: UserContract = {
 		id: '1235',
 		slug: 'user-my-user',
 		version: '1.0.0',

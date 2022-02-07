@@ -1,11 +1,11 @@
 import { circularDeepEqual } from 'fast-equals';
 import classnames from 'classnames';
 import memoize from 'memoize-one';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
-import styled, { StyledComponent } from 'styled-components';
+import styled from 'styled-components';
 import {
 	ActionButton,
 	ActionRouterLink,

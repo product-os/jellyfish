@@ -5,7 +5,8 @@ import uniq from 'lodash/uniq';
 import { Badge, Box, Button } from 'rendition';
 import styled from 'styled-components';
 import { Icon, useSetup } from '@balena/jellyfish-ui-components';
-import type { JSONSchema, core } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { UserContract } from '@balena/jellyfish-types/build/core';
 import { selectors } from '../../core';
 
 const StyledBadge = styled(Badge)`
@@ -24,15 +25,13 @@ const Container = styled(Box)`
 export const ChatButton = ({ onClick, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [notifications, setNotifications] = React.useState<null | any[]>(null);
-	const currentUser = useSelector<any, core.UserContract>(
-		selectors.getCurrentUser,
-	);
+	const currentUser = useSelector<any, UserContract>(selectors.getCurrentUser);
 
 	React.useEffect(() => {
 		let stream: any = null;
 
 		(async () => {
-			const query: JSONSchema = {
+			const query: JsonSchema = {
 				type: 'object',
 				required: ['type'],
 				properties: {
