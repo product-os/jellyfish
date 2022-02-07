@@ -34,7 +34,7 @@ const NOCK_OPTS = {
 };
 
 beforeEach(async () => {
-	await helpers.beforeEach(test);
+	helpers.beforeEach(test);
 
 	context.getProspect = async (id) => {
 		return new Bluebird((resolve, reject) => {

@@ -9,14 +9,14 @@ import { createServer } from './http';
 import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import type { JSONSchema } from '@balena/jellyfish-types';
-import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
-import {
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
+import type {
 	SessionContract,
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
-import { Transformer } from '@balena/jellyfish-worker/build/transformers';
+import type { Transformer } from '@balena/jellyfish-worker/build/transformers';
 import { Sync } from '@balena/jellyfish-worker/build/sync';
 
 const logger = getLogger(__filename);
@@ -28,7 +28,7 @@ interface SessionContractWithActor extends SessionContract {
 	};
 }
 
-const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRIGGERS: JsonSchema = {
 	type: 'object',
 	properties: {
 		id: {
@@ -53,7 +53,7 @@ const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
 	required: ['id', 'slug', 'active', 'type', 'data'],
 };
 
-const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type', 'data', 'version'],
 	properties: {
@@ -85,7 +85,7 @@ const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
 	},
 };
 
-const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
+const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type'],
 	properties: {

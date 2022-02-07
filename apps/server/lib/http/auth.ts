@@ -1,6 +1,6 @@
 import type { Kernel } from '@balena/jellyfish-core';
 import type { LogContext } from '@balena/jellyfish-logger';
-import { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 

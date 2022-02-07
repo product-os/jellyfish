@@ -3,9 +3,9 @@ import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import { Worker } from '@balena/jellyfish-worker';
-import { Producer } from '@balena/jellyfish-queue';
-import { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { Worker } from '@balena/jellyfish-worker';
+import type { Producer } from '@balena/jellyfish-queue';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);
 
