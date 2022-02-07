@@ -1,4 +1,33 @@
 - commits:
+    - subject: Bump simple-get from 3.1.0 to 3.1.1 in /apps/ui
+      hash: 3bac32b1363ac0ce9a0b84300e626c973d655083
+      body: >
+        Bumps [simple-get](https://github.com/feross/simple-get) from 3.1.0 to
+        3.1.1.
+
+        - [Release notes](https://github.com/feross/simple-get/releases)
+
+        - [Commits](https://github.com/feross/simple-get/compare/v3.1.0...v3.1.1)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: simple-get
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 44.1.2
+  title: "'Bump simple-get from 3.1.0 to 3.1.1 in /apps/ui'"
+  date: 2022-02-07T08:53:17.887Z
+- commits:
     - subject: Optimize postgres for tests
       hash: 768b0b72cf773a839e717f341242f1edb079c900
       body: ""
