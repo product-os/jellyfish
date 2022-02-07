@@ -4,7 +4,7 @@ import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
 import { getLogger } from '@balena/jellyfish-logger';
 import { authMiddleware } from './auth';
-import { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from '@balena/jellyfish-core';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires

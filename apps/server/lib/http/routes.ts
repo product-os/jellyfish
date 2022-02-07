@@ -10,9 +10,9 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
-import { Kernel } from '@balena/jellyfish-core';
-import { Worker } from '@balena/jellyfish-worker';
-import { Producer } from '@balena/jellyfish-queue';
+import type { Kernel } from '@balena/jellyfish-core';
+import type { Worker } from '@balena/jellyfish-worker';
+import type { Producer } from '@balena/jellyfish-queue';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires

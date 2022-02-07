@@ -4,7 +4,7 @@ const context: any = {};
 
 beforeAll(async () => {
 	await before(context);
-	await beforeEach(context);
+	beforeEach(context);
 });
 
 afterAll(async () => {

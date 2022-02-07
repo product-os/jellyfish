@@ -5,7 +5,7 @@ import * as metrics from '@balena/jellyfish-metrics';
 import { getLogger } from '@balena/jellyfish-logger';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
-import { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 

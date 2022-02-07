@@ -1,6 +1,9 @@
 import * as assert from '@balena/jellyfish-assert';
 import { errors as coreErrors } from '@balena/jellyfish-core';
-import { Contract, SessionContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	SessionContract,
+} from '@balena/jellyfish-types/build/core';
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {

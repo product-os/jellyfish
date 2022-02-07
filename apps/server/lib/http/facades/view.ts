@@ -3,7 +3,7 @@ import jsone from 'json-e';
 import skhema from 'skhema';
 import * as assert from '@balena/jellyfish-assert';
 import type { QueryFacade } from './query';
-import { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from '@balena/jellyfish-core';
 
 export class ViewFacade {
 	kernel: Kernel;

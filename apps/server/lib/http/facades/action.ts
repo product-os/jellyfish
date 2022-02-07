@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import errio from 'errio';
 import { getLogger } from '@balena/jellyfish-logger';
-import { Producer } from '@balena/jellyfish-queue';
+import type { Producer } from '@balena/jellyfish-queue';
 import { v4 as uuidv4 } from 'uuid';
 
 const logger = getLogger(__filename);
