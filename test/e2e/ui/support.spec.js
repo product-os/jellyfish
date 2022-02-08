@@ -107,7 +107,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	// Wait for the new support thread to appear in view
 	const summarySelector = `[data-test-component="card-chat-summary"][data-test-id="${supportThread.id}"]`
 	await macros.waitForThenClickSelector(page, summarySelector)
-
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.waitForThenClickSelector(page, '.rta__textarea')
 
 	const rand = uuid()
@@ -154,6 +154,9 @@ ava.serial('Updates to messages should be reflected in the thread\'s timeline', 
 	}, messageEvent)
 
 	await macros.goto(page, `/${supportThread.id}`)
+	const columnSelector = '.column--support-thread'
+	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	// Verify the message text
 	const messageText = await macros.getElementText(page, '[data-test="event-card__message"]')
@@ -211,6 +214,9 @@ ava.serial('A message\'s mirror icon is automatically updated when the message i
 	}, messageEvent)
 
 	await macros.goto(page, `/${supportThread.id}`)
+	const columnSelector = '.column--support-thread'
+	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	// Verify the mirror icon is present but not synced
 	await page.waitForSelector('.unsynced[data-test="mirror-icon"]')
@@ -254,6 +260,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	const rand = uuid()
 
@@ -283,6 +290,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	const rand = uuid()
 
@@ -312,6 +320,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	await macros.waitForThenClickSelector(page, '[data-test="timeline__whisper-toggle"]')
 
@@ -343,6 +352,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	const rand = uuid()
 
@@ -373,6 +383,7 @@ ava.serial.skip('Users should be able to audit a support thread', async (test) =
 	await macros.goto(page, `/${supportThread.id}`)
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
+
 	await page.waitForSelector('[data-test="audit-panel"]')
 
 	test.pass('A closed support thread should display the audit panel')
@@ -656,6 +667,7 @@ ava.serial('A user can edit their own message', async (test) => {
 
 	// Navigate to the thread and wait for the message event to be displayed
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	const eventSelector = '.column--support-thread .event-card--message'
 	await page.waitForSelector(eventSelector)
 
@@ -697,6 +709,7 @@ ava.serial('You can trigger a quick search for cards from the message input', as
 
 	// Navigate to the thread and wait for the thread to be displayed
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
@@ -754,6 +767,7 @@ ava.serial('You can select a user and a group from the auto-complete options', a
 
 	// Navigate to the thread and wait for the thread to be displayed
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
@@ -842,6 +856,7 @@ ava.serial('Only users with a name matching the search string are returned by th
 
 	// Navigate to the thread and wait for the thread to be displayed
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
@@ -943,6 +958,7 @@ ava.serial('Closed support threads should be re-opened on new message', async (t
 	test.is(thread.data.status, 'closed')
 
 	// Add new message to the closed support thread
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.waitForThenClickSelector(page, '.rta__textarea')
 	await macros.createChatMessage(page, '.column--support-thread', `%${uuid()}`)
 

@@ -14,7 +14,8 @@ exports.puppeteerOptions = {
 
 		// Set extra flags so puppeteer runs on docker
 		'--no-sandbox',
-		'--disable-setuid-sandbox'
+		'--disable-setuid-sandbox',
+		'--disable-dev-shm-usage'
 	]
 }
 

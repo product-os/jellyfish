@@ -651,18 +651,17 @@ ava.serial('file upload: Users should be able to upload an image', async (test) 
 		})
 	})
 
-	// Navigate to the user profile page
-	await page.goto(`${environment.ui.host}:${environment.ui.port}/${thread.id}`)
+	// Navigate to the thread page
+	await macros.goto(page, `/${thread.id}`)
 
-	await page.waitForSelector(`.column--slug-${thread.slug}`)
+	const selector = '.column--thread'
 
-	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
-
+	await page.waitForSelector(selector)
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.png'))
 
-	await page.waitForSelector('.column--thread [data-test="event-card__image"]')
+	await page.waitForSelector(`${selector} [data-test="event-card__image"]`)
 
 	test.pass()
 })
@@ -717,14 +716,14 @@ ava.serial('file upload: Users should be able to upload a text file', async (tes
 	// Navigate to the user profile page
 	await macros.goto(page, `/${thread.id}`)
 
-	await page.waitForSelector(`.column--slug-${thread.slug}`)
-	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
+	const selector = '.column--thread'
 
+	await page.waitForSelector(selector)
 	await page.waitForSelector('input[type="file"]')
 	const input = await page.$('input[type="file"]')
 	await input.uploadFile(path.join(__dirname, 'assets', 'test.txt'))
 
-	await page.waitForSelector('.column--thread [data-test="event-card__file"]')
+	await page.waitForSelector(`${selector} [data-test="event-card__file"]`)
 
 	test.pass()
 })
@@ -972,7 +971,7 @@ ava.serial('Chat: A notice should be displayed when another user is typing', asy
 
 	const messageText = await macros.getElementText(incognitoPage, '[data-test="typing-notice"]')
 
-	test.is(messageText, `${users.community2.username} is typing...`)
+	test.is(messageText, `${users.community.username} is typing...`)
 
 	test.pass()
 })
@@ -1245,7 +1244,7 @@ ava.serial('Chat: Messages that alert a user\'s group should appear in their inb
 
 ava.serial('Chat: One-to-one messages to a user should appear in their inbox', async (test) => {
 	const {
-		user1,
+		user,
 		user2,
 		page,
 		incognitoPage
@@ -1259,7 +1258,7 @@ ava.serial('Chat: One-to-one messages to a user should appear in their inbox', a
 			type: 'thread@1.0.0',
 			markers: [ `${u1.slug}+${u2.slug}` ]
 		})
-	}, user1, user2)
+	}, user, user2)
 
 	// Navigate to the thread page
 	await macros.goto(page, `/${thread.id}`)
@@ -1421,9 +1420,9 @@ ava.serial(
 		test.pass()
 	})
 
-ava.serial.skip('Chat: When having two chats side-by-side both should update with new messages', async (test) => {
+ava.serial('Chat: When having two chats side-by-side both should update with new messages', async (test) => {
 	const {
-		user1,
+		user,
 		page
 	} = context
 
@@ -1442,7 +1441,7 @@ ava.serial.skip('Chat: When having two chats side-by-side both should update wit
 
 	await page.waitForSelector('.new-message-input')
 
-	const msg = `@${user1.slug.slice(5)} ${uuid()}`
+	const msg = `@${user.slug.slice(5)} ${uuid()}`
 	await macros.createChatMessage(page, columnSelector, msg)
 
 	await bluebird.delay(5000)
@@ -1513,20 +1512,19 @@ ava.serial('Chat: Users should be able to mark all messages as read from their i
 	// Navigate to the thread page
 	await macros.goto(page, `/${thread.id}`)
 
-	const columnSelector = `.column--slug-${thread.slug}`
-	await page.waitForSelector(columnSelector)
+	const selector = '.column--thread'
+	await page.waitForSelector(selector)
 
 	const msg = `@${user2.slug.slice(5)} ${uuid()}`
-
 	await page.waitForSelector('.new-message-input')
 
-	await macros.createChatMessage(page, columnSelector, msg)
+	await macros.createChatMessage(page, selector, msg)
 
 	await macros.goto(incognitoPage, '/inbox')
 	await incognitoPage.waitForSelector(selectors.chat.message)
 	await macros.waitForThenClickSelector(incognitoPage, selectors.chat.markAsReadButton)
 	await macros.waitForSelectorToDisappear(incognitoPage, selectors.chat.message)
-	const messages = await page.$$(selectors.chat.message)
+	const messages = await incognitoPage.$$(selectors.chat.message)
 
 	// Assert that there are no longer messages in the inbox
 	test.is(messages.length, 0)
@@ -1596,7 +1594,7 @@ ava.serial('Chat: When filtering unread messages, only filtered messages can be 
 	await macros.waitForSelectorToDisappear(incognitoPage, `[id="event-${messages[2].id}]`)
 	messageElements = await incognitoPage.$$(selectors.chat.message)
 	test.is(messageElements.length, 1)
-	markAsReadButtonText = await macros.getElementText(incognitoPage, selectors.chat.message)
+	markAsReadButtonText = await macros.getElementText(incognitoPage, selectors.chat.markAsReadButton)
 	test.is(markAsReadButtonText, 'Mark 1 as read')
 
 	// Mark just the filtered message as read
