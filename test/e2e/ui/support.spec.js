@@ -1037,6 +1037,7 @@ ava.serial('Should be able to filter support threads by timeline message', async
 	const selectors = {
 		threadSummary1: `[data-test-id="${thread1.supportThread.id}"]`,
 		threadSummary2: `[data-test-id="${thread2.supportThread.id}"]`,
+		showFiltersButton: '[data-test="show-filters"]',
 		addFilterButton: '//button[div[text()="Add filter"]]',
 		filterModalFieldSelect: '#filtermodal__fieldselect',
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
@@ -1053,6 +1054,7 @@ ava.serial('Should be able to filter support threads by timeline message', async
 	await page.waitForSelector(selectors.threadSummary2)
 
 	// Now filter by timeline message for text in the 1st thread's message
+	await macros.waitForThenClickSelector(page, selectors.showFiltersButton)
 	await macros.waitForThenClickSelector(page, selectors.addFilterButton)
 	await macros.waitForThenClickSelector(page, selectors.filterModalFieldSelect)
 	await page.waitForSelector(selectors.fieldSelectSearch)
@@ -1115,6 +1117,7 @@ ava.serial('Should be able to filter support threads by a field in a linked cont
 	const selectors = {
 		threadSummary1: `[data-test-id="${thread1.supportThread.id}"]`,
 		threadSummary2: `[data-test-id="${thread2.supportThread.id}"]`,
+		showFiltersButton: '[data-test="show-filters"]',
 		addFilterButton: '//button[div[text()="Add filter"]]',
 		filterModalFieldSelect: '#filtermodal__fieldselect',
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',

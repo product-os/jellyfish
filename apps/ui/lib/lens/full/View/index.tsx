@@ -83,8 +83,11 @@ const getActiveSliceFromFilter = (sliceOptions, viewCard) => {
 	for (const slice of sliceOptions) {
 		const sliceFilter = createSliceFilter(slice);
 		for (const viewFilter of viewFilters) {
-			const filterOptions = _.get(viewFilter, ['schema', 'anyOf']);
-			const activeSliceFilter = _.find(filterOptions, sliceFilter);
+			const filterOptions = _.map(
+				_.get(viewFilter, ['schema', 'anyOf']),
+				'properties',
+			);
+			const activeSliceFilter = _.find(filterOptions, sliceFilter.properties);
 			if (activeSliceFilter) {
 				return slice;
 			}
@@ -98,7 +101,7 @@ const createSliceFilter = (slice, required = false) => {
 		// Use the slice path as a unique ID, as we don't want multiple slice constraints
 		// on the same path
 		$id: slice.value.path,
-		title: USER_FILTER_NAME,
+		title: 'is',
 		description: `${slice.title}`,
 		type: 'object',
 		properties: {},
@@ -144,19 +147,12 @@ const getSliceOptions = (card, types) => {
 			// otherwise just use the sliceValue (from the JSON schema's enum property)
 			const sliceOptionTitle = _.get(slice, ['names', index], sliceValue);
 			sliceOptions.push({
-				title: `${slice.title}: ${sliceOptionTitle}`,
+				title: `${slice.title} is ${sliceOptionTitle}`,
 				value: {
 					path: slice.path,
 					value: sliceValue,
 				},
 			});
-		});
-
-		sliceOptions.push({
-			title: `${slice.title}: All`,
-			value: {
-				path: slice.path,
-			},
 		});
 	}
 
@@ -430,24 +426,6 @@ export class ViewRenderer extends React.Component<ViewRendererProps, State> {
 		const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
 			title: FULL_TEXT_SEARCH_TITLE,
 		});
-
-		const activeSliceFilterId = _.get(this.state.activeSlice, [
-			'value',
-			'path',
-		]);
-		const sliceFilter =
-			activeSliceFilterId &&
-			filtersWithoutSearch.find((item) => {
-				return item.$id === activeSliceFilterId;
-			});
-
-		// If the slice filter has been removed from the summary, reset to the default slice
-		if (!sliceFilter && _.get(this.state, ['sliceOptions', 'length'])) {
-			this.setSlice({
-				value: getDefaultSliceOption(this.state.sliceOptions),
-			});
-		}
-
 		if (searchFilters.length) {
 			this.updateFilters(filtersWithoutSearch);
 		} else {
@@ -861,6 +839,13 @@ export class ViewRenderer extends React.Component<ViewRendererProps, State> {
 
 		const options = this.getQueryOptions(activeLens);
 
+		const slice = getActiveSliceFromFilter(
+			this.state.sliceOptions,
+			syntheticViewCard,
+		);
+
+		actions.setViewSlice(channel.data.head!.id, slice);
+
 		actions.clearViewData(syntheticViewCard);
 		actions.clearViewData(eventSyntheticViewCard);
 
@@ -919,9 +904,6 @@ export class ViewRenderer extends React.Component<ViewRendererProps, State> {
 			>
 				<Header
 					isMobile={isMobile}
-					sliceOptions={sliceOptions}
-					activeSlice={activeSlice}
-					setSlice={this.setSlice}
 					lenses={lenses}
 					setLens={(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
 						this.setLens(event.currentTarget.dataset.slug);

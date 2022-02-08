@@ -75,6 +75,8 @@ export default class CardActions extends React.Component<any, any> {
 	};
 
 	render() {
+		const isView = this.props.card.type === 'view@1.0.0';
+
 		const supportsOwnership = supportsLink(this.props.card.type, 'is owned by');
 		return (
 			<React.Fragment>
@@ -101,13 +103,17 @@ export default class CardActions extends React.Component<any, any> {
 						icon={<Icon name="pencil-alt" />}
 					/>
 
-					<VideoLink card={this.props.card} p={2} />
+					{!isView && (
+						<>
+							<VideoLink card={this.props.card} p={2} />
 
-					<CardLinker
-						types={this.props.types}
-						card={this.props.card}
-						actions={this.props.actions}
-					/>
+							<CardLinker
+								types={this.props.types}
+								card={this.props.card}
+								actions={this.props.actions}
+							/>
+						</>
+					)}
 
 					<span>
 						<PlainButton

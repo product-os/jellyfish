@@ -1,9 +1,15 @@
 import { commaListsAnd } from 'common-tags';
 import { flatMap, partition, uniq } from 'lodash';
 import React from 'react';
-import { Txt } from 'rendition';
+import { Txt, TxtProps } from 'rendition';
+import { Contract } from '@balena/jellyfish-types/build/core';
 
-export default function CountFavicon({ card }) {
+export default function CountFavicon({
+	card,
+	...props
+}: {
+	card: Contract;
+} & TxtProps) {
 	if (!card || !card.markers || !card.markers.length) {
 		return null;
 	}
@@ -36,7 +42,7 @@ export default function CountFavicon({ card }) {
 	}
 
 	return (
-		<Txt px={3} italic fontSize={0}>
+		<Txt px={3} italic fontSize={0} {...props}>
 			<em>{message}</em>
 		</Txt>
 	);

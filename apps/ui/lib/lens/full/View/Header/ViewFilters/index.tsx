@@ -9,9 +9,9 @@ import {
 	FiltersProps,
 	Flex,
 	SchemaSieve,
-	Search,
 	Theme,
 } from 'rendition';
+import styled from 'styled-components';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
 import type { JsonSchema } from '@balena/jellyfish-types';
@@ -25,6 +25,29 @@ import {
 } from './filter-utils';
 
 type JsonSchemaObject = Exclude<JsonSchema, boolean>;
+
+const StyledSummaryWrapper = styled(Box)`
+	> div {
+		margin-bottom: 0;
+		background: red;
+		> div {
+			margin: 0;
+			padding-top: 8px;
+			padding-bottom: 8px;
+			&: first-child {
+				padding: 0;
+			}
+			> div:first-child {
+				display: none;
+			}
+			> div {
+				> div {
+					margin-top: 0;
+				}
+			}
+		}
+	}
+`;
 
 const simplifiedCardProperties = {
 	created_at: {
@@ -163,14 +186,13 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 };
 
 interface ViewFiltersProps {
+	show: boolean;
 	onSortOptionsChange: (sortOptions: {
 		sortBy?: string;
 		sortDir?: 'desc' | 'asc';
 	}) => void;
 	pageOptions: { sortBy: string | string[]; sortDir: 'desc' | 'asc' };
-	searchTerm: string;
 	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
-	updateSearch: (value: any) => void;
 	allTypes: TypeContract[];
 	filters: JSONSchema7[];
 	saveView: FiltersProps['onViewsUpdate'];
@@ -181,14 +203,13 @@ interface ViewFiltersProps {
 
 const ViewFilters = React.memo<ViewFiltersProps>(
 	({
+		show,
 		tailTypes,
 		allTypes,
 		filters,
 		searchFilter,
 		updateFilters,
 		saveView,
-		searchTerm,
-		updateSearch,
 		updateFiltersFromSummary,
 		pageOptions,
 		onSortOptionsChange,
@@ -226,64 +247,79 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 			[onSortOptionsChange],
 		);
 
-		return (
-			<React.Fragment>
-				<Flex mt={0} flexWrap="wrap" justifyContent="space-between">
-					<Flex
-						alignItems="center"
-						justifyContent="flex-start"
-						flex="1 1 300px"
-					>
-						<Filters
-							schema={schemaForFilters as JSONSchema7}
-							filters={filters}
-							onFiltersUpdate={updateFilters}
-							onViewsUpdate={saveView}
-							compact={filtersBreakpointSettings}
-							renderMode={['add']}
-							filterFieldCompareFn={compareFilterFields}
-						/>
-						<Box mb={3} flex="0 1 500px">
-							<Search
-								className="view__search"
-								value={searchTerm}
-								onChange={updateSearch}
+		if (show) {
+			return (
+				<Box px={3}>
+					<Flex mt={0} flexWrap="wrap" justifyContent="space-between">
+						<Flex
+							alignItems="center"
+							justifyContent="flex-start"
+							flex="1 1 300px"
+						>
+							<Filters
+								schema={schemaForFilters as JSONSchema7}
+								filters={filters}
+								onFiltersUpdate={updateFilters}
+								onViewsUpdate={saveView}
+								compact={filtersBreakpointSettings}
+								renderMode={['add']}
+								filterFieldCompareFn={compareFilterFields}
+							/>
+						</Flex>
+					</Flex>
+					{summaryFilters.length > 0 && (
+						<Box
+							flex="1 0 auto"
+							data-test="view__filters-summary-wrapper"
+							mt={2}
+						>
+							<Filters
+								schema={schemaForFilters as JSONSchema7}
+								filters={summaryFilters as JSONSchema7[]}
+								onFiltersUpdate={updateFiltersFromSummary}
+								onViewsUpdate={saveView}
+								renderMode={['summary']}
 							/>
 						</Box>
-					</Flex>
-					<Flex alignItems="center" justifyContent="space-between" flex={1}>
+					)}
+
+					<Flex
+						mx={-2}
+						alignItems="center"
+						justifyContent="space-between"
+						flex={1}
+						mt={2}
+					>
 						<SortByButton
 							pageOptions={pageOptions}
 							setSortByField={handleSortByChange}
 							tailTypes={tailTypes}
-							mb={3}
+							mx={2}
+							mb={2}
 							minWidth="150px"
 						/>
 						<SortDirButton
 							value={pageOptions.sortDir}
 							onChange={handleSortDirChange}
-							ml={2}
-							mb={3}
+							mx={2}
+							mb={2}
 							minWidth="50px"
 						/>
 					</Flex>
-				</Flex>
-				{summaryFilters.length > 0 && (
-					<Box
-						flex="1 0 auto"
-						mt={-3}
-						data-test="view__filters-summary-wrapper"
-					>
-						<Filters
-							schema={schemaForFilters as JSONSchema7}
-							filters={summaryFilters as JSONSchema7[]}
-							onFiltersUpdate={updateFiltersFromSummary}
-							onViewsUpdate={saveView}
-							renderMode={['summary']}
-						/>
-					</Box>
-				)}
-			</React.Fragment>
+				</Box>
+			);
+		}
+
+		return (
+			<StyledSummaryWrapper>
+				<Filters
+					schema={schemaForFilters as JSONSchema7}
+					filters={summaryFilters as JSONSchema7[]}
+					onFiltersUpdate={updateFiltersFromSummary}
+					onViewsUpdate={saveView}
+					renderMode={['summary']}
+				/>
+			</StyledSummaryWrapper>
 		);
 	},
 );
