@@ -1,4 +1,17 @@
 - commits:
+    - subject: Compare query result count with query limit rather than with limit in
+        options
+      hash: d8d1c07dd62973791e47c445ccbce77a13c0737d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: edufschmidt
+      nested: []
+  version: 44.1.6
+  title: "'Fix scrolling issue in JF chat'"
+  date: 2022-02-08T19:14:35.555Z
+- commits:
     - subject: Update non-major-frontend
       hash: b5f3b4ca592b09d44cedfaa2fa5b823260cc1081
       body: ""
