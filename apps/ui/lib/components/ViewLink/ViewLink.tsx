@@ -98,32 +98,35 @@ export default class ViewLink extends React.Component<any, any> {
 					justifyContent="space-between"
 					bg={isActive && !activeSlice ? '#eee' : 'none'}
 				>
-					<ActionRouterLink
-						data-test={`home-channel__item--${card.slug}`}
-						key={card.id}
-						pl={3}
-						pr={isActive ? 0 : 3}
-						color="#333"
-						to={`/${card.slug || card.id}`}
-					>
-						<Flex justifyContent="space-between" alignItems="center">
-							{label || card.name || card.slug}
-							{isHomeView && (
-								<Box
-									fontSize="80%"
-									color="gray.dark"
-									mx={2}
-									tooltip="Default view"
-								>
-									<Icon name="home" />
-								</Box>
-							)}
-							{Boolean(update) && (
-								<MentionsCount mr={2}>{update}</MentionsCount>
-							)}
-						</Flex>
-					</ActionRouterLink>
-
+					{
+						// Todo: Resolve the broken typing on ActionRouterLink
+						// @ts-ignore
+						<ActionRouterLink
+							data-test={`home-channel__item--${card.slug}`}
+							key={card.id}
+							pl={3}
+							pr={isActive ? 0 : 3}
+							color="#333"
+							to={`/${card.slug || card.id}`}
+						>
+							<Flex justifyContent="space-between" alignItems="center">
+								{label || card.name || card.slug}
+								{isHomeView && (
+									<Box
+										fontSize="80%"
+										color="gray.dark"
+										mx={2}
+										tooltip="Default view"
+									>
+										<Icon name="home" />
+									</Box>
+								)}
+								{Boolean(update) && (
+									<MentionsCount mr={2}>{update}</MentionsCount>
+								)}
+							</Flex>
+						</ActionRouterLink>
+					}
 					{isActive && (
 						<Button
 							data-test="view-link--context-menu-btn"
@@ -134,7 +137,6 @@ export default class ViewLink extends React.Component<any, any> {
 							icon={<Icon name="ellipsis-v" />}
 						/>
 					)}
-
 					{this.state.showMenu && (
 						<ContextMenu position="left" onClose={this.toggleMenu}>
 							<ActionButton

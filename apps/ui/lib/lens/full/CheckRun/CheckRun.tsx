@@ -32,7 +32,7 @@ const MERGE_VERB = 'was merged as';
 // Each node in the graph shows the contracts name or slug and its version.
 // TODO: Make this a generic tool
 const makeGraph = (baseContract: Contract) => {
-	const escapeMermaid = (s: string) => `"${s.replaceAll('"', "'")}"`;
+	const escapeMermaid = (s: string) => `"${s.replace(/"/g, "'")}"`;
 
 	const shorten = (s: string) => (s.length > 16 ? s.substr(0, 20) + '…' : s);
 

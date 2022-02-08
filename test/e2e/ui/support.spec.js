@@ -1105,10 +1105,10 @@ ava.serial.only('Should be able to filter support threads by a field in a linked
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
 		fieldSelectPatternNameOption:
 			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="🔗 Pattern: Name"]]]',
-		filterModalValueInput: 'input[operator="is"]',
+		filterModalValueInput: 'input[operator="contains"]',
 		filterModalSaveButton: '//button[text()="Save"]',
 		patternNameSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
-		'//button[div[div[text()="🔗 Pattern: Name is "]]]/following-sibling::button'
+		'//button[div[div[text()="🔗 Pattern: Name contains "]]]/following-sibling::button'
 	}
 
 	// Both threads should appear in the list

@@ -636,19 +636,26 @@ export default class HomeChannel extends React.Component<any, any> {
 									)}
 
 									{user && (
+										// Todo: Resolve the broken typing on ActionRouterLink
+										// @ts-ignore
 										<ActionRouterLink to={`/${user.slug}`}>
 											Settings
 										</ActionRouterLink>
 									)}
 
-									<ActionRouterLink to="/inbox">
-										<Flex justifyContent="space-between">
-											Inbox
-											{mentions && mentions.length > 0 && (
-												<MentionsCount mr={2}>{mentions.length}</MentionsCount>
-											)}
-										</Flex>
-									</ActionRouterLink>
+									{
+										// @ts-ignore
+										<ActionRouterLink to="/inbox">
+											<Flex justifyContent="space-between">
+												Inbox
+												{mentions && mentions.length > 0 && (
+													<MentionsCount mr={2}>
+														{mentions.length}
+													</MentionsCount>
+												)}
+											</Flex>
+										</ActionRouterLink>
+									}
 
 									{_.map(defaultViews, (card) => {
 										const isActive =
