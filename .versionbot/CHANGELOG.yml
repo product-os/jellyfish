@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update to rendition v25.x
+      hash: 9a3f2d4736b9be47c6ffb6239bb027f4752c4bf6
+      body: |
+        This update also means we need to update the chat widget and ui
+        components libraries, as they have a peer dependency on rendition.
+
+        This change also introduced a very strange typing error on
+        ActionRouterLink that means that the `css` prop is now a required
+        attribute. I've deferred fixing this to a later point.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 44.1.4
+  title: "'Update to rendition v25.x'"
+  date: 2022-02-08T13:39:18.651Z
+- commits:
     - subject: Update balena/balena-mdns-publisher Docker tag to v1.14.4
       hash: 8135c03c0414d5f6c03fbd1fe23f4613c49f5e12
       body: ""
