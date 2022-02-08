@@ -1,7 +1,12 @@
 import _ from 'lodash';
 import * as core from '@balena/jellyfish-core';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
-import { Worker, errors as workerErrors } from '@balena/jellyfish-worker';
+import {
+	Sync,
+	Transformer,
+	Worker,
+	errors as workerErrors,
+} from '@balena/jellyfish-worker';
 import * as assert from '@balena/jellyfish-assert';
 import * as metrics from '@balena/jellyfish-metrics';
 import { loadCards } from './card-loader';
@@ -16,8 +21,6 @@ import type {
 	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
-import type { Transformer } from '@balena/jellyfish-worker/build/transformers';
-import { Sync } from '@balena/jellyfish-worker/build/sync';
 
 const logger = getLogger(__filename);
 
