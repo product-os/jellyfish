@@ -589,7 +589,7 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 		return this.props.actions
 			.loadMoreViewData(syntheticViewCard, queryOptions)
 			.then((data) => {
-				if (data.length < options.limit) {
+				if (data.length < queryOptions.limit) {
 					this.setState({
 						options: {
 							...options,
