@@ -40,9 +40,8 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 	allTypes,
 	onHide,
 }) => {
-	const [selectedTarget, setSelectedTarget] = React.useState<
-		Contract | undefined
-	>(target);
+	const [selectedTarget, setSelectedTarget] =
+		React.useState<Contract | undefined>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
 

@@ -14,7 +14,10 @@ ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration',
 		code: 400,
 		headers: result.headers,
 		response: {
-			url: null
+			error: false,
+			data: {
+				url: null
+			}
 		}
 	})
 })
