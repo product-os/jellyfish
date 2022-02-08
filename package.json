@@ -81,7 +81,7 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "@balena/jellyfish-action-library": "^16.2.11",
-    "@balena/jellyfish-chat-widget": "^12.5.102",
+    "@balena/jellyfish-chat-widget": "^13.0.15",
     "@balena/jellyfish-client-sdk": "^8.0.2",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^8.2.7",
