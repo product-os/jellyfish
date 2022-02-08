@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update non-major-frontend
+      hash: b5f3b4ca592b09d44cedfaa2fa5b823260cc1081
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 44.1.5
+  title: "'Update non-major-frontend'"
+  date: 2022-02-08T14:29:59.491Z
+- commits:
     - subject: Update to rendition v25.x
       hash: 9a3f2d4736b9be47c6ffb6239bb027f4752c4bf6
       body: |
