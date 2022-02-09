@@ -165,10 +165,10 @@ export const selectors = {
 			  }) || null;
 	},
 	getAccounts: (state) => {
-		return state.accounts;
+		return state.core.accounts;
 	},
 	getOrgs: (state) => {
-		return state.orgs;
+		return state.core.orgs;
 	},
 	getAppVersion: (state) => {
 		return _.get(state.core, ['config', 'version']) || null;
@@ -177,7 +177,7 @@ export const selectors = {
 		return _.get(state.core, ['config', 'codename']) || null;
 	},
 	getChannels: (state) => {
-		return state.channels;
+		return state.core.channels;
 	},
 	getCurrentUser: (state) => {
 		return _.get(state.core, ['session', 'user']) || null;
@@ -189,7 +189,7 @@ export const selectors = {
 		return _.get(state.core, ['session', 'authToken']) || null;
 	},
 	getStatus: (state) => {
-		return state.status;
+		return state.core.status;
 	},
 	getTimelineMessage: (state, target) => {
 		return _.get(state.ui, ['timelines', target, 'message'], '');
@@ -198,13 +198,13 @@ export const selectors = {
 		return _.get(state.ui, ['chatWidget', 'open']);
 	},
 	getTypes: (state) => {
-		return state.types;
+		return state.core.types;
 	},
 	getLoops: (state): LoopContract[] => {
-		return state.loops;
+		return state.core.loops;
 	},
 	getGroups: (state) => {
-		return state.groups;
+		return state.core.groups;
 	},
 	getMyGroupNames: (state) => {
 		return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name');
@@ -220,7 +220,7 @@ export const selectors = {
 		return _.get(state.ui, ['lensState', lensSlug, cardId], {});
 	},
 	getViewNotices: (state) => {
-		return state.viewNotices;
+		return state.core.viewNotices;
 	},
 	getUsersTypingOnCard: (state, card) => {
 		return _.keys(_.get(state.core, ['usersTyping', card], {}));
@@ -440,7 +440,7 @@ export const actionCreators = {
 	},
 
 	setStatus(status) {
-		return (dispatch, getState, { sdk }) => {
+		return (dispatch, _getState, { sdk }) => {
 			// If the status is now 'unauthorized' just run the logout routine
 			if (status === 'unauthorized') {
 				sdk.auth.logout();
@@ -1232,7 +1232,7 @@ export const actionCreators = {
 
 				// First remove any matching view channels - if found
 				const state = getState();
-				const matchingChannels = _.filter(state.channels, (channel) => {
+				const matchingChannels = _.filter(state.core.channels, (channel) => {
 					return _.get(channel, ['data', 'target']) === view.slug;
 				});
 				if (matchingChannels.length) {
