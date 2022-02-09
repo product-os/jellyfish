@@ -184,9 +184,12 @@ const createSyntheticViewCard = (view, filters) => {
 			filter.anyOf
 		) {
 			filter.anyOf = filter.anyOf.map((subSchema: JsonSchema) => {
-				const isLinkFilter = _.has(subSchema, 'properties.$$links');
 				// Only $$links filters need unflattening and re-structuring slightly
-				if (isLinkFilter) {
+				if (
+					typeof subSchema !== 'boolean' &&
+					subSchema.properties &&
+					subSchema.properties.$$links
+				) {
 					return {
 						$$links: unpackLinksSchema(
 							subSchema.properties!.$$links as JsonSchema,
