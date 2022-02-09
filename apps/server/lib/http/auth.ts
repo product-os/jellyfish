@@ -16,7 +16,14 @@ const isValidToken = async (
 			kernel.adminSession()!,
 			session,
 		);
-		return bcrypt.compare(sessionToken, card!.data.token!.authentication);
+		if (!card || !card.data.token?.authentication) {
+			throw new Error('Session not found');
+		}
+		const pass = await bcrypt.compare(
+			sessionToken,
+			card.data.token.authentication,
+		);
+		return !!pass;
 	} catch (e) {
 		return false;
 	}
