@@ -125,14 +125,18 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	const title = React.useMemo(() => {
 		const typeName = fromTypeContract ? fromTypeContract.name : fromType;
 
-		const titleSource = `${pluralize('this', cards.length)} ${pluralize(
-			typeName,
-			cards.length,
-			cards.length > 1,
-		)}`;
-		const titleTarget =
-			validTypes.length === 1 ? validTypes[0].name : 'another element';
-		return `Link ${titleSource} to ${titleTarget}`;
+		if (typeName) {
+			const titleSource = `${pluralize('this', cards.length)} ${pluralize(
+				typeName,
+				cards.length,
+				cards.length > 1,
+			)}`;
+			const titleTarget =
+				validTypes.length === 1 ? validTypes[0].name : 'another element';
+			return `Link ${titleSource} to ${titleTarget}`;
+		} else {
+			return 'Link contract';
+		}
 	}, [linkVerb, fromTypeContract, validTypes, cards, linkTypeTargets]);
 
 	return (
