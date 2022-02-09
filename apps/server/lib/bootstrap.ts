@@ -4,6 +4,7 @@ import { Producer, Consumer } from '@balena/jellyfish-queue';
 import {
 	Sync,
 	Transformer,
+	TriggeredActionContract,
 	Worker,
 	errors as workerErrors,
 } from '@balena/jellyfish-worker';
@@ -15,10 +16,8 @@ import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import type { JsonSchema } from '@balena/jellyfish-types';
-import type { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
 import type {
 	SessionContract,
-	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 
@@ -254,7 +253,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	workerContractsStream.once('error', errorHandler);
 
 	// On a stream event, update the stored contracts in the worker
-	workerContractsStream.on('data', (change: StreamChange) => {
+	workerContractsStream.on('data', (change: core.StreamChange) => {
 		const contract = change.after;
 		const contractType = change.contractType.split('@')[0];
 		if (
