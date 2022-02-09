@@ -92,7 +92,8 @@ export const attachMiddlewares = (
 	});
 
 	application.use(
-		responseTime((request, response, time) => {
+		// TS-TODO: Resolve this any casting and correctly type middlewares
+		responseTime((request: any, response, time) => {
 			logger.info(request.context, 'HTTP request end', {
 				uri: request.originalUrl,
 				ip: request.ip,
