@@ -25,7 +25,7 @@ const getSegments = async (commonProps, thread, timestamp) => {
 			},
 		},
 	});
-	const component = await mount(
+	const component = await mount<SupportThreads>(
 		<SupportThreads {...commonProps} tail={[adjustedThread]} />,
 		{
 			wrappingComponent,

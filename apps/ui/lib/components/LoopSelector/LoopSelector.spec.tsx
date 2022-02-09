@@ -62,7 +62,7 @@ describe('LoopSelector', () => {
 				activeLoop={`${loop1.slug}@${loop1.version}`}
 			/>,
 		);
-		const select = component.find('#loopselector__select');
+		const select: any = component.find('#loopselector__select');
 		expect(select.prop('value').slug).toBe(loop1.slug);
 	});
 
@@ -70,7 +70,7 @@ describe('LoopSelector', () => {
 		const component = shallow(
 			<LoopSelector onSetLoop={onSetLoop} loops={loops} activeLoop="" />,
 		);
-		const select = component.find('#loopselector__select');
+		const select: any = component.find('#loopselector__select');
 		select.prop('onChange')({ value: loop1 });
 		expect(onSetLoop.calledOnce).toBe(true);
 		expect(onSetLoop.getCall(0).firstArg).toBe(

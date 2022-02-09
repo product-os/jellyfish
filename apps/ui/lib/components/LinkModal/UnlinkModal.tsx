@@ -176,11 +176,13 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 	const title = React.useMemo(() => {
 		const typeName = fromTypeContract ? fromTypeContract.name : fromType;
 
-		const titleSource = `${pluralize('this', cards.length)} ${pluralize(
-			typeName,
-			cards.length,
-			cards.length > 1,
-		)}`;
+		const titleSource = typeName
+			? `${pluralize('this', cards.length)} ${pluralize(
+					typeName,
+					cards.length,
+					cards.length > 1,
+			  )}`
+			: 'contract';
 		return `Unlink ${titleSource} from another element`;
 	}, [fromTypeContract, cards]);
 

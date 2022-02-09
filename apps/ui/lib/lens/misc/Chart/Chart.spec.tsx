@@ -4,6 +4,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import { SetupProvider } from '@balena/jellyfish-ui-components';
+import { strict as assert } from 'assert';
 import { Chart, stringifySettings } from './Chart';
 
 const channel = {
@@ -56,7 +57,7 @@ const addChannel = (options) => {
 };
 
 const mountChart = async (commonProps) => {
-	const component = await mount(<Chart {...commonProps} />, {
+	const component = await mount<typeof Chart>(<Chart {...commonProps} />, {
 		wrappingComponent: wrapperWithSetup,
 		wrappingComponentProps: {
 			sdk: commonProps.sdk,
@@ -132,7 +133,9 @@ describe('Chart lens', () => {
 
 		// Simulate an update to the chart settings
 		const chartComponent = chart.find('ChartComponent');
-		chartComponent.prop('onUpdate')(newSettings);
+		const updateFn: any = chartComponent.prop('onUpdate');
+
+		updateFn(newSettings);
 		chart.update();
 
 		// The Save button is still disabled as this is a new chart configuration
@@ -172,7 +175,9 @@ describe('Chart lens', () => {
 
 		const chart = await mountChart(commonProps);
 
-		chart.find('AutoCompleteCardSelect').prop('onChange')(newChartConfigCard);
+		const select = chart.find('AutoCompleteCardSelect');
+		assert(select);
+		(select.prop('onChange') as any)(newChartConfigCard);
 		chart.update();
 
 		expect(viewButton(chart).prop('disabled')).toBe(false);
@@ -189,8 +194,13 @@ describe('Chart lens', () => {
 		const chart = await mountChart(commonProps);
 
 		// Load a chart-configuration and Simulate an update to the chart settings
-		chart.find('AutoCompleteCardSelect').prop('onChange')(newChartConfigCard);
-		chart.find('ChartComponent').prop('onUpdate')(newSettings);
+		const select = chart.find('AutoCompleteCardSelect');
+		assert(select);
+		(select.prop('onChange') as any)(newChartConfigCard);
+
+		const component = chart.find('ChartComponent');
+		assert(component);
+		(component.prop('onUpdate') as any)(newSettings);
 		chart.update();
 
 		// The Save button is now enabled - so click it!
