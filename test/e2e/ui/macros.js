@@ -1,4 +1,3 @@
-const assert = require('assert').strict
 const bluebird = require('bluebird')
 const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
@@ -41,15 +40,17 @@ exports.getElementAttribute = async (page, element, attributeName) => {
 }
 
 // Navigate to a page by manipulating the UIs react router instead of a full page reload
-exports.goto = async (page, path) => {
+exports.goto = async (page, path, {
+	forceReload
+} = {}) => {
 	const baseURL = `${environment.ui.host}:${environment.ui.port}`
 	await exports.retry(5, async () => {
-		if (page.url().includes(baseURL)) {
+		if (forceReload || !page.url().includes(baseURL)) {
+			await page.goto(`${baseURL}${path}`)
+		} else {
 			await page.evaluate((pathParam) => {
 				return window.routerHistory.push(pathParam)
 			}, path)
-		} else {
-			await page.goto(`${baseURL}${path}`)
 		}
 	}, 500)
 }
@@ -150,9 +151,17 @@ exports.createChatMessage = async (page, scopeSelector, messageText) => {
 		await page.keyboard.press('Escape')
 	}
 
-	await page.keyboard.down('Shift')
-	await page.keyboard.press('Enter')
-	await page.keyboard.up('Shift')
+	const sendCommand = await page.evaluate(async () => {
+		return document.querySelector('[data-test-send-command]').getAttribute('data-test-send-command')
+	})
+
+	if (sendCommand === 'shift+enter') {
+		await page.keyboard.down('Shift')
+		await page.keyboard.press('Enter')
+		await page.keyboard.up('Shift')
+	} else {
+		await page.keyboard.press('Enter')
+	}
 
 	await page.waitForSelector(`${scopeSelector} [data-test="event-card__message"]`, exports.WAIT_OPTS)
 }
@@ -168,12 +177,20 @@ exports.getElementText = async (page, selector) => {
 	})
 }
 
-exports.waitForInnerText = async (page, selector, text, index = 0) => {
-	const selected = await page.$$(selector)
-	const innerText = await page.evaluate((element) => {
-		return element.innerText
-	}, selected[index])
-	assert(innerText === text)
+exports.waitForInnerText = async (page, selector, text, index) => {
+	return exports.retry(3, async () => {
+		const isMatch = await page.evaluate((_selector, _text, _index) => {
+			const elements = document.querySelectorAll(_selector)
+
+			return Array.from(elements).some((element, elementIndex) => {
+				return element.innerText === _text && (typeof _index === 'undefined' || _index === elementIndex)
+			})
+		}, selector, text, index)
+
+		if (!isMatch) {
+			throw new Error(`Text not found: "${text}"`)
+		}
+	}, 5000)
 }
 
 exports.clearInput = async (page, selector) => {

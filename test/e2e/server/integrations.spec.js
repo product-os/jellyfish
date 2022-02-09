@@ -160,7 +160,10 @@ outreachTest('/api/v2/oauth should return a url given outreach', async (test) =>
 		code: 200,
 		headers: result.headers,
 		response: {
-			url: `https://api.outreach.io/oauth/authorize?${qs}`
+			error: false,
+			data: {
+				url: `https://api.outreach.io/oauth/authorize?${qs}`
+			}
 		}
 	})
 })

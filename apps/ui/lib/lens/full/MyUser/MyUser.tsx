@@ -65,8 +65,6 @@ export default class MyUser extends React.Component<any, any> {
 		this.bindMethods([
 			'handleFormSubmit',
 			'handlePasswordFormChange',
-			'handleProfileFormSubmit',
-			'handleInterfaceFormSubmit',
 			'changePassword',
 			'startAuthorize',
 		]);
@@ -116,9 +114,7 @@ export default class MyUser extends React.Component<any, any> {
 		this.state = {
 			submitting: false,
 			changePassword: {},
-			userProfileData: props.card,
 			userProfileSchema,
-			interfaceData: props.card,
 			interfaceSchema,
 		};
 	}
@@ -147,23 +143,15 @@ export default class MyUser extends React.Component<any, any> {
 		});
 	}
 
-	handleProfileFormSubmit(event) {
-		this.handleFormSubmit(event.formData, 'userProfileData');
-	}
-
-	handleInterfaceFormSubmit(event) {
-		this.handleFormSubmit(event.formData, 'interfaceData');
-	}
-
-	handleFormSubmit(formData, stateFieldName) {
+	handleFormSubmit(event) {
 		this.setState(
 			{
 				submitting: true,
-				[stateFieldName]: formData,
 			},
 			async () => {
-				const patches = jsonpatch.compare(this.props.card, formData);
+				const patches = jsonpatch.compare(this.props.card, event.formData);
 				await this.props.actions.updateUser(patches);
+
 				this.setState({
 					submitting: false,
 				});
@@ -192,14 +180,8 @@ export default class MyUser extends React.Component<any, any> {
 	render() {
 		const { types, channel, card: user } = this.props;
 
-		const {
-			changePassword,
-			submitting,
-			userProfileData,
-			userProfileSchema,
-			interfaceData,
-			interfaceSchema,
-		} = this.state;
+		const { changePassword, submitting, userProfileSchema, interfaceSchema } =
+			this.state;
 
 		// This is the old PBKDF password hash location
 		const shouldChangePassword = Boolean(user.data.password);
@@ -272,8 +254,8 @@ export default class MyUser extends React.Component<any, any> {
 								}}
 								schema={userProfileSchema}
 								uiSchema={userProfileUiSchema}
-								onFormSubmit={this.handleProfileFormSubmit}
-								value={userProfileData}
+								onFormSubmit={this.handleFormSubmit}
+								value={user}
 							/>
 						</Box>
 					</Tab>
@@ -316,8 +298,8 @@ export default class MyUser extends React.Component<any, any> {
 								}}
 								schema={interfaceSchema}
 								uiSchema={interfaceUiSchema}
-								onFormSubmit={this.handleInterfaceFormSubmit}
-								value={interfaceData}
+								onFormSubmit={this.handleFormSubmit}
+								value={user}
 							/>
 						</Box>
 					</Tab>
