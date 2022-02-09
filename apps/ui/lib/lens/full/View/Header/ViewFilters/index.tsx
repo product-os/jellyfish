@@ -24,6 +24,8 @@ import {
 	LINKED_CONTRACT_PREFIX,
 } from './filter-utils';
 
+type JsonSchemaObject = Exclude<JsonSchema, boolean>;
+
 const simplifiedCardProperties = {
 	created_at: {
 		title: 'Created at',
@@ -65,12 +67,12 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 	// The filters component doesn't care if our schema is flat or not, but
 	// by flattening it, it's easier to set the title field for each item.
 	const schemaForFilters = SchemaSieve.flattenSchema(
-		unflattenedSchemaForFilters,
+		unflattenedSchemaForFilters as JSONSchema7,
 	);
 
 	// Set the filter titles to be Start Case
 	_.forEach(schemaForFilters.properties, (prop, propName) => {
-		const filterSchema = prop as JsonSchema;
+		const filterSchema = prop as JsonSchemaObject;
 		filterSchema.title = _.startCase(filterSchema.title || propName);
 	});
 
@@ -107,8 +109,8 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 			continue;
 		}
 		const flattenedLinkContractSchema = SchemaSieve.flattenSchema(
-			toType.data.schema,
-		) as JsonSchema;
+			toType.data.schema as JSONSchema7,
+		) as JsonSchemaObject;
 
 		// Always expose certain fields for filtering by linked contracts
 		_.merge(flattenedLinkContractSchema.properties, simplifiedCardProperties);
@@ -119,7 +121,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 			(schema: JsonSchema, keyPath: string) => {
 				// Create a filter, encoding the link verb and the linked contract type in the filter key
 				const fieldTitle = _.startCase(
-					schema.title || _.last(keyPath.split('___')),
+					_.get(schema, 'title', _.last(keyPath.split('___'))),
 				);
 				const linkedContractType = `${toType.slug}@${toType.version}`;
 				_.set(
@@ -133,7 +135,7 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 						),
 					],
 					{
-						...schema,
+						...(schema as JsonSchemaObject),
 						title: `${LINKED_CONTRACT_PREFIX} ${linkConstraint.data.title}: ${fieldTitle}`,
 					},
 				);
@@ -274,7 +276,7 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 					>
 						<Filters
 							schema={schemaForFilters as JSONSchema7}
-							filters={summaryFilters}
+							filters={summaryFilters as JSONSchema7[]}
 							onFiltersUpdate={updateFiltersFromSummary}
 							onViewsUpdate={saveView}
 							renderMode={['summary']}

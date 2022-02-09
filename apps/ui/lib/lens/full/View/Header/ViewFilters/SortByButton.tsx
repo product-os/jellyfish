@@ -65,7 +65,7 @@ type SortByOption = {
 
 interface SortByDropdownProps
 	extends Omit<SelectProps<SortByOption>, 'options' | 'onChange'> {
-	pageOptions: { sortBy: string; sortDir: 'desc' | 'asc' };
+	pageOptions: { sortBy: string | string[]; sortDir: 'desc' | 'asc' };
 	tailTypes: TypeContract[];
 	setSortByField: SelectProps<SortByOption>['onChange'];
 }
