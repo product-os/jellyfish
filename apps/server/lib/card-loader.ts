@@ -2,6 +2,7 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
+import { Kernel } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 
@@ -17,7 +18,7 @@ export const loadCards = async (context, jellyfish, worker, session, cards) => {
 	const guestUserSession = await jellyfish.replaceCard(
 		context,
 		session,
-		jellyfish.defaults({
+		Kernel.defaults({
 			slug: 'session-guest',
 			version: '1.0.0',
 			type: 'session@1.0.0',
