@@ -165,7 +165,7 @@ interface ViewFiltersProps {
 		sortBy?: string;
 		sortDir?: 'desc' | 'asc';
 	}) => void;
-	pageOptions: { sortBy: string; sortDir: 'desc' | 'asc' };
+	pageOptions: { sortBy: string | string[]; sortDir: 'desc' | 'asc' };
 	searchTerm: string;
 	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
 	updateSearch: (value: any) => void;

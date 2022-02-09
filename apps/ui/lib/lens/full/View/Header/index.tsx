@@ -44,7 +44,7 @@ interface HeaderProps {
 		sortBy?: string;
 		sortDir?: 'desc' | 'asc';
 	}) => void;
-	pageOptions: { sortBy: string; sortDir: 'asc' | 'desc' };
+	pageOptions: { sortBy: string[] | string; sortDir: 'asc' | 'desc' };
 	saveView: FiltersProps['onViewsUpdate'];
 	searchFilter: JsonSchema;
 	searchTerm: string;
@@ -104,7 +104,7 @@ export default class Header extends React.Component<HeaderProps, any> {
 					);
 					// react-csv does not correctly escape double quotes in fields, so it has to be done here.
 					// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
-					return _.mapValues(flattened, (field) => {
+					return _.mapValues(flattened as any, (field) => {
 						// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
 						return _.isString(field)
 							? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
@@ -201,7 +201,11 @@ export default class Header extends React.Component<HeaderProps, any> {
 				<Flex justifyContent="space-between">
 					<Markers card={channel.data.head} />
 					<CSVLinkWrapper mr={3}>
-						<CSVLink data={csvData} headers={csvHeaders} filename={csvName}>
+						<CSVLink
+							data={csvData}
+							headers={csvHeaders as any}
+							filename={csvName}
+						>
 							Download as CSV
 						</CSVLink>
 					</CSVLinkWrapper>

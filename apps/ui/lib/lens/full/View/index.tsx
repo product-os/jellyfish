@@ -335,7 +335,27 @@ interface ViewRendererProps {
 	>;
 }
 
-export class ViewRenderer extends React.Component<ViewRendererProps, any> {
+interface State {
+	redirectTo: null | string;
+	searchTerm?: string;
+	eventSearchFilter?: any;
+	searchFilter?: any;
+	filters: any[];
+	ready: boolean;
+	tailTypes: null | TypeContract[];
+	activeLens: any;
+	activeSlice: any;
+	sliceOptions?: any;
+	options: {
+		page: number;
+		totalPages: number;
+		limit: number;
+		sortBy: string[];
+		sortDir: 'asc' | 'desc';
+	};
+}
+
+export class ViewRenderer extends React.Component<ViewRendererProps, State> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -908,18 +928,18 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 					}}
 					lens={lens}
 					filters={filters}
-					tailTypes={tailTypes}
+					tailTypes={tailTypes || []}
 					allTypes={types}
 					updateFilters={this.updateFilters}
 					saveView={this.saveView}
 					channel={channel}
 					searchFilter={searchFilter}
-					searchTerm={searchTerm}
+					searchTerm={searchTerm || ''}
 					updateSearch={(event) => {
 						this.updateSearch(event.target.value);
 					}}
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
-					pageOptions={options}
+					pageOptions={{ sortBy: options.sortBy, sortDir: options.sortDir }}
 					onSortOptionsChange={this.handleSortOptionsChange}
 					tail={tail}
 				/>
@@ -930,7 +950,7 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 						tail={tail}
 						channel={channel}
 						getQueryOptions={this.getQueryOptions}
-						tailTypes={tailTypes}
+						tailTypes={tailTypes || []}
 						setPage={this.setPage}
 						pageOptions={options}
 					/>
