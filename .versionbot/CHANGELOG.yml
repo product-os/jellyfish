@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test Docker tag to v1.4.23
+      hash: d2f089012afaf164aef9dd0f774bb6a15cf9591a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 44.1.7
+  title: "'Update resinci/jellyfish-test Docker tag to v1.4.23'"
+  date: 2022-02-08T19:51:42.948Z
+- commits:
     - subject: Compare query result count with query limit rather than with limit in
         options
       hash: d8d1c07dd62973791e47c445ccbce77a13c0737d
