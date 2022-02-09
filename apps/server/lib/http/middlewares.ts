@@ -92,7 +92,8 @@ export const attachMiddlewares = (
 	});
 
 	application.use(
-		responseTime((request, response, time) => {
+		// TS-TODO: fix "any" type used below
+		responseTime((request: any, response, time) => {
 			logger.info(request.context, 'HTTP request end', {
 				uri: request.originalUrl,
 				ip: request.ip,
