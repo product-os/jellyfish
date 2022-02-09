@@ -80,7 +80,7 @@ describe('View lens', () => {
 			},
 		};
 
-		const wrapper = shallow(
+		const wrapper = shallow<ViewRenderer>(
 			<ViewRenderer {...commonProps} userActiveSlice={userActiveSlice} />,
 		);
 
@@ -90,7 +90,7 @@ describe('View lens', () => {
 	test("Active slice is initialized to the slice specified by a custom view's filters, if set", () => {
 		const { commonProps } = context;
 
-		const wrapper = shallow(
+		const wrapper = shallow<ViewRenderer>(
 			<ViewRenderer {...commonProps} channel={archivedPaidSupport} />,
 		);
 
@@ -132,7 +132,7 @@ describe('View lens', () => {
 	test('Active slice is initialized to the first slice option if not set in user profile or view filter', () => {
 		const { commonProps } = context;
 
-		const wrapper = shallow(<ViewRenderer {...commonProps} />);
+		const wrapper = shallow<ViewRenderer>(<ViewRenderer {...commonProps} />);
 
 		expect(wrapper.state().activeSlice).toEqual({
 			title: 'Status: open',
@@ -172,7 +172,7 @@ describe('View lens', () => {
 	test("Active lens is initialized to the user's active lens for that view, if set", () => {
 		const { commonProps } = context;
 
-		const wrapper = shallow(
+		const wrapper = shallow<ViewRenderer>(
 			<ViewRenderer
 				{...commonProps}
 				lenses={lenses}
@@ -187,7 +187,7 @@ describe('View lens', () => {
 		const { commonProps } = context;
 
 		// First load with a lens that does *not* support slices
-		let wrapper = shallow(
+		let wrapper = shallow<ViewRenderer>(
 			<ViewRenderer
 				{...commonProps}
 				lenses={lenses}
