@@ -40,7 +40,7 @@ export class ActionFacade {
 		action,
 		options: ActionFacadeOptions = {},
 	) {
-		action.context = context;
+		action.logContext = context;
 		const files: FileItem[] = [];
 
 		if (options.files) {
