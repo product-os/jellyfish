@@ -57,7 +57,7 @@ tasks:
 
   e2e-server-previous-dump:
     cmds:
-      - task: integration-server
+      - task: e2e-server
 
   post-summary:
     cmds:
