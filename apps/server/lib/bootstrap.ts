@@ -366,20 +366,13 @@ export const bootstrap = async (logContext: LogContext, options) => {
 		{
 			slug: `user-${environment.test.user.username}`,
 			type: 'user@1.0.0',
-			version: '1.0.0',
-			requires: [],
-			capabilities: [],
 			name: 'Test User',
-			markers: [],
-			tags: [],
-			links: {},
-			active: true,
 			data: {
 				email: 'test@jel.ly.fish',
 				hash: 'PASSWORDLESS',
 				roles: [environment.test.user.role],
 			},
-		} as any,
+		},
 	);
 
 	// Need test user during development and CI.
