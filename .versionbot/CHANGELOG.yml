@@ -1,4 +1,28 @@
 - commits:
+    - subject: Fix previous dump CI task
+      hash: a94f92099b6cda512642b17c8467088c85df551d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Activate ui tests
+      hash: 539406cd3d9f42058bd0863a44cbd73ab4ef0099
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Balena CI
+      nested: []
+  version: 45.0.0
+  title: "'Activate ui tests'"
+  date: 2022-02-10T04:45:35.204Z
+- commits:
     - subject: Update resinci/jellyfish-test Docker tag to v1.4.23
       hash: d2f089012afaf164aef9dd0f774bb6a15cf9591a
       body: ""
