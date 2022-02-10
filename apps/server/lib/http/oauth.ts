@@ -3,17 +3,21 @@ import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import type { Worker } from '@balena/jellyfish-worker';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Producer } from '@balena/jellyfish-queue';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);
 
-export const getRedirectUrl = (provider) => {
+export const getRedirectUrl = (provider: string) => {
 	return `${environment.oauth.redirectBaseUrl}/oauth/${provider}`;
 };
 
-export const getAuthorizeUrl = (provider, userSlug, options) => {
+export const getAuthorizeUrl = (
+	provider: string,
+	userSlug: string,
+	options: { sync: Sync },
+) => {
 	return options.sync.getAssociateUrl(
 		provider,
 		environment.integration[provider],
@@ -25,38 +29,29 @@ export const getAuthorizeUrl = (provider, userSlug, options) => {
 };
 
 export const whoami = (
-	context,
-	worker: Worker,
-	session,
-	provider,
+	logContext: LogContext,
+	provider: string,
 	credentials,
-	options,
+	options: { sync: Sync },
 ) => {
-	return options.sync.whoami(
-		{
-			getElementBySlug: (slug) => {
-				return worker.kernel.getCardBySlug(context, session, slug);
-			},
-		},
-		provider,
-		credentials,
-	);
+	return options.sync.whoami(logContext, provider, credentials);
 };
 
 export const match = (
-	context,
+	logContext: LogContext,
 	worker: Worker,
-	session,
-	provider,
+	session: string,
+	provider: string,
 	externalUser,
-	options,
+	options: { slug: string; sync: Sync },
 ) => {
 	return options.sync.match(
+		// TS-TODO: this is not a proper `SyncActionContext`
 		{
 			getElementBySlug: (slug) => {
-				return worker.kernel.getCardBySlug(context, session, slug);
+				return worker.kernel.getCardBySlug(logContext, session, slug);
 			},
-		},
+		} as any,
 		provider,
 		externalUser,
 		_.omit(options, ['sync']),
@@ -66,18 +61,18 @@ export const match = (
 export const sync = async (
 	logContext: LogContext,
 	worker: Worker,
-	queue,
-	session,
-	provider,
+	queue: Producer,
+	session: string,
+	provider: string,
 	externalUser,
-	options,
+	options: { sync: Sync },
 ) => {
 	const event = await worker.kernel.insertContract(logContext, session, {
 		type: 'external-event@1.0.0',
 		slug: `external-event-${uuid()}`,
 		version: '1.0.0',
 		data: await options.sync.getExternalUserSyncEventData(
-			{},
+			logContext,
 			provider,
 			externalUser,
 		),
@@ -104,8 +99,8 @@ export const authorize = async (
 	logContext: LogContext,
 	worker: Worker,
 	producer: Producer,
-	session,
-	provider,
+	session: string,
+	provider: string,
 	options,
 ) => {
 	logger.info(logContext, 'OAuth authorization', {
@@ -147,8 +142,8 @@ export const associate = async (
 	logContext: LogContext,
 	worker: Worker,
 	producer: Producer,
-	session,
-	provider,
+	session: string,
+	provider: string,
 	user,
 	credentials,
 	options,

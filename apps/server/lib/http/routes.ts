@@ -241,8 +241,6 @@ export const attachRoutes = (
 			// 2. Fetch user data from provider
 			const externalUser = await oauth.whoami(
 				request.context,
-				worker,
-				kernel.adminSession()!,
 				request.params.provider,
 				credentials,
 				{
