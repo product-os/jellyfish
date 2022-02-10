@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus Docker tag to v2.33.1
+      hash: f1b1b809f7ce5b4dac2290561319653a0cd55c7c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.0.1
+  title: "'Update prom/prometheus Docker tag to v2.33.1'"
+  date: 2022-02-10T08:42:25.336Z
+- commits:
     - subject: Fix previous dump CI task
       hash: a94f92099b6cda512642b17c8467088c85df551d
       body: ""
