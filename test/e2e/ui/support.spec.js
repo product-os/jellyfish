@@ -108,6 +108,7 @@ ava.serial('Updates to support threads should be reflected in the support thread
 	const summarySelector = `[data-test-component="card-chat-summary"][data-test-id="${supportThread.id}"]`
 	await macros.waitForThenClickSelector(page, summarySelector)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.waitForThenClickSelector(page, '.rta__textarea')
 
 	const rand = uuid()
@@ -154,6 +155,7 @@ ava.serial('Updates to messages should be reflected in the thread\'s timeline', 
 	}, messageEvent)
 
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	// Verify the message text
 	const messageText = await macros.getElementText(page, '[data-test="event-card__message"]')
@@ -211,6 +213,7 @@ ava.serial('A message\'s mirror icon is automatically updated when the message i
 	}, messageEvent)
 
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 
 	// Verify the mirror icon is present but not synced
 	await page.waitForSelector('.unsynced[data-test="mirror-icon"]')
@@ -257,6 +260,7 @@ ava.serial('Support thread timeline should default to sending whispers', async (
 
 	const rand = uuid()
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.createChatMessage(page, columnSelector, `${rand}`)
 
 	const messageText = await macros.getElementText(page, '.event-card--whisper [data-test="event-card__message"]')
@@ -286,6 +290,7 @@ ava.serial('Support thread timeline should send a message if the input is prefix
 
 	const rand = uuid()
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.createChatMessage(page, columnSelector, `%${rand}`)
 
 	const messageText = await macros.getElementText(page, '.event-card--message [data-test="event-card__message"]')
@@ -313,6 +318,7 @@ ava.serial('Support thread timeline should send a message if the whisper button 
 	const columnSelector = '.column--support-thread'
 	await page.waitForSelector(columnSelector)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.waitForThenClickSelector(page, '[data-test="timeline__whisper-toggle"]')
 
 	const rand = uuid()
@@ -346,6 +352,7 @@ ava.serial('Support thread timeline should revert to "whisper" mode after sendin
 
 	const rand = uuid()
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await macros.createChatMessage(page, columnSelector, `${rand}`)
 
 	const messageText = await macros.getElementText(page, '.event-card--whisper [data-test="event-card__message"]')
@@ -542,7 +549,7 @@ ava.serial('Support threads should close correctly in the UI even when being upd
 	test.pass('Support thread closed correctly')
 })
 
-ava.serial('My Participation shows only support threads that the logged-in user has participated in', async (test) => {
+ava.serial.skip('My Participation shows only support threads that the logged-in user has participated in', async (test) => {
 	const {
 		page
 	} = context
@@ -656,6 +663,8 @@ ava.serial('A user can edit their own message', async (test) => {
 
 	// Navigate to the thread and wait for the message event to be displayed
 	await macros.goto(page, `/${supportThread.id}`)
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
+
 	const eventSelector = '.column--support-thread .event-card--message'
 	await page.waitForSelector(eventSelector)
 
@@ -700,6 +709,7 @@ ava.serial('You can trigger a quick search for cards from the message input', as
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
 
 	// Type in a quick search trigger
@@ -757,6 +767,7 @@ ava.serial('You can select a user and a group from the auto-complete options', a
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
 
 	// Use auto-complete to find a user
@@ -845,6 +856,7 @@ ava.serial('Only users with a name matching the search string are returned by th
 	const threadSelector = '.column--support-thread'
 	await page.waitForSelector(threadSelector)
 
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
 	await page.waitForSelector('.new-message-input', macros.WAIT_OPTS)
 
 	// Use auto-complete to find a user by firstname
@@ -942,6 +954,9 @@ ava.serial('Closed support threads should be re-opened on new message', async (t
 	}, supportThread.id)
 	test.is(thread.data.status, 'closed')
 
+	// Switch to timeline tab
+	await macros.waitForThenClickSelector(page, '[data-test="timeline-tab"]')
+
 	// Add new message to the closed support thread
 	await macros.waitForThenClickSelector(page, '.rta__textarea')
 	await macros.createChatMessage(page, '.column--support-thread', `%${uuid()}`)
@@ -1027,10 +1042,10 @@ ava.serial('Should be able to filter support threads by timeline message', async
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
 		fieldSelectTimelineOption:
 			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="Timeline message"]]]',
-		filterModalValueInput: 'input[operator="is"]',
+		filterModalValueInput: 'input[operator="contains"]',
 		filterModalSaveButton: '//button[text()="Save"]',
 		timelineSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
-		'//button[div[div[text()="Timeline message is "]]]/following-sibling::button'
+		'//button[div[div[text()="Timeline message contains "]]]/following-sibling::button'
 	}
 
 	// Both threads should appear in the list
@@ -1064,7 +1079,7 @@ ava.serial('Should be able to filter support threads by timeline message', async
 	test.pass()
 })
 
-ava.serial.only('Should be able to filter support threads by a field in a linked contract', async (test) => {
+ava.serial('Should be able to filter support threads by a field in a linked contract', async (test) => {
 	const {
 		page
 	} = context
