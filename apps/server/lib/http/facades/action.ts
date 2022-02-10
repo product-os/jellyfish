@@ -23,6 +23,8 @@ interface ActionFacadeOptions {
 	files?: FileDetails[];
 }
 
+type ActionPayload = Parameters<Producer['enqueue']>[2];
+
 export class ActionFacade {
 	fileStore: any;
 	producer: Producer;
@@ -35,12 +37,15 @@ export class ActionFacade {
 	}
 
 	async processAction(
-		context,
-		session,
-		action,
+		context: { [x: string]: any; id: any },
+		session: string,
+		action: Omit<ActionPayload, 'logContext'>,
 		options: ActionFacadeOptions = {},
 	) {
-		action.logContext = context;
+		const payload: ActionPayload = {
+			logContext: context,
+			...action,
+		};
 		const files: FileItem[] = [];
 
 		if (options.files) {
@@ -50,7 +55,7 @@ export class ActionFacade {
 			options.files.forEach((file) => {
 				const name = `${id}.${file.originalname}`;
 
-				_.set(action.arguments.payload, file.fieldname, {
+				_.set(action.arguments, ['payload', file.fieldname], {
 					name: file.originalname,
 					slug: name,
 					mime: file.mimetype,
@@ -64,7 +69,7 @@ export class ActionFacade {
 			});
 		}
 
-		const finalRequest = await this.worker.pre(session, action);
+		const finalRequest = await this.worker.pre(session, payload);
 		const actionRequest = await this.producer.enqueue(
 			this.worker.getId(),
 			session,
