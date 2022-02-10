@@ -56,8 +56,7 @@ window.HTMLElement.prototype.scrollIntoView = _.noop;
 
 export const flushPromises = () => {
 	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve);
+		setTimeout(() => resolve(), 0);
 	});
 };
 
