@@ -11,7 +11,8 @@ import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
 import type { Kernel } from '@balena/jellyfish-core';
-import type { Worker } from '@balena/jellyfish-worker';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Producer } from '@balena/jellyfish-queue';
 
 // Avoid including package.json in the build output!
@@ -71,7 +72,7 @@ export const attachRoutes = (
 	kernel: Kernel,
 	worker: Worker,
 	producer: Producer,
-	options,
+	options: { sync: Sync; guestSession: string },
 ) => {
 	const queryFacade = new facades.QueryFacade(kernel);
 	const authFacade = new facades.AuthFacade(kernel);
@@ -608,7 +609,7 @@ export const attachRoutes = (
 				return response.send(404);
 			}
 
-			const sessionCard = await kernel.getCardById(
+			const sessionCard = await kernel.getCardById<SessionContract>(
 				request.context,
 				request.session,
 				request.session,
@@ -630,6 +631,7 @@ export const attachRoutes = (
 						'front',
 						environment.integration.front,
 						request.params.fileName,
+						// TS-TODO: this is an incomplete type
 						{
 							log: {
 								warn: (message, data) => {
@@ -639,7 +641,7 @@ export const attachRoutes = (
 									logger.info(request.context, message, data);
 								},
 							},
-						},
+						} as any,
 						{
 							actor: sessionCard.data.actor,
 						},

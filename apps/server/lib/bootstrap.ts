@@ -144,7 +144,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	const cards = options.pluginManager.getCards(logContext, core.cardMixins);
 
 	logger.info(logContext, 'Configuring HTTP server');
-	const webServer = await createServer(logContext, {
+	const webServer = createServer(logContext, {
 		port: environment.http.port,
 	});
 	logger.info(logContext, 'Starting web server');
@@ -232,7 +232,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	const closeWorker = async () => {
 		await consumer.cancel();
 		workerContractsStream.removeAllListeners();
-		await workerContractsStream.close();
+		workerContractsStream.close();
 		await kernel.disconnect(logContext);
 		if (cache) {
 			await cache.disconnect();
@@ -449,8 +449,9 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 	// Finish setting up routes and middlewares now that we are ready to serve
 	// http traffic
-	await webServer.ready(kernel, worker, producer, {
+	webServer.ready(kernel, worker, producer, {
 		guestSession: results.guestSession.id,
+		sync,
 	});
 
 	// Manually bootstrap channels
