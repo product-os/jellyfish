@@ -1009,12 +1009,11 @@ conditionalTest('should not mirror a user card type', async () => {
 	const user = await context.sdk.card.get(createResult.id);
 
 	expect(user.data.mirrors).toBeFalsy();
-	expect(user.data).toEqual({
-		email: `${username}@balena.io`,
-		roles: ['user-community'],
-		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		avatar: null,
-	});
+	expect(user.data.email).toEqual(`${username}@balena.io`);
+	expect(user.data.roles).toEqual(['user-community']);
+	expect(user.data.hash).toEqual(
+		'$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+	);
 
 	const results = await outreachMock.getProspectByEmail(
 		`${username}@balena.io`,
