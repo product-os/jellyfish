@@ -1,3 +1,4 @@
+import { strict as assert } from 'assert';
 import querystring from 'querystring';
 import Bluebird from 'bluebird';
 import request from 'request';
@@ -85,7 +86,9 @@ beforeEach(async () => {
 		})
 		.reply((uri, _body, callback) => {
 			const params = querystring.parse(_.last(uri.split('?'))!);
-			const result = outreachMock.getProspectByEmail(params['filter[emails]']);
+			const result = outreachMock.getProspectByEmail(
+				params['filter[emails]'] as any as string,
+			);
 			return callback(null, [result.code, result.response]);
 		});
 
@@ -93,7 +96,7 @@ beforeEach(async () => {
 		.persist()
 		.post('/api/v2/prospects')
 		.reply((_uri, body, callback) => {
-			const result = outreachMock.postProspect(body);
+			const result = outreachMock.postProspect(body as any);
 			return callback(null, [result.code, result.response]);
 		});
 
@@ -184,6 +187,8 @@ conditionalTest(
 			},
 		});
 
+		assert(prospectResult);
+
 		expect(prospectResult.code).toBe(201);
 
 		const createResult = await context.sdk.card.create({
@@ -199,7 +204,7 @@ conditionalTest(
 		const contact = await waitForContactWithMirror(username);
 
 		expect(contact.data.mirrors).not.toEqual([
-			prospectResult.response.data.links.self,
+			prospectResult.response.data!.links.self,
 		]);
 
 		await context.sdk.card.update(createResult.id, createResult.type, [
@@ -212,7 +217,7 @@ conditionalTest(
 
 		const newContact = await context.sdk.card.get(createResult.id);
 		expect(newContact.data.mirrors).toEqual([
-			prospectResult.response.data.links.self,
+			prospectResult.response.data!.links.self,
 		]);
 	},
 );

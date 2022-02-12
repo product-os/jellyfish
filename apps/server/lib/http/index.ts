@@ -42,7 +42,7 @@ export const createServer = (logContext: LogContext, configuration) => {
 		server,
 		port: configuration.port,
 		start: () => {
-			return new Promise((resolve, reject) => {
+			return new Promise<void>((resolve, reject) => {
 				server.once('error', reject);
 
 				// The .listen callback will be called regardless of if there is an
