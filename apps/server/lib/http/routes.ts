@@ -491,13 +491,13 @@ export const attachRoutes = (
 		return Bluebird.try(async () => {
 			if (
 				!(await options.sync.isValidEvent(
+					request.context,
 					request.params.provider,
 					integrationToken,
 					{
 						raw: request.rawBody || request.body,
 						headers: request.headers,
 					},
-					request.context,
 				))
 			) {
 				logger.warn(request.context, 'Webhook rejected', {
