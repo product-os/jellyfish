@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update trim-off-newlines from 1.0.1 to 1.0.3 [SECURITY]
+      hash: e4f6853dedb0a78cc32bf2e70d2d9786929ed8a5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.0.2
+  title: "'Update trim-off-newlines from 1.0.1 to 1.0.3 [SECURITY]'"
+  date: 2022-02-12T08:03:44.028Z
+- commits:
     - subject: Update prom/prometheus Docker tag to v2.33.1
       hash: f1b1b809f7ce5b4dac2290561319653a0cd55c7c
       body: ""
