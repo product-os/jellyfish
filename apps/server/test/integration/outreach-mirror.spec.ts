@@ -76,8 +76,6 @@ beforeEach(async () => {
 	nock.disableNetConnect();
 	nock.enableNetConnect('localhost');
 
-	outreachMock.reset();
-
 	await nock('https://api.outreach.io', NOCK_OPTS)
 		.persist()
 		.get('/api/v2/prospects')
