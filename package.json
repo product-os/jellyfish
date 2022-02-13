@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "45.0.4",
+  "version": "45.0.5",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "#STPLTG",
@@ -137,6 +137,6 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-02-13T04:48:59.769Z"
+    "publishedAt": "2022-02-13T06:27:15.125Z"
   }
 }

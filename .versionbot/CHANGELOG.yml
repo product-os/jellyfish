@@ -1,4 +1,34 @@
 - commits:
+    - subject: Bump follow-redirects from 1.14.7 to 1.14.8 in /apps/ui
+      hash: 7c0a1feb6a58b445a823c4603b4df0d70b9fd35f
+      body: >
+        Bumps
+        [follow-redirects](https://github.com/follow-redirects/follow-redirects)
+        from 1.14.7 to 1.14.8.
+
+        - [Release notes](https://github.com/follow-redirects/follow-redirects/releases)
+
+        - [Commits](https://github.com/follow-redirects/follow-redirects/compare/v1.14.7...v1.14.8)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: follow-redirects
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 45.0.5
+  title: "'Bump follow-redirects from 1.14.7 to 1.14.8 in /apps/ui'"
+  date: 2022-02-13T06:27:13.415Z
+- commits:
     - subject: Update grafana/grafana Docker tag to v8.3.6
       hash: a3e7f55ade479ddec813f5ab2a8fa9915169429d
       body: ""
