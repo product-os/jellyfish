@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base Docker tag to v13.0.5
+      hash: 96044380450dbd471c1ca519d9a29ea003db5926
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.0.7
+  title: "'Update balena/open-balena-base Docker tag to v13.0.5'"
+  date: 2022-02-13T08:29:03.234Z
+- commits:
     - subject: Bump follow-redirects from 1.14.7 to 1.14.8 in /apps/server
       hash: 9b77736afafa26785803e47f780f79e5e0d9e608
       body: >
