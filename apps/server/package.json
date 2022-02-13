@@ -65,7 +65,7 @@
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^8.3.4",
     "@balena/jellyfish-config": "^2.0.2",
-    "@balena/jellyfish-types": "^1.2.42",
+    "@balena/jellyfish-types": "^2.0.4",
     "@balena/lint": "^6.2.0",
     "@types/jest": "^27.4.0",
     "@types/node": "^14.18.9",
