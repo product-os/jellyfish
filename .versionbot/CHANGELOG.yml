@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana Docker tag to v8.3.6
+      hash: a3e7f55ade479ddec813f5ab2a8fa9915169429d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.0.4
+  title: "'Update grafana/grafana Docker tag to v8.3.6'"
+  date: 2022-02-13T04:48:58.108Z
+- commits:
     - subject: Bump follow-redirects from 1.14.7 to 1.14.8 in /apps/livechat
       hash: e625aab7873dd956e8d7f6c9e1ec5fb6a9db1f71
       body: >
