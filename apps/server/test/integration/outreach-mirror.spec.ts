@@ -1,3 +1,4 @@
+import { strict as assert } from 'assert';
 import querystring from 'querystring';
 import Bluebird from 'bluebird';
 import request from 'request';
@@ -34,7 +35,7 @@ const NOCK_OPTS = {
 };
 
 beforeEach(async () => {
-	await helpers.beforeEach(test);
+	helpers.beforeEach(test);
 
 	context.getProspect = async (id) => {
 		return new Bluebird((resolve, reject) => {
@@ -75,8 +76,6 @@ beforeEach(async () => {
 	nock.disableNetConnect();
 	nock.enableNetConnect('localhost');
 
-	outreachMock.reset();
-
 	await nock('https://api.outreach.io', NOCK_OPTS)
 		.persist()
 		.get('/api/v2/prospects')
@@ -85,7 +84,9 @@ beforeEach(async () => {
 		})
 		.reply((uri, _body, callback) => {
 			const params = querystring.parse(_.last(uri.split('?'))!);
-			const result = outreachMock.getProspectByEmail(params['filter[emails]']);
+			const result = outreachMock.getProspectByEmail(
+				params['filter[emails]'] as any as string,
+			);
 			return callback(null, [result.code, result.response]);
 		});
 
@@ -93,7 +94,7 @@ beforeEach(async () => {
 		.persist()
 		.post('/api/v2/prospects')
 		.reply((_uri, body, callback) => {
-			const result = outreachMock.postProspect(body);
+			const result = outreachMock.postProspect(body as any);
 			return callback(null, [result.code, result.response]);
 		});
 
@@ -143,7 +144,7 @@ afterEach(async () => {
 	nock.cleanAll();
 });
 
-const waitForContactWithMirror = async (username) => {
+const waitForContactWithMirror = async (username: string) => {
 	return context.waitForMatch({
 		type: 'object',
 		required: ['slug', 'data'],
@@ -171,7 +172,7 @@ const conditionalTest = _.some(_.values(TOKEN), _.isEmpty) ? test.skip : test;
 conditionalTest(
 	'should update mirror URL to prospect with new email address',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-update-mirror-url-${uuid()}`;
 
 		const prospectResult = await outreachMock.postProspect({
 			data: {
@@ -183,6 +184,8 @@ conditionalTest(
 				},
 			},
 		});
+
+		assert(prospectResult);
 
 		expect(prospectResult.code).toBe(201);
 
@@ -199,7 +202,7 @@ conditionalTest(
 		const contact = await waitForContactWithMirror(username);
 
 		expect(contact.data.mirrors).not.toEqual([
-			prospectResult.response.data.links.self,
+			prospectResult.response.data!.links.self,
 		]);
 
 		await context.sdk.card.update(createResult.id, createResult.type, [
@@ -212,7 +215,7 @@ conditionalTest(
 
 		const newContact = await context.sdk.card.get(createResult.id);
 		expect(newContact.data.mirrors).toEqual([
-			prospectResult.response.data.links.self,
+			prospectResult.response.data!.links.self,
 		]);
 	},
 );
@@ -220,7 +223,7 @@ conditionalTest(
 conditionalTest(
 	'should not update remote prospects that do not exist',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-not-update-remote-prospects-${uuid()}`;
 
 		const createResult = await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -258,7 +261,7 @@ conditionalTest(
 );
 
 conditionalTest('should handle pointless contact updates', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-handle-pointless-contact-updates-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -310,7 +313,7 @@ conditionalTest('should handle pointless contact updates', async () => {
 conditionalTest(
 	'should add a tag with the linked user external event slug origin type',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-add-tag-event-origin-type-${uuid()}`;
 
 		const event = await context.sdk.card.create({
 			slug: `external-event-${uuid()}`,
@@ -361,7 +364,7 @@ conditionalTest(
 );
 
 conditionalTest('should store the user country and city', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-country-city-${uuid()}`;
 
 	const event = await context.sdk.card.create({
 		slug: `external-event-${uuid()}`,
@@ -419,7 +422,7 @@ conditionalTest('should store the user country and city', async () => {
 conditionalTest(
 	'should add a tag with the linked user external event id origin type',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-add-tag-event-id-origin-type-${uuid()}`;
 
 		const event = await context.sdk.card.create({
 			slug: `external-event-${uuid()}`,
@@ -472,7 +475,7 @@ conditionalTest(
 conditionalTest(
 	'should correctly add an email address to a contact with more than one address',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-add-email-more-than-one-address-${uuid()}`;
 
 		const createResult = await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -533,7 +536,7 @@ conditionalTest(
 conditionalTest(
 	'should not update a synced contact with an excluded address',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-not-update-excluded-address-${uuid()}`;
 
 		const createResult = await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -579,7 +582,7 @@ conditionalTest(
 );
 
 conditionalTest('should link a user with an existing prospect', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-link-existing-prospect-${uuid()}`;
 
 	const prospectResult = await outreachMock.postProspect({
 		data: {
@@ -642,7 +645,7 @@ conditionalTest('should link a user with an existing prospect', async () => {
 });
 
 conditionalTest('should sync a contact with multiple emails', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-sync-contact-multiple-emails-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -689,7 +692,7 @@ conditionalTest('should sync a contact with multiple emails', async () => {
 });
 
 conditionalTest('should create a simple contact', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-create-simple-contact-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -730,7 +733,7 @@ conditionalTest('should create a simple contact', async () => {
 });
 
 conditionalTest('should sync the contact type', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-sync-contact-type-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -776,7 +779,7 @@ conditionalTest('should sync the contact type', async () => {
 });
 
 conditionalTest('should sync company name', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-sync-company-name-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -819,7 +822,7 @@ conditionalTest('should sync company name', async () => {
 });
 
 conditionalTest('should truncate long first names', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-truncate-long-first-name-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -868,7 +871,7 @@ conditionalTest('should truncate long first names', async () => {
 });
 
 conditionalTest('should truncate long last names', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-truncate-long-last-name-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -961,7 +964,7 @@ conditionalTest(
 );
 
 conditionalTest('should create a simple contact without an email', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-simple-contact-without-email-${uuid()}`;
 
 	await context.sdk.card.create({
 		slug: `contact-${username}`,
@@ -994,7 +997,7 @@ conditionalTest('should create a simple contact without an email', async () => {
 });
 
 conditionalTest('should not mirror a user card type', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-not-mirror-user-card-type-${uuid()}`;
 
 	const createResult = await context.sdk.card.create({
 		slug: `user-${username}`,
@@ -1009,12 +1012,11 @@ conditionalTest('should not mirror a user card type', async () => {
 	const user = await context.sdk.card.get(createResult.id);
 
 	expect(user.data.mirrors).toBeFalsy();
-	expect(user.data).toEqual({
-		email: `${username}@balena.io`,
-		roles: ['user-community'],
-		hash: '$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
-		avatar: null,
-	});
+	expect(user.data.email).toEqual(`${username}@balena.io`);
+	expect(user.data.roles).toEqual(['user-community']);
+	expect(user.data.hash).toEqual(
+		'$2b$12$tnb9eMnlGpEXld1IYmIlDOud.v4vSUbnuEsjFQz3d/24sqA6XmaBq',
+	);
 
 	const results = await outreachMock.getProspectByEmail(
 		`${username}@balena.io`,
@@ -1033,7 +1035,7 @@ conditionalTest('should not mirror a user card type', async () => {
 conditionalTest(
 	'should not create a prospect with an excluded email address',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-not-create-prospect-excluded-email-address-${uuid()}`;
 
 		const createResult = await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -1071,7 +1073,7 @@ conditionalTest(
 conditionalTest(
 	'should not sync emails on contacts with new@change.me',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-not-sync-emails-new-changeme-${uuid()}`;
 
 		await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -1114,7 +1116,7 @@ conditionalTest(
 conditionalTest(
 	'should not sync emails on contacts with unknown@change.me',
 	async () => {
-		const username = `test-${uuid()}`;
+		const username = `test-not-sync-emails-unknown-change-me-${uuid()}`;
 
 		await context.sdk.card.create({
 			slug: `contact-${username}`,
@@ -1155,7 +1157,7 @@ conditionalTest(
 );
 
 conditionalTest('should sync tags', async () => {
-	const username = `test-${uuid()}`;
+	const username = `test-sync-tags-${uuid()}`;
 	const email = `${username}@test.io`;
 	const tags = ['foo'];
 

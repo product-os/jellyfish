@@ -9,7 +9,7 @@ import {
 	TagList,
 	UserAvatar,
 } from '@balena/jellyfish-ui-components';
-import { core } from '@balena/jellyfish-types';
+import type { UserContract } from '@balena/jellyfish-types/build/core';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 
@@ -49,7 +49,7 @@ export default class SingleCard extends React.Component<any, any> {
 		const versionSuffix =
 			card.version && card.version !== '1.0.0' ? ` v${card.version}` : '';
 
-		const owner: core.UserContract = _.first(
+		const owner: UserContract = _.first(
 			_.get(card, ['links', 'is owned by'], []),
 		) as any;
 

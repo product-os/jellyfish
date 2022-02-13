@@ -1,7 +1,8 @@
 import _ from 'lodash';
 import errio from 'errio';
 import { getLogger } from '@balena/jellyfish-logger';
-import { Producer } from '@balena/jellyfish-queue';
+import type { Producer } from '@balena/jellyfish-queue';
+import type { Worker } from '@balena/jellyfish-worker';
 import { v4 as uuidv4 } from 'uuid';
 
 const logger = getLogger(__filename);
@@ -22,10 +23,12 @@ interface ActionFacadeOptions {
 	files?: FileDetails[];
 }
 
+type ActionPayload = Parameters<Producer['enqueue']>[2];
+
 export class ActionFacade {
 	fileStore: any;
-	producer: InstanceType<typeof Producer>;
-	worker: InstanceType<typeof Worker>;
+	producer: Producer;
+	worker: Worker;
 
 	constructor(worker, producer, fileStore) {
 		this.fileStore = fileStore;
@@ -34,12 +37,15 @@ export class ActionFacade {
 	}
 
 	async processAction(
-		context,
-		session,
-		action,
+		context: { [x: string]: any; id: any },
+		session: string,
+		action: Omit<ActionPayload, 'logContext'>,
 		options: ActionFacadeOptions = {},
 	) {
-		action.context = context;
+		const payload: ActionPayload = {
+			logContext: context,
+			...action,
+		};
 		const files: FileItem[] = [];
 
 		if (options.files) {
@@ -49,7 +55,7 @@ export class ActionFacade {
 			options.files.forEach((file) => {
 				const name = `${id}.${file.originalname}`;
 
-				_.set(action.arguments.payload, file.fieldname, {
+				_.set(action.arguments, ['payload', file.fieldname], {
 					name: file.originalname,
 					slug: name,
 					mime: file.mimetype,
@@ -63,9 +69,9 @@ export class ActionFacade {
 			});
 		}
 
-		const finalRequest = await (this.worker as any).pre(session, action);
+		const finalRequest = await this.worker.pre(session, payload);
 		const actionRequest = await this.producer.enqueue(
-			(this.worker as any).getId(),
+			this.worker.getId(),
 			session,
 			finalRequest,
 		);

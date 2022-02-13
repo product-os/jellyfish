@@ -18,7 +18,10 @@ import { CardLoaderContext } from '@balena/jellyfish-ui-components/build/CardLoa
 
 import Adapter from 'enzyme-adapter-react-16';
 import { SetupProvider } from '@balena/jellyfish-ui-components';
-import { core } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	ContractDefinition,
+} from '@balena/jellyfish-types/build/core';
 import { v4 as uuid } from 'uuid';
 
 const emotionCache = createCache({
@@ -53,8 +56,7 @@ window.HTMLElement.prototype.scrollIntoView = _.noop;
 
 export const flushPromises = () => {
 	return new Promise((resolve) => {
-		// eslint-disable-next-line no-undef
-		return setImmediate(resolve);
+		setTimeout(() => resolve(), 0);
 	});
 };
 
@@ -69,9 +71,7 @@ export const getPromiseResolver = () => {
 	};
 };
 
-export const withDefaults = (
-	cardFields: core.ContractDefinition,
-): core.Contract => {
+export const withDefaults = (cardFields: ContractDefinition): Contract => {
 	return Object.assign(
 		{
 			id: uuid(),

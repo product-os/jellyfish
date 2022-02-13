@@ -1,8 +1,8 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import type { JSONSchema7 } from 'json-schema';
 import React from 'react';
 import { CSVLink } from 'react-csv';
-import { Box, FiltersProps, Flex, Heading, SelectProps, Txt } from 'rendition';
+import { Box, FiltersProps, Flex, Heading, SelectProps } from 'rendition';
 import { flatten } from 'flat';
 import { CloseButton, Collapsible } from '@balena/jellyfish-ui-components';
 import Markers from '../../../../components/Markers';
@@ -12,8 +12,11 @@ import { LensSelection } from './LensSelection';
 import SliceOptionsSelect, { SliceOption } from './SliceOptions';
 import ViewFilters from './ViewFilters';
 import styled from 'styled-components';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { JSONSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -41,9 +44,9 @@ interface HeaderProps {
 		sortBy?: string;
 		sortDir?: 'desc' | 'asc';
 	}) => void;
-	pageOptions: { sortBy: string; sortDir: 'asc' | 'desc' };
+	pageOptions: { sortBy: string[] | string; sortDir: 'asc' | 'desc' };
 	saveView: FiltersProps['onViewsUpdate'];
-	searchFilter: JSONSchema;
+	searchFilter: JsonSchema;
 	searchTerm: string;
 	setLens: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 	setSlice: SelectProps<SliceOption>['onChange'];
@@ -101,7 +104,7 @@ export default class Header extends React.Component<HeaderProps, any> {
 					);
 					// react-csv does not correctly escape double quotes in fields, so it has to be done here.
 					// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
-					return _.mapValues(flattened, (field) => {
+					return _.mapValues(flattened as any, (field) => {
 						// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
 						return _.isString(field)
 							? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
@@ -198,7 +201,11 @@ export default class Header extends React.Component<HeaderProps, any> {
 				<Flex justifyContent="space-between">
 					<Markers card={channel.data.head} />
 					<CSVLinkWrapper mr={3}>
-						<CSVLink data={csvData} headers={csvHeaders} filename={csvName}>
+						<CSVLink
+							data={csvData}
+							headers={csvHeaders as any}
+							filename={csvName}
+						>
 							Download as CSV
 						</CSVLink>
 					</CSVLinkWrapper>

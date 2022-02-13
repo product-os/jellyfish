@@ -1,8 +1,5 @@
 import _ from 'lodash';
 
-let DATA: any[] = [];
-const CREATOR_ID = 9999;
-
 const DEFAULT_ATTRIBUTES = {
 	addedAt: null,
 	addressCity: null,
@@ -152,7 +149,24 @@ const DEFAULT_ATTRIBUTES = {
 	workPhones: [],
 };
 
-const getRelationships = (id) => {
+interface Entity {
+	type: 'prospect';
+	id: number;
+	attributes: typeof DEFAULT_ATTRIBUTES & {
+		createdAt: string;
+		updatedAt: string;
+		emails: string[];
+	};
+	relationships: ReturnType<typeof getRelationships>;
+	links: {
+		self: string;
+	};
+}
+
+let DATA: Entity[] = [];
+const CREATOR_ID = 9999;
+
+const getRelationships = (id: number) => {
 	return {
 		account: {
 			data: {
@@ -266,7 +280,7 @@ export const reset = () => {
 	DATA = [];
 };
 
-export const getProspectByEmail = (email) => {
+export const getProspectByEmail = (email: string) => {
 	if (!_.isString(email)) {
 		return {
 			code: 400,
@@ -289,7 +303,18 @@ export const getProspectByEmail = (email) => {
 	};
 };
 
-export const postProspect = (body) => {
+export const postProspect = (body: {
+	data: {
+		type: 'prospect';
+		attributes: {
+			name?: string;
+			nickname?: string;
+			firstName?: string;
+			lastName?: string;
+			emails?: string[];
+		};
+	};
+}) => {
 	const date = new Date().toISOString();
 	const index = DATA.length;
 	const id = index + 1;
@@ -382,7 +407,12 @@ export const postProspect = (body) => {
 	};
 };
 
-export const patchProspect = (body) => {
+export const patchProspect = (body: {
+	data: {
+		id: number;
+		attributes: Partial<typeof DEFAULT_ATTRIBUTES>;
+	};
+}) => {
 	const index = _.findIndex(DATA, {
 		type: 'prospect',
 		id: body.data.id,
@@ -484,7 +514,7 @@ export const patchProspect = (body) => {
 	};
 };
 
-export const getProspect = (id) => {
+export const getProspect = (id: number) => {
 	const prospect = _.find(DATA, {
 		type: 'prospect',
 		id,

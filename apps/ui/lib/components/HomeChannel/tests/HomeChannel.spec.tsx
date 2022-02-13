@@ -5,7 +5,7 @@ import _ from 'lodash';
 import sinon from 'sinon';
 import HomeChannel from '../HomeChannel';
 import * as homeChannelProps from './fixtures';
-import { core } from '@balena/jellyfish-types';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 let context: any = {};
 
@@ -78,7 +78,7 @@ describe('HomeChannel', () => {
 			'div[data-test="home-channel__group__bookmarks"]',
 		);
 
-		_.forEach(homeChannelProps.bookmarks, (bookmark: core.Contract) => {
+		_.forEach(homeChannelProps.bookmarks, (bookmark: Contract) => {
 			const bookmarkLink = bookmarksDiv.find(
 				`a[data-test="home-channel__item--${bookmark.slug}"]`,
 			);

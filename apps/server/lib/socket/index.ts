@@ -8,6 +8,7 @@ import basicAuth from 'express-basic-auth';
 import * as prometheus from '@balena/socket-prometheus-metrics';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
+import type { Kernel } from '@balena/jellyfish-core';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -15,7 +16,7 @@ const packageJSON = require('../../../../package.json');
 
 const logger = getLogger(__filename);
 
-export const attachSocket = (jellyfish, server) => {
+export const attachSocket = (kernel: Kernel, server) => {
 	const socketServer = new socketIo.Server(server, {
 		pingTimeout: 60000,
 		transports: ['websocket', 'polling'],
@@ -45,7 +46,7 @@ export const attachSocket = (jellyfish, server) => {
 
 				let stream: any = null;
 				try {
-					stream = await jellyfish.stream(
+					stream = await kernel.stream(
 						context,
 						payload.token,
 						payload.data.query,

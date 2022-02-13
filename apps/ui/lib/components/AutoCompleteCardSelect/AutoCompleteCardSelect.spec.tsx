@@ -4,6 +4,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
 import Bluebird from 'bluebird';
+import { strict as assert } from 'assert';
 import { AutoCompleteCardSelect } from './AutoCompleteCardSelect';
 
 const wrappingComponent = getWrapper().wrapper;
@@ -121,7 +122,7 @@ describe('AutoCompleteCardSelect', () => {
 		const { sdk, onChange } = context;
 		sdk.query.onCall(0).resolves([]);
 
-		const autoComplete = await mount(
+		const autoComplete = await mount<AutoCompleteCardSelect>(
 			<AutoCompleteCardSelect
 				sdk={sdk}
 				cardType={['user', 'issue']}
@@ -144,11 +145,15 @@ describe('AutoCompleteCardSelect', () => {
 			.first();
 
 		// Input.instance().value = 'test'
-		input.props().onChange({
+		const inputProps = input.props();
+
+		assert(inputProps.onChange);
+
+		inputProps.onChange({
 			currentTarget: {
 				value: 'test',
 			},
-		});
+		} as any);
 
 		// Wait for the debounced search
 		await Bluebird.delay(1000);

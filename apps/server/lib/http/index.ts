@@ -2,13 +2,16 @@ import Bluebird from 'bluebird';
 import errio from 'errio';
 import http from 'http';
 import * as metrics from '@balena/jellyfish-metrics';
-import { getLogger } from '@balena/jellyfish-logger';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
+import type { Producer } from '@balena/jellyfish-queue';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
+import type { Kernel } from '@balena/jellyfish-core';
 
 const logger = getLogger(__filename);
 
-export const createServer = (context, configuration) => {
+export const createServer = (logContext: LogContext, configuration) => {
 	const application = metrics.initExpress();
 
 	const server = new http.Server(application);
@@ -39,7 +42,7 @@ export const createServer = (context, configuration) => {
 		server,
 		port: configuration.port,
 		start: () => {
-			return new Promise((resolve, reject) => {
+			return new Promise<void>((resolve, reject) => {
 				server.once('error', reject);
 
 				// The .listen callback will be called regardless of if there is an
@@ -58,13 +61,18 @@ export const createServer = (context, configuration) => {
 				server.listen(application.get('port'));
 			});
 		},
-		ready: (jellyfish, worker, producer, options) => {
-			attachMiddlewares(context, application, jellyfish, {
+		ready: (
+			kernel: Kernel,
+			worker: Worker,
+			producer: Producer,
+			options: { sync: Sync; guestSession: string },
+		) => {
+			attachMiddlewares(logContext, application, kernel, {
 				guestSession: options.guestSession,
 			});
 
-			attachRoutes(application, jellyfish, worker, producer, {
-				sync: context.sync,
+			attachRoutes(application, kernel, worker, producer, {
+				sync: options.sync,
 				guestSession: options.guestSession,
 			});
 
@@ -89,7 +97,11 @@ export const createServer = (context, configuration) => {
 					stack: true,
 				});
 
-				logger.exception(request.context || context, 'Middleware error', error);
+				logger.exception(
+					request.context || logContext,
+					'Middleware error',
+					error,
+				);
 				return response.status(error.statusCode || 500).json({
 					error: true,
 					data: errorObject,

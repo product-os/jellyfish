@@ -2,15 +2,22 @@ import errio from 'errio';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger } from '@balena/jellyfish-logger';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
+import type { Producer } from '@balena/jellyfish-queue';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);
 
-export const getRedirectUrl = (provider) => {
+export const getRedirectUrl = (provider: string) => {
 	return `${environment.oauth.redirectBaseUrl}/oauth/${provider}`;
 };
 
-export const getAuthorizeUrl = (provider, userSlug, options) => {
+export const getAuthorizeUrl = (
+	provider: string,
+	userSlug: string,
+	options: { sync: Sync },
+) => {
 	return options.sync.getAssociateUrl(
 		provider,
 		environment.integration[provider],
@@ -22,38 +29,29 @@ export const getAuthorizeUrl = (provider, userSlug, options) => {
 };
 
 export const whoami = (
-	context,
-	worker,
-	session,
-	provider,
+	logContext: LogContext,
+	provider: string,
 	credentials,
-	options,
+	options: { sync: Sync },
 ) => {
-	return options.sync.whoami(
-		{
-			getElementBySlug: (slug) => {
-				return worker.jellyfish.getCardBySlug(context, session, slug);
-			},
-		},
-		provider,
-		credentials,
-	);
+	return options.sync.whoami(logContext, provider, credentials);
 };
 
 export const match = (
-	context,
-	worker,
-	session,
-	provider,
+	logContext: LogContext,
+	worker: Worker,
+	session: string,
+	provider: string,
 	externalUser,
-	options,
+	options: { slug: string; sync: Sync },
 ) => {
 	return options.sync.match(
+		// TS-TODO: this is not a proper `SyncActionContext`
 		{
 			getElementBySlug: (slug) => {
-				return worker.jellyfish.getCardBySlug(context, session, slug);
+				return worker.kernel.getCardBySlug(logContext, session, slug);
 			},
-		},
+		} as any,
 		provider,
 		externalUser,
 		_.omit(options, ['sync']),
@@ -61,20 +59,20 @@ export const match = (
 };
 
 export const sync = async (
-	context,
-	worker,
-	queue,
-	session,
-	provider,
+	logContext: LogContext,
+	worker: Worker,
+	queue: Producer,
+	session: string,
+	provider: string,
 	externalUser,
-	options,
+	options: { sync: Sync },
 ) => {
-	const event = await worker.jellyfish.insertCard(context, session, {
+	const event = await worker.kernel.insertContract(logContext, session, {
 		type: 'external-event@1.0.0',
 		slug: `external-event-${uuid()}`,
 		version: '1.0.0',
 		data: await options.sync.getExternalUserSyncEventData(
-			{},
+			logContext,
 			provider,
 			externalUser,
 		),
@@ -82,7 +80,7 @@ export const sync = async (
 
 	const data = await worker.pre(session, {
 		action: 'action-integration-import-event@1.0.0',
-		context,
+		logContext,
 		card: event.id,
 		type: event.type,
 		arguments: {},
@@ -90,7 +88,7 @@ export const sync = async (
 
 	const actionRequest = await queue.enqueue(worker.getId(), session, data);
 
-	const results = await queue.waitResults(context, actionRequest);
+	const results = await queue.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);
@@ -98,29 +96,29 @@ export const sync = async (
 };
 
 export const authorize = async (
-	context,
-	worker,
-	queue,
-	session,
-	provider,
+	logContext: LogContext,
+	worker: Worker,
+	producer: Producer,
+	session: string,
+	provider: string,
 	options,
 ) => {
-	logger.info(context, 'OAuth authorization', {
+	logger.info(logContext, 'OAuth authorization', {
 		ip: options.ip,
 		provider,
 		code: options.code,
 	});
 
-	const sessionCard = await worker.jellyfish.getCardById(
-		context,
+	const sessionContract = await worker.kernel.getContractById<SessionContract>(
+		logContext,
 		session,
 		session,
 	);
 
 	const data = await worker.pre(session, {
 		action: 'action-oauth-authorize@1.0.0',
-		context,
-		card: sessionCard.data.actor,
+		logContext,
+		card: sessionContract!.data.actor,
 		type: 'user@1.0.0',
 		arguments: {
 			provider,
@@ -129,9 +127,9 @@ export const authorize = async (
 		},
 	});
 
-	const actionRequest = await queue.enqueue(worker.getId(), session, data);
+	const actionRequest = await producer.enqueue(worker.getId(), session, data);
 
-	const results = await queue.waitResults(context, actionRequest);
+	const results = await producer.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);
@@ -141,16 +139,16 @@ export const authorize = async (
 };
 
 export const associate = async (
-	context,
-	worker,
-	queue,
-	session,
-	provider,
+	logContext: LogContext,
+	worker: Worker,
+	producer: Producer,
+	session: string,
+	provider: string,
 	user,
 	credentials,
 	options,
 ) => {
-	logger.info(context, 'OAuth association', {
+	logger.info(logContext, 'OAuth association', {
 		ip: options.ip,
 		provider,
 		user: user.id,
@@ -158,7 +156,7 @@ export const associate = async (
 
 	const data = await worker.pre(session, {
 		action: 'action-oauth-associate@1.0.0',
-		context,
+		logContext,
 		card: user.id,
 		type: 'user',
 		arguments: {
@@ -167,9 +165,9 @@ export const associate = async (
 		},
 	});
 
-	const actionRequest = await queue.enqueue(worker.getId(), session, data);
+	const actionRequest = await producer.enqueue(worker.getId(), session, data);
 
-	const results = await queue.waitResults(context, actionRequest);
+	const results = await producer.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);

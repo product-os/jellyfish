@@ -1,7 +1,5 @@
 import { commaListsAnd } from 'common-tags';
-import uniq from 'lodash/uniq';
-import flatMap from 'lodash/flatMap';
-import partition from 'lodash/partition';
+import { flatMap, partition, uniq } from 'lodash';
 import React from 'react';
 import { Txt } from 'rendition';
 

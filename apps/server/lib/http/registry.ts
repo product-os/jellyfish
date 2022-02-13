@@ -4,6 +4,8 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { getLogger } from '@balena/jellyfish-logger';
+import type { Kernel } from '@balena/jellyfish-core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);
 
@@ -39,7 +41,7 @@ const parseScope = (_req, sc) => {
 // token, and the name of the blob being operated on must correspond to
 // a contract in Jellyfish that the API token can read.
 // TODO: Deduplicate this code with https://github.com/balena-io/open-balena-api/blob/master/src/features/registry/registry.ts
-export const authenticate = async (request, response, jellyfish) => {
+export const authenticate = async (request, response, kernel: Kernel) => {
 	// Respond with 'service unavailable' if we are not configured to provide
 	// registry token auth
 	if (
@@ -91,7 +93,7 @@ export const authenticate = async (request, response, jellyfish) => {
 
 		// Retrieve actor card to verify the session
 		// TODO figure out why we need the version on the slug here
-		const actor = await jellyfish.getCardBySlug(
+		const actor = await kernel.getCardBySlug(
 			request.context,
 			session,
 			`${actorSlug}@latest`,
@@ -101,12 +103,12 @@ export const authenticate = async (request, response, jellyfish) => {
 		}
 
 		// Retrieve session card
-		const sessionCard = await jellyfish.getCardById(
+		const sessionCard = await kernel.getContractById(
 			request.context,
 			session,
 			session,
 		);
-		if (!session || sessionCard.data.actor !== actor.id) {
+		if (!session || sessionCard!.data.actor !== actor.id) {
 			throw new Error('Invalid session');
 		}
 	} catch (error) {
@@ -147,15 +149,15 @@ export const authenticate = async (request, response, jellyfish) => {
 		nbf: Math.floor(Date.now() / 1000) - 10,
 		access: _.compact(
 			await Bluebird.map(parsedScopes, async ([type, name, actions]) => {
-				let contract = null;
+				let contract: Contract | null = null;
 
 				try {
 					// Name will refer to the slug of the contract representing this entity.
 					// The registry doesn't allow scopes per version - we assume that all versions
 					// have the same permissions set
-					contract = await jellyfish.getCardBySlug(
+					contract = await kernel.getContractBySlug(
 						request.context,
-						session,
+						session!,
 						`${name}@latest`,
 					);
 				} catch (error) {

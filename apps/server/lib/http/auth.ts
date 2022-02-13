@@ -1,38 +1,43 @@
-import {
-	Context,
-	JellyfishKernel,
-	SessionContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Kernel } from '@balena/jellyfish-core';
+import type { LogContext } from '@balena/jellyfish-logger';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 
 const isValidToken = async (
-	context: Context,
-	jellyfish: JellyfishKernel,
+	logContext: LogContext,
+	kernel: Kernel,
 	session: string,
 	sessionToken: string = '',
 ): Promise<boolean> => {
 	try {
-		const card = await jellyfish.getCardById<SessionContract>(
-			context,
-			jellyfish.sessions!.admin,
+		const card = await kernel.getContractById<SessionContract>(
+			logContext,
+			kernel.adminSession()!,
 			session,
 		);
-		return bcrypt.compare(sessionToken, card!.data.token!.authentication);
+		if (!card || !card.data.token?.authentication) {
+			throw new Error('Session not found');
+		}
+		const pass = await bcrypt.compare(
+			sessionToken,
+			card.data.token.authentication,
+		);
+		return !!pass;
 	} catch (e) {
 		return false;
 	}
 };
 
 const isValidSession = async (
-	context: Context,
-	jellyfish: JellyfishKernel,
+	logContext: LogContext,
+	kernel: Kernel,
 	session: string,
 ): Promise<boolean> => {
 	try {
-		const card = await jellyfish.getCardById<SessionContract>(
-			context,
-			jellyfish.sessions!.admin,
+		const card = await kernel.getContractById<SessionContract>(
+			logContext,
+			kernel.adminSession()!,
 			session,
 		);
 		if (!card) {
@@ -45,7 +50,7 @@ const isValidSession = async (
 };
 
 export const authMiddleware =
-	(jellyfish: JellyfishKernel, options: { guestSession: string }) =>
+	(kernel: Kernel, options: { guestSession: string }) =>
 	async (request, _response, next) => {
 		request.session = options.guestSession;
 
@@ -64,7 +69,7 @@ export const authMiddleware =
 		if (credentials.length === 2) {
 			const sessionIsValid = await isValidToken(
 				request.context,
-				jellyfish,
+				kernel,
 				credentials[0],
 				credentials[1],
 			);
@@ -74,7 +79,7 @@ export const authMiddleware =
 		} else if (credentials.length === 1) {
 			const sessionIsValid = await isValidSession(
 				request.context,
-				jellyfish,
+				kernel,
 				credentials[0],
 			);
 			if (sessionIsValid) {

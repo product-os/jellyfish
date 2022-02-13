@@ -14,9 +14,7 @@ import {
 	withDefaultGetActorHref,
 } from '@balena/jellyfish-ui-components';
 import { Box, Txt, Img, Flex } from 'rendition';
-import sub from 'date-fns/sub';
-import isSameDay from 'date-fns/isSameDay';
-import isSameWeek from 'date-fns/isSameWeek';
+import { isSameDay, isSameWeek, sub } from 'date-fns';
 import { selectors, sdk } from '../../../core';
 
 const StyledFlex = styled(Flex)(() => {

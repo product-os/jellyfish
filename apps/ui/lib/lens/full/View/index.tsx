@@ -2,7 +2,7 @@ import clone from 'deep-copy';
 import { circularDeepEqual, deepEqual } from 'fast-equals';
 import skhema from 'skhema';
 import update from 'immutability-helper';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
@@ -16,9 +16,10 @@ import {
 	withResponsiveContext,
 } from '@balena/jellyfish-ui-components';
 import jsf from 'json-schema-faker';
-import { JSONSchema, core } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { ViewContract } from '@balena/jellyfish-types/build/core';
 import { actionCreators, analytics, selectors, sdk } from '../../../core';
-import {
+import type {
 	BoundActionCreators,
 	ChannelContract,
 	LensContract,
@@ -182,13 +183,16 @@ const createSyntheticViewCard = (view, filters) => {
 			filter.$id !== EVENTS_FULL_TEXT_SEARCH_TITLE &&
 			filter.anyOf
 		) {
-			filter.anyOf = filter.anyOf.map((subSchema: JSONSchema) => {
-				const isLinkFilter = _.has(subSchema, 'properties.$$links');
+			filter.anyOf = filter.anyOf.map((subSchema: JsonSchema) => {
 				// Only $$links filters need unflattening and re-structuring slightly
-				if (isLinkFilter) {
+				if (
+					typeof subSchema !== 'boolean' &&
+					subSchema.properties &&
+					subSchema.properties.$$links
+				) {
 					return {
 						$$links: unpackLinksSchema(
-							subSchema.properties!.$$links as JSONSchema,
+							subSchema.properties!.$$links as JsonSchema,
 						),
 					};
 				}
@@ -331,7 +335,27 @@ interface ViewRendererProps {
 	>;
 }
 
-export class ViewRenderer extends React.Component<ViewRendererProps, any> {
+interface State {
+	redirectTo: null | string;
+	searchTerm?: string;
+	eventSearchFilter?: any;
+	searchFilter?: any;
+	filters: any[];
+	ready: boolean;
+	tailTypes: null | TypeContract[];
+	activeLens: any;
+	activeSlice: any;
+	sliceOptions?: any;
+	options: {
+		page: number;
+		totalPages: number;
+		limit: number;
+		sortBy: string[];
+		sortDir: 'asc' | 'desc';
+	};
+}
+
+export class ViewRenderer extends React.Component<ViewRendererProps, State> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
@@ -791,7 +815,7 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 
 	createView(view) {
 		const { user, channel } = this.props;
-		const newView = clone<core.ViewContract>(channel.data.head!);
+		const newView = clone<ViewContract>(channel.data.head!);
 		newView.name = view.name;
 		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
 			view.name,
@@ -904,18 +928,18 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 					}}
 					lens={lens}
 					filters={filters}
-					tailTypes={tailTypes}
+					tailTypes={tailTypes || []}
 					allTypes={types}
 					updateFilters={this.updateFilters}
 					saveView={this.saveView}
 					channel={channel}
 					searchFilter={searchFilter}
-					searchTerm={searchTerm}
+					searchTerm={searchTerm || ''}
 					updateSearch={(event) => {
 						this.updateSearch(event.target.value);
 					}}
 					updateFiltersFromSummary={this.updateFiltersFromSummary}
-					pageOptions={options}
+					pageOptions={{ sortBy: options.sortBy, sortDir: options.sortDir }}
 					onSortOptionsChange={this.handleSortOptionsChange}
 					tail={tail}
 				/>
@@ -926,7 +950,7 @@ export class ViewRenderer extends React.Component<ViewRendererProps, any> {
 						tail={tail}
 						channel={channel}
 						getQueryOptions={this.getQueryOptions}
-						tailTypes={tailTypes}
+						tailTypes={tailTypes || []}
 						setPage={this.setPage}
 						pageOptions={options}
 					/>

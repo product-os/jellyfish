@@ -1,12 +1,11 @@
 import Bluebird from 'bluebird';
 import { circularDeepEqual, deepEqual } from 'fast-equals';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import * as React from 'react';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
 import styled from 'styled-components';
-import addBusinessDays from 'date-fns/addBusinessDays';
-import isAfter from 'date-fns/isAfter';
+import { addBusinessDays, isAfter } from 'date-fns';
 import { Box, Tab, Tabs } from 'rendition';
 import {
 	CardChatSummary,

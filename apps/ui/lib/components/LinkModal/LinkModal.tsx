@@ -3,8 +3,8 @@ import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
 import { Modal, Select, Txt, Box } from 'rendition';
-import { notifications, Icon, helpers } from '@balena/jellyfish-ui-components';
-import {
+import { notifications, Icon } from '@balena/jellyfish-ui-components';
+import type {
 	Contract,
 	ContractSummary,
 	TypeContract,
@@ -50,8 +50,9 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	targetTypes,
 	linkVerb,
 }) => {
-	const [selectedTarget, setSelectedTarget] =
-		React.useState<Contract | undefined>(target);
+	const [selectedTarget, setSelectedTarget] = React.useState<
+		Contract | undefined
+	>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
 	const [linkType, setLinkType] = React.useState<linkUtils.LinkType>();
@@ -124,14 +125,18 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	const title = React.useMemo(() => {
 		const typeName = fromTypeContract ? fromTypeContract.name : fromType;
 
-		const titleSource = `${pluralize('this', cards.length)} ${pluralize(
-			typeName,
-			cards.length,
-			cards.length > 1,
-		)}`;
-		const titleTarget =
-			validTypes.length === 1 ? validTypes[0].name : 'another element';
-		return `Link ${titleSource} to ${titleTarget}`;
+		if (typeName) {
+			const titleSource = `${pluralize('this', cards.length)} ${pluralize(
+				typeName,
+				cards.length,
+				cards.length > 1,
+			)}`;
+			const titleTarget =
+				validTypes.length === 1 ? validTypes[0].name : 'another element';
+			return `Link ${titleSource} to ${titleTarget}`;
+		} else {
+			return 'Link contract';
+		}
 	}, [linkVerb, fromTypeContract, validTypes, cards, linkTypeTargets]);
 
 	return (

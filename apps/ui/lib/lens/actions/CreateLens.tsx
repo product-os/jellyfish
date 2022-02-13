@@ -1,6 +1,6 @@
 import clone from 'deep-copy';
 import memoize from 'memoize-one';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import Bluebird from 'bluebird';
 import React from 'react';
 import update from 'immutability-helper';

@@ -2,15 +2,15 @@ import _ from 'lodash';
 import jsone from 'json-e';
 import skhema from 'skhema';
 import * as assert from '@balena/jellyfish-assert';
-import type { core } from '@balena/jellyfish-types';
 import type { QueryFacade } from './query';
+import type { Kernel } from '@balena/jellyfish-core';
 
 export class ViewFacade {
-	jellyfish: core.JellyfishKernel;
+	kernel: Kernel;
 	queryFacade: QueryFacade;
 
-	constructor(jellyfish?, queryFacade?) {
-		this.jellyfish = jellyfish;
+	constructor(kernel: Kernel, queryFacade?) {
+		this.kernel = kernel;
 		this.queryFacade = queryFacade;
 	}
 
@@ -19,8 +19,8 @@ export class ViewFacade {
 			throw new Error('View slug must include a version');
 		}
 
-		return this.jellyfish
-			.getCardBySlug(context, session, viewSlug)
+		return this.kernel
+			.getContractBySlug(context, session, viewSlug)
 			.then((view) => {
 				if (!view) {
 					return null;

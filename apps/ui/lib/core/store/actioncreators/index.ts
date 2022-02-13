@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
-import * as Bluebird from 'bluebird';
+import Bluebird from 'bluebird';
 import immutableUpdate from 'immutability-helper';
 import path from 'path';
 import { push } from 'connected-react-router';
@@ -9,7 +9,7 @@ import * as fastEquals from 'fast-equals';
 import merge from 'deepmerge';
 import { once } from 'events';
 import * as jsonpatch from 'fast-json-patch';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
 import { notifications, helpers } from '@balena/jellyfish-ui-components';
@@ -18,8 +18,13 @@ import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
-import { JSONSchema, core } from '@balena/jellyfish-types';
-import { Contract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	LoopContract,
+	UserContract,
+	ViewContract,
+} from '@balena/jellyfish-types/build/core';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -55,7 +60,7 @@ const allGroupsWithUsersQuery = {
 	},
 };
 
-const buildGlobalQueryMask = (loop: string | null): JSONSchema | null => {
+const buildGlobalQueryMask = (loop: string | null): JsonSchema | null => {
 	if (!loop) {
 		return null;
 	}
@@ -195,7 +200,7 @@ export const selectors = {
 	getTypes: (state) => {
 		return state.core.types;
 	},
-	getLoops: (state): core.LoopContract[] => {
+	getLoops: (state): LoopContract[] => {
 		return state.core.loops;
 	},
 	getGroups: (state) => {
@@ -382,8 +387,8 @@ export interface SeedData {
 }
 
 export const getSeedData = (
-	viewCard: core.ViewContract,
-	user: core.UserContract,
+	viewCard: ViewContract,
+	user: UserContract,
 ): SeedData => {
 	if (
 		!viewCard ||
@@ -435,7 +440,7 @@ export const actionCreators = {
 	},
 
 	setStatus(status) {
-		return (dispatch, getState, { sdk }) => {
+		return (dispatch, _getState, { sdk }) => {
 			// If the status is now 'unauthorized' just run the logout routine
 			if (status === 'unauthorized') {
 				sdk.auth.logout();
@@ -1189,7 +1194,7 @@ export const actionCreators = {
 		};
 	},
 
-	setLoops(loops: core.LoopContract[]) {
+	setLoops(loops: LoopContract[]) {
 		return {
 			type: actions.SET_LOOPS,
 			value: loops,

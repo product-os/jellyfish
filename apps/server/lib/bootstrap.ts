@@ -1,24 +1,25 @@
 import _ from 'lodash';
 import * as core from '@balena/jellyfish-core';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
-import { Worker } from '@balena/jellyfish-worker';
-import { Sync } from '@balena/jellyfish-sync';
+import {
+	Sync,
+	Transformer,
+	TriggeredActionContract,
+	Worker,
+	errors as workerErrors,
+} from '@balena/jellyfish-worker';
 import * as assert from '@balena/jellyfish-assert';
 import * as metrics from '@balena/jellyfish-metrics';
 import { loadCards } from './card-loader';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger } from '@balena/jellyfish-logger';
-import type { core as coreType, JSONSchema } from '@balena/jellyfish-types';
-import { TriggeredActionContract } from '@balena/jellyfish-types/build/worker';
-import {
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type {
 	SessionContract,
-	SessionData,
-	StreamChange,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
-import { Transformer } from '@balena/jellyfish-worker/build/transformers';
 
 const logger = getLogger(__filename);
 
@@ -29,7 +30,7 @@ interface SessionContractWithActor extends SessionContract {
 	};
 }
 
-const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRIGGERS: JsonSchema = {
 	type: 'object',
 	properties: {
 		id: {
@@ -54,7 +55,7 @@ const SCHEMA_ACTIVE_TRIGGERS: JSONSchema = {
 	required: ['id', 'slug', 'active', 'type', 'data'],
 };
 
-const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
+const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type', 'data', 'version'],
 	properties: {
@@ -86,7 +87,7 @@ const SCHEMA_ACTIVE_TRANSFORMERS: JSONSchema = {
 	},
 };
 
-const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
+const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
 	type: 'object',
 	required: ['active', 'type'],
 	properties: {
@@ -100,14 +101,14 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JSONSchema = {
 };
 
 const getActorKey = async (
-	context: coreType.Context,
-	jellyfish: coreType.JellyfishKernel,
+	logContext: LogContext,
+	kernel: core.Kernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
 	const keySlug = `session-action-${actorId}`;
-	const key = await jellyfish.getCardBySlug<SessionContract>(
-		context,
+	const key = await kernel.getCardBySlug<SessionContract>(
+		logContext,
 		session,
 		`${keySlug}@1.0.0`,
 	);
@@ -116,15 +117,15 @@ const getActorKey = async (
 		return key;
 	}
 
-	logger.info(context, 'Create worker key', {
+	logger.info(logContext, 'Create worker key', {
 		slug: keySlug,
 		actor: actorId,
 	});
 
-	return jellyfish.replaceCard<SessionData>(
-		context,
+	return kernel.replaceContract(
+		logContext,
 		session,
-		jellyfish.defaults<SessionContract>({
+		core.Kernel.defaults({
 			slug: keySlug,
 			active: true,
 			version: '1.0.0',
@@ -136,28 +137,23 @@ const getActorKey = async (
 	);
 };
 
-export const bootstrap = async (context, options) => {
+export const bootstrap = async (logContext: LogContext, options) => {
 	// Load plugin data
-	const integrations = options.pluginManager.getSyncIntegrations(context);
-	const actionLibrary = options.pluginManager.getActions(context);
-	const cards = options.pluginManager.getCards(context, core.cardMixins);
+	const integrations = options.pluginManager.getSyncIntegrations(logContext);
+	const actionLibrary = options.pluginManager.getActions(logContext);
+	const cards = options.pluginManager.getCards(logContext, core.cardMixins);
 
-	// Set up a sync instance using integrations from plugins
-	context.sync = new Sync({
-		integrations,
-	});
-
-	logger.info(context, 'Configuring HTTP server');
-	const webServer = await createServer(context, {
+	logger.info(logContext, 'Configuring HTTP server');
+	const webServer = createServer(logContext, {
 		port: environment.http.port,
 	});
-	logger.info(context, 'Starting web server');
+	logger.info(logContext, 'Starting web server');
 	// Start the webserver so that liveness and readiness endpoints can begin
 	// serving traffic
 	await webServer.start();
 
-	logger.info(context, 'Setting up cache');
-	const cache = new core.MemoryCache(environment.redis);
+	logger.info(logContext, 'Setting up cache');
+	const cache = new core.Cache(environment.redis);
 	if (cache) {
 		await cache.connect();
 	}
@@ -167,51 +163,63 @@ export const bootstrap = async (context, options) => {
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
-	const jellyfish = (await core.create(context, cache, {
-		backend: backendOptions,
-	})) as any as coreType.JellyfishKernel;
+
+	const { kernel, pool } = await core.Kernel.withPostgres(
+		logContext,
+		cache,
+		backendOptions,
+	);
 
 	const metricsServer = metrics.startServer(
-		context,
+		logContext,
 		environment.metrics.ports.app,
 	);
 
 	// Create queue instances
-	const producer = new Producer(jellyfish, jellyfish.sessions.admin);
-	const consumer = new Consumer(jellyfish, jellyfish.sessions.admin);
-	await producer.initialize(context);
-	await consumer.initializeWithEventHandler(context, async (actionRequest) => {
-		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
-		try {
-			const key = await getActorKey(
-				context,
-				jellyfish,
-				jellyfish.sessions!.admin,
-				actionRequest.data.actor!,
-			);
-			const requestData = actionRequest.data;
-			requestData.context.worker = context.id;
-			await worker.execute(key.id, actionRequest);
-		} catch (error: any) {
-			errorHandler(error);
-		}
-	});
+	const producer = new Producer(kernel, pool, kernel.adminSession()!);
+	const consumer = new Consumer(kernel, pool, kernel.adminSession()!);
+	await producer.initialize(logContext);
+	await consumer.initializeWithEventHandler(
+		logContext,
+		async (actionRequest) => {
+			metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
+			try {
+				const key = await getActorKey(
+					logContext,
+					kernel,
+					kernel.adminSession()!,
+					actionRequest.data.actor!,
+				);
+				const requestData = actionRequest.data;
+				requestData.context.worker = logContext.id;
+				await worker.execute(key.id, actionRequest);
+			} catch (error: any) {
+				errorHandler(error);
+			}
+		},
+	);
 
 	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
-		jellyfish as any,
-		jellyfish.sessions!.admin,
+		kernel as any,
+		kernel.adminSession()!,
 		actionLibrary,
 		consumer,
 		producer,
 	);
-	await worker.initialize(context);
+
+	// Set up a sync instance using integrations from plugins
+	const sync = new Sync({
+		integrations,
+	});
+
+	await worker.initialize(logContext, sync);
 
 	// For better performance, commonly accessed contracts are stored in cache in the worker.
 	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
-	const workerContractsStream = await jellyfish.stream(
-		context,
-		jellyfish.sessions!.admin,
+	const workerContractsStream = await kernel.stream(
+		logContext,
+		kernel.adminSession()!,
 		{
 			anyOf: [
 				SCHEMA_ACTIVE_TRIGGERS,
@@ -224,14 +232,14 @@ export const bootstrap = async (context, options) => {
 	const closeWorker = async () => {
 		await consumer.cancel();
 		workerContractsStream.removeAllListeners();
-		await workerContractsStream.close();
-		await jellyfish.disconnect(context);
+		workerContractsStream.close();
+		await kernel.disconnect(logContext);
 		if (cache) {
 			await cache.disconnect();
 		}
 	};
 
-	const errorFunction = _.partial(options.onError, context);
+	const errorFunction = _.partial(options.onError, logContext);
 
 	// TODO: Should the worker crash if an exception is raised from executing a task or a stream error?
 	const errorHandler = (error: Error) => {
@@ -245,7 +253,7 @@ export const bootstrap = async (context, options) => {
 	workerContractsStream.once('error', errorHandler);
 
 	// On a stream event, update the stored contracts in the worker
-	workerContractsStream.on('data', (change: StreamChange) => {
+	workerContractsStream.on('data', (change: core.StreamChange) => {
 		const contract = change.after;
 		const contractType = change.contractType.split('@')[0];
 		if (
@@ -258,46 +266,46 @@ export const bootstrap = async (context, options) => {
 			if (!contract) {
 				switch (contractType) {
 					case 'triggered-action':
-						worker.removeTrigger(context, change.id);
+						worker.removeTrigger(logContext, change.id);
 						break;
 					case 'transformer':
-						worker.removeTransformer(context, change.id);
+						worker.removeTransformer(logContext, change.id);
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
 							return type.id !== change.id;
 						});
-						worker.setTypeContracts(context, filteredContracts);
+						worker.setTypeContracts(logContext, filteredContracts);
 				}
 			} else {
 				switch (contractType) {
 					case 'triggered-action':
-						worker.upsertTrigger(context, contract);
+						worker.upsertTrigger(logContext, contract);
 						break;
 					case 'transformer':
-						worker.upsertTransformer(context, contract as Transformer);
+						worker.upsertTransformer(logContext, contract as Transformer);
 						break;
 					case 'type':
 						const filteredContracts = _.filter(worker.typeContracts, (type) => {
 							return type.id !== change.id;
 						});
 						filteredContracts.push(contract as TypeContract);
-						worker.setTypeContracts(context, filteredContracts);
+						worker.setTypeContracts(logContext, filteredContracts);
 				}
 			}
 		} else if (change.type === 'delete') {
 			switch (contractType) {
 				case 'triggered-action':
-					worker.removeTrigger(context, change.id);
+					worker.removeTrigger(logContext, change.id);
 					break;
 				case 'transformer':
-					worker.removeTransformer(context, change.id);
+					worker.removeTransformer(logContext, change.id);
 					break;
 				case 'type':
 					const filteredContracts = _.filter(worker.typeContracts, (type) => {
 						return type.id !== change.id;
 					});
-					worker.setTypeContracts(context, filteredContracts);
+					worker.setTypeContracts(logContext, filteredContracts);
 			}
 		}
 	});
@@ -307,92 +315,83 @@ export const bootstrap = async (context, options) => {
 			SCHEMA_ACTIVE_TRIGGERS,
 			SCHEMA_ACTIVE_TRANSFORMERS,
 			SCHEMA_ACTIVE_TYPE_CONTRACTS,
-		].map((schema) =>
-			jellyfish.query(context, jellyfish.sessions!.admin, schema),
-		),
+		].map((schema) => kernel.query(logContext, kernel.adminSession()!, schema)),
 	);
 
-	logger.info(context, 'Loading triggers', {
+	logger.info(logContext, 'Loading triggers', {
 		triggers: triggers.length,
 	});
-	worker.setTriggers(context, triggers as TriggeredActionContract[]);
+	worker.setTriggers(logContext, triggers as TriggeredActionContract[]);
 
-	logger.info(context, 'Loading transformers', {
+	logger.info(logContext, 'Loading transformers', {
 		transformers: transformers.length,
 	});
-	worker.setTransformers(context, transformers as Transformer[]);
+	worker.setTransformers(logContext, transformers as Transformer[]);
 
-	logger.info(context, 'Loading types', {
+	logger.info(logContext, 'Loading types', {
 		transformers: transformers.length,
 	});
-	worker.setTypeContracts(context, typeContracts as TypeContract[]);
+	worker.setTypeContracts(logContext, typeContracts as TypeContract[]);
 
 	const results = await loadCards(
-		context,
-		jellyfish,
+		logContext,
+		kernel,
 		worker,
-		jellyfish.sessions!.admin,
+		kernel.adminSession()!,
 		cards,
 	);
 
-	logger.info(context, 'Inserting test user', {
+	logger.info(logContext, 'Inserting test user', {
 		username: environment.test.user.username,
 		role: environment.test.user.role,
 	});
 
 	assert.INTERNAL(
-		context,
+		logContext,
 		environment.test.user.username,
-		jellyfish.errors.JellyfishInvalidEnvironmentVariable as any,
+		core.errors.JellyfishInvalidEnvironmentVariable as any,
 		`No test username: ${environment.test.user.username}`,
 	);
 
 	assert.INTERNAL(
-		context,
+		logContext,
 		environment.test.user.role,
-		jellyfish.errors.JellyfishInvalidEnvironmentVariable as any,
+		core.errors.JellyfishInvalidEnvironmentVariable as any,
 		`No test role: ${environment.test.user.role}`,
 	);
 
-	const userCard = await jellyfish.replaceCard(
-		context,
-		jellyfish.sessions!.admin,
+	const userCard = await kernel.replaceCard(
+		logContext,
+		kernel.adminSession()!,
 		{
 			slug: `user-${environment.test.user.username}`,
 			type: 'user@1.0.0',
-			version: '1.0.0',
-			requires: [],
-			capabilities: [],
 			name: 'Test User',
-			markers: [],
-			tags: [],
-			links: {},
-			active: true,
 			data: {
 				email: 'test@jel.ly.fish',
 				hash: 'PASSWORDLESS',
 				roles: [environment.test.user.role],
 			},
-		} as any,
+		},
 	);
 
 	// Need test user during development and CI.
 	if (!environment.isProduction() || environment.isCI()) {
-		logger.info(context, 'Setting test user password', {
+		logger.info(logContext, 'Setting test user password', {
 			username: environment.test.user.username,
 			role: environment.test.user.role,
 		});
 
 		assert.INTERNAL(
-			context,
+			logContext,
 			userCard,
-			jellyfish.errors.JellyfishNoElement as any,
+			core.errors.JellyfishNoElement as any,
 			`Test user does not exist: ${environment.test.user.username}`,
 		);
 
-		const requestOptions = await worker.pre(jellyfish.sessions!.admin, {
+		const requestOptions = await worker.pre(kernel.adminSession()!, {
 			action: 'action-set-password@1.0.0',
-			context,
+			logContext,
 			card: userCard.id,
 			type: userCard.type,
 			arguments: {
@@ -403,31 +402,31 @@ export const bootstrap = async (context, options) => {
 
 		const request = await producer.storeRequest(
 			worker.getId(),
-			jellyfish.sessions!.admin,
+			kernel.adminSession()!,
 			requestOptions,
 		);
-		const result = await worker.execute(jellyfish.sessions!.admin, request);
+		const result = await worker.execute(kernel.adminSession()!, request);
 		assert.INTERNAL(
-			context,
+			logContext,
 			!result.error,
-			worker.errors.WorkerAuthenticationError,
+			workerErrors.WorkerAuthenticationError,
 			`Could not set test password for ${environment.test.user.username}`,
 		);
 
-		const orgCard = await jellyfish.getCardBySlug(
-			context,
-			jellyfish.sessions!.admin,
+		const orgCard = await kernel.getCardBySlug(
+			logContext,
+			kernel.adminSession()!,
 			`org-${environment.test.user.organization}@latest`,
 		);
 
 		assert.INTERNAL(
-			context,
+			logContext,
 			orgCard,
-			jellyfish.errors.JellyfishNoElement as any,
+			core.errors.JellyfishNoElement as any,
 			`Test org does not exist: ${environment.test.user.organization}`,
 		);
 
-		await jellyfish.replaceCard(context, jellyfish.sessions!.admin, {
+		await kernel.replaceCard(logContext, kernel.adminSession()!, {
 			type: 'link@1.0.0',
 			name: 'has member',
 			slug: `link-${orgCard!.id}-has-member-${userCard.id}`,
@@ -445,13 +444,14 @@ export const bootstrap = async (context, options) => {
 		});
 	}
 
-	logger.info(context, 'Configuring socket server');
-	const socketServer = attachSocket(jellyfish, webServer.server);
+	logger.info(logContext, 'Configuring socket server');
+	const socketServer = attachSocket(kernel, webServer.server);
 
 	// Finish setting up routes and middlewares now that we are ready to serve
 	// http traffic
-	await webServer.ready(jellyfish, worker, producer, {
+	webServer.ready(kernel, worker, producer, {
 		guestSession: results.guestSession.id,
+		sync,
 	});
 
 	// Manually bootstrap channels
@@ -464,7 +464,7 @@ export const bootstrap = async (context, options) => {
 	});
 
 	logger.info(
-		context,
+		logContext,
 		`Bootstrapping ${channels.length} channel${
 			channels.length === 1 ? '' : 's'
 		}`,
@@ -472,14 +472,14 @@ export const bootstrap = async (context, options) => {
 
 	await Promise.all(
 		channels.map(async (channel) => {
-			const channelCard = await jellyfish.getCardBySlug(
-				context,
-				jellyfish.sessions!.admin,
+			const channelCard = await kernel.getCardBySlug(
+				logContext,
+				kernel.adminSession()!,
 				`${channel.slug}@${channel.version}`,
 			);
-			return producer.enqueue(worker.getId(), jellyfish.sessions!.admin, {
+			return producer.enqueue(worker.getId(), kernel.adminSession()!, {
 				action: 'action-bootstrap-channel@1.0.0',
-				context,
+				logContext,
 				card: channelCard!.id,
 				type: channelCard!.type,
 				arguments: {},
@@ -489,7 +489,7 @@ export const bootstrap = async (context, options) => {
 
 	return {
 		worker,
-		jellyfish,
+		kernel,
 		producer,
 		guestSession: results.guestSession.id,
 		port: webServer.port,
@@ -498,7 +498,7 @@ export const bootstrap = async (context, options) => {
 			metricsServer.close();
 			await webServer.stop();
 			await closeWorker();
-			await jellyfish.disconnect(context);
+			await kernel.disconnect(logContext);
 			if (cache) {
 				await cache.disconnect();
 			}

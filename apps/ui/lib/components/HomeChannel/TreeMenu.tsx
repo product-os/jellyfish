@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex } from 'rendition';

@@ -62,7 +62,7 @@ describe('UserStatusMenuItem', () => {
 		);
 
 		const btn = component.find('[data-test="button-dnd"]');
-		expect(btn.props().tooltip.text).toBe('Turn off Do Not Disturb');
+		expect((btn.props() as any).tooltip.text).toBe('Turn off Do Not Disturb');
 
 		const icon = component.find(Icon);
 		expect(icon.props().name).toBe('check');
@@ -81,7 +81,7 @@ describe('UserStatusMenuItem', () => {
 		);
 
 		const btn = component.find('[data-test="button-dnd"]');
-		expect(btn.props().tooltip.text).toBe('Turn off notifications');
+		expect((btn.props() as any).tooltip.text).toBe('Turn off notifications');
 
 		const icon = component.find('Icon');
 		expect(icon.length).toBe(0);

@@ -1,4 +1,4 @@
-import type { JSONSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import skhema from 'skhema';
 import _ from 'lodash';
 import { FilterFieldOption } from 'rendition/dist/components/Filters/FilterModal';
@@ -56,9 +56,9 @@ export const getLinkedContractDataFilterKey = (
 };
 
 export const unpackLinksSchema = (
-	pseudoLinksSchema: JSONSchema,
+	pseudoLinksSchema: JsonSchema,
 ): {
-	[key: string]: JSONSchema;
+	[key: string]: JsonSchema;
 } => {
 	// The link verb is presented as a property on the schema
 	const linkVerb = _.get(pseudoLinksSchema, ['required', 0]);
@@ -71,7 +71,7 @@ export const unpackLinksSchema = (
 		0,
 	]).split(',');
 	// If there were multiple types specified, use an enum query matcher; otherwise const.
-	const typeMatcher: JSONSchema =
+	const typeMatcher: JsonSchema =
 		toTypes.length > 1
 			? {
 					type: 'string',
@@ -81,7 +81,7 @@ export const unpackLinksSchema = (
 					type: 'string',
 					const: toTypes[0],
 			  };
-	const typeSchema: JSONSchema = {
+	const typeSchema: JsonSchema = {
 		type: 'object',
 		required: ['type'],
 		properties: {
@@ -98,6 +98,6 @@ export const unpackLinksSchema = (
 	]);
 
 	return {
-		[linkVerb]: skhema.merge([linkedContractSchema, typeSchema]) as JSONSchema,
+		[linkVerb]: skhema.merge([linkedContractSchema, typeSchema]) as JsonSchema,
 	};
 };

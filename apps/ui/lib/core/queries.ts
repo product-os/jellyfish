@@ -1,6 +1,4 @@
-import mergeWith from 'lodash/mergeWith';
-import isArray from 'lodash/isArray';
-import uniq from 'lodash/uniq';
+import { isArray, mergeWith, uniq } from 'lodash';
 
 export const mergeWithUniqConcatArrays = (objValue, srcValue) => {
 	if (isArray(objValue)) {

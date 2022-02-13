@@ -1,34 +1,30 @@
-import { ActionLibrary } from '@balena/jellyfish-action-library';
 import { getLogger } from '@balena/jellyfish-logger';
-import { BalenaAPIPlugin } from '@balena/jellyfish-plugin-balena-api';
-import { PluginManager } from '@balena/jellyfish-plugin-base';
-import { ChannelsPlugin } from '@balena/jellyfish-plugin-channels';
-import { DefaultPlugin } from '@balena/jellyfish-plugin-default';
-import { DiscoursePlugin } from '@balena/jellyfish-plugin-discourse';
-import { FlowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
-import { FrontPlugin } from '@balena/jellyfish-plugin-front';
-import { GitHubPlugin } from '@balena/jellyfish-plugin-github';
-import { OutreachPlugin } from '@balena/jellyfish-plugin-outreach';
-import { ProductOsPlugin } from '@balena/jellyfish-plugin-product-os';
-import { TypeformPlugin } from '@balena/jellyfish-plugin-typeform';
+import { balenaApiPlugin } from '@balena/jellyfish-plugin-balena-api';
+import { channelsPlugin } from '@balena/jellyfish-plugin-channels';
+import { defaultPlugin } from '@balena/jellyfish-plugin-default';
+import { discoursePlugin } from '@balena/jellyfish-plugin-discourse';
+import { flowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
+import { frontPlugin } from '@balena/jellyfish-plugin-front';
+import { githubPlugin } from '@balena/jellyfish-plugin-github';
+import { outreachPlugin } from '@balena/jellyfish-plugin-outreach';
+import { PluginManager } from '@balena/jellyfish-worker';
+import { productOsPlugin } from '@balena/jellyfish-plugin-product-os';
+import { typeformPlugin } from '@balena/jellyfish-plugin-typeform';
 
 const logger = getLogger(__filename);
 
 export const getPluginManager = (context) => {
 	logger.info(context, 'Loading plugins');
-	return new PluginManager(context, {
-		plugins: [
-			ActionLibrary,
-			ProductOsPlugin,
-			DefaultPlugin,
-			ChannelsPlugin,
-			TypeformPlugin,
-			GitHubPlugin,
-			FlowdockPlugin,
-			DiscoursePlugin,
-			OutreachPlugin,
-			FrontPlugin,
-			BalenaAPIPlugin,
-		] as any[],
-	});
+	return new PluginManager([
+		productOsPlugin(),
+		defaultPlugin(),
+		channelsPlugin(),
+		typeformPlugin(),
+		githubPlugin(),
+		flowdockPlugin(),
+		discoursePlugin(),
+		outreachPlugin(),
+		frontPlugin(),
+		balenaApiPlugin(),
+	]);
 };

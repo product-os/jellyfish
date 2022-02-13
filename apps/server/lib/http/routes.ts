@@ -10,6 +10,10 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
+import type { Kernel } from '@balena/jellyfish-core';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
+import type { Producer } from '@balena/jellyfish-queue';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -65,15 +69,15 @@ const sendHTTPError = (request, response, error) => {
 
 export const attachRoutes = (
 	application,
-	jellyfish,
-	worker,
-	producer,
-	options,
+	kernel: Kernel,
+	worker: Worker,
+	producer: Producer,
+	options: { sync: Sync; guestSession: string },
 ) => {
-	const queryFacade = new facades.QueryFacade(jellyfish);
-	const authFacade = new facades.AuthFacade(jellyfish);
+	const queryFacade = new facades.QueryFacade(kernel);
+	const authFacade = new facades.AuthFacade(kernel);
 	const actionFacade = new facades.ActionFacade(worker, producer, fileStore);
-	const viewFacade = new facades.ViewFacade(jellyfish, queryFacade);
+	const viewFacade = new facades.ViewFacade(kernel, queryFacade);
 
 	application.get('/api/v2/config', (_request, response) => {
 		response.send({
@@ -97,7 +101,7 @@ export const attachRoutes = (
 
 	application.get('/status', (request, response) => {
 		return Bluebird.props({
-			kernel: jellyfish.getStatus(),
+			kernel: kernel.getStatus(),
 		})
 			.then((status) => {
 				return response.status(200).json(status);
@@ -120,8 +124,8 @@ export const attachRoutes = (
 		const PING_SLUG = 'ping-api';
 
 		const getTypeStartDate = new Date();
-		return jellyfish
-			.getCardBySlug(request.context, jellyfish.sessions.admin, PING_TYPE)
+		return kernel
+			.getContractBySlug(request.context, kernel.adminSession()!, PING_TYPE)
 			.then(async (typeCard) => {
 				const getTypeEndDate = new Date();
 				if (!typeCard) {
@@ -136,12 +140,12 @@ export const attachRoutes = (
 				const enqueueStartDate = new Date();
 				const actionRequest = await producer.enqueue(
 					worker.getId(),
-					jellyfish.sessions.admin,
+					kernel.adminSession()!,
 					{
 						action: 'action-ping@1.0.0',
 						card: typeCard.id,
 						type: typeCard.type,
-						context: request.context,
+						logContext: request.context,
 						arguments: {
 							slug: PING_SLUG,
 						},
@@ -172,7 +176,10 @@ export const attachRoutes = (
 
 				return response.status(200).json({
 					error: false,
-					data: _.omit(results.data, ['links']),
+					data:
+						typeof results.data === 'object'
+							? _.omit(results.data, ['links'])
+							: results.data,
 				});
 			})
 			.catch((error) => {
@@ -189,7 +196,7 @@ export const attachRoutes = (
 	});
 
 	application.get('/api/v2/registry', async (request, response) => {
-		return registry.authenticate(request, response, jellyfish);
+		return registry.authenticate(request, response, kernel);
 	});
 
 	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
@@ -235,8 +242,6 @@ export const attachRoutes = (
 			// 2. Fetch user data from provider
 			const externalUser = await oauth.whoami(
 				request.context,
-				worker,
-				jellyfish.sessions.admin,
 				request.params.provider,
 				credentials,
 				{
@@ -248,7 +253,7 @@ export const attachRoutes = (
 			let user = await oauth.match(
 				request.context,
 				worker,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				request.params.provider,
 				externalUser,
 				{
@@ -263,7 +268,7 @@ export const attachRoutes = (
 					request.context,
 					worker,
 					producer,
-					jellyfish.sessions.admin,
+					kernel.adminSession()!,
 					request.params.provider,
 					externalUser,
 					{
@@ -271,9 +276,9 @@ export const attachRoutes = (
 					},
 				);
 
-				user = await worker.jellyfish.getCardBySlug(
+				user = await worker.kernel.getContractBySlug(
 					request.context,
-					jellyfish.sessions.admin,
+					kernel.adminSession()!,
 					`${slug}@1.0.0`,
 				);
 
@@ -299,7 +304,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				producer,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				request.params.provider,
 				user,
 				credentials,
@@ -308,9 +313,9 @@ export const attachRoutes = (
 				},
 			);
 
-			const sessionTypeCard = await jellyfish.getCardBySlug(
+			const sessionTypeCard = await kernel.getContractBySlug(
 				request.context,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				'session@1.0.0',
 			);
 
@@ -322,12 +327,12 @@ export const attachRoutes = (
 
 			const actionRequest = await producer.enqueue(
 				worker.getId(),
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				{
 					action: 'action-create-card@1.0.0',
-					card: sessionTypeCard.id,
-					type: sessionTypeCard.type,
-					context: request.context,
+					card: sessionTypeCard!.id,
+					type: sessionTypeCard!.type,
+					logContext: request.context,
 					arguments: {
 						reason: null,
 						properties: {
@@ -348,6 +353,16 @@ export const attachRoutes = (
 
 			if (createSessionResult.error) {
 				throw errio.fromObject(createSessionResult.data);
+			}
+
+			// TODO: maybe `waitResults` should be generic?
+			if (
+				typeof createSessionResult.data !== 'object' ||
+				!('id' in createSessionResult.data!)
+			) {
+				throw new Error(
+					`Invalid create session result: ${typeof createSessionResult.data}`,
+				);
 			}
 
 			return response.status(200).json({
@@ -390,7 +405,7 @@ export const attachRoutes = (
 		return metrics
 			.measureHttpType(() => {
 				const [base, version] = request.params.type.split('@');
-				return jellyfish
+				return kernel
 					.query(request.context, request.session, {
 						type: 'object',
 						additionalProperties: true,
@@ -414,7 +429,7 @@ export const attachRoutes = (
 	application.get('/api/v2/id/:id', async (request, response) => {
 		return metrics
 			.measureHttpId(() => {
-				return jellyfish
+				return kernel
 					.getCardById(request.context, request.session, request.params.id)
 					.then((card) => {
 						if (card) {
@@ -432,14 +447,11 @@ export const attachRoutes = (
 	application.get('/api/v2/slug/:slug', async (request, response) => {
 		return metrics
 			.measureHttpSlug(() => {
-				return jellyfish
-					.getCardBySlug(
+				return kernel
+					.getContractBySlug(
 						request.context,
 						request.session,
 						`${request.params.slug}@latest`,
-						{
-							type: request.params.type,
-						},
 					)
 					.then((card) => {
 						if (card) {
@@ -479,13 +491,13 @@ export const attachRoutes = (
 		return Bluebird.try(async () => {
 			if (
 				!(await options.sync.isValidEvent(
+					request.context,
 					request.params.provider,
 					integrationToken,
 					{
 						raw: request.rawBody || request.body,
 						headers: request.headers,
 					},
-					request.context,
 				))
 			) {
 				logger.warn(request.context, 'Webhook rejected', {
@@ -517,10 +529,10 @@ export const attachRoutes = (
 
 			const EXTERNAL_EVENT_BASE_TYPE = 'external-event';
 			const EXTERNAL_EVENT_TYPE = `${EXTERNAL_EVENT_BASE_TYPE}@1.0.0`;
-			return jellyfish
-				.getCardBySlug(
+			return kernel
+				.getContractBySlug(
 					request.context,
-					jellyfish.sessions.admin,
+					kernel.adminSession()!,
 					EXTERNAL_EVENT_TYPE,
 				)
 				.then((typeCard) => {
@@ -538,11 +550,11 @@ export const attachRoutes = (
 						});
 
 						return resolve(
-							producer.enqueue(worker.getId(), jellyfish.sessions.admin, {
+							producer.enqueue(worker.getId(), kernel.adminSession()!, {
 								action: 'action-create-card@1.0.0',
 								card: typeCard.id,
 								type: typeCard.type,
-								context: request.context,
+								logContext: request.context,
 								arguments: {
 									reason: null,
 									properties: {
@@ -588,7 +600,7 @@ export const attachRoutes = (
 	application.get(
 		'/api/v2/file/:cardId/:fileName',
 		async (request, response) => {
-			const card = await jellyfish.getCardById(
+			const card = await kernel.getCardById(
 				request.context,
 				request.session,
 				request.params.cardId,
@@ -597,7 +609,7 @@ export const attachRoutes = (
 				return response.send(404);
 			}
 
-			const sessionCard = await jellyfish.getCardById(
+			const sessionCard = await kernel.getCardById<SessionContract>(
 				request.context,
 				request.session,
 				request.session,
@@ -619,6 +631,7 @@ export const attachRoutes = (
 						'front',
 						environment.integration.front,
 						request.params.fileName,
+						// TS-TODO: this is an incomplete type
 						{
 							log: {
 								warn: (message, data) => {
@@ -628,7 +641,7 @@ export const attachRoutes = (
 									logger.info(request.context, message, data);
 								},
 							},
-						},
+						} as any,
 						{
 							actor: sessionCard.data.actor,
 						},
@@ -829,7 +842,7 @@ export const attachRoutes = (
 		};
 
 		return actionFacade
-			.processAction(request.context, jellyfish.sessions.admin, action)
+			.processAction(request.context, kernel.adminSession()!, action)
 			.then((data) => {
 				return response.status(200).json({
 					error: false,
@@ -859,11 +872,11 @@ export const attachRoutes = (
 				}
 			}
 
-			const userType = await jellyfish.getCardBySlug(
+			const userType = (await kernel.getContractBySlug(
 				request.context,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				'user@latest',
-			);
+			))!;
 			const action = {
 				card: userType.id,
 				action: 'action-request-password-reset@1.0.0',
@@ -875,7 +888,7 @@ export const attachRoutes = (
 
 			// Always return a 200 OK status, to prevent data leaking to unauthorized users
 			return actionFacade
-				.processAction(request.context, jellyfish.sessions.admin, action)
+				.processAction(request.context, kernel.adminSession()!, action)
 				.finally(() => {
 					return response.status(200).json({
 						error: false,
@@ -904,11 +917,11 @@ export const attachRoutes = (
 				}
 			}
 
-			const userType = await jellyfish.getCardBySlug(
+			const userType = (await kernel.getContractBySlug(
 				request.context,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				'user@latest',
-			);
+			))!;
 			const action = {
 				card: userType.id,
 				action: 'action-complete-password-reset@1.0.0',
@@ -921,7 +934,7 @@ export const attachRoutes = (
 
 			// Always return a 200 OK status, to prevent data leaking to unauthorized users
 			return actionFacade
-				.processAction(request.context, jellyfish.sessions.admin, action)
+				.processAction(request.context, kernel.adminSession()!, action)
 				.finally(() => {
 					return response.status(200).json({
 						error: false,
@@ -950,11 +963,11 @@ export const attachRoutes = (
 				}
 			}
 
-			const userType = await jellyfish.getCardBySlug(
+			const userType = (await kernel.getContractBySlug(
 				request.context,
-				jellyfish.sessions.admin,
+				kernel.adminSession()!,
 				'user@latest',
-			);
+			))!;
 			const action = {
 				card: userType.id,
 				action: 'action-complete-first-time-login@1.0.0',
@@ -967,7 +980,7 @@ export const attachRoutes = (
 
 			// Always return a 200 OK status, to prevent data leaking to unauthorized users
 			return actionFacade
-				.processAction(request.context, jellyfish.sessions.admin, action)
+				.processAction(request.context, kernel.adminSession()!, action)
 				.finally(() => {
 					return response.status(200).json({
 						error: false,

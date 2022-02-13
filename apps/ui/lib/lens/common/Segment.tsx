@@ -6,7 +6,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Box, Button, Flex } from 'rendition';
 import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
-import { core } from '@balena/jellyfish-types';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 import { LinkModal } from '../../components/LinkModal';
 import { selectors } from '../../core';
 
@@ -134,7 +134,7 @@ class Segment extends React.Component<any, any> {
 					action: 'link',
 					targets: [card],
 					onLink: onSave
-						? (newCard: core.Contract) => {
+						? (newCard: Contract) => {
 								return onSave(null, newCard, segment.link);
 						  }
 						: null,

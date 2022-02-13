@@ -69,9 +69,9 @@ tasks:
       - task: lint
       - task: unit
       - task: wait-for-api
+      - task: integration-server
       - task: e2e
       - task: e2e-ui
-      - task: integration-server
       - task: export-database
       - task: import-database
       - task: e2e-server-previous-dump

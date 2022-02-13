@@ -16,7 +16,7 @@ const wrappingComponent = getWrapper({
 }).wrapper;
 
 const mountCardTable = async (actions, setPageStub) => {
-	return mount(
+	return mount<CardTable>(
 		<CardTable
 			actions={actions}
 			channel={channel}

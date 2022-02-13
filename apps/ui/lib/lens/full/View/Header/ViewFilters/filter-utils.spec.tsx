@@ -1,4 +1,4 @@
-import type { JSONSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import {
 	getLinkedContractDataFilterKey,
 	unpackLinksSchema,
@@ -44,7 +44,7 @@ describe('getLinkedContractDataFilterKey', () => {
 
 describe('unpackLinksSchema', () => {
 	it('handles a single type', () => {
-		const pseudoLinksSchema: JSONSchema = {
+		const pseudoLinksSchema: JsonSchema = {
 			type: 'object',
 			required: ['is attached to'],
 			properties: {
@@ -86,7 +86,7 @@ describe('unpackLinksSchema', () => {
 	});
 
 	it('handles multiple types', () => {
-		const pseudoLinksSchema: JSONSchema = {
+		const pseudoLinksSchema: JsonSchema = {
 			type: 'object',
 			required: ['is attached to'],
 			properties: {
