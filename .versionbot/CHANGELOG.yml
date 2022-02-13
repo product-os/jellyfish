@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 2a04a73abc4a28e1d321eaf2ab755ea4ec41d3db
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.1.1
+  title: "'Update internal-patch'"
+  date: 2022-02-13T20:07:00.918Z
+- commits:
     - subject: "test: increase commits scanned to 40 when looking for pg dump hash"
       hash: bddc43c7c4cd1ba2b4f6fad5c1dcb98c074f146b
       body: ""
