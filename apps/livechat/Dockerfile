@@ -2,7 +2,7 @@
 # Base
 ###########################################################
 
-FROM balena/open-balena-base:v13.0.4 as base
+FROM balena/open-balena-base:v13.0.5 as base
 
 WORKDIR /usr/src/jellyfish/apps/livechat
 
