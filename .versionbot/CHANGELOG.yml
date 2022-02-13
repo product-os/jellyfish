@@ -1,4 +1,210 @@
 - commits:
+    - subject: "test: increase commits scanned to 40 when looking for pg dump hash"
+      hash: bddc43c7c4cd1ba2b4f6fad5c1dcb98c074f146b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: use meaningful usernames in outreach mirror test"
+      hash: 372c0ac63584eb6d94897d2d45805f3b1367dad1
+      body: |
+        Using more descriptive usernames will help debug mirror tests when they
+        don't work correctly or are flakey.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: Don't reset outreach mock between test cases"
+      hash: cc494e815f3fff6d897f50ed64b392d6cb9f4a10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: Improve typing of outreach-mock"
+      hash: 56b261525c15a3587601b76bd08da0a769b89705
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Upgrade to latest worker version
+      hash: 855e4b3cbedd725ecc9810f0b0cbe0bff755c112
+      body: |
+        This update fixes issues with:
+        - log context wrapping
+        - circular references in action request errors
+        - incorrect handling of http failures during ouath flow
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: improve type safety of action facade"
+      hash: 401f0789e394cd19c2cb363e786182d748e7f261
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "Server: Fix incorrect logContext field in action facade"
+      hash: 52c7b601187d430ff23242db24c4830db752a5a1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix promise flushing test utility for jest v27"
+      hash: 46c65b2a8b4d98b14035ccc489bb2e8d7f4be12f
+      body: |
+        Jest v27 makes a number of breaking changes to `setImmediate`. This
+        updated moves to a different method of flushing the promise queue.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix type errors in ViewFilters component"
+      hash: 06f6be71ca49b691e35a8c28ccbed6f6b2f71445
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix numerous type errors in unit tests"
+      hash: 1dc59baa57e64fc7a566812930d1c407d33e407f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix typings for View unit tests"
+      hash: b7f55f8d0c4ad7e50241e9c85be86d9b96241cf0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve types for View lens"
+      hash: d79a93910aa6599b1fbd744fa57ff8059c2d2d74
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve typing for filter handling in View component"
+      hash: 7b57d9394caf88d452296470b5f5084ed7b35bcd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve type safety of LinkModal"
+      hash: 13b6b2a2d9d9e03d0ec8777b491eaec8cee01964
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: Switch to using static `defaults` method in card loader"
+      hash: bf988876aa0553d0ae96cce7960d47eb845788ac
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "Server: remove unnecessary unit test of view facade"
+      hash: 67033b06607f4a650b05ff939a9aa54d7e26b47f
+      body: |
+        The view facade is called during e2e testing, which would flag up any
+        issues. It doesn't contain complicated logic that requires assertion and
+        doesn't provide a user facing interface. Unit testing it adds
+        unnecessary overhead.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "Server: Cast to any to resolve type error"
+      hash: 13cc3d789dc1527e1bfb17a858c104330117753d
+      body: |
+        We will follow up with a root cause fix for the type error once the
+        worker upgrade is complete and the deploy pipeline is unblocked.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "server: Add more rigorous type checking when looking up token"
+      hash: 1010dbf61c3ab92a49663e3c0bb2b2d3b4c4409d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Upgrade worker to v15
+      hash: 1d598fe470c22233a74801aa3aa7913c3d42a4c4
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 45.1.0
+  title: "'Upgrade worker'"
+  date: 2022-02-13T16:50:02.527Z
+- commits:
     - subject: Update balena/open-balena-base Docker tag to v13.0.5
       hash: 96044380450dbd471c1ca519d9a29ea003db5926
       body: ""
