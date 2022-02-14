@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update non-major-frontend
+      hash: aadfac87129d1f6f0c81fcec09051d878ef52e64
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.1.6
+  title: "'Update non-major-frontend'"
+  date: 2022-02-14T00:56:22.122Z
+- commits:
     - subject: Update internal-patch
       hash: 899243ccda0af70192ec4a9029354e1f90d08196
       body: ""
