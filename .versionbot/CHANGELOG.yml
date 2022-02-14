@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: d18e4c204e6a87330d1e988c8ec7062a98c38765
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.3.1
+  title: "'Update internal-patch'"
+  date: 2022-02-14T17:04:14.993Z
+- commits:
     - subject: Reduce size of view header and add generic actions for view lens
       hash: b6dfa8bd5c07a99f146e2385a21b164f73369369
       body: |
