@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus Docker tag to v2.33.3
+      hash: 98d2d8a8c5f39f6e1c9d682727fc43014fb8bd0c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.1.9
+  title: "'Update prom/prometheus Docker tag to v2.33.3'"
+  date: 2022-02-14T05:43:36.076Z
+- commits:
     - subject: Update node-forge from 0.10.0 to 1.0.0 [SECURITY]
       hash: b9389fa2e3f1cca3fa6558552c38f940b8ea1395
       body: ""
