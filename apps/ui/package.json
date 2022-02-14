@@ -26,6 +26,7 @@
     "@balena/jellyfish-client-sdk": "^8.3.6",
     "@balena/jellyfish-environment": "^6.1.1",
     "@balena/jellyfish-ui-components": "^14.1.4",
+    "@use-it/event-listener": "^0.1.7",
     "analytics-client": "^1.7.0",
     "assert": "^2.0.0",
     "bluebird": "^3.7.2",
