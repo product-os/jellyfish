@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update node-forge from 0.10.0 to 1.0.0 [SECURITY]
+      hash: b9389fa2e3f1cca3fa6558552c38f940b8ea1395
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.1.8
+  title: "'Update node-forge from 0.10.0 to 1.0.0 [SECURITY]'"
+  date: 2022-02-14T04:58:38.576Z
+- commits:
     - subject: Update resinci/jellyfish-test Docker tag to v1.4.25
       hash: 3bc420e0db96b79657f3c652234c519576e6d168
       body: ""
