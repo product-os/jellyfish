@@ -18,6 +18,7 @@ import PageTitle from './components/PageTitle';
 import RequestPasswordReset from './components/Auth/RequestPasswordReset';
 import CompletePasswordReset from './components/Auth/CompletePasswordReset';
 import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin';
+import { Livechat } from './components/Livechat';
 import AuthContainer from './components/Auth';
 import Splash from './components/Splash';
 import { actionCreators, selectors } from './core';
@@ -27,6 +28,7 @@ import {
 	Route,
 	Redirect,
 	Switch,
+	matchPath,
 } from 'react-router-dom';
 import manifestJSON from './manifest.json';
 import { isProduction } from './environment';
@@ -115,10 +117,16 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 	}
 	const [home] = channels;
 
+	if (isLegacyPath(path)) {
+		return <Redirect to={transformLegacyPath(path)} />;
+	}
+
+	if (matchPath(location.pathname, '/livechat')) {
+		return <Livechat />;
+	}
+
 	return (
 		<React.Fragment>
-			{isLegacyPath(path) && <Redirect to={transformLegacyPath(path)} />}
-
 			<Flex
 				flex="1"
 				style={{
