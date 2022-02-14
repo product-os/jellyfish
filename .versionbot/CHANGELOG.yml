@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update dependencies (internal patch bumps)
+      hash: cd972ffadd0d8dc8021f69d426a3e638db769e5e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Add livechat as a page to JF
+      hash: be963d11296ebcede546f13226a198e454752be5
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 45.2.0
+  title: "'Update dependencies (internal patch bumps)'"
+  date: 2022-02-14T10:49:23.836Z
+- commits:
     - subject: Update prom/prometheus Docker tag to v2.33.3
       hash: 98d2d8a8c5f39f6e1c9d682727fc43014fb8bd0c
       body: ""
