@@ -2,20 +2,21 @@ const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const helpers = require('../sdk/helpers')
+const sdkHelpers = require('../sdk/helpers')
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+let sdk = {}
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
+
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial(
 	'type triggers should exist per version',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
 		const typeSlug = uuid()
 		const typeDef = {
 			type: 'type@1.0.0',
@@ -74,7 +75,7 @@ ava.serial(
 			op: 'add', path: '/data/src', value: 42
 		} ])
 
-		const v2Instance2test = await test.context.waitForMatch(
+		const v2Instance2test = await sdkHelpers.waitForMatch(sdk,
 			{
 				type: 'object',
 				required: [ 'id', 'data' ],
@@ -97,7 +98,7 @@ ava.serial(
 		)
 		test.is(v2Instance2test.id, v2Instance2.id)
 
-		const v1Instance2test = await test.context.waitForMatch(
+		const v1Instance2test = await sdkHelpers.waitForMatch(sdk,
 			{
 				type: 'object',
 				required: [ 'id', 'data' ],
@@ -124,10 +125,6 @@ ava.serial(
 ava.serial(
 	'transformer properties should evaluate with formulas and triggers',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
 		const src1 = await sdk.card.create({
 			type: 'service-source@1.0.0',
 			data: {
@@ -150,7 +147,7 @@ ava.serial(
 		})
 		await sdk.card.link(src1, src1final, 'was merged as')
 
-		const src2test = await test.context.waitForMatch(
+		const src2test = await sdkHelpers.waitForMatch(sdk,
 			{
 				type: 'object',
 				required: [ 'id', 'data' ],

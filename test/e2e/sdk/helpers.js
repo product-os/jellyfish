@@ -1,57 +1,48 @@
-const Bluebird = require('bluebird')
-const helpers = require('../server/helpers')
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
-exports.before = async (test) => {
-	await helpers.before(test)
-
-	test.context.sdk = getSdk({
+exports.login = async () => {
+	const sdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})
 
-	const session = await test.context.sdk.auth.login({
+	const session = await sdk.auth.login({
 		username: environment.test.user.username,
 		password: environment.test.user.password
 	})
+	sdk.setAuthToken(session.id)
 
-	test.context.token = session.id
+	return sdk
+}
 
-	test.context.executeThenWait = async (asyncFn, waitQuery) => {
-		if (asyncFn) {
-			await asyncFn()
-		}
-
-		return test.context.waitForMatch(waitQuery)
+exports.waitForMatch = async (sdk, query, times = 40) => {
+	if (times === 0) {
+		throw new Error('The wait query did not resolve')
 	}
 
-	test.context.waitForMatch = async (query, times = 40) => {
-		if (times === 0) {
-			throw new Error('The wait query did not resolve')
-		}
+	const results = await sdk.query(query)
 
-		const results = await test.context.sdk.query(query)
-
-		if (results.length > 0) {
-			return results[0]
-		}
-		await Bluebird.delay(1000)
-		return test.context.waitForMatch(query, times - 1)
+	if (results.length > 0) {
+		return results[0]
 	}
+	await new Promise((resolve) => {
+		setTimeout(resolve, 1000)
+	})
+	return exports.waitForMatch(sdk, query, times - 1)
 }
 
-exports.after = async (test) => {
-	await helpers.after(test)
+exports.executeThenWait = async (sdk, asyncFn, waitQuery) => {
+	if (asyncFn) {
+		await asyncFn()
+	}
+
+	return exports.waitForMatch(sdk, waitQuery)
 }
 
-exports.beforeEach = (test) => {
-	test.context.sdk.setAuthToken(test.context.token)
-}
-
-exports.afterEach = (test) => {
-	test.context.sdk.cancelAllStreams()
-	test.context.sdk.cancelAllRequests()
+exports.afterEach = (sdk) => {
+	sdk.cancelAllStreams()
+	sdk.cancelAllRequests()
 }

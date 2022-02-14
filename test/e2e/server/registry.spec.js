@@ -3,8 +3,10 @@ const jsonwebtoken = require('jsonwebtoken')
 const {
 	v4: uuid
 } = require('uuid')
-const helpers = require('../sdk/helpers')
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
+let sdk = {}
 const {
 	REGISTRY_TOKEN_AUTH_CERT_KEY
 
@@ -19,17 +21,19 @@ const b64encode = (str) => {
 	return Buffer.from(str).toString('base64')
 }
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial('/api/v2/registry should return 400 if the token isn\'t present', async (test) => {
-	const actor = await test.context.sdk.auth.whoami()
+	const actor = await sdk.auth.whoami()
 	const b64Auth = b64encode(`${actor.slug}`)
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		'/api/v2/registry',
 		null,
@@ -41,10 +45,10 @@ ava.serial('/api/v2/registry should return 400 if the token isn\'t present', asy
 })
 
 ava.serial('/api/v2/registry should return 401 if the user isn\'t valid', async (test) => {
-	const token = test.context.sdk.getAuthToken()
+	const token = sdk.getAuthToken()
 	const b64Auth = b64encode(`user-${uuid()}:${token}`)
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		'/api/v2/registry',
 		null,
@@ -56,10 +60,10 @@ ava.serial('/api/v2/registry should return 401 if the user isn\'t valid', async 
 })
 
 ava.serial('/api/v2/registry should return 401 if the token isn\'t valid', async (test) => {
-	const actor = await test.context.sdk.auth.whoami()
+	const actor = await sdk.auth.whoami()
 	const b64Auth = b64encode(`${actor.slug}:${uuid()}`)
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		'/api/v2/registry',
 		null,
@@ -71,11 +75,11 @@ ava.serial('/api/v2/registry should return 401 if the token isn\'t valid', async
 })
 
 ava.serial('/api/v2/registry should return a JWT with no scope (this happens on "docker login")', async (test) => {
-	const actor = await test.context.sdk.auth.whoami()
-	const token = test.context.sdk.getAuthToken()
+	const actor = await sdk.auth.whoami()
+	const token = sdk.getAuthToken()
 	const b64Auth = b64encode(`${actor.slug}:${token}`)
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		`/api/v2/registry?account=${actor.slug}&client_id=docker&offline_token=true&service=registry.ly.fish.local`,
 		null,
@@ -95,12 +99,12 @@ ava.serial('/api/v2/registry should return a JWT with no scope (this happens on 
 })
 
 ava.serial('/api/v2/registry should return a JWT with empty access permissions if the scope is not accessible', async (test) => {
-	const actor = await test.context.sdk.auth.whoami()
-	const token = test.context.sdk.getAuthToken()
+	const actor = await sdk.auth.whoami()
+	const token = sdk.getAuthToken()
 	const b64Auth = b64encode(`${actor.slug}:${token}`)
 	const bogusId = uuid()
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${bogusId}%3Apush%2Cpull&service=registry.ly.fish.local`,
 		null,
@@ -120,14 +124,14 @@ ava.serial('/api/v2/registry should return a JWT with empty access permissions i
 })
 
 ava.serial('/api/v2/registry should return a JWT with correct access permissions when a scope is set', async (test) => {
-	const actor = await test.context.sdk.auth.whoami()
-	const token = test.context.sdk.getAuthToken()
+	const actor = await sdk.auth.whoami()
+	const token = sdk.getAuthToken()
 	const b64Auth = b64encode(`${actor.slug}:${token}`)
-	const thread = await test.context.sdk.card.create({
+	const thread = await sdk.card.create({
 		type: 'thread'
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.slug}%3Apush%2Cpull&service=registry.ly.fish.local`,
 		null,

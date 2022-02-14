@@ -1,22 +1,20 @@
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const ava = require('ava')
 const {
 	v4: uuid
 } = require('uuid')
-const helpers = require('../sdk/helpers')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
+let sdk = {}
 const users = {
-	community: {
-		username: `johndoe-${uuid()}`,
-		email: `johndoe-${uuid()}@example.com`,
-		password: 'password'
-	}
+	community: helpers.generateUserDetails()
 }
 
 ava.serial.before(async (test) => {
-	await helpers.before(test)
+	sdk = await sdkHelpers.login()
 
-	await test.context.sdk.action({
+	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -28,24 +26,19 @@ ava.serial.before(async (test) => {
 	})
 })
 
-ava.serial.after.always(helpers.after)
+ava.serial.beforeEach(async () => {
+	const session = await sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+	sdk.setAuthToken(session.id)
+})
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
-
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial('Users should be able to view an element with no markers', async (test) => {
-	const {
-		sdk
-	} = test.context
-
 	await sdk.auth.login(users.community)
 
 	const thread = await sdk.card.create({
@@ -67,10 +60,6 @@ ava.serial('Users should be able to view an element with no markers', async (tes
 })
 
 ava.serial('Users should not be able to view an element that has a marker they don\'t have access to', async (test) => {
-	const {
-		sdk
-	} = test.context
-
 	const orgSlug = `org-balena-${uuid()}`
 
 	const org = await sdk.card.create({
@@ -89,7 +78,7 @@ ava.serial('Users should not be able to view an element that has a marker they d
 		markers: [ orgSlug ]
 	})
 
-	const userDetails = createUserDetails()
+	const userDetails = helpers.generateUserDetails()
 	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
@@ -111,10 +100,6 @@ ava.serial('Users should not be able to view an element that has a marker they d
 })
 
 ava.serial('Users should be able to view an element if all of their markers match', async (test) => {
-	const {
-		sdk
-	} = test.context
-
 	const orgSlug = `org-balena-${uuid()}`
 
 	// Create the balena org
@@ -154,10 +139,6 @@ ava.serial('Users should be able to view an element if all of their markers matc
 ava.serial(
 	'Users should only be able to view an element if they have access to every marker on the element',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
 		const whoami = await sdk.auth.whoami()
 		const thread = await sdk.card.create({
 			slug: `thread-${uuid()}`,
@@ -176,10 +157,6 @@ ava.serial(
 	})
 
 ava.serial('Users should be able to view an element using compound markers', async (test) => {
-	const {
-		sdk
-	} = test.context
-
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
@@ -205,10 +182,6 @@ ava.serial('Users should be able to view an element using compound markers', asy
 ava.serial(
 	'Users should not be able to view an element using compound markers if they don\'t have access to every marker',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
 		const orgSlug = `org-balena-${uuid()}`
 		const org = await sdk.card.create({
 			type: 'org',
@@ -238,10 +211,6 @@ ava.serial(
 ava.serial(
 	'Users should be able to view an element using compound markers if they have access to every marker',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
 		const orgSlug = `org-balena-${uuid()}`
 
 		// Create the balena org
@@ -278,10 +247,6 @@ ava.serial(
 	})
 
 ava.serial('Users should be able to view an element using compound markers with more than two values', async (test) => {
-	const {
-		sdk
-	} = test.context
-
 	await sdk.auth.login(users.community)
 	const user = await sdk.auth.whoami()
 
@@ -307,10 +272,6 @@ ava.serial('Users should be able to view an element using compound markers with 
 ava.serial(
 	'Users should be able to view an element using a compound marker that doesn\'t contain their personal marker',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
 		const user = await sdk.card.get(`user-${users.community.username}`)
 
 		const orgSlug = `org-balena-${uuid()}`
@@ -348,12 +309,8 @@ ava.serial(
 	})
 
 ava.serial('Updating a user should not remove their org membership', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -398,13 +355,13 @@ ava.serial('Updating a user should not remove their org membership', async (test
 		type: 'org'
 	})
 
-	await test.context.executeThenWait(() => {
+	await sdkHelpers.executeThenWait(sdk, () => {
 		return sdk.card.link(balenaOrg, user, 'has member')
 	}, waitQuery)
 
 	const linkedUser = await sdk.auth.whoami()
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: user.type,
@@ -432,12 +389,9 @@ ava.serial('Updating a user should not remove their org membership', async (test
 })
 
 ava.serial('.query() should be able to see previously restricted cards after an org change', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const token = sdk.getAuthToken()
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -452,7 +406,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 	const entry = await sdk.card.create({
 		markers: [ orgCard.slug ],
 		type: 'thread',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'thread'
 		}),
 		version: '1.0.0',
@@ -466,7 +420,7 @@ ava.serial('.query() should be able to see previously restricted cards after an 
 
 	test.deepEqual(unprivilegedResults, null)
 
-	sdk.setAuthToken(test.context.token)
+	sdk.setAuthToken(token)
 	await sdk.card.link(orgCard, user, 'has member')
 	await sdk.auth.login(userDetails)
 
