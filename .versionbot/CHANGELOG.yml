@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: e755e4fdc7c41dba3a29f74bea3873db78ea046e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.4.1
+  title: "'Update internal-patch'"
+  date: 2022-02-15T16:42:16.895Z
+- commits:
     - subject: Lazy load components
       hash: 1a27d0c6e6e6c2f7e3a8735bdb38f3f2716725ab
       body: ""
