@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-github from 2.0.17 to 2.1.1
+      hash: b281aefe14169cce70d2ed4bad7249d9908302d9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.3.5
+  title: "'Update @balena/jellyfish-plugin-github from 2.0.17 to 2.1.1'"
+  date: 2022-02-15T02:37:08.783Z
+- commits:
     - subject: Update internal-patch
       hash: 3ef6199f2ff965b1c730c70f7e004ec3a4ce61ca
       body: ""
