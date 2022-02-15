@@ -30,10 +30,10 @@
     "@balena/jellyfish-metrics": "^2.0.37",
     "@balena/jellyfish-plugin-balena-api": "^2.0.23",
     "@balena/jellyfish-plugin-channels": "^2.0.19",
-    "@balena/jellyfish-plugin-default": "^23.2.2",
+    "@balena/jellyfish-plugin-default": "^23.2.3",
     "@balena/jellyfish-plugin-discourse": "^2.0.21",
     "@balena/jellyfish-plugin-flowdock": "^2.0.13",
-    "@balena/jellyfish-plugin-front": "^2.0.21",
+    "@balena/jellyfish-plugin-front": "^2.0.22",
     "@balena/jellyfish-plugin-github": "^2.1.4",
     "@balena/jellyfish-plugin-outreach": "^2.0.17",
     "@balena/jellyfish-plugin-product-os": "^4.0.16",
@@ -60,7 +60,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^8.3.7",
+    "@balena/jellyfish-client-sdk": "^8.3.8",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-types": "^2.0.4",
     "@balena/lint": "^6.2.0",
