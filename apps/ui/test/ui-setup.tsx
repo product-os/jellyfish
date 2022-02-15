@@ -23,6 +23,7 @@ import type {
 	ContractDefinition,
 } from '@balena/jellyfish-types/build/core';
 import { v4 as uuid } from 'uuid';
+import { waitFor } from '@testing-library/react';
 
 const emotionCache = createCache({
 	key: 'test',
@@ -92,11 +93,25 @@ export const withDefaults = (cardFields: ContractDefinition): Contract => {
 	);
 };
 
+export const waitForLazyLoad = async (component) => {
+	await waitFor(() => {
+		component.update();
+		expect(component.find('[data-testid="splash"]')).toHaveLength(0);
+	});
+};
+
 export const getWrapper = (
 	initialState = {},
 	cardLoader = {
 		getCard: sinon.stub().returns(null),
 		selectCard: sinon.stub().returns(sinon.stub().returns(null)),
+	},
+	setupProps = {
+		errorReporter: {
+			reportException: (error: Error) => {
+				throw error;
+			},
+		},
 	},
 ) => {
 	const store = mockStore(initialState);
@@ -114,7 +129,7 @@ export const getWrapper = (
 							actions={{}}
 							sdk={{ stream: () => stream } as any}
 							analytics={{} as any}
-							errorReporter={{} as any}
+							errorReporter={setupProps.errorReporter as any}
 							environment={{}}
 						>
 							<ReduxProvider store={store}>

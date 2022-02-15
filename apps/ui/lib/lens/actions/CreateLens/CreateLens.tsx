@@ -4,9 +4,7 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import React from 'react';
 import update from 'immutability-helper';
-import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import * as redux from 'redux';
 import { Box, Button, Card, Flex, Heading, Select, Txt, Form } from 'rendition';
 import styled from 'styled-components';
 import {
@@ -15,18 +13,12 @@ import {
 	helpers,
 	Icon,
 } from '@balena/jellyfish-ui-components';
-import CardLayout from '../../layouts/CardLayout';
+import CardLayout from '../../../layouts/CardLayout';
 import * as skhema from 'skhema';
-import {
-	actionCreators,
-	analytics,
-	constants,
-	sdk,
-	selectors,
-} from '../../core';
-import Segment from '../common/Segment';
-import { getUiSchema, UI_SCHEMA_MODE } from '../schema-util';
-import { getRelationships } from '../common/RelationshipsTab';
+import { analytics, constants } from '../../../core';
+import Segment from '../../common/Segment';
+import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
+import { getRelationships } from '../../common/RelationshipsTab';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
@@ -52,7 +44,7 @@ const getCardsType = memoize((cards) => {
 	return cards[0].type.split('@')[0];
 });
 
-export class CreateLens extends React.Component<any, any> {
+export default class CreateLens extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
@@ -458,41 +450,3 @@ export class CreateLens extends React.Component<any, any> {
 		);
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		sdk,
-		allTypes: selectors.getTypes(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'createLink',
-				'addChannel',
-				'removeChannel',
-				'getLinks',
-				'queryAPI',
-			]),
-			dispatch,
-		),
-	};
-};
-
-export default {
-	slug: 'lens-action-create',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Default list lens',
-	data: {
-		format: 'create',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
-		icon: 'address-card',
-		type: '*',
-		filter: {
-			type: 'object',
-		},
-	},
-};

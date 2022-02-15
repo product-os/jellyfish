@@ -2,36 +2,30 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Flex } from 'rendition';
 import {
 	createClient,
 	createNoopClient,
 	createWebTracker,
 } from 'analytics-client';
 import { saveAs } from 'file-saver';
-import { ChatWidgetSidebar } from './components/ChatWidgetSidebar';
-import HomeChannel from './components/HomeChannel';
-import RouteHandler from './components/RouteHandler';
-import Oauth from './components/Oauth';
-import Login from './components/Auth/Login';
-import PageTitle from './components/PageTitle';
-import RequestPasswordReset from './components/Auth/RequestPasswordReset';
-import CompletePasswordReset from './components/Auth/CompletePasswordReset';
-import CompleteFirstTimeLogin from './components/Auth/CompleteFirstTimeLogin';
-import { Livechat } from './components/Livechat';
-import AuthContainer from './components/Auth';
 import Splash from './components/Splash';
 import { actionCreators, selectors } from './core';
-import {
-	useLocation,
-	useHistory,
-	Route,
-	Redirect,
-	Switch,
-	matchPath,
-} from 'react-router-dom';
-import manifestJSON from './manifest.json';
+import { useLocation, useHistory, Redirect, matchPath } from 'react-router-dom';
 import { isProduction } from './environment';
+import { createLazyComponent } from './components/SafeLazy';
+
+const Unauthorized = createLazyComponent(
+	() =>
+		import(/* webpackChunkName: "unauthorized" */ './components/Unauthorized'),
+);
+
+const Authorized = createLazyComponent(
+	() => import(/* webpackChunkName: "authorized" */ './components/Authorized'),
+);
+
+const Livechat = createLazyComponent(
+	() => import(/* webpackChunkName: "livechat" */ './components/Livechat'),
+);
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde
@@ -85,37 +79,14 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 		};
 	}, []);
 
-	const handleChatWidgetClose = () => {
-		actions.setChatWidgetOpen(false);
-	};
-
 	const path = window.location.pathname + window.location.hash;
 
 	if (status === 'initializing') {
 		return <Splash />;
 	}
 	if (status === 'unauthorized') {
-		return (
-			<AuthContainer>
-				<Switch>
-					<Route
-						path="/request_password_reset"
-						component={RequestPasswordReset}
-					/>
-					<Route
-						path="/password_reset/:resetToken/:username?"
-						component={CompletePasswordReset}
-					/>
-					<Route
-						path="/first_time_login/:firstTimeLoginToken/:username?"
-						component={CompleteFirstTimeLogin}
-					/>
-					<Route path="/*" component={Login} />
-				</Switch>
-			</AuthContainer>
-		);
+		return <Unauthorized />;
 	}
-	const [home] = channels;
 
 	if (isLegacyPath(path)) {
 		return <Redirect to={transformLegacyPath(path)} />;
@@ -125,28 +96,7 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 		return <Livechat />;
 	}
 
-	return (
-		<React.Fragment>
-			<Flex
-				flex="1"
-				style={{
-					height: '100%',
-				}}
-			>
-				<PageTitle siteName={manifestJSON.name} />
-				<HomeChannel channel={home} />
-
-				<Switch>
-					<Route path="/oauth/:integration" component={Oauth} />
-					<Route path="/*" component={RouteHandler} />
-				</Switch>
-			</Flex>
-
-			{isChatWidgetOpen && (
-				<ChatWidgetSidebar onClose={handleChatWidgetClose} />
-			)}
-		</React.Fragment>
-	);
+	return <Authorized />;
 };
 
 const mapStateToProps = (state) => {
@@ -161,7 +111,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
-			_.pick(actionCreators, ['dumpState', 'setChatWidgetOpen']),
+			_.pick(actionCreators, ['dumpState']),
 			dispatch,
 		),
 	};

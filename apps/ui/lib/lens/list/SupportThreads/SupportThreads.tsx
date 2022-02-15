@@ -2,8 +2,6 @@ import Bluebird from 'bluebird';
 import { circularDeepEqual, deepEqual } from 'fast-equals';
 import _ from 'lodash';
 import * as React from 'react';
-import { connect } from 'react-redux';
-import * as redux from 'redux';
 import styled from 'styled-components';
 import { addBusinessDays, isAfter } from 'date-fns';
 import { Box, Tab, Tabs } from 'rendition';
@@ -14,7 +12,6 @@ import {
 	Icon,
 	InfiniteList,
 } from '@balena/jellyfish-ui-components';
-import { actionCreators, selectors } from '../../core';
 
 const StyledTabs = styled(Tabs)`
 	flex: 1 > [role= 'tabpanel' ] {
@@ -22,7 +19,7 @@ const StyledTabs = styled(Tabs)`
 	}
 `;
 
-const SLUG = 'lens-support-threads';
+export const SLUG = 'lens-support-threads';
 
 // This name is added to update events that reopen issues/pull requests
 const THREAD_REOPEN_NAME_RE =
@@ -45,7 +42,7 @@ const timestampSort = (cards) => {
 	}).reverse();
 };
 
-export class SupportThreads extends React.Component<any, any> {
+export default class SupportThreads extends React.Component<any, any> {
 	handleScrollEnding;
 
 	constructor(props) {
@@ -336,66 +333,3 @@ export class SupportThreads extends React.Component<any, any> {
 		);
 	}
 }
-
-const mapStateToProps = (state, ownProps) => {
-	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
-	return {
-		channels: selectors.getChannels(state),
-		lensState: selectors.getLensState(state, SLUG, target),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, ['getActor', 'setLensState']),
-			dispatch,
-		),
-	};
-};
-
-const lens = {
-	slug: SLUG,
-	type: 'lens',
-	version: '1.0.0',
-	name: 'SupportThreads lens',
-	data: {
-		label: 'Support threads list',
-		icon: 'address-card',
-		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
-		filter: {
-			type: 'array',
-			items: {
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string',
-					},
-					slug: {
-						type: 'string',
-					},
-					type: {
-						type: 'string',
-						enum: ['support-thread@1.0.0', 'sales-thread@1.0.0'],
-					},
-					data: {
-						type: 'object',
-						properties: {
-							status: {
-								type: 'string',
-							},
-						},
-					},
-				},
-				required: ['type', 'data'],
-			},
-		},
-		queryOptions: {
-			limit: 100,
-			sortBy: ['created_at'],
-			sortDir: 'desc',
-		},
-	},
-};
-export default lens;

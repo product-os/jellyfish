@@ -1,14 +1,11 @@
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import ReactTrello from 'react-trello';
-import { bindActionCreators } from 'redux';
 import { Flex } from 'rendition';
 import skhema from 'skhema';
 import { notifications, helpers } from '@balena/jellyfish-ui-components';
-import { actionCreators, analytics, selectors, sdk } from '../../core';
+import { analytics, sdk } from '../../../core';
 
 const TrelloWrapper = styled(Flex)`
 	height: 100%;
@@ -26,7 +23,7 @@ const TrelloWrapper = styled(Flex)`
 
 const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';
 
-const SLUG = 'lens-kanban';
+export const SLUG = 'lens-kanban';
 
 const cardMapper = (card) => {
 	const message = _.find(
@@ -45,7 +42,7 @@ const cardMapper = (card) => {
 	};
 };
 
-class Kanban extends React.Component<any, any> {
+export default class Kanban extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
@@ -218,51 +215,3 @@ class Kanban extends React.Component<any, any> {
 		);
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['addChannel', 'openCreateChannel']),
-			dispatch,
-		),
-	};
-};
-
-const lens = {
-	slug: SLUG,
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Kanban lens',
-	data: {
-		supportsSlices: true,
-		label: 'Kanban',
-		icon: 'columns',
-		format: 'list',
-		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),
-		filter: {
-			type: 'array',
-			items: {
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string',
-					},
-				},
-			},
-		},
-		queryOptions: {
-			limit: 500,
-			sortBy: ['created_at'],
-			sortDir: 'desc',
-		},
-	},
-};
-
-export default lens;

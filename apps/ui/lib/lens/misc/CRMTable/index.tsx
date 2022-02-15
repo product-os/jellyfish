@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators, selectors } from '../../../core';
-import CRMTable from './CRMTable';
+
+export const CRMTable = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-crm-table" */ './CRMTable'),
+);
 
 const SLUG = 'lens-crm-table';
 

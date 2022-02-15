@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { sdk, actionCreators, selectors } from '../../../core';
-import CreateView from './CreateView';
+
+export const CreateView = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-create-view" */ './CreateView'),
+);
 
 const mapStateToProps = (state) => {
 	return {

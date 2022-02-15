@@ -2,7 +2,7 @@ import { getWrapper } from '../../../../../test/ui-setup';
 import { shallow, mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
-import CardTable from '../CardTable';
+import ContractTable from '../ContractTable';
 import props from './fixtures/props.json';
 
 const sandbox = sinon.createSandbox();
@@ -15,9 +15,9 @@ const wrappingComponent = getWrapper({
 	},
 }).wrapper;
 
-const mountCardTable = async (actions, setPageStub) => {
-	return mount<CardTable>(
-		<CardTable
+const mountContractTable = async (actions, setPageStub) => {
+	return mount<ContractTable>(
+		<ContractTable
 			actions={actions}
 			channel={channel}
 			tail={tail}
@@ -64,7 +64,7 @@ const takeAction = (component, action) => {
 
 let context: any = {};
 
-describe('CardTable lens', () => {
+describe('ContractTable lens', () => {
 	beforeEach(async () => {
 		context = {
 			setPageStub: sinon.spy(),
@@ -84,7 +84,7 @@ describe('CardTable lens', () => {
 
 		expect(() => {
 			shallow(
-				<CardTable
+				<ContractTable
 					channel={channel}
 					tail={tail}
 					page={page}
@@ -102,9 +102,12 @@ describe('CardTable lens', () => {
 	test('should trigger setPage when clicking the pager button next', async () => {
 		const { setPageStub, actions } = context;
 
-		const cardTableComponent = await mountCardTable(actions, setPageStub);
+		const contractTableComponent = await mountContractTable(
+			actions,
+			setPageStub,
+		);
 
-		cardTableComponent
+		contractTableComponent
 			.find('.rendition-pager__btn--next')
 			.first()
 			.simulate('click');
@@ -115,23 +118,29 @@ describe('CardTable lens', () => {
 	test('should let you select multiple cards', async () => {
 		const { setPageStub, actions } = context;
 
-		const cardTableComponent = await mountCardTable(actions, setPageStub);
+		const contractTableComponent = await mountContractTable(
+			actions,
+			setPageStub,
+		);
 
-		checkRow(cardTableComponent, 0);
-		checkRow(cardTableComponent, 1);
+		checkRow(contractTableComponent, 0);
+		checkRow(contractTableComponent, 1);
 
-		expect(cardTableComponent.state().checkedCards.length).toBe(2);
+		expect(contractTableComponent.state().checkedCards.length).toBe(2);
 	});
 
 	test('It should let you link multiple selected cards to a newly created card', async () => {
 		const { setPageStub, actions } = context;
 
-		const cardTableComponent = await mountCardTable(actions, setPageStub);
+		const contractTableComponent = await mountContractTable(
+			actions,
+			setPageStub,
+		);
 
-		checkRow(cardTableComponent, 0);
-		checkRow(cardTableComponent, 1);
-		openActions(cardTableComponent);
-		takeAction(cardTableComponent, 'link-new');
+		checkRow(contractTableComponent, 0);
+		checkRow(contractTableComponent, 1);
+		openActions(contractTableComponent);
+		takeAction(contractTableComponent, 'link-new');
 
 		expect(actions.addChannel.calledOnce).toBe(true);
 		const newChannel = actions.addChannel.getCall(0).args[0];
@@ -156,13 +165,16 @@ describe('CardTable lens', () => {
 	test('should let you link multiple selected cards to an existing card', async () => {
 		const { setPageStub, actions } = context;
 
-		const cardTableComponent = await mountCardTable(actions, setPageStub);
+		const contractTableComponent = await mountContractTable(
+			actions,
+			setPageStub,
+		);
 
-		checkRow(cardTableComponent, 0);
-		checkRow(cardTableComponent, 1);
-		openActions(cardTableComponent);
-		takeAction(cardTableComponent, 'link-existing');
+		checkRow(contractTableComponent, 0);
+		checkRow(contractTableComponent, 1);
+		openActions(contractTableComponent);
+		takeAction(contractTableComponent, 'link-existing');
 
-		expect(cardTableComponent.state().showLinkModal).toBe('link');
+		expect(contractTableComponent.state().showLinkModal).toBe('link');
 	});
 });

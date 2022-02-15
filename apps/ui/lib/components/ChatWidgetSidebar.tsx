@@ -22,7 +22,7 @@ const Container = styled(Box)`
 	z-index: 15;
 `;
 
-export const ChatWidgetSidebar = ({ onClose }) => {
+const ChatWidgetSidebar = ({ onClose }) => {
 	return (
 		<Container
 			data-test="chat-widget"
@@ -39,3 +39,5 @@ export const ChatWidgetSidebar = ({ onClose }) => {
 		</Container>
 	);
 };
+
+export default ChatWidgetSidebar;

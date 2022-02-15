@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators, selectors } from '../../../core';
-import CardTable from './CardTable';
+
+export const ContractTable = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-contract-table" */ './ContractTable'),
+);
 
 const SLUG = 'lens-table';
 
@@ -37,7 +41,7 @@ const lens = {
 	version: '1.0.0',
 	name: 'Default table lens',
 	data: {
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CardTable),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(ContractTable),
 		label: 'Table',
 		icon: 'table',
 		format: 'list',
