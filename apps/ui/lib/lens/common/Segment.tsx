@@ -196,7 +196,7 @@ class Segment extends React.Component<any, any> {
 							tail={results}
 							page={1}
 							totalPages={1}
-							setPage={_.noop}
+							nextPage={_.noop}
 							pageOptions={{
 								limit: 30,
 								sortBy: ['created_at'],

@@ -1,31 +1,14 @@
 import _ from 'lodash';
-import type { JSONSchema7 } from 'json-schema';
-import React, { useState } from 'react';
+import React from 'react';
 import { CSVLink } from 'react-csv';
-import {
-	Box,
-	Button,
-	Divider,
-	FiltersProps,
-	Flex,
-	Heading,
-	Search,
-	SelectProps,
-	Txt,
-} from 'rendition';
+import { Box, Divider, Flex, Search, Txt } from 'rendition';
 import styled from 'styled-components';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
+import { Contract } from '@balena/jellyfish-types/build/core';
 import { flatten } from 'flat';
-import { helpers, CloseButton, Icon } from '@balena/jellyfish-ui-components';
-import { BookmarkButton } from '../../../../components/BookmarkButton';
+import { helpers, CloseButton } from '@balena/jellyfish-ui-components';
 import CardActions from '../../../../components/CardActions';
 import Markers from '../../../../components/Markers';
-import { LensContract, ChannelContract } from '../../../../types';
-import { LensSelection } from './LensSelection';
-import ViewFilters from './ViewFilters';
-import SortByButton from './ViewFilters/SortByButton';
-import { SortDirButton } from './ViewFilters/SortDirButton';
+import { ChannelContract } from '../../../../types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -47,72 +30,22 @@ const CSVLinkWrapper = styled(Box)`
 	}
 `;
 
-const StyledSearch = styled(Search)`
-	padding-left: 0px;
-	svg.search-icon {
-		display: none;
-	}
-	min-width: 90px;
-	input {
-		padding-left: 0px;
-	}
-`;
-
-const HeaderBox = styled(Box)`
-	border-bottom: 1px solid #eee;
-`;
-
 interface HeaderProps {
-	allTypes: TypeContract[];
 	channel: ChannelContract;
-	filters: JSONSchema7[];
 	isMobile: boolean;
-	lens: LensContract;
-	lenses: LensContract[];
-	onSortOptionsChange: (sortOptions: {
-		sortBy?: string;
-		sortDir?: 'desc' | 'asc';
-	}) => void;
-	pageOptions: { sortBy: string[] | string; sortDir: 'asc' | 'desc' };
-	saveView: FiltersProps['onViewsUpdate'];
-	searchFilter: JsonSchema;
-	searchTerm: string;
-	setLens: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
-	tail: null | Contract[];
-	tailTypes: TypeContract[];
-	updateFilters: (filters: JSONSchema7[]) => void;
-	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
-	updateSearch: (value: any) => void;
+	results?: null | Contract[];
 }
 
 export default React.memo<HeaderProps>((props) => {
-	const {
-		isMobile,
-		lenses,
-		setLens,
-		lens,
-		filters,
-		tailTypes,
-		allTypes,
-		updateFilters,
-		saveView,
-		channel,
-		searchFilter,
-		searchTerm,
-		updateSearch,
-		updateFiltersFromSummary,
-		pageOptions,
-		onSortOptionsChange,
-		tail,
-	} = props;
+	const { channel, results } = props;
 
 	if (!channel.data.head) {
 		return null;
 	}
 
 	const csvName = `${channel.data.head.slug}_${new Date().toISOString()}.csv`;
-	const csvData = tail
-		? tail.map((contract) => {
+	const csvData = results
+		? results.map((contract) => {
 				// To keep the CSV functionality simple, don't include any link data in the output
 				const flattened: any = flatten(
 					{
@@ -145,28 +78,8 @@ export default React.memo<HeaderProps>((props) => {
 		  })
 		: [];
 
-	const handleSortByChange = React.useCallback(
-		(sortBy) => {
-			onSortOptionsChange({
-				sortBy,
-			});
-		},
-		[onSortOptionsChange],
-	);
-
-	const handleSortDirChange = React.useCallback(
-		(sortDir) => {
-			onSortOptionsChange({
-				sortDir,
-			});
-		},
-		[onSortOptionsChange],
-	);
-
-	const [showFilters, setShowFilters] = useState(false);
-
 	return (
-		<HeaderBox>
+		<Box>
 			<Flex
 				p={3}
 				pb={0}
@@ -203,52 +116,6 @@ export default React.memo<HeaderProps>((props) => {
 			</Flex>
 
 			<Divider width="100%" color={helpers.colorHash('view')} />
-
-			<Flex flexDirection={['column', 'column', 'row']}>
-				<Flex px={3} pb={2} justifyContent="space-between">
-					<Box>
-						<StyledSearch
-							className="view__search"
-							value={searchTerm}
-							onChange={updateSearch}
-						/>
-					</Box>
-
-					<Flex ml={2} alignItems="center">
-						<Button
-							data-test="show-filters"
-							plain
-							onClick={() => setShowFilters(!showFilters)}
-						>
-							Filters &nbsp;
-							<Icon name="chevron-down" />
-						</Button>
-					</Flex>
-				</Flex>
-
-				<Flex
-					px={3}
-					pb={2}
-					alignItems="center"
-					justifyContent={'flex-end'}
-					flex={1}
-				>
-					<LensSelection ml={2} lenses={lenses} lens={lens} setLens={setLens} />
-				</Flex>
-			</Flex>
-
-			<ViewFilters
-				show={showFilters}
-				tailTypes={tailTypes}
-				allTypes={allTypes}
-				filters={filters}
-				searchFilter={searchFilter}
-				updateFilters={updateFilters}
-				saveView={saveView}
-				updateFiltersFromSummary={updateFiltersFromSummary}
-				pageOptions={pageOptions}
-				onSortOptionsChange={onSortOptionsChange}
-			/>
-		</HeaderBox>
+		</Box>
 	);
 });

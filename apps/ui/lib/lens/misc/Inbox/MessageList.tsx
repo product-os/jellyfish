@@ -112,7 +112,7 @@ class MessageList extends React.Component<any, any> {
 		}
 
 		this.loadingPage = true;
-		await this.props.setPage(this.props.page + 1);
+		await this.props.nextPage();
 		this.loadingPage = false;
 	}
 

@@ -55,7 +55,7 @@ export default class SupportThreads extends React.Component<any, any> {
 		};
 
 		this.handleScrollEnding = async () => {
-			await this.props.setPage(this.props.page + 1);
+			await this.props.nextPage();
 		};
 
 		this.setActiveIndex = this.setActiveIndex.bind(this);
@@ -73,13 +73,13 @@ export default class SupportThreads extends React.Component<any, any> {
 	}
 
 	componentDidUpdate(prevProps) {
-		if (!deepEqual(this.props.tail, prevProps.tail)) {
+		if (!circularDeepEqual(this.props.tail, prevProps.tail)) {
 			this.generateSegments();
 		}
 	}
 
 	async generateSegments() {
-		const tail = timestampSort(this.props.tail);
+		const tail = timestampSort(this.props.tail.slice());
 
 		const pendingAgentResponse: any = [];
 		const pendingEngineerResponse: any = [];

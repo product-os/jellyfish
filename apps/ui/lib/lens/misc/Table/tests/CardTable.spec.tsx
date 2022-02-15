@@ -15,7 +15,7 @@ const wrappingComponent = getWrapper({
 	},
 }).wrapper;
 
-const mountContractTable = async (actions, setPageStub) => {
+const mountContractTable = async (actions, nextPageStub) => {
 	return mount<ContractTable>(
 		<ContractTable
 			actions={actions}
@@ -26,7 +26,7 @@ const mountContractTable = async (actions, setPageStub) => {
 			type={type}
 			user={user}
 			allTypes={allTypes}
-			setPage={setPageStub}
+			nextPage={nextPageStub}
 			lensState={{}}
 		/>,
 		{
@@ -67,7 +67,7 @@ let context: any = {};
 describe('ContractTable lens', () => {
 	beforeEach(async () => {
 		context = {
-			setPageStub: sinon.spy(),
+			nextPageStub: sinon.spy(),
 			actions: {
 				addChannel: sinon.stub().resolves(null),
 				createLink: sinon.stub().resolves(null),
@@ -99,12 +99,12 @@ describe('ContractTable lens', () => {
 		}).not.toThrow();
 	});
 
-	test('should trigger setPage when clicking the pager button next', async () => {
-		const { setPageStub, actions } = context;
+	test('should trigger nextPage when clicking the pager button next', async () => {
+		const { nextPageStub, actions } = context;
 
 		const contractTableComponent = await mountContractTable(
 			actions,
-			setPageStub,
+			nextPageStub,
 		);
 
 		contractTableComponent
@@ -112,15 +112,15 @@ describe('ContractTable lens', () => {
 			.first()
 			.simulate('click');
 
-		expect(setPageStub.calledOnce).toBe(true);
+		expect(nextPageStub.calledOnce).toBe(true);
 	});
 
 	test('should let you select multiple cards', async () => {
-		const { setPageStub, actions } = context;
+		const { nextPageStub, actions } = context;
 
 		const contractTableComponent = await mountContractTable(
 			actions,
-			setPageStub,
+			nextPageStub,
 		);
 
 		checkRow(contractTableComponent, 0);
@@ -130,11 +130,11 @@ describe('ContractTable lens', () => {
 	});
 
 	test('It should let you link multiple selected cards to a newly created card', async () => {
-		const { setPageStub, actions } = context;
+		const { nextPageStub, actions } = context;
 
 		const contractTableComponent = await mountContractTable(
 			actions,
-			setPageStub,
+			nextPageStub,
 		);
 
 		checkRow(contractTableComponent, 0);
@@ -163,11 +163,11 @@ describe('ContractTable lens', () => {
 	});
 
 	test('should let you link multiple selected cards to an existing card', async () => {
-		const { setPageStub, actions } = context;
+		const { nextPageStub, actions } = context;
 
 		const contractTableComponent = await mountContractTable(
 			actions,
-			setPageStub,
+			nextPageStub,
 		);
 
 		checkRow(contractTableComponent, 0);
