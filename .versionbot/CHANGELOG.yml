@@ -1,4 +1,16 @@
 - commits:
+    - subject: Lazy load components
+      hash: 1a27d0c6e6e6c2f7e3a8735bdb38f3f2716725ab
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 45.4.0
+  title: "'Lazy load components'"
+  date: 2022-02-15T15:42:13.981Z
+- commits:
     - subject: Update internal-patch
       hash: ddf17be9aa10a2bdb25d08aec637223139f2a5c7
       body: ""
