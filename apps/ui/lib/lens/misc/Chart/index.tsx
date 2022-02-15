@@ -7,9 +7,8 @@ import { actionCreators, sdk, selectors } from '../../../core';
 import { Chart } from './Chart';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-// eslint-disable-next-line
 const ChartLazy = createLazyComponent(
-	() => import(/* webpackChunkName: "chart" */ './PlotlyChart'),
+	() => import(/* webpackChunkName: "lens-chart" */ './PlotlyChart'),
 );
 
 const mapStateToProps = (state, ownProps) => {

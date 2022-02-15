@@ -3,8 +3,6 @@ import { circularDeepEqual } from 'fast-equals';
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
-import * as redux from 'redux';
 import styled from 'styled-components';
 import { Box, Button, Flex, Heading, Form } from 'rendition';
 import {
@@ -12,16 +10,16 @@ import {
 	FreeFieldForm,
 	helpers,
 } from '@balena/jellyfish-ui-components';
-import CardLayout from '../../layouts/CardLayout';
+import CardLayout from '../../../layouts/CardLayout';
 import * as skhema from 'skhema';
-import { actionCreators, analytics, sdk } from '../../core';
-import { getUiSchema, UI_SCHEMA_MODE } from '../schema-util';
+import { analytics, sdk } from '../../../core';
+import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
 `;
 
-export class EditLens extends React.Component<any, any> {
+export default class EditLens extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
@@ -228,28 +226,3 @@ export class EditLens extends React.Component<any, any> {
 		);
 	}
 }
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, ['removeChannel']),
-			dispatch,
-		),
-	};
-};
-
-export default {
-	slug: 'lens-action-edit',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Default list lens',
-	data: {
-		format: 'edit',
-		renderer: connect(null, mapDispatchToProps)(EditLens),
-		icon: 'pencil',
-		type: '*',
-		filter: {
-			type: 'object',
-		},
-	},
-};

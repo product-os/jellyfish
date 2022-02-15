@@ -1,8 +1,16 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators, selectors } from '../../../core';
-import { TransformerWorker, SLUG } from './TransformerWorker';
+import { SLUG } from './TransformerWorker';
+
+export const TransformerWorker = createLazyComponent(
+	() =>
+		import(
+			/* webpackChunkName: "lens-transformer-worker" */ './TransformerWorker'
+		),
+);
 
 const mapStateToProps = (state) => {
 	return {

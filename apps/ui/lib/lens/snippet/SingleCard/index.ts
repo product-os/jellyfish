@@ -2,7 +2,12 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { selectors } from '../../../core';
 import { withChannelContext } from '../../../hooks/channel-context';
-import SingleCard from './SingleCard';
+import { createLazyComponent } from '../../../components/SafeLazy';
+
+export const SingleContract = createLazyComponent(
+	() =>
+		import(/* webpackChunkName: "lens-single-contract" */ './SingleContract'),
+);
 
 const mapStateToProps = (state) => {
 	return {
@@ -22,7 +27,7 @@ const lens = {
 		renderer: compose<any>(
 			connect(mapStateToProps),
 			withChannelContext,
-		)(SingleCard),
+		)(SingleContract),
 		filter: {
 			type: 'object',
 		},

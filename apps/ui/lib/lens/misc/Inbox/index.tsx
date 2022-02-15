@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators } from '../../../core';
-import Inbox from './Inbox';
+
+export const Inbox = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-inbox" */ './Inbox'),
+);
 
 const mapDispatchToProps = (dispatch) => {
 	return bindActionCreators(

@@ -10,7 +10,7 @@ import {
 	Link,
 } from '@balena/jellyfish-ui-components';
 import SelectWrapper from './SelectWrapper';
-import CardTable from '../Table/CardTable';
+import ContractTable from '../Table/ContractTable';
 
 const SingleLineSpan = styled.span`
 	whitespace: 'nowrap';
@@ -238,7 +238,7 @@ class CRMTable extends React.Component<any, any> {
 
 	render() {
 		return (
-			<CardTable
+			<ContractTable
 				{...this.props}
 				rowKey="slug"
 				generateData={this.generateTableData}

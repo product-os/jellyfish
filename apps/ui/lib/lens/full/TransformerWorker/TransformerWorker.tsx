@@ -41,13 +41,7 @@ const Field = ({ label, value, ...rest }) => {
 	);
 };
 
-export const TransformerWorker = ({
-	actions,
-	actionItems,
-	card,
-	channel,
-	types,
-}) => {
+const TransformerWorker = ({ actions, actionItems, card, channel, types }) => {
 	const [activeIndex, setActiveIndex] = React.useState(0);
 
 	const type = helpers.getType(card.type, types);
@@ -112,3 +106,5 @@ export const TransformerWorker = ({
 		</CardLayout>
 	);
 };
+
+export default TransformerWorker;

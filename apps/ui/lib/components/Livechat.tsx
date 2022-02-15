@@ -79,4 +79,4 @@ const Livechat = () => {
  */
 console.log('Initializing livechat:', location.href);
 
-export { Livechat };
+export default Livechat;

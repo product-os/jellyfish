@@ -1,7 +1,6 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
 import ReactResizeObserver from 'react-resize-observer';
 import {
 	AutoSizer,
@@ -10,13 +9,11 @@ import {
 	CellMeasurerCache,
 	InfiniteLoader,
 } from 'react-virtualized';
-import { bindActionCreators } from 'redux';
 import { Box, Divider } from 'rendition';
 import { Column } from '@balena/jellyfish-ui-components';
-import { actionCreators, selectors } from '../../core';
-import { getLens } from '../';
+import { getLens } from '../../';
 
-export class CardList extends React.Component<any, any> {
+export default class ContractList extends React.Component<any, any> {
 	clearCellCache;
 	loadMore;
 	isRowLoaded;
@@ -206,48 +203,3 @@ export class CardList extends React.Component<any, any> {
 		);
 	}
 }
-
-const mapStateToProps = (state) => {
-	return {
-		user: selectors.getCurrentUser(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['addChannel', 'openCreateChannel']),
-			dispatch,
-		),
-	};
-};
-
-const listLens = {
-	slug: 'lens-list',
-	type: 'lens',
-	version: '1.0.0',
-	name: 'Default list lens',
-	data: {
-		label: 'List',
-		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CardList),
-		icon: 'address-card',
-		type: '*',
-		filter: {
-			type: 'array',
-			items: {
-				type: 'object',
-				properties: {
-					id: {
-						type: 'string',
-					},
-					slug: {
-						type: 'string',
-					},
-				},
-			},
-		},
-	},
-};
-
-export default listLens;

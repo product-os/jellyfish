@@ -3,7 +3,11 @@ import _ from 'lodash';
 import * as redux from 'redux';
 import { withSetup } from '@balena/jellyfish-ui-components';
 import { actionCreators, selectors } from '../../../core';
-import MyUser from './MyUser';
+import { createLazyComponent } from '../../../components/SafeLazy';
+
+export const MyUser = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-my-user" */ './MyUser'),
+);
 
 const SLUG = 'lens-my-user';
 

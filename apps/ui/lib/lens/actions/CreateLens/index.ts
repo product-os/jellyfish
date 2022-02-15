@@ -1,25 +1,27 @@
-import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import pick from 'lodash/pick';
+import { actionCreators, sdk, selectors } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
 
-export const Loop = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-check-run" */ './Loop'),
+export const CreateLens = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-create" */ './CreateLens'),
 );
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
+		sdk,
+		allTypes: selectors.getTypes(state),
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
-			_.pick(actionCreators, [
+			pick(actionCreators, [
 				'createLink',
 				'addChannel',
+				'removeChannel',
 				'getLinks',
 				'queryAPI',
 			]),
@@ -28,24 +30,18 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const lens = {
-	slug: 'lens-full-default',
+export default {
+	slug: 'lens-action-create',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Default lens',
+	name: 'Default list lens',
 	data: {
-		format: 'full',
+		format: 'create',
+		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(Loop),
+		type: '*',
 		filter: {
 			type: 'object',
-			properties: {
-				type: {
-					const: 'loop@1.0.0',
-				},
-			},
 		},
 	},
 };
-
-export default lens;

@@ -1,8 +1,12 @@
-import { getPromiseResolver, getWrapper } from '../../../../test/ui-setup';
+import {
+	getPromiseResolver,
+	getWrapper,
+	waitForLazyLoad,
+} from '../../../../test/ui-setup';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
-import { CreateLens } from '../CreateLens';
+import { CreateLens } from '.';
 import { contact, allTypes } from '../../../../test/fixtures/types';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 
@@ -131,6 +135,7 @@ describe('CreateLens', () => {
 		};
 
 		const createLensComponent = await mountCreateLens(commonProps, card);
+		await waitForLazyLoad(createLensComponent);
 		enterName(createLensComponent);
 		submit(createLensComponent);
 

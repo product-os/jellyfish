@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators, selectors } from '../../../core';
-import SingleCard from './SingleCard';
+
+export const SingleCard = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-check-run" */ './SingleCard'),
+);
 
 export { SingleCardTabs } from './SingleCard';
 

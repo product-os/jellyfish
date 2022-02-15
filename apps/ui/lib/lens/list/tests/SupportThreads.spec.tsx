@@ -4,7 +4,7 @@ import { subBusinessDays, subDays, subHours } from 'date-fns';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
-import { SupportThreads } from '../SupportThreads';
+import SupportThreads from '../SupportThreads/SupportThreads';
 import { pendingEngineer, pendingUser } from './fixtures';
 
 const sandbox = sinon.createSandbox();

@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import '@babel/polyfill';
 import { PersistGate } from 'redux-persist/integration/react';
-import { MarkdownWidget as MarkdownEditor } from 'rendition/dist/extra/Form/markdown';
 import { Provider } from 'react-redux';
 import {
 	Provider as RProvider,
@@ -30,6 +29,14 @@ import PWA from './pwa';
 import { JellyfishWidgets, LoopSelectWidget } from './components/Widgets';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
+import { createLazyComponent } from './components/SafeLazy';
+
+export const MarkdownEditor = createLazyComponent(
+	() =>
+		import(
+			/* webpackChunkName: "markdown-editor" */ './components/MarkdownEditor'
+		),
+);
 
 export const pwa = new PWA();
 pwa.init();

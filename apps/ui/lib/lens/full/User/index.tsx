@@ -1,8 +1,12 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { createLazyComponent } from '../../../components/SafeLazy';
 import { sdk, selectors, actionCreators } from '../../../core';
-import User from './User';
+
+export const User = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-user" */ './User'),
+);
 
 const mapStateToProps = (state) => {
 	const balenaOrg = _.find(selectors.getOrgs(state), {
