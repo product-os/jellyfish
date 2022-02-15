@@ -7,11 +7,7 @@ import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Box, FiltersView, Flex, FlexProps, SchemaSieve } from 'rendition';
 import { v4 as uuid } from 'uuid';
-import {
-	notifications,
-	helpers,
-	Icon,
-} from '@balena/jellyfish-ui-components';
+import { notifications, helpers, Icon } from '@balena/jellyfish-ui-components';
 import jsf from 'json-schema-faker';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type { ViewContract } from '@balena/jellyfish-types/build/core';
@@ -344,7 +340,10 @@ interface State {
 	};
 }
 
-export default class ViewRenderer extends React.Component<ViewRendererProps, State> {
+export default class ViewRenderer extends React.Component<
+	ViewRendererProps,
+	State
+> {
 	constructor(props: ViewRendererProps) {
 		super(props);
 
