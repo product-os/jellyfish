@@ -1,4 +1,20 @@
 - commits:
+    - subject: Drop summary comment from CI
+      hash: cc4ee6a223d5f73a612eb523769e75493fdeaf33
+      body: |
+        Unnecessary CI task.
+        Takes up cycles without any real benefit.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 45.4.9
+  title: "'Drop summary comment from CI'"
+  date: 2022-02-16T16:52:26.279Z
+- commits:
     - subject: Update internal-patch
       hash: 6862f5a2fd9bac9758e983a7734e4067b0ae5637
       body: ""
