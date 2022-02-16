@@ -1,6 +1,6 @@
 const AWS = require('aws-sdk')
+const _ = require('lodash')
 const path = require('path')
-const utils = require('../utils')
 
 // This directory is the directory used when importing and exporting dumps
 const WORK_DIR = '/tmp'
@@ -82,8 +82,8 @@ exports.getDumpArchivePath = (hash, type) => {
  */
 exports.checkOptions = (type, keys, options) => {
 	keys.forEach((key) => {
-		if (!utils.isValidString(options[key])) {
-			utils.handleError(`Must set ${type} option: ${key}`)
+		if (!exports.isValidString(options[key])) {
+			exports.handleError(`Must set ${type} option: ${key}`)
 		}
 	})
 }
@@ -104,8 +104,8 @@ exports.checkOptions = (type, keys, options) => {
  */
 exports.validate = (options) => {
 	// Check that dump type is set
-	if (!utils.isValidString(options.type)) {
-		utils.handleError('Dump type not set')
+	if (!exports.isValidString(options.type)) {
+		exports.handleError('Dump type not set')
 	}
 
 	// Check Postgres options
@@ -146,4 +146,32 @@ exports.initS3 = (options) => {
 	})
 }
 
-exports.handleError = utils.handleError
+/**
+ * @summary Check if a value is a non-empty string
+ * @function
+ *
+ * @param {String} value - value to check
+ * @returns {Boolean} boolean dnoting if provided string is valid or not
+ *
+ * @example
+ * if (exports.isValidString('test')) {
+ *   console.log('Is a valid string')
+ * }
+ */
+exports.isValidString = (value) => {
+	if (_.isString(value) && !_.isEmpty(value)) {
+		return true
+	}
+	return false
+}
+
+/**
+ * @summary Handle errors
+ * @function
+ *
+ * @param {String} msg - error message
+ */
+exports.handleError = (msg) => {
+	console.error(msg)
+	process.exit(1)
+}
