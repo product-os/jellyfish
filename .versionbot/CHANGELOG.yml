@@ -1,4 +1,18 @@
 - commits:
+    - subject: Replace puppeteer with playwright
+      hash: 6f48093aacaac65a30188dcaa8fc5d531fd34346
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 45.4.5
+  title: "'Replace puppeteer with playwright'"
+  date: 2022-02-16T05:30:24.676Z
+- commits:
     - subject: Update internal-patch
       hash: b6124f6a08c225ab5c7de668850b8852c13a8126
       body: ""
