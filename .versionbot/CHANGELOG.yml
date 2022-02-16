@@ -1,4 +1,24 @@
 - commits:
+    - subject: "UI: Don't lazy load widgets"
+      hash: 5d7e8acb9e290d9c8bd716136b6f118c3427813e
+      body: |
+        Fixes https://github.com/product-os/jellyfish/issues/7954
+
+        Lazy loading widgets doesn't work correctly, resulting in markdown and
+        mermaid formats not being rendered correctly in the UI. This change
+        rolls back the lazyloading. We need to resolve this at in rendition and
+        add support for lazy loaded widgets there.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 45.4.10
+  title: "'UI: Don't lazy load widgets'"
+  date: 2022-02-16T18:07:14.477Z
+- commits:
     - subject: Drop summary comment from CI
       hash: cc4ee6a223d5f73a612eb523769e75493fdeaf33
       body: |
