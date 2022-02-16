@@ -1,4 +1,22 @@
 - commits:
+    - subject: Drop custom e2e test screenshot utility
+      hash: 2aa83016c7233c5256624a23a6b715a17e9eb1a8
+      body: |
+        Have never found this to be actually useful.
+        When an e2e-ui or e2e-livechat test fails in CI,
+        devs should run the test locally with browser
+        displayed to debug problems.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 45.4.12
+  title: "'Drop custom e2e test screenshot utility'"
+  date: 2022-02-16T23:20:34.798Z
+- commits:
     - subject: Update balena/open-balena-base from v13.0.6 to v13.0.7
       hash: fd5c1defcbc1f840336bbb5559d66e5ea45bd0d4
       body: ""
