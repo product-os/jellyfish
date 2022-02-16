@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: debb799634fb9b4e12c4360f3e80630164915557
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.4.6
+  title: "'Update external-non-major'"
+  date: 2022-02-16T06:20:49.567Z
+- commits:
     - subject: Replace puppeteer with playwright
       hash: 6f48093aacaac65a30188dcaa8fc5d531fd34346
       body: ""
