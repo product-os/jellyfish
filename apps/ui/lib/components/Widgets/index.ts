@@ -3,14 +3,8 @@ import { JellyfishLinkWidget } from './JellyfishLinkWidget';
 import { JellyfishUserWidget } from './JellyfishUserWidget';
 import { createLazyComponent } from '../SafeLazy';
 export { LoopSelectWidget } from './LoopSelectWidget';
-
-export const MarkdownWidget = createLazyComponent(
-	() => import(/* webpackChunkName: "markdown-widget" */ './MarkdownWidget'),
-);
-
-export const MermaidWidget = createLazyComponent(
-	() => import(/* webpackChunkName: "mermaid-widget" */ './MermaidWidget'),
-);
+import MarkdownWidget from './MarkdownWidget';
+import MermaidWidget from './MarkdownWidget';
 
 export const JellyfishWidgets = [
 	{
