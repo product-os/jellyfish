@@ -1,12 +1,11 @@
-const bluebird = require('bluebird')
-const {
-	v4: uuid
-} = require('uuid')
-const qs = require('querystring')
 const {
 	getSdk
 } = require('@balena/jellyfish-client-sdk')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
+const {
+	v4: uuid
+} = require('uuid')
+const qs = require('querystring')
 
 exports.retry = async (times, functionToTry, delay = 0) => {
 	try {
@@ -15,7 +14,9 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 	} catch (error) {
 		if (times) {
 			if (delay > 0) {
-				await bluebird.delay(delay)
+				await new Promise((resolve) => {
+					setTimeout(resolve, delay)
+				})
 			}
 			return exports.retry(times - 1, functionToTry, delay)
 		}
@@ -24,12 +25,12 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 	}
 }
 
-exports.createThreads = async (context, start, count) => {
+exports.createThreads = async (user, start, count) => {
 	const threads = []
-	const markers = [ `${context.supportUser.card.slug}+org-balena` ]
+	const markers = [ `${user.card.slug}+org-balena` ]
 
 	for (let index = start; index < start + count; index++) {
-		const thread = await context.supportUser.sdk.card.create({
+		const thread = await user.sdk.card.create({
 			type: 'support-thread@1.0.0',
 			name: `Thread subject ${index}`,
 			markers,
@@ -45,18 +46,18 @@ exports.createThreads = async (context, start, count) => {
 	return threads
 }
 
-exports.subscribeToThread = async (context, thread) => {
-	const subscription = await context.supportUser.sdk.card.create({
+exports.subscribeToThread = async (user, thread) => {
+	const subscription = await user.sdk.card.create({
 		type: 'subscription@1.0.0',
 		slug: `subscription-${uuid()}`,
 		data: {}
 	})
 
-	await context.supportUser.sdk.card.link(thread, subscription, 'has attached')
+	await user.sdk.card.link(thread, subscription, 'has attached')
 }
 
-exports.getRenderedConversationIds = async (context) => {
-	return context.page.evaluate(() => {
+exports.getRenderedConversationIds = async (page) => {
+	return page.evaluate(() => {
 		const containers = document.querySelectorAll('[data-test-component="card-chat-summary"]')
 		return Array.from(containers).map((container) => {
 			return container.getAttribute('data-test-id')
@@ -64,27 +65,27 @@ exports.getRenderedConversationIds = async (context) => {
 	})
 }
 
-exports.scrollToLatestConversationListItem = (context) => {
-	return context.page.evaluate(() => {
+exports.scrollToLatestConversationListItem = (page) => {
+	return page.evaluate(() => {
 		const containers = document.querySelectorAll('[data-test-component="card-chat-summary"]')
 		containers[containers.length - 1].scrollIntoView()
 	})
 }
 
-exports.createConversation = async (context) => {
-	await context.page.type('[data-test="conversation-subject"]', 'Conversation subject')
-	await context.page.type('.new-message-input', 'Conversation first message')
-	await context.page.click('[data-test="start-conversation-button"]')
+exports.createConversation = async (page) => {
+	await page.type('[data-test="conversation-subject"]', 'Conversation subject')
+	await page.type('.new-message-input', 'Conversation first message')
+	await page.click('[data-test="start-conversation-button"]')
 }
 
-exports.prepareUser = async (context, org, role, name) => {
+exports.prepareUser = async (sdk, org, role, name) => {
 	const details = {
 		username: `${uuid()}`,
 		email: `${uuid()}@example.com`,
 		password: 'foobarbaz'
 	}
 
-	const card = await context.sdk.action({
+	const card = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -95,7 +96,7 @@ exports.prepareUser = async (context, org, role, name) => {
 		}
 	})
 
-	await context.sdk.card.update(
+	await sdk.card.update(
 		card.id,
 		card.type,
 		[
@@ -120,56 +121,46 @@ exports.prepareUser = async (context, org, role, name) => {
 	)
 
 	if (org) {
-		await context.sdk.card.link(card, org, 'is member of')
+		await sdk.card.link(card, org, 'is member of')
 	}
 
-	const sdk = getSdk({
+	const userSdk = getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})
 
-	await sdk.auth.login(details)
+	await userSdk.auth.login(details)
 
 	return {
-		sdk,
+		sdk: userSdk,
 		card,
 		org
 	}
 }
 
-exports.setToken = async (context) => {
-	const {
-		page,
-		supportUser
-	} = context
-
-	await page.setRequestInterception(true)
-
-	const onRequest = (request) => {
-		request.respond({
+exports.setToken = async (page, user) => {
+	await page.route('**/*', (route) => {
+		route.fulfill({
 			status: 200,
 			contentType: 'text/plain',
 			body: 'Fake page for setting localStorage entry'
 		})
-	}
-
-	page.on('request', onRequest)
+	})
 
 	await page.goto(
 		`${environment.livechat.host}:${environment.livechat.port}`
 	)
 
-	await page.evaluate((supportUserToken) => {
-		window.localStorage.setItem('token', supportUserToken)
-	}, supportUser.sdk.getAuthToken())
+	await page.evaluate((userToken) => {
+		window.localStorage.setItem('token', userToken)
+	}, user.sdk.getAuthToken())
 
-	page.off('request', onRequest)
-	await page.setRequestInterception(false)
+	await page.unroute('**/*')
 }
 
-exports.initChat = async (context) => {
+exports.initChat = async (page, user) => {
 	const queryString = qs.stringify({
-		username: context.supportUser.card.slug.replace('user-', ''),
+		username: user.card.slug.replace('user-', ''),
 		product: 'balenaCloud',
 		productTitle: 'Livechat test',
 		inbox: 'paid'
@@ -177,16 +168,16 @@ exports.initChat = async (context) => {
 
 	const url = `${environment.livechat.host}:${environment.livechat.port}?${queryString}`
 
-	if (context.page.url().includes(url)) {
-		await exports.navigateTo('/')
-		await context.page.waitForSelector('[data-test="initial-create-conversation-page"]')
+	if (page.url().includes(url)) {
+		await exports.navigateTo(page, '/')
+		await page.waitForSelector('[data-test="initial-create-conversation-page"]')
 	} else {
-		await context.page.goto(url)
+		await page.goto(url)
 	}
 }
 
-exports.navigateTo = async (context, to) => {
-	await context.page.evaluate(async (payload) => {
+exports.navigateTo = async (page, to) => {
+	await page.evaluate(async (payload) => {
 		window.postMessage({
 			type: 'navigate',
 			payload
@@ -194,8 +185,8 @@ exports.navigateTo = async (context, to) => {
 	}, to)
 }
 
-exports.insertAgentReply = async (context, thread, message) => {
-	return context.supportAgent.sdk.event.create({
+exports.insertAgentReply = async (user, thread, message) => {
+	return user.sdk.event.create({
 		target: thread,
 		type: 'message',
 		slug: `message-${uuid()}`,
@@ -210,9 +201,9 @@ exports.insertAgentReply = async (context, thread, message) => {
 	})
 }
 
-exports.waitForNotifications = (context, notificationsLength) => {
+exports.waitForNotifications = (page, notificationsLength) => {
 	return exports.retry(60, async () => {
-		const notifications = await context.page.evaluate(() => {
+		const notifications = await page.evaluate(() => {
 			return window.notifications
 		})
 		if (notifications && notifications.length === notificationsLength) {

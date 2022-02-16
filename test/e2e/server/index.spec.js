@@ -1,28 +1,25 @@
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const ava = require('ava')
+const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
-const _ = require('lodash')
-const helpers = require('../sdk/helpers')
-const environment = require('@balena/jellyfish-environment').defaultEnvironment
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+let sdk = {}
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
 
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -33,7 +30,7 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: 'user',
@@ -51,7 +48,7 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 })
 
 ava.serial('should login as the default test user', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `user-${environment.test.user.username}@1.0.0`,
 			type: 'user',
@@ -65,8 +62,8 @@ ava.serial('should login as the default test user', async (test) => {
 })
 
 ava.serial('should include the request and api ids on responses', async (test) => {
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -77,7 +74,7 @@ ava.serial('should include the request and api ids on responses', async (test) =
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: 'user',
@@ -93,8 +90,8 @@ ava.serial('should include the request and api ids on responses', async (test) =
 })
 
 ava.serial('should create different request ids for every response', async (test) => {
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -105,7 +102,7 @@ ava.serial('should create different request ids for every response', async (test
 		}
 	})
 
-	const result1 = await test.context.http(
+	const result1 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: 'user',
@@ -115,7 +112,7 @@ ava.serial('should create different request ids for every response', async (test
 			}
 		})
 
-	const result2 = await test.context.http(
+	const result2 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: 'user',
@@ -125,7 +122,7 @@ ava.serial('should create different request ids for every response', async (test
 			}
 		})
 
-	const result3 = await test.context.http(
+	const result3 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: `${user.slug}@${user.version}`,
 			type: 'user',
@@ -141,21 +138,21 @@ ava.serial('should create different request ids for every response', async (test
 })
 
 ava.serial('The ping endpoint should continuously work', async (test) => {
-	const result1 = await test.context.http('GET', '/ping')
+	const result1 = await helpers.http('GET', '/ping')
 	test.is(result1.code, 200)
 	test.false(result1.response.error)
 
-	const result2 = await test.context.http('GET', '/ping')
+	const result2 = await helpers.http('GET', '/ping')
 	test.is(result2.code, 200)
 	test.false(result2.response.error)
 
-	const result3 = await test.context.http('GET', '/ping')
+	const result3 = await helpers.http('GET', '/ping')
 	test.is(result3.code, 200)
 	test.false(result3.response.error)
 })
 
 ava.serial('should fail with a user error given no input card', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/action', {
+	const result = await helpers.http('POST', '/api/v2/action', {
 		type: 'user',
 		action: 'action-create-session@1.0.0',
 		arguments: {
@@ -168,9 +165,10 @@ ava.serial('should fail with a user error given no input card', async (test) => 
 })
 
 ava.serial('should fail to query with single quotes JSON object', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST', '/api/v2/query', '{\'foo\':bar}', {
-			Authorization: `Bearer ${test.context.token}`,
+			Authorization: `Bearer ${token}`,
 			'Content-Type': 'application/json'
 		}, {
 			json: false
@@ -181,9 +179,10 @@ ava.serial('should fail to query with single quotes JSON object', async (test) =
 })
 
 ava.serial('should fail to query with a non JSON string', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST', '/api/v2/query', 'foo:bar', {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 400)
@@ -191,11 +190,12 @@ ava.serial('should fail to query with a non JSON string', async (test) => {
 })
 
 ava.serial('should fail to query with an invalid query object', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST', '/api/v2/query', {
 			foo: 'bar'
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 400)
@@ -203,16 +203,15 @@ ava.serial('should fail to query with an invalid query object', async (test) => 
 })
 
 ava.serial('should get all elements by type', async (test) => {
-	const token = test.context.sdk.getAuthToken()
-
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'GET', '/api/v2/type/user', null, {
 			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 200)
 
-	const users = await test.context.sdk.query({
+	const users = await sdk.query({
 		type: 'object',
 		required: [ 'type' ],
 		additionalProperties: true,
@@ -229,7 +228,8 @@ ava.serial('should get all elements by type', async (test) => {
 })
 
 ava.serial('should fail with a user error when executing an unknown action', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'user-admin@1.0.0',
 			type: 'user',
@@ -238,7 +238,7 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 				foo: 'bar'
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 400)
@@ -246,7 +246,8 @@ ava.serial('should fail with a user error when executing an unknown action', asy
 })
 
 ava.serial('should fail with a user error given an arguments mismatch', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'user@1.0.0',
 			type: 'type',
@@ -255,7 +256,7 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 				foo: 'bar'
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 400)
@@ -263,9 +264,10 @@ ava.serial('should fail with a user error given an arguments mismatch', async (t
 })
 
 ava.serial('an update that renders a card invalid for its type is a user error', async (test) => {
+	const token = sdk.getAuthToken()
 	const slug = `ping-test-${uuid()}`
 
-	const result1 = await test.context.http(
+	const result1 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'ping@1.0.0',
 			type: 'type',
@@ -281,12 +283,12 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 				}
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result1.code, 200)
 
-	const result2 = await test.context.http(
+	const result2 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: result1.response.data.id,
 			type: result1.response.data.type,
@@ -302,7 +304,7 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 				]
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result2.code, 400)
@@ -310,9 +312,10 @@ ava.serial('an update that renders a card invalid for its type is a user error',
 })
 
 ava.serial('should fail with a user error if no action card type', async (test) => {
+	const token = sdk.getAuthToken()
 	const slug = `ping-test-${uuid()}`
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'ping@1.0.0',
 			action: 'action-create-card@1.0.0',
@@ -327,7 +330,7 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 				}
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 400)
@@ -335,9 +338,11 @@ ava.serial('should fail with a user error if no action card type', async (test) 
 })
 
 ava.serial('should report a user error if creating the same event twice', async (test) => {
-	const thread = await test.context.sdk.card.create({
+	const token = sdk.getAuthToken()
+
+	const thread = await sdk.card.create({
 		type: 'card',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'thread'
 		}),
 		version: '1.0.0',
@@ -345,7 +350,7 @@ ava.serial('should report a user error if creating the same event twice', async 
 	})
 
 	const args = {
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'whisper'
 		}),
 		tags: [],
@@ -357,24 +362,24 @@ ava.serial('should report a user error if creating the same event twice', async 
 		}
 	}
 
-	const result1 = await test.context.http(
+	const result1 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: thread.id,
 			type: thread.type,
 			action: 'action-create-event@1.0.0',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
-	const result2 = await test.context.http(
+	const result2 = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: thread.id,
 			type: thread.type,
 			action: 'action-create-event@1.0.0',
 			arguments: args
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result1.code, 200)
@@ -384,6 +389,7 @@ ava.serial('should report a user error if creating the same event twice', async 
 })
 
 ava.serial('should respond with an error given a payload middleware exception', async (test) => {
+	const token = sdk.getAuthToken()
 	const data = {}
 
 	for (const time of _.range(0, 1000)) {
@@ -397,7 +403,7 @@ ava.serial('should respond with an error given a payload middleware exception', 
 		}
 	}
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'card@1.0.0',
 			type: 'type',
@@ -405,7 +411,7 @@ ava.serial('should respond with an error given a payload middleware exception', 
 			arguments: {
 				reason: null,
 				properties: {
-					slug: test.context.generateRandomSlug({
+					slug: helpers.generateRandomSlug({
 						prefix: 'payload-test'
 					}),
 					version: '1.0.0',
@@ -413,7 +419,7 @@ ava.serial('should respond with an error given a payload middleware exception', 
 				}
 			}
 		}, {
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		})
 
 	test.is(result.code, 413)
@@ -439,14 +445,15 @@ ava.serial('should respond with an error given a payload middleware exception', 
 })
 
 ava.serial('/query endpoint should allow you to query using a view\'s slug', async (test) => {
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const result = await helpers.http(
 		'POST',
 		'/api/v2/query',
 		{
 			query: 'view-all-views'
 		},
 		{
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		}
 	)
 
@@ -457,15 +464,16 @@ ava.serial('/query endpoint should allow you to query using a view\'s slug', asy
 })
 
 ava.serial('/query endpoint should allow you to query using a view\'s id', async (test) => {
-	const view = await test.context.sdk.card.get('view-all-views')
-	const result = await test.context.http(
+	const token = sdk.getAuthToken()
+	const view = await sdk.card.get('view-all-views')
+	const result = await helpers.http(
 		'POST',
 		'/api/v2/query',
 		{
 			query: view.id
 		},
 		{
-			Authorization: `Bearer ${test.context.token}`
+			Authorization: `Bearer ${token}`
 		}
 	)
 
@@ -476,15 +484,11 @@ ava.serial('/query endpoint should allow you to query using a view\'s id', async
 })
 
 ava.serial('whoami should respond even if user has little permissions', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const roleSlug = test.context.generateRandomSlug({
+	const roleSlug = helpers.generateRandomSlug({
 		prefix: 'role-user'
 	})
 
-	await test.context.sdk.action({
+	await sdk.action({
 		card: 'role@1.0.0',
 		type: 'type',
 		action: 'action-create-card@1.0.0',
@@ -516,8 +520,8 @@ ava.serial('whoami should respond even if user has little permissions', async (t
 		}
 	})
 
-	const userDetails = createUserDetails()
-	const user = await test.context.sdk.action({
+	const userDetails = helpers.generateUserDetails()
+	const user = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -528,9 +532,9 @@ ava.serial('whoami should respond even if user has little permissions', async (t
 		}
 	})
 
-	const session = await test.context.sdk.card.create({
+	const session = await sdk.card.create({
 		type: 'session@1.0.0',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'session'
 		}),
 		version: '1.0.0',
@@ -547,7 +551,7 @@ ava.serial('whoami should respond even if user has little permissions', async (t
 		}
 	])
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET',
 		'/api/v2/whoami',
 		{},

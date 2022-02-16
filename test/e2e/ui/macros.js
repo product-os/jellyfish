@@ -1,6 +1,5 @@
-const bluebird = require('bluebird')
-const _ = require('lodash')
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
+const _ = require('lodash')
 
 exports.TIMEOUT = 60 * 1000
 
@@ -15,7 +14,9 @@ exports.retry = async (times, functionToTry, delay = 0) => {
 	} catch (error) {
 		if (times) {
 			if (delay > 0) {
-				await bluebird.delay(delay)
+				await new Promise((resolve) => {
+					setTimeout(resolve, delay)
+				})
 			}
 			return exports.retry(times - 1, functionToTry, delay)
 		}
@@ -34,8 +35,12 @@ exports.getElementValue = async (page, selector) => {
 
 exports.getElementAttribute = async (page, element, attributeName) => {
 	return page.evaluate(
-		(item, attr) => { return item.getAttribute(attr) },
-		element, attributeName
+		({
+			item, attr
+		}) => { return item.getAttribute(attr) },
+		{
+			item: element, attr: attributeName
+		}
 	)
 }
 
@@ -56,15 +61,11 @@ exports.goto = async (page, path, {
 }
 
 exports.loginUser = async (page, user) => {
-	await exports.goto(page, '/')
-
+	await page.goto('/')
 	await page.waitForSelector('.login-page', exports.WAIT_OPTS)
-
 	await page.type('.login-page__input--username', user.username)
 	await page.type('.login-page__input--password', user.password)
-
 	await page.click('.login-page__submit--login')
-
 	await page.waitForSelector('.home-channel')
 }
 
@@ -115,34 +116,26 @@ exports.logout = async (page) => {
 		})
 		return
 	} catch (error) {
-		await exports.waitForThenClickSelector(page, '.user-menu-toggle')
+		await page.locator('.user-menu-toggle').click()
 		await page.waitForSelector('.user-menu', exports.WAIT_OPTS)
-		await exports.waitForThenClickSelector(page, '.user-menu__logout')
+		await page.locator('.user-menu__logout').click()
 		await exports.retry(3, async () => {
 			await page.waitForSelector('.login-page', {
 				timeout: 2 * 1000
 			})
 		})
 	}
-	await bluebird.delay(1000)
-}
-
-exports.waitForThenClickSelector = async (page, selector, options) => {
-	await exports.retry(3, async () => {
-		if (selector.startsWith('//')) {
-			const el = await page.waitForXPath(selector, options)
-			await el.click()
-		} else {
-			const el = await page.waitForSelector(selector, options)
-			await el.click()
-		}
+	await new Promise((resolve) => {
+		setTimeout(resolve, 1000)
 	})
 }
 
 exports.createChatMessage = async (page, scopeSelector, messageText) => {
 	await page.waitForSelector('.new-message-input', exports.WAIT_OPTS)
 	await page.type('textarea', messageText)
-	await bluebird.delay(500)
+	await new Promise((resolve) => {
+		setTimeout(resolve, 500)
+	})
 
 	// If the message triggers an autocomplete widget, dismiss it before
 	// continuing. If it is not dismissed the autocomplete will swallow the
@@ -178,14 +171,17 @@ exports.getElementText = async (page, selector) => {
 }
 
 exports.waitForInnerText = async (page, selector, text, index) => {
-	return exports.retry(3, async () => {
-		const isMatch = await page.evaluate((_selector, _text, _index) => {
-			const elements = document.querySelectorAll(_selector)
+	return exports.retry(10, async () => {
+		const isMatch = await page.evaluate((options) => {
+			const elements = document.querySelectorAll(options.selector)
 
 			return Array.from(elements).some((element, elementIndex) => {
-				return element.innerText === _text && (typeof _index === 'undefined' || _index === elementIndex)
+				return element.innerText === options.text &&
+					(typeof options.index === 'undefined' || options.index === elementIndex)
 			})
-		}, selector, text, index)
+		}, {
+			selector, text, index
+		})
 
 		if (!isMatch) {
 			throw new Error(`Text not found: "${text}"`)
@@ -211,7 +207,9 @@ exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => 
 			return true
 		}
 
-		await bluebird.delay(1000)
+		await new Promise((resolve) => {
+			setTimeout(resolve, 1000)
+		})
 
 		throw new Error(`Element still exists: ${selector}`)
 	})
@@ -220,10 +218,12 @@ exports.waitForSelectorToDisappear = async (page, selector, retryCount = 30) => 
 exports.waitForThenDismissAlert = async (page, alertPrefix) => {
 	const notificationButtonSelector =
 		`//*[contains(@class, "notification-item")][//*[contains(text(), "${alertPrefix}")]]//button`
-	await exports.waitForThenClickSelector(page, notificationButtonSelector)
+	await page.locator(notificationButtonSelector).click()
 
 	// Wait for animated notification exit
-	await bluebird.delay(2000)
+	await new Promise((resolve) => {
+		setTimeout(resolve, 2000)
+	})
 }
 
 exports.navigateToHomeChannelItem = async (page, menuStack) => {
@@ -236,16 +236,18 @@ exports.navigateToHomeChannelItem = async (page, menuStack) => {
 		)
 		if (isExpanded === 'false') {
 			// Need to expand this item
-			await exports.waitForThenClickSelector(page, itemSelector)
+			await page.locator(itemSelector).click()
 		} else if (menuStack.length === 0) {
 			// We've reached the end of the menu stack.
 			// Click the final item to navigate to the view
-			await exports.waitForThenClickSelector(page, itemSelector)
+			await page.locator(itemSelector).click()
 		}
 	}
 }
 
-const lookForElementInsideScrollable = async (elemSelector, selector) => {
+const lookForElementInsideScrollable = async ({
+	elemSelector, selector
+}) => {
 	const scrollable = document.querySelector(elemSelector)
 
 	if (!scrollable) {
@@ -299,17 +301,18 @@ exports.waitForSelectorInsideScrollable = async (page, scrollableSelector, selec
 			throw new Error('Timeout error')
 		}
 
-		const result = await page.evaluateHandle(
-			lookForElementInsideScrollable,
-			scrollableSelector,
-			selector
-		)
+		const result = await page.evaluateHandle(lookForElementInsideScrollable, {
+			elemSelector: scrollableSelector, selector
+		})
 
 		if (await (await result.getProperty('success')).jsonValue()) {
-			return result.getProperty('result')
+			const foo = await result.getProperty('result')
+			return foo
 		}
 
-		await bluebird.delay(100)
+		await new Promise((resolve) => {
+			setTimeout(resolve, 100)
+		})
 	}
 }
 
@@ -323,14 +326,17 @@ exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollableSele
 
 		const result = await page.evaluateHandle(
 			lookForElementInsideScrollable,
-			scrollableSelector,
-			selector
+			{
+				elemSelector: scrollableSelector, selector
+			}
 		)
 
 		if (!(await (await result.getProperty('success')).jsonValue())) {
 			return
 		}
 
-		await bluebird.delay(100)
+		await new Promise((resolve) => {
+			setTimeout(resolve, 100)
+		})
 	}
 }

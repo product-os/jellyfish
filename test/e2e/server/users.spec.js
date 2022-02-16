@@ -1,30 +1,20 @@
 const ava = require('ava')
-const {
-	v4: uuid
-} = require('uuid')
-const helpers = require('../sdk/helpers')
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+let sdk = {}
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
 
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial('Users should be able to read other users, even if they don\'t have an email address', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const user1Details = createUserDetails()
-	const user2Details = createUserDetails()
+	const user1Details = helpers.generateUserDetails()
+	const user2Details = helpers.generateUserDetails()
 
 	// Create user 1 and login as them
 	await sdk.action({

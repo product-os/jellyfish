@@ -1,14 +1,8 @@
 const ava = require('ava')
-const helpers = require('../sdk/helpers')
-
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
-
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+const helpers = require('./helpers')
 
 ava.serial('should post a dummy "none" event', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/hooks/none', {
+	const result = await helpers.http('POST', '/api/v2/hooks/none', {
 		foo: 'bar',
 		bar: 'baz'
 	})
@@ -17,7 +11,7 @@ ava.serial('should post a dummy "none" event', async (test) => {
 })
 
 ava.serial('should not be able to post an unsupported external event', async (test) => {
-	const result = await test.context.http('POST', '/api/v2/hooks/test', {
+	const result = await helpers.http('POST', '/api/v2/hooks/test', {
 		foo: 'bar',
 		bar: 'baz'
 	})

@@ -1,18 +1,23 @@
 const ava = require('ava')
-const helpers = require('../sdk/helpers')
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+let sdk = {}
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
+
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial('should fail with a user error when querying an id with an expired session', async (test) => {
-	const admin = await test.context.sdk.card.get('user-admin')
+	const admin = await sdk.card.get('user-admin')
 
-	const session = await test.context.sdk.card.create({
+	const session = await sdk.card.create({
 		type: 'session',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'session'
 		}),
 		version: '1.0.0',
@@ -22,7 +27,7 @@ ava.serial('should fail with a user error when querying an id with an expired se
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET', '/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84', null, {
 			Authorization: `Bearer ${session.id}`
 		})
@@ -39,11 +44,11 @@ ava.serial('should fail with a user error when querying an id with an expired se
 })
 
 ava.serial('should fail with a user error when querying a slug with an expired session', async (test) => {
-	const admin = await test.context.sdk.card.get('user-admin')
+	const admin = await sdk.card.get('user-admin')
 
-	const session = await test.context.sdk.card.create({
+	const session = await sdk.card.create({
 		type: 'session',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'session'
 		}),
 		version: '1.0.0',
@@ -53,7 +58,7 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET', '/api/v2/slug/user-admin', null, {
 			Authorization: `Bearer ${session.id}`
 		})
@@ -70,11 +75,11 @@ ava.serial('should fail with a user error when querying a slug with an expired s
 })
 
 ava.serial('should fail with a user error when querying with an expired session', async (test) => {
-	const admin = await test.context.sdk.card.get('user-admin')
+	const admin = await sdk.card.get('user-admin')
 
-	const session = await test.context.sdk.card.create({
+	const session = await sdk.card.create({
 		type: 'session',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'session'
 		}),
 		version: '1.0.0',
@@ -84,7 +89,7 @@ ava.serial('should fail with a user error when querying with an expired session'
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/query', {
 			query: {
 				type: 'object',
@@ -117,11 +122,11 @@ ava.serial('should fail with a user error when querying with an expired session'
 })
 
 ava.serial('should fail with a user error when posting an action with an expired session', async (test) => {
-	const admin = await test.context.sdk.card.get('user-admin')
+	const admin = await sdk.card.get('user-admin')
 
-	const session = await test.context.sdk.card.create({
+	const session = await sdk.card.create({
 		type: 'session',
-		slug: test.context.generateRandomSlug({
+		slug: helpers.generateRandomSlug({
 			prefix: 'session'
 		}),
 		version: '1.0.0',
@@ -131,7 +136,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 		}
 	})
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/action', {
 			card: 'user-nonexistentuser12345@1.0.0',
 			type: 'user',
@@ -157,7 +162,7 @@ ava.serial('should fail with a user error when posting an action with an expired
 ava.serial('should fail with a 404 when querying an invalid session with an invalid session', async (test) => {
 	const session = '4a962ad9-20b5-4dd8-a707-bf819593cc84'
 
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'GET', `/api/v2/id/${session}`, null, {
 			Authorization: `Bearer ${session}`
 		})

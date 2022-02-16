@@ -1,28 +1,34 @@
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const ava = require('ava')
+const _ = require('lodash')
 const {
 	v4: uuid
 } = require('uuid')
-const _ = require('lodash')
-const helpers = require('../sdk/helpers')
+const sdkHelpers = require('../sdk/helpers')
+const helpers = require('./helpers')
 
-ava.serial.before(helpers.before)
-ava.serial.after.always(helpers.after)
+let sdk = {}
 
-ava.serial.beforeEach(helpers.beforeEach)
-ava.serial.afterEach.always(helpers.afterEach)
+ava.serial.before(async () => {
+	sdk = await sdkHelpers.login()
+})
 
-const createUserDetails = () => {
-	return {
-		username: uuid(),
-		email: `${uuid()}@example.com`,
-		password: 'foobarbaz'
-	}
-}
+ava.serial.beforeEach(async () => {
+	const session = await sdk.auth.login({
+		username: environment.test.user.username,
+		password: environment.test.user.password
+	})
+	sdk.setAuthToken(session.id)
+})
+
+ava.serial.afterEach(() => {
+	sdkHelpers.afterEach(sdk)
+})
 
 ava.serial(
 	'querying whoami with an invalid session should return the guest user info',
 	async (test) => {
-		const result = await test.context.http('GET', '/api/v2/whoami', null, {
+		const result = await helpers.http('GET', '/api/v2/whoami', null, {
 			Authorization: `Bearer ${uuid()}`
 		})
 
@@ -34,12 +40,8 @@ ava.serial(
 ava.serial(
 	'Users should not be able to view other users passwords',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
-		const userDetails = createUserDetails()
-		const targetUser = await test.context.sdk.action({
+		const userDetails = helpers.generateUserDetails()
+		const targetUser = await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -50,9 +52,9 @@ ava.serial(
 			}
 		})
 
-		const activeUserDetails = createUserDetails()
+		const activeUserDetails = helpers.generateUserDetails()
 
-		await test.context.sdk.action({
+		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -75,12 +77,9 @@ ava.serial(
 ava.serial(
 	'timeline cards should reference the correct actor',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-		const userDetails = createUserDetails()
+		const userDetails = helpers.generateUserDetails()
 
-		const user = await test.context.sdk.action({
+		const user = await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -124,8 +123,8 @@ ava.serial(
 			required: [ 'id' ]
 		}
 
-		await test.context.executeThenWait(async () => {
-			const result = await test.context.http(
+		await sdkHelpers.executeThenWait(sdk, async () => {
+			const result = await helpers.http(
 				'POST',
 				'/api/v2/action',
 				{
@@ -171,9 +170,7 @@ ava.serial(
 ava.serial(
 	'Users should not be able to login as the core admin user',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
+		const token = sdk.getAuthToken()
 
 		// First check that the guest user cannot login
 		sdk.auth.logout()
@@ -184,10 +181,10 @@ ava.serial(
 			})
 		)
 
-		sdk.setAuthToken(test.context.token)
-		const userData = createUserDetails()
+		sdk.setAuthToken(token)
+		const userData = helpers.generateUserDetails()
 
-		await test.context.sdk.action({
+		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -213,8 +210,8 @@ ava.serial(
 	async (test) => {
 		const id = uuid()
 
-		const details = createUserDetails()
-		await test.context.sdk.action({
+		const details = helpers.generateUserDetails()
+		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -225,8 +222,8 @@ ava.serial(
 			}
 		})
 
-		const userDetails = createUserDetails()
-		await test.context.sdk.action({
+		const userDetails = helpers.generateUserDetails()
+		await sdk.action({
 			card: 'user@1.0.0',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
@@ -236,8 +233,8 @@ ava.serial(
 				password: userDetails.password
 			}
 		})
-		await test.context.sdk.auth.login(userDetails)
-		const results1 = await test.context.sdk.query({
+		await sdk.auth.login(userDetails)
+		const results1 = await sdk.query({
 			type: 'object',
 			required: [ 'type' ],
 			properties: {
@@ -251,7 +248,7 @@ ava.serial(
 				}
 			}
 		})
-		const results2 = await test.context.sdk.query({
+		const results2 = await sdk.query({
 			type: 'object',
 			additionalProperties: true,
 			required: [ 'type' ],
@@ -271,13 +268,9 @@ ava.serial(
 )
 
 ava.serial('should apply permissions on resolved links', async (test) => {
-	const {
-		sdk
-	} = test.context
-
-	const user1Details = createUserDetails()
-	const targetDetails = createUserDetails()
-	await test.context.sdk.action({
+	const user1Details = helpers.generateUserDetails()
+	const targetDetails = helpers.generateUserDetails()
+	await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -287,7 +280,7 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			password: user1Details.password
 		}
 	})
-	const targetUserInfo = await test.context.sdk.action({
+	const targetUserInfo = await sdk.action({
 		card: 'user@1.0.0',
 		type: 'type',
 		action: 'action-create-user@1.0.0',
@@ -297,9 +290,9 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 			password: targetDetails.password
 		}
 	})
-	const targetUser = await test.context.sdk.card.get(targetUserInfo.id)
+	const targetUser = await sdk.card.get(targetUserInfo.id)
 
-	await test.context.sdk.auth.login(user1Details)
+	await sdk.auth.login(user1Details)
 
 	const id = uuid()
 
@@ -373,12 +366,8 @@ ava.serial('should apply permissions on resolved links', async (test) => {
 ava.serial(
 	'Users should not be able to view create cards that create users',
 	async (test) => {
-		const {
-			sdk
-		} = test.context
-
-		const user1Details = createUserDetails()
-		const user2Details = createUserDetails()
+		const user1Details = helpers.generateUserDetails()
+		const user2Details = helpers.generateUserDetails()
 
 		await sdk.auth.signup(user1Details)
 		const user2 = await sdk.auth.signup(user2Details)

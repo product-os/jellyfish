@@ -1,14 +1,8 @@
 const ava = require('ava')
-const helpers = require('../sdk/helpers')
-
-ava.before(helpers.before)
-ava.after.always(helpers.after)
-
-ava.beforeEach(helpers.beforeEach)
-ava.afterEach.always(helpers.afterEach)
+const helpers = require('./helpers')
 
 ava.serial('/signup should not allow requests without username parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			email: 'user@balena.io',
 			password: '1234'
@@ -22,7 +16,7 @@ ava.serial('/signup should not allow requests without username parameter', async
 })
 
 ava.serial('/signup should not allow requests without email parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			username: 'user',
 			password: '1234'
@@ -36,7 +30,7 @@ ava.serial('/signup should not allow requests without email parameter', async (t
 })
 
 ava.serial('/signup should not allow requests without password parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			username: 'user',
 			email: 'user@balena.io'
@@ -50,7 +44,7 @@ ava.serial('/signup should not allow requests without password parameter', async
 })
 
 ava.serial('/signup should not allow non-string username parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			username: 1,
 			email: 'user@balena.io',
@@ -65,7 +59,7 @@ ava.serial('/signup should not allow non-string username parameter', async (test
 })
 
 ava.serial('/signup should not allow non-string email parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			username: 'user',
 			email: 1,
@@ -80,7 +74,7 @@ ava.serial('/signup should not allow non-string email parameter', async (test) =
 })
 
 ava.serial('/signup should not allow non-string password parameter', async (test) => {
-	const result = await test.context.http(
+	const result = await helpers.http(
 		'POST', '/api/v2/signup', {
 			username: 'user',
 			email: 'user@balena.io',
