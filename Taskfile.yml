@@ -59,10 +59,6 @@ tasks:
     cmds:
       - task: e2e-server
 
-  post-summary:
-    cmds:
-      - ./scripts/ci/summary.js
-
   test:
     cmds:
       - task: catch-uncommitted
@@ -75,4 +71,3 @@ tasks:
       - task: export-database
       - task: import-database
       - task: e2e-server-previous-dump
-      - task: post-summary
