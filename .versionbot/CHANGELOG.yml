@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.0.6 to v13.0.7
+      hash: fd5c1defcbc1f840336bbb5559d66e5ea45bd0d4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.4.11
+  title: "'Update balena/open-balena-base from v13.0.6 to v13.0.7'"
+  date: 2022-02-16T19:34:57.506Z
+- commits:
     - subject: "UI: Don't lazy load widgets"
       hash: 5d7e8acb9e290d9c8bd716136b6f118c3427813e
       body: |
