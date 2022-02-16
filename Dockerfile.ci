@@ -1,4 +1,4 @@
-FROM resinci/jellyfish-test:v1.4.27
+FROM resinci/jellyfish-test:build-joshbwlng-playwright
 
 WORKDIR /usr/src/jellyfish
 COPY . ./
