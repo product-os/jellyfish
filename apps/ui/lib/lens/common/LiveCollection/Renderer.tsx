@@ -608,25 +608,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		this.props.actions.setViewLens(this.props.card.id, lens.slug);
 	};
 
-	setSlice = ({ value }) => {
-		this.setState({
-			activeSlice: value,
-		});
-
-		const lens = getLensBySlug(this.state.activeLens);
-
-		const newFilters = setSliceFilter(
-			this.state.filters,
-			lens,
-			value,
-			this.state.sliceOptions,
-		);
-
-		this.updateFilters(newFilters);
-
-		this.props.actions.setViewSlice(this.props.card.id, value);
-	};
-
 	handleSortOptionsChange = (sortOptions) => {
 		this.setState(
 			({ options }) => ({
