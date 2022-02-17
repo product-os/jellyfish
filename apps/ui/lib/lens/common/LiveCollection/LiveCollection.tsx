@@ -132,7 +132,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 	}
 
 	nextPage = async () => {
-		if (this.cursor) {
+		if (this.cursor && this.cursor.hasNextPage()) {
 			const results = await this.cursor.nextPage();
 			this.setState((prevState) => {
 				return {
