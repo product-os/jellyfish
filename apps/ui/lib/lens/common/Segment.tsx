@@ -28,7 +28,6 @@ interface OwnProps {
 	types: TypeContract[];
 	card: Contract;
 	draftCards?: Contract[];
-	onCardsUpdated?: (cards: Contract[]) => any;
 	onSave?: (
 		card: Contract | null,
 		selectedTarget: Contract,
@@ -62,7 +61,6 @@ class Segment extends React.Component<Props, State> {
 		this.openCreateChannel = this.openCreateChannel.bind(this);
 		this.openLinkModal = this.openLinkModal.bind(this);
 		this.hideLinkModal = this.hideLinkModal.bind(this);
-		this.updateResults = this.updateResults.bind(this);
 		this.getData = this.getData.bind(this);
 	}
 
@@ -96,19 +94,12 @@ class Segment extends React.Component<Props, State> {
 		this.getData();
 	}
 
-	updateResults(results) {
-		const { onCardsUpdated, draftCards } = this.props;
-		this.setState(
-			{
-				results: _.unionBy(results, draftCards || [], 'id'),
-			},
-			() => {
-				if (onCardsUpdated) {
-					onCardsUpdated(results);
-				}
-			},
-		);
-	}
+	updateResults = (results: Contract[]) => {
+		const { draftCards } = this.props;
+		this.setState({
+			results: _.unionBy(results, draftCards || [], 'id'),
+		});
+	};
 
 	async getData() {
 		const { card, segment, actions, sdk } = this.props;
