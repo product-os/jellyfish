@@ -430,7 +430,6 @@ interface State {
 	eventSearchFilter?: any;
 	searchFilter?: any;
 	filters: any[];
-	ready: boolean;
 	tailTypes: null | TypeContract[];
 	activeLens: string | null;
 	activeSlice: any;
@@ -450,231 +449,8 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		this.state = {
-			redirectTo: null,
-			searchTerm: '',
-			eventSearchFilter: null,
-			searchFilter: null,
-			filters: [],
-			ready: false,
-			tailTypes: null,
-			activeLens: null,
-			activeSlice: null,
-			options: {
-				page: 0,
-				totalPages: Infinity,
-				limit: 100,
-				sortBy: ['created_at'],
-				sortDir: 'desc',
-			},
-			query: null,
-		};
+		const { card, query, seed } = this.props;
 
-		const methods = [
-			'bootstrap',
-			'getQueryOptions',
-			'createView',
-			'loadViewWithFilters',
-			'saveView',
-			'setLens',
-			'setSlice',
-			'updateSearch',
-			'updateFiltersFromSummary',
-			'updateFilters',
-			'getQueryOptions',
-			'handleSortOptionsChange',
-		];
-		methods.forEach((method) => {
-			this[method] = this[method].bind(this);
-		});
-
-		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
-	}
-
-	saveView([view]: FiltersView[]) {
-		if (!view) {
-			return;
-		}
-
-		const newView = this.createView(view);
-
-		sdk.card
-			.create(newView)
-			.then((card: any) => {
-				analytics.track('element.create', {
-					element: {
-						type: 'view',
-					},
-				});
-				this.setState({
-					redirectTo: `/${card.slug || card.id}`,
-				});
-			})
-			.catch((error) => {
-				notifications.addNotification('danger', error.message);
-			});
-	}
-
-	updateFiltersFromSummary(filters) {
-		// Separate out the search filter from the other filters
-		const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
-			title: FULL_TEXT_SEARCH_TITLE,
-		});
-		if (searchFilters.length) {
-			this.updateFilters(filtersWithoutSearch);
-		} else {
-			// If the search filter has been removed by the Filters summary,
-			// update our component state accordingly before updating filters
-			this.setState(
-				{
-					eventSearchFilter: null,
-					searchFilter: null,
-					searchTerm: '',
-				},
-				() => {
-					this.updateFilters(filtersWithoutSearch);
-				},
-			);
-		}
-	}
-
-	updateFilters(filters) {
-		this.setState(
-			(prevState) => {
-				return {
-					options: update(prevState.options, {
-						page: {
-							$set: 0,
-						},
-					}),
-					filters,
-				};
-			},
-			() => {
-				this.loadViewWithFilters(filters);
-			},
-		);
-	}
-
-	updateSearch(newSearchTerm: string) {
-		this.setState(
-			(prevState) => {
-				return {
-					options: update(prevState.options, {
-						page: {
-							$set: 0,
-						},
-						totalPages: {
-							$set: Infinity,
-						},
-					}),
-					eventSearchFilter: createEventSearchFilter(
-						this.props.types,
-						newSearchTerm,
-						this.state.tailTypes,
-					),
-					searchFilter: createSearchFilter(this.state.tailTypes, newSearchTerm),
-					searchTerm: newSearchTerm,
-				};
-			},
-			() => {
-				this.loadViewWithFilters(this.state.filters);
-			},
-		);
-	}
-
-	setLens(slug) {
-		const lens = getLensBySlug(slug);
-		if (!lens) {
-			return;
-		}
-
-		if (this.state.activeLens === lens.slug) {
-			return;
-		}
-
-		// Some lenses ignore the slice filter, so recalculate the filters using
-		// the new lens.
-		const filters = setSliceFilter(
-			this.state.filters,
-			lens,
-			this.state.activeSlice,
-			this.state.sliceOptions,
-		);
-
-		const newOptions = this.getQueryOptions(slug, false);
-
-		const reloadRequired =
-			!deepEqual(this.state.filters, filters) ||
-			!deepEqual(this.state.options, newOptions);
-
-		this.setState(
-			() => {
-				return {
-					options: newOptions,
-					filters,
-					activeLens: lens.slug,
-				};
-			},
-			() => {
-				if (reloadRequired) {
-					this.loadViewWithFilters(this.state.filters);
-				}
-			},
-		);
-
-		this.props.actions.setViewLens(this.props.card.id, lens.slug);
-	}
-
-	setSlice({ value }) {
-		this.setState({
-			activeSlice: value,
-		});
-
-		const lens = getLensBySlug(this.state.activeLens);
-
-		const newFilters = setSliceFilter(
-			this.state.filters,
-			lens,
-			value,
-			this.state.sliceOptions,
-		);
-
-		this.updateFilters(newFilters);
-
-		this.props.actions.setViewSlice(this.props.card.id, value);
-	}
-
-	handleSortOptionsChange(sortOptions) {
-		this.setState(
-			({ options }) => ({
-				options: {
-					...options,
-					page: 0,
-					totalPages: Infinity,
-					...sortOptions,
-				},
-			}),
-			() => {
-				this.loadViewWithFilters(this.state.filters);
-			},
-		);
-	}
-
-	componentDidMount() {
-		this.bootstrap();
-	}
-
-	bootstrap() {
-		const { card, query, seed, user } = this.props;
-		if (!user) {
-			throw new Error(
-				'Cannot bootstrap a live collection without an active user',
-			);
-		}
-		if (!card) {
-			return;
-		}
 		let filters = [];
 		const activeLens =
 			this.props.userActiveLens && getLensBySlug(this.props.userActiveLens);
@@ -717,24 +493,181 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			  }
 			: {};
 
-		// Set default state
-		this.setState(
-			{
-				activeLens: _.get(activeLens, 'slug', null),
-				filters,
-				tailTypes,
-				activeSlice,
-				sliceOptions,
-				...searchTermState,
+		this.state = {
+			activeLens: _.get(activeLens, 'slug', null),
+			activeSlice,
+			eventSearchFilter: null,
+			filters,
+			options: {
+				page: 0,
+				totalPages: Infinity,
+				limit: 100,
+				sortBy: ['created_at'],
+				sortDir: 'desc',
+			},
+			query: null,
+			redirectTo: null,
+			searchFilter: null,
+			searchTerm: '',
+			sliceOptions,
+			tailTypes,
+			...searchTermState,
+		};
 
-				// Mark as ready
-				ready: true,
+		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
+		this.loadViewWithFilters(filters);
+	}
+
+	saveView = ([view]: FiltersView[]) => {
+		if (!view) {
+			return;
+		}
+
+		const newView = this.createView(view);
+
+		sdk.card
+			.create(newView)
+			.then((card: any) => {
+				analytics.track('element.create', {
+					element: {
+						type: 'view',
+					},
+				});
+				this.setState({
+					redirectTo: `/${card.slug || card.id}`,
+				});
+			})
+			.catch((error) => {
+				notifications.addNotification('danger', error.message);
+			});
+	};
+
+	updateFiltersFromSummary = (filters) => {
+		// Separate out the search filter from the other filters
+		const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
+			title: FULL_TEXT_SEARCH_TITLE,
+		});
+		if (searchFilters.length) {
+			this.updateFilters(filtersWithoutSearch);
+		} else {
+			// If the search filter has been removed by the Filters summary,
+			// update our component state accordingly before updating filters
+			this.setState(
+				{
+					eventSearchFilter: null,
+					searchFilter: null,
+					searchTerm: '',
+				},
+				() => {
+					this.updateFilters(filtersWithoutSearch);
+				},
+			);
+		}
+	};
+
+	updateFilters = (filters) => {
+		this.setState(
+			(prevState) => {
+				return {
+					options: update(prevState.options, {
+						page: {
+							$set: 0,
+						},
+					}),
+					filters,
+				};
 			},
 			() => {
 				this.loadViewWithFilters(filters);
 			},
 		);
-	}
+	};
+
+	updateSearch = (newSearchTerm: string) => {
+		this.setState(
+			(prevState) => {
+				return {
+					options: update(prevState.options, {
+						page: {
+							$set: 0,
+						},
+						totalPages: {
+							$set: Infinity,
+						},
+					}),
+					eventSearchFilter: createEventSearchFilter(
+						this.props.types,
+						newSearchTerm,
+						this.state.tailTypes,
+					),
+					searchFilter: createSearchFilter(this.state.tailTypes, newSearchTerm),
+					searchTerm: newSearchTerm,
+				};
+			},
+			() => {
+				this.loadViewWithFilters(this.state.filters);
+			},
+		);
+	};
+
+	setLens = (slug) => {
+		const lens = getLensBySlug(slug);
+		if (!lens) {
+			return;
+		}
+
+		if (this.state.activeLens === lens.slug) {
+			return;
+		}
+
+		// Some lenses ignore the slice filter, so recalculate the filters using
+		// the new lens.
+		const filters = setSliceFilter(
+			this.state.filters,
+			lens,
+			this.state.activeSlice,
+			this.state.sliceOptions,
+		);
+
+		const newOptions = this.getQueryOptions(slug, false);
+
+		const reloadRequired =
+			!deepEqual(this.state.filters, filters) ||
+			!deepEqual(this.state.options, newOptions);
+
+		this.setState(
+			() => {
+				return {
+					options: newOptions,
+					filters,
+					activeLens: lens.slug,
+				};
+			},
+			() => {
+				if (reloadRequired) {
+					this.loadViewWithFilters(this.state.filters);
+				}
+			},
+		);
+
+		this.props.actions.setViewLens(this.props.card.id, lens.slug);
+	};
+
+	handleSortOptionsChange = (sortOptions) => {
+		this.setState(
+			({ options }) => ({
+				options: {
+					...options,
+					page: 0,
+					totalPages: Infinity,
+					...sortOptions,
+				},
+			}),
+			() => {
+				this.loadViewWithFilters(this.state.filters);
+			},
+		);
+	};
 
 	// TODO: Make all lenses handle pagination and remove this exception.
 	// For this to work properly there needs to be a mechanism for returning the
@@ -845,20 +778,11 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		const {
 			tailTypes,
 			activeLens,
-			ready,
 			redirectTo,
 			filters,
 			searchFilter,
 			searchTerm,
 		} = this.state;
-
-		if (!ready || !card || _.isEmpty(card.data)) {
-			return (
-				<Box p={3}>
-					<Icon spin name="cog" />
-				</Box>
-			);
-		}
 
 		if (redirectTo) {
 			return <Redirect push to={redirectTo} />;
