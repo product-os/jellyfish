@@ -1,4 +1,27 @@
 - commits:
+    - subject: "UI: Stop using Redux to store view state"
+      hash: 2d0ec3dc81fd4f4fc64a54ef3ea200c14900f3bf
+      body: |
+        Fixes https://github.com/product-os/jellyfish/issues/7931
+
+        This change introduces `LiveCollection`, a component that wraps
+        together lens selection, filtering, sorting, pagination and live
+        updates.
+        Result state is stored inside this component and passed down to the
+        chosen lens renderer, instead of being stored globally in redux.
+        Seperating out this functionality as a seperate component also makes it
+        easier to re-use it elsewhere in the future (e.g. link tabs or inbox).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 45.4.14
+  title: "'UI: Stop using Redux to store view state'"
+  date: 2022-02-17T13:37:27.138Z
+- commits:
     - subject: Update internal-patch
       hash: ee3cadb07085ebfee992172803ee33eca77993da
       body: ""
