@@ -40,7 +40,6 @@ interface OwnProps {
 		selectedTarget: Contract,
 		linkTypeName: string,
 	) => any;
-	showLinkToExistingElementButton?: boolean;
 	actions: BoundActionCreators<
 		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
 	>;
@@ -196,13 +195,7 @@ class Segment extends React.Component<Props, State> {
 	render() {
 		const { results, showLinkModal } = this.state;
 
-		const {
-			card,
-			segment,
-			types,
-			onSave,
-			showLinkToExistingElementButton = true,
-		} = this.props;
+		const { card, segment, types, onSave } = this.props;
 
 		console.log('actions', this.props.actions);
 
@@ -267,16 +260,14 @@ class Segment extends React.Component<Props, State> {
 							Add new {type.name || type.slug}
 						</Button>
 
-						{showLinkToExistingElementButton && (
-							<Button
-								outline
-								mt={2}
-								data-test={`link-to-${type.slug}`}
-								onClick={this.openLinkModal}
-							>
-								Link to an existing {type.name || type.slug}
-							</Button>
-						)}
+						<Button
+							outline
+							mt={2}
+							data-test={`link-to-${type.slug}`}
+							onClick={this.openLinkModal}
+						>
+							Link to an existing {type.name || type.slug}
+						</Button>
 					</Flex>
 				)}
 
