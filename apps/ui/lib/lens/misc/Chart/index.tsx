@@ -56,11 +56,6 @@ const lens = {
 			},
 		},
 		queryOptions: {
-			mask: (query) => {
-				Reflect.deleteProperty(query, '$$links');
-
-				return query;
-			},
 			limit: 1000,
 			sortBy: ['created_at'],
 			sortDir: 'desc',
