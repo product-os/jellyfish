@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: ee3cadb07085ebfee992172803ee33eca77993da
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 45.4.13
+  title: "'Update internal-patch'"
+  date: 2022-02-17T05:52:06.839Z
+- commits:
     - subject: Drop custom e2e test screenshot utility
       hash: 2aa83016c7233c5256624a23a6b715a17e9eb1a8
       body: |
