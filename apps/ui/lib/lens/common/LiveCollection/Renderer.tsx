@@ -470,28 +470,10 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			query: null,
 		};
 
-		const methods = [
-			'bootstrap',
-			'getQueryOptions',
-			'createView',
-			'loadViewWithFilters',
-			'saveView',
-			'setLens',
-			'setSlice',
-			'updateSearch',
-			'updateFiltersFromSummary',
-			'updateFilters',
-			'getQueryOptions',
-			'handleSortOptionsChange',
-		];
-		methods.forEach((method) => {
-			this[method] = this[method].bind(this);
-		});
-
 		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
 	}
 
-	saveView([view]: FiltersView[]) {
+	saveView = ([view]: FiltersView[]) => {
 		if (!view) {
 			return;
 		}
@@ -513,9 +495,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			.catch((error) => {
 				notifications.addNotification('danger', error.message);
 			});
-	}
+	};
 
-	updateFiltersFromSummary(filters) {
+	updateFiltersFromSummary = (filters) => {
 		// Separate out the search filter from the other filters
 		const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
 			title: FULL_TEXT_SEARCH_TITLE,
@@ -536,9 +518,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				},
 			);
 		}
-	}
+	};
 
-	updateFilters(filters) {
+	updateFilters = (filters) => {
 		this.setState(
 			(prevState) => {
 				return {
@@ -554,9 +536,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				this.loadViewWithFilters(filters);
 			},
 		);
-	}
+	};
 
-	updateSearch(newSearchTerm: string) {
+	updateSearch = (newSearchTerm: string) => {
 		this.setState(
 			(prevState) => {
 				return {
@@ -581,9 +563,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				this.loadViewWithFilters(this.state.filters);
 			},
 		);
-	}
+	};
 
-	setLens(slug) {
+	setLens = (slug) => {
 		const lens = getLensBySlug(slug);
 		if (!lens) {
 			return;
@@ -624,9 +606,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		);
 
 		this.props.actions.setViewLens(this.props.card.id, lens.slug);
-	}
+	};
 
-	setSlice({ value }) {
+	setSlice = ({ value }) => {
 		this.setState({
 			activeSlice: value,
 		});
@@ -643,9 +625,9 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		this.updateFilters(newFilters);
 
 		this.props.actions.setViewSlice(this.props.card.id, value);
-	}
+	};
 
-	handleSortOptionsChange(sortOptions) {
+	handleSortOptionsChange = (sortOptions) => {
 		this.setState(
 			({ options }) => ({
 				options: {
@@ -659,7 +641,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				this.loadViewWithFilters(this.state.filters);
 			},
 		);
-	}
+	};
 
 	componentDidMount() {
 		this.bootstrap();
