@@ -151,6 +151,7 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 			}
 			action={submitting ? <Icon spin name="cog" /> : 'OK'}
 			done={onDone}
+			style={{ overflowY: 'inherit' }}
 		>
 			{!target && validTypes.length > 1 && (
 				<TypeFilter
