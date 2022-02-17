@@ -6,11 +6,58 @@ import _ from 'lodash';
 import React from 'react';
 import { Box, Button, Flex } from 'rendition';
 import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import { BoundActionCreators } from '../../types';
 import { LinkModal } from '../../components/LinkModal';
-import { selectors } from '../../core';
+import { actionCreators, selectors } from '../../core';
 
-class Segment extends React.Component<any, any> {
+interface StateProps {
+	activeLoop: string | null;
+}
+
+interface OwnProps {
+	segment:
+		| {
+				link: string;
+				type: string;
+		  }
+		| {
+				query: Array<{
+					link: string;
+					type: string;
+				}>;
+		  };
+	types: TypeContract[];
+	card: Contract;
+	draftCards?: Contract[];
+	onCardsUpdated?: (cards: Contract[]) => any;
+	onSave?: (
+		card: Contract | null,
+		selectedTarget: Contract,
+		linkTypeName: string,
+	) => any;
+	showLinkToExistingElementButton?: boolean;
+	actions: BoundActionCreators<
+		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
+	>;
+}
+
+interface SetupProps {
+	sdk: JellyfishSDK;
+}
+
+type Props = StateProps & OwnProps & SetupProps;
+
+interface State {
+	results: Contract[] | null;
+	showLinkModal: boolean;
+}
+
+class Segment extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 
@@ -73,7 +120,7 @@ class Segment extends React.Component<any, any> {
 	async getData() {
 		const { card, segment, actions, sdk } = this.props;
 
-		if (segment.link) {
+		if ('link' in segment) {
 			const results = await actions.getLinks(
 				{
 					sdk,
@@ -87,7 +134,7 @@ class Segment extends React.Component<any, any> {
 			let context = [card];
 			for (const relation of _.castArray(segment.query)) {
 				if (relation.link) {
-					context = actions.getLinks(
+					context = await actions.getLinks(
 						{
 							sdk,
 						},
@@ -124,7 +171,7 @@ class Segment extends React.Component<any, any> {
 		addChannel({
 			head: {
 				types: _.find(types, {
-					slug: segment.type.split('@')[0],
+					slug: (segment as any).type.split('@')[0],
 				}),
 				seed: {
 					markers: card.markers,
@@ -135,7 +182,7 @@ class Segment extends React.Component<any, any> {
 					targets: [card],
 					onLink: onSave
 						? (newCard: Contract) => {
-								return onSave(null, newCard, segment.link);
+								return onSave(null, newCard, (segment as any).link);
 						  }
 						: null,
 					callback: this.getData,
@@ -156,6 +203,8 @@ class Segment extends React.Component<any, any> {
 			onSave,
 			showLinkToExistingElementButton = true,
 		} = this.props;
+
+		console.log('actions', this.props.actions);
 
 		const type = _.find(types, {
 			slug: helpers.getRelationshipTargetType(segment),
@@ -206,7 +255,7 @@ class Segment extends React.Component<any, any> {
 					)}
 				</Box>
 
-				{segment.link && type && (
+				{(segment as any).link && type && (
 					<Flex px={3} pb={3} flexWrap="wrap">
 						<Button
 							mr={2}
@@ -233,7 +282,7 @@ class Segment extends React.Component<any, any> {
 
 				{showLinkModal && (
 					<LinkModal
-						linkVerb={segment.link}
+						linkVerb={(segment as any).link}
 						cards={[card]}
 						targetTypes={[type]}
 						onHide={this.hideLinkModal}
@@ -246,10 +295,13 @@ class Segment extends React.Component<any, any> {
 	}
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any): StateProps => {
 	return {
 		activeLoop: selectors.getActiveLoop(state),
 	};
 };
 
-export default withSetup(connect<any, any, any>(mapStateToProps)(Segment));
+// TS-TODO: Sort out this typing nightmare. withSetup should return the correct value when combined with redux.connect
+export default withSetup(
+	connect<StateProps, {}, OwnProps>(mapStateToProps)(Segment) as any,
+) as any as React.ComponentClass<OwnProps, State>;

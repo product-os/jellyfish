@@ -13,7 +13,7 @@ import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
 import { notifications, helpers } from '@balena/jellyfish-ui-components';
-import { linkConstraints } from '@balena/jellyfish-client-sdk';
+import { linkConstraints, JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
@@ -487,7 +487,7 @@ export const actionCreators = {
 	},
 
 	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getLinks({ sdk }, card, verb, targetType) {
+	getLinks({ sdk }: { sdk: JellyfishSDK }, card, verb, targetType) {
 		let baseTargetType = targetType && helpers.getTypeBase(targetType);
 		let linkedType = targetType;
 
@@ -558,8 +558,8 @@ export const actionCreators = {
 				},
 			);
 
-			if (results.length) {
-				return results[0].links[verb];
+			if (results.length && results[0].links) {
+				return results[0].links[verb] || [];
 			}
 
 			return [];
@@ -1162,7 +1162,7 @@ export const actionCreators = {
 		};
 	},
 
-	queryAPI(expression, options) {
+	queryAPI(expression, options = {}) {
 		return (dispatch, getState, { sdk }) => {
 			return sdk.query(expression, options);
 		};
