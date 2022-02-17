@@ -127,7 +127,7 @@ export default class Interleaved extends React.Component<Props, State> {
 			return;
 		}
 		this.loadingPage = true;
-		await this.props.setPage(this.props.page + 1);
+		await this.props.nextPage();
 		this.loadingPage = false;
 	};
 

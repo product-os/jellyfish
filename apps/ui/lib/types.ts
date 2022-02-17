@@ -54,13 +54,14 @@ export interface ChannelContract
 		target: 'string';
 		head?: Contract;
 		cardType?: string;
+		seed?: any;
 	};
 }
 
 export interface LensRendererProps {
 	channel: ChannelContract;
 	tail: null | Contract[];
-	setPage: (page: number) => Promise<void>;
+	nextPage: () => Promise<Contract[]>;
 	pageOptions: {
 		page: number;
 		totalPages: number;

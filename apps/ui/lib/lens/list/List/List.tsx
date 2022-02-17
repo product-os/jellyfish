@@ -33,7 +33,7 @@ export default class ContractList extends React.Component<any, any> {
 		};
 
 		this.loadMore = async () => {
-			await this.props.setPage(this.props.page + 1);
+			await this.props.nextPage();
 		};
 
 		this.isRowLoaded = ({ index }) => {

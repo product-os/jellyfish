@@ -211,6 +211,14 @@ export default class CardTable extends React.Component<any, any> {
 		});
 	}
 
+	setPage = (page: number) => {
+		// The table component can page independently of the dataset,
+		// so only page once we've run out of items in state
+		if ((page + 1) * PAGE_SIZE >= this.props.tail.length) {
+			this.props.nextPage();
+		}
+	};
+
 	generateTableData() {
 		return _.map(this.props.tail, flatten);
 	}
@@ -286,7 +294,7 @@ export default class CardTable extends React.Component<any, any> {
 								itemsPerPage={PAGE_SIZE}
 								pagerPosition="bottom"
 								data-test="table-component"
-								onPageChange={this.props.setPage}
+								onPageChange={this.setPage}
 								onCheck={this.onChecked}
 							/>
 						</React.Fragment>

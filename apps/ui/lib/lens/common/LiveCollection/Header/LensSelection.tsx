@@ -11,7 +11,7 @@ const MIN_HEIGHT = '38px';
 
 interface LensSelectionProps extends BoxProps {
 	lenses: LensContract[];
-	lens: LensContract;
+	lens: LensContract | null;
 	setLens: React.MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -21,6 +21,7 @@ export const LensSelection = ({
 	setLens,
 	...rest
 }: LensSelectionProps) => {
+	const activeLens = lens || lenses[0];
 	return (
 		<Box {...rest} minHeight={MIN_HEIGHT}>
 			{lenses.length > 1 && (
@@ -29,7 +30,7 @@ export const LensSelection = ({
 						return (
 							<Button
 								key={item.slug}
-								active={lens && lens.slug === item.slug}
+								active={activeLens && activeLens.slug === item.slug}
 								data-test={`lens-selector--${item.slug}`}
 								data-slug={item.slug}
 								onClick={setLens}

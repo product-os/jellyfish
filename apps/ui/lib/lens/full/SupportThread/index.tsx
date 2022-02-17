@@ -1,9 +1,9 @@
-import pick from 'lodash/pick';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import { withDefaultGetActorHref } from '@balena/jellyfish-ui-components';
 import { actionCreators, selectors, sdk } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import * as _ from 'lodash';
 
 export const SupportThreadBase = createLazyComponent(
 	() =>
@@ -22,12 +22,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
 	return {
 		actions: bindActionCreators(
-			pick(actionCreators, [
-				'addChannel',
-				'getActor',
-				'loadMoreViewData',
-				'removeChannel',
-			]),
+			_.pick(actionCreators, ['addChannel', 'getActor', 'removeChannel']),
 			dispatch,
 		),
 	};

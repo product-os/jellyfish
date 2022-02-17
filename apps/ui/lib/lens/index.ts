@@ -7,6 +7,7 @@ import FullLenses from './full';
 import ListLenses from './list';
 import SnippetLenses from './snippet';
 import MiscLenses from './misc';
+import { LensContract } from '../types';
 
 const allLenses = _.concat<any>(
 	ActionLenses,
@@ -61,7 +62,10 @@ export const getLens = (format, data, user?) => {
 	return _.first(getLenses(format, data, user));
 };
 
-export const getLensBySlug = (slug) => {
+export const getLensBySlug = (slug: string | null): LensContract | null => {
+	if (!slug) {
+		return null;
+	}
 	const fullList = _.flatten(_.values(lenses));
 	return (
 		_.find(fullList, {

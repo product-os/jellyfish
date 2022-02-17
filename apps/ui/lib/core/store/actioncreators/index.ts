@@ -1628,21 +1628,6 @@ export const actionCreators = {
 		};
 	},
 
-	loadMoreViewData(query, options) {
-		return async (dispatch, getState, context) => {
-			const commonOptions = _.pick(options, 'viewId');
-			const appendHandler = (card) =>
-				dispatch(actionCreators.appendViewData(query, card, commonOptions));
-			const viewId = options.viewId || getViewId(query);
-			return actionCreators.paginateStream(
-				viewId,
-				query,
-				options,
-				appendHandler,
-			)(dispatch, getState, context);
-		};
-	},
-
 	setDefault(card) {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser(getState());
