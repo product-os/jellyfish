@@ -430,7 +430,6 @@ interface State {
 	eventSearchFilter?: any;
 	searchFilter?: any;
 	filters: any[];
-	ready: boolean;
 	tailTypes: null | TypeContract[];
 	activeLens: string | null;
 	activeSlice: any;
@@ -450,16 +449,55 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
+		const { card, query, seed } = this.props;
+
+		let filters = [];
+		const activeLens =
+			this.props.userActiveLens && getLensBySlug(this.props.userActiveLens);
+
+		const viewTailTypes = getTypesFromSchema(query);
+
+		const tailTypes = _.map(viewTailTypes, (tailType) => {
+			return helpers.getType(tailType, this.props.types);
+		});
+
+		let activeSlice: any = null;
+
+		const sliceOptions = getSliceOptions(card, this.props.types);
+
+		if (sliceOptions && sliceOptions.length) {
+			// Default to setting the active slice based on the user's preference
+			if (this.props.userActiveSlice) {
+				activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
+			}
+
+			// Check if the view defines a slice filter
+			activeSlice = activeSlice || getActiveSliceFromFilter(sliceOptions, card);
+
+			// Otherwise just select the first slice option
+			activeSlice = activeSlice || _.first(sliceOptions);
+
+			filters = setSliceFilter(filters, activeLens, activeSlice, sliceOptions);
+		}
+
+		const initialSearchTerm = _.get(seed, ['searchTerm']);
+		const searchTermState = initialSearchTerm
+			? {
+					eventSearchFilter: createEventSearchFilter(
+						this.props.types,
+						initialSearchTerm,
+						this.state.tailTypes,
+					),
+					searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
+					searchTerm: initialSearchTerm,
+			  }
+			: {};
+
 		this.state = {
-			redirectTo: null,
-			searchTerm: '',
+			activeLens: _.get(activeLens, 'slug', null),
+			activeSlice,
 			eventSearchFilter: null,
-			searchFilter: null,
-			filters: [],
-			ready: false,
-			tailTypes: null,
-			activeLens: null,
-			activeSlice: null,
+			filters,
 			options: {
 				page: 0,
 				totalPages: Infinity,
@@ -468,9 +506,16 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				sortDir: 'desc',
 			},
 			query: null,
+			redirectTo: null,
+			searchFilter: null,
+			searchTerm: '',
+			sliceOptions,
+			tailTypes,
+			...searchTermState,
 		};
 
 		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
+		this.loadViewWithFilters(filters);
 	}
 
 	saveView = ([view]: FiltersView[]) => {
@@ -624,81 +669,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		);
 	};
 
-	componentDidMount() {
-		this.bootstrap();
-	}
-
-	bootstrap() {
-		const { card, query, seed, user } = this.props;
-		if (!user) {
-			throw new Error(
-				'Cannot bootstrap a live collection without an active user',
-			);
-		}
-		if (!card) {
-			return;
-		}
-		let filters = [];
-		const activeLens =
-			this.props.userActiveLens && getLensBySlug(this.props.userActiveLens);
-
-		const viewTailTypes = getTypesFromSchema(query);
-
-		const tailTypes = _.map(viewTailTypes, (tailType) => {
-			return helpers.getType(tailType, this.props.types);
-		});
-
-		let activeSlice: any = null;
-
-		const sliceOptions = getSliceOptions(card, this.props.types);
-
-		if (sliceOptions && sliceOptions.length) {
-			// Default to setting the active slice based on the user's preference
-			if (this.props.userActiveSlice) {
-				activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
-			}
-
-			// Check if the view defines a slice filter
-			activeSlice = activeSlice || getActiveSliceFromFilter(sliceOptions, card);
-
-			// Otherwise just select the first slice option
-			activeSlice = activeSlice || _.first(sliceOptions);
-
-			filters = setSliceFilter(filters, activeLens, activeSlice, sliceOptions);
-		}
-
-		const initialSearchTerm = _.get(seed, ['searchTerm']);
-		const searchTermState = initialSearchTerm
-			? {
-					eventSearchFilter: createEventSearchFilter(
-						this.props.types,
-						initialSearchTerm,
-						this.state.tailTypes,
-					),
-					searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
-					searchTerm: initialSearchTerm,
-			  }
-			: {};
-
-		// Set default state
-		this.setState(
-			{
-				activeLens: _.get(activeLens, 'slug', null),
-				filters,
-				tailTypes,
-				activeSlice,
-				sliceOptions,
-				...searchTermState,
-
-				// Mark as ready
-				ready: true,
-			},
-			() => {
-				this.loadViewWithFilters(filters);
-			},
-		);
-	}
-
 	// TODO: Make all lenses handle pagination and remove this exception.
 	// For this to work properly there needs to be a mechanism for returning the
 	// total available items from the API.
@@ -808,20 +778,11 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		const {
 			tailTypes,
 			activeLens,
-			ready,
 			redirectTo,
 			filters,
 			searchFilter,
 			searchTerm,
 		} = this.state;
-
-		if (!ready || !card || _.isEmpty(card.data)) {
-			return (
-				<Box p={3}>
-					<Icon spin name="cog" />
-				</Box>
-			);
-		}
 
 		if (redirectTo) {
 			return <Redirect push to={redirectTo} />;
