@@ -18,7 +18,7 @@ import type {
 import LiveCollection from '../../common/LiveCollection';
 import Header from './Header';
 
-interface ViewRendererProps {
+export interface ViewRendererProps {
 	types: TypeContract[];
 	lenses: LensContract[];
 	channel: ChannelContract;

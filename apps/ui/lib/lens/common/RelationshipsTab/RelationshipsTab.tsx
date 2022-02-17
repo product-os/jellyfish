@@ -5,12 +5,14 @@ import { Tab, Txt, Select, TxtProps } from 'rendition';
 import styled from 'styled-components';
 import { helpers, useDebounce } from '@balena/jellyfish-ui-components';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
-import Segment from '../Segment';
 import type {
 	Contract,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { JSONSchema } from 'rendition/dist/components/Renderer/types';
+import { BoundActionCreators } from '../../../types';
+import { actionCreators } from '../../../core';
+import Segment from '../Segment';
 
 const TabTitleSelect = styled(Select)`
 	input {
@@ -76,18 +78,32 @@ const LinkDisplay: React.FunctionComponent<LinkDisplayProps> = React.memo(
 	},
 );
 
-export interface RelationshipsTabProps {
-	viewData: any;
+export interface OwnProps {
 	card: Contract;
-	types: TypeContract[];
-	actions: {
-		loadViewData: (query: JSONSchema, options: any) => void;
-	};
 }
 
-export const RelationshipsTab: React.FunctionComponent<
-	RelationshipsTabProps
-> = ({ viewData, card, types, actions }) => {
+export interface DispatchProps {
+	actions: BoundActionCreators<
+		Pick<
+			typeof actionCreators,
+			'loadViewData' | 'addChannel' | 'getLinks' | 'queryAPI'
+		>
+	>;
+}
+
+export interface StateProps {
+	types: TypeContract[];
+	viewData: any;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+export const RelationshipsTab: React.FunctionComponent<Props> = ({
+	viewData,
+	card,
+	types,
+	actions,
+}) => {
 	const [activeRelationship, setActiveRelationship] =
 		React.useState<LinkRelationship>();
 	const [relationships, setRelationships] = React.useState<LinkRelationship[]>(

@@ -6,11 +6,51 @@ import _ from 'lodash';
 import React from 'react';
 import { Box, Button, Flex } from 'rendition';
 import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import { BoundActionCreators } from '../../types';
 import { LinkModal } from '../../components/LinkModal';
-import { selectors } from '../../core';
+import { actionCreators, selectors } from '../../core';
 
-class Segment extends React.Component<any, any> {
+interface StateProps {
+	activeLoop: string | null;
+}
+
+interface OwnProps {
+	segment: {
+		link: string;
+		title: string;
+		type: string;
+	};
+	types: TypeContract[];
+	card: Contract;
+	draftCards?: Contract[];
+	onCardsUpdated?: (cards: Contract[]) => any;
+	onSave?: (
+		card: Contract | null,
+		selectedTarget: Contract,
+		linkTypeName: string,
+	) => any;
+	actions: BoundActionCreators<
+		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
+	>;
+}
+
+interface SetupProps {
+	sdk: JellyfishSDK;
+}
+
+type Props = StateProps & OwnProps & SetupProps;
+
+interface State {
+	results: Contract[] | null;
+	showLinkModal: boolean;
+}
+
+class Segment extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 
@@ -73,42 +113,15 @@ class Segment extends React.Component<any, any> {
 	async getData() {
 		const { card, segment, actions, sdk } = this.props;
 
-		if (segment.link) {
-			const results = await actions.getLinks(
-				{
-					sdk,
-				},
-				card,
-				segment.link,
-				segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
-			);
-			this.updateResults(results);
-		} else if (segment.query) {
-			let context = [card];
-			for (const relation of _.castArray(segment.query)) {
-				if (relation.link) {
-					context = actions.getLinks(
-						{
-							sdk,
-						},
-						card,
-						relation.link,
-						`${relation.type}@1.0.0`,
-					);
-				} else {
-					const mapped = await Bluebird.map(context, (item) => {
-						return actions.queryAPI(
-							helpers.evalSchema(clone(relation), {
-								result: item,
-							}),
-						);
-					});
-					context = _.flatten(mapped);
-				}
-			}
-
-			this.updateResults(_.flatten(context));
-		}
+		const results = await actions.getLinks(
+			{
+				sdk,
+			},
+			card,
+			segment.link,
+			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
+		);
+		this.updateResults(results);
 	}
 
 	openCreateChannel() {
@@ -149,13 +162,7 @@ class Segment extends React.Component<any, any> {
 	render() {
 		const { results, showLinkModal } = this.state;
 
-		const {
-			card,
-			segment,
-			types,
-			onSave,
-			showLinkToExistingElementButton = true,
-		} = this.props;
+		const { card, segment, types, onSave } = this.props;
 
 		const type = _.find(types, {
 			slug: helpers.getRelationshipTargetType(segment),
@@ -218,16 +225,14 @@ class Segment extends React.Component<any, any> {
 							Add new {type.name || type.slug}
 						</Button>
 
-						{showLinkToExistingElementButton && (
-							<Button
-								outline
-								mt={2}
-								data-test={`link-to-${type.slug}`}
-								onClick={this.openLinkModal}
-							>
-								Link to an existing {type.name || type.slug}
-							</Button>
-						)}
+						<Button
+							outline
+							mt={2}
+							data-test={`link-to-${type.slug}`}
+							onClick={this.openLinkModal}
+						>
+							Link to an existing {type.name || type.slug}
+						</Button>
 					</Flex>
 				)}
 
@@ -246,10 +251,13 @@ class Segment extends React.Component<any, any> {
 	}
 }
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: any): StateProps => {
 	return {
 		activeLoop: selectors.getActiveLoop(state),
 	};
 };
 
-export default withSetup(connect<any, any, any>(mapStateToProps)(Segment));
+// TS-TODO: Sort out this typing nightmare. withSetup should return the correct value when combined with redux.connect
+export default withSetup(
+	connect<StateProps, {}, OwnProps>(mapStateToProps)(Segment) as any,
+) as any as React.ComponentClass<OwnProps, State>;
