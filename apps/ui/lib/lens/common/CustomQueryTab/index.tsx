@@ -64,15 +64,15 @@ const getCustomQueries = memoize((typeCard) => {
 			},
 		];
 	}
-	return _.filter(
-		_.get(typeCard, ['data', 'meta', 'relationships'], []),
-		'query',
-	);
+	return null;
 });
 
 export const customQueryTabs = (card, typeCard) => {
 	const customQueries = getCustomQueries(typeCard);
-	return customQueries.map((segment) => (
-		<CustomQueryTab key={segment.title} card={card} segment={segment} />
-	));
+	if (customQueries) {
+		return customQueries.map((segment) => (
+			<CustomQueryTab key={segment.title} card={card} segment={segment} />
+		));
+	}
+	return null;
 };

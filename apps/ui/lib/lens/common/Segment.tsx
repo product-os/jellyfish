@@ -20,17 +20,11 @@ interface StateProps {
 }
 
 interface OwnProps {
-	segment:
-		| {
-				link: string;
-				type: string;
-		  }
-		| {
-				query: Array<{
-					link: string;
-					type: string;
-				}>;
-		  };
+	segment: {
+		link: string;
+		title: string;
+		type: string;
+	};
 	types: TypeContract[];
 	card: Contract;
 	draftCards?: Contract[];
@@ -119,42 +113,15 @@ class Segment extends React.Component<Props, State> {
 	async getData() {
 		const { card, segment, actions, sdk } = this.props;
 
-		if ('link' in segment) {
-			const results = await actions.getLinks(
-				{
-					sdk,
-				},
-				card,
-				segment.link,
-				segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
-			);
-			this.updateResults(results);
-		} else if (segment.query) {
-			let context = [card];
-			for (const relation of _.castArray(segment.query)) {
-				if (relation.link) {
-					context = await actions.getLinks(
-						{
-							sdk,
-						},
-						card,
-						relation.link,
-						`${relation.type}@1.0.0`,
-					);
-				} else {
-					const mapped = await Bluebird.map(context, (item) => {
-						return actions.queryAPI(
-							helpers.evalSchema(clone(relation), {
-								result: item,
-							}),
-						);
-					});
-					context = _.flatten(mapped);
-				}
-			}
-
-			this.updateResults(_.flatten(context));
-		}
+		const results = await actions.getLinks(
+			{
+				sdk,
+			},
+			card,
+			segment.link,
+			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
+		);
+		this.updateResults(results);
 	}
 
 	openCreateChannel() {
@@ -170,7 +137,7 @@ class Segment extends React.Component<Props, State> {
 		addChannel({
 			head: {
 				types: _.find(types, {
-					slug: (segment as any).type.split('@')[0],
+					slug: segment.type.split('@')[0],
 				}),
 				seed: {
 					markers: card.markers,
@@ -181,7 +148,7 @@ class Segment extends React.Component<Props, State> {
 					targets: [card],
 					onLink: onSave
 						? (newCard: Contract) => {
-								return onSave(null, newCard, (segment as any).link);
+								return onSave(null, newCard, segment.link);
 						  }
 						: null,
 					callback: this.getData,
@@ -196,8 +163,6 @@ class Segment extends React.Component<Props, State> {
 		const { results, showLinkModal } = this.state;
 
 		const { card, segment, types, onSave } = this.props;
-
-		console.log('actions', this.props.actions);
 
 		const type = _.find(types, {
 			slug: helpers.getRelationshipTargetType(segment),
@@ -248,7 +213,7 @@ class Segment extends React.Component<Props, State> {
 					)}
 				</Box>
 
-				{(segment as any).link && type && (
+				{segment.link && type && (
 					<Flex px={3} pb={3} flexWrap="wrap">
 						<Button
 							mr={2}
@@ -273,7 +238,7 @@ class Segment extends React.Component<Props, State> {
 
 				{showLinkModal && (
 					<LinkModal
-						linkVerb={(segment as any).link}
+						linkVerb={segment.link}
 						cards={[card]}
 						targetTypes={[type]}
 						onHide={this.hideLinkModal}
