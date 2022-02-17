@@ -11,15 +11,18 @@ import type {
 	Contract,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
-import { BoundActionCreators } from '../../types';
+import { JsonSchema } from '@balena/jellyfish-types';
+import { BoundActionCreators, ChannelContract } from '../../types';
 import { LinkModal } from '../../components/LinkModal';
 import { actionCreators, selectors } from '../../core';
+import LiveCollection from './LiveCollection';
 
 interface StateProps {
 	activeLoop: string | null;
 }
 
 interface OwnProps {
+	channel: ChannelContract;
 	segment: {
 		link: string;
 		title: string;
@@ -45,8 +48,8 @@ interface SetupProps {
 type Props = StateProps & OwnProps & SetupProps;
 
 interface State {
-	results: Contract[] | null;
 	showLinkModal: boolean;
+	query: JsonSchema | null;
 }
 
 class Segment extends React.Component<Props, State> {
@@ -54,8 +57,8 @@ class Segment extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			results: props.draftCards || null,
 			showLinkModal: false,
+			query: null,
 		};
 
 		this.openCreateChannel = this.openCreateChannel.bind(this);
@@ -66,9 +69,6 @@ class Segment extends React.Component<Props, State> {
 
 	componentDidUpdate(prevProps) {
 		if (!circularDeepEqual(prevProps.segment, this.props.segment)) {
-			this.setState({
-				results: null,
-			});
 			this.getData();
 		} else if (
 			!circularDeepEqual(prevProps.card, this.props.card) ||
@@ -94,25 +94,85 @@ class Segment extends React.Component<Props, State> {
 		this.getData();
 	}
 
-	updateResults = (results: Contract[]) => {
-		const { draftCards } = this.props;
-		this.setState({
-			results: _.unionBy(results, draftCards || [], 'id'),
-		});
-	};
-
-	async getData() {
+	getData() {
 		const { card, segment, actions, sdk } = this.props;
 
-		const results = await actions.getLinks(
-			{
-				sdk,
+		const verb = segment.link;
+		const targetType =
+			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`;
+		let baseTargetType = targetType && helpers.getTypeBase(targetType);
+		let linkedType: string | undefined = targetType;
+
+		// Link constraints allow '*' to indicate any type
+		if (targetType === 'undefined@1.0.0') {
+			// eslint-disable-next-line no-undefined
+			linkedType = undefined;
+			baseTargetType = '*';
+		}
+		const linkDefinition = _.find(sdk.LINKS, {
+			name: verb,
+			data: {
+				to: baseTargetType,
 			},
-			card,
-			segment.link,
-			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
-		);
-		this.updateResults(results);
+		});
+
+		if (!linkDefinition) {
+			throw new Error(
+				`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
+			);
+		}
+
+		// Find the inverse of the link definition
+		const inverseDefinition = _.find(sdk.LINKS, {
+			slug: linkDefinition.data.inverse,
+		});
+
+		if (!inverseDefinition) {
+			throw new Error(
+				`No link definition found from ${baseTargetType} to ${card.type} using ${verb}`,
+			);
+		}
+
+		const query = {
+			$$links: {
+				[inverseDefinition.name]: {
+					type: 'object',
+					required: ['id'],
+					properties: {
+						id: {
+							const: card.id,
+						},
+					},
+				},
+			},
+			// Always load the owner if there is one
+			anyOf: [
+				{
+					$$links: {
+						'is owned by': {
+							type: 'object',
+						},
+					},
+				},
+				true,
+			],
+			description: `Get ${baseTargetType} contracts linked to ${card.id}`,
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: linkedType,
+				},
+				links: {
+					type: 'object',
+				},
+			},
+			required: ['type'],
+		} as any as JsonSchema;
+
+		this.setState({
+			query,
+		});
 	}
 
 	openCreateChannel() {
@@ -151,24 +211,13 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { results, showLinkModal } = this.state;
+		const { showLinkModal, query } = this.state;
 
-		const { card, segment, types, onSave } = this.props;
+		const { card, channel, segment, types, onSave } = this.props;
 
 		const type = _.find(types, {
 			slug: helpers.getRelationshipTargetType(segment),
 		});
-
-		if (!results) {
-			return (
-				<Box p={3}>
-					<Icon name="cog" spin />
-				</Box>
-			);
-		}
-
-		// This is to avoid circular dependency
-		const lens = require('../../lens').getLens('list', results);
 
 		return (
 			<Flex
@@ -184,23 +233,8 @@ class Segment extends React.Component<Props, State> {
 						minHeight: 0,
 					}}
 				>
-					{results.length === 0 && (
-						<Box px={3}>
-							<strong>No results found</strong>
-						</Box>
-					)}
-					{Boolean(results.length) && (
-						<lens.data.renderer
-							tail={results}
-							page={1}
-							totalPages={1}
-							nextPage={_.noop}
-							pageOptions={{
-								limit: 30,
-								sortBy: ['created_at'],
-								sortDir: 'desc',
-							}}
-						/>
+					{!!query && (
+						<LiveCollection channel={channel} query={query} card={card} />
 					)}
 				</Box>
 

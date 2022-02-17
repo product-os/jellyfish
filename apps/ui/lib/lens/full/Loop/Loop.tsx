@@ -301,8 +301,8 @@ export default class LoopFull extends React.Component<any, any> {
 						<Timeline.data.renderer card={card} allowWhispers tail={tail} />
 					</Tab>
 
-					{customQueryTabs(card, type)}
-					<RelationshipsTab card={card} />
+					{customQueryTabs(card, type, channel)}
+					<RelationshipsTab card={card} channel={channel} />
 				</SingleCardTabs>
 			</CardLayout>
 		);

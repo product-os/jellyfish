@@ -100,8 +100,8 @@ const TransformerWorker = ({ actions, actionItems, card, channel, types }) => {
 					</Flex>
 				</Tab>
 
-				{customQueryTabs(card, type)}
-				<RelationshipsTab card={card} />
+				{customQueryTabs(card, type, channel)}
+				<RelationshipsTab card={card} channel={channel} />
 			</SingleCardTabs>
 		</CardLayout>
 	);

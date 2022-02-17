@@ -240,8 +240,8 @@ export default class SingleCardFull extends React.Component<
 						<Timeline.data.renderer card={card} allowWhispers tail={tail} />
 					</Tab>
 
-					{customQueryTabs(card, type)}
-					<RelationshipsTab card={card} />
+					{customQueryTabs(card, type, channel)}
+					<RelationshipsTab card={card} channel={channel} />
 				</SingleCardTabs>
 			</CardLayout>
 		);

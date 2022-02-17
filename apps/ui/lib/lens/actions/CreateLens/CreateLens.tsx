@@ -421,6 +421,7 @@ export default class CreateLens extends React.Component<any, any> {
 									title={segment.title}
 								>
 									<Segment
+										channel={this.props.channel}
 										card={selectedTypeTarget}
 										segment={segment}
 										types={allTypes}

@@ -354,8 +354,8 @@ export default class MyUser extends React.Component<any, any> {
 						</Box>
 					</Tab>
 
-					{customQueryTabs(user, userTypeCard)}
-					<RelationshipsTab card={user} />
+					{customQueryTabs(user, userTypeCard, channel)}
+					<RelationshipsTab card={user} channel={channel} />
 				</Tabs>
 			</CardLayout>
 		);

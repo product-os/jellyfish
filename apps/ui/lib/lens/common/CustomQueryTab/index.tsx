@@ -2,17 +2,24 @@ import React from 'react';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 import { selectors, actionCreators } from '../../../core';
-import { CustomQueryTab as InnerCustomQueryTab } from './CustomQueryTab';
+import { bindActionCreators } from '../../../bindactioncreators';
+import { ChannelContract } from '../../../types';
+import {
+	CustomQueryTab as InnerCustomQueryTab,
+	OwnProps,
+	StateProps,
+	DispatchProps,
+} from './CustomQueryTab';
 
-const mapStateToProps = (state, props) => {
+const mapStateToProps = (state, props): StateProps => {
 	return {
 		types: selectors.getTypes(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
 		actions: bindActionCreators(
 			_.pick(actionCreators, ['getLinks', 'queryAPI', 'addChannel']),
@@ -21,7 +28,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export const CustomQueryTab = connect(
+export const CustomQueryTab = connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps,
 )(InnerCustomQueryTab);
@@ -67,11 +74,20 @@ const getCustomQueries = memoize((typeCard) => {
 	return null;
 });
 
-export const customQueryTabs = (card, typeCard) => {
+export const customQueryTabs = (
+	card: Contract,
+	typeCard: TypeContract,
+	channel: ChannelContract,
+) => {
 	const customQueries = getCustomQueries(typeCard);
 	if (customQueries) {
 		return customQueries.map((segment) => (
-			<CustomQueryTab key={segment.title} card={card} segment={segment} />
+			<CustomQueryTab
+				channel={channel}
+				key={segment.title}
+				card={card}
+				segment={segment}
+			/>
 		));
 	}
 	return null;

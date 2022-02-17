@@ -10,7 +10,7 @@ import type {
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import { JSONSchema } from 'rendition/dist/components/Renderer/types';
-import { BoundActionCreators } from '../../../types';
+import { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators } from '../../../core';
 import Segment from '../Segment';
 
@@ -80,6 +80,7 @@ const LinkDisplay: React.FunctionComponent<LinkDisplayProps> = React.memo(
 
 export interface OwnProps {
 	card: Contract;
+	channel: ChannelContract;
 }
 
 export interface DispatchProps {
@@ -103,6 +104,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	card,
 	types,
 	actions,
+	channel,
 }) => {
 	const [activeRelationship, setActiveRelationship] =
 		React.useState<LinkRelationship>();
@@ -230,6 +232,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 		>
 			{activeRelationship && (
 				<Segment
+					channel={channel}
 					card={card}
 					segment={activeRelationship}
 					types={types}

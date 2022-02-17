@@ -381,7 +381,7 @@ export default class SupportThreadBase extends SingleCardFull {
 					</Tab>
 
 					{customQueryTabs(card, typeContract)}
-					<RelationshipsTab card={card} />
+					<RelationshipsTab card={card} channel={channel} />
 				</SingleCardTabs>
 			</CardLayout>
 		);

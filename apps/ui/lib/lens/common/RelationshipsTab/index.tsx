@@ -7,6 +7,7 @@ import {
 	RelationshipsTab as InnerRelationshipsTab,
 	DispatchProps,
 	StateProps,
+	OwnProps,
 } from './RelationshipsTab';
 
 export { getRelationships } from './RelationshipsTab';
@@ -33,7 +34,7 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
 	};
 };
 
-export const RelationshipsTab = connect(
+export const RelationshipsTab = connect<StateProps, DispatchProps, OwnProps>(
 	mapStateToProps,
 	mapDispatchToProps,
 )(InnerRelationshipsTab);
