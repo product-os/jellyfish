@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix clipped dropdown by preventing the LinkModal from scrolling in Y
+      hash: 1ca03729d2dac1514954a822bd1290eb15db6c75
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: edufschmidt
+      nested: []
+  version: 45.4.16
+  title: "'Fix clipped dropdown by preventing the LinkModal from scrolling in Y'"
+  date: 2022-02-17T18:15:49.195Z
+- commits:
     - subject: "UI: Remove unnecessary `bootstrap` method from LiveCollection"
       hash: 5ef18e0c5b5bfbcc61739e7c43b1b9969058ceef
       body: ""
