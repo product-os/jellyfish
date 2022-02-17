@@ -1,4 +1,41 @@
 - commits:
+    - subject: "UI: Remove unnecessary `bootstrap` method from LiveCollection"
+      hash: 5ef18e0c5b5bfbcc61739e7c43b1b9969058ceef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused `setSlice` method in LiveCollection"
+      hash: c4e4650bdd96a6eb5d90a9a27c0094d38687183c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: prefer fat-arrow syntax to explicit binding in LiveCollection
+        component"
+      hash: 43e9321a4e8a07d9488fd37d30cd01938bae4de0
+      body: >
+        Typescript allows us to use fat arrows instead of bind for binding
+        `this` in class methods which is a much cleaner approach.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 45.4.15
+  title: "'UI: Tidy up LiveCollection component and methods'"
+  date: 2022-02-17T16:52:47.796Z
+- commits:
     - subject: "UI: Stop using Redux to store view state"
       hash: 2d0ec3dc81fd4f4fc64a54ef3ea200c14900f3bf
       body: |
