@@ -1,4 +1,47 @@
 - commits:
+    - subject: "UI: Drop support for custom relationships defined on type contracts"
+      hash: 85a06bf669d5a5b9f5486de7ee8a09270e49c824
+      body: >
+        This affects very few contracts in the system, and should be replaced by
+
+        canonical relationship contracts (see [this improvement](https://jel.ly.fish/improvement-jip-link-constraints-using-relationship-contract-f3666fd0-e5d6-4ca4-9fa8-73959e72e7c3)
+
+        ).
+
+        Using relationship contracts will also allow us to remove the hardcoded
+
+        loop relationships.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused prop in Segment"
+      hash: 3de8a38faf48e823239a8f9da07d458798ab02bd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve typings of Segment component"
+      hash: 90dc887fcce8dec58f09cf28324bc722289c252a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.0.0
+  title: "'UI: Improve typings on Segment component'"
+  date: 2022-02-17T19:18:53.376Z
+- commits:
     - subject: Fix clipped dropdown by preventing the LinkModal from scrolling in Y
       hash: 1ca03729d2dac1514954a822bd1290eb15db6c75
       body: ""
