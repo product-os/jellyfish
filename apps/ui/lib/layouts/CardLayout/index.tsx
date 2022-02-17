@@ -62,10 +62,10 @@ const CardLayout = (props) => {
 
 						{!title && (
 							<div>
-								<Heading.h4>
+								<Txt bold>
 									{card.name || card.slug || card.type}
 									{versionSuffix}
-								</Heading.h4>
+								</Txt>
 
 								{Boolean(typeName) && (
 									<Txt color="text.light" fontSize="0">
