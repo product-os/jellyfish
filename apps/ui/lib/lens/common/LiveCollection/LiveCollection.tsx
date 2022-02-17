@@ -13,6 +13,7 @@ interface Props {
 	query: Parameters<typeof sdk.getCursor>[0];
 	options: Parameters<typeof sdk.getCursor>[1];
 	onResultsChange?: (collection: Contract[] | null) => any;
+	lens: LensContract | null;
 }
 
 interface State {
@@ -56,7 +57,8 @@ export default class LiveCollection extends React.Component<Props, State> {
 	componentDidUpdate(prevProps: Props, prevState: State) {
 		if (
 			!circularDeepEqual(prevProps.query, this.props.query) ||
-			!circularDeepEqual(prevProps.options, this.props.options)
+			!circularDeepEqual(prevProps.options, this.props.options) ||
+			!circularDeepEqual(prevProps.lens, this.props.lens)
 		) {
 			if (this.cursor) {
 				this.cursor.close();
@@ -74,7 +76,13 @@ export default class LiveCollection extends React.Component<Props, State> {
 	}
 
 	async setupStream() {
-		const { query, options, user } = this.props;
+		const { query, user, lens } = this.props;
+
+		const options = {
+			...this.props.options,
+			..._.get(lens, ['data', 'queryOptions'], {}),
+		};
+
 		const maskedQuery = options.mask ? options.mask(clone(query)) : query;
 		const cursor = sdk.getCursor(maskedQuery, options);
 		this.cursor = cursor;

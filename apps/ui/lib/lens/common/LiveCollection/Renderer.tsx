@@ -682,8 +682,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		sortDir: 'asc' | 'desc';
 		totalPages: number;
 	} {
-		const lens = getLensBySlug(lensSlug);
-
 		// TODO: improve backend sort efficiency so we can apply a default sort here
 		const options = _.merge(
 			{
@@ -691,7 +689,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 				page: 0,
 			},
 			this.state.options,
-			_.get(lens, ['data', 'queryOptions']),
 		);
 
 		if (keepState) {
@@ -756,7 +753,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			targetFilters.push({ anyOf: searchFilters });
 		}
 
-		const viewQuery = unifyQuery(query, targetFilters);
+		const viewQuery = unifyQuery(clone(query), targetFilters);
 
 		const syntheticViewCard = createSyntheticViewCard(card, targetFilters);
 
@@ -807,6 +804,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					<LiveCollection
 						user={this.props.user}
 						query={this.state.query}
+						lens={lens}
 						options={options}
 						onResultsChange={this.props.onResultsChange}
 					>
