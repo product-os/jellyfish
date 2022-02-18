@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.0 to 8.4.1
+      hash: d888fd1458b979e9f7715c1b1ee72d8d10984d47
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.1.1
+  title: "'Update grafana/grafana from 8.4.0 to 8.4.1'"
+  date: 2022-02-18T13:41:54.789Z
+- commits:
     - subject: "UI: Lazy load simple list lens"
       hash: 764e9d1696a681a6d68f4cedec65d758e4d3e06b
       body: ""
