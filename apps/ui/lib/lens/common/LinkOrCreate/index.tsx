@@ -108,7 +108,7 @@ class LinkOrCreate extends React.Component<Props, State> {
 							data-test={`add-${type.slug}`}
 							onClick={this.openCreateChannel}
 						>
-							Add new {type.name || type.slug}
+							Add {type.name || type.slug}
 						</Button>
 
 						<Button
@@ -117,7 +117,7 @@ class LinkOrCreate extends React.Component<Props, State> {
 							data-test={`link-to-${type.slug}`}
 							onClick={this.openLinkModal}
 						>
-							Link to an existing {type.name || type.slug}
+							Link to a {type.name || type.slug}
 						</Button>
 					</Flex>
 				)}
