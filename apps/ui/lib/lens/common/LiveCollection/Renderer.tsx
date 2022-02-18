@@ -415,6 +415,7 @@ export interface OwnProps {
 	card: Contract;
 	onResultsChange?: (collection: Contract[] | null) => any;
 	seed?: any;
+	hideFooter?: boolean;
 }
 
 export interface ResponsiveProps {
@@ -777,7 +778,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { card, isMobile, types, channel } = this.props;
+		const { card, isMobile, types, channel, hideFooter } = this.props;
 
 		const {
 			tailTypes,
@@ -843,6 +844,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 							channel={channel}
 							tailTypes={tailTypes || []}
 							pageOptions={options}
+							hideFooter={!!hideFooter}
 						/>
 					</LiveCollection>
 				)}

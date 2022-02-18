@@ -36,6 +36,7 @@ interface ContentProps {
 	};
 	nextPage?: any;
 	hasNextPage?: boolean;
+	hideFooter: boolean;
 }
 
 export default class Content extends React.Component<ContentProps, any> {
@@ -49,6 +50,7 @@ export default class Content extends React.Component<ContentProps, any> {
 			pageOptions,
 			nextPage,
 			hasNextPage,
+			hideFooter,
 		} = this.props;
 
 		const activeLens = lens || lenses![0];
@@ -93,7 +95,7 @@ export default class Content extends React.Component<ContentProps, any> {
 							/>
 						)}
 					</Flex>
-					{tailTypes.length && (
+					{!hideFooter && tailTypes.length && (
 						<ViewFooter types={tailTypes} justifyContent="flex-end" />
 					)}
 				</Flex>

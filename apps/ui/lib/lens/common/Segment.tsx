@@ -160,7 +160,12 @@ class Segment extends React.Component<Props, State> {
 					}}
 				>
 					{!!query && (
-						<LiveCollection channel={channel} query={query} card={card} />
+						<LiveCollection
+							hideFooter
+							channel={channel}
+							query={query}
+							card={card}
+						/>
 					)}
 				</Box>
 
