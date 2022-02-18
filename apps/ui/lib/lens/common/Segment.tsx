@@ -164,7 +164,11 @@ class Segment extends React.Component<Props, State> {
 					)}
 				</Box>
 
-				{segment.link && <LinkOrCreate segment={segment} card={card} />}
+				{segment.link && (
+					<Box px={3}>
+						<LinkOrCreate segment={segment} card={card} />
+					</Box>
+				)}
 			</Flex>
 		);
 	}
