@@ -51,7 +51,7 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 	);
 
 	return (
-		<Footer flex={0} p={3} {...rest}>
+		<Footer flex={0} p={3} {...rest} justifyContent="flex-end">
 			{types.length > 1 ? (
 				<DropUpButton
 					alignRight

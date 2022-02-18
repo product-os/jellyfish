@@ -100,7 +100,7 @@ class LinkOrCreate extends React.Component<Props, State> {
 		return (
 			<>
 				{segment.link && type && (
-					<Flex pb={3} flexWrap="wrap">
+					<Flex pb={3} flexWrap="wrap" justifyContent="flex-end">
 						<Button
 							mr={2}
 							mt={2}

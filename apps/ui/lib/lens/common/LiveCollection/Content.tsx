@@ -95,9 +95,7 @@ export default class Content extends React.Component<ContentProps, any> {
 							/>
 						)}
 					</Flex>
-					{!hideFooter && tailTypes.length && (
-						<ViewFooter types={tailTypes} justifyContent="flex-end" />
-					)}
+					{!hideFooter && tailTypes.length && <ViewFooter types={tailTypes} />}
 				</Flex>
 			</Flex>
 		);
