@@ -12,6 +12,7 @@ import {
 import type { UserContract } from '@balena/jellyfish-types/build/core';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
+import ContractNavLink from '../../../components/ContractNavLink';
 
 const CardBox = styled<any>(Box)`
 	border-left-style: solid;
@@ -61,11 +62,7 @@ export default class SingleCard extends React.Component<any, any> {
 				data-test-id={`snippet-card-${card.id}`}
 			>
 				<Flex justifyContent="space-between">
-					<Txt>
-						<Link to={helpers.appendToChannelPath(channel, card)}>
-							<strong>{card.name || card.slug}</strong> {versionSuffix}
-						</Link>
-					</Txt>
+					<ContractNavLink contract={card} channel={channel} />
 					{!!owner && <UserAvatar user={owner} tooltipPlacement="left" />}
 				</Flex>
 

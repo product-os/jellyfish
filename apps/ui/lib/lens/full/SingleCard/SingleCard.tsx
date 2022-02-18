@@ -100,8 +100,8 @@ export default class SingleCardFull extends React.Component<any, any> {
 						</Tab>
 					)}
 
-					{customQueryTabs(card, type)}
-					<RelationshipsTab card={card} />
+					{customQueryTabs(card, type, channel)}
+					<RelationshipsTab card={card} channel={channel} />
 				</SingleCardTabs>
 			</CardLayout>
 		);

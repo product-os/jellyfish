@@ -1,42 +1,29 @@
-import Bluebird from 'bluebird';
 import { connect } from 'react-redux';
-import clone from 'deep-copy';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Button, Flex } from 'rendition';
-import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
+import { Box, Flex } from 'rendition';
+import { helpers, withSetup } from '@balena/jellyfish-ui-components';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
-import { BoundActionCreators } from '../../types';
-import { LinkModal } from '../../components/LinkModal';
-import { actionCreators, selectors } from '../../core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
+import { JsonSchema } from '@balena/jellyfish-types';
+import { ChannelContract } from '../../types';
+import { selectors } from '../../core';
+import LiveCollection from './LiveCollection';
+import LinkOrCreate from './LinkOrCreate';
 
 interface StateProps {
 	activeLoop: string | null;
 }
 
 interface OwnProps {
+	channel: ChannelContract;
 	segment: {
 		link: string;
 		title: string;
 		type: string;
 	};
-	types: TypeContract[];
 	card: Contract;
-	draftCards?: Contract[];
-	onCardsUpdated?: (cards: Contract[]) => any;
-	onSave?: (
-		card: Contract | null,
-		selectedTarget: Contract,
-		linkTypeName: string,
-	) => any;
-	actions: BoundActionCreators<
-		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
-	>;
 }
 
 interface SetupProps {
@@ -46,8 +33,7 @@ interface SetupProps {
 type Props = StateProps & OwnProps & SetupProps;
 
 interface State {
-	results: Contract[] | null;
-	showLinkModal: boolean;
+	query: JsonSchema | null;
 }
 
 class Segment extends React.Component<Props, State> {
@@ -55,129 +41,109 @@ class Segment extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			results: props.draftCards || null,
-			showLinkModal: false,
+			query: null,
 		};
 
-		this.openCreateChannel = this.openCreateChannel.bind(this);
-		this.openLinkModal = this.openLinkModal.bind(this);
-		this.hideLinkModal = this.hideLinkModal.bind(this);
-		this.updateResults = this.updateResults.bind(this);
 		this.getData = this.getData.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
 		if (!circularDeepEqual(prevProps.segment, this.props.segment)) {
-			this.setState({
-				results: null,
-			});
 			this.getData();
-		} else if (
-			!circularDeepEqual(prevProps.card, this.props.card) ||
-			!circularDeepEqual(prevProps.draftCards, this.props.draftCards)
-		) {
+		} else if (!circularDeepEqual(prevProps.card, this.props.card)) {
 			this.getData();
 		}
-	}
-
-	openLinkModal() {
-		this.setState({
-			showLinkModal: true,
-		});
-	}
-
-	hideLinkModal() {
-		this.setState({
-			showLinkModal: false,
-		});
 	}
 
 	componentDidMount() {
 		this.getData();
 	}
 
-	updateResults(results) {
-		const { onCardsUpdated, draftCards } = this.props;
-		this.setState(
-			{
-				results: _.unionBy(results, draftCards || [], 'id'),
+	getData() {
+		const { card, segment, sdk } = this.props;
+
+		const verb = segment.link;
+		const targetType =
+			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`;
+		let baseTargetType = targetType && helpers.getTypeBase(targetType);
+		let linkedType: string | undefined = targetType;
+
+		// Link constraints allow '*' to indicate any type
+		if (targetType === 'undefined@1.0.0') {
+			// eslint-disable-next-line no-undefined
+			linkedType = undefined;
+			baseTargetType = '*';
+		}
+		const linkDefinition = _.find(sdk.LINKS, {
+			name: verb,
+			data: {
+				to: baseTargetType,
 			},
-			() => {
-				if (onCardsUpdated) {
-					onCardsUpdated(results);
-				}
-			},
-		);
-	}
+		});
 
-	async getData() {
-		const { card, segment, actions, sdk } = this.props;
+		if (!linkDefinition) {
+			throw new Error(
+				`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
+			);
+		}
 
-		const results = await actions.getLinks(
-			{
-				sdk,
-			},
-			card,
-			segment.link,
-			segment.type === '*' ? 'undefined@1.0.0' : `${segment.type}@1.0.0`,
-		);
-		this.updateResults(results);
-	}
+		// Find the inverse of the link definition
+		const inverseDefinition = _.find(sdk.LINKS, {
+			slug: linkDefinition.data.inverse,
+		});
 
-	openCreateChannel() {
-		const {
-			actions: { addChannel },
-			card,
-			segment,
-			types,
-			onSave,
-			activeLoop,
-		} = this.props;
+		if (!inverseDefinition) {
+			throw new Error(
+				`No link definition found from ${baseTargetType} to ${card.type} using ${verb}`,
+			);
+		}
 
-		addChannel({
-			head: {
-				types: _.find(types, {
-					slug: segment.type.split('@')[0],
-				}),
-				seed: {
-					markers: card.markers,
-					loop: card.loop || activeLoop,
-				},
-				onDone: {
-					action: 'link',
-					targets: [card],
-					onLink: onSave
-						? (newCard: Contract) => {
-								return onSave(null, newCard, segment.link);
-						  }
-						: null,
-					callback: this.getData,
+		const query = {
+			$$links: {
+				[inverseDefinition.name]: {
+					type: 'object',
+					required: ['id'],
+					properties: {
+						id: {
+							const: card.id,
+						},
+					},
 				},
 			},
-			format: 'create',
-			canonical: false,
+			// Always load the owner if there is one
+			anyOf: [
+				{
+					$$links: {
+						'is owned by': {
+							type: 'object',
+						},
+					},
+				},
+				true,
+			],
+			description: `Get ${baseTargetType} contracts linked to ${card.id}`,
+			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					const: linkedType,
+				},
+				links: {
+					type: 'object',
+				},
+			},
+			required: ['type'],
+		} as any as JsonSchema;
+
+		this.setState({
+			query,
 		});
 	}
 
 	render() {
-		const { results, showLinkModal } = this.state;
+		const { query } = this.state;
 
-		const { card, segment, types, onSave } = this.props;
-
-		const type = _.find(types, {
-			slug: helpers.getRelationshipTargetType(segment),
-		});
-
-		if (!results) {
-			return (
-				<Box p={3}>
-					<Icon name="cog" spin />
-				</Box>
-			);
-		}
-
-		// This is to avoid circular dependency
-		const lens = require('../../lens').getLens('list', results);
+		const { card, channel, segment } = this.props;
 
 		return (
 			<Flex
@@ -193,59 +159,12 @@ class Segment extends React.Component<Props, State> {
 						minHeight: 0,
 					}}
 				>
-					{results.length === 0 && (
-						<Box px={3}>
-							<strong>No results found</strong>
-						</Box>
-					)}
-					{Boolean(results.length) && (
-						<lens.data.renderer
-							tail={results}
-							page={1}
-							totalPages={1}
-							nextPage={_.noop}
-							pageOptions={{
-								limit: 30,
-								sortBy: ['created_at'],
-								sortDir: 'desc',
-							}}
-						/>
+					{!!query && (
+						<LiveCollection channel={channel} query={query} card={card} />
 					)}
 				</Box>
 
-				{segment.link && type && (
-					<Flex px={3} pb={3} flexWrap="wrap">
-						<Button
-							mr={2}
-							mt={2}
-							success
-							data-test={`add-${type.slug}`}
-							onClick={this.openCreateChannel}
-						>
-							Add new {type.name || type.slug}
-						</Button>
-
-						<Button
-							outline
-							mt={2}
-							data-test={`link-to-${type.slug}`}
-							onClick={this.openLinkModal}
-						>
-							Link to an existing {type.name || type.slug}
-						</Button>
-					</Flex>
-				)}
-
-				{showLinkModal && (
-					<LinkModal
-						linkVerb={segment.link}
-						cards={[card]}
-						targetTypes={[type]}
-						onHide={this.hideLinkModal}
-						onSave={onSave}
-						onSaved={this.getData}
-					/>
-				)}
+				{segment.link && <LinkOrCreate segment={segment} card={card} />}
 			</Flex>
 		);
 	}
