@@ -149,6 +149,7 @@ class Segment extends React.Component<Props, State> {
 			<Flex
 				flexDirection="column"
 				style={{
+					maxWidth: '100%',
 					flex: 1,
 				}}
 			>
