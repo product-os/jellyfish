@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.3.6 to 8.4.0
+      hash: 3f5efa506591f3af146fe2908b2bb1c94cd3e809
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.0.1
+  title: "'Update grafana/grafana from 8.3.6 to 8.4.0'"
+  date: 2022-02-18T03:10:32.837Z
+- commits:
     - subject: "UI: Drop support for custom relationships defined on type contracts"
       hash: 85a06bf669d5a5b9f5486de7ee8a09270e49c824
       body: >
