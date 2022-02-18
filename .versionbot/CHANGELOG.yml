@@ -1,4 +1,26 @@
 - commits:
+    - subject: "UI: Lazy load simple list lens"
+      hash: 764e9d1696a681a6d68f4cedec65d758e4d3e06b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Replace react-virtualized with react-virtuoso in the list lens
+      hash: ec0c42baa91c04dfb581e4da05f6925fce38eab2
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: edufschmidt
+      nested: []
+  version: 46.1.0
+  title: "'Replace react-virtualized with react-virtuoso in the list lens'"
+  date: 2022-02-18T10:49:07.844Z
+- commits:
     - subject: Update grafana/grafana from 8.3.6 to 8.4.0
       hash: 3f5efa506591f3af146fe2908b2bb1c94cd3e809
       body: ""
