@@ -1,5 +1,5 @@
 import Interleaved from './Interleaved';
-import Simple from './simple';
+import Simple from './Simple';
 import SupportThreads from './SupportThreads';
 import Timeline from '../list/Timeline';
 

@@ -1,11 +1,12 @@
 import _ from 'lodash';
+import { actionCreators, selectors } from '../../../core';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators, selectors } from '../../../core';
+
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-export const List = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-list" */ './List'),
+export const SimpleList = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-list" */ './component'),
 );
 
 const mapStateToProps = (state) => {
@@ -23,7 +24,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-const listLens = {
+export const lens = {
 	slug: 'lens-list',
 	type: 'lens',
 	version: '1.0.0',
@@ -31,7 +32,7 @@ const listLens = {
 	data: {
 		label: 'List',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(List),
+		renderer: connect(mapStateToProps, mapDispatchToProps)(SimpleList),
 		icon: 'address-card',
 		type: '*',
 		filter: {
@@ -50,5 +51,3 @@ const listLens = {
 		},
 	},
 };
-
-export default listLens;

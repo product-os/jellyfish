@@ -23,7 +23,7 @@ type Props = RouteComponentProps &
 		getActorHref: (actor: any) => string;
 	};
 
-export const SimpleList = (props: Props) => {
+export default function SimpleList(props: Props) {
 	const [state, setState] = useState<State>({
 		isLoadingPage: false,
 	});
@@ -39,7 +39,7 @@ export const SimpleList = (props: Props) => {
 
 	const loadMoreContracts = async () => {
 		setState({ ...state, isLoadingPage: true });
-		await props.setPage(props.page + 1);
+		await props.nextPage();
 		setState({ ...state, isLoadingPage: false });
 	};
 
@@ -79,4 +79,4 @@ export const SimpleList = (props: Props) => {
 			overscan={5}
 		/>
 	);
-};
+}
