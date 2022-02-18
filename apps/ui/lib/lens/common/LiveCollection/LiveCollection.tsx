@@ -6,7 +6,6 @@ import * as React from 'react';
 import jsf from 'json-schema-faker';
 import { sdk } from '../../../core';
 import { LensContract } from '../../../types';
-import { getLenses } from '../..';
 
 interface Props {
 	user: UserContract;
@@ -30,6 +29,8 @@ export default class LiveCollection extends React.Component<Props, State> {
 		// As there isn't data loaded, mock the expected output based on the query
 		// schema and use the mock to select appropriate lenses
 		const mockCollection = [jsf.generate(props.query as any)];
+
+		const { getLenses } = require('../../');
 
 		const lenses = getLenses(
 			'list',
@@ -89,6 +90,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 
 		const results = await cursor.query();
 
+		const { getLenses } = require('../../');
 		// With the full result set we can now get a more accurate set of lenses
 		const lenses = getLenses('list', results, user, 'data.icon');
 
@@ -98,7 +100,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 		cursor.onUpdate(((response: {
 			data: { type: any; id: any; after: any };
 		}) => {
-			const { type, id, after } = response.data;
+			const { id, after } = response.data;
 
 			// If card is null then it has been set to inactive or deleted
 			if (after === null) {
@@ -112,28 +114,21 @@ export default class LiveCollection extends React.Component<Props, State> {
 				return;
 			}
 
-			// If the type is insert, it is a new item
-			if (type === 'insert') {
-				this.setState((prevState) => {
-					return {
-						results: prevState.results ? prevState.results.concat(after) : null,
-					};
-				});
-				return;
-			}
-
-			// All other updates are an upsert
+			// Otherwise perform an upsert
 			this.setState((prevState) => {
 				const index = _.findIndex(prevState.results, { id });
-				if (prevState.results) {
+				// If an item is found then replace it
+				if (index > -1 && prevState.results) {
 					prevState.results.splice(index, 1, after);
 					return {
 						results: prevState.results,
 					};
 				}
-
+				// Otherwise add it to the results
 				return {
-					results: null,
+					results: prevState.results
+						? prevState.results.concat(after)
+						: [after],
 				};
 			});
 		}) as any);

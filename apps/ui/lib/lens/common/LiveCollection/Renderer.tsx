@@ -24,7 +24,6 @@ import type {
 import LiveCollection from './LiveCollection';
 import Header from './Header';
 import Content from './Content';
-import { getLensBySlug } from '../..';
 
 import {
 	USER_FILTER_NAME,
@@ -453,7 +452,8 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		let filters = [];
 		const activeLens =
-			this.props.userActiveLens && getLensBySlug(this.props.userActiveLens);
+			this.props.userActiveLens &&
+			this.getLensBySlug(this.props.userActiveLens);
 
 		const viewTailTypes = getTypesFromSchema(query);
 
@@ -517,6 +517,13 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
 		this.loadViewWithFilters(filters);
 	}
+
+	// This lazy require fixes cicular dependency issues
+	// TODO: Refactor lens architecture to avoid this problem
+	getLensBySlug = (slug: string | null): LensContract | null => {
+		const { getLensBySlug } = require('../../');
+		return getLensBySlug(slug);
+	};
 
 	saveView = ([view]: FiltersView[]) => {
 		if (!view) {
@@ -611,7 +618,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	};
 
 	setLens = (slug) => {
-		const lens = getLensBySlug(slug);
+		const lens = this.getLensBySlug(slug);
 		if (!lens) {
 			return;
 		}
@@ -785,7 +792,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			return <Redirect push to={redirectTo} />;
 		}
 
-		const lens = getLensBySlug(activeLens);
+		const lens = this.getLensBySlug(activeLens);
 		const options = this.getQueryOptions(activeLens);
 
 		return (
