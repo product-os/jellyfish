@@ -40,12 +40,6 @@ export const CustomQueryTab: React.FunctionComponent<Props> = ({
 		key={segment.title}
 		data-test={`card-relationship-tab-${helpers.slugify(segment.title)}`}
 	>
-		<Segment
-			channel={channel}
-			card={card}
-			segment={segment}
-			types={types}
-			actions={actions}
-		/>
+		<Segment channel={channel} card={card} segment={segment} />
 	</Tab>
 );

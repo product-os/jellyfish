@@ -1,21 +1,16 @@
-import Bluebird from 'bluebird';
 import { connect } from 'react-redux';
-import clone from 'deep-copy';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Button, Flex } from 'rendition';
-import { helpers, Icon, withSetup } from '@balena/jellyfish-ui-components';
+import { Box, Flex } from 'rendition';
+import { helpers, withSetup } from '@balena/jellyfish-ui-components';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 import { JsonSchema } from '@balena/jellyfish-types';
-import { BoundActionCreators, ChannelContract } from '../../types';
-import { LinkModal } from '../../components/LinkModal';
-import { actionCreators, selectors } from '../../core';
+import { ChannelContract } from '../../types';
+import { selectors } from '../../core';
 import LiveCollection from './LiveCollection';
+import LinkOrCreate from './LinkOrCreate';
 
 interface StateProps {
 	activeLoop: string | null;
@@ -28,17 +23,7 @@ interface OwnProps {
 		title: string;
 		type: string;
 	};
-	types: TypeContract[];
 	card: Contract;
-	draftCards?: Contract[];
-	onSave?: (
-		card: Contract | null,
-		selectedTarget: Contract,
-		linkTypeName: string,
-	) => any;
-	actions: BoundActionCreators<
-		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
-	>;
 }
 
 interface SetupProps {
@@ -48,7 +33,6 @@ interface SetupProps {
 type Props = StateProps & OwnProps & SetupProps;
 
 interface State {
-	showLinkModal: boolean;
 	query: JsonSchema | null;
 }
 
@@ -57,37 +41,18 @@ class Segment extends React.Component<Props, State> {
 		super(props);
 
 		this.state = {
-			showLinkModal: false,
 			query: null,
 		};
 
-		this.openCreateChannel = this.openCreateChannel.bind(this);
-		this.openLinkModal = this.openLinkModal.bind(this);
-		this.hideLinkModal = this.hideLinkModal.bind(this);
 		this.getData = this.getData.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
 		if (!circularDeepEqual(prevProps.segment, this.props.segment)) {
 			this.getData();
-		} else if (
-			!circularDeepEqual(prevProps.card, this.props.card) ||
-			!circularDeepEqual(prevProps.draftCards, this.props.draftCards)
-		) {
+		} else if (!circularDeepEqual(prevProps.card, this.props.card)) {
 			this.getData();
 		}
-	}
-
-	openLinkModal() {
-		this.setState({
-			showLinkModal: true,
-		});
-	}
-
-	hideLinkModal() {
-		this.setState({
-			showLinkModal: false,
-		});
 	}
 
 	componentDidMount() {
@@ -95,7 +60,7 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	getData() {
-		const { card, segment, actions, sdk } = this.props;
+		const { card, segment, sdk } = this.props;
 
 		const verb = segment.link;
 		const targetType =
@@ -175,49 +140,10 @@ class Segment extends React.Component<Props, State> {
 		});
 	}
 
-	openCreateChannel() {
-		const {
-			actions: { addChannel },
-			card,
-			segment,
-			types,
-			onSave,
-			activeLoop,
-		} = this.props;
-
-		addChannel({
-			head: {
-				types: _.find(types, {
-					slug: segment.type.split('@')[0],
-				}),
-				seed: {
-					markers: card.markers,
-					loop: card.loop || activeLoop,
-				},
-				onDone: {
-					action: 'link',
-					targets: [card],
-					onLink: onSave
-						? (newCard: Contract) => {
-								return onSave(null, newCard, segment.link);
-						  }
-						: null,
-					callback: this.getData,
-				},
-			},
-			format: 'create',
-			canonical: false,
-		});
-	}
-
 	render() {
-		const { showLinkModal, query } = this.state;
+		const { query } = this.state;
 
-		const { card, channel, segment, types, onSave } = this.props;
-
-		const type = _.find(types, {
-			slug: helpers.getRelationshipTargetType(segment),
-		});
+		const { card, channel, segment } = this.props;
 
 		return (
 			<Flex
@@ -238,39 +164,7 @@ class Segment extends React.Component<Props, State> {
 					)}
 				</Box>
 
-				{segment.link && type && (
-					<Flex px={3} pb={3} flexWrap="wrap">
-						<Button
-							mr={2}
-							mt={2}
-							success
-							data-test={`add-${type.slug}`}
-							onClick={this.openCreateChannel}
-						>
-							Add new {type.name || type.slug}
-						</Button>
-
-						<Button
-							outline
-							mt={2}
-							data-test={`link-to-${type.slug}`}
-							onClick={this.openLinkModal}
-						>
-							Link to an existing {type.name || type.slug}
-						</Button>
-					</Flex>
-				)}
-
-				{showLinkModal && (
-					<LinkModal
-						linkVerb={segment.link}
-						cards={[card]}
-						targetTypes={[type]}
-						onHide={this.hideLinkModal}
-						onSave={onSave}
-						onSaved={this.getData}
-					/>
-				)}
+				{segment.link && <LinkOrCreate segment={segment} card={card} />}
 			</Flex>
 		);
 	}

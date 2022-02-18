@@ -5,7 +5,7 @@ import Bluebird from 'bluebird';
 import React from 'react';
 import update from 'immutability-helper';
 import { Redirect } from 'react-router-dom';
-import { Box, Button, Card, Flex, Heading, Select, Txt, Form } from 'rendition';
+import { Box, Button, Flex, Heading, Select, Txt, Form } from 'rendition';
 import styled from 'styled-components';
 import {
 	notifications,
@@ -15,10 +15,11 @@ import {
 } from '@balena/jellyfish-ui-components';
 import CardLayout from '../../../layouts/CardLayout';
 import * as skhema from 'skhema';
-import { analytics, constants } from '../../../core';
-import Segment from '../../common/Segment';
+import { analytics, constants, sdk } from '../../../core';
 import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
 import { getRelationships } from '../../common/RelationshipsTab';
+import LinkOrCreate from '../../common/LinkOrCreate';
+import ContractNavLink from '../../../components/ContractNavLink';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
@@ -102,7 +103,8 @@ export default class CreateLens extends React.Component<any, any> {
 		]);
 	}
 
-	saveLink(card, selectedTarget, linkTypeName) {
+	saveLink = async (_card, selectedTarget, linkTypeName) => {
+		const fullContract = await sdk.card.get(selectedTarget.id);
 		this.setState((prevState) => {
 			const key = getLinkKey(selectedTarget.type, linkTypeName);
 			return update(prevState, {
@@ -111,7 +113,7 @@ export default class CreateLens extends React.Component<any, any> {
 						update(items || [], {
 							$push: [
 								{
-									target: selectedTarget,
+									target: fullContract,
 									verb: linkTypeName,
 								},
 							],
@@ -119,7 +121,7 @@ export default class CreateLens extends React.Component<any, any> {
 				},
 			});
 		});
-	}
+	};
 
 	bindMethods(methods) {
 		methods.forEach((method) => {
@@ -412,24 +414,34 @@ export default class CreateLens extends React.Component<any, any> {
 
 						{_.map(relationships, (segment) => {
 							const key = getLinkKey(segment.type, segment.link);
+							const targets = _.map(links[key], 'target');
 							return (
-								<Card
-									p={3}
+								<Box
+									px={3}
 									mt={3}
 									key={key}
 									data-test={`segment-card--${_.get(segment, ['type'])}`}
-									title={segment.title}
 								>
-									<Segment
-										channel={this.props.channel}
+									<Txt bold>{segment.title}</Txt>
+
+									<Box py={2}>
+										{_.map(targets, (target) => {
+											return (
+												<ContractNavLink
+													key={target.id}
+													contract={target}
+													channel={channel}
+												/>
+											);
+										})}
+									</Box>
+
+									<LinkOrCreate
 										card={selectedTypeTarget}
 										segment={segment}
-										types={allTypes}
-										actions={actions}
 										onSave={this.saveLink}
-										draftCards={_.map(links[key], 'target')}
 									/>
-								</Card>
+								</Box>
 							);
 						})}
 					</FormBox>

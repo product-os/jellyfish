@@ -231,13 +231,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 			data-test="card-relationships-tab"
 		>
 			{activeRelationship && (
-				<Segment
-					channel={channel}
-					card={card}
-					segment={activeRelationship}
-					types={types}
-					actions={actions}
-				/>
+				<Segment channel={channel} card={card} segment={activeRelationship} />
 			)}
 		</Tab>
 	);
