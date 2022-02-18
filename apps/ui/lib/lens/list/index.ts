@@ -1,6 +1,6 @@
 import Interleaved from './Interleaved';
-import List from './List';
+import Simple from './Simple';
 import SupportThreads from './SupportThreads';
 import Timeline from '../list/Timeline';
 
-export default [Interleaved, List, SupportThreads, Timeline];
+export default [Interleaved, Simple, SupportThreads, Timeline];
