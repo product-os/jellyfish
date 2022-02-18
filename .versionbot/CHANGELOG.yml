@@ -1,4 +1,113 @@
 - commits:
+    - subject: "UI: Fix bug where LiveCollection would not add an update correctly"
+      hash: 71ea5d37c0b43d841b1f42f66a587957723a2641
+      body: |
+        This fixes an issue where an update that adds a new item would replace
+        an existing item instead of being appended.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Refactor CreateLens to no longer use Segment component"
+      hash: 08e280df3f08fdb80e08bfdfc1a29dc24a03a1c5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix next page check in LiveCollection"
+      hash: 6ccae63376c81c3b6986648044712cbab06ee9fd
+      body: |
+        This bug was caused by an issue in `jellyfish-client-sdk` which is
+        resolved by updating to the latest version.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Reduce contract layout header font size across the board"
+      hash: 9becb02def68d5fdd8a4e59676a76799a64dd76e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Don't remove $$links form queries when using Chart lens"
+      hash: d13a59fac73d19532d94fc2ac8dabbff2713c06c
+      body: |
+        The original idea behind this is that you can make the query run a lot
+        fast by not expanding additional data. Unfortunately this breaks if the
+        $$links query is essential for the query to make sense (e.g. milestones
+        linked to an improvement). The best case is that we can strip out links
+        that are optional, but I will leave this for a future improvement.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Ensure cursor is reset when changing lenses"
+      hash: ac9866de6aa38135b149a2c7e9418416b41b512b
+      body: >
+        This change also ensures that lens query "masks" are correctly removed
+        and
+
+        applied when switching lenses. Previously, the masks would stick, and
+
+        wouldn't be removed even when switching to another lens.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Don't paginate LiveCollection cursor if there are no more pages"
+      hash: babe2a63e65ed281577107dbc7315613c2f1dff8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use LiveCollection when rendering Segments"
+      hash: 8242bf0187d01523f014e3f48e704c9ebe9ef72a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused `onCardsUpdated` prop from Segment"
+      hash: b24019e759e56b07ced969583a6fa83a17ab5cf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.1.2
+  title: "'Use LiveCollection component for segments'"
+  date: 2022-02-18T15:19:29.370Z
+- commits:
     - subject: Update grafana/grafana from 8.4.0 to 8.4.1
       hash: d888fd1458b979e9f7715c1b1ee72d8d10984d47
       body: ""
