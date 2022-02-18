@@ -61,6 +61,7 @@ export interface ChannelContract
 export interface LensRendererProps {
 	channel: ChannelContract;
 	tail: null | Contract[];
+	hasNextPage: boolean;
 	nextPage: () => Promise<Contract[]>;
 	pageOptions: {
 		page: number;

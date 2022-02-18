@@ -35,12 +35,21 @@ interface ContentProps {
 		sortDir: 'asc' | 'desc';
 	};
 	nextPage?: any;
+	hasNextPage?: boolean;
 }
 
 export default class Content extends React.Component<ContentProps, any> {
 	render() {
-		const { lens, lenses, results, channel, tailTypes, pageOptions, nextPage } =
-			this.props;
+		const {
+			lens,
+			lenses,
+			results,
+			channel,
+			tailTypes,
+			pageOptions,
+			nextPage,
+			hasNextPage,
+		} = this.props;
 
 		const activeLens = lens || lenses![0];
 
@@ -80,6 +89,7 @@ export default class Content extends React.Component<ContentProps, any> {
 								page={pageOptions.page}
 								totalPages={pageOptions.totalPages}
 								tailTypes={tailTypes}
+								hasNextPage={!!hasNextPage}
 							/>
 						)}
 					</Flex>
