@@ -11,12 +11,13 @@ import type { ChannelContract, LensContract } from '../../../types';
 
 const sortTail = (
 	tail: Contract[] | null,
-	options: { limit?: number; page?: number; sortBy: any; sortDir: any },
+	sortBy: string | string[],
+	sortDir: 'asc' | 'desc',
 ) => {
 	if (!tail) {
 		return null;
 	}
-	return _.orderBy(tail, options.sortBy, options.sortDir);
+	return _.orderBy(tail, sortBy, sortDir);
 };
 
 interface ContentProps {
@@ -43,7 +44,11 @@ export default class Content extends React.Component<ContentProps, any> {
 
 		const activeLens = lens || lenses![0];
 
-		const sortedTail = sortTail(results || null, pageOptions);
+		const sortedTail = sortTail(
+			results || null,
+			pageOptions.sortBy,
+			pageOptions.sortDir,
+		);
 
 		return (
 			<Flex height="100%" minHeight="0">
