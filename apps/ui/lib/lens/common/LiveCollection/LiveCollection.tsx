@@ -151,7 +151,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 		const { results, lenses } = this.state;
 		const { children } = this.props;
 
-		const hasNextPage = false;
+		const hasNextPage = this.cursor?.hasNextPage();
 
 		if (children) {
 			const childrenWithProps = React.Children.map(children, (child) => {

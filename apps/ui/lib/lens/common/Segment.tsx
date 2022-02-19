@@ -149,6 +149,7 @@ class Segment extends React.Component<Props, State> {
 			<Flex
 				flexDirection="column"
 				style={{
+					maxWidth: '100%',
 					flex: 1,
 				}}
 			>
@@ -160,11 +161,20 @@ class Segment extends React.Component<Props, State> {
 					}}
 				>
 					{!!query && (
-						<LiveCollection channel={channel} query={query} card={card} />
+						<LiveCollection
+							hideFooter
+							channel={channel}
+							query={query}
+							card={card}
+						/>
 					)}
 				</Box>
 
-				{segment.link && <LinkOrCreate segment={segment} card={card} />}
+				{segment.link && (
+					<Box px={3}>
+						<LinkOrCreate segment={segment} card={card} />
+					</Box>
+				)}
 			</Flex>
 		);
 	}

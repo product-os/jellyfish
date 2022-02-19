@@ -11,12 +11,13 @@ import type { ChannelContract, LensContract } from '../../../types';
 
 const sortTail = (
 	tail: Contract[] | null,
-	options: { limit?: number; page?: number; sortBy: any; sortDir: any },
+	sortBy: string | string[],
+	sortDir: 'asc' | 'desc',
 ) => {
 	if (!tail) {
 		return null;
 	}
-	return _.orderBy(tail, options.sortBy, options.sortDir);
+	return _.orderBy(tail, sortBy, sortDir);
 };
 
 interface ContentProps {
@@ -34,16 +35,31 @@ interface ContentProps {
 		sortDir: 'asc' | 'desc';
 	};
 	nextPage?: any;
+	hasNextPage?: boolean;
+	hideFooter: boolean;
 }
 
 export default class Content extends React.Component<ContentProps, any> {
 	render() {
-		const { lens, lenses, results, channel, tailTypes, pageOptions, nextPage } =
-			this.props;
+		const {
+			lens,
+			lenses,
+			results,
+			channel,
+			tailTypes,
+			pageOptions,
+			nextPage,
+			hasNextPage,
+			hideFooter,
+		} = this.props;
 
 		const activeLens = lens || lenses![0];
 
-		const sortedTail = sortTail(results || null, pageOptions);
+		const sortedTail = sortTail(
+			results || null,
+			pageOptions.sortBy,
+			pageOptions.sortDir,
+		);
 
 		return (
 			<Flex height="100%" minHeight="0">
@@ -75,12 +91,11 @@ export default class Content extends React.Component<ContentProps, any> {
 								page={pageOptions.page}
 								totalPages={pageOptions.totalPages}
 								tailTypes={tailTypes}
+								hasNextPage={!!hasNextPage}
 							/>
 						)}
 					</Flex>
-					{tailTypes.length && (
-						<ViewFooter types={tailTypes} justifyContent="flex-end" />
-					)}
+					{!hideFooter && tailTypes.length && <ViewFooter types={tailTypes} />}
 				</Flex>
 			</Flex>
 		);

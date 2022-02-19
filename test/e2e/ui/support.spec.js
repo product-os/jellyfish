@@ -929,7 +929,7 @@ test('Should be able to filter support threads by timeline message', async ({
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
 		fieldSelectTimelineOption:
 			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="Timeline message"]]]',
-		filterModalValueInput: 'input[operator="contains"]',
+		filterModalValueInput: 'input[label="Timeline message"]',
 		filterModalSaveButton: '//button[text()="Save"]',
 		timelineSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
 		'//button[div[div[text()="Timeline message contains "]]]/following-sibling::button'
@@ -1008,7 +1008,7 @@ test('Should be able to filter support threads by a field in a linked contract',
 		fieldSelectSearch: '#filtermodal__fieldselect__select-drop input',
 		fieldSelectPatternNameOption:
 			'//*[@id="filtermodal__fieldselect__select-drop"]//button[div[span[text()="🔗 Pattern: Name"]]]',
-		filterModalValueInput: 'input[operator="contains"]',
+		filterModalValueInput: 'input[label="🔗 Pattern: Name"]',
 		filterModalSaveButton: '//button[text()="Save"]',
 		patternNameSummaryClearButton: '//*[@data-test="view__filters-summary-wrapper"]' +
 		'//button[div[div[text()="🔗 Pattern: Name contains "]]]/following-sibling::button'

@@ -33,7 +33,7 @@ export default function SimpleList(props: Props) {
 	useEffect(() => {
 		const newItemsCount = props.tail!.length - tail.length;
 		if (newItemsCount > 0) {
-			setTail(props.tail ? _.sortBy(props.tail, 'created_at').reverse() : []);
+			setTail(props.tail || []);
 		}
 	}, [props.tail]);
 

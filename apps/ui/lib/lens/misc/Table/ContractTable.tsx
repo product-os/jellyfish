@@ -224,7 +224,7 @@ export default class CardTable extends React.Component<any, any> {
 	}
 
 	render() {
-		const { allTypes, generateData } = this.props;
+		const { allTypes, generateData, hasNextPage } = this.props;
 		const { checkedCards, showLinkModal, tableColumns } = this.state;
 		const data = generateData ? generateData() : this.generateTableData();
 
@@ -296,6 +296,7 @@ export default class CardTable extends React.Component<any, any> {
 								data-test="table-component"
 								onPageChange={this.setPage}
 								onCheck={this.onChecked}
+								fuzzyPager={hasNextPage}
 							/>
 						</React.Fragment>
 					)}

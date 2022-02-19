@@ -122,11 +122,24 @@ export default class Kanban extends React.Component<any, any> {
 	}
 
 	getSlices() {
-		const view = this.props.channel.data.head;
-		if (!view) {
-			return [];
+		const head = this.props.channel.data.head;
+		// If the head contract is a view, use it to find the slices
+		if (head && head.type.split('@')[0] === 'view') {
+			return helpers.getViewSlices(head, this.props.types) || [];
 		}
-		return helpers.getViewSlices(view, this.props.types) || [];
+		// Otherwise spoof a view
+		if (this.props.tail && this.props.tail.length > 0) {
+			const sample: any = _.first(this.props.tail);
+			const fakeView: any = {
+				data: {
+					allOf: [
+						_.set({}, ['schema', 'properties', 'type', 'const'], sample.type),
+					],
+				},
+			};
+			return helpers.getViewSlices(fakeView, this.props.types) || [];
+		}
+		return [];
 	}
 
 	getLanes() {
