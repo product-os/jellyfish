@@ -366,8 +366,11 @@ export const attachRoutes = (
 			}
 
 			return response.status(200).json({
-				access_token: createSessionResult.data.id,
-				token_type: 'Bearer',
+				error: false,
+				data: {
+					access_token: createSessionResult.data.id,
+					token_type: 'Bearer',
+				},
 			});
 		} catch (error: any) {
 			if (

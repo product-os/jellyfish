@@ -110,8 +110,8 @@ outreachTest('should be able to associate a user with Outreach', async () => {
 	);
 
 	expect(result.code).toBe(200);
-	expect(typeof result.response.access_token).toBe('string');
-	expect(result.response.token_type).toBe('Bearer');
+	expect(typeof result.response.data.access_token).toBe('string');
+	expect(result.response.data.token_type).toBe('Bearer');
 
 	const newUserCard = await context.sdk.card.get(userCard.slug);
 
@@ -403,8 +403,8 @@ balenaApiTest(
 		);
 
 		expect(result.code).toBe(200);
-		expect(typeof result.response.access_token).toBe('string');
-		expect(result.response.token_type).toBe('Bearer');
+		expect(typeof result.response.data.access_token).toBe('string');
+		expect(result.response.data.token_type).toBe('Bearer');
 
 		const newUserCard = await context.sdk.card.get(userCard.slug);
 
@@ -498,8 +498,8 @@ balenaApiTest(
 		);
 
 		expect(result.code).toBe(200);
-		expect(typeof result.response.access_token).toBe('string');
-		expect(result.response.token_type).toBe('Bearer');
+		expect(typeof result.response.data.access_token).toBe('string');
+		expect(result.response.data.token_type).toBe('Bearer');
 
 		const newUserCard = await context.sdk.card.get(userCard.slug);
 
@@ -577,8 +577,8 @@ balenaApiTest(
 		);
 
 		expect(result.code).toBe(200);
-		expect(typeof result.response.access_token).toBe('string');
-		expect(result.response.token_type).toBe('Bearer');
+		expect(typeof result.response.data.access_token).toBe('string');
+		expect(result.response.data.token_type).toBe('Bearer');
 
 		const newUserCard = await context.sdk.card.get(slug);
 
