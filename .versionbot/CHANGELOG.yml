@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix oauth associate bug
+      hash: bbff99c2c92854665ce48519f424395a442c69e9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 46.2.3
+  title: "'Fix oauth associate bug'"
+  date: 2022-02-19T18:27:48.030Z
+- commits:
     - subject: 🔄 Synced file(s) with product-os/secrets
       hash: de00e4fb15407f9740ae038df9b748ff504b5cb1
       body: ""
