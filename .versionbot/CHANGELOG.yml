@@ -1,4 +1,97 @@
 - commits:
+    - subject: "UI: Fix overflowX on Segments"
+      hash: fd90bf07c9035cd2836f112818a0309a4f77fbec
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Get Kanban lens to load when viewing relationships"
+      hash: 23707b2687dbd4b2c20d8041ad88888c6d97e689
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Right-align link/create buttons for consistency with view footer
+        button"
+      hash: a6a61f1a23c1ed345cf61ad831167f952b662244
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Hide primary footer when viewing link tabs"
+      hash: d17c0d093665f6a6bc3277eacd0721e629501fbf
+      body: |
+        This change prevents a secondary "Add X" button from popping up
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Make link/create buttons less verbose"
+      hash: d11eeb20295a1dd436e03605907f7c7e00fc651b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add padding around link/create controls on tabs"
+      hash: eebafb0e70e8d7699f14b69597ea2e810d1dadae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add a visual indicator to the table pagination if there are more
+        items"
+      hash: 8798d973c16f86b3c0e3d0da7378c3f5492dca4e
+      body: |
+        This change also ensures that the cursor `hasNextPage` result propagates
+        down to lens renderers. Previously the value was only passed to the
+        immediate children of the `LiveCollection` component and was always set
+        to `false`!
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Stop Simple list lens from overriding sort order"
+      hash: 112bd6622fea606a3e53c860f84adddab26dfb1a
+      body: |
+        The Simple list lens would previously force the colleciton it rendered
+        to be sorted by `created_at`. This has been removed and the lens will
+        render the colleciton in the order it's presented, allowing the
+        LiveCollection controls to dictate the sort order.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.2.4
+  title: "'Tidy up a number of UI issues around Segments/LiveCollection'"
+  date: 2022-02-19T20:17:35.936Z
+- commits:
     - subject: Fix oauth associate bug
       hash: bbff99c2c92854665ce48519f424395a442c69e9
       body: ""
