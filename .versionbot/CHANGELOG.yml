@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update sdk to v10
+      hash: 3a436719b110b3515198de38a916d14f3b67d4df
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 46.2.0
+  title: "'Update sdk to v10'"
+  date: 2022-02-18T23:56:49.757Z
+- commits:
     - subject: "UI: Fix bug where LiveCollection would not add an update correctly"
       hash: 71ea5d37c0b43d841b1f42f66a587957723a2641
       body: |
