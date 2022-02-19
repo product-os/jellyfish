@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependencies (external major bumps)
+      hash: 3e72317d2f4eac0167ad46e634d7e2ec61dd83c6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.2.1
+  title: "'Update dependencies (external major bumps)'"
+  date: 2022-02-19T05:43:50.761Z
+- commits:
     - subject: Update sdk to v10
       hash: 3a436719b110b3515198de38a916d14f3b67d4df
       body: ""
