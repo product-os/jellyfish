@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typedoc from 0.22.11 to 0.22.12
+      hash: 075117f5a485f9fffad1213e55099006703fb856
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.2.5
+  title: "'Update typedoc from 0.22.11 to 0.22.12'"
+  date: 2022-02-20T04:00:37.549Z
+- commits:
     - subject: "UI: Fix overflowX on Segments"
       hash: fd90bf07c9035cd2836f112818a0309a4f77fbec
       body: ""
