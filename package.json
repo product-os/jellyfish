@@ -101,7 +101,7 @@
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.19.1",
     "ava": "^4.0.1",
-    "aws-sdk": "^2.1074.0",
+    "aws-sdk": "^2.1077.0",
     "bluebird": "^3.7.2",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
