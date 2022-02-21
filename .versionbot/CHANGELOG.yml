@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update aws-sdk from 2.1074.0 to 2.1077.0
+      hash: 2199ff66d259df1b22832ca5eefa664bdc1ae4b9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 46.2.10
+  title: "'Update aws-sdk from 2.1074.0 to 2.1077.0'"
+  date: 2022-02-21T09:56:11.493Z
+- commits:
     - subject: Update express from 4.17.2 to 4.17.3
       hash: f54064459ff0105e1661f8e527612ea0457cee8a
       body: ""
