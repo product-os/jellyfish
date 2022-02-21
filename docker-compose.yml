@@ -158,7 +158,7 @@ services:
     ports:
       - 9231:9229
   balena-mdns-publisher:
-    image: 'balena/balena-mdns-publisher:v1.14.4'
+    image: 'balena/balena-mdns-publisher:v1.14.5'
     network_mode: host
     cap_add:
       - SYS_RESOURCE
