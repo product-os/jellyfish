@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher from v1.14.4 to v1.14.5
+      hash: f328b65a09db4e8f3851375b6f7c3c9d3cd18236
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.2.13
+  title: "'Update balena/balena-mdns-publisher from v1.14.4 to v1.14.5'"
+  date: 2022-02-21T22:25:35.216Z
+- commits:
     - subject: Fix error when vieweing support thread patterns
       hash: e63a9a400ec2fcdc82ef899acb410863f75a4fcf
       body: ""
