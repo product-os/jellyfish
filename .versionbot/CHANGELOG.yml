@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-logger from 4.0.37 to 4.0.38
+      hash: 8ba194c40d8d8997e30cc207d489f4210a526da7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 46.2.8
+  title: "'Update @balena/jellyfish-logger from 4.0.37 to 4.0.38'"
+  date: 2022-02-21T02:48:44.341Z
+- commits:
     - subject: Update @balena/jellyfish-environment from 7.0.0 to 7.0.1
       hash: edd22fe362417be2c29507fc75d97b5a6c97f792
       body: ""
