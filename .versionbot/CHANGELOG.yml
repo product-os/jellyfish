@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: 736cd3f60541f8f8128934167d5500907a649740
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.2.11
+  title: "'Update external-non-major'"
+  date: 2022-02-21T10:44:35.436Z
+- commits:
     - subject: Update aws-sdk from 2.1074.0 to 2.1077.0
       hash: 2199ff66d259df1b22832ca5eefa664bdc1ae4b9
       body: ""
