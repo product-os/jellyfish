@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix error when vieweing support thread patterns
+      hash: e63a9a400ec2fcdc82ef899acb410863f75a4fcf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 46.2.12
+  title: "'Fix error when vieweing support thread patterns'"
+  date: 2022-02-21T18:06:24.694Z
+- commits:
     - subject: Update external-non-major
       hash: 736cd3f60541f8f8128934167d5500907a649740
       body: ""
