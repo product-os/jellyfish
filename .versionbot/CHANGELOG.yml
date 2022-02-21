@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-environment from 7.0.0 to 7.0.1
+      hash: edd22fe362417be2c29507fc75d97b5a6c97f792
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 46.2.7
+  title: "'Update @balena/jellyfish-environment from 7.0.0 to 7.0.1'"
+  date: 2022-02-21T01:09:44.950Z
+- commits:
     - subject: Update @balena/jellyfish-assert from 1.2.14 to 1.2.15
       hash: 439a426f900ddbe5dfa8796b908e3e0179161055
       body: ""
