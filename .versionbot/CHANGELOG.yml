@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update express from 4.17.2 to 4.17.3
+      hash: f54064459ff0105e1661f8e527612ea0457cee8a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 46.2.9
+  title: "'Update express from 4.17.2 to 4.17.3'"
+  date: 2022-02-21T09:00:33.317Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 4.0.37 to 4.0.38
       hash: 8ba194c40d8d8997e30cc207d489f4210a526da7
       body: ""
