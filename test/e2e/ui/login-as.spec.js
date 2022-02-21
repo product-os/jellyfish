@@ -71,7 +71,7 @@ test.describe('Login as', () => {
 		page
 	}) => {
 		// 1. Reuqest livechat page with specific user
-		await page.goto(`/livechat?login-as=${user.card.slug.replace('user-', '')}`)
+		await page.goto(`/livechat?loginAs=${user.card.slug.replace('user-', '')}`)
 
 		// 2. Redirected to /oauth/callback page
 		await page.waitForURL((url) => {

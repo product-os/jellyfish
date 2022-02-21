@@ -31,7 +31,7 @@ const OauthCallback = () => {
 		const username = returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME);
 
 		if (!username) {
-			throw new Error('login-as parameter missing');
+			throw new Error(`${LOGIN_AS_SEARCH_PARAM_NAME} parameter missing`);
 		}
 
 		const { access_token: token } = await sdk.post<{ access_token: string }>(

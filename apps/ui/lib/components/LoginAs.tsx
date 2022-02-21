@@ -6,7 +6,7 @@ import { useTask } from '@balena/jellyfish-chat-widget/build/hooks';
 import { selectors } from '../core';
 import { slugify } from '@balena/jellyfish-ui-components/build/services/helpers';
 
-export const LOGIN_AS_SEARCH_PARAM_NAME = 'login-as';
+export const LOGIN_AS_SEARCH_PARAM_NAME = 'loginAs';
 
 const LoginAs = () => {
 	const store = useStore();
