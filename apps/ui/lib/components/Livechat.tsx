@@ -17,7 +17,7 @@ const Livechat = () => {
 		return rest;
 	}, [location.search]);
 
-	const { product, productTitle, username, inbox } = queryParams;
+	const { product, productTitle, inbox } = queryParams;
 
 	const onClose = React.useCallback(() => {
 		window.parent.postMessage(
@@ -66,7 +66,6 @@ const Livechat = () => {
 			product={product}
 			productTitle={productTitle}
 			inbox={inbox}
-			oauthProvider={'balena-api'}
 			initialUrl={initialUrl}
 			onClose={onClose}
 			onNotificationsChange={onNotificationsChange}
