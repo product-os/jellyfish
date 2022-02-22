@@ -1,4 +1,16 @@
 - commits:
+    - subject: Login with specific user
+      hash: c7c2fabdad6b382defbeb78c423fa07a64c1cb8c
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 46.3.0
+  title: "'Login as specific user'"
+  date: 2022-02-22T17:52:08.786Z
+- commits:
     - subject: "UI: Fix bug in lens selection when there are no results from query"
       hash: 9ad1c9975c2ed6f149f9b6d712eeb6a8868162c1
       body: ""
