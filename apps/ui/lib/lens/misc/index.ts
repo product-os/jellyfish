@@ -1,8 +1,17 @@
-import Kanban from './Kanban';
-import Table from './Table';
 import CRMTable from './CRMTable';
 import Chart from './Chart';
 import Inbox from './Inbox';
+import Kanban from './Kanban';
+import MilestoneGraph from './MilestoneGraph';
 import OmniSearch from './OmniSearch';
+import Table from './Table';
 
-export default [Kanban, Table, CRMTable, Chart, Inbox, OmniSearch];
+export default [
+	CRMTable,
+	Chart,
+	Inbox,
+	Kanban,
+	MilestoneGraph,
+	OmniSearch,
+	Table,
+];

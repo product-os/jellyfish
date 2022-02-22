@@ -38,7 +38,7 @@ export interface LensContract
 		format: 'list' | 'full' | 'summary' | 'snippet';
 		renderer: React.ComponentType<LensRendererProps>;
 		filter: JsonSchema;
-		queryOptions: {
+		queryOptions?: {
 			limit?: number;
 			sortBy?: string;
 			sortDir?: 'asc' | 'desc';
