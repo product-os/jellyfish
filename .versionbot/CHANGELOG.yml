@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix bug in lens selection when there are no results from query"
+      hash: 9ad1c9975c2ed6f149f9b6d712eeb6a8868162c1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.2.16
+  title: "'UI: Fix bug in lens selection when there are no results from query'"
+  date: 2022-02-22T16:20:47.893Z
+- commits:
     - subject: Update balena/open-balena-base from v13.0.7 to v13.1.0
       hash: 71eeb75f96f08e173951a1678ead191828fd26c1
       body: ""
