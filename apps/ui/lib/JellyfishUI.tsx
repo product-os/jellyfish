@@ -13,6 +13,7 @@ import { actionCreators, selectors } from './core';
 import { useLocation, useHistory, Redirect, matchPath } from 'react-router-dom';
 import { isProduction } from './environment';
 import { createLazyComponent } from './components/SafeLazy';
+import { LOGIN_AS_SEARCH_PARAM_NAME } from './components/LoginAs';
 
 const Unauthorized = createLazyComponent(
 	() =>
@@ -25,6 +26,17 @@ const Authorized = createLazyComponent(
 
 const Livechat = createLazyComponent(
 	() => import(/* webpackChunkName: "livechat" */ './components/Livechat'),
+);
+
+const LoginAs = createLazyComponent(
+	() => import(/* webpackChunkName: "login-as" */ './components/LoginAs'),
+);
+
+const OauthCallback = createLazyComponent(
+	() =>
+		import(
+			/* webpackChunkName: "oauth-callback" */ './components/OauthCallback'
+		),
 );
 
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
@@ -54,7 +66,7 @@ const analyticsClient = isProduction()
 
 const webTracker = createWebTracker(analyticsClient, 'UI');
 
-const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
+const JellyfishUI = ({ actions, status }) => {
 	const location = useLocation();
 
 	// Expose the router history object on the window so that UI navigation
@@ -80,10 +92,20 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 	}, []);
 
 	const path = window.location.pathname + window.location.hash;
+	const query = new URLSearchParams(location.search);
 
 	if (status === 'initializing') {
 		return <Splash />;
 	}
+
+	if (matchPath(location.pathname, '/oauth/callback')) {
+		return <OauthCallback />;
+	}
+
+	if (query.get(LOGIN_AS_SEARCH_PARAM_NAME)) {
+		return <LoginAs />;
+	}
+
 	if (status === 'unauthorized') {
 		return <Unauthorized />;
 	}
@@ -101,10 +123,8 @@ const JellyfishUI = ({ actions, status, channels, isChatWidgetOpen }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		channels: selectors.getChannels(state),
 		status: selectors.getStatus(state),
 		version: selectors.getAppVersion(state),
-		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
 	};
 };
 
