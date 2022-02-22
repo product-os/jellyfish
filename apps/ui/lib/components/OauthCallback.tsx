@@ -28,7 +28,9 @@ const OauthCallback = () => {
 		}
 
 		const returnUrl = new URL(state);
-		const username = returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME);
+		const username =
+			returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME) ||
+			returnUrl.searchParams.get('username'); // TODO: Remove this when ui and livechat are merged
 
 		if (!username) {
 			throw new Error(`${LOGIN_AS_SEARCH_PARAM_NAME} parameter missing`);
