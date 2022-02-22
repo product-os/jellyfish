@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v2.0.2 to v2.0.3
+      hash: 852fb114d7397bd888c925a0b6ed6077648e0d6b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.2.14
+  title: "'Update resinci/jellyfish-test from v2.0.2 to v2.0.3'"
+  date: 2022-02-21T23:36:28.466Z
+- commits:
     - subject: Update balena/balena-mdns-publisher from v1.14.4 to v1.14.5
       hash: f328b65a09db4e8f3851375b6f7c3c9d3cd18236
       body: ""
