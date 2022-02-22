@@ -90,9 +90,13 @@ export default class LiveCollection extends React.Component<Props, State> {
 
 		const results = await cursor.query();
 
-		const { getLenses } = require('../../');
 		// With the full result set we can now get a more accurate set of lenses
-		const lenses = getLenses('list', results, user, 'data.icon');
+		// but only if there wee items returned (otherwise we stick to the ones found with the mock data set)
+		let lenses = this.state.lenses;
+		if (results.length > 0) {
+			const { getLenses } = require('../../');
+			lenses = getLenses('list', results, user, 'data.icon');
+		}
 
 		this.setState({ results, lenses });
 
