@@ -1,4 +1,18 @@
 - commits:
+    - subject: Temporarely disable deployment
+      hash: 07006c1376dc62da36797e590236a42a2b467431
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 46.3.5
+  title: "'Temporarely disable deployment'"
+  date: 2022-02-23T21:56:13.684Z
+- commits:
     - subject: Update internal-patch
       hash: cff3c672b9c95ede203f1cbd33f01982e73cf959
       body: ""
