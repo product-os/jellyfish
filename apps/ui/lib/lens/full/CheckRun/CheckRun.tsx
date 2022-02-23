@@ -8,9 +8,8 @@ import CardFields from '../../../components/CardFields';
 import CardLayout from '../../../layouts/CardLayout';
 import Timeline from '../../list/Timeline';
 import { UI_SCHEMA_MODE } from '../../schema-util';
-import { RelationshipsTab, customQueryTabs } from '../../common';
+import { ContractGraph, RelationshipsTab, customQueryTabs } from '../../common';
 import { sdk } from '../../../core';
-import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 
 export const SingleCardTabs = styled(Tabs)`
@@ -27,42 +26,6 @@ export const SingleCardTabs = styled(Tabs)`
 const GRAPH_DEPTH = 3;
 const BUILT_VERB = 'was built into';
 const MERGE_VERB = 'was merged as';
-
-// Takes an expanded tree of contracts and converts them into a mermaidjs graph.
-// Each node in the graph shows the contracts name or slug and its version.
-// TODO: Make this a generic tool
-const makeGraph = (baseContract: Contract) => {
-	const escapeMermaid = (s: string) => `"${s.replace(/"/g, "'")}"`;
-
-	const shorten = (s: string) => (s.length > 16 ? s.substr(0, 20) + '…' : s);
-
-	const formatContract = (contract: Contract) => {
-		const label = `⟪${contract.type}⟫<br/>${
-			contract.name || contract.slug
-		}<br/>v${shorten(contract.version)}`;
-		return `${contract.id}(${escapeMermaid(label)})`;
-	};
-
-	const buildGraphCode = (contract: Contract): string[] => {
-		const buf: string[] = [];
-		_.forEach(contract.links, (nodes, verb) => {
-			for (const output of nodes) {
-				buf.push(
-					`${formatContract(contract)} -->|${verb}| ${formatContract(output)}`,
-				);
-				buf.push(...buildGraphCode(output));
-			}
-		});
-
-		buf.push(`click ${contract.id} "/${contract.slug}@${contract.version}"`);
-
-		return buf;
-	};
-
-	const graph = ['graph TD'].concat(buildGraphCode(baseContract)).join('\n');
-
-	return graph;
-};
 
 const hourInMs = 60 * 60 * 1000;
 
@@ -231,7 +194,11 @@ export default class SingleCardFull extends React.Component<
 							</Txt>
 
 							{!!this.state.tree && (
-								<Mermaid value={makeGraph(this.state.tree)} />
+								<ContractGraph
+									contracts={[this.state.tree]}
+									showVersion
+									showType
+								/>
 							)}
 						</Box>
 					</Tab>
