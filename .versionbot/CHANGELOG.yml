@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.1.0 to v13.2.0
+      hash: 706e4f68838cec2268246c50f49ef172246ac1d7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.3.6
+  title: "'Update balena/open-balena-base from v13.1.0 to v13.2.0'"
+  date: 2022-02-23T22:40:30.883Z
+- commits:
     - subject: Temporarely disable deployment
       hash: 07006c1376dc62da36797e590236a42a2b467431
       body: ""
