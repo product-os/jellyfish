@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v2.0.3 to v2.0.4
+      hash: b126a2cbb926a5376fec303a277dccbf707d0b91
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Update prom/prometheus from v2.33.3 to v2.33.4
+      hash: e31911055ce6ffe8c44bf49605fdeada7f521705
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.3.1
+  title: "'Update resinci/jellyfish-test from v2.0.3 to v2.0.4'"
+  date: 2022-02-23T08:44:00.286Z
+- commits:
     - subject: Login with specific user
       hash: c7c2fabdad6b382defbeb78c423fa07a64c1cb8c
       body: ""
