@@ -284,7 +284,11 @@ const loadingCardCache: any = {};
 // This is a function that memoizes a debounce function, this allows us to
 // create different debounce lists depending on the args passed to
 // 'getCard'
-const getCardInternal = (idOrSlug, type, linkVerbs: any[] = []) => {
+const getCardInternal = (
+	idOrSlug: string,
+	type: string,
+	linkVerbs: any[] = [],
+) => {
 	return async (dispatch, getState, { sdk }) => {
 		if (!idOrSlug) {
 			return null;
@@ -630,6 +634,7 @@ export const actionCreators = {
 			const { target } = channel.data;
 			const user = selectors.getCurrentUser(getState());
 
+			console.log({ target });
 			const query = actionCreators.createChannelQuery(target, user);
 
 			const stream = actionCreators.getStream(
@@ -806,7 +811,13 @@ export const actionCreators = {
 		};
 	},
 
-	addChannel(data: any = {}) {
+	addChannel(data: {
+		head?: any;
+		format?: any;
+		canonical?: boolean;
+		target?: string;
+		cardType?: string;
+	}) {
 		if (!data.cardType && data.canonical !== false) {
 			console.error('Channel added without a card type', data);
 		}
@@ -817,6 +828,7 @@ export const actionCreators = {
 				type: actions.ADD_CHANNEL,
 				value: channel,
 			});
+			console.log({ channel });
 			return dispatch(actionCreators.loadChannelData(channel));
 		};
 	},
