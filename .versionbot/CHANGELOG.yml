@@ -1,4 +1,21 @@
 - commits:
+    - subject: "UI: Turn the check run graph into a generic component"
+      hash: eb15479cf242c36bb521a8bd47e753737dc2b110
+      body: |
+        Previously, the check run lens would show a mermaid graph of
+        a contract's link structure. Since we want this sort of display
+        elsewhere, this change turns the graph into a re-usable component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.3.2
+  title: "'UI: Turn the check run graph into a generic component'"
+  date: 2022-02-23T14:18:31.189Z
+- commits:
     - subject: Update resinci/jellyfish-test from v2.0.3 to v2.0.4
       hash: b126a2cbb926a5376fec303a277dccbf707d0b91
       body: ""
