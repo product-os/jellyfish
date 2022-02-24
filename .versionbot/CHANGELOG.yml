@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.1 to 8.4.2
+      hash: 7196a0f569fff933663dfa361259787b72363d89
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 46.3.10
+  title: "'Update grafana/grafana from 8.4.1 to 8.4.2'"
+  date: 2022-02-24T14:34:36.606Z
+- commits:
     - subject: Fix omnisearch
       hash: 7540a268055ffe54b3540f0ab548e03578e16a40
       body: ""
