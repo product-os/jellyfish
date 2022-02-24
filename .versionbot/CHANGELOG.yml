@@ -1,4 +1,16 @@
 - commits:
+    - subject: Fix omnisearch
+      hash: 7540a268055ffe54b3540f0ab548e03578e16a40
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 46.3.9
+  title: "'Fix omnisearch'"
+  date: 2022-02-24T11:08:38.249Z
+- commits:
     - subject: "UI: When clicking contract graph nodes don't reload whole page"
       hash: 22b8111e506d9530a1fbe8d021798073bea78692
       body: ""
