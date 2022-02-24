@@ -69,7 +69,9 @@ const OmniSearchLens = (props) => {
 
 	const lens = getLens('full', omniSearchView, props.user);
 
-	return <lens.data.renderer {...props} channel={channel} />;
+	return (
+		<lens.data.renderer {...props} card={omniSearchView} channel={channel} />
+	);
 };
 
 export default {
