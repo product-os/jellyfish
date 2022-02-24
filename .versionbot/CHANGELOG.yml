@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: When clicking contract graph nodes don't reload whole page"
+      hash: 22b8111e506d9530a1fbe8d021798073bea78692
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 46.3.8
+  title: "'UI: When clicking contract graph nodes don't reload whole page'"
+  date: 2022-02-24T07:34:27.945Z
+- commits:
     - subject: Update balena/balena-mdns-publisher from v1.14.5 to v1.14.7
       hash: a1dd164718c901c56dabfae5efe859569ba46989
       body: ""
