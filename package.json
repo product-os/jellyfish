@@ -97,7 +97,7 @@
     "@balena/jellyfish-plugin-typeform": "^5.0.19",
     "@balena/jellyfish-queue": "^4.1.2",
     "@balena/jellyfish-ui-components": "^14.1.4",
-    "@balena/jellyfish-worker": "^18.8.3",
+    "@balena/jellyfish-worker": "^18.8.4",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.19.1",
     "ava": "^4.0.1",
