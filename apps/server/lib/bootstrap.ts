@@ -153,7 +153,13 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	await webServer.start();
 
 	logger.info(logContext, 'Setting up cache');
-	const cache = new core.Cache(environment.redis);
+	const cache = new core.Cache({
+		...environment.redis,
+		socket: {
+			tls: false,
+			...environment.redis.socket,
+		},
+	});
 	if (cache) {
 		await cache.connect();
 	}
