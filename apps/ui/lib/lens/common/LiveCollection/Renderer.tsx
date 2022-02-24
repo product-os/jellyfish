@@ -487,7 +487,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					eventSearchFilter: createEventSearchFilter(
 						this.props.types,
 						initialSearchTerm,
-						this.state.tailTypes,
+						tailTypes,
 					),
 					searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
 					searchTerm: initialSearchTerm,
