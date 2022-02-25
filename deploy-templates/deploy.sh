@@ -40,6 +40,6 @@ KATAPULT_KUBE_CONFIG="$(cat ~/.kube/config)"
 export KATAPULT_KUBE_CONFIG
 
 # deploy with katapult
-#katapult deploy -t kubernetes \
-#  -e jellyfish-product \
-#  -k jellyfish-product/product/"${1}"
+katapult deploy -t kubernetes \
+  -e jellyfish-product \
+  -k jellyfish-product/product/"${1}"
