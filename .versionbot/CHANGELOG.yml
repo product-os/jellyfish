@@ -1,4 +1,38 @@
 - commits:
+    - subject: "UI: Fix type errors related to JsonSchema and SDKQueryOptions"
+      hash: 778555d6a94cfbe9e5bcb8670e6ac9f096d833c9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Update jellyfish-environment to v9
+      hash: d2a770e9266f9fc9c09c4a8032e97c7e9a7073e2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update dependencies
+      hash: 60f5ccc1b49e7201101ae4aed822e21294d1271c
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 47.0.0
+  title: "'Update dependencies'"
+  date: 2022-02-25T10:50:35.720Z
+- commits:
     - subject: Update resinci/jellyfish-test from v2.0.4 to v2.0.5
       hash: 48dbeb5e75a28cc58208080a01fccf83db0d37eb
       body: ""
