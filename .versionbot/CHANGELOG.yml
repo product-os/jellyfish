@@ -1,4 +1,20 @@
 - commits:
+    - subject: Re-enable deployments
+      hash: b6821ee44995c65576ea12f40bb69db8cf77f07d
+      body: >
+        These were temporarily disabled whilst we investigated a production
+        issue.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 47.0.3
+  title: "'Re-enable deployments'"
+  date: 2022-02-25T13:09:39.525Z
+- commits:
     - subject: Update non-major-frontend
       hash: 9e2b108748d312a91af54976a19a828afffbb178
       body: ""
