@@ -1,4 +1,18 @@
 - commits:
+    - subject: Disable deploy again as the original issue has not been solved
+      hash: 2fa0ba1197723f8e6f6bb285fcbc67c6d1294b48
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 47.0.4
+  title: "'Disable deploy again as the original issue has not been solved'"
+  date: 2022-02-25T13:57:46.962Z
+- commits:
     - subject: Re-enable deployments
       hash: b6821ee44995c65576ea12f40bb69db8cf77f07d
       body: >
