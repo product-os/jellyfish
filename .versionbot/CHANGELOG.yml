@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 3b7db9f1d466d001815b22c1a50aa775d9963f02
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.0.1
+  title: "'Update internal-patch'"
+  date: 2022-02-25T11:39:21.643Z
+- commits:
     - subject: "UI: Fix type errors related to JsonSchema and SDKQueryOptions"
       hash: 778555d6a94cfbe9e5bcb8670e6ac9f096d833c9
       body: ""
