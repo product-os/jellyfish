@@ -93,7 +93,7 @@ export class AutoCompleteCardSelect extends React.Component<any, any> {
 								includeIdAndSlug: true,
 							},
 						);
-						if (!searchFilter) {
+						if (!searchFilter || searchFilter === true) {
 							return null;
 						}
 						return _.map(searchFilter.anyOf, (subSchema: any) => {

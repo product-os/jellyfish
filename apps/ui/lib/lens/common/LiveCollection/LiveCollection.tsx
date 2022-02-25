@@ -79,13 +79,21 @@ export default class LiveCollection extends React.Component<Props, State> {
 	async setupStream() {
 		const { query, user, lens } = this.props;
 
+		if (query === true) {
+			console.error('Query schema cannot be a boolean value');
+			return;
+		}
+
 		const options = {
 			...this.props.options,
 			..._.get(lens, ['data', 'queryOptions'], {}),
 		};
 
-		const maskedQuery = options.mask ? options.mask(clone(query)) : query;
-		const cursor = sdk.getCursor(maskedQuery, options);
+		const maskedQuery =
+			options.mask && typeof options.mask === 'function'
+				? options.mask(clone(query))
+				: query;
+		const cursor = sdk.getCursor(maskedQuery, _.omit(options, 'mask'));
 		this.cursor = cursor;
 
 		const results = await cursor.query();
