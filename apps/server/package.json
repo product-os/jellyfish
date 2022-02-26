@@ -41,7 +41,7 @@
     "@balena/jellyfish-queue": "^4.1.7",
     "@balena/jellyfish-worker": "^18.8.8",
     "@balena/socket-prometheus-metrics": "^0.0.3",
-    "aws-sdk": "^2.1080.0",
+    "aws-sdk": "^2.1082.0",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.2",
