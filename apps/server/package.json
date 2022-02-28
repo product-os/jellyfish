@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@balena/jellyfish-assert": "^1.2.16",
-    "@balena/jellyfish-core": "^15.0.7",
+    "@balena/jellyfish-core": "^15.0.8",
     "@balena/jellyfish-environment": "^9.1.1",
     "@balena/jellyfish-logger": "^5.0.2",
     "@balena/jellyfish-metrics": "^2.0.42",
@@ -34,7 +34,7 @@
     "@balena/jellyfish-plugin-discourse": "^2.0.40",
     "@balena/jellyfish-plugin-flowdock": "^2.0.26",
     "@balena/jellyfish-plugin-front": "^2.0.44",
-    "@balena/jellyfish-plugin-github": "^2.1.23",
+    "@balena/jellyfish-plugin-github": "^2.1.24",
     "@balena/jellyfish-plugin-outreach": "^2.0.30",
     "@balena/jellyfish-plugin-product-os": "^4.0.26",
     "@balena/jellyfish-plugin-typeform": "^5.0.22",
