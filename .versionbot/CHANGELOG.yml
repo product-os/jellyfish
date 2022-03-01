@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix livechat timeline not visible
+      hash: 87bf0875d8513fd364ba1689431d2656322d0e07
+      body: |
+        Livechat container is not flex, this causes timeline to have 0 height.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 47.1.1
+  title: "'Fix livechat timeline not visible'"
+  date: 2022-03-01T19:17:18.810Z
+- commits:
     - subject: Remove SAMEORIGIN flag
       hash: 2891bfbeceb8de24a35e688991c7a398174b45df
       body: >
