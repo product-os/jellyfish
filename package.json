@@ -83,7 +83,7 @@
     "@balena/jellyfish-chat-widget": "^14.0.6",
     "@balena/jellyfish-client-sdk": "^10.1.4",
     "@balena/jellyfish-config": "^2.0.2",
-    "@balena/jellyfish-core": "^15.0.8",
+    "@balena/jellyfish-core": "^15.1.0",
     "@balena/jellyfish-environment": "^9.1.1",
     "@balena/jellyfish-plugin-balena-api": "^2.0.39",
     "@balena/jellyfish-plugin-channels": "^2.0.29",
