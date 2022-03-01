@@ -1,4 +1,19 @@
 - commits:
+    - subject: Remove SAMEORIGIN flag
+      hash: 2891bfbeceb8de24a35e688991c7a398174b45df
+      body: >
+        We are merging ui and livechat, so ui should be embedded inside iframe
+        on dashboard. So, temporarly removing this restriction, until we set it
+        properly to selected hosts.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 47.1.0
+  title: "'Remove SAMEORIGIN flag'"
+  date: 2022-03-01T16:54:09.152Z
+- commits:
     - subject: Update internal-patch
       hash: 8796ec4fd3fb16f87bb4bd46d427e7342cb2b491
       body: ""
