@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 8796ec4fd3fb16f87bb4bd46d427e7342cb2b491
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.0.28
+  title: "'Update internal-patch'"
+  date: 2022-03-01T15:51:54.980Z
+- commits:
     - subject: Use hardened guest user role
       hash: 6e2c94fbc135113f839dfd70ddbfea45b22363d5
       body: ""
