@@ -1,4 +1,18 @@
 - commits:
+    - subject: Ignore status menu item if no access to user type
+      hash: 352eb4b5a7b8bd8f29f0e18fdb85a2360b2602b9
+      body: >
+        Can't read user status options when opening top left menu if user does
+        not have access to `user` type and ui breaks.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 47.0.25
+  title: "'Ignore status menu item if no access to user type'"
+  date: 2022-03-01T12:40:50.743Z
+- commits:
     - subject: Update internal-patch
       hash: b0a7eb280aabec8e4490cf47ca03377b06e25502
       body: ""
