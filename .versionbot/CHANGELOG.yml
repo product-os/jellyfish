@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use hardened guest user role
+      hash: 6e2c94fbc135113f839dfd70ddbfea45b22363d5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 47.0.27
+  title: "'Further restrict guest user access'"
+  date: 2022-03-01T15:00:18.474Z
+- commits:
     - subject: Update internal-patch
       hash: 90db3efe489f90858d82cadfc35a47f9a095e639
       body: ""
