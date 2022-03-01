@@ -176,8 +176,8 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	);
 
 	// Create queue instances
-	const producer = new Producer(kernel, pool, kernel.adminSession()!);
-	const consumer = new Consumer(kernel, pool, kernel.adminSession()!);
+	const producer = new Producer(kernel as any, pool, kernel.adminSession()!);
+	const consumer = new Consumer(kernel as any, pool, kernel.adminSession()!);
 	await producer.initialize(logContext);
 	await consumer.initializeWithEventHandler(
 		logContext,

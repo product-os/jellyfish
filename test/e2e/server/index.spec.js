@@ -18,26 +18,10 @@ ava.serial.afterEach(() => {
 })
 
 ava.serial('should parse application/vnd.api+json bodies', async (test) => {
-	const userDetails = helpers.generateUserDetails()
-	const user = await sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-
 	const result = await helpers.http(
-		'POST', '/api/v2/action', {
-			card: `${user.slug}@${user.version}`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: userDetails.password
-			}
+		'POST', '/api/v2/login', {
+			username: environment.test.user.username,
+			password: environment.test.user.password
 		}, {
 			'Content-Type': 'application/vnd.api+json'
 		})
@@ -49,39 +33,23 @@ ava.serial('should parse application/vnd.api+json bodies', async (test) => {
 
 ava.serial('should login as the default test user', async (test) => {
 	const result = await helpers.http(
-		'POST', '/api/v2/action', {
-			card: `user-${environment.test.user.username}@1.0.0`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: environment.test.user.password
-			}
+		'POST', '/api/v2/login', {
+			username: environment.test.user.username,
+			password: environment.test.user.password
+		}, {
+			'Content-Type': 'application/vnd.api+json'
 		})
 
 	test.is(result.code, 200)
 })
 
 ava.serial('should include the request and api ids on responses', async (test) => {
-	const userDetails = helpers.generateUserDetails()
-	const user = await sdk.action({
-		card: 'user@1.0.0',
-		type: 'type',
-		action: 'action-create-user@1.0.0',
-		arguments: {
-			username: `user-${userDetails.username}`,
-			email: userDetails.email,
-			password: userDetails.password
-		}
-	})
-
 	const result = await helpers.http(
-		'POST', '/api/v2/action', {
-			card: `${user.slug}@${user.version}`,
-			type: 'user',
-			action: 'action-create-session@1.0.0',
-			arguments: {
-				password: userDetails.password
-			}
+		'POST', '/api/v2/login', {
+			username: environment.test.user.username,
+			password: environment.test.user.password
+		}, {
+			'Content-Type': 'application/vnd.api+json'
 		})
 
 	test.is(result.code, 200)
@@ -383,9 +351,8 @@ ava.serial('should report a user error if creating the same event twice', async 
 		})
 
 	test.is(result1.code, 200)
-	test.is(result2.code, 400)
+	test.not(result2.code, 200)
 	test.true(result2.response.error)
-	test.is(result2.response.data.slug, args.slug)
 })
 
 ava.serial('should respond with an error given a payload middleware exception', async (test) => {
