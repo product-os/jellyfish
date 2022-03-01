@@ -39,7 +39,7 @@
     "@balena/jellyfish-plugin-product-os": "^4.0.30",
     "@balena/jellyfish-plugin-typeform": "^5.0.26",
     "@balena/jellyfish-queue": "^4.1.10",
-    "@balena/jellyfish-worker": "^18.8.11",
+    "@balena/jellyfish-worker": "^19.0.2",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "aws-sdk": "^2.1082.0",
     "bcrypt": "^5.0.1",
