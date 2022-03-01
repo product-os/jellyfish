@@ -9,6 +9,10 @@ export default function UserStatusMenuItem({ user, actions, types, ...rest }) {
 	});
 	const userStatusOptions = helpers.getUserStatuses(userType);
 
+	if (!Object.keys(userStatusOptions).length) {
+		return null;
+	}
+
 	const status = _.get(user, ['data', 'status'], userStatusOptions.Available);
 	const isDnd = status.value === userStatusOptions.DoNotDisturb.value;
 	const toggleStatus = () => {
