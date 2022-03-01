@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 90db3efe489f90858d82cadfc35a47f9a095e639
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.0.26
+  title: "'Update internal-patch'"
+  date: 2022-03-01T13:51:42.629Z
+- commits:
     - subject: Ignore status menu item if no access to user type
       hash: 352eb4b5a7b8bd8f29f0e18fdb85a2360b2602b9
       body: >
