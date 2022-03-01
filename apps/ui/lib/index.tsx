@@ -128,6 +128,8 @@ ReactDOM.render(
 		widgets={widgets}
 		style={{
 			height: '100%',
+			display: 'flex',
+			flexDirection: 'column',
 			fontSize: 14,
 		}}
 	>
