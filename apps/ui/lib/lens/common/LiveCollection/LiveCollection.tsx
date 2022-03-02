@@ -78,21 +78,26 @@ export default class LiveCollection extends React.Component<Props, State> {
 
 	async setupStream() {
 		const { query, user, lens } = this.props;
+		let lenses = this.state.lenses;
 
 		if (query === true) {
 			console.error('Query schema cannot be a boolean value');
 			return;
 		}
 
+		// If there is no active lens set, pick the first of the lens options, as that is what will be used to render the results.
+		const activeLens = lens || _.first(lenses);
+
 		const options = {
 			...this.props.options,
-			..._.get(lens, ['data', 'queryOptions'], {}),
+			..._.get(activeLens, ['data', 'queryOptions'], {}),
 		};
 
 		const maskedQuery =
 			options.mask && typeof options.mask === 'function'
 				? options.mask(clone(query))
 				: query;
+
 		const cursor = sdk.getCursor(maskedQuery, _.omit(options, 'mask'));
 		this.cursor = cursor;
 
@@ -100,7 +105,6 @@ export default class LiveCollection extends React.Component<Props, State> {
 
 		// With the full result set we can now get a more accurate set of lenses
 		// but only if there wee items returned (otherwise we stick to the ones found with the mock data set)
-		let lenses = this.state.lenses;
 		if (results.length > 0) {
 			const { getLenses } = require('../../');
 			lenses = getLenses('list', results, user, 'data.icon');
