@@ -51,20 +51,16 @@ const getTypesFromSchema = (schema) => {
 		for (const item of schema.allOf) {
 			let found = getTypesFromSchema(item);
 			if (found) {
-				value = found;
+				value = value.concat(found);
 				break;
 			}
-			if (item.schema.anyOf) {
-				for (const subschema of item.schema.anyOf) {
+			if (item.anyOf) {
+				for (const subschema of item.anyOf) {
 					found = getTypesFromSchema(subschema);
 					if (found) {
-						break;
+						value = value.concat(found);
 					}
 				}
-			}
-			if (found) {
-				value = found;
-				break;
 			}
 		}
 	}
@@ -72,13 +68,12 @@ const getTypesFromSchema = (schema) => {
 		for (const item of schema.oneOf) {
 			const found = getTypesFromSchema(item.schema);
 			if (found) {
-				value = found;
-				break;
+				value = value.concat(found);
 			}
 		}
 	}
 	// Default to the `card` type, which will give a sensible schema
-	return value.length > 0 ? _.uniq(value) : ['card'];
+	return value.length > 0 ? _.uniq(value) : null;
 };
 
 const setSliceFilter = (currentFilters, lens, slice, sliceOptions) => {
@@ -464,24 +459,34 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		let activeSlice: any = null;
 
+		const initialSearchTerm = _.get(seed, ['searchTerm']);
+
 		const sliceOptions = getSliceOptions(card, this.props.types);
 
-		if (sliceOptions && sliceOptions.length) {
-			// Default to setting the active slice based on the user's preference
-			if (this.props.userActiveSlice) {
-				activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
+		// If an initial search term is provided don't use slices
+		if (!initialSearchTerm) {
+			if (sliceOptions && sliceOptions.length) {
+				// Default to setting the active slice based on the user's preference
+				if (this.props.userActiveSlice) {
+					activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
+				}
+
+				// Check if the view defines a slice filter
+				activeSlice =
+					activeSlice || getActiveSliceFromFilter(sliceOptions, card);
+
+				// Otherwise just select the first slice option
+				activeSlice = activeSlice || _.first(sliceOptions);
+
+				filters = setSliceFilter(
+					filters,
+					activeLens,
+					activeSlice,
+					sliceOptions,
+				);
 			}
-
-			// Check if the view defines a slice filter
-			activeSlice = activeSlice || getActiveSliceFromFilter(sliceOptions, card);
-
-			// Otherwise just select the first slice option
-			activeSlice = activeSlice || _.first(sliceOptions);
-
-			filters = setSliceFilter(filters, activeLens, activeSlice, sliceOptions);
 		}
 
-		const initialSearchTerm = _.get(seed, ['searchTerm']);
 		const searchTermState = initialSearchTerm
 			? {
 					eventSearchFilter: createEventSearchFilter(

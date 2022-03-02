@@ -28,7 +28,7 @@ const getFullTextSearchTypes = memoize((types) => {
 	}, []);
 });
 
-const generateOmniSearchView = memoize((typeSlugs) => {
+const generateOmniSearchView = memoize((typeSlugs: string[]) => {
 	return {
 		id: uuid(),
 		slug: 'search',
@@ -36,20 +36,18 @@ const generateOmniSearchView = memoize((typeSlugs) => {
 		type: 'view@1.0.0',
 		markers: ['org-balena'],
 		data: {
-			types: typeSlugs,
 			allOf: [
 				{
-					name: 'Active cards',
+					name: 'Search',
 					schema: {
 						type: 'object',
+						required: ['type'],
 						properties: {
-							active: {
-								const: true,
-								type: 'boolean',
+							type: {
+								type: 'string',
+								enum: typeSlugs,
 							},
 						},
-						required: ['active'],
-						additionalProperties: true,
 					},
 				},
 			],
