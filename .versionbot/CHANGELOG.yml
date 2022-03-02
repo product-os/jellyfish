@@ -1,4 +1,44 @@
 - commits:
+    - subject: "UI: ContractGraph - don't open a channel if it already is open"
+      hash: dfe4d47873b506ad45641e79da3817e390fb554b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix bug where queries are not generated correctly on first lens
+        render"
+      hash: 096580c9d2bcd28e61a7942bf87fabb6686e497d
+      body: |
+        Fixes #8008
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add lens for visualizing dependencies between milestones"
+      hash: 13f0b39db8c3501bda7742ca682740f7aeac0d6f
+      body: |
+        Adds a lens that will display milestones in a mermaid graph, connected
+        with the `depends on` link.
+
+        Fixes #7901
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 47.4.0
+  title: "'UI: Add lens for visualizing dependencies between milestones '"
+  date: 2022-03-02T13:07:50.290Z
+- commits:
     - subject: "UI: Use correct widget for rendering mermaid fields"
       hash: 35aa727ee0fde7c93a5b2ef070557876993900ef
       body: ""
