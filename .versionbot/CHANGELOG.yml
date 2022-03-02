@@ -1,4 +1,16 @@
 - commits:
+    - subject: Implement virtualization in the interleaved lens used in the chat box
+      hash: 2335d31fc683d3ebf97adc817c22608d2f775deb
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: edufschmidt
+      nested: []
+  version: 47.3.0
+  title: "'Virtualize the interleaved lens'"
+  date: 2022-03-02T11:04:00.964Z
+- commits:
     - subject: Accept JSON data on /oauth/callback
       hash: 01205c1b56494b4850d2b2d55d79a4240bff17bf
       body: >
