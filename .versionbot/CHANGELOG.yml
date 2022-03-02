@@ -1,4 +1,18 @@
 - commits:
+    - subject: Do not show update confirmation popup if inside iframe
+      hash: 0d762f5449fa9351f988026180d94790c0ba64df
+      body: >
+        Native `confirm` is used to ask for update confirmation, which is
+        confusing for parent window users (balena users).
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 47.6.0
+  title: "'Do not show update confirmation popup if inside iframe'"
+  date: 2022-03-02T17:05:04.759Z
+- commits:
     - subject: Remove unnecessary oauth callback code
       hash: c06d4058bf4c57afab36945435e95a0f8fd2eebc
       body: >
