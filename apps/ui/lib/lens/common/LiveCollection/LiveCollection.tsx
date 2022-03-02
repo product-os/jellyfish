@@ -46,7 +46,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 	}
 
 	componentDidMount() {
-		this.setupStream();
+		this.setupStream().catch(console.error);
 	}
 
 	componentWillUnmount() {
@@ -66,7 +66,7 @@ export default class LiveCollection extends React.Component<Props, State> {
 				this.setState({ results: null });
 				this.cursor = null;
 			}
-			this.setupStream();
+			this.setupStream().catch(console.error);
 		}
 		if (
 			this.props.onResultsChange &&
