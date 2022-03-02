@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unnecessary oauth callback code
+      hash: c06d4058bf4c57afab36945435e95a0f8fd2eebc
+      body: >
+        This code was required for transitioning from livechat to ui without
+        outage. Transition is complete, so removing extra code.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 47.5.0
+  title: "'Remove unnecessary oauth callback code'"
+  date: 2022-03-02T14:10:42.016Z
+- commits:
     - subject: "UI: ContractGraph - don't open a channel if it already is open"
       hash: dfe4d47873b506ad45641e79da3817e390fb554b
       body: ""
