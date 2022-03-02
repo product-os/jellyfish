@@ -4,7 +4,7 @@ import { JellyfishUserWidget } from './JellyfishUserWidget';
 import { createLazyComponent } from '../SafeLazy';
 export { LoopSelectWidget } from './LoopSelectWidget';
 import MarkdownWidget from './MarkdownWidget';
-import MermaidWidget from './MarkdownWidget';
+import MermaidWidget from './MermaidWidget';
 
 export const JellyfishWidgets = [
 	{
