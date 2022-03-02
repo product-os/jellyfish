@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Use correct widget for rendering mermaid fields"
+      hash: 35aa727ee0fde7c93a5b2ef070557876993900ef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 47.3.1
+  title: "'UI: Use correct widget for rendering mermaid fields'"
+  date: 2022-03-02T12:09:29.996Z
+- commits:
     - subject: Implement virtualization in the interleaved lens used in the chat box
       hash: 2335d31fc683d3ebf97adc817c22608d2f775deb
       body: ""
