@@ -1,4 +1,30 @@
 - commits:
+    - subject: Accept JSON data on /oauth/callback
+      hash: 01205c1b56494b4850d2b2d55d79a4240bff17bf
+      body: >
+        This is required for transitioning from using `livechat.ly.fish` to
+        `jel.ly.fish/livechat`. We first change JF oauth redirect url in balena
+        api, so that when `livechat.ly.fish` is opened in iframe, it will
+        redirect to balena oauth confirmation page, which redirects to
+        `jel.ly.fish/oauth/callback` page with state in JSON format, because
+        that was the state format used by livechat.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+    - subject: Update @balena/jellyfish-worker from 18.8.11 to 19.0.2
+      hash: 7c65ead227a5016d35b0d4854266ca79f4595ee0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.2.0
+  title: "'Accept JSON data on /oauth/callback'"
+  date: 2022-03-02T01:06:03.243Z
+- commits:
     - subject: Fix livechat timeline not visible
       hash: 87bf0875d8513fd364ba1689431d2656322d0e07
       body: |
