@@ -6,13 +6,9 @@ import { compose } from 'redux';
 import { withDefaultGetActorHref } from '@balena/jellyfish-ui-components';
 import { selectors } from '../../../core';
 import { withChannelContext } from '../../../hooks';
-import type { LensContract, LensRendererProps } from '../../../types';
-import { createLazyComponent } from '../../../components/SafeLazy';
-import type { StateProps, OwnProps } from './Interleaved';
-
-export const Interleaved = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-interleaved" */ './Interleaved'),
-);
+import { LensContract, LensRendererProps } from '../../../types';
+import { OwnProps, StateProps } from './component';
+import { InterleavedList } from './component';
 
 const mapStateToProps = (state): StateProps => {
 	return {
@@ -22,7 +18,7 @@ const mapStateToProps = (state): StateProps => {
 	};
 };
 
-const lens: LensContract = {
+export const lens: LensContract = {
 	slug: 'lens-interleaved',
 	type: 'lens',
 	version: '1.0.0',
@@ -36,7 +32,7 @@ const lens: LensContract = {
 			withChannelContext,
 			withDefaultGetActorHref(),
 			connect<StateProps, {}, OwnProps>(mapStateToProps),
-		)(Interleaved),
+		)(InterleavedList),
 		filter: {
 			type: 'array',
 			oneOf: [
@@ -104,7 +100,6 @@ const lens: LensContract = {
 			limit: 30,
 			sortBy: 'created_at',
 			sortDir: 'desc',
-
 			// The interleaved lens is interested in messages that are attached to the
 			// main query resource. Here we invert the query so that we retrieve all
 			// the messages attached to the main queried resource
@@ -131,5 +126,3 @@ const lens: LensContract = {
 		},
 	},
 };
-
-export default lens;
