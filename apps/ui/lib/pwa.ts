@@ -32,6 +32,7 @@ export default class PWA {
 				this.wb.addEventListener('waiting', (event) => {
 					// eslint-disable-next-line no-alert
 					if (
+						!window.frameElement &&
 						window.confirm('New version of Jellyfish available. Update now?')
 					) {
 						// Set up a listener that will reload the page as soon as the previously waiting
