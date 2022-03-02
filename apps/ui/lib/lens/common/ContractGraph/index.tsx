@@ -64,7 +64,10 @@ const ContractGraph = (props: Props) => {
 	const mermaidInput = makeGraph(contracts, showVersion, showType);
 	const callbackFunctions = {
 		[ONCLICK_CALLBACK]: (id: string) => {
-			props.history.push(`${props.location.pathname}/${id}`);
+			const { pathname } = props.location;
+			if (_.last(pathname.split('/')) !== id) {
+				props.history.push(`${props.location.pathname}/${id}`);
+			}
 		},
 	};
 	return <Mermaid value={mermaidInput} callbackFunctions={callbackFunctions} />;
