@@ -27,30 +27,8 @@ const OauthCallback = () => {
 			throw new Error('state (returnUrl) missing');
 		}
 
-		let returnUrl: URL;
-		let username: string | null;
-
-		/*
-		 * If the state is in JSON format, it means that oauth flow started by livechat.ly.fish,
-		 * done for backwards compatibility. TODO: Remove try block after fully merging
-		 * UI and Livechat.
-		 */
-		try {
-			const jsonState = JSON.parse(state);
-
-			if (typeof jsonState === 'string') {
-				throw new Error('JSON format is invalid');
-			}
-
-			username = jsonState.username;
-			returnUrl = new URL(`${location.protocol}//${location.host}/livechat`);
-			returnUrl.searchParams.set('product', jsonState.product);
-			returnUrl.searchParams.set('productTitle', jsonState.productTitle);
-			returnUrl.searchParams.set('inbox', jsonState.inbox);
-		} catch (err) {
-			returnUrl = new URL(state);
-			username = returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME);
-		}
+		const returnUrl = new URL(state);
+		const username = returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME);
 
 		if (!username) {
 			throw new Error(`${LOGIN_AS_SEARCH_PARAM_NAME} parameter missing`);
