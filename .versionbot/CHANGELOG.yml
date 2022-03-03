@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.2 to 8.4.3
+      hash: 202fca214af582910c4072e03fc6b8c1a1916f11
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.6.1
+  title: "'Update grafana/grafana from 8.4.2 to 8.4.3'"
+  date: 2022-03-02T20:45:38.051Z
+- commits:
     - subject: Do not show update confirmation popup if inside iframe
       hash: 0d762f5449fa9351f988026180d94790c0ba64df
       body: >
