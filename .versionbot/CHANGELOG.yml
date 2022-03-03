@@ -1,4 +1,22 @@
 - commits:
+    - subject: "UI: Fix bug that stopped OmniSearch queries from being correctly
+        generated"
+      hash: 2b70279419256cd28709a6eaa02868001444e48d
+      body: |
+        This change fixes a bug that stops OmniSearch from functioning
+        logically, however these full text search queries are so slow that the
+        feature is functionally unusable :(
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 47.6.2
+  title: "'UI: Fix bug that stopped OmniSearch queries from being correctly gene…'"
+  date: 2022-03-03T09:09:44.665Z
+- commits:
     - subject: Update grafana/grafana from 8.4.2 to 8.4.3
       hash: 202fca214af582910c4072e03fc6b8c1a1916f11
       body: ""
