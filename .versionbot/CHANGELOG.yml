@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 03dca941dc5924e2e5d3a0feb2ab7e6489e0b022
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.7.1
+  title: "'Update internal-patch'"
+  date: 2022-03-04T17:41:31.332Z
+- commits:
     - subject: Cache svg files
       hash: 345150fd2bc6d47bdde896a2e6555a398c2e3861
       body: ""
