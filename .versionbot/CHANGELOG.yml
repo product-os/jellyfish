@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update json-schema-faker from 0.5.0-rcv.41 to 0.5.0-rcv.42
+      hash: 0144e08511992b4aed8d2446766a27053804c617
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.6.3
+  title: "'Update json-schema-faker from 0.5.0-rcv.41 to 0.5.0-rcv.42'"
+  date: 2022-03-03T16:42:56.543Z
+- commits:
     - subject: "UI: Fix bug that stopped OmniSearch queries from being correctly
         generated"
       hash: 2b70279419256cd28709a6eaa02868001444e48d
