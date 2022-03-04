@@ -94,7 +94,7 @@
     "@balena/jellyfish-plugin-github": "^2.1.27",
     "@balena/jellyfish-plugin-outreach": "^2.0.35",
     "@balena/jellyfish-plugin-product-os": "^4.0.30",
-    "@balena/jellyfish-plugin-typeform": "^5.0.26",
+    "@balena/jellyfish-plugin-typeform": "^5.0.27",
     "@balena/jellyfish-queue": "^4.1.10",
     "@balena/jellyfish-ui-components": "^15.0.1",
     "@balena/jellyfish-worker": "^19.0.2",
