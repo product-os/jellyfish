@@ -75,7 +75,7 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
     "rendition": "^25.13.1",
-    "skhema": "^6.0.3",
+    "skhema": "^6.0.6",
     "style-loader": "^2.0.0",
     "styled-components": "^5.3.3",
     "uuid": "^8.3.2"
@@ -104,7 +104,7 @@
     "@types/jest": "^27.4.1",
     "@types/pluralize": "^0.0.29",
     "@types/react-csv": "^1.1.2",
-    "@types/react-dom": "^17.0.11",
+    "@types/react-dom": "^17.0.13",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-select": "^5.0.1",
     "@types/redux-mock-store": "^1.0.3",
