@@ -80,7 +80,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-chat-widget": "^14.0.6",
+    "@balena/jellyfish-chat-widget": "^14.0.7",
     "@balena/jellyfish-client-sdk": "^10.1.5",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^16.0.2",
@@ -96,7 +96,7 @@
     "@balena/jellyfish-plugin-product-os": "^4.0.35",
     "@balena/jellyfish-plugin-typeform": "^5.0.32",
     "@balena/jellyfish-queue": "^4.1.12",
-    "@balena/jellyfish-ui-components": "^15.0.1",
+    "@balena/jellyfish-ui-components": "^15.0.2",
     "@balena/jellyfish-worker": "^19.0.8",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.19.2",
