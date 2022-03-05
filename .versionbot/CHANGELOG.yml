@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update webpack from 5.69.1 to 5.70.0
+      hash: 68950095ae90afd4c2b49575acd9daa6b1d59fa4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 47.7.5
+  title: "'Update webpack from 5.69.1 to 5.70.0'"
+  date: 2022-03-05T10:52:54.773Z
+- commits:
     - subject: Bump workbox packages
       hash: 899a0dd147b99f4c66d035a8069a0f5f2cd4feba
       body: ""
