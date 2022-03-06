@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 2.0.58 to 2.1.0
+      hash: 4a9af3f950925507f3a16b468065ac246f2caad6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 47.7.13
+  title: "'Update @balena/jellyfish-plugin-discourse from 2.0.58 to 2.1.0'"
+  date: 2022-03-06T07:23:54.847Z
+- commits:
     - subject: Update internal-patch
       hash: 56006d0f71309dc4f7e024d0ea9b1941f9e5cfdb
       body: ""
