@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 56006d0f71309dc4f7e024d0ea9b1941f9e5cfdb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.7.12
+  title: "'Update internal-patch'"
+  date: 2022-03-06T06:03:19.914Z
+- commits:
     - subject: Update ts-node from 10.5.0 to 10.6.0
       hash: adf756657c468cf98dcaa54f2b432dad1966409a
       body: ""
