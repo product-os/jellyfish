@@ -14,34 +14,11 @@ jobs:
     steps:
       - name: Check out
         uses: actions/checkout@v2
-      
+
       - name: Setup node
         uses: actions/setup-node@v2
         with:
           node-version: '14'
-
-      - name: Update top-level .npmrc file with NPM Token
-        uses: dkershner6/use-npm-token-action@v1
-        with:
-          token: '${{ secrets.NPM_TOKEN }}'
-
-      - name: Update livechat .npmrc file with NPM Token
-        uses: dkershner6/use-npm-token-action@v1
-        with:
-          workspace: ./apps/livechat
-          token: '${{ secrets.NPM_TOKEN }}'
-
-      - name: Update server .npmrc file with NPM Token
-        uses: dkershner6/use-npm-token-action@v1
-        with:
-          workspace: ./apps/server
-          token: '${{ secrets.NPM_TOKEN }}'
-
-      - name: Update ui .npmrc file with NPM Token
-        uses: dkershner6/use-npm-token-action@v1
-        with:
-          workspace: ./apps/ui
-          token: '${{ secrets.NPM_TOKEN }}'
 
       - name: Install NPM dependencies
         run: make npm-install
