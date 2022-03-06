@@ -21,10 +21,10 @@ jobs:
           node-version: '14'
 
       - name: Install NPM dependencies
-        run: make npm-install
+        run: npm i
 
       - name: Generate docs
-        run: make docs
+        run: npm run docs
 
       - name: Publish generated docs to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
