@@ -88,7 +88,7 @@
     "@balena/jellyfish-plugin-balena-api": "^2.0.40",
     "@balena/jellyfish-plugin-channels": "^2.0.43",
     "@balena/jellyfish-plugin-default": "^24.0.0",
-    "@balena/jellyfish-plugin-discourse": "^2.2.0",
+    "@balena/jellyfish-plugin-discourse": "^2.2.1",
     "@balena/jellyfish-plugin-flowdock": "^2.0.41",
     "@balena/jellyfish-plugin-front": "^2.0.64",
     "@balena/jellyfish-plugin-github": "^2.1.40",
