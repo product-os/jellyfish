@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update ts-node from 10.5.0 to 10.6.0
+      hash: adf756657c468cf98dcaa54f2b432dad1966409a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 47.7.11
+  title: "'Update ts-node from 10.5.0 to 10.6.0'"
+  date: 2022-03-06T00:41:11.491Z
+- commits:
     - subject: Update internal-patch
       hash: ce5d5815a0df14f3c6eaf4d4e5c215e483fce4bf
       body: ""
