@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update commands in publish docs action
+      hash: a9d08eaa84c38aef2464389f43fb1f4ad52319bf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 47.7.17
+  title: "'Update commands in publish docs action'"
+  date: 2022-03-06T23:29:21.249Z
+- commits:
     - subject: Remove token from publish docs action
       hash: 7389b36ddd3090ac92e0efba0b5e36b23e848064
       body: |
