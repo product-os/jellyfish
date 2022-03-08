@@ -2,8 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   labels:
-    app.kubernetes.io/instance: jellyfish-livechat
-    app.kubernetes.io/name: jellyfish-livechat
+    app.kubernetes.io/instance: jellyfish-ui
+    app.kubernetes.io/name: jellyfish-ui
   namespace: '{{{KATAPULT_KUBE_NAMESPACE}}}'
   name: jellyfish-livechat
   # https://kubernetes-sigs.github.io/aws-alb-ingress-controller/guide/walkthrough/echoserver/#deploy-ingress-for-echoserver
@@ -36,5 +36,5 @@ spec:
           servicePort: use-annotation
       - path: /*
         backend:
-          serviceName: jellyfish-livechat
+          serviceName: jellyfish-ui
           servicePort: 80
