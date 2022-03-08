@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update non-major-frontend
+      hash: 8ec5b2c73e6f0974e0e1dc7f1f3191b25c53e958
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 47.7.23
+  title: "'Update non-major-frontend'"
+  date: 2022-03-08T14:42:18.660Z
+- commits:
     - subject: Direct livechat.ly.fish requests to ui pods
       hash: 2ab9eecbfc7e1c2e083c944673e7b3726281f092
       body: ""
