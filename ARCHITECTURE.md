@@ -48,10 +48,6 @@ Jellyfish is split in many more modules than deployable units. The following dia
 
 ## Deployable Components
 
-### [`apps/livechat`](https://github.com/product-os/jellyfish/tree/master/apps/livechat)
-
-This is the demo project for developing chat-widget.
-
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.

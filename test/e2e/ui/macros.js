@@ -1,5 +1,8 @@
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const _ = require('lodash')
+const {
+	v4: uuid
+} = require('uuid')
 
 exports.TIMEOUT = 60 * 1000
 
@@ -338,5 +341,51 @@ exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollableSele
 		await new Promise((resolve) => {
 			setTimeout(resolve, 100)
 		})
+	}
+}
+
+exports.mockLoginAs = async (page, baseURL, user) => {
+	const oauthUrl = 'https://dashboard.balena-cloud.com/login/oauth/jellyfish'
+	const code = uuid()
+
+	await page.route('**/*', async (route) => {
+		const url = new URL(route.request().url())
+
+		if (url.href.startsWith(oauthUrl)) {
+			const state = url.searchParams.get('state')
+
+			await route.fulfill({
+				status: 301,
+				headers: {
+					Location: `${baseURL}/oauth/callback?state=${encodeURIComponent(state)}&code=${code}`
+				}
+			})
+		} else if (url.pathname === '/api/v2/oauth/balena-api') {
+			const body = route.request().postDataJSON()
+
+			if (body.slug !== user.card.slug || body.code !== code) {
+				throw new Error('Invalid parameters')
+			}
+
+			await route.fulfill({
+				contentType: 'application/json',
+				headers: {
+					'access-control-allow-origin': '*'
+				},
+				status: 200,
+				body: JSON.stringify({
+					error: false,
+					data: {
+						access_token: user.sdk.getAuthToken()
+					}
+				})
+			})
+		} else {
+			await route.continue()
+		}
+	})
+
+	return async () => {
+		await page.unroute('**/*')
 	}
 }

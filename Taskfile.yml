@@ -28,10 +28,6 @@ tasks:
     cmds:
       - npm run test:e2e:sdk
 
-  e2e-livechat:
-    cmds:
-      - npm run test:e2e:livechat
-
   e2e-ui:
     cmds:
       - npm run test:e2e:ui
@@ -41,7 +37,7 @@ tasks:
       - npm run test:e2e:server
 
   e2e:
-    deps: [e2e-sdk, e2e-livechat, e2e-server]
+    deps: [e2e-sdk, e2e-server]
 
   integration-server:
     cmds:

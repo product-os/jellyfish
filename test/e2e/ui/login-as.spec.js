@@ -1,14 +1,15 @@
 const {
-	test, expect
+	test
 } = require('@playwright/test')
 const sdkHelpers = require('../sdk/helpers')
-const livechatMacros = require('../livechat/macros')
+const livechatMacros = require('./livechat/macros')
 const {
-	v4: uuid
-} = require('uuid')
+	mockLoginAs
+} = require('./macros')
 
 let sdk = {}
 let user = {}
+let unmockLoginAs = null
 
 test.beforeAll(async () => {
 	sdk = await sdkHelpers.login()
@@ -19,50 +20,14 @@ test.beforeEach(async ({
 	page,
 	baseURL
 }) => {
-	const oauthUrl = 'https://dashboard.balena-cloud.com/login/oauth/jellyfish'
-	const code = uuid()
-
-	await page.route('**/*', async (route) => {
-		const url = new URL(route.request().url())
-
-		if (url.href.startsWith(oauthUrl)) {
-			const state = url.searchParams.get('state')
-
-			await route.fulfill({
-				status: 301,
-				headers: {
-					Location: `${baseURL}/oauth/callback?state=${encodeURIComponent(state)}&code=${code}`
-				}
-			})
-		} else if (url.pathname === '/api/v2/oauth/balena-api') {
-			const body = route.request().postDataJSON()
-			expect(body.slug).toBe(user.card.slug)
-			expect(body.code).toBe(code)
-
-			await route.fulfill({
-				contentType: 'application/json',
-				headers: {
-					'access-control-allow-origin': '*'
-				},
-				status: 200,
-				body: JSON.stringify({
-					error: false,
-					data: {
-						access_token: user.sdk.getAuthToken()
-					}
-				})
-			})
-		} else {
-			await route.continue()
-		}
-	})
+	unmockLoginAs = await mockLoginAs(page, baseURL, user)
 })
 
 test.afterEach(async ({
 	page
 }) => {
 	sdkHelpers.afterEach(sdk)
-	await page.unroute('**/*')
+	await unmockLoginAs()
 	await page.close()
 })
 

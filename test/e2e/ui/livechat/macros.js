@@ -79,7 +79,7 @@ exports.createConversation = async (page) => {
 }
 
 exports.prepareUser = async (sdk, org, role, name) => {
-	const details = {
+	const credentials = {
 		username: `${uuid()}`,
 		email: `${uuid()}@example.com`,
 		password: 'foobarbaz'
@@ -90,9 +90,9 @@ exports.prepareUser = async (sdk, org, role, name) => {
 		type: 'type',
 		action: 'action-create-user@1.0.0',
 		arguments: {
-			username: `user-${details.username}`,
-			email: details.email,
-			password: details.password
+			username: `user-${credentials.username}`,
+			email: credentials.email,
+			password: credentials.password
 		}
 	})
 
@@ -129,51 +129,26 @@ exports.prepareUser = async (sdk, org, role, name) => {
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})
 
-	await userSdk.auth.login(details)
+	await userSdk.auth.login(credentials)
 
 	return {
 		sdk: userSdk,
 		card,
-		org
+		org,
+		credentials
 	}
-}
-
-exports.setToken = async (page, user) => {
-	await page.route('**/*', (route) => {
-		route.fulfill({
-			status: 200,
-			contentType: 'text/plain',
-			body: 'Fake page for setting localStorage entry'
-		})
-	})
-
-	await page.goto(
-		`${environment.livechat.host}:${environment.livechat.port}`
-	)
-
-	await page.evaluate((userToken) => {
-		window.localStorage.setItem('token', userToken)
-	}, user.sdk.getAuthToken())
-
-	await page.unroute('**/*')
 }
 
 exports.initChat = async (page, user) => {
 	const queryString = qs.stringify({
-		username: user.card.slug.replace('user-', ''),
+		loginAs: user.card.slug.replace('user-', ''),
 		product: 'balenaCloud',
 		productTitle: 'Livechat test',
 		inbox: 'paid'
 	})
 
-	const url = `${environment.livechat.host}:${environment.livechat.port}?${queryString}`
-
-	if (page.url().includes(url)) {
-		await exports.navigateTo(page, '/')
-		await page.waitForSelector('[data-test="initial-create-conversation-page"]')
-	} else {
-		await page.goto(url)
-	}
+	const url = `/livechat?${queryString}`
+	await page.goto(url)
 }
 
 exports.navigateTo = async (page, to) => {
