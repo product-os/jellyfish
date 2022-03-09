@@ -1,4 +1,19 @@
 - commits:
+    - subject: Move chat widget from separate repo to UI
+      hash: 44d825217baa4cd3874f486669f8937077ff6570
+      body: >
+        We no longer have livechat service which used chat widget library, only
+        JF UI uses it, so we don't need it to be a separate module. But the main
+        reason is that chat-widget contained jellyfish specific code.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 48.1.0
+  title: "'Move chat widget from separate repo to UI'"
+  date: 2022-03-09T14:16:43.442Z
+- commits:
     - subject: Remove livechat service
       hash: acba156358e18f0df0609ab65a936e74b0decd50
       body: |
