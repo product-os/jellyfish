@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus from v2.33.4 to v2.33.5
+      hash: 402a98a06bf62c400ba37cc7fc302844a5c22454
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.2.1
+  title: "'Update prom/prometheus from v2.33.4 to v2.33.5'"
+  date: 2022-03-09T22:00:57.959Z
+- commits:
     - subject: Remove service worker
       hash: 6e6ac4474993ad82b02de3e6b779bebf95db13ed
       body: >
