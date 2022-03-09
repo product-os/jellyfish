@@ -6,7 +6,6 @@ const {
 } = require('@balena/jellyfish-environment')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const WorkboxPlugin = require('workbox-webpack-plugin')
 const path = require('path')
 const DefinePlugin = require('webpack/lib/DefinePlugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
@@ -149,20 +148,6 @@ const config = {
 			return `/node_modules/${name}/**/*`
 		}).concat('lib/**/*')
 	}
-}
-
-if (process.env.NODE_ENV === 'production' ||
-		process.env.JF_DEBUG_SW === '1') {
-	config.plugins.push(
-		new WorkboxPlugin.InjectManifest({
-			mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
-
-			// The vendors.js file is BIG - set this to a safe value of 40MB
-			maximumFileSizeToCacheInBytes: 40000000,
-			swSrc: './lib/service-worker.js',
-			exclude: [ /build\/.*/, /index\.html/ ]
-		})
-	)
 }
 
 if (process.env.ANALYZE) {

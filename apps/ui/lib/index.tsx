@@ -25,7 +25,6 @@ import history from './services/history';
 import JellyfishUI from './JellyfishUI';
 import { ConnectedRouter } from 'connected-react-router';
 import * as environment from './environment';
-import PWA from './pwa';
 import { JellyfishWidgets, LoopSelectWidget } from './components/Widgets';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
@@ -37,9 +36,6 @@ export const MarkdownEditor = createLazyComponent(
 			/* webpackChunkName: "markdown-editor" */ './components/MarkdownEditor'
 		),
 );
-
-export const pwa = new PWA();
-pwa.init();
 
 const GlobalStyle = createGlobalStyle`
   * {
@@ -164,3 +160,22 @@ ReactDOM.render(
 	</RProvider>,
 	document.getElementById('app'),
 );
+
+/*
+ * Delete existing service workers
+ */
+(async () => {
+	if ('serviceWorker' in navigator) {
+		try {
+			const registrations = await navigator.serviceWorker.getRegistrations();
+
+			await Promise.all(
+				registrations.map(async (registration) => {
+					return registration.unregister();
+				}),
+			);
+		} catch (err) {
+			console.log('Service worker unregistration failed:', err);
+		}
+	}
+})();
