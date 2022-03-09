@@ -1,7 +1,7 @@
 import React from 'react';
 import useEventListener from '@use-it/event-listener';
 import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import { App } from '@balena/jellyfish-chat-widget';
+import { ChatWidget } from './ChatWidget';
 declare const window: Window & { sdk: JellyfishSDK };
 
 const Livechat = () => {
@@ -62,7 +62,7 @@ const Livechat = () => {
 	useEventListener('message', handleMessage, window);
 
 	return (
-		<App
+		<ChatWidget
 			product={product}
 			productTitle={productTitle}
 			inbox={inbox}

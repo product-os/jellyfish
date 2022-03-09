@@ -1,12 +1,11 @@
 const {
-	INITIAL_FETCH_CONVERSATIONS_LIMIT
-} = require('@balena/jellyfish-chat-widget/build/constants')
-const {
 	test, expect
 } = require('@playwright/test')
 const sdkHelpers = require('../../sdk/helpers')
 const uiMacros = require('../macros')
 const macros = require('./macros')
+
+const INITIAL_FETCH_CONVERSATIONS_LIMIT = 15
 
 let sdk = {}
 let supportAgent = {}

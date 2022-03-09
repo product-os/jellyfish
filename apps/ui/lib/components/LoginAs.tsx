@@ -1,8 +1,8 @@
 import React from 'react';
 import { useStore } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { Task } from '@balena/jellyfish-chat-widget/build/components/task';
-import { useTask } from '@balena/jellyfish-chat-widget/build/hooks';
+import { Task } from './ChatWidget/components/Task';
+import { useTask } from './ChatWidget/hooks';
 import { selectors } from '../core';
 import { slugify } from '@balena/jellyfish-ui-components/build/services/helpers';
 
