@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove service worker
+      hash: 6e6ac4474993ad82b02de3e6b779bebf95db13ed
+      body: >
+        Remove old service worker code with unknown (and maybe unwanted)
+        behavior.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 48.2.0
+  title: "'Remove service worker'"
+  date: 2022-03-09T21:24:01.897Z
+- commits:
     - subject: Update internal-patch
       hash: 755bd2a108d8b7dd77ebfe6efca385ee764919b1
       body: ""
