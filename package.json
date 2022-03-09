@@ -76,7 +76,6 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-chat-widget": "^14.0.10",
     "@balena/jellyfish-client-sdk": "^10.1.8",
     "@balena/jellyfish-config": "^2.0.2",
     "@balena/jellyfish-core": "^16.0.7",

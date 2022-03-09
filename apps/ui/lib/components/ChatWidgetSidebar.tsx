@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Box } from 'rendition';
-import { App } from '@balena/jellyfish-chat-widget';
+import { ChatWidget } from './ChatWidget';
 import { ErrorBoundary } from '@balena/jellyfish-ui-components';
 import { sdk } from '../core';
 
@@ -29,7 +29,7 @@ const ChatWidgetSidebar = ({ onClose }) => {
 			width={['calc(100% - 20px)', 'calc(100% - 20px)', '376px']}
 		>
 			<ErrorBoundary>
-				<App
+				<ChatWidget
 					sdk={sdk}
 					productTitle={'Jelly'}
 					product={'jellyfish'}

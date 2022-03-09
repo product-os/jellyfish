@@ -1,8 +1,8 @@
 import React from 'react';
 import { useStore } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { Task } from '@balena/jellyfish-chat-widget/build/components/task';
-import { useTask } from '@balena/jellyfish-chat-widget/build/hooks';
+import { Task } from './ChatWidget/components/Task';
+import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../core';
 import { useSetup } from '@balena/jellyfish-ui-components';
 import { LOGIN_AS_SEARCH_PARAM_NAME } from './LoginAs';
