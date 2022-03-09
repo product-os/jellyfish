@@ -1,4 +1,20 @@
 - commits:
+    - subject: Remove livechat service
+      hash: acba156358e18f0df0609ab65a936e74b0decd50
+      body: |
+        This pr includes:
+        1. Move livechat tests to ui/livechat
+        2. Remove livechat service and related configurations
+        3. Redirect livechat.ly.fish to jel.ly.fish
+      footer:
+        Change-type: major
+        change-type: major
+      author: karaxuna
+      nested: []
+  version: 48.0.0
+  title: "'Remove livechat service'"
+  date: 2022-03-08T17:10:02.559Z
+- commits:
     - subject: Update non-major-frontend
       hash: 8ec5b2c73e6f0974e0e1dc7f1f3191b25c53e958
       body: ""
