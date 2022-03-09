@@ -4,13 +4,14 @@ const {
 const {
 	test, expect
 } = require('@playwright/test')
-const sdkHelpers = require('../sdk/helpers')
-const uiMacros = require('../ui/macros')
+const sdkHelpers = require('../../sdk/helpers')
+const uiMacros = require('../macros')
 const macros = require('./macros')
 
 let sdk = {}
 let supportAgent = {}
 let supportUser = {}
+let unmockLoginAs = null
 
 test.beforeAll(async () => {
 	sdk = await sdkHelpers.login()
@@ -20,9 +21,10 @@ test.beforeAll(async () => {
 })
 
 test.beforeEach(async ({
-	page
+	page,
+	baseURL
 }) => {
-	await macros.setToken(page, supportUser)
+	unmockLoginAs = await uiMacros.mockLoginAs(page, baseURL, supportUser)
 
 	const threads = await sdk.query({
 		properties: {
@@ -58,6 +60,7 @@ test.afterEach(async ({
 	page
 }) => {
 	sdkHelpers.afterEach(sdk)
+	await unmockLoginAs()
 	await page.close()
 })
 

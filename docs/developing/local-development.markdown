@@ -18,7 +18,6 @@ all services in non-daemon mode:
 ```sh
 $ npm run compose:database
 $ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 LIVECHAT_PORT=8001 npm run dev:livechat
 $ SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev:server
 ```
 

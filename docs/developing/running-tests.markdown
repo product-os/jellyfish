@@ -26,7 +26,6 @@ A number of tests require that multiple services be running and can talk to one 
 Run lint checks:
 ```sh
 $ npm run lint
-$ npm run lint:livechat
 $ npm run lint:server
 $ npm run lint:ui
 ```
@@ -57,19 +56,6 @@ Run UI E2E tests with browser displayed:
 ```sh
 $ npx playwright install chromium
 $ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npx playwright test test/e2e/ui/index.spec.js --headed
-```
-
-### E2E Livechat
-Run Livechat E2E tests:
-```sh
-$ LIVECHAT_HOST=http://livechat.ly.fish.local npm run test:e2e:livechat
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 LIVECHAT_HOST=http://localhost LIVECHAT_PORT=8001 npm run test:e2e:livechat
-```
-
-Run Livechat E2E tests with browser displayed:
-```sh
-$ npx playwright install chromium
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 LIVECHAT_HOST=http://localhost LIVECHAT_PORT=8001 npx playwright test test/e2e/livechat --headed
 ```
 
 ### E2E Server
