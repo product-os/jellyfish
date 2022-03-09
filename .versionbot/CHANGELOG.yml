@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 755bd2a108d8b7dd77ebfe6efca385ee764919b1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.1.1
+  title: "'Update internal-patch'"
+  date: 2022-03-09T16:19:37.550Z
+- commits:
     - subject: Move chat widget from separate repo to UI
       hash: 44d825217baa4cd3874f486669f8937077ff6570
       body: >
