@@ -613,7 +613,8 @@ export default class HomeChannel extends React.Component<any, any> {
 									</MentionsCount>
 								)}
 							</Flex>
-							<OmniSearch ml={3} mr={2} />
+							{/* TODO: Enable it when omnisearch performance issue is fixed */}
+							{/* <OmniSearch ml={3} mr={2} /> */}
 							<LoopSelector ml={2} mr={2} mb={2} />
 						</Flex>
 
