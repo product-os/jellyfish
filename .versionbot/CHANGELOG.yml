@@ -1,4 +1,39 @@
 - commits:
+    - subject: "UI: Add heuristic to improve performance of OmniSearch"
+      hash: 0b78129a5b2bf53bd9f4f121b062c6f4672c4504
+      body: >
+        This adds certain heuristics to OmniSearch to remove the potential for
+
+        the queries it generates to cause massive DB consumption on our RDS
+
+        based system. In experiments we found that the base enum used on the
+
+        virtual omnisearch view caused huge slowdown and stability issues, and
+
+        to a lesser extent the timeline search also cause problems.
+
+        With this change, omnisearch will no longer look for results in
+
+        a contracts timeline.
+
+        This is not the ideal solution, but will buy us time whilst we do
+
+        further investigation into why the query planning is so poor for this
+
+        request.
+
+        See http://localhost:8080/pattern-omnisearch-causes-massive-db-memory-consumption-8022ce1
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.2.4
+  title: "'UI: Add heuristic to improve performance of OmniSearch'"
+  date: 2022-03-10T16:29:02.502Z
+- commits:
     - subject: Update internal-patch
       hash: fc5da62c25c172339a62604d4cc5a078139c2005
       body: ""
