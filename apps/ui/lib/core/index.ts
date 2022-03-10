@@ -1,5 +1,5 @@
 import Analytics from '../services/analytics';
-import ErrorReporter from '../services/ErrorReporter';
+import ErrorReporter from '../services/error-reporter';
 import * as environment from '../environment';
 import { sdk as SDK } from './sdk';
 import { setupStore } from './store';
