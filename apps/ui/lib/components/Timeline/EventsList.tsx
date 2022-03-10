@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Box } from 'rendition';
 import styled from 'styled-components';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 import Event from '../Event';
 import { WHISPER } from '../constants';
 import { getTypeBase, isTimelineEvent } from '../../services/helpers';

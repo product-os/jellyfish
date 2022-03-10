@@ -7,8 +7,8 @@ import type {
 } from '@balena/jellyfish-types/build/core';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { PlainButton } from '../PlainButton';
-import AutocompleteTextarea from '../shame/AutocompleteTextarea';
-import Icon from '../shame/Icon';
+import AutocompleteTextarea from '../AutocompleteTextarea';
+import Icon from '../Icon';
 import { FilesInput } from '../FileUploader';
 
 export const messageSymbolRE = /^\s*%\s*/;

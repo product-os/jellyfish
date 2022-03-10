@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ErrorBoundary } from './shame';
+import { ErrorBoundary } from '.';
 import Splash from './Splash';
 
 const SafeLazy = ({ children }) => {

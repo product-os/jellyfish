@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { circularDeepEqual } from 'fast-equals';
 import { Flex, Txt } from 'rendition';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import { Link } from '../../Link';
 
 const Body = ({ card }: any) => {

@@ -2,8 +2,8 @@ import React from 'react';
 import { circularDeepEqual } from 'fast-equals';
 import { Flex, Txt } from 'rendition';
 import * as helpers from '../../../services/helpers';
-import Icon from '../../shame/Icon';
-import Space from '../../shame/Space';
+import Icon from '../../Icon';
+import Space from '../../Space';
 import ActorMessage from '../ActorMessage';
 
 const Context = ({ actor, linkedCardInfo, card }: any) => {

@@ -3,7 +3,7 @@ import format from 'date-fns/format';
 import { mount, shallow } from 'enzyme';
 import { getWrapper } from '../../../../test/ui-setup';
 import Context from './Context';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 
 const { wrapper } = getWrapper();
 

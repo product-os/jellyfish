@@ -1,18 +1,14 @@
 import * as constants from './constants';
 
 export { JellyfishLink, Link, getLinkProps } from './Link';
-export {
-	AutocompleteTextarea,
-	ErrorBoundary,
-	ActionButton,
-	ActionLink,
-	ActionRouterLink,
-	CloseButton,
-	ColorHashPill,
-	Column,
-	Icon,
-	MenuPanel,
-} from './shame';
+export { default as AutocompleteTextarea } from './AutocompleteTextarea';
+export { default as ErrorBoundary } from './ErrorBoundary';
+export * from './ActionLink';
+export * from './CloseButton';
+export { default as ColorHashPill } from './ColorHashPill';
+export { default as Column } from './Column';
+export { default as Icon } from './Icon';
+export { default as MenuPanel } from './MenuPanel';
 export { default as AuthenticatedImage } from './AuthenticatedImage';
 export { default as CardChatSummary } from './CardChatSummary';
 export { CardLoaderContext, CardLoader } from './CardLoader';
@@ -21,7 +17,7 @@ export {
 	withCardUpdater,
 	withDefaultGetActorHref,
 	withDefaultProps,
-} from './HOC';
+} from '../hocs';
 export { PlainButton } from './PlainButton';
 export { Tag, TagList, tagStyle } from './Tag';
 export {

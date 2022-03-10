@@ -4,7 +4,7 @@ import type { UserContract } from '@balena/jellyfish-types/build/core';
 import { parseMessage } from './Message/Body';
 import { CardLoader } from '../CardLoader';
 import * as helpers from '../../services/helpers';
-import withCardUpdater from '../HOC/withCardUpdater';
+import withCardUpdater from '../../hocs/with-card-updater';
 import { withSetup } from '../SetupProvider';
 import { UPDATE, LINK } from '../constants';
 import Update from './Update';

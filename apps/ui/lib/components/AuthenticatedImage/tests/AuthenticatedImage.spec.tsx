@@ -3,7 +3,7 @@ import { mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
 import AuthenticatedImage from '../index';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 
 const { wrapper } = getWrapper();
 

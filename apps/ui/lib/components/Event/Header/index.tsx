@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Flex } from 'rendition';
 import copy from 'copy-to-clipboard';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import Menu from './Menu';
 
 const Header = ({ card, menuOptions, children }: any) => {

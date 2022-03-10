@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Txt } from 'rendition';
-import Icon from '../../../shame/Icon';
+import Icon from '../../../Icon';
 
 const AttachmentButton = ({ attachment, downloadAttachments, card }: any) => {
 	return (

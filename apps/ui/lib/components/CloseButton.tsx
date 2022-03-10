@@ -1,8 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import { pathWithoutChannel } from '../../services/helpers';
-import { PlainButton } from '../PlainButton';
+import { pathWithoutChannel } from '../services/helpers';
+import { PlainButton } from './PlainButton';
 import Icon from './Icon';
 
 const CloseRenditionButton = styled(PlainButton)`

@@ -7,7 +7,7 @@ import { saveAs } from 'file-saver';
 import { Flex } from 'rendition';
 import { parseMessage } from '../Event';
 import * as helpers from '../../services/helpers';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 import { PlainButton } from '../PlainButton';
 import HeaderTitle from './HeaderTitle';
 

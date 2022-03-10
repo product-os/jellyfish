@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Flex } from 'rendition';
 import { px, swallowEvent } from '../services/helpers';
-import ErrorBoundary from './shame/ErrorBoundary';
+import ErrorBoundary from './ErrorBoundary';
 import useDebounce from '../hooks/use-debounce';
 
 // Slide-in delay in seconds

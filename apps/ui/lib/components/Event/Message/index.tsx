@@ -15,7 +15,7 @@ import type {
 import SmartVisibilitySensor from '../../SmartVisibilitySensor';
 import * as helpers from '../../../services/helpers';
 import { UserAvatarLive } from '../../UserAvatar';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import Wrapper from './Wrapper';
 import Header from './Header';
 import Body, { parseMessage } from './Body';

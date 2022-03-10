@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import getUsers from './get-users';
-import { username } from '../../../../../services/helpers';
+import { username } from '../../../../services/helpers';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import type {
 	UserContract,

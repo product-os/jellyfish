@@ -2,7 +2,7 @@ import React from 'react';
 import format from 'date-fns/format';
 import { mount, shallow } from 'enzyme';
 import { getWrapper } from '../../../../test/ui-setup';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import Context from './Context';
 
 const { wrapper } = getWrapper();

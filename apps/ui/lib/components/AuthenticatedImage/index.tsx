@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { withSetup, Setup } from '../SetupProvider';
 import Collapsible from '../Collapsible';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 
 const ResponsiveImg = styled.img<{ maxImageSize: number }>(
 	({ maxImageSize }) => {

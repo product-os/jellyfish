@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Flex, FlexProps, Img } from 'rendition';
-import Icon from './shame/Icon';
+import Icon from './Icon';
 // @ts-ignore
 import frontAppSvg from '../icons/front-app.svg';
 

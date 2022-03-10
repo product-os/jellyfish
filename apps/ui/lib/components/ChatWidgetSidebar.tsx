@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box } from 'rendition';
 import { ChatWidget } from './ChatWidget';
-import { ErrorBoundary } from './shame';
+import { ErrorBoundary } from '.';
 import { sdk } from '../core';
 
 const Container = styled(Box)`

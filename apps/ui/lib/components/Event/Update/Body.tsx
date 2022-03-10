@@ -3,7 +3,7 @@ import { circularDeepEqual } from 'fast-equals';
 import { Flex, Txt } from 'rendition';
 import _ from 'lodash';
 import { commaListsAnd } from 'common-tags';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import * as helpers from '../../../services/helpers';
 
 const getUpdateDescription = (card: any) => {

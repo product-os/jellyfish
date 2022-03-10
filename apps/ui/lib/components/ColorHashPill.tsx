@@ -1,7 +1,7 @@
 import React from 'react';
 import get from 'lodash/get';
 import { Badge, BadgeProps } from 'rendition';
-import { stringToNumber } from '../../services/helpers';
+import { stringToNumber } from '../services/helpers';
 
 export interface ColorHashPillProps extends Omit<BadgeProps, 'children'> {
 	value: string;

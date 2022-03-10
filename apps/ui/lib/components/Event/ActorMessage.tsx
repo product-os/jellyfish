@@ -1,5 +1,5 @@
 import React from 'react';
-import Space from '../shame/Space';
+import Space from '../Space';
 
 const ActorMessage = ({ actor, suffix }: any) => {
 	if (actor && actor.name) {

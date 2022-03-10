@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import _ from 'lodash';
 import { Flex, FlexProps } from 'rendition';
 import type { UserContract } from '@balena/jellyfish-types/build/core';
-import Icon from './shame/Icon';
+import Icon from './Icon';
 
 const statusSize = (props: { small?: boolean }) => {
 	const size = props.small ? 12 : 18;

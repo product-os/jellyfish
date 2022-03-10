@@ -5,12 +5,12 @@ import { Flex, Txt } from 'rendition';
 import styled, { withTheme } from 'styled-components';
 import { Link } from '../Link';
 import * as helpers from '../../services/helpers';
-import ColorHashPill from '../shame/ColorHashPill';
+import ColorHashPill from '../ColorHashPill';
 import { TagList } from '../Tag';
 import { MessageSnippet } from './MessageSnippet';
 import { TimeSummary } from './TimeSummary';
 import { OwnerDisplay } from './OwnerDisplay';
-import ErrorBoundary from '../shame/ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary';
 
 const TitleTxt = styled(Txt)`
 	display: block;

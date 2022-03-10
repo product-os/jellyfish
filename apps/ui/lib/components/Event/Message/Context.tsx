@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { Theme, Txt, Flex, Button, FlexProps } from 'rendition';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import { formatTimestamp } from '../../../services/helpers';
-import Icon from '../../shame/Icon';
-import { ActionLink } from '../../shame/ActionLink';
+import Icon from '../../Icon';
+import { ActionLink } from '../../ActionLink';
 import { MirrorIcon } from '../../MirrorIcon';
 import ContextMenu from '../../ContextMenu';
 

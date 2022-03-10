@@ -1,8 +1,8 @@
 import React from 'react';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import type { Operation } from 'fast-json-patch';
-import { useSetup } from '../SetupProvider';
-import { addNotification } from '../../services/notifications';
+import { useSetup } from '../components/SetupProvider';
+import { addNotification } from '../services/notifications';
 
 type UpdateCardHandler = (card: Contract, patch: Operation[]) => Promise<any>;
 

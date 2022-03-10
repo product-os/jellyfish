@@ -3,7 +3,7 @@ import { user } from '../../test/fixtures/types';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { Icon } from './shame';
+import { Icon } from '.';
 import UserStatusMenuItem from './UserStatusMenuItem';
 
 const DND = {

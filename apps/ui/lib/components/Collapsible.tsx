@@ -2,7 +2,7 @@ import React from 'react';
 import cn from 'classnames';
 import styled from 'styled-components';
 import { Box, BoxProps, Flex, Txt } from 'rendition';
-import Icon from './shame/Icon';
+import Icon from './Icon';
 import { px } from '../services/helpers';
 import useDebounce from '../hooks/use-debounce';
 

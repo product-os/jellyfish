@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Flex, Txt } from 'rendition';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 import { timeAgo } from '../../services/helpers';
 
 const SingleLine = styled(Txt)`

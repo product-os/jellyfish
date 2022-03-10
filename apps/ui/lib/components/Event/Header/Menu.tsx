@@ -1,6 +1,6 @@
 import React from 'react';
 import ContextMenu from '../../ContextMenu';
-import { ActionLink } from '../../shame/ActionLink';
+import { ActionLink } from '../../ActionLink';
 
 const Menu = ({ showMenu, menuOptions, onToggleMenu, onCopyJSON }: any) => {
 	if (!showMenu) {

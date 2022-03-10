@@ -4,7 +4,7 @@ import React from 'react';
 import queryString from 'query-string';
 import { v4 as uuid } from 'uuid';
 import * as helpers from '../../services/helpers';
-import Column from '../shame/Column';
+import Column from '../Column';
 import MessageInput, { messageSymbolRE } from './MessageInput';
 import { withSetup, Setup } from '../SetupProvider';
 import Header from './Header';

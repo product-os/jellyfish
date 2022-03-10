@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex } from 'rendition';
 import { UserAvatarLive } from '../UserAvatar';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 
 export const OwnerDisplay = ({ owner, ...rest }: any) => {
 	if (!owner) {

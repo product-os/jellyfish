@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Link } from 'rendition';
 import styled from 'styled-components';
-import { Link as RouterLink } from '../Link';
+import { Link as RouterLink } from './Link';
 
 const action = <TProps extends {}>(Component: React.ComponentType<TProps>) => {
 	return styled(Component)`

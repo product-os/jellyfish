@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex } from 'rendition';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 
 const Loading = () => {
 	return (

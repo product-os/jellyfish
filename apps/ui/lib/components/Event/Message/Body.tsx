@@ -10,14 +10,14 @@ import type {
 } from '@balena/jellyfish-types/build/core';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { HIDDEN_ANCHOR } from '../../Timeline';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import MessageContainer from './MessageContainer';
 import { PlainAutocompleteTextarea } from '../../Timeline/MessageInput';
 import Attachments from './attachments';
 import Mention from './Mention';
 import { linkComponentOverride } from '../../Link';
 import * as helpers from '../../../services/helpers';
-import ErrorBoundary from '../../shame/ErrorBoundary';
+import ErrorBoundary from '../../ErrorBoundary';
 
 const tagMatchRE = helpers.createPrefixRegExp(helpers.TAG_MATCH_REGEXP_PREFIX);
 

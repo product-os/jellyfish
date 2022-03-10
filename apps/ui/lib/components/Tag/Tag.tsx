@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Txt, Theme, TxtProps } from 'rendition';
 import styled from 'styled-components';
 import { px } from '../../services/helpers';
-import Icon from '../shame/Icon';
+import Icon from '../Icon';
 
 export const tagStyle = `
 	display: inline-flex;

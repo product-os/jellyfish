@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import '../../../../test/ui-setup';
 import { Txt } from 'rendition';
-import Icon from '../../shame/Icon';
+import Icon from '../../Icon';
 import Body from './Body';
 
 const CARD = {

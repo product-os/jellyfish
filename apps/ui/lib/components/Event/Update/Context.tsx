@@ -4,8 +4,8 @@ import { circularDeepEqual } from 'fast-equals';
 import { Flex, Txt } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
 import { linkComponentOverride } from '../../Link';
-import Icon from '../../shame/Icon';
-import Space from '../../shame/Space';
+import Icon from '../../Icon';
+import Space from '../../Space';
 import * as helpers from '../../../services/helpers';
 import ActorMessage from '../ActorMessage';
 

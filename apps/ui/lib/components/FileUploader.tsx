@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, ButtonProps, Flex, Tag, TagProps } from 'rendition';
 import styled from 'styled-components';
 import { PlainButton } from './PlainButton';
-import Icon from './shame/Icon';
+import Icon from './Icon';
 
 const HiddenFileInput = styled.input.attrs({
 	type: 'file',

@@ -11,11 +11,11 @@ import type {
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import { Link } from '../../Link';
-import * as helpers from '../../../services/helpers';
+import { Link } from '../Link';
+import * as helpers from '../../services/helpers';
 import Icon from '../Icon';
 import Container from './Container';
-import useOnClickOutside from '../../../hooks/use-on-click-outside';
+import useOnClickOutside from '../../hooks/use-on-click-outside';
 import { getTrigger } from './triggers';
 
 const QUICK_SEARCH_RE = /^\s*\?[\w_-]+\s+[\w_-]+/;

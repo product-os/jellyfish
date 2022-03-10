@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Button, Flex, Input, Select, Txt, Form } from 'rendition';
-import Icon from './shame/Icon';
+import Icon from './Icon';
 
 const FieldInputBox = styled(Box)`
 	flex: 1;
