@@ -40,6 +40,7 @@ const generateOmniSearchView = memoize((typeSlugs: string[]) => {
 				{
 					name: 'Search',
 					schema: {
+						$id: 'omnisearch',
 						type: 'object',
 						required: ['type'],
 						properties: {
