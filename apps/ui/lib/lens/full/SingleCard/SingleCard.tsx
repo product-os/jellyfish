@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import { Box, Divider, Tab, Tabs, Theme } from 'rendition';
 import styled from 'styled-components';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
 import CardFields from '../../../components/CardFields';
 import CardLayout from '../../../layouts/CardLayout';
 import Timeline from '../../list/Timeline';

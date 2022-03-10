@@ -4,9 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../core';
-import { useSetup } from '@balena/jellyfish-ui-components';
+import { useSetup } from './SetupProvider';
 import { LOGIN_AS_SEARCH_PARAM_NAME } from './LoginAs';
-import { slugify } from '@balena/jellyfish-ui-components/build/services/helpers';
+import { slugify } from '../services/helpers';
 
 const OauthCallback = () => {
 	const store = useStore();

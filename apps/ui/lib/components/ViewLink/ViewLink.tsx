@@ -2,15 +2,15 @@ import { circularDeepEqual } from 'fast-equals';
 import React from 'react';
 import _ from 'lodash';
 import { Button, Box, Flex, Modal } from 'rendition';
+import * as helpers from '../../services/helpers';
+import * as notifications from '../../services/notifications';
 import {
 	ActionButton,
 	ActionRouterLink,
 	ContextMenu,
-	helpers,
 	Icon,
 	MentionsCount,
-	notifications,
-} from '@balena/jellyfish-ui-components';
+} from '../';
 
 export default class ViewLink extends React.Component<any, any> {
 	constructor(props) {

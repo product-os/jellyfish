@@ -1,7 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import { Box, Button, Flex, Heading, Txt, Form } from 'rendition';
-import { notifications, helpers, Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../../components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import * as skhema from 'skhema';
 import CardLayout from '../../../layouts/CardLayout';
 

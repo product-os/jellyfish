@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { Box, Renderer, Txt } from 'rendition';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
 import {
 	getUiSchema,
 	jsonSchemaFns,

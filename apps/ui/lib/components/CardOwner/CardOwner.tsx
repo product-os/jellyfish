@@ -3,12 +3,9 @@ import _ from 'lodash';
 import path from 'path';
 import { Txt, DropDownButton } from 'rendition';
 import styled from 'styled-components';
-import {
-	ActionLink,
-	Icon,
-	notifications,
-	helpers,
-} from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import * as helpers from '../../services/helpers';
+import { ActionLink, Icon } from '../';
 
 const OwnerTxt = styled(Txt.span)`
 	white-space: nowrap;

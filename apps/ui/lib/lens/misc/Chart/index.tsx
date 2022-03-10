@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { compose, bindActionCreators } from 'redux';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
 import { actionCreators, sdk, selectors } from '../../../core';
 import { Chart } from './Chart';
 import { createLazyComponent } from '../../../components/SafeLazy';

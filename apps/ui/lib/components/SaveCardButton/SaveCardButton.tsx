@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Button } from 'rendition';
-import { notifications, Icon } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import { Icon } from '../';
 
 export const SaveCardButton: React.FunctionComponent<any> = React.memo(
 	({ sdk, onUpdateCard, patch, card, buttonText, onDone, ...rest }) => {

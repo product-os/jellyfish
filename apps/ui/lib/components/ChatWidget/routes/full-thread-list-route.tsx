@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Flex } from 'rendition';
-import { InfiniteList } from '@balena/jellyfish-ui-components';
+import { InfiniteList } from '../../';
 import { FETCH_MORE_CONVERSATIONS_LIMIT } from '../constants';
 import { ButtonLink } from '../components/ButtonLink';
 import { Loader } from '../components/Loader';

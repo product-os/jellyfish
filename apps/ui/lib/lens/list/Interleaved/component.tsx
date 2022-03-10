@@ -4,7 +4,7 @@ import path from 'path';
 import { RouteComponentProps } from 'react-router-dom';
 import { sdk } from '../../../core';
 import { core } from '@balena/jellyfish-types';
-import { Event } from '@balena/jellyfish-ui-components';
+import { Event } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
 import { LensRendererProps } from '../../../types';

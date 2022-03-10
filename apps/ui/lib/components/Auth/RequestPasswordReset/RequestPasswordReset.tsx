@@ -1,5 +1,6 @@
 import React from 'react';
-import { notifications, Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../';
+import * as notifications from '../../../services/notifications';
 import {
 	AuthCard,
 	AuthHeading,

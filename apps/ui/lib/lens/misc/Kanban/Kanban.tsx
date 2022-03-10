@@ -4,7 +4,8 @@ import styled from 'styled-components';
 import ReactTrello from 'react-trello';
 import { Flex } from 'rendition';
 import skhema from 'skhema';
-import { notifications, helpers } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import { analytics, sdk } from '../../../core';
 
 const TrelloWrapper = styled(Flex)`

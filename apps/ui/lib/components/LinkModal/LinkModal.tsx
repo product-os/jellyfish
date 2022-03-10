@@ -3,7 +3,8 @@ import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
 import { Modal, Select, Txt, Box } from 'rendition';
-import { notifications, Icon } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import { Icon } from '../';
 import type {
 	Contract,
 	ContractSummary,

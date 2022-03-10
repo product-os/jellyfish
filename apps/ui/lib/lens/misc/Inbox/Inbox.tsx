@@ -2,7 +2,7 @@ import { circularDeepEqual } from 'fast-equals';
 import styled from 'styled-components';
 import React, { useState } from 'react';
 import { Flex, Heading, Tabs, Tab } from 'rendition';
-import { CloseButton, Column } from '@balena/jellyfish-ui-components';
+import { CloseButton, Column } from '../../../components';
 import InboxTab from './InboxTab';
 import * as queries from './queries';
 

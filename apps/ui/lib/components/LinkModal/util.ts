@@ -2,7 +2,7 @@ import type {
 	Contract,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
 import { linkConstraints, LinkConstraint } from '@balena/jellyfish-client-sdk';
 import _ from 'lodash';
 import memoize from 'memoize-one';

@@ -1,7 +1,9 @@
 import React from 'react';
 import _ from 'lodash';
 import { Link } from 'rendition';
-import { notifications, helpers, Icon } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
+import * as notifications from '../../services/notifications';
+import { Icon } from '../';
 
 // The VideoLink component renders a button that lets the user open
 // a Google Meet URL (in a new tab) that is specific to the provided card.

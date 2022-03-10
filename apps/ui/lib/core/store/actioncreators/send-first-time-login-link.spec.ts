@@ -1,5 +1,5 @@
 import sinon from 'sinon';
-import { notifications } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../../services/notifications';
 import _ from 'lodash';
 
 // Hack fix for a circular dependency until we refactor the notifications code

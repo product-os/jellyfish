@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../';
 
 export const Loader = (props) => {
 	return (

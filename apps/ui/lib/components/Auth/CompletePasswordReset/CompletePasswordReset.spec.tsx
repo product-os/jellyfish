@@ -2,7 +2,7 @@ import { flushPromises, getWrapper } from '../../../../test/ui-setup';
 import { mount } from 'enzyme';
 import React from 'react';
 import sinon from 'sinon';
-import { notifications } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../../services/notifications';
 import CompletePasswordReset from './CompletePasswordReset';
 
 const DATA_TEST_PREFIX = 'completePasswordReset-page';

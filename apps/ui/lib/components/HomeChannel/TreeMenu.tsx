@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../';
 import { selectors } from '../../core';
 import ViewLink from '../ViewLink';
 

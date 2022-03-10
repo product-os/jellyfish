@@ -2,12 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import skhema from 'skhema';
 import { Box, Flex, Table, DropDownButton, TextWithCopy } from 'rendition';
-import {
-	ActionLink,
-	Column,
-	helpers,
-	Link,
-} from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
+import { ActionLink, Column, Link } from '../../../components';
 import { format, parseISO } from 'date-fns';
 import flatten from 'flat';
 import { LinkModal, UnlinkModal } from '../../../components/LinkModal';

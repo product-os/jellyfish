@@ -6,7 +6,7 @@ import { circularDeepEqual } from 'fast-equals';
 import clone from 'deep-copy';
 import { Select, SelectProps } from 'rendition';
 import type { TypeContract } from '@balena/jellyfish-types/build/core';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../../../services/helpers';
 import { sdk } from '../../../../../core';
 
 // Do not include fields with array type (doesn't make sense to sort by an array), as well as the id, version, active, or type fields

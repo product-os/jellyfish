@@ -9,19 +9,19 @@ import styled from 'styled-components';
 import {
 	ActionButton,
 	ActionRouterLink,
-	helpers,
 	Icon,
 	MentionsCount,
 	MenuPanel,
 	UserAvatarLive,
-} from '@balena/jellyfish-ui-components';
+} from '../';
+import * as helpers from '../../services/helpers';
 import { core } from '@balena/jellyfish-types';
 import TreeMenu from './TreeMenu';
 import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
-import { registerForNotifications } from '../../services/notifications';
+import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
 
 // Slide-in delay in seconds

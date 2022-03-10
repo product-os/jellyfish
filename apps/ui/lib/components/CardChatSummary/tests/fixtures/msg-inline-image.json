@@ -1,0 +1,28 @@
+{
+  "id": "25a28dc8-2cb2-4dc4-94b1-13cdcd08e083",
+  "data": {
+    "actor": "4972802e-ae01-4939-8375-c25e231d4d10",
+    "target": "e6633dd1-b729-4a6a-9db9-e682baefafa8",
+    "payload": {
+      "message": "[<img src=\"https://via.placeholder.com/150\" alt=\"some-image.png\">](https://via.placeholder.com/150 \"image-title.png\")",
+      "alertsUser": [],
+      "mentionsUser": []
+    },
+    "timestamp": "2020-05-14T06:50:39.989Z"
+  },
+  "name": null,
+  "slug": "msg-inline-img-4",
+  "tags": [],
+  "type": "message@1.0.0",
+  "links": {},
+  "active": true,
+  "markers": [],
+  "requires": [],
+  "linked_at": {
+    "is attached to": "2020-05-14T06:50:40.308Z"
+  },
+  "created_at": "2020-05-14T06:50:40.054Z",
+  "updated_at": null,
+  "capabilities": [],
+  "version": "1.0.0"
+}

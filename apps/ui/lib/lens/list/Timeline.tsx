@@ -1,19 +1,15 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import {
-	withDefaultGetActorHref,
-	withResponsiveContext,
-} from '@balena/jellyfish-ui-components';
+import { withDefaultGetActorHref } from '../../components';
+import { withResponsiveContext } from '../../hooks/use-responsive-context';
 import { actionCreators, sdk, selectors } from '../../core';
 import * as environment from '../../environment';
 import { createLazyComponent } from '../../components/SafeLazy';
 
 export const Timeline = createLazyComponent(
 	() =>
-		import(
-			/* webpackChunkName: "lens-timeline" */ '@balena/jellyfish-ui-components/build/Timeline'
-		),
+		import(/* webpackChunkName: "lens-timeline" */ '../../components/Timeline'),
 );
 
 const mapStateToProps = (state, ownProps) => {

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Txt } from 'rendition';
-import { helpers, Link } from '@balena/jellyfish-ui-components';
+import * as helpers from '../services/helpers';
+import { Link } from '.';
 import { Contract } from '@balena/jellyfish-types/build/core';
 import { ChannelContract } from '../types';
 

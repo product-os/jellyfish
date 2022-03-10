@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex, Heading } from 'rendition';
-import { CloseButton, helpers, Link } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
+import { CloseButton, Link } from '../';
 
 const ErrorTitle = styled(Heading.h1)`
 	background: url(/icons/jellyfish.svg) repeat;

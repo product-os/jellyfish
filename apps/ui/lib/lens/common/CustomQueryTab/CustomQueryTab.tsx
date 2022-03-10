@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tab } from 'rendition';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
 import { actionCreators } from '../../../core';
 import { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';

@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Flex } from 'rendition';
-import { Mermaid } from 'rendition/dist/extra/Mermaid';
-import { Contract } from '@balena/jellyfish-types/build/core';
 import * as _ from 'lodash';
 import { LensRendererProps } from '../../../types';
 import { ContractGraph } from '../../common';

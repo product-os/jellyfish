@@ -1,6 +1,6 @@
 import React from 'react';
 import { useStore } from 'react-redux';
-import { useSetup } from '@balena/jellyfish-ui-components';
+import { useSetup } from '../../';
 import * as actionCreators from '../store/action-creators';
 
 export const useActions = (): any => {

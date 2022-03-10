@@ -1,7 +1,7 @@
 import React from 'react';
 import { Flex, DropDownButton, Button } from 'rendition';
 import styled from 'styled-components';
-import { ActionLink, Icon } from '@balena/jellyfish-ui-components';
+import { ActionLink, Icon } from '../../../components';
 
 const Footer = styled(Flex)`
 	border-top: 1px solid #eee;

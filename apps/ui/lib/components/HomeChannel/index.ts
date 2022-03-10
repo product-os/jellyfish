@@ -4,7 +4,7 @@ import * as redux from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withTheme } from 'styled-components';
 import memoize from 'memoize-one';
-import { withResponsiveContext } from '@balena/jellyfish-ui-components';
+import { withResponsiveContext } from '../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../core';
 import HomeChannel from './HomeChannel';
 

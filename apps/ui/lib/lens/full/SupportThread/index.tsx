@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { withDefaultGetActorHref } from '@balena/jellyfish-ui-components';
+import { withDefaultGetActorHref } from '../../../components';
 import { actionCreators, selectors, sdk } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import * as _ from 'lodash';

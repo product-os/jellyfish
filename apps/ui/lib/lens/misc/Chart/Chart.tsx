@@ -4,7 +4,8 @@ import 'react-chart-editor/lib/react-chart-editor.css';
 import flatten from 'flat';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Button, Flex, Heading } from 'rendition';
-import { Icon, helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
+import { Icon } from '../../../components';
 import { AutoCompleteCardSelect } from '../../../components/AutoCompleteCardSelect';
 import SaveCardButton from '../../../components/SaveCardButton';
 

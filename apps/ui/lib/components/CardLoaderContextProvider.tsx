@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { CardLoaderContext } from '@balena/jellyfish-ui-components';
+import { CardLoaderContext } from './CardLoader';
 import { actionCreators, selectors } from '../core';
 
 const CardLoaderContextProvider = ({ actions: { getCard }, children }) => {

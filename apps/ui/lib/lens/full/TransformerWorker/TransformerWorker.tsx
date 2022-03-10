@@ -3,7 +3,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Box, Heading, Flex, Tab, Table, Txt, Divider } from 'rendition';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
 import { DeviceMetrics } from '../../../components/Metrics/DeviceMetrics';
 import { SingleCardTabs } from '../SingleCard';

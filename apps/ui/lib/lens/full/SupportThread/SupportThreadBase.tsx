@@ -4,16 +4,16 @@ import React from 'react';
 import { Box, Divider, Flex, Tab, Txt } from 'rendition';
 import styled from 'styled-components';
 import {
-	notifications,
 	ColorHashPill,
 	Event,
-	helpers,
 	Icon,
 	PlainButton,
 	ActionRouterLink,
 	TagList,
 	ThreadMirrorIcon,
-} from '@balena/jellyfish-ui-components';
+} from '../../../components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import { sdk } from '../../../core';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import Timeline from '../../list/Timeline';

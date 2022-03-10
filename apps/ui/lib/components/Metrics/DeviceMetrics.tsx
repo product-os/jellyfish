@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { Flex, StatsBar, StatsTitle, Txt, Card } from 'rendition';
-import { formatMb } from '@balena/jellyfish-ui-components';
+import { formatMb } from '../../services/formatters';
 
 const ValueWithMaxTitle = ({ value, max }) => (
 	<React.Fragment>

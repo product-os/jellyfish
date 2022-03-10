@@ -2,7 +2,8 @@ import _ from 'lodash';
 import React from 'react';
 import { Select, Badge } from 'rendition';
 import styled from 'styled-components';
-import { helpers, withCardUpdater } from '@balena/jellyfish-ui-components';
+import { withCardUpdater } from '../../../components';
+import * as helpers from '../../../services/helpers';
 
 const SingleLineSpan = styled.span`
 	whitespace: 'nowrap';

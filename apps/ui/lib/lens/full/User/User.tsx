@@ -1,10 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
-import {
-	ActionLink,
-	helpers,
-	notifications,
-} from '@balena/jellyfish-ui-components';
+import { ActionLink } from '../../../components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import singleCardLens from '../SingleCard';
 
 export default class User extends React.Component<any, any> {

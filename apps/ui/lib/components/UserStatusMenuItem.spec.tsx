@@ -3,7 +3,7 @@ import { user } from '../../test/fixtures/types';
 import React from 'react';
 import { shallow } from 'enzyme';
 import sinon from 'sinon';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from './shame';
 import UserStatusMenuItem from './UserStatusMenuItem';
 
 const DND = {

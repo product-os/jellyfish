@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 import { DropTarget } from 'react-dnd';
 import { Alert, Box } from 'rendition';
-import { ErrorBoundary, Icon } from '@balena/jellyfish-ui-components';
+import { ErrorBoundary, Icon } from '.';
 import { LinkModal } from './LinkModal';
 import ChannelNotFound from './ChannelNotFound';
 import { ChannelContextProvider } from '../hooks';

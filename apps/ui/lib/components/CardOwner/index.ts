@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { withLink } from '@balena/jellyfish-ui-components';
+import { withLink } from '../LinksProvider';
 import CardOwner from './CardOwner';
 
 export default compose(

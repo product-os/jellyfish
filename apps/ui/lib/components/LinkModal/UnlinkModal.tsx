@@ -7,7 +7,9 @@ import {
 	linkConstraints,
 	getReverseConstraint,
 } from '@balena/jellyfish-client-sdk';
-import { notifications, Icon, helpers } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import * as helpers from '../../services/helpers';
+import { Icon } from '../';
 import type {
 	Contract,
 	ContractSummary,

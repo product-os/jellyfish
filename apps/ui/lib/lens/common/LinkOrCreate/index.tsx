@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Flex, Button } from 'rendition';
 import * as _ from 'lodash';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
 import { actionCreators, selectors } from '../../../core';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { BoundActionCreators } from '../../../types';

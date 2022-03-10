@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex, Txt, Img, useTheme } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../';
 // @ts-ignore
 import logoSrc from '../assets/images/support-logo.svg';
 import { useRouter } from '../hooks';

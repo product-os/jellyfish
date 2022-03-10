@@ -5,7 +5,8 @@ import isArray from 'lodash/isArray';
 import orderBy from 'lodash/orderBy';
 import type { Store } from 'redux';
 import { v4 as uuid } from 'uuid';
-import { helpers, FILE_PROXY_MESSAGE } from '@balena/jellyfish-ui-components';
+import { FILE_PROXY_MESSAGE } from '../../Timeline';
+import * as helpers from '../../../services/helpers';
 import { SET_CARDS, SET_CURRENT_USER, SET_GROUPS } from './action-types';
 import {
 	selectCardById,

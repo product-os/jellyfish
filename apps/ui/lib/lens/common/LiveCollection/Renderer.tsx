@@ -5,9 +5,10 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Box, FiltersView, Flex, FlexProps, SchemaSieve } from 'rendition';
+import { Box, FiltersView, Flex, SchemaSieve } from 'rendition';
 import { v4 as uuid } from 'uuid';
-import { notifications, helpers, Icon } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
