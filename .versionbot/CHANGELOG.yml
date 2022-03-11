@@ -1,4 +1,18 @@
 - commits:
+    - subject: Move jellyfish-ui-components code to ui
+      hash: 371227e1a60224d54b8b5847b01e189d6181ee19
+      body: >
+        Separate module for ui components is not needed any more, since we
+        killed livechat service. And the code there is jellyfish specific.
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 48.3.0
+  title: "'Move UI components'"
+  date: 2022-03-11T11:09:37.828Z
+- commits:
     - subject: "UI: Add heuristic to improve performance of OmniSearch"
       hash: 0b78129a5b2bf53bd9f4f121b062c6f4672c4504
       body: >
