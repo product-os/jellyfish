@@ -1,7 +1,7 @@
 import React from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 import { MemoryRouter as Router, Route } from 'react-router-dom';
-import { useSetup } from '@balena/jellyfish-ui-components';
+import { useSetup } from '../../SetupProvider';
 import {
 	IndexRoute,
 	ChatRoute,

@@ -2,7 +2,7 @@ import { getPromiseResolver, getWrapper } from '../../../test/ui-setup';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
-import { notifications } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
 import VideoLink from './VideoLink';
 
 const sandbox = sinon.createSandbox();

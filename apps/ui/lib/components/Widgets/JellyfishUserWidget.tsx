@@ -2,7 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import { UiOption } from 'rendition/dist/components/Renderer/widgets/ui-options';
 import { JsonTypes } from 'rendition/dist/components/Renderer/types';
-import { CardLoader, helpers, Link } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
+import { CardLoader, Link } from '../';
 
 // This widget fetches the user corresponding to the id or slug specified in the value
 // and renders a link to the user, displaying the username.

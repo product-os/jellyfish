@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { ErrorBoundary } from '@balena/jellyfish-ui-components';
+import { ErrorBoundary } from '.';
 import Splash from './Splash';
 
 const SafeLazy = ({ children }) => {

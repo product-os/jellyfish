@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as redux from 'redux';
-import { withSetup } from '@balena/jellyfish-ui-components';
+import { withSetup } from '../../../components/SetupProvider';
 import { actionCreators, selectors } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
 

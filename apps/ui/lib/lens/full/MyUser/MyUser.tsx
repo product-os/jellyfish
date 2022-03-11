@@ -16,12 +16,9 @@ import {
 	TextWithCopy,
 } from 'rendition';
 import * as skhema from 'skhema';
-import {
-	helpers,
-	timezones,
-	Icon,
-	UserAvatar,
-} from '@balena/jellyfish-ui-components';
+import { Icon, UserAvatar } from '../../../components';
+import * as timezones from '../../../services/timezones';
+import * as helpers from '../../../services/helpers';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import CardLayout from '../../../layouts/CardLayout';
 

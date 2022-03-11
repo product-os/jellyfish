@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Box, Flex, Txt } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../../components';
 import type {
 	Contract,
 	TypeContract,

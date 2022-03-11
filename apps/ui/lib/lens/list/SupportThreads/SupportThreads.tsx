@@ -8,10 +8,10 @@ import { Box, Tab, Tabs } from 'rendition';
 import {
 	CardChatSummary,
 	Column,
-	helpers,
 	Icon,
 	InfiniteList,
-} from '@balena/jellyfish-ui-components';
+} from '../../../components';
+import * as helpers from '../../../services/helpers';
 
 const StyledTabs = styled(Tabs)`
 	flex: 1 > [role= 'tabpanel' ] {

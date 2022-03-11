@@ -5,11 +5,9 @@ import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
 import { Box, Button, Flex, Heading, Form } from 'rendition';
-import {
-	notifications,
-	FreeFieldForm,
-	helpers,
-} from '@balena/jellyfish-ui-components';
+import { FreeFieldForm } from '../../../components';
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
 import * as skhema from 'skhema';
 import { analytics, sdk } from '../../../core';

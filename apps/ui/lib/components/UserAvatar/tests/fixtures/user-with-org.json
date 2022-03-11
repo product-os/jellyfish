@@ -1,0 +1,59 @@
+{
+  "id": "8c20804f-f11e-44eb-a69e-d21de4c18444",
+  "data": {
+    "hash": "$2b$12$9uFeuGjg3uCrY770kZQ7L.StRLOkceibIQ6gIY5ei25RgR4PYvoyC",
+    "email": "test@jel.ly.fish",
+    "roles": [
+      "user-test"
+    ],
+    "status": {
+      "title": "Do Not Disturb",
+      "value": "DoNotDisturb"
+    },
+    "avatar": "https://via.placeholder.com/150",
+    "profile": {
+      "name": {
+        "last": "User",
+        "first": "Test"
+      },
+      "about": {}
+    }
+  },
+  "name": "Test User",
+  "slug": "user-jellyfish",
+  "tags": [],
+  "type": "user@1.0.0",
+  "links": {
+    "is member of": [
+      {
+        "id": "203eda41-d593-48cf-b4d1-0e72b6443508",
+        "data": {},
+        "name": "Balena",
+        "slug": "org-balena",
+        "tags": [],
+        "type": "org@1.0.0",
+        "links": {},
+        "active": true,
+        "markers": [],
+        "version": "1.0.0",
+        "requires": [],
+        "linked_at": {
+          "has member": "2020-10-20T02:25:53.741Z"
+        },
+        "created_at": "2020-10-20T02:25:51.508Z",
+        "updated_at": null,
+        "capabilities": []
+      }
+    ]
+  },
+  "active": true,
+  "markers": [],
+  "version": "1.0.0",
+  "requires": [],
+  "linked_at": {
+    "is member of": "2020-10-20T02:25:53.741Z"
+  },
+  "created_at": "2020-10-20T02:25:53.172Z",
+  "updated_at": "2020-10-21T07:01:16.349Z",
+  "capabilities": []
+}

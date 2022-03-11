@@ -1,7 +1,8 @@
 import React from 'react';
 import _ from 'lodash';
 import { Input } from 'rendition';
-import { notifications, Icon } from '@balena/jellyfish-ui-components';
+import * as notifications from '../../../services/notifications';
+import { Icon } from '../../';
 import {
 	AuthCard,
 	AuthHeading,

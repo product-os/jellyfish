@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withSetup } from '@balena/jellyfish-ui-components';
+import { withSetup } from '../SetupProvider';
 import { selectors } from '../../core';
 import { AutoCompleteCardSelect as AutoCompleteCardSelectInner } from './AutoCompleteCardSelect';
 

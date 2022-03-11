@@ -2,13 +2,9 @@ import _ from 'lodash';
 import * as React from 'react';
 import { Box, Button, Txt, Badge } from 'rendition';
 import styled from 'styled-components';
-import {
-	ColorHashPill,
-	formatCurrency,
-	formatDateLocal,
-	helpers,
-	Link,
-} from '@balena/jellyfish-ui-components';
+import { ColorHashPill, Link } from '../../../components';
+import * as helpers from '../../../services/helpers';
+import { formatCurrency, formatDateLocal } from '../../../services/formatters';
 import SelectWrapper from './SelectWrapper';
 import ContractTable from '../Table/ContractTable';
 

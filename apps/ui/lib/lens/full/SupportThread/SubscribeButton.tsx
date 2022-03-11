@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Icon, PlainButton, useSetup } from '@balena/jellyfish-ui-components';
+import { Icon, PlainButton, useSetup } from '../../../components';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,

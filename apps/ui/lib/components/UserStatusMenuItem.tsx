@@ -1,7 +1,8 @@
 import React from 'react';
 import { Box, Flex, Txt } from 'rendition';
 import _ from 'lodash';
-import { ActionButton, Icon, helpers } from '@balena/jellyfish-ui-components';
+import { ActionButton, Icon } from '.';
+import * as helpers from '../services/helpers';
 
 export default function UserStatusMenuItem({ user, actions, types, ...rest }) {
 	const userType = _.find(types, {

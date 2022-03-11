@@ -1,9 +1,7 @@
 import React from 'react';
 import { Box, Img } from 'rendition';
 import styled from 'styled-components';
-import { helpers } from '@balena/jellyfish-ui-components';
-
-const { px } = helpers;
+import { px } from '../services/helpers';
 
 const SplashWrapper = styled(Box)`
 	width: 100%;

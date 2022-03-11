@@ -4,7 +4,7 @@ import _ from 'lodash';
 import classnames from 'classnames';
 import { Box, Input, Txt } from 'rendition';
 import styled from 'styled-components';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../';
 
 const TipTxt = styled(Txt)`
 	opacity: 0;

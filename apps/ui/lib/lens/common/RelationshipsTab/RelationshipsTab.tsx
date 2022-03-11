@@ -3,7 +3,8 @@ import _ from 'lodash';
 import pluralize from 'pluralize';
 import { Tab, Txt, Select, TxtProps } from 'rendition';
 import styled from 'styled-components';
-import { helpers, useDebounce } from '@balena/jellyfish-ui-components';
+import useDebounce from '../../../hooks/use-debounce';
+import * as helpers from '../../../services/helpers';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import type {
 	Contract,

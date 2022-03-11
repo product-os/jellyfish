@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { selectors } from '../core';
-import { slugify } from '@balena/jellyfish-ui-components/build/services/helpers';
+import { slugify } from '../services/helpers';
 
 export const LOGIN_AS_SEARCH_PARAM_NAME = 'loginAs';
 

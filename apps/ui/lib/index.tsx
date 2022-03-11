@@ -12,14 +12,10 @@ import {
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { createGlobalStyle } from 'styled-components';
-import {
-	AutoCompleteWidget,
-	DocumentVisibilityProvider,
-	ErrorBoundary,
-	helpers,
-	ResponsiveProvider,
-	SetupProvider,
-} from '@balena/jellyfish-ui-components';
+import { AutoCompleteWidget, ErrorBoundary, SetupProvider } from './components';
+import { ResponsiveProvider } from './hooks/use-responsive-context';
+import { DocumentVisibilityProvider } from './hooks/use-document-visibility';
+import * as helpers from './services/helpers';
 import { analytics, errorReporter, sdk, persistor, store } from './core';
 import history from './services/history';
 import JellyfishUI from './JellyfishUI';

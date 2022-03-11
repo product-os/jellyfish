@@ -2,7 +2,7 @@ import queryString from 'query-string';
 import React from 'react';
 import { Box } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../';
 
 interface OauthState {
 	authError: Error | null;

@@ -1,7 +1,7 @@
 import Bluebird from 'bluebird';
 import React, { useState, useCallback } from 'react';
 import { Button } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../../components';
 
 const markMessagesAsRead = (sdk, inboxData, user, groupNames) => {
 	return Bluebird.map(

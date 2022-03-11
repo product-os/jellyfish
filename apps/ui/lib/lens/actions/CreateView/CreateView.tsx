@@ -4,12 +4,10 @@ import skhema from 'skhema';
 import { Redirect } from 'react-router-dom';
 import { Box, Flex, Heading, Input, Txt } from 'rendition';
 import styled from 'styled-components';
-import {
-	notifications,
-	helpers,
-	Icon,
-	UserAvatar,
-} from '@balena/jellyfish-ui-components';
+import { Icon, UserAvatar } from '../../../components';
+
+import * as notifications from '../../../services/notifications';
+import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
 import { analytics } from '../../../core';
 

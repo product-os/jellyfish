@@ -6,7 +6,7 @@ import skhema from 'skhema';
 import AsyncSelect from 'react-select/async';
 import { Badge, Flex, Txt } from 'rendition';
 import debounce from 'debounce-promise';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 
 const preventClickPropagation = (event: any) => {

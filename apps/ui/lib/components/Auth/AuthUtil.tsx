@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Flex, Heading, Input, Button, Img, Card } from 'rendition';
-import { helpers, Link } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
+import { Link } from '..';
 
 const StyledCard = styled(Card)`
 	@media (max-width: ${(props) => {

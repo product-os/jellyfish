@@ -3,7 +3,8 @@ import { Flex, useTheme } from 'rendition';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useStore } from 'react-redux';
-import { helpers, useSetup } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../services/helpers';
+import { useSetup } from '../../SetupProvider';
 import { Task } from './Task';
 import {
 	useActions,

@@ -14,10 +14,10 @@ import createCache from '@emotion/cache';
 // Note: importing CardLoaderContext from the root of
 // jellyfish-ui-components results in errors for the 'emotion'
 // package. So instead we import directly from the CardLoader file.
-import { CardLoaderContext } from '@balena/jellyfish-ui-components/build/CardLoader';
+import { CardLoaderContext } from '../lib/components/CardLoader';
 
 import Adapter from 'enzyme-adapter-react-16';
-import { SetupProvider } from '@balena/jellyfish-ui-components';
+import { SetupProvider } from '../lib/components/SetupProvider';
 import type {
 	Contract,
 	ContractDefinition,
@@ -54,6 +54,8 @@ global.location = Location;
 
 // eslint-disable-next-line no-undef
 window.HTMLElement.prototype.scrollIntoView = _.noop;
+
+Element.prototype.scrollTo = _.noop;
 
 export const flushPromises = () => {
 	return new Promise((resolve) => {
@@ -109,7 +111,7 @@ export const getWrapper = (
 	setupProps = {
 		errorReporter: {
 			reportException: (error: Error) => {
-				throw error;
+				console.error(error);
 			},
 		},
 	},

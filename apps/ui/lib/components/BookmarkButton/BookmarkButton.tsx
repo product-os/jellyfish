@@ -1,9 +1,6 @@
 import React from 'react';
-import {
-	notifications,
-	Icon,
-	PlainButton,
-} from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import { Icon, PlainButton } from '../';
 import _ from 'lodash';
 
 export const BookmarkButton = ({ user, card, sdk, ...rest }) => {

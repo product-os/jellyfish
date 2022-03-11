@@ -12,7 +12,7 @@ import {
 	EventsContainer,
 	Icon,
 	withDefaultGetActorHref,
-} from '@balena/jellyfish-ui-components';
+} from '../../../components';
 import { Box, Txt, Img, Flex } from 'rendition';
 import { isSameDay, isSameWeek, sub } from 'date-fns';
 import { selectors, sdk } from '../../../core';

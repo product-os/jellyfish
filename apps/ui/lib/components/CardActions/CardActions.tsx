@@ -2,14 +2,9 @@ import copy from 'copy-to-clipboard';
 import React from 'react';
 import { Flex, Modal } from 'rendition';
 import { supportsLink } from '@balena/jellyfish-client-sdk';
-import {
-	ActionLink,
-	notifications,
-	ContextMenu,
-	PlainButton,
-	Icon,
-	helpers,
-} from '@balena/jellyfish-ui-components';
+import * as notifications from '../../services/notifications';
+import * as helpers from '../../services/helpers';
+import { ActionLink, ContextMenu, PlainButton, Icon } from '../';
 import CardLinker from '../CardLinker';
 import CardOwner from '../CardOwner';
 import VideoLink from '../VideoLink';

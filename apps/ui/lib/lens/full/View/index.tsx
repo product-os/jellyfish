@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-import { withResponsiveContext } from '@balena/jellyfish-ui-components';
+import { withResponsiveContext } from '../../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
 

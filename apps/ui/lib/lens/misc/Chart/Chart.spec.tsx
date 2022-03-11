@@ -3,7 +3,7 @@ import _ from 'lodash';
 import React from 'react';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
-import { SetupProvider } from '@balena/jellyfish-ui-components';
+import { SetupProvider } from '../../../components';
 import { strict as assert } from 'assert';
 import { Chart, stringifySettings } from './Chart';
 

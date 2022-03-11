@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { UiOption } from 'rendition/dist/components/Renderer/widgets/ui-options';
 import { JsonTypes } from 'rendition/dist/components/Renderer/types';
-import { JellyfishLink as Link } from '@balena/jellyfish-ui-components';
+import { JellyfishLink as Link } from '../';
 
 // This widget wraps the JellyfishLink component.
 //

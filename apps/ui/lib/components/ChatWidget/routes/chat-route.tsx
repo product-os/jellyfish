@@ -3,7 +3,7 @@ import noop from 'lodash/noop';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box } from 'rendition';
-import { Timeline, useSetup } from '@balena/jellyfish-ui-components';
+import { Timeline, useSetup } from '../../';
 import { useActions, useRouter, useTask } from '../hooks';
 import {
 	selectCurrentUser,

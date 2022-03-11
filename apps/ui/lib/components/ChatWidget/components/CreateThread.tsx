@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Flex, Input } from 'rendition';
 import styled from 'styled-components';
-import { MessageInput, useSetup } from '@balena/jellyfish-ui-components';
+import { MessageInput, useSetup } from '../../';
 import { TaskButton } from './TaskButton';
 import { useActions, useTask } from '../hooks';
 import { selectCurrentUser } from '../store/selectors';

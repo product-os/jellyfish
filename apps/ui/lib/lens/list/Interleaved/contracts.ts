@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
-import { withDefaultGetActorHref } from '@balena/jellyfish-ui-components';
+import { withDefaultGetActorHref } from '../../../components';
 import { selectors } from '../../../core';
 import { withChannelContext } from '../../../hooks';
 import { LensContract, LensRendererProps } from '../../../types';

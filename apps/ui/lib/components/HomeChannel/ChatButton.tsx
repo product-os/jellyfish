@@ -4,7 +4,7 @@ import { v4 as uuid } from 'uuid';
 import uniq from 'lodash/uniq';
 import { Badge, Box, Button } from 'rendition';
 import styled from 'styled-components';
-import { Icon, useSetup } from '@balena/jellyfish-ui-components';
+import { Icon, useSetup } from '../';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type { UserContract } from '@balena/jellyfish-types/build/core';
 import { selectors } from '../../core';

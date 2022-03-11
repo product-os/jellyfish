@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardLoaderContext } from '@balena/jellyfish-ui-components';
+import { CardLoaderContext } from '../../CardLoader';
 import { selectCardById } from '../store/selectors';
 import { useActions } from '../hooks';
 import type { Contract } from '@balena/jellyfish-types/build/core';

@@ -5,7 +5,7 @@ import type {
 	LoopContract,
 } from '@balena/jellyfish-types/build/core';
 import { HighlightedName, Select, RenditionSystemProps } from 'rendition';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../services/helpers';
 
 interface DefaultOption {
 	name: string;

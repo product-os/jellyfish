@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { Box, BoxProps, Button, ButtonGroup } from 'rendition';
-import { Icon } from '@balena/jellyfish-ui-components';
+import { Icon } from '../../../../components';
 import { LensContract } from '../../../../types';
 
 // HACK: set min height to the height of a button group

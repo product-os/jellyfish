@@ -17,7 +17,7 @@ import { SortDirButton } from './SortDirButton';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type { TypeContract } from '@balena/jellyfish-types/build/core';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../../../services/helpers';
 import {
 	getLinkedContractDataFilterKey,
 	compareFilterFields,

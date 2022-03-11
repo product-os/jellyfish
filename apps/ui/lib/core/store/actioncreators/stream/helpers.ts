@@ -1,8 +1,8 @@
-import { helpers } from '@balena/jellyfish-ui-components';
+import * as helpers from '../../../../services/helpers';
 import _ from 'lodash';
 import { selectors } from '..';
 import { mentionsUser } from '../../helpers';
-import { createNotification } from '../../../../services/notifications';
+import { createNotification } from '../../../../services/native-notifications';
 import { push } from 'connected-react-router';
 
 const notifySchema = [

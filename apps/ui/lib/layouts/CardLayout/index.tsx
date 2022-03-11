@@ -1,12 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Flex, Heading, Txt } from 'rendition';
-import {
-	CloseButton,
-	Column,
-	LinksProvider,
-} from '@balena/jellyfish-ui-components';
+import { Flex, Txt } from 'rendition';
+import { CloseButton, Column, LinksProvider } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors, sdk } from '../../core';

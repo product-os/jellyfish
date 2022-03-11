@@ -5,6 +5,16 @@ import type {
 } from '@balena/jellyfish-types/build/core';
 import React from 'react';
 
+export type Channel = Contract<{
+	target: string;
+}>;
+
+export interface JSONPatch {
+	op: 'add' | 'remove' | 'replace';
+	path: string[] | string;
+	value: any;
+}
+
 // Utility type that allows you to change the return type of a function
 // From https://stackoverflow.com/a/50014868
 export type ReplaceReturnType<T extends (...a: any) => any, TNewReturn> = (
