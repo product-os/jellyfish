@@ -1,4 +1,50 @@
 - commits:
+    - subject: "UI: Use function as a child component for LiveCollection"
+      hash: 760073f0858d2672b90df0c4140950eaaff73a6d
+      body: |
+        This change means the props passed to children are much less ambiguous
+        and we can provide better type safety for child components
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Ensure correct lens is selected when changing relationship tabs"
+      hash: 1524b69306e958976cdf1c52234d64c99c32910b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove debug log from milestone graph"
+      hash: a6bc7909aed92d8ee75ea201f119a9f77c2dd43f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused imports from RelationshipsTab"
+      hash: b62b19ae608b1852369143531b05f02427d46112
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.3.4
+  title: "'Lucianbuzzo/lens selection'"
+  date: 2022-03-11T16:01:10.375Z
+- commits:
     - subject: "UI: Fix bug where data doesn't reload when switching between tabs"
       hash: 89510ecea62d1d782090982eeefcc5393a692c4f
       body: ""
