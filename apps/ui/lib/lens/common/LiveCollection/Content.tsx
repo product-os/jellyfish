@@ -53,7 +53,8 @@ export default class Content extends React.Component<ContentProps, any> {
 			hideFooter,
 		} = this.props;
 
-		const activeLens = lens || lenses![0];
+		const activeLens =
+			(lens && _.find(lenses, { slug: lens.slug })) || lenses![0];
 
 		const sortedTail = sortTail(
 			results || null,

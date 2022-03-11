@@ -85,8 +85,11 @@ export default class LiveCollection extends React.Component<Props, State> {
 			return;
 		}
 
-		// If there is no active lens set, pick the first of the lens options, as that is what will be used to render the results.
-		const activeLens = lens || _.first(lenses);
+		// If there is no active lens set, or if the active lens isn't in
+		// the list of available lenses, pick the first of the lens
+		// options, as that is what will be used to render the results.
+		const activeLens =
+			(lens && _.find(lenses, { slug: lens.slug })) || _.first(lenses);
 
 		const options = {
 			...this.props.options,

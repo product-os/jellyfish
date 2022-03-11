@@ -21,7 +21,8 @@ export const LensSelection = ({
 	setLens,
 	...rest
 }: LensSelectionProps) => {
-	const activeLens = lens || lenses[0];
+	const activeLens =
+		(lens && _.find(lenses, { slug: lens.slug })) || lenses![0];
 	return (
 		<Box {...rest} minHeight={MIN_HEIGHT}>
 			{lenses.length > 1 && (
