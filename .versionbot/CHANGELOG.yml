@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 4c02bfc86ff26fee485e13c2e3eeba91dd10fedb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.3.5
+  title: "'Update internal-patch'"
+  date: 2022-03-11T16:43:22.650Z
+- commits:
     - subject: "UI: Use function as a child component for LiveCollection"
       hash: 760073f0858d2672b90df0c4140950eaaff73a6d
       body: |
