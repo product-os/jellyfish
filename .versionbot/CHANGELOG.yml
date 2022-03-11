@@ -1,4 +1,16 @@
 - commits:
+    - subject: Remove unused libraries.ts file
+      hash: 577766a729007c14509b9f27ce6c81a3caacb073
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 48.4.0
+  title: "'Remove unused libraries.ts file'"
+  date: 2022-03-11T17:28:53.061Z
+- commits:
     - subject: Update internal-patch
       hash: 4c02bfc86ff26fee485e13c2e3eeba91dd10fedb
       body: ""
