@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 18ada72be6102df7c948513f70ffa2af9cb36549
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.3.1
+  title: "'Update internal-patch'"
+  date: 2022-03-11T11:48:34.891Z
+- commits:
     - subject: Move jellyfish-ui-components code to ui
       hash: 371227e1a60224d54b8b5847b01e189d6181ee19
       body: >
