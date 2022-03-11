@@ -14,6 +14,7 @@ import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators } from '../../../core';
 import Segment from '../Segment';
+import { sdk } from '../../../core/sdk';
 
 const TabTitleSelect = styled(Select)`
 	input {
@@ -84,27 +85,16 @@ export interface OwnProps {
 	channel: ChannelContract;
 }
 
-export interface DispatchProps {
-	actions: BoundActionCreators<
-		Pick<
-			typeof actionCreators,
-			'loadViewData' | 'addChannel' | 'getLinks' | 'queryAPI'
-		>
-	>;
-}
-
 export interface StateProps {
 	types: TypeContract[];
 	viewData: any;
 }
 
-type Props = StateProps & DispatchProps & OwnProps;
+type Props = StateProps & OwnProps;
 
 export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	viewData,
 	card,
-	types,
-	actions,
 	channel,
 }) => {
 	const [activeRelationship, setActiveRelationship] =
@@ -198,7 +188,63 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 				})
 				.concat(true as JSONSchema),
 		};
-		actions.loadViewData(query, { limit: 1, viewId: getViewId(card.id) });
+
+		Promise.all(
+			relationships.map(async (relationship) => {
+				const schema = {
+					description: `Fetch all contracts linked to ${card.slug}`,
+					type: 'object',
+					required: ['id', 'type'],
+					properties: {
+						id: {
+							const: card.id,
+						},
+					},
+					$$links: {
+						[relationship.link]: {
+							type: 'object',
+							required: ['type'],
+							additionalProperties: false,
+							properties:
+								relationship.type === '*'
+									? {}
+									: {
+											type: {
+												const: `${relationship.type}@1.0.0`,
+											},
+									  },
+						},
+					},
+				} as JSONSchema;
+
+				const [result] = await sdk.query(schema, { limit: 1 });
+
+				return {
+					...relationship,
+					count:
+						result && result.links ? result.links[relationship.link].length : 0,
+				};
+			}),
+		)
+			.then((newRelationships) => {
+				setRelationships(
+					_.orderBy(
+						newRelationships,
+						['count', 'type', 'title'],
+						['desc', 'asc', 'asc'],
+					),
+				);
+				if (activeRelationship) {
+					const newActiveRelationship = _.find<LinkRelationship>(
+						newRelationships,
+						_.pick(activeRelationship, 'type', 'link', 'title'),
+					);
+					if (newActiveRelationship) {
+						setActiveRelationship(newActiveRelationship);
+					}
+				}
+			})
+			.catch((error) => console.error(error));
 	}, []);
 
 	return (
