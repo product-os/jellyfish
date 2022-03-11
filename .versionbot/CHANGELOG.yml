@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Optimize query for number of linked contracts"
+      hash: da9e3ed0d589a89301f619bc819d9d50a5f87fbd
+      body: |
+        When loading relationship tabs, the UI would previously make a single
+        request for all linked contracts. This approach is very expensive and on
+        our production system would consistently time out for contract with more
+        than a handful of relationships. This change splits the query up into
+        a single request per relationship, which is much more performant and
+        significantly less memory consuming on the database.
+        This change also fixes an issue where the count would be incorrect if
+        the same link verb is used for multiple contract types.
+        Ideally we resolve this issue in the compiler, but for now this is
+        a sane patch.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.3.2
+  title: "'UI: Optimize query for number of linked contracts'"
+  date: 2022-03-11T12:39:21.564Z
+- commits:
     - subject: Update internal-patch
       hash: 18ada72be6102df7c948513f70ffa2af9cb36549
       body: ""
