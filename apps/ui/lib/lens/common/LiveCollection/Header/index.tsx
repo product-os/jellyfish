@@ -30,7 +30,7 @@ interface HeaderProps {
 	filters: JSONSchema7[];
 	isMobile: boolean;
 	lens: LensContract | null;
-	lenses?: LensContract[];
+	lenses: LensContract[];
 	onSortOptionsChange: (sortOptions: {
 		sortBy?: string;
 		sortDir?: 'desc' | 'asc';

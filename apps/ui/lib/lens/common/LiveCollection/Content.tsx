@@ -22,9 +22,8 @@ const sortTail = (
 
 interface ContentProps {
 	lens: LensContract | null;
-	// TS-TODO: These are always provided by the LiveCollection component, type accordingly
-	lenses?: LensContract[];
-	results?: null | Contract[];
+	lenses: LensContract[];
+	results: null | Contract[];
 	channel: ChannelContract;
 	tailTypes: TypeContract[];
 	pageOptions: {
@@ -34,8 +33,8 @@ interface ContentProps {
 		sortBy: string | string[];
 		sortDir: 'asc' | 'desc';
 	};
-	nextPage?: any;
-	hasNextPage?: boolean;
+	nextPage: () => Promise<any>;
+	hasNextPage: boolean;
 	hideFooter: boolean;
 }
 
@@ -54,10 +53,10 @@ export default class Content extends React.Component<ContentProps, any> {
 		} = this.props;
 
 		const activeLens =
-			(lens && _.find(lenses, { slug: lens.slug })) || lenses![0];
+			(lens && _.find(lenses, { slug: lens.slug })) || lenses[0];
 
 		const sortedTail = sortTail(
-			results || null,
+			results,
 			pageOptions.sortBy,
 			pageOptions.sortDir,
 		);
