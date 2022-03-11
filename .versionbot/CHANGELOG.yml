@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix bug where data doesn't reload when switching between tabs"
+      hash: 89510ecea62d1d782090982eeefcc5393a692c4f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.3.3
+  title: "'UI: Fix bug where data doesn't reload when switching between tabs'"
+  date: 2022-03-11T13:48:31.225Z
+- commits:
     - subject: "UI: Optimize query for number of linked contracts"
       hash: da9e3ed0d589a89301f619bc819d9d50a5f87fbd
       body: |
