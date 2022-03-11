@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
+import { v4 as uuid } from 'uuid';
 import { Box, Flex } from 'rendition';
 import { withSetup } from '../../components/SetupProvider';
 import * as helpers from '../../services/helpers';
@@ -100,6 +101,7 @@ class Segment extends React.Component<Props, State> {
 		}
 
 		const query = {
+			$id: uuid(),
 			$$links: {
 				[inverseDefinition.name]: {
 					type: 'object',
@@ -163,6 +165,8 @@ class Segment extends React.Component<Props, State> {
 				>
 					{!!query && (
 						<LiveCollection
+							// Use a key here to force a remount if the query changes
+							key={(query as any).$id}
 							hideFooter
 							channel={channel}
 							query={query}
