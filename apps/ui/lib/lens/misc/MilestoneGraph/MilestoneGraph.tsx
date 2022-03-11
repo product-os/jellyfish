@@ -34,7 +34,7 @@ export default class MilestoneGraph extends React.Component<Props> {
 				},
 			};
 		});
-		console.log(processedContracts);
+
 		return (
 			<Flex justifyContent="center" py={2}>
 				<ContractGraph contracts={processedContracts} />

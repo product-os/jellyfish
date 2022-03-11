@@ -85,8 +85,11 @@ export default class LiveCollection extends React.Component<Props, State> {
 			return;
 		}
 
-		// If there is no active lens set, pick the first of the lens options, as that is what will be used to render the results.
-		const activeLens = lens || _.first(lenses);
+		// If there is no active lens set, or if the active lens isn't in
+		// the list of available lenses, pick the first of the lens
+		// options, as that is what will be used to render the results.
+		const activeLens =
+			(lens && _.find(lenses, { slug: lens.slug })) || _.first(lenses);
 
 		const options = {
 			...this.props.options,
@@ -167,22 +170,15 @@ export default class LiveCollection extends React.Component<Props, State> {
 		const { results, lenses } = this.state;
 		const { children } = this.props;
 
-		const hasNextPage = this.cursor?.hasNextPage();
+		const hasNextPage = !!this.cursor?.hasNextPage();
 
-		if (children) {
-			const childrenWithProps = React.Children.map(children, (child) => {
-				if (React.isValidElement(child)) {
-					return React.cloneElement(child, {
-						results,
-						nextPage: this.nextPage,
-						hasNextPage,
-						lenses,
-					});
-				}
-				return child;
+		if (children && typeof children === 'function') {
+			return children({
+				results,
+				nextPage: this.nextPage,
+				hasNextPage,
+				lenses,
 			});
-
-			return <>{childrenWithProps}</>;
 		}
 
 		return null;

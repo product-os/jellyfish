@@ -11,8 +11,7 @@ import type {
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
-import type { BoundActionCreators, ChannelContract } from '../../../types';
-import { actionCreators } from '../../../core';
+import type { ChannelContract } from '../../../types';
 import Segment from '../Segment';
 import { sdk } from '../../../core/sdk';
 

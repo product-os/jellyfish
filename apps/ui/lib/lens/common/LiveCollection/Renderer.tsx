@@ -822,36 +822,48 @@ export default class ViewRenderer extends React.Component<Props, State> {
 						options={options}
 						onResultsChange={this.props.onResultsChange}
 					>
-						<Header
-							isMobile={isMobile}
-							setLens={(
-								event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-							) => {
-								this.setLens(event.currentTarget.dataset.slug);
-							}}
-							lens={lens}
-							filters={filters}
-							tailTypes={tailTypes || []}
-							allTypes={types}
-							updateFilters={this.updateFilters}
-							saveView={this.saveView}
-							searchFilter={searchFilter}
-							searchTerm={searchTerm || ''}
-							updateSearch={(event) => {
-								this.updateSearch(event.target.value);
-							}}
-							updateFiltersFromSummary={this.updateFiltersFromSummary}
-							pageOptions={{ sortBy: options.sortBy, sortDir: options.sortDir }}
-							onSortOptionsChange={this.handleSortOptionsChange}
-						/>
+						{({ results, nextPage, hasNextPage, lenses }) => (
+							<>
+								<Header
+									lenses={lenses}
+									isMobile={isMobile}
+									setLens={(
+										event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+									) => {
+										this.setLens(event.currentTarget.dataset.slug);
+									}}
+									lens={lens}
+									filters={filters}
+									tailTypes={tailTypes || []}
+									allTypes={types}
+									updateFilters={this.updateFilters}
+									saveView={this.saveView}
+									searchFilter={searchFilter}
+									searchTerm={searchTerm || ''}
+									updateSearch={(event) => {
+										this.updateSearch(event.target.value);
+									}}
+									updateFiltersFromSummary={this.updateFiltersFromSummary}
+									pageOptions={{
+										sortBy: options.sortBy,
+										sortDir: options.sortDir,
+									}}
+									onSortOptionsChange={this.handleSortOptionsChange}
+								/>
 
-						<Content
-							lens={lens}
-							channel={channel}
-							tailTypes={tailTypes || []}
-							pageOptions={options}
-							hideFooter={!!hideFooter}
-						/>
+								<Content
+									results={results}
+									nextPage={nextPage}
+									hasNextPage={hasNextPage}
+									lenses={lenses}
+									lens={lens}
+									channel={channel}
+									tailTypes={tailTypes || []}
+									pageOptions={options}
+									hideFooter={!!hideFooter}
+								/>
+							</>
+						)}
 					</LiveCollection>
 				)}
 			</Flex>
