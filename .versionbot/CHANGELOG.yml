@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add links to secrets doc in readme
+      hash: e249f2283e7e4d96d2bb1d48b4b08d27aeec4a8c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.4.5
+  title: "'Add links to secrets doc in readme'"
+  date: 2022-03-12T09:24:57.065Z
+- commits:
     - subject: 🔄 Synced file(s) with product-os/secrets
       hash: 70824bf5d110b390fb0f14c3ebc758b604e6741e
       body: ""
