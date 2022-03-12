@@ -29,6 +29,7 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Running tests in compose**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests-in-compose.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
 	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
+	- [**Managing secrets**](https://github.com/product-os/secrets)
 - **Links**
 	- [**Production logs**](https://monitor.balena-cloud.com/explore?left=%5B%22now-3h%22,%22now%22,%22loki%22,%7B%22expr%22:%22%22,%22datasource%22:%22loki%22,%22refId%22:%22A%22%7D%5D&orgId=1)
 	- [**Sentry**](https://sentry.io/organizations/balena/issues/?project=1366139)
@@ -52,7 +53,8 @@ $ npm i
 Revealing secrets
 -----------------------
 We use [`git secret`](https://git-secret.io/) to safely share secrets used during testing and development.
-Contact someone on the Jellyfish team if you work at Balena and need access.
+Contact someone on the Jellyfish team if you work at Balena and need access. See [`product-os/secrets`](https://github.com/product-os/secrets)
+for more information on how secrets are managed.
 
 Once you have been given access, you can reveal secrets stored under `.balena/secrets` with:
 ```sh
