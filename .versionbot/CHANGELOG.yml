@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: a9559058bfe09c0969fbe4ed64aaae5b91a83aa2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.1
+  title: "'Update external-non-major'"
+  date: 2022-03-12T00:12:47.139Z
+- commits:
     - subject: Remove unused libraries.ts file
       hash: 577766a729007c14509b9f27ce6c81a3caacb073
       body: ""
