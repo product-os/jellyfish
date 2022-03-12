@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: eb0d68ab76fb467ae9b2fe2fd9675c9c53275dfd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.6
+  title: "'Update internal-patch'"
+  date: 2022-03-12T12:47:21.159Z
+- commits:
     - subject: Add links to secrets doc in readme
       hash: e249f2283e7e4d96d2bb1d48b4b08d27aeec4a8c
       body: ""
