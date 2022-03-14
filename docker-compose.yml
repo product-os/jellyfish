@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   postgres:
-    image: balena/open-balena-db:4.1.0
+    image: balena/open-balena-db:5.0.3
     restart: always
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U docker']
