@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: eb8753f02c873248fad0b89ab9e764ece0e3068f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.9
+  title: "'Update internal-patch'"
+  date: 2022-03-14T17:46:19.985Z
+- commits:
     - subject: "UI: Add heuristics to improve omnisearch performance"
       hash: b559b7182941f7c8a7d02703ae804f68189ffab3
       body: >
