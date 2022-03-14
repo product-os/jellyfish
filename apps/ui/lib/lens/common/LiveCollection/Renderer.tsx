@@ -759,15 +759,29 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		const { actions, card, query } = this.props;
 		const { searchFilter, eventSearchFilter } = this.state;
 
+		// Omnisearch runs a full text query over a large set of contracts, so we apply
+		// heuristics to make the query run faster. Firstly, we omit search in timelines.
+		// Secondly, the top level type enum is removed. We need to resolve the root cause
+		// of these slow queries and remove this heuristic.
+		// See: https://jel.ly.fish/pattern-omnisearch-causes-massive-db-memory-consumption-8022ce1
+		const isOmniSearch =
+			query.allOf && query.allOf[0] && query.allOf[0].$id === 'omnisearch';
+
 		const targetFilters = _.compact(filters);
-		const searchFilters = _.compact([eventSearchFilter, searchFilter]);
+		const searchFilters = _.compact([
+			isOmniSearch ? null : eventSearchFilter,
+			searchFilter,
+		]);
 		if (searchFilters.length === 1) {
 			targetFilters.push(searchFilters[0]);
 		} else if (searchFilters.length > 1) {
 			targetFilters.push({ anyOf: searchFilters });
 		}
 
-		const viewQuery = unifyQuery(clone(query), targetFilters);
+		const viewQuery = unifyQuery(
+			isOmniSearch ? { allOf: [] } : clone(query),
+			targetFilters,
+		);
 
 		const syntheticViewCard = createSyntheticViewCard(card, targetFilters);
 
