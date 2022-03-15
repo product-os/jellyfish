@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 2faa2a8b4e1621abd9499ef04d2eebbcef2bec8c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.14
+  title: "'Update internal-patch'"
+  date: 2022-03-15T02:31:41.127Z
+- commits:
     - subject: Fix localFS storage
       hash: 3f074afd3ebec7833ceecee8c25a045295e54163
       body: |
