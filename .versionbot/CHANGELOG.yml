@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix localFS storage
+      hash: 3f074afd3ebec7833ceecee8c25a045295e54163
+      body: |
+        Simplify and fix localFS storage implementation
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.4.13
+  title: "'Fix localFS storage'"
+  date: 2022-03-15T01:55:12.806Z
+- commits:
     - subject: Update internal-patch
       hash: 9964568da758f8050fa03c5f84f7457ab8bee7ad
       body: ""
