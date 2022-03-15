@@ -1,4 +1,23 @@
 - commits:
+    - subject: "CloudFormation: allow PostgreSQL 13 RDS instances."
+      hash: 3a9159a36d1e04fb06898fb5f31bcd6b41ebc790
+      body: |
+        Conditionally creates a DB parameter group for a specific
+        DB parameter group family.  This avoid conflicts when the database
+        is upgrading to a higher PostgreSQL version. The database
+        conditionally uses the parameter group that matches the
+        PostgreSQL version.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 48.4.15
+  title: "'CloudFormation: allow PostgreSQL 13 RDS instances.'"
+  date: 2022-03-15T05:41:36.601Z
+- commits:
     - subject: Update internal-patch
       hash: 2faa2a8b4e1621abd9499ef04d2eebbcef2bec8c
       body: ""
