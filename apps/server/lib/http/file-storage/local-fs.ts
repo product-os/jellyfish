@@ -1,49 +1,50 @@
-import Bluebird from 'bluebird';
-import fs from 'fs';
-import mkdirp from 'mkdirp-promise';
+import type { LogContext } from '@balena/jellyfish-logger';
+import { mkdir, readFile, writeFile } from 'fs/promises';
 import path from 'path';
 const ROOT = path.resolve(__dirname, '../../../..');
 
 export class LocalFS {
-	numberOfRetries = 1;
-	STORAGE_DIR = path.resolve(ROOT, '.tmp', 'jellyfish-files');
+	private numberOfRetries = 1;
+	private STORAGE_DIR = path.resolve(ROOT, '.tmp', 'jellyfish-files');
 
-	store(_context, scope, name, data) {
-		return mkdirp(path.join(this.STORAGE_DIR, scope)).then(() => {
-			return new Bluebird((resolve, reject) => {
-				fs.writeFile(path.join(this.STORAGE_DIR, scope, name), data, (err) => {
-					if (err) {
-						return reject(err);
-					}
+	public async store(
+		_context: LogContext,
+		scope: string,
+		fileName: string,
+		data: string,
+	) {
+		const dirPath = path.join(this.STORAGE_DIR, scope);
+		const filePath = path.join(dirPath, fileName);
 
-					return resolve();
-				});
-			});
+		return mkdir(dirPath, { recursive: true }).then(() => {
+			return writeFile(filePath, data);
 		});
 	}
 
-	retrieve(_context, scope, name, retries = 0) {
-		return new Bluebird((resolve, reject) => {
-			fs.readFile(path.join(this.STORAGE_DIR, scope, name), (err, data) => {
-				if (err) {
-					return reject(err);
+	public async retrieve(
+		context: LogContext,
+		scope: string,
+		name: string,
+		retries = 0,
+	) {
+		const pathFile = path.join(this.STORAGE_DIR, scope, name);
+
+		try {
+			return readFile(pathFile);
+		} catch (error: any) {
+			if (retries < this.numberOfRetries) {
+				return new Promise((resolve) => {
+					setTimeout(resolve, 100 + 100 * retries);
+				}).then(() => {
+					return this.retrieve(context, scope, name, retries + 1);
+				});
+			} else {
+				if (error.code === 'ENOENT') {
+					return null;
 				}
 
-				return resolve(data);
-			});
-		}).catch((err) => {
-			if (retries < this.numberOfRetries) {
-				// Progressively increase the delay the more retries are attempted
-				return Bluebird.delay(100 + 100 * retries).then(() => {
-					return this.retrieve(scope, name, retries + 1);
-				});
+				throw error;
 			}
-
-			if (err.code === 'ENOENT') {
-				return null;
-			}
-
-			throw err;
-		});
+		}
 	}
 }
