@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal deps
+      hash: 73601b238f9217c0c911b2a7cc413f22b72cae39
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.4.16
+  title: "'Bump internal deps'"
+  date: 2022-03-15T07:02:20.235Z
+- commits:
     - subject: "CloudFormation: allow PostgreSQL 13 RDS instances."
       hash: 3a9159a36d1e04fb06898fb5f31bcd6b41ebc790
       body: |
