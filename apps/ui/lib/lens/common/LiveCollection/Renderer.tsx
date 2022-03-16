@@ -757,7 +757,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 	loadViewWithFilters(filters) {
 		const { actions, card, query } = this.props;
-		const { searchFilter, eventSearchFilter } = this.state;
+		const { searchFilter } = this.state;
 
 		// Omnisearch runs a full text query over a large set of contracts, so we apply
 		// heuristics to make the query run faster. Firstly, we omit search in timelines.
@@ -768,10 +768,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			query.allOf && query.allOf[0] && query.allOf[0].$id === 'omnisearch';
 
 		const targetFilters = _.compact(filters);
-		const searchFilters = _.compact([
-			isOmniSearch ? null : eventSearchFilter,
-			searchFilter,
-		]);
+		const searchFilters = _.compact([searchFilter]);
 		if (searchFilters.length === 1) {
 			targetFilters.push(searchFilters[0]);
 		} else if (searchFilters.length > 1) {
