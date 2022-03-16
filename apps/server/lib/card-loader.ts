@@ -2,7 +2,7 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import { Kernel } from '@balena/jellyfish-core';
+import { Kernel } from 'autumndb';
 
 const logger = getLogger(__filename);
 

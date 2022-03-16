@@ -1,5 +1,5 @@
 import * as assert from '@balena/jellyfish-assert';
-import { errors as coreErrors } from '@balena/jellyfish-core';
+import { errors as coreErrors } from 'autumndb';
 import type {
 	Contract,
 	SessionContract,
