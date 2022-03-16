@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import * as core from '@balena/jellyfish-core';
+import * as core from 'autumndb';
 import { Producer, Consumer } from '@balena/jellyfish-queue';
 import {
 	Sync,

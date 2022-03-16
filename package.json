@@ -15,7 +15,7 @@
   "scripts": {
     "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps &&  npm run lint:server && npm run lint:ui",
     "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh deploy-templates/*.sh",
-    "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck",
+    "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck,autumndb",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
     "lint:server": "(cd apps/server && npm run lint)",
     "lint:ui": "(cd apps/ui && npm run lint)",
@@ -78,7 +78,6 @@
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^10.1.11",
     "@balena/jellyfish-config": "^2.0.3",
-    "@balena/jellyfish-core": "^16.0.13",
     "@balena/jellyfish-environment": "^9.1.3",
     "@balena/jellyfish-plugin-balena-api": "^2.0.54",
     "@balena/jellyfish-plugin-channels": "^2.0.55",
@@ -94,6 +93,7 @@
     "@balena/jellyfish-worker": "^20.0.2",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.19.2",
+    "autumndb": "^17.0.3",
     "ava": "^4.1.0",
     "aws-sdk": "^2.1092.0",
     "bluebird": "^3.7.2",

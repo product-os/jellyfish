@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from 'autumndb';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);

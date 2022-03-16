@@ -7,7 +7,7 @@ import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Producer } from '@balena/jellyfish-queue';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
-import type { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from 'autumndb';
 
 const logger = getLogger(__filename);
 

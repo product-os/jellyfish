@@ -8,7 +8,7 @@ import basicAuth from 'express-basic-auth';
 import * as prometheus from '@balena/socket-prometheus-metrics';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from 'autumndb';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires

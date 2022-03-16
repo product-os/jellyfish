@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import { Kernel, errors as coreErrors } from '@balena/jellyfish-core';
+import { Kernel, errors as coreErrors } from 'autumndb';
 
 const logger = getLogger(__filename);
 

@@ -5,7 +5,6 @@
     "lib/",
     "node_modules/@balena/jellyfish-action-library/build/**/*.js",
     "node_modules/@balena/jellyfish-assert/build/*.js",
-    "node_modules/@balena/jellyfish-core/build/**/*.js",
     "node_modules/@balena/jellyfish-environment/build/**/*.js",
     "node_modules/@balena/jellyfish-jellyscript/build/**/*.js",
     "node_modules/@balena/jellyfish-logger/build/**/*.js",
@@ -21,7 +20,8 @@
     "node_modules/@balena/jellyfish-plugin-github/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-typeform/build/**/*.js",
     "node_modules/@balena/jellyfish-plugin-outreach/build/**/*.js",
-    "node_modules/@balena/jellyfish-plugin-front/build/**/*.js"
+    "node_modules/@balena/jellyfish-plugin-front/build/**/*.js",
+    "node_modules/autumndb/build/**/*.js"
   ],
   "execMap": {
     "ts": "node -r ts-node/register"

@@ -10,7 +10,7 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import * as metrics from '@balena/jellyfish-metrics';
 import { v4 as uuidv4 } from 'uuid';
 import * as facades from './facades';
-import type { Kernel } from '@balena/jellyfish-core';
+import type { Kernel } from 'autumndb';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Producer } from '@balena/jellyfish-queue';
