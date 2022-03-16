@@ -1,4 +1,23 @@
 - commits:
+    - subject: "UI: Disable full text search in timelines"
+      hash: 8ab40a5c539130da9ea0e38b108f854be005946b
+      body: >
+        When using the search functionality, the default behaviour is to
+        additionally search within contract timeline for matching messages or
+        whispers.
+
+        This additional search appears to be causing huge memory consumption on the production database, so for the sake of platform stability, I'm disabling the behaviour until we can fix the root cause of the issue.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.4.20
+  title: "'UI: Disable full text search in timelines'"
+  date: 2022-03-16T10:55:23.537Z
+- commits:
     - subject: Update internal-patch
       hash: 7352117e6771cc7370f9aa44965b229ffb9ee994
       body: ""
