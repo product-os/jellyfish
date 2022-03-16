@@ -1,5 +1,28 @@
 - commits:
     - subject: Update internal-patch
+      hash: 591fdfee3888e3703fb3c4cf77dab89b1ddf6935
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Change jellyfish-core to autumndb
+      hash: 3eb3f1a9baa80a8e2ccc9f450b7361fca5e2d88c
+      body: |
+        The `@balena/jellyfish-core` package has been renamed to `autumndb`.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.4.22
+  title: "'Update internal-patch'"
+  date: 2022-03-16T19:18:59.570Z
+- commits:
+    - subject: Update internal-patch
       hash: d524527cb6cc86eb79a2779aafc3949d6b088884
       body: ""
       footer:
