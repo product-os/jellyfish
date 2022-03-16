@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: d524527cb6cc86eb79a2779aafc3949d6b088884
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.21
+  title: "'Update internal-patch'"
+  date: 2022-03-16T12:16:14.061Z
+- commits:
     - subject: "UI: Disable full text search in timelines"
       hash: 8ab40a5c539130da9ea0e38b108f854be005946b
       body: >
