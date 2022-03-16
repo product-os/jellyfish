@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 7352117e6771cc7370f9aa44965b229ffb9ee994
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.19
+  title: "'Update internal-patch'"
+  date: 2022-03-16T02:30:36.573Z
+- commits:
     - subject: Update prom/prometheus from v2.33.5 to v2.34.0
       hash: f40ad145ab939605602b28922723936250083a6c
       body: ""
