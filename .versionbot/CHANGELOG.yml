@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 8abb8a700c58f25407fdfe21bb11bc8cd8132551
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.25
+  title: "'Update internal-patch'"
+  date: 2022-03-18T16:02:44.751Z
+- commits:
     - subject: Bump internal deps
       hash: 8a59e8d41489c983494535c921d4a9d2f17ef732
       body: ""
