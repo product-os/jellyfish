@@ -635,7 +635,6 @@ export const actionCreators = {
 			const { target } = channel.data;
 			const user = selectors.getCurrentUser(getState());
 
-			console.log({ target });
 			const query = actionCreators.createChannelQuery(target, user);
 
 			const stream = actionCreators.getStream(
