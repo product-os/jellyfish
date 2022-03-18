@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal deps
+      hash: 8a59e8d41489c983494535c921d4a9d2f17ef732
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.4.24
+  title: "'Bump internal deps'"
+  date: 2022-03-18T00:40:04.841Z
+- commits:
     - subject: Update grafana/grafana from 8.4.3 to 8.4.4
       hash: abc35ac1523bb175561cd3293b5aced0045a1092
       body: ""
