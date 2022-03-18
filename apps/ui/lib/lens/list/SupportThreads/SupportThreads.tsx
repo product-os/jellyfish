@@ -245,9 +245,10 @@ export default class SupportThreads extends React.Component<any, any> {
 	}
 
 	render() {
-		const threadTargets = _.map(this.props.channels, 'data.target');
-
 		const { segments } = this.state;
+		const { hasNextPage } = this.props;
+
+		const threadTargets = _.map(this.props.channels, 'data.target');
 
 		return (
 			<Column data-test={`lens--${SLUG}`} overflowY>
@@ -266,7 +267,9 @@ export default class SupportThreads extends React.Component<any, any> {
 						return (
 							<Tab
 								key={segment.name}
-								title={`${segment.name} (${segment.cards.length})`}
+								title={`${segment.name} (${segment.cards.length}${
+									segment.name === 'All' && hasNextPage ? '+' : ''
+								})`}
 							>
 								<InfiniteList
 									bg="#f8f9fd"
