@@ -1,5 +1,48 @@
 - commits:
     - subject: Update internal-patch
+      hash: 3f4c965010d2b2a82958afdf754d0a7192f32ea1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: "UI: Only show spinner on Support threads lens if there are more results"
+      hash: 61be55ba5eeeba9aecd15ea2827b32b78fa8f327
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: On Support Threads Lens indicate if there are more results
+        available"
+      hash: fa83bd7e1a523a2cc0453eeb724e50039406fdf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove debug log from action creators"
+      hash: a89a9da7d4dd0ed54ed8b0700313c666cee09b0d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.4.26
+  title: "'Update internal-patch'"
+  date: 2022-03-18T19:16:17.735Z
+- commits:
+    - subject: Update internal-patch
       hash: 8abb8a700c58f25407fdfe21bb11bc8cd8132551
       body: ""
       footer:
