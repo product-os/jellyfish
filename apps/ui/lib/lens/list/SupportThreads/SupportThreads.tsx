@@ -322,7 +322,7 @@ export default class SupportThreads extends React.Component<any, any> {
 										);
 									})}
 
-									{this.props.totalPages > this.props.page + 1 && (
+									{hasNextPage && (
 										<Box p={3}>
 											<Icon spin name="cog" />
 										</Box>
