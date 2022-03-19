@@ -88,11 +88,11 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.5",
+    "@babel/core": "^7.17.8",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
-    "@babel/register": "^7.17.0",
+    "@babel/register": "^7.17.7",
     "@balena/jellyfish-config": "^2.0.3",
     "@balena/jellyfish-types": "^2.0.4",
     "@balena/lint": "^6.2.0",
