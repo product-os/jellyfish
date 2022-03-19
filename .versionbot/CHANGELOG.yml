@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: 2e48d79ac32f278ad94572effc10a8fe983c3db4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.28
+  title: "'Update external-non-major'"
+  date: 2022-03-19T02:25:56.952Z
+- commits:
     - subject: Fix getCards() usage
       hash: 30dbc6738bcbd53249949bcac2faa53eeef585c3
       body: ""
