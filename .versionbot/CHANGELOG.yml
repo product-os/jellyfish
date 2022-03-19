@@ -1,4 +1,26 @@
 - commits:
+    - subject: Fix getCards() usage
+      hash: 30dbc6738bcbd53249949bcac2faa53eeef585c3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update autumndb from 17.0.6 to 19.0.0
+      hash: 8948f55c1fb9d38836715a68d2e1f4eb0dd0e41b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.27
+  title: "'Update autumndb from 17.0.6 to 19.0.0'"
+  date: 2022-03-19T00:06:21.816Z
+- commits:
     - subject: Update internal-patch
       hash: 3f4c965010d2b2a82958afdf754d0a7192f32ea1
       body: ""
