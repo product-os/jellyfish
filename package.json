@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "48.4.28",
+  "version": "48.4.29",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "proclaimer",
@@ -125,6 +125,6 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-03-19T02:25:59.073Z"
+    "publishedAt": "2022-03-19T11:02:42.104Z"
   }
 }
