@@ -41,7 +41,7 @@
     "@balena/jellyfish-worker": "^20.2.1",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "autumndb": "^19.0.0",
-    "aws-sdk": "^2.1092.0",
+    "aws-sdk": "^2.1096.0",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
     "body-parser": "^1.19.2",
