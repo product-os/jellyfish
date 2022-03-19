@@ -141,7 +141,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	// Load plugin data
 	const integrations = options.pluginManager.getSyncIntegrations(logContext);
 	const actionLibrary = options.pluginManager.getActions(logContext);
-	const cards = options.pluginManager.getCards(logContext, core.cardMixins);
+	const cards = options.pluginManager.getCards();
 
 	logger.info(logContext, 'Configuring HTTP server');
 	const webServer = createServer(logContext, {

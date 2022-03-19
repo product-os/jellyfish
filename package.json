@@ -93,7 +93,7 @@
     "@balena/jellyfish-worker": "^20.2.1",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.19.2",
-    "autumndb": "^17.0.6",
+    "autumndb": "^19.0.0",
     "ava": "^4.1.0",
     "aws-sdk": "^2.1092.0",
     "bluebird": "^3.7.2",
