@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.2.0 to v13.2.1
+      hash: 338c34eb8e2e0d49ad38d9f19e36f72ab53b5a8b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.4.34
+  title: "'Update balena/open-balena-base from v13.2.0 to v13.2.1'"
+  date: 2022-03-21T23:35:08.713Z
+- commits:
     - subject: Update resinci/jellyfish-test from v3.0.1 to v3.0.2
       hash: d795de8a49e0d8cdb9c8a1295d3e89d406717332
       body: ""
