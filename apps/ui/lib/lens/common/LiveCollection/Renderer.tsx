@@ -301,7 +301,7 @@ export interface StateProps {
 	types: TypeContract[];
 	user: UserContract;
 	userActiveLens: string | null;
-	userActiveSlice: string | null;
+	userCustomFilters: JsonSchema[];
 }
 
 export interface DispatchProps {
@@ -331,8 +331,6 @@ interface State {
 	filters: any[];
 	tailTypes: null | TypeContract[];
 	activeLens: string | null;
-	activeSlice: any;
-	sliceOptions?: any;
 	query: JsonSchema | null;
 	// TODO: Dry out these types, possibly using the SDK query option type instead
 	options: {
@@ -350,7 +348,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		const { card, query, seed } = this.props;
 
-		let filters = [];
 		const activeLens =
 			this.props.userActiveLens &&
 			this.getLensBySlug(this.props.userActiveLens);
@@ -361,24 +358,18 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			return helpers.getType(tailType, this.props.types);
 		});
 
-		let activeSlice: any = null;
-
 		const initialSearchTerm = _.get(seed, ['searchTerm']);
 
+		let filters: JsonSchema[] = [];
 		const sliceOptions = helpers.getSchemaSlices(query, this.props.types);
 
-		// If an initial search term is provided don't use slices
+		// If an initial search term is provided don't use slices and skip existing filters
 		if (!initialSearchTerm) {
-			if (sliceOptions && sliceOptions.length) {
-				// Default to setting the active slice based on the user's preference
-				if (this.props.userActiveSlice) {
-					activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
-				}
-
-				// Otherwise just select the first slice option
-				activeSlice = activeSlice || _.first(sliceOptions);
-
-				filters = setSliceFilter(filters, activeLens, activeSlice);
+			// If the user has already set filters, re-use these, otherwise load the default slice
+			if (this.props.userCustomFilters.length) {
+				filters = this.props.userCustomFilters;
+			} else if (sliceOptions && sliceOptions.length) {
+				filters = setSliceFilter(filters, activeLens, _.first(sliceOptions));
 			}
 		}
 
@@ -396,7 +387,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		this.state = {
 			activeLens: _.get(activeLens, 'slug', null),
-			activeSlice,
 			eventSearchFilter: null,
 			filters,
 			options: {
@@ -410,7 +400,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			redirectTo: null,
 			searchFilter: null,
 			searchTerm: '',
-			sliceOptions,
 			tailTypes,
 			...searchTermState,
 		};
@@ -530,10 +519,14 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		// Some lenses ignore the slice filter, so recalculate the filters using
 		// the new lens.
+		const sliceOptions = helpers.getSchemaSlices(
+			this.props.query,
+			this.props.types,
+		);
 		const filters = setSliceFilter(
 			this.state.filters,
 			lens,
-			this.state.activeSlice,
+			_.first(sliceOptions),
 		);
 
 		const newOptions = this.getQueryOptions(slug, false);
@@ -673,7 +666,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		// 2. Retrieve and load custom filters on startup
 		// 3. Add a "reset" button for removing custom filters
 		if (!deepEqual(this.props.userCustomFilters, filters)) {
-			actions.setUserCustomFilters(filters);
+			actions.setUserCustomFilters(card.id, filters);
 		}
 
 		const viewQuery = unifyQuery(
@@ -687,7 +680,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { card, isMobile, types, channel, hideFooter } = this.props;
+		const { card, isMobile, types, channel, hideFooter, user } = this.props;
 
 		const {
 			tailTypes,
@@ -755,6 +748,8 @@ export default class ViewRenderer extends React.Component<Props, State> {
 								/>
 
 								<Content
+									user={user}
+									card={card}
 									results={results}
 									nextPage={nextPage}
 									hasNextPage={hasNextPage}

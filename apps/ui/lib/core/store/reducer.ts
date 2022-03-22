@@ -47,6 +47,7 @@ export const defaultState: any = {
 		cards: {},
 		orgs: [],
 		config: {},
+		userCustomFilters: {},
 	},
 	ui: {
 		sidebar: {
@@ -396,6 +397,16 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 							update(card || {}, {
 								$unset: [action.value.user],
 							}),
+					}),
+			});
+		}
+		case actions.SET_USER_CUSTOM_FILTERS: {
+			return update(state, {
+				userCustomFilters: (value) =>
+					update(value, {
+						[action.value.id]: {
+							$set: action.value.data,
+						},
 					}),
 			});
 		}

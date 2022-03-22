@@ -13,25 +13,38 @@ import { actionCreators } from '../../../core';
 import type {
 	BoundActionCreators,
 	ChannelContract,
+	LensRendererProps,
 	LensContract,
 } from '../../../types';
 import LiveCollection from '../../common/LiveCollection';
 import Header from './Header';
 
-export interface ViewRendererProps {
+export type OwnProps = LensRendererProps;
+
+export interface StateProps {
 	types: TypeContract[];
-	lenses: LensContract[];
-	channel: ChannelContract;
-	card: ViewContract;
-	user: UserContract;
+	// lenses: LensContract[];
 	userActiveLens: string | null;
-	userActiveSlice: string | null;
-	isMobile: boolean;
-	flex: FlexProps['flex'];
+	userCustomFilters: JsonSchema[];
+	channels: ChannelContract[];
+}
+
+export interface DispatchProps {
 	actions: BoundActionCreators<
 		Pick<typeof actionCreators, 'setViewLens' | 'setViewSlice'>
 	>;
 }
+
+export interface ResponsiveProps {
+	isMobile: boolean;
+}
+
+type Props = OwnProps &
+	ResponsiveProps &
+	StateProps &
+	DispatchProps & {
+		card: ViewContract;
+	};
 
 interface State {
 	redirectTo: null | string;
@@ -39,11 +52,8 @@ interface State {
 	results: Contract[] | null;
 }
 
-export default class ViewRenderer extends React.Component<
-	ViewRendererProps,
-	State
-> {
-	constructor(props: ViewRendererProps) {
+export default class ViewRenderer extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		const { card } = props;
@@ -76,7 +86,6 @@ export default class ViewRenderer extends React.Component<
 
 		return (
 			<Flex
-				flex={this.props.flex}
 				className={`column--${
 					head ? head.slug || head.type.split('@')[0] : 'unknown'
 				}`}
