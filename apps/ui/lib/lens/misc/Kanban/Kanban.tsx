@@ -126,19 +126,20 @@ export default class Kanban extends React.Component<any, any> {
 		const head = this.props.channel.data.head;
 		// If the head contract is a view, use it to find the slices
 		if (head && head.type.split('@')[0] === 'view') {
-			return helpers.getViewSlices(head, this.props.types) || [];
+			const schema = {
+				allOf: head.data.allOf.map((block) => block.schema),
+			};
+			return helpers.getSchemaSlices(schema, this.props.types) || [];
 		}
 		// Otherwise spoof a view
 		if (this.props.tail && this.props.tail.length > 0) {
 			const sample: any = _.first(this.props.tail);
-			const fakeView: any = {
-				data: {
-					allOf: [
-						_.set({}, ['schema', 'properties', 'type', 'const'], sample.type),
-					],
-				},
-			};
-			return helpers.getViewSlices(fakeView, this.props.types) || [];
+			const schema: any = _.set(
+				{},
+				['schema', 'properties', 'type', 'const'],
+				sample.type,
+			);
+			return helpers.getSchemaSlices(schema, this.props.types) || [];
 		}
 		return [];
 	}
@@ -155,39 +156,24 @@ export default class Kanban extends React.Component<any, any> {
 		let cards = this.props.tail.slice();
 		const lanes: any[] = [];
 		const slices = this.getSlices();
-		const slice =
-			_.find(slices, {
-				path: activeSlice,
-			}) || slices[0];
-		if (!slice) {
-			return [
-				{
-					id: UNSORTED_GROUP_ID,
-					cards: cards.map(cardMapper),
-				},
-			];
-		}
-		slice.values.forEach((value, index) => {
+		slices.forEach((schema, index) => {
+			if (typeof schema === 'boolean') {
+				return;
+			}
+			// TODO: This is kind of dirty, we're chopping off the first half of the schema description
+			// Ideally, the friendly value should be provided in the slice option
+			const label = schema.description!.split(' is ').pop();
 			const lane: any = {
-				id: `${slice.path}__${value}`,
+				id: `${schema.description}`,
 				cards: [],
-				title: slice.names ? slice.names[index] : value,
+				title: label,
 			};
 			if (!cards.length) {
 				lanes.push(lane);
 				return;
 			}
-			const schema: any = _.set(
-				{
-					type: 'object',
-				},
-				slice.path,
-				{
-					const: value,
-				},
-			);
 			const [slicedCards, remaining] = _.partition(cards, (card) => {
-				return skhema.isValid(schema, card);
+				return skhema.isValid(schema as any, card);
 			});
 			lane.cards = _.map(slicedCards, cardMapper);
 			cards = remaining;

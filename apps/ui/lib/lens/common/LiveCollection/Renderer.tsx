@@ -77,26 +77,12 @@ const getTypesFromSchema = (schema) => {
 	return value.length > 0 ? _.uniq(value) : null;
 };
 
-const setSliceFilter = (currentFilters, lens, slice, sliceOptions) => {
-	// All slice options have the same path so we just use the first of the options
-	const sliceFilterId = _.get(sliceOptions, [0, 'value', 'path']);
-
-	// Remove any existing slice filter
-	const filters = sliceFilterId
-		? currentFilters.filter((filter) => {
-				return filter.$id !== sliceFilterId;
-		  })
-		: currentFilters;
-
+const setSliceFilter = (filters, lens, slice) => {
 	// We only want to filter by slice if the lens does not supports slices itself!
-	if (
-		!_.get(lens, ['data', 'supportsSlices']) &&
-		_.get(sliceOptions, 'length')
-	) {
-		const sliceFilter = createSliceFilter(slice, true);
+	if (!_.get(lens, ['data', 'supportsSlices'])) {
 		filters.push({
-			$id: sliceFilter.$id,
-			anyOf: [sliceFilter],
+			$id: slice.$id,
+			anyOf: [slice],
 		});
 	}
 
@@ -104,89 +90,6 @@ const setSliceFilter = (currentFilters, lens, slice, sliceOptions) => {
 };
 
 export const getSearchViewId = (targetId) => `$$search-${targetId}`;
-
-// Search the view card's filters for a slice filter. If one is found
-// that matches one of the slice options, return that slice option
-const getActiveSliceFromFilter = (sliceOptions, viewCard) => {
-	const viewFilters = _.get(viewCard, ['data', 'allOf'], []);
-	for (const slice of sliceOptions) {
-		const sliceFilter = createSliceFilter(slice);
-		for (const viewFilter of viewFilters) {
-			const filterOptions = _.map(
-				_.get(viewFilter, ['schema', 'anyOf']),
-				'properties',
-			);
-			const activeSliceFilter = _.find(filterOptions, sliceFilter.properties);
-			if (activeSliceFilter) {
-				return slice;
-			}
-		}
-	}
-	return null;
-};
-
-const createSliceFilter = (slice, required = false) => {
-	const filter = {
-		// Use the slice path as a unique ID, as we don't want multiple slice constraints
-		// on the same path
-		$id: slice.value.path,
-		title: 'is',
-		description: `${slice.title}`,
-		type: 'object',
-		properties: {},
-	};
-
-	if (!slice.value.value) {
-		return filter;
-	}
-
-	_.set(filter, slice.value.path, {
-		const: slice.value.value,
-	});
-
-	const keys = slice.value.path.split('.');
-	const origKeys = _.clone(keys);
-
-	// Make sure that "property" keys correspond with { type: 'object' },
-	// and specify the required field as well
-	// otherwise the filter won't work
-	while (keys.length) {
-		if (keys.pop() === 'properties') {
-			const fieldName = _.get(origKeys, keys.length + 1);
-			_.set(filter, keys.concat('type'), 'object');
-			if (required && fieldName) {
-				_.set(filter, keys.concat('required'), [fieldName]);
-			}
-		}
-	}
-	return filter;
-};
-
-// TODO helpers.getViewSlices() should just return a set of schemas allowing us
-// to remove all the intermediary data formats
-const getSliceOptions = (card, types) => {
-	const slices = helpers.getViewSlices(card, types);
-	if (!slices) {
-		return [];
-	}
-	const sliceOptions: any = [];
-	for (const slice of slices) {
-		_.forEach(slice.values, (sliceValue: string, index: number) => {
-			// If the slice defines user-friendly names (from the JSON schema's enumNames property) use that;
-			// otherwise just use the sliceValue (from the JSON schema's enum property)
-			const sliceOptionTitle = _.get(slice, ['names', index], sliceValue);
-			sliceOptions.push({
-				title: `${slice.title} is ${sliceOptionTitle}`,
-				value: {
-					path: slice.path,
-					value: sliceValue,
-				},
-			});
-		});
-	}
-
-	return sliceOptions.length ? sliceOptions : null;
-};
 
 const unifyQuery = (query, filters) => {
 	const result = clone(query);
@@ -462,7 +365,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		const initialSearchTerm = _.get(seed, ['searchTerm']);
 
-		const sliceOptions = getSliceOptions(card, this.props.types);
+		const sliceOptions = helpers.getSchemaSlices(query, this.props.types);
 
 		// If an initial search term is provided don't use slices
 		if (!initialSearchTerm) {
@@ -472,19 +375,10 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					activeSlice = _.find(sliceOptions, this.props.userActiveSlice);
 				}
 
-				// Check if the view defines a slice filter
-				activeSlice =
-					activeSlice || getActiveSliceFromFilter(sliceOptions, card);
-
 				// Otherwise just select the first slice option
 				activeSlice = activeSlice || _.first(sliceOptions);
 
-				filters = setSliceFilter(
-					filters,
-					activeLens,
-					activeSlice,
-					sliceOptions,
-				);
+				filters = setSliceFilter(filters, activeLens, activeSlice);
 			}
 		}
 
@@ -640,7 +534,6 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			this.state.filters,
 			lens,
 			this.state.activeSlice,
-			this.state.sliceOptions,
 		);
 
 		const newOptions = this.getQueryOptions(slug, false);
@@ -775,19 +668,18 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			targetFilters.push({ anyOf: searchFilters });
 		}
 
+		// TODO:
+		// 1. Store custom filters in localStorage
+		// 2. Retrieve and load custom filters on startup
+		// 3. Add a "reset" button for removing custom filters
+		if (!deepEqual(this.props.userCustomFilters, filters)) {
+			actions.setUserCustomFilters(filters);
+		}
+
 		const viewQuery = unifyQuery(
 			isOmniSearch ? { allOf: [] } : clone(query),
 			targetFilters,
 		);
-
-		const syntheticViewCard = createSyntheticViewCard(card, targetFilters);
-
-		const slice = getActiveSliceFromFilter(
-			this.state.sliceOptions,
-			syntheticViewCard,
-		);
-
-		actions.setViewSlice(card.id, slice);
 
 		this.setState({
 			query: viewQuery,
