@@ -246,13 +246,8 @@ export const selectors = {
 			null,
 		);
 	},
-	getUsersViewSlice: (state, viewId) => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(
-			user,
-			['data', 'profile', 'viewSettings', viewId, 'slice'],
-			null,
-		);
+	getUserCustomFilters: (state, contractId) => {
+		return state.core.userCustomFilters[contractId] || [];
 	},
 	getHomeView: (state) => {
 		const user = selectors.getCurrentUser(state);
@@ -1696,6 +1691,16 @@ export const actionCreators = {
 				getState,
 				context,
 			);
+		};
+	},
+
+	setUserCustomFilters(contractId: string, filters: JsonSchema[]) {
+		return {
+			type: actions.SET_USER_CUSTOM_FILTERS,
+			value: {
+				id: contractId,
+				data: filters,
+			},
 		};
 	},
 

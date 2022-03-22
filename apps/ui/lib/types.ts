@@ -2,6 +2,7 @@ import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	TypeContract,
+	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import React from 'react';
 
@@ -70,6 +71,8 @@ export interface ChannelContract
 
 export interface LensRendererProps {
 	channel: ChannelContract;
+	card: Contract;
+	user: UserContract;
 	tail: null | Contract[];
 	hasNextPage: boolean;
 	nextPage: () => Promise<Contract[]>;

@@ -445,53 +445,93 @@ export interface SliceOption {
 	names?: string[];
 }
 
-export const getViewSlices = (
-	view: ViewContract,
-	types: string[],
-): SliceOption[] | null => {
-	let slices: SliceOption[] | null = null;
-	const viewTypeSlug = _.chain(view.data.allOf)
-		.map((def) => {
-			return (
-				_.get(def.schema, ['properties', 'type', 'const']) ||
-				_.get(def.schema, ['properties', 'type', 'enum', 0])
-			);
-		})
-		.compact()
-		.first()
-		.value();
-	const viewType =
-		viewTypeSlug &&
-		_.find(types, {
-			slug: viewTypeSlug.split('@')[0],
-		});
-	if (viewType && viewType.data.slices) {
-		slices = _.compact(
-			_.map(viewType.data.slices, (slice) => {
-				const subSchema = _.get(viewType.data.schema, slice);
-				if (!subSchema) {
-					return null;
-				}
-				const viewParam = _.chain(view.data.allOf)
-					.map((def) => {
-						return _.get(def.schema, slice);
-					})
-					.compact()
-					.first()
-					.value();
-				if (viewParam && viewParam.const) {
-					return null;
-				}
-				const title = subSchema.title || slice.split('.').pop();
-				return {
-					title,
-					path: slice,
-					values: subSchema.enum,
-					names: subSchema.enumNames,
-				};
-			}),
-		);
+/**
+ * Given a schema, find the corresponding type it queries for, and if the query "slices" on an enum type
+ * return a set of schemas that represent a distinct query for each value in the enum.
+ *
+ * @param {JsonSchema} schema - The schema to inspect
+ * @param {TypeContract} types - An array of type contracts
+ *
+ * @returns {JsonSchema[] | null} - An array of schemas that can be combined with the original query to
+ * produce a "slice" of results. Null if slices cannot be calculated.
+ */
+export const getSchemaSlices = (
+	schema: JsonSchema,
+	types: TypeContract[],
+): JsonSchema[] | null => {
+	if (typeof schema === 'boolean') {
+		return null;
 	}
+	const typeSlug =
+		_.get(schema, ['properties', 'type', 'const']) ||
+		_.get(schema, ['properties', 'type', 'enum', 0]);
+
+	if (!typeSlug) {
+		// If no slug was found and `allOf` is used, recurse into the first `allOf` branch
+		if (schema.allOf) {
+			return getSchemaSlices(schema.allOf[0], types);
+		}
+		return null;
+	}
+	const typeContract = _.find(types, {
+		slug: typeSlug.split('@')[0],
+	});
+
+	if (!typeContract || !typeContract.data.slices) {
+		return null;
+	}
+
+	const slices: JsonSchema[] = _.flatten(
+		_.compact(
+			_.map(typeContract.data.slices as string[], (slice) => {
+				const subSchema = _.get(typeContract.data.schema, slice);
+				// Only enums are supported
+				if (!subSchema || !subSchema.enum) {
+					return null;
+				}
+
+				const title = subSchema.title || slice.split('.').pop();
+
+				// Map the subschema enums into seperate schemas that select for a specific value
+				return subSchema.enum.map((value, index) => {
+					const label = subSchema.enumNames
+						? subSchema.enumNames[index]
+						: value;
+					const filter = _.set(
+						{
+							$id: slice,
+							title: 'is',
+							description: `${title} is ${label}`,
+							type: 'object',
+						},
+						slice,
+						{
+							const: value,
+						},
+					);
+
+					const keys = slice.split('.');
+					const origKeys = _.clone(keys);
+
+					// Make sure that "property" keys correspond with { type: 'object' },
+					// and specify the required field as well
+					// otherwise the filter won't work
+					while (keys.length) {
+						if (keys.pop() === 'properties') {
+							const fieldName = _.get(origKeys, keys.length + 1);
+							_.set(filter, keys.concat('type'), 'object');
+							if (fieldName) {
+								_.set(filter, keys.concat('required'), [fieldName]);
+							}
+						}
+					}
+
+					return filter;
+				});
+			}),
+		),
+	);
+
 	return slices;
 };
 

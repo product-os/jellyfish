@@ -182,6 +182,15 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 			title: 'Timeline message',
 		},
 	);
+
+	// TODO: Port this fix to rendition
+	// When filtering, the readonly property is irrelevant and should be ignored
+	_.forEach(schemaForFilters.properties, (value) => {
+		if (typeof value !== 'boolean' && value.readOnly) {
+			value.readOnly = false;
+		}
+	});
+
 	return schemaForFilters;
 };
 

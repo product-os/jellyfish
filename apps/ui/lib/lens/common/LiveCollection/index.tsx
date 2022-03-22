@@ -14,7 +14,7 @@ const mapStateToProps = (state, ownProps): StateProps => {
 		types: selectors.getTypes(state),
 		user,
 		userActiveLens: selectors.getUsersViewLens(state, target),
-		userActiveSlice: selectors.getUsersViewSlice(state, target),
+		userCustomFilters: selectors.getUserCustomFilters(state, target),
 	};
 };
 

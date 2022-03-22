@@ -5,6 +5,7 @@ import { Icon } from '../../../components';
 import type {
 	Contract,
 	TypeContract,
+	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import { ViewFooter } from '../ViewFooter';
 import type { ChannelContract, LensContract } from '../../../types';
@@ -36,6 +37,8 @@ interface ContentProps {
 	nextPage: () => Promise<any>;
 	hasNextPage: boolean;
 	hideFooter: boolean;
+	user: UserContract;
+	card: Contract;
 }
 
 export default class Content extends React.Component<ContentProps, any> {
@@ -50,6 +53,8 @@ export default class Content extends React.Component<ContentProps, any> {
 			nextPage,
 			hasNextPage,
 			hideFooter,
+			user,
+			card,
 		} = this.props;
 
 		const activeLens =
@@ -84,6 +89,8 @@ export default class Content extends React.Component<ContentProps, any> {
 						)}
 						{Boolean(results) && Boolean(activeLens) && (
 							<activeLens.data.renderer
+								user={user}
+								card={card}
 								channel={channel}
 								tail={sortedTail}
 								nextPage={nextPage}
