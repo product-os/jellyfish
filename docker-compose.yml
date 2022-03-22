@@ -142,7 +142,7 @@ services:
     ports:
       - 9231:9229
   balena-mdns-publisher:
-    image: 'balena/balena-mdns-publisher:v1.14.7'
+    image: 'balena/balena-mdns-publisher:v1.14.8'
     network_mode: host
     cap_add:
       - SYS_RESOURCE
