@@ -55,6 +55,8 @@ global.location = Location;
 // eslint-disable-next-line no-undef
 window.HTMLElement.prototype.scrollIntoView = _.noop;
 
+window.URL.createObjectURL = jest.fn(() => 'details');
+
 Element.prototype.scrollTo = _.noop;
 
 export const flushPromises = () => {
