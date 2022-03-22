@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Add lens for rendering channel contracts"
+      hash: d9fcdecd34c500645fb74d0c51cee5c49e4228d9
+      body: |
+        This new lens supercedes the functionality in the channels plugin.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.6.0
+  title: "'UI: Add lens for rendering channel contracts'"
+  date: 2022-03-22T22:32:57.507Z
+- commits:
     - subject: "UI: Preserve user defined filters between reloads"
       hash: 6a95876915316f4d1bf7e7b2a59ff69696b516d5
       body: >
