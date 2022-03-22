@@ -1,4 +1,36 @@
 - commits:
+    - subject: "UI: Preserve user defined filters between reloads"
+      hash: 6a95876915316f4d1bf7e7b2a59ff69696b516d5
+      body: >
+        This change means that any filters created by the user are preserved
+        when the user navigates or reloads the page.
+
+        Filters are stored in localstorage as an array of JSON schemas.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use JSON Schemas instead of custom format when setting type slices"
+      hash: beb0b8740d10a99eae5bfb303f679ccc4a196c67
+      body: >
+        This cleans up a lot of crufty code that used intermediate data formats
+        when handling "slices".
+
+        Slices are predefined values that a contract type can be filtered on, for example, the `status` field on a support thread.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.5.0
+  title: "'UI: Refactor how \"slices\" work'"
+  date: 2022-03-22T18:40:23.707Z
+- commits:
     - subject: Update internal-patch
       hash: 36c7279dd719bababb050d9363c8ead1bf9a21af
       body: ""
