@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update autumndb from 19.0.3 to 19.1.0
+      hash: e63c896e8b0def67b8f3b679e55c35c5785e201f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.6.1
+  title: "'Update autumndb from 19.0.3 to 19.1.0'"
+  date: 2022-03-22T23:12:37.805Z
+- commits:
     - subject: "UI: Add lens for rendering channel contracts"
       hash: d9fcdecd34c500645fb74d0c51cee5c49e4228d9
       body: |
