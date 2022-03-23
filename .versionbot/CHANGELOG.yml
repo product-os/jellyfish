@@ -1,4 +1,35 @@
 - commits:
+    - subject: Bump node-forge from 1.2.1 to 1.3.0 in /apps/server
+      hash: 25342cd1e4c06d4ce49b79414f058978309df555
+      body: >
+        Bumps [node-forge](https://github.com/digitalbazaar/forge) from 1.2.1 to
+        1.3.0.
+
+        - [Release notes](https://github.com/digitalbazaar/forge/releases)
+
+        - [Changelog](https://github.com/digitalbazaar/forge/blob/main/CHANGELOG.md)
+
+        - [Commits](https://github.com/digitalbazaar/forge/compare/v1.2.1...v1.3.0)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: node-forge
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 48.6.6
+  title: "'Bump node-forge from 1.2.1 to 1.3.0 in /apps/server'"
+  date: 2022-03-23T12:20:32.102Z
+- commits:
     - subject: Bump node-forge from 1.2.1 to 1.3.0 in /apps/ui
       hash: d7abc9b136c50ca76ba4500579b4418f3dd15a8e
       body: >
