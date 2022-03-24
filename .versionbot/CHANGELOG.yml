@@ -1,4 +1,18 @@
 - commits:
+    - subject: Make grafana/prometheus first class apps
+      hash: 5c01b432d43551c1381f066da506d338bcb8c662
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.11
+  title: "'Make grafana/prometheus first class apps'"
+  date: 2022-03-24T01:21:13.617Z
+- commits:
     - subject: Bump minimist from 1.2.5 to 1.2.6 in /apps/ui
       hash: c673c3cf55624c73740bba7a0420b0f892c5ee32
       body: >
