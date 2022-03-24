@@ -141,6 +141,29 @@ services:
       - 88
     ports:
       - 9231:9229
+  prometheus:
+    build: apps/prometheus
+    command: '--config.file=/etc/prometheus/prometheus.yaml'
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pgrep prometheus
+    restart: unless-stopped
+    networks:
+      - internal
+    expose:
+      - 9090
+  grafana:
+    build: apps/grafana
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pgrep grafana-server
+    restart: unless-stopped
+    networks:
+      - internal
+    expose:
+      - 3000
   balena-mdns-publisher:
     image: 'balena/balena-mdns-publisher:v1.14.8'
     network_mode: host
@@ -158,13 +181,11 @@ services:
     environment:
       MDNS_TLD: ly.fish.local
       MDNS_SUBDOMAINS: >-
-        ["jel", "livechat", "api", "registry"]
+        ["jel", "livechat", "api", "registry", "grafana", "prometheus"]
       DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
       CONFD_BACKEND: 'ENV'
   haproxy:
-    build:
-      context: ./haproxy
-      dockerfile: Dockerfile
+    build: apps/haproxy
     healthcheck:
       test: /bin/sh -c 'ls -la /proc/*/exe | grep -q /usr/local/sbin/haproxy'
       interval: 60s
@@ -186,6 +207,8 @@ services:
           - api.ly.fish.local
           - postgres.ly.fish.local
           - redis.ly.fish.local
+          - grafana.ly.fish.local
+          - prometheus.ly.fish.local
     restart: unless-stopped
 
 networks:

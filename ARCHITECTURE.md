@@ -48,6 +48,18 @@ Jellyfish is split in many more modules than deployable units. The following dia
 
 ## Deployable Components
 
+### [`apps/grafana`](https://github.com/product-os/jellyfish/tree/master/apps/grafana)
+
+Metrics dashboards.
+
+### [`apps/haproxy`](https://github.com/product-os/jellyfish/tree/master/apps/haproxy)
+
+Reverse proxy.
+
+### [`apps/prometheus`](https://github.com/product-os/jellyfish/tree/master/apps/prometheus)
+
+Metrics collector.
+
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.

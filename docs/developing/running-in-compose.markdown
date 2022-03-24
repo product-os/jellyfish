@@ -10,7 +10,7 @@ $ npm run compose:up
 
 Add endpoints to local hosts file:
 ```
-127.0.0.1 livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local redis.ly.fish.local postgres.ly.fish.local
+127.0.0.1 livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local redis.ly.fish.local postgres.ly.fish.local grafana.ly.fish.local prometheus.ly.fish.local
 ```
 
 The API will listen on `http://api.ly.fish.local:80` and the UI will listen on `http://jel.ly.fish.local:80`.
@@ -19,13 +19,8 @@ Open `http://jel.ly.fish.local` and log in with:
 - Username: `jellyfish`
 - Password: `jellyfish`
 
-To include instances of Prometheus and Grafana, build and start your cluster with:
-```sh
-$ npm run compose:monitor
-```
-
-Prometheus can be accessed at `http://localhost:9090`.
-Grafana is available at `http://localhost:3000` with the Jellyfish graphs located under the `standard` folder.
+Prometheus can be accessed at `http://prometheus.ly.fish.local:9090`.
+Grafana is available at `http://grafana.ly.fish.local:3000` with the Jellyfish graphs located under the `standard` folder.
 
 You can also run the cluster with the test runner container used in CI:
 ```sh

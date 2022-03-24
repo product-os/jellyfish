@@ -1,0 +1,9 @@
+apiVersion: 1
+
+providers:
+  - name: 'standard'
+    folder: 'standard'
+    folderUid: 'standard'
+    type: file
+    options:
+      path: /etc/grafana/dashboards/standard
