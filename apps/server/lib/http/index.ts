@@ -1,13 +1,12 @@
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import * as metrics from '@balena/jellyfish-metrics';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
+import type { Kernel } from 'autumndb';
 import Bluebird from 'bluebird';
 import errio from 'errio';
 import http from 'http';
-import * as metrics from '@balena/jellyfish-metrics';
-import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import type { Sync, Worker } from '@balena/jellyfish-worker';
-import type { Producer } from '@balena/jellyfish-queue';
 import { attachMiddlewares } from './middlewares';
 import { attachRoutes } from './routes';
-import type { Kernel } from 'autumndb';
 
 const logger = getLogger(__filename);
 
@@ -64,14 +63,13 @@ export const createServer = (logContext: LogContext, configuration) => {
 		ready: (
 			kernel: Kernel,
 			worker: Worker,
-			producer: Producer,
 			options: { sync: Sync; guestSession: string },
 		) => {
 			attachMiddlewares(logContext, application, kernel, {
 				guestSession: options.guestSession,
 			});
 
-			attachRoutes(application, kernel, worker, producer, {
+			attachRoutes(application, kernel, worker, {
 				sync: options.sync,
 				guestSession: options.guestSession,
 			});

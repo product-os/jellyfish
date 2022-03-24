@@ -1,19 +1,18 @@
-import _ from 'lodash';
-import Bluebird from 'bluebird';
-import errio from 'errio';
-import multer from 'multer';
-import { Storage } from './file-storage';
-import * as registry from './registry';
-import * as oauth from './oauth';
-import { getLogger } from '@balena/jellyfish-logger';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import { getLogger } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
-import { v4 as uuidv4 } from 'uuid';
-import * as facades from './facades';
-import type { Kernel } from 'autumndb';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type { Sync, Worker } from '@balena/jellyfish-worker';
-import type { Producer } from '@balena/jellyfish-queue';
+import type { Kernel } from 'autumndb';
+import Bluebird from 'bluebird';
+import errio from 'errio';
+import _ from 'lodash';
+import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
+import * as facades from './facades';
+import { Storage } from './file-storage';
+import * as oauth from './oauth';
+import * as registry from './registry';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -71,12 +70,11 @@ export const attachRoutes = (
 	application,
 	kernel: Kernel,
 	worker: Worker,
-	producer: Producer,
 	options: { sync: Sync; guestSession: string },
 ) => {
 	const queryFacade = new facades.QueryFacade(kernel);
 	const authFacade = new facades.AuthFacade(kernel);
-	const actionFacade = new facades.ActionFacade(worker, producer, fileStore);
+	const actionFacade = new facades.ActionFacade(worker, fileStore);
 	const viewFacade = new facades.ViewFacade(kernel, queryFacade);
 
 	application.get('/api/v2/config', (_request, response) => {
@@ -138,7 +136,7 @@ export const attachRoutes = (
 				});
 
 				const enqueueStartDate = new Date();
-				const actionRequest = await producer.enqueue(
+				const actionRequest = await worker.producer.enqueue(
 					worker.getId(),
 					kernel.adminSession()!,
 					{
@@ -159,7 +157,7 @@ export const attachRoutes = (
 				});
 
 				const waitStartDate = new Date();
-				const results = await producer.waitResults(
+				const results = await worker.producer.waitResults(
 					request.context,
 					actionRequest,
 				);
@@ -230,7 +228,6 @@ export const attachRoutes = (
 			const credentials = await oauth.authorize(
 				request.context,
 				worker,
-				producer,
 				kernel.adminSession()!,
 				request.params.provider,
 				{
@@ -267,7 +264,6 @@ export const attachRoutes = (
 				await oauth.sync(
 					request.context,
 					worker,
-					producer,
 					kernel.adminSession()!,
 					request.params.provider,
 					externalUser,
@@ -303,7 +299,6 @@ export const attachRoutes = (
 			await oauth.associate(
 				request.context,
 				worker,
-				producer,
 				kernel.adminSession()!,
 				request.params.provider,
 				user,
@@ -325,7 +320,7 @@ export const attachRoutes = (
 			 */
 			const suffix = uuidv4();
 
-			const actionRequest = await producer.enqueue(
+			const actionRequest = await worker.producer.enqueue(
 				worker.getId(),
 				kernel.adminSession()!,
 				{
@@ -346,7 +341,7 @@ export const attachRoutes = (
 				},
 			);
 
-			const createSessionResult = await producer.waitResults(
+			const createSessionResult = await worker.producer.waitResults(
 				request.context,
 				actionRequest,
 			);
@@ -553,7 +548,7 @@ export const attachRoutes = (
 						});
 
 						return resolve(
-							producer.enqueue(worker.getId(), kernel.adminSession()!, {
+							worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
 								action: 'action-create-card@1.0.0',
 								card: typeCard.id,
 								type: typeCard.type,
