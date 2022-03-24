@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: f5efe1c3dce30d783e4fd7c228e8a8fabf6c3042
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.6.12
+  title: "'Update internal-patch'"
+  date: 2022-03-24T09:25:39.530Z
+- commits:
     - subject: Make grafana/prometheus first class apps
       hash: 5c01b432d43551c1381f066da506d338bcb8c662
       body: ""
