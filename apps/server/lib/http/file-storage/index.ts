@@ -1,6 +1,6 @@
+import { getLogger } from '@balena/jellyfish-logger';
 import { LocalFS } from './local-fs';
 import { S3FS } from './s3-fs';
-import { getLogger } from '@balena/jellyfish-logger';
 
 const logger = getLogger(__filename);
 
@@ -32,7 +32,7 @@ export class Storage {
 		}
 	}
 
-	store(context, scope, name, data) {
+	public store(context, scope, name, data) {
 		logger.info(context, 'Storing file', {
 			scope,
 			name,
@@ -41,7 +41,7 @@ export class Storage {
 		return this.backend.store(context, scope, name, data);
 	}
 
-	retrieve(context, scope, name) {
+	public retrieve(context, scope, name) {
 		logger.info(context, 'Retrieving file', {
 			scope,
 			name,

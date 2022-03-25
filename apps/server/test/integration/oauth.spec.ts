@@ -1,8 +1,8 @@
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import _ from 'lodash';
 import nock from 'nock';
 import querystring from 'querystring';
 import { v4 as uuid } from 'uuid';
-import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import * as helpers from './helpers';
 
 /**
@@ -10,10 +10,10 @@ import * as helpers from './helpers';
  * @function
  * @private
  *
- * @param {String} string - string to convert
- * @returns {String} slugified string
+ * @param {string} string - string to convert
+ * @returns {string} slugified string
  */
-const slugify = (str) => {
+const slugify = (str: string): string => {
 	return str
 		.trim()
 		.toLowerCase()
@@ -54,7 +54,7 @@ afterEach(async () => {
 });
 
 outreachTest('should be able to associate a user with Outreach', async () => {
-	const userCard = await context.sdk.card.create({
+	const userContract = await context.sdk.card.create({
 		type: 'user',
 		slug: context.generateRandomSlug({
 			prefix: 'user-oauth-test',
@@ -106,16 +106,16 @@ outreachTest('should be able to associate a user with Outreach', async () => {
 
 	const result = await context.http(
 		'GET',
-		`/oauth/outreach?code=123456&state=${userCard.slug}`,
+		`/oauth/outreach?code=123456&state=${userContract.slug}`,
 	);
 
 	expect(result.code).toBe(200);
 	expect(typeof result.response.data.access_token).toBe('string');
 	expect(result.response.data.token_type).toBe('Bearer');
 
-	const newUserCard = await context.sdk.card.get(userCard.slug);
+	const newUserContract = await context.sdk.card.get(userContract.slug);
 
-	expect(newUserCard.data.oauth).toEqual({
+	expect(newUserContract.data.oauth).toEqual({
 		outreach: {
 			access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 			token_type: 'bearer',
@@ -131,7 +131,7 @@ outreachTest('should be able to associate a user with Outreach', async () => {
 outreachTest(
 	'should not be able to associate a user with Outreach given the wrong code',
 	async () => {
-		const userCard = await context.sdk.card.create({
+		const userContract = await context.sdk.card.create({
 			type: 'user',
 			slug: context.generateRandomSlug({
 				prefix: 'user-oauth-test',
@@ -183,7 +183,7 @@ outreachTest(
 
 		const result = await context.http(
 			'GET',
-			`/oauth/outreach?code=999999999&state=${userCard.slug}`,
+			`/oauth/outreach?code=999999999&state=${userContract.slug}`,
 		);
 
 		expect(result).toEqual({
@@ -198,8 +198,8 @@ outreachTest(
 			},
 		});
 
-		const newUserCard = await context.sdk.card.get(userCard.slug);
-		expect(newUserCard.data.oauth).toBeFalsy();
+		const newUserContract = await context.sdk.card.get(userContract.slug);
+		expect(newUserContract.data.oauth).toBeFalsy();
 		nock.cleanAll();
 	},
 );
@@ -207,7 +207,7 @@ outreachTest(
 outreachTest(
 	'should not be able to associate a user with Outreach given no state',
 	async () => {
-		const userCard = await context.sdk.card.create({
+		const userContract = await context.sdk.card.create({
 			type: 'user',
 			slug: context.generateRandomSlug({
 				prefix: 'user-oauth-test',
@@ -261,8 +261,8 @@ outreachTest(
 
 		expect(result.code).toBe(401);
 
-		const newUserCard = await context.sdk.card.get(userCard.slug);
-		expect(newUserCard.data.oauth).toBeFalsy();
+		const newUserContract = await context.sdk.card.get(userContract.slug);
+		expect(newUserContract.data.oauth).toBeFalsy();
 		nock.cleanAll();
 	},
 );
@@ -270,7 +270,7 @@ outreachTest(
 outreachTest(
 	'should not be able to associate a user with Outreach given an invalid state',
 	async () => {
-		const userCard = await context.sdk.card.create({
+		const userContract = await context.sdk.card.create({
 			type: 'user',
 			slug: context.generateRandomSlug({
 				prefix: 'user-oauth-test',
@@ -327,8 +327,8 @@ outreachTest(
 
 		expect(result.code).toBe(401);
 
-		const newUserCard = await context.sdk.card.get(userCard.slug);
-		expect(newUserCard.data.oauth).toBeFalsy();
+		const newUserContract = await context.sdk.card.get(userContract.slug);
+		expect(newUserContract.data.oauth).toBeFalsy();
 		nock.cleanAll();
 	},
 );
@@ -336,7 +336,7 @@ outreachTest(
 balenaApiTest(
 	'should be able to associate a user with Balena Api',
 	async () => {
-		const userCard = await context.sdk.card.create({
+		const userContract = await context.sdk.card.create({
 			type: 'user',
 			slug: context.generateRandomSlug({
 				prefix: 'user-oauth-test',
@@ -357,7 +357,7 @@ balenaApiTest(
 				callback(null, [
 					200,
 					{
-						username: userCard.slug.substring('user-'.length),
+						username: userContract.slug.substring('user-'.length),
 					},
 				]);
 			});
@@ -399,16 +399,16 @@ balenaApiTest(
 
 		const result = await context.http(
 			'GET',
-			`/oauth/balena-api?code=123456&state=${userCard.slug}`,
+			`/oauth/balena-api?code=123456&state=${userContract.slug}`,
 		);
 
 		expect(result.code).toBe(200);
 		expect(typeof result.response.data.access_token).toBe('string');
 		expect(result.response.data.token_type).toBe('Bearer');
 
-		const newUserCard = await context.sdk.card.get(userCard.slug);
+		const newUserContract = await context.sdk.card.get(userContract.slug);
 
-		expect(newUserCard.data.oauth).toEqual({
+		expect(newUserContract.data.oauth).toEqual({
 			'balena-api': {
 				access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 				token_type: 'bearer',
@@ -425,7 +425,7 @@ balenaApiTest(
 balenaApiTest(
 	'should be able to associate a user with Balena Api with an unreliable whoami endpoint',
 	async () => {
-		const userCard = await context.sdk.card.create({
+		const userContract = await context.sdk.card.create({
 			type: 'user',
 			slug: context.generateRandomSlug({
 				prefix: 'user-oauth-test',
@@ -452,7 +452,7 @@ balenaApiTest(
 				callback(null, [
 					200,
 					{
-						username: userCard.slug.substring('user-'.length),
+						username: userContract.slug.substring('user-'.length),
 					},
 				]);
 			});
@@ -494,16 +494,16 @@ balenaApiTest(
 
 		const result = await context.http(
 			'GET',
-			`/oauth/balena-api?code=123456&state=${userCard.slug}`,
+			`/oauth/balena-api?code=123456&state=${userContract.slug}`,
 		);
 
 		expect(result.code).toBe(200);
 		expect(typeof result.response.data.access_token).toBe('string');
 		expect(result.response.data.token_type).toBe('Bearer');
 
-		const newUserCard = await context.sdk.card.get(userCard.slug);
+		const newUserContract = await context.sdk.card.get(userContract.slug);
 
-		expect(newUserCard.data.oauth).toEqual({
+		expect(newUserContract.data.oauth).toEqual({
 			'balena-api': {
 				access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 				token_type: 'bearer',
@@ -580,9 +580,9 @@ balenaApiTest(
 		expect(typeof result.response.data.access_token).toBe('string');
 		expect(result.response.data.token_type).toBe('Bearer');
 
-		const newUserCard = await context.sdk.card.get(slug);
+		const newUserContract = await context.sdk.card.get(slug);
 
-		expect(newUserCard.data.oauth).toEqual({
+		expect(newUserContract.data.oauth).toEqual({
 			'balena-api': {
 				access_token: 'KSTWMqidua67hjM2NDE1ZTZjNGZmZjI3',
 				token_type: 'bearer',

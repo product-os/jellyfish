@@ -1,15 +1,15 @@
-import Bluebird from 'bluebird';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import Bluebird from 'bluebird';
 import request from 'request';
+import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from '../../lib/bootstrap';
 import { getPluginManager } from '../../lib/plugins';
-import { v4 as uuid } from 'uuid';
 
 const context = {} as any;
 
 beforeAll(async () => {
 	context.context = {
-		id: `SERVER-TEST-${uuid()}`,
+		id: `SERVER-TEST-${uuidv4()}`,
 	};
 	context.server = await bootstrap(context.context, {
 		onError: (_context, error) => {

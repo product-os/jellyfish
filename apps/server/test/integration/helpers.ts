@@ -1,25 +1,25 @@
-import { v4 as uuid } from 'uuid';
-import Bluebird from 'bluebird';
-import request from 'request';
-import _ from 'lodash';
 import { getSdk } from '@balena/jellyfish-client-sdk';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import bcrypt from 'bcrypt';
+import Bluebird from 'bluebird';
+import _ from 'lodash';
+import request from 'request';
+import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from '../../lib/bootstrap';
 import { getPluginManager } from '../../lib/plugins';
-import bcrypt from 'bcrypt';
 
 const workerOptions = {
 	onError: (_context, error) => {
 		throw error;
 	},
 	database: {
-		database: `test_${uuid().replace(/-/g, '_')}`,
+		database: `test_${uuidv4().replace(/-/g, '_')}`,
 	},
 };
 
 export const before = async (context) => {
 	context.context = {
-		id: `SERVER-TEST-${uuid()}`,
+		id: `SERVER-TEST-${uuidv4()}`,
 	};
 
 	context.server = await bootstrap(context.context, {
@@ -41,10 +41,10 @@ export const before = async (context) => {
 	context.sdk.setAuthToken(context.token);
 	context.username = environment.integration.default.user;
 
-	context.createUser = async (username) => {
+	context.createUser = async (username: string) => {
 		const { sdk } = context;
 		const slug = `user-${username}`;
-		const usrCard =
+		const usrContract =
 			(await sdk.card.get(slug)) ||
 			(await sdk.action({
 				card: 'user@1.0.0',
@@ -56,22 +56,22 @@ export const before = async (context) => {
 					password: 'foobarbaz',
 				},
 			}));
-		const orgCard = await sdk.card.get('org-balena');
-		await sdk.card.link(usrCard, orgCard, 'is member of');
-		return usrCard;
+		const orgContract = await sdk.card.get('org-balena');
+		await sdk.card.link(usrContract, orgContract, 'is member of');
+		return usrContract;
 	};
 
-	const userCard = await context.createUser(context.username);
+	const userContract = await context.createUser(context.username);
 
-	context.sessionToken = uuid();
+	context.sessionToken = uuidv4();
 
 	// Force login, even if we don't know the password
 	context.session = await context.sdk.card.create({
-		slug: `session-${userCard.slug}-integration-tests-${uuid()}`,
+		slug: `session-${userContract.slug}-integration-tests-${uuidv4()}`,
 		type: 'session',
 		version: '1.0.0',
 		data: {
-			actor: userCard.id,
+			actor: userContract.id,
 			token: {
 				authentication: await bcrypt.hash(context.sessionToken, 12),
 			},
@@ -104,7 +104,7 @@ export const after = async (context) => {
 
 export const beforeEach = (context) => {
 	context.generateRandomSlug = (options: { prefix?: string } = {}): string => {
-		const slug = uuid();
+		const slug = uuidv4();
 		if (options.prefix) {
 			return `${options.prefix}-${slug}`;
 		}

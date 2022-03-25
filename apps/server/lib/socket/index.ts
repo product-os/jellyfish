@@ -1,14 +1,14 @@
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import { getLogger } from '@balena/jellyfish-logger';
+import * as prometheus from '@balena/socket-prometheus-metrics';
+import type { Kernel } from 'autumndb';
+import express from 'express';
+import basicAuth from 'express-basic-auth';
+import http from 'http';
 import _ from 'lodash';
 import * as socketIo from 'socket.io';
 import redisAdapter from 'socket.io-redis';
 import { v4 as uuidv4 } from 'uuid';
-import express from 'express';
-import http from 'http';
-import basicAuth from 'express-basic-auth';
-import * as prometheus from '@balena/socket-prometheus-metrics';
-import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger } from '@balena/jellyfish-logger';
-import type { Kernel } from 'autumndb';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -35,7 +35,7 @@ export const attachSocket = (kernel: Kernel, server) => {
 		};
 
 		const ready = new Promise<{ stream: any; payload: any }>((resolve) => {
-			// The query property can be either a JSON schema, view ID or a view card
+			// The query property can be either a JSON schema, view ID or a view contract
 			socket.on('query', async (payload) => {
 				if (!payload.token) {
 					return socket.emit('streamError', {

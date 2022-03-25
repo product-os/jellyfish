@@ -1,6 +1,6 @@
-import type { Kernel } from 'autumndb';
 import type { LogContext } from '@balena/jellyfish-logger';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { Kernel } from 'autumndb';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
 
@@ -11,17 +11,17 @@ const isValidToken = async (
 	sessionToken: string = '',
 ): Promise<boolean> => {
 	try {
-		const card = await kernel.getContractById<SessionContract>(
+		const contract = await kernel.getContractById<SessionContract>(
 			logContext,
 			kernel.adminSession()!,
 			session,
 		);
-		if (!card || !card.data.token?.authentication) {
+		if (!contract || !contract.data.token?.authentication) {
 			throw new Error('Session not found');
 		}
 		const pass = await bcrypt.compare(
 			sessionToken,
-			card.data.token.authentication,
+			contract.data.token.authentication,
 		);
 		return !!pass;
 	} catch (e) {
@@ -35,12 +35,12 @@ const isValidSession = async (
 	session: string,
 ): Promise<boolean> => {
 	try {
-		const card = await kernel.getContractById<SessionContract>(
+		const contract = await kernel.getContractById<SessionContract>(
 			logContext,
 			kernel.adminSession()!,
 			session,
 		);
-		if (!card) {
+		if (!contract) {
 			return false;
 		}
 		return true;

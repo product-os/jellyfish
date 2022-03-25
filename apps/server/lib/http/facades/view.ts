@@ -1,9 +1,9 @@
-import _ from 'lodash';
-import jsone from 'json-e';
-import skhema from 'skhema';
 import * as assert from '@balena/jellyfish-assert';
-import type { QueryFacade } from './query';
 import type { Kernel } from 'autumndb';
+import jsone from 'json-e';
+import _ from 'lodash';
+import skhema from 'skhema';
+import type { QueryFacade } from './query';
 
 export class ViewFacade {
 	kernel: Kernel;

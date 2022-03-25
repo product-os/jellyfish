@@ -124,14 +124,14 @@ export const attachRoutes = (
 		const getTypeStartDate = new Date();
 		return kernel
 			.getContractBySlug(request.context, kernel.adminSession()!, PING_TYPE)
-			.then(async (typeCard) => {
+			.then(async (typeContract) => {
 				const getTypeEndDate = new Date();
-				if (!typeCard) {
-					throw new Error(`No type card: ${PING_TYPE}`);
+				if (!typeContract) {
+					throw new Error(`No type contract: ${PING_TYPE}`);
 				}
 
-				logger.info(request.context, 'Got type card', {
-					slug: typeCard.slug,
+				logger.info(request.context, 'Got type contract', {
+					slug: typeContract.slug,
 					time: getTypeEndDate.getTime() - getTypeStartDate.getTime(),
 				});
 
@@ -141,8 +141,8 @@ export const attachRoutes = (
 					kernel.adminSession()!,
 					{
 						action: 'action-ping@1.0.0',
-						card: typeCard.id,
-						type: typeCard.type,
+						card: typeContract.id,
+						type: typeContract.type,
 						logContext: request.context,
 						arguments: {
 							slug: PING_SLUG,
@@ -308,7 +308,7 @@ export const attachRoutes = (
 				},
 			);
 
-			const sessionTypeCard = await kernel.getContractBySlug(
+			const sessionTypeContract = await kernel.getContractBySlug(
 				request.context,
 				kernel.adminSession()!,
 				'session@1.0.0',
@@ -325,8 +325,8 @@ export const attachRoutes = (
 				kernel.adminSession()!,
 				{
 					action: 'action-create-card@1.0.0',
-					card: sessionTypeCard!.id,
-					type: sessionTypeCard!.type,
+					card: sessionTypeContract!.id,
+					type: sessionTypeContract!.type,
 					logContext: request.context,
 					arguments: {
 						reason: null,
@@ -428,10 +428,10 @@ export const attachRoutes = (
 		return metrics
 			.measureHttpId(() => {
 				return kernel
-					.getCardById(request.context, request.session, request.params.id)
-					.then((card) => {
-						if (card) {
-							return response.status(200).json(card);
+					.getContractById(request.context, request.session, request.params.id)
+					.then((contract) => {
+						if (contract) {
+							return response.status(200).json(contract);
 						}
 
 						return response.status(404).end();
@@ -451,9 +451,9 @@ export const attachRoutes = (
 						request.session,
 						`${request.params.slug}@latest`,
 					)
-					.then((card) => {
-						if (card) {
-							return response.status(200).json(card);
+					.then((contract) => {
+						if (contract) {
+							return response.status(200).json(contract);
 						}
 
 						return response.status(404).end();
@@ -533,9 +533,9 @@ export const attachRoutes = (
 					kernel.adminSession()!,
 					EXTERNAL_EVENT_TYPE,
 				)
-				.then((typeCard) => {
-					if (!typeCard) {
-						throw new Error(`No type card: ${EXTERNAL_EVENT_TYPE}`);
+				.then((typeContract) => {
+					if (!typeContract) {
+						throw new Error(`No type contract: ${EXTERNAL_EVENT_TYPE}`);
 					}
 
 					const id = uuidv4();
@@ -550,8 +550,8 @@ export const attachRoutes = (
 						return resolve(
 							worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
 								action: 'action-create-card@1.0.0',
-								card: typeCard.id,
-								type: typeCard.type,
+								card: typeContract.id,
+								type: typeContract.type,
 								logContext: request.context,
 								arguments: {
 									reason: null,
@@ -598,26 +598,26 @@ export const attachRoutes = (
 	application.get(
 		'/api/v2/file/:cardId/:fileName',
 		async (request, response) => {
-			const card = await kernel.getCardById(
+			const contract = await kernel.getContractById(
 				request.context,
 				request.session,
 				request.params.cardId,
 			);
-			if (!card) {
+			if (!contract) {
 				return response.send(404);
 			}
 
-			const sessionCard = await kernel.getCardById<SessionContract>(
+			const sessionContract = await kernel.getContractById<SessionContract>(
 				request.context,
 				request.session,
 				request.session,
 			);
-			if (!sessionCard) {
+			if (!sessionContract) {
 				return response.send(401);
 			}
 
 			const attachment = _.find(
-				_.get(card, ['data', 'payload', 'attachments']),
+				_.get(contract, ['data', 'payload', 'attachments']),
 				(item) => {
 					return item.url.includes(request.params.fileName);
 				},
@@ -641,7 +641,7 @@ export const attachRoutes = (
 							},
 						} as any,
 						{
-							actor: sessionCard.data.actor,
+							actor: sessionContract.data.actor,
 						},
 					)
 					.then((file) => {
@@ -700,14 +700,14 @@ export const attachRoutes = (
 					if (!action.type) {
 						return response.status(400).json({
 							error: true,
-							data: 'No action card type',
+							data: 'No action contract type',
 						});
 					}
 
 					if (!action.card) {
 						return response.status(400).json({
 							error: true,
-							data: 'No input card',
+							data: 'No input contract',
 						});
 					}
 
