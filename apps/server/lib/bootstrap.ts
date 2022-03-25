@@ -1,25 +1,24 @@
-import _ from 'lodash';
-import * as core from 'autumndb';
-import { Producer, Consumer } from '@balena/jellyfish-queue';
-import {
-	Sync,
-	Transformer,
-	TriggeredActionContract,
-	Worker,
-	errors as workerErrors,
-} from '@balena/jellyfish-worker';
 import * as assert from '@balena/jellyfish-assert';
-import * as metrics from '@balena/jellyfish-metrics';
-import { loadCards } from './card-loader';
-import { createServer } from './http';
-import { attachSocket } from './socket';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import * as metrics from '@balena/jellyfish-metrics';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	SessionContract,
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
+import {
+	errors as workerErrors,
+	Sync,
+	Transformer,
+	TriggeredActionContract,
+	Worker,
+} from '@balena/jellyfish-worker';
+import * as core from 'autumndb';
+import _ from 'lodash';
+import { loadCards } from './card-loader';
+import { createServer } from './http';
+import { attachSocket } from './socket';
 
 const logger = getLogger(__filename);
 
@@ -175,37 +174,12 @@ export const bootstrap = async (logContext: LogContext, options) => {
 		environment.metrics.ports.app,
 	);
 
-	// Create queue instances
-	const producer = new Producer(kernel as any, pool, kernel.adminSession()!);
-	const consumer = new Consumer(kernel as any, pool, kernel.adminSession()!);
-	await producer.initialize(logContext);
-	await consumer.initializeWithEventHandler(
-		logContext,
-		async (actionRequest) => {
-			metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
-			try {
-				const key = await getActorKey(
-					logContext,
-					kernel,
-					kernel.adminSession()!,
-					actionRequest.data.actor!,
-				);
-				const requestData = actionRequest.data;
-				requestData.context.worker = logContext.id;
-				await worker.execute(key.id, actionRequest);
-			} catch (error: any) {
-				errorHandler(error);
-			}
-		},
-	);
-
 	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
 		kernel as any,
 		kernel.adminSession()!,
 		actionLibrary,
-		consumer,
-		producer,
+		pool,
 	);
 
 	// Set up a sync instance using integrations from plugins
@@ -213,7 +187,22 @@ export const bootstrap = async (logContext: LogContext, options) => {
 		integrations,
 	});
 
-	await worker.initialize(logContext, sync);
+	await worker.initialize(logContext, sync, async (actionRequest) => {
+		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
+		try {
+			const key = await getActorKey(
+				logContext,
+				kernel,
+				kernel.adminSession()!,
+				actionRequest.data.actor!,
+			);
+			const requestData = actionRequest.data;
+			requestData.context.worker = logContext.id;
+			await worker.execute(key.id, actionRequest);
+		} catch (error: any) {
+			errorHandler(error);
+		}
+	});
 
 	// For better performance, commonly accessed contracts are stored in cache in the worker.
 	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
@@ -230,7 +219,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	);
 
 	const closeWorker = async () => {
-		await consumer.cancel();
+		await worker.consumer.cancel();
 		workerContractsStream.removeAllListeners();
 		workerContractsStream.close();
 		await kernel.disconnect(logContext);
@@ -400,7 +389,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 			},
 		});
 
-		const request = await producer.storeRequest(
+		const request = await worker.producer.storeRequest(
 			worker.getId(),
 			kernel.adminSession()!,
 			requestOptions,
@@ -449,7 +438,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 	// Finish setting up routes and middlewares now that we are ready to serve
 	// http traffic
-	webServer.ready(kernel, worker, producer, {
+	webServer.ready(kernel, worker, {
 		guestSession: results.guestSession.id,
 		sync,
 	});
@@ -477,7 +466,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 				kernel.adminSession()!,
 				`${channel.slug}@${channel.version}`,
 			);
-			return producer.enqueue(worker.getId(), kernel.adminSession()!, {
+			return worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
 				action: 'action-bootstrap-channel@1.0.0',
 				logContext,
 				card: channelCard!.id,
@@ -490,7 +479,6 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	return {
 		worker,
 		kernel,
-		producer,
 		guestSession: results.guestSession.id,
 		port: webServer.port,
 		close: async () => {

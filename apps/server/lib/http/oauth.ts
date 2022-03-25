@@ -1,11 +1,10 @@
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import type { Sync, Worker } from '@balena/jellyfish-worker';
 import errio from 'errio';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
-import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import type { Sync, Worker } from '@balena/jellyfish-worker';
-import type { Producer } from '@balena/jellyfish-queue';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 
 const logger = getLogger(__filename);
 
@@ -61,7 +60,6 @@ export const match = (
 export const sync = async (
 	logContext: LogContext,
 	worker: Worker,
-	queue: Producer,
 	session: string,
 	provider: string,
 	externalUser,
@@ -86,9 +84,13 @@ export const sync = async (
 		arguments: {},
 	});
 
-	const actionRequest = await queue.enqueue(worker.getId(), session, data);
+	const actionRequest = await worker.producer.enqueue(
+		worker.getId(),
+		session,
+		data,
+	);
 
-	const results = await queue.waitResults(logContext, actionRequest);
+	const results = await worker.producer.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);
@@ -98,7 +100,6 @@ export const sync = async (
 export const authorize = async (
 	logContext: LogContext,
 	worker: Worker,
-	producer: Producer,
 	session: string,
 	provider: string,
 	options,
@@ -127,9 +128,13 @@ export const authorize = async (
 		},
 	});
 
-	const actionRequest = await producer.enqueue(worker.getId(), session, data);
+	const actionRequest = await worker.producer.enqueue(
+		worker.getId(),
+		session,
+		data,
+	);
 
-	const results = await producer.waitResults(logContext, actionRequest);
+	const results = await worker.producer.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);
@@ -141,7 +146,6 @@ export const authorize = async (
 export const associate = async (
 	logContext: LogContext,
 	worker: Worker,
-	producer: Producer,
 	session: string,
 	provider: string,
 	user,
@@ -165,9 +169,13 @@ export const associate = async (
 		},
 	});
 
-	const actionRequest = await producer.enqueue(worker.getId(), session, data);
+	const actionRequest = await worker.producer.enqueue(
+		worker.getId(),
+		session,
+		data,
+	);
 
-	const results = await producer.waitResults(logContext, actionRequest);
+	const results = await worker.producer.waitResults(logContext, actionRequest);
 
 	if (results.error) {
 		throw errio.fromObject(results.data);
