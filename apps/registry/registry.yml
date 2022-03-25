@@ -1,6 +1,6 @@
 version: 0.1
 log:
-  level: info
+  level: warn
 http:
     addr: :80
     host: http://registry.ly.fish.local
