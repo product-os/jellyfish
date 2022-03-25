@@ -1,8 +1,7 @@
-import _ from 'lodash';
-import errio from 'errio';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Producer } from '@balena/jellyfish-queue';
-import type { Worker } from '@balena/jellyfish-worker';
+import type { Producer, Worker } from '@balena/jellyfish-worker';
+import errio from 'errio';
+import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
 const logger = getLogger(__filename);
@@ -30,9 +29,9 @@ export class ActionFacade {
 	producer: Producer;
 	worker: Worker;
 
-	constructor(worker, producer, fileStore) {
+	constructor(worker, fileStore) {
 		this.fileStore = fileStore;
-		this.producer = producer;
+		this.producer = worker.producer;
 		this.worker = worker;
 	}
 
