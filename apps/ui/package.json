@@ -76,15 +76,15 @@
     "react-swipeable": "^6.2.1",
     "react-textarea-autosize": "^8.3.3",
     "react-trello": "^2.2.11",
-    "react-virtuoso": "^2.8.2",
+    "react-virtuoso": "^2.8.4",
     "react-visibility-sensor": "^5.1.1",
     "redux": "^4.1.2",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.1",
-    "rendition": "^25.15.2",
+    "rendition": "^25.16.2",
     "skhema": "^6.0.6",
     "style-loader": "^2.0.0",
-    "styled-components": "^5.3.3",
+    "styled-components": "^5.3.5",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
