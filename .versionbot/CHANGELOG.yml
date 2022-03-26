@@ -1,4 +1,18 @@
 - commits:
+    - subject: Various apps/server cleanup
+      hash: 6253e6c9fd00b16d6e5285a7ae02866b934a2086
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.23
+  title: "'Various apps/server cleanup'"
+  date: 2022-03-26T08:13:54.483Z
+- commits:
     - subject: Update internal-patch
       hash: 5f59edc3455c1bbf965b75223537bf446a824a1c
       body: ""
