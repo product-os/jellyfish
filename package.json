@@ -75,7 +75,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^10.1.14",
+    "@balena/jellyfish-client-sdk": "^10.2.2",
     "@balena/jellyfish-config": "^2.0.4",
     "@balena/jellyfish-environment": "^9.1.6",
     "@balena/jellyfish-plugin-balena-api": "^2.0.69",
