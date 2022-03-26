@@ -1,4 +1,4 @@
-import { before, beforeEach, after } from './helpers';
+import { after, before, beforeEach } from './helpers';
 
 const context: any = {};
 

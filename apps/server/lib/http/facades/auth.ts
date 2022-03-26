@@ -1,15 +1,15 @@
 import * as assert from '@balena/jellyfish-assert';
-import { errors as coreErrors } from 'autumndb';
 import type {
 	Contract,
 	SessionContract,
 } from '@balena/jellyfish-types/build/core';
+import { errors as coreErrors } from 'autumndb';
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {
 	async whoami(context, session, ipAddress) {
 		// Use the admin session, as the user invoking this function
-		// might not have enough access to read its entire session card.
+		// might not have enough access to read its entire session contract.
 		const result = await this.kernel.getContractById<SessionContract>(
 			context,
 			this.kernel.adminSession()!,

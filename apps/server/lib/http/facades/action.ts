@@ -83,15 +83,15 @@ export class ActionFacade {
 		}
 
 		if (options.files) {
-			const cardId = (results.data! as any).id!;
+			const contractId = (results.data! as any).id!;
 
 			for (const item of files) {
 				logger.info(context, 'Uploading attachment', {
-					card: cardId,
+					card: contractId,
 					key: item.name,
 				});
 
-				await this.fileStore.store(context, cardId, item.name, item.buffer);
+				await this.fileStore.store(context, contractId, item.name, item.buffer);
 			}
 		}
 

@@ -1,8 +1,8 @@
-import AWS from 'aws-sdk';
-import _ from 'lodash';
-import Bluebird from 'bluebird';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
+import AWS from 'aws-sdk';
+import Bluebird from 'bluebird';
+import _ from 'lodash';
 
 const logger = getLogger(__filename);
 
@@ -31,7 +31,7 @@ export class S3FS {
 		this.BUCKET_NAME = environment.aws.s3BucketName;
 	}
 
-	store(context, scope, name, data) {
+	public store(context, scope, name, data) {
 		const object = {
 			Body: data,
 			Key: `${scope}/${name}`,
@@ -47,7 +47,7 @@ export class S3FS {
 		return s3.putObject(object).promise();
 	}
 
-	retrieve(context, scope, name, retries = 0) {
+	public retrieve(context, scope, name, retries = 0) {
 		const s3 = new AWS.S3(this.config);
 
 		const object = {

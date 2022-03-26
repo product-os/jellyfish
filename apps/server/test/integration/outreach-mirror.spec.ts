@@ -1,13 +1,13 @@
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { strict as assert } from 'assert';
-import querystring from 'querystring';
 import Bluebird from 'bluebird';
-import request from 'request';
 import _ from 'lodash';
 import nock from 'nock';
+import querystring from 'querystring';
+import request from 'request';
 import { v4 as uuid } from 'uuid';
-import * as outreachMock from './outreach-mock';
-import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import * as helpers from './helpers';
+import * as outreachMock from './outreach-mock';
 
 const TOKEN = environment.integration.outreach;
 const context: any = {};
@@ -37,7 +37,7 @@ const NOCK_OPTS = {
 beforeEach(async () => {
 	helpers.beforeEach(test);
 
-	context.getProspect = async (id) => {
+	context.getProspect = async (id: string) => {
 		return new Bluebird((resolve, reject) => {
 			request(
 				{

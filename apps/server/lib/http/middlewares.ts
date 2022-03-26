@@ -1,10 +1,10 @@
-import _ from 'lodash';
+import { getLogger } from '@balena/jellyfish-logger';
+import type { Kernel } from 'autumndb';
 import bodyParser from 'body-parser';
+import _ from 'lodash';
 import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
-import { getLogger } from '@balena/jellyfish-logger';
 import { authMiddleware } from './auth';
-import type { Kernel } from 'autumndb';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires

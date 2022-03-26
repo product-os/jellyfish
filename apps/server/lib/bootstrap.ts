@@ -14,9 +14,9 @@ import {
 	TriggeredActionContract,
 	Worker,
 } from '@balena/jellyfish-worker';
-import * as core from 'autumndb';
+import * as autumndb from 'autumndb';
 import _ from 'lodash';
-import { loadCards } from './card-loader';
+import { loadContracts } from './contract-loader';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 
@@ -101,12 +101,12 @@ const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
 
 const getActorKey = async (
 	logContext: LogContext,
-	kernel: core.Kernel,
+	kernel: autumndb.Kernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
 	const keySlug = `session-action-${actorId}`;
-	const key = await kernel.getCardBySlug<SessionContract>(
+	const key = await kernel.getContractBySlug<SessionContract>(
 		logContext,
 		session,
 		`${keySlug}@1.0.0`,
@@ -124,7 +124,7 @@ const getActorKey = async (
 	return kernel.replaceContract(
 		logContext,
 		session,
-		core.Kernel.defaults({
+		autumndb.Kernel.defaults({
 			slug: keySlug,
 			active: true,
 			version: '1.0.0',
@@ -136,11 +136,12 @@ const getActorKey = async (
 	);
 };
 
-export const bootstrap = async (logContext: LogContext, options) => {
+// TS-TODO: Define type for options argument
+export const bootstrap = async (logContext: LogContext, options: any) => {
 	// Load plugin data
 	const integrations = options.pluginManager.getSyncIntegrations(logContext);
 	const actionLibrary = options.pluginManager.getActions(logContext);
-	const cards = options.pluginManager.getCards();
+	const contracts = options.pluginManager.getCards();
 
 	logger.info(logContext, 'Configuring HTTP server');
 	const webServer = createServer(logContext, {
@@ -152,18 +153,18 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	await webServer.start();
 
 	logger.info(logContext, 'Setting up cache');
-	const cache = new core.Cache(environment.redis);
+	const cache = new autumndb.Cache(environment.redis);
 	if (cache) {
 		await cache.connect();
 	}
 
-	// Instantiate a core instance that will handle DB operations
+	// Instantiate an autumndb instance that will handle DB operations
 	const backendOptions =
 		options && options.database
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
 
-	const { kernel, pool } = await core.Kernel.withPostgres(
+	const { kernel, pool } = await autumndb.Kernel.withPostgres(
 		logContext,
 		cache,
 		backendOptions,
@@ -176,7 +177,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 	// Create and initialize the worker instance. This will process jobs from the queue.
 	const worker = new Worker(
-		kernel as any,
+		kernel,
 		kernel.adminSession()!,
 		actionLibrary,
 		pool,
@@ -242,7 +243,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	workerContractsStream.once('error', errorHandler);
 
 	// On a stream event, update the stored contracts in the worker
-	workerContractsStream.on('data', (change: core.StreamChange) => {
+	workerContractsStream.on('data', (change: autumndb.StreamChange) => {
 		const contract = change.after;
 		const contractType = change.contractType.split('@')[0];
 		if (
@@ -250,7 +251,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 			change.type === 'insert' ||
 			change.type === 'unmatch'
 		) {
-			// If `after` is null, the card is no longer available: most likely it has
+			// If `after` is null, the contract is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
 			if (!contract) {
 				switch (contractType) {
@@ -322,12 +323,12 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	});
 	worker.setTypeContracts(logContext, typeContracts as TypeContract[]);
 
-	const results = await loadCards(
+	const results = await loadContracts(
 		logContext,
 		kernel,
 		worker,
 		kernel.adminSession()!,
-		cards,
+		contracts,
 	);
 
 	logger.info(logContext, 'Inserting test user', {
@@ -338,18 +339,18 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	assert.INTERNAL(
 		logContext,
 		environment.test.user.username,
-		core.errors.JellyfishInvalidEnvironmentVariable as any,
+		autumndb.errors.JellyfishInvalidEnvironmentVariable as any,
 		`No test username: ${environment.test.user.username}`,
 	);
 
 	assert.INTERNAL(
 		logContext,
 		environment.test.user.role,
-		core.errors.JellyfishInvalidEnvironmentVariable as any,
+		autumndb.errors.JellyfishInvalidEnvironmentVariable as any,
 		`No test role: ${environment.test.user.role}`,
 	);
 
-	const userCard = await kernel.replaceCard(
+	const userContract = await kernel.replaceContract(
 		logContext,
 		kernel.adminSession()!,
 		{
@@ -373,16 +374,16 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 		assert.INTERNAL(
 			logContext,
-			userCard,
-			core.errors.JellyfishNoElement as any,
+			userContract,
+			autumndb.errors.JellyfishNoElement,
 			`Test user does not exist: ${environment.test.user.username}`,
 		);
 
 		const requestOptions = await worker.pre(kernel.adminSession()!, {
 			action: 'action-set-password@1.0.0',
 			logContext,
-			card: userCard.id,
-			type: userCard.type,
+			card: userContract.id,
+			type: userContract.type,
 			arguments: {
 				currentPassword: null,
 				newPassword: environment.test.user.password,
@@ -402,7 +403,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 			`Could not set test password for ${environment.test.user.username}`,
 		);
 
-		const orgCard = await kernel.getCardBySlug(
+		const orgContract = await kernel.getContractBySlug(
 			logContext,
 			kernel.adminSession()!,
 			`org-${environment.test.user.organization}@latest`,
@@ -410,24 +411,24 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 		assert.INTERNAL(
 			logContext,
-			orgCard,
-			core.errors.JellyfishNoElement as any,
+			orgContract,
+			autumndb.errors.JellyfishNoElement,
 			`Test org does not exist: ${environment.test.user.organization}`,
 		);
 
-		await kernel.replaceCard(logContext, kernel.adminSession()!, {
+		await kernel.replaceContract(logContext, kernel.adminSession()!, {
 			type: 'link@1.0.0',
 			name: 'has member',
-			slug: `link-${orgCard!.id}-has-member-${userCard.id}`,
+			slug: `link-${orgContract!.id}-has-member-${userContract.id}`,
 			data: {
 				inverseName: 'is member of',
 				from: {
-					id: orgCard!.id,
-					type: orgCard!.type,
+					id: orgContract!.id,
+					type: orgContract!.type,
 				},
 				to: {
-					id: userCard.id,
-					type: userCard.type,
+					id: userContract.id,
+					type: userContract.type,
 				},
 			},
 		});
@@ -446,8 +447,8 @@ export const bootstrap = async (logContext: LogContext, options) => {
 	// Manually bootstrap channels
 	// TODO: This should ideally be completely automated, but this would
 	// require that triggered actions are up and running before any
-	// channel cards are loaded.
-	const channels = _.filter(cards, {
+	// channel contracts are loaded.
+	const channels = _.filter(contracts, {
 		type: 'channel@1.0.0',
 		active: true,
 	});
@@ -461,7 +462,7 @@ export const bootstrap = async (logContext: LogContext, options) => {
 
 	await Promise.all(
 		channels.map(async (channel) => {
-			const channelCard = await kernel.getCardBySlug(
+			const channelContract = await kernel.getContractBySlug(
 				logContext,
 				kernel.adminSession()!,
 				`${channel.slug}@${channel.version}`,
@@ -469,8 +470,8 @@ export const bootstrap = async (logContext: LogContext, options) => {
 			return worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
 				action: 'action-bootstrap-channel@1.0.0',
 				logContext,
-				card: channelCard!.id,
-				type: channelCard!.type,
+				card: channelContract!.id,
+				type: channelContract!.type,
 				arguments: {},
 			});
 		}),

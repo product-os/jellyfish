@@ -48,7 +48,7 @@ export const match = (
 		// TS-TODO: this is not a proper `SyncActionContext`
 		{
 			getElementBySlug: (slug) => {
-				return worker.kernel.getCardBySlug(logContext, session, slug);
+				return worker.kernel.getContractBySlug(logContext, session, slug);
 			},
 		} as any,
 		provider,

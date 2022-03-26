@@ -1,11 +1,11 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import jsonwebtoken from 'jsonwebtoken';
-import { v4 as uuidv4 } from 'uuid';
-import _ from 'lodash';
-import Bluebird from 'bluebird';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Kernel } from 'autumndb';
 import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Kernel } from 'autumndb';
+import Bluebird from 'bluebird';
+import jsonwebtoken from 'jsonwebtoken';
+import _ from 'lodash';
+import { v4 as uuidv4 } from 'uuid';
 
 const logger = getLogger(__filename);
 
@@ -91,9 +91,9 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 			return response.status(400).send('session token missing');
 		}
 
-		// Retrieve actor card to verify the session
+		// Retrieve actor contract to verify the session
 		// TODO figure out why we need the version on the slug here
-		const actor = await kernel.getCardBySlug(
+		const actor = await kernel.getContractBySlug(
 			request.context,
 			session,
 			`${actorSlug}@latest`,
@@ -102,13 +102,13 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 			throw new Error('Unable to load actor');
 		}
 
-		// Retrieve session card
-		const sessionCard = await kernel.getContractById(
+		// Retrieve session contract
+		const sessionContract = await kernel.getContractById(
 			request.context,
 			session,
 			session,
 		);
-		if (!session || sessionCard!.data.actor !== actor.id) {
+		if (!session || sessionContract!.data.actor !== actor.id) {
 			throw new Error('Invalid session');
 		}
 	} catch (error) {

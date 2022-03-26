@@ -10,7 +10,8 @@ import { attachRoutes } from './routes';
 
 const logger = getLogger(__filename);
 
-export const createServer = (logContext: LogContext, configuration) => {
+// TS-TODO: Define proper type for configuration argument
+export const createServer = (logContext: LogContext, configuration: any) => {
 	const application = metrics.initExpress();
 
 	const server = new http.Server(application);

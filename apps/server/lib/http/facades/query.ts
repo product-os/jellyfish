@@ -1,7 +1,7 @@
-import _ from 'lodash';
-import Bluebird from 'bluebird';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import { Kernel, errors as coreErrors } from 'autumndb';
+import Bluebird from 'bluebird';
+import _ from 'lodash';
 
 const logger = getLogger(__filename);
 
@@ -19,29 +19,35 @@ export class QueryFacade {
 			}
 
 			// Now try and load the view by slug
-			const viewCardFromSlug = await this.kernel.getContractBySlug(
+			const viewContractFromSlug = await this.kernel.getContractBySlug(
 				logContext,
 				session,
 				`${query}@latest`,
 			);
 
-			if (viewCardFromSlug && viewCardFromSlug.type.split('@')[0] === 'view') {
-				return viewCardFromSlug;
+			if (
+				viewContractFromSlug &&
+				viewContractFromSlug.type.split('@')[0] === 'view'
+			) {
+				return viewContractFromSlug;
 			}
 
 			try {
 				// Try and load the view by id first
-				const viewCardFromId = await this.kernel.getContractById(
+				const viewContractFromId = await this.kernel.getContractById(
 					logContext,
 					session,
 					query,
 				);
 
-				if (!viewCardFromId || viewCardFromId.type.split('@')[0] !== 'view') {
+				if (
+					!viewContractFromId ||
+					viewContractFromId.type.split('@')[0] !== 'view'
+				) {
 					throw new coreErrors.JellyfishNoView(`Unknown view: ${query}`);
 				}
 
-				return viewCardFromId;
+				return viewContractFromId;
 			} catch (error) {
 				throw new coreErrors.JellyfishNoView(`Unknown view: ${query}`);
 			}

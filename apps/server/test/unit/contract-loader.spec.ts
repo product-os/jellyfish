@@ -1,4 +1,4 @@
-import { ensureTypeHasVersion } from '../../lib/card-loader';
+import { ensureTypeHasVersion } from '../../lib/contract-loader';
 
 test('ensureTypeHasVersion() should throw on invalid version', async () => {
 	expect(() => ensureTypeHasVersion('foo-bar@1.x')).toThrow();
