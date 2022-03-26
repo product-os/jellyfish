@@ -75,11 +75,11 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^10.2.2",
+    "@balena/jellyfish-client-sdk": "^10.2.3",
     "@balena/jellyfish-config": "^2.0.4",
     "@balena/jellyfish-environment": "^9.1.6",
     "@balena/jellyfish-plugin-balena-api": "^2.0.69",
-    "@balena/jellyfish-plugin-channels": "^2.0.69",
+    "@balena/jellyfish-plugin-channels": "^2.0.70",
     "@balena/jellyfish-plugin-default": "^24.0.42",
     "@balena/jellyfish-plugin-discourse": "^2.2.46",
     "@balena/jellyfish-plugin-flowdock": "^2.0.76",
