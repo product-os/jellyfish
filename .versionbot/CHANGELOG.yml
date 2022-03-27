@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update fast-json-patch from 3.1.0 to 3.1.1
+      hash: 98969a07211d7b92f05d52d7a60607b9bbd11d14
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.30
+  title: "'Update fast-json-patch from 3.1.0 to 3.1.1'"
+  date: 2022-03-27T02:53:34.535Z
+- commits:
     - subject: Update aws-sdk from 2.1096.0 to 2.1101.0
       hash: 3040c1e0ee97f0e39b56c10179af3f4141d2f381
       body: ""
