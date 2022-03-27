@@ -93,7 +93,7 @@
     "@playwright/test": "^1.20.0",
     "autumndb": "^19.1.9",
     "ava": "^4.1.0",
-    "aws-sdk": "^2.1096.0",
+    "aws-sdk": "^2.1101.0",
     "bluebird": "^3.7.2",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
