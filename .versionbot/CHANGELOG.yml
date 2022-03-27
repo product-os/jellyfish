@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: b9f091359007afe8b7d1b0d767d748e79db43b03
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.6.37
+  title: "'Update internal-patch'"
+  date: 2022-03-27T16:34:05.751Z
+- commits:
     - subject: Set grafana log level to error
       hash: 4fb55e0416d76e7f8c211444e940c507ab9d7142
       body: |
