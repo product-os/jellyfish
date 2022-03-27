@@ -24,7 +24,7 @@
   "dependencies": {
     "@balena/jellyfish-client-sdk": "^10.2.3",
     "@balena/jellyfish-environment": "^9.1.7",
-    "@sentry/browser": "^6.18.2",
+    "@sentry/browser": "^6.19.2",
     "@use-it/event-listener": "^0.1.7",
     "@webscopeio/react-textarea-autocomplete": "^4.9.1",
     "analytics-client": "^1.7.0",
