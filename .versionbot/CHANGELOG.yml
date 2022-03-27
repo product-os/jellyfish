@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @sentry/browser from 6.18.2 to 6.19.2
+      hash: 315d0e6aac5b75d40ede4db3d6b01e5edf9b2548
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.32
+  title: "'Update @sentry/browser from 6.18.2 to 6.19.2'"
+  date: 2022-03-27T04:28:50.229Z
+- commits:
     - subject: Update playwright from 1.20.0 to 1.20.1
       hash: 3844113f234c9cbdbbbf741fdbb7b3cfa7a260c4
       body: ""
