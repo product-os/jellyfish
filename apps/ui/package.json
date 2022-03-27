@@ -94,7 +94,7 @@
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/register": "^7.17.7",
-    "@balena/jellyfish-config": "^2.0.4",
+    "@balena/jellyfish-config": "^2.0.5",
     "@balena/jellyfish-types": "^2.0.4",
     "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.7.1",
