@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update playwright from 1.20.0 to 1.20.1
+      hash: 3844113f234c9cbdbbbf741fdbb7b3cfa7a260c4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.31
+  title: "'Update playwright from 1.20.0 to 1.20.1'"
+  date: 2022-03-27T03:42:25.890Z
+- commits:
     - subject: Update fast-json-patch from 3.1.0 to 3.1.1
       hash: 98969a07211d7b92f05d52d7a60607b9bbd11d14
       body: ""
