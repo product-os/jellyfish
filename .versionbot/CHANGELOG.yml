@@ -1,4 +1,19 @@
 - commits:
+    - subject: Set grafana log level to error
+      hash: 4fb55e0416d76e7f8c211444e940c507ab9d7142
+      body: |
+        Grafana logs were a bit too noisy
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.36
+  title: "'Set grafana log level to error'"
+  date: 2022-03-27T13:09:36.391Z
+- commits:
     - subject: Update ts-jest from 27.1.3 to 27.1.4
       hash: 12d85b7f79573710303b3bda0cc2f203338013cd
       body: ""
