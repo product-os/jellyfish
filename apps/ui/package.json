@@ -44,7 +44,7 @@
     "deepmerge": "^4.2.2",
     "detect-ua": "^1.0.2",
     "fast-equals": "^2.0.4",
-    "fast-json-patch": "^3.1.0",
+    "fast-json-patch": "^3.1.1",
     "file-loader": "^6.2.0",
     "file-saver": "^2.0.5",
     "flat": "^5.0.2",
