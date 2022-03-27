@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update babel-loader from 8.2.3 to 8.2.4
+      hash: 3c54268357edfb104830660e307ea177c646c521
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.34
+  title: "'Update babel-loader from 8.2.3 to 8.2.4'"
+  date: 2022-03-27T08:41:43.991Z
+- commits:
     - subject: Update @types/howler from 2.2.6 to 2.2.7
       hash: b81e6506490e2bba1394c687411fdd4731e8c01a
       body: ""
