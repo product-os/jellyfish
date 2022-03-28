@@ -3,12 +3,18 @@ import { Flex } from 'rendition';
 import * as _ from 'lodash';
 import { LensRendererProps } from '../../../types';
 import { ContractGraph } from '../../common';
+import { TypeContract } from '@balena/jellyfish-types/build/core';
 
-export type Props = LensRendererProps;
+export type OwnProps = LensRendererProps;
+export interface StateProps {
+	types: TypeContract[];
+}
+
+type Props = StateProps & OwnProps;
 
 export default class MilestoneGraph extends React.Component<Props> {
 	render() {
-		const { channel, tail } = this.props;
+		const { channel, tail, types } = this.props;
 		if (!tail) {
 			return null;
 		}
@@ -37,7 +43,7 @@ export default class MilestoneGraph extends React.Component<Props> {
 
 		return (
 			<Flex justifyContent="center" py={2}>
-				<ContractGraph contracts={processedContracts} />
+				<ContractGraph draggable types={types} contracts={processedContracts} />
 			</Flex>
 		);
 	}

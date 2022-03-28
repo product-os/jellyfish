@@ -195,6 +195,7 @@ export default class SingleCardFull extends React.Component<
 
 							{!!this.state.tree && (
 								<ContractGraph
+									draggable
 									contracts={[this.state.tree]}
 									showVersion
 									showType
