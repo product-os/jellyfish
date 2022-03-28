@@ -1,4 +1,20 @@
 - commits:
+    - subject: Move registry app to docker-compose.yml
+      hash: 189d5bcb0e6cb7b061b86f4c4931d526df21c2be
+      body: |
+        Move registry service to main docker-compose config.
+        Move registry build directory to live under /apps.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.6.40
+  title: "'Move registry app to docker-compose.yml'"
+  date: 2022-03-28T06:04:49.924Z
+- commits:
     - subject: Update internal-patch
       hash: 9d8afb5802b926e8a7160c4499b22d6f21850667
       body: ""
