@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-registry from v2.24.2 to v2.24.3
+      hash: 78ddf0c7b06077278edfc563d501ef139255b089
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.6.41
+  title: "'Update balena/open-balena-registry from v2.24.2 to v2.24.3'"
+  date: 2022-03-28T12:25:15.819Z
+- commits:
     - subject: Move registry app to docker-compose.yml
       hash: 189d5bcb0e6cb7b061b86f4c4931d526df21c2be
       body: |
