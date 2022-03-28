@@ -60,6 +60,10 @@ Reverse proxy.
 
 Metrics collector.
 
+### [`apps/registry`](https://github.com/product-os/jellyfish/tree/master/apps/registry)
+
+Docker registry.
+
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.
