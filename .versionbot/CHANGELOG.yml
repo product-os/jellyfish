@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Allow linking contracts in chart via drag and drop"
+      hash: 6b46a264b87b9c1bc05ce5ef9cec654735a33bfe
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.7.0
+  title: "'UI: Allow linking contracts in chart via drag and drop'"
+  date: 2022-03-29T10:41:37.375Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 2.1.82 to 2.2.0
       hash: 299966cb28ae33c86f110804ac0b812b29a8259c
       body: ""
