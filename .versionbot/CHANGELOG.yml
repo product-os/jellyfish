@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: f57aeea54034070058cc5075bf95f9eee47d18f6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.7.1
+  title: "'Update internal-patch'"
+  date: 2022-03-29T11:23:27.713Z
+- commits:
     - subject: "UI: Allow linking contracts in chart via drag and drop"
       hash: 6b46a264b87b9c1bc05ce5ef9cec654735a33bfe
       body: ""
