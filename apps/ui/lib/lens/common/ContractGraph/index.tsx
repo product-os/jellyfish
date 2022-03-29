@@ -213,8 +213,8 @@ const ContractGraph = (props: Props) => {
 			<Mermaid value={mermaidInput} />
 			{!!linkTargets && (
 				<LinkModal
-					target={linkTargets.to}
-					cards={[linkTargets.from]}
+					target={linkTargets.from}
+					cards={[linkTargets.to]}
 					targetTypes={types}
 					onHide={() => setLinkTargets(null)}
 				/>

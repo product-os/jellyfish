@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
-import { Modal, Select, Txt, Box } from 'rendition';
+import { Badge, Modal, Select, Txt, Box } from 'rendition';
 import * as notifications from '../../services/notifications';
 import { Icon } from '../';
 import type {
@@ -14,6 +14,7 @@ import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
 import { Hideable } from '../Hideable';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
+import * as helpers from '../../services/helpers';
 
 const HideableBox = Hideable(Box);
 
@@ -83,11 +84,7 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 			linkVerb,
 			selectedTarget,
 		);
-		if (targets.length === 1) {
-			setLinkType(targets[0]);
-		} else {
-			setLinkType(undefined);
-		}
+		setLinkType(targets[0]);
 		return targets;
 	}, [fromType, linkVerb, selectedTarget]);
 
@@ -122,16 +119,23 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 		onHide();
 	};
 
+	const typeName = fromTypeContract
+		? fromTypeContract.name || fromTypeContract.slug
+		: fromType;
+
 	// The title is constructed based on the props passed to the component
 	const title = React.useMemo(() => {
-		const typeName = fromTypeContract ? fromTypeContract.name : fromType;
-
 		if (typeName) {
-			const titleSource = `${pluralize('this', cards.length)} ${pluralize(
-				typeName,
-				cards.length,
-				cards.length > 1,
-			)}`;
+			let titleSource = '';
+			if (cards.length === 1) {
+				titleSource = `"${cards[0].name || cards[0].slug}"`;
+			} else {
+				titleSource = `${pluralize('this', cards.length)} ${pluralize(
+					typeName,
+					cards.length,
+					true,
+				)}`;
+			}
 			const titleTarget =
 				validTypes.length === 1 ? validTypes[0].name : 'another element';
 			return `Link ${titleSource} to ${titleTarget}`;
@@ -139,6 +143,10 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 			return 'Link contract';
 		}
 	}, [linkVerb, fromTypeContract, validTypes, cards, linkTypeTargets]);
+
+	const typeCardIndex = targetTypes.findIndex((type) => {
+		return type.slug === helpers.getTypeBase(fromTypeContract.slug);
+	});
 
 	return (
 		<Modal
@@ -154,6 +162,28 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 			done={onDone}
 			style={{ overflowY: 'inherit' }}
 		>
+			<Txt mb={3} ml="8px">
+				<Badge shade={typeCardIndex} mr={2}>
+					{typeName}
+				</Badge>
+				{cards[0].name || cards[0].slug}
+			</Txt>
+			{!linkVerb && (
+				<HideableBox isHidden={!selectedTarget || linkTypeTargets.length === 1}>
+					<Select
+						mb={3}
+						id="card-linker--type-select"
+						value={linkType || _.first(linkTypeTargets)}
+						onChange={({ option }: { option: linkUtils.LinkType }) => {
+							setLinkType(option);
+						}}
+						labelKey="name"
+						valueKey="slug"
+						options={linkTypeTargets}
+						data-test="card-linker--type__input"
+					/>
+				</HideableBox>
+			)}
 			{!target && validTypes.length > 1 && (
 				<TypeFilter
 					types={validTypes}
@@ -170,24 +200,6 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 				isDisabled={Boolean(target)}
 				onChange={setSelectedTarget}
 			/>
-			{!linkVerb && (
-				<HideableBox isHidden={!selectedTarget || linkTypeTargets.length === 1}>
-					<Txt mt={3} mb={1}>
-						Select link type:
-					</Txt>
-					<Select
-						id="card-linker--type-select"
-						value={linkType || ''}
-						onChange={({ option }: { option: linkUtils.LinkType }) => {
-							setLinkType(option);
-						}}
-						labelKey="title"
-						valueKey="slug"
-						options={linkTypeTargets}
-						data-test="card-linker--type__input"
-					/>
-				</HideableBox>
-			)}
 		</Modal>
 	);
 };
