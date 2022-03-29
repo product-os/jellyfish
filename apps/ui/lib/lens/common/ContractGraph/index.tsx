@@ -1,21 +1,24 @@
 import * as React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
-import { Box } from 'rendition';
+import { Box, Modal } from 'rendition';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 import * as _ from 'lodash';
 import interact from 'interactjs';
 import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 import { LinkModal } from '../../../components/LinkModal';
+import Icon from '../../../components/Icon';
+import { sdk } from '../../../core';
 
 const ChartWrapper = styled(Box)`
 	.node.drop-target > rect {
 		stroke-width: 3px !important;
 	}
+	.edgeLabel {
+		cursor: pointer;
+	}
 `;
-
-const ONCLICK_CALLBACK = 'jellyfishContractGraphOnClickCallback';
 
 interface OwnProps {
 	contracts: Contract[];
@@ -90,15 +93,23 @@ const ContractGraph = (props: Props) => {
 		from: Contract;
 	} | null>(null);
 
+	const [linkRemoveTargets, setLinkRemoveTargets] = React.useState<{
+		to: Contract;
+		from: Contract;
+		verb: string;
+	} | null>(null);
+	const [isRemovingLink, setIsRemovingLink] = React.useState(false);
+
 	if (draggable && types) {
 		// TODO: Move logic to rendition
 		// Add handlers for manipulating mermaid nodes
+		// Recreate event handles for nodes when the contracts change
 		React.useEffect(() => {
-			const nodes = document.querySelectorAll('g.node');
+			const nodes = document.querySelectorAll(`#${identifier} g.node`);
 			nodes.forEach((el) =>
 				el.addEventListener('click', (event) => {
 					if (event.currentTarget) {
-						// A drop event cna trigger this click, so don't do anything if the node is being dragged
+						// A drop event can trigger this click, so don't do anything if the node is being dragged
 						if (
 							Array.from((event.currentTarget as any).classList).includes(
 								'dragging',
@@ -114,6 +125,26 @@ const ContractGraph = (props: Props) => {
 				}),
 			);
 
+			const labels = document.querySelectorAll(`#${identifier} span.edgeLabel`);
+			labels.forEach((el) =>
+				el.addEventListener('click', (event) => {
+					if (event.currentTarget) {
+						const id = (event.currentTarget as any).getAttribute('id');
+						const fromId = id.slice(4, 40);
+						const toId = id.slice(41);
+						const verb = (event.currentTarget as any).innerText;
+						setLinkRemoveTargets({
+							to: contracts.find((c) => c.id === toId)!,
+							from: contracts.find((c) => c.id === fromId)!,
+							verb,
+						});
+					}
+				}),
+			);
+		}, [contracts]);
+
+		// InteractJS will preserve handles between graph redraws, so it only needs to be setup on mount
+		React.useEffect(() => {
 			interact(`#${identifier} g.node`).draggable({
 				listeners: {
 					move(event) {
@@ -206,6 +237,20 @@ const ContractGraph = (props: Props) => {
 		}, []);
 	}
 
+	const removeLink = () => {
+		if (linkRemoveTargets) {
+			setIsRemovingLink(true);
+			const { from, to, verb } = linkRemoveTargets;
+			sdk.card
+				.unlink(from, to, verb)
+				.catch(console.error)
+				.finally(() => {
+					setLinkRemoveTargets(null);
+					setIsRemovingLink(false);
+				});
+		}
+	};
+
 	const mermaidInput = makeGraph(contracts, showVersion, showType);
 
 	return (
@@ -213,11 +258,24 @@ const ContractGraph = (props: Props) => {
 			<Mermaid value={mermaidInput} />
 			{!!linkTargets && (
 				<LinkModal
-					target={linkTargets.to}
-					cards={[linkTargets.from]}
+					target={linkTargets.from}
+					cards={[linkTargets.to]}
 					targetTypes={types}
 					onHide={() => setLinkTargets(null)}
 				/>
+			)}
+			{!!linkRemoveTargets && (
+				<Modal
+					title={`Remove link "${linkRemoveTargets.verb}"?`}
+					done={() => removeLink()}
+					cancel={() => setLinkRemoveTargets(null)}
+					action={isRemovingLink ? <Icon spin name="cog" /> : 'Remove link'}
+					primaryButtonProps={{
+						danger: true,
+						primary: false,
+						disabled: isRemovingLink,
+					}}
+				></Modal>
 			)}
 		</ChartWrapper>
 	);
