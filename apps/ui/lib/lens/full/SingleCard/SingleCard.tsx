@@ -9,6 +9,9 @@ import CardLayout from '../../../layouts/CardLayout';
 import Timeline from '../../list/Timeline';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../common';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { TypeContract } from '@balena/jellyfish-types/build/core';
+import { actionCreators } from '../../../core';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;
@@ -21,8 +24,24 @@ export const SingleCardTabs = styled(Tabs)`
 	}
 `;
 
-export default class SingleCardFull extends React.Component<any, any> {
-	constructor(props) {
+export type OwnProps = LensRendererProps;
+
+export interface StateProps {
+	types: TypeContract[];
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+type Props = StateProps & OwnProps & DispatchProps;
+
+interface State {
+	activeIndex: number;
+}
+
+export default class SingleCardFull extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		const tail = _.get(this.props.card.links, ['has attached element'], []);
