@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Add a lens for rendering repositories in a graph"
+      hash: 9d3345d0baec8001eea69a8f5c91cc7ca4688414
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Make milestonegraph re-usable"
+      hash: 423cb8cdeb5873f544f94ee815e72d39f21d55d4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.8.0
+  title: "'Lucianbuzzo/generic contract graph'"
+  date: 2022-03-30T14:16:29.659Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 10.2.3 to 10.3.0
       hash: 0f7320b95191ad5dc56917b01e8f288fe662a8aa
       body: ""
