@@ -1,8 +1,4 @@
-import {
-	Contract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -14,7 +10,6 @@ import { selectors, sdk } from '../../core';
 import { ChannelContract } from '../../types';
 
 interface StateProps {
-	user: UserContract;
 	types: TypeContract[];
 }
 
@@ -43,7 +38,6 @@ const CardLayout = (props: Props) => {
 		overflowY,
 		title,
 		types,
-		user,
 	} = props;
 
 	const typeBase = card.type && card.type.split('@')[0];
@@ -122,7 +116,6 @@ const CardLayout = (props: Props) => {
 
 const mapStateToProps = (state): StateProps => {
 	return {
-		user: selectors.getCurrentUser(state),
 		types: selectors.getTypes(state),
 	};
 };
