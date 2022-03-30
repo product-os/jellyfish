@@ -1,4 +1,40 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 10.2.3 to 10.3.0
+      hash: 0f7320b95191ad5dc56917b01e8f288fe662a8aa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: "UI: Add functionality for removing links via contract graph"
+      hash: 98124571c6bbfdc63773aa128c33ea71dac97312
+      body: |
+        You can now click on a link label on the graph, which will open a modal
+        allowing you to remove the link.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve clarity of link modal"
+      hash: 6f586fd7c4521691bde648fa2f74bb49a71d1e5b
+      body: |
+        This change makes the Link modal much easier to understand when linking
+        two contracts that have multiple possible relationships.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.7.2
+  title: "'Update @balena/jellyfish-client-sdk from 10.2.3 to 10.3.0'"
+  date: 2022-03-30T13:34:22.352Z
+- commits:
     - subject: Update internal-patch
       hash: f57aeea54034070058cc5075bf95f9eee47d18f6
       body: ""
