@@ -1,8 +1,7 @@
 import * as React from 'react';
-import { Flex } from 'rendition';
 import * as _ from 'lodash';
 import { LensRendererProps } from '../../../types';
-import { ContractGraph } from '../../common';
+import DraggableContractGraph from '../../common/DraggableContractGraph';
 import { TypeContract } from '@balena/jellyfish-types/build/core';
 
 export type OwnProps = LensRendererProps;
@@ -12,39 +11,15 @@ export interface StateProps {
 
 type Props = StateProps & OwnProps;
 
-export default class MilestoneGraph extends React.Component<Props> {
-	render() {
-		const { channel, tail, types } = this.props;
-		if (!tail) {
-			return null;
-		}
-		const contracts = tail.slice();
-		// If the head contract is also a milestone, include it in the ouput
-		if (
-			channel.data.head &&
-			channel.data.head.type.split('@')[0] === 'milestone'
-		) {
-			contracts.push(channel.data.head);
-		}
+export default (props: Props) => {
+	const { channel, tail, types } = props;
 
-		if (contracts.length === 0) {
-			return null;
-		}
-
-		// We're only interesting in displaying the "is required by" links
-		const processedContracts = contracts.map((t) => {
-			return {
-				...t,
-				links: {
-					['is required by']: t.links?.['is required by'] || [],
-				},
-			};
-		});
-
-		return (
-			<Flex justifyContent="center" py={2}>
-				<ContractGraph draggable types={types} contracts={processedContracts} />
-			</Flex>
-		);
-	}
-}
+	return (
+		<DraggableContractGraph
+			types={types}
+			tail={tail}
+			channel={channel}
+			linkVerbs={['is required by']}
+		/>
+	);
+};
