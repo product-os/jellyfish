@@ -1,3 +1,8 @@
+import {
+	Contract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -6,8 +11,28 @@ import { CloseButton, Column, LinksProvider } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors, sdk } from '../../core';
+import { ChannelContract } from '../../types';
 
-const CardLayout = (props) => {
+interface StateProps {
+	user: UserContract;
+	types: TypeContract[];
+}
+
+interface OwnProps {
+	actionItems?: JSX.Element;
+	card: Contract;
+	channel: ChannelContract;
+	children: React.ReactNode;
+	inlineActionItems?: JSX.Element;
+	noActions?: boolean;
+	onClose?: () => void;
+	overflowY?: boolean;
+	title?: JSX.Element;
+}
+
+type Props = StateProps & OwnProps;
+
+const CardLayout = (props: Props) => {
 	const {
 		inlineActionItems,
 		actionItems,
@@ -23,14 +48,15 @@ const CardLayout = (props) => {
 
 	const typeBase = card.type && card.type.split('@')[0];
 
-	const typeContract =
-		_.find(types, {
-			slug: typeBase,
-		}) || {};
-	const typeName =
-		!typeContract.version || typeContract.version === '1.0.0'
+	const typeContract = _.find(types, {
+		slug: typeBase,
+	});
+	const typeName = typeContract
+		? !typeContract.version || typeContract.version === '1.0.0'
 			? typeContract.name
-			: `${typeContract.name} v${typeContract.version}`;
+			: `${typeContract.name} v${typeContract.version}`
+		: null;
+
 	const versionSuffix = card.version === '1.0.0' ? '' : ` v${card.version}`;
 
 	return (
@@ -94,11 +120,11 @@ const CardLayout = (props) => {
 	);
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		user: selectors.getCurrentUser(state),
 		types: selectors.getTypes(state),
 	};
 };
 
-export default connect(mapStateToProps)(CardLayout);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(CardLayout);
