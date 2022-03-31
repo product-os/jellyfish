@@ -9,7 +9,7 @@ import { actionCreators, selectors } from '../../core';
 import HomeChannel from './HomeChannel';
 
 const getTarget = memoize((channel) => {
-	return _.get(channel, ['data', 'head', 'id']);
+	return _.get(channel, ['data', 'target']);
 });
 
 const mapStateToProps = (state, ownProps) => {

@@ -53,14 +53,8 @@ export default class Kanban extends React.Component<any, any> {
 	}
 
 	openCreateChannel() {
-		const {
-			type,
-			actions,
-			channel: {
-				data: { head },
-			},
-		} = this.props;
-		actions.openCreateChannel(head, type);
+		const { type, actions, card } = this.props;
+		actions.openCreateChannel(card, type);
 	}
 
 	onCardClick(cardId) {
@@ -123,7 +117,7 @@ export default class Kanban extends React.Component<any, any> {
 	}
 
 	getSlices() {
-		const head = this.props.channel.data.head;
+		const head = this.props.card;
 		// If the head contract is a view, use it to find the slices
 		if (head && head.type.split('@')[0] === 'view') {
 			const schema = {

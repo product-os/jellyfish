@@ -12,10 +12,11 @@ export interface StateProps {
 type Props = StateProps & OwnProps;
 
 export default (props: Props) => {
-	const { channel, tail, types } = props;
+	const { card, channel, tail, types } = props;
 
 	return (
 		<DraggableContractGraph
+			card={card}
 			types={types}
 			tail={tail}
 			channel={channel}

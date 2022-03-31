@@ -23,6 +23,7 @@ import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
+import { sdk } from '../../core';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;
@@ -319,27 +320,8 @@ export default class HomeChannel extends React.Component<any, any> {
 			messages: [],
 		};
 
-		if (this.props.channel.data.head) {
-			this.loadData();
-		}
-
 		this.wrapper = React.createRef();
 	}
-
-	loadData = () => {
-		const {
-			activeLoop,
-			actions: { loadViewData },
-			channel,
-			user,
-		} = this.props;
-		const card = channel.data.head;
-		loadViewData(card);
-		loadViewData(bookmarksQuery(user.id), {
-			viewId: `${card.id}-bookmarks`,
-			sortBy: 'name',
-		});
-	};
 
 	openCreateViewChannel = () => {
 		this.props.actions.addChannel({
@@ -424,8 +406,16 @@ export default class HomeChannel extends React.Component<any, any> {
 		);
 	}
 
-	componentDidMount() {
-		const { location, history, homeView } = this.props;
+	async componentDidMount() {
+		const {
+			actions: { loadViewData },
+			channel,
+			history,
+			homeView,
+			location,
+			user,
+		} = this.props;
+
 		if (location.pathname === '/') {
 			if (homeView) {
 				history.push(homeView);
@@ -434,13 +424,20 @@ export default class HomeChannel extends React.Component<any, any> {
 
 		// Register for desktop notifications now that we're safely logged in
 		// (This keeps Firefox happy)
+		// TODO: Move this to the "Authorized" component
 		registerForNotifications();
+
+		const card = await sdk.card.get(channel.data.target);
+		if (card) {
+			loadViewData(card, { viewId: channel.data.target });
+			loadViewData(bookmarksQuery(user.id), {
+				viewId: `${channel.data.target}-bookmarks`,
+				sortBy: 'name',
+			});
+		}
 	}
 
 	componentDidUpdate(prevProps) {
-		if (prevProps.channel.data.head !== this.props.channel.data.head) {
-			this.loadData();
-		}
 		if (
 			this.state.showMenu &&
 			prevProps.location.pathname !== this.props.location.pathname
@@ -495,13 +492,6 @@ export default class HomeChannel extends React.Component<any, any> {
 		const { showDrawer, sliding } = this.state;
 		const activeChannel = channels.length > 1 ? channels[1] : null;
 		const username = user ? user.name || user.slug.replace(/user-/, '') : null;
-		if (!head) {
-			return (
-				<Box p={3}>
-					<Icon spin name="cog" />
-				</Box>
-			);
-		}
 		const groupedViews = groupViews(tail, bookmarks, user.id, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;

@@ -46,14 +46,8 @@ export default class CardTable extends React.Component<any, any> {
 	}
 
 	openCreateChannel() {
-		const {
-			type,
-			actions,
-			channel: {
-				data: { head },
-			},
-		} = this.props;
-		actions.openCreateChannel(head, type);
+		const { type, actions, card } = this.props;
+		actions.openCreateChannel(card, type);
 	}
 
 	onChecked(checkedRows) {

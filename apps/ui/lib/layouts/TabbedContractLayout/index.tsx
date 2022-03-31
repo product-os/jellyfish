@@ -98,8 +98,6 @@ class TabbedContractLayout extends React.Component<Props, State> {
 
 		const type = helpers.getType(card.type, types);
 
-		const tail = _.get(card.links, ['has attached element'], []);
-
 		// Never display a timeline segment for a user card. The `contact` card type
 		// is meant for discussing a user and exposing the timeline on the user card
 		// is more than likely going to cause people to accidentally expose internal
@@ -142,7 +140,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 
 					{displayTimeline && (
 						<Tab data-test="timeline-tab" title="Timeline">
-							<Timeline.data.renderer card={card} allowWhispers tail={tail} />
+							<Timeline.data.renderer card={card} allowWhispers />
 						</Tab>
 					)}
 

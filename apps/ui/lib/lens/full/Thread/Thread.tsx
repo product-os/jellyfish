@@ -50,10 +50,7 @@ export default class Thread extends React.Component<any, any> {
 						minHeight: 0,
 					}}
 				>
-					<Timeline.data.renderer
-						card={this.props.card}
-						tail={_.get(this.props.card, ['links', 'has attached element'], [])}
-					/>
+					<Timeline.data.renderer card={this.props.card} />
 				</Box>
 			</CardLayout>
 		);

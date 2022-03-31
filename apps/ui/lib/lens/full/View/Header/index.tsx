@@ -3,7 +3,7 @@ import React from 'react';
 import { CSVLink } from 'react-csv';
 import { Box, Divider, Flex, Search, Txt } from 'rendition';
 import styled from 'styled-components';
-import { Contract } from '@balena/jellyfish-types/build/core';
+import { Contract, ViewContract } from '@balena/jellyfish-types/build/core';
 import { flatten } from 'flat';
 import { CloseButton } from '../../../../components';
 import * as helpers from '../../../../services/helpers';
@@ -33,26 +33,27 @@ const CSVLinkWrapper = styled(Box)`
 
 interface HeaderProps {
 	channel: ChannelContract;
+	contract: ViewContract;
 	isMobile: boolean;
 	results?: null | Contract[];
 }
 
 export default React.memo<HeaderProps>((props) => {
-	const { channel, results } = props;
+	const { channel, results, contract } = props;
 
-	if (!channel.data.head) {
+	if (!contract) {
 		return null;
 	}
 
-	const csvName = `${channel.data.head.slug}_${new Date().toISOString()}.csv`;
+	const csvName = `${contract.slug}_${new Date().toISOString()}.csv`;
 	const csvData = results
-		? results.map((contract) => {
+		? results.map((item) => {
 				// To keep the CSV functionality simple, don't include any link data in the output
 				const flattened: any = flatten(
 					{
-						...contract,
+						...item,
 						links: {},
-						linked_at: contract.linked_at || {},
+						linked_at: item.linked_at || {},
 					},
 					{
 						// "safe" option preserves arrays, preventing a new header being created for each tag/marker
@@ -89,11 +90,11 @@ export default React.memo<HeaderProps>((props) => {
 				alignItems="center"
 			>
 				<Box>
-					{channel.data.head.name && <Txt bold>{channel.data.head.name}</Txt>}
-					<Markers px={0} card={channel.data.head} />
+					{contract.name && <Txt bold>{contract.name}</Txt>}
+					<Markers px={0} card={contract} />
 				</Box>
 				<Flex alignSelf={['flex-end', 'flex-end', 'flex-start']}>
-					<CardActions card={channel.data.head}>
+					<CardActions card={contract}>
 						<CSVLinkWrapper>
 							<CSVLink
 								data={csvData}

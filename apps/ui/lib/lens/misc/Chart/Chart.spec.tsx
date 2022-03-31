@@ -16,6 +16,12 @@ const channel = {
 	},
 };
 
+const headCard = {
+	id: 1,
+	slug: 'c-1',
+	type: 'card@1.0.0',
+};
+
 const card = {
 	id: 2,
 	slug: 'c-2',
@@ -104,6 +110,7 @@ describe('Chart lens', () => {
 						get: sandbox.stub().resolves(newChartConfigCard),
 					},
 				},
+				card: headCard,
 				tail: [card],
 			},
 		};

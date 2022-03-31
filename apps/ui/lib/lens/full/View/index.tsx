@@ -12,7 +12,7 @@ export const ViewRenderer = createLazyComponent(
 );
 
 const mapStateToProps = (state, ownProps): StateProps => {
-	const target = ownProps.channel.data.head.id;
+	const target = ownProps.card.id;
 
 	return {
 		channels: selectors.getChannels(state),

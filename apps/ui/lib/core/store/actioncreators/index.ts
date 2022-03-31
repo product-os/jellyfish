@@ -623,104 +623,6 @@ export const actionCreators = {
 		return query;
 	},
 
-	loadChannelData(channel) {
-		return async (dispatch, getState, { sdk }) => {
-			if (channel.data.canonical === false) {
-				return;
-			}
-			const { target } = channel.data;
-			const user = selectors.getCurrentUser(getState());
-
-			const query = actionCreators.createChannelQuery(target, user);
-
-			const stream = actionCreators.getStream(
-				{
-					sdk,
-				},
-				target,
-				query,
-			);
-
-			const queryOptions = {
-				limit: 1,
-				links: {
-					'has attached element': {
-						limit: 20,
-						sortBy: 'created_at',
-						sortDir: 'desc',
-					},
-				},
-			};
-
-			const handleResult = (result: Contract | undefined) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id,
-				});
-
-				if (!currentChannel) {
-					return;
-				}
-
-				const clonedChannel = clone(currentChannel);
-
-				if (result) {
-					// Merge required in the event that this is a pagination query
-					clonedChannel.data.head = merge(
-						_.get(clonedChannel, ['data', 'head'], {}),
-						result,
-						{
-							arrayMerge: (destinationArray, sourceArray) => {
-								return _.union(destinationArray, sourceArray);
-							},
-						},
-					);
-				}
-
-				dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel,
-				});
-			};
-
-			sdk.query(query, queryOptions).then(([result]) => {
-				handleResult(result);
-			});
-
-			stream.on(
-				'dataset',
-				({
-					data: {
-						cards: [result],
-					},
-				}) => {
-					handleResult(result);
-				},
-			);
-
-			stream.on('update', ({ data: { after: newHead } }) => {
-				const currentChannel = _.find(selectors.getChannels(getState()), {
-					id: channel.id,
-				});
-				if (!currentChannel) {
-					return null;
-				}
-				const clonedChannel = clone(currentChannel);
-
-				// Don't bother is the channel head card hasn't changed
-				if (newHead && fastEquals.deepEqual(clonedChannel.data.head, newHead)) {
-					return null;
-				}
-
-				// If head is null, this indicates a 404 not found error
-				clonedChannel.data.head = newHead;
-				return dispatch({
-					type: actions.UPDATE_CHANNEL,
-					value: clonedChannel,
-				});
-			});
-		};
-	},
-
 	loadMoreChannelData(target: string) {
 		return async (dispatch, getState): Promise<Contract[]> => {
 			// The target value can be a slug or id. We can find the corresponding
@@ -748,7 +650,7 @@ export const actionCreators = {
 
 			if (!stream) {
 				throw new Error(
-					'Stream not found: Did you forget to call loadChannelData?',
+					'Stream not found: Did you forget to call loadDEFUNCTChannelData?',
 				);
 			}
 
@@ -831,11 +733,10 @@ export const actionCreators = {
 		const channel = createChannel(data);
 
 		return (dispatch) => {
-			dispatch({
+			return dispatch({
 				type: actions.ADD_CHANNEL,
 				value: channel,
 			});
-			return dispatch(actionCreators.loadChannelData(channel));
 		};
 	},
 
@@ -882,13 +783,6 @@ export const actionCreators = {
 				type: actions.SET_CHANNELS,
 				value: channels,
 			});
-
-			// For each channel, if data is not already loaded, load it now
-			for (const channel of channels) {
-				if (!channel.data.head) {
-					dispatch(actionCreators.loadChannelData(channel));
-				}
-			}
 		};
 	},
 
@@ -1014,9 +908,6 @@ export const actionCreators = {
 								value: config,
 							});
 							const channels = selectors.getChannels(state);
-							channels.forEach((channel) => {
-								return dispatch(actionCreators.loadChannelData(channel));
-							});
 						}
 
 						errorReporter.setUser({
