@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 2a59518696ed40361ca4dbad57751d3ade47a903
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.9.1
+  title: "'Update internal-patch'"
+  date: 2022-03-31T11:54:02.190Z
+- commits:
     - subject: "UI: Remove unused query object"
       hash: f19a8a02fa59ecc6452a8e397d3399e10d3d314f
       body: ""
