@@ -15,7 +15,7 @@ import { SchemaSieve } from 'rendition';
 import skhema from 'skhema';
 import { DetectUA } from 'detect-ua';
 import { MESSAGE, WHISPER, SUMMARY, RATING } from '../components/constants';
-import { Channel, JSONPatch } from '../types';
+import { Channel, JSONPatch, UIActor } from '../types';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
@@ -739,13 +739,8 @@ export const stringToNumber = function (input: string, max: number) {
 // Get the actor from the create event if it is available, otherwise use the
 // first message creator
 export const getCreator = async (
-	getActorFn: (actor: string) => UserContract,
-	card: Contract<
-		ContractData,
-		{
-			[key: string]: Contract<{ actor: string }>;
-		}
-	>,
+	getActorFn: (actor: string) => Promise<UIActor | null>,
+	card: Contract,
 ) => {
 	const timeline = _.sortBy(
 		_.get(card.links, ['has attached element'], []),
@@ -770,7 +765,7 @@ export const getCreator = async (
 	if (!createCard) {
 		return null;
 	}
-	return getActorFn(_.get(createCard, ['data', 'actor']));
+	return getActorFn(_.get(createCard, ['data', 'actor']) as string);
 };
 
 export const getCreateCard = (card: Contract): Contract | undefined => {
@@ -855,7 +850,9 @@ export const getActorIdFromCard = _.memoize(
 	},
 );
 
-export const generateActorFromUserCard = (card: UserContract) => {
+export const generateActorFromUserCard = (
+	card: UserContract,
+): UIActor | null => {
 	if (!card) {
 		return null;
 	}

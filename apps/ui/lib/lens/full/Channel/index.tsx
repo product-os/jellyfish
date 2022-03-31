@@ -1,26 +1,10 @@
 import * as _ from 'lodash';
 import React from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { Flex, Divider, Tab, Tabs, Theme } from 'rendition';
-import * as helpers from '../../../services/helpers';
-import { actionCreators, selectors } from '../../../core';
+import { Flex, Tab } from 'rendition';
 import { LensContract, LensRendererProps } from '../../../types';
-import CardLayout from '../../../layouts/CardLayout';
-import styled from 'styled-components';
 import Dashboard from './Dashboard';
 import LiveCollection from '../../common/LiveCollection';
-
-export const SingleCardTabs = styled(Tabs)`
-	flex: 1;
-	> [role='tablist'] {
-		height: 100%;
-	}
-	> [role='tabpanel'] {
-		flex: 1;
-		overflow-y: auto;
-	}
-`;
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 interface State {
 	mineQuery: any;
@@ -88,16 +72,14 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 	}
 
 	render() {
-		const { card } = this.props;
+		const { card, channel } = this.props;
 
 		return (
-			<CardLayout {...this.props}>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
-
-				<SingleCardTabs>
-					<Tab title="Dashboard">
-						<Dashboard filter={(card.data.filter as any).schema} />
-					</Tab>
+			<TabbedContractLayout
+				card={card}
+				channel={channel}
+				primaryTabTitle="Dashboard"
+				tabs={[
 					<Tab title="Owned by me">
 						<Flex
 							flexDirection="column"
@@ -114,7 +96,7 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 								card={this.props.card}
 							/>
 						</Flex>
-					</Tab>
+					</Tab>,
 
 					<Tab title="All">
 						<Flex
@@ -132,7 +114,7 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 								card={this.props.card}
 							/>
 						</Flex>
-					</Tab>
+					</Tab>,
 
 					<Tab title="Unowned">
 						<Flex
@@ -150,9 +132,11 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 								card={this.props.card}
 							/>
 						</Flex>
-					</Tab>
-				</SingleCardTabs>
-			</CardLayout>
+					</Tab>,
+				]}
+			>
+				<Dashboard filter={(card.data.filter as any).schema} />
+			</TabbedContractLayout>
 		);
 	}
 }

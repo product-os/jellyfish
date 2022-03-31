@@ -1,30 +1,28 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { compose } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { withDefaultGetActorHref } from '../../../components';
-import { actionCreators, selectors, sdk } from '../../../core';
+import { actionCreators, selectors } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import * as _ from 'lodash';
+import type { StateProps, DispatchProps, OwnProps } from './SupportThreadBase';
 
 export const SupportThreadBase = createLazyComponent(
 	() =>
 		import(/* webpackChunkName: "lens-support-thread" */ './SupportThreadBase'),
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
-		accounts: selectors.getAccounts(state),
 		types: selectors.getTypes(state),
 		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['addChannel', 'getActor', 'removeChannel']),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
@@ -37,7 +35,10 @@ export default {
 		format: 'full',
 		icon: 'address-card',
 		renderer: compose(
-			connect(mapStateToProps, mapDispatchToProps),
+			connect<StateProps, DispatchProps, OwnProps>(
+				mapStateToProps,
+				mapDispatchToProps,
+			),
 			withDefaultGetActorHref(),
 		)(SupportThreadBase),
 		filter: {

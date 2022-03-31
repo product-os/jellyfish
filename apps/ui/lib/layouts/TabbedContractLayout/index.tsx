@@ -4,15 +4,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Box, Divider, Tab, Tabs, Theme } from 'rendition';
 import styled from 'styled-components';
+import { bindActionCreators } from '../../bindactioncreators';
 import * as helpers from '../../services/helpers';
 import CardFields from '../../components/CardFields';
 import CardLayout from '../../layouts/CardLayout';
 import Timeline from '../../lens/list/Timeline';
 import { UI_SCHEMA_MODE } from '../../lens/schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../lens/common';
-import { LensRendererProps } from '../../types';
+import { BoundActionCreators, LensRendererProps } from '../../types';
 import { TypeContract } from '@balena/jellyfish-types/build/core';
-import { selectors } from '../../core';
+import { actionCreators, selectors } from '../../core';
+
+const SLUG = 'tabbed-contract-layout';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;
@@ -29,13 +32,22 @@ export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	children?: React.ReactNode;
 	tabs?: React.ReactNode[];
 	actionItems?: React.ReactNode;
+	primaryTabTitle?: string;
+	title?: JSX.Element;
 };
 
 export interface StateProps {
 	types: TypeContract[];
+	lensState: {
+		activeIndex?: number;
+	};
 }
 
-type Props = StateProps & OwnProps;
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+type Props = StateProps & OwnProps & DispatchProps;
 
 interface State {
 	activeIndex: number;
@@ -45,15 +57,8 @@ class TabbedContractLayout extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		const tail = _.get(this.props.card.links, ['has attached element'], []);
-
-		const comms = _.filter(tail, (item) => {
-			const typeBase = item.type.split('@')[0];
-			return typeBase === 'message' || typeBase === 'whisper';
-		});
-
 		this.state = {
-			activeIndex: comms.length ? 1 : 0,
+			activeIndex: props.lensState.activeIndex || 0,
 		};
 
 		this.setActiveIndex = this.setActiveIndex.bind(this);
@@ -70,10 +75,26 @@ class TabbedContractLayout extends React.Component<Props, State> {
 		this.setState({
 			activeIndex,
 		});
+		// The intention here is to persist the active index per type
+		// It's a bit hacky, because technically this component is not a Lens
+		// TODO: Find a cleaner way of persisting tab selection between types
+		const target = this.props.card.type;
+		this.props.actions.setLensState(SLUG, target, {
+			activeIndex,
+		});
 	}
 
 	render() {
-		const { card, channel, types, actionItems, children, tabs } = this.props;
+		const {
+			card,
+			channel,
+			types,
+			actionItems,
+			children,
+			tabs,
+			title,
+			primaryTabTitle,
+		} = this.props;
 
 		const type = helpers.getType(card.type, types);
 
@@ -89,6 +110,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 			<CardLayout
 				data-test={this.props['data-test']}
 				overflowY
+				title={title}
 				card={card}
 				channel={channel}
 				actionItems={actionItems}
@@ -99,7 +121,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 					activeIndex={this.state.activeIndex}
 					onActive={this.setActiveIndex}
 				>
-					<Tab title="Info">
+					<Tab title={primaryTabTitle || 'Info'}>
 						<Box
 							p={3}
 							flex={1}
@@ -134,12 +156,21 @@ class TabbedContractLayout extends React.Component<Props, State> {
 	}
 }
 
-const mapStateToProps = (state): StateProps => {
+const mapStateToProps = (state, ownProps): StateProps => {
+	const target = _.get(ownProps, ['card', 'type']);
 	return {
 		types: selectors.getTypes(state),
+		lensState: selectors.getLensState(state, SLUG, target),
 	};
 };
 
-export default connect<StateProps, {}, OwnProps>(mapStateToProps)(
-	TabbedContractLayout,
-);
+const mapDispatchToProps = (dispatch): DispatchProps => {
+	return {
+		actions: bindActionCreators(actionCreators, dispatch),
+	};
+};
+
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps,
+)(TabbedContractLayout);
