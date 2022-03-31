@@ -173,39 +173,6 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 
 	// Fetch relationships as view data when the component loads
 	React.useEffect(() => {
-		const query: JSONSchema = {
-			description: `Fetch all contracts linked to ${card.slug}`,
-			type: 'object',
-			// HACK: Include type here to force linked contracts to return type (see issue #6602)
-			required: ['id', 'type'],
-			properties: {
-				id: {
-					const: card.id,
-				},
-			},
-			anyOf: relationships
-				.map((relationship) => {
-					return {
-						$$links: {
-							[relationship.link]: {
-								type: 'object',
-								required: ['type'],
-								additionalProperties: false,
-								properties:
-									relationship.type === '*'
-										? {}
-										: {
-												type: {
-													const: `${relationship.type}@1.0.0`,
-												},
-										  },
-							},
-						},
-					} as JSONSchema;
-				})
-				.concat(true as JSONSchema),
-		};
-
 		Promise.all(
 			relationships.map(async (relationship) => {
 				const schema = {
