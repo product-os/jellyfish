@@ -19,20 +19,21 @@ import { RelationshipsTab, customQueryTabs } from '../../common';
 import Timeline from '../../list/Timeline';
 import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
-import SingleCardFull, { SingleCardTabs } from '../SingleCard/SingleCard';
+import { SingleCardTabs } from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
 
 const Extract = styled(Box)`
 	background: lightyellow;
 `;
 
-export default class SupportThreadBase extends SingleCardFull {
+export default class SupportThreadBase extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
 		this.reopen = this.reopen.bind(this);
 		this.close = this.close.bind(this);
 		this.archive = this.archive.bind(this);
+		this.setActiveIndex = this.setActiveIndex.bind(this);
 
 		this.state = {
 			actor: null,
@@ -52,6 +53,12 @@ export default class SupportThreadBase extends SingleCardFull {
 		});
 
 		this.loadHighlights(this.props.card.id);
+	}
+
+	setActiveIndex(activeIndex) {
+		this.setState({
+			activeIndex,
+		});
 	}
 
 	reopen() {

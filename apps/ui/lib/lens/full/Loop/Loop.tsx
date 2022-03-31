@@ -197,7 +197,7 @@ export default class LoopFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { card, channel, types, actionItems } = this.props;
+		const { card, channel, types } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
@@ -207,12 +207,7 @@ export default class LoopFull extends React.Component<any, any> {
 			this.state;
 
 		return (
-			<CardLayout
-				overflowY
-				card={card}
-				channel={channel}
-				actionItems={actionItems}
-			>
+			<CardLayout overflowY card={card} channel={channel}>
 				<Divider width="100%" color={helpers.colorHash(card.type)} />
 
 				<SingleCardTabs
