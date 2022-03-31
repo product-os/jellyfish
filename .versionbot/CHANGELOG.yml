@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 80b20fcb62d527e2426a7bae124bf1fda9edc438
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.8.1
+  title: "'Update internal-patch'"
+  date: 2022-03-31T05:57:14.450Z
+- commits:
     - subject: "UI: Add a lens for rendering repositories in a graph"
       hash: 9d3345d0baec8001eea69a8f5c91cc7ca4688414
       body: ""
