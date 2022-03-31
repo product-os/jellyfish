@@ -87,6 +87,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 
 		return (
 			<CardLayout
+				data-test={this.props['data-test']}
 				overflowY
 				card={card}
 				channel={channel}

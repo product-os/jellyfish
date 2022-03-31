@@ -1,8 +1,5 @@
 import _ from 'lodash';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
 import { SLUG } from './TransformerWorker';
 
 export const TransformerWorker = createLazyComponent(
@@ -12,26 +9,6 @@ export const TransformerWorker = createLazyComponent(
 		),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'createLink',
-				'addChannel',
-				'getLinks',
-				'queryAPI',
-			]),
-			dispatch,
-		),
-	};
-};
-
 const lens = {
 	slug: SLUG,
 	type: 'lens',
@@ -40,7 +17,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(TransformerWorker),
+		renderer: TransformerWorker,
 		filter: {
 			type: 'object',
 			properties: {
