@@ -23,6 +23,7 @@ import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	LoopContract,
+	TypeContract,
 	UserContract,
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
@@ -198,7 +199,7 @@ export const selectors = {
 	getChatWidgetOpen: (state) => {
 		return _.get(state.ui, ['chatWidget', 'open']);
 	},
-	getTypes: (state) => {
+	getTypes: (state): TypeContract[] => {
 		return state.core.types;
 	},
 	getLoops: (state): LoopContract[] => {

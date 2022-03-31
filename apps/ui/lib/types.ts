@@ -84,3 +84,17 @@ export interface LensRendererProps {
 	totalPages: number;
 	tailTypes: TypeContract[];
 }
+
+export interface ChatGroup {
+	isMine: boolean;
+	name: string;
+	users: string[];
+}
+
+export interface UIActor {
+	name: string;
+	email: string | string[];
+	avatarUrl?: string | null;
+	proxy: boolean;
+	card: UserContract;
+}

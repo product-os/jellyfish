@@ -14,20 +14,56 @@ import {
 } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
-import { sdk } from '../../../core';
+import { sdk, actionCreators } from '../../../core';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 import Timeline from '../../list/Timeline';
 import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
 import { SingleCardTabs } from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
+import {
+	Contract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
+import {
+	BoundActionCreators,
+	ChatGroup,
+	LensRendererProps,
+	UIActor,
+} from '../../../types';
 
 const Extract = styled(Box)`
 	background: lightyellow;
 `;
 
-export default class SupportThreadBase extends React.Component<any, any> {
-	constructor(props) {
+export interface StateProps {
+	types: TypeContract[];
+	groups: ChatGroup[];
+	user: UserContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export interface HrefProps {
+	getActorHref: (actor: UIActor) => string;
+}
+
+export type OwnProps = LensRendererProps;
+
+type Props = StateProps & DispatchProps & OwnProps & HrefProps;
+
+interface State {
+	actor: UIActor | null;
+	isClosing: boolean;
+	highlights: Contract[];
+	activeIndex: number;
+}
+
+export default class SupportThreadBase extends React.Component<Props, State> {
+	constructor(props: Props) {
 		super(props);
 
 		this.reopen = this.reopen.bind(this);
@@ -39,13 +75,14 @@ export default class SupportThreadBase extends React.Component<any, any> {
 			actor: null,
 			isClosing: false,
 			highlights: [],
+			activeIndex: 0,
 		};
 	}
 
 	async componentDidMount() {
 		const actor = await helpers.getCreator(
 			this.props.actions.getActor,
-			this.props.card,
+			this.props.card as UserContract,
 		);
 
 		this.setState({
@@ -193,7 +230,7 @@ export default class SupportThreadBase extends React.Component<any, any> {
 		if (
 			prevProps.card.id !== this.props.card.id ||
 			prevProps.card.linked_at['has attached element'] !==
-				this.props.card.linked_at['has attached element']
+				this.props.card.linked_at!['has attached element']
 		) {
 			this.loadHighlights(this.props.card.id);
 		}
@@ -205,12 +242,19 @@ export default class SupportThreadBase extends React.Component<any, any> {
 
 		const typeContract = helpers.getType(card.type, types);
 
-		const status = _.get(card, ['data', 'status'], 'open');
+		const status: string = _.get(card, ['data', 'status'], 'open') as string;
 
-		const mirrors = _.get(card, ['data', 'mirrors']);
+		const mirrors: string[] = _.get(card, ['data', 'mirrors'], []) as string[];
 		const isMirrored = !_.isEmpty(mirrors);
 
-		const statusDescription = _.get(card, ['data', 'statusDescription']);
+		const statusDescription: string = _.get(
+			card,
+			['data', 'statusDescription'],
+			'',
+		) as string;
+		const inbox: string | null = _.get(card, ['data', 'inbox'], null) as
+			| string
+			| null;
 
 		return (
 			<CardLayout
@@ -221,8 +265,8 @@ export default class SupportThreadBase extends React.Component<any, any> {
 						<Box>
 							<Box>
 								<ThreadMirrorIcon mirrors={mirrors} mr={2} />
-								{Boolean(actor) && (
-									<Txt.span tooltip={actor.email}>
+								{actor !== null && (
+									<Txt.span tooltip={_.first(_.castArray(actor.email))}>
 										Conversation with {actor.name}
 										{Boolean(card.name) && <Txt.span>: </Txt.span>}
 									</Txt.span>
@@ -237,11 +281,9 @@ export default class SupportThreadBase extends React.Component<any, any> {
 									transform: 'translateY(2px)',
 								}}
 							>
-								<ColorHashPill
-									value={_.get(card, ['data', 'inbox'])}
-									mr={2}
-									mb={1}
-								/>
+								{inbox !== null && (
+									<ColorHashPill value={inbox} mr={2} mb={1} />
+								)}
 								<ColorHashPill
 									data-test={`status-${status}`}
 									value={status}
