@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.4 to 8.4.5
+      hash: 56891e562ebd0cbf81a4afae6264184641fc0279
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.9.3
+  title: "'Update grafana/grafana from 8.4.4 to 8.4.5'"
+  date: 2022-03-31T16:14:28.253Z
+- commits:
     - subject: "UI: Use HTTP API for initial contract data load"
       hash: edb0f1da1f77acec0ff5e4c0ac1ddb87458e5347
       body: |
