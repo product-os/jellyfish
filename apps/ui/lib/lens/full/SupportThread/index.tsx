@@ -12,7 +12,6 @@ export const SupportThreadBase = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		accounts: selectors.getAccounts(state),
 		types: selectors.getTypes(state),
 		groups: selectors.getGroups(state),
 		user: selectors.getCurrentUser(state),
