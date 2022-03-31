@@ -1,4 +1,68 @@
 - commits:
+    - subject: "UI: Change TransformerWorker lens to use new tabbed layout"
+      hash: 42c29ab59caf03f0a07890c30eb50c673d7b5c57
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove deprecated actionItems prop from Lenses"
+      hash: 6335e4ce101b6eec88322334cecd1678920f8283
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Abstract generic tabbed layout into a re-usable component"
+      hash: 3991a938669fca444e1154314d325933b573a34c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Correctly type SingleCard lens"
+      hash: c72ba3f548c508dfc3730e885113c6e9845ccb40
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Remove unused "user" prop in CardLayout'
+      hash: df9650183cc7c1043cf001f8727c4d325a9f7f1f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Type CardLayout properties"
+      hash: 2ae8ec89e419b18b7da3ec16dc11154cb8f58fc0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.8.3
+  title: "'Lucianbuzzo/tab selection persist'"
+  date: 2022-03-31T09:42:10.545Z
+- commits:
     - subject: Update internal-patch
       hash: 2c16a9fd26edfb789b3d5dd0b3824c4e36bac184
       body: ""
