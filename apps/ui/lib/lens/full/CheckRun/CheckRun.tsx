@@ -1,16 +1,15 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Divider, Link, Tab, Tabs, Theme, Txt } from 'rendition';
+import { Link, Tabs, Txt } from 'rendition';
 import styled from 'styled-components';
 import * as helpers from '../../../services/helpers';
 import CardFields from '../../../components/CardFields';
-import CardLayout from '../../../layouts/CardLayout';
-import Timeline from '../../list/Timeline';
 import { UI_SCHEMA_MODE } from '../../schema-util';
-import { ContractGraph, RelationshipsTab, customQueryTabs } from '../../common';
+import { ContractGraph } from '../../common';
 import { sdk } from '../../../core';
 import type { Contract } from '@balena/jellyfish-types/build/core';
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;
@@ -39,7 +38,7 @@ const makeLogLink = (commit?: Contract) => {
 	return `https://monitor.balena-cloud.com/explore?orgId=1&left=%5B%22${startUnix}%22,%22${endUnix}%22,%22loki%22,%7B%22expr%22:%22%7Bfleet%3D%5C%22transformers-workers%5C%22,service!%3D%5C%22fleet-launcher%5C%22,service!%3D%5C%22balena_supervisor%5C%22,service!%3D%5C%22logshipper%5C%22,service!%3D%5C%22garbage-collector%5C%22,source_type%3D%5C%22balena%5C%22%7D%20%7C%20json%20%7C%20%20line_format%20%5C%22%7B%7B.name_extracted%7D%7D:%20%7B%7B.msg%7D%7D%20%7B%7B.line_status%7D%7D%20%7B%7B.slug%7D%7D%20%7B%7B.version%7D%7D%20%7B%7B.id%7D%7D%5C%22%5Cn%20%20%7C%20commit%3D%5C%22${sha}%5C%22%22,%22refId%22:%22A%22%7D%5D`;
 };
 
-export default class SingleCardFull extends React.Component<
+export default class CheckRun extends React.Component<
 	{ card: Contract; channel: any; types: any; actionItems: any },
 	{ tree?: Contract; commit?: Contract; activeIndex: number }
 > {
@@ -152,66 +151,37 @@ export default class SingleCardFull extends React.Component<
 	}
 
 	render() {
-		const { card, channel, types, actionItems } = this.props;
+		const { card, channel, types } = this.props;
 
 		const type = helpers.getType(card.type, types);
 
-		const tail = _.get(card.links, ['has attached element'], []);
-
 		return (
-			<CardLayout
-				overflowY
-				card={card}
-				channel={channel}
-				actionItems={actionItems}
-			>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
+			<TabbedContractLayout card={card} channel={channel}>
+				<>
+					<CardFields
+						card={card}
+						type={type}
+						viewMode={UI_SCHEMA_MODE.fields}
+					/>
 
-				<SingleCardTabs
-					activeIndex={this.state.activeIndex}
-					onActive={this.setActiveIndex}
-				>
-					<Tab title="Info">
-						<Box
-							p={3}
-							flex={1}
-							style={{
-								maxWidth: Theme.breakpoints[2],
-							}}
-						>
-							<CardFields
-								card={card}
-								type={type}
-								viewMode={UI_SCHEMA_MODE.fields}
-							/>
+					<Txt pb={3}>
+						The logs for all transformer runs can be found{' '}
+						<Link target="_blank" href={makeLogLink(this.state.commit)}>
+							here
+						</Link>
+						.
+					</Txt>
 
-							<Txt pb={3}>
-								The logs for all transformer runs can be found{' '}
-								<Link target="_blank" href={makeLogLink(this.state.commit)}>
-									here
-								</Link>
-								.
-							</Txt>
-
-							{!!this.state.tree && (
-								<ContractGraph
-									draggable
-									contracts={[this.state.tree]}
-									showVersion
-									showType
-								/>
-							)}
-						</Box>
-					</Tab>
-
-					<Tab title="Timeline">
-						<Timeline.data.renderer card={card} allowWhispers tail={tail} />
-					</Tab>
-
-					{customQueryTabs(card, type, channel)}
-					<RelationshipsTab card={card} channel={channel} />
-				</SingleCardTabs>
-			</CardLayout>
+					{!!this.state.tree && (
+						<ContractGraph
+							draggable
+							contracts={[this.state.tree]}
+							showVersion
+							showType
+						/>
+					)}
+				</>
+			</TabbedContractLayout>
 		);
 	}
 }
