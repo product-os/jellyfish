@@ -29,6 +29,7 @@ export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	children?: React.ReactNode;
 	tabs?: React.ReactNode[];
 	actionItems?: React.ReactNode;
+	primaryTabTitle?: string;
 };
 
 export interface StateProps {
@@ -73,7 +74,15 @@ class TabbedContractLayout extends React.Component<Props, State> {
 	}
 
 	render() {
-		const { card, channel, types, actionItems, children, tabs } = this.props;
+		const {
+			card,
+			channel,
+			types,
+			actionItems,
+			children,
+			tabs,
+			primaryTabTitle,
+		} = this.props;
 
 		const type = helpers.getType(card.type, types);
 
@@ -99,7 +108,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 					activeIndex={this.state.activeIndex}
 					onActive={this.setActiveIndex}
 				>
-					<Tab title="Info">
+					<Tab title={primaryTabTitle || 'Info'}>
 						<Box
 							p={3}
 							flex={1}
