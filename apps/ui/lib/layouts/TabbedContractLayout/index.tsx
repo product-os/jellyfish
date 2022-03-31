@@ -25,10 +25,7 @@ export const SingleCardTabs = styled(Tabs)`
 	}
 `;
 
-export type OwnProps = Pick<
-	LensRendererProps,
-	'card' | 'channel' | 'actionItems'
-> & {
+export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	children?: React.ReactNode;
 	tabs?: React.ReactNode[];
 	actionItems?: React.ReactNode;

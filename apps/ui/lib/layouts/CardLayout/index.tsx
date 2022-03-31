@@ -14,7 +14,7 @@ interface StateProps {
 }
 
 interface OwnProps {
-	actionItems?: JSX.Element;
+	actionItems?: React.ReactNode;
 	card: Contract;
 	channel: ChannelContract;
 	children: React.ReactNode;

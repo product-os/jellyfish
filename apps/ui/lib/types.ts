@@ -83,5 +83,4 @@ export interface LensRendererProps {
 	page: number;
 	totalPages: number;
 	tailTypes: TypeContract[];
-	actionItems?: JSX.Element;
 }
