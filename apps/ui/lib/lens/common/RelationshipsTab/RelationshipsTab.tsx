@@ -11,9 +11,11 @@ import type {
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
-import type { ChannelContract } from '../../../types';
+import type { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';
-import { sdk } from '../../../core/sdk';
+import { sdk, actionCreators } from '../../../core';
+
+export const SLUG = 'RELATIONSHIPS_TAB';
 
 const TabTitleSelect = styled(Select)`
 	input {
@@ -87,14 +89,23 @@ export interface OwnProps {
 export interface StateProps {
 	types: TypeContract[];
 	viewData: any;
+	lensState: {
+		activeIndex?: number;
+	};
 }
 
-type Props = StateProps & OwnProps;
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+type Props = StateProps & DispatchProps & OwnProps;
 
 export const RelationshipsTab: React.FunctionComponent<Props> = ({
-	viewData,
+	actions,
 	card,
 	channel,
+	lensState,
+	viewData,
 }) => {
 	const [activeRelationship, setActiveRelationship] =
 		React.useState<LinkRelationship>();
@@ -115,6 +126,13 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 			});
 		});
 	}, [relationships, debouncedSearchTerm]);
+
+	React.useEffect(() => {
+		if (lensState.activeIndex) {
+			const rel = filteredRelationships[lensState.activeIndex];
+			setActiveRelationship(rel);
+		}
+	}, []);
 
 	// When the view data comes in, use it to populate the counts in the relationships
 	React.useEffect(() => {
@@ -246,6 +264,18 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 			.catch((error) => console.error(error));
 	}, []);
 
+	const changeActiveTab = ({ option }) => {
+		const activeIndex = _.findIndex(filteredRelationships, option);
+		// The intention here is to persist the active index per type
+		// It's a bit hacky, because technically this component is not a Lens
+		// TODO: Find a cleaner way of persisting tab selection between types
+		const target = card.type;
+		actions.setLensState(SLUG, target, {
+			activeIndex,
+		});
+		setActiveRelationship(option as LinkRelationship);
+	};
+
 	return (
 		<Tab
 			title={
@@ -258,9 +288,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 					emptySearchMessage="No matching links"
 					onSearch={setSearchTerm}
 					onClose={() => setSearchTerm('')}
-					onChange={({ option }) => {
-						setActiveRelationship(option as LinkRelationship);
-					}}
+					onChange={changeActiveTab}
 					value={activeRelationship}
 					options={filteredRelationships || []}
 					valueLabel={
