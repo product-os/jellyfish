@@ -1516,6 +1516,7 @@ export const actionCreators = {
 		const stream = sdk.stream(query);
 
 		streams[streamId] = stream;
+		console.log(_.keys(streams).length, streams);
 		return stream;
 	},
 

@@ -1,15 +1,45 @@
 import _ from 'lodash';
 import React from 'react';
-import { DropTarget } from 'react-dnd';
+import { DropTarget, ConnectDropTarget } from 'react-dnd';
 import { Alert, Box } from 'rendition';
 import { ErrorBoundary, Icon } from '.';
 import { LinkModal } from './LinkModal';
 import ChannelNotFound from './ChannelNotFound';
 import { ChannelContextProvider } from '../hooks';
 import { getLens } from '../lens';
+import {
+	Contract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
+import { BoundActionCreators, ChannelContract } from '../types';
+import { actionCreators } from '../core';
+
+interface OwnProps {
+	types: TypeContract[];
+	actions: BoundActionCreators<typeof actionCreators>;
+	user: UserContract;
+	channel: ChannelContract;
+	space: {
+		left: number;
+		width: number;
+	};
+}
+
+interface ReactDnDProps {
+	connectDropTarget: ConnectDropTarget;
+	isOver: boolean;
+}
+
+type Props = OwnProps & ReactDnDProps;
+
+interface State {
+	showLinkModal: boolean;
+	linkFrom: null | Contract;
+}
 
 // Selects an appropriate renderer for a card
-class ChannelRenderer extends React.Component<any, any> {
+class ChannelRenderer extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -18,22 +48,11 @@ class ChannelRenderer extends React.Component<any, any> {
 		};
 
 		this.closeLinkModal = this.closeLinkModal.bind(this);
-		this.link = this.link.bind(this);
 	}
 
 	closeLinkModal() {
 		this.setState({
 			showLinkModal: false,
-		});
-	}
-
-	link() {
-		const fromCard = this.state.linkFrom;
-		const toCard = this.props.channel.data.head;
-		this.props.actions.createLink(fromCard, toCard);
-		this.setState({
-			showLinkModal: false,
-			linkFrom: null,
 		});
 	}
 

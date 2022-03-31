@@ -64,6 +64,7 @@ export interface ChannelContract
 		canonical?: boolean;
 		target: 'string';
 		head?: Contract;
+		error?: any;
 		cardType?: string;
 		seed?: any;
 	};
