@@ -40,25 +40,12 @@ const makeLogLink = (commit?: Contract) => {
 
 export default class CheckRun extends React.Component<
 	{ card: Contract; channel: any; types: any; actionItems: any },
-	{ tree?: Contract; commit?: Contract; activeIndex: number }
+	{ tree?: Contract; commit?: Contract }
 > {
 	interval: NodeJS.Timeout | null = null;
 
 	constructor(props) {
 		super(props);
-
-		const tail = _.get(this.props.card.links, ['has attached element'], []);
-
-		const comms = _.filter(tail, (item) => {
-			const typeBase = item.type.split('@')[0];
-			return typeBase === 'message' || typeBase === 'whisper';
-		});
-
-		this.state = {
-			activeIndex: comms.length ? 1 : 0,
-		};
-
-		this.setActiveIndex = this.setActiveIndex.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -66,12 +53,6 @@ export default class CheckRun extends React.Component<
 			!circularDeepEqual(nextState, this.state) ||
 			!circularDeepEqual(nextProps, this.props)
 		);
-	}
-
-	setActiveIndex(activeIndex) {
-		this.setState({
-			activeIndex,
-		});
 	}
 
 	componentDidMount() {

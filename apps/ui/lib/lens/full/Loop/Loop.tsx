@@ -120,15 +120,7 @@ export default class LoopFull extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
-		const tail = _.get(this.props.card.links, ['has attached element'], []);
-
-		const comms = _.filter(tail, (item) => {
-			const typeBase = item.type.split('@')[0];
-			return typeBase === 'message' || typeBase === 'whisper';
-		});
-
 		this.state = {
-			activeIndex: comms.length ? 1 : 0,
 			tree: null,
 			support: null,
 			patterns: null,
@@ -137,8 +129,6 @@ export default class LoopFull extends React.Component<any, any> {
 			pulls: null,
 			topics: null,
 		};
-
-		this.setActiveIndex = this.setActiveIndex.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -146,12 +136,6 @@ export default class LoopFull extends React.Component<any, any> {
 			!circularDeepEqual(nextState, this.state) ||
 			!circularDeepEqual(nextProps, this.props)
 		);
-	}
-
-	setActiveIndex(activeIndex) {
-		this.setState({
-			activeIndex,
-		});
 	}
 
 	componentDidMount() {
@@ -184,7 +168,7 @@ export default class LoopFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { card, channel, types } = this.props;
+		const { card, channel } = this.props;
 
 		const { support, patterns, improvements, projects, pulls, topics } =
 			this.state;

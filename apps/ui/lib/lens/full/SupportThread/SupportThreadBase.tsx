@@ -56,7 +56,6 @@ interface State {
 	actor: UIActor | null;
 	isClosing: boolean;
 	highlights: Contract[];
-	activeIndex: number;
 }
 
 export default class SupportThreadBase extends React.Component<Props, State> {
@@ -66,13 +65,11 @@ export default class SupportThreadBase extends React.Component<Props, State> {
 		this.reopen = this.reopen.bind(this);
 		this.close = this.close.bind(this);
 		this.archive = this.archive.bind(this);
-		this.setActiveIndex = this.setActiveIndex.bind(this);
 
 		this.state = {
 			actor: null,
 			isClosing: false,
 			highlights: [],
-			activeIndex: 0,
 		};
 	}
 
@@ -87,12 +84,6 @@ export default class SupportThreadBase extends React.Component<Props, State> {
 		});
 
 		this.loadHighlights(this.props.card.id);
-	}
-
-	setActiveIndex(activeIndex) {
-		this.setState({
-			activeIndex,
-		});
 	}
 
 	reopen() {
