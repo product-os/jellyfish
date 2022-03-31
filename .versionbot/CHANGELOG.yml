@@ -1,4 +1,21 @@
 - commits:
+    - subject: "UI: Use HTTP API for initial contract data load"
+      hash: edb0f1da1f77acec0ff5e4c0ac1ddb87458e5347
+      body: |
+        Using the HTTP API for the initial data load is notably faster than
+        waiting for a websocket connection and querying the payload over WSS,
+        resulting in a snappier UX.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.9.2
+  title: "'UI: Use HTTP API for initial contract data load'"
+  date: 2022-03-31T15:30:47.866Z
+- commits:
     - subject: Update internal-patch
       hash: 2a59518696ed40361ca4dbad57751d3ade47a903
       body: ""
