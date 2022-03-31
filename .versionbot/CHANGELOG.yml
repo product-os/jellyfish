@@ -1,4 +1,109 @@
 - commits:
+    - subject: "UI: Remove unused query object"
+      hash: f19a8a02fa59ecc6452a8e397d3399e10d3d314f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Preserve selected relationship tab per type when
+        navigating/reloading"
+      hash: 02d9399cf596c03b49e67c81e5cbe7b9ec3c74b1
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Persist selected tab for contract type when navigating/reloading"
+      hash: 11f99b4f3ca8e197c573fa19e7177b7b6be61bed
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused activeIndex logic from lenses"
+      hash: 1caae19308629d21a4c4986407036e0ce91d23ce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for contract lens"
+      hash: aa477b2f0446d3c479459588633a5dc2a2162dbc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for support thread lens"
+      hash: ffe1b027bc411ab8195bbcb42c01000a3d4661d1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Correctly type support thread lens"
+      hash: 6a2c164c6e25bc3d342252d8b8b544e7d149606a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused `accounts` prop from support thread lens"
+      hash: aa6cae77dbd0717c68760e201aed36f916070b14
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for Channel lens"
+      hash: ba1981fd782679302a57750c59405fbc4ce2ca7f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout component for loops"
+      hash: 32692bd9cb64ee8102e18c994a7e3f2c264233a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.9.0
+  title: "'Lucianbuzzo/tab selection persist'"
+  date: 2022-03-31T11:16:09.026Z
+- commits:
     - subject: "UI: Change TransformerWorker lens to use new tabbed layout"
       hash: 42c29ab59caf03f0a07890c30eb50c673d7b5c57
       body: ""
