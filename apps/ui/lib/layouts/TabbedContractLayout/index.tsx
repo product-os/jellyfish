@@ -30,6 +30,7 @@ export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	tabs?: React.ReactNode[];
 	actionItems?: React.ReactNode;
 	primaryTabTitle?: string;
+	title?: JSX.Element;
 };
 
 export interface StateProps {
@@ -81,6 +82,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 			actionItems,
 			children,
 			tabs,
+			title,
 			primaryTabTitle,
 		} = this.props;
 
@@ -98,6 +100,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 			<CardLayout
 				data-test={this.props['data-test']}
 				overflowY
+				title={title}
 				card={card}
 				channel={channel}
 				actionItems={actionItems}

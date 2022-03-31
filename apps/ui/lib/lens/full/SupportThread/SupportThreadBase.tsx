@@ -1,7 +1,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Divider, Flex, Tab, Txt } from 'rendition';
+import { Box, Divider, Flex, Txt } from 'rendition';
 import styled from 'styled-components';
 import {
 	ColorHashPill,
@@ -15,11 +15,8 @@ import {
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import { sdk, actionCreators } from '../../../core';
-import { RelationshipsTab, customQueryTabs } from '../../common';
-import Timeline from '../../list/Timeline';
-import CardLayout from '../../../layouts/CardLayout';
 import CardFields from '../../../components/CardFields';
-import { SingleCardTabs } from '../../../layouts/TabbedContractLayout';
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
 import {
 	Contract,
@@ -257,7 +254,7 @@ export default class SupportThreadBase extends React.Component<Props, State> {
 			| null;
 
 		return (
-			<CardLayout
+			<TabbedContractLayout
 				card={card}
 				channel={channel}
 				title={
@@ -378,61 +375,41 @@ export default class SupportThreadBase extends React.Component<Props, State> {
 					</React.Fragment>
 				}
 			>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
+				<>
+					{statusDescription && (
+						<Txt
+							color="text.light"
+							data-test="support-thread__status-description"
+						>
+							{statusDescription}
+						</Txt>
+					)}
 
-				<SingleCardTabs
-					activeIndex={this.state.activeIndex}
-					onActive={this.setActiveIndex}
-				>
-					<Tab title="Info">
-						<Box px={3}>
-							{statusDescription && (
-								<Txt
-									color="text.light"
-									data-test="support-thread__status-description"
-								>
-									{statusDescription}
-								</Txt>
-							)}
-
-							{highlights.length > 0 && (
-								<Box pt={2}>
-									<Txt bold>Highlights</Txt>
-									<Extract py={2}>
-										{_.map(highlights, (statusEvent) => {
-											return (
-												<Event
-													key={statusEvent.id}
-													card={statusEvent}
-													user={this.props.user}
-													groups={this.props.groups}
-													mb={1}
-													threadIsMirrored={isMirrored}
-													getActorHref={getActorHref}
-												/>
-											);
-										})}
-									</Extract>
-									<Divider width="100%" />
-								</Box>
-							)}
-
-							<CardFields card={card} type={typeContract} />
+					{highlights.length > 0 && (
+						<Box pt={2}>
+							<Txt bold>Highlights</Txt>
+							<Extract py={2}>
+								{_.map(highlights, (statusEvent) => {
+									return (
+										<Event
+											key={statusEvent.id}
+											card={statusEvent}
+											user={this.props.user}
+											groups={this.props.groups}
+											mb={1}
+											threadIsMirrored={isMirrored}
+											getActorHref={getActorHref}
+										/>
+									);
+								})}
+							</Extract>
+							<Divider width="100%" />
 						</Box>
-					</Tab>
+					)}
 
-					<Tab data-test="timeline-tab" title="Timeline">
-						<Timeline.data.renderer
-							card={card}
-							allowWhispers
-							tail={_.get(this.props.card.links, ['has attached element'], [])}
-						/>
-					</Tab>
-
-					{customQueryTabs(card, typeContract, channel)}
-					<RelationshipsTab card={card} channel={channel} />
-				</SingleCardTabs>
-			</CardLayout>
+					<CardFields card={card} type={typeContract} />
+				</>
+			</TabbedContractLayout>
 		);
 	}
 }
