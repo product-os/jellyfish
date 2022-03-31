@@ -6,7 +6,7 @@ import { Box, Heading, Flex, Tab, Table, Txt, Divider } from 'rendition';
 import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
 import { DeviceMetrics } from '../../../components/Metrics/DeviceMetrics';
-import { SingleCardTabs } from '../SingleCard';
+import { SingleCardTabs } from '../../../layouts/TabbedContractLayout';
 import { RelationshipsTab, customQueryTabs } from '../../common';
 
 export const SLUG = 'lens-full-transformer-worker';
