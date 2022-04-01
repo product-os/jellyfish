@@ -19,20 +19,38 @@ if (pkg.length < 1) {
 }
 
 // Create tarball from package
-const tarball = childProcess.execSync('npm pack', {
-	cwd: path.join(process.cwd(), '.libs', pkg),
-	stdio: 'pipe'
-}).toString().trim().split('\n').pop()
+const tarball = childProcess
+	.execSync('npm pack', {
+		cwd: path.join(process.cwd(), '.libs', pkg),
+		stdio: 'pipe'
+	})
+	.toString()
+	.trim()
+	.split('\n')
+	.pop()
 const tarballPath = path.join(process.cwd(), '.libs', pkg, tarball)
 console.log(`Created ${tarballPath}`)
 
 // Copy created package to apps packages
 for (const app of fs.readdirSync(path.join(process.cwd(), 'apps'))) {
-	const packageLockPath = path.join(process.cwd(), 'apps', app, 'package-lock.json')
-	const packageLock = fs.readFileSync(packageLockPath).toString()
-	if (packageLock.includes(pkg)) {
-		const dest = path.join(process.cwd(), 'apps', app, 'packages', `${pkg}.tgz`)
-		fs.copyFileSync(tarballPath, dest)
-		console.log(`Copied package to ${dest}`)
+	const packageLockPath = path.join(
+		process.cwd(),
+		'apps',
+		app,
+		'package-lock.json'
+	)
+	if (fs.existsSync(packageLockPath)) {
+		const packageLock = fs.readFileSync(packageLockPath).toString()
+		if (packageLock.includes(pkg)) {
+			const dest = path.join(
+				process.cwd(),
+				'apps',
+				app,
+				'packages',
+				`${pkg}.tgz`
+			)
+			fs.copyFileSync(tarballPath, dest)
+			console.log(`Copied package to ${dest}`)
+		}
 	}
 }
