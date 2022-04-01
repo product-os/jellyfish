@@ -50,6 +50,8 @@ We use Node v16 to develop Jellyfish. First install dependencies with:
 $ npm i
 ```
 
+>If you're on MacOS 13 and you get an error like `Error: ERROR: Playwright does not support webkit on mac10.13`, run `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm i` . [Source](https://github.com/microsoft/playwright/issues/1941#issuecomment-1008338376)
+
 Revealing secrets
 -----------------------
 We use [`git secret`](https://git-secret.io/) to safely share secrets used during testing and development.

@@ -18,7 +18,7 @@ all services in non-daemon mode:
 ```sh
 $ npm run compose:database
 $ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev:server
+$ SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost METRICS_PORT=9100 SOCKET_METRICS_PORT=9101 REDIS_HOST=localhost npm run dev:server
 ```
 
 The API will listen on `8000` and the UI will listen on `9000`. Open
