@@ -23,6 +23,7 @@ import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	LoopContract,
+	TypeContract,
 	UserContract,
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
@@ -198,7 +199,7 @@ export const selectors = {
 	getChatWidgetOpen: (state) => {
 		return _.get(state.ui, ['chatWidget', 'open']);
 	},
-	getTypes: (state) => {
+	getTypes: (state): TypeContract[] => {
 		return state.core.types;
 	},
 	getLoops: (state): LoopContract[] => {
@@ -640,7 +641,18 @@ export const actionCreators = {
 				query,
 			);
 
-			stream.on('dataset', ({ data: { cards: channels } }) => {
+			const queryOptions = {
+				limit: 1,
+				links: {
+					'has attached element': {
+						limit: 20,
+						sortBy: 'created_at',
+						sortDir: 'desc',
+					},
+				},
+			};
+
+			const handleResult = (result: Contract | undefined) => {
 				const currentChannel = _.find(selectors.getChannels(getState()), {
 					id: channel.id,
 				});
@@ -651,11 +663,11 @@ export const actionCreators = {
 
 				const clonedChannel = clone(currentChannel);
 
-				if (channels.length > 0) {
+				if (result) {
 					// Merge required in the event that this is a pagination query
 					clonedChannel.data.head = merge(
 						_.get(clonedChannel, ['data', 'head'], {}),
-						channels[0],
+						result,
 						{
 							arrayMerge: (destinationArray, sourceArray) => {
 								return _.union(destinationArray, sourceArray);
@@ -668,7 +680,22 @@ export const actionCreators = {
 					type: actions.UPDATE_CHANNEL,
 					value: clonedChannel,
 				});
+			};
+
+			sdk.query(query, queryOptions).then(([result]) => {
+				handleResult(result);
 			});
+
+			stream.on(
+				'dataset',
+				({
+					data: {
+						cards: [result],
+					},
+				}) => {
+					handleResult(result);
+				},
+			);
 
 			stream.on('update', ({ data: { after: newHead } }) => {
 				const currentChannel = _.find(selectors.getChannels(getState()), {
@@ -690,21 +717,6 @@ export const actionCreators = {
 					type: actions.UPDATE_CHANNEL,
 					value: clonedChannel,
 				});
-			});
-
-			stream.emit('queryDataset', {
-				data: {
-					schema: query,
-					options: {
-						links: {
-							'has attached element': {
-								limit: 20,
-								sortBy: 'created_at',
-								sortDir: 'desc',
-							},
-						},
-					},
-				},
 			});
 		};
 	},
@@ -823,7 +835,6 @@ export const actionCreators = {
 				type: actions.ADD_CHANNEL,
 				value: channel,
 			});
-			console.log({ channel });
 			return dispatch(actionCreators.loadChannelData(channel));
 		};
 	},

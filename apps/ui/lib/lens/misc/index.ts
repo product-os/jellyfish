@@ -4,6 +4,7 @@ import Inbox from './Inbox';
 import Kanban from './Kanban';
 import MilestoneGraph from './MilestoneGraph';
 import OmniSearch from './OmniSearch';
+import RepositoryGraph from './RepositoryGraph';
 import Table from './Table';
 
 export default [
@@ -13,5 +14,6 @@ export default [
 	Kanban,
 	MilestoneGraph,
 	OmniSearch,
+	RepositoryGraph,
 	Table,
 ];

@@ -4,6 +4,7 @@ import { ActionLink } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import singleCardLens from '../SingleCard';
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 export default class User extends React.Component<any, any> {
 	constructor(props) {
@@ -76,12 +77,14 @@ export default class User extends React.Component<any, any> {
 	}
 
 	render() {
+		const { card, channel } = this.props;
 		return (
-			<singleCardLens.data.renderer
-				{...this.props}
+			<TabbedContractLayout
+				card={card}
+				channel={channel}
 				actionItems={
 					this.state.isOperator ? (
-						<React.Fragment>
+						<>
 							<ActionLink
 								onClick={this.sendFirstTimeLoginLink}
 								data-test="card-action-menu__send-first-time-login"
@@ -94,8 +97,8 @@ export default class User extends React.Component<any, any> {
 							>
 								Offboard user
 							</ActionLink>
-						</React.Fragment>
-					) : null
+						</>
+					) : undefined
 				}
 			/>
 		);

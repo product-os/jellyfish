@@ -1,4 +1,315 @@
 - commits:
+    - subject: Update push-lib to work with new apps
+      hash: e344f778062df7e536f4d1578597aab8093528e8
+      body: |
+        Just adding a file exists check for
+        package-lock.json instead of assuming it
+        exists as some apps are not node-based.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.9.4
+  title: "'Update push-lib to work with new apps'"
+  date: 2022-04-01T06:08:06.455Z
+- commits:
+    - subject: Update grafana/grafana from 8.4.4 to 8.4.5
+      hash: 56891e562ebd0cbf81a4afae6264184641fc0279
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.9.3
+  title: "'Update grafana/grafana from 8.4.4 to 8.4.5'"
+  date: 2022-03-31T16:14:28.253Z
+- commits:
+    - subject: "UI: Use HTTP API for initial contract data load"
+      hash: edb0f1da1f77acec0ff5e4c0ac1ddb87458e5347
+      body: |
+        Using the HTTP API for the initial data load is notably faster than
+        waiting for a websocket connection and querying the payload over WSS,
+        resulting in a snappier UX.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.9.2
+  title: "'UI: Use HTTP API for initial contract data load'"
+  date: 2022-03-31T15:30:47.866Z
+- commits:
+    - subject: Update internal-patch
+      hash: 2a59518696ed40361ca4dbad57751d3ade47a903
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.9.1
+  title: "'Update internal-patch'"
+  date: 2022-03-31T11:54:02.190Z
+- commits:
+    - subject: "UI: Remove unused query object"
+      hash: f19a8a02fa59ecc6452a8e397d3399e10d3d314f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Preserve selected relationship tab per type when
+        navigating/reloading"
+      hash: 02d9399cf596c03b49e67c81e5cbe7b9ec3c74b1
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Persist selected tab for contract type when navigating/reloading"
+      hash: 11f99b4f3ca8e197c573fa19e7177b7b6be61bed
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused activeIndex logic from lenses"
+      hash: 1caae19308629d21a4c4986407036e0ce91d23ce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for contract lens"
+      hash: aa477b2f0446d3c479459588633a5dc2a2162dbc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for support thread lens"
+      hash: ffe1b027bc411ab8195bbcb42c01000a3d4661d1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Correctly type support thread lens"
+      hash: 6a2c164c6e25bc3d342252d8b8b544e7d149606a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused `accounts` prop from support thread lens"
+      hash: aa6cae77dbd0717c68760e201aed36f916070b14
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout for Channel lens"
+      hash: ba1981fd782679302a57750c59405fbc4ce2ca7f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use tabbed layout component for loops"
+      hash: 32692bd9cb64ee8102e18c994a7e3f2c264233a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.9.0
+  title: "'Lucianbuzzo/tab selection persist'"
+  date: 2022-03-31T11:16:09.026Z
+- commits:
+    - subject: "UI: Change TransformerWorker lens to use new tabbed layout"
+      hash: 42c29ab59caf03f0a07890c30eb50c673d7b5c57
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove deprecated actionItems prop from Lenses"
+      hash: 6335e4ce101b6eec88322334cecd1678920f8283
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Abstract generic tabbed layout into a re-usable component"
+      hash: 3991a938669fca444e1154314d325933b573a34c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Correctly type SingleCard lens"
+      hash: c72ba3f548c508dfc3730e885113c6e9845ccb40
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Remove unused "user" prop in CardLayout'
+      hash: df9650183cc7c1043cf001f8727c4d325a9f7f1f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Type CardLayout properties"
+      hash: 2ae8ec89e419b18b7da3ec16dc11154cb8f58fc0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.8.3
+  title: "'Lucianbuzzo/tab selection persist'"
+  date: 2022-03-31T09:42:10.545Z
+- commits:
+    - subject: Update internal-patch
+      hash: 2c16a9fd26edfb789b3d5dd0b3824c4e36bac184
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.8.2
+  title: "'Update internal-patch'"
+  date: 2022-03-31T06:45:55.125Z
+- commits:
+    - subject: Update internal-patch
+      hash: 80b20fcb62d527e2426a7bae124bf1fda9edc438
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.8.1
+  title: "'Update internal-patch'"
+  date: 2022-03-31T05:57:14.450Z
+- commits:
+    - subject: "UI: Add a lens for rendering repositories in a graph"
+      hash: 9d3345d0baec8001eea69a8f5c91cc7ca4688414
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Make milestonegraph re-usable"
+      hash: 423cb8cdeb5873f544f94ee815e72d39f21d55d4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.8.0
+  title: "'Lucianbuzzo/generic contract graph'"
+  date: 2022-03-30T14:16:29.659Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 10.2.3 to 10.3.0
+      hash: 0f7320b95191ad5dc56917b01e8f288fe662a8aa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: "UI: Add functionality for removing links via contract graph"
+      hash: 98124571c6bbfdc63773aa128c33ea71dac97312
+      body: |
+        You can now click on a link label on the graph, which will open a modal
+        allowing you to remove the link.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve clarity of link modal"
+      hash: 6f586fd7c4521691bde648fa2f74bb49a71d1e5b
+      body: |
+        This change makes the Link modal much easier to understand when linking
+        two contracts that have multiple possible relationships.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.7.2
+  title: "'Update @balena/jellyfish-client-sdk from 10.2.3 to 10.3.0'"
+  date: 2022-03-30T13:34:22.352Z
+- commits:
     - subject: Update internal-patch
       hash: f57aeea54034070058cc5075bf95f9eee47d18f6
       body: ""

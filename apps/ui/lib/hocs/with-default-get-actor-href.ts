@@ -1,7 +1,8 @@
 import path from 'path';
+import { UIActor } from '../types';
 import { withDefaultProps } from './with-default-props';
 
-const getActorHref = (actor: any) => {
+const getActorHref = (actor: UIActor) => {
 	return path.join(location.pathname, actor.card.slug);
 };
 

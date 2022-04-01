@@ -19,7 +19,7 @@ export default (props: Props) => {
 			types={types}
 			tail={tail}
 			channel={channel}
-			linkVerbs={['is required by']}
+			linkVerbs={['is used by']}
 		/>
 	);
 };

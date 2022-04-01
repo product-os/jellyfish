@@ -1,14 +1,11 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Card, Divider, Flex, Tab, Tabs, Theme } from 'rendition';
+import { Box, Card, Flex, Tabs } from 'rendition';
 import styled from 'styled-components';
 import { Icon, Link } from '../../../components';
-import * as helpers from '../../../services/helpers';
-import CardLayout from '../../../layouts/CardLayout';
-import Timeline from '../../list/Timeline';
-import { RelationshipsTab, customQueryTabs } from '../../common';
 import { sdk } from '../../../core';
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 const WIDTH = 160;
 
@@ -36,16 +33,6 @@ const LOOP_CONTRACTS = {
 		status: 'open',
 	},
 };
-
-export const SingleCardTabs = styled(Tabs)`
-	flex: 1;
-	> [role='tablist'] {
-		height: 100%;
-	}
-	> [role='tabpanel'] {
-		flex: 1;
-	}
-`;
 
 const Corner = (props: { rotate: number } = { rotate: 0 }) => {
 	return (
@@ -133,15 +120,7 @@ export default class LoopFull extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
 
-		const tail = _.get(this.props.card.links, ['has attached element'], []);
-
-		const comms = _.filter(tail, (item) => {
-			const typeBase = item.type.split('@')[0];
-			return typeBase === 'message' || typeBase === 'whisper';
-		});
-
 		this.state = {
-			activeIndex: comms.length ? 1 : 0,
 			tree: null,
 			support: null,
 			patterns: null,
@@ -150,8 +129,6 @@ export default class LoopFull extends React.Component<any, any> {
 			pulls: null,
 			topics: null,
 		};
-
-		this.setActiveIndex = this.setActiveIndex.bind(this);
 	}
 
 	shouldComponentUpdate(nextProps, nextState) {
@@ -159,12 +136,6 @@ export default class LoopFull extends React.Component<any, any> {
 			!circularDeepEqual(nextState, this.state) ||
 			!circularDeepEqual(nextProps, this.props)
 		);
-	}
-
-	setActiveIndex(activeIndex) {
-		this.setState({
-			activeIndex,
-		});
 	}
 
 	componentDidMount() {
@@ -197,115 +168,77 @@ export default class LoopFull extends React.Component<any, any> {
 	}
 
 	render() {
-		const { card, channel, types, actionItems } = this.props;
-
-		const type = helpers.getType(card.type, types);
-
-		const tail = _.get(card.links, ['has attached element'], []);
+		const { card, channel } = this.props;
 
 		const { support, patterns, improvements, projects, pulls, topics } =
 			this.state;
 
 		return (
-			<CardLayout
-				overflowY
-				card={card}
-				channel={channel}
-				actionItems={actionItems}
-			>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
+			<TabbedContractLayout card={card} channel={channel}>
+				<Box width={420} mx="auto">
+					<Flex alignItems="center">
+						<Corner rotate={90} />
 
-				<SingleCardTabs
-					activeIndex={this.state.activeIndex}
-					onActive={this.setActiveIndex}
-				>
-					<Tab title="Info">
-						<Box
-							p={3}
-							flex={1}
-							style={{
-								maxWidth: Theme.breakpoints[2],
-							}}
-						>
-							<Box width={420} mx="auto">
-								<Flex alignItems="center">
-									<Corner rotate={90} />
+						<Card p={2} small width={WIDTH} style={{ textAlign: 'center' }}>
+							Environment
+						</Card>
 
-									<Card
-										p={2}
-										small
-										width={WIDTH}
-										style={{ textAlign: 'center' }}
-									>
-										Environment
-									</Card>
+						<Corner rotate={180} />
+					</Flex>
 
-									<Corner rotate={180} />
-								</Flex>
+					<Flex justifyContent="space-between" alignItems="center">
+						<LinkBox
+							label="Pull Requests"
+							path="/view-all-pull-requests"
+							total={pulls}
+						/>
 
-								<Flex justifyContent="space-between" alignItems="center">
-									<LinkBox
-										label="Pull Requests"
-										path="/view-all-pull-requests"
-										total={pulls}
-									/>
+						<LinkBox
+							label="Support"
+							path={'/view-all-support-threads'}
+							total={support}
+						/>
+					</Flex>
 
-									<LinkBox
-										label="Support"
-										path={'/view-all-support-threads'}
-										total={support}
-									/>
-								</Flex>
+					<Flex justifyContent="space-between" alignItems="center">
+						<Arrow rotate={0} />
 
-								<Flex justifyContent="space-between" alignItems="center">
-									<Arrow rotate={0} />
+						<LinkBox
+							label="Brainstorm Topics"
+							path="/view-all-brainstorm-topics"
+							total={topics}
+						/>
 
-									<LinkBox
-										label="Brainstorm Topics"
-										path="/view-all-brainstorm-topics"
-										total={topics}
-									/>
+						<Arrow rotate={180} />
+					</Flex>
 
-									<Arrow rotate={180} />
-								</Flex>
+					<Flex justifyContent="space-between" alignItems="center">
+						<LinkBox
+							label="Projects"
+							path="/view-all-projects"
+							total={projects}
+						/>
 
-								<Flex justifyContent="space-between" alignItems="center">
-									<LinkBox
-										label="Projects"
-										path="/view-all-projects"
-										total={projects}
-									/>
+						<LinkBox
+							label="Patterns"
+							path="/view-all-patterns"
+							total={patterns}
+						/>
+					</Flex>
 
-									<LinkBox
-										label="Patterns"
-										path="/view-all-patterns"
-										total={patterns}
-									/>
-								</Flex>
+					<Flex alignItems="center">
+						<Corner rotate={0} />
 
-								<Flex alignItems="center">
-									<Corner rotate={0} />
+						<LinkBox
+							label="Improvements"
+							path="/view-all-improvements"
+							total={improvements}
+						/>
 
-									<LinkBox
-										label="Improvements"
-										path="/view-all-improvements"
-										total={improvements}
-									/>
-
-									<Corner rotate={270} />
-								</Flex>
-							</Box>
-						</Box>
-					</Tab>
-
-					<Tab title="Timeline">
-						<Timeline.data.renderer card={card} allowWhispers tail={tail} />
-					</Tab>
-
-					{customQueryTabs(card, type, channel)}
-					<RelationshipsTab card={card} channel={channel} />
-				</SingleCardTabs>
-			</CardLayout>
+						<Corner rotate={270} />
+					</Flex>
+				</Box>
+			</TabbedContractLayout>
 		);
 	}
 }
