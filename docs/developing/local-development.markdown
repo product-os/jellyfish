@@ -33,25 +33,29 @@ http://localhost:9000 and login as:
 ## Working with Dependencies
 
 There are times in which you may want to make changes a dependency while working on a service component.
-This is where `npm link` comes in. In the example below, we set up `@balena/jellyfish-metrics` as a dependency
-using this strategy.
+This is where `npm link` comes in. In the example below, we set up `@balena/jellyfish-plugin-default` as a dependency
+using this strategy ( let's say after you added the new [`pokemon`](./add-new-type.markdown) contract).
+
 ```
 $ cd ~/git
-$ git clone git@github.com:product-os/jellyfish-metrics.git
-$ cd jellyfish-metrics && npm i && cd ..
+$ git clone git@github.com:product-os/jellyfish-plugin-default.git
+$ cd jellyfish-plugin-default && npm i && cd ..
 $ git clone git@github.com:product-os/jellyfish.git
 $ cd jellyfish && npm i
-$ sudo npm link ../jellyfish-metrics
-...
-/usr/lib/node_modules/@balena/jellyfish-metrics -> /home/josh/git/jellyfish-metrics
-/home/josh/git/jellyfish/node_modules/@balena/jellyfish-metrics -> /usr/lib/node_modules/@balena/jellyfish-metrics -> /home/josh/git/jellyfish-metrics
+$ sudo npm link ../jellyfish-plugin-default
+$ cd apps/server
+$ sudo npm link ../../../jellyfish-plugin-default
+$ cd ../..
+$ find . -name jellyfish-plugin-default
+./node_modules/@balena/jellyfish-plugin-default
+./apps/server/node_modules/@balena/jellyfish-plugin-default
 ```
 
-Now any changes made in `~/git/jellyfish-metrics` will be reflected in `~/git/jellyfish/node_modules/@balena/jellyfish-metrics`.
+Now any changes made in `~/git/jellyfish-plugin-default` will be reflected in `~/git/jellyfish/node_modules/@balena/jellyfish-plugin-default`.
 
 To remove the global link:
 ```
-$ cd ~/git/jellyfish-metrics
+$ cd ~/git/jellyfish-plugin-default
 $ sudo npm uninstall
 ```
 
