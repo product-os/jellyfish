@@ -1,4 +1,21 @@
 - commits:
+    - subject: Update push-lib to work with new apps
+      hash: e344f778062df7e536f4d1578597aab8093528e8
+      body: |
+        Just adding a file exists check for
+        package-lock.json instead of assuming it
+        exists as some apps are not node-based.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.9.4
+  title: "'Update push-lib to work with new apps'"
+  date: 2022-04-01T06:08:06.455Z
+- commits:
     - subject: Update grafana/grafana from 8.4.4 to 8.4.5
       hash: 56891e562ebd0cbf81a4afae6264184641fc0279
       body: ""
