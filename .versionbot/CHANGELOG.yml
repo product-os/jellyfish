@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update non-major-frontend
+      hash: ccbdf4480495e751f538dc9a82b33deb72a5a023
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.9.5
+  title: "'Update non-major-frontend'"
+  date: 2022-04-02T00:16:24.800Z
+- commits:
     - subject: Update push-lib to work with new apps
       hash: e344f778062df7e536f4d1578597aab8093528e8
       body: |
