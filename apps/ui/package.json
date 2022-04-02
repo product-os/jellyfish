@@ -24,7 +24,7 @@
   "dependencies": {
     "@balena/jellyfish-client-sdk": "^10.3.0",
     "@balena/jellyfish-environment": "^9.1.7",
-    "@sentry/browser": "^6.19.2",
+    "@sentry/browser": "^6.19.3",
     "@use-it/event-listener": "^0.1.7",
     "@webscopeio/react-textarea-autocomplete": "^4.9.1",
     "analytics-client": "^1.7.0",
@@ -126,7 +126,7 @@
     "enzyme-adapter-react-16": "^1.15.6",
     "esbuild-loader": "^2.18.0",
     "eslint": "^7.32.0",
-    "grommet": "^2.21.0",
+    "grommet": "^2.22.0",
     "html-webpack-plugin": "^5.5.0",
     "jest": "^27.5.1",
     "jest-esm-transformer": "^1.0.0",
@@ -138,7 +138,7 @@
     "ts-jest": "^27.1.4",
     "typedoc": "^0.22.13",
     "typescript": "^4.6.3",
-    "webpack": "^5.70.0",
+    "webpack": "^5.71.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4"
