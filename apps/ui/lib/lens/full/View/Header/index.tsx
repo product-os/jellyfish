@@ -5,11 +5,13 @@ import { Box, Divider, Flex, Search, Txt } from 'rendition';
 import styled from 'styled-components';
 import { Contract, ViewContract } from '@balena/jellyfish-types/build/core';
 import { flatten } from 'flat';
-import { CloseButton } from '../../../../components';
+import { ActionLink, CloseButton } from '../../../../components';
 import * as helpers from '../../../../services/helpers';
 import CardActions from '../../../../components/CardActions';
 import Markers from '../../../../components/Markers';
 import { ChannelContract } from '../../../../types';
+import CSVDownloadModal from '../../../../components/CSVDownloadModal';
+import { JsonSchema } from '@balena/jellyfish-types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -36,49 +38,17 @@ interface HeaderProps {
 	contract: ViewContract;
 	isMobile: boolean;
 	results?: null | Contract[];
+	query: JsonSchema | null;
 }
 
-export default React.memo<HeaderProps>((props) => {
-	const { channel, results, contract } = props;
+export default React.memo<HeaderProps>((props: HeaderProps) => {
+	const { channel, query, contract } = props;
 
 	if (!contract) {
 		return null;
 	}
 
-	const csvName = `${contract.slug}_${new Date().toISOString()}.csv`;
-	const csvData = results
-		? results.map((item) => {
-				// To keep the CSV functionality simple, don't include any link data in the output
-				const flattened: any = flatten(
-					{
-						...item,
-						links: {},
-						linked_at: item.linked_at || {},
-					},
-					{
-						// "safe" option preserves arrays, preventing a new header being created for each tag/marker
-						safe: true,
-					},
-				);
-				// react-csv does not correctly escape double quotes in fields, so it has to be done here.
-				// Once https://github.com/react-csv/react-csv/pull/287 is resolved, we need to remove this code
-				return _.mapValues(flattened, (field) => {
-					// escape all non-escaped double-quotes (double double-quotes escape them in CSV)
-					return _.isString(field)
-						? field.replace(/([^"]|^)"(?=[^"]|$)/g, '$1""')
-						: field;
-				});
-		  })
-		: [];
-
-	const csvHeaders = csvData.length
-		? Object.keys(csvData[0]).map((key) => {
-				return {
-					key,
-					label: key,
-				};
-		  })
-		: [];
+	const [displayCSVModal, setDisplayCSVModal] = React.useState(false);
 
 	return (
 		<Box>
@@ -95,15 +65,9 @@ export default React.memo<HeaderProps>((props) => {
 				</Box>
 				<Flex alignSelf={['flex-end', 'flex-end', 'flex-start']}>
 					<CardActions card={contract}>
-						<CSVLinkWrapper>
-							<CSVLink
-								data={csvData}
-								headers={csvHeaders as any}
-								filename={csvName}
-							>
-								Download results as CSV
-							</CSVLink>
-						</CSVLinkWrapper>
+						<ActionLink onClick={() => setDisplayCSVModal(true)}>
+							Download results as CSV
+						</ActionLink>
 					</CardActions>
 
 					<CloseButton
@@ -118,6 +82,13 @@ export default React.memo<HeaderProps>((props) => {
 			</Flex>
 
 			<Divider width="100%" color={helpers.colorHash('view')} />
+
+			{displayCSVModal && !!query && (
+				<CSVDownloadModal
+					query={query}
+					onDone={() => setDisplayCSVModal(false)}
+				/>
+			)}
 		</Box>
 	);
 });
