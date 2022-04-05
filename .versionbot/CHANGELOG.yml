@@ -1,4 +1,23 @@
 - commits:
+    - subject: "UI: Don't use slice filtering when viewing data in a tab"
+      hash: 22e0d9d9abb7a9a08c94148c3cd04f2bfbc1feeb
+      body: >
+        Previously, when viewing linked data, slices would be used
+        (e.g.  prefiltering for status:open). However in most cases, this is not
+        appropriate and can be misleading.
+
+        With this change, slices will only be used when rendering results from a View.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.0
+  title: "'UI: Don't use slice filtering when viewing data in a tab'"
+  date: 2022-04-05T09:46:47.129Z
+- commits:
     - subject: "UI: Make HomeChannel component load and stream data internally"
       hash: 2eceadf8a5b311327ba46e9b7a0a57db42618d4f
       body: ""
