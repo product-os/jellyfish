@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 05b830280ba83442bbc43b6918d4841f8a5ed16f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.10.1
+  title: "'Update internal-patch'"
+  date: 2022-04-05T10:26:20.406Z
+- commits:
     - subject: "UI: Don't use slice filtering when viewing data in a tab"
       hash: 22e0d9d9abb7a9a08c94148c3cd04f2bfbc1feeb
       body: >
