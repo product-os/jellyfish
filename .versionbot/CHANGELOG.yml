@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Use full fieldname for column headers in CSV download"
+      hash: 18b8fa064b52d509329d3800cc9efb95a22a9fd5
+      body: >
+        This change fixes an issue where multiple fields in a data set can have
+        the same name, making the CSV column ambiguous.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.2
+  title: "'UI: Use full fieldname for column headers in CSV download'"
+  date: 2022-04-05T11:06:38.786Z
+- commits:
     - subject: Update internal-patch
       hash: 05b830280ba83442bbc43b6918d4841f8a5ed16f
       body: ""
