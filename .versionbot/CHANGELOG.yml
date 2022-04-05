@@ -1,4 +1,44 @@
 - commits:
+    - subject: "UI: Make HomeChannel component load and stream data internally"
+      hash: 2eceadf8a5b311327ba46e9b7a0a57db42618d4f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use cursors for loading timeline data"
+      hash: 9ed18b1ce583cef03de1e9b92bd58df7366dab31
+      body: |
+        This change switches from using a centralized stream for timeline data,
+        to a separate cursor, held in memory in the timeline component. The
+        cursor allows for smarter pagination and a simpler data flow.
+        This change also fixes an issue where timeline stream would not
+        disconnect when the timeline component unmounted and fixes another issue
+        where the timeline would paginate multiple times on initial load.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve typing of ChannelRenderer component"
+      hash: 08167cc7ad6c45415772de9667d55ab4d02fc5e3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.9.14
+  title: "'Use cursors for loading timeline data'"
+  date: 2022-04-05T07:58:17.345Z
+- commits:
     - subject: Update internal-patch
       hash: d1d5e8031f8b1f6409c6908708e165b9c8d0052d
       body: ""
