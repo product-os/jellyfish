@@ -20,7 +20,7 @@ Many parts of Jellyfish are still under development, and this document aims to c
 - **Contributing**
 	- [**Design manifesto**](https://github.com/product-os/jellyfish/blob/master/docs/design-manifesto.markdown)
 	- [**Architecture overview**](https://github.com/product-os/jellyfish/blob/master/ARCHITECTURE.md)
-	- [**JellyFish Core**](https://github.com/product-os/jellyfish-core/blob/master/README.md) the low-level internal SDK to interact with cards and links in the database
+	- [**AutumnDB**](https://github.com/product-os/autumndb/blob/master/README.md) the low-level internal SDK to interact with contracts and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
 	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/local-development.markdown)
@@ -47,7 +47,12 @@ Installing dependencies
 
 We use Node v16 to develop Jellyfish. First install dependencies with:
 ```sh
-$ npm i
+npm i
+```
+
+If you get a Playwright installation error, try skipping its browser downloads. [Source](https://github.com/microsoft/playwright/issues/1941#issuecomment-1008338376)
+```sh
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm i
 ```
 
 Revealing secrets
@@ -58,7 +63,7 @@ for more information on how secrets are managed.
 
 Once you have been given access, you can reveal secrets stored under `.balena/secrets` with:
 ```sh
-$ git secret reveal -f
+git secret reveal -f
 ```
 
 Developing with Livepush
@@ -73,7 +78,7 @@ To start developing, you must first install [balenaCLI](https://github.com/balen
 ### Deploy code
 Now that the device is up and running in local mode, we need to get its local IP address:
 ```
-$ sudo balena scan | grep address
+sudo balena scan | grep address
   address:       <DEVICE-IP-ADDRESS>
 ```
 
@@ -94,10 +99,10 @@ removing library dependencies is a bit different. The following is an example wh
 `jellyfish-worker` library:
 
 ```sh
-$ cd .libs/jellyfish-worker
-$ npm install new-dependency
-$ cd ../..
-$ npm run push:lib jellyfish-worker
+cd .libs/jellyfish-worker
+npm install new-dependency
+cd ../..
+npm run push:lib jellyfish-worker
 ```
 
 What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
@@ -107,8 +112,8 @@ Execute `npm run clean` to delete these tarballs when you no longer need them.
 ### Connecting to Postgres and Redis
 The Postgres and Redis services running on the Livepush device can be accessed with:
 ```
-$ psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
-$ redis-cli -h redis.ly.fish.local
+psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
+redis-cli -h redis.ly.fish.local
 ```
 
 ### Resetting
