@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update haproxy config
+      hash: 2ac4f583f8d45cd3d68beb2bedb477db54ef74bc
+      body: |
+        Update whitespace to match official examples.
+        Update timeouts to help avoid unnecessary disconnects.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.9.12
+  title: "'Update haproxy config'"
+  date: 2022-04-05T03:27:11.487Z
+- commits:
     - subject: Update internal-patch
       hash: 283a0272dda25fc2ca19b0d4c5bc6e87469202e4
       body: ""
