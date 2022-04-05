@@ -315,6 +315,7 @@ export interface OwnProps {
 	onResultsChange?: (collection: Contract[] | null) => any;
 	seed?: any;
 	hideFooter?: boolean;
+	useSlices?: boolean;
 }
 
 export interface ResponsiveProps {
@@ -346,7 +347,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		const { card, query, seed } = this.props;
+		const { query, seed, useSlices } = this.props;
 
 		const activeLens =
 			this.props.userActiveLens &&
@@ -368,7 +369,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			// If the user has already set filters, re-use these, otherwise load the default slice
 			if (this.props.userCustomFilters.length) {
 				filters = this.props.userCustomFilters;
-			} else if (sliceOptions && sliceOptions.length) {
+			} else if (useSlices && sliceOptions && sliceOptions.length) {
 				filters = setSliceFilter(filters, activeLens, _.first(sliceOptions));
 			}
 		}
@@ -509,6 +510,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 	setLens = (slug) => {
 		const lens = this.getLensBySlug(slug);
+		const { query, types, useSlices } = this.props;
 		if (!lens) {
 			return;
 		}
@@ -519,15 +521,10 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		// Some lenses ignore the slice filter, so recalculate the filters using
 		// the new lens.
-		const sliceOptions = helpers.getSchemaSlices(
-			this.props.query,
-			this.props.types,
-		);
-		const filters = setSliceFilter(
-			this.state.filters,
-			lens,
-			_.first(sliceOptions),
-		);
+		const sliceOptions = helpers.getSchemaSlices(query, types);
+		const filters = useSlices
+			? setSliceFilter(this.state.filters, lens, _.first(sliceOptions))
+			: this.state.filters;
 
 		const newOptions = this.getQueryOptions(slug, false);
 

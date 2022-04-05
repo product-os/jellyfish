@@ -107,6 +107,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					query={query}
 					seed={channel.data.seed}
 					onResultsChange={this.handleResultsChange}
+					useSlices
 				/>
 			</Flex>
 		);
