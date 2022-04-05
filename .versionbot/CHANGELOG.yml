@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix bug where state data is incorrectly set in sidebar"
+      hash: 53dc7dbd58515f84f92ed5ff38afe05327f775c0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.5
+  title: "'UI: Fix bug where state data is incorrectly set in sidebar'"
+  date: 2022-04-05T13:29:10.094Z
+- commits:
     - subject: Update internal-patch
       hash: 8489bcc149f3e71376711ac569c797b57a03a50f
       body: ""
