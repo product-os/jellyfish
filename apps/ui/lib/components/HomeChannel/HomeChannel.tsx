@@ -143,7 +143,7 @@ const GrabHandleGrip = styled.div`
 `;
 
 // View slugs that should be displayed first
-const DEFAULT_VIEWS = ['view-my-conversations', 'view-my-orgs'];
+const DEFAULT_VIEWS = ['view-my-conversations'];
 
 const viewsToTree = (views, root = {}, namespaced = true) => {
 	const result: any = _.defaults(root, {
@@ -657,7 +657,7 @@ export default class HomeChannel extends React.Component<any, any> {
 										// Todo: Resolve the broken typing on ActionRouterLink
 										// @ts-ignore
 										<ActionRouterLink to={`/${user.slug}`}>
-											Settings
+											Profile
 										</ActionRouterLink>
 									)}
 

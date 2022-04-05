@@ -33,6 +33,7 @@ interface State {
 	interfaceSchema: JsonSchema;
 	bookmarksQuery: JsonSchema;
 	loopsQuery: JsonSchema;
+	orgsQuery: JsonSchema;
 	fetchingIntegrationUrl: boolean;
 }
 
@@ -116,6 +117,25 @@ export default class MyUser extends React.Component<Props, State> {
 			},
 		};
 
+		const orgsQuery: JsonSchema = {
+			type: 'object',
+			$$links: {
+				'has member': {
+					type: 'object',
+					properties: {
+						id: {
+							const: props.card.id,
+						},
+					},
+				},
+			},
+			properties: {
+				type: {
+					const: 'org@1.0.0',
+				},
+			},
+		};
+
 		this.state = {
 			submitting: false,
 			changePassword: {},
@@ -123,6 +143,7 @@ export default class MyUser extends React.Component<Props, State> {
 			interfaceSchema,
 			bookmarksQuery,
 			loopsQuery,
+			orgsQuery,
 			fetchingIntegrationUrl: false,
 		};
 	}
@@ -230,6 +251,23 @@ export default class MyUser extends React.Component<Props, State> {
 								hideFooter
 								channel={this.props.channel}
 								query={this.state.bookmarksQuery}
+								card={this.props.card}
+							/>
+						</Flex>
+					</Tab>,
+					<Tab title="Orgs" key="orgs">
+						<Flex
+							flexDirection="column"
+							flex="1"
+							style={{
+								maxWidth: '100%',
+							}}
+						>
+							<LiveCollection
+								key={1}
+								hideFooter
+								channel={this.props.channel}
+								query={this.state.orgsQuery}
 								card={this.props.card}
 							/>
 						</Flex>
