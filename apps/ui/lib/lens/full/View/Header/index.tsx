@@ -75,7 +75,7 @@ export default React.memo<HeaderProps>((props) => {
 		? Object.keys(csvData[0]).map((key) => {
 				return {
 					key,
-					label: key.split('.').pop(),
+					label: key,
 				};
 		  })
 		: [];
