@@ -1207,7 +1207,7 @@ export const actionCreators = {
 		};
 	},
 
-	updateUser(patches, successNotification: string | null = null) {
+	updateUser(patches, successNotification?: string | null) {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser(getState());

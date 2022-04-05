@@ -34,6 +34,7 @@ interface State {
 	bookmarksQuery: JsonSchema;
 	loopsQuery: JsonSchema;
 	orgsQuery: JsonSchema;
+	mineQuery: JsonSchema;
 	fetchingIntegrationUrl: boolean;
 }
 
@@ -108,6 +109,24 @@ export default class MyUser extends React.Component<Props, State> {
 			},
 		};
 
+		const mineQuery: JsonSchema = {
+			type: 'object',
+			$$links: {
+				'is owned by': {
+					type: 'object',
+					required: ['id', 'type'],
+					properties: {
+						type: {
+							const: 'user@1.0.0',
+						},
+						id: {
+							const: props.card.id,
+						},
+					},
+				},
+			},
+		};
+
 		const loopsQuery: JsonSchema = {
 			type: 'object',
 			properties: {
@@ -144,6 +163,7 @@ export default class MyUser extends React.Component<Props, State> {
 			bookmarksQuery,
 			loopsQuery,
 			orgsQuery,
+			mineQuery,
 			fetchingIntegrationUrl: false,
 		};
 	}
@@ -230,7 +250,7 @@ export default class MyUser extends React.Component<Props, State> {
 							}}
 						>
 							<LiveCollection
-								key={1}
+								key="loops"
 								hideFooter
 								channel={this.props.channel}
 								query={this.state.loopsQuery}
@@ -247,7 +267,7 @@ export default class MyUser extends React.Component<Props, State> {
 							}}
 						>
 							<LiveCollection
-								key={1}
+								key="bookmarks"
 								hideFooter
 								channel={this.props.channel}
 								query={this.state.bookmarksQuery}
@@ -264,10 +284,27 @@ export default class MyUser extends React.Component<Props, State> {
 							}}
 						>
 							<LiveCollection
-								key={1}
+								key="orgs"
 								hideFooter
 								channel={this.props.channel}
 								query={this.state.orgsQuery}
+								card={this.props.card}
+							/>
+						</Flex>
+					</Tab>,
+					<Tab title="My contracts" key="mine">
+						<Flex
+							flexDirection="column"
+							flex="1"
+							style={{
+								maxWidth: '100%',
+							}}
+						>
+							<LiveCollection
+								key="mine"
+								hideFooter
+								channel={this.props.channel}
+								query={this.state.mineQuery}
 								card={this.props.card}
 							/>
 						</Flex>

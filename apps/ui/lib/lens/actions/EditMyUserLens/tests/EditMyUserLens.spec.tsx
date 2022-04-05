@@ -5,7 +5,7 @@ import '../../../../../test/react-select-mock';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import React from 'react';
-import MyUser from '../MyUser';
+import MyUser from '../EditMyUserLens';
 import { user, userType } from './fixtures';
 
 const sdk = {
@@ -37,7 +37,7 @@ describe('MyUser', () => {
 					updateUser: sandbox.stub(),
 					setPassword: sandbox.stub(),
 				},
-				card: user,
+				card: { card: user },
 				types: [userType],
 			},
 		};

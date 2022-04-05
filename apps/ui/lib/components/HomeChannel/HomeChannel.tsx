@@ -142,9 +142,6 @@ const GrabHandleGrip = styled.div`
 	height: 30px;
 `;
 
-// View slugs that should be displayed first
-const DEFAULT_VIEWS = ['view-my-conversations'];
-
 const viewsToTree = (views, root = {}, namespaced = true) => {
 	const result: any = _.defaults(root, {
 		name: null,
@@ -205,12 +202,6 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 		},
 	};
 
-	// Sorty by name, then sort the priority views to the top
-	const [defaults, nonDefaults] = _.partition(sortedTail, (view) => {
-		return _.includes(DEFAULT_VIEWS, view.slug);
-	});
-	groups.defaults = defaults;
-
 	if (bookmarks && bookmarks.length) {
 		const bookmarksTree = viewsToTree(
 			bookmarks,
@@ -234,7 +225,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	};
 
 	const { myViews, oneToOneViews, otherViews } = _.reduce(
-		nonDefaults,
+		sortedTail,
 		(acc, view) => {
 			if (view.slug.startsWith('view-121')) {
 				acc.oneToOneViews.push(view);

@@ -217,9 +217,13 @@ class ChannelRenderer extends React.Component<Props, State> {
 			}
 		}
 
+		// TODO: Cleanup structures for non-canonical channels
+		const lensSelectionData =
+			!canonical && (head as any)?.card ? (head as any).card : head;
+
 		const lens = getLens(
 			_.get(channel.data, ['format'], 'full'),
-			canonical ? head : (head! as any).card,
+			lensSelectionData,
 			user,
 		);
 

@@ -124,7 +124,7 @@ export default class EditMyUserLens extends React.Component<any, any> {
 		this.setState({
 			fetchingIntegrationUrl: true,
 		});
-		const user = this.props.card;
+		const user = this.props.card.card;
 		const url = await this.props.actions.getIntegrationAuthUrl(
 			user,
 			'outreach',
@@ -144,7 +144,7 @@ export default class EditMyUserLens extends React.Component<any, any> {
 				submitting: true,
 			},
 			async () => {
-				const patches = jsonpatch.compare(this.props.card, event.formData);
+				const patches = jsonpatch.compare(this.props.card.card, event.formData);
 				await this.props.actions.updateUser(patches);
 
 				this.setState({
@@ -213,10 +213,6 @@ export default class EditMyUserLens extends React.Component<any, any> {
 				'ui:widget': 'password',
 			},
 		};
-
-		const emails = Array.isArray(user.data.email)
-			? user.data.email.join(', ')
-			: user.data.email;
 
 		const userTypeCard = helpers.getType('user', types);
 

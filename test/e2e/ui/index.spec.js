@@ -277,9 +277,9 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
-		await page.locator('button.card-actions__btn--edit').click()
+		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
 		await page.waitForSelector('[data-test="lens--edit-my-user"]')
-		await page.locator('button[role="tab"]:nth-of-type(3)').click()
+		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)').click()
 		await page.locator('button#root_profile_sendCommand').click()
 		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(1)').click()
 		await page.waitForSelector('input#root_profile_sendCommand__input[value="shift+enter"]')
@@ -316,9 +316,9 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
-		await page.locator('button.card-actions__btn--edit').click()
+		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
 		await page.waitForSelector('[data-test="lens--edit-my-user"]')
-		await page.locator('button[role="tab"]:nth-of-type(3)').click()
+		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)').click()
 		await page.locator('button#root_profile_sendCommand').click()
 		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(3)').click()
 		await page.waitForSelector('input#root_profile_sendCommand__input[value="enter"]')
@@ -525,7 +525,8 @@ test.describe('Outreach', () => {
 
 		// Navigate to the user profile page
 		await page.goto(`/${user.slug}`)
-		await page.locator('button[role="tab"]:nth-of-type(4)').click()
+		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
+		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(4)').click()
 
 		// Wait for the Outreach API redirect to occur
 		let url = ''
