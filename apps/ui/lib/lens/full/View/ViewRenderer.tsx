@@ -50,6 +50,7 @@ interface State {
 	redirectTo: null | string;
 	query: JsonSchema | null;
 	results: Contract[] | null;
+	queryWithFilters: JsonSchema | null;
 }
 
 export default class ViewRenderer extends React.Component<Props, State> {
@@ -65,6 +66,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		this.state = {
 			redirectTo: null,
 			query,
+			queryWithFilters: null,
 			results: null,
 		};
 	}
@@ -72,11 +74,14 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	handleResultsChange = (results: Contract[] | null) => {
 		this.setState({ results });
 	};
+	handleQueryUpdate = (queryWithFilters: JsonSchema) => {
+		this.setState({ queryWithFilters });
+	};
 
 	render() {
 		const { channel, isMobile, card } = this.props;
 
-		const { redirectTo, results, query } = this.state;
+		const { redirectTo, results, query, queryWithFilters } = this.state;
 
 		if (redirectTo) {
 			return <Redirect push to={redirectTo} />;
@@ -99,6 +104,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					contract={card}
 					channel={channel}
 					results={results}
+					query={queryWithFilters || query}
 				/>
 
 				<LiveCollection
@@ -107,6 +113,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					query={query}
 					seed={channel.data.seed}
 					onResultsChange={this.handleResultsChange}
+					onQueryUpdate={this.handleQueryUpdate}
 					useSlices
 				/>
 			</Flex>

@@ -313,6 +313,7 @@ export interface OwnProps {
 	channel: ChannelContract;
 	card: Contract;
 	onResultsChange?: (collection: Contract[] | null) => any;
+	onQueryUpdate?: (query: JsonSchema) => any;
 	seed?: any;
 	hideFooter?: boolean;
 	useSlices?: boolean;
@@ -639,7 +640,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	}
 
 	loadViewWithFilters(filters) {
-		const { actions, card, query } = this.props;
+		const { actions, card, query, onQueryUpdate } = this.props;
 		const { searchFilter } = this.state;
 
 		// Omnisearch runs a full text query over a large set of contracts, so we apply
@@ -670,6 +671,10 @@ export default class ViewRenderer extends React.Component<Props, State> {
 			isOmniSearch ? { allOf: [] } : clone(query),
 			targetFilters,
 		);
+
+		if (onQueryUpdate) {
+			onQueryUpdate(viewQuery);
+		}
 
 		this.setState({
 			query: viewQuery,
