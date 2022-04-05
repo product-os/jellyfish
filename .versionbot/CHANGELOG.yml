@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Load all results when generating a CSV download"
+      hash: faff0f084022258e41cc3abd8ba2bb4116b91d7b
+      body: |
+        Previously, only the results loaded into the client would be downloaded.
+        Now all matching results are loaded, paginating data if necessary.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.6
+  title: "'UI: Load all results when generating a CSV download'"
+  date: 2022-04-05T16:03:07.352Z
+- commits:
     - subject: "UI: Fix bug where state data is incorrectly set in sidebar"
       hash: 53dc7dbd58515f84f92ed5ff38afe05327f775c0
       body: ""
