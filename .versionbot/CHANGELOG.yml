@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Ensure graph drag'n'drop accounts for SVG scaling"
+      hash: 2d3c6ba44868c3bc3e50256ae673d0117271e849
+      body: |
+        Fixes #8378
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.3
+  title: "'UI: Ensure graph drag'n'drop accounts for SVG scaling'"
+  date: 2022-04-05T12:02:53.994Z
+- commits:
     - subject: "UI: Use full fieldname for column headers in CSV download"
       hash: 18b8fa064b52d509329d3800cc9efb95a22a9fd5
       body: >
