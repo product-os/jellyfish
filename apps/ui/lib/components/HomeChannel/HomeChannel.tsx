@@ -479,7 +479,7 @@ export default class HomeChannel extends React.Component<any, any> {
 			stream.on('update', (response) => {
 				const { after } = response.data;
 				if (after) {
-					const resultsHash = _.keyBy(this.state.results, 'id');
+					const resultsHash = _.keyBy(this.state[name], 'id');
 					resultsHash[after.id] = after;
 					this.setState({ [name]: _.values(resultsHash) });
 				}
