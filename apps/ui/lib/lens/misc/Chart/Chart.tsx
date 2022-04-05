@@ -40,6 +40,7 @@ export const Chart = React.memo<any>(
 	({
 		actions,
 		activeLoop,
+		card,
 		channel,
 		chartConfigurationType,
 		history,
@@ -108,13 +109,13 @@ export const Chart = React.memo<any>(
 						type: 'object',
 						properties: {
 							id: {
-								const: channel.data.head.id,
+								const: card.id,
 							},
 						},
 					},
 				},
 			};
-		}, [channel.data.head.id]);
+		}, [card.id]);
 
 		// The save count is used as the key to the AutoCompleteCardSelect.
 		// We increment this value whenever a card is updated or a new card is saved,

@@ -74,9 +74,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	};
 
 	render() {
-		const { channel, isMobile } = this.props;
-
-		const { head } = channel.data;
+		const { channel, isMobile, card } = this.props;
 
 		const { redirectTo, results, query } = this.state;
 
@@ -87,7 +85,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 		return (
 			<Flex
 				className={`column--${
-					head ? head.slug || head.type.split('@')[0] : 'unknown'
+					card ? card.slug || card.type.split('@')[0] : 'unknown'
 				}`}
 				flexDirection="column"
 				style={{
@@ -96,7 +94,12 @@ export default class ViewRenderer extends React.Component<Props, State> {
 					position: 'relative',
 				}}
 			>
-				<Header isMobile={isMobile} channel={channel} results={results} />
+				<Header
+					isMobile={isMobile}
+					contract={card}
+					channel={channel}
+					results={results}
+				/>
 
 				<LiveCollection
 					channel={channel}

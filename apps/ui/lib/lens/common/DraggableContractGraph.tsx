@@ -5,14 +5,14 @@ import { LensRendererProps } from '../../types';
 import ContractGraph from './ContractGraph';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 
-type Props = Pick<LensRendererProps, 'channel' | 'tail'> & {
+type Props = Pick<LensRendererProps, 'channel' | 'tail' | 'card'> & {
 	types: TypeContract[];
 	linkVerbs: string[];
 };
 
 export default class DraggableContractGraph extends React.Component<Props> {
 	render() {
-		const { channel, tail, types } = this.props;
+		const { card, channel, tail, types } = this.props;
 		if (!tail) {
 			return null;
 		}
@@ -20,8 +20,8 @@ export default class DraggableContractGraph extends React.Component<Props> {
 		const typeSlugs = _.uniq(_.map(contracts, 'type'));
 		// If the head contract is of the same type as the tail, include it in the ouput
 		// This allows for the current targeted contract to appear as a node in the graph
-		if (channel.data.head && typeSlugs.includes(channel.data.head.type)) {
-			contracts.push(channel.data.head);
+		if (card && typeSlugs.includes(card.type)) {
+			contracts.push(card);
 		}
 
 		if (contracts.length === 0) {

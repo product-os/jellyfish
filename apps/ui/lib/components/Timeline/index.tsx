@@ -17,8 +17,8 @@ import type {
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-
-const PAGE_SIZE = 20;
+import { sdk } from '../../core';
+import { JsonSchema } from '@balena/jellyfish-types';
 
 export { MessageInput };
 
@@ -39,7 +39,7 @@ const getFreshPendingMessages = (tail: any[], pendingMessages: any[]) => {
 	});
 };
 
-interface TimelineProps extends Setup {
+interface Props extends Setup {
 	allowWhispers: boolean;
 	card: Contract;
 	enableAutocomplete?: boolean;
@@ -60,22 +60,41 @@ interface TimelineProps extends Setup {
 	wide: boolean;
 }
 
-class Timeline extends React.Component<TimelineProps, any> {
-	eventListRef: any;
-	retrieveFullTimelime: any;
-	signalTyping: any;
-	preserveMessage: any;
+type PendingMessage = Pick<Contract, 'type' | 'tags' | 'slug' | 'data'> & {
+	pending: boolean;
+	data: {
+		actor: string;
+		payload: any;
+		target: string;
+	};
+};
 
-	constructor(props: any) {
+interface State {
+	pendingMessages: PendingMessage[];
+	results: Contract[];
+	hasNextPage: boolean;
+	hideWhispers: boolean;
+	messageSymbol: boolean;
+	messagesOnly: boolean;
+	uploadingFiles: string[];
+	loadingMoreEvents: boolean;
+	ready: boolean;
+}
+
+class Timeline extends React.Component<Props, State> {
+	cursor: ReturnType<typeof sdk.getCursor> | null = null;
+	eventListRef: React.RefObject<any>;
+
+	constructor(props: Props) {
 		super(props);
 		this.state = {
+			results: [],
+			hasNextPage: true,
 			hideWhispers: false,
 			messageSymbol: false,
 			messagesOnly: true,
 			pendingMessages: [],
-			showNewCardModal: false,
 			uploadingFiles: [],
-			reachedBeginningOfTimeline: this.props.tail.length < PAGE_SIZE,
 			loadingMoreEvents: false,
 			ready: false,
 		};
@@ -83,41 +102,105 @@ class Timeline extends React.Component<TimelineProps, any> {
 		this.eventListRef = React.createRef();
 		this.scrollToEvent = this.scrollToEvent.bind(this);
 		this.handleScrollBeginning = this.handleScrollBeginning.bind(this);
-		this.retrieveFullTimelime = this.retrieveFullTimeline.bind(this);
 		this.addMessage = this.addMessage.bind(this);
 		this.handleCardVisible = this.handleCardVisible.bind(this);
 		this.handleFileChange = this.handleFileChange.bind(this);
 		this.handleEventToggle = this.handleEventToggle.bind(this);
 		this.handleJumpToTop = this.handleJumpToTop.bind(this);
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this);
-
-		this.signalTyping = _.throttle(() => {
-			this.props.signalTyping(this.props.card.id);
-		}, 1500);
-
-		this.preserveMessage = (newMessage: any) => {
-			this.props.setTimelineMessage(this.props.card.id, newMessage);
-		};
 	}
 
 	async componentDidMount() {
+		const query = this.getTimelineQuery();
+		const cursor = sdk.getCursor(query, {
+			sortBy: ['data', 'timestamp'],
+			sortDir: 'desc',
+		});
+		this.cursor = cursor;
+		const results = await cursor.query();
+		this.setState({
+			hasNextPage: cursor.hasNextPage(),
+			results,
+		});
+
+		// TS-TODO: Fix typings for event listeners on cursor
+		cursor.onUpdate(((response: {
+			data: { type: any; id: any; after: any };
+		}) => {
+			const { id, after } = response.data;
+
+			// If card is null then it has been set to inactive or deleted
+			if (after === null) {
+				this.setState((prevState) => {
+					return {
+						results: prevState.results.filter((contract) => contract.id !== id),
+					};
+				});
+				return;
+			}
+
+			// Otherwise perform an upsert
+			this.setState((prevState) => {
+				const index = _.findIndex(prevState.results, { id });
+				// If an item is found then replace it
+				if (index > -1 && prevState.results) {
+					prevState.results.splice(index, 1, after);
+					return {
+						results: prevState.results,
+					};
+				}
+				// Otherwise add it to the results
+				return {
+					results: prevState.results
+						? prevState.results.concat(after)
+						: [after],
+				};
+			});
+		}) as any);
+
 		const { event } = queryString.parse(window.location.search);
 
-		// Timeout required to ensure the timeline has loaded before we scroll to the bottom
-		// @ts-ignore
-		await Bluebird.delay(2000);
 		if (event) {
 			this.scrollToEvent(event);
 		} else {
 			this.eventListRef.current.scrollToBottom();
 		}
 
-		// Timeout to ensure scroll has finished
-		// @ts-ignore
-		await Bluebird.delay(500);
 		this.setState({
 			ready: true,
 		});
+	}
+
+	componentWillUnmount() {
+		if (this.cursor) {
+			this.cursor.close();
+		}
+	}
+
+	signalTyping = _.throttle(() => {
+		this.props.signalTyping(this.props.card.id);
+	}, 1500);
+
+	preserveMessage = (newMessage: any) => {
+		this.props.setTimelineMessage(this.props.card.id, newMessage);
+	};
+
+	getTimelineQuery() {
+		const { card } = this.props;
+		const query: JsonSchema = {
+			$$links: {
+				'is attached to': {
+					type: 'object',
+					properties: {
+						id: {
+							const: card.id,
+						},
+					},
+				},
+			},
+			type: 'object',
+		};
+		return query;
 	}
 
 	getSnapshotBeforeUpdate(prevProps: any) {
@@ -132,17 +215,16 @@ class Timeline extends React.Component<TimelineProps, any> {
 		return snapshot;
 	}
 
-	componentDidUpdate(prevProps: any, _prevState: any, snapshot: any) {
-		const { pendingMessages } = this.state;
-		const { tail } = this.props;
+	componentDidUpdate(_prevProps, prevState, snapshot) {
+		const { pendingMessages, results } = this.state;
 
-		const newMessages = tail.length > prevProps.tail.length;
+		const newMessages = results.length > prevState.results.length;
 
 		if (newMessages) {
 			this.setState(
 				{
 					pendingMessages: newMessages
-						? getFreshPendingMessages(tail, pendingMessages)
+						? getFreshPendingMessages(results, pendingMessages)
 						: pendingMessages,
 				},
 				() => {
@@ -155,9 +237,8 @@ class Timeline extends React.Component<TimelineProps, any> {
 	}
 
 	async scrollToEvent(eventId: any) {
-		const { tail } = this.props;
-		const { reachedBeginningOfTimeline } = this.state;
-		const existing = _.find(tail, {
+		const { hasNextPage, results } = this.state;
+		const existing = _.find(results, {
 			id: eventId,
 		});
 		if (existing) {
@@ -171,14 +252,14 @@ class Timeline extends React.Component<TimelineProps, any> {
 					behavior: 'smooth',
 				});
 			}
-		} else if (!reachedBeginningOfTimeline) {
+		} else if (hasNextPage) {
 			await this.retrieveFullTimeline();
 			this.scrollToEvent(eventId);
 		}
 	}
 
 	handleScrollBeginning() {
-		if (this.state.reachedBeginningOfTimeline) {
+		if (!this.state.hasNextPage) {
 			return;
 		}
 
@@ -186,14 +267,18 @@ class Timeline extends React.Component<TimelineProps, any> {
 			{
 				loadingMoreEvents: true,
 			},
-			() => {
-				return this.props.next().then((newEvents: any[]) => {
-					const receivedNewEvents = newEvents.length > 0;
-					this.setState({
-						loadingMoreEvents: false,
-						reachedBeginningOfTimeline: !receivedNewEvents,
+			async () => {
+				if (this.cursor && this.cursor.hasNextPage()) {
+					const results = await this.cursor.nextPage();
+					const hasNextPage = this.cursor.hasNextPage();
+					this.setState((prevState) => {
+						return {
+							results: prevState.results.concat(results),
+							loadingMoreEvents: false,
+							hasNextPage,
+						};
 					});
-				});
+				}
 			},
 		);
 	}
@@ -203,7 +288,7 @@ class Timeline extends React.Component<TimelineProps, any> {
 			behaviour: 'smooth',
 		};
 
-		if (this.state.reachedBeginningOfTimeline) {
+		if (this.state.hasNextPage) {
 			this.eventListRef.current.scrollToTop(options);
 		} else {
 			await this.retrieveFullTimeline();
@@ -211,24 +296,36 @@ class Timeline extends React.Component<TimelineProps, any> {
 		}
 	}
 
-	async retrieveFullTimeline() {
+	retrieveFullTimeline = async () => {
+		let fullResults: Contract[] = [];
+		const { card } = this.props;
+		const limit = 500;
+		let skip = 0;
+
+		this.setState({
+			hasNextPage: false,
+		});
+
 		while (true) {
-			const newEvents = await this.props.next();
-
-			if (newEvents.length) {
-				continue;
-			}
-
-			return new Promise<void>((resolve) => {
-				this.setState(
-					{
-						reachedBeginningOfTimeline: true,
-					},
-					resolve,
-				);
+			const query = this.getTimelineQuery();
+			const results = await sdk.query(query, {
+				sortBy: ['data', 'timestamp'],
+				sortDir: 'desc',
+				limit,
+				skip,
 			});
+
+			fullResults = fullResults.concat(results);
+			if (results.length < limit) {
+				break;
+			}
+			skip = skip + limit;
 		}
-	}
+
+		this.setState({
+			results: fullResults,
+		});
+	};
 
 	handleEventToggle() {
 		this.setState({
@@ -362,7 +459,6 @@ class Timeline extends React.Component<TimelineProps, any> {
 			getActor,
 			enableAutocomplete,
 			eventMenuOptions,
-			sdk,
 			types,
 			groups,
 			allowWhispers,
@@ -371,7 +467,6 @@ class Timeline extends React.Component<TimelineProps, any> {
 			wide,
 			headerOptions,
 			getActorHref,
-			tail,
 			notifications,
 		} = this.props;
 		const {
@@ -381,16 +476,14 @@ class Timeline extends React.Component<TimelineProps, any> {
 			loadingMoreEvents,
 			ready,
 			uploadingFiles,
-			reachedBeginningOfTimeline,
+			hasNextPage,
+			results,
 		} = this.state;
 
 		// Due to a bug in syncing, sometimes there can be duplicate cards in events
-		const sortedEvents = _.uniqBy(
-			_.sortBy(tail, (event) => {
-				return _.get(event, ['data', 'timestamp']) || event.created_at;
-			}),
-			'id',
-		);
+		const sortedEvents = _.sortBy(results || [], (event) => {
+			return _.get(event, ['data', 'timestamp']) || event.created_at;
+		});
 
 		const sendCommand = getSendCommand(user);
 
@@ -435,7 +528,7 @@ class Timeline extends React.Component<TimelineProps, any> {
 					loading={!ready || loadingMoreEvents}
 					onScrollBeginning={this.handleScrollBeginning}
 					pendingMessages={pendingMessages}
-					reachedBeginningOfTimeline={reachedBeginningOfTimeline}
+					reachedBeginningOfTimeline={!hasNextPage}
 				/>
 
 				<TypingNotice usersTyping={usersTyping} />
@@ -462,4 +555,4 @@ class Timeline extends React.Component<TimelineProps, any> {
 	}
 }
 
-export default withSetup<TimelineProps>(Timeline);
+export default withSetup<Props>(Timeline);

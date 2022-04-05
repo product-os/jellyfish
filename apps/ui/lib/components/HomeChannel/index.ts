@@ -8,27 +8,17 @@ import { withResponsiveContext } from '../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../core';
 import HomeChannel from './HomeChannel';
 
-const getTarget = memoize((channel) => {
-	return _.get(channel, ['data', 'head', 'id']);
-});
-
-const mapStateToProps = (state, ownProps) => {
-	const target = getTarget(ownProps.channel);
-	const user = selectors.getCurrentUser(state);
+const mapStateToProps = (state) => {
 	return {
 		channels: selectors.getChannels(state),
 		codename: selectors.getAppCodename(state),
 		orgs: selectors.getOrgs(state),
-		tail: target ? selectors.getViewData(state, target) : null,
 		types: selectors.getTypes(state),
 		mentions: selectors.getInboxViewData(state),
 		subscriptions: selectors.getSubscriptions(state),
-		bookmarks: target
-			? selectors.getViewData(state, `${target}-bookmarks`)
-			: null,
 		activeLoop: selectors.getActiveLoop(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen(state),
-		user,
+		user: selectors.getCurrentUser(state),
 		homeView: selectors.getHomeView(state),
 		version: selectors.getAppVersion(state),
 		viewNotices: selectors.getViewNotices(state),

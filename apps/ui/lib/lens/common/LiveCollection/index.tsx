@@ -7,7 +7,7 @@ import { bindActionCreators } from '../../../bindactioncreators';
 import Renderer, { StateProps, DispatchProps, OwnProps } from './Renderer';
 
 const mapStateToProps = (state, ownProps): StateProps => {
-	const target = ownProps.channel.data.head.id;
+	const target = ownProps.card.id;
 	const user = selectors.getCurrentUser(state);
 
 	return {
