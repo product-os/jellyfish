@@ -1208,6 +1208,7 @@ conditionalTest('should sync tags', async () => {
 			value: tags[1],
 		},
 	]);
+	await Bluebird.delay(3000);
 	const updatedProspect = await context.getProspect(prospectId);
 	expect(updatedProspect.data.attributes.tags).toEqual(tags);
 });

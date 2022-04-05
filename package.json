@@ -88,7 +88,7 @@
     "@balena/jellyfish-plugin-outreach": "^2.0.92",
     "@balena/jellyfish-plugin-product-os": "^4.0.57",
     "@balena/jellyfish-plugin-typeform": "^5.1.12",
-    "@balena/jellyfish-worker": "^21.1.5",
+    "@balena/jellyfish-worker": "21.1.6-lucianbuzzo-trigger-queue-4eadfe7fca739ff79759fe805d3290fd22e0881a",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.20.2",
     "autumndb": "^19.1.11",
