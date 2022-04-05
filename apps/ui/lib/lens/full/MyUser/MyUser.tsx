@@ -1,61 +1,42 @@
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import React from 'react';
-import {
-	Box,
-	Alert,
-	Flex,
-	Button,
-	Heading,
-	Txt,
-	Tab,
-	Tabs,
-	Divider,
-	Link,
-	Form,
-	TextWithCopy,
-} from 'rendition';
-import * as skhema from 'skhema';
-import { Icon, UserAvatar } from '../../../components';
+import { Flex, Txt, Tab } from 'rendition';
 import * as timezones from '../../../services/timezones';
 import * as helpers from '../../../services/helpers';
-import { RelationshipsTab, customQueryTabs } from '../../common';
-import CardLayout from '../../../layouts/CardLayout';
+import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
+import LiveCollection from '../../common/LiveCollection';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { TypeContract } from '@balena/jellyfish-types/build/core';
+import { actionCreators } from '../../../core';
+import { JsonSchema } from '@balena/jellyfish-types';
 
-const SLUG = 'lens-my-user';
+export type OwnProps = LensRendererProps;
 
-const userProfileUiSchema = {
-	data: {
-		profile: {
-			about: {
-				aboutMe: {
-					'ui:widget': 'textarea',
-					'ui:options': {
-						rows: 5,
-					},
-				},
-			},
-			timezone: {
-				'ui:widget': 'select',
-			},
-			birthday: {
-				'ui:placeholder': 'mm/dd',
-			},
-		},
-	},
-};
+export interface StateProps {
+	types: TypeContract[];
+}
 
-const interfaceUiSchema = {
-	data: {
-		profile: {
-			sendCommand: {
-				'ui:widget': 'select',
-			},
-		},
-	},
-};
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
 
-export default class MyUser extends React.Component<any, any> {
+type Props = StateProps & DispatchProps & OwnProps;
+
+interface State {
+	submitting: boolean;
+	changePassword: {
+		currentPassword?: string;
+		newPassword?: string;
+	};
+	userProfileSchema: JsonSchema;
+	interfaceSchema: JsonSchema;
+	bookmarksQuery: JsonSchema;
+	loopsQuery: JsonSchema;
+	fetchingIntegrationUrl: boolean;
+}
+
+export default class MyUser extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 
@@ -85,7 +66,7 @@ export default class MyUser extends React.Component<any, any> {
 			timezones.names;
 
 		// Annoyingly we have to explicitly set the title fields to '' to avoid them being displayed
-		const interfaceSchema = {
+		const interfaceSchema: JsonSchema = {
 			properties: {
 				data: {
 					type: 'object',
@@ -108,11 +89,41 @@ export default class MyUser extends React.Component<any, any> {
 			},
 		};
 
+		const bookmarksQuery: JsonSchema = {
+			type: 'object',
+			$$links: {
+				'is bookmarked by': {
+					type: 'object',
+					required: ['id', 'type'],
+					properties: {
+						type: {
+							const: 'user@1.0.0',
+						},
+						id: {
+							const: props.card.id,
+						},
+					},
+				},
+			},
+		};
+
+		const loopsQuery: JsonSchema = {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'loop@1.0.0',
+				},
+			},
+		};
+
 		this.state = {
 			submitting: false,
 			changePassword: {},
 			userProfileSchema,
 			interfaceSchema,
+			bookmarksQuery,
+			loopsQuery,
+			fetchingIntegrationUrl: false,
 		};
 	}
 
@@ -175,186 +186,56 @@ export default class MyUser extends React.Component<any, any> {
 	}
 
 	render() {
-		const { types, channel, card: user } = this.props;
+		const { channel, card: user } = this.props;
 
-		const { changePassword, submitting, userProfileSchema, interfaceSchema } =
-			this.state;
-
-		// This is the old PBKDF password hash location
-		const shouldChangePassword = Boolean(user.data.password);
-
-		const accountSchema: any = {
-			type: 'object',
-			required: ['currentPassword', 'newPassword'],
-			properties: {
-				currentPassword: {
-					type: 'string',
-				},
-				newPassword: {
-					type: 'string',
-				},
-			},
-		};
-
-		const isValid = skhema.isValid(
-			accountSchema,
-			helpers.removeUndefinedArrayItems(changePassword),
-		);
-
-		const accountUiSchema = {
-			'ui:order': ['currentPassword', 'newPassword', '*'],
-			currentPassword: {
-				'ui:widget': 'password',
-			},
-			newPassword: {
-				'ui:widget': 'password',
-			},
-		};
-
-		const emails = Array.isArray(user.data.email)
-			? user.data.email.join(', ')
-			: user.data.email;
-
-		const userTypeCard = helpers.getType('user', types);
+		const firstName = _.get(user, ['data', 'profile', 'name', 'first']);
+		const lastName = _.get(user, ['data', 'profile', 'name', 'last']);
+		const name =
+			firstName && lastName ? `${firstName} ${lastName}` : user.slug.slice(5);
 
 		return (
-			<CardLayout
-				data-test={`lens--${SLUG}`}
+			<TabbedContractLayout
+				data-test="lens--lens-my-user"
 				card={user}
-				overflowY
 				channel={channel}
-				noActions
-				title={<Heading.h4>Settings</Heading.h4>}
-			>
-				<Tabs
-					// @ts-ignore: Rendition's Tabs component is (incorrectly?) cast to React.FunctionComponent<TabsProps>
-					// so it doesn't know about pt and px
-					pt={3}
-					px={3}
-				>
-					<Tab title="Profile" data-test="tab_profile">
-						<Box mt={3}>
-							<Flex mb={3}>
-								<UserAvatar user={user} emphasized />
-								<Box ml={2}>
-									<strong>{user.slug.replace('user-', '')}</strong>
-
-									<br />
-									<strong>{emails}</strong>
-								</Box>
-							</Flex>
-
-							<Form
-								data-test="form_profile"
-								submitButtonProps={{
-									disabled: submitting,
-								}}
-								schema={userProfileSchema}
-								uiSchema={userProfileUiSchema}
-								onFormSubmit={this.handleFormSubmit}
-								value={user}
+				title={<Txt bold>{name}</Txt>}
+				tabs={[
+					<Tab title="Loops" key="loops">
+						<Flex
+							flexDirection="column"
+							flex="1"
+							style={{
+								maxWidth: '100%',
+							}}
+						>
+							<LiveCollection
+								key={1}
+								hideFooter
+								channel={this.props.channel}
+								query={this.state.loopsQuery}
+								card={this.props.card}
 							/>
-						</Box>
-					</Tab>
-
-					<Tab title="Account" data-test="tab_account">
-						<Box mt={3}>
-							<label>Change password:</label>
-
-							{shouldChangePassword && (
-								<Alert my={2} warning>
-									You have a password reset due!
-								</Alert>
-							)}
-
-							<Form
-								data-test="form_account"
-								schema={accountSchema}
-								uiSchema={accountUiSchema}
-								onFormChange={this.handlePasswordFormChange}
-								value={changePassword}
-								hideSubmitButton={true}
+						</Flex>
+					</Tab>,
+					<Tab title="Bookmarks" key="bookmarks">
+						<Flex
+							flexDirection="column"
+							flex="1"
+							style={{
+								maxWidth: '100%',
+							}}
+						>
+							<LiveCollection
+								key={1}
+								hideFooter
+								channel={this.props.channel}
+								query={this.state.bookmarksQuery}
+								card={this.props.card}
 							/>
-							<Button
-								primary
-								type="submit"
-								onClick={this.changePassword}
-								disabled={!isValid || submitting}
-							>
-								Submit
-							</Button>
-						</Box>
-					</Tab>
-
-					<Tab title="Interface" data-test="tab_interface">
-						<Box mt={3}>
-							<Form
-								data-test="form_interface"
-								submitButtonProps={{
-									disabled: submitting,
-								}}
-								schema={interfaceSchema}
-								uiSchema={interfaceUiSchema}
-								onFormSubmit={this.handleFormSubmit}
-								value={user}
-							/>
-						</Box>
-					</Tab>
-
-					<Tab title="Oauth" data-test="tab_oauth">
-						<Box mt={3}>
-							<Divider color="#eee" />
-
-							<Flex justifyContent="space-between" alignItems="center">
-								<Link href="https://www.outreach.io/" blank>
-									<Txt bold mr={2}>
-										Outreach
-									</Txt>
-								</Link>
-
-								{_.get(user, ['data', 'oauth', 'outreach']) ? (
-									<Txt>Authorized</Txt>
-								) : (
-									<Button
-										data-test="integration-connection--outreach"
-										onClick={this.startAuthorize}
-									>
-										{this.state.fetchingIntegrationUrl ? (
-											<Icon spin name="cog" />
-										) : (
-											'Connect'
-										)}
-									</Button>
-								)}
-							</Flex>
-
-							<Divider color="#eee" />
-						</Box>
-					</Tab>
-
-					<Tab title="Access tokens" data-test="tab_access_tokens">
-						<Box mt={3}>
-							<label>
-								Session token{' '}
-								<Txt.span fontSize={2} color="text.light">
-									(expires after 7 days)
-								</Txt.span>
-								:
-							</label>
-							<br />
-							<TextWithCopy
-								copy={this.props.sdk.authToken}
-								showCopyButton="always"
-							>
-								<code>{this.props.sdk.authToken}</code>
-							</TextWithCopy>
-						</Box>
-					</Tab>
-
-					{customQueryTabs(user, userTypeCard, channel)}
-					<RelationshipsTab card={user} channel={channel} />
-				</Tabs>
-			</CardLayout>
+						</Flex>
+					</Tab>,
+				]}
+			></TabbedContractLayout>
 		);
 	}
 }

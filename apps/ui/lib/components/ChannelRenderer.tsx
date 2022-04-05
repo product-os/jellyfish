@@ -217,7 +217,11 @@ class ChannelRenderer extends React.Component<Props, State> {
 			}
 		}
 
-		const lens = getLens(_.get(channel.data, ['format'], 'full'), head, user);
+		const lens = getLens(
+			_.get(channel.data, ['format'], 'full'),
+			canonical ? head : (head! as any).card,
+			user,
+		);
 
 		return (
 			<ChannelContextProvider channel={channel}>

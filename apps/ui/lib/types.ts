@@ -61,7 +61,7 @@ export interface LensContract
 export interface ChannelContract
 	extends Pick<Contract, 'slug' | 'type' | 'active' | 'data' | 'created_at'> {
 	data: {
-		canonical?: boolean;
+		canonical: boolean;
 		target: 'string';
 		error?: any;
 		cardType?: string;
@@ -70,6 +70,7 @@ export interface ChannelContract
 			onDone: any;
 			seed: any;
 			types: TypeContract[];
+			card: Contract;
 		};
 	};
 }

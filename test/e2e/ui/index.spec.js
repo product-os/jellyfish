@@ -277,6 +277,8 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
+		await page.locator('button.card-actions__btn--edit').click()
+		await page.waitForSelector('[data-test="lens--edit-my-user"]')
 		await page.locator('button[role="tab"]:nth-of-type(3)').click()
 		await page.locator('button#root_profile_sendCommand').click()
 		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(1)').click()
@@ -314,6 +316,8 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
+		await page.locator('button.card-actions__btn--edit').click()
+		await page.waitForSelector('[data-test="lens--edit-my-user"]')
 		await page.locator('button[role="tab"]:nth-of-type(3)').click()
 		await page.locator('button#root_profile_sendCommand').click()
 		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(3)').click()

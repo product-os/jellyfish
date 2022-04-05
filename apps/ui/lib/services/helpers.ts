@@ -366,7 +366,7 @@ export const getUpdateObjectFromSchema = (schema: JsonSchema) => {
  * @param {Object} card - A card object
  * @returns {Object} A JSON schema
  */
-export const getLocalSchema = (card: JsonSchema) => {
+export const getLocalSchema = (card: any) => {
 	return (
 		_.get(card, ['data', '$$localSchema']) || {
 			type: 'object',

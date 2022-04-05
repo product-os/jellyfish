@@ -1,19 +1,16 @@
-import pick from 'lodash/pick';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators } from '../../../core';
+import type { OwnProps, DispatchProps } from './EditLens';
 
 export const EditLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-edit" */ './EditLens'),
 );
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: bindActionCreators(
-			pick(actionCreators, ['removeChannel']),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
@@ -24,7 +21,10 @@ export default {
 	name: 'Default list lens',
 	data: {
 		format: 'edit',
-		renderer: connect(null, mapDispatchToProps)(EditLens),
+		renderer: connect<{}, DispatchProps, OwnProps>(
+			null,
+			mapDispatchToProps,
+		)(EditLens),
 		icon: 'pencil',
 		type: '*',
 		filter: {

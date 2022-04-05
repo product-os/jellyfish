@@ -348,7 +348,7 @@ export default class ViewRenderer extends React.Component<Props, State> {
 	constructor(props: Props) {
 		super(props);
 
-		const { query, seed, useSlices } = this.props;
+		const { query, seed, useSlices, types } = this.props;
 
 		const activeLens =
 			this.props.userActiveLens &&
@@ -356,14 +356,15 @@ export default class ViewRenderer extends React.Component<Props, State> {
 
 		const viewTailTypes = getTypesFromSchema(query);
 
-		const tailTypes = _.map(viewTailTypes, (tailType) => {
-			return helpers.getType(tailType, this.props.types);
+		// If the schema doesn't hint at a type, use the pseudo-master type "card"
+		const tailTypes = _.map(viewTailTypes || ['card'], (tailType) => {
+			return helpers.getType(tailType, types);
 		});
 
 		const initialSearchTerm = _.get(seed, ['searchTerm']);
 
 		let filters: JsonSchema[] = [];
-		const sliceOptions = helpers.getSchemaSlices(query, this.props.types);
+		const sliceOptions = helpers.getSchemaSlices(query, types);
 
 		// If an initial search term is provided don't use slices and skip existing filters
 		if (!initialSearchTerm) {
