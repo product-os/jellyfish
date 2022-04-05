@@ -149,6 +149,16 @@ const ContractGraph = (props: Props) => {
 				listeners: {
 					move(event) {
 						const target = event.target;
+						const $svg = document.querySelector(`#${identifier} svg`);
+						if (!$svg) {
+							return null;
+						}
+						const $svgActualWidth = $svg.getBoundingClientRect().width;
+						const $svgViewBoxWidth = parseFloat(
+							$svg.getAttribute('viewBox')!.split(' ')[2],
+						);
+						// Mermaid will scale the chart proportionally to the parent container, so we ned to account for this when positioning the node
+						const scaleFactor = $svgViewBoxWidth / $svgActualWidth;
 						let dataX = parseFloat(target.getAttribute('data-x')) || 0;
 						let dataY = parseFloat(target.getAttribute('data-y')) || 0;
 						// Mermaid uses the `transform` html attribute to position elements, so we have to take that into account when positioning nodes
@@ -163,8 +173,8 @@ const ContractGraph = (props: Props) => {
 							}
 						}
 						// keep the dragged position in the data-x/data-y attributes
-						const x = dataX + event.dx;
-						const y = dataY + event.dy;
+						const x = dataX + event.dx * scaleFactor;
+						const y = dataY + event.dy * scaleFactor;
 
 						// translate the element
 						target.style.transform =
