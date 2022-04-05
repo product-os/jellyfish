@@ -1217,6 +1217,10 @@ export const actionCreators = {
 					clone(patches),
 				).newDocument;
 
+				sdk.globalQueryMask = buildGlobalQueryMask(
+					_.get(optimisticUpdate, ['data', 'profile', 'activeLoop'], null),
+				);
+
 				// Optimistically update the user in local state
 				await dispatch(actionCreators.setUser(optimisticUpdate));
 
@@ -1407,7 +1411,6 @@ export const actionCreators = {
 		const stream = sdk.stream(query);
 
 		streams[streamId] = stream;
-		console.log(_.keys(streams).length, streams);
 		return stream;
 	},
 

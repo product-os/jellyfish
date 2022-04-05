@@ -15,7 +15,7 @@ import {
 	UserAvatarLive,
 } from '../';
 import * as helpers from '../../services/helpers';
-import { core } from '@balena/jellyfish-types';
+import { core, JsonSchema } from '@balena/jellyfish-types';
 import TreeMenu from './TreeMenu';
 import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
@@ -287,7 +287,7 @@ const treeMenuActionNames = ['setDefault', 'removeView', 'setSidebarExpanded'];
 const pickViewLinkActions = memoize(_.pick);
 const pickTreeMenuActions = memoize(_.pick);
 
-const bookmarksQuery = (userId) => {
+const bookmarksQuery = (userId: string): JsonSchema => {
 	return {
 		type: 'object',
 		$$links: {
@@ -308,6 +308,8 @@ const bookmarksQuery = (userId) => {
 };
 
 export default class HomeChannel extends React.Component<any, any> {
+	primaryStream: ReturnType<typeof sdk['stream']> | null = null;
+	bookmarkStream: ReturnType<typeof sdk['stream']> | null = null;
 	wrapper: any;
 	open: any;
 
@@ -318,6 +320,8 @@ export default class HomeChannel extends React.Component<any, any> {
 			sliding: false,
 			showMenu: false,
 			messages: [],
+			results: [],
+			bookmarks: [],
 		};
 
 		this.wrapper = React.createRef();
@@ -407,14 +411,7 @@ export default class HomeChannel extends React.Component<any, any> {
 	}
 
 	async componentDidMount() {
-		const {
-			actions: { loadViewData },
-			channel,
-			history,
-			homeView,
-			location,
-			user,
-		} = this.props;
+		const { history, homeView, location } = this.props;
 
 		if (location.pathname === '/') {
 			if (homeView) {
@@ -427,17 +424,13 @@ export default class HomeChannel extends React.Component<any, any> {
 		// TODO: Move this to the "Authorized" component
 		registerForNotifications();
 
-		const card = await sdk.card.get(channel.data.target);
-		if (card) {
-			loadViewData(card, { viewId: channel.data.target });
-			loadViewData(bookmarksQuery(user.id), {
-				viewId: `${channel.data.target}-bookmarks`,
-				sortBy: 'name',
-			});
-		}
+		this.loadData();
 	}
 
 	componentDidUpdate(prevProps) {
+		if (prevProps.activeLoop !== this.props.activeLoop) {
+			this.loadData();
+		}
 		if (
 			this.state.showMenu &&
 			prevProps.location.pathname !== this.props.location.pathname
@@ -467,6 +460,39 @@ export default class HomeChannel extends React.Component<any, any> {
 		}
 	}
 
+	loadData = async () => {
+		const { channel, user } = this.props;
+
+		const card = await sdk.card.get(channel.data.target);
+		const getData = async (name: string, query: JsonSchema) => {
+			const streamProp = `${name}Stream`;
+			if (this[streamProp]) {
+				this[streamProp].close();
+				this[streamProp] = null;
+			}
+			const stream = await sdk.stream(query);
+			this[streamProp] = stream;
+			const results = await sdk.query(query);
+			this.setState({
+				[name]: results,
+			});
+			stream.on('update', (response) => {
+				const { after } = response.data;
+				if (after) {
+					const resultsHash = _.keyBy(this.state.results, 'id');
+					resultsHash[after.id] = after;
+					this.setState({ [name]: _.values(resultsHash) });
+				}
+			});
+		};
+		if (card) {
+			await Promise.all([
+				getData('results', helpers.getViewSchema(card, user)),
+				getData('bookmarks', bookmarksQuery(user.id)),
+			]);
+		}
+	};
+
 	render() {
 		const {
 			isMobile,
@@ -480,11 +506,10 @@ export default class HomeChannel extends React.Component<any, any> {
 			location,
 			user,
 			orgs,
-			tail,
-			bookmarks,
 			isChatWidgetOpen,
 			mentions,
 		} = this.props;
+		const { results, bookmarks } = this.state;
 
 		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
 		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
@@ -492,7 +517,7 @@ export default class HomeChannel extends React.Component<any, any> {
 		const { showDrawer, sliding } = this.state;
 		const activeChannel = channels.length > 1 ? channels[1] : null;
 		const username = user ? user.name || user.slug.replace(/user-/, '') : null;
-		const groupedViews = groupViews(tail, bookmarks, user.id, orgs);
+		const groupedViews = groupViews(results, bookmarks, user.id, orgs);
 		const groups = groupedViews.main;
 		const defaultViews = groupedViews.defaults;
 		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
@@ -696,13 +721,13 @@ export default class HomeChannel extends React.Component<any, any> {
 								overflowY: 'auto',
 							}}
 						>
-							{!tail && (
+							{!results.length && (
 								<Box p={3}>
 									<Icon spin name="cog" />
 								</Box>
 							)}
 
-							{Boolean(tail) && (
+							{results.length > 0 && (
 								<TreeMenu
 									subscriptions={subscriptions}
 									node={groups}
