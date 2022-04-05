@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 8489bcc149f3e71376711ac569c797b57a03a50f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.10.4
+  title: "'Update internal-patch'"
+  date: 2022-04-05T12:44:36.151Z
+- commits:
     - subject: "UI: Ensure graph drag'n'drop accounts for SVG scaling"
       hash: 2d3c6ba44868c3bc3e50256ae673d0117271e849
       body: |
