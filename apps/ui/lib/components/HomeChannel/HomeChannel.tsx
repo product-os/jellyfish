@@ -472,7 +472,10 @@ export default class HomeChannel extends React.Component<any, any> {
 			}
 			const stream = await sdk.stream(query);
 			this[streamProp] = stream;
-			const results = await sdk.query(query);
+			const results = await sdk.query(query, {
+				sortBy: 'name',
+				sortDir: 'asc',
+			});
 			this.setState({
 				[name]: results,
 			});
