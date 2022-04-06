@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v3.0.4 to v3.0.5
+      hash: ddc53f357672e8579f2eeae63af77ca686bfbde4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.10.7
+  title: "'Update resinci/jellyfish-test from v3.0.4 to v3.0.5'"
+  date: 2022-04-05T22:41:37.573Z
+- commits:
     - subject: "UI: Load all results when generating a CSV download"
       hash: faff0f084022258e41cc3abd8ba2bb4116b91d7b
       body: |
