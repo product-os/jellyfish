@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: ff3180c9d8c5ed0903553ef37b5670075eacec60
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.1
+  title: "'Update internal-patch'"
+  date: 2022-04-06T14:56:05.977Z
+- commits:
     - subject: 'UI: Add "my contracts" tab to user lens'
       hash: 1e698be4cd574d8d7ca50f6c16e318fc4fce81ee
       body: ""
