@@ -10,18 +10,35 @@ import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
 import * as skhema from 'skhema';
-import { analytics, sdk } from '../../../core';
+import { actionCreators, analytics, sdk } from '../../../core';
+import type { BoundActionCreators, LensRendererProps } from '../../../types';
 import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
+import { Contract } from '@balena/jellyfish-types/build/core';
+import { JsonSchema } from '@balena/jellyfish-types';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
 `;
 
-export default class EditLens extends React.Component<any, any> {
+export type OwnProps = LensRendererProps;
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+type Props = OwnProps & DispatchProps;
+
+interface State {
+	editModel: Omit<Contract, 'id' | 'slug'>;
+	schema: JsonSchema;
+}
+
+export default class EditLens extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 
-		const { types, card } = this.props.channel.data.head;
+		const { head } = this.props.channel.data;
+		const { types, card } = head!;
 
 		const cardType = helpers.getType(card.type, types);
 
@@ -42,15 +59,19 @@ export default class EditLens extends React.Component<any, any> {
 
 		// Always show specific base card fields
 		const baseCardType = helpers.getType('card', types);
-		_.set(
-			schema,
-			['properties', 'loop'],
-			_.merge(
-				{},
-				baseCardType.data.schema.properties.loop,
-				cardType.data.schema.properties.loop,
-			),
-		);
+
+		// TODO: What loops are loops in?
+		if (cardType.slug !== 'loop') {
+			_.set(
+				schema,
+				['properties', 'loop'],
+				_.merge(
+					{},
+					baseCardType.data.schema.properties.loop,
+					cardType.data.schema.properties.loop,
+				),
+			);
+		}
 
 		this.state = {
 			// Omit known immutable values
@@ -77,7 +98,8 @@ export default class EditLens extends React.Component<any, any> {
 	}
 
 	updateEntry() {
-		const { card, onDone } = this.props.channel.data.head;
+		const { head } = this.props.channel.data;
+		const { card, onDone } = head!;
 
 		const updatedEntry = helpers.removeUndefinedArrayItems(
 			_.assign({}, card, this.state.editModel),
@@ -136,7 +158,8 @@ export default class EditLens extends React.Component<any, any> {
 	render() {
 		const { editModel } = this.state;
 		const localSchema = helpers.getLocalSchema(editModel);
-		const { types, card } = this.props.channel.data.head;
+		const { head } = this.props.channel.data;
+		const { types, card } = head!;
 
 		const freeFieldData = _.reduce(
 			localSchema.properties,
@@ -157,7 +180,7 @@ export default class EditLens extends React.Component<any, any> {
 		const schema = this.state.schema;
 
 		// Always show tags input
-		if (!schema.properties.tags) {
+		if (typeof schema !== 'boolean' && !schema.properties?.tags) {
 			_.set(schema, ['properties', 'tags'], {
 				type: 'array',
 				items: {
@@ -167,8 +190,9 @@ export default class EditLens extends React.Component<any, any> {
 		}
 
 		const isValid =
+			typeof schema !== 'boolean' &&
 			skhema.isValid(
-				this.state.schema,
+				schema as any,
 				helpers.removeUndefinedArrayItems(editModel),
 			) &&
 			skhema.isValid(
@@ -192,7 +216,7 @@ export default class EditLens extends React.Component<any, any> {
 					<FormBox p={3}>
 						<Form
 							uiSchema={uiSchema}
-							schema={schema}
+							schema={schema as any}
 							value={editModel}
 							onFormChange={this.handleFormChange}
 							hideSubmitButton={true}
@@ -205,7 +229,7 @@ export default class EditLens extends React.Component<any, any> {
 							onSchemaChange={this.setLocalSchema}
 						/>
 					</FormBox>
-					<Flex justifyContent="flex-end" my={3}>
+					<Flex justifyContent="flex-end" m={3}>
 						<Button onClick={this.close} mr={2}>
 							Cancel
 						</Button>

@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import * as redux from 'redux';
-import { withSetup } from '../../../components/SetupProvider';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators, selectors } from '../../../core';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import type { StateProps, DispatchProps, OwnProps } from './MyUser';
 
 export const MyUser = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-my-user" */ './MyUser'),
@@ -11,22 +12,15 @@ export const MyUser = createLazyComponent(
 
 const SLUG = 'lens-my-user';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		types: selectors.getTypes(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'getIntegrationAuthUrl',
-				'updateUser',
-				'setPassword',
-			]),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
@@ -38,9 +32,9 @@ export default {
 	data: {
 		icon: 'address-card',
 		format: 'full',
-		renderer: redux.compose(
-			withSetup,
-			connect(mapStateToProps, mapDispatchToProps),
+		renderer: connect<StateProps, DispatchProps, OwnProps>(
+			mapStateToProps,
+			mapDispatchToProps,
 		)(MyUser),
 		filter: {
 			type: 'object',
