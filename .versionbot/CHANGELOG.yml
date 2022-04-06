@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Sort sidebar results by name"
+      hash: 2481a0dd7fea4c673054dcd1478647772084d188
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.10.10
+  title: "'UI: Sort sidebar results by name'"
+  date: 2022-04-06T09:25:18.506Z
+- commits:
     - subject: Update balena/open-balena-base from v13.2.1 to v13.2.2
       hash: 79382b601dd594ab2087bb600a8508513509d380
       body: ""
