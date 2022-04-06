@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: c9cbdc82d7afe078c70d0f910b1797cc10e01985
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.10.11
+  title: "'Update internal-patch'"
+  date: 2022-04-06T10:03:56.309Z
+- commits:
     - subject: "UI: Sort sidebar results by name"
       hash: 2481a0dd7fea4c673054dcd1478647772084d188
       body: ""
