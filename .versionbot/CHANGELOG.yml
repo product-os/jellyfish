@@ -1,4 +1,42 @@
 - commits:
+    - subject: 'UI: Add "my contracts" tab to user lens'
+      hash: 1e698be4cd574d8d7ca50f6c16e318fc4fce81ee
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Move "my organisations" to user profile'
+      hash: 21db74cba7a6055ee86472016afb83a991fab8ca
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Split my user lens into seperate view and edit modes"
+      hash: c0102bf98e78dc6cb01d8f799e3c3653d7077d72
+      body: >
+        This changes your own user lens to function in a much more similar way
+        to the rest of the app and adds tabs for bookmarks and loops.
+
+        To edit your account you click the pencil icon in the top right, just like you would with any other contract.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 48.11.0
+  title: "'Refactor MyUser lens'"
+  date: 2022-04-06T12:00:43.235Z
+- commits:
     - subject: Update internal-patch
       hash: c9cbdc82d7afe078c70d0f910b1797cc10e01985
       body: ""
