@@ -1,52 +1,83 @@
-import { getLogger } from '@balena/jellyfish-logger';
-import { LocalFS } from './local-fs';
-import { S3FS } from './s3-fs';
+import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import AWS from 'aws-sdk';
+import Bluebird from 'bluebird';
+import _ from 'lodash';
 
 const logger = getLogger(__filename);
 
 export class Storage {
-	backend;
+	private config: AWS.S3.ClientConfiguration;
+	private numberOfRetries: number;
 
-	/**
-	 * @summary The Jellyfish Kernel
-	 * @class
-	 * @public
-	 *
-	 * @param {Object} config - Configutation object
-	 * @param {String} [config.driver] - Which storage driver to use
-	 *
-	 * @example
-	 * const fileStorage = new Storage({
-	 *     driver: 'localFS'
-	 * })
-	 */
-	constructor(config: any = {}) {
-		const driver = config.driver || 'localFS';
-
-		if (driver === 'localFS') {
-			this.backend = new LocalFS();
-		} else if (driver === 's3FS') {
-			this.backend = new S3FS();
-		} else {
-			throw new Error(`Unknown file storage driver: ${driver}`);
+	constructor() {
+		this.config = {
+			accessKeyId: environment.aws.accessKeyId,
+			secretAccessKey: environment.aws.secretAccessKey,
+		};
+		if (environment.aws.s3Endpoint) {
+			this.config.endpoint = environment.aws.s3Endpoint;
+			this.config.s3ForcePathStyle = true;
+			this.config.signatureVersion = 'v4';
 		}
+		this.numberOfRetries = 1;
 	}
 
-	public store(context, scope, name, data) {
-		logger.info(context, 'Storing file', {
-			scope,
-			name,
+	public store(context: LogContext, scope: string, name: string, data) {
+		const object = {
+			Body: data,
+			Key: `${scope}/${name}`,
+			Bucket: environment.aws.s3BucketName,
+		};
+
+		logger.info(context, 'Storing S3 object', {
+			key: object.Key,
+			bucket: object.Bucket,
 		});
 
-		return this.backend.store(context, scope, name, data);
+		const s3 = new AWS.S3(this.config);
+		return s3.putObject(object).promise();
 	}
 
-	public retrieve(context, scope, name) {
-		logger.info(context, 'Retrieving file', {
-			scope,
-			name,
+	public retrieve(
+		context: LogContext,
+		scope: string,
+		name: string,
+		retries = 0,
+	) {
+		const s3 = new AWS.S3(this.config);
+
+		const object = {
+			Key: `${scope}/${name}`,
+			Bucket: environment.aws.s3BucketName,
+		};
+
+		logger.info(context, 'Getting S3 object', {
+			key: object.Key,
+			bucket: object.Bucket,
 		});
 
-		return this.backend.retrieve(context, scope, name);
+		return s3
+			.getObject(object)
+			.promise()
+			.then((data) => {
+				logger.info(
+					context,
+					'S3 object fetch response',
+					_.omit(data, ['Body']),
+				);
+				return data.Body;
+			})
+			.catch((error) => {
+				logger.exception(context, 'S3 error', error);
+
+				if (retries < this.numberOfRetries) {
+					return Bluebird.delay(100).then(() => {
+						return this.retrieve(context, scope, name, retries + 1);
+					});
+				}
+
+				throw error;
+			});
 	}
 }

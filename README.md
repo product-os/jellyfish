@@ -85,7 +85,7 @@ sudo balena scan | grep address
 
 Add endpoints to local hosts file:
 ```
-<DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local postgres.ly.fish.local redis.ly.fish.local
+<DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local postgres.ly.fish.local redis.ly.fish.local grafana.ly.fish.local prometheus.ly.fish.local s3.ly.fish.local
 ```
 
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
@@ -110,12 +110,41 @@ What this does is create a local beta package for `.libs/jellyfish-worker` using
 copies the resulting tarball into apps `packages` subdirectories. This triggers partial image rebuilds.
 Execute `npm run clean` to delete these tarballs when you no longer need them.
 
+### Opening Jellyfish
+Now that the system is up and running, the UI can be opened in your browser:
+- Login: http://jel.ly.fish.local
+- Username: `jellyfish`
+- Password: `jellyfish`
+
+The API is listening at http://api.ly.fish.local, meaning you can work with it directly
+using `curl` or other similar tools for debugging/testing if necessary.
+
 ### Connecting to Postgres and Redis
 The Postgres and Redis services running on the Livepush device can be accessed with:
 ```
 psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
 redis-cli -h redis.ly.fish.local
 ```
+
+### Looking at metrics
+As instances of Prometheus and Grafana are running as part of the stack, system metrics
+can be accessed and monitored by opening the following:
+- Prometheus: http://prometheus.ly.fish.local
+- Grafana: http://grafana.ly.fish.local
+
+Jellyfish graphs in Grafana are located under the `standard` folder.
+
+### Managing uploaded files
+An instance of [`minio`](https://min.io/), an S3-compatible service, also runs as part of
+the stack. During development and testing this is the target of any uploads, while production
+uses the real AWS S3 service. Visit the following in your browser to manage buckets and
+uploaded data:
+- Minio admin panel: http://s3.ly.fish.local:43697
+- Username: `AKIAIOSFODNN7EXAMPLE`
+- Password: `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`
+
+The minio API is listening on https://s3.ly.fish.local:80 so any debugging/testing can
+be done against this endpoint using the AWS CLI, the `aws-sdk` package, etc.
 
 ### Resetting
 Deleting cloned libraries from `.libs/` or deleting library tarballs from `apps/*/packages/` doesn't currently

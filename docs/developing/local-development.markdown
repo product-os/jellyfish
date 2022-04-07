@@ -7,22 +7,35 @@ If you want to develop Jellyfish on your local machine, the pre-requisites are:
 - Node.js v16
 
 Install the dependencies:
-
 ```sh
 npm i
 ```
 
-You can then run these commands in different terminal emulators, which will run
-all services in non-daemon mode:
-
+If you get a Playwright installation error, try skipping its browser downloads. [Source](https://github.com/microsoft/playwright/issues/1941#issuecomment-1008338376)
 ```sh
-npm run compose:database
-SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
-SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run dev:server
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm i
 ```
 
-The API will listen on `8000` and the UI will listen on `9000`. Open [http://localhost:9000](http://localhost:9000) and login as:
+You can then run these commands in different terminal emulators, which will run all services in non-daemon mode:
 
+Start Postgres, Redis, and S3 services:
+```sh
+npm run compose:data
+```
+
+Start the UI:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
+```
+
+Start the API:
+```
+SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost \
+    AWS_S3_ENDPOINT=http://s3.ly.fish.local AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
+    AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY AWS_S3_BUCKET_NAME=jellyfish npm run dev:server
+```
+
+The API will listen on `8000` and the UI will listen on `9000`. Open http://localhost:9000 and login with:
 - Username: `jellyfish`
 - Password: `jellyfish`
 
@@ -54,7 +67,6 @@ find . -name $MODULE_NAME
 ```
 
 And the output will be similar to:
-
 ```
 ...
 /usr/lib/node_modules/@balena/jellyfish-metrics -> /home/josh/git/jellyfish-metrics
@@ -85,7 +97,6 @@ find . -name $MODULE_NAME
 
 `npm link` uses the global `node_modules` directory for linking, which is usually in a path not owned by a normal user, making it necessary to run with `sudo`.
 A way around this is to configure `npm` to use a directory the current user is the owner of:
-
 ```sh
 mkdir ~/.npm-global
 npm config set prefix '~/.npm-global'
