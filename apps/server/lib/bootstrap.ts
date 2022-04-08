@@ -3,15 +3,11 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import type { JsonSchema } from '@balena/jellyfish-types';
-import type {
-	SessionContract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import {
 	errors as workerErrors,
 	Sync,
 	Transformer,
-	TriggeredActionContract,
 	Worker,
 } from '@balena/jellyfish-worker';
 import * as autumndb from 'autumndb';
@@ -28,31 +24,6 @@ interface SessionContractWithActor extends SessionContract {
 		actor: string;
 	};
 }
-
-const SCHEMA_ACTIVE_TRIGGERS: JsonSchema = {
-	type: 'object',
-	properties: {
-		id: {
-			type: 'string',
-		},
-		slug: {
-			type: 'string',
-		},
-		active: {
-			type: 'boolean',
-			const: true,
-		},
-		type: {
-			type: 'string',
-			const: 'triggered-action@1.0.0',
-		},
-		data: {
-			type: 'object',
-			additionalProperties: true,
-		},
-	},
-	required: ['id', 'slug', 'active', 'type', 'data'],
-};
 
 const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
 	type: 'object',
@@ -82,19 +53,6 @@ const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
 					},
 				},
 			},
-		},
-	},
-};
-
-const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
-	type: 'object',
-	required: ['active', 'type'],
-	properties: {
-		active: {
-			const: true,
-		},
-		type: {
-			const: 'type@1.0.0',
 		},
 	},
 };
@@ -211,11 +169,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		logContext,
 		kernel.adminSession()!,
 		{
-			anyOf: [
-				SCHEMA_ACTIVE_TRIGGERS,
-				SCHEMA_ACTIVE_TRANSFORMERS,
-				SCHEMA_ACTIVE_TYPE_CONTRACTS,
-			],
+			anyOf: [SCHEMA_ACTIVE_TRANSFORMERS],
 		},
 	);
 
@@ -245,7 +199,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	// On a stream event, update the stored contracts in the worker
 	workerContractsStream.on('data', (change: autumndb.StreamChange) => {
 		const contract = change.after;
-		const contractType = change.contractType.split('@')[0];
 		if (
 			change.type === 'update' ||
 			change.type === 'insert' ||
@@ -254,74 +207,24 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			// If `after` is null, the contract is no longer available: most likely it has
 			// been soft-deleted, having its `active` state set to false
 			if (!contract) {
-				switch (contractType) {
-					case 'triggered-action':
-						worker.removeTrigger(logContext, change.id);
-						break;
-					case 'transformer':
-						worker.removeTransformer(logContext, change.id);
-						break;
-					case 'type':
-						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== change.id;
-						});
-						worker.setTypeContracts(logContext, filteredContracts);
-				}
+				worker.removeTransformer(logContext, change.id);
 			} else {
-				switch (contractType) {
-					case 'triggered-action':
-						worker.upsertTrigger(logContext, contract);
-						break;
-					case 'transformer':
-						worker.upsertTransformer(logContext, contract as Transformer);
-						break;
-					case 'type':
-						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== change.id;
-						});
-						filteredContracts.push(contract as TypeContract);
-						worker.setTypeContracts(logContext, filteredContracts);
-				}
+				worker.upsertTransformer(logContext, contract as Transformer);
 			}
 		} else if (change.type === 'delete') {
-			switch (contractType) {
-				case 'triggered-action':
-					worker.removeTrigger(logContext, change.id);
-					break;
-				case 'transformer':
-					worker.removeTransformer(logContext, change.id);
-					break;
-				case 'type':
-					const filteredContracts = _.filter(worker.typeContracts, (type) => {
-						return type.id !== change.id;
-					});
-					worker.setTypeContracts(logContext, filteredContracts);
-			}
+			worker.removeTransformer(logContext, change.id);
 		}
 	});
 
-	const [triggers, transformers, typeContracts] = await Promise.all(
-		[
-			SCHEMA_ACTIVE_TRIGGERS,
-			SCHEMA_ACTIVE_TRANSFORMERS,
-			SCHEMA_ACTIVE_TYPE_CONTRACTS,
-		].map((schema) => kernel.query(logContext, kernel.adminSession()!, schema)),
+	const transformers = await kernel.query(
+		logContext,
+		kernel.adminSession()!,
+		SCHEMA_ACTIVE_TRANSFORMERS,
 	);
-
-	logger.info(logContext, 'Loading triggers', {
-		triggers: triggers.length,
-	});
-	worker.setTriggers(logContext, triggers as TriggeredActionContract[]);
-
 	logger.info(logContext, 'Loading transformers', {
 		transformers: transformers.length,
 	});
 	worker.setTransformers(logContext, transformers as Transformer[]);
-
-	logger.info(logContext, 'Loading types', {
-		transformers: transformers.length,
-	});
-	worker.setTypeContracts(logContext, typeContracts as TypeContract[]);
 
 	const results = await loadContracts(
 		logContext,
