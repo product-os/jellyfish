@@ -24,7 +24,7 @@
   "dependencies": {
     "@balena/jellyfish-client-sdk": "^10.3.1",
     "@balena/jellyfish-environment": "^9.1.9",
-    "@sentry/browser": "^6.19.3",
+    "@sentry/browser": "^6.19.6",
     "@use-it/event-listener": "^0.1.7",
     "@webscopeio/react-textarea-autocomplete": "^4.9.1",
     "analytics-client": "^1.7.0",
@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.9",
     "@babel/polyfill": "^7.12.1",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
@@ -99,11 +99,11 @@
     "@balena/jellyfish-types": "^2.0.4",
     "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.7.1",
-    "@emotion/react": "^11.8.2",
+    "@emotion/react": "^11.9.0",
     "@testing-library/react": "^12.1.4",
     "@types/common-tags": "^1.8.1",
     "@types/debounce-promise": "^3.1.4",
-    "@types/enzyme": "^3.10.11",
+    "@types/enzyme": "^3.10.12",
     "@types/enzyme-adapter-react-16": "^1.0.6",
     "@types/file-saver": "^2.0.5",
     "@types/flat": "^5.0.2",
@@ -112,7 +112,7 @@
     "@types/jest": "^27.4.1",
     "@types/pluralize": "^0.0.29",
     "@types/react-csv": "^1.1.2",
-    "@types/react-dom": "^17.0.14",
+    "@types/react-dom": "^17.0.15",
     "@types/react-router-dom": "^5.3.3",
     "@types/react-select": "^5.0.1",
     "@types/redux-mock-store": "^1.0.3",
@@ -138,9 +138,9 @@
     "ts-jest": "^27.1.4",
     "typedoc": "^0.22.14",
     "typescript": "^4.6.3",
-    "webpack": "^5.71.0",
+    "webpack": "^5.72.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.2",
-    "webpack-dev-server": "^4.7.4"
+    "webpack-dev-server": "^4.8.1"
   }
 }
