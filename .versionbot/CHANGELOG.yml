@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: dabd6772dd7b2284f34f6e41ff71be5010aeb1cf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.18
+  title: "'Update internal-patch'"
+  date: 2022-04-10T00:40:54.617Z
+- commits:
     - subject: Update balena/balena-mdns-publisher from v1.14.8 to v1.15.0
       hash: c1941faf0e7880f3cd63644f3deb746f99d4464a
       body: ""
