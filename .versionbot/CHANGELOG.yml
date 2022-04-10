@@ -1,4 +1,18 @@
 - commits:
+    - subject: Set NODE_ENV=development for server dev
+      hash: 21524ae1c2cdb3e07f8bf98dd4fe573c34f339aa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.11.19
+  title: "'Set NODE_ENV=development for server dev'"
+  date: 2022-04-10T03:17:28.360Z
+- commits:
     - subject: Update internal-patch
       hash: dabd6772dd7b2284f34f6e41ff71be5010aeb1cf
       body: ""
