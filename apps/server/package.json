@@ -37,7 +37,7 @@
     "@balena/jellyfish-plugin-outreach": "^2.0.100",
     "@balena/jellyfish-plugin-product-os": "^4.0.57",
     "@balena/jellyfish-plugin-typeform": "^5.1.21",
-    "@balena/jellyfish-worker": "^21.1.13",
+    "@balena/jellyfish-worker": "^21.2.0",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "autumndb": "^19.1.16",
     "aws-sdk": "^2.1111.0",

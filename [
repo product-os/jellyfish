@@ -165,18 +165,20 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 
 	// For better performance, commonly accessed contracts are stored in cache in the worker.
 	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
-	const transformerContractsStream = await kernel.stream(
+	const workerContractsStream = await kernel.stream(
 		logContext,
 		kernel.adminSession()!,
-		SCHEMA_ACTIVE_TRANSFORMERS,
+		{
+			anyOf: [
+				SCHEMA_ACTIVE_TRANSFORMERS,
+			],
+		},
 	);
 
 	const closeWorker = async () => {
 		await worker.consumer.cancel();
-		transformerContractsStream.removeAllListeners();
-		transformerContractsStream.close();
-		worker.contractsStream.removeAllListeners();
-		worker.contractsStream.close();
+		workerContractsStream.removeAllListeners();
+		workerContractsStream.close();
 		await kernel.disconnect(logContext);
 		if (cache) {
 			await cache.disconnect();
@@ -194,10 +196,10 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			.catch(errorFunction);
 	};
 
-	transformerContractsStream.once('error', errorHandler);
+	workerContractsStream.once('error', errorHandler);
 
 	// On a stream event, update the stored contracts in the worker
-	transformerContractsStream.on('data', (change: autumndb.StreamChange) => {
+	workerContractsStream.on('data', (change: autumndb.StreamChange) => {
 		const contract = change.after;
 		if (
 			change.type === 'update' ||
@@ -216,11 +218,8 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		}
 	});
 
-	const transformers = await kernel.query(
-		logContext,
-		kernel.adminSession()!,
-		SCHEMA_ACTIVE_TRANSFORMERS,
-	);
+	const transformers = await kernel.query(logContext, kernel.adminSession()!, SCHEMA_ACTIVE_TRANSFORMERS);
+
 	logger.info(logContext, 'Loading transformers', {
 		transformers: transformers.length,
 	});
