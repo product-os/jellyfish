@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher from v1.14.8 to v1.15.0
+      hash: c1941faf0e7880f3cd63644f3deb746f99d4464a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.17
+  title: "'Update balena/balena-mdns-publisher from v1.14.8 to v1.15.0'"
+  date: 2022-04-10T00:00:16.669Z
+- commits:
     - subject: Update external-non-major
       hash: d014bc61add7a7caafe5d376ee1eba072aa09f48
       body: ""
