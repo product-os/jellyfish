@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 654d1e1e05e8ab8d07e7c38cc20059b2fddb7cfb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: 🔄 Synced file(s) with product-os/secrets
+      hash: 700a8b066a7b18105fcac90f9a97961c16843868
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+      nested: []
+  version: 48.11.20
+  title: "'Update internal-patch'"
+  date: 2022-04-11T17:48:57.215Z
+- commits:
     - subject: Set NODE_ENV=development for server dev
       hash: 21524ae1c2cdb3e07f8bf98dd4fe573c34f339aa
       body: ""
