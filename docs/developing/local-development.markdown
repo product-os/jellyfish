@@ -4,7 +4,7 @@ If you want to develop Jellyfish on your local machine, the pre-requisites are:
 
 - Docker
 - Docker Compose
-- Node.js
+- Node.js v16
 
 Install the dependencies:
 
