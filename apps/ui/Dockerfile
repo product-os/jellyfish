@@ -29,6 +29,7 @@ RUN npm run build
 FROM nginx:1.21.6
 WORKDIR /usr/share/nginx/html
 COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
+COPY apps/ui/run.sh /usr/src/jellyfish/apps/ui/run.sh
 COPY apps/ui/conf/env.sh /tmp
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
 

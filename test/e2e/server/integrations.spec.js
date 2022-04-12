@@ -15,6 +15,7 @@ const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.
 
 balenaAvaTest('should take application/jose balena-api webhooks', async (test) => {
 	const token = environment.integration['balena-api']
+
 	const object = {
 		test: 1
 	}
@@ -31,6 +32,7 @@ balenaAvaTest('should take application/jose balena-api webhooks', async (test) =
 	})
 
 	const keyValue = Buffer.from(token.production.publicKey, 'base64')
+
 	const encryptionKey = await jose.JWK.asKey(keyValue, 'pem')
 
 	const cipher = jose.JWE.createEncrypt({

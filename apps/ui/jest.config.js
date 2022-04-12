@@ -3,6 +3,7 @@ const base = require('@balena/jellyfish-config/config/jest.config')
 module.exports = {
 	preset: base.preset,
 	testEnvironment: 'jsdom',
+	testTimeout: 12000,
 	transformIgnorePatterns: [
 	],
 	globals: {

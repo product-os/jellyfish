@@ -1,7 +1,0 @@
-build-variables:
-  global:
-    - SENTRY_DSN_UI=0
-  services:
-    ui:
-      - SERVER_HOST=http://api.ly.fish.local
-      - SERVER_PORT=80

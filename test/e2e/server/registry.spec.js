@@ -8,7 +8,8 @@ const helpers = require('./helpers')
 
 let sdk = {}
 const {
-	REGISTRY_TOKEN_AUTH_CERT_KEY
+	REGISTRY_TOKEN_AUTH_CERT_PUB,
+	REGISTRY2_HOST
 
 // eslint-disable-next-line no-process-env
 } = process.env
@@ -81,7 +82,8 @@ ava.serial('/api/v2/registry should return a JWT with no scope (this happens on 
 
 	const result = await helpers.http(
 		'GET',
-		`/api/v2/registry?account=${actor.slug}&client_id=docker&offline_token=true&service=registry.ly.fish.local`,
+		// eslint-disable-next-line max-len
+		`/api/v2/registry?account=${actor.slug}&client_id=docker&offline_token=true&service=${REGISTRY2_HOST}`,
 		null,
 		{
 			authorization: `Basic ${b64Auth}`
@@ -91,7 +93,8 @@ ava.serial('/api/v2/registry should return a JWT with no scope (this happens on 
 	test.is(result.code, 200)
 	test.assert(result.response.token, 'A token key was returned from the API')
 
-	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_KEY), {
+	// Signature verification requires a public key.
+	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_PUB), {
 		algorithms: [ 'ES256' ]
 	})
 
@@ -106,7 +109,8 @@ ava.serial('/api/v2/registry should return a JWT with empty access permissions i
 
 	const result = await helpers.http(
 		'GET',
-		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${bogusId}%3Apush%2Cpull&service=registry.ly.fish.local`,
+		// eslint-disable-next-line max-len
+		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${bogusId}%3Apush%2Cpull&service=${REGISTRY2_HOST}`,
 		null,
 		{
 			authorization: `Basic ${b64Auth}`
@@ -116,7 +120,7 @@ ava.serial('/api/v2/registry should return a JWT with empty access permissions i
 	test.is(result.code, 200)
 	test.assert(result.response.token, 'A token key was returned from the API')
 
-	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_KEY), {
+	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_PUB), {
 		algorithms: [ 'ES256' ]
 	})
 
@@ -133,7 +137,8 @@ ava.serial('/api/v2/registry should return a JWT with correct access permissions
 
 	const result = await helpers.http(
 		'GET',
-		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.slug}%3Apush%2Cpull&service=registry.ly.fish.local`,
+		// eslint-disable-next-line max-len
+		`/api/v2/registry?account=${actor.slug}&scope=repository%3A${thread.slug}%3Apush%2Cpull&service=${REGISTRY2_HOST}`,
 		null,
 		{
 			authorization: `Basic ${b64Auth}`
@@ -143,7 +148,7 @@ ava.serial('/api/v2/registry should return a JWT with correct access permissions
 	test.is(result.code, 200)
 	test.assert(result.response.token, 'A token key was returned from the API')
 
-	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_KEY), {
+	const decoded = jsonwebtoken.verify(result.response.token, b64decode(REGISTRY_TOKEN_AUTH_CERT_PUB), {
 		algorithms: [ 'ES256' ]
 	})
 
