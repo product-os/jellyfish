@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.5 to 8.4.6
+      hash: 300e7cca8ab78b40e98b83c8303e75215a0e415c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.28
+  title: "'Update grafana/grafana from 8.4.5 to 8.4.6'"
+  date: 2022-04-12T13:25:11.476Z
+- commits:
     - subject: Update internal-patch
       hash: 943134959cb5b4a470699aa4643e56f58a878139
       body: ""
