@@ -1,4 +1,26 @@
 - commits:
+    - subject: Remove flowdock secrets
+      hash: 2b9b37d62f71d90d98d60b89b5fdcc2b7b863fdb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: 🔄 Synced file(s) with product-os/secrets
+      hash: 1e91b4c49404207d05aa7adc120538cc9522a340
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: joshbwlng
+      nested: []
+  version: 48.11.24
+  title: "'🔄 Synced file(s) with product-os/secrets'"
+  date: 2022-04-12T06:06:43.986Z
+- commits:
     - subject: Update typedoc from 0.22.14 to 0.22.15
       hash: 5fb5a340ee977fc56ad34849c4e33261ec1fadd0
       body: ""
