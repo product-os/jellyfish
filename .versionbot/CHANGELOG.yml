@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: fc0d6c8ceff66ea962fc58658e9c7071f8ea5bf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.22
+  title: "'Update internal-patch'"
+  date: 2022-04-12T02:51:47.416Z
+- commits:
     - subject: Make node v16 requirement more obvious
       hash: 9bffa36b3fa9f5b2cd130b9f3c5a303fb9d3d08d
       body: ""
