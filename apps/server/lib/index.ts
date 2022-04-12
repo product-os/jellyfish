@@ -2,7 +2,7 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger } from '@balena/jellyfish-logger';
 import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from './bootstrap';
-import { getPluginManager } from './plugins';
+import { getPlugins } from './plugins';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -43,7 +43,7 @@ logger.info(context, 'Starting server', {
 
 try {
 	const options = {
-		pluginManager: getPluginManager(context),
+		plugins: getPlugins(),
 		onError,
 	};
 

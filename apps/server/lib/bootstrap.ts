@@ -2,21 +2,10 @@ import * as assert from '@balena/jellyfish-assert';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type {
-	SessionContract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
-import {
-	errors as workerErrors,
-	Sync,
-	Transformer,
-	TriggeredActionContract,
-	Worker,
-} from '@balena/jellyfish-worker';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import { errors as workerErrors, Worker } from '@balena/jellyfish-worker';
 import * as autumndb from 'autumndb';
 import _ from 'lodash';
-import { loadContracts } from './contract-loader';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 
@@ -28,76 +17,6 @@ interface SessionContractWithActor extends SessionContract {
 		actor: string;
 	};
 }
-
-const SCHEMA_ACTIVE_TRIGGERS: JsonSchema = {
-	type: 'object',
-	properties: {
-		id: {
-			type: 'string',
-		},
-		slug: {
-			type: 'string',
-		},
-		active: {
-			type: 'boolean',
-			const: true,
-		},
-		type: {
-			type: 'string',
-			const: 'triggered-action@1.0.0',
-		},
-		data: {
-			type: 'object',
-			additionalProperties: true,
-		},
-	},
-	required: ['id', 'slug', 'active', 'type', 'data'],
-};
-
-const SCHEMA_ACTIVE_TRANSFORMERS: JsonSchema = {
-	type: 'object',
-	required: ['active', 'type', 'data', 'version'],
-	properties: {
-		active: {
-			const: true,
-		},
-		type: {
-			const: 'transformer@1.0.0',
-		},
-		// ignoring draft versions
-		version: { not: { pattern: '-' } },
-		data: {
-			type: 'object',
-			required: ['$transformer'],
-			properties: {
-				$transformer: {
-					type: 'object',
-					required: ['artifactReady'],
-					properties: {
-						artifactReady: {
-							not: {
-								const: false,
-							},
-						},
-					},
-				},
-			},
-		},
-	},
-};
-
-const SCHEMA_ACTIVE_TYPE_CONTRACTS: JsonSchema = {
-	type: 'object',
-	required: ['active', 'type'],
-	properties: {
-		active: {
-			const: true,
-		},
-		type: {
-			const: 'type@1.0.0',
-		},
-	},
-};
 
 const getActorKey = async (
 	logContext: LogContext,
@@ -138,11 +57,6 @@ const getActorKey = async (
 
 // TS-TODO: Define type for options argument
 export const bootstrap = async (logContext: LogContext, options: any) => {
-	// Load plugin data
-	const integrations = options.pluginManager.getSyncIntegrations(logContext);
-	const actionLibrary = options.pluginManager.getActions(logContext);
-	const contracts = options.pluginManager.getCards();
-
 	logger.info(logContext, 'Configuring HTTP server');
 	const webServer = createServer(logContext, {
 		port: environment.http.port,
@@ -179,16 +93,11 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	const worker = new Worker(
 		kernel,
 		kernel.adminSession()!,
-		actionLibrary,
 		pool,
+		options.plugins,
 	);
 
-	// Set up a sync instance using integrations from plugins
-	const sync = new Sync({
-		integrations,
-	});
-
-	await worker.initialize(logContext, sync, async (actionRequest) => {
+	await worker.initialize(logContext, async (actionRequest) => {
 		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
 		try {
 			const key = await getActorKey(
@@ -205,24 +114,10 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		}
 	});
 
-	// For better performance, commonly accessed contracts are stored in cache in the worker.
-	// These contracts are streamed from the DB, so the worker always has the most up to date version of them.
-	const workerContractsStream = await kernel.stream(
-		logContext,
-		kernel.adminSession()!,
-		{
-			anyOf: [
-				SCHEMA_ACTIVE_TRIGGERS,
-				SCHEMA_ACTIVE_TRANSFORMERS,
-				SCHEMA_ACTIVE_TYPE_CONTRACTS,
-			],
-		},
-	);
-
 	const closeWorker = async () => {
 		await worker.consumer.cancel();
-		workerContractsStream.removeAllListeners();
-		workerContractsStream.close();
+		worker.contractsStream.removeAllListeners();
+		worker.contractsStream.close();
 		await kernel.disconnect(logContext);
 		if (cache) {
 			await cache.disconnect();
@@ -239,97 +134,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			})
 			.catch(errorFunction);
 	};
-
-	workerContractsStream.once('error', errorHandler);
-
-	// On a stream event, update the stored contracts in the worker
-	workerContractsStream.on('data', (change: autumndb.StreamChange) => {
-		const contract = change.after;
-		const contractType = change.contractType.split('@')[0];
-		if (
-			change.type === 'update' ||
-			change.type === 'insert' ||
-			change.type === 'unmatch'
-		) {
-			// If `after` is null, the contract is no longer available: most likely it has
-			// been soft-deleted, having its `active` state set to false
-			if (!contract) {
-				switch (contractType) {
-					case 'triggered-action':
-						worker.removeTrigger(logContext, change.id);
-						break;
-					case 'transformer':
-						worker.removeTransformer(logContext, change.id);
-						break;
-					case 'type':
-						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== change.id;
-						});
-						worker.setTypeContracts(logContext, filteredContracts);
-				}
-			} else {
-				switch (contractType) {
-					case 'triggered-action':
-						worker.upsertTrigger(logContext, contract);
-						break;
-					case 'transformer':
-						worker.upsertTransformer(logContext, contract as Transformer);
-						break;
-					case 'type':
-						const filteredContracts = _.filter(worker.typeContracts, (type) => {
-							return type.id !== change.id;
-						});
-						filteredContracts.push(contract as TypeContract);
-						worker.setTypeContracts(logContext, filteredContracts);
-				}
-			}
-		} else if (change.type === 'delete') {
-			switch (contractType) {
-				case 'triggered-action':
-					worker.removeTrigger(logContext, change.id);
-					break;
-				case 'transformer':
-					worker.removeTransformer(logContext, change.id);
-					break;
-				case 'type':
-					const filteredContracts = _.filter(worker.typeContracts, (type) => {
-						return type.id !== change.id;
-					});
-					worker.setTypeContracts(logContext, filteredContracts);
-			}
-		}
-	});
-
-	const [triggers, transformers, typeContracts] = await Promise.all(
-		[
-			SCHEMA_ACTIVE_TRIGGERS,
-			SCHEMA_ACTIVE_TRANSFORMERS,
-			SCHEMA_ACTIVE_TYPE_CONTRACTS,
-		].map((schema) => kernel.query(logContext, kernel.adminSession()!, schema)),
-	);
-
-	logger.info(logContext, 'Loading triggers', {
-		triggers: triggers.length,
-	});
-	worker.setTriggers(logContext, triggers as TriggeredActionContract[]);
-
-	logger.info(logContext, 'Loading transformers', {
-		transformers: transformers.length,
-	});
-	worker.setTransformers(logContext, transformers as Transformer[]);
-
-	logger.info(logContext, 'Loading types', {
-		transformers: transformers.length,
-	});
-	worker.setTypeContracts(logContext, typeContracts as TypeContract[]);
-
-	const results = await loadContracts(
-		logContext,
-		kernel,
-		worker,
-		kernel.adminSession()!,
-		contracts,
-	);
 
 	logger.info(logContext, 'Inserting test user', {
 		username: environment.test.user.username,
@@ -437,17 +241,38 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	logger.info(logContext, 'Configuring socket server');
 	const socketServer = attachSocket(kernel, webServer.server);
 
-	// Finish setting up routes and middlewares now that we are ready to serve
-	// http traffic
+	// Set up guest user
+	logger.info(logContext, 'Setting up guest user');
+	const guestUser = await kernel.getContractBySlug(
+		logContext,
+		kernel.adminSession()!,
+		'user-guest@latest',
+	);
+	const guestSession = await kernel.replaceContract(
+		logContext,
+		kernel.adminSession()!,
+		autumndb.Kernel.defaults({
+			slug: 'session-guest',
+			version: '1.0.0',
+			type: 'session@1.0.0',
+			data: {
+				actor: guestUser!.id,
+			},
+		}),
+	);
+	logger.info(logContext, 'Done setting up guest session');
+
+	// Set up routes/middlewares now that we're ready to serve http traffic
 	webServer.ready(kernel, worker, {
-		guestSession: results.guestSession.id,
-		sync,
+		guestSession: guestSession.id,
+		sync: worker.sync,
 	});
 
 	// Manually bootstrap channels
 	// TODO: This should ideally be completely automated, but this would
 	// require that triggered actions are up and running before any
 	// channel contracts are loaded.
+	const contracts = worker.pluginManager.getCards();
 	const channels = _.filter(contracts, {
 		type: 'channel@1.0.0',
 		active: true,
@@ -480,7 +305,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	return {
 		worker,
 		kernel,
-		guestSession: results.guestSession.id,
+		guestSession: guestSession.id,
 		port: webServer.port,
 		close: async () => {
 			socketServer.close();
