@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: b5ca945db22947d2d3c0e52efe4571560c96be17
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.25
+  title: "'Update internal-patch'"
+  date: 2022-04-12T10:45:33.467Z
+- commits:
     - subject: Remove flowdock secrets
       hash: 2b9b37d62f71d90d98d60b89b5fdcc2b7b863fdb
       body: ""
