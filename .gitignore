@@ -111,8 +111,6 @@ apps/ui/env-config.js
 .balena/secrets/integration_balena_api_private_key
 .balena/secrets/integration_balena_api_public_key_production
 .balena/secrets/integration_outreach_signature_key
-.balena/secrets/integration_flowdock_signature_key
-.balena/secrets/integration_flowdock_token
 .balena/secrets/integration_github_app_id
 .balena/secrets/integration_github_private_key
 .balena/secrets/integration_github_signature_key
