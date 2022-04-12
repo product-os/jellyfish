@@ -1,4 +1,18 @@
 - commits:
+    - subject: Make node v16 requirement more obvious
+      hash: 9bffa36b3fa9f5b2cd130b9f3c5a303fb9d3d08d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.11.21
+  title: "'Make node v16 requirement more obvious'"
+  date: 2022-04-11T23:32:52.581Z
+- commits:
     - subject: Update internal-patch
       hash: 654d1e1e05e8ab8d07e7c38cc20059b2fddb7cfb
       body: ""
