@@ -107,22 +107,16 @@ docs/typedoc/*
 apps/ui/env-config.js
 
 # Decrypted secret files
-.balena/secrets/integration_typeform_signature_key
 .balena/secrets/integration_balena_api_private_key
 .balena/secrets/integration_balena_api_public_key_production
-.balena/secrets/integration_outreach_signature_key
 .balena/secrets/integration_github_app_id
 .balena/secrets/integration_github_private_key
 .balena/secrets/integration_github_signature_key
 .balena/secrets/integration_github_token
 .balena/secrets/integration_front_token
 .balena/secrets/integration_intercom_token
-.balena/secrets/integration_discourse_signature_key
 .balena/secrets/integration_discourse_token
 .balena/secrets/integration_discourse_username
-.balena/secrets/integration_google_meet_credentials
-.balena/secrets/mailgun_token
-.balena/secrets/reset_password_secret_token
 .balena/secrets/registry_token_auth_cert_key
 .balena/secrets/registry_token_auth_cert_kid
 .balena/secrets/aws_access_key_id
