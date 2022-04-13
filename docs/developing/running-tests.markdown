@@ -25,52 +25,51 @@ A number of tests require that multiple services be running and can talk to one 
 ### Lint
 Run lint checks:
 ```sh
-$ npm run lint
-$ npm run lint:server
-$ npm run lint:ui
+npm run lint
+npm run lint:server
+npm run lint:ui
 ```
 
 ### Unit
 Run unit tests:
 ```sh
-$ npm run test:unit
-$ npm run test:unit:server
-$ npm run test:unit:ui
+npm run test:unit
+npm run test:unit:server
+npm run test:unit:ui
 ```
 
 ### E2E SDK
 Run SDK E2E tests:
 ```sh
-$ UI_HOST=http://jel.ly.fish.local npm run test:e2e:sdk
-$ UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
+UI_HOST=http://jel.ly.fish.local npm run test:e2e:sdk
+UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
 ```
 
 ### E2E UI
 Run UI E2E tests:
 ```sh
-$ UI_HOST=http://jel.ly.fish.local npm run test:e2e:ui
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:ui
+UI_HOST=http://jel.ly.fish.local npm run test:e2e:ui
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:ui
 ```
 
 Run UI E2E tests with browser displayed:
 ```sh
-$ npx playwright install chromium
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npx playwright test test/e2e/ui/index.spec.js --headed
+npx playwright install chromium
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npx playwright test test/e2e/ui/index.spec.js --headed
 ```
 
 ### E2E Server
 Run server E2E tests:
 ```sh
-$ SERVER_HOST=http://api.ly.fish.local npm run test:e2e:server
-$ SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
+SERVER_HOST=http://api.ly.fish.local npm run test:e2e:server
+SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
 ```
 
 ### Server Integration
 Run server integration tests:
 ```sh
-$ export INTEGRATION_OUTREACH_SIGNATURE_KEY=$(cat .balena/secrets/integration_outreach_signature_key)
-$ export INTEGRATION_BALENA_API_PRIVATE_KEY=$(cat .balena/secrets/integration_balena_api_private_key)
-$ export INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(cat .balena/secrets/integration_balena_api_public_key_production)
-$ SERVER_PORT=8000 POSTGRES_HOST=postgres.ly.fish.local REDIS_HOST=redis.ly.fish.local npm run test:integration:server
-$ SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
+export INTEGRATION_BALENA_API_PRIVATE_KEY=$(cat .balena/secrets/integration_balena_api_private_key)
+export INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(cat .balena/secrets/integration_balena_api_public_key_production)
+SERVER_PORT=8000 POSTGRES_HOST=postgres.ly.fish.local REDIS_HOST=redis.ly.fish.local npm run test:integration:server
+SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
 ```
