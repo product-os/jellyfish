@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update test examples in docs
+      hash: 5bea314320d3aab8159f1f9c32d923432e7d753f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.11.35
+  title: "'Update test examples in docs'"
+  date: 2022-04-13T14:09:09.379Z
+- commits:
     - subject: 🔄 Synced file(s) with product-os/secrets
       hash: 9e2726bdb4b124a61f4749bcdf6bc89a7e4e2fb3
       body: ""
