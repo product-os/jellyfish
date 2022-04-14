@@ -79,7 +79,7 @@ const getTypesFromSchema = (schema) => {
 
 const setSliceFilter = (filters, lens, slice) => {
 	// We only want to filter by slice if the lens does not supports slices itself!
-	if (!_.get(lens, ['data', 'supportsSlices'])) {
+	if (!_.get(lens, ['data', 'supportsSlices']) && slice) {
 		filters.push({
 			$id: slice.$id,
 			anyOf: [slice],
