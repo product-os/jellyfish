@@ -1,4 +1,19 @@
 - commits:
+    - subject: Fix switching between lenses
+      hash: aaef49bceaea0603fcd378fdf3cb414d02afa447
+      body: >
+        /all view does not have data.slices field, causing `slice` being null.
+
+        Does kanban lens make sense if there is no slice? This is a quick fix, need to discuss this further.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 48.11.40
+  title: "'Fix switching between lenses'"
+  date: 2022-04-14T16:24:50.013Z
+- commits:
     - subject: Update internal-patch
       hash: e3048cb2aad57a997c0b96ef7069343f6c62a1e1
       body: ""
