@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update dev docs
+      hash: 9d2e504db8979be58ba1abc3101bed9d4a935e4e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez  <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez  <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 48.11.37
+  title: "'updates to docs/developing'"
+  date: 2022-04-14T00:15:18.521Z
+- commits:
     - subject: Update internal-patch
       hash: 661f7d20c71cd32dc732828d4bda2ddfce0c8e3d
       body: ""
