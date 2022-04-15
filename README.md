@@ -63,6 +63,7 @@ for more information on how secrets are managed.
 
 Once you have been given access, you can reveal secrets stored under `.balena/secrets` with:
 ```sh
+git submodule update --init
 git secret reveal -f
 ```
 
