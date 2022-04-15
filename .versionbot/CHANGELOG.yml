@@ -1,4 +1,28 @@
 - commits:
+    - subject: Bump async from 2.6.3 to 2.6.4 in /apps/ui
+      hash: 068fa483dfdc8faf658cee12087cecf58b67dff4
+      body: |
+        Bumps [async](https://github.com/caolan/async) from 2.6.3 to 2.6.4.
+        - [Release notes](https://github.com/caolan/async/releases)
+        - [Changelog](https://github.com/caolan/async/blob/v2.6.4/CHANGELOG.md)
+        - [Commits](https://github.com/caolan/async/compare/v2.6.3...v2.6.4)
+
+        ---
+        updated-dependencies:
+        - dependency-name: async
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 48.11.44
+  title: "'Bump async from 2.6.3 to 2.6.4 in /apps/ui'"
+  date: 2022-04-15T16:02:47.849Z
+- commits:
     - subject: Update internal-patch
       hash: e179342ff2cdf352564788a6b4298e5f81e7c25a
       body: ""
