@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bring secrets in with submodule
+      hash: ad46b3233d59be5fe945b74faadb3d8355e3ac7e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 48.11.41
+  title: "'Bring secrets in with submodule'"
+  date: 2022-04-15T02:43:51.130Z
+- commits:
     - subject: Fix switching between lenses
       hash: aaef49bceaea0603fcd378fdf3cb414d02afa447
       body: >
