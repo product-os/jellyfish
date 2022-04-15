@@ -15,7 +15,11 @@ The source for all tests can be found under `tests/`, `apps/server/test`, and `a
 A number of environment variables are required for the system to function properly and, in some cases, for tests to run. Sane defaults are in place for development/testing in the [`@balena/jellyfish-environment`](https://github.com/product-os/jellyfish-environment) package. These defaults can be overridden by exporting values in your local shell, e.g. `$ export POSTGRES_HOST=localhost`. Also be sure and take a look through the [`@balena/jellyfish-environment`](https://github.com/product-os/jellyfish-environment) package's codebase to better understand what environment variables we use to run the system.
 
 ## Secrets
-We provide secrets through git secrets under `.balena/secrets` that can be decrypted if you have access by executing `git secret reveal -f`. Contact someone on the Jellyfish team if you require access.
+We provide secrets through git secrets under `.balena/secrets` that can be decrypted if you have access. Contact someone on the Jellyfish team if you require access.
+```sh
+git submodule update --init
+git secret reveal -f
+```
 
 ## Examples
 Below are a number of command examples.
