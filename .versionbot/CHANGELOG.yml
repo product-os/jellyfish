@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 8f949e7754a456ebbeadd8ee3f2023bab957085e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 48.11.45
+  title: "'Update internal-patch'"
+  date: 2022-04-15T16:46:17.945Z
+- commits:
     - subject: Bump async from 2.6.3 to 2.6.4 in /apps/ui
       hash: 068fa483dfdc8faf658cee12087cecf58b67dff4
       body: |
