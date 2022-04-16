@@ -172,7 +172,7 @@ services:
     expose:
       - 3000
   s3:
-    image: balena/open-balena-s3:v2.13.4
+    image: balena/open-balena-s3:v2.13.5
     volumes:
       - s3:/export
     healthcheck:
