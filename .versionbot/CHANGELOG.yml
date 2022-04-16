@@ -1,4 +1,21 @@
 - commits:
+    - subject: Add s3 service
+      hash: faf83e16e721d18a8fae8117c71e5840e9c5269f
+      body: |
+        Add s3-compatible service to dev/test stack.
+        Remove local file storage and always store
+        uploads in s3 or minio.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.0
+  title: "'Add s3 service'"
+  date: 2022-04-16T02:02:57.247Z
+- commits:
     - subject: Update internal-patch
       hash: c7d2848da9ea31e7b455acc042253b5ea7d3f8c6
       body: ""
