@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-s3 from v2.13.4 to v2.13.5
+      hash: b4ca920b24abb54dd01327d87ad293dc536d0934
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.1
+  title: "'Update balena/open-balena-s3 from v2.13.4 to v2.13.5'"
+  date: 2022-04-16T06:04:27.524Z
+- commits:
     - subject: Add s3 service
       hash: faf83e16e721d18a8fae8117c71e5840e9c5269f
       body: |
