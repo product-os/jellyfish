@@ -10,7 +10,7 @@ services:
       - api
       - postgres
       - ui
-      - balena-mdns-publisher
+      - mdns
     environment:
       - LOGLEVEL=crit
       - NO_LOG_SUCCESS=1

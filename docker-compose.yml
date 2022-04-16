@@ -3,6 +3,7 @@ version: '2.1'
 volumes:
   registry-data: null
   resin-data: null
+  s3: {}
 
 services:
   postgres:
@@ -29,7 +30,7 @@ services:
       dockerfile: ./apps/ui/Dockerfile
     depends_on:
       - api
-      - balena-mdns-publisher
+      - mdns
     environment:
       - SENTRY_DSN_UI=0
       - SERVER_HOST=http://api.ly.fish.local
@@ -47,16 +48,16 @@ services:
     depends_on:
       - postgres
       - redis
-      - balena-mdns-publisher
+      - mdns
     environment:
       - LOGLEVEL=crit
       - NO_LOG_SUCCESS=1
       - NODE_ENV
       - SENTRY_DSN_SERVER
-      - FS_DRIVER
       - AWS_ACCESS_KEY_ID
-      - AWS_S3_BUCKET_NAME
       - AWS_SECRET_ACCESS_KEY
+      - AWS_S3_BUCKET_NAME
+      - AWS_S3_ENDPOINT
       - INTEGRATION_BALENA_API_APP_ID
       - INTEGRATION_BALENA_API_APP_SECRET
       - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
@@ -100,16 +101,16 @@ services:
     depends_on:
       - postgres
       - redis
-      - balena-mdns-publisher
+      - mdns
     environment:
       - LOGLEVEL=crit
       - NO_LOG_SUCCESS=1
       - NODE_ENV
       - SENTRY_DSN_SERVER
-      - FS_DRIVER
       - AWS_ACCESS_KEY_ID
-      - AWS_S3_BUCKET_NAME
       - AWS_SECRET_ACCESS_KEY
+      - AWS_S3_BUCKET_NAME
+      - AWS_S3_ENDPOINT
       - INTEGRATION_BALENA_API_APP_ID
       - INTEGRATION_BALENA_API_APP_SECRET
       - INTEGRATION_BALENA_API_OAUTH_BASE_URL=https://api.balena-cloud.com
@@ -170,13 +171,37 @@ services:
       - internal
     expose:
       - 3000
+  s3:
+    image: balena/open-balena-s3:v2.13.4
+    volumes:
+      - s3:/export
+    healthcheck:
+      test: /usr/src/app/docker-hc
+      interval: 45s
+      timeout: 15s
+      retries: 3
+    cap_add:
+      - SYS_ADMIN
+      - SYS_RESOURCE
+    environment:
+      CONFD_BACKEND: ENV
+      S3_MINIO_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
+      S3_MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+      BUCKETS: jellyfish
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    privileged: true
+    restart: unless-stopped
+    networks:
+      - internal
   registry:
     build: apps/registry
     command: ['/usr/local/bin/docker-registry', 'serve', '/etc/registry.yml']
     ports:
       - 8004:80
     depends_on:
-      - balena-mdns-publisher
+      - mdns
       - haproxy
     restart: unless-stopped
     cap_add:
@@ -206,26 +231,36 @@ services:
       HOSTS_CONFIG: REGISTRY_HOST:registry,REGISTRY2_HOST:registry,REGISTRY2_TOKEN_AUTH_ISSUER:api,REGISTRY_TOKEN_AUTH_CERT_ISSUER:api,REGISTRY2_TOKEN_AUTH_REALM:api
       TOKENS_CONFIG: REGISTRY2_SECRETKEY:hex
       SENTRY_CONFIG: ','
-  balena-mdns-publisher:
+  mdns:
     image: 'balena/balena-mdns-publisher:v1.15.0'
     network_mode: host
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
     security_opt:
-      - 'apparmor=unconfined'
+      - apparmor=unconfined
     tmpfs:
       - /run
       - /sys/fs/cgroup
+    volumes:
+      - resin-data:/balena
     labels:
-      io.balena.features.dbus: '1'
-      io.balena.features.supervisor-api: '1'
+      io.balena.features.dbus: 1
+    restart: unless-stopped
     environment:
+      VERBOSE: "false"
+      DNS_TLD: ly.fish.local
+      LOGLEVEL: warning
       MDNS_TLD: ly.fish.local
-      MDNS_SUBDOMAINS: >-
-        ["jel", "livechat", "api", "registry", "grafana", "prometheus"]
-      DBUS_SESSION_BUS_ADDRESS: 'unix:path=/host/run/dbus/system_bus_socket'
-      CONFD_BACKEND: 'ENV'
+      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,ui
+      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel
+      SENTRY_CONFIG: ','
+      TOKENS_CONFIG: ','
+    healthcheck:
+      test: /usr/src/app/docker-hc
+      interval: 45s
+      timeout: 15s
+      retries: 3
   haproxy:
     build: apps/haproxy
     healthcheck:
@@ -237,6 +272,7 @@ services:
       - "80:80"
       - "5432:5432"
       - "6379:6379"
+      - "43697:43697"
     environment:
       LOGLEVEL: info
     sysctls:
@@ -252,8 +288,8 @@ services:
           - grafana.ly.fish.local
           - prometheus.ly.fish.local
           - registry.ly.fish.local
+          - s3.ly.fish.local
     restart: unless-stopped
 
 networks:
   internal: {}
-

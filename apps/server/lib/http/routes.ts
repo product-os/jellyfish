@@ -19,9 +19,7 @@ import * as registry from './registry';
 const packageJSON = require('../../../../package.json');
 
 const logger = getLogger(__filename);
-const fileStore = new Storage({
-	driver: environment.fileStorage.driver,
-});
+const fileStore = new Storage();
 const upload = multer({
 	storage: multer.memoryStorage(),
 });
