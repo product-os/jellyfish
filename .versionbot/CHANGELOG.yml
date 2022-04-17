@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update nomnoml from 1.4.0 to 1.5.1
+      hash: e0373e51e5495b4240bb3ef266ce3bdaa251b4c5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.6
+  title: "'Update nomnoml from 1.4.0 to 1.5.1'"
+  date: 2022-04-17T00:23:23.872Z
+- commits:
     - subject: Update internal-patch
       hash: a87a2c004f785f2074ba29f963595454821c0d48
       body: ""
