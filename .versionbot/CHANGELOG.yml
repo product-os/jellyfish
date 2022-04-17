@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: e1c246e06145e8c6a973f7e5aa53b2280ae93da3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.7
+  title: "'Update external-non-major'"
+  date: 2022-04-17T02:39:28.183Z
+- commits:
     - subject: Update nomnoml from 1.4.0 to 1.5.1
       hash: e0373e51e5495b4240bb3ef266ce3bdaa251b4c5
       body: ""
