@@ -111,7 +111,7 @@
     "lint-staged": "^12.3.7",
     "lodash": "^4.17.21",
     "node-jose": "^2.1.1",
-    "nomnoml": "^1.4.0",
+    "nomnoml": "^1.5.1",
     "playwright": "^1.20.2",
     "request": "^2.88.2",
     "rimraf": "^3.0.2",
