@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 42ce2abdbc0222294a492f7da6171dda9bfa03b3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.10
+  title: "'Update internal-patch'"
+  date: 2022-04-18T15:39:38.467Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 21.2.12 to 22.0.0
       hash: 059e2dfb9b7e998ce54d117d247edeab6f299211
       body: ""
