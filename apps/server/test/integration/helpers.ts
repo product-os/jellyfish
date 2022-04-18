@@ -6,7 +6,7 @@ import _ from 'lodash';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from '../../lib/bootstrap';
-import { getPluginManager } from '../../lib/plugins';
+import { getPlugins } from '../../lib/plugins';
 
 const workerOptions = {
 	onError: (_context, error) => {
@@ -24,7 +24,7 @@ export const before = async (context) => {
 
 	context.server = await bootstrap(context.context, {
 		...workerOptions,
-		pluginManager: getPluginManager(context.context),
+		plugins: getPlugins(),
 	});
 
 	context.sdk = getSdk({

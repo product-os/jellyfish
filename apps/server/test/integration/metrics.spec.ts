@@ -3,7 +3,7 @@ import Bluebird from 'bluebird';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from '../../lib/bootstrap';
-import { getPluginManager } from '../../lib/plugins';
+import { getPlugins } from '../../lib/plugins';
 
 const context = {} as any;
 
@@ -15,7 +15,7 @@ beforeAll(async () => {
 		onError: (_context, error) => {
 			throw error;
 		},
-		pluginManager: getPluginManager(context.context),
+		plugins: getPlugins(),
 	});
 });
 
