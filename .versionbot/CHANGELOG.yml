@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal deps
+      hash: cebfc4895749a1da5e3fab23679caeff13d6b282
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.13
+  title: "'Bump internal deps'"
+  date: 2022-04-19T06:54:35.964Z
+- commits:
     - subject: Update registry/mdns services
       hash: 3e406dd47d10be5c0a97324a7d6827f9693491d0
       body: |
