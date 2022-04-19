@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update registry/mdns services
+      hash: 3e406dd47d10be5c0a97324a7d6827f9693491d0
+      body: |
+        Simplify registry and mdns service configuration,
+        resolving neverending service restarts
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.12
+  title: "'Update registry/mdns services'"
+  date: 2022-04-19T02:51:57.918Z
+- commits:
     - subject: Update resinci/jellyfish-test from v3.0.7 to v3.0.8
       hash: ce27c79eaa064e3c70464e8dceeba109eac00fa6
       body: ""
