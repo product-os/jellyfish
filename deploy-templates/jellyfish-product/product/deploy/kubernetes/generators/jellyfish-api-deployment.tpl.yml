@@ -11,7 +11,7 @@ spec:
     matchLabels:
       app.kubernetes.io/instance: jellyfish-api
       app.kubernetes.io/name: jellyfish-api
-  replicas: 8
+  replicas: 12
   strategy:
     type: RollingUpdate
     rollingUpdate:
