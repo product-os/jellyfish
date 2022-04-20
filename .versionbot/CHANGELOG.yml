@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Deployment: increase pod count from 8 to 12."
+      hash: aeec98498b00aaeb795069103306c9f89f0f6e22
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 49.0.15
+  title: "'Deployment: increase pod count from 8 to 12.'"
+  date: 2022-04-20T08:29:35.484Z
+- commits:
     - subject: Update internal-patch
       hash: f5e3a916fdce8e39061b1ed72d3f0a33a7daa931
       body: ""
