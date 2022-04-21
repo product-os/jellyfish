@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-registry from v2.24.4 to v2.24.5
+      hash: 9a263a0ca8b5ea2b55e42829aaeb89e4170a89f3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.21
+  title: "'Update balena/open-balena-registry from v2.24.4 to v2.24.5'"
+  date: 2022-04-21T22:31:40.916Z
+- commits:
     - subject: Update internal-patch
       hash: 2b11be2080523b1593737beacb7727b42786d41e
       body: ""
