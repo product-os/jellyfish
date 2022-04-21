@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: a8f7828b9d01e76b61eca9ddc1d20ea777d8d05c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.16
+  title: "'Update internal-patch'"
+  date: 2022-04-21T04:48:48.646Z
+- commits:
     - subject: "Deployment: increase pod count from 8 to 12."
       hash: aeec98498b00aaeb795069103306c9f89f0f6e22
       body: ""
