@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus from v2.34.0 to v2.35.0
+      hash: 339e28b132af1ad824aa8d9b619cdf4d68e30546
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.22
+  title: "'Update prom/prometheus from v2.34.0 to v2.35.0'"
+  date: 2022-04-21T23:18:41.797Z
+- commits:
     - subject: Update balena/open-balena-registry from v2.24.4 to v2.24.5
       hash: 9a263a0ca8b5ea2b55e42829aaeb89e4170a89f3
       body: ""
