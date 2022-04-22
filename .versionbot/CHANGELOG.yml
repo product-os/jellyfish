@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 22.1.2 to 22.1.3
+      hash: 1b9ae6b3750e89e54635f966e46b62be1a35cb84
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.24
+  title: "'Update @balena/jellyfish-worker from 22.1.2 to 22.1.3'"
+  date: 2022-04-22T04:00:14.641Z
+- commits:
     - subject: Update grafana/grafana from 8.4.7 to 8.5.0
       hash: 48efd93464fc45a4689fffecb5b4ecc199d73ed2
       body: ""
