@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.4.7 to 8.5.0
+      hash: 48efd93464fc45a4689fffecb5b4ecc199d73ed2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.23
+  title: "'Update grafana/grafana from 8.4.7 to 8.5.0'"
+  date: 2022-04-21T23:56:35.201Z
+- commits:
     - subject: Update prom/prometheus from v2.34.0 to v2.35.0
       hash: 339e28b132af1ad824aa8d9b619cdf4d68e30546
       body: ""
