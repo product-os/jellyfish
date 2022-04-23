@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major
+      hash: 62e44cb20f0ba6c700c0615840cd853155fba3bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.29
+  title: "'Update external-non-major'"
+  date: 2022-04-23T16:17:45.976Z
+- commits:
     - subject: Update balena/open-balena-registry from v2.24.5 to v2.24.6
       hash: e829248222bd64a3f52faa3129c1bda30a90e8da
       body: ""
