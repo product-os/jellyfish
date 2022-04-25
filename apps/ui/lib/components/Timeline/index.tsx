@@ -203,15 +203,11 @@ class Timeline extends React.Component<Props, State> {
 		return query;
 	}
 
-	getSnapshotBeforeUpdate(prevProps: any) {
+	getSnapshotBeforeUpdate() {
 		const snapshot: any = {};
-		if (
-			_.get(this.props, ['tail', 'length'], 0) >
-			_.get(prevProps, ['tail', 'length'], 0)
-		) {
-			snapshot.wasAtBottomOfTimeline =
-				this.eventListRef.current.isScrolledToBottom();
-		}
+		snapshot.wasAtBottomOfTimeline =
+			this.eventListRef.current.isScrolledToBottom();
+		snapshot.scrollBottom = this.eventListRef.current.getScrollBottom();
 		return snapshot;
 	}
 
@@ -228,8 +224,12 @@ class Timeline extends React.Component<Props, State> {
 						: pendingMessages,
 				},
 				() => {
+					// If the timeline was previously scrolled to the bottom, keep it "stuck" at the bottom.
+					// Otherwise, scroll to the previous bottom offset, so that the timeline doesn't "jump" upwards
 					if (snapshot.wasAtBottomOfTimeline) {
 						this.eventListRef.current.scrollToBottom();
+					} else {
+						this.eventListRef.current.setScrollBottom(snapshot.scrollBottom);
 					}
 				},
 			);
@@ -259,6 +259,9 @@ class Timeline extends React.Component<Props, State> {
 	}
 
 	handleScrollBeginning() {
+		if (!this.state.ready) {
+			return;
+		}
 		if (!this.state.hasNextPage) {
 			return;
 		}

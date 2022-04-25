@@ -72,6 +72,19 @@ export const InfiniteList = React.forwardRef<any, InfiniteListProps>(
 						scrollAreaRef.current && isScrolledToTop(scrollAreaRef.current)
 					);
 				},
+				getScrollBottom() {
+					const containerHeight = scrollAreaRef.current?.clientHeight || 0;
+					const scrollHeight = scrollAreaRef.current?.scrollHeight || 0;
+					const scrollTop = scrollAreaRef.current?.scrollTop || 0;
+					return scrollHeight - (scrollTop + containerHeight);
+				},
+				setScrollBottom(bottom: number) {
+					const containerHeight = scrollAreaRef.current?.clientHeight || 0;
+					const scrollHeight = scrollAreaRef.current?.scrollHeight || 0;
+					scrollAreaRef.current?.scrollTo({
+						top: scrollHeight - (containerHeight + bottom),
+					});
+				},
 			};
 
 			if (typeof ref === 'function') {
