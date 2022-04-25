@@ -23,6 +23,10 @@ const mapStateToProps = (state, ownProps) => {
 		user: selectors.getCurrentUser(state),
 		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
 		timelineMessage: selectors.getTimelineMessage(state, card.id),
+		timelinePendingMessages: selectors.getTimelinePendingMessages(
+			state,
+			card.id,
+		),
 	};
 };
 
@@ -32,6 +36,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 		{
 			..._.pick(actionCreators, [
 				'setTimelineMessage',
+				'setTimelinePendingMessages',
 				'signalTyping',
 				'getActor',
 			]),

@@ -67,6 +67,7 @@ const EventsList = React.forwardRef<any, any>(
 			loading,
 			onScrollBeginning,
 			reachedBeginningOfTimeline,
+			retry,
 			...rest
 		},
 		ref,
@@ -96,7 +97,16 @@ const EventsList = React.forwardRef<any, any>(
 					);
 				})}
 				{pendingMessages.map((message) => {
-					return <Event {...rest} key={message.slug} card={message} />;
+					if (message) {
+						return (
+							<Event
+								{...rest}
+								key={message.slug}
+								card={message}
+								retry={retry}
+							/>
+						);
+					}
 				})}
 			</StyledInfiniteList>
 		);

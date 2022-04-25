@@ -35,11 +35,11 @@ const getSendCommand = (user: UserContract) => {
 
 const getFreshPendingMessages = (tail: any[], pendingMessages: any[]) => {
 	return _.filter(pendingMessages, (pending) => {
-		return !_.find(tail, ['slug', pending.slug]);
+		return pending && !_.find(tail, ['slug', pending.slug]);
 	});
 };
 
-interface Props extends Setup {
+export interface Props extends Setup {
 	allowWhispers: boolean;
 	card: Contract;
 	enableAutocomplete?: boolean;
@@ -51,9 +51,11 @@ interface Props extends Setup {
 	next: () => Promise<Contract[]>;
 	notifications: any;
 	setTimelineMessage: (id: string, message: string) => void;
+	setTimelinePendingMessages: (id: string, message: any[]) => void;
 	signalTyping: (id: string) => void;
 	tail: Contract[];
 	timelineMessage?: string;
+	timelinePendingMessages?: any[];
 	types: TypeContract[];
 	user: UserContract;
 	usersTyping: any;
@@ -62,6 +64,7 @@ interface Props extends Setup {
 
 type PendingMessage = Pick<Contract, 'type' | 'tags' | 'slug' | 'data'> & {
 	pending: boolean;
+	created_at: string;
 	data: {
 		actor: string;
 		payload: any;
@@ -93,7 +96,7 @@ class Timeline extends React.Component<Props, State> {
 			hideWhispers: false,
 			messageSymbol: false,
 			messagesOnly: true,
-			pendingMessages: [],
+			pendingMessages: this.props.timelinePendingMessages || [],
 			uploadingFiles: [],
 			loadingMoreEvents: false,
 			ready: false,
@@ -217,11 +220,16 @@ class Timeline extends React.Component<Props, State> {
 		const newMessages = results.length > prevState.results.length;
 
 		if (newMessages) {
+			const newPendingMessages = newMessages
+				? getFreshPendingMessages(results, pendingMessages)
+				: pendingMessages;
+			this.props.setTimelinePendingMessages(
+				this.props.card.id,
+				newPendingMessages,
+			);
 			this.setState(
 				{
-					pendingMessages: newMessages
-						? getFreshPendingMessages(results, pendingMessages)
-						: pendingMessages,
+					pendingMessages: newPendingMessages,
 				},
 				() => {
 					// If the timeline was previously scrolled to the bottom, keep it "stuck" at the bottom.
@@ -396,6 +404,69 @@ class Timeline extends React.Component<Props, State> {
 			});
 	}
 
+	sendMessage(message: any) {
+		const oldPendingMessages = this.state.pendingMessages.filter(
+			(m) => m && m.slug !== message.slug,
+		);
+		// Synthesize the event card and add it to the pending messages so it can be
+		// rendered in advance of the API request completing it
+		const pendingMessages = oldPendingMessages.concat({
+			pending: true,
+			created_at: new Date().toISOString(),
+			type: message.type,
+			tags: message.tags,
+			slug: message.slug,
+			data: {
+				actor: this.props.user.id,
+				payload: message.data.payload,
+				target: this.props.card.id,
+			},
+		});
+		this.props.setTimelinePendingMessages(this.props.card.id, pendingMessages);
+		this.setState(
+			{
+				pendingMessages,
+			},
+			() => {
+				this.eventListRef.current.scrollToBottom();
+			},
+		);
+
+		this.props.sdk.event
+			.create({
+				type: message.type,
+				slug: message.slug,
+				tags: message.tags,
+				target: this.props.card,
+				payload: message.data.payload,
+			})
+			.then(() => {
+				this.props.analytics.track('element.create', {
+					element: {
+						type: message.type,
+					},
+				});
+			})
+			.catch((error: any) => {
+				console.error(error);
+				addNotification('danger', error.message || error);
+				const newPendingMessages: any[] = _.map(
+					this.state.pendingMessages,
+					(item: any) => {
+						if (item.slug === message.slug) {
+							item.error = error;
+						}
+						return item;
+					},
+				);
+				this.props.setTimelinePendingMessages(
+					this.props.card.id,
+					newPendingMessages,
+				);
+				this.setState({ pendingMessages: newPendingMessages });
+			});
+	}
+
 	addMessage(newMessage: string, whisper: any) {
 		const trimmedMessage = newMessage.trim();
 		if (!trimmedMessage) {
@@ -405,55 +476,28 @@ class Timeline extends React.Component<Props, State> {
 		const { mentionsUser, alertsUser, mentionsGroup, alertsGroup, tags } =
 			helpers.getMessageMetaData(trimmedMessage);
 		const message = {
-			target: this.props.card,
 			type: whisper ? 'whisper' : 'message',
 			slug: `${whisper ? 'whisper' : 'message'}-${uuid()}`,
 			tags,
-			payload: {
-				mentionsUser,
-				alertsUser,
-				mentionsGroup,
-				alertsGroup,
-				message: helpers.replaceEmoji(
-					trimmedMessage.replace(messageSymbolRE, ''),
-				),
+			data: {
+				payload: {
+					mentionsUser,
+					alertsUser,
+					mentionsGroup,
+					alertsGroup,
+					message: helpers.replaceEmoji(
+						trimmedMessage.replace(messageSymbolRE, ''),
+					),
+				},
 			},
 		};
 
-		// Synthesize the event card and add it to the pending messages so it can be
-		// rendered in advance of the API request completing it
-		this.setState(
-			{
-				pendingMessages: this.state.pendingMessages.concat({
-					pending: true,
-					type: message.type,
-					tags,
-					slug: message.slug,
-					data: {
-						actor: this.props.user.id,
-						payload: message.payload,
-						target: this.props.card.id,
-					},
-				}),
-			},
-			() => {
-				this.eventListRef.current.scrollToBottom();
-			},
-		);
-
-		this.props.sdk.event
-			.create(message)
-			.then(() => {
-				this.props.analytics.track('element.create', {
-					element: {
-						type: message.type,
-					},
-				});
-			})
-			.catch((error: any) => {
-				addNotification('danger', error.message || error);
-			});
+		this.sendMessage(message);
 	}
+
+	retrySendMessage = (message: any) => {
+		this.sendMessage(message);
+	};
 
 	render() {
 		const {
@@ -532,6 +576,7 @@ class Timeline extends React.Component<Props, State> {
 					onScrollBeginning={this.handleScrollBeginning}
 					pendingMessages={pendingMessages}
 					reachedBeginningOfTimeline={!hasNextPage}
+					retry={this.retrySendMessage}
 				/>
 
 				<TypingNotice usersTyping={usersTyping} />

@@ -17,6 +17,7 @@ interface ContextWrapperProps extends FlexProps {
 	// TS-TODO
 	card: Contract<{ payload: { message: string }; target: string }> & {
 		pending?: boolean;
+		error?: any;
 	};
 }
 
@@ -39,11 +40,16 @@ const ContextWrapper = styled(Flex)<ContextWrapperProps>`
 	}
 `;
 
+type EventContract = Contract<{
+	payload: { message: string };
+	target: string;
+}> & {
+	pending?: boolean;
+	error?: any;
+};
+
 export interface EventContextProps {
-	// TS-TODO
-	card: Contract<{ payload: { message: string }; target: string }> & {
-		pending?: boolean;
-	};
+	card: EventContract;
 	menuOptions: React.ReactElement | false;
 	updating?: boolean;
 	editing?: boolean;
@@ -53,6 +59,7 @@ export interface EventContextProps {
 	onEditMessage: React.MouseEventHandler<HTMLElement>;
 	onCommitEdit: React.MouseEventHandler<HTMLElement>;
 	onCancelEdit: React.MouseEventHandler<HTMLElement>;
+	retry: (contract: EventContract) => any;
 }
 
 export default function EventContext({
@@ -66,6 +73,7 @@ export default function EventContext({
 	onEditMessage,
 	onCommitEdit,
 	onCancelEdit,
+	retry,
 }: React.PropsWithChildren<EventContextProps>) {
 	const [showMenu, setShowMenu] = React.useState(false);
 	const toggleMenu = () => {
@@ -153,10 +161,32 @@ export default function EventContext({
 	return (
 		<ContextWrapper {...wrapperProps}>
 			{card.pending && (
-				<Txt {...txtProps} ml={1} data-test="event-header__status">
-					<Icon spin name="cog" />
-					<Txt.span ml={1}>sending...</Txt.span>
-				</Txt>
+				<>
+					{card.error ||
+					(card.created_at || '') <
+						new Date(Date.now() - 1000 * 60).toISOString() ? (
+						<Txt {...txtProps} ml={1} data-test="event-header__status">
+							<Button
+								plain
+								fontSize={1}
+								onClick={() => retry(card)}
+								style={{
+									transform: 'translateY(1px)',
+								}}
+								icon={
+									<Icon style={{ color: 'red', marginTop: 1 }} name="times" />
+								}
+							>
+								<Txt.span>retry</Txt.span>
+							</Button>
+						</Txt>
+					) : (
+						<Txt {...txtProps} ml={1} data-test="event-header__status">
+							<Icon spin name="cog" />
+							<Txt.span ml={1}>sending...</Txt.span>
+						</Txt>
+					)}
+				</>
 			)}
 			{threadIsMirrored && (
 				<MirrorIcon mirrors={_.get(card, ['data', 'mirrors'])} />

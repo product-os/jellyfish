@@ -87,6 +87,7 @@ export const ChatRoute = () => {
 								getActor={actions.getActor}
 								signalTyping={noop}
 								setTimelineMessage={noop}
+								setTimelinePendingMessages={noop}
 								eventMenuOptions={false}
 								headerOptions={timelineHeaderOptions}
 								next={() => actions.loadMoreThreadData(thread.id)}

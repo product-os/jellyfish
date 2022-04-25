@@ -119,6 +119,7 @@ interface Props {
 	previousEvent: Contract;
 	nextEvent: Contract;
 	getActorHref: (actor: UserContract) => string;
+	retry: (message: any) => any;
 }
 
 export default class Event extends React.Component<Props, State> {
@@ -284,6 +285,7 @@ export default class Event extends React.Component<Props, State> {
 			previousEvent,
 			nextEvent,
 			getActorHref,
+			retry,
 			...rest
 		} = this.props;
 
@@ -375,6 +377,7 @@ export default class Event extends React.Component<Props, State> {
 							user={user}
 							squashTop={squashTop}
 							getActorHref={getActorHref}
+							retry={retry}
 						/>
 						<Body
 							actor={actor}
