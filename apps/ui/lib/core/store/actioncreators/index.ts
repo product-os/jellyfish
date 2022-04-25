@@ -196,6 +196,9 @@ export const selectors = {
 	getTimelineMessage: (state, target) => {
 		return _.get(state.ui, ['timelines', target, 'message'], '');
 	},
+	getTimelinePendingMessages: (state, target) => {
+		return _.get(state.ui, ['timelines', target, 'pending'], '');
+	},
 	getChatWidgetOpen: (state) => {
 		return _.get(state.ui, ['chatWidget', 'open']);
 	},
@@ -1091,6 +1094,18 @@ export const actionCreators = {
 				value: {
 					target,
 					message,
+				},
+			});
+		};
+	},
+
+	setTimelinePendingMessages(target, messages) {
+		return (dispatch) => {
+			dispatch({
+				type: actions.SET_TIMELINE_PENDING_MESSAGES,
+				value: {
+					target,
+					messages,
 				},
 			});
 		};

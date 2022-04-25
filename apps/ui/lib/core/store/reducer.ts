@@ -183,6 +183,19 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 				},
 			});
 		}
+		case actions.SET_TIMELINE_PENDING_MESSAGES: {
+			const { target, messages } = action.value;
+			return update(state, {
+				timelines: {
+					[target]: (tgt) =>
+						update(tgt || {}, {
+							pending: {
+								$set: messages,
+							},
+						}),
+				},
+			});
+		}
 
 		default:
 			return state;
