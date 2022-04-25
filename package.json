@@ -74,7 +74,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^10.3.5",
+    "@balena/jellyfish-client-sdk": "^10.3.6",
     "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-environment": "^10.0.2",
     "@balena/jellyfish-plugin-balena-api": "^2.0.115",
@@ -86,7 +86,7 @@
     "@balena/jellyfish-plugin-github": "^2.2.41",
     "@balena/jellyfish-plugin-outreach": "^2.0.129",
     "@balena/jellyfish-plugin-product-os": "^5.0.5",
-    "@balena/jellyfish-plugin-typeform": "^5.1.48",
+    "@balena/jellyfish-plugin-typeform": "^5.1.49",
     "@balena/jellyfish-worker": "^22.1.8",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.21.1",
