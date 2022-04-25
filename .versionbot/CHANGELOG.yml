@@ -1,4 +1,26 @@
 - commits:
+    - subject: Improve timeline pagination logic
+      hash: cc26782d9b4c3c0483a064fde93951a8958679b4
+      body: >
+        This change fixes a number of issues with timeline pagination.
+
+        1) It fixes an issue where the timeline would always paginate multiple times on
+        	 initial load.
+        2) It fixes an issue where the timeline would "stick" at the top and
+        	 continue to load every page.
+        3) It fixes an issue where, upon paginating, the timeline would jump,
+        	 not retaining its position.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.0.32
+  title: "'Improve timeline pagination logic'"
+  date: 2022-04-25T10:21:17.411Z
+- commits:
     - subject: Update internal-patch
       hash: a07f97564dd49c12058e73c145c9852b66568540
       body: ""
