@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 8a833aae71a2bd78659d1424b4c894946e4dc73c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.33
+  title: "'Update internal-patch'"
+  date: 2022-04-25T14:56:10.713Z
+- commits:
     - subject: Improve timeline pagination logic
       hash: cc26782d9b4c3c0483a064fde93951a8958679b4
       body: >
