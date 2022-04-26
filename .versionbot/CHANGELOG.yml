@@ -1,5 +1,29 @@
 - commits:
     - subject: Update internal-patch
+      hash: 0205a34795b8fc5d669aff43eabf742ffaf955e3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: "UI: Preserve inflight messages in localStorage"
+      hash: 28099df7fab5c817236740bfdd00866b2b99472a
+      body: |
+        This change preserves inflight/pending messages between reloads and
+        navigation. This allows us to retry on network failure.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.0.34
+  title: "'Update internal-patch'"
+  date: 2022-04-26T03:32:14.908Z
+- commits:
+    - subject: Update internal-patch
       hash: 8a833aae71a2bd78659d1424b4c894946e4dc73c
       body: ""
       footer:
