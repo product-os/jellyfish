@@ -45,8 +45,8 @@ afterAll(async () => {
 	await helpers.after(context);
 });
 
-beforeEach(async () => {
-	await helpers.beforeEach(context);
+beforeEach(() => {
+	helpers.beforeEach(context);
 });
 
 afterEach(async () => {
@@ -69,7 +69,7 @@ outreachTest('should be able to associate a user with Outreach', async () => {
 
 	nock.cleanAll();
 
-	await nock('https://api.outreach.io')
+	nock('https://api.outreach.io')
 		.post('/oauth/token')
 		.reply(function (_uri, request, callback) {
 			const body = querystring.decode(request as any);
@@ -146,7 +146,7 @@ outreachTest(
 
 		nock.cleanAll();
 
-		await nock('https://api.outreach.io')
+		nock('https://api.outreach.io')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -222,7 +222,7 @@ outreachTest(
 
 		nock.cleanAll();
 
-		await nock('https://api.outreach.io')
+		nock('https://api.outreach.io')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -285,7 +285,7 @@ outreachTest(
 
 		nock.cleanAll();
 
-		await nock('https://api.outreach.io')
+		nock('https://api.outreach.io')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -351,7 +351,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -362,7 +362,7 @@ balenaApiTest(
 				]);
 			});
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -440,13 +440,13 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [429]);
 			});
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -457,7 +457,7 @@ balenaApiTest(
 				]);
 			});
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -525,7 +525,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -536,7 +536,7 @@ balenaApiTest(
 				]);
 			});
 
-		await nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock(environment.integration['balena-api'].oauthBaseUrl)
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);

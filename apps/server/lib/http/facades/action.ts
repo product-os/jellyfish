@@ -1,6 +1,14 @@
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Producer, Worker } from '@balena/jellyfish-worker';
+import type { SessionContract } from '@balena/jellyfish-types/build/core';
+import type {
+	ActionPreRequest,
+	ActionRequestContract,
+	Producer,
+	Worker,
+} from '@balena/jellyfish-worker';
+import { strict as assert } from 'assert';
 import errio from 'errio';
+import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -22,14 +30,12 @@ interface ActionFacadeOptions {
 	files?: FileDetails[];
 }
 
-type ActionPayload = Parameters<Producer['enqueue']>[2];
-
 export class ActionFacade {
 	fileStore: any;
 	producer: Producer;
 	worker: Worker;
 
-	constructor(worker, fileStore) {
+	constructor(worker: Worker, fileStore: any) {
 		this.fileStore = fileStore;
 		this.producer = worker.producer;
 		this.worker = worker;
@@ -38,13 +44,12 @@ export class ActionFacade {
 	async processAction(
 		context: { [x: string]: any; id: any },
 		session: string,
-		action: Omit<ActionPayload, 'logContext'>,
+		action: ActionPreRequest,
 		options: ActionFacadeOptions = {},
 	) {
-		const payload: ActionPayload = {
-			logContext: context,
-			...action,
-		};
+		// TODO: Drop workaround for context/logContext mismatch
+		action.logContext = context;
+
 		const files: FileItem[] = [];
 
 		if (options.files) {
@@ -54,7 +59,7 @@ export class ActionFacade {
 			options.files.forEach((file) => {
 				const name = `${id}.${file.originalname}`;
 
-				_.set(action.arguments, ['payload', file.fieldname], {
+				_.set(action.arguments as any, ['payload', file.fieldname], {
 					name: file.originalname,
 					slug: name,
 					mime: file.mimetype,
@@ -68,12 +73,48 @@ export class ActionFacade {
 			});
 		}
 
-		const finalRequest = await this.worker.pre(session, payload);
-		const actionRequest = await this.producer.enqueue(
-			this.worker.getId(),
-			session,
-			finalRequest,
+		const finalRequest = await this.worker.pre(session, action);
+		const sessionContract =
+			await this.worker.kernel.getContractById<SessionContract>(
+				context,
+				session,
+				session,
+			);
+		assert(sessionContract);
+		const input = isUUID(action.card)
+			? {
+					id: action.card,
+			  }
+			: await this.worker.kernel.getContractBySlug(
+					context,
+					session,
+					`${action.card}@latest`,
+			  );
+		assert(input);
+		const actionRequestDate = new Date();
+		const actionRequest = await this.worker.insertCard<ActionRequestContract>(
+			context,
+			this.worker.kernel.adminSession()!,
+			this.worker.typeContracts['action-request@1.0.0'],
+			{
+				timestamp: actionRequestDate.toISOString(),
+				actor: sessionContract.data.actor,
+			},
+			{
+				type: 'action-request@1.0.0',
+				data: {
+					...finalRequest,
+					context,
+					epoch: actionRequestDate.valueOf(),
+					timestamp: actionRequestDate.toISOString(),
+					actor: sessionContract.data.actor,
+					input: {
+						id: input.id,
+					},
+				},
+			},
 		);
+		assert(actionRequest);
 
 		const results = await this.producer.waitResults(context, actionRequest);
 		logger.info(context, 'Got action results', results);

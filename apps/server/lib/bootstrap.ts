@@ -3,7 +3,8 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
-import { errors as workerErrors, Worker } from '@balena/jellyfish-worker';
+import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
+import { strict } from 'assert';
 import * as autumndb from 'autumndb';
 import _ from 'lodash';
 import { createServer } from './http';
@@ -124,6 +125,13 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		}
 	};
 
+	const adminSession = await kernel.getContractById<SessionContract>(
+		logContext,
+		kernel.adminSession()!,
+		kernel.adminSession()!,
+	);
+	strict(adminSession);
+
 	const errorFunction = _.partial(options.onError, logContext);
 
 	// TODO: Should the worker crash if an exception is raised from executing a task or a stream error?
@@ -183,7 +191,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			`Test user does not exist: ${environment.test.user.username}`,
 		);
 
-		const requestOptions = await worker.pre(kernel.adminSession()!, {
+		const preResults = await worker.pre(kernel.adminSession()!, {
 			action: 'action-set-password@1.0.0',
 			logContext,
 			card: userContract.id,
@@ -194,17 +202,28 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			},
 		});
 
-		const request = await worker.producer.storeRequest(
-			worker.getId(),
-			kernel.adminSession()!,
-			requestOptions,
-		);
-		const result = await worker.execute(kernel.adminSession()!, request);
-		assert.INTERNAL(
+		const actionRequestDate = new Date();
+		await worker.insertCard<ActionRequestContract>(
 			logContext,
-			!result.error,
-			workerErrors.WorkerAuthenticationError,
-			`Could not set test password for ${environment.test.user.username}`,
+			kernel.adminSession()!,
+			worker.typeContracts['action-request@1.0.0'],
+			{
+				timestamp: new Date().toISOString(),
+				actor: adminSession.data.actor,
+			},
+			{
+				type: 'action-request@1.0.0',
+				data: {
+					...preResults,
+					context: logContext,
+					epoch: actionRequestDate.valueOf(),
+					timestamp: actionRequestDate.toISOString(),
+					actor: adminSession.data.actor,
+					input: {
+						id: userContract.id,
+					},
+				},
+			},
 		);
 
 		const orgContract = await kernel.getContractBySlug(
@@ -292,13 +311,31 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 				kernel.adminSession()!,
 				`${channel.slug}@${channel.version}`,
 			);
-			return worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
-				action: 'action-bootstrap-channel@1.0.0',
+			return worker.insertCard<ActionRequestContract>(
 				logContext,
-				card: channelContract!.id,
-				type: channelContract!.type,
-				arguments: {},
-			});
+				kernel.adminSession()!,
+				worker.typeContracts['action-request@1.0.0'],
+				{
+					attachEvents: false,
+					timestamp: new Date().toISOString(),
+				},
+				{
+					type: 'action-request@1.0.0',
+					data: {
+						action: 'action-bootstrap-channel@1.0.0',
+						context: logContext,
+						card: channelContract!.id,
+						type: channelContract!.type,
+						actor: adminSession.data.actor,
+						epoch: new Date().valueOf(),
+						input: {
+							id: channelContract!.id,
+						},
+						timestamp: new Date().toISOString(),
+						arguments: {},
+					},
+				},
+			);
 		}),
 	);
 
