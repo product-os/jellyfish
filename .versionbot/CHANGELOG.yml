@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 5.1.49 to 5.2.0
+      hash: 904844f324543ae177f5fa3bd02e23fb7cfea7b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.37
+  title: "'Update @balena/jellyfish-plugin-typeform from 5.1.49 to 5.2.0'"
+  date: 2022-04-26T11:53:44.756Z
+- commits:
     - subject: Update internal-patch
       hash: c7007b5039a2f29ee4dff4c336d762a36b86c0b6
       body: ""
