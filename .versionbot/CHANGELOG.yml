@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update internal-patch
+      hash: fbde8a62e23dedb0a5d9bb9e6dc1884ab1559e5d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: Update @balena/jellyfish-environment from 10.0.2 to 11.0.0
+      hash: 1861c3afa9556ab7070312c8a7224372efeb0ef8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.38
+  title: "'Update internal-patch'"
+  date: 2022-04-27T14:54:41.762Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-typeform from 5.1.49 to 5.2.0
       hash: 904844f324543ae177f5fa3bd02e23fb7cfea7b0
       body: ""
