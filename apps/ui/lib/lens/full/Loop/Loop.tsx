@@ -1,8 +1,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Card, Flex, Tabs } from 'rendition';
-import styled from 'styled-components';
+import { Box, Card, Divider, Flex, Txt, Heading } from 'rendition';
 import { Icon, Link } from '../../../components';
 import { sdk } from '../../../core';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
@@ -19,10 +18,6 @@ const LOOP_CONTRACTS = {
 	},
 	improvements: {
 		type: 'improvement@1.0.0',
-	},
-	projects: {
-		type: 'project@1.0.0',
-		status: 'implementation',
 	},
 	pulls: {
 		type: 'pull-request@1.0.0',
@@ -109,8 +104,9 @@ const LinkBox = ({
 		<Card p={2} small width={WIDTH} style={{ textAlign: 'center' }}>
 			<Link append={path}>
 				{label}
-				<br />({total === null ? <Icon spin name="cog" /> : total}
-				{total === 1000 ? '+' : ''})
+				<br />
+				{total === null ? <Icon spin name="cog" /> : total}
+				{total === 1000 ? '+' : ''}
 			</Link>
 		</Card>
 	);
@@ -124,8 +120,8 @@ export default class LoopFull extends React.Component<any, any> {
 			tree: null,
 			support: null,
 			patterns: null,
-			improvements: null,
-			projects: null,
+			implementing: null,
+			proposed: null,
 			pulls: null,
 			topics: null,
 		};
@@ -139,12 +135,13 @@ export default class LoopFull extends React.Component<any, any> {
 	}
 
 	componentDidMount() {
-		const { slug, version } = this.props.card;
+		const { slug, version, name } = this.props.card;
 		const versionedSlug = `${slug}@${version}`;
 
 		_.map(LOOP_CONTRACTS, (data, property) => {
 			const query: any = {
 				type: 'object',
+				required: ['loop'],
 				properties: {
 					loop: { const: versionedSlug },
 					type: { const: data.type },
@@ -158,19 +155,267 @@ export default class LoopFull extends React.Component<any, any> {
 					},
 				};
 			}
-
-			sdk.query(query).then((results) => {
-				this.setState({
-					[property]: results.length,
+			if (data.type === 'pull-request@1.0.0') {
+				delete query.properties.loop;
+				_.set(query, ['properties', 'data', 'properties', 'repository'], {
+					type: 'string',
+					pattern: `^${name}\/`,
 				});
-			});
+				query.properties.data.required = ['status', 'repository'];
+			}
+
+			sdk
+				.query(query, { sortBy: 'created_at', sortDir: 'asc' })
+				.then((results) => {
+					if (property === 'pulls') {
+						console.log('all open pulls', results);
+						console.log(results.slice(0, 5));
+						this.setState({ oldestOpenPulls: results.slice(0, 5) });
+					}
+					if (property === 'improvements') {
+						const [implementing, proposed] = _.partition(
+							results.filter((i) => {
+								return (
+									i.data.status !== 'denied-or-failed' &&
+									i.data.status !== 'completed'
+								);
+							}),
+							(i) => i.data.status === 'implementation',
+						);
+						console.log({ results });
+						this.setState({
+							implementing: implementing.length,
+							proposed: proposed.length,
+							improvements: results,
+						});
+					} else {
+						this.setState({
+							[property]: results.length,
+						});
+					}
+				})
+				.catch(console.error);
 		});
+
+		sdk
+			.query(
+				{
+					type: 'object',
+					required: ['loop'],
+					properties: {
+						loop: { const: versionedSlug },
+						type: { const: 'improvement@1.0.0' },
+
+						data: {
+							type: 'object',
+							properties: {
+								status: {
+									type: 'string',
+									const: 'completed',
+								},
+							},
+						},
+					},
+					$$links: {
+						'has attached element': {
+							type: 'object',
+							properties: {
+								type: { const: 'update@1.0.0' },
+								data: {
+									type: 'object',
+									required: ['payload'],
+									properties: {
+										payload: {
+											type: 'array',
+											contains: {
+												type: 'object',
+												required: ['path', 'value'],
+												properties: {
+													path: {
+														type: 'string',
+														const: '/data/status',
+													},
+													value: {
+														type: 'string',
+														const: 'completed',
+													},
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				{
+					links: {
+						'has attached element': {
+							sortBy: 'created_at',
+							sortDir: 'desc',
+						},
+					},
+				},
+			)
+			.then((results) => {
+				console.log('improvement results', results);
+				const deltas = results.map((i) => {
+					const start = i.created_at;
+					const end = i.links!['has attached element'][0].created_at;
+					const unixDelta = new Date(end).getTime() - new Date(start).getTime();
+					const inDays = unixDelta / (1000 * 60 * 60 * 24);
+					return {
+						delta: inDays,
+						...i,
+					};
+				});
+				console.log('improvement deltas', deltas);
+				const average = _.sum(_.map(deltas, 'delta')) / deltas.length;
+				this.setState({ averageImprovementLifetime: average });
+			})
+			.catch(console.error);
+
+		sdk
+			.query({
+				type: 'object',
+				required: ['loop'],
+				properties: {
+					loop: { const: versionedSlug },
+					type: { const: 'improvement@1.0.0' },
+
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								type: 'string',
+								const: 'completed',
+							},
+						},
+					},
+				},
+				$$links: {
+					'is attached to': {
+						type: 'object',
+						properties: {
+							type: { const: 'pattern@1.0.0' },
+						},
+					},
+					'has attached element': {
+						type: 'object',
+						properties: {
+							type: { const: 'update@1.0.0' },
+							data: {
+								type: 'object',
+								required: ['payload'],
+								properties: {
+									payload: {
+										type: 'array',
+										contains: {
+											type: 'object',
+											required: ['path', 'value'],
+											properties: {
+												path: {
+													type: 'string',
+													const: '/data/status',
+												},
+												value: {
+													type: 'string',
+													const: 'completed',
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			})
+			.then((results) => {
+				console.log('pattern results', results);
+				const deltas = results.map((i) => {
+					const start = i.links!['is attached to'][0].created_at;
+					const end = i.links!['has attached element'][0].created_at;
+					const unixDelta = new Date(end).getTime() - new Date(start).getTime();
+					const inDays = unixDelta / (1000 * 60 * 60 * 24);
+					return {
+						delta: inDays,
+						...i,
+					};
+				});
+				console.log('pattern deltas', deltas);
+				const average = results.length
+					? _.sum(_.map(deltas, 'delta')) / deltas.length
+					: 'n/a';
+				this.setState({ averagePatternResolutionTime: average });
+			})
+			.catch(console.error);
+
+		sdk
+			.query(
+				{
+					type: 'object',
+					properties: {
+						type: {
+							const: 'pull-request@1.0.0',
+							type: 'string',
+						},
+						data: {
+							type: 'object',
+							required: ['repository', 'merged_at'],
+							properties: {
+								repository: {
+									type: 'string',
+									pattern: `^${name}\/`,
+								},
+								merged_at: {
+									type: 'string',
+								},
+							},
+						},
+					},
+				},
+				{
+					limit: 100,
+					sortBy: 'created_at',
+					sortDir: 'desc',
+				},
+			)
+			.then((results) => {
+				console.log('PR results', results);
+				const deltas = results.map((i) => {
+					const start = i.created_at;
+					const end = i.data.merged_at as string;
+					const unixDelta = new Date(end).getTime() - new Date(start).getTime();
+					const inHours = unixDelta / (1000 * 60 * 60);
+					return {
+						delta: inHours,
+						...i,
+					};
+				});
+				console.log('PR deltas ', deltas);
+				const average = results.length
+					? _.sum(_.map(deltas, 'delta')) / deltas.length
+					: 'n/a';
+				console.log('PR average', average);
+				this.setState({ averagePRmergetime: average });
+			})
+			.catch(console.error);
 	}
 
 	render() {
 		const { card, channel } = this.props;
+		const { oldestOpenPulls } = this.state;
 
-		const { support, patterns, improvements, projects, pulls, topics } =
+		let snippetLens;
+
+		if (oldestOpenPulls) {
+			const { getLenses } = require('../../');
+			const lenses = getLenses('snippet', oldestOpenPulls[0], this.props.user);
+			snippetLens = lenses[0];
+		}
+
+		const { support, patterns, implementing, proposed, pulls, topics } =
 			this.state;
 
 		return (
@@ -188,13 +433,13 @@ export default class LoopFull extends React.Component<any, any> {
 
 					<Flex justifyContent="space-between" alignItems="center">
 						<LinkBox
-							label="Pull Requests"
+							label="Pull Requests (open)"
 							path="/view-all-pull-requests"
 							total={pulls}
 						/>
 
 						<LinkBox
-							label="Support"
+							label="Support threads (open)"
 							path={'/view-all-support-threads'}
 							total={support}
 						/>
@@ -204,7 +449,7 @@ export default class LoopFull extends React.Component<any, any> {
 						<Arrow rotate={0} />
 
 						<LinkBox
-							label="Brainstorm Topics"
+							label="Brainstorm Topics (open)"
 							path="/view-all-brainstorm-topics"
 							total={topics}
 						/>
@@ -214,9 +459,9 @@ export default class LoopFull extends React.Component<any, any> {
 
 					<Flex justifyContent="space-between" alignItems="center">
 						<LinkBox
-							label="Projects"
-							path="/view-all-projects"
-							total={projects}
+							label="Improvements (doing)"
+							path="/view-all-improvements"
+							total={implementing}
 						/>
 
 						<LinkBox
@@ -230,14 +475,67 @@ export default class LoopFull extends React.Component<any, any> {
 						<Corner rotate={0} />
 
 						<LinkBox
-							label="Improvements"
+							label="Improvements (proposed)"
 							path="/view-all-improvements"
-							total={improvements}
+							total={proposed}
 						/>
 
 						<Corner rotate={270} />
 					</Flex>
 				</Box>
+				<Flex mx={-3}>
+					<Card p={3} mx={3} flex="1">
+						<Txt>Average time from improvement creation to completion</Txt>
+						{this.state.averageImprovementLifetime ? (
+							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+								{Math.ceil(this.state.averageImprovementLifetime)} days
+							</Heading.h2>
+						) : (
+							<Icon spin name="cog" />
+						)}
+					</Card>
+					<Card p={3} mx={3} flex="1">
+						<Txt>
+							Average time from pattern creation to completed improvement
+						</Txt>
+						{this.state.averagePatternResolutionTime ? (
+							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+								{Math.ceil(this.state.averagePatternResolutionTime)} days
+							</Heading.h2>
+						) : (
+							<Icon spin name="cog" />
+						)}
+					</Card>
+					<Card p={3} mx={3} flex="1">
+						<Txt>Average time to merge PR (last 100)</Txt>
+						{this.state.averagePRmergetime ? (
+							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+								{Math.ceil(this.state.averagePRmergetime)} hours
+							</Heading.h2>
+						) : (
+							<Icon spin name="cog" />
+						)}
+					</Card>
+				</Flex>
+
+				<Card p={3} my={3} flex="1">
+					<Txt>Oldest open Pull Requests</Txt>
+
+					<Divider />
+
+					{Boolean(oldestOpenPulls && snippetLens) && (
+						<Box mx={-3}>
+							{oldestOpenPulls.map((c) => {
+								return (
+									<snippetLens.data.renderer
+										card={c}
+										types={this.props.types}
+									/>
+								);
+							})}
+						</Box>
+					)}
+				</Card>
 			</TabbedContractLayout>
 		);
 	}
