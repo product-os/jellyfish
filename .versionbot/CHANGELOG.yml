@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.5.0 to 8.5.1
+      hash: af27ac41a54bdbcd9fdc5e71432f4d3f0fe3cb0f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.1.1
+  title: "'Update grafana/grafana from 8.5.0 to 8.5.1'"
+  date: 2022-04-28T11:43:35.219Z
+- commits:
     - subject: "UI: Add lens for viewing users in a table"
       hash: cbf71fa2d00dfd1cb78beabb8a8cf699065d8c6e
       body: |
