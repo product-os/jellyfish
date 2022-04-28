@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 357010b4a3a03f7acddbf846b5e8a14934caf8c8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.1.2
+  title: "'Update internal-patch'"
+  date: 2022-04-28T12:37:36.690Z
+- commits:
     - subject: Update grafana/grafana from 8.5.0 to 8.5.1
       hash: af27ac41a54bdbcd9fdc5e71432f4d3f0fe3cb0f
       body: ""
