@@ -128,8 +128,8 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	}, [relationships, debouncedSearchTerm]);
 
 	React.useEffect(() => {
-		if (lensState.activeIndex) {
-			const rel = filteredRelationships[lensState.activeIndex];
+		if (lensState.hasOwnProperty('activeIndex')) {
+			const rel = filteredRelationships[lensState.activeIndex!];
 			setActiveRelationship(rel);
 		}
 	}, []);
