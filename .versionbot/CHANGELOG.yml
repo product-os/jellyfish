@@ -1,4 +1,30 @@
 - commits:
+    - subject: "UI: Add lens for viewing users in a table"
+      hash: cbf71fa2d00dfd1cb78beabb8a8cf699065d8c6e
+      body: |
+        This lens also shows the number of improvements a user owns
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix bug where previous selected relationship would not be
+        remembered"
+      hash: 467b5886ddb337a0f105c49141b1fbb8e08f5fa6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.1.0
+  title: "'UI: Add a table lens for viewing users'"
+  date: 2022-04-28T10:57:48.269Z
+- commits:
     - subject: Update internal-patch
       hash: 8b935d0597d5421f2aec6652896ea4583e59b14d
       body: ""
