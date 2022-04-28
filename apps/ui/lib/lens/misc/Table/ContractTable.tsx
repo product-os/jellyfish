@@ -209,7 +209,7 @@ export default class CardTable extends React.Component<any, any> {
 		}
 	};
 
-	generateTableData() {
+	generateTableData(): any[] {
 		return _.map(this.props.tail, flatten);
 	}
 
