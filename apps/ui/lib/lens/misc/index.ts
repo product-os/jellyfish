@@ -6,6 +6,7 @@ import MilestoneGraph from './MilestoneGraph';
 import OmniSearch from './OmniSearch';
 import RepositoryGraph from './RepositoryGraph';
 import Table from './Table';
+import UserTable from './UserTable';
 
 export default [
 	CRMTable,
@@ -16,4 +17,5 @@ export default [
 	OmniSearch,
 	RepositoryGraph,
 	Table,
+	UserTable,
 ];
