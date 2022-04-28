@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typescript from 4.6.3 to 4.6.4
+      hash: dde443cabb79c3df126a84af497ce193ea6f898c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.2.1
+  title: "'Update typescript from 4.6.3 to 4.6.4'"
+  date: 2022-04-28T22:26:15.540Z
+- commits:
     - subject: "UI: Improve loop visualization"
       hash: ce979dd2e2b43d90384968fde45ffac7d7db3524
       body: |
