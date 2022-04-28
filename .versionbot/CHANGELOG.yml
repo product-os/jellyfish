@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove old exports from test doc
+      hash: 72b6d7ea9c21cd284a48002848aaf6fe8008cc17
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.0.42
+  title: "'Remove old exports from test doc'"
+  date: 2022-04-28T00:50:13.179Z
+- commits:
     - subject: Update internal-patch
       hash: 2e95aecdea9f37c40b615c7bc0c0a4f3a558a669
       body: ""
