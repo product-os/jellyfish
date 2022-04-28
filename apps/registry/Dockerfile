@@ -1,4 +1,4 @@
-FROM balena/open-balena-registry:v2.24.6
+FROM balena/open-balena-registry:v2.25.0
 
 COPY ./registry.yml /etc/registry.yml
 COPY ./api.ly.fish.local.crt /token.crt
