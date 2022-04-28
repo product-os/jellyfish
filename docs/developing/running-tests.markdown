@@ -72,8 +72,6 @@ SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
 ### Server Integration
 Run server integration tests:
 ```sh
-export INTEGRATION_BALENA_API_PRIVATE_KEY=$(cat .balena/secrets/integration_balena_api_private_key)
-export INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=$(cat .balena/secrets/integration_balena_api_public_key_production)
 SERVER_PORT=8000 POSTGRES_HOST=postgres.ly.fish.local REDIS_HOST=redis.ly.fish.local npm run test:integration:server
 SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
 ```
