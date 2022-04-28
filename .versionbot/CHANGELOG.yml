@@ -1,4 +1,21 @@
 - commits:
+    - subject: "UI: Improve loop visualization"
+      hash: ce979dd2e2b43d90384968fde45ffac7d7db3524
+      body: |
+        This change removes "projects", and changes the PR query to actually
+        return values. It also improves the labelling and includes a prototype
+        for calculating a rough average lifetime of improvements.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.2.0
+  title: "'UI: Improve loop visualization'"
+  date: 2022-04-28T15:41:55.378Z
+- commits:
     - subject: Update internal-patch
       hash: 84cde03c206e87e1f73a8bf730aa62c7c62b1104
       body: ""
