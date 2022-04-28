@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 48618e069e11051312ec042e6ff51474602d455d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.0.43
+  title: "'Update internal-patch'"
+  date: 2022-04-28T02:46:31.494Z
+- commits:
     - subject: Remove old exports from test doc
       hash: 72b6d7ea9c21cd284a48002848aaf6fe8008cc17
       body: ""
