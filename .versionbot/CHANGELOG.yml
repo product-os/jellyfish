@@ -1,4 +1,23 @@
 - commits:
+    - subject: Remove Livepush library scope assumption
+      hash: eb0b5b710b0250e8ff0511a9950b420f1161a42d
+      body: |
+        Until now our Livepush library setup has
+        assumed that all library package names
+        would be scoped under balena. This is
+        no longer the case for autumndb, so
+        removing this assumption.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.4
+  title: "'Remove Livepush library scope assumption'"
+  date: 2022-04-29T01:25:13.970Z
+- commits:
     - subject: Update .nvmrc to node 16.14
       hash: 5cea5879f3676cf65db32409a8a97ee6796e51fe
       body: ""
