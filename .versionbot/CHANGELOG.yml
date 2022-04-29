@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 9a88fef98c5c6e8067f40cb100c8fb49afe574f5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.2.5
+  title: "'Update internal-patch'"
+  date: 2022-04-29T05:18:37.043Z
+- commits:
     - subject: Remove Livepush library scope assumption
       hash: eb0b5b710b0250e8ff0511a9950b420f1161a42d
       body: |
