@@ -89,6 +89,13 @@ Add endpoints to local hosts file:
 ```
 
 If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
+Be sure to clone them with the right scope if necessary, for example:
+```
+cd .libs
+mkdir -p @balena
+cd @balena
+git clone git@github.com:product-os/jellyfish-worker.git
+```
 
 Finally, deploy everything to the device by executing `npm run push` from the repository root.
 
