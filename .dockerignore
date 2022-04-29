@@ -13,5 +13,3 @@ postgres_data
 .libs/*/package*.json
 .libs/*/*.tgz*
 .libs/*/lib
-# TS-TODO: remove this once plugin-default is TypeScript
-!.libs/jellyfish-plugin-default/lib
