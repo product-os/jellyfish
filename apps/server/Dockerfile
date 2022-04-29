@@ -16,7 +16,7 @@ COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.b
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
 #dev-cmd-live=cd /usr/src/jellyfish/apps/server && npm run dev
-#dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/@balena/
+#dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 RUN npm run build
 
