@@ -1,4 +1,19 @@
 - commits:
+    - subject: Update .dockerignore
+      hash: 18c323d4d9b49a17ce108d2e08a5d4423c06cc81
+      body: |
+        Remove outdated plugin-default lines
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.2
+  title: "'Update .dockerignore'"
+  date: 2022-04-28T23:46:59.755Z
+- commits:
     - subject: Update typescript from 4.6.3 to 4.6.4
       hash: dde443cabb79c3df126a84af497ce193ea6f898c
       body: ""
