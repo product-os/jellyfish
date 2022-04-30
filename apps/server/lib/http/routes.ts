@@ -2,7 +2,8 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
-import type { Sync, Worker } from '@balena/jellyfish-worker';
+import { ActionRequestContract, Sync, Worker } from '@balena/jellyfish-worker';
+import { strict } from 'assert';
 import type { Kernel } from 'autumndb';
 import Bluebird from 'bluebird';
 import errio from 'errio';
@@ -133,20 +134,41 @@ export const attachRoutes = (
 					time: getTypeEndDate.getTime() - getTypeStartDate.getTime(),
 				});
 
-				const enqueueStartDate = new Date();
-				const actionRequest = await worker.producer.enqueue(
-					worker.getId(),
+				const adminSession = await kernel.getContractById(
+					request.context,
 					kernel.adminSession()!,
+					kernel.adminSession()!,
+				);
+				strict(adminSession);
+				const enqueueStartDate = new Date();
+				const actionRequest = await worker.insertCard<ActionRequestContract>(
+					request.context,
+					kernel.adminSession()!,
+					worker.typeContracts['action-request@1.0.0'],
 					{
-						action: 'action-ping@1.0.0',
-						card: typeContract.id,
-						type: typeContract.type,
-						logContext: request.context,
-						arguments: {
-							slug: PING_SLUG,
+						actor: adminSession.data.actor,
+						timestamp: new Date().toISOString(),
+					},
+					{
+						type: 'action-request@1.0.0',
+						data: {
+							action: 'action-ping@1.0.0',
+							context: request.context,
+							card: typeContract.id,
+							type: typeContract.type,
+							actor: adminSession.data.actor,
+							epoch: new Date().valueOf(),
+							input: {
+								id: typeContract.id,
+							},
+							timestamp: new Date().toISOString(),
+							arguments: {
+								slug: PING_SLUG,
+							},
 						},
 					},
 				);
+				strict(actionRequest);
 
 				const enqueueEndDate = new Date();
 				logger.info(request.context, 'Enqueue ping request', {
@@ -318,26 +340,47 @@ export const attachRoutes = (
 			 */
 			const suffix = uuidv4();
 
-			const actionRequest = await worker.producer.enqueue(
-				worker.getId(),
+			const adminSession = await kernel.getContractById(
+				request.context,
 				kernel.adminSession()!,
+				kernel.adminSession()!,
+			);
+			strict(adminSession);
+			const actionRequest = await worker.insertCard<ActionRequestContract>(
+				request.context,
+				kernel.adminSession()!,
+				worker.typeContracts['action-request@1.0.0'],
 				{
-					action: 'action-create-card@1.0.0',
-					card: sessionTypeContract!.id,
-					type: sessionTypeContract!.type,
-					logContext: request.context,
-					arguments: {
-						reason: null,
-						properties: {
-							version: '1.0.0',
-							slug: `session-${user.slug}-${Date.now()}-${suffix}`,
-							data: {
-								actor: user.id,
+					actor: adminSession.data.actor,
+					timestamp: new Date().toISOString(),
+				},
+				{
+					type: 'action-request@1.0.0',
+					data: {
+						action: 'action-create-card@1.0.0',
+						context: request.context,
+						card: sessionTypeContract!.id,
+						type: sessionTypeContract!.type,
+						actor: adminSession.data.actor,
+						epoch: new Date().valueOf(),
+						input: {
+							id: sessionTypeContract!.id,
+						},
+						timestamp: new Date().toISOString(),
+						arguments: {
+							reason: null,
+							properties: {
+								version: '1.0.0',
+								slug: `session-${user.slug}-${Date.now()}-${suffix}`,
+								data: {
+									actor: user.id,
+								},
 							},
 						},
 					},
 				},
 			);
+			strict(actionRequest);
 
 			const createSessionResult = await worker.producer.waitResults(
 				request.context,
@@ -546,24 +589,50 @@ export const attachRoutes = (
 						});
 
 						return resolve(
-							worker.producer.enqueue(worker.getId(), kernel.adminSession()!, {
-								action: 'action-create-card@1.0.0',
-								card: typeContract.id,
-								type: typeContract.type,
-								logContext: request.context,
-								arguments: {
-									reason: null,
-									properties: {
-										slug,
-										version: '1.0.0',
-										data: {
-											source: request.params.provider,
-											headers: request.headers,
-											payload: request.body,
+							kernel
+								.getContractById(
+									request.context,
+									kernel.adminSession()!,
+									kernel.adminSession()!,
+								)
+								.then((adminSession) => {
+									strict(adminSession);
+									return worker.insertCard<ActionRequestContract>(
+										request.context,
+										kernel.adminSession()!,
+										worker.typeContracts['action-request@1.0.0'],
+										{
+											timestamp: new Date().toISOString(),
 										},
-									},
-								},
-							}),
+										{
+											type: 'action-request@1.0.0',
+											data: {
+												action: 'action-create-card@1.0.0',
+												context: request.context,
+												card: typeContract.id,
+												type: typeContract.type,
+												actor: adminSession.data.actor,
+												epoch: new Date().valueOf(),
+												input: {
+													id: typeContract.id,
+												},
+												timestamp: new Date().toISOString(),
+												arguments: {
+													reason: null,
+													properties: {
+														slug,
+														version: '1.0.0',
+														data: {
+															source: request.params.provider,
+															headers: request.headers,
+															payload: request.body,
+														},
+													},
+												},
+											},
+										},
+									);
+								}),
 						);
 					});
 				})
@@ -829,6 +898,7 @@ export const attachRoutes = (
 		// Normalize username to lower case
 		const slug = `user-${username}`.toLowerCase();
 		const action = {
+			logContext: request.context,
 			card: slug,
 			type: 'user',
 			action: 'action-create-session@1.0.0',
@@ -874,6 +944,7 @@ export const attachRoutes = (
 				'user@latest',
 			))!;
 			const action = {
+				logContext: request.context,
 				card: userType.id,
 				action: 'action-request-password-reset@1.0.0',
 				type: userType.type,
@@ -919,6 +990,7 @@ export const attachRoutes = (
 				'user@latest',
 			))!;
 			const action = {
+				logContext: request.context,
 				card: userType.id,
 				action: 'action-complete-password-reset@1.0.0',
 				type: userType.type,
@@ -965,6 +1037,7 @@ export const attachRoutes = (
 				'user@latest',
 			))!;
 			const action = {
+				logContext: request.context,
 				card: userType.id,
 				action: 'action-complete-first-time-login@1.0.0',
 				type: userType.type,
@@ -1009,6 +1082,7 @@ export const attachRoutes = (
 		const mail = email.toLowerCase();
 
 		const action = {
+			logContext: request.context,
 			card: 'user',
 			type: 'type',
 			action: 'action-create-user@1.0.0',
