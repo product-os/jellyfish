@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix type import
+      hash: 16cc53cd84ecf35c643f54a204745caaad901209
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.12
+  title: "'Fix type import'"
+  date: 2022-04-30T08:26:25.912Z
+- commits:
     - subject: Bump internal packages
       hash: cfb5ebf4b23a57b1731007b17be0232edb9b4f68
       body: |
