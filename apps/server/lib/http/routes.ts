@@ -2,7 +2,11 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
-import { ActionRequestContract, Sync, Worker } from '@balena/jellyfish-worker';
+import type {
+	ActionRequestContract,
+	Sync,
+	Worker,
+} from '@balena/jellyfish-worker';
 import { strict } from 'assert';
 import type { Kernel } from 'autumndb';
 import Bluebird from 'bluebird';
