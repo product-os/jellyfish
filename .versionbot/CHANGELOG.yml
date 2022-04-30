@@ -1,4 +1,18 @@
 - commits:
+    - subject: Temporarily disable deployments
+      hash: 9b72f4eb0fb61a6621e9b6db51b97c9f55b7f2c6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.17
+  title: "'Temporarily disable deployments'"
+  date: 2022-04-30T18:20:18.576Z
+- commits:
     - subject: Update internal-patch
       hash: af5d5b3d9a0cdc962350150c9b129f041be20945
       body: ""
