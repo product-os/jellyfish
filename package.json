@@ -76,7 +76,7 @@
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^10.3.8",
     "@balena/jellyfish-config": "^2.0.6",
-    "@balena/jellyfish-environment": "^11.0.0",
+    "@balena/jellyfish-environment": "^11.0.1",
     "@balena/jellyfish-plugin-balena-api": "^2.0.125",
     "@balena/jellyfish-plugin-channels": "^2.0.101",
     "@balena/jellyfish-plugin-default": "^24.0.93",
