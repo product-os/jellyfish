@@ -1,4 +1,19 @@
 - commits:
+    - subject: Bump internal packages
+      hash: cfb5ebf4b23a57b1731007b17be0232edb9b4f68
+      body: |
+        Update to jellyfish-worker v23
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.11
+  title: "'Update to worker v23'"
+  date: 2022-04-30T07:18:13.772Z
+- commits:
     - subject: Update internal-patch
       hash: 5b56a48e1d99a1057978c01339b7afb79d787075
       body: ""
