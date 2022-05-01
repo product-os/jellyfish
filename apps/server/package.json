@@ -18,7 +18,7 @@
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:integration",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
-    "start": "node --abort-on-uncaught-exception --stack-trace-limit=100 build/index.js",
+    "start": "node --abort-on-uncaught-exception --stack-trace-limit=1000 build/index.js",
     "dev": "NODE_ENV=development nodemon --inspect=0.0.0.0 ./lib/index.ts"
   },
   "dependencies": {
