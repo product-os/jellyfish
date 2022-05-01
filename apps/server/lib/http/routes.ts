@@ -607,6 +607,7 @@ export const attachRoutes = (
 										worker.typeContracts['action-request@1.0.0'],
 										{
 											timestamp: new Date().toISOString(),
+											actor: adminSession.data.actor,
 										},
 										{
 											type: 'action-request@1.0.0',
