@@ -111,7 +111,11 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			requestData.context.worker = logContext.id;
 			await worker.execute(key.id, actionRequest);
 		} catch (error: any) {
-			errorHandler(error);
+			logger.error(logContext, 'Failed to execute action request', {
+				id: actionRequest.id,
+				actor: actionRequest.data.actor!,
+				error,
+			});
 		}
 	});
 
@@ -131,17 +135,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		kernel.adminSession()!,
 	);
 	strict(adminSession);
-
-	const errorFunction = _.partial(options.onError, logContext);
-
-	// TODO: Should the worker crash if an exception is raised from executing a task or a stream error?
-	const errorHandler = (error: Error) => {
-		closeWorker()
-			.then(() => {
-				errorFunction(error);
-			})
-			.catch(errorFunction);
-	};
 
 	logger.info(logContext, 'Inserting test user', {
 		username: environment.test.user.username,
