@@ -15,7 +15,7 @@ const DEFAULT_CONTEXT = {
 };
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
-	logger.exception(ctx, message, error);
+	logger.error(ctx, message, error);
 	console.error({
 		context: ctx,
 		message,
@@ -64,7 +64,7 @@ try {
 			}
 		})
 		.catch((error) => {
-			logger.exception(context, 'Server error', error);
+			logger.error(context, 'Server error', error);
 			process.exit(1);
 		});
 } catch (error) {
