@@ -1,4 +1,22 @@
 - commits:
+    - subject: Update unhandled server log call
+      hash: 9d28d2cc5fed9f3f883db996bb6ccdccaeb3d4fe
+      body: |
+        logger.exception() requires the third argument
+        to be an Error object, but sometimes that is
+        not the case. A separate error about this is
+        then output, causing confusing logs.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.18
+  title: "'Update unhandled server log call'"
+  date: 2022-05-01T01:17:55.938Z
+- commits:
     - subject: Temporarily disable deployments
       hash: 9b72f4eb0fb61a6621e9b6db51b97c9f55b7f2c6
       body: ""
