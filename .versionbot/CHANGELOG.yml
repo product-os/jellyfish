@@ -1,4 +1,28 @@
 - commits:
+    - subject: Stop crashing server on execute failure
+      hash: c615acf48fa8eeb54e91a81d422f2d8f8f57718d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update @balena/jellyfish-worker from 23.0.3 to 23.0.4
+      hash: f7eb32d1206b81a9a356def11597bb130e2c551b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.20
+  title: "'Update @balena/jellyfish-worker from 23.0.3 to 23.0.4'"
+  date: 2022-05-01T06:28:27.581Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 23.0.2 to 23.0.3
       hash: ca84de44d3bf02952e64da51bdbb637816c5477a
       body: ""
