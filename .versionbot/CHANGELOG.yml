@@ -1,4 +1,28 @@
 - commits:
+    - subject: Add missing actor option
+      hash: 730bfaa0a3736c636f4b49353c4b997cc7bf9bf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update @balena/jellyfish-worker from 23.0.5 to 23.0.6
+      hash: af70b6281926633e34a3c0b6de1027ab9c11c796
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 49.2.23
+  title: "'Update @balena/jellyfish-worker from 23.0.5 to 23.0.6'"
+  date: 2022-05-01T16:04:17.592Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 23.0.4 to 23.0.5
       hash: 21db90cf2b117afc5c49ddab2d8f54ece560a9c0
       body: ""
