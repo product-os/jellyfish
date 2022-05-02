@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Show patterns with highest weight on loop lens"
+      hash: 64d68ebdfcad60428aa9c5aba1873ac74656ef58
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.3.0
+  title: "'UI: Show patterns with highest weight on loop lens'"
+  date: 2022-05-02T09:55:57.650Z
+- commits:
     - subject: Add missing actor option
       hash: 730bfaa0a3736c636f4b49353c4b997cc7bf9bf9
       body: ""
