@@ -172,6 +172,17 @@ export default class LoopFull extends React.Component<any, any> {
 						console.log(results.slice(0, 5));
 						this.setState({ oldestOpenPulls: results.slice(0, 5) });
 					}
+					if (property === 'patterns') {
+						console.log('all patterns', results);
+						const highestWeightPatterns = _.sortBy(
+							results.filter((x) => x.data.hasOwnProperty('weight')),
+							'data.weight',
+						)
+							.reverse()
+							.slice(0, 5);
+						console.log({ highestWeightPatterns });
+						this.setState({ highestWeightPatterns });
+					}
 					if (property === 'improvements') {
 						const [implementing, proposed] = _.partition(
 							results.filter((i) => {
@@ -405,7 +416,16 @@ export default class LoopFull extends React.Component<any, any> {
 
 	render() {
 		const { card, channel } = this.props;
-		const { oldestOpenPulls } = this.state;
+		const {
+			oldestOpenPulls,
+			highestWeightPatterns,
+			support,
+			patterns,
+			implementing,
+			proposed,
+			pulls,
+			topics,
+		} = this.state;
 
 		let snippetLens;
 
@@ -414,9 +434,6 @@ export default class LoopFull extends React.Component<any, any> {
 			const lenses = getLenses('snippet', oldestOpenPulls[0], this.props.user);
 			snippetLens = lenses[0];
 		}
-
-		const { support, patterns, implementing, proposed, pulls, topics } =
-			this.state;
 
 		return (
 			<TabbedContractLayout card={card} channel={channel}>
@@ -517,6 +534,25 @@ export default class LoopFull extends React.Component<any, any> {
 						)}
 					</Card>
 				</Flex>
+
+				<Card p={3} my={3} flex="1">
+					<Txt>Highest weight patterns</Txt>
+
+					<Divider />
+
+					{Boolean(highestWeightPatterns && snippetLens) && (
+						<Box mx={-3}>
+							{highestWeightPatterns.map((c) => {
+								return (
+									<snippetLens.data.renderer
+										card={c}
+										types={this.props.types}
+									/>
+								);
+							})}
+						</Box>
+					)}
+				</Card>
 
 				<Card p={3} my={3} flex="1">
 					<Txt>Oldest open Pull Requests</Txt>
