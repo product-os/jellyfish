@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 1335e2db3477bc1a0a6492811cfc5a565b236ab1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.3.1
+  title: "'Update internal-patch'"
+  date: 2022-05-02T11:02:06.799Z
+- commits:
     - subject: "UI: Show patterns with highest weight on loop lens"
       hash: 64d68ebdfcad60428aa9c5aba1873ac74656ef58
       body: ""
