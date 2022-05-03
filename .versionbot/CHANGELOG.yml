@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.2.3 to v13.3.0
+      hash: fcce4c4eb48e26f3000550410a5958e1cffee1c6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.3.4
+  title: "'Update balena/open-balena-base from v13.2.3 to v13.3.0'"
+  date: 2022-05-02T20:42:33.454Z
+- commits:
     - subject: Update internal-patch
       hash: 20d68e72a0d50d4707e4afe71c71db7908841b1c
       body: ""
