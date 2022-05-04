@@ -222,7 +222,7 @@ services:
       TOKENS_CONFIG: REGISTRY2_SECRETKEY:hex
       SENTRY_CONFIG: ','
   mdns:
-    image: 'balena/balena-mdns-publisher:v1.15.0'
+    image: 'balena/balena-mdns-publisher:v1.15.1'
     network_mode: host
     cap_add:
       - SYS_RESOURCE
