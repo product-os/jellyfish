@@ -69,30 +69,37 @@ const lens = {
 		queryOptions: {
 			limit: 300,
 			mask: (query: any) => {
+				// Include improvements the user owns or is dedicated to
+				const improvementQuery = {
+					type: 'object',
+					properties: {
+						type: {
+							const: 'improvement@1.0.0',
+						},
+						data: {
+							type: 'object',
+							properties: {
+								// Don't include finished improvements
+								status: {
+									not: {
+										enum: ['denied-or-failed', 'completed'],
+									},
+								},
+							},
+						},
+					},
+				};
 				if (query.anyOf) {
 					query.anyOf.push({
 						anyOf: [
 							{
 								$$links: {
-									owns: {
-										type: 'object',
-										properties: {
-											type: {
-												const: 'improvement@1.0.0',
-											},
-											data: {
-												type: 'object',
-												properties: {
-													// Don't include finished improvements
-													status: {
-														not: {
-															enum: ['denied-or-failed', 'completed'],
-														},
-													},
-												},
-											},
-										},
-									},
+									'is dedicated to': improvementQuery,
+								},
+							},
+							{
+								$$links: {
+									owns: improvementQuery,
 								},
 							},
 							true,
