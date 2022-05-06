@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Show active owned issues, milestones and improvements on profile
+        page"
+      hash: a9cd1edcf2cf49aa77a6c5057ed821a4cb025d66
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.4.0
+  title: "'UI: Show active owned issues, milestones and improvements on profile page'"
+  date: 2022-05-06T09:04:16.743Z
+- commits:
     - subject: Update balena/balena-mdns-publisher from v1.15.1 to v1.15.2
       hash: ec4a53f26550e7e32b76eda9580b926076d0ff29
       body: ""
