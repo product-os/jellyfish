@@ -103,17 +103,6 @@ export default class CardTable extends ContractTable {
 					? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
 					: null;
 			},
-			/*
-			['links.owns']: (_field, item) => {
-				const temp: any = {};
-				for (const key in item) {
-					if (key.startsWith('links.owns')) {
-						_.set(temp, key, item[key]);
-					}
-				}
-				return temp?.links?.owns?.length;
-			},
-			*/
 		};
 
 		return _.map(paths, ({ title, path }) => {
@@ -141,7 +130,9 @@ export default class CardTable extends ContractTable {
 				...contract,
 				links: {
 					...contract.links,
-					owns: contract.links.owns?.length || 0,
+					owns:
+						(contract.links.owns?.length || 0) +
+						(contract.links['is dedicated to']?.length || 0),
 				},
 			});
 		});
