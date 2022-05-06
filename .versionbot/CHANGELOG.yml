@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 4cdf5c7759c5cc18511b10d91b08738cd7e8f275
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.4.1
+  title: "'Update internal-patch'"
+  date: 2022-05-06T09:46:29.424Z
+- commits:
     - subject: "UI: Show active owned issues, milestones and improvements on profile
         page"
       hash: a9cd1edcf2cf49aa77a6c5057ed821a4cb025d66
