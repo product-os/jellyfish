@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher from v1.15.1 to v1.15.2
+      hash: ec4a53f26550e7e32b76eda9580b926076d0ff29
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.3.23
+  title: "'Update balena/balena-mdns-publisher from v1.15.1 to v1.15.2'"
+  date: 2022-05-06T02:15:41.840Z
+- commits:
     - subject: Update resinci/jellyfish-test from v3.0.9 to v3.0.10
       hash: 6df56d89c3c9ae6227d66900eb8c335b3ff36619
       body: ""
