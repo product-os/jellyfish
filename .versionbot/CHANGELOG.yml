@@ -1,4 +1,21 @@
 - commits:
+    - subject: "UI: Include dedicated improvements in count on user table"
+      hash: 921a69b29de1249aff292e930fa743d21669bc68
+      body: |
+        Previously the user table would only show the number of owned
+        improvements, but wouldn't include "dedicated" users, which indicates
+        they are working on an improvement but not the owner.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.5.0
+  title: "'UI: Include dedicated improvements in count on user table'"
+  date: 2022-05-06T10:28:49.018Z
+- commits:
     - subject: Update internal-patch
       hash: 4cdf5c7759c5cc18511b10d91b08738cd7e8f275
       body: ""
