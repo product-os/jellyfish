@@ -7,6 +7,7 @@ import OmniSearch from './OmniSearch';
 import RepositoryGraph from './RepositoryGraph';
 import Table from './Table';
 import UserTable from './UserTable';
+import UserImprovementGraph from './UserImprovementGraph';
 
 export default [
 	CRMTable,
@@ -18,4 +19,5 @@ export default [
 	RepositoryGraph,
 	Table,
 	UserTable,
+	UserImprovementGraph,
 ];
