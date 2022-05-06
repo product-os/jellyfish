@@ -34,6 +34,7 @@ export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	actionItems?: React.ReactNode;
 	primaryTabTitle?: string;
 	title?: JSX.Element;
+	maxWidth?: number | string;
 };
 
 export interface StateProps {
@@ -94,6 +95,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 			tabs,
 			title,
 			primaryTabTitle,
+			maxWidth,
 		} = this.props;
 
 		const type = helpers.getType(card.type, types);
@@ -124,7 +126,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 							p={3}
 							flex={1}
 							style={{
-								maxWidth: Theme.breakpoints[2],
+								maxWidth: maxWidth || Theme.breakpoints[2],
 							}}
 						>
 							{children}
