@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 43766601c06f5b67a1e57dfd784f3f8ca3f84bba
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.5.1
+  title: "'Update internal-patch'"
+  date: 2022-05-06T14:29:25.122Z
+- commits:
     - subject: "UI: Include dedicated improvements in count on user table"
       hash: 921a69b29de1249aff292e930fa743d21669bc68
       body: |
