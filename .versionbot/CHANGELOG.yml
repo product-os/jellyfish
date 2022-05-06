@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Add a force directed graph for users and improvements in orgs"
+      hash: 72a3be8a2e37ebcd0e4ac3677254ce60a856d350
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 49.6.0
+  title: "'UI: Add a force directed graph for users and improvements in orgs'"
+  date: 2022-05-06T16:59:21.178Z
+- commits:
     - subject: Update internal-patch
       hash: 43766601c06f5b67a1e57dfd784f3f8ca3f84bba
       body: ""
