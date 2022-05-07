@@ -48,6 +48,10 @@ Jellyfish is split in many more modules than deployable units. The following dia
 
 ## Deployable Components
 
+### [`apps/cert-manager`](https://github.com/product-os/jellyfish/tree/master/apps/cert-manager)
+
+Issues PKI assets (i.e. SSL certificates).
+
 ### [`apps/grafana`](https://github.com/product-os/jellyfish/tree/master/apps/grafana)
 
 Metrics dashboards.
@@ -56,20 +60,28 @@ Metrics dashboards.
 
 Reverse proxy.
 
+### [`apps/haproxy-sidecar`](https://github.com/product-os/jellyfish/tree/master/apps/haproxy-sidecar)
+
+Dynamically configures Docker network aliases.
+
 ### [`apps/prometheus`](https://github.com/product-os/jellyfish/tree/master/apps/prometheus)
 
 Metrics collector.
-
-### [`apps/registry`](https://github.com/product-os/jellyfish/tree/master/apps/registry)
-
-Docker registry.
 
 ### [`apps/server`](https://github.com/product-os/jellyfish/tree/master/apps/server)
 
 The Jellyfish HTTP and WebSockets API.
 
+### [`apps/tag-sidecar`](https://github.com/product-os/jellyfish/tree/master/apps/tag-sidecar)
+
+Tags devices with AWS/EC2 metadata.
+
 ### [`apps/ui`](https://github.com/product-os/jellyfish/tree/master/apps/ui)
 
 This is the main Jellyfish web user interface, and what most people will
 interact with.
+
+### [`apps/wifi-connect`](https://github.com/product-os/jellyfish/tree/master/apps/wifi-connect)
+
+Easy WiFi setup for Linux devices from your mobile phone or laptop.
 

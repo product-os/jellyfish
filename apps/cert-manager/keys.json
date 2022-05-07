@@ -1,0 +1,17 @@
+[
+  {
+    "hosts": [
+      "livechat.${TLD}.ecdsa"
+    ],
+    "names": [
+      {
+        "C": "${country}",
+        "L": "${locality_name}",
+        "O": "${org}",
+        "OU": "${org_unit}",
+        "ST": "${state}"
+      }
+    ],
+    "CN": "livechat.${TLD}.ecdsa"
+  }
+]

@@ -77,14 +77,15 @@ test.describe('Core', () => {
 })
 
 test.describe('Contract actions', () => {
-	// TODO: Re-enable these tests once we are serving the UI
-	// over HTTPS in Docker Compose, as otherwise Chromium
-	// disables `navigator.clipboard`
-	// See https://stackoverflow.com/a/51823007
-	test.skip('Should let users copy a working permalink', async ({
-		page
+	test('Should let users copy a working permalink', async ({
+		page, browser
 	}) => {
-		await login(page, users.community)
+		const context = await browser.newContext()
+
+		// https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions
+		await context.grantPermissions([ 'clipboard-read' ])
+		const newpage = await context.newPage()
+		await login(newpage, users.community)
 
 		// Create a thread contract
 		const contract = await sdk.card.create({
@@ -93,31 +94,35 @@ test.describe('Contract actions', () => {
 		})
 
 		// Go to the thread and copy its permalink
-		await page.goto(`/${contract.id}`)
-		await page.waitForSelector('.column--thread')
-		await page.locator('[data-test="card-action-menu"]').click()
-		await page.locator('[data-test="card-action-menu__permalink"]').click()
+		await newpage.goto(`/${contract.id}`)
+		await newpage.waitForSelector('.column--thread')
+		await newpage.locator('[data-test="card-action-menu"]').click()
+		await newpage.locator('[data-test="card-action-menu__permalink"]').click()
 
-		const permalink = await page.evaluate(() => {
+		const permalink = await newpage.evaluate(() => {
 			return window.navigator.clipboard.readText()
 		})
 
-		await page.goto(permalink)
-		await page.reload()
-		await page.waitForSelector('.column--thread')
-		const url = page.url()
+		context.clearPermissions()
 
-		expect(url).toEqual('foobar')
+		await newpage.goto(permalink)
+		await newpage.reload()
+		await newpage.waitForSelector('.column--thread')
+		const url = newpage.url()
+
+		// Needs to be proto://jel.{{uuid}}.{{dns_tld}} (sans :UI_PORT)
+		expect(url).toEqual(`${environment.oauth.redirectBaseUrl}/${contract.slug}`)
+
+		await newpage.close()
 	})
 
-	// TODO: Re-enable these tests once we are serving the UI
-	// over HTTPS in Docker Compose, as otherwise Chromium
-	// disables `navigator.clipboard`
-	// See https://stackoverflow.com/a/51823007
-	test.skip('Should let users copy a card as JSON', async ({
-		page
+	test('Should let users copy a card as JSON', async ({
+		page, browser
 	}) => {
-		await login(page, users.community)
+		const context = await browser.newContext()
+		await context.grantPermissions([ 'clipboard-read' ])
+		const newpage = await context.newPage()
+		await login(newpage, users.community)
 
 		// Create a thread contract
 		const contract = await sdk.card.create({
@@ -126,17 +131,21 @@ test.describe('Contract actions', () => {
 		})
 
 		// Go to the thread and copy its JSON
-		await page.goto(`/${contract.id}`)
-		await page.locator('[data-test="card-action-menu"]').click()
-		await page.locator('[data-test="card-action-menu__json"]').click()
+		await newpage.goto(`/${contract.id}`)
+		await newpage.locator('[data-test="card-action-menu"]').click()
+		await newpage.locator('[data-test="card-action-menu__json"]').click()
 
-		const copiedJSON = await page.evaluate(() => {
+		const copiedJSON = await newpage.evaluate(() => {
 			return window.navigator.clipboard.readText()
 		})
 
-		test.deepEqual(
-			_.omit(contract, [ 'links' ]),
-			_.omit(JSON.parse(copiedJSON), [ 'links' ]))
+		context.clearPermissions()
+
+		expect(
+			_.omit(contract, [ 'links' ]).slug).toEqual(
+			_.omit(JSON.parse(copiedJSON), [ 'links' ]).slug)
+
+		await newpage.close()
 	})
 
 	test('Should let users delete a card', async ({
@@ -540,7 +549,9 @@ test.describe('Outreach', () => {
 			setTimeout(resolve, 1000)
 		})
 
-		expect(url).toEqual(`https://api.outreach.io/oauth/authorize?response_type=code&client_id=${environment.integration.outreach.appId}&redirect_uri=https%3A%2F%2Fjel.ly.fish%2Foauth%2Foutreach&scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all&state=${user.slug}`)
+		const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
+
+		expect(url).toEqual(`https://api.outreach.io/oauth/authorize?response_type=code&client_id=${environment.integration.outreach.appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all&state=${user.slug}`)
 
 		await page.unroute('https://api.outreach.io/oauth/authorize**')
 	})

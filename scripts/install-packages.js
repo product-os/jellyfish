@@ -1,6 +1,12 @@
 #!/usr/bin/env node
 
 /*
+ * Copyright (C) Balena.io - All Rights Reserved
+ * Unauthorized copying of this file, via any medium is strictly prohibited.
+ * Proprietary and confidential.
+ */
+
+/*
  * This script is used during Docker image builds to install any library
  * npm tarballs copied in under /usr/src/jellyfish/packages. This is a
  * part of the Livepush development flow and does not affect production/CI.

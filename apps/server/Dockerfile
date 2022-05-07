@@ -9,6 +9,7 @@ RUN npm ci
 COPY ./package.json /usr/src/jellyfish/package.json
 COPY ./apps/server/tsconfig.json /usr/src/jellyfish/apps/server/tsconfig.json
 COPY ./apps/server/tsconfig.build.json /usr/src/jellyfish/apps/server/tsconfig.build.json
+COPY ./apps/server/run.sh /usr/src/jellyfish/apps/server/run.sh
 
 #dev-copy=./scripts/install-packages.js /usr/src/jellyfish/scripts/install-packages.js
 #dev-copy=./apps/server/nodemon.json /usr/src/jellyfish/apps/server/nodemon.json
