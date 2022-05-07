@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 84cb352de25d9937f92f2726720630468db03150
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 49.6.1
+  title: "'Update internal-patch'"
+  date: 2022-05-07T09:52:05.561Z
+- commits:
     - subject: "UI: Add a force directed graph for users and improvements in orgs"
       hash: 72a3be8a2e37ebcd0e4ac3677254ce60a856d350
       body: ""
