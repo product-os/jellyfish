@@ -1,4 +1,38 @@
 - commits:
+    - subject: Update internal-patch
+      hash: 19dc521d8f41e7f2883fe8cca37bec22228f70f7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+    - subject: JF on balenaOS
+      hash: eb53d0958bd66201e0936e87b0beb71236797004
+      body: |
+        * remove deploy-templates
+        * GH action test pipeline using epehemeral AWS instances
+        * scriptify steps and remove looping postgres FATAL error
+        * organize compose service scripts
+        * silence haproxy-sidecar logs
+        * fix container runtime(s)
+        * add descriptions
+        * bump external component versions
+        * re-encrypt secrets
+        * switch to c6a AWS instances (ephemeral tests)
+      footer:
+        Change-type: major
+        change-type: major
+        Co-authored-by: Anton Belodedenko <anton@balena.io>
+        co-authored-by: Anton Belodedenko <anton@balena.io>
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: ab77
+      nested: []
+  version: 50.0.0
+  title: "'Update internal-patch'"
+  date: 2022-05-08T10:42:43.920Z
+- commits:
     - subject: Update external-non-major
       hash: 52a65721fa1fcef606985caab9f03f19f7968c12
       body: ""
