@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update internal-patch
+      hash: a00fc99c61329ea724f9908820655bfb4c0dc445
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 50.0.7
+  title: "'Update internal-patch'"
+  date: 2022-05-10T16:17:06.574Z
+- commits:
     - subject: Update balena/cert-manager from v0.0.15 to v0.1.0
       hash: aa368537f9cda594d291fe39ab9539cb101394e1
       body: ""
