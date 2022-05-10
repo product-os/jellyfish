@@ -1,3 +1,3 @@
-FROM balena/cert-manager:v0.0.15
+FROM balena/cert-manager:v0.1.0
 
 COPY *.json run.sh /opt/
