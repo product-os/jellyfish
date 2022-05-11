@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use docker repo type for mixed versioning.
+      hash: 4d6fafd67f6142ec964cd87d5a31f54b15325163
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 50.0.9
+  title: "'Use docker repo type for mixed versioning.'"
+  date: 2022-05-11T04:18:34.843Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 10.3.10 to 10.4.0
       hash: 13aaef909a3cf39ae893f5e1a791030e5bacc02a
       body: ""
