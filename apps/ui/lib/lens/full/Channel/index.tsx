@@ -9,6 +9,7 @@ import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 interface State {
 	mineQuery: any;
 	unownedQuery: any;
+	agentsQuery: any;
 }
 
 class ChannelRenderer extends React.Component<LensRendererProps, State> {
@@ -65,9 +66,30 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 			],
 		};
 
+		const agentsQuery = {
+			title: 'Users marked as agents for this channel',
+			type: 'object',
+			properties: {
+				type: {
+					const: 'user@1.0.0',
+				},
+			},
+			$$links: {
+				'is agent for': {
+					type: 'object',
+					properties: {
+						id: {
+							const: card.id,
+						},
+					},
+				},
+			},
+		};
+
 		this.state = {
 			mineQuery,
 			unownedQuery,
+			agentsQuery,
 		};
 	}
 
@@ -125,10 +147,28 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 							}}
 						>
 							<LiveCollection
-								key={2}
+								key={3}
 								hideFooter
 								channel={this.props.channel}
 								query={this.state.unownedQuery}
+								card={this.props.card}
+							/>
+						</Flex>
+					</Tab>,
+
+					<Tab title="Agents">
+						<Flex
+							flexDirection="column"
+							flex="1"
+							style={{
+								maxWidth: '100%',
+							}}
+						>
+							<LiveCollection
+								key={4}
+								hideFooter
+								channel={this.props.channel}
+								query={this.state.agentsQuery}
 								card={this.props.card}
 							/>
 						</Flex>
