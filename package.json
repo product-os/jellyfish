@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "49.6.2",
+  "version": "50.1.1",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "proclaimer",
@@ -121,57 +121,57 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-05-07T11:07:39.264Z"
+    "publishedAt": "2022-05-11T06:48:53.922Z"
   },
   "balena": {
     "environment": [
       {
-          "name": "LOGLEVEL",
-          "value": "info"
+        "name": "LOGLEVEL",
+        "value": "info"
       },
       {
-          "name": "NODE_ENV",
-          "value": "development"
+        "name": "NODE_ENV",
+        "value": "development"
       },
       {
-          "name": "NODE_ENV",
-          "serviceName": "jellyfish-tests",
-          "value": "test"
+        "name": "NODE_ENV",
+        "serviceName": "jellyfish-tests",
+        "value": "test"
       }
     ],
     "secrets": [
       {
-          "serviceName": "jellyfish-tests",
-          "value": "aws_access_key_id"
+        "serviceName": "jellyfish-tests",
+        "value": "aws_access_key_id"
       },
       {
-          "serviceName": "jellyfish-tests",
-          "value": "aws_s3_bucket_name"
+        "serviceName": "jellyfish-tests",
+        "value": "aws_s3_bucket_name"
       },
       {
-          "serviceName": "jellyfish-tests",
-          "value": "aws_secret_access_key"
+        "serviceName": "jellyfish-tests",
+        "value": "aws_secret_access_key"
       },
       {
-          "value": "integration_discourse_token"
+        "value": "integration_discourse_token"
       },
       {
-          "value": "integration_discourse_username"
+        "value": "integration_discourse_username"
       },
       {
-          "value": "integration_front_token"
+        "value": "integration_front_token"
       },
       {
-          "value": "integration_github_app_id"
+        "value": "integration_github_app_id"
       },
       {
-          "value": "integration_github_private_key"
+        "value": "integration_github_private_key"
       },
       {
-          "value": "integration_github_token"
+        "value": "integration_github_token"
       },
       {
-          "value": "integration_intercom_token"
+        "value": "integration_intercom_token"
       }
     ]
   }
