@@ -1,4 +1,18 @@
 - commits:
+    - subject: Adds logshipper block for sending logs to an external aggregator.
+      hash: 754496727ac0aeec835ebe26f833b0deb828959b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 50.0.9
+  title: "'Adds logshipper block for sending logs to an external aggregator.'"
+  date: 2022-05-11T04:02:08.209Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 10.3.10 to 10.4.0
       hash: 13aaef909a3cf39ae893f5e1a791030e5bacc02a
       body: ""
