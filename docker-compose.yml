@@ -72,7 +72,7 @@ services:
       SENTRY_CONFIG: ','
       # /etc/docker.env:RESET_PASSWORD_SECRET_TOKEN="$(openssl rand -hex 16)"
       TOKENS_CONFIG: RESET_PASSWORD_SECRET_TOKEN:hex,MONITOR_SECRET_TOKEN:hex
-      LOGLEVEL: crit
+      LOGLEVEL: info
       NO_LOG_SUCCESS: 1
     healthcheck:
       interval: 15s
