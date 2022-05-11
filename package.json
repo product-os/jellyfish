@@ -87,7 +87,7 @@
     "@balena/jellyfish-plugin-outreach": "^2.0.149",
     "@balena/jellyfish-plugin-product-os": "^5.0.21",
     "@balena/jellyfish-plugin-typeform": "^5.2.13",
-    "@balena/jellyfish-worker": "^23.0.17",
+    "@balena/jellyfish-worker": "^24.2.0",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.21.1",
     "autumndb": "^19.1.41",
