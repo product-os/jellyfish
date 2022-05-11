@@ -4,6 +4,7 @@ volumes:
   cert-manager-data: null
   certs-data: null
   haproxy-data: null
+  logshipper-data: null
   pki-data: null
   postgres-data: null
   redis-data: null
@@ -349,6 +350,16 @@ services:
     labels:
       io.balena.features.balena-socket: '1'
       io.balena.features.supervisor-api	: '1'
+
+  logshipper:
+    image: bh.cr/balenablocks/logshipper/0.2.1
+    environment:
+      LOG: warn
+    labels:
+      io.balena.features.journal-logs: '1'
+    restart: unless_stopped
+    volumes:
+      - 'logshipper-data:/var/lib/logshipper'
 
   # only relevant when running in AWS/EC2
   tag-sidecar:
