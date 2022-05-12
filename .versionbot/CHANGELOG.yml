@@ -1,4 +1,22 @@
 - commits:
+    - subject: Revert repo type back to generic
+      hash: 99eda2bddd8e8ec55133d73645d3f772295e8ddd
+      body: |
+        Revert back to generic as docker
+        causes the ResinCI/build/Docker
+        check to be automatically enabled
+        and required.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.2.1
+  title: "'Revert repo type back to generic'"
+  date: 2022-05-12T10:29:25.105Z
+- commits:
     - subject: Update worker to 24
       hash: f1fa689ea8a220327f2291d56e151d27894a37d0
       body: ""
