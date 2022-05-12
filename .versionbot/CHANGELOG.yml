@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 6.0.0 to 6.1.0
+      hash: 20c2e9c479b2f6040fd1feebe486c6721b99cb10
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 50.2.2
+  title: "'Update @balena/jellyfish-plugin-typeform from 6.0.0 to 6.1.0'"
+  date: 2022-05-12T13:00:46.005Z
+- commits:
     - subject: Revert repo type back to generic
       hash: 99eda2bddd8e8ec55133d73645d3f772295e8ddd
       body: |
