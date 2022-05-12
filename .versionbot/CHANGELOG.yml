@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update worker to 24
+      hash: f1fa689ea8a220327f2291d56e151d27894a37d0
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 50.2.0
+  title: "'Update worker to 24'"
+  date: 2022-05-12T08:22:24.299Z
+- commits:
     - subject: Skip own commit on database import
       hash: 653fb9ee0258440d39cca2f2cd11e1b3ede6a941
       body: ""
