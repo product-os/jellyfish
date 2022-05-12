@@ -37,7 +37,7 @@ const utils = require('./utils')
  */
 const getCommitHash = async (options) => {
 	let commitHash = ''
-	const command = 'git log --pretty="%H" | tail +2 | head -n 40'
+	const command = 'git log --pretty="%H" | tail +3 | head -n 40'
 	const output = execSync(command).toString()
 	if (output.trim() === '') {
 		utils.handleError('Failed to get git commit hash')
