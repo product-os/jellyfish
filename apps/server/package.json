@@ -38,7 +38,7 @@
     "@balena/jellyfish-plugin-typeform": "^5.2.13",
     "@balena/jellyfish-worker": "^23.0.17",
     "@balena/socket-prometheus-metrics": "^0.0.3",
-    "autumndb": "^19.1.41",
+    "autumndb": "^19.3.1",
     "aws-sdk": "^2.1130.0",
     "bcrypt": "^5.0.1",
     "bluebird": "^3.7.2",
