@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix postgres import CI step
+      hash: 5a802691780842599c84b249333dd3a0ecd02542
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.1.2
+  title: "'Fix postgres import CI step'"
+  date: 2022-05-12T04:10:38.977Z
+- commits:
     - subject: Update repo.yml file
       hash: 6c01e8b9e55420cded9b196afac7d8d8bb785ae0
       body: ""
