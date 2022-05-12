@@ -1,4 +1,18 @@
 - commits:
+    - subject: Skip own commit on database import
+      hash: 653fb9ee0258440d39cca2f2cd11e1b3ede6a941
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.1.4
+  title: "'Skip own commit on database import'"
+  date: 2022-05-12T06:53:21.327Z
+- commits:
     - subject: Update autumndb from 19.1.41 to 19.3.1
       hash: d636762e3b9357df3900d6ba220c6588a228d52c
       body: ""
