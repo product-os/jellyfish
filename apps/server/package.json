@@ -35,7 +35,7 @@
     "@balena/jellyfish-plugin-github": "^3.0.0",
     "@balena/jellyfish-plugin-outreach": "^3.0.0",
     "@balena/jellyfish-plugin-product-os": "^5.0.24",
-    "@balena/jellyfish-plugin-typeform": "^6.0.0",
+    "@balena/jellyfish-plugin-typeform": "^6.1.0",
     "@balena/jellyfish-worker": "^24.2.0",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "autumndb": "^19.3.1",
