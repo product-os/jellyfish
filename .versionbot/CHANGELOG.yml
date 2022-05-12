@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update autumndb from 19.1.41 to 19.3.1
+      hash: d636762e3b9357df3900d6ba220c6588a228d52c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.1.3
+  title: "'Update autumndb from 19.1.41 to 19.3.1'"
+  date: 2022-05-12T05:24:57.136Z
+- commits:
     - subject: Fix postgres import CI step
       hash: 5a802691780842599c84b249333dd3a0ecd02542
       body: ""
