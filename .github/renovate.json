@@ -2,6 +2,7 @@
   "extends": [
     "github>product-os/renovate-config"
   ],
+  "prConcurrentLimit": 1,
   "packageRules": [
     {
       "matchPackagePatterns": ["puppeteer"],
