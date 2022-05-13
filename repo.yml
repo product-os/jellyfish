@@ -1,4 +1,4 @@
-type: 'generic'
+type: 'node'
 upstream:
   - repo: 'open-balena-base'
     url: 'https://github.com/balena-io/open-balena-base'
