@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update repo type to node
+      hash: 0a55dd8757ba495d4384a6397939ee2acb91f3a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.2.5
+  title: "'Update repo type to node'"
+  date: 2022-05-13T03:08:27.232Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 3.0.3 to 3.0.5
       hash: a97630298dd98a058775003ecae7cb575d035a1e
       body: ""
