@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update git secrets submodule
+      hash: bd63166e20ed5efa9f0e0f81b022fb257cb8f7a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.2.6
+  title: "'Update git secrets submodule'"
+  date: 2022-05-13T04:24:16.010Z
+- commits:
     - subject: Update repo type to node
       hash: 0a55dd8757ba495d4384a6397939ee2acb91f3a6
       body: ""
