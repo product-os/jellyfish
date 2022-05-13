@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use larger ec2 instance for tests
+      hash: 2e7ed67754425cb8bfa8042ceec015129e470c23
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.2.7
+  title: "'Use larger ec2 instance for tests'"
+  date: 2022-05-13T05:33:48.078Z
+- commits:
     - subject: Update git secrets submodule
       hash: bd63166e20ed5efa9f0e0f81b022fb257cb8f7a7
       body: ""
