@@ -8,7 +8,7 @@ on:
 
 env:
   # https://github.com/product-os/environment-production/pull/277
-  AWS_EC2_INSTANCE_TYPE: c6a.xlarge
+  AWS_EC2_INSTANCE_TYPE: c6a.2xlarge
   AWS_EC2_LAUNCH_TEMPLATE: lt-0716bda3583150eaa
   AWS_EC2_LT_VERSION: 6
   AWS_IAM_USERNAME: jellyfish-tests-iam-User-Q6SZ9PAHLZAE
