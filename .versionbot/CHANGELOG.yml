@@ -1,4 +1,20 @@
 - commits:
+    - subject: Limit concurrent Renovate PRs to 1
+      hash: cfe8586f75384dc68ac1d56ad508dc091536991e
+      body: |
+        Limit concurrent Renovate PRs to reduce unnecessary
+        load on balena builders and reduce CI flakiness
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.2.8
+  title: "'Limit concurrent Renovate PRs to 1'"
+  date: 2022-05-13T06:28:02.096Z
+- commits:
     - subject: Use larger ec2 instance for tests
       hash: 2e7ed67754425cb8bfa8042ceec015129e470c23
       body: ""
