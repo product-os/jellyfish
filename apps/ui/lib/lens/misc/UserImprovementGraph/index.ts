@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { connect } from 'react-redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
 export const UserImprovementGraph = createLazyComponent(

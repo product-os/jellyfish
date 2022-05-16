@@ -1,10 +1,9 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { LensRendererProps } from '../../../types';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import DraggableContractGraph from '../../common/DraggableContractGraph';
-import { TypeContract } from '@balena/jellyfish-types/build/core';
-import ForceGraph2D, { ForceGraphProps, GraphData } from 'react-force-graph-2d';
+import ForceGraph2D from 'react-force-graph-2d';
+import { LensRendererProps } from '../../../types';
+import { sdk } from '../../../core';
 
 export type Props = LensRendererProps;
 
@@ -15,9 +14,10 @@ const FDG = React.memo(
 			history,
 			location,
 		}: Pick<Props, 'tail'> & RouteComponentProps) => {
+			const [sagaData, setSagaData] = React.useState({ nodes: [], links: [] });
 			const userData: any = {
-				nodes: [],
-				links: [],
+				nodes: sagaData.nodes,
+				links: sagaData.links,
 			};
 
 			if (tail && tail.length) {
@@ -47,24 +47,6 @@ const FDG = React.memo(
 							value: 20,
 							color: '#333',
 						});
-
-						if (improvement['is attached to']) {
-							for (const saga of improvement['is attached to']) {
-								const sagaLabel = saga.name || saga.slug;
-								userData.nodes.push({
-									id: saga.slug,
-									name: sagaLabel,
-									color: 'orange',
-								});
-
-								userData.links.push({
-									source: improvement.slug,
-									target: saga.slug,
-									value: 20,
-									color: '#333',
-								});
-							}
-						}
 					}
 				}
 			}
@@ -84,6 +66,55 @@ const FDG = React.memo(
 
 			const openContract = React.useCallback((node) => {
 				history.push(`${location.pathname}/${node.id}`);
+			}, []);
+
+			React.useEffect(() => {
+				sdk
+					.query({
+						$$links: {
+							'has attached': {
+								type: 'object',
+								properties: {
+									type: { const: 'improvement@1.0.0' },
+								},
+							},
+						},
+						type: 'object',
+						properties: {
+							type: { const: 'saga@1.0.0' },
+						},
+					})
+					.then((sagas) => {
+						const graphData: any = {
+							nodes: [],
+							links: [],
+						};
+						for (const saga of sagas) {
+							const sagaLabel = saga.name || saga.slug;
+							graphData.nodes.push({
+								id: saga.slug,
+								name: sagaLabel,
+								color: 'orange',
+							});
+							for (const improvement of saga.links!['has attached']) {
+								const label = improvement.name || improvement.slug;
+								graphData.nodes.push({
+									id: improvement.slug,
+									name: label,
+									color: '#00AEEF',
+								});
+
+								graphData.links.push({
+									source: improvement.slug,
+									target: saga.slug,
+									value: 40,
+									color: '#333',
+								});
+							}
+						}
+						setSagaData(graphData);
+					})
+					.catch(console.error);
 			}, []);
 
 			return (
