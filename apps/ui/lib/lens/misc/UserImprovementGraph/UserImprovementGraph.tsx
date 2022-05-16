@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as _ from 'lodash';
+import { Box, Checkbox } from 'rendition';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ForceGraph2D from 'react-force-graph-2d';
 import { LensRendererProps } from '../../../types';
@@ -15,6 +16,7 @@ const FDG = React.memo(
 			location,
 		}: Pick<Props, 'tail'> & RouteComponentProps) => {
 			const [sagaData, setSagaData] = React.useState({ nodes: [], links: [] });
+			const [showSagas, setShowSagas] = React.useState(false);
 			const userData: any = {
 				nodes: sagaData.nodes,
 				links: sagaData.links,
@@ -69,6 +71,10 @@ const FDG = React.memo(
 			}, []);
 
 			React.useEffect(() => {
+				if (!showSagas) {
+					setSagaData({ nodes: [], links: [] });
+					return;
+				}
 				sdk
 					.query({
 						$$links: {
@@ -115,10 +121,17 @@ const FDG = React.memo(
 						setSagaData(graphData);
 					})
 					.catch(console.error);
-			}, []);
+			}, [showSagas]);
 
 			return (
 				<div ref={$div}>
+					<Box p={3} style={{ position: 'absolute', zIndex: 1 }}>
+						<Checkbox
+							label="Show Sagas"
+							onChange={() => setShowSagas(!showSagas)}
+							toggle
+						/>
+					</Box>
 					<ForceGraph2D
 						width={width}
 						height={height}
