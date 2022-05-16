@@ -29,9 +29,10 @@ const FDG = React.memo(
 						color: '#8369C4',
 					});
 
-					const improvements = (user.links?.owns || []).concat(
-						user.links?.['is dedicated to'] || [],
-					);
+					const improvements = (user.links?.owns || [])
+						.concat(user.links?.['is dedicated to'] || [])
+						.concat(user.links?.['contributes to'] || [])
+						.concat(user.links?.guides || []);
 
 					for (const improvement of improvements) {
 						const label = improvement.name || improvement.slug;
@@ -46,9 +47,29 @@ const FDG = React.memo(
 							value: 20,
 							color: '#333',
 						});
+
+						if (improvement['is attached to']) {
+							for (const saga of improvement['is attached to']) {
+								const sagaLabel = saga.name || saga.slug;
+								userData.nodes.push({
+									id: saga.slug,
+									name: sagaLabel,
+									color: 'orange',
+								});
+
+								userData.links.push({
+									source: improvement.slug,
+									target: saga.slug,
+									value: 20,
+									color: '#333',
+								});
+							}
+						}
 					}
 				}
 			}
+
+			userData.nodes = _.uniqBy(userData.nodes, 'id');
 
 			const [height, setHeight] = React.useState();
 			const [width, setWidth] = React.useState();
