@@ -1,5 +1,4 @@
 import _ from 'lodash';
-import { connect } from 'react-redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
 export const UserImprovementGraph = createLazyComponent(
@@ -43,7 +42,7 @@ const lens = {
 		queryOptions: {
 			limit: 300,
 			mask: (query: any) => {
-				// Include improvements the user owns or is dedicated to
+				// Include improvements the user is a part of
 				const improvementQuery = {
 					type: 'object',
 					properties: {
@@ -63,26 +62,37 @@ const lens = {
 						},
 					},
 				};
-				if (query.anyOf) {
-					query.anyOf.push({
-						anyOf: [
-							{
-								$$links: {
-									'is dedicated to': improvementQuery,
-								},
+				if (!query.anyOf) {
+					query.anyOf = [];
+				}
+				query.anyOf.push({
+					anyOf: [
+						{
+							$$links: {
+								'is dedicated to': improvementQuery,
 							},
-							{
-								$$links: {
-									owns: improvementQuery,
-								},
+						},
+						{
+							$$links: {
+								owns: improvementQuery,
 							},
-							true,
-						],
-					});
+						},
+						{
+							$$links: {
+								'contributes to': improvementQuery,
+							},
+						},
+						{
+							$$links: {
+								guides: improvementQuery,
+							},
+						},
+						true,
+					],
+				});
 
-					if (!_.some(query.anyOf, _.isBoolean)) {
-						query.anyOf.push(true);
-					}
+				if (!_.some(query.anyOf, _.isBoolean)) {
+					query.anyOf.push(true);
 				}
 
 				return query;

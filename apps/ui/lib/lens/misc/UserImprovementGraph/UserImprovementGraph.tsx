@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as _ from 'lodash';
-import { LensRendererProps } from '../../../types';
+import { Box, Checkbox } from 'rendition';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import DraggableContractGraph from '../../common/DraggableContractGraph';
-import { TypeContract } from '@balena/jellyfish-types/build/core';
-import ForceGraph2D, { ForceGraphProps, GraphData } from 'react-force-graph-2d';
+import ForceGraph2D from 'react-force-graph-2d';
+import { LensRendererProps } from '../../../types';
+import { sdk } from '../../../core';
 
 export type Props = LensRendererProps;
 
@@ -15,9 +15,11 @@ const FDG = React.memo(
 			history,
 			location,
 		}: Pick<Props, 'tail'> & RouteComponentProps) => {
+			const [sagaData, setSagaData] = React.useState({ nodes: [], links: [] });
+			const [showSagas, setShowSagas] = React.useState(false);
 			const userData: any = {
-				nodes: [],
-				links: [],
+				nodes: sagaData.nodes,
+				links: sagaData.links,
 			};
 
 			if (tail && tail.length) {
@@ -29,9 +31,10 @@ const FDG = React.memo(
 						color: '#8369C4',
 					});
 
-					const improvements = (user.links?.owns || []).concat(
-						user.links?.['is dedicated to'] || [],
-					);
+					const improvements = (user.links?.owns || [])
+						.concat(user.links?.['is dedicated to'] || [])
+						.concat(user.links?.['contributes to'] || [])
+						.concat(user.links?.guides || []);
 
 					for (const improvement of improvements) {
 						const label = improvement.name || improvement.slug;
@@ -50,6 +53,8 @@ const FDG = React.memo(
 				}
 			}
 
+			userData.nodes = _.uniqBy(userData.nodes, 'id');
+
 			const [height, setHeight] = React.useState();
 			const [width, setWidth] = React.useState();
 
@@ -65,8 +70,68 @@ const FDG = React.memo(
 				history.push(`${location.pathname}/${node.id}`);
 			}, []);
 
+			React.useEffect(() => {
+				if (!showSagas) {
+					setSagaData({ nodes: [], links: [] });
+					return;
+				}
+				sdk
+					.query({
+						$$links: {
+							'has attached': {
+								type: 'object',
+								properties: {
+									type: { const: 'improvement@1.0.0' },
+								},
+							},
+						},
+						type: 'object',
+						properties: {
+							type: { const: 'saga@1.0.0' },
+						},
+					})
+					.then((sagas) => {
+						const graphData: any = {
+							nodes: [],
+							links: [],
+						};
+						for (const saga of sagas) {
+							const sagaLabel = saga.name || saga.slug;
+							graphData.nodes.push({
+								id: saga.slug,
+								name: sagaLabel,
+								color: 'orange',
+							});
+							for (const improvement of saga.links!['has attached']) {
+								const label = improvement.name || improvement.slug;
+								graphData.nodes.push({
+									id: improvement.slug,
+									name: label,
+									color: '#00AEEF',
+								});
+
+								graphData.links.push({
+									source: improvement.slug,
+									target: saga.slug,
+									value: 40,
+									color: '#333',
+								});
+							}
+						}
+						setSagaData(graphData);
+					})
+					.catch(console.error);
+			}, [showSagas]);
+
 			return (
 				<div ref={$div}>
+					<Box p={3} style={{ position: 'absolute', zIndex: 1 }}>
+						<Checkbox
+							label="Show Sagas"
+							onChange={() => setShowSagas(!showSagas)}
+							toggle
+						/>
+					</Box>
 					<ForceGraph2D
 						width={width}
 						height={height}

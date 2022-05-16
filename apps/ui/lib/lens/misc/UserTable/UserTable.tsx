@@ -126,13 +126,15 @@ export default class CardTable extends ContractTable {
 
 	generateTableData() {
 		return _.map(this.props.tail, (contract) => {
+			const improvements = (contract.links?.owns || [])
+				.concat(contract.links?.['is dedicated to'] || [])
+				.concat(contract.links?.['contributes to'] || [])
+				.concat(contract.links?.guides || []);
 			return flatten({
 				...contract,
 				links: {
 					...contract.links,
-					owns:
-						(contract.links.owns?.length || 0) +
-						(contract.links['is dedicated to']?.length || 0),
+					owns: improvements.length,
 				},
 			});
 		});
