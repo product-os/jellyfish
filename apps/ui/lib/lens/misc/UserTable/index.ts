@@ -102,6 +102,16 @@ const lens = {
 									owns: improvementQuery,
 								},
 							},
+							{
+								$$links: {
+									'contributes to': improvementQuery,
+								},
+							},
+							{
+								$$links: {
+									guides: improvementQuery,
+								},
+							},
 							true,
 						],
 					});
