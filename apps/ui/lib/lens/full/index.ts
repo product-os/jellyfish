@@ -1,6 +1,7 @@
 import Channel from './Channel';
 import CheckRun from './CheckRun';
 import MyUser from './MyUser';
+import Improvement from './Improvement';
 import Loop from './Loop';
 import SingleCard from './SingleCard';
 import SupportThread from './SupportThread';
@@ -13,6 +14,7 @@ export default [
 	Channel,
 	CheckRun,
 	MyUser,
+	Improvement,
 	Loop,
 	SingleCard,
 	SupportThread,
