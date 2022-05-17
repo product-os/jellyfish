@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unneeded gitsecret dir
+      hash: 1b2ae5936fafe9685ccbfd0d7293f326ecab9533
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.3.1
+  title: "'Remove unneeded gitsecret dir'"
+  date: 2022-05-17T09:30:25.307Z
+- commits:
     - subject: "UI: Add toggle for showing sagas on user improvement graph"
       hash: f5b88d58a3eee3a678d701b6e5775cc5dc4ce037
       body: ""
