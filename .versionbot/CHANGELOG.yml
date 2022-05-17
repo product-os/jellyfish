@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Add lens for Improvements"
+      hash: 613bc6df2cf9f8976ce9c83df277157fb276c171
+      body: |
+        The Improvement lens inlines milestones at the bottom of the info tab.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 50.4.0
+  title: "'UI: Add lens for Improvements'"
+  date: 2022-05-17T14:42:06.868Z
+- commits:
     - subject: Remove unneeded gitsecret dir
       hash: 1b2ae5936fafe9685ccbfd0d7293f326ecab9533
       body: ""
