@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix Jellyfish balena fleet link
+      hash: 7fd54d43377a4c56d033f13926419177e8a3d0b8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.5.1
+  title: "'Fix Jellyfish balena fleet link'"
+  date: 2022-05-18T04:08:56.146Z
+- commits:
     - subject: Kill stale? VersionBot contracts
       hash: 2958127725c3755fc3897736af81e7082819141c
       body: |
