@@ -155,6 +155,6 @@ echo 'SUT=1 scripts/ci/run-tests.sh \
 
 
 [documentation]: https://www.balena.io/docs/learn/welcome/introduction/
-[jellyfish-on-balena]: https://dashboard.balena-cloud.com/fleet/1842831
+[jellyfish-on-balena]: https://dashboard.balena-cloud.com/fleets/1842831/summary
 [Public device URL]: https://www.balena.io/docs/learn/develop/runtime/#public-device-urls
 [local-mode]: https://www.balena.io/docs/learn/develop/local-mode/
