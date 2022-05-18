@@ -1,4 +1,17 @@
 - commits:
+    - subject: Kill stale? VersionBot contracts
+      hash: 2958127725c3755fc3897736af81e7082819141c
+      body: |
+        * stamp builder/release versioning
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: ab77
+      nested: []
+  version: 50.5.0
+  title: "'Remove stale contracts'"
+  date: 2022-05-17T16:43:11.637Z
+- commits:
     - subject: "UI: Add lens for Improvements"
       hash: 613bc6df2cf9f8976ce9c83df277157fb276c171
       body: |
