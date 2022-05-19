@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Add a cumulative flow diagram for improvements"
+      hash: 4cfd316a3093986eddf1fd11b1cd958df821486c
+      body: |
+        This change adds a cumulative flow diagram for improvements to the Loop
+        lens.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 50.6.0
+  title: "'UI: Add a cumulative flow diagram for improvements'"
+  date: 2022-05-19T10:42:21.566Z
+- commits:
     - subject: Fix Jellyfish balena fleet link
       hash: 7fd54d43377a4c56d033f13926419177e8a3d0b8
       body: ""
