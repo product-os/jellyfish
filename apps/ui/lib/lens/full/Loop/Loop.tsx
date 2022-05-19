@@ -1,6 +1,7 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
+import Plot from 'react-plotly.js';
 import { Box, Card, Divider, Flex, Txt, Heading } from 'rendition';
 import { Icon, Link } from '../../../components';
 import { sdk } from '../../../core';
@@ -168,19 +169,15 @@ export default class LoopFull extends React.Component<any, any> {
 				.query(query, { sortBy: 'created_at', sortDir: 'asc' })
 				.then((results) => {
 					if (property === 'pulls') {
-						console.log('all open pulls', results);
-						console.log(results.slice(0, 5));
 						this.setState({ oldestOpenPulls: results.slice(0, 5) });
 					}
 					if (property === 'patterns') {
-						console.log('all patterns', results);
 						const highestWeightPatterns = _.sortBy(
 							results.filter((x) => x.data.hasOwnProperty('weight')),
 							'data.weight',
 						)
 							.reverse()
 							.slice(0, 5);
-						console.log({ highestWeightPatterns });
 						this.setState({ highestWeightPatterns });
 					}
 					if (property === 'improvements') {
@@ -193,7 +190,6 @@ export default class LoopFull extends React.Component<any, any> {
 							}),
 							(i) => i.data.status === 'implementation',
 						);
-						console.log({ results });
 						this.setState({
 							implementing: implementing.length,
 							proposed: proposed.length,
@@ -216,16 +212,6 @@ export default class LoopFull extends React.Component<any, any> {
 					properties: {
 						loop: { const: versionedSlug },
 						type: { const: 'improvement@1.0.0' },
-
-						data: {
-							type: 'object',
-							properties: {
-								status: {
-									type: 'string',
-									const: 'completed',
-								},
-							},
-						},
 					},
 					$$links: {
 						'has attached element': {
@@ -248,7 +234,6 @@ export default class LoopFull extends React.Component<any, any> {
 													},
 													value: {
 														type: 'string',
-														const: 'completed',
 													},
 												},
 											},
@@ -269,20 +254,49 @@ export default class LoopFull extends React.Component<any, any> {
 				},
 			)
 			.then((results) => {
-				console.log('improvement results', results);
-				const deltas = results.map((i) => {
+				const traces: { [key: string]: string[] } = {
+					proposed: [],
+					researching: [],
+					'awaiting-approval': [],
+					'ready-to-implement': [],
+					implementation: [],
+					completed: [],
+					'denied-or-failed': [],
+				};
+				const deltas: any[] = [];
+				for (const i of results) {
 					const start = i.created_at;
-					const end = i.links!['has attached element'][0].created_at;
-					const unixDelta = new Date(end).getTime() - new Date(start).getTime();
-					const inDays = unixDelta / (1000 * 60 * 60 * 24);
-					return {
-						delta: inDays,
-						...i,
-					};
-				});
-				console.log('improvement deltas', deltas);
+
+					traces.proposed.push(start);
+
+					for (const update of i.links!['has attached element']) {
+						const statusPatch = (update as any).data.payload.find(
+							(x) => x.path === '/data/status',
+						);
+						if (traces[statusPatch.value]) {
+							traces[statusPatch.value].push(update.created_at);
+						}
+
+						if (
+							i.data.status === 'completed' &&
+							statusPatch.value === 'completed'
+						) {
+							const end = update.created_at;
+							const unixDelta =
+								new Date(end).getTime() - new Date(start).getTime();
+							const inDays = unixDelta / (1000 * 60 * 60 * 24);
+							deltas.push({
+								delta: inDays,
+								...i,
+							});
+						}
+					}
+				}
 				const average = _.sum(_.map(deltas, 'delta')) / deltas.length;
-				this.setState({ averageImprovementLifetime: average });
+				this.setState({
+					averageImprovementLifetime: average,
+					improvementTraces: traces,
+				});
 			})
 			.catch(console.error);
 
@@ -343,7 +357,6 @@ export default class LoopFull extends React.Component<any, any> {
 				},
 			})
 			.then((results) => {
-				console.log('pattern results', results);
 				const deltas = results.map((i) => {
 					const start = i.links!['is attached to'][0].created_at;
 					const end = i.links!['has attached element'][0].created_at;
@@ -354,7 +367,6 @@ export default class LoopFull extends React.Component<any, any> {
 						...i,
 					};
 				});
-				console.log('pattern deltas', deltas);
 				const average = results.length
 					? _.sum(_.map(deltas, 'delta')) / deltas.length
 					: 'n/a';
@@ -393,7 +405,6 @@ export default class LoopFull extends React.Component<any, any> {
 				},
 			)
 			.then((results) => {
-				console.log('PR results', results);
 				const deltas = results.map((i) => {
 					const start = i.created_at;
 					const end = i.data.merged_at as string;
@@ -404,11 +415,9 @@ export default class LoopFull extends React.Component<any, any> {
 						...i,
 					};
 				});
-				console.log('PR deltas ', deltas);
 				const average = results.length
 					? _.sum(_.map(deltas, 'delta')) / deltas.length
 					: 'n/a';
-				console.log('PR average', average);
 				this.setState({ averagePRmergetime: average });
 			})
 			.catch(console.error);
@@ -425,6 +434,7 @@ export default class LoopFull extends React.Component<any, any> {
 			proposed,
 			pulls,
 			topics,
+			improvementTraces,
 		} = this.state;
 
 		let snippetLens;
@@ -433,6 +443,19 @@ export default class LoopFull extends React.Component<any, any> {
 			const { getLenses } = require('../../');
 			const lenses = getLenses('snippet', oldestOpenPulls[0], this.props.user);
 			snippetLens = lenses[0];
+		}
+
+		let plotData;
+
+		if (improvementTraces) {
+			plotData = _.map(improvementTraces, (trace, key) => {
+				return {
+					name: key,
+					type: 'histogram',
+					cumulative: { enabled: true },
+					x: trace,
+				};
+			}).reverse();
 		}
 
 		return (
@@ -501,39 +524,78 @@ export default class LoopFull extends React.Component<any, any> {
 					</Flex>
 				</Box>
 				<Flex mx={-3}>
-					<Card p={3} mx={3} flex="1">
-						<Txt>Average time from improvement creation to completion</Txt>
-						{this.state.averageImprovementLifetime ? (
-							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
-								{Math.ceil(this.state.averageImprovementLifetime)} days
-							</Heading.h2>
-						) : (
-							<Icon spin name="cog" />
-						)}
-					</Card>
-					<Card p={3} mx={3} flex="1">
-						<Txt>
-							Average time from pattern creation to completed improvement
-						</Txt>
-						{this.state.averagePatternResolutionTime ? (
-							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
-								{Math.ceil(this.state.averagePatternResolutionTime)} days
-							</Heading.h2>
-						) : (
-							<Icon spin name="cog" />
-						)}
-					</Card>
-					<Card p={3} mx={3} flex="1">
-						<Txt>Average time to merge PR (last 100)</Txt>
-						{this.state.averagePRmergetime ? (
-							<Heading.h2 style={{ textAlign: 'center' }} py={4}>
-								{Math.ceil(this.state.averagePRmergetime)} hours
-							</Heading.h2>
-						) : (
-							<Icon spin name="cog" />
-						)}
-					</Card>
+					<Flex mx={3} flex="1">
+						<Card p={3} flex="1">
+							<Flex justifyContent="space-between" alignItems="center">
+								<Txt>Improvement cycle time</Txt>
+								<Txt tooltip="The mean average time taken for an improvement to go from creation to completion">
+									<Icon name="info-circle" />
+								</Txt>
+							</Flex>
+							{this.state.averageImprovementLifetime ? (
+								<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+									{Math.ceil(this.state.averageImprovementLifetime)} days
+								</Heading.h2>
+							) : (
+								<Icon spin name="cog" />
+							)}
+						</Card>
+					</Flex>
+
+					<Flex mx={3} flex="1">
+						<Card p={3} flex="1">
+							<Flex justifyContent="space-between" alignItems="center">
+								<Txt>Pattern ↦ Improvement cycle time</Txt>
+								<Txt tooltip="The mean average time taken between a pattern being created and improvement linked to it being completed">
+									<Icon name="info-circle" />
+								</Txt>
+							</Flex>
+							{this.state.averagePatternResolutionTime ? (
+								<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+									{Math.ceil(this.state.averagePatternResolutionTime)} days
+								</Heading.h2>
+							) : (
+								<Icon spin name="cog" />
+							)}
+						</Card>
+					</Flex>
+
+					<Flex mx={3} flex="1">
+						<Card p={3} flex="1">
+							<Flex justifyContent="space-between" alignItems="center">
+								<Txt>Time to merge PR</Txt>
+								<Txt tooltip="The mean average time taken to merge last 100 PRs">
+									<Icon name="info-circle" />
+								</Txt>
+							</Flex>
+							{this.state.averagePRmergetime ? (
+								<Heading.h2 style={{ textAlign: 'center' }} py={4}>
+									{Math.ceil(this.state.averagePRmergetime)} hours
+								</Heading.h2>
+							) : (
+								<Icon spin name="cog" />
+							)}
+						</Card>
+					</Flex>
 				</Flex>
+
+				<Card p={3} my={3} flex="1">
+					<Txt>Cumulative Flow of Improvements</Txt>
+					<Flex justifyContent="center" alignItems="center">
+						{improvementTraces ? (
+							<Plot
+								data={plotData}
+								layout={{
+									height: 500,
+									barmode: 'stack',
+									bargap: 0,
+								}}
+							/>
+						) : (
+							<Icon spin name="cog" />
+						)}
+					</Flex>
+				</Card>
 
 				<Card p={3} my={3} flex="1">
 					<Txt>Highest weight patterns</Txt>
