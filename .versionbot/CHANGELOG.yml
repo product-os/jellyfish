@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Use snippet lens for Kanban board cards"
+      hash: 1199da9a5592d5b4c4f87afa6cdcf41592f1afa3
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 50.7.0
+  title: "'UI: Use snippet lens for Kanban board cards'"
+  date: 2022-05-19T13:11:02.576Z
+- commits:
     - subject: "UI: Add a cumulative flow diagram for improvements"
       hash: 4cfd316a3093986eddf1fd11b1cd958df821486c
       body: |
