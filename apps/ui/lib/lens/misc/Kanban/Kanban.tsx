@@ -7,6 +7,7 @@ import skhema from 'skhema';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import { analytics, sdk } from '../../../core';
+import { Card } from './Card';
 
 const TrelloWrapper = styled(Flex)`
 	height: 100%;
@@ -161,6 +162,7 @@ export default class Kanban extends React.Component<any, any> {
 				id: `${schema.description}`,
 				cards: [],
 				title: label,
+				label: '(0)',
 			};
 			if (!cards.length) {
 				lanes.push(lane);
@@ -171,6 +173,7 @@ export default class Kanban extends React.Component<any, any> {
 			});
 			lane.cards = _.map(slicedCards, cardMapper);
 			cards = remaining;
+			lane.label = `(${lane.cards.length})`;
 			lanes.push(lane);
 		});
 
@@ -190,7 +193,9 @@ export default class Kanban extends React.Component<any, any> {
 			lanes: this.getLanes(),
 		};
 
-		const components = {};
+		const components = {
+			Card,
+		};
 
 		return (
 			<TrelloWrapper data-test={`lens--${SLUG}`} flexDirection="column">
