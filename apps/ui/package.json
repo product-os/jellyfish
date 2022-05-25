@@ -78,7 +78,7 @@
     "react-swipeable": "^6.2.2",
     "react-textarea-autosize": "^8.3.3",
     "react-trello": "^2.2.11",
-    "react-virtuoso": "^2.10.2",
+    "react-virtuoso": "^2.11.0",
     "react-visibility-sensor": "^5.1.1",
     "redux": "^4.2.0",
     "redux-persist": "^6.0.0",
