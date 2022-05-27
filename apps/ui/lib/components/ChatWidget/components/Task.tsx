@@ -3,7 +3,7 @@ import { Link, Flex } from 'rendition';
 import { ErrorMessage } from './ErrorMessage';
 import { Loader } from './Loader';
 
-export const Task = ({ task, children, ...rest }) => {
+export const Task: React.FC<any> = ({ task, children, ...rest }) => {
 	if (!task.finished || task.error) {
 		return (
 			<Flex justifyContent="center" mt={3} mx={3} {...rest}>

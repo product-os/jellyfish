@@ -59,6 +59,7 @@ services:
       SERVER_PORT: 443
       TOKENS_CONFIG: ','
       UI_PORT: 443
+      HYDRA_ADMIN_HOST: http://hydra:4445
 
   api:
     entrypoint:
@@ -68,12 +69,13 @@ services:
     environment:
       <<: *default-environment
       # /etc/docker.env:API_HOST=api.{{balena_device_uuid}}.{{dns_tld}}
-      HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
+      HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel,LIVECHAT_HOST:livechat,HYDRA_PUBLIC_HOST:hydra
       SENTRY_CONFIG: ','
       # /etc/docker.env:RESET_PASSWORD_SECRET_TOKEN="$(openssl rand -hex 16)"
       TOKENS_CONFIG: RESET_PASSWORD_SECRET_TOKEN:hex,MONITOR_SECRET_TOKEN:hex
       LOGLEVEL: crit
       NO_LOG_SUCCESS: 1
+      HYDRA_ADMIN_HOST: http://hydra:4445
     healthcheck:
       interval: 15s
       retries: 3
@@ -83,6 +85,7 @@ services:
       - postgres
       - redis
       - mdns
+      - hydra
     restart: unless-stopped
     labels:
       io.balena.features.supervisor-api: 1
@@ -101,7 +104,7 @@ services:
     command: /usr/src/jellyfish/apps/ui/run.sh
     environment:
       <<: *default-environment
-      HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel
+      HOSTS_CONFIG: API_HOST:api,UI_HOST:jel,OAUTH_REDIRECT_BASE_URL:jel,LIVECHAT_HOST:livechat
       SENTRY_CONFIG: ','
       SENTRY_DSN_UI: 0
       SERVER_PORT: 443
@@ -134,6 +137,25 @@ services:
     command: ['postgres', '-c', 'fsync=off', '-c', 'synchronous_commit=off', '-c', 'full_page_writes=off']
     volumes:
       - postgres-data:/var/lib/postgresql/data
+
+  hydra:
+    build:
+      context: ./apps/hydra
+      dockerfile: Dockerfile
+    volumes:
+      - resin-data:/balena
+    depends_on:
+      - postgres
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: curl --fail http://localhost:4445/health/alive
+      timeout: 5s
+    environment:
+      <<: *default-environment
+      HOSTS_CONFIG: UI_HOST:jel,HYDRA_PUBLIC_HOST:hydra
+      LOG_LEVEL: info
+      SECRETS_SYSTEM: youReallyNeedToChangeThis
 
   # https://hub.docker.com/_/redis
   redis:
@@ -252,8 +274,8 @@ services:
     restart: unless-stopped
     environment:
       <<: *default-environment
-      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,stats,ui
-      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel
+      MDNS_SUBDOMAINS: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,stats,ui,hydra
+      HOSTS_CONFIG: API_HOST:api,AWS_S3_ENDPOINT:s3,REGISTRY_HOST:registry,REGISTRY2_HOST:registry,UI_HOST:jel,HYDRA_PUBLIC_HOST:hydra
       SENTRY_CONFIG: ','
       TOKENS_CONFIG: ','
     healthcheck:
@@ -346,7 +368,7 @@ services:
     environment:
       <<: *default-environment
       # resolved internally as {{service}}.{{tld-without-balena-device-uuid}}
-      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3
+      ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3,hydra
     labels:
       io.balena.features.balena-socket: '1'
       io.balena.features.supervisor-api	: '1'

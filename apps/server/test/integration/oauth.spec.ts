@@ -30,8 +30,7 @@ const outreachTest =
 
 const balenaApiTest =
 	environment.integration['balena-api'].appId &&
-	environment.integration['balena-api'].appSecret &&
-	environment.integration['balena-api'].oauthBaseUrl
+	environment.integration['balena-api'].appSecret
 		? test
 		: test.skip;
 
@@ -79,7 +78,6 @@ outreachTest('should be able to associate a user with Outreach', async () => {
 					grant_type: 'authorization_code',
 					client_id: environment.integration.outreach.appId,
 					client_secret: environment.integration.outreach.appSecret,
-					redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
 					code: '123456',
 				})
 			) {
@@ -156,7 +154,6 @@ outreachTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration.outreach.appId,
 						client_secret: environment.integration.outreach.appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
 						code: '123456',
 					})
 				) {
@@ -232,7 +229,6 @@ outreachTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration.outreach.appId,
 						client_secret: environment.integration.outreach.appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
 						code: '123456',
 					})
 				) {
@@ -295,7 +291,6 @@ outreachTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration.outreach.appId,
 						client_secret: environment.integration.outreach.appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
 						code: '123456',
 					})
 				) {
@@ -351,7 +346,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://dashboard.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -362,7 +357,7 @@ balenaApiTest(
 				]);
 			});
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://api.balena-cloud.com')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -372,7 +367,6 @@ balenaApiTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration['balena-api'].appId,
 						client_secret: environment.integration['balena-api'].appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
 						code: '123456',
 					})
 				) {
@@ -440,13 +434,13 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://dashboard.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [429]);
 			});
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://dashboard.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -457,7 +451,7 @@ balenaApiTest(
 				]);
 			});
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://api.balena-cloud.com')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -467,7 +461,6 @@ balenaApiTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration['balena-api'].appId,
 						client_secret: environment.integration['balena-api'].appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
 						code: '123456',
 					})
 				) {
@@ -525,7 +518,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://dashboard.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -536,7 +529,7 @@ balenaApiTest(
 				]);
 			});
 
-		nock(environment.integration['balena-api'].oauthBaseUrl)
+		nock('https://api.balena-cloud.com')
 			.post('/oauth/token')
 			.reply(function (_uri, request, callback) {
 				const body = querystring.decode(request as any);
@@ -546,7 +539,6 @@ balenaApiTest(
 						grant_type: 'authorization_code',
 						client_id: environment.integration['balena-api'].appId,
 						client_secret: environment.integration['balena-api'].appSecret,
-						redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/balena-api`,
 						code: '123456',
 					})
 				) {

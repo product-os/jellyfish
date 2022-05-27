@@ -1,0 +1,16 @@
+serve:
+  cookies:
+    same_site_mode: Lax
+
+oidc:
+  dynamic_client_registration:
+    enabled: true
+
+webfinger:
+  oidc_discovery:
+    userinfo_url: http://hydra:4444/userinfo
+
+dangerous-force-http: true
+
+log:
+  level: debug

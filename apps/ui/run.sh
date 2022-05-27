@@ -15,6 +15,7 @@ set -ae
 /usr/sbin/configure-balena.sh && source /etc/docker.env
 
 SERVER_HOST="https://${API_HOST}"
+LIVECHAT_HOST="https://${LIVECHAT_HOST}"
 UI_HOST="https://${UI_HOST}"
 OAUTH_REDIRECT_BASE_URL="https://${OAUTH_REDIRECT_BASE_URL}"
 

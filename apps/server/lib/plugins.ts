@@ -8,6 +8,7 @@ import { githubPlugin } from '@balena/jellyfish-plugin-github';
 import { outreachPlugin } from '@balena/jellyfish-plugin-outreach';
 import { productOsPlugin } from '@balena/jellyfish-plugin-product-os';
 import { typeformPlugin } from '@balena/jellyfish-plugin-typeform';
+import { oauthPlugin } from '@balena/jellyfish-plugin-oauth';
 import { PluginDefinition } from '@balena/jellyfish-worker';
 
 export function getPlugins(): PluginDefinition[] {
@@ -22,5 +23,6 @@ export function getPlugins(): PluginDefinition[] {
 		outreachPlugin(),
 		frontPlugin(),
 		balenaApiPlugin(),
+		oauthPlugin(),
 	];
 }

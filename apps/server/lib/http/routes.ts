@@ -7,6 +7,7 @@ import type {
 	Sync,
 	Worker,
 } from '@balena/jellyfish-worker';
+import { hydraAdmin } from '@balena/jellyfish-plugin-oauth';
 import { strict } from 'assert';
 import type { Kernel } from 'autumndb';
 import Bluebird from 'bluebird';
@@ -221,26 +222,31 @@ export const attachRoutes = (
 		return registry.authenticate(request, response, kernel);
 	});
 
-	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
-		const associateUrl = oauth.getAuthorizeUrl(
-			request.params.provider,
-			request.params.slug,
-			{
-				sync: options.sync,
-			},
+	application.get('/api/v2/oauth/url/:provider', async (request, response) => {
+		const provider = await kernel.getContractBySlug(
+			request.context,
+			kernel.adminSession()!,
+			`oauth-provider-${request.params.provider}@1.0.0`,
 		);
-		const status = associateUrl ? 200 : 400;
-		return response.status(status).json({
+
+		if (!provider) {
+			return response.status(404).send({
+				error: true,
+				data: `Oauth provider "${request.params.provider}" not found`,
+			});
+		}
+
+		return response.json({
 			error: false,
 			data: {
-				url: associateUrl,
+				url: provider.data.authorizeUrl,
 			},
 		});
 	});
 
 	const oauthAssociate = async (request, response, slug, code) => {
 		logger.info(request.context, `Associating oauth user: ${slug}`, {
-			source: request.params.provider,
+			provider: request.params.provider,
 		});
 
 		if (!slug) {
@@ -248,12 +254,25 @@ export const attachRoutes = (
 		}
 
 		try {
+			const provider = await kernel.getContractBySlug(
+				request.context,
+				kernel.adminSession()!,
+				`oauth-provider-${request.params.provider}@1.0.0`,
+			);
+
+			if (!provider) {
+				return response.status(401).send({
+					error: true,
+					data: `Oauth provider "${request.params.provider}" not found`,
+				});
+			}
+
 			// 1. Exchange oauth code for token
 			const credentials = await oauth.authorize(
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				`${provider.slug}@${provider.version}`,
 				{
 					code,
 					ip: request.ip,
@@ -263,7 +282,9 @@ export const attachRoutes = (
 			// 2. Fetch user data from provider
 			const externalUser = await oauth.whoami(
 				request.context,
-				request.params.provider,
+				worker,
+				kernel.adminSession()!,
+				provider.data.integration as string,
 				credentials,
 				{
 					sync: options.sync,
@@ -275,7 +296,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				provider.data.integration as string,
 				externalUser,
 				{
 					slug,
@@ -289,7 +310,7 @@ export const attachRoutes = (
 					request.context,
 					worker,
 					kernel.adminSession()!,
-					request.params.provider,
+					provider.data.integration as string,
 					externalUser,
 					{
 						sync: options.sync,
@@ -307,7 +328,7 @@ export const attachRoutes = (
 						request.context,
 						`Failed to sync external oauth user: ${slug}`,
 						{
-							source: request.params.provider,
+							source: provider.data.integration as string,
 							externalUser,
 						},
 					);
@@ -324,7 +345,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				provider.data.integration as string,
 				user,
 				credentials,
 				{
@@ -879,6 +900,148 @@ export const attachRoutes = (
 				return sendHTTPError(request, response, error);
 			});
 	});
+
+	application.post('/api/v2/oauthprovider/login', async (request, response) => {
+		try {
+			const user = await authFacade.whoami(
+				request.context,
+				request.session,
+				request.ip,
+			);
+
+			if (!user || user.slug === 'user-guest') {
+				throw new Error('User is not authorized.');
+			}
+
+			// The challenge is used to fetch information about the login request from ORY Hydra.
+			const challenge = request.body.challenge;
+
+			if (!challenge) {
+				throw new Error(
+					'Expected a login challenge to be set but received none.',
+				);
+			}
+
+			const {
+				data: { redirect_to },
+			} = await hydraAdmin.acceptLoginRequest(challenge, {
+				// Subject is an alias for user ID. A subject can be a random string, a UUID, an email address, ....
+				subject: user.slug,
+
+				// This tells hydra to remember the browser and automatically authenticate the user in future requests. This will
+				// set the "skip" parameter in the other route to true on subsequent requests!
+				remember: true,
+
+				// When the session expires, in seconds. Set this to 0 so it will never expire.
+				remember_for: 0,
+			});
+
+			response.send({
+				error: false,
+				data: {
+					redirect_to,
+				},
+			});
+		} catch (error) {
+			return sendHTTPError(request, response, error);
+		}
+	});
+
+	application.post(
+		'/api/v2/oauthprovider/consent',
+		async (request, response) => {
+			try {
+				const user = await authFacade.whoami(
+					request.context,
+					request.session,
+					request.ip,
+				);
+
+				if (!user || user.slug === 'user-guest') {
+					throw new Error('User is not authorized.');
+				}
+
+				// The challenge is used to fetch information about the login request from ORY Hydra.
+				const { challenge, accept, consent } = request.body;
+
+				if (!accept) {
+					const { data: rejectConsentResponse } =
+						await hydraAdmin.rejectConsentRequest(challenge, {
+							error: 'access_denied',
+							error_description: 'The resource owner denied the request',
+						});
+
+					return response.send({
+						error: false,
+						data: {
+							redirect_to: rejectConsentResponse.redirect_to,
+						},
+					});
+				}
+
+				if (!challenge) {
+					throw new Error(
+						'Expected a login challenge to be set but received none.',
+					);
+				}
+
+				const { data: consentRequest } = await hydraAdmin.getConsentRequest(
+					challenge,
+				);
+
+				let grantScope = consent.grant_scope;
+				if (!Array.isArray(grantScope)) {
+					grantScope = [grantScope];
+				}
+
+				const {
+					data: { redirect_to },
+				} = await hydraAdmin.acceptConsentRequest(challenge, {
+					// We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
+					// are requested accidentally.
+					grant_scope: grantScope,
+
+					// ORY Hydra checks if requested audiences are allowed by the client, so we can simply echo this.
+					grant_access_token_audience:
+						consentRequest.requested_access_token_audience,
+
+					// This tells hydra to remember this consent request and allow the same client to request the same
+					// scopes from the same user, without showing the UI, in the future.
+					remember: Boolean(consent.remember),
+
+					// When this "remember" sesion expires, in seconds. Set this to 0 so it will never expire.
+					remember_for: 0,
+				});
+
+				response.send({
+					error: false,
+					data: {
+						redirect_to,
+					},
+				});
+			} catch (error) {
+				return sendHTTPError(request, response, error);
+			}
+		},
+	);
+
+	application.get(
+		'/api/v2/oauthprovider/consent/:challenge',
+		async (request, response) => {
+			try {
+				const consentRequest = await hydraAdmin.getConsentRequest(
+					request.params.challenge,
+				);
+
+				response.send({
+					error: false,
+					data: consentRequest.data,
+				});
+			} catch (error) {
+				return sendHTTPError(request, response, error);
+			}
+		},
+	);
 
 	// The login route dispatches the login request to the auth facade using
 	// the admin session. This is a special case because we don't want anonymous

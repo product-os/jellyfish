@@ -345,7 +345,7 @@ exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollableSele
 }
 
 exports.mockLoginAs = async (page, baseURL, user) => {
-	const oauthUrl = 'https://dashboard.balena-cloud.com/login/oauth/jellyfish'
+	const oauthUrl = `https://dashboard.balena-cloud.com/login/oauth/${environment.integration['balena-api'].appId}`
 	const code = uuid()
 
 	await page.route('**/*', async (route) => {

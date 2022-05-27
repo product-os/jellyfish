@@ -6,7 +6,7 @@ import manifestJSON from '../manifest.json';
 import PageTitle from './PageTitle';
 import HomeChannel from './HomeChannel';
 import { createLazyComponent } from './SafeLazy';
-import { useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, selectors } from '../core';
 
 const RouteHandler = createLazyComponent(
@@ -25,10 +25,10 @@ const ChatWidgetSidebar = createLazyComponent(
 const Authorized = () => {
 	const [home] = useSelector(selectors.getChannels);
 	const isChatWidgetOpen = useSelector(selectors.getChatWidgetOpen);
-	const store = useStore();
+	const dispatch = useDispatch();
 
 	const handleChatWidgetClose = React.useCallback(() => {
-		actionCreators.setChatWidgetOpen(false)(store.dispatch, store.getState);
+		dispatch(actionCreators.setChatWidgetOpen(false));
 	}, []);
 
 	return (
@@ -48,9 +48,10 @@ const Authorized = () => {
 				</Switch>
 			</Flex>
 
-			{isChatWidgetOpen && (
-				<ChatWidgetSidebar onClose={handleChatWidgetClose} />
-			)}
+			<ChatWidgetSidebar
+				onClose={handleChatWidgetClose}
+				isVisible={isChatWidgetOpen}
+			/>
 		</React.Fragment>
 	);
 };

@@ -1,17 +1,15 @@
 const ava = require('ava')
 const helpers = require('./helpers')
 
-ava.serial('/api/v2/oauth should return 400 given an unknown oauth integration', async (test) => {
+ava.serial('/api/v2/oauth/url/:provider should return 404 given an unknown oauth provider', async (test) => {
 	const result = await helpers.http(
-		'GET', '/api/v2/oauth/helloworld/user-test')
+		'GET', '/api/v2/oauth/url/helloworld')
 	test.deepEqual(result, {
-		code: 400,
+		code: 404,
 		headers: result.headers,
 		response: {
-			error: false,
-			data: {
-				url: null
-			}
+			error: true,
+			data: 'Oauth provider "helloworld" not found'
 		}
 	})
 })

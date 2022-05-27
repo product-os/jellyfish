@@ -46,6 +46,9 @@ fi
 
 INTEGRATION_BALENA_API_PRIVATE_KEY=${INTEGRATION_BALENA_API_PRIVATE_KEY:-$(cat < "${CERTS}/private/livechat.${tld}.ecdsa.key" | openssl pkcs8 -topk8 -nocrypt | openssl base64 -A)}
 INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION=${INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION:-$(cat < "${CERTS}/private/livechat.${tld}.ecdsa.key" | openssl ec -pubout | openssl base64 -A)}
+LIVECHAT_HOST=https://${LIVECHAT_HOST}
+HYDRA_PUBLIC_HOST=https://${HYDRA_PUBLIC_HOST}
+HYDRA_ADMIN_HOST=${HYDRA_ADMIN_HOST:-http://hydra:4445}
 OAUTH_REDIRECT_BASE_URL="https://${OAUTH_REDIRECT_BASE_URL}"
 REGISTRY_TOKEN_AUTH_CERT_PUB=${REGISTRY_TOKEN_AUTH_CERT_PUB:-$(cat < "${CERTS}/private/api.${tld}.pem" | openssl base64 -A)}
 SERVER_HOST="https://${API_HOST}"

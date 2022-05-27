@@ -386,32 +386,42 @@ test.describe('Chat Widget', () => {
 		const message = `Message ${uuid()}`
 		const replyMessage = `Reply ${uuid()}`
 
-		// Use the chat widget to start a new conversation
+		// Chat widget is hidden by default
+		await page.waitForSelector(`${cwWrapper}[data-visible="false"]`, {
+			state: 'hidden'
+		})
+
+		// Open the chat widget
 		await page.locator('[data-test="open-chat-widget"]').click()
 
-		// Wait for the chat widget to open
-		await page.locator('[data-test="start-new-conversation-button"], [data-test="start-conversation-button"]').click()
-		await macros.setInputValue(page, `${cwWrapper} [data-test="conversation-subject"]`, subject)
-		await macros.setInputValue(page, `${cwWrapper} textarea.new-message-input`, message)
-		await page.locator(`${cwWrapper} [data-test="start-conversation-button"]`).click()
+		// Get visible livechat iframe
+		const frameSrc = `${environment.livechat.host}/livechat`
+		const frame = await (await page.waitForSelector(`${cwWrapper}[data-visible="true"] iframe[src^="${frameSrc}"]`))
+			.contentFrame()
+
+		// Wait for the chat widget to load
+		await frame.locator('[data-test="start-new-conversation-button"], [data-test="start-conversation-button"]').click()
+		await macros.setInputValue(frame, '[data-test="conversation-subject"]', subject)
+		await macros.setInputValue(frame, 'textarea.new-message-input', message)
+		await frame.locator('[data-test="start-conversation-button"]').click()
 
 		// Verify the conversation timeline is displayed in the chat widget
 		const threadSelector = '[data-test="chat-page"]'
-		const threadElement = await page.waitForSelector(threadSelector)
-		const threadId = await macros.getElementAttribute(page, threadElement, 'data-test-id')
-		const messageText = await macros.getElementText(page, `${threadSelector} [data-test="event-card__message"] p`)
+		const threadElement = await frame.waitForSelector(threadSelector)
+		const threadId = await macros.getElementAttribute(frame, threadElement, 'data-test-id')
+		const messageText = await macros.getElementText(frame, `${threadSelector} [data-test="event-card__message"] p`)
 		expect(messageText.trim(), message)
 
 		// Return to the conversation list...
-		await page.locator('[data-test="navigate-back-button"]').click()
+		await frame.locator('[data-test="navigate-back-button"]').click()
 
 		// ...and verify the new conversation is also now listed in the conversation list in the chat widget
-		const messageSnippet = await macros.getElementText(page,
+		const messageSnippet = await macros.getElementText(frame,
 			`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`)
 		expect(messageSnippet.trim(), message)
 
 		// Now close the chat widget and navigate to the 'Jellyfish threads' support view
-		await page.locator('[data-test="chat-widget"] [data-test="close-chat-widget"]').click()
+		await frame.locator('[data-test="close-chat-widget"]').click()
 		await macros.navigateToHomeChannelItem(page, [
 			'[data-test="home-channel__group-toggle--org-balena"]',
 			'[data-test="home-channel__group-toggle--Support"]',
@@ -437,7 +447,7 @@ test.describe('Chat Widget', () => {
 		// And finally verify the reply shows up in the chat widget conversation summary
 		await page.locator('[data-test="open-chat-widget"]').click()
 		await macros.waitForInnerText(
-			page,
+			frame,
 			`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`,
 			replyMessage
 		)
@@ -538,9 +548,9 @@ test.describe('Outreach', () => {
 		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(4)').click()
 
 		// Wait for the Outreach API redirect to occur
-		let url = ''
+		let url = null
 		await page.route('https://api.outreach.io/oauth/authorize**', async (route) => {
-			url = route.request().url()
+			url = new URL(route.request().url())
 			route.abort('aborted')
 		})
 
@@ -551,7 +561,23 @@ test.describe('Outreach', () => {
 
 		const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
 
-		expect(url).toEqual(`https://api.outreach.io/oauth/authorize?response_type=code&client_id=${environment.integration.outreach.appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all&state=${user.slug}`)
+		expect(url.origin).toBe('https://api.outreach.io')
+		expect(url.pathname).toBe('/oauth/authorize')
+		expect(Object.fromEntries(url.searchParams)).toEqual({
+			response_type: 'code',
+			client_id: environment.integration.outreach.appId,
+			redirect_uri: redirectUri,
+			scope: [
+				'mailboxes.all',
+				'prospects.all',
+				'sequences.all',
+				'sequenceStates.all',
+				'sequenceSteps.all',
+				'sequenceTemplates.all',
+				'webhooks.all'
+			].join('+'),
+			state: user.slug
+		})
 
 		await page.unroute('https://api.outreach.io/oauth/authorize**')
 	})

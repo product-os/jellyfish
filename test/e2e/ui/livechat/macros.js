@@ -142,12 +142,13 @@ exports.prepareUser = async (sdk, org, role, name) => {
 exports.initChat = async (page, user) => {
 	const queryString = qs.stringify({
 		loginAs: user.card.slug.replace('user-', ''),
+		loginWithProvider: 'balena-api',
 		product: 'balenaCloud',
 		productTitle: 'Livechat test',
 		inbox: 'paid'
 	})
 
-	const url = `/livechat?${queryString}`
+	const url = `${environment.livechat.host}/livechat?${queryString}`
 	await page.goto(url)
 }
 

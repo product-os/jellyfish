@@ -4,6 +4,7 @@ const crypto = require('crypto')
 const jws = require('jsonwebtoken')
 const _ = require('lodash')
 const jose = require('node-jose')
+const qs = require('qs')
 const {
 	v4: uuid
 } = require('uuid')
@@ -140,25 +141,22 @@ ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
 	test.true(result.response.error)
 })
 
-outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
+ava.serial('/api/v2/oauth/url/jellyfish should return oauth-provider-jellyfish authorizeUrl', async (test) => {
 	const result = await helpers.http(
-		'GET', '/api/v2/oauth/outreach/user-test')
+		'GET', '/api/v2/oauth/url/jellyfish')
 
-	const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
-	const qs = [
-		'response_type=code',
-		`client_id=${environment.integration.outreach.appId}`,
-		`redirect_uri=${encodeURIComponent(redirectUri)}`,
-		'scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all',
-		'state=user-test'
-	].join('&')
 	test.deepEqual(result, {
 		code: 200,
 		headers: result.headers,
 		response: {
 			error: false,
 			data: {
-				url: `https://api.outreach.io/oauth/authorize?${qs}`
+				url: `${
+					environment.hydra.publicHost
+				}/oauth2/auth?${qs.stringify({
+					client_id: environment.integration.jellyfish.appId,
+					response_type: 'code'
+				})}`
 			}
 		}
 	})

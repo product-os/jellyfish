@@ -125,11 +125,11 @@ export default class EditMyUserLens extends React.Component<any, any> {
 			fetchingIntegrationUrl: true,
 		});
 		const user = this.props.card.card;
-		const url = await this.props.actions.getIntegrationAuthUrl(
-			user,
-			'outreach',
+		const url = new URL(
+			await this.props.actions.getIntegrationAuthUrl(user, 'outreach'),
 		);
-		window.location.href = url;
+		url.searchParams.append('state', user.slug);
+		window.location.href = url.toString();
 	}
 
 	handlePasswordFormChange(data) {

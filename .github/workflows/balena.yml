@@ -32,8 +32,9 @@ env:
     export-database \
     import-database \
     e2e-server-previous-dump
-
-  LIVECHAT_PORT: 443
+  INTEGRATION_JELLYFISH_APP_ID: jellyfish
+  INTEGRATION_JELLYFISH_APP_SECRET: changeme
+  HYDRA_ADMIN_HOST: http://hydra:4445
   LOGLEVEL: warning
   NODE_ENV: test
   POSTGRES_DATABASE: jellyfish
@@ -278,6 +279,18 @@ jobs:
           balena env add LIVECHAT_HOST "livechat.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
+          balena env add HYDRA_ADMIN_HOST '${{ env.HYDRA_ADMIN_HOST }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add HYDRA_PUBLIC_HOST "hydra.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add INTEGRATION_JELLYFISH_APP_ID '${{ env.INTEGRATION_JELLYFISH_APP_ID }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add INTEGRATION_JELLYFISH_APP_SECRET '${{ env.INTEGRATION_JELLYFISH_APP_SECRET }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
           balena env add UI_HOST "jel.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
@@ -308,10 +321,6 @@ jobs:
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
           balena env add VERBOSE '${{ env.VERBOSE }}' \
-            --service '${{ env.JELLYFISH_TESTS_SERVICE }}' \
-            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
-          balena env add LIVECHAT_PORT '${{ env.LIVECHAT_PORT }}' \
             --service '${{ env.JELLYFISH_TESTS_SERVICE }}' \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 

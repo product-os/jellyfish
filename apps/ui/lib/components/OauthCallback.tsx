@@ -5,7 +5,10 @@ import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../core';
 import { useSetup } from './SetupProvider';
-import { LOGIN_AS_SEARCH_PARAM_NAME } from './LoginAs';
+import {
+	LOGIN_AS_SEARCH_PARAM_NAME,
+	LOGIN_WITH_PROVIDER_SEARCH_PARAM_NAME,
+} from './LoginAs';
 import { slugify } from '../services/helpers';
 
 const OauthCallback = () => {
@@ -34,8 +37,18 @@ const OauthCallback = () => {
 			throw new Error(`${LOGIN_AS_SEARCH_PARAM_NAME} parameter missing`);
 		}
 
+		const provider = returnUrl.searchParams.get(
+			LOGIN_WITH_PROVIDER_SEARCH_PARAM_NAME,
+		);
+
+		if (!provider) {
+			throw new Error(
+				`${LOGIN_WITH_PROVIDER_SEARCH_PARAM_NAME} parameter missing`,
+			);
+		}
+
 		const { access_token: token } = await sdk.post<{ access_token: string }>(
-			'/oauth/balena-api',
+			`/oauth/${provider}`,
 			{
 				slug: `user-${slugify(username)}`,
 				code,
@@ -51,12 +64,24 @@ const OauthCallback = () => {
 			analytics,
 		});
 
-		returnUrl.searchParams.delete(LOGIN_AS_SEARCH_PARAM_NAME);
 		history.replace(returnUrl.pathname + returnUrl.search);
 	});
 
 	React.useEffect(() => {
-		exchangeCodeTask.exec();
+		const url = new URL(window.location.href);
+		const errorName = url.searchParams.get('error');
+
+		if (errorName) {
+			const error = new Error(url.searchParams.get('error_description')!);
+			error.name = errorName;
+
+			exchangeCodeTask.setState({
+				finished: true,
+				error,
+			});
+		} else {
+			exchangeCodeTask.exec();
+		}
 	}, []);
 
 	return <Task task={exchangeCodeTask}>{() => null}</Task>;

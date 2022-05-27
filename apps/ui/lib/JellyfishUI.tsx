@@ -39,6 +39,20 @@ const OauthCallback = createLazyComponent(
 		),
 );
 
+const OauthProviderLogin = createLazyComponent(
+	() =>
+		import(
+			/* webpackChunkName: "oauth-provider-login" */ './components/OauthProviderLogin'
+		),
+);
+
+const OauthProviderConsent = createLazyComponent(
+	() =>
+		import(
+			/* webpackChunkName: "oauth-provider-consent" */ './components/OauthProviderConsent'
+		),
+);
+
 // Check if the path begins with a hash fragment, followed by a slash: /#/ OR
 // A path that begins with a type and a tilde
 const LEGACY_PATH_CHECK_RE = /^\/(#\/|[a-z-].+~)/;
@@ -116,6 +130,14 @@ const JellyfishUI = ({ actions, status }) => {
 
 	if (matchPath(location.pathname, '/livechat')) {
 		return <Livechat />;
+	}
+
+	if (matchPath(location.pathname, '/oauthprovider/login')) {
+		return <OauthProviderLogin />;
+	}
+
+	if (matchPath(location.pathname, '/oauthprovider/consent')) {
+		return <OauthProviderConsent />;
 	}
 
 	return <Authorized />;

@@ -418,7 +418,7 @@ export const getSeedData = (
 export const actionCreators = {
 	getIntegrationAuthUrl(user, integration) {
 		return async (dispatch, getState, { sdk }) => {
-			return sdk.integrations.getAuthorizationUrl(user, integration);
+			return (await sdk.get(`/oauth/url/${integration}`)).url;
 		};
 	},
 

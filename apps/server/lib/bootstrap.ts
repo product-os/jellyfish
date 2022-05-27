@@ -2,9 +2,12 @@ import * as assert from '@balena/jellyfish-assert';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
+import type {
+	SessionContract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import * as autumndb from 'autumndb';
 import _ from 'lodash';
 import { createServer } from './http';
@@ -330,6 +333,42 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 				},
 			);
 		}),
+	);
+
+	// Manually sync oauth client
+	// TODO: This should ideally be completely automated, but this would
+	// require that triggered actions are up and running before any
+	// oauth-client contracts are loaded.
+	const oauthClientContractType = await kernel.getContractBySlug<TypeContract>(
+		logContext,
+		kernel.adminSession()!,
+		'oauth-client@latest',
+	);
+
+	assert.INTERNAL(
+		logContext,
+		oauthClientContractType,
+		autumndb.errors.JellyfishNoElement as any,
+		`Contract with type "oauth-client" not found.`,
+	);
+
+	await worker.replaceCard(
+		logContext,
+		kernel.adminSession()!,
+		oauthClientContractType!,
+		{
+			attachEvents: false,
+		},
+		{
+			slug: 'oauth-client-jellyfish',
+			type: 'oauth-client@1.0.0',
+			name: 'Jellyfish oauth client',
+			data: {
+				clientId: environment.integration.jellyfish.appId,
+				clientSecret: environment.integration.jellyfish.appSecret,
+				redirectUrl: `${environment.livechat.host}/oauth/callback`,
+			},
+		},
 	);
 
 	return {

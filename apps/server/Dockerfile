@@ -16,7 +16,7 @@ COPY ./apps/server/run.sh /usr/src/jellyfish/apps/server/run.sh
 #dev-copy=./apps/server/packages/ /usr/src/jellyfish/packages/
 #dev-run=/usr/src/jellyfish/scripts/install-packages.js
 
-#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npm run dev
+#dev-cmd-live=cd /usr/src/jellyfish/apps/server && npm start
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 RUN npm run build
