@@ -1,4 +1,18 @@
 - commits:
+    - subject: Intergrate with ory hydra
+      hash: f8a49a769d3e7f01a07bf901b8bb4069a0872886
+      body: >
+        Perform oauth flow with oauth contracts instead of data from
+        integrations;
+      footer:
+        Change-type: major
+        change-type: major
+      author: karaxuna
+      nested: []
+  version: 51.0.0
+  title: "'Integrate with ory hydra'"
+  date: 2022-05-27T08:53:03.277Z
+- commits:
     - subject: "UI: Use snippet lens for Kanban board cards"
       hash: 1199da9a5592d5b4c4f87afa6cdcf41592f1afa3
       body: ""
