@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update external packages
+      hash: 30272c64599126b0eacdf12709ad465f680a0b47
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.5
+  title: "'Update external packages'"
+  date: 2022-05-28T11:43:45.222Z
+- commits:
     - subject: Update react-virtuoso from 2.10.2 to 2.12.0
       hash: 151bc2c394c34aac1f3ac238c44f2115b138bb18
       body: ""
