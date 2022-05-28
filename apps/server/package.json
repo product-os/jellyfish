@@ -23,7 +23,7 @@
   },
   "dependencies": {
     "@balena/jellyfish-assert": "^1.2.29",
-    "@balena/jellyfish-environment": "^11.0.3",
+    "@balena/jellyfish-environment": "^12.0.4",
     "@balena/jellyfish-logger": "^5.0.31",
     "@balena/jellyfish-metrics": "^2.0.76",
     "@balena/jellyfish-plugin-balena-api": "^3.0.0",
