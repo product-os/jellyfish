@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update nginx image to 1.22.0
+      hash: ba274124f1ca95f0e2705e24e036dd0a5857c482
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.3
+  title: "'Update nginx image to 1.22.0'"
+  date: 2022-05-28T09:28:37.254Z
+- commits:
     - subject: Update plugin doc
       hash: 19137895e5cd343d14e29f488267f476d51ae189
       body: ""
