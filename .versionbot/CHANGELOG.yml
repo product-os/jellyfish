@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update babel deps
+      hash: 4ed19e4a35bfcf761aebd2df81ef2886476180df
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.6
+  title: "'Update babel deps'"
+  date: 2022-05-28T13:33:59.062Z
+- commits:
     - subject: Update external packages
       hash: 30272c64599126b0eacdf12709ad465f680a0b47
       body: ""
