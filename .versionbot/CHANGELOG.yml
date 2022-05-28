@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove old dev docs
+      hash: 9a864a0149039c712669d35441def13842fd3206
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.1
+  title: "'Remove old dev docs'"
+  date: 2022-05-28T02:12:35.940Z
+- commits:
     - subject: "UI: Use snippet lens for Kanban board cards"
       hash: 1199da9a5592d5b4c4f87afa6cdcf41592f1afa3
       body: ""
