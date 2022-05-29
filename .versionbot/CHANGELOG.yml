@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update eslint packages
+      hash: 99aa8aa24a944fa3a423cce3193a27dc7393b36c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.8
+  title: "'Update eslint packages'"
+  date: 2022-05-29T07:18:49.389Z
+- commits:
     - subject: Update sinon from 11.1.2 to 14.0.0
       hash: 2843b19268c5cd0525da5691f79c3c29f34aa6f4
       body: ""
