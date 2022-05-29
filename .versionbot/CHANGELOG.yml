@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update sinon from 11.1.2 to 14.0.0
+      hash: 2843b19268c5cd0525da5691f79c3c29f34aa6f4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.7
+  title: "'Update sinon from 11.1.2 to 14.0.0'"
+  date: 2022-05-28T23:56:14.804Z
+- commits:
     - subject: Update babel deps
       hash: 4ed19e4a35bfcf761aebd2df81ef2886476180df
       body: ""
