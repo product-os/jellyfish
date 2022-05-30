@@ -7,7 +7,6 @@
  */
 
 const pgp = require('@balena/jellyfish-core/build/backend/postgres/pg-promise').default
-const Bluebird = require('bluebird')
 const Spinner = require('cli-spinner').Spinner
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
@@ -48,7 +47,7 @@ const scrub = async () => {
 	/*
 	 * Drop them all!
 	 */
-	await Bluebird.all(results.map((row) => {
+	await Promise.all(results.map((row) => {
 		return connection.any(`DROP DATABASE ${row.datname}`).then(() => {
 			spinner.setSpinnerTitle(
 				`%s Dropped database ${row.datname} (${++count}/${results.length})`)

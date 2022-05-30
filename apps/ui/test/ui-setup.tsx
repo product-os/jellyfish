@@ -60,7 +60,7 @@ window.URL.createObjectURL = jest.fn(() => 'details');
 Element.prototype.scrollTo = _.noop;
 
 export const flushPromises = () => {
-	return new Promise((resolve) => {
+	return new Promise<void>((resolve) => {
 		setTimeout(() => resolve(), 0);
 	});
 };
