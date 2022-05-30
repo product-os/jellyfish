@@ -16,7 +16,6 @@ x-default-environment: &default-environment
   VERBOSE: "false"
   # https://github.com/balena-io-modules/open-balena-base/blob/master/src/configure-balena.sh
   DNS_TLD: ly.fish.local
-  LOGLEVEL: warning
   # https://github.com/balena-io/balena-mdns-publisher/blob/master/src/app.ts#L187-L190
   MDNS_TLD: ly.fish.local
 
@@ -72,7 +71,6 @@ services:
       SENTRY_CONFIG: ','
       # /etc/docker.env:RESET_PASSWORD_SECRET_TOKEN="$(openssl rand -hex 16)"
       TOKENS_CONFIG: RESET_PASSWORD_SECRET_TOKEN:hex,MONITOR_SECRET_TOKEN:hex
-      LOGLEVEL: crit
       NO_LOG_SUCCESS: 1
     healthcheck:
       interval: 15s
