@@ -14,7 +14,7 @@ import {
 export { getRelationships } from './RelationshipsTab';
 
 const mapStateToProps = (state, props): StateProps => {
-	const viewData = selectors.getViewData(state, getViewId(props.card.id));
+	const viewData = selectors.getViewData(getViewId(props.card.id))(state);
 	const target = props.card.type;
 	return {
 		viewData,
