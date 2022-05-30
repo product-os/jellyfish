@@ -1,14 +1,14 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { actionCreators, sdk, selectors } from '../../core';
+import { bindActionCreators, compose } from 'redux';
+import { actionCreators, selectors } from '../../store';
+import { withSetup } from '../SetupProvider';
 import CardActions from './CardActions';
 
 const mapStateToProps = (state) => {
 	return {
-		sdk,
-		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
+		types: selectors.getTypes()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
 	};
 };
 
-export default connect<any, any, any>(
-	mapStateToProps,
-	mapDispatchToProps,
+export default compose<any>(
+	withSetup,
+	connect(mapStateToProps, mapDispatchToProps),
 )(CardActions);

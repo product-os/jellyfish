@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 
 export const Thread = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-thread" */ './Thread'),
@@ -8,7 +8,7 @@ export const Thread = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

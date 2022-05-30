@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators } from '../../../core';
+import { actionCreators } from '../../../store';
 import type { OwnProps, DispatchProps } from './EditLens';
 
 export const EditLens = createLazyComponent(

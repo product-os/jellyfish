@@ -116,6 +116,13 @@ export const getWrapper = (
 				console.error(error);
 			},
 		},
+		sdk: {
+			getAuthToken: sinon.stub(),
+			stream: {
+				on: sinon.stub(),
+				emit: sinon.stub(),
+			},
+		},
 	},
 ) => {
 	const store = mockStore(initialState);
@@ -131,7 +138,7 @@ export const getWrapper = (
 					<MemoryRouter>
 						<SetupProvider
 							actions={{}}
-							sdk={{ stream: () => stream } as any}
+							sdk={setupProps.sdk as any}
 							analytics={{} as any}
 							errorReporter={setupProps.errorReporter as any}
 							environment={{}}

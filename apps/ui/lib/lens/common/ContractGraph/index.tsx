@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { v4 as uuid } from 'uuid';
 import { LinkModal } from '../../../components/LinkModal';
 import Icon from '../../../components/Icon';
-import { sdk } from '../../../core';
+import { useSetup } from '../../../components';
 
 const ChartWrapper = styled(Box)`
 	.node.drop-target > rect {
@@ -85,6 +85,7 @@ const getNodeId = (element: HTMLElement): string | null => {
 };
 
 const ContractGraph = (props: Props) => {
+	const { sdk } = useSetup()!;
 	const { contracts, draggable, showVersion, showType, types } = props;
 
 	const [identifier] = React.useState(`contract-graph-${uuid()}`);

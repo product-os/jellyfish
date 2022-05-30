@@ -14,8 +14,11 @@ import {
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import { BoundActionCreators, ChannelContract } from '../types';
-import { actionCreators, sdk } from '../core';
+import { actionCreators } from '../store';
 import { JsonSchema } from '@balena/jellyfish-types';
+import { Setup, withSetup } from './SetupProvider';
+import { compose } from 'redux';
+import { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
 const createChannelQuery = (
 	idOrSlug: string,
@@ -85,7 +88,7 @@ interface ReactDnDProps {
 	isOver: boolean;
 }
 
-type Props = OwnProps & ReactDnDProps;
+type Props = OwnProps & ReactDnDProps & Setup;
 
 interface State {
 	showLinkModal: boolean;
@@ -96,7 +99,7 @@ interface State {
 
 // Selects an appropriate renderer for a card
 class ChannelRenderer extends React.Component<Props, State> {
-	stream: ReturnType<typeof sdk['stream']> | null = null;
+	stream: ExtendedSocket | null = null;
 
 	constructor(props) {
 		super(props);
@@ -122,7 +125,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 
 		const query = createChannelQuery(data.target, user);
 
-		sdk
+		this.props.sdk
 			.query(query, { limit: 1 })
 			.then(([result]) => {
 				if (result) {
@@ -136,7 +139,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 			})
 			.catch(console.error);
 
-		const stream = sdk.stream(query);
+		const stream = this.props.sdk.stream(query);
 		this.stream = stream;
 
 		stream.on('update', (response) => {
@@ -271,4 +274,7 @@ const dndCollect = (connector, monitor) => {
 	};
 };
 
-export default DropTarget('channel', dndTarget, dndCollect)(ChannelRenderer);
+export default compose(
+	withSetup,
+	DropTarget('channel', dndTarget, dndCollect),
+)(ChannelRenderer);

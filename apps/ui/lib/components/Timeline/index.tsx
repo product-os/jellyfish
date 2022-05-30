@@ -17,8 +17,8 @@ import type {
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { sdk } from '../../core';
 import { JsonSchema } from '@balena/jellyfish-types';
+import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 
 export { MessageInput };
 
@@ -85,7 +85,7 @@ interface State {
 }
 
 class Timeline extends React.Component<Props, State> {
-	cursor: ReturnType<typeof sdk.getCursor> | null = null;
+	cursor: JellyfishCursor | null = null;
 	eventListRef: React.RefObject<any>;
 
 	constructor(props: Props) {
@@ -115,7 +115,7 @@ class Timeline extends React.Component<Props, State> {
 
 	async componentDidMount() {
 		const query = this.getTimelineQuery();
-		const cursor = sdk.getCursor(query, {
+		const cursor = this.props.sdk.getCursor(query, {
 			sortBy: ['data', 'timestamp'],
 			sortDir: 'desc',
 		});
@@ -319,7 +319,7 @@ class Timeline extends React.Component<Props, State> {
 
 		while (true) {
 			const query = this.getTimelineQuery();
-			const results = await sdk.query(query, {
+			const results = await this.props.sdk.query(query, {
 				sortBy: ['data', 'timestamp'],
 				sortDir: 'desc',
 				limit,
@@ -583,7 +583,7 @@ class Timeline extends React.Component<Props, State> {
 
 				<MessageInput
 					enableAutocomplete={enableAutocomplete}
-					sdk={sdk}
+					sdk={this.props.sdk}
 					types={types}
 					user={user}
 					wide={wide}

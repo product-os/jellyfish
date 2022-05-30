@@ -1,8 +1,8 @@
-import * as helpers from '../../../../services/helpers';
+import * as helpers from '../../../services/helpers';
 import _ from 'lodash';
-import { selectors } from '..';
+import { selectors } from '../../';
 import { mentionsUser } from '../../helpers';
-import { createNotification } from '../../../../services/native-notifications';
+import { createNotification } from '../../../services/native-notifications';
 import { push } from 'connected-react-router';
 
 const notifySchema = [
@@ -41,7 +41,7 @@ export const triggerNotification = (
 	types,
 ) => {
 	const card = update.after;
-	const groupsState = selectors.getGroups(getState());
+	const groupsState = selectors.getGroups()(getState());
 
 	const event = {
 		type: card.type.split('@')[0],
@@ -73,12 +73,12 @@ export const handleNotification = ({ card, cardType }) => {
 		const state = getState();
 
 		// Skip notifications if the user's status is set to 'Do Not Disturb'
-		const userStatus = selectors.getCurrentUserStatus(state);
+		const userStatus = selectors.getCurrentUserStatus()(state);
 		if (_.get(userStatus, ['value']) === 'DoNotDisturb') {
 			return;
 		}
 
-		const user = selectors.getCurrentUser(state);
+		const user = selectors.getCurrentUser()(state);
 		const disableSound = _.get(
 			user,
 			['data', 'profile', 'disableNotificationSound'],

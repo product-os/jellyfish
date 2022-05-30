@@ -6,8 +6,8 @@ import styled from 'styled-components';
 import { Contract } from '@balena/jellyfish-types/build/core';
 import { flatten } from 'flat';
 import { JsonSchema } from '@balena/jellyfish-types';
-import { sdk } from '../core';
 import Icon from './Icon';
+import { useSetup } from './SetupProvider';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`
@@ -34,7 +34,7 @@ interface CSVData {
 
 export default React.memo<HeaderProps>((props) => {
 	const { query } = props;
-
+	const { sdk } = useSetup()!;
 	const [csvData, setCSVData] = React.useState<CSVData | null>(null);
 
 	const load = async () => {

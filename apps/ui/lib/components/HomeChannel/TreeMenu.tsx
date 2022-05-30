@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Box, Button, Flex } from 'rendition';
 import { Icon } from '../';
-import { selectors } from '../../core';
+import { selectors } from '../../store';
 import ViewLink from '../ViewLink';
 
 const TreeMenu: React.FunctionComponent<any> = ({
@@ -14,9 +14,7 @@ const TreeMenu: React.FunctionComponent<any> = ({
 	actions,
 	node,
 }) => {
-	const isExpandedSelector = (state) => {
-		return selectors.getSidebarIsExpanded(state, node.name);
-	};
+	const isExpandedSelector = selectors.getSidebarIsExpanded(node.name);
 	const isExpanded = node.key === 'root' || useSelector(isExpandedSelector);
 
 	const toggleExpandGroup = React.useCallback(() => {

@@ -2,13 +2,13 @@ import _ from 'lodash';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-import { actionCreators, selectors } from '../../core';
+import { actionCreators, selectors } from '../../store';
 import { OmniSearch } from './OmniSearch';
 
 const mapStateToProps = (state) => {
 	return {
-		channels: selectors.getChannels(state),
-		types: selectors.getTypes(state),
+		channels: selectors.getChannels()(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

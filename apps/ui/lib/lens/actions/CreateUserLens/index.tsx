@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const CreateUserLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create-user" */ './CreateUserLens'),
@@ -10,7 +10,7 @@ export const CreateUserLens = createLazyComponent(
 
 const mapStateToProps = (state, ownProps) => {
 	return {
-		user: selectors.getCurrentUser(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 

@@ -3,20 +3,20 @@ import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
 import { compose, bindActionCreators } from 'redux';
 import * as helpers from '../../../services/helpers';
-import { actionCreators, sdk, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { Chart } from './Chart';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import { withSetup } from '../../../components';
 
 const ChartLazy = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-chart" */ './PlotlyChart'),
 );
 
 const mapStateToProps = (state, ownProps) => {
-	const types = selectors.getTypes(state);
+	const types = selectors.getTypes()(state);
 	const chartConfigurationType = helpers.getType('chart-configuration', types);
 	return {
-		sdk,
-		activeLoop: selectors.getActiveLoop(state),
+		activeLoop: selectors.getActiveLoop()(state),
 		chartConfigurationType,
 		ChartComponent: ChartLazy,
 	};
@@ -42,6 +42,7 @@ const lens = {
 		format: 'list',
 		renderer: compose(
 			withRouter,
+			withSetup,
 			connect(mapStateToProps, mapDispatchToProps),
 		)(Chart),
 		filter: {

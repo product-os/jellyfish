@@ -10,14 +10,7 @@ import { Icon } from '../';
 // If the card does not yet define a conferenceURL, a new one will be fetched
 // and opened and the card updated with the new Google Meet URL so that
 // subsequently the same URL can be opened immediately from this component.
-export default function VideoLink({
-	actions,
-	card,
-	sdk,
-	types,
-	theme,
-	...rest
-}) {
+const VideoLink = ({ actions, card, sdk, types, theme, ...rest }) => {
 	const [loading, setLoading] = React.useState(false);
 	const conferenceUrl = _.get(card, ['data', 'conferenceUrl']);
 	const cardType = helpers.getType(card.type, types);
@@ -79,4 +72,6 @@ export default function VideoLink({
 			{loading ? <Icon spin name="cog" /> : <Icon name="video" />}
 		</Link>
 	);
-}
+};
+
+export default VideoLink;

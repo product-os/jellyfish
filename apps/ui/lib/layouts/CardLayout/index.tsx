@@ -3,10 +3,10 @@ import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Txt } from 'rendition';
-import { CloseButton, Column, LinksProvider } from '../../components';
+import { CloseButton, Column, LinksProvider, useSetup } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
-import { selectors, sdk } from '../../core';
+import { selectors } from '../../store';
 import { ChannelContract } from '../../types';
 
 interface StateProps {
@@ -40,6 +40,7 @@ const CardLayout = (props: Props) => {
 		types,
 	} = props;
 
+	const { sdk } = useSetup()!;
 	const typeBase = card.type && card.type.split('@')[0];
 
 	const typeContract = _.find(types, {
@@ -116,7 +117,7 @@ const CardLayout = (props: Props) => {
 
 const mapStateToProps = (state): StateProps => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

@@ -9,7 +9,7 @@ import {
 } from 'analytics-client';
 import { saveAs } from 'file-saver';
 import Splash from './components/Splash';
-import { actionCreators, selectors } from './core';
+import { actionCreators, selectors } from './store';
 import { useLocation, useHistory, Redirect, matchPath } from 'react-router-dom';
 import { isProduction } from './environment';
 import { createLazyComponent } from './components/SafeLazy';
@@ -123,8 +123,8 @@ const JellyfishUI = ({ actions, status }) => {
 
 const mapStateToProps = (state) => {
 	return {
-		status: selectors.getStatus(state),
-		version: selectors.getAppVersion(state),
+		status: selectors.getStatus()(state),
+		version: selectors.getAppVersion()(state),
 	};
 };
 

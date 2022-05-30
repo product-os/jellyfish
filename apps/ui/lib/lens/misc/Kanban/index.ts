@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import { actionCreators, analytics, selectors, sdk } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { SLUG } from './Kanban';
 
@@ -12,8 +12,8 @@ export const Kanban = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
+		types: selectors.getTypes()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 

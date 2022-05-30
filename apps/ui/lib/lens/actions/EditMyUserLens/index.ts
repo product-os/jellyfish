@@ -1,8 +1,7 @@
-import pick from 'lodash/pick';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const EditLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-edit" */ './EditMyUserLens'),
@@ -10,7 +9,7 @@ export const EditLens = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

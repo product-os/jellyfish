@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const ContractTable = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-contract-table" */ './ContractTable'),
@@ -13,10 +13,10 @@ const SLUG = 'lens-table';
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
-		allTypes: selectors.getTypes(state),
-		activeLoop: selectors.getActiveLoop(state),
-		user: selectors.getCurrentUser(state),
-		lensState: selectors.getLensState(state, SLUG, target),
+		allTypes: selectors.getTypes()(state),
+		activeLoop: selectors.getActiveLoop()(state),
+		user: selectors.getCurrentUser()(state),
+		lensState: selectors.getLensState(SLUG, target)(state),
 		SLUG,
 	};
 };

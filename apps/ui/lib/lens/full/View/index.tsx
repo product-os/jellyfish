@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { withResponsiveContext } from '../../../hooks/use-responsive-context';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import type { StateProps, DispatchProps, OwnProps } from './ViewRenderer';
 
@@ -15,10 +15,10 @@ const mapStateToProps = (state, ownProps): StateProps => {
 	const target = ownProps.card.id;
 
 	return {
-		channels: selectors.getChannels(state),
-		types: selectors.getTypes(state),
-		userActiveLens: selectors.getUsersViewLens(state, target),
-		userCustomFilters: selectors.getUserCustomFilters(state, target),
+		channels: selectors.getChannels()(state),
+		types: selectors.getTypes()(state),
+		userActiveLens: selectors.getUsersViewLens(target)(state),
+		userCustomFilters: selectors.getUserCustomFilters(target)(state),
 	};
 };
 

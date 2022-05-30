@@ -9,7 +9,7 @@ import type {
 	ViewContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { actionCreators } from '../../../core';
+import { actionCreators } from '../../../store';
 import type {
 	BoundActionCreators,
 	ChannelContract,

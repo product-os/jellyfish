@@ -7,7 +7,7 @@ import PageTitle from './PageTitle';
 import HomeChannel from './HomeChannel';
 import { createLazyComponent } from './SafeLazy';
 import { useSelector, useStore } from 'react-redux';
-import { actionCreators, selectors } from '../core';
+import { actionCreators, selectors } from '../store';
 
 const RouteHandler = createLazyComponent(
 	() => import(/* webpackChunkName: "route-handler" */ './RouteHandler'),
@@ -23,8 +23,8 @@ const ChatWidgetSidebar = createLazyComponent(
 );
 
 const Authorized = () => {
-	const [home] = useSelector(selectors.getChannels);
-	const isChatWidgetOpen = useSelector(selectors.getChatWidgetOpen);
+	const [home] = useSelector(selectors.getChannels());
+	const isChatWidgetOpen = useSelector(selectors.getChatWidgetOpen());
 	const store = useStore();
 
 	const handleChatWidgetClose = React.useCallback(() => {

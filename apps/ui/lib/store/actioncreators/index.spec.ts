@@ -8,7 +8,7 @@ import type {
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
 import actions from '../actions';
-import { actionCreators, getSeedData } from './';
+import { actionCreators, getSeedData } from '.';
 
 const sandbox = sinon.createSandbox();
 

@@ -8,7 +8,7 @@ import type {
 	ContractDefinition,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 
 export const SubscribeButton = ({ card, ...rest }) => {
 	const { sdk } = useSetup()!;
@@ -16,7 +16,9 @@ export const SubscribeButton = ({ card, ...rest }) => {
 	const [subscription, setSubscription] = React.useState<
 		Contract | ContractDefinition | null
 	>(null);
-	const currentUser = useSelector<any, UserContract>(selectors.getCurrentUser);
+	const currentUser = useSelector<any, UserContract>(
+		selectors.getCurrentUser(),
+	);
 
 	React.useEffect(() => {
 		let stream: any = null;

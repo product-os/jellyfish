@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { actionCreators } from '../../../core';
+import { actionCreators } from '../../../store';
 import { ViewFooter as InnerViewFooter } from './ViewFooter';
 import { withChannelContext } from '../../../hooks';
 

@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Box } from 'rendition';
 import { ChatWidget } from './ChatWidget';
 import { ErrorBoundary } from '.';
-import { sdk } from '../core';
 
 const Container = styled(Box)`
 	display: flex;
@@ -30,7 +29,6 @@ const ChatWidgetSidebar = ({ onClose }) => {
 		>
 			<ErrorBoundary>
 				<ChatWidget
-					sdk={sdk}
 					productTitle={'Jelly'}
 					product={'jellyfish'}
 					onClose={onClose}

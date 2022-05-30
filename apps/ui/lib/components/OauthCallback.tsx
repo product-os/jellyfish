@@ -3,7 +3,7 @@ import { useStore } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
-import { actionCreators } from '../core';
+import { actionCreators } from '../store';
 import { useSetup } from './SetupProvider';
 import { LOGIN_AS_SEARCH_PARAM_NAME } from './LoginAs';
 import { slugify } from '../services/helpers';

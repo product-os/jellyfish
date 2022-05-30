@@ -1,19 +1,19 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
+import { withSetup } from '../../../components';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { sdk, selectors, actionCreators } from '../../../core';
+import { selectors, actionCreators } from '../../../store';
 
 export const User = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-user" */ './User'),
 );
 
 const mapStateToProps = (state) => {
-	const balenaOrg = _.find(selectors.getOrgs(state), {
+	const balenaOrg = _.find(selectors.getOrgs()(state), {
 		slug: 'org-balena',
 	});
 	return {
-		sdk,
 		balenaOrg,
 	};
 };
@@ -35,7 +35,10 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(User),
+		renderer: compose(
+			withSetup,
+			connect(mapStateToProps, mapDispatchToProps),
+		)(User),
 		filter: {
 			type: 'object',
 			properties: {

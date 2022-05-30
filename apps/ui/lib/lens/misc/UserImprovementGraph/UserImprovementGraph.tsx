@@ -4,7 +4,7 @@ import { Box, Checkbox } from 'rendition';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ForceGraph2D from 'react-force-graph-2d';
 import { LensRendererProps } from '../../../types';
-import { sdk } from '../../../core';
+import { useSetup } from '../../../components';
 
 export type Props = LensRendererProps;
 
@@ -15,6 +15,7 @@ const FDG = React.memo(
 			history,
 			location,
 		}: Pick<Props, 'tail'> & RouteComponentProps) => {
+			const { sdk } = useSetup()!;
 			const [sagaData, setSagaData] = React.useState({ nodes: [], links: [] });
 			const [showSagas, setShowSagas] = React.useState(false);
 			const userData: any = {

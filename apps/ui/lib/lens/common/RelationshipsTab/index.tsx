@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import {
 	getViewId,
 	RelationshipsTab as InnerRelationshipsTab,
@@ -18,8 +18,8 @@ const mapStateToProps = (state, props): StateProps => {
 	const target = props.card.type;
 	return {
 		viewData,
-		types: selectors.getTypes(state),
-		lensState: selectors.getLensState(state, SLUG, target),
+		types: selectors.getTypes()(state),
+		lensState: selectors.getLensState(SLUG, target)(state),
 	};
 };
 

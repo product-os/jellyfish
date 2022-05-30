@@ -7,7 +7,7 @@ import _ from 'lodash';
 import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
 import actions from './actions';
-import history from '../../services/history';
+import history from '../services/history';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.

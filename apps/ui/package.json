@@ -10,7 +10,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "npm run clean && NODE_ENV=production NODE_OPTIONS=--max-old-space-size=6144 webpack --config=./webpack.config.js",
-    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@babel/*,@types/jest,assert,babel-loader,canvas,history,typedoc",
+    "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit",
     "test:unit": "jest",
@@ -41,7 +41,6 @@
     "debounce-promise": "^3.1.2",
     "deep-copy": "^1.4.2",
     "deepdash": "^5.3.9",
-    "deepmerge": "^4.2.2",
     "detect-ua": "^1.0.2",
     "fast-equals": "^2.0.4",
     "fast-json-patch": "^3.1.1",
@@ -90,12 +89,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@babel/cli": "^7.17.10",
-    "@babel/core": "^7.18.2",
-    "@babel/polyfill": "^7.12.1",
-    "@babel/preset-env": "^7.18.2",
-    "@babel/preset-react": "^7.17.12",
-    "@babel/register": "^7.17.7",
     "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^6.2.0",
@@ -118,7 +111,6 @@
     "@types/react-select": "^5.0.1",
     "@types/redux-mock-store": "^1.0.3",
     "@types/sinon": "^10.0.11",
-    "babel-loader": "^8.2.5",
     "browser-env": "^3.3.0",
     "canvas": "^2.9.1",
     "catch-uncommitted": "^2.0.0",

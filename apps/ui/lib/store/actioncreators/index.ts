@@ -5,15 +5,13 @@ import immutableUpdate from 'immutability-helper';
 import path from 'path';
 import { push } from 'connected-react-router';
 import clone from 'deep-copy';
-import * as fastEquals from 'fast-equals';
-import merge from 'deepmerge';
 import { once } from 'events';
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
-import * as notifications from '../../../services/notifications';
-import * as helpers from '../../../services/helpers';
+import * as notifications from '../../services/notifications';
+import * as helpers from '../../services/helpers';
 import { linkConstraints, JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
@@ -23,10 +21,11 @@ import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	LoopContract,
-	TypeContract,
 	UserContract,
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
+import * as selectors from '../selectors';
+import { getViewId, hashCode } from '../helpers';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -95,33 +94,6 @@ const createChannel = (data: any = {}) => {
 	};
 };
 
-/**
- * @summary Convert a string into a 32bit hashcode
- *
- * @param {String} input - The input source to hash
- *
- * @returns {Number} - A 32bit integer
- */
-const hashCode = (input) => {
-	let hash: any = 0;
-	let iteration = 0;
-	let character = '';
-	if (input.length === 0) {
-		return hash;
-	}
-	for (iteration; iteration < input.length; iteration++) {
-		character = input.charCodeAt(iteration);
-
-		// tslint:disable-next-line: no-bitwise
-		hash = (hash << 5) - hash + character;
-
-		// Convert to 32bit integer
-		// tslint:disable-next-line: no-bitwise
-		hash |= 0;
-	}
-	return hash;
-};
-
 const loadSchema = async (sdk, query, user) => {
 	if (_.isString(query)) {
 		return sdk.card
@@ -136,140 +108,6 @@ const loadSchema = async (sdk, query, user) => {
 		return helpers.getViewSchema(query, user);
 	}
 	return clone(query);
-};
-
-const getViewId = (query) => {
-	if (!query) {
-		console.trace(query);
-	}
-	if (_.isString(query)) {
-		return query;
-	}
-	if (query.id) {
-		return query.id;
-	}
-	if (query.slug) {
-		return query.slug;
-	}
-	return `${hashCode(JSON.stringify(query))}`;
-};
-
-export const selectors = {
-	getCard: (idOrSlug, type) => (state) => {
-		const cards = _.get(state.core, ['cards', helpers.getTypeBase(type)]);
-		if (!cards) {
-			return null;
-		}
-		return isUUID(idOrSlug)
-			? cards[idOrSlug] || null
-			: _.find(cards, {
-					slug: idOrSlug,
-			  }) || null;
-	},
-	getAccounts: (state) => {
-		return state.core.accounts;
-	},
-	getOrgs: (state) => {
-		return state.core.orgs;
-	},
-	getAppVersion: (state) => {
-		return _.get(state.core, ['config', 'version']) || null;
-	},
-	getAppCodename: (state) => {
-		return _.get(state.core, ['config', 'codename']) || null;
-	},
-	getChannels: (state) => {
-		return state.core.channels;
-	},
-	getCurrentUser: (state) => {
-		return _.get(state.core, ['session', 'user']) || null;
-	},
-	getCurrentUserStatus: (state) => {
-		return _.get(state.core, ['session', 'user', 'data', 'status']) || null;
-	},
-	getSessionToken: (state) => {
-		return _.get(state.core, ['session', 'authToken']) || null;
-	},
-	getStatus: (state) => {
-		return state.core.status;
-	},
-	getTimelineMessage: (state, target) => {
-		return _.get(state.ui, ['timelines', target, 'message'], '');
-	},
-	getTimelinePendingMessages: (state, target) => {
-		return _.get(state.ui, ['timelines', target, 'pending'], '');
-	},
-	getChatWidgetOpen: (state) => {
-		return _.get(state.ui, ['chatWidget', 'open']);
-	},
-	getTypes: (state): TypeContract[] => {
-		return state.core.types;
-	},
-	getLoops: (state): LoopContract[] => {
-		return state.core.loops;
-	},
-	getGroups: (state) => {
-		return state.core.groups;
-	},
-	getMyGroupNames: (state) => {
-		return _.map(_.filter(selectors.getGroups(state), 'isMine'), 'name');
-	},
-	getUIState: (state) => {
-		return state.ui;
-	},
-	getSidebarIsExpanded: (state, name) => {
-		const expandedItems = _.get(state.ui, ['sidebar', 'expanded'], []);
-		return _.includes(expandedItems, name);
-	},
-	getLensState: (state, lensSlug, cardId) => {
-		return _.get(state.ui, ['lensState', lensSlug, cardId], {});
-	},
-	getViewNotices: (state) => {
-		return state.core.viewNotices;
-	},
-	getUsersTypingOnCard: (state, card) => {
-		return _.keys(_.get(state.core, ['usersTyping', card], {}));
-	},
-
-	// View specific selectors
-	getViewData: (state, query, options: any = {}) => {
-		const tail = state.views.viewData[options.viewId || getViewId(query)];
-		return tail || null;
-	},
-	getSubscription: (state, id) => {
-		return state.views.subscriptions[id] || null;
-	},
-	getSubscriptions: (state) => {
-		return state.views.subscriptions || {};
-	},
-	getUsersViewLens: (state, viewId) => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(
-			user,
-			['data', 'profile', 'viewSettings', viewId, 'lens'],
-			null,
-		);
-	},
-	getUserCustomFilters: (state, contractId) => {
-		return state.core.userCustomFilters[contractId] || [];
-	},
-	getHomeView: (state) => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(user, ['data', 'profile', 'homeView'], null);
-	},
-	getActiveLoop: (state): string | null => {
-		const user = selectors.getCurrentUser(state);
-		return _.get(user, ['data', 'profile', 'activeLoop'], null);
-	},
-	getInboxQuery: (state) => {
-		const user = selectors.getCurrentUser(state);
-		const groupNames = selectors.getMyGroupNames(state);
-		return getUnreadQuery(user, groupNames);
-	},
-	getInboxViewData: (state) => {
-		const query = selectors.getInboxQuery(state);
-		return selectors.getViewData(state, query);
-	},
 };
 
 // TODO: Fix these side effects
@@ -637,7 +475,7 @@ export const actionCreators = {
 			const versionGetter = (channel) =>
 				_.get(channel, ['data', 'head', 'version']);
 			const targetChannel = _.find(
-				selectors.getChannels(getState()),
+				selectors.getChannels()(getState()),
 				(channel) => {
 					return idGetter(channel) === target || slugGetter(channel) === target;
 				},
@@ -775,7 +613,7 @@ export const actionCreators = {
 
 		return (dispatch, getState) => {
 			const state = getState();
-			const currentChannels = selectors.getChannels(state);
+			const currentChannels = selectors.getChannels()(state);
 
 			// For each current channel that isn't in the new channels, remove the corresponding stream
 			const diff = _.differenceBy(currentChannels, channels, 'data.target');
@@ -796,7 +634,7 @@ export const actionCreators = {
 		return async (dispatch, getState, { sdk, analytics }) => {
 			if (options.synchronous) {
 				const state = getState();
-				const user = selectors.getCurrentUser(state);
+				const user = selectors.getCurrentUser()(state);
 				const cardData = _.merge(
 					{
 						slug: `${type.slug}-${uuid()}`,
@@ -846,7 +684,7 @@ export const actionCreators = {
 	openCreateChannel(sourceCard, types, options: any = {}) {
 		return (dispatch, getState) => {
 			const state = getState();
-			const user = selectors.getCurrentUser(state);
+			const user = selectors.getCurrentUser()(state);
 			dispatch(
 				actionCreators.addChannel({
 					head: options.head || {
@@ -900,7 +738,7 @@ export const actionCreators = {
 						const state = getState();
 
 						// Check to see if we're still logged in
-						if (selectors.getSessionToken(state)) {
+						if (selectors.getSessionToken()(state)) {
 							dispatch(actionCreators.setLoops(loops));
 							dispatch(actionCreators.setUser(user));
 							dispatch(actionCreators.setTypes(types));
@@ -910,7 +748,7 @@ export const actionCreators = {
 								type: actions.SET_CONFIG,
 								value: config,
 							});
-							const channels = selectors.getChannels(state);
+							const channels = selectors.getChannels()(state);
 						}
 
 						errorReporter.setUser({
@@ -975,7 +813,7 @@ export const actionCreators = {
 						});
 
 						// Load unread message pings
-						const groupNames = selectors.getMyGroupNames(getState());
+						const groupNames = selectors.getMyGroupNames()(getState());
 						const unreadQuery = getUnreadQuery(user, groupNames);
 
 						dispatch(actionCreators.loadViewData(unreadQuery));
@@ -1008,7 +846,7 @@ export const actionCreators = {
 				})
 				.then(() => {
 					analytics.track('ui.loginWithToken');
-					analytics.identify(selectors.getCurrentUser(getState()).id);
+					analytics.identify(selectors.getCurrentUser()(getState()).id);
 				})
 				.catch((error) => {
 					dispatch(actionCreators.setStatus('unauthorized'));
@@ -1032,7 +870,7 @@ export const actionCreators = {
 				})
 				.then(() => {
 					analytics.track('ui.login');
-					analytics.identify(selectors.getCurrentUser(getState()).id);
+					analytics.identify(selectors.getCurrentUser()(getState()).id);
 				})
 				.catch((error) => {
 					dispatch(actionCreators.setStatus('unauthorized'));
@@ -1145,7 +983,7 @@ export const actionCreators = {
 	removeView(view) {
 		return async (dispatch, getState, { sdk }) => {
 			try {
-				const user = selectors.getCurrentUser(getState());
+				const user = selectors.getCurrentUser()(getState());
 				if (!helpers.isCustomView(view, user.slug)) {
 					notifications.addNotification(
 						'danger',
@@ -1194,7 +1032,7 @@ export const actionCreators = {
 	setActiveLoop(loopVersionedSlug: string | null) {
 		return async (dispatch, getState, context) => {
 			const state = getState();
-			const user = selectors.getCurrentUser(state);
+			const user = selectors.getCurrentUser()(state);
 			const patches = helpers.patchPath(
 				user,
 				['data', 'profile', 'activeLoop'],
@@ -1203,7 +1041,7 @@ export const actionCreators = {
 			const [activeLoopSlug, activeLoopVersion] = (
 				loopVersionedSlug || ''
 			).split('@');
-			const activeLoop = _.find(selectors.getLoops(state), {
+			const activeLoop = _.find(selectors.getLoops()(state), {
 				slug: activeLoopSlug,
 				version: activeLoopVersion,
 			});
@@ -1225,7 +1063,7 @@ export const actionCreators = {
 	updateUser(patches, successNotification?: string | null) {
 		return async (dispatch, getState, { sdk }) => {
 			try {
-				const user = selectors.getCurrentUser(getState());
+				const user = selectors.getCurrentUser()(getState());
 
 				const optimisticUpdate = jsonpatch.applyPatch(
 					clone(user),
@@ -1322,7 +1160,7 @@ export const actionCreators = {
 	setPassword(currentPassword, newPassword) {
 		return async (dispatch, getState, { sdk }) => {
 			try {
-				const user = selectors.getCurrentUser(getState());
+				const user = selectors.getCurrentUser()(getState());
 				await sdk.action({
 					card: user.id,
 					action: 'action-set-password@1.0.0',
@@ -1345,7 +1183,7 @@ export const actionCreators = {
 
 	setSendCommand(command) {
 		return async (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 
 			const patches = helpers.patchPath(
 				user,
@@ -1487,7 +1325,7 @@ export const actionCreators = {
 					'Stream not found: Did you forget to call loadViewData?',
 				);
 			}
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 			const queryId = uuid();
 
 			const queryOptions = {
@@ -1523,7 +1361,7 @@ export const actionCreators = {
 	loadViewData(query, options: any = {}) {
 		return async (dispatch, getState, context) => {
 			const commonOptions = _.pick(options, 'viewId');
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 			const viewId = options.viewId || getViewId(query);
 
 			const rawSchema = await loadSchema(context.sdk, query, user);
@@ -1558,7 +1396,7 @@ export const actionCreators = {
 
 	setDefault(card) {
 		return (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 
 			const patch = helpers.patchPath(
 				user,
@@ -1581,7 +1419,7 @@ export const actionCreators = {
 
 	setViewLens(viewId, lensSlug) {
 		return (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 
 			const patches = helpers.patchPath(
 				user,
@@ -1599,7 +1437,7 @@ export const actionCreators = {
 
 	setViewSlice(viewId, slice) {
 		return (dispatch, getState, context) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 
 			const patches = helpers.patchPath(
 				user,
@@ -1627,7 +1465,7 @@ export const actionCreators = {
 
 	signalTyping(card) {
 		return (dispatch, getState) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 
 			commsStream.type(user.slug, card);
 		};
@@ -1690,7 +1528,7 @@ export const actionCreators = {
 
 	addSubscription(target) {
 		return (dispatch, getState, { sdk, analytics }) => {
-			const user = selectors.getCurrentUser(getState());
+			const user = selectors.getCurrentUser()(getState());
 			if (!user) {
 				throw new Error("Can't load a subscription without an active user");
 			}
@@ -1719,7 +1557,7 @@ export const actionCreators = {
 				})
 				.then((results) => {
 					// Check to see if the user is still logged in
-					if (!selectors.getSessionToken(getState())) {
+					if (!selectors.getSessionToken()(getState())) {
 						return;
 					}
 					(Bluebird as any)

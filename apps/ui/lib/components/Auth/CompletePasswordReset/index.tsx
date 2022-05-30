@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { actionCreators } from '../../../core';
+import { actionCreators } from '../../../store';
 import CompletePasswordReset from './CompletePasswordReset';
 
 const mapDispatchToProps = (dispatch) => {

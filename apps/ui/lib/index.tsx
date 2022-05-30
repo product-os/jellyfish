@@ -1,8 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import '@babel/polyfill';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Provider } from 'react-redux';
+import reduxThunk from 'redux-thunk';
+import { persistStore } from 'redux-persist';
 import {
 	Provider as RProvider,
 	Theme,
@@ -10,21 +11,26 @@ import {
 	NotificationsContainer,
 } from 'rendition';
 import { DndProvider } from 'react-dnd';
+import * as redux from 'redux';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { createGlobalStyle } from 'styled-components';
 import { AutoCompleteWidget, ErrorBoundary, SetupProvider } from './components';
 import { ResponsiveProvider } from './hooks/use-responsive-context';
 import { DocumentVisibilityProvider } from './hooks/use-document-visibility';
 import * as helpers from './services/helpers';
-import { analytics, errorReporter, sdk, persistor, store } from './core';
 import history from './services/history';
 import JellyfishUI from './JellyfishUI';
-import { ConnectedRouter } from 'connected-react-router';
+import { ConnectedRouter, routerMiddleware } from 'connected-react-router';
 import * as environment from './environment';
 import { JellyfishWidgets, LoopSelectWidget } from './components/Widgets';
 import CountFavicon from './components/CountFavicon';
 import CardLoaderContextProvider from './components/CardLoaderContextProvider';
 import { createLazyComponent } from './components/SafeLazy';
+import { getSdk } from '@balena/jellyfish-client-sdk';
+import Analytics from './services/analytics';
+import ErrorReporter from './services/error-reporter';
+import { reducer } from './store/reducer';
+import { actionCreators, selectors } from './store';
 
 export const MarkdownEditor = createLazyComponent(
 	() =>
@@ -114,48 +120,114 @@ const widgets: any = {
 	},
 };
 
-ReactDOM.render(
-	<RProvider
-		theme={customTheme}
-		widgets={widgets}
-		style={{
-			height: '100%',
-			display: 'flex',
-			flexDirection: 'column',
-			fontSize: 14,
-		}}
-	>
-		<ResponsiveProvider>
-			<DocumentVisibilityProvider>
-				<SetupProvider
-					actions={{}}
-					environment={environment}
-					sdk={sdk}
-					analytics={analytics}
-					errorReporter={errorReporter}
-				>
-					<Provider store={store}>
-						<PersistGate loading={null} persistor={persistor}>
-							<CardLoaderContextProvider>
-								<ConnectedRouter history={history}>
-									<GlobalStyle />
-									<CountFavicon />
-									<NotificationsContainer />
-									<ErrorBoundary>
-										<DndProvider backend={HTML5Backend}>
-											<JellyfishUI />
-										</DndProvider>
-									</ErrorBoundary>
-								</ConnectedRouter>
-							</CardLoaderContextProvider>
-						</PersistGate>
-					</Provider>
-				</SetupProvider>
-			</DocumentVisibilityProvider>
-		</ResponsiveProvider>
-	</RProvider>,
-	document.getElementById('app'),
-);
+const App = () => {
+	const sdk = React.useMemo(() => {
+		return getSdk({
+			apiPrefix: environment.api.prefix,
+			apiUrl: environment.api.url,
+		});
+	}, []);
+
+	(window as any).sdk = sdk;
+
+	const analytics = React.useMemo(() => {
+		return new Analytics({
+			token: environment.analytics.mixpanel.token,
+		});
+	}, []);
+
+	const errorReporter = React.useMemo(() => {
+		return new ErrorReporter({
+			isProduction: environment.isProduction(),
+			dsn: environment.sentry.dsn,
+			version: environment.version,
+		});
+	}, []);
+
+	const store = React.useMemo(() => {
+		const middleware = [
+			routerMiddleware(history),
+			reduxThunk.withExtraArgument({
+				sdk,
+				analytics,
+				errorReporter,
+			}),
+		];
+
+		const composeEnhancers =
+			(typeof window !== 'undefined' &&
+				!environment.isProduction() &&
+				// eslint-disable-next-line no-underscore-dangle
+				(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+			redux.compose;
+
+		return redux.createStore(
+			reducer,
+			composeEnhancers(redux.applyMiddleware(...middleware)),
+		);
+	}, [sdk, analytics, errorReporter]);
+
+	const persistor = React.useMemo(() => {
+		const onHydrated = async () => {
+			const token = selectors.getSessionToken()(store.getState());
+			try {
+				if (token) {
+					await store.dispatch(actionCreators.loginWithToken(token) as any);
+				} else {
+					await store.dispatch(actionCreators.setStatus('unauthorized') as any);
+				}
+			} catch (error) {
+				console.error(error);
+			}
+		};
+
+		return persistStore(store, null, onHydrated);
+	}, [store]);
+
+	return (
+		<RProvider
+			theme={customTheme}
+			widgets={widgets}
+			style={{
+				height: '100%',
+				display: 'flex',
+				flexDirection: 'column',
+				fontSize: 14,
+			}}
+		>
+			<ResponsiveProvider>
+				<DocumentVisibilityProvider>
+					<SetupProvider
+						actions={{}}
+						environment={environment}
+						sdk={sdk}
+						analytics={analytics}
+						errorReporter={errorReporter}
+					>
+						<Provider store={store}>
+							<PersistGate loading={null} persistor={persistor}>
+								<CardLoaderContextProvider>
+									<ConnectedRouter history={history}>
+										<GlobalStyle />
+										<CountFavicon />
+										<NotificationsContainer />
+										<ErrorBoundary>
+											<DndProvider backend={HTML5Backend}>
+												<JellyfishUI />
+											</DndProvider>
+										</ErrorBoundary>
+									</ConnectedRouter>
+								</CardLoaderContextProvider>
+							</PersistGate>
+						</Provider>
+					</SetupProvider>
+				</DocumentVisibilityProvider>
+			</ResponsiveProvider>
+		</RProvider>
+	);
+};
+
+ReactDOM.render(<App />, document.getElementById('app'));
 
 /*
  * Delete existing service workers

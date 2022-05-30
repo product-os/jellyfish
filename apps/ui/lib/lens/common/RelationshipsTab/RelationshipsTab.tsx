@@ -13,7 +13,8 @@ import type {
 import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';
-import { sdk, actionCreators } from '../../../core';
+import { actionCreators } from '../../../store';
+import { useSetup } from '../../../components';
 
 export const SLUG = 'RELATIONSHIPS_TAB';
 
@@ -107,6 +108,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	lensState,
 	viewData,
 }) => {
+	const { sdk } = useSetup()!;
 	const [activeRelationship, setActiveRelationship] =
 		React.useState<LinkRelationship>();
 	const [relationships, setRelationships] = React.useState<LinkRelationship[]>(

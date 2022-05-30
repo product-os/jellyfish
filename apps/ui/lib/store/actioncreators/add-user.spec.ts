@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import sinon from 'sinon';
-import { actionCreators } from './';
+import { actionCreators } from '.';
 
 const sandbox = sinon.createSandbox();
 

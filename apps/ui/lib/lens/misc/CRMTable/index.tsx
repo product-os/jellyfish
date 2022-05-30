@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const CRMTable = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-crm-table" */ './CRMTable'),
@@ -11,11 +11,11 @@ export const CRMTable = createLazyComponent(
 const SLUG = 'lens-crm-table';
 
 const mapStateToProps = (state, ownProps) => {
-	const allTypes = selectors.getTypes(state);
+	const allTypes = selectors.getTypes()(state);
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
-		user: selectors.getCurrentUser(state),
-		activeLoop: selectors.getActiveLoop(state),
+		user: selectors.getCurrentUser()(state),
+		activeLoop: selectors.getActiveLoop()(state),
 		allTypes,
 		types: _.get(_.find(allTypes, ['slug', 'opportunity']), [
 			'data',
@@ -26,7 +26,7 @@ const mapStateToProps = (state, ownProps) => {
 			'status',
 			'enum',
 		]),
-		lensState: selectors.getLensState(state, SLUG, target),
+		lensState: selectors.getLensState(SLUG, target)(state),
 		SLUG,
 	};
 };

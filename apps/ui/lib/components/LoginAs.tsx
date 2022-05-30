@@ -3,7 +3,7 @@ import { useStore } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
-import { selectors } from '../core';
+import { selectors } from '../store';
 import { slugify } from '../services/helpers';
 
 export const LOGIN_AS_SEARCH_PARAM_NAME = 'loginAs';
@@ -14,7 +14,7 @@ const LoginAs = () => {
 
 	const authenticationTask = useTask(async () => {
 		const state = store.getState();
-		const user = selectors.getCurrentUser(state);
+		const user = selectors.getCurrentUser()(state);
 		const loginAs = urlRef.current.searchParams.get(
 			LOGIN_AS_SEARCH_PARAM_NAME,
 		)!;
