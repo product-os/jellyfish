@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop hardcoded log levels
+      hash: 8b95bd3929202c8e08737719c3f3fc6951e76ee8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 50.7.9
+  title: "'Drop hardcoded log levels'"
+  date: 2022-05-30T07:57:27.580Z
+- commits:
     - subject: Update eslint packages
       hash: 99aa8aa24a944fa3a423cce3193a27dc7393b36c
       body: ""
