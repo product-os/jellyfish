@@ -1,4 +1,17 @@
 - commits:
+    - subject: Remove unused dev dependencies
+      hash: db6c7e70d79f24a2bd6b56d8b26d1255c712f6e7
+      body: |
+        * Includes little fix to remove bluebird
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 50.7.10
+  title: "'Remove unused dev dependencies'"
+  date: 2022-05-30T19:48:55.341Z
+- commits:
     - subject: Drop hardcoded log levels
       hash: 8b95bd3929202c8e08737719c3f3fc6951e76ee8
       body: ""
