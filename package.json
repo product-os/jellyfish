@@ -77,6 +77,7 @@
     "@balena/jellyfish-client-sdk": "^10.4.0",
     "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-environment": "^11.0.3",
+    "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
     "ava": "^4.2.0",
     "aws-sdk": "^2.1145.0",
