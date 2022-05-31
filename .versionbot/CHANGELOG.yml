@@ -1,4 +1,26 @@
 - commits:
+    - subject: UI cleanup
+      hash: 8964deefba939193fc0c115bbadccd97c8eca86c
+      body: >
+        - Move selectors to separate file;
+
+        - Remove core folder, extract store from it;
+
+        - Create sdk, errorReporter and analytics in main App component instead of creating inside a file and use them via useSetup or withSetup;
+
+        - Remove unused node modules;
+
+
+        *Note:* Diff is due to module removal that caused deletion of many lines in package-lock.json.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 50.7.11
+  title: "'UI cleanup'"
+  date: 2022-05-30T23:17:31.888Z
+- commits:
     - subject: Remove unused dev dependencies
       hash: db6c7e70d79f24a2bd6b56d8b26d1255c712f6e7
       body: |
