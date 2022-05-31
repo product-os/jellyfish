@@ -143,12 +143,12 @@ export default withSetup(
 				};
 				return helpers.getSchemaSlices(schema, this.props.types) || [];
 			}
-			// Otherwise spoof a view
+			// Otherwise spoof a schema
 			if (this.props.tail && this.props.tail.length > 0) {
 				const sample: any = _.first(this.props.tail);
 				const schema: any = _.set(
 					{},
-					['schema', 'properties', 'type', 'const'],
+					['properties', 'type', 'const'],
 					sample.type,
 				);
 				return helpers.getSchemaSlices(schema, this.props.types) || [];
