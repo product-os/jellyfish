@@ -15,7 +15,7 @@ import { SchemaSieve } from 'rendition';
 import skhema from 'skhema';
 import { DetectUA } from 'detect-ua';
 import { MESSAGE, WHISPER, SUMMARY, RATING } from '../components/constants';
-import { Channel, JSONPatch, UIActor } from '../types';
+import { ChannelContract, JSONPatch, UIActor } from '../types';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
@@ -60,7 +60,7 @@ export const pathWithoutTarget = (target: string) => {
 	return `/${filtered}`;
 };
 
-export const pathWithoutChannel = (channel: Channel) => {
+export const pathWithoutChannel = (channel: ChannelContract) => {
 	return pathWithoutTarget(channel.data.target);
 };
 
@@ -80,7 +80,10 @@ export const cardReference = (card: any) => {
 	return card.slug || card.id;
 };
 
-export const appendToChannelPath = (channel: Channel, card: Contract) => {
+export const appendToChannelPath = (
+	channel: ChannelContract,
+	card: Contract,
+) => {
 	const parts: string[] = [];
 	const pieces = window.location.pathname.split('/');
 	const target = _.get(channel, ['data', 'target']);
