@@ -5,7 +5,7 @@ import { Flex, Search } from 'rendition';
 import update from 'immutability-helper';
 import { useSetup } from '../../../components';
 import useDebounce from '../../../hooks/use-debounce';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 import MarkAsReadButton from './MarkAsReadButton';
 import MessageList from './MessageList';
 
@@ -43,10 +43,10 @@ const InboxTab = ({
 }: any) => {
 	const { sdk } = useSetup() as any;
 
-	const user = useSelector(selectors.getCurrentUser);
-	const groupNames = useSelector(selectors.getMyGroupNames);
+	const user = useSelector(selectors.getCurrentUser());
+	const groupNames = useSelector(selectors.getMyGroupNames());
 	const unreadMentions = canMarkAsRead
-		? useSelector(selectors.getInboxViewData)
+		? useSelector(selectors.getInboxViewData())
 		: [];
 
 	const [loading, setLoading] = useState(true);

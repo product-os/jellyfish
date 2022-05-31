@@ -16,7 +16,7 @@ import type {
 	ViewContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { actionCreators, analytics, sdk } from '../../../core';
+import { actionCreators } from '../../../store';
 import type {
 	BoundActionCreators,
 	ChannelContract,
@@ -32,6 +32,7 @@ import {
 	EVENTS_FULL_TEXT_SEARCH_TITLE,
 } from './constants';
 import { unpackLinksSchema } from './Header/Filters/filter-utils';
+import { Setup, withSetup } from '../../../components/SetupProvider';
 
 /**
  * Extracts an array of types that are defined in a schema
@@ -323,7 +324,7 @@ export interface ResponsiveProps {
 	isMobile: boolean;
 }
 
-type Props = StateProps & DispatchProps & OwnProps & ResponsiveProps;
+type Props = StateProps & DispatchProps & OwnProps & ResponsiveProps & Setup;
 
 interface State {
 	redirectTo: null | string;
@@ -344,430 +345,435 @@ interface State {
 	};
 }
 
-export default class ViewRenderer extends React.Component<Props, State> {
-	constructor(props: Props) {
-		super(props);
+export default withSetup(
+	class ViewRenderer extends React.Component<Props, State> {
+		constructor(props: Props) {
+			super(props);
 
-		const { query, seed, useSlices, types } = this.props;
+			const { query, seed, useSlices, types } = this.props;
 
-		const activeLens =
-			this.props.userActiveLens &&
-			this.getLensBySlug(this.props.userActiveLens);
+			const activeLens =
+				this.props.userActiveLens &&
+				this.getLensBySlug(this.props.userActiveLens);
 
-		const viewTailTypes = getTypesFromSchema(query);
+			const viewTailTypes = getTypesFromSchema(query);
 
-		// If the schema doesn't hint at a type, use the pseudo-master type "card"
-		const tailTypes = _.map(viewTailTypes || ['card'], (tailType) => {
-			return helpers.getType(tailType, types);
-		});
-
-		const initialSearchTerm = _.get(seed, ['searchTerm']);
-
-		let filters: JsonSchema[] = [];
-		const sliceOptions = helpers.getSchemaSlices(query, types);
-
-		// If an initial search term is provided don't use slices and skip existing filters
-		if (!initialSearchTerm) {
-			// If the user has already set filters, re-use these, otherwise load the default slice
-			if (this.props.userCustomFilters.length) {
-				filters = this.props.userCustomFilters;
-			} else if (useSlices && sliceOptions && sliceOptions.length) {
-				filters = setSliceFilter(filters, activeLens, _.first(sliceOptions));
-			}
-		}
-
-		const searchTermState = initialSearchTerm
-			? {
-					eventSearchFilter: createEventSearchFilter(
-						this.props.types,
-						initialSearchTerm,
-						tailTypes,
-					),
-					searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
-					searchTerm: initialSearchTerm,
-			  }
-			: {};
-
-		this.state = {
-			activeLens: _.get(activeLens, 'slug', null),
-			eventSearchFilter: null,
-			filters,
-			options: {
-				page: 0,
-				totalPages: Infinity,
-				limit: 100,
-				sortBy: ['created_at'],
-				sortDir: 'desc',
-			},
-			query: null,
-			redirectTo: null,
-			searchFilter: null,
-			searchTerm: '',
-			tailTypes,
-			...searchTermState,
-		};
-
-		this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
-		this.loadViewWithFilters(filters);
-	}
-
-	// This lazy require fixes cicular dependency issues
-	// TODO: Refactor lens architecture to avoid this problem
-	getLensBySlug = (slug: string | null): LensContract | null => {
-		const { getLensBySlug } = require('../../');
-		return getLensBySlug(slug);
-	};
-
-	saveView = ([view]: FiltersView[]) => {
-		if (!view) {
-			return;
-		}
-
-		const newView = this.createView(view);
-
-		sdk.card
-			.create(newView)
-			.then((card: any) => {
-				analytics.track('element.create', {
-					element: {
-						type: 'view',
-					},
-				});
-				this.setState({
-					redirectTo: `/${card.slug || card.id}`,
-				});
-			})
-			.catch((error) => {
-				notifications.addNotification('danger', error.message);
+			// If the schema doesn't hint at a type, use the pseudo-master type "card"
+			const tailTypes = _.map(viewTailTypes || ['card'], (tailType) => {
+				return helpers.getType(tailType, types);
 			});
-	};
 
-	updateFiltersFromSummary = (filters) => {
-		// Separate out the search filter from the other filters
-		const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
-			title: FULL_TEXT_SEARCH_TITLE,
-		});
-		if (searchFilters.length) {
-			this.updateFilters(filtersWithoutSearch);
-		} else {
-			// If the search filter has been removed by the Filters summary,
-			// update our component state accordingly before updating filters
-			this.setState(
-				{
-					eventSearchFilter: null,
-					searchFilter: null,
-					searchTerm: '',
-				},
-				() => {
-					this.updateFilters(filtersWithoutSearch);
-				},
-			);
-		}
-	};
+			const initialSearchTerm = _.get(seed, ['searchTerm']);
 
-	updateFilters = (filters) => {
-		this.setState(
-			(prevState) => {
-				return {
-					options: update(prevState.options, {
-						page: {
-							$set: 0,
-						},
-					}),
-					filters,
-				};
-			},
-			() => {
-				this.loadViewWithFilters(filters);
-			},
-		);
-	};
+			let filters: JsonSchema[] = [];
+			const sliceOptions = helpers.getSchemaSlices(query, types);
 
-	updateSearch = (newSearchTerm: string) => {
-		this.setState(
-			(prevState) => {
-				return {
-					options: update(prevState.options, {
-						page: {
-							$set: 0,
-						},
-						totalPages: {
-							$set: Infinity,
-						},
-					}),
-					eventSearchFilter: createEventSearchFilter(
-						this.props.types,
-						newSearchTerm,
-						this.state.tailTypes,
-					),
-					searchFilter: createSearchFilter(this.state.tailTypes, newSearchTerm),
-					searchTerm: newSearchTerm,
-				};
-			},
-			() => {
-				this.loadViewWithFilters(this.state.filters);
-			},
-		);
-	};
-
-	setLens = (slug) => {
-		const lens = this.getLensBySlug(slug);
-		const { query, types, useSlices } = this.props;
-		if (!lens) {
-			return;
-		}
-
-		if (this.state.activeLens === lens.slug) {
-			return;
-		}
-
-		// Some lenses ignore the slice filter, so recalculate the filters using
-		// the new lens.
-		const sliceOptions = helpers.getSchemaSlices(query, types);
-		const filters = useSlices
-			? setSliceFilter(this.state.filters, lens, _.first(sliceOptions))
-			: this.state.filters;
-
-		const newOptions = this.getQueryOptions(slug, false);
-
-		const reloadRequired =
-			!deepEqual(this.state.filters, filters) ||
-			!deepEqual(this.state.options, newOptions);
-
-		this.setState(
-			() => {
-				return {
-					options: newOptions,
-					filters,
-					activeLens: lens.slug,
-				};
-			},
-			() => {
-				if (reloadRequired) {
-					this.loadViewWithFilters(this.state.filters);
+			// If an initial search term is provided don't use slices and skip existing filters
+			if (!initialSearchTerm) {
+				// If the user has already set filters, re-use these, otherwise load the default slice
+				if (this.props.userCustomFilters.length) {
+					filters = this.props.userCustomFilters;
+				} else if (useSlices && sliceOptions && sliceOptions.length) {
+					filters = setSliceFilter(filters, activeLens, _.first(sliceOptions));
 				}
-			},
-		);
+			}
 
-		this.props.actions.setViewLens(this.props.card.id, lens.slug);
-	};
+			const searchTermState = initialSearchTerm
+				? {
+						eventSearchFilter: createEventSearchFilter(
+							this.props.types,
+							initialSearchTerm,
+							tailTypes,
+						),
+						searchFilter: createSearchFilter(tailTypes, initialSearchTerm),
+						searchTerm: initialSearchTerm,
+				  }
+				: {};
 
-	handleSortOptionsChange = (sortOptions) => {
-		this.setState(
-			({ options }) => ({
+			this.state = {
+				activeLens: _.get(activeLens, 'slug', null),
+				eventSearchFilter: null,
+				filters,
 				options: {
-					...options,
 					page: 0,
 					totalPages: Infinity,
-					...sortOptions,
+					limit: 100,
+					sortBy: ['created_at'],
+					sortDir: 'desc',
 				},
-			}),
-			() => {
-				this.loadViewWithFilters(this.state.filters);
-			},
-		);
-	};
+				query: null,
+				redirectTo: null,
+				searchFilter: null,
+				searchTerm: '',
+				tailTypes,
+				...searchTermState,
+			};
 
-	// TODO: Make all lenses handle pagination and remove this exception.
-	// For this to work properly there needs to be a mechanism for returning the
-	// total available items from the API.
-	getQueryOptions(
-		lensSlug: string | null,
-		keepState: boolean = true,
-	): {
-		limit: number;
-		page: number;
-		sortBy: string | string[];
-		sortDir: 'asc' | 'desc';
-		totalPages: number;
-	} {
-		// TODO: improve backend sort efficiency so we can apply a default sort here
-		const options = _.merge(
-			{
-				limit: 30,
-				page: 0,
-			},
-			this.state.options,
-		);
-
-		if (keepState) {
-			options.page = this.state.options.page;
-			options.sortBy = this.state.options.sortBy as string;
-			options.sortDir = this.state.options.sortDir;
+			this.loadViewWithFilters = _.debounce(this.loadViewWithFilters, 350);
+			this.loadViewWithFilters(filters);
 		}
 
-		// The backend will throw an error if you make a request with a "limit"
-		// higher than 1000, so normalize it here
-		if (options.limit > 1000) {
-			options.limit = 1000;
-		}
+		// This lazy require fixes cicular dependency issues
+		// TODO: Refactor lens architecture to avoid this problem
+		getLensBySlug = (slug: string | null): LensContract | null => {
+			const { getLensBySlug } = require('../../');
+			return getLensBySlug(slug);
+		};
 
-		return options;
-	}
+		saveView = ([view]: FiltersView[]) => {
+			if (!view) {
+				return;
+			}
 
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			!circularDeepEqual(nextState, this.state) ||
-			!circularDeepEqual(nextProps, this.props)
-		);
-	}
+			const newView = this.createView(view);
 
-	createView(view) {
-		const { user, card } = this.props;
-		const newView = clone<ViewContract>(card);
-		newView.name = view.name;
-		newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
-			view.name,
-		)}`;
-		if (!newView.data.allOf) {
-			newView.data.allOf = [];
-		}
-		newView.data.allOf = _.reject(newView.data.allOf, {
-			name: USER_FILTER_NAME,
-		});
-		newView.data.actor = user.id;
-		view.filters.forEach((filter) => {
-			newView.data.allOf!.push({
-				name: USER_FILTER_NAME,
-				schema: _.assign(SchemaSieve.unflattenSchema(filter), {
-					type: 'object',
-				}),
+			this.props.sdk.card
+				.create(newView)
+				.then((card: any) => {
+					this.props.analytics.track('element.create', {
+						element: {
+							type: 'view',
+						},
+					});
+					this.setState({
+						redirectTo: `/${card.slug || card.id}`,
+					});
+				})
+				.catch((error) => {
+					notifications.addNotification('danger', error.message);
+				});
+		};
+
+		updateFiltersFromSummary = (filters) => {
+			// Separate out the search filter from the other filters
+			const [searchFilters, filtersWithoutSearch] = _.partition(filters, {
+				title: FULL_TEXT_SEARCH_TITLE,
 			});
-		});
-		Reflect.deleteProperty(newView, 'id');
-		Reflect.deleteProperty(newView, 'created_at');
-		Reflect.deleteProperty(newView.data, 'namespace');
-		return newView;
-	}
+			if (searchFilters.length) {
+				this.updateFilters(filtersWithoutSearch);
+			} else {
+				// If the search filter has been removed by the Filters summary,
+				// update our component state accordingly before updating filters
+				this.setState(
+					{
+						eventSearchFilter: null,
+						searchFilter: null,
+						searchTerm: '',
+					},
+					() => {
+						this.updateFilters(filtersWithoutSearch);
+					},
+				);
+			}
+		};
 
-	loadViewWithFilters(filters) {
-		const { actions, card, query, onQueryUpdate } = this.props;
-		const { searchFilter } = this.state;
+		updateFilters = (filters) => {
+			this.setState(
+				(prevState) => {
+					return {
+						options: update(prevState.options, {
+							page: {
+								$set: 0,
+							},
+						}),
+						filters,
+					};
+				},
+				() => {
+					this.loadViewWithFilters(filters);
+				},
+			);
+		};
 
-		// Omnisearch runs a full text query over a large set of contracts, so we apply
-		// heuristics to make the query run faster. Firstly, we omit search in timelines.
-		// Secondly, the top level type enum is removed. We need to resolve the root cause
-		// of these slow queries and remove this heuristic.
-		// See: https://jel.ly.fish/pattern-omnisearch-causes-massive-db-memory-consumption-8022ce1
-		const isOmniSearch =
-			query.allOf && query.allOf[0] && query.allOf[0].$id === 'omnisearch';
+		updateSearch = (newSearchTerm: string) => {
+			this.setState(
+				(prevState) => {
+					return {
+						options: update(prevState.options, {
+							page: {
+								$set: 0,
+							},
+							totalPages: {
+								$set: Infinity,
+							},
+						}),
+						eventSearchFilter: createEventSearchFilter(
+							this.props.types,
+							newSearchTerm,
+							this.state.tailTypes,
+						),
+						searchFilter: createSearchFilter(
+							this.state.tailTypes,
+							newSearchTerm,
+						),
+						searchTerm: newSearchTerm,
+					};
+				},
+				() => {
+					this.loadViewWithFilters(this.state.filters);
+				},
+			);
+		};
 
-		const targetFilters = _.compact(filters);
-		const searchFilters = _.compact([searchFilter]);
-		if (searchFilters.length === 1) {
-			targetFilters.push(searchFilters[0]);
-		} else if (searchFilters.length > 1) {
-			targetFilters.push({ anyOf: searchFilters });
+		setLens = (slug) => {
+			const lens = this.getLensBySlug(slug);
+			const { query, types, useSlices } = this.props;
+			if (!lens) {
+				return;
+			}
+
+			if (this.state.activeLens === lens.slug) {
+				return;
+			}
+
+			// Some lenses ignore the slice filter, so recalculate the filters using
+			// the new lens.
+			const sliceOptions = helpers.getSchemaSlices(query, types);
+			const filters = useSlices
+				? setSliceFilter(this.state.filters, lens, _.first(sliceOptions))
+				: this.state.filters;
+
+			const newOptions = this.getQueryOptions(slug, false);
+
+			const reloadRequired =
+				!deepEqual(this.state.filters, filters) ||
+				!deepEqual(this.state.options, newOptions);
+
+			this.setState(
+				() => {
+					return {
+						options: newOptions,
+						filters,
+						activeLens: lens.slug,
+					};
+				},
+				() => {
+					if (reloadRequired) {
+						this.loadViewWithFilters(this.state.filters);
+					}
+				},
+			);
+
+			this.props.actions.setViewLens(this.props.card.id, lens.slug);
+		};
+
+		handleSortOptionsChange = (sortOptions) => {
+			this.setState(
+				({ options }) => ({
+					options: {
+						...options,
+						page: 0,
+						totalPages: Infinity,
+						...sortOptions,
+					},
+				}),
+				() => {
+					this.loadViewWithFilters(this.state.filters);
+				},
+			);
+		};
+
+		// TODO: Make all lenses handle pagination and remove this exception.
+		// For this to work properly there needs to be a mechanism for returning the
+		// total available items from the API.
+		getQueryOptions(
+			lensSlug: string | null,
+			keepState: boolean = true,
+		): {
+			limit: number;
+			page: number;
+			sortBy: string | string[];
+			sortDir: 'asc' | 'desc';
+			totalPages: number;
+		} {
+			// TODO: improve backend sort efficiency so we can apply a default sort here
+			const options = _.merge(
+				{
+					limit: 30,
+					page: 0,
+				},
+				this.state.options,
+			);
+
+			if (keepState) {
+				options.page = this.state.options.page;
+				options.sortBy = this.state.options.sortBy as string;
+				options.sortDir = this.state.options.sortDir;
+			}
+
+			// The backend will throw an error if you make a request with a "limit"
+			// higher than 1000, so normalize it here
+			if (options.limit > 1000) {
+				options.limit = 1000;
+			}
+
+			return options;
 		}
 
-		// TODO:
-		// 1. Store custom filters in localStorage
-		// 2. Retrieve and load custom filters on startup
-		// 3. Add a "reset" button for removing custom filters
-		if (!deepEqual(this.props.userCustomFilters, filters)) {
-			actions.setUserCustomFilters(card.id, filters);
+		shouldComponentUpdate(nextProps, nextState) {
+			return (
+				!circularDeepEqual(nextState, this.state) ||
+				!circularDeepEqual(nextProps, this.props)
+			);
 		}
 
-		const viewQuery = unifyQuery(
-			isOmniSearch ? { allOf: [] } : clone(query),
-			targetFilters,
-		);
-
-		if (onQueryUpdate) {
-			onQueryUpdate(viewQuery);
+		createView(view) {
+			const { user, card } = this.props;
+			const newView = clone<ViewContract>(card);
+			newView.name = view.name;
+			newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
+				view.name,
+			)}`;
+			if (!newView.data.allOf) {
+				newView.data.allOf = [];
+			}
+			newView.data.allOf = _.reject(newView.data.allOf, {
+				name: USER_FILTER_NAME,
+			});
+			newView.data.actor = user.id;
+			view.filters.forEach((filter) => {
+				newView.data.allOf!.push({
+					name: USER_FILTER_NAME,
+					schema: _.assign(SchemaSieve.unflattenSchema(filter), {
+						type: 'object',
+					}),
+				});
+			});
+			Reflect.deleteProperty(newView, 'id');
+			Reflect.deleteProperty(newView, 'created_at');
+			Reflect.deleteProperty(newView.data, 'namespace');
+			return newView;
 		}
 
-		this.setState({
-			query: viewQuery,
-		});
-	}
+		loadViewWithFilters(filters) {
+			const { actions, card, query, onQueryUpdate } = this.props;
+			const { searchFilter } = this.state;
 
-	render() {
-		const { card, isMobile, types, channel, hideFooter, user } = this.props;
+			// Omnisearch runs a full text query over a large set of contracts, so we apply
+			// heuristics to make the query run faster. Firstly, we omit search in timelines.
+			// Secondly, the top level type enum is removed. We need to resolve the root cause
+			// of these slow queries and remove this heuristic.
+			// See: https://jel.ly.fish/pattern-omnisearch-causes-massive-db-memory-consumption-8022ce1
+			const isOmniSearch =
+				query.allOf && query.allOf[0] && query.allOf[0].$id === 'omnisearch';
 
-		const {
-			tailTypes,
-			activeLens,
-			redirectTo,
-			filters,
-			searchFilter,
-			searchTerm,
-		} = this.state;
+			const targetFilters = _.compact(filters);
+			const searchFilters = _.compact([searchFilter]);
+			if (searchFilters.length === 1) {
+				targetFilters.push(searchFilters[0]);
+			} else if (searchFilters.length > 1) {
+				targetFilters.push({ anyOf: searchFilters });
+			}
 
-		if (redirectTo) {
-			return <Redirect push to={redirectTo} />;
+			// TODO:
+			// 1. Store custom filters in localStorage
+			// 2. Retrieve and load custom filters on startup
+			// 3. Add a "reset" button for removing custom filters
+			if (!deepEqual(this.props.userCustomFilters, filters)) {
+				actions.setUserCustomFilters(card.id, filters);
+			}
+
+			const viewQuery = unifyQuery(
+				isOmniSearch ? { allOf: [] } : clone(query),
+				targetFilters,
+			);
+
+			if (onQueryUpdate) {
+				onQueryUpdate(viewQuery);
+			}
+
+			this.setState({
+				query: viewQuery,
+			});
 		}
 
-		const lens = this.getLensBySlug(activeLens);
-		const options = this.getQueryOptions(activeLens);
+		render() {
+			const { card, isMobile, types, channel, hideFooter, user } = this.props;
 
-		return (
-			<Flex
-				className={`column--${
-					card ? card.slug || card.type.split('@')[0] : 'unknown'
-				}`}
-				flexDirection="column"
-				style={{
-					height: '100%',
-					overflowY: 'auto',
-					position: 'relative',
-				}}
-			>
-				{this.state.query && (
-					<LiveCollection
-						user={this.props.user}
-						query={this.state.query}
-						lens={lens}
-						options={options}
-						onResultsChange={this.props.onResultsChange}
-					>
-						{({ results, nextPage, hasNextPage, lenses }) => (
-							<>
-								<Header
-									lenses={lenses}
-									isMobile={isMobile}
-									setLens={(
-										event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-									) => {
-										this.setLens(event.currentTarget.dataset.slug);
-									}}
-									lens={lens}
-									filters={filters}
-									tailTypes={tailTypes || []}
-									allTypes={types}
-									updateFilters={this.updateFilters}
-									saveView={this.saveView}
-									searchFilter={searchFilter}
-									searchTerm={searchTerm || ''}
-									updateSearch={(event) => {
-										this.updateSearch(event.target.value);
-									}}
-									updateFiltersFromSummary={this.updateFiltersFromSummary}
-									pageOptions={{
-										sortBy: options.sortBy,
-										sortDir: options.sortDir,
-									}}
-									onSortOptionsChange={this.handleSortOptionsChange}
-								/>
+			const {
+				tailTypes,
+				activeLens,
+				redirectTo,
+				filters,
+				searchFilter,
+				searchTerm,
+			} = this.state;
 
-								<Content
-									user={user}
-									card={card}
-									results={results}
-									nextPage={nextPage}
-									hasNextPage={hasNextPage}
-									lenses={lenses}
-									lens={lens}
-									channel={channel}
-									tailTypes={tailTypes || []}
-									pageOptions={options}
-									hideFooter={!!hideFooter}
-								/>
-							</>
-						)}
-					</LiveCollection>
-				)}
-			</Flex>
-		);
-	}
-}
+			if (redirectTo) {
+				return <Redirect push to={redirectTo} />;
+			}
+
+			const lens = this.getLensBySlug(activeLens);
+			const options = this.getQueryOptions(activeLens);
+
+			return (
+				<Flex
+					className={`column--${
+						card ? card.slug || card.type.split('@')[0] : 'unknown'
+					}`}
+					flexDirection="column"
+					style={{
+						height: '100%',
+						overflowY: 'auto',
+						position: 'relative',
+					}}
+				>
+					{this.state.query && (
+						<LiveCollection
+							user={this.props.user}
+							query={this.state.query}
+							lens={lens}
+							options={options}
+							onResultsChange={this.props.onResultsChange}
+						>
+							{({ results, nextPage, hasNextPage, lenses }) => (
+								<>
+									<Header
+										lenses={lenses}
+										isMobile={isMobile}
+										setLens={(
+											event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+										) => {
+											this.setLens(event.currentTarget.dataset.slug);
+										}}
+										lens={lens}
+										filters={filters}
+										tailTypes={tailTypes || []}
+										allTypes={types}
+										updateFilters={this.updateFilters}
+										saveView={this.saveView}
+										searchFilter={searchFilter}
+										searchTerm={searchTerm || ''}
+										updateSearch={(event) => {
+											this.updateSearch(event.target.value);
+										}}
+										updateFiltersFromSummary={this.updateFiltersFromSummary}
+										pageOptions={{
+											sortBy: options.sortBy,
+											sortDir: options.sortDir,
+										}}
+										onSortOptionsChange={this.handleSortOptionsChange}
+									/>
+
+									<Content
+										user={user}
+										card={card}
+										results={results}
+										nextPage={nextPage}
+										hasNextPage={hasNextPage}
+										lenses={lenses}
+										lens={lens}
+										channel={channel}
+										tailTypes={tailTypes || []}
+										pageOptions={options}
+										hideFooter={!!hideFooter}
+									/>
+								</>
+							)}
+						</LiveCollection>
+					)}
+				</Flex>
+			);
+		}
+	},
+);

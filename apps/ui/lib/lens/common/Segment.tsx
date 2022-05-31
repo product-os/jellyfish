@@ -10,7 +10,7 @@ import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import { JsonSchema } from '@balena/jellyfish-types';
 import { ChannelContract } from '../../types';
-import { selectors } from '../../core';
+import { selectors } from '../../store';
 import LiveCollection from './LiveCollection';
 import LinkOrCreate from './LinkOrCreate';
 
@@ -187,7 +187,7 @@ class Segment extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any): StateProps => {
 	return {
-		activeLoop: selectors.getActiveLoop(state),
+		activeLoop: selectors.getActiveLoop()(state),
 	};
 };
 

@@ -1,8 +1,9 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators, compose } from 'redux';
 import pick from 'lodash/pick';
-import { actionCreators, sdk, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import { withSetup } from '../../../components';
 
 export const CreateLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create" */ './CreateLens'),
@@ -10,8 +11,7 @@ export const CreateLens = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		sdk,
-		allTypes: selectors.getTypes(state),
+		allTypes: selectors.getTypes()(state),
 	};
 };
 
@@ -37,7 +37,10 @@ export default {
 	name: 'Default list lens',
 	data: {
 		format: 'create',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateLens),
+		renderer: compose(
+			withSetup,
+			connect(mapStateToProps, mapDispatchToProps),
+		)(CreateLens),
 		icon: 'address-card',
 		type: '*',
 		filter: {

@@ -1,8 +1,10 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
+import { compose } from 'redux';
+import { withSetup } from '../../../components';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { sdk, actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const CreateView = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create-view" */ './CreateView'),
@@ -10,9 +12,8 @@ export const CreateView = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		sdk,
-		allTypes: selectors.getTypes(state),
-		user: selectors.getCurrentUser(state),
+		allTypes: selectors.getTypes()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 
@@ -32,7 +33,10 @@ export default {
 	name: 'View creation lens',
 	data: {
 		format: 'createView',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateView),
+		renderer: compose(
+			withSetup,
+			connect(mapStateToProps, mapDispatchToProps),
+		)(CreateView),
 		icon: 'address-card',
 		type: '*',
 		filter: {

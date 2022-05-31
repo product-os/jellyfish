@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -11,7 +11,7 @@ export const SimpleList = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		user: selectors.getCurrentUser(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 

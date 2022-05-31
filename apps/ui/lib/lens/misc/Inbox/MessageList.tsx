@@ -12,10 +12,11 @@ import {
 	EventsContainer,
 	Icon,
 	withDefaultGetActorHref,
+	withSetup,
 } from '../../../components';
 import { Box, Txt, Img, Flex } from 'rendition';
 import { isSameDay, isSameWeek, sub } from 'date-fns';
-import { selectors, sdk } from '../../../core';
+import { selectors } from '../../../store';
 
 const StyledFlex = styled(Flex)(() => {
 	return {
@@ -69,7 +70,7 @@ class MessageList extends React.Component<any, any> {
 			id,
 		});
 
-		sdk.card
+		this.props.sdk.card
 			.markAsRead(
 				this.props.user.slug,
 				card,
@@ -87,9 +88,11 @@ class MessageList extends React.Component<any, any> {
 			id,
 		});
 
-		sdk.card.markAsUnread(this.props.user.slug, card).catch((error) => {
-			console.error(error);
-		});
+		this.props.sdk.card
+			.markAsUnread(this.props.user.slug, card)
+			.catch((error) => {
+				console.error(error);
+			});
 	}
 
 	async handleScroll() {
@@ -362,13 +365,14 @@ class MessageList extends React.Component<any, any> {
 
 const mapStateToProps = (state) => {
 	return {
-		groups: selectors.getGroups(state),
-		user: selectors.getCurrentUser(state),
+		groups: selectors.getGroups()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 
 export default compose<any>(
 	withRouter,
+	withSetup,
 	connect(mapStateToProps),
 	withDefaultGetActorHref(),
 )(MessageList);

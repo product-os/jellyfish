@@ -3,7 +3,7 @@ import _ from 'lodash';
 import memoize from 'memoize-one';
 import { connect } from 'react-redux';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { selectors, actionCreators } from '../../../core';
+import { selectors, actionCreators } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { ChannelContract } from '../../../types';
 import {
@@ -15,7 +15,7 @@ import {
 
 const mapStateToProps = (state, props): StateProps => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

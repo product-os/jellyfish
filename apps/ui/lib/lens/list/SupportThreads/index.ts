@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { SLUG } from './SupportThreads';
 
@@ -13,8 +13,8 @@ export const SupportThreads = createLazyComponent(
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
-		channels: selectors.getChannels(state),
-		lensState: selectors.getLensState(state, SLUG, target),
+		channels: selectors.getChannels()(state),
+		lensState: selectors.getLensState(SLUG, target)(state),
 	};
 };
 

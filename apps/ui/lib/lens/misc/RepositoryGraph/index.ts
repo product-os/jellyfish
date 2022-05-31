@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { LensContract } from '../../../types';
 import type { StateProps, OwnProps } from './RepositoryGraph';
@@ -12,7 +12,7 @@ const LensRenderer = createLazyComponent(
 
 const mapStateToProps = (state): StateProps => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

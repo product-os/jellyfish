@@ -1,6 +1,6 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 import { withChannelContext } from '../../../hooks/channel-context';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
@@ -11,8 +11,8 @@ export const SingleContract = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		channels: selectors.getChannels(state),
-		types: selectors.getTypes(state),
+		channels: selectors.getChannels()(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

@@ -1,9 +1,9 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { compose, bindActionCreators } from 'redux';
-import { withDefaultGetActorHref } from '../../components';
+import { withDefaultGetActorHref, withSetup } from '../../components';
 import { withResponsiveContext } from '../../hooks/use-responsive-context';
-import { actionCreators, sdk, selectors } from '../../core';
+import { actionCreators, selectors } from '../../store';
 import * as environment from '../../environment';
 import { createLazyComponent } from '../../components/SafeLazy';
 
@@ -17,15 +17,13 @@ const mapStateToProps = (state, ownProps) => {
 	return {
 		wide: !ownProps.isMobile,
 		enableAutocomplete: !environment.isTest(),
-		sdk,
-		types: selectors.getTypes(state),
-		groups: selectors.getGroups(state),
-		user: selectors.getCurrentUser(state),
-		usersTyping: selectors.getUsersTypingOnCard(state, card.id),
-		timelineMessage: selectors.getTimelineMessage(state, card.id),
-		timelinePendingMessages: selectors.getTimelinePendingMessages(
+		types: selectors.getTypes()(state),
+		groups: selectors.getGroups()(state),
+		user: selectors.getCurrentUser()(state),
+		usersTyping: selectors.getUsersTypingOnCard(card.id)(state),
+		timelineMessage: selectors.getTimelineMessage(card.id)(state),
+		timelinePendingMessages: selectors.getTimelinePendingMessages(card.id)(
 			state,
-			card.id,
 		),
 	};
 };
@@ -56,6 +54,7 @@ const lens = {
 		format: 'list',
 		icon: 'list',
 		renderer: compose<any>(
+			withSetup,
 			withResponsiveContext,
 			connect(mapStateToProps, mapDispatchToProps),
 			withDefaultGetActorHref(),

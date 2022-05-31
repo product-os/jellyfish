@@ -2,7 +2,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { withDefaultGetActorHref } from '../../../components';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import * as _ from 'lodash';
 import type { StateProps, DispatchProps, OwnProps } from './SupportThreadBase';
@@ -14,9 +14,9 @@ export const SupportThreadBase = createLazyComponent(
 
 const mapStateToProps = (state): StateProps => {
 	return {
-		types: selectors.getTypes(state),
-		groups: selectors.getGroups(state),
-		user: selectors.getCurrentUser(state),
+		types: selectors.getTypes()(state),
+		groups: selectors.getGroups()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 

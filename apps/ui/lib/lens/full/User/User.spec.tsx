@@ -1,14 +1,18 @@
-jest.mock('../../common/RelationshipsTab');
-jest.mock('../../../components/BookmarkButton');
+jest.mock('../../common/RelationshipsTab', () => {
+	return {
+		RelationshipsTab: () => null,
+	};
+});
+jest.mock('../../../components/BookmarkButton', () => {
+	return {
+		BookmarkButton: () => null,
+	};
+});
 
 import { getWrapper, flushPromises } from '../../../../test/ui-setup';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
-
-// TODO: Remove this unused import if we resolve the circular dependency
-// eslint-disable-next-line no-unused-vars
-import full from '..';
 import User from './User';
 
 const { wrapper } = getWrapper({

@@ -13,7 +13,7 @@ import { UI_SCHEMA_MODE } from '../../lens/schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../lens/common';
 import { BoundActionCreators, LensRendererProps } from '../../types';
 import { TypeContract } from '@balena/jellyfish-types/build/core';
-import { actionCreators, selectors } from '../../core';
+import { actionCreators, selectors } from '../../store';
 
 const SLUG = 'tabbed-contract-layout';
 
@@ -159,8 +159,8 @@ class TabbedContractLayout extends React.Component<Props, State> {
 const mapStateToProps = (state, ownProps): StateProps => {
 	const target = _.get(ownProps, ['card', 'type']);
 	return {
-		types: selectors.getTypes(state),
-		lensState: selectors.getLensState(state, SLUG, target),
+		types: selectors.getTypes()(state),
+		lensState: selectors.getLensState(SLUG, target)(state),
 	};
 };
 

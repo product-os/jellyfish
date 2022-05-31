@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { Icon, useSetup } from '../';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type { UserContract } from '@balena/jellyfish-types/build/core';
-import { selectors } from '../../core';
+import { selectors } from '../../store';
 
 const StyledBadge = styled(Badge)`
 	position: absolute;
@@ -25,7 +25,9 @@ const Container = styled(Box)`
 export const ChatButton = ({ onClick, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [notifications, setNotifications] = React.useState<null | any[]>(null);
-	const currentUser = useSelector<any, UserContract>(selectors.getCurrentUser);
+	const currentUser = useSelector<any, UserContract>(
+		selectors.getCurrentUser(),
+	);
 
 	React.useEffect(() => {
 		let stream: any = null;

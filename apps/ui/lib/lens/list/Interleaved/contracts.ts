@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 import { withDefaultGetActorHref } from '../../../components';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 import { withChannelContext } from '../../../hooks';
 import { LensContract, LensRendererProps } from '../../../types';
 import { OwnProps, StateProps } from './component';
@@ -12,9 +12,9 @@ import { InterleavedList } from './component';
 
 const mapStateToProps = (state): StateProps => {
 	return {
-		types: selectors.getTypes(state),
-		groups: selectors.getGroups(state),
-		user: selectors.getCurrentUser(state),
+		types: selectors.getTypes()(state),
+		groups: selectors.getGroups()(state),
+		user: selectors.getCurrentUser()(state),
 	};
 };
 

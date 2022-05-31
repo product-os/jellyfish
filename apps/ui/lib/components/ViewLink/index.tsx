@@ -1,14 +1,15 @@
 import { connect } from 'react-redux';
-import { sdk, selectors } from '../../core';
+import { compose } from 'redux';
+import { selectors } from '../../store';
+import { withSetup } from '../SetupProvider';
 import ViewLink from './ViewLink';
 
 const mapStateToProps = (state, ownProps) => {
-	const homeView = selectors.getHomeView(state);
+	const homeView = selectors.getHomeView()(state);
 	return {
-		sdk,
-		user: selectors.getCurrentUser(state),
+		user: selectors.getCurrentUser()(state),
 		isHomeView: ownProps.card.id === homeView,
 	};
 };
 
-export default connect(mapStateToProps)(ViewLink);
+export default compose<any>(withSetup, connect(mapStateToProps))(ViewLink);

@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { queries } from '../../../core';
-import { mergeWithUniqConcatArrays } from '../../../core/queries';
+import * as queries from '../../../queries';
+import { mergeWithUniqConcatArrays } from '../../../queries';
 
 export const getUnreadQuery = queries.getUnreadQuery;
 

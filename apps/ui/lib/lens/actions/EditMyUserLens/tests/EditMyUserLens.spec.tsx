@@ -1,4 +1,8 @@
-jest.mock('../../../common/RelationshipsTab');
+jest.mock('../../../common/RelationshipsTab', () => {
+	return {
+		RelationshipsTab: () => null,
+	};
+});
 
 import { getWrapper } from '../../../../../test/ui-setup';
 import '../../../../../test/react-select-mock';
@@ -7,10 +11,6 @@ import { mount } from 'enzyme';
 import React from 'react';
 import MyUser from '../EditMyUserLens';
 import { user, userType } from './fixtures';
-
-const sdk = {
-	authToken: 'xxx-xxx-xxx-xxx',
-};
 
 const sandbox = sinon.createSandbox();
 
@@ -29,7 +29,6 @@ describe('MyUser', () => {
 	beforeEach(() => {
 		context = {
 			commonProps: {
-				sdk,
 				actions: {
 					getIntegrationAuthUrl: sandbox
 						.stub()

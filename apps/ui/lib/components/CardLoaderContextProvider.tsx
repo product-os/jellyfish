@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { CardLoaderContext } from './CardLoader';
-import { actionCreators, selectors } from '../core';
+import { actionCreators, selectors } from '../store';
 
 const CardLoaderContextProvider = ({ actions: { getCard }, children }) => {
 	const value = React.useMemo(() => {

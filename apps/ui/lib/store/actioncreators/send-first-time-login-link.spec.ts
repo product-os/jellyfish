@@ -1,13 +1,7 @@
 import sinon from 'sinon';
-import * as notifications from '../../../services/notifications';
+import * as notifications from '../../services/notifications';
 import _ from 'lodash';
-
-// Hack fix for a circular dependency until we refactor the notifications code
-import {
-	// eslint-disable-next-line no-unused-vars
-	store,
-} from '../../';
-import { actionCreators } from './';
+import { actionCreators } from '.';
 
 const sandbox = sinon.createSandbox();
 

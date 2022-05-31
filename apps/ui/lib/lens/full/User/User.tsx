@@ -3,7 +3,6 @@ import _ from 'lodash';
 import { ActionLink } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
-import singleCardLens from '../SingleCard';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 export default class User extends React.Component<any, any> {

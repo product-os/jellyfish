@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import actions from '../../actions';
 import { updateThreadChannels } from '../../helpers';
-import { selectors } from '../';
+import { selectors } from '../../';
 import { triggerNotification } from './helpers';
 
 export const streamUpdate = async (
@@ -14,7 +14,7 @@ export const streamUpdate = async (
 	const update = payload.data;
 	if (update.after) {
 		const card = update.after;
-		const allChannels = selectors.getChannels(getState());
+		const allChannels = selectors.getChannels()(getState());
 
 		// Create a desktop notification if an unread message ping appears
 		// BUG: we don't get notified on message updates

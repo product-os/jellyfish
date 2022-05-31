@@ -2,19 +2,19 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { withResponsiveContext } from '../../../hooks/use-responsive-context';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import Renderer, { StateProps, DispatchProps, OwnProps } from './Renderer';
 
 const mapStateToProps = (state, ownProps): StateProps => {
 	const target = ownProps.card.id;
-	const user = selectors.getCurrentUser(state);
+	const user = selectors.getCurrentUser()(state);
 
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 		user,
-		userActiveLens: selectors.getUsersViewLens(state, target),
-		userCustomFilters: selectors.getUserCustomFilters(state, target),
+		userActiveLens: selectors.getUsersViewLens(target)(state),
+		userCustomFilters: selectors.getUserCustomFilters(target)(state),
 	};
 };
 

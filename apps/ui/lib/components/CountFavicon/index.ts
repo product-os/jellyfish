@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { selectors } from '../../core';
+import { selectors } from '../../store';
 import CountFavicon from './CountFavicon';
 
 const getMentionsCount = (mentions) => {
@@ -13,8 +13,8 @@ const getMentionsCount = (mentions) => {
 };
 
 const mapStateToProps = (state) => {
-	const isLoggedIn = selectors.getStatus(state) === 'authorized';
-	const mentions = isLoggedIn ? selectors.getInboxViewData(state) : [];
+	const isLoggedIn = selectors.getStatus()(state) === 'authorized';
+	const mentions = isLoggedIn ? selectors.getInboxViewData()(state) : [];
 	return {
 		isLoggedIn,
 		label: getMentionsCount(mentions),

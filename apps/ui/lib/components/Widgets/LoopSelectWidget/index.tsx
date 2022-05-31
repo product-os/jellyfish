@@ -1,11 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { selectors } from '../../../core';
+import { selectors } from '../../../store';
 import { LoopSelectWidget as InnerLoopSelectWidget } from './LoopSelectWidget';
 
 const mapStateToProps = (state: any) => {
 	return {
-		loops: selectors.getLoops(state),
+		loops: selectors.getLoops()(state),
 	};
 };
 

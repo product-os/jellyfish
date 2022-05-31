@@ -4,7 +4,7 @@ import { Flex, Button } from 'rendition';
 import * as _ from 'lodash';
 import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
 import * as helpers from '../../../services/helpers';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { BoundActionCreators } from '../../../types';
 import { LinkModal } from '../../../components/LinkModal';
@@ -139,8 +139,8 @@ class LinkOrCreate extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any): StateProps => {
 	return {
-		activeLoop: selectors.getActiveLoop(state),
-		types: selectors.getTypes(state),
+		activeLoop: selectors.getActiveLoop()(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

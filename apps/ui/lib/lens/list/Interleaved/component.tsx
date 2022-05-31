@@ -2,9 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 import path from 'path';
 import { RouteComponentProps } from 'react-router-dom';
-import { sdk } from '../../../core';
 import { core } from '@balena/jellyfish-types';
-import { Event } from '../../../components';
+import { Event, useSetup } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
 import { LensRendererProps } from '../../../types';
@@ -59,6 +58,8 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 export const InterleavedList = (props: Props) => {
 	const START_INDEX = 100000;
 	const INITIAL_ITEM_COUNT = 30;
+
+	const { sdk } = useSetup()!;
 
 	const [state, setState] = useState<State>({
 		newMessage: '',

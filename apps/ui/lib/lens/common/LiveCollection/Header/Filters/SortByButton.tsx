@@ -7,7 +7,7 @@ import clone from 'deep-copy';
 import { Select, SelectProps } from 'rendition';
 import type { TypeContract } from '@balena/jellyfish-types/build/core';
 import * as helpers from '../../../../../services/helpers';
-import { sdk } from '../../../../../core';
+import { Setup, withSetup } from '../../../../../components/SetupProvider';
 
 // Do not include fields with array type (doesn't make sense to sort by an array), as well as the id, version, active, or type fields
 const FIELDS_TO_OMIT: any[] = [
@@ -64,98 +64,98 @@ type SortByOption = {
 };
 
 interface SortByDropdownProps
-	extends Omit<SelectProps<SortByOption>, 'options' | 'onChange'> {
+	extends Setup,
+		Omit<SelectProps<SortByOption>, 'options' | 'onChange'> {
 	pageOptions: { sortBy: string | string[]; sortDir: 'desc' | 'asc' };
 	tailTypes: TypeContract[];
 	setSortByField: SelectProps<SortByOption>['onChange'];
 }
 
-export default class SortByDropdown extends React.Component<
-	SortByDropdownProps,
-	any
-> {
-	constructor(props: SortByDropdownProps) {
-		super(props);
-		this.state = {
-			sortByOptions: [],
-			cardSchema: {},
+export default withSetup(
+	class SortByDropdown extends React.Component<SortByDropdownProps, any> {
+		constructor(props: SortByDropdownProps) {
+			super(props);
+			this.state = {
+				sortByOptions: [],
+				cardSchema: {},
+
+				// TODO remove this once we have support for sorting by linked cards
+				isSupportView: false,
+			};
+			this.handleSortBySelectionChange =
+				this.handleSortBySelectionChange.bind(this);
+		}
+
+		async componentDidMount() {
+			const { tailTypes } = this.props;
 
 			// TODO remove this once we have support for sorting by linked cards
-			isSupportView: false,
-		};
-		this.handleSortBySelectionChange =
-			this.handleSortBySelectionChange.bind(this);
-	}
+			if (isSupportView(tailTypes)) {
+				this.setState({
+					isSupportView: true,
+				});
+				return;
+			}
+			const {
+				data: { schema: cardSchema },
+			} = (await this.props.sdk.getBySlug('card@1.0.0')) as any;
 
-	async componentDidMount() {
-		const { tailTypes } = this.props;
-
-		// TODO remove this once we have support for sorting by linked cards
-		if (isSupportView(tailTypes)) {
 			this.setState({
-				isSupportView: true,
-			});
-			return;
-		}
-		const {
-			data: { schema: cardSchema },
-		} = (await sdk.getBySlug('card@1.0.0')) as any;
-
-		this.setState({
-			sortByOptions: getSortByOptions(cardSchema, tailTypes),
-			cardSchema,
-		});
-	}
-
-	async componentDidUpdate({ tailTypes: prevTailTypes }) {
-		const { tailTypes } = this.props;
-
-		const prevTailTypeSlugs = _.map(prevTailTypes, 'slug');
-		const tailTypeSlugs = _.map(tailTypes, 'slug');
-
-		// If the tail types have changed, recalculate the sort by options
-		// TODO remove check for support view once we have support for sorting by linked cards
-		if (
-			!circularDeepEqual(tailTypeSlugs, prevTailTypeSlugs) &&
-			!this.state.isSupportView
-		) {
-			this.setState({
-				sortByOptions: getSortByOptions(this.state.cardSchema, tailTypes),
+				sortByOptions: getSortByOptions(cardSchema, tailTypes),
+				cardSchema,
 			});
 		}
-	}
 
-	handleSortBySelectionChange({ option: { value } }) {
-		const valueAsList = value.split('.');
-		this.props.setSortByField(valueAsList);
-	}
+		async componentDidUpdate({ tailTypes: prevTailTypes }) {
+			const { tailTypes } = this.props;
 
-	render() {
-		const {
-			pageOptions: { sortBy: currentSortBy },
-			setSortByField,
-			tailTypes,
-			...rest
-		} = this.props;
+			const prevTailTypeSlugs = _.map(prevTailTypes, 'slug');
+			const tailTypeSlugs = _.map(tailTypes, 'slug');
 
-		// TODO remove this once we have support for sorting by linked cards
-		if (this.state.isSupportView) {
-			return null;
+			// If the tail types have changed, recalculate the sort by options
+			// TODO remove check for support view once we have support for sorting by linked cards
+			if (
+				!circularDeepEqual(tailTypeSlugs, prevTailTypeSlugs) &&
+				!this.state.isSupportView
+			) {
+				this.setState({
+					sortByOptions: getSortByOptions(this.state.cardSchema, tailTypes),
+				});
+			}
 		}
 
-		const currentValue = {
-			value: _.join(currentSortBy, '.'),
-		};
+		handleSortBySelectionChange({ option: { value } }) {
+			const valueAsList = value.split('.');
+			this.props.setSortByField(valueAsList);
+		}
 
-		return (
-			<Select
-				{...rest}
-				labelKey="title"
-				valueKey="value"
-				value={currentValue}
-				options={this.state.sortByOptions}
-				onChange={this.handleSortBySelectionChange}
-			/>
-		);
-	}
-}
+		render() {
+			const {
+				pageOptions: { sortBy: currentSortBy },
+				setSortByField,
+				tailTypes,
+				...rest
+			} = this.props;
+
+			// TODO remove this once we have support for sorting by linked cards
+			if (this.state.isSupportView) {
+				return null;
+			}
+
+			const currentValue = {
+				value: _.join(currentSortBy, '.'),
+			};
+
+			return (
+				<Select
+					{...rest}
+					labelKey="title"
+					valueKey="value"
+					value={currentValue}
+					options={this.state.sortByOptions}
+					onChange={this.handleSortBySelectionChange}
+				/>
+			);
+		}
+	},
+);

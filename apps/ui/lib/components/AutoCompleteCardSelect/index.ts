@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withSetup } from '../SetupProvider';
-import { selectors } from '../../core';
+import { selectors } from '../../store';
 import { AutoCompleteCardSelect as AutoCompleteCardSelectInner } from './AutoCompleteCardSelect';
 
 const mapStateToProps = (state: any) => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

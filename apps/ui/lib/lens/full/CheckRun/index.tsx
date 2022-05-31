@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../core';
+import { actionCreators, selectors } from '../../../store';
 
 export const CheckRun = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-check-run" */ './CheckRun'),
@@ -10,7 +10,7 @@ export const CheckRun = createLazyComponent(
 
 const mapStateToProps = (state) => {
 	return {
-		types: selectors.getTypes(state),
+		types: selectors.getTypes()(state),
 	};
 };
 

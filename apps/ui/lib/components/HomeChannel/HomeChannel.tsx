@@ -13,6 +13,7 @@ import {
 	MentionsCount,
 	MenuPanel,
 	UserAvatarLive,
+	withSetup,
 } from '../';
 import * as helpers from '../../services/helpers';
 import { core, JsonSchema } from '@balena/jellyfish-types';
@@ -23,7 +24,8 @@ import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
-import { sdk } from '../../core';
+import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;
@@ -298,475 +300,481 @@ const bookmarksQuery = (userId: string): JsonSchema => {
 	};
 };
 
-export default class HomeChannel extends React.Component<any, any> {
-	primaryStream: ReturnType<typeof sdk['stream']> | null = null;
-	bookmarkStream: ReturnType<typeof sdk['stream']> | null = null;
-	wrapper: any;
-	open: any;
+export default withSetup(
+	class HomeChannel extends React.Component<any, any> {
+		primaryStream: ExtendedSocket | null = null;
+		bookmarkStream: ExtendedSocket | null = null;
+		wrapper: any;
+		open: any;
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			showDrawer: false,
-			sliding: false,
-			showMenu: false,
-			messages: [],
-			results: [],
-			bookmarks: [],
-		};
-
-		this.wrapper = React.createRef();
-	}
-
-	openCreateViewChannel = () => {
-		this.props.actions.addChannel({
-			head: {
-				onDone: {
-					action: 'open',
-				},
-			},
-			format: 'createView',
-			canonical: false,
-		});
-		this.hideDrawer();
-	};
-
-	openChatWidget = () => {
-		this.props.actions.setChatWidgetOpen(true);
-		this.hideDrawer();
-	};
-
-	showMenu = () => {
-		this.setState({
-			showMenu: true,
-		});
-	};
-
-	hideMenu = () => {
-		this.setState({
-			showMenu: false,
-		});
-	};
-
-	showDrawer = () => {
-		if (this.props.isMobile) {
-			this.wrapper.current.style.transform = 'translate3d(0, 0, 0)';
-			this.setState({
-				showDrawer: true,
-				sliding: false,
-			});
-		}
-	};
-
-	hideDrawer = () => {
-		if (this.props.isMobile) {
-			this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)';
-			this.setState({
+		constructor(props) {
+			super(props);
+			this.state = {
 				showDrawer: false,
 				sliding: false,
-			});
-		}
-	};
+				showMenu: false,
+				messages: [],
+				results: [],
+				bookmarks: [],
+			};
 
-	toggleDrawerIOS = () => {
-		if (this.state.showDrawer) {
+			this.wrapper = React.createRef();
+		}
+
+		openCreateViewChannel = () => {
+			this.props.actions.addChannel({
+				head: {
+					onDone: {
+						action: 'open',
+					},
+				},
+				format: 'createView',
+				canonical: false,
+			});
 			this.hideDrawer();
-		} else {
-			this.showDrawer();
-		}
-	};
+		};
 
-	onGrabHandleSwiping = (event) => {
-		// As we move the grab handle, directly update the 'transform' styling of the drawer element
-		const xPercent =
-			100 * ((event.initial[0] - event.deltaX) / this.props.windowSize.width);
-		if (event.first) {
+		openChatWidget = () => {
+			this.props.actions.setChatWidgetOpen(true);
+			this.hideDrawer();
+		};
+
+		showMenu = () => {
 			this.setState({
-				sliding: true,
-			});
-		}
-		this.wrapper.current.style.transform = `translate3d(-${
-			100 - _.clamp(xPercent, 0, 100)
-		}%, 0, 0)`;
-	};
-
-	logout = () => {
-		this.props.actions.logout();
-	};
-
-	shouldComponentUpdate(nextProps, nextState) {
-		return (
-			!circularDeepEqual(nextState, this.state) ||
-			!circularDeepEqual(nextProps, this.props)
-		);
-	}
-
-	async componentDidMount() {
-		const { history, homeView, location } = this.props;
-
-		if (location.pathname === '/') {
-			if (homeView) {
-				history.push(homeView);
-			}
-		}
-
-		// Register for desktop notifications now that we're safely logged in
-		// (This keeps Firefox happy)
-		// TODO: Move this to the "Authorized" component
-		registerForNotifications();
-
-		this.loadData();
-	}
-
-	componentDidUpdate(prevProps) {
-		if (prevProps.activeLoop !== this.props.activeLoop) {
-			this.loadData();
-		}
-		if (
-			this.state.showMenu &&
-			prevProps.location.pathname !== this.props.location.pathname
-		) {
-			this.hideMenu();
-		}
-		if (this.props.isMobile) {
-			if (this.wrapper.current) {
-				const prevPath = cleanPath(prevProps.location);
-				const currentPath = cleanPath(this.props.location);
-				if (
-					(prevProps.channels.length === 2 &&
-						this.props.channels.length === 1) ||
-					(prevPath !== '/' && currentPath === '/') ||
-					(currentPath === '/' &&
-						prevProps.isChatWidgetOpen &&
-						!this.props.isChatWidgetOpen)
-				) {
-					this.showDrawer();
-				} else if (
-					prevPath !== currentPath ||
-					(this.props.isChatWidgetOpen && !prevProps.isChatWidgetOpen)
-				) {
-					this.hideDrawer();
-				}
-			}
-		}
-	}
-
-	loadData = async () => {
-		const { channel, user } = this.props;
-
-		const card = await sdk.card.get(channel.data.target);
-		const getData = async (name: string, query: JsonSchema) => {
-			const streamProp = `${name}Stream`;
-			if (this[streamProp]) {
-				this[streamProp].close();
-				this[streamProp] = null;
-			}
-			const stream = await sdk.stream(query);
-			this[streamProp] = stream;
-			const results = await sdk.query(query, {
-				sortBy: 'name',
-				sortDir: 'asc',
-			});
-			this.setState({
-				[name]: results,
-			});
-			stream.on('update', (response) => {
-				const { after } = response.data;
-				if (after) {
-					const resultsHash = _.keyBy(this.state[name], 'id');
-					resultsHash[after.id] = after;
-					this.setState({ [name]: _.values(resultsHash) });
-				}
+				showMenu: true,
 			});
 		};
-		if (card) {
-			await Promise.all([
-				getData('results', helpers.getViewSchema(card, user)),
-				getData('bookmarks', bookmarksQuery(user.id)),
-			]);
+
+		hideMenu = () => {
+			this.setState({
+				showMenu: false,
+			});
+		};
+
+		showDrawer = () => {
+			if (this.props.isMobile) {
+				this.wrapper.current.style.transform = 'translate3d(0, 0, 0)';
+				this.setState({
+					showDrawer: true,
+					sliding: false,
+				});
+			}
+		};
+
+		hideDrawer = () => {
+			if (this.props.isMobile) {
+				this.wrapper.current.style.transform = 'translate3d(-100%, 0, 0)';
+				this.setState({
+					showDrawer: false,
+					sliding: false,
+				});
+			}
+		};
+
+		toggleDrawerIOS = () => {
+			if (this.state.showDrawer) {
+				this.hideDrawer();
+			} else {
+				this.showDrawer();
+			}
+		};
+
+		onGrabHandleSwiping = (event) => {
+			// As we move the grab handle, directly update the 'transform' styling of the drawer element
+			const xPercent =
+				100 * ((event.initial[0] - event.deltaX) / this.props.windowSize.width);
+			if (event.first) {
+				this.setState({
+					sliding: true,
+				});
+			}
+			this.wrapper.current.style.transform = `translate3d(-${
+				100 - _.clamp(xPercent, 0, 100)
+			}%, 0, 0)`;
+		};
+
+		logout = () => {
+			this.props.actions.logout();
+		};
+
+		shouldComponentUpdate(nextProps, nextState) {
+			return (
+				!circularDeepEqual(nextState, this.state) ||
+				!circularDeepEqual(nextProps, this.props)
+			);
 		}
-	};
 
-	render() {
-		const {
-			isMobile,
-			subscriptions,
-			types,
-			actions,
-			channels,
-			channel: {
-				data: { head },
-			},
-			location,
-			user,
-			orgs,
-			isChatWidgetOpen,
-			mentions,
-		} = this.props;
-		const { results, bookmarks } = this.state;
+		async componentDidMount() {
+			const { history, homeView, location } = this.props;
 
-		const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
-		const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
+			if (location.pathname === '/') {
+				if (homeView) {
+					history.push(homeView);
+				}
+			}
 
-		const { showDrawer, sliding } = this.state;
-		const activeChannel = channels.length > 1 ? channels[1] : null;
-		const username = user ? user.name || user.slug.replace(/user-/, '') : null;
-		const groupedViews = groupViews(results, bookmarks, user.id, orgs);
-		const groups = groupedViews.main;
-		const defaultViews = groupedViews.defaults;
-		const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
-		const activeSlice = _.get(activeChannel, ['data', 'options', 'slice']);
+			// Register for desktop notifications now that we're safely logged in
+			// (This keeps Firefox happy)
+			// TODO: Move this to the "Authorized" component
+			registerForNotifications();
 
-		const collapsed =
-			isMobile &&
-			(channels.length > 1 || cleanPath(location) !== '/' || isChatWidgetOpen);
+			this.loadData();
+		}
 
-		const grabHandleProps = helpers.isiOS()
-			? {
-					onClick: this.toggleDrawerIOS,
-			  }
-			: {
-					onSwiping: this.onGrabHandleSwiping,
-					onSwipedRight: this.showDrawer,
-					onSwipedLeft: this.hideDrawer,
-			  };
+		componentDidUpdate(prevProps) {
+			if (prevProps.activeLoop !== this.props.activeLoop) {
+				this.loadData();
+			}
+			if (
+				this.state.showMenu &&
+				prevProps.location.pathname !== this.props.location.pathname
+			) {
+				this.hideMenu();
+			}
+			if (this.props.isMobile) {
+				if (this.wrapper.current) {
+					const prevPath = cleanPath(prevProps.location);
+					const currentPath = cleanPath(this.props.location);
+					if (
+						(prevProps.channels.length === 2 &&
+							this.props.channels.length === 1) ||
+						(prevPath !== '/' && currentPath === '/') ||
+						(currentPath === '/' &&
+							prevProps.isChatWidgetOpen &&
+							!this.props.isChatWidgetOpen)
+					) {
+						this.showDrawer();
+					} else if (
+						prevPath !== currentPath ||
+						(this.props.isChatWidgetOpen && !prevProps.isChatWidgetOpen)
+					) {
+						this.hideDrawer();
+					}
+				}
+			}
+		}
 
-		return (
-			<HomeChannelWrapper
-				flex={['0 0 100%', '0 0 100%', '0 0 180px']}
-				data-test="home-channel"
-				className={classnames('home-channel', {
-					collapsed,
-					sliding,
-					'drawer--open': showDrawer,
-				})}
-			>
-				{collapsed && (
-					<HomeChannelBackdrop
-						data-test="home-channel__backdrop"
-						flex={1}
-						onClick={showDrawer ? this.hideDrawer : (null as any)}
-					/>
-				)}
-				<HomeChannelDrawer
-					flex={1}
-					data-test="home-channel__drawer"
-					ref={this.wrapper}
-					onClick={helpers.swallowEvent as any}
-					isMobile={isMobile}
+		loadData = async () => {
+			const { channel, user, sdk } = this.props;
+
+			const card = await sdk.card.get(channel.data.target);
+			const getData = async (name: string, query: JsonSchema) => {
+				const streamProp = `${name}Stream`;
+				if (this[streamProp]) {
+					this[streamProp].close();
+					this[streamProp] = null;
+				}
+				const stream = await sdk.stream(query);
+				this[streamProp] = stream;
+				const results = await sdk.query(query, {
+					sortBy: 'name',
+					sortDir: 'asc',
+				});
+				this.setState({
+					[name]: results,
+				});
+				stream.on('update', (response) => {
+					const { after } = response.data;
+					if (after) {
+						const resultsHash = _.keyBy(this.state[name], 'id');
+						resultsHash[after.id] = after;
+						this.setState({ [name]: _.values(resultsHash) });
+					}
+				});
+			};
+			if (card) {
+				await Promise.all([
+					getData('results', helpers.getViewSchema(card, user)),
+					getData('bookmarks', bookmarksQuery(user.id)),
+				]);
+			}
+		};
+
+		render() {
+			const {
+				isMobile,
+				subscriptions,
+				types,
+				actions,
+				channels,
+				channel: {
+					data: { head },
+				},
+				location,
+				user,
+				orgs,
+				isChatWidgetOpen,
+				mentions,
+			} = this.props;
+			const { results, bookmarks } = this.state;
+
+			const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
+			const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
+
+			const { showDrawer, sliding } = this.state;
+			const activeChannel = channels.length > 1 ? channels[1] : null;
+			const username = user
+				? user.name || user.slug.replace(/user-/, '')
+				: null;
+			const groupedViews = groupViews(results, bookmarks, user.id, orgs);
+			const groups = groupedViews.main;
+			const defaultViews = groupedViews.defaults;
+			const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
+			const activeSlice = _.get(activeChannel, ['data', 'options', 'slice']);
+
+			const collapsed =
+				isMobile &&
+				(channels.length > 1 ||
+					cleanPath(location) !== '/' ||
+					isChatWidgetOpen);
+
+			const grabHandleProps = helpers.isiOS()
+				? {
+						onClick: this.toggleDrawerIOS,
+				  }
+				: {
+						onSwiping: this.onGrabHandleSwiping,
+						onSwipedRight: this.showDrawer,
+						onSwipedLeft: this.hideDrawer,
+				  };
+
+			return (
+				<HomeChannelWrapper
+					flex={['0 0 100%', '0 0 100%', '0 0 180px']}
+					data-test="home-channel"
+					className={classnames('home-channel', {
+						collapsed,
+						sliding,
+						'drawer--open': showDrawer,
+					})}
 				>
 					{collapsed && (
-						<GrabHandle
-							data-test="home-channel__grab-handle"
-							delta={1}
-							{...grabHandleProps}
-						>
-							<GrabHandleGrip />
-						</GrabHandle>
+						<HomeChannelBackdrop
+							data-test="home-channel__backdrop"
+							flex={1}
+							onClick={showDrawer ? this.hideDrawer : (null as any)}
+						/>
 					)}
-
-					<HomeChannelContent
-						maxWidth={['100%', '100%', '180px']}
-						flexDirection="column"
-						data-test="home-channel__content"
+					<HomeChannelDrawer
+						flex={1}
+						data-test="home-channel__drawer"
+						ref={this.wrapper}
+						onClick={helpers.swallowEvent as any}
+						isMobile={isMobile}
 					>
-						<Flex
-							flexDirection="column"
-							style={{
-								position: 'relative',
-								borderBottom: '1px solid #eee',
-							}}
-						>
-							<Flex
-								className="user-menu-toggle"
-								py={3}
-								pl={3}
-								pr={2}
-								alignItems="center"
-								maxWidth="100%"
-								onClick={this.showMenu}
-								style={{
-									cursor: 'pointer',
-									position: 'relative',
-								}}
+						{collapsed && (
+							<GrabHandle
+								data-test="home-channel__grab-handle"
+								delta={1}
+								{...grabHandleProps}
 							>
-								<UserAvatarLive emphasized userId={user.id} />
-								{Boolean(username) && (
-									<Txt
-										mx={2}
-										style={{
-											textOverflow: 'ellipsis',
-											flex: '1 1 0%',
-											fontWeight: 600,
-											whiteSpace: 'nowrap',
-											overflow: 'hidden',
-										}}
-									>
-										{username}
-									</Txt>
-								)}
-
-								<Icon name="caret-down" />
-
-								{mentions && mentions.length > 0 && (
-									<MentionsCount
-										style={{
-											position: 'absolute',
-											left: '30px',
-											bottom: '10px',
-										}}
-										tooltip={`${mentions.length} notifications`}
-										data-test="homechannel-mentions-count"
-									>
-										{mentions.length >= 100 ? '99+' : mentions.length}
-									</MentionsCount>
-								)}
-							</Flex>
-							<OmniSearch ml={3} mr={2} />
-							<LoopSelector ml={2} mr={2} mb={2} />
-						</Flex>
-
-						{this.state.showMenu && (
-							<Fixed
-								top={true}
-								right={true}
-								bottom={true}
-								left={true}
-								z={10}
-								onClick={this.hideMenu}
-							>
-								<MenuPanel className="user-menu" mx={3} py={2}>
-									{user && (
-										<UserStatusMenuItem
-											user={user}
-											actions={actions}
-											types={types}
-										/>
-									)}
-
-									{user && (
-										// Todo: Resolve the broken typing on ActionRouterLink
-										// @ts-ignore
-										<ActionRouterLink to={`/${user.slug}`}>
-											Profile
-										</ActionRouterLink>
-									)}
-
-									{
-										// @ts-ignore
-										<ActionRouterLink to="/inbox">
-											<Flex justifyContent="space-between">
-												Inbox
-												{mentions && mentions.length > 0 && (
-													<MentionsCount mr={2}>
-														{mentions.length}
-													</MentionsCount>
-												)}
-											</Flex>
-										</ActionRouterLink>
-									}
-
-									{_.map(defaultViews, (card) => {
-										const isActive =
-											card.slug === activeChannelTarget ||
-											card.id === activeChannelTarget;
-
-										// The inbox view is only used to easily facilitate streaming of
-										// mentions
-										// TODO Remove this once the `view-my-inbox` card has been removed
-										// from Jellyfish
-										if (card.slug === 'view-my-inbox') {
-											return null;
-										}
-
-										return (
-											<ViewLink
-												key={card.id}
-												subscription={subscriptions[card.id] || null}
-												types={types}
-												actions={viewLinkActions}
-												card={card}
-												isActive={isActive}
-												activeSlice={activeSlice}
-												open={this.open}
-											/>
-										);
-									})}
-
-									<Box mx={3}>
-										<Divider height={1} />
-									</Box>
-
-									<ActionButton
-										className="user-menu__logout"
-										plain
-										onClick={this.logout}
-									>
-										Log out
-									</ActionButton>
-								</MenuPanel>
-							</Fixed>
+								<GrabHandleGrip />
+							</GrabHandle>
 						)}
 
-						<Box
-							flex="1"
-							py={2}
-							style={{
-								overflowY: 'auto',
-							}}
+						<HomeChannelContent
+							maxWidth={['100%', '100%', '180px']}
+							flexDirection="column"
+							data-test="home-channel__content"
 						>
-							{!results.length && (
-								<Box p={3}>
-									<Icon spin name="cog" />
-								</Box>
-							)}
-
-							{results.length > 0 && (
-								<TreeMenu
-									subscriptions={subscriptions}
-									node={groups}
-									actions={treeMenuActions}
-									activeChannel={activeChannel}
-									viewNotices={this.props.viewNotices}
-								/>
-							)}
-						</Box>
-
-						<Box
-							style={{
-								borderTop: '1px solid #eee',
-								borderBottom: '1px solid #eee',
-							}}
-							px={3}
-							py={2}
-						>
-							<Button
-								plain
-								icon={<Icon name="plus" />}
-								data-test="create-private-conversation"
-								onClick={this.openCreateViewChannel}
-								tooltip={{
-									placement: 'right',
-									text: 'Create a new private conversation',
+							<Flex
+								flexDirection="column"
+								style={{
+									position: 'relative',
+									borderBottom: '1px solid #eee',
 								}}
-							/>
+							>
+								<Flex
+									className="user-menu-toggle"
+									py={3}
+									pl={3}
+									pr={2}
+									alignItems="center"
+									maxWidth="100%"
+									onClick={this.showMenu}
+									style={{
+										cursor: 'pointer',
+										position: 'relative',
+									}}
+								>
+									<UserAvatarLive emphasized userId={user.id} />
+									{Boolean(username) && (
+										<Txt
+											mx={2}
+											style={{
+												textOverflow: 'ellipsis',
+												flex: '1 1 0%',
+												fontWeight: 600,
+												whiteSpace: 'nowrap',
+												overflow: 'hidden',
+											}}
+										>
+											{username}
+										</Txt>
+									)}
 
-							<ChatButton onClick={this.openChatWidget} />
-						</Box>
+									<Icon name="caret-down" />
 
-						<Link
-							p={2}
-							fontSize={1}
-							href="https://github.com/product-os/jellyfish/blob/master/CHANGELOG.md"
-							blank
-						>
-							<Txt monospace>
-								v{this.props.version} {this.props.codename}
-							</Txt>
-						</Link>
-					</HomeChannelContent>
-				</HomeChannelDrawer>
-			</HomeChannelWrapper>
-		);
-	}
-}
+									{mentions && mentions.length > 0 && (
+										<MentionsCount
+											style={{
+												position: 'absolute',
+												left: '30px',
+												bottom: '10px',
+											}}
+											tooltip={`${mentions.length} notifications`}
+											data-test="homechannel-mentions-count"
+										>
+											{mentions.length >= 100 ? '99+' : mentions.length}
+										</MentionsCount>
+									)}
+								</Flex>
+								<OmniSearch ml={3} mr={2} />
+								<LoopSelector ml={2} mr={2} mb={2} />
+							</Flex>
+
+							{this.state.showMenu && (
+								<Fixed
+									top={true}
+									right={true}
+									bottom={true}
+									left={true}
+									z={10}
+									onClick={this.hideMenu}
+								>
+									<MenuPanel className="user-menu" mx={3} py={2}>
+										{user && (
+											<UserStatusMenuItem
+												user={user}
+												actions={actions}
+												types={types}
+											/>
+										)}
+
+										{user && (
+											// Todo: Resolve the broken typing on ActionRouterLink
+											// @ts-ignore
+											<ActionRouterLink to={`/${user.slug}`}>
+												Profile
+											</ActionRouterLink>
+										)}
+
+										{
+											// @ts-ignore
+											<ActionRouterLink to="/inbox">
+												<Flex justifyContent="space-between">
+													Inbox
+													{mentions && mentions.length > 0 && (
+														<MentionsCount mr={2}>
+															{mentions.length}
+														</MentionsCount>
+													)}
+												</Flex>
+											</ActionRouterLink>
+										}
+
+										{_.map(defaultViews, (card) => {
+											const isActive =
+												card.slug === activeChannelTarget ||
+												card.id === activeChannelTarget;
+
+											// The inbox view is only used to easily facilitate streaming of
+											// mentions
+											// TODO Remove this once the `view-my-inbox` card has been removed
+											// from Jellyfish
+											if (card.slug === 'view-my-inbox') {
+												return null;
+											}
+
+											return (
+												<ViewLink
+													key={card.id}
+													subscription={subscriptions[card.id] || null}
+													types={types}
+													actions={viewLinkActions}
+													card={card}
+													isActive={isActive}
+													activeSlice={activeSlice}
+													open={this.open}
+												/>
+											);
+										})}
+
+										<Box mx={3}>
+											<Divider height={1} />
+										</Box>
+
+										<ActionButton
+											className="user-menu__logout"
+											plain
+											onClick={this.logout}
+										>
+											Log out
+										</ActionButton>
+									</MenuPanel>
+								</Fixed>
+							)}
+
+							<Box
+								flex="1"
+								py={2}
+								style={{
+									overflowY: 'auto',
+								}}
+							>
+								{!results.length && (
+									<Box p={3}>
+										<Icon spin name="cog" />
+									</Box>
+								)}
+
+								{results.length > 0 && (
+									<TreeMenu
+										subscriptions={subscriptions}
+										node={groups}
+										actions={treeMenuActions}
+										activeChannel={activeChannel}
+										viewNotices={this.props.viewNotices}
+									/>
+								)}
+							</Box>
+
+							<Box
+								style={{
+									borderTop: '1px solid #eee',
+									borderBottom: '1px solid #eee',
+								}}
+								px={3}
+								py={2}
+							>
+								<Button
+									plain
+									icon={<Icon name="plus" />}
+									data-test="create-private-conversation"
+									onClick={this.openCreateViewChannel}
+									tooltip={{
+										placement: 'right',
+										text: 'Create a new private conversation',
+									}}
+								/>
+
+								<ChatButton onClick={this.openChatWidget} />
+							</Box>
+
+							<Link
+								p={2}
+								fontSize={1}
+								href="https://github.com/product-os/jellyfish/blob/master/CHANGELOG.md"
+								blank
+							>
+								<Txt monospace>
+									v{this.props.version} {this.props.codename}
+								</Txt>
+							</Link>
+						</HomeChannelContent>
+					</HomeChannelDrawer>
+				</HomeChannelWrapper>
+			);
+		}
+	},
+);
