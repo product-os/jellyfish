@@ -1,13 +1,20 @@
 import _ from 'lodash';
 import React from 'react';
-import styled from 'styled-components';
+import { RouteComponentProps } from 'react-router-dom';
 import ReactTrello from 'react-trello';
 import { Flex } from 'rendition';
 import skhema from 'skhema';
+import styled from 'styled-components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import { Card } from './Card';
-import { withSetup } from '../../../components';
+import { Setup, withSetup } from '../../../components/SetupProvider';
+import { actionCreators } from '../../../store';
+import type { BoundActionCreators, LensRendererProps } from '../../../types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 
 const TrelloWrapper = styled(Flex)`
 	height: 100%;
@@ -27,7 +34,7 @@ const UNSORTED_GROUP_ID = 'JELLYFISH_UNSORTED_GROUP';
 
 export const SLUG = 'lens-kanban';
 
-const cardMapper = (card) => {
+const cardMapper = (card: Contract) => {
 	const message = _.find(
 		_.get(card, ['links', 'has attached element']),
 		(linkedCard) => {
@@ -44,32 +51,41 @@ const cardMapper = (card) => {
 	};
 };
 
+export type OwnProps = LensRendererProps;
+export interface StateProps {
+	types: TypeContract[];
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+type Props = StateProps &
+	DispatchProps &
+	OwnProps &
+	RouteComponentProps &
+	Setup;
+
 export default withSetup(
-	class Kanban extends React.Component<any, any> {
-		constructor(props) {
+	class Kanban extends React.Component<Props, {}> {
+		constructor(props: Props) {
 			super(props);
 
-			this.openCreateChannel = this.openCreateChannel.bind(this);
 			this.handleDragEnd = this.handleDragEnd.bind(this);
 			this.onCardClick = this.onCardClick.bind(this);
 		}
 
-		openCreateChannel() {
-			const { type, actions, card } = this.props;
-			actions.openCreateChannel(card, type);
-		}
-
-		onCardClick(cardId) {
-			const card = _.find(this.props.tail, {
+		onCardClick(cardId: string) {
+			const card: Contract = _.find(this.props.tail, {
 				id: cardId,
-			});
+			})!;
 
 			this.props.history.push(
 				helpers.appendToChannelPath(this.props.channel, card),
 			);
 		}
 
-		handleDragEnd(cardId, _sourceLaneId, targetLaneId) {
+		handleDragEnd(cardId: string, _sourceLaneId: string, targetLaneId: string) {
 			const card = _.find(this.props.tail, {
 				id: cardId,
 			});
@@ -123,16 +139,16 @@ export default withSetup(
 			// If the head contract is a view, use it to find the slices
 			if (head && head.type.split('@')[0] === 'view') {
 				const schema = {
-					allOf: head.data.allOf.map((block) => block.schema),
+					allOf: (head as any).data.allOf.map((block) => block.schema),
 				};
 				return helpers.getSchemaSlices(schema, this.props.types) || [];
 			}
-			// Otherwise spoof a view
+			// Otherwise spoof a schema
 			if (this.props.tail && this.props.tail.length > 0) {
 				const sample: any = _.first(this.props.tail);
 				const schema: any = _.set(
 					{},
-					['schema', 'properties', 'type', 'const'],
+					['properties', 'type', 'const'],
 					sample.type,
 				);
 				return helpers.getSchemaSlices(schema, this.props.types) || [];
@@ -144,11 +160,6 @@ export default withSetup(
 			if (!this.props.tail || !this.props.tail.length) {
 				return [];
 			}
-			const activeSlice = _.get(this.props, [
-				'subscription',
-				'data',
-				'activeSlice',
-			]);
 			let cards = this.props.tail.slice();
 			const lanes: any[] = [];
 			const slices = this.getSlices();

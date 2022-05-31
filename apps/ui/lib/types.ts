@@ -6,10 +6,6 @@ import type {
 } from '@balena/jellyfish-types/build/core';
 import React from 'react';
 
-export type Channel = Contract<{
-	target: string;
-}>;
-
 export interface JSONPatch {
 	op: 'add' | 'remove' | 'replace';
 	path: string[] | string;
@@ -53,7 +49,7 @@ export interface LensContract
 			limit?: number;
 			sortBy?: string;
 			sortDir?: 'asc' | 'desc';
-			mask: (query: JsonSchema) => JsonSchema;
+			mask?: (query: JsonSchema) => JsonSchema;
 		};
 	};
 }

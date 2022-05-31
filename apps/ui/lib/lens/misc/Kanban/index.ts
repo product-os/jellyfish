@@ -1,32 +1,30 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { SLUG } from './Kanban';
+import type { DispatchProps, StateProps, OwnProps } from './Kanban';
+import { LensContract } from '../../../types';
 
 export const Kanban = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-kanban" */ './Kanban'),
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		types: selectors.getTypes()(state),
-		user: selectors.getCurrentUser()(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['addChannel', 'openCreateChannel']),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
-const lens = {
+const lens: LensContract = {
 	slug: SLUG,
 	type: 'lens',
 	version: '1.0.0',
@@ -36,7 +34,12 @@ const lens = {
 		label: 'Kanban',
 		icon: 'columns',
 		format: 'list',
-		renderer: withRouter(connect(mapStateToProps, mapDispatchToProps)(Kanban)),
+		renderer: withRouter(
+			connect<StateProps, DispatchProps, OwnProps>(
+				mapStateToProps,
+				mapDispatchToProps,
+			)(Kanban),
+		),
 		filter: {
 			type: 'array',
 			items: {
@@ -50,7 +53,7 @@ const lens = {
 		},
 		queryOptions: {
 			limit: 500,
-			sortBy: ['created_at'],
+			sortBy: 'created_at',
 			sortDir: 'desc',
 		},
 	},
