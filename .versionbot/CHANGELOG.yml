@@ -1,4 +1,31 @@
 - commits:
+    - subject: "UI: Fix column generation in Kanban lens"
+      hash: f69501cea9eb5dea0bd5f293ccc31338fedd743d
+      body: |
+        Previously column generation would not work correctly when viewing
+        a collection of related contracts (as opposed to viewing a collection in
+        a view).
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve types on Kanban lens"
+      hash: f2f2e9f521206d59528f5503a4124bcd08124fa1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 50.7.12
+  title: "'UI: Fix generation of kanban columns when viewing related contracts'"
+  date: 2022-05-31T10:32:09.952Z
+- commits:
     - subject: UI cleanup
       hash: 8964deefba939193fc0c115bbadccd97c8eca86c
       body: >
