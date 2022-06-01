@@ -1,6 +1,6 @@
 # Developing locally
 
-If you want to develop Jellyfish on your local machine, the pre-requisites are:
+If you want to develop Jellyfish on your local machine, you will need the following:
 
 - Docker
 - Docker Compose
@@ -16,22 +16,23 @@ If you get a Playwright installation error, try skipping its browser downloads. 
 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm i
 ```
 
+## Start services
 You can then run these commands in different terminal emulators, which will run all services in non-daemon mode:
 
 Start Postgres, Redis, and S3 services:
 ```sh
-npm run compose:data
+npm run compose:local
 ```
 
-Start the UI:
+Start the frontend:
 ```sh
 SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
 ```
 
-Start the API:
-```
+Start the backend:
+```sh
 SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost \
-    AWS_S3_ENDPOINT=http://s3.ly.fish.local AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
+    AWS_S3_ENDPOINT=http://localhost:43680 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
     AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY AWS_S3_BUCKET_NAME=jellyfish npm run dev:server
 ```
 
@@ -43,7 +44,6 @@ The API will listen on `8000` and the UI will listen on `9000`. Open http://loca
 > (`NODE_ENV=production`)
 
 ## Working with Dependencies
-
 There are times in which you may want to make changes a dependency while working on a service component.
 This is where `npm link` comes in. In the example below, we set up `@balena/jellyfish-metrics` as a dependency
 using this strategy.
@@ -101,4 +101,58 @@ A way around this is to configure `npm` to use a directory the current user is t
 mkdir ~/.npm-global
 npm config set prefix '~/.npm-global'
 export PATH=~/.npm-global/bin:$PATH
+```
+
+## Running tests
+Below are a number of test execution examples.
+
+### Lint
+Run lint checks:
+```sh
+npm run lint
+npm run lint:server
+npm run lint:ui
+```
+
+### Unit
+Run unit tests:
+```sh
+npm run test:unit
+npm run test:unit:server
+npm run test:unit:ui
+```
+
+### E2E SDK
+Run SDK E2E tests:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
+```
+
+### E2E UI
+Install browser for tests:
+```sh
+npx playwright install chromium
+```
+
+Run UI E2E tests with headless browser:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npm run test:e2e:ui
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npx playwright test test/e2e/ui/index.spec.js
+```
+
+Run UI E2E tests with browser displayed:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npx playwright test test/e2e/ui/index.spec.js --headed
+```
+
+### E2E Server
+Run server E2E tests:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
+```
+
+### Server Integration
+Run server integration tests:
+```sh
+SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
 ```

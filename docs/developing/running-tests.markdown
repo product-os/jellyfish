@@ -46,32 +46,32 @@ npm run test:unit:ui
 Run SDK E2E tests:
 ```sh
 UI_HOST=http://jel.ly.fish.local npm run test:e2e:sdk
-UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
 ```
 
 ### E2E UI
-Run UI E2E tests:
+Install browser for tests:
+```sh
+npx playwright install chromium
+```
+
+Run UI E2E tests with headless browser:
 ```sh
 UI_HOST=http://jel.ly.fish.local npm run test:e2e:ui
-SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:ui
 ```
 
 Run UI E2E tests with browser displayed:
 ```sh
-npx playwright install chromium
-SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npx playwright test test/e2e/ui/index.spec.js --headed
+UI_HOST=http://jel.ly.fish.local npx playwright test test/e2e/ui/index.spec.js --headed
 ```
 
 ### E2E Server
 Run server E2E tests:
 ```sh
 SERVER_HOST=http://api.ly.fish.local npm run test:e2e:server
-SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
 ```
 
 ### Server Integration
 Run server integration tests:
 ```sh
 SERVER_PORT=8000 POSTGRES_HOST=postgres.ly.fish.local REDIS_HOST=redis.ly.fish.local npm run test:integration:server
-SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
 ```

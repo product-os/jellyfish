@@ -11,10 +11,12 @@ const config = {
 		ignoreHTTPSErrors: false,
 		baseURL: process.env.UI_HOST || 'http://jel.ly.fish.local',
 		browserName: 'chromium',
-		args: [
-			'--disable-gpu',
-			'--disable-dev-shm-usage'
-		]
+		launchOptions: {
+			args: [
+				'--disable-gpu',
+				'--disable-dev-shm-usage'
+			]
+		}
 	},
 	timeout: 10 * 60 * 1000,
 	retries: 2,

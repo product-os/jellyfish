@@ -1,0 +1,56 @@
+version: '3.9'
+networks:
+  internal: {}
+services:
+  postgres:
+    image: balena/open-balena-db:v5.1.0
+    restart: unless-stopped
+    networks:
+      - internal
+    ports:
+      - '5432:5432'
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: pg_isready -U "${POSTGRES_USER}" -d postgres
+      timeout: 5s
+    command: ['postgres', '-c', 'fsync=off', '-c', 'synchronous_commit=off', '-c', 'full_page_writes=off']
+  redis:
+    image: redis:6-alpine
+    restart: unless-stopped
+    networks:
+      - internal
+    ports:
+      - '6379:6379'
+    healthcheck:
+      interval: 15s
+      retries: 3
+      test: echo INFO | redis-cli | grep redis_version
+      timeout: 5s
+    command: redis-server --appendonly yes
+  s3:
+    image: balena/open-balena-s3:v2.13.7
+    environment:
+      BUCKETS: jellyfish
+      MINIO_DOMAIN: ly.fish.local
+      S3_MINIO_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
+      S3_MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    healthcheck:
+      test: /usr/src/app/docker-hc
+      interval: 45s
+      timeout: 15s
+      retries: 3
+    cap_add:
+      - SYS_RESOURCE
+      - SYS_ADMIN
+    security_opt:
+      - apparmor=unconfined
+    tmpfs:
+      - /run
+      - /sys/fs/cgroup
+    restart: unless-stopped
+    networks:
+      - internal
+    ports:
+      - '43680:80'
+      - '43697:43697'
