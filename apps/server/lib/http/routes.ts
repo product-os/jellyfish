@@ -221,26 +221,34 @@ export const attachRoutes = (
 		return registry.authenticate(request, response, kernel);
 	});
 
-	application.get('/api/v2/oauth/:provider/:slug', (request, response) => {
-		const associateUrl = oauth.getAuthorizeUrl(
-			request.params.provider,
-			request.params.slug,
-			{
-				sync: options.sync,
-			},
-		);
-		const status = associateUrl ? 200 : 400;
-		return response.status(status).json({
-			error: false,
-			data: {
-				url: associateUrl,
-			},
-		});
-	});
+	application.get(
+		'/api/v2/oauth/:providerSlug/url',
+		async (request, response) => {
+			const provider = await kernel.getContractBySlug(
+				request.context,
+				kernel.adminSession()!,
+				request.params.providerSlug,
+			);
+
+			if (!provider) {
+				return response.status(404).send({
+					error: true,
+					data: `Oauth provider "${request.params.providerSlug}" not found`,
+				});
+			}
+
+			return response.json({
+				error: false,
+				data: {
+					url: provider.data.authorizeUrl,
+				},
+			});
+		},
+	);
 
 	const oauthAssociate = async (request, response, slug, code) => {
 		logger.info(request.context, `Associating oauth user: ${slug}`, {
-			source: request.params.provider,
+			provider: request.params.providerSlug,
 		});
 
 		if (!slug) {
@@ -248,12 +256,25 @@ export const attachRoutes = (
 		}
 
 		try {
+			const provider = await kernel.getContractBySlug(
+				request.context,
+				kernel.adminSession()!,
+				request.params.providerSlug,
+			);
+
+			if (!provider) {
+				return response.status(401).send({
+					error: true,
+					data: `Oauth provider "${request.params.providerSlug}" not found`,
+				});
+			}
+
 			// 1. Exchange oauth code for token
 			const credentials = await oauth.authorize(
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				`${provider.slug}@${provider.version}`,
 				{
 					code,
 					ip: request.ip,
@@ -263,7 +284,9 @@ export const attachRoutes = (
 			// 2. Fetch user data from provider
 			const externalUser = await oauth.whoami(
 				request.context,
-				request.params.provider,
+				worker,
+				kernel.adminSession()!,
+				provider.data.integration as string,
 				credentials,
 				{
 					sync: options.sync,
@@ -275,7 +298,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				provider.data.integration as string,
 				externalUser,
 				{
 					slug,
@@ -289,7 +312,7 @@ export const attachRoutes = (
 					request.context,
 					worker,
 					kernel.adminSession()!,
-					request.params.provider,
+					provider.data.integration as string,
 					externalUser,
 					{
 						sync: options.sync,
@@ -307,7 +330,7 @@ export const attachRoutes = (
 						request.context,
 						`Failed to sync external oauth user: ${slug}`,
 						{
-							source: request.params.provider,
+							source: provider.data.integration as string,
 							externalUser,
 						},
 					);
@@ -324,7 +347,7 @@ export const attachRoutes = (
 				request.context,
 				worker,
 				kernel.adminSession()!,
-				request.params.provider,
+				provider.data.integration as string,
 				user,
 				credentials,
 				{
@@ -426,7 +449,7 @@ export const attachRoutes = (
 		}
 	};
 
-	application.post('/api/v2/oauth/:provider', (request, response) => {
+	application.post('/api/v2/oauth/:providerSlug', (request, response) => {
 		return oauthAssociate(
 			request,
 			response,
@@ -435,7 +458,7 @@ export const attachRoutes = (
 		);
 	});
 
-	application.get('/oauth/:provider', (request, response) => {
+	application.get('/oauth/:providerSlug', (request, response) => {
 		return oauthAssociate(
 			request,
 			response,

@@ -254,10 +254,11 @@ export default withSetup(
 				fetchingIntegrationUrl: true,
 			});
 			const user = this.props.card;
-			const url = await this.props.actions.getIntegrationAuthUrl(
-				user,
-				'outreach',
-			);
+			const url = await this.props.actions.getIntegrationAuthUrl({
+				userSlug: user.slug,
+				providerSlug: 'oauth-provider-outreach@1.0.0',
+				returnUrl: location.href,
+			});
 			window.location.href = url;
 		}
 

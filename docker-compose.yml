@@ -45,7 +45,7 @@ services:
       - certs-data:/certs
     environment:
       <<: *default-environment
-      HOSTS_CONFIG: ','
+      HOSTS_CONFIG: 'LIVECHAT_HOST:livechat'
       LOGLEVEL: crit
       NO_LOG_SUCCESS: 1
       NODE_ENV: test

@@ -345,7 +345,7 @@ exports.waitForSelectorInsideScrollableToDisappear = async (page, scrollableSele
 }
 
 exports.mockLoginAs = async (page, baseURL, user) => {
-	const oauthUrl = 'https://dashboard.balena-cloud.com/login/oauth/jellyfish'
+	const oauthUrl = `https://dashboard.balena-cloud.com/login/oauth/${environment.integration['balena-api'].appId}`
 	const code = uuid()
 
 	await page.route('**/*', async (route) => {
@@ -357,13 +357,13 @@ exports.mockLoginAs = async (page, baseURL, user) => {
 			await route.fulfill({
 				status: 301,
 				headers: {
-					Location: `${baseURL}/oauth/callback?state=${encodeURIComponent(state)}&code=${code}`
+					Location: `${environment.livechat.host}/oauth/callback?state=${encodeURIComponent(state)}&code=${code}`
 				}
 			})
-		} else if (url.pathname === '/api/v2/oauth/balena-api') {
+		} else if (url.pathname === '/api/v2/oauth/oauth-provider-balena-api@1.0.0') {
 			const body = route.request().postDataJSON()
 
-			if (body.slug !== user.card.slug || body.code !== code) {
+			if (body.slug !== `${user.card.slug}@${user.card.version}` || body.code !== code) {
 				throw new Error('Invalid parameters')
 			}
 

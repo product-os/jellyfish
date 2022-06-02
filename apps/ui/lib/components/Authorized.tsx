@@ -13,10 +13,6 @@ const RouteHandler = createLazyComponent(
 	() => import(/* webpackChunkName: "route-handler" */ './RouteHandler'),
 );
 
-const Oauth = createLazyComponent(
-	() => import(/* webpackChunkName: "oauth" */ './Oauth'),
-);
-
 const ChatWidgetSidebar = createLazyComponent(
 	() =>
 		import(/* webpackChunkName: "chat-widget-sidebar" */ './ChatWidgetSidebar'),
@@ -43,7 +39,6 @@ const Authorized = () => {
 				<HomeChannel channel={home} />
 
 				<Switch>
-					<Route path="/oauth/:integration" component={Oauth} />
 					<Route path="/*" component={RouteHandler} />
 				</Switch>
 			</Flex>
