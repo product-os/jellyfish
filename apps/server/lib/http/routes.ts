@@ -293,6 +293,11 @@ export const attachRoutes = (
 				},
 			);
 
+			logger.info(request.context, 'Getting external user match', {
+				provider: request.params.providerSlug,
+				externalUser,
+			});
+
 			// 3. Get jellyfish user that matches external user
 			let user = await oauth.match(
 				request.context,
