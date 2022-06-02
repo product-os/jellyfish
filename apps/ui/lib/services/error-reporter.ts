@@ -22,6 +22,10 @@ export default class ErrorReporter {
 		}
 	}
 
+	handleAsyncError<T>(awaitable: Promise<T>) {
+		awaitable.catch(this.reportException);
+	}
+
 	setUser(user: Sentry.User | null) {
 		if (this.initialized) {
 			Sentry.configureScope((scope) => {
@@ -30,7 +34,7 @@ export default class ErrorReporter {
 		}
 	}
 
-	reportException(error: Error, errorInfo: any) {
+	reportException(error: Error, errorInfo?: any) {
 		if (this.initialized) {
 			Sentry.withScope((scope) => {
 				// TS-TODO: `scope.setExtra` accepts 2 arguments

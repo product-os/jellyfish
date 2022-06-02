@@ -137,6 +137,9 @@ export default withSetup(
 
 		componentDidMount() {
 			const { slug, version, name } = this.props.card;
+			const {
+				errorReporter: { handleAsyncError },
+			} = this.props;
 			const versionedSlug = `${slug}@${version}`;
 
 			_.map(LOOP_CONTRACTS, (data, property) => {
@@ -165,7 +168,7 @@ export default withSetup(
 					query.properties.data.required = ['status', 'repository'];
 				}
 
-				this.props.sdk
+				const awaitable = this.props.sdk
 					.query(query, { sortBy: 'created_at', sortDir: 'asc' })
 					.then((results) => {
 						if (property === 'pulls') {
@@ -200,8 +203,9 @@ export default withSetup(
 								[property]: results.length,
 							});
 						}
-					})
-					.catch(console.error);
+					});
+
+				handleAsyncError(awaitable);
 			});
 
 			this.props.sdk
@@ -297,8 +301,7 @@ export default withSetup(
 						averageImprovementLifetime: average,
 						improvementTraces: traces,
 					});
-				})
-				.catch(console.error);
+				});
 
 			this.props.sdk
 				.query({

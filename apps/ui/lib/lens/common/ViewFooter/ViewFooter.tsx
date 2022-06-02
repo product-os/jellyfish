@@ -60,6 +60,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 	types,
 	user,
 	actions,
+	errorReporter: { handleAsyncError },
 	sdk,
 	analytics,
 	...rest
@@ -70,7 +71,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 		(event) => {
 			event.preventDefault();
 			event.stopPropagation();
-			onAddCard(types[0]);
+			handleAsyncError(onAddCard(types[0]));
 		},
 		[types],
 	);
@@ -145,7 +146,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 							key={type.slug}
 							data-test={`viewfooter__add-link--${type.slug}`}
 							onClick={() => {
-								onAddCard(type);
+								handleAsyncError(onAddCard(type));
 							}}
 						>
 							Add {type.name || type.slug}
@@ -158,7 +159,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 					success
 					data-test={`viewfooter__add-btn--${types[0].slug}`}
 					onClick={() => {
-						onAddCard(types[0]);
+						handleAsyncError(onAddCard(types[0]));
 					}}
 				>
 					<ButtonLabel isBusy={isBusy} type={types[0]} />
