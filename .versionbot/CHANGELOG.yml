@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.5.2 to 8.5.4
+      hash: 295a1cddfb6f3b003f80707bb122feb9e22dc6d9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 51.0.2
+  title: "'Update grafana/grafana from 8.5.2 to 8.5.4'"
+  date: 2022-06-02T04:44:17.318Z
+- commits:
     - subject: Update Renovate PR limit to 2
       hash: 20406bac63142f439f465020987e1745f9b6f469
       body: ""
