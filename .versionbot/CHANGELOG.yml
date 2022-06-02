@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update Renovate PR limit to 2
+      hash: 20406bac63142f439f465020987e1745f9b6f469
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 51.0.1
+  title: "'Update Renovate PR limit to 2'"
+  date: 2022-06-02T03:38:20.952Z
+- commits:
     - subject: Perform oauth with info from contracts
       hash: e58d8b7a9f9bd23c0f529b48c6a738316c71768d
       body: >
