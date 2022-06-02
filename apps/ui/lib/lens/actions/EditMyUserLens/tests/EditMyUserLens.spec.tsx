@@ -147,20 +147,4 @@ describe('MyUser', () => {
 			},
 		]);
 	});
-
-	test('Oauth connections can be made', async () => {
-		const { commonProps } = context;
-		const component = await mount(<MyUser {...commonProps} />, {
-			wrappingComponent,
-		});
-		selectTab(component, 'oauth');
-
-		component
-			.find('button[data-test="integration-connection--outreach"]')
-			.simulate('click');
-		expect(commonProps.actions.getIntegrationAuthUrl.calledOnce).toBe(true);
-		expect(commonProps.actions.getIntegrationAuthUrl.getCall(0).args[1]).toBe(
-			'outreach',
-		);
-	});
 });

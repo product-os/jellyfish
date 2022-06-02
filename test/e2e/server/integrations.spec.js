@@ -140,26 +140,30 @@ ava.serial('should not ignore an Outreach signature mismatch', async (test) => {
 	test.true(result.response.error)
 })
 
-outreachTest('/api/v2/oauth should return a url given outreach', async (test) => {
+ava.serial('/api/v2/oauth/oauth-provider-outreach@1.0.0/url should return authorizeUrl', async (test) => {
 	const result = await helpers.http(
-		'GET', '/api/v2/oauth/outreach/user-test')
+		'GET', '/api/v2/oauth/oauth-provider-outreach@1.0.0/url')
 
-	const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
-	const qs = [
-		'response_type=code',
-		`client_id=${environment.integration.outreach.appId}`,
-		`redirect_uri=${encodeURIComponent(redirectUri)}`,
-		'scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all',
-		'state=user-test'
-	].join('&')
-	test.deepEqual(result, {
-		code: 200,
-		headers: result.headers,
-		response: {
-			error: false,
-			data: {
-				url: `https://api.outreach.io/oauth/authorize?${qs}`
-			}
-		}
+	const scopes = [
+		'mailboxes.all',
+		'prospects.all',
+		'sequences.all',
+		'sequenceStates.all',
+		'sequenceSteps.all',
+		'sequenceTemplates.all',
+		'webhooks.all'
+	]
+
+	test.is(result.code, 200)
+	test.is(result.response.error, false)
+
+	const url = new URL(result.response.data.url)
+	test.is(url.origin + url.pathname, 'https://api.outreach.io/oauth/authorize')
+
+	test.deepEqual(Object.fromEntries(url.searchParams), {
+		client_id: environment.integration.outreach.appId,
+		response_type: 'code',
+		redirect_uri: `${environment.oauth.redirectBaseUrl}/oauth/outreach`,
+		scope: scopes.join('+')
 	})
 })

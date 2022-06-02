@@ -254,9 +254,18 @@ export const getSeedData = (
 };
 
 export const actionCreators = {
-	getIntegrationAuthUrl(user, integration) {
+	getIntegrationAuthUrl(state: {
+		userSlug: string;
+		providerSlug: string;
+		returnUrl: string;
+	}) {
 		return async (dispatch, getState, { sdk }) => {
-			return sdk.integrations.getAuthorizationUrl(user, integration);
+			const url = new URL(
+				(await sdk.get(`/oauth/${state.providerSlug}/url`)).url,
+			);
+			url.searchParams.set('redirect_uri', location.origin + '/oauth/callback');
+			url.searchParams.set('state', JSON.stringify(state));
+			return url.toString();
 		};
 	},
 

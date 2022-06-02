@@ -528,7 +528,8 @@ test.describe('File Upload', () => {
 
 test.describe('Outreach', () => {
 	test('Should redirect to correct endpoint', async ({
-		page
+		page,
+		baseURL
 	}) => {
 		await login(page, users.community)
 
@@ -538,9 +539,9 @@ test.describe('Outreach', () => {
 		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(4)').click()
 
 		// Wait for the Outreach API redirect to occur
-		let url = ''
+		let url = null
 		await page.route('https://api.outreach.io/oauth/authorize**', async (route) => {
-			url = route.request().url()
+			url = new URL(route.request().url())
 			route.abort('aborted')
 		})
 
@@ -549,9 +550,27 @@ test.describe('Outreach', () => {
 			setTimeout(resolve, 1000)
 		})
 
-		const redirectUri = `${environment.oauth.redirectBaseUrl}/oauth/outreach`
+		const scope = [
+			'mailboxes.all',
+			'prospects.all',
+			'sequences.all',
+			'sequenceStates.all',
+			'sequenceSteps.all',
+			'sequenceTemplates.all',
+			'webhooks.all'
+		].join('+')
 
-		expect(url).toEqual(`https://api.outreach.io/oauth/authorize?response_type=code&client_id=${environment.integration.outreach.appId}&redirect_uri=${encodeURIComponent(redirectUri)}&scope=prospects.all+sequences.all+sequenceStates.all+sequenceSteps.all+sequenceTemplates.all+mailboxes.all+webhooks.all&state=${user.slug}`)
+		expect(url.origin + url.pathname).toBe('https://api.outreach.io/oauth/authorize')
+
+		const params = Object.fromEntries(url.searchParams)
+		expect(params.response_type).toBe('code')
+		expect(params.client_id).toBe(environment.integration.outreach.appId)
+		expect(params.scope).toBe(scope)
+
+		const state = JSON.parse(params.state)
+		expect(state.providerSlug).toBe('oauth-provider-outreach@1.0.0')
+		expect(state.userSlug).toBe(user.slug)
+		expect(state.returnUrl).toBe(`${baseURL}/${user.slug}`)
 
 		await page.unroute('https://api.outreach.io/oauth/authorize**')
 	})

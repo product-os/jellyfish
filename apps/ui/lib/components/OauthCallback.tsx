@@ -5,8 +5,6 @@ import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../store';
 import { useSetup } from './SetupProvider';
-import { LOGIN_AS_SEARCH_PARAM_NAME } from './LoginAs';
-import { slugify } from '../services/helpers';
 
 const OauthCallback = () => {
 	const store = useStore();
@@ -18,32 +16,39 @@ const OauthCallback = () => {
 		const code = url.searchParams.get('code');
 
 		if (!code) {
-			throw new Error('Auth code missing');
+			throw new Error('Auth code is missing');
 		}
 
 		const state = url.searchParams.get('state');
 
 		if (!state) {
-			throw new Error('state (returnUrl) missing');
+			throw new Error('State is missing');
 		}
 
-		const returnUrl = new URL(state);
-		const username = returnUrl.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME);
+		const { returnUrl, userSlug, providerSlug } = JSON.parse(state);
 
-		if (!username) {
-			throw new Error(`${LOGIN_AS_SEARCH_PARAM_NAME} parameter missing`);
+		if (!returnUrl) {
+			throw new Error('ReturnUrl is missing');
+		}
+
+		if (!userSlug) {
+			throw new Error('User slug is missing');
+		}
+
+		if (!providerSlug) {
+			throw new Error('Provider slug is missing');
 		}
 
 		const { access_token: token } = await sdk.post<{ access_token: string }>(
-			'/oauth/balena-api',
+			`/oauth/${providerSlug}`,
 			{
-				slug: `user-${slugify(username)}`,
+				slug: userSlug,
 				code,
 			},
 		);
 
 		if (!token) {
-			throw new Error('Could not fetch auth token');
+			throw new Error('Could not fetch an auth token');
 		}
 
 		await actionCreators.loginWithToken(token)(store.dispatch, store.getState, {
@@ -51,8 +56,7 @@ const OauthCallback = () => {
 			analytics,
 		});
 
-		returnUrl.searchParams.delete(LOGIN_AS_SEARCH_PARAM_NAME);
-		history.replace(returnUrl.pathname + returnUrl.search);
+		location.href = returnUrl;
 	});
 
 	React.useEffect(() => {

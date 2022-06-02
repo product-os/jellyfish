@@ -1,4 +1,3 @@
-import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type {
@@ -13,32 +12,24 @@ import { v4 as uuid } from 'uuid';
 
 const logger = getLogger(__filename);
 
-export const getRedirectUrl = (provider: string) => {
-	return `${environment.oauth.redirectBaseUrl}/oauth/${provider}`;
-};
-
-export const getAuthorizeUrl = (
-	provider: string,
-	userSlug: string,
-	options: { sync: Sync },
-) => {
-	return options.sync.getAssociateUrl(
-		provider,
-		environment.integration[provider],
-		userSlug,
-		{
-			origin: getRedirectUrl(provider),
-		},
-	);
-};
-
 export const whoami = (
 	logContext: LogContext,
+	worker: Worker,
+	session: string,
 	provider: string,
 	credentials,
 	options: { sync: Sync },
 ) => {
-	return options.sync.whoami(logContext, provider, credentials);
+	return options.sync.whoami(
+		// TS-TODO: this is not a proper `SyncActionContext`
+		{
+			getElementBySlug: (slug) => {
+				return worker.kernel.getContractBySlug(logContext, session, slug);
+			},
+		} as any,
+		provider,
+		credentials,
+	);
 };
 
 export const match = (
@@ -156,7 +147,6 @@ export const authorize = async (
 		arguments: {
 			provider,
 			code: options.code,
-			origin: getRedirectUrl(provider),
 		},
 	});
 

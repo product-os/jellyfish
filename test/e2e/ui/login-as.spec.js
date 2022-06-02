@@ -1,8 +1,10 @@
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const {
 	test
 } = require('@playwright/test')
 const sdkHelpers = require('../sdk/helpers')
 const livechatMacros = require('./livechat/macros')
+const uiMacros = require('./macros')
 const {
 	mockLoginAs
 } = require('./macros')
@@ -17,10 +19,9 @@ test.beforeAll(async () => {
 })
 
 test.beforeEach(async ({
-	page,
-	baseURL
+	page
 }) => {
-	unmockLoginAs = await mockLoginAs(page, baseURL, user)
+	unmockLoginAs = await mockLoginAs(page, environment.livechat.host, user)
 })
 
 test.afterEach(async ({
@@ -35,15 +36,23 @@ test.describe('Login as', () => {
 	test('Should initiate oauth process if not logged in', async ({
 		page
 	}) => {
-		// 1. Reuqest livechat page with specific user
-		await page.goto(`/livechat?loginAs=${user.card.slug.replace('user-', '')}`)
+		// 1. Log into jel.ly.fish
+		await uiMacros.loginUser(page, user.credentials)
 
-		// 2. Redirected to /oauth/callback page
+		// 2. Open livechat.ly.fish/livechat and login with balena-api
+		const livechatUrl = new URL('/livechat', environment.livechat.host)
+		livechatUrl.searchParams.append('loginAs', user.card.slug.replace('user-', ''))
+		livechatUrl.searchParams.append('loginWithProvider', 'balena-api')
+		await page.goto(livechatUrl.toString())
+
+		// 3. Should perform oauth flow
 		await page.waitForURL((url) => {
 			return url.pathname === '/oauth/callback'
 		})
 
-		// 3. Log in with oauth code and redirect back to livechat page
-		await page.waitForURL('/livechat')
+		// 4. Should log in and redirect to livechat.ly.fish/livechat
+		await page.waitForURL((url) => {
+			return url.href === `${environment.livechat.host}/livechat`
+		})
 	})
 })

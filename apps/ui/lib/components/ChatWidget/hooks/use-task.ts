@@ -58,6 +58,7 @@ export const useTask = (fn, args: any[] = []) => {
 		return {
 			...state,
 			exec,
+			setState,
 		};
 	}, [state, ...args]);
 };
