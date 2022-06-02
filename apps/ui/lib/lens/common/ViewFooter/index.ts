@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch): DispatchProps => {
 };
 
 export const ViewFooter = compose(
-	withSetup,
 	withChannelContext,
+	withSetup,
 	connect<StateProps, DispatchProps, OwnProps>(
 		mapStateToProps,
 		mapDispatchToProps,
