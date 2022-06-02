@@ -327,7 +327,7 @@ export const attachRoutes = (
 				user = await worker.kernel.getContractBySlug(
 					request.context,
 					kernel.adminSession()!,
-					`${slug}@1.0.0`,
+					slug,
 				);
 
 				if (!user) {
