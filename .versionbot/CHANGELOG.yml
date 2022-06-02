@@ -1,4 +1,19 @@
 - commits:
+    - subject: Perform oauth with info from contracts
+      hash: e58d8b7a9f9bd23c0f529b48c6a738316c71768d
+      body: >
+        When performing oauth flow against a provider (eg. login with balena),
+        we used to get information from integration code. This information
+        should be stored inside oauth-provider-contracts.
+      footer:
+        Change-type: major
+        change-type: major
+      author: karaxuna
+      nested: []
+  version: 51.0.0
+  title: "'Perform oauth with info from contracts'"
+  date: 2022-06-02T00:47:40.627Z
+- commits:
     - subject: Update local dev env script and doc
       hash: 61a8343e2ac16ff6c6c549224dd0a759389c6010
       body: ""
