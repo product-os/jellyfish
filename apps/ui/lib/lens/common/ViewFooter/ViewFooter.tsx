@@ -2,6 +2,10 @@ import React from 'react';
 import { Flex, DropDownButton, Button } from 'rendition';
 import styled from 'styled-components';
 import { ActionLink, Icon } from '../../../components';
+import { BoundActionCreators, ChannelContract } from '../../../types';
+import { actionCreators } from '../../../store';
+import { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { ChannelContextProps } from '../../../hooks/channel-context';
 
 const Footer = styled(Flex)`
 	border-top: 1px solid #eee;
@@ -22,8 +26,19 @@ const ButtonLabel: any = ({ type, isBusy }) => {
 	return isBusy ? <Icon spin name="cog" /> : `Add ${type.name || type.slug}`;
 };
 
-export const ViewFooter: React.FunctionComponent<any> = ({
-	channel,
+export interface DispatchProps {
+	actions: BoundActionCreators<Pick<typeof actionCreators, 'addCard'>>;
+}
+
+export interface OwnProps {
+	types: TypeContract[];
+	channel: ChannelContract;
+}
+
+type Props = OwnProps & DispatchProps & ChannelContextProps;
+
+export const ViewFooter: React.FunctionComponent<Props> = ({
+	channelData,
 	types,
 	actions,
 	...rest
@@ -42,12 +57,12 @@ export const ViewFooter: React.FunctionComponent<any> = ({
 	const onAddCard = React.useCallback(
 		async (type) => {
 			setIsBusy(true);
-			await actions.addCard(channel, type, {
+			await actions.addCard(channelData.head, type, {
 				synchronous: isSynchronous(type),
 			});
 			setIsBusy(false);
 		},
-		[actions.addCard, channel, types],
+		[actions.addCard, channelData.head, types],
 	);
 
 	return (

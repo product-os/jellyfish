@@ -31,7 +31,7 @@ export default class SingleCard extends React.Component<any, any> {
 	}
 
 	render() {
-		const { channel, channels, card } = this.props;
+		const { channelData, channels, card } = this.props;
 		const typeCard = _.find(this.props.types, {
 			slug: card.type.split('@')[0],
 		});
@@ -57,7 +57,7 @@ export default class SingleCard extends React.Component<any, any> {
 				data-test-id={`snippet-card-${card.id}`}
 			>
 				<Flex justifyContent="space-between">
-					<ContractNavLink contract={card} channel={channel} />
+					<ContractNavLink contract={card} channel={channelData.channel} />
 					{!!owner && <UserAvatar user={owner} tooltipPlacement="left" />}
 				</Flex>
 

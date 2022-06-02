@@ -636,10 +636,7 @@ export const actionCreators = {
 		};
 	},
 
-	addCard(channel, type, options: any = {}) {
-		const {
-			data: { head: parentCard },
-		} = channel;
+	addCard(head, type, options: any = {}) {
 		return async (dispatch, getState, { sdk, analytics }) => {
 			if (options.synchronous) {
 				const state = getState();
@@ -650,12 +647,12 @@ export const actionCreators = {
 						type: type.slug,
 						data: {},
 					},
-					getSeedData(parentCard, user),
+					getSeedData(head, user),
 				);
 
 				try {
 					const newCard = await sdk.card.create(cardData);
-					const current = channel.data.target;
+					const current = head.slug;
 					dispatch(
 						push(
 							path.join(
@@ -668,11 +665,11 @@ export const actionCreators = {
 					const linkConstraint = _.find(linkConstraints, {
 						data: {
 							from: type.slug,
-							to: helpers.getTypeBase(parentCard.type),
+							to: helpers.getTypeBase(head.type),
 						},
 					});
 					if (linkConstraint) {
-						await sdk.card.link(newCard, parentCard, linkConstraint.name);
+						await sdk.card.link(newCard, head, linkConstraint.name);
 					}
 					analytics.track('element.create', {
 						element: {
@@ -683,9 +680,7 @@ export const actionCreators = {
 					notifications.addNotification('danger', error.message);
 				}
 			} else {
-				dispatch(
-					actionCreators.openCreateChannel(parentCard, _.castArray(type)),
-				);
+				dispatch(actionCreators.openCreateChannel(head, _.castArray(type)));
 			}
 		};
 	},

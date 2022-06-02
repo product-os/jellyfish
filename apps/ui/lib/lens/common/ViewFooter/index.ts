@@ -1,15 +1,20 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { compose } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators } from '../../../store';
-import { ViewFooter as InnerViewFooter } from './ViewFooter';
+import {
+	ViewFooter as InnerViewFooter,
+	OwnProps,
+	DispatchProps,
+} from './ViewFooter';
 import { withChannelContext } from '../../../hooks';
 
 const mapStateToProps = () => {
 	return {};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
 		actions: bindActionCreators(_.pick(actionCreators, ['addCard']), dispatch),
 	};
@@ -17,5 +22,5 @@ const mapDispatchToProps = (dispatch) => {
 
 export const ViewFooter = compose(
 	withChannelContext,
-	connect(mapStateToProps, mapDispatchToProps),
+	connect<{}, DispatchProps, OwnProps>(mapStateToProps, mapDispatchToProps),
 )(InnerViewFooter);
