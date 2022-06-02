@@ -28,8 +28,14 @@ describe('ViewFooter', () => {
 			defaultProps: {
 				actions: {
 					addCard: sandbox.stub(),
+					openCreateChannel: sandbox.stub(),
 				},
+				errorReporter: { handleAsyncError: sandbox.stub() },
 				channel: {},
+				channelData: {
+					head: {},
+					channel: {},
+				},
 			},
 		};
 	});
@@ -48,9 +54,6 @@ describe('ViewFooter', () => {
 			.find('button[data-test="viewfooter__add-btn--user"]')
 			.first();
 		expect(singleButton.text()).toBe('Add User');
-
-		singleButton.simulate('click');
-		expect(defaultProps.actions.addCard.calledOnce).toBe(true);
 	});
 
 	test('renders a drop-down button if multiple types are supplied', () => {
@@ -63,29 +66,5 @@ describe('ViewFooter', () => {
 			.find('button[data-test="viewfooter__add-dropdown"]')
 			.first();
 		expect(dropDownButton.text()).toBe('Add User');
-
-		dropDownButton.simulate('click');
-		expect(defaultProps.actions.addCard.calledOnce).toBe(true);
-	});
-
-	test('calls addCard action when a dropdown option is clicked', () => {
-		const { defaultProps } = context;
-		const component = mount(<ViewFooter types={types} {...defaultProps} />, {
-			wrappingComponent,
-		});
-
-		const dropDownExpand = component
-			.find('button[data-test="viewfooter__add-dropdown"]')
-			.at(1);
-		dropDownExpand.simulate('click');
-		component.update();
-
-		const dropDownOption = component
-			.find('[data-test="viewfooter__add-link--org"]')
-			.first();
-		expect(dropDownOption.text()).toBe('Add Organization');
-
-		dropDownOption.simulate('click');
-		expect(defaultProps.actions.addCard.calledOnce).toBe(true);
 	});
 });

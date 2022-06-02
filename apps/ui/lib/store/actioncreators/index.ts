@@ -2,7 +2,6 @@
 
 import Bluebird from 'bluebird';
 import immutableUpdate from 'immutability-helper';
-import path from 'path';
 import { push } from 'connected-react-router';
 import clone from 'deep-copy';
 import { once } from 'events';
@@ -12,7 +11,7 @@ import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
-import { linkConstraints, JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
@@ -29,10 +28,6 @@ import { getViewId, hashCode } from '../helpers';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
-
-const cardReference = (contract) => {
-	return contract.slug ? `${contract.slug}@${contract.version}` : contract.id;
-};
 
 const allGroupsWithUsersQuery = {
 	type: 'object',
@@ -636,55 +631,6 @@ export const actionCreators = {
 		};
 	},
 
-	addCard(head, type, options: any = {}) {
-		return async (dispatch, getState, { sdk, analytics }) => {
-			if (options.synchronous) {
-				const state = getState();
-				const user = selectors.getCurrentUser()(state);
-				const cardData = _.merge(
-					{
-						slug: `${type.slug}-${uuid()}`,
-						type: type.slug,
-						data: {},
-					},
-					getSeedData(head, user),
-				);
-
-				try {
-					const newCard = await sdk.card.create(cardData);
-					const current = head.slug;
-					dispatch(
-						push(
-							path.join(
-								window.location.pathname.split(current)[0],
-								current,
-								cardReference(newCard),
-							),
-						),
-					);
-					const linkConstraint = _.find(linkConstraints, {
-						data: {
-							from: type.slug,
-							to: helpers.getTypeBase(head.type),
-						},
-					});
-					if (linkConstraint) {
-						await sdk.card.link(newCard, head, linkConstraint.name);
-					}
-					analytics.track('element.create', {
-						element: {
-							type: cardData.type,
-						},
-					});
-				} catch (error: any) {
-					notifications.addNotification('danger', error.message);
-				}
-			} else {
-				dispatch(actionCreators.openCreateChannel(head, _.castArray(type)));
-			}
-		};
-	},
-
 	openCreateChannel(sourceCard, types, options: any = {}) {
 		return (dispatch, getState) => {
 			const state = getState();
@@ -1061,6 +1007,12 @@ export const actionCreators = {
 			// TODO: Ideally we should just re-query all existing streams and we won't need
 			// this redirect to 'reset' the UI.
 			dispatch(push('/'));
+		};
+	},
+
+	pushLocation(location: string) {
+		return (dispatch) => {
+			dispatch(push(location));
 		};
 	},
 
