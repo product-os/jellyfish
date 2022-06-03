@@ -1,10 +1,10 @@
 import Bluebird from 'bluebird';
-import { circularDeepEqual, deepEqual } from 'fast-equals';
+import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import * as React from 'react';
 import styled from 'styled-components';
 import { addBusinessDays, isAfter } from 'date-fns';
-import { Box, Tab, Tabs } from 'rendition';
+import { Box, Tab, Tabs, Txt } from 'rendition';
 import {
 	CardChatSummary,
 	Column,
@@ -12,6 +12,7 @@ import {
 	InfiniteList,
 } from '../../../components';
 import * as helpers from '../../../services/helpers';
+import { UserContract } from '@balena/jellyfish-types/build/core';
 
 const StyledTabs = styled(Tabs)`
 	flex: 1 > [role= 'tabpanel' ] {
@@ -86,7 +87,38 @@ export default class SupportThreads extends React.Component<any, any> {
 		const pendingUserResponse: any = [];
 		const discussions: any = [];
 
-		await Bluebird.map(tail, async (card) => {
+		const orgMembers: UserContract[] = [];
+		// Org members change very infrequently, so cache them in state for performance.
+		// These users are loaded so we can quickly identify the messages that have come from
+		// users who are outside of the current users org
+		if (this.state.orgMembers) {
+			orgMembers.push(...this.state.orgMembers);
+		} else {
+			for (const org of this.props.user.links['is member of']) {
+				const members = await this.props.sdk.query({
+					type: 'object',
+					properties: {
+						type: { const: 'user@1.0.0' },
+					},
+					$$links: {
+						'is member of': {
+							type: 'object',
+							properties: {
+								id: {
+									const: org.id,
+								},
+							},
+						},
+					},
+				});
+				orgMembers.push(...members);
+			}
+			this.setState({
+				orgMembers,
+			});
+		}
+
+		for (const card of tail) {
 			/**
 			 * Check if the thread is pending user response:
 			 *
@@ -177,24 +209,14 @@ export default class SupportThreads extends React.Component<any, any> {
 						break;
 					}
 
-					// If we are still looping and the message came from a user/proxy then
+					// If we are still looping and the message came from a user outside of the current users org
 					// we can simply break out of the loop
-					const actor = await this.props.actions.getActor(event.data.actor);
+					const actorId = event.data.actor;
+					const isInSameOrg = _.some(orgMembers, { id: actorId });
 
-					if (actor) {
-						if (actor.proxy) {
-							break;
-						}
-
-						if (!actor.proxy) {
-							hasEngineerResponse = true;
-						}
+					if (isInSameOrg) {
+						hasEngineerResponse = true;
 					} else {
-						// If the actor can't be loaded, behave as if the message came from
-						// a user. This means that we behave in a much safer way if the user
-						// can't be loaded for some reason, as it will prevent
-						// "pendinguserresponse" threads from being hidden if they have
-						// a response.
 						break;
 					}
 				}
@@ -207,7 +229,7 @@ export default class SupportThreads extends React.Component<any, any> {
 			} else {
 				pendingAgentResponse.push(card);
 			}
-		});
+		}
 
 		const segments = [
 			{
@@ -263,6 +285,11 @@ export default class SupportThreads extends React.Component<any, any> {
 						flexDirection: 'column',
 					}}
 				>
+					{segments.length === 0 && (
+						<Box p={3}>
+							Processing segments... <Icon spin name="cog" />
+						</Box>
+					)}
 					{segments.map((segment) => {
 						return (
 							<Tab

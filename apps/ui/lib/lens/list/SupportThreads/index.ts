@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import { withSetup, Setup } from '../../../components/SetupProvider';
 import { SLUG } from './SupportThreads';
 
 export const SupportThreads = createLazyComponent(
@@ -13,6 +14,7 @@ export const SupportThreads = createLazyComponent(
 const mapStateToProps = (state, ownProps) => {
 	const target = _.get(ownProps, ['channel', 'data', 'head', 'id']);
 	return {
+		user: selectors.getCurrentUser()(state),
 		channels: selectors.getChannels()(state),
 		lensState: selectors.getLensState(SLUG, target)(state),
 	};
@@ -36,7 +38,9 @@ const lens = {
 		label: 'Support threads list',
 		icon: 'address-card',
 		format: 'list',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
+		renderer: withSetup(
+			connect(mapStateToProps, mapDispatchToProps)(SupportThreads),
+		),
 		filter: {
 			type: 'array',
 			items: {
