@@ -1,4 +1,22 @@
 - commits:
+    - subject: "Server: Compress responses from http endpoints"
+      hash: f890cc7868129b83520367924d0d0700e32098b7
+      body: |
+        This change adds the compression middleware to express, compressing
+        responses from the http API. This dramatically reduces the size of data
+        blobs downloaded. This is the same strategy and module used by
+        balenaCloud.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 51.0.3
+  title: "'Server: Compress responses from http endpoints'"
+  date: 2022-06-03T11:55:03.510Z
+- commits:
     - subject: Update grafana/grafana from 8.5.2 to 8.5.4
       hash: 295a1cddfb6f3b003f80707bb122feb9e22dc6d9
       body: ""
