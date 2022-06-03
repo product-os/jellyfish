@@ -1,3 +1,4 @@
+const environment = require('@balena/jellyfish-environment').defaultEnvironment
 const ava = require('ava')
 const jsonwebtoken = require('jsonwebtoken')
 const {
@@ -76,6 +77,9 @@ ava.serial('/api/v2/registry should return 401 if the token isn\'t valid', async
 })
 
 ava.serial('/api/v2/registry should return a JWT with no scope (this happens on "docker login")', async (test) => {
+	console.log('=== REGISTRY_TOKEN_AUTH_CERT_PUB:', REGISTRY_TOKEN_AUTH_CERT_PUB)
+	console.log('=== REGISTRY2_HOST:', REGISTRY2_HOST)
+	console.log('=== environment.registry:', JSON.stringify(environment.registry, null, 4))
 	const actor = await sdk.auth.whoami()
 	const token = sdk.getAuthToken()
 	const b64Auth = b64encode(`${actor.slug}:${token}`)
