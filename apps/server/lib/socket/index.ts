@@ -20,6 +20,7 @@ export const attachSocket = (kernel: Kernel, server) => {
 	const socketServer = new socketIo.Server(server, {
 		pingTimeout: 60000,
 		transports: ['websocket', 'polling'],
+		perMessageDeflate: true,
 	});
 
 	socketServer.adapter(redisAdapter.createAdapter(environment.redis as any));
