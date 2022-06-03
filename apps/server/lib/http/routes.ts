@@ -218,6 +218,7 @@ export const attachRoutes = (
 	});
 
 	application.get('/api/v2/registry', async (request, response) => {
+		console.log('=== registry:', JSON.stringify(environment.registry, null, 4));
 		return registry.authenticate(request, response, kernel);
 	});
 
