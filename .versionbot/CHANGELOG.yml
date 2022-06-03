@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: enable per message deflation for websockets"
+      hash: 362f93bac4c8a30e02e46ab2967b8d5374b11b2d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 51.0.4
+  title: "'Server: enable per message deflation for websockets'"
+  date: 2022-06-03T14:45:59.228Z
+- commits:
     - subject: "Server: Compress responses from http endpoints"
       hash: f890cc7868129b83520367924d0d0700e32098b7
       body: |
