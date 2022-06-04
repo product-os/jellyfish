@@ -38,6 +38,22 @@ ava.serial(
 				}
 			}
 		}
+		await sdk.card.create({
+			type: 'relationship@1.0.0',
+			slug: `relationship-${typeSlug}-was-built-into-${typeSlug}`,
+			name: 'was built into',
+			data: {
+				inverseName: 'was built from',
+				title: typeSlug,
+				inverseTitle: typeSlug,
+				from: {
+					type: typeSlug
+				},
+				to: {
+					type: typeSlug
+				}
+			}
+		})
 		const v1 = '0.1.0'
 		await sdk.card.create({
 			...typeDef,
@@ -125,6 +141,48 @@ ava.serial(
 ava.serial(
 	'transformer properties should evaluate with formulas and triggers',
 	async (test) => {
+		try {
+			await sdk.card.create({
+				type: 'relationship@1.0.0',
+				slug: 'relationship-service-source-was-built-into-service-source',
+				name: 'was built into',
+				data: {
+					inverseName: 'was built from',
+					title: 'Service source',
+					inverseTitle: 'Service source',
+					from: {
+						type: 'service-source'
+					},
+					to: {
+						type: 'service-source'
+					}
+				}
+			})
+		} catch (err) {
+			console.log('Failed to create relationship:', err)
+		}
+
+		try {
+			await sdk.card.create({
+				type: 'relationship@1.0.0',
+				slug: 'relationship-service-source-was-merged-as-service-source',
+				name: 'was merged as',
+				data: {
+					inverseName: 'was merged from',
+					title: 'Service source',
+					inverseTitle: 'Service source',
+					from: {
+						type: 'service-source'
+					},
+					to: {
+						type: 'service-source'
+					}
+				}
+			})
+		} catch (err) {
+			console.log('Failed to create relationship:', err)
+		}
+
 		const src1 = await sdk.card.create({
 			type: 'service-source@1.0.0',
 			data: {
