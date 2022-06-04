@@ -36,7 +36,7 @@
     "@balena/jellyfish-plugin-outreach": "^4.1.6",
     "@balena/jellyfish-plugin-product-os": "^7.0.4",
     "@balena/jellyfish-plugin-typeform": "^8.0.1",
-    "@balena/jellyfish-worker": "^27.0.0",
+    "@balena/jellyfish-worker": "^28.0.1",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "autumndb": "^20.0.2",
     "aws-sdk": "^2.1145.0",
@@ -59,7 +59,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^10.4.0",
+    "@balena/jellyfish-client-sdk": "^10.4.7",
     "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^6.2.0",

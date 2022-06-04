@@ -19,9 +19,9 @@ const LoginAs = () => {
 	const authenticationTask = useTask(async () => {
 		const state = store.getState();
 		const currentUser = selectors.getCurrentUser()(state);
-		const loginAsUserSlug = `user-${urlRef.current.searchParams.get(
-			LOGIN_AS_SEARCH_PARAM_NAME,
-		)!}@1.0.0`;
+		const loginAsUserSlug = `user-${slugify(
+			urlRef.current.searchParams.get(LOGIN_AS_SEARCH_PARAM_NAME)!,
+		)}@1.0.0`;
 		const loginWithProviderSlug = `oauth-provider-${urlRef.current.searchParams.get(
 			LOGIN_WITH_PROVIDER_SEARCH_PARAM_NAME,
 		)!}@1.0.0`;

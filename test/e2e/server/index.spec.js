@@ -309,7 +309,7 @@ ava.serial('should report a user error if creating the same event twice', async 
 	const token = sdk.getAuthToken()
 
 	const thread = await sdk.card.create({
-		type: 'card',
+		type: 'thread',
 		slug: helpers.generateRandomSlug({
 			prefix: 'thread'
 		}),

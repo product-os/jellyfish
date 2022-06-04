@@ -255,6 +255,8 @@ export const attachRoutes = (
 			return response.sendStatus(401);
 		}
 
+		const versionedSlug = slug.includes('@') ? slug : `${slug}@1.0.0`;
+
 		try {
 			const provider = await kernel.getContractBySlug(
 				request.context,
@@ -293,6 +295,11 @@ export const attachRoutes = (
 				},
 			);
 
+			logger.info(request.context, 'Getting external user match', {
+				provider: request.params.providerSlug,
+				externalUser,
+			});
+
 			// 3. Get jellyfish user that matches external user
 			let user = await oauth.match(
 				request.context,
@@ -301,7 +308,7 @@ export const attachRoutes = (
 				provider.data.integration as string,
 				externalUser,
 				{
-					slug,
+					slug: versionedSlug,
 					sync: options.sync,
 				},
 			);
@@ -322,7 +329,7 @@ export const attachRoutes = (
 				user = await worker.kernel.getContractBySlug(
 					request.context,
 					kernel.adminSession()!,
-					`${slug}@1.0.0`,
+					versionedSlug,
 				);
 
 				if (!user) {

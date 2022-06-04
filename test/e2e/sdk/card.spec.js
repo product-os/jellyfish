@@ -47,10 +47,10 @@ ava('If you call card.link twice with the same params you will get the same link
 	const issue = await createIssue()
 
 	// Link the support thread to the issue
-	await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
+	await sdk.card.link(supportThread, issue, 'is attached to')
 
 	// Try to link the same support thread to the same issue
-	const link = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
+	const link = await sdk.card.link(supportThread, issue, 'is attached to')
 
 	// Verify the link ID is the same
 	test.is(link, true)
@@ -63,13 +63,13 @@ ava('card.link will create a new link if the previous one was deleted', async (t
 	const issue = await createIssue()
 
 	// Link the support thread to the issue
-	const link1 = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
+	const link1 = await sdk.card.link(supportThread, issue, 'is attached to')
 
 	// Now remove the link
-	await sdk.card.unlink(supportThread, issue, 'support thread is attached to issue')
+	await sdk.card.unlink(supportThread, issue, 'is attached to')
 
 	// Try to link the same support thread to the same issue
-	const link2 = await sdk.card.link(supportThread, issue, 'support thread is attached to issue')
+	const link2 = await sdk.card.link(supportThread, issue, 'is attached to')
 
 	// Verify the link ID is not the same
 	test.not(link1.id, link2.id)
