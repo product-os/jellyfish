@@ -1,4 +1,32 @@
 - commits:
+    - subject: "UI: Don't render support tabs unless content is ready"
+      hash: d136d7d75f9456ae063a37f90560bd146e521803
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve performance of support threads view"
+      hash: 4f03166f44a10262d902603af032ae3e176fecf4
+      body: >
+        This change loads and caches org members in a single batch instead of
+        individually
+
+        checking each actor it finds.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 51.0.7
+  title: "'UI: Improve performance of support threads view'"
+  date: 2022-06-04T16:32:59.799Z
+- commits:
     - subject: "Server: Fix incorrect balena api endpoint in tests"
       hash: 81bee27d80f05f3af9ce21b25a2241e0ab5ab421
       body: ""
