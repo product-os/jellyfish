@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "51.0.5",
+  "version": "51.0.6",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "proclaimer",
@@ -109,7 +109,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-06-04T05:47:18.550Z"
+    "publishedAt": "2022-06-04T11:06:53.548Z"
   },
   "balena": {
     "environment": [

@@ -1,4 +1,28 @@
 - commits:
+    - subject: "Server: Fix incorrect balena api endpoint in tests"
+      hash: 81bee27d80f05f3af9ce21b25a2241e0ab5ab421
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Update @balena/jellyfish-plugin-balena-api from 5.0.1 to 5.0.16
+      hash: 00dd6255bc9c103eb8468d763c13792dffeb934f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 51.0.6
+  title: "'Update @balena/jellyfish-plugin-balena-api from 5.0.1 to 5.0.16'"
+  date: 2022-06-04T11:06:51.753Z
+- commits:
     - subject: Add missing test relationships
       hash: ab0df9b3cb859e32c287a09ea3c46a3bc6d7206e
       body: ""
