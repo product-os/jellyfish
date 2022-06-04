@@ -274,91 +274,96 @@ export default class SupportThreads extends React.Component<any, any> {
 
 		return (
 			<Column data-test={`lens--${SLUG}`} overflowY>
-				<StyledTabs
-					activeIndex={this.props.lensState.activeIndex}
-					onActive={this.setActiveIndex}
-					// @ts-ignore: Rendition's Tabs component is (incorrectly?) cast to React.FunctionComponent<TabsProps>
-					// so it doesn't know about style
-					style={{
-						height: '100%',
-						display: 'flex',
-						flexDirection: 'column',
-					}}
-				>
-					{segments.length === 0 && (
-						<Box p={3}>
-							Processing segments... <Icon spin name="cog" />
-						</Box>
-					)}
-					{segments.map((segment) => {
-						return (
-							<Tab
-								key={segment.name}
-								title={`${segment.name} (${segment.cards.length}${
-									segment.name === 'All' && hasNextPage ? '+' : ''
-								})`}
-							>
-								<InfiniteList
-									bg="#f8f9fd"
+				{segments.length === 0 && (
+					<Box p={3}>
+						Processing segments... <Icon spin name="cog" />
+					</Box>
+				)}
+				{segments.length > 0 && (
+					<StyledTabs
+						activeIndex={this.props.lensState.activeIndex}
+						onActive={this.setActiveIndex}
+						// @ts-ignore: Rendition's Tabs component is (incorrectly?) cast to React.FunctionComponent<TabsProps>
+						// so it doesn't know about style
+						style={{
+							height: '100%',
+							display: 'flex',
+							flexDirection: 'column',
+						}}
+					>
+						{segments.map((segment) => {
+							return (
+								<Tab
 									key={segment.name}
-									onScrollEnding={this.handleScrollEnding}
-									style={{
-										flex: 1,
-										height: '100%',
-										paddingBottom: 16,
-									}}
+									title={`${segment.name} (${segment.cards.length}${
+										segment.name === 'All' && hasNextPage ? '+' : ''
+									})`}
 								>
-									{!(this.props.totalPages > this.props.page + 1) &&
-										segment.cards.length === 0 && (
+									<InfiniteList
+										bg="#f8f9fd"
+										key={segment.name}
+										onScrollEnding={this.handleScrollEnding}
+										style={{
+											flex: 1,
+											height: '100%',
+											paddingBottom: 16,
+										}}
+									>
+										{!(this.props.totalPages > this.props.page + 1) &&
+											segment.cards.length === 0 && (
+												<Box p={3}>
+													<strong data-test="alt-text--no-support-threads">
+														Good job! There are no support threads here
+													</strong>
+												</Box>
+											)}
+
+										{_.map(segment.cards, (card) => {
+											const timeline = _.sortBy(
+												_.get(card.links, ['has attached element'], []),
+												'data.timestamp',
+											);
+
+											// Mark the summary as active if there are any channels open that target this contract, either by slug, slug@version, or id
+											const summaryActive = !!_.find(
+												threadTargets,
+												(target) => {
+													return (
+														target === card.slug ||
+														target === `${card.slug}@${card.version}` ||
+														target === card.id
+													);
+												},
+											);
+
+											return (
+												<CardChatSummary
+													displayOwner
+													getActor={this.props.actions.getActor}
+													key={card.id}
+													active={summaryActive}
+													card={card}
+													timeline={timeline}
+													highlightedFields={['data.status', 'data.inbox']}
+													to={helpers.appendToChannelPath(
+														this.props.channel,
+														card,
+													)}
+												/>
+											);
+										})}
+
+										{hasNextPage && (
 											<Box p={3}>
-												<strong data-test="alt-text--no-support-threads">
-													Good job! There are no support threads here
-												</strong>
+												<Icon spin name="cog" />
 											</Box>
 										)}
-
-									{_.map(segment.cards, (card) => {
-										const timeline = _.sortBy(
-											_.get(card.links, ['has attached element'], []),
-											'data.timestamp',
-										);
-
-										// Mark the summary as active if there are any channels open that target this contract, either by slug, slug@version, or id
-										const summaryActive = !!_.find(threadTargets, (target) => {
-											return (
-												target === card.slug ||
-												target === `${card.slug}@${card.version}` ||
-												target === card.id
-											);
-										});
-
-										return (
-											<CardChatSummary
-												displayOwner
-												getActor={this.props.actions.getActor}
-												key={card.id}
-												active={summaryActive}
-												card={card}
-												timeline={timeline}
-												highlightedFields={['data.status', 'data.inbox']}
-												to={helpers.appendToChannelPath(
-													this.props.channel,
-													card,
-												)}
-											/>
-										);
-									})}
-
-									{hasNextPage && (
-										<Box p={3}>
-											<Icon spin name="cog" />
-										</Box>
-									)}
-								</InfiniteList>
-							</Tab>
-						);
-					})}
-				</StyledTabs>
+									</InfiniteList>
+								</Tab>
+							);
+						})}
+					</StyledTabs>
+				)}
 			</Column>
 		);
 	}
