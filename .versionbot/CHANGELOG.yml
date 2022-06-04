@@ -1,4 +1,66 @@
 - commits:
+    - subject: Add missing test relationships
+      hash: ab0df9b3cb859e32c287a09ea3c46a3bc6d7206e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Fix thread type in test
+      hash: 8f68af7bc3ded821d8a9121b6a535d5ce5d4b6b1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update client-sdk
+      hash: ea3eb8a4c3765ca0bb83e5a084d0f2bdb6b83177
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Update link name
+      hash: 30064808e3e6551524d9d39b4ca4c29ffd5737ea
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Set versioned slug
+      hash: c9b25364e9cd54eb7067e054e427a3a76a4dcf74
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Log external user during oauth
+      hash: 0d23ad4705951f0d8858f74882b70546ca3305f2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 51.0.5
+  title: "'Log external user during oauth'"
+  date: 2022-06-04T05:47:16.973Z
+- commits:
     - subject: "Server: enable per message deflation for websockets"
       hash: 362f93bac4c8a30e02e46ab2967b8d5374b11b2d
       body: ""
