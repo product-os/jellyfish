@@ -349,7 +349,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock('https://dashboard.balena-cloud.com')
+		nock('https://api.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -437,13 +437,13 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock('https://dashboard.balena-cloud.com')
+		nock('https://api.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [429]);
 			});
 
-		nock('https://dashboard.balena-cloud.com')
+		nock('https://api.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
@@ -521,7 +521,7 @@ balenaApiTest(
 
 		nock.cleanAll();
 
-		nock('https://dashboard.balena-cloud.com')
+		nock('https://api.balena-cloud.com')
 			.get('/user/v1/whoami')
 			.reply(function (_uri, _request, callback) {
 				callback(null, [
