@@ -255,6 +255,8 @@ export const attachRoutes = (
 			return response.sendStatus(401);
 		}
 
+		const versionedSlug = slug.includes('@') ? slug : `${slug}@1.0.0`;
+
 		try {
 			const provider = await kernel.getContractBySlug(
 				request.context,
@@ -306,7 +308,7 @@ export const attachRoutes = (
 				provider.data.integration as string,
 				externalUser,
 				{
-					slug,
+					slug: versionedSlug,
 					sync: options.sync,
 				},
 			);
@@ -327,7 +329,7 @@ export const attachRoutes = (
 				user = await worker.kernel.getContractBySlug(
 					request.context,
 					kernel.adminSession()!,
-					slug,
+					versionedSlug,
 				);
 
 				if (!user) {
