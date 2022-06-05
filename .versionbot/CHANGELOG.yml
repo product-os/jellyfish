@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update external-non-major (external non-major bumps)
+      hash: 5b7ba7ee35bc6470706fe30be69f8182b21f438b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.2
+  title: "'Update external-non-major (external non-major bumps)'"
+  date: 2022-06-05T11:50:47.936Z
+- commits:
     - subject: Update lint-staged from 12.4.2 to 13.0.0
       hash: c3739b46eed36ca94907905c85c6cb6e64c27da7
       body: ""
