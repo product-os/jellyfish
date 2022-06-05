@@ -1,5 +1,19 @@
 - commits:
     - subject: Update internal packages
+      hash: 69c9e1d3596073e0ccb2e151925407c02b570baf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 51.0.9
+  title: "'Update internal packages'"
+  date: 2022-06-05T04:30:55.516Z
+- commits:
+    - subject: Update internal packages
       hash: 288e3432ab323e901f487a3da92b7b017228c847
       body: ""
       footer:
