@@ -4,7 +4,7 @@ import React from 'react';
 import { Txt, TxtProps } from 'rendition';
 import { Contract } from '@balena/jellyfish-types/build/core';
 
-export default function CountFavicon({
+export default function Markers({
 	card,
 	...props
 }: {

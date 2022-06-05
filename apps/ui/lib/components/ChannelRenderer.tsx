@@ -231,7 +231,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 		);
 
 		return (
-			<ChannelContextProvider channel={channel}>
+			<ChannelContextProvider channelData={{ channel, head }}>
 				<ErrorBoundary style={style}>
 					{connectDropTarget(
 						<div style={style}>

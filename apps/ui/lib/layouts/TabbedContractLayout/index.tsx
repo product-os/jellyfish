@@ -106,6 +106,10 @@ class TabbedContractLayout extends React.Component<Props, State> {
 		// comments about a user to the user themselves. Disaster!
 		const displayTimeline = card.type !== 'user';
 
+		const allowWhispers =
+			card.type.split('@')[0] === 'support-thread' ||
+			card.type.split('@')[0] === 'sales-thread';
+
 		return (
 			<CardLayout
 				data-test={this.props['data-test']}
@@ -142,7 +146,10 @@ class TabbedContractLayout extends React.Component<Props, State> {
 
 					{displayTimeline && (
 						<Tab data-test="timeline-tab" title="Timeline">
-							<Timeline.data.renderer card={card} allowWhispers />
+							<Timeline.data.renderer
+								card={card}
+								allowWhispers={allowWhispers}
+							/>
 						</Tab>
 					)}
 

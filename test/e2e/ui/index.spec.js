@@ -78,7 +78,8 @@ test.describe('Core', () => {
 
 test.describe('Contract actions', () => {
 	test('Should let users copy a working permalink', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 
@@ -111,7 +112,9 @@ test.describe('Contract actions', () => {
 		const url = newpage.url()
 
 		// Needs to be proto://jel.{{uuid}}.{{dns_tld}} (sans :UI_PORT)
-		expect(url).toEqual(`${environment.oauth.redirectBaseUrl}/${contract.slug}`)
+		expect(url).toEqual(
+			`${environment.oauth.redirectBaseUrl}/${contract.slug}`
+		)
 
 		await newpage.close()
 	})
@@ -141,9 +144,9 @@ test.describe('Contract actions', () => {
 
 		context.clearPermissions()
 
-		expect(
-			_.omit(contract, [ 'links' ]).slug).toEqual(
-			_.omit(JSON.parse(copiedJSON), [ 'links' ]).slug)
+		expect(_.omit(contract, [ 'links' ]).slug).toEqual(
+			_.omit(JSON.parse(copiedJSON), [ 'links' ]).slug
+		)
 
 		await newpage.close()
 	})
@@ -188,8 +191,14 @@ test.describe('Contract actions', () => {
 
 		// Add a new custom field called "test"
 		await page.locator('.card-actions__btn--edit').click()
-		await page.waitForSelector('[data-test="card-edit__free-field-name-input"]')
-		await macros.setInputValue(page, '[data-test="card-edit__free-field-name-input"]', fieldName)
+		await page.waitForSelector(
+			'[data-test="card-edit__free-field-name-input"]'
+		)
+		await macros.setInputValue(
+			page,
+			'[data-test="card-edit__free-field-name-input"]',
+			fieldName
+		)
 		await page.locator('[data-test="card-edit__add-free-field"]').click()
 
 		// Input a value to the new field and save the changes
@@ -221,7 +230,9 @@ test.describe('Lens', () => {
 		await page.waitForSelector('.column--view-paid-support-threads')
 		await page.locator('[data-test="lens-selector--lens-kanban"]').click()
 		await page.waitForSelector('[data-test="lens--lens-kanban"]')
-		await page.locator('[data-test="home-channel__item--view-all-forum-threads"]').click()
+		await page
+			.locator('[data-test="home-channel__item--view-all-forum-threads"]')
+			.click()
 		await page.waitForSelector('.column--view-all-forum-threads')
 
 		// Allow some time for the lens selection to be stored
@@ -229,7 +240,9 @@ test.describe('Lens', () => {
 			setTimeout(resolve, 5000)
 		})
 
-		await page.locator('[data-test="home-channel__item--view-paid-support-threads"]').click()
+		await page
+			.locator('[data-test="home-channel__item--view-paid-support-threads"]')
+			.click()
 		await page.waitForSelector('.column--view-paid-support-threads')
 		await page.waitForSelector('[data-test="lens--lens-kanban"]')
 	})
@@ -286,13 +299,28 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
-		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
+		await page
+			.locator(
+				'[data-test="lens--lens-my-user"] button.card-actions__btn--edit'
+			)
+			.click()
 		await page.waitForSelector('[data-test="lens--edit-my-user"]')
-		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)').click()
+		await page
+			.locator(
+				'[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)'
+			)
+			.click()
 		await page.locator('button#root_profile_sendCommand').click()
-		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(1)').click()
-		await page.waitForSelector('input#root_profile_sendCommand__input[value="shift+enter"]')
-		const value = await macros.getElementValue(page, 'input#root_profile_sendCommand__input')
+		await page
+			.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(1)')
+			.click()
+		await page.waitForSelector(
+			'input#root_profile_sendCommand__input[value="shift+enter"]'
+		)
+		const value = await macros.getElementValue(
+			page,
+			'input#root_profile_sendCommand__input'
+		)
 		expect(value).toEqual('shift+enter')
 		await page.locator('button[type="submit"]').click()
 
@@ -300,6 +328,9 @@ test.describe('User Profile', () => {
 		await macros.waitForThenDismissAlert(page, 'Success!')
 
 		// Check that the updated setting is working
+		await page
+			.locator('.column--thread button[data-test="timeline-tab"]')
+			.click()
 		await page.type('textarea', uuid())
 		await new Promise((resolve) => {
 			setTimeout(resolve, 500)
@@ -307,7 +338,9 @@ test.describe('User Profile', () => {
 		await page.keyboard.down('Shift')
 		await page.keyboard.press('Enter')
 		await page.keyboard.up('Shift')
-		await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+		await page.waitForSelector(
+			'.column--thread [data-test="event-card__message"]'
+		)
 	})
 
 	test('You should be able to change the send command to "enter"', async ({
@@ -325,13 +358,28 @@ test.describe('User Profile', () => {
 		// Navigate to the user profile page and update settings
 		await page.goto(`/${user.id}/${thread.id}`)
 		await page.waitForSelector('[data-test="lens--lens-my-user"]')
-		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
+		await page
+			.locator(
+				'[data-test="lens--lens-my-user"] button.card-actions__btn--edit'
+			)
+			.click()
 		await page.waitForSelector('[data-test="lens--edit-my-user"]')
-		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)').click()
+		await page
+			.locator(
+				'[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(3)'
+			)
+			.click()
 		await page.locator('button#root_profile_sendCommand').click()
-		await page.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(3)').click()
-		await page.waitForSelector('input#root_profile_sendCommand__input[value="enter"]')
-		const value = await macros.getElementValue(page, 'input#root_profile_sendCommand__input')
+		await page
+			.locator('[role="menubar"] > button[role="menuitem"]:nth-of-type(3)')
+			.click()
+		await page.waitForSelector(
+			'input#root_profile_sendCommand__input[value="enter"]'
+		)
+		const value = await macros.getElementValue(
+			page,
+			'input#root_profile_sendCommand__input'
+		)
 		expect(value).toEqual('enter')
 		await page.locator('button[type="submit"]').click()
 
@@ -339,13 +387,17 @@ test.describe('User Profile', () => {
 		await macros.waitForThenDismissAlert(page, 'Success!')
 
 		// Check that the updated setting is working
-		// Await page.waitForSelector('.new-message-input')
+		await page
+			.locator('.column--thread button[data-test="timeline-tab"]')
+			.click()
 		await page.type('textarea', uuid())
 		await new Promise((resolve) => {
 			setTimeout(resolve, 500)
 		})
 		await page.keyboard.press('Enter')
-		await page.waitForSelector('.column--thread [data-test="event-card__message"]')
+		await page.waitForSelector(
+			'.column--thread [data-test="event-card__message"]'
+		)
 	})
 })
 
@@ -361,12 +413,22 @@ test.describe('Views', () => {
 		await page.waitForSelector('.column--view-all-messages')
 		await page.locator('[data-test="filters__add-filter"]').click()
 		await page.waitForSelector('[data-test="filters__filter-edit-form"] input')
-		await macros.setInputValue(page, '[data-test="filters__filter-edit-form"] input', 'foobar')
+		await macros.setInputValue(
+			page,
+			'[data-test="filters__filter-edit-form"] input',
+			'foobar'
+		)
 		await page.locator('[data-test="filters__save-filter"]').click()
 		await page.locator('[data-test="filters__open-save-view-modal"]').click()
-		await macros.setInputValue(page, '[data-test="filters__save-view-name"]', name)
+		await macros.setInputValue(
+			page,
+			'[data-test="filters__save-view-name"]',
+			name
+		)
 		await page.locator('[data-test="filters__save-view"]').click()
-		await page.locator('[data-test="home-channel__group-toggle--__myViews"]').click()
+		await page
+			.locator('[data-test="home-channel__group-toggle--__myViews"]')
+			.click()
 		await page.locator(`[data-test*="${name}"]`).click()
 	})
 })
@@ -390,28 +452,53 @@ test.describe('Chat Widget', () => {
 		await page.locator('[data-test="open-chat-widget"]').click()
 
 		// Wait for the chat widget to open
-		await page.locator('[data-test="start-new-conversation-button"], [data-test="start-conversation-button"]').click()
-		await macros.setInputValue(page, `${cwWrapper} [data-test="conversation-subject"]`, subject)
-		await macros.setInputValue(page, `${cwWrapper} textarea.new-message-input`, message)
-		await page.locator(`${cwWrapper} [data-test="start-conversation-button"]`).click()
+		await page
+			.locator(
+				'[data-test="start-new-conversation-button"], [data-test="start-conversation-button"]'
+			)
+			.click()
+		await macros.setInputValue(
+			page,
+			`${cwWrapper} [data-test="conversation-subject"]`,
+			subject
+		)
+		await macros.setInputValue(
+			page,
+			`${cwWrapper} textarea.new-message-input`,
+			message
+		)
+		await page
+			.locator(`${cwWrapper} [data-test="start-conversation-button"]`)
+			.click()
 
 		// Verify the conversation timeline is displayed in the chat widget
 		const threadSelector = '[data-test="chat-page"]'
 		const threadElement = await page.waitForSelector(threadSelector)
-		const threadId = await macros.getElementAttribute(page, threadElement, 'data-test-id')
-		const messageText = await macros.getElementText(page, `${threadSelector} [data-test="event-card__message"] p`)
+		const threadId = await macros.getElementAttribute(
+			page,
+			threadElement,
+			'data-test-id'
+		)
+		const messageText = await macros.getElementText(
+			page,
+			`${threadSelector} [data-test="event-card__message"] p`
+		)
 		expect(messageText.trim(), message)
 
 		// Return to the conversation list...
 		await page.locator('[data-test="navigate-back-button"]').click()
 
 		// ...and verify the new conversation is also now listed in the conversation list in the chat widget
-		const messageSnippet = await macros.getElementText(page,
-			`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`)
+		const messageSnippet = await macros.getElementText(
+			page,
+			`${cwConvList} [data-test-id="${threadId}"] [data-test="card-chat-summary__message"] p`
+		)
 		expect(messageSnippet.trim(), message)
 
 		// Now close the chat widget and navigate to the 'Jellyfish threads' support view
-		await page.locator('[data-test="chat-widget"] [data-test="close-chat-widget"]').click()
+		await page
+			.locator('[data-test="chat-widget"] [data-test="close-chat-widget"]')
+			.click()
 		await macros.navigateToHomeChannelItem(page, [
 			'[data-test="home-channel__group-toggle--org-balena"]',
 			'[data-test="home-channel__group-toggle--Support"]',
@@ -420,8 +507,10 @@ test.describe('Chat Widget', () => {
 
 		// And verify the new conversation appears in the list of support threads in this view.
 		const threadSummarySelector = `${jfThreadsViewSelector} [data-test-id="${threadId}"]`
-		const messageSnippetInThread = await macros.getElementText(page,
-			`${threadSummarySelector} [data-test="card-chat-summary__message"] p`)
+		const messageSnippetInThread = await macros.getElementText(
+			page,
+			`${threadSummarySelector} [data-test="card-chat-summary__message"] p`
+		)
 		expect(messageSnippetInThread.trim(), message)
 
 		// Now open the support thread view and reply
@@ -459,8 +548,14 @@ test.describe('File Upload', () => {
 
 		// Navigate to thread and upload file
 		await page.goto(`/${thread.slug}`)
-		await page.setInputFiles('input[type="file"]', path.join(__dirname, 'assets', 'test.png'))
-		await page.waitForSelector('.column--thread [data-test="event-card__image"]')
+		await page.locator('[data-test="timeline-tab"]').click()
+		await page.setInputFiles(
+			'input[type="file"]',
+			path.join(__dirname, 'assets', 'test.png')
+		)
+		await page.waitForSelector(
+			'.column--thread [data-test="event-card__image"]'
+		)
 	})
 
 	test('Users should be able to upload an image to a support thread', async ({
@@ -481,8 +576,13 @@ test.describe('File Upload', () => {
 		// Navigate to thread and upload file
 		await page.goto(`/${thread.id}`)
 		await page.locator('[data-test="timeline-tab"]').click()
-		await page.setInputFiles('input[type="file"]', path.join(__dirname, 'assets', 'test.png'))
-		await page.waitForSelector('.column--support-thread [data-test="event-card__image"]')
+		await page.setInputFiles(
+			'input[type="file"]',
+			path.join(__dirname, 'assets', 'test.png')
+		)
+		await page.waitForSelector(
+			'.column--support-thread [data-test="event-card__image"]'
+		)
 	})
 
 	test('Users should be able to upload a text file', async ({
@@ -499,8 +599,14 @@ test.describe('File Upload', () => {
 
 		// Navigate to thread and upload file
 		await page.goto(`/${thread.id}`)
-		await page.setInputFiles('input[type="file"]', path.join(__dirname, 'assets', 'test.txt'))
-		await page.waitForSelector('.column--thread [data-test="event-card__file"]')
+		await page.locator('[data-test="timeline-tab"]').click()
+		await page.setInputFiles(
+			'input[type="file"]',
+			path.join(__dirname, 'assets', 'test.txt')
+		)
+		await page.waitForSelector(
+			'.column--thread [data-test="event-card__file"]'
+		)
 	})
 
 	test('Users should be able to upload a text file to a support thread', async ({
@@ -521,31 +627,48 @@ test.describe('File Upload', () => {
 		// Navigate to thread and upload file
 		await page.goto(`/${thread.id}`)
 		await page.locator('[data-test="timeline-tab"]').click()
-		await page.setInputFiles('input[type="file"]', path.join(__dirname, 'assets', 'test.txt'))
-		await page.waitForSelector('.column--support-thread [data-test="event-card__file"]')
+		await page.setInputFiles(
+			'input[type="file"]',
+			path.join(__dirname, 'assets', 'test.txt')
+		)
+		await page.waitForSelector(
+			'.column--support-thread [data-test="event-card__file"]'
+		)
 	})
 })
 
 test.describe('Outreach', () => {
 	test('Should redirect to correct endpoint', async ({
-		page,
-		baseURL
+		page, baseURL
 	}) => {
 		await login(page, users.community)
 
 		// Navigate to the user profile page
 		await page.goto(`/${user.slug}`)
-		await page.locator('[data-test="lens--lens-my-user"] button.card-actions__btn--edit').click()
-		await page.locator('[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(4)').click()
+		await page
+			.locator(
+				'[data-test="lens--lens-my-user"] button.card-actions__btn--edit'
+			)
+			.click()
+		await page
+			.locator(
+				'[data-test="lens--edit-my-user"] button[role="tab"]:nth-of-type(4)'
+			)
+			.click()
 
 		// Wait for the Outreach API redirect to occur
 		let url = null
-		await page.route('https://api.outreach.io/oauth/authorize**', async (route) => {
-			url = new URL(route.request().url())
-			route.abort('aborted')
-		})
+		await page.route(
+			'https://api.outreach.io/oauth/authorize**',
+			async (route) => {
+				url = new URL(route.request().url())
+				route.abort('aborted')
+			}
+		)
 
-		await page.locator('[data-test="integration-connection--outreach"]').click()
+		await page
+			.locator('[data-test="integration-connection--outreach"]')
+			.click()
 		await new Promise((resolve) => {
 			setTimeout(resolve, 1000)
 		})
@@ -560,7 +683,9 @@ test.describe('Outreach', () => {
 			'webhooks.all'
 		].join('+')
 
-		expect(url.origin + url.pathname).toBe('https://api.outreach.io/oauth/authorize')
+		expect(url.origin + url.pathname).toBe(
+			'https://api.outreach.io/oauth/authorize'
+		)
 
 		const params = Object.fromEntries(url.searchParams)
 		expect(params.response_type).toBe('code')
@@ -606,11 +731,19 @@ test.describe('Repository', () => {
 				const threadDetails = await window.sdk.card.create(card)
 				return window.sdk.card.get(threadDetails.id)
 			}, threadData)
-			await page.evaluate((options) => {
-				return window.sdk.card.link(options.thread, options.repository, 'is of')
-			}, {
-				thread: repoThread, repository: targetRepo
-			})
+			await page.evaluate(
+				(options) => {
+					return window.sdk.card.link(
+						options.thread,
+						options.repository,
+						'is of'
+					)
+				},
+				{
+					thread: repoThread,
+					repository: targetRepo
+				}
+			)
 			return repoThread
 		}
 
@@ -658,7 +791,8 @@ test.describe('Repository', () => {
 
 test.describe('Chat', () => {
 	test('A notice should be displayed when another user is typing', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -680,8 +814,12 @@ test.describe('Chat', () => {
 			page2.goto(`/${thread.id}`)
 		])
 
+		await page.locator('[data-test="timeline-tab"]').click()
+		await page2.locator('[data-test="timeline-tab"]').click()
 		await page.type('textarea', uuid())
-		const messageText = await page2.locator('data-test=typing-notice').textContent()
+		const messageText = await page2
+			.locator('data-test=typing-notice')
+			.textContent()
 		expect(messageText).toEqual(`${users.community.username} is typing...`)
 
 		await page2.close()
@@ -708,6 +846,7 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread1.id}`)
 		await page.waitForSelector(`.column--slug-${thread1.slug}`)
+		await page.locator('[data-test="timeline-tab"]').click()
 
 		const rand = uuid()
 
@@ -731,7 +870,8 @@ test.describe('Chat', () => {
 	})
 
 	test('Messages that mention a user should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const newContext = await browser.newContext()
 		const page2 = await newContext.newPage()
@@ -750,20 +890,25 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		await page.waitForSelector('.new-message-input')
 		const msg = `@${user2.slug.slice(5)} ${uuid()}`
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		const messageText = await macros.getElementText(page2, '[data-test="event-card__message"]')
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
 		expect(messageText.trim()).toEqual(msg)
 
 		await page2.close()
 	})
 
 	test('Messages that alert a user should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -782,20 +927,25 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `!${user2.slug.slice(5)} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		const messageText = await macros.getElementText(page2, '[data-test="event-card__message"]')
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
 		expect(messageText.trim()).toEqual(msg)
 
 		await page2.close()
 	})
 
 	test('Messages that alert a user should appear in their inbox and in the mentions count', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -814,6 +964,7 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `@${user2.slug.slice(5)} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
@@ -824,7 +975,10 @@ test.describe('Chat', () => {
 		await page2.waitForSelector('[data-test="event-card__message"]')
 		const inboxmessages = await page2.$$('[data-test="event-card__message"]')
 		await page2.waitForSelector('[data-test="homechannel-mentions-count"]')
-		const mentionscount = await macros.getElementText(page2, '[data-test="homechannel-mentions-count"]')
+		const mentionscount = await macros.getElementText(
+			page2,
+			'[data-test="homechannel-mentions-count"]'
+		)
 
 		// Assert that they are equal count
 		expect(inboxmessages.length).toEqual(Number(mentionscount))
@@ -833,7 +987,8 @@ test.describe('Chat', () => {
 	})
 
 	test('Messages that mention a users group should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -857,28 +1012,42 @@ test.describe('Chat', () => {
 				name
 			})
 		}, groupName)
-		await page.evaluate((options) => {
-			return window.sdk.card.link(options.group, options.user, 'has group member')
-		}, {
-			group, user: user2
-		})
+		await page.evaluate(
+			(options) => {
+				return window.sdk.card.link(
+					options.group,
+					options.user,
+					'has group member'
+				)
+			},
+			{
+				group,
+				user: user2
+			}
+		)
 
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `@@${groupName} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		await macros.waitForInnerText(page2, '[data-test="event-card__message"]', msg)
+		await macros.waitForInnerText(
+			page2,
+			'[data-test="event-card__message"]',
+			msg
+		)
 
 		await page2.close()
 	})
 
 	test('Messages that alert a users group should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -902,30 +1071,43 @@ test.describe('Chat', () => {
 			})
 		}, groupName)
 
-		await page.evaluate((options) => {
-			return window.sdk.card.link(options.group, options.user, 'has group member')
-		}, {
-			group, user: user2
-		})
+		await page.evaluate(
+			(options) => {
+				return window.sdk.card.link(
+					options.group,
+					options.user,
+					'has group member'
+				)
+			},
+			{
+				group,
+				user: user2
+			}
+		)
 		const columnSelector = `.column--slug-${thread.slug}`
 
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `!!${groupName} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		const messageText = await macros.getElementText(page2, '[data-test="event-card__message"]')
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
 		expect(messageText.trim()).toEqual(msg)
 
 		await page2.close()
 	})
 
 	test('One-to-one messages to a user should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -934,33 +1116,42 @@ test.describe('Chat', () => {
 			login(page2, users.community2)
 		])
 
-		const thread = await page.evaluate((options) => {
-			return window.sdk.card.create({
-				type: 'thread@1.0.0',
-				markers: [ `${options.user1.slug}+${options.user2.slug}` ]
-			})
-		}, {
-			user1: user, user2
-		})
+		const thread = await page.evaluate(
+			(options) => {
+				return window.sdk.card.create({
+					type: 'thread@1.0.0',
+					markers: [ `${options.user1.slug}+${options.user2.slug}` ]
+				})
+			},
+			{
+				user1: user,
+				user2
+			}
+		)
 		const columnSelector = `.column--slug-${thread.slug}`
 
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `1-to-1 ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		const messageText = await macros.getElementText(page2, '[data-test="event-card__message"]')
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
 		expect(messageText.trim()).toEqual(msg)
 
 		await page2.close()
 	})
 
 	test('Only messages that ping a user, their groups, or their 1-to-1 conversations should appear in their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -1020,6 +1211,7 @@ test.describe('Chat', () => {
 		// Then we send 2 tagged messages to the user
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `@${user2.slug.slice(5)} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
@@ -1028,6 +1220,7 @@ test.describe('Chat', () => {
 		// And send a message to our own group
 		await page2.goto(`/${thread.id}`)
 		await page2.waitForSelector(columnSelector)
+		await page2.locator('[data-test="timeline-tab"]').click()
 		const ownGroupMsg = `@@${userGroupNames[0]} ${uuid()}`
 		await page2.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page2, columnSelector, ownGroupMsg)
@@ -1050,7 +1243,9 @@ test.describe('Chat', () => {
 				return ele.textContent
 			}, child)
 
-			const eventId = (await macros.getElementAttribute(page2, child, 'id')).replace(/^event-/, '')
+			const eventId = (
+				await macros.getElementAttribute(page2, child, 'id')
+			).replace(/^event-/, '')
 			if (eventId === ownGroupMsg.id) {
 				test.fail('Message to own group found in inbox')
 			}
@@ -1060,7 +1255,10 @@ test.describe('Chat', () => {
 			}
 
 			// Check if labels include the @user2
-			if (text.includes(user2.slug.slice(5)) || _.some(userGroupNames, mentionsGroup)) {
+			if (
+				text.includes(user2.slug.slice(5)) ||
+				_.some(userGroupNames, mentionsGroup)
+			) {
 				// Push all texts to an array
 				messagesWithUser.push(true)
 			} else {
@@ -1078,9 +1276,11 @@ test.describe('Chat', () => {
 		}
 
 		// Check if array is expected length
-		expect(messagesWithUser.every((currentValue) => {
-			return currentValue === true
-		})).toBeTruthy()
+		expect(
+			messagesWithUser.every((currentValue) => {
+				return currentValue === true
+			})
+		).toBeTruthy()
 
 		await page2.close()
 	})
@@ -1099,6 +1299,7 @@ test.describe('Chat', () => {
 		await page.goto(`/${thread.id}/${thread.id}`)
 		const columnSelector = `.column--slug-${thread.slug}`
 		await page.waitForSelector(columnSelector)
+		await page.locator('{$columnSelector} [data-test="timeline-tab"]').click()
 		await page.waitForSelector('.new-message-input')
 		const msg = `@${user.slug.slice(5)} ${uuid()}`
 		await macros.createChatMessage(page, columnSelector, msg)
@@ -1114,7 +1315,8 @@ test.describe('Chat', () => {
 	// TODO re-enable this test once
 	// https://github.com/product-os/jellyfish/issues/3703 is resolved
 	test.skip('Username pings should be case insensitive', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = context.newPage()
@@ -1133,20 +1335,25 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `@${user2.slug.slice(5).toUpperCase()} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
 
 		// Navigate to the inbox page
 		await page2.goto('/inbox')
-		const messageText = await macros.getElementText(page2, '[data-test="event-card__message"]')
+		const messageText = await macros.getElementText(
+			page2,
+			'[data-test="event-card__message"]'
+		)
 		expect(messageText.trim()).toEqual(msg)
 
 		await page2.close()
 	})
 
 	test('Users should be able to mark all messages as read from their inbox', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -1165,6 +1372,7 @@ test.describe('Chat', () => {
 		// Navigate to the thread page
 		await page.goto(`/${thread.id}`)
 		await page.waitForSelector(columnSelector)
+		await page.locator('[data-test="timeline-tab"]').click()
 		const msg = `@${user2.slug.slice(5)} ${uuid()}`
 		await page.waitForSelector('.new-message-input')
 		await macros.createChatMessage(page, columnSelector, msg)
@@ -1178,7 +1386,8 @@ test.describe('Chat', () => {
 	})
 
 	test('When filtering unread messages, only filtered messages can be marked as read', async ({
-		page, browser
+		page,
+		browser
 	}) => {
 		const context = await browser.newContext()
 		const page2 = await context.newPage()
@@ -1204,18 +1413,20 @@ test.describe('Chat', () => {
 			const thread = await window.sdk.card.create({
 				type: 'thread@1.0.0'
 			})
-			return Promise.all(msgs.map((msg) => {
-				return window.sdk.event.create({
-					target: thread,
-					slug: msg.slug,
-					tags: [],
-					type: 'message',
-					payload: {
-						mentionsUser: msg.mentionsUser,
-						message: msg.payload
-					}
+			return Promise.all(
+				msgs.map((msg) => {
+					return window.sdk.event.create({
+						target: thread,
+						slug: msg.slug,
+						tags: [],
+						type: 'message',
+						payload: {
+							mentionsUser: msg.mentionsUser,
+							message: msg.payload
+						}
+					})
 				})
-			}))
+			)
 		}, messageDetails)
 
 		// Navigate to the inbox page and reload
@@ -1225,19 +1436,33 @@ test.describe('Chat', () => {
 		await page2.waitForSelector(selectors.chat.message)
 		let messageElements = await page2.$$(selectors.chat.message)
 		expect(messageElements.length).toEqual(3)
-		let markAsReadButtonText = await macros.getElementText(page2, selectors.chat.markAsReadButton)
+		let markAsReadButtonText = await macros.getElementText(
+			page2,
+			selectors.chat.markAsReadButton
+		)
 		expect(markAsReadButtonText).toEqual('Mark 3 as read')
 
 		// Now search for the 2nd message
-		await macros.setInputValue(page2, selectors.chat.search, messageDetails[1].payload)
+		await macros.setInputValue(
+			page2,
+			selectors.chat.search,
+			messageDetails[1].payload
+		)
 
 		// Verify only the 2nd message is left in the inbox
-		await macros.retry(10, async () => {
-			messageElements = await page2.$$(selectors.chat.message)
-			assert(messageElements.length === 1)
-		}, 2000)
+		await macros.retry(
+			10,
+			async () => {
+				messageElements = await page2.$$(selectors.chat.message)
+				assert(messageElements.length === 1)
+			},
+			2000
+		)
 		await page2.waitForSelector(`[id=event-${messages[1].id}]`)
-		markAsReadButtonText = await macros.getElementText(page2, selectors.chat.markAsReadButton)
+		markAsReadButtonText = await macros.getElementText(
+			page2,
+			selectors.chat.markAsReadButton
+		)
 		expect(markAsReadButtonText).toEqual('Mark 1 as read')
 
 		// Mark just the filtered message as read

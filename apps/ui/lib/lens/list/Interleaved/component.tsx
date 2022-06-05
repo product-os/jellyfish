@@ -7,6 +7,7 @@ import { Event, useSetup } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
 import { LensRendererProps } from '../../../types';
+import { ChannelContextProps } from '../../../hooks/channel-context';
 
 interface State {
 	newMessage: string;
@@ -28,7 +29,7 @@ type Props = RouteComponentProps &
 	StateProps & {
 		// From `withDefaultGetActorHref`
 		getActorHref: (actor: any) => string;
-	};
+	} & ChannelContextProps;
 
 const NONE_MESSAGE_TIMELINE_TYPES = [
 	'create',
@@ -92,7 +93,7 @@ export const InterleavedList = (props: Props) => {
 	};
 
 	const openChannel = (target: string) => {
-		const current = props.channel.data.target;
+		const current = props.channelData.channel.data.target;
 		props.history.push(
 			path.join(window.location.pathname.split(current)[0], current, target),
 		);

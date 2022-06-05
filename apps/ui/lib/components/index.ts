@@ -47,6 +47,7 @@ export {
 export { default as MentionsCount } from './MentionsCount';
 export { ThreadMirrorIcon, MirrorIcon } from './MirrorIcon';
 export { SetupProvider, withSetup, useSetup } from './SetupProvider';
+export type { Setup } from './SetupProvider';
 export { default as SlideInPanel } from './SlideInPanel';
 export { default as SmartVisibilitySensor } from './SmartVisibilitySensor';
 export { default as UserStatusIcon } from './UserStatusIcon';

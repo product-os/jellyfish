@@ -1,13 +1,19 @@
+import { Contract } from '@balena/jellyfish-types/build/core';
 import React from 'react';
+import { ChannelContract } from '../types';
 
 const channelContext = React.createContext(null);
 
+export interface ChannelContextProps {
+	channelData: { channel: ChannelContract; head: null | Contract };
+}
+
 export const ChannelContextProvider: React.FunctionComponent<any> = ({
-	channel,
+	channelData,
 	children,
 }) => {
 	return (
-		<channelContext.Provider value={channel}>
+		<channelContext.Provider value={channelData}>
 			{children}
 		</channelContext.Provider>
 	);
@@ -18,7 +24,7 @@ export const withChannelContext = (Component) => {
 		return (
 			<channelContext.Consumer>
 				{(context) => {
-					return <Component channel={context} {...props} />;
+					return <Component channelData={context} {...props} />;
 				}}
 			</channelContext.Consumer>
 		);
