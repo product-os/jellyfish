@@ -1,4 +1,82 @@
 - commits:
+    - subject: "UI: Only use whispers for Sales and Support threads"
+      hash: 906ed906c3809d8a779a8bc3d770ca153f64c78c
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove custom lens for chat threads"
+      hash: 688ee0da5acd6ca321cc254b35448613e5b5fa6a
+      body: |
+        The custom thread lens is increasingly becoming unnecessary and causing
+        headaches due to inconsistency with the rest of the UI.
+        A further step to make after this change is to make the `name` of the
+        chat thread a concatenation of the first message, which would improve
+        the overall view of the thread. (Right now its the thread slug, which is
+        quite ugly)
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add wrapper for handling errors in async operations"
+      hash: 02f1ad2716592856918c1433d9090073b604e2bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Move "addCard" functionality from actioncreators to ViewFooter
+        component'
+      hash: 6861efbffafd112f51a7b6710ef0481fb23619db
+      body: |
+        The only place that actioncreators.addCard was called is in ViewFooter.
+        To simplify the code, we've moved it into the component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add API data for channel in a seperate property on channel context
+        provider"
+      hash: 6baf2aad805c0607431eb3a3708dbdfe97c63833
+      body: |
+        This change logically seperates the UI based channel contract from the
+        contract loaded from the API, seperating model from state.
+        This change also fixed an issue where seed data is not generated when
+        adding a new contract via the ViewFooter component.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix incorrect name for Markers display component"
+      hash: 40ba04464b5862a4e971e654a130e666db626d6f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.0
+  title: "'Fix multiple issues with 1:1 permission inheritance'"
+  date: 2022-06-05T08:42:41.157Z
+- commits:
     - subject: Update internal packages
       hash: 69c9e1d3596073e0ccb2e151925407c02b570baf
       body: ""
