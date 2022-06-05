@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update lint-staged from 12.4.2 to 13.0.0
+      hash: c3739b46eed36ca94907905c85c6cb6e64c27da7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.1
+  title: "'Update lint-staged from 12.4.2 to 13.0.0'"
+  date: 2022-06-05T09:47:11.715Z
+- commits:
     - subject: "UI: Only use whispers for Sales and Support threads"
       hash: 906ed906c3809d8a779a8bc3d770ca153f64c78c
       body: ""
