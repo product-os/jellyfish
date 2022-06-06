@@ -323,6 +323,9 @@ services:
       - "443:443/tcp"
       # haproxy/stats
       - "1936:1936/tcp"
+      # Prometheus/metrics (ec2_sd_config)
+      - "9000:9000/tcp"
+      - "9001:9001/tcp"
     environment:
       <<: *default-environment
     volumes:
