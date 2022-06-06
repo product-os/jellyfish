@@ -1,4 +1,19 @@
 - commits:
+    - subject: Set timeouts to sane values
+      hash: 78babeb59c15f1240798a93307ffe0522a93fbe7
+      body: |
+        * set tunnel timeout value (WSS)
+        * set http-keepalive timeout
+        * reflect AWS/ALB settings (defaults)
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Balena CI
+      nested: []
+  version: 52.0.4
+  title: "'Set timeouts to sane values'"
+  date: 2022-06-06T15:14:11.510Z
+- commits:
     - subject: Update non-major-frontend (external non-major bumps)
       hash: 57f9ed2f3b53281de78acb31b727a4ecfef7e1b6
       body: ""
