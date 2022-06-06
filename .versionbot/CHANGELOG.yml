@@ -1,4 +1,23 @@
 - commits:
+    - subject: Revert recent changes to paid support thread view
+      hash: 02724ee5f2df597e88f8f4052a670cedb24a4ef9
+      body: |
+        The recent changes were more performant but surfaced up a lot of stale
+        zombie threads in production from 2018/2019. Closing these caused very
+        heavy load on the API servers, due to lots of sync activity.
+        This needs to be resolved separately, and then we can revisit query
+        optimisations for the view.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.6
+  title: "'Revert recent changes to paid support thread view'"
+  date: 2022-06-06T21:35:26.871Z
+- commits:
     - subject: Expose scrape targets
       hash: 00afcbeda75114429a3514dcbceaad25bba8c3e9
       body: ""
