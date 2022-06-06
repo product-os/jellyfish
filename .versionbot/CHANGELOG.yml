@@ -1,4 +1,18 @@
 - commits:
+    - subject: Require the inbox field when view the paid support threads view
+      hash: f72c69058e0f907aede4d2bc074ead7462820e64
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.4
+  title: "'Require the inbox field when view the paid support threads view'"
+  date: 2022-06-06T15:33:39.920Z
+- commits:
     - subject: Update non-major-frontend (external non-major bumps)
       hash: 57f9ed2f3b53281de78acb31b727a4ecfef7e1b6
       body: ""
