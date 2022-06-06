@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update non-major-frontend (external non-major bumps)
+      hash: 57f9ed2f3b53281de78acb31b727a4ecfef7e1b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.3
+  title: "'Update non-major-frontend (external non-major bumps)'"
+  date: 2022-06-05T12:05:58.776Z
+- commits:
     - subject: Update external-non-major (external non-major bumps)
       hash: 5b7ba7ee35bc6470706fe30be69f8182b21f438b
       body: ""
