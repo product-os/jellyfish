@@ -272,7 +272,6 @@ export default class SupportThreads extends React.Component<any, any> {
 								})`}
 							>
 								<InfiniteList
-									bg="#f8f9fd"
 									key={segment.name}
 									onScrollEnding={this.handleScrollEnding}
 									style={{

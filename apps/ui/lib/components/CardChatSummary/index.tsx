@@ -36,23 +36,12 @@ const SummaryWrapper = styled(Link)<{ active?: boolean }>`
 	${(props) => {
 		return props.active
 			? `
-			background: ${props.theme.colors.info.light};
 			border-left-color: ${props.theme.colors.info.main};
 		`
 			: `
-			background: white;
 			border-left-color: transparent;
 		`;
 	}}
-
-	&:hover {
-		color: ${(props) => {
-			return props.theme.colors.text.main;
-		}};
-		background: ${(props) => {
-			return props.theme.colors.quartenary.light;
-		}};
-	}
 `;
 
 const getErrorElement = () => {

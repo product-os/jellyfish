@@ -94,10 +94,7 @@ export default class ViewLink extends React.Component<any, any> {
 
 		return (
 			<Box>
-				<Flex
-					justifyContent="space-between"
-					bg={isActive && !activeSlice ? '#eee' : 'none'}
-				>
+				<Flex justifyContent="space-between">
 					{
 						// Todo: Resolve the broken typing on ActionRouterLink
 						// @ts-ignore
@@ -106,7 +103,6 @@ export default class ViewLink extends React.Component<any, any> {
 							key={card.id}
 							pl={3}
 							pr={isActive ? 0 : 3}
-							color="#333"
 							to={`/${card.slug || card.id}`}
 						>
 							<Flex justifyContent="space-between" alignItems="center">

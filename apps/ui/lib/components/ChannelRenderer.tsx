@@ -183,8 +183,6 @@ class ChannelRenderer extends React.Component<Props, State> {
 			left: _.get(this.props.space, ['left'], 'auto'),
 			height: '100%',
 			transition: 'all ease-in-out 150ms',
-			background: isOver ? '#ccc' : 'white',
-			borderLeft: '1px solid #eee',
 			minWidth: 0,
 			maxWidth: '100%',
 			overflow: 'hidden',

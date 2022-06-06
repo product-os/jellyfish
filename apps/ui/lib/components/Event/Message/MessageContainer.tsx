@@ -17,7 +17,6 @@ const MessageContainer = styled(Box)<MessageContainerProps>`
 	min-width: 0;
 	border-radius: 12px;
 	border-top-left-radius: 0;
-	box-shadow: -5px 4.5px 10.5px 0 rgba(152, 173, 227, 0.08);
 	a {
 		color: inherit;
 		text-decoration: underline;
@@ -31,8 +30,6 @@ const MessageContainer = styled(Box)<MessageContainerProps>`
 		}
 	}
 	code {
-		color: #333;
-		background-color: #f6f8fa;
 	}
 	${({ card, actor, theme, editing, error }) => {
 		if (error) {
@@ -73,8 +70,7 @@ const MessageContainer = styled(Box)<MessageContainerProps>`
 		}
 
 		return `
-			border: solid 0.5px #e8ebf2;
-			background: white;
+			background: ${theme.colors.background};
 		`;
 	}}
 

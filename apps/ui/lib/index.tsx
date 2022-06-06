@@ -1,3 +1,5 @@
+import { invert } from 'color-invert';
+import * as _ from 'lodash';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -74,16 +76,40 @@ const GlobalStyle = createGlobalStyle`
 	}
 `;
 
-const customTheme: any = {
-	colors: {
-		background: '#fff',
-		border: '#eee',
-	},
-	tab: {
-		// Keep tab height consistent with height of Select component
-		extend: `${Theme.tab.extend}; height: 32px;`,
-	},
+console.log(Theme);
+const DarkTheme = _.cloneDeep(Theme);
+for (const mode in Theme.colors) {
+	for (const color in Theme.colors[mode]) {
+		DarkTheme.colors[mode][color] = invert(Theme.colors[mode][color]);
+	}
+}
+
+console.log(DarkTheme);
+
+DarkTheme.colors.text = {
+	dark: '#eee',
+	light: '#eee',
+	main: '#eee',
 };
+
+DarkTheme.colors.primary.main = '#eee';
+DarkTheme.colors.secondary.main = '#ab9df2';
+
+DarkTheme.colors.success.main = 'green';
+
+const customTheme: any = _.merge(
+	{
+		colors: {
+			background: '#202124',
+			border: '#eee',
+		},
+		tab: {
+			// Keep tab height consistent with height of Select component
+			extend: `${Theme.tab.extend}; height: 32px;`,
+		},
+	},
+	DarkTheme,
+);
 
 const widgets: any = {
 	form: {

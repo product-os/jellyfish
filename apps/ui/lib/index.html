@@ -19,6 +19,38 @@
 
 				<link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
 				<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+				<link rel="stylesheet" href="https://unpkg.com/dracula-prism/dist/css/dracula-prism.min.css">
+
+				<style>
+					:root {
+						color-scheme: dark;
+					}
+
+					/* Light mode */
+					@media (prefers-color-scheme: light) {
+						:root {
+								--body-bg: #FFFFFF;
+								--body-color: #202124;
+						}
+					}
+
+					/* Dark mode */
+					@media (prefers-color-scheme: dark) {
+						:root {
+								--body-bg: #202124;
+								--body-color: #FFFFFF;
+						}
+					}
+
+					body {
+						background: var(--body-bg);
+						color: var(--body-color);
+					}
+
+					#loopselector__select__drop {
+						background-color: #202124;
+					}
+				</style>
 				<script src="/env-config.js"></script>
     </head>
 

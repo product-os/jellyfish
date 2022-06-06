@@ -3,9 +3,7 @@ import { Flex, DropDownButton, Button } from 'rendition';
 import styled from 'styled-components';
 import { ActionLink, Icon } from '../../../components';
 
-const Footer = styled(Flex)`
-	border-top: 1px solid #eee;
-`;
+const Footer = styled(Flex)``;
 
 const DropUpButton = styled(DropDownButton).attrs({
 	dropUp: true,

@@ -5,7 +5,14 @@ import type {
 	LoopContract,
 } from '@balena/jellyfish-types/build/core';
 import { HighlightedName, Select, RenditionSystemProps } from 'rendition';
+import styled from 'styled-components';
 import * as helpers from '../../services/helpers';
+
+const StyledSelect = styled(Select)`
+	#loopselector__select__drop {
+		background-color: ${(props) => props.theme.background};
+	}
+`;
 
 interface DefaultOption {
 	name: string;
@@ -33,7 +40,7 @@ const LoopDisplay: React.FunctionComponent<LoopDisplayProps> = React.memo(
 		<HighlightedName
 			{...rest}
 			data-test={`loop-option--${option.slug}`}
-			bg={option.slug ? helpers.colorHash(option.slug) : '#fff'}
+			bg={option.slug ? helpers.colorHash(option.slug) : 'transparent'}
 		>
 			{option.name || option.slug!.replace(/^loop-/, '')}
 		</HighlightedName>
@@ -68,7 +75,7 @@ export const LoopSelector: React.FunctionComponent<LoopSelectorProps> =
 		};
 
 		return (
-			<Select
+			<StyledSelect
 				{...rest}
 				id="loopselector__select"
 				plain

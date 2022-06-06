@@ -587,9 +587,6 @@ class Timeline extends React.Component<Props, State> {
 					types={types}
 					user={user}
 					wide={wide}
-					style={{
-						borderTop: '1px solid #eee',
-					}}
 					allowWhispers={allowWhispers}
 					sendCommand={sendCommand}
 					value={timelineMessage}

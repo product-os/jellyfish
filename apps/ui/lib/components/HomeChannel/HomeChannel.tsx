@@ -96,13 +96,11 @@ const HomeChannelDrawer = styled(Flex)<{ isMobile: boolean }>`
 	}
 	flex-direction: row-reverse;
 	align-items: center;
-	background: #fff;
 `;
 
 const HomeChannelContent = styled(Flex)`
 	flex: 1;
 	align-self: stretch;
-	background: #fff;
 `;
 
 const GrabHandleWrapper = styled(Box)`
@@ -112,7 +110,6 @@ const GrabHandleWrapper = styled(Box)`
 	border-top: 1px solid #ddd;
 	border-right: 1px solid #ddd;
 	border-bottom: 1px solid #ddd;
-	background: #fff;
 	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 `;
 
@@ -581,7 +578,6 @@ export default withSetup(
 								flexDirection="column"
 								style={{
 									position: 'relative',
-									borderBottom: '1px solid #eee',
 								}}
 							>
 								<Flex
@@ -739,14 +735,7 @@ export default withSetup(
 								)}
 							</Box>
 
-							<Box
-								style={{
-									borderTop: '1px solid #eee',
-									borderBottom: '1px solid #eee',
-								}}
-								px={3}
-								py={2}
-							>
+							<Box px={3} py={2}>
 								<Button
 									plain
 									icon={<Icon name="plus" />}

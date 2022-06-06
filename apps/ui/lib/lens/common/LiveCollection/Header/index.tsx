@@ -21,9 +21,7 @@ const StyledSearch = styled(Search)`
 	}
 `;
 
-const HeaderBox = styled(Box)`
-	border-bottom: 1px solid #eee;
-`;
+const HeaderBox = styled(Box)``;
 
 interface HeaderProps {
 	allTypes: TypeContract[];

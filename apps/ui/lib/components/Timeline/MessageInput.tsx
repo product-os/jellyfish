@@ -220,17 +220,9 @@ const MessageInput: React.FunctionComponent<MessageInputProps> = ({
 			px={3}
 			wide={wide}
 			{...(whisper
-				? {
-						color: 'white',
-						bg: theme.colors.secondary.main,
-						borderColor: theme.colors.secondary.main,
-				  }
+				? {}
 				: {
 						// @ts-ignore
-						color: theme.text.main,
-						borderColor: 'white',
-						bg: 'white',
-						borderColorWhenFocused: 'white',
 						...(wide
 							? {
 									px: 0,
@@ -280,7 +272,6 @@ const MessageInput: React.FunctionComponent<MessageInputProps> = ({
 				pt={3}
 				pb={1}
 				pl={3}
-				bg="white"
 				style={{
 					...style,
 					display: 'grid',
@@ -323,7 +314,7 @@ const MessageInput: React.FunctionComponent<MessageInputProps> = ({
 	}
 
 	return (
-		<Flex {...rest} style={style} bg="white" flexDirection="column">
+		<Flex {...rest} style={style} flexDirection="column">
 			<Box flex="1" px={1}>
 				{textInput}
 			</Box>

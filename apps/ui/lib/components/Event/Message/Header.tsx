@@ -99,9 +99,7 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 								Boolean(actor.card) &&
 								(() => {
 									const text = (
-										<Txt.span color="black">
-											{username(actor.card.slug)}
-										</Txt.span>
+										<Txt.span bold>{username(actor.card.slug)}</Txt.span>
 									);
 
 									if (getActorHref) {
