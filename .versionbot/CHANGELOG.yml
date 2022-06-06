@@ -1,4 +1,16 @@
 - commits:
+    - subject: Expose scrape targets
+      hash: 00afcbeda75114429a3514dcbceaad25bba8c3e9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 52.0.5
+  title: "'Expose scrape targets'"
+  date: 2022-06-06T19:29:21.235Z
+- commits:
     - subject: Set timeouts to sane values
       hash: 78babeb59c15f1240798a93307ffe0522a93fbe7
       body: |
