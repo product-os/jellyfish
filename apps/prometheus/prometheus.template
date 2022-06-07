@@ -14,9 +14,7 @@ scrape_configs:
   - job_name: 'api'
     basic_auth:
       username: monitor
-      # FIXME: confd|sed (https://github.com/prometheus/prometheus/issues/2357)
-      # actual value at runtime: ${MONITOR_SECRET_TOKEN}
-      password: thisisnotthepasswordyouarelookingfor
+      password: {{MONITOR_SECRET_TOKEN}}
     static_configs:
       - targets:
         - api:9000
