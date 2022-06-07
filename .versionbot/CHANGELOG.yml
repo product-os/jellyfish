@@ -1,4 +1,18 @@
 - commits:
+    - subject: Cleanup Prometheus/Grafana config
+      hash: f2aee7f495a796f3a4dea87555e84fefca4571c0
+      body: |
+        * move dashboard(s) to product-os/environment-production
+        * interpolate environment variables in prometheus.yml
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: ab77
+      nested: []
+  version: 52.0.11
+  title: "'Cleanup Prometheus/Grafana config'"
+  date: 2022-06-07T18:23:25.533Z
+- commits:
     - subject: "UI: Cache png files served via nginx"
       hash: 47c3979cb7e8955845d677ebedb6f29572f9bb6d
       body: ""
