@@ -215,12 +215,13 @@ services:
 
   prometheus:
     build: apps/prometheus
-    command: '--config.file=/etc/prometheus/prometheus.yaml'
     healthcheck:
       interval: 15s
       retries: 3
       test: pgrep prometheus
     restart: unless-stopped
+    volumes:
+      - resin-data:/balena
 
   grafana:
     build: apps/grafana

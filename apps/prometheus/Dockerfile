@@ -1,3 +1,9 @@
-FROM prom/prometheus:v2.35.0
+FROM prom/prometheus:v2.36.0
 
-COPY prometheus.yaml /etc/prometheus/
+COPY balena.sh /usr/local/bin/
+
+COPY prometheus.template ./
+
+ENTRYPOINT /usr/local/bin/balena.sh
+
+CMD [ "--config.file=/etc/prometheus/prometheus.yml", "--storage.tsdb.path=/prometheus" ]
