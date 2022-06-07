@@ -10,11 +10,13 @@ import actions from './actions';
 import history from '../services/history';
 import { ChannelContract } from '../types';
 import {
+	Contract,
 	LoopContract,
 	OrgContract,
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
+import { JsonSchema } from '@balena/jellyfish-types';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -39,7 +41,7 @@ interface State {
 		cards: {};
 		orgs: OrgContract[];
 		config: {};
-		userCustomFilters: {};
+		userCustomFilters: { [contractId: string]: JsonSchema[] };
 		usersTyping: {
 			[contractId: string]: {
 				[slug: string]: boolean;
@@ -51,7 +53,12 @@ interface State {
 		sidebar: {
 			expanded: string[];
 		};
-		timelines: {};
+		timelines: {
+			[contractId: string]: {
+				message?: string;
+				pending?: Array<Partial<Contract>>;
+			};
+		};
 		chatWidget: {
 			open: boolean;
 		};

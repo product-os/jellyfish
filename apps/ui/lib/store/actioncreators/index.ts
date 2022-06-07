@@ -302,7 +302,7 @@ export const actionCreators = {
 		};
 	},
 
-	setSidebarExpanded(name, isExpanded) {
+	setSidebarExpanded(name: string, isExpanded: boolean) {
 		return (dispatch, getState) => {
 			const uiState = selectors.getUIState(getState());
 			const newExpandedItems = isExpanded
