@@ -141,7 +141,7 @@ export default class SupportThreads extends React.Component<any, any> {
 			for (const event of timeline) {
 				if (_.includes(event.tags, 'discussion')) {
 					discussions.push(card);
-					return;
+					continue;
 				}
 			}
 
