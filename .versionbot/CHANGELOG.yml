@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-default from 27.4.11 to 27.5.0
+      hash: 03852f16756e76ce106e849e162fbd04c33e5256
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.9
+  title: "'Update @balena/jellyfish-plugin-default from 27.4.11 to 27.5.0'"
+  date: 2022-06-07T05:33:31.071Z
+- commits:
     - subject: Update resinci/jellyfish-test from v3.0.10 to v3.0.13
       hash: 320fdfdc0e9ea0d17f6dc15b8a18f10498f32cd1
       body: ""
