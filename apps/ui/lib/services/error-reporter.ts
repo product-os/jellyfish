@@ -22,9 +22,9 @@ export default class ErrorReporter {
 		}
 	}
 
-	handleAsyncError<T>(awaitable: Promise<T>) {
+	handleAsyncError = <T>(awaitable: Promise<T>) => {
 		awaitable.catch(this.reportException);
-	}
+	};
 
 	setUser(user: Sentry.User | null) {
 		if (this.initialized) {
