@@ -9,10 +9,7 @@ export const Inbox = createLazyComponent(
 );
 
 const mapDispatchToProps = (dispatch) => {
-	return bindActionCreators(
-		_.pick(actionCreators, ['setupStream', 'clearViewData', 'paginateStream']),
-		dispatch,
-	);
+	return bindActionCreators(actionCreators, dispatch);
 };
 
 export default {

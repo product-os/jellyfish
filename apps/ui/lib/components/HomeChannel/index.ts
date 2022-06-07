@@ -25,20 +25,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'addChannel',
-				'loadViewData',
-				'logout',
-				'updateUser',
-				'queryAPI',
-				'removeView',
-				'setChatWidgetOpen',
-				'setDefault',
-				'setSidebarExpanded',
-			]),
-			dispatch,
-		),
+		actions: redux.bindActionCreators(actionCreators, dispatch),
 	};
 };
 

@@ -698,7 +698,6 @@ export const actionCreators = {
 								type: actions.SET_CONFIG,
 								value: config,
 							});
-							const channels = selectors.getChannels()(state);
 						}
 
 						errorReporter.setUser({
@@ -1137,21 +1136,6 @@ export const actionCreators = {
 				patches,
 				`Successfully set "${command}" as send command`,
 			)(dispatch, getState, context);
-		};
-	},
-
-	clearViewData(query, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-		if (streams[id]) {
-			streams[id].close();
-			Reflect.deleteProperty(streams, id);
-		}
-		return {
-			type: actions.SET_VIEW_DATA,
-			value: {
-				id,
-				data: null,
-			},
 		};
 	},
 

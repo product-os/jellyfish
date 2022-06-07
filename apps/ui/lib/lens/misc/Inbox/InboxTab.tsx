@@ -37,7 +37,6 @@ const InboxTab = ({
 	getQuery,
 	currentTab,
 	setupStream,
-	clearViewData,
 	paginateStream,
 	canMarkAsRead,
 }: any) => {
@@ -103,7 +102,7 @@ const InboxTab = ({
 		set: _.noop,
 	};
 
-	const loadViewData = async () => {
+	const loadInboxData = async () => {
 		setLoading(true);
 		const query = getQuery(user, groupNames, searchTerm);
 		const currentMessages = await setupStream(
@@ -151,12 +150,7 @@ const InboxTab = ({
 	// If the searchTerm or currentTab changes
 	// then we need to reload the data
 	useEffect(() => {
-		loadViewData();
-		return () => {
-			clearViewData(null, {
-				viewId: STREAM_ID,
-			});
-		};
+		loadInboxData();
 	}, [currentTab, searchTerm]);
 
 	return (
