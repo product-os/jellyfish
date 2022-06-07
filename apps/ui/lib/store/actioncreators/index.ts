@@ -965,20 +965,6 @@ export const actionCreators = {
 		};
 	},
 
-	addViewNotice(payload) {
-		return {
-			type: actions.ADD_VIEW_NOTICE,
-			value: payload,
-		};
-	},
-
-	removeViewNotice(id) {
-		return {
-			type: actions.REMOVE_VIEW_NOTICE,
-			value: id,
-		};
-	},
-
 	setActiveLoop(loopVersionedSlug: string | null) {
 		return async (dispatch, getState, context) => {
 			const state = getState();

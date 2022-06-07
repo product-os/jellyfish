@@ -734,7 +734,6 @@ export default withSetup(
 										node={groups}
 										actions={treeMenuActions}
 										activeChannel={activeChannel}
-										viewNotices={this.props.viewNotices}
 									/>
 								)}
 							</Box>

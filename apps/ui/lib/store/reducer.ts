@@ -36,7 +36,6 @@ interface State {
 			authToken?: string | null;
 			user?: UserContract;
 		};
-		viewNotices: {};
 		cards: {};
 		orgs: OrgContract[];
 		config: {};
@@ -90,7 +89,6 @@ export const defaultState: State = {
 		loops: [],
 		groups: {},
 		session: null,
-		viewNotices: {},
 		cards: {},
 		orgs: [],
 		config: {},
@@ -405,22 +403,6 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 			return update(state, {
 				orgs: {
 					$set: action.value,
-				},
-			});
-		}
-		case actions.ADD_VIEW_NOTICE: {
-			return update(state, {
-				viewNotices: {
-					[action.value.id]: {
-						$set: action.value,
-					},
-				},
-			});
-		}
-		case actions.REMOVE_VIEW_NOTICE: {
-			return update(state, {
-				viewNotices: {
-					$unset: [action.value],
 				},
 			});
 		}

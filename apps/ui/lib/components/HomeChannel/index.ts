@@ -20,7 +20,6 @@ const mapStateToProps = (state) => {
 		user: selectors.getCurrentUser()(state),
 		homeView: selectors.getHomeView()(state),
 		version: selectors.getAppVersion()(state),
-		viewNotices: selectors.getViewNotices()(state),
 	};
 };
 
@@ -31,7 +30,6 @@ const mapDispatchToProps = (dispatch) => {
 				'addChannel',
 				'loadViewData',
 				'logout',
-				'removeViewNotice',
 				'updateUser',
 				'queryAPI',
 				'removeView',

@@ -101,10 +101,6 @@ export const getLensState = (lensSlug, cardId) => (state) => {
 	return _.get(state.ui, ['lensState', lensSlug, cardId], {});
 };
 
-export const getViewNotices = () => (state) => {
-	return state.core.viewNotices;
-};
-
 export const getUsersTypingOnCard = (card) => (state) => {
 	return _.keys(_.get(state.core, ['usersTyping', card], {}));
 };
