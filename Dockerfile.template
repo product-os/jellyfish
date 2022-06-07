@@ -1,6 +1,6 @@
 # https://github.com/product-os/jellyfish-base-images
 # https://registry.hub.docker.com/r/resinci/jellyfish-test
-FROM resinci/jellyfish-test:v3.0.10 AS base
+FROM resinci/jellyfish-test:v3.0.13 AS base
 
 ENV DEBIAN_FRONTEND noninteractive
 
