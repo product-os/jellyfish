@@ -44,13 +44,10 @@ const InboxTab = ({
 
 	const user = useSelector(selectors.getCurrentUser());
 	const groupNames = useSelector(selectors.getMyGroupNames());
-	const unreadMentions = canMarkAsRead
-		? useSelector(selectors.getInboxViewData())
-		: [];
 
 	const [loading, setLoading] = useState(true);
 
-	const [messages, setMessages] = useState(unreadMentions);
+	const [messages, setMessages] = useState([]);
 
 	const [page, setPage] = useState(DEFAULT_OPTIONS.page);
 

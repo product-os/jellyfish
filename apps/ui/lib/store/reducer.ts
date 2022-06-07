@@ -30,6 +30,7 @@ if (global.localStorage) {
 interface State {
 	core: {
 		status: 'initializing' | 'unauthorized' | 'authorized';
+		mentionsCount: number;
 		channels: ChannelContract[];
 		types: TypeContract[];
 		loops: LoopContract[];
@@ -73,6 +74,7 @@ interface State {
 export const defaultState: State = {
 	core: {
 		status: 'initializing',
+		mentionsCount: 0,
 		channels: [
 			{
 				id: uuid(),
@@ -258,6 +260,12 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 
 const coreReducer = (state = defaultState.core, action: any = {}) => {
 	switch (action.type) {
+		case actions.SET_MENTIONS_COUNT: {
+			return {
+				...state,
+				mentionsCount: action.value,
+			};
+		}
 		case actions.LOGOUT: {
 			return update(defaultState.core, {
 				status: {

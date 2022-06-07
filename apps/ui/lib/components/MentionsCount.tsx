@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'rendition';
 import styled from 'styled-components';
 import { useSetup } from './SetupProvider';
@@ -7,6 +7,7 @@ import * as selectors from '../store/selectors';
 import { Contract } from '@balena/jellyfish-types/build/core';
 import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import _ from 'lodash';
+import { actionCreators } from '../store';
 
 const getFontSize = (text: any) => {
 	if (text.length === 1) {
@@ -42,6 +43,11 @@ const MentionsCount = () => {
 	const { sdk } = useSetup()!;
 	const [mentions, setMentions] = React.useState<Contract[]>([]);
 	const inboxQuery = useSelector(selectors.getInboxQuery());
+	const dispatch = useDispatch();
+
+	React.useEffect(() => {
+		dispatch(actionCreators.setMentionsCount(mentions.length));
+	}, [mentions.length]);
 
 	React.useEffect(() => {
 		let cursor: JellyfishCursor;

@@ -667,6 +667,13 @@ export const actionCreators = {
 		};
 	},
 
+	setMentionsCount(count) {
+		return {
+			type: actions.SET_MENTIONS_COUNT,
+			value: count,
+		};
+	},
+
 	bootstrap() {
 		return (dispatch, getState, { sdk, errorReporter }) => {
 			return sdk.auth.whoami().then((user) => {

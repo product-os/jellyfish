@@ -105,14 +105,6 @@ export const getUsersTypingOnCard = (card) => (state) => {
 	return _.keys(_.get(state.core, ['usersTyping', card], {}));
 };
 
-// View specific selectors
-export const getViewData =
-	(query, options: any = {}) =>
-	(state) => {
-		const tail = state.views.viewData[options.viewId || getViewId(query)];
-		return tail || null;
-	};
-
 export const getSubscription = (id) => (state) => {
 	return state.views.subscriptions[id] || null;
 };
@@ -148,7 +140,6 @@ export const getInboxQuery = () => (state) => {
 	return getUnreadQuery(user, groupNames);
 };
 
-export const getInboxViewData = () => (state) => {
-	const query = getInboxQuery()(state);
-	return getViewData(query)(state);
+export const getMentionsCount = () => (state) => {
+	return state.core.mentionsCount;
 };

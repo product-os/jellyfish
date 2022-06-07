@@ -89,7 +89,6 @@ export interface OwnProps {
 
 export interface StateProps {
 	types: TypeContract[];
-	viewData: any;
 	lensState: {
 		activeIndex?: number;
 	};
@@ -106,7 +105,6 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	card,
 	channel,
 	lensState,
-	viewData,
 }) => {
 	const { sdk } = useSetup()!;
 	const [activeRelationship, setActiveRelationship] =
@@ -135,43 +133,6 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 			setActiveRelationship(rel);
 		}
 	}, []);
-
-	// When the view data comes in, use it to populate the counts in the relationships
-	React.useEffect(() => {
-		if (!viewData || !viewData.length) {
-			return;
-		}
-		const newRelationships = _.cloneDeep(relationships);
-		const [cardWithLinks] = viewData;
-		if (cardWithLinks) {
-			newRelationships.forEach((relationship) => {
-				relationship.count = 0;
-				const links = _.get(cardWithLinks, ['links', relationship.link]);
-				_.forEach(links, (link) => {
-					const linkTypeBase = helpers.getTypeBase(link.type);
-					if (relationship.type === linkTypeBase || relationship.type === '*') {
-						relationship.count += 1;
-					}
-				});
-			});
-		}
-		setRelationships(
-			_.orderBy(
-				newRelationships,
-				['count', 'type', 'title'],
-				['desc', 'asc', 'asc'],
-			),
-		);
-		if (activeRelationship) {
-			const newActiveRelationship = _.find<LinkRelationship>(
-				newRelationships,
-				_.pick(activeRelationship, 'type', 'link', 'title'),
-			);
-			if (newActiveRelationship) {
-				setActiveRelationship(newActiveRelationship);
-			}
-		}
-	}, [viewData]);
 
 	// Fetch relationships as view data when the component loads
 	React.useEffect(() => {
