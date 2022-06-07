@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix iteration of support threads, now correctly handles discussions
+      hash: 589c854c430a7b8cc3bc74c9288b389cc59bd775
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 52.0.12
+  title: "'Fix iteration of support threads, now correctly handles discussions'"
+  date: 2022-06-07T19:44:52.962Z
+- commits:
     - subject: Cleanup Prometheus/Grafana config
       hash: f2aee7f495a796f3a4dea87555e84fefca4571c0
       body: |
