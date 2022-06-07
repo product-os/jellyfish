@@ -1,4 +1,16 @@
 - commits:
+    - subject: "UI: Cache png files served via nginx"
+      hash: 47c3979cb7e8955845d677ebedb6f29572f9bb6d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.10
+  title: "'UI: Cache png files served via nginx'"
+  date: 2022-06-07T10:16:46.440Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-default from 27.4.11 to 27.5.0
       hash: 03852f16756e76ce106e849e162fbd04c33e5256
       body: ""
