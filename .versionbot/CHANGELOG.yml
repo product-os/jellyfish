@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update client-sdk and plugin-github
+      hash: c3fcc73865a0028a7bc98f7ad230ebf578f63b6e
+      body: |
+        Normalize commit link names and add
+        missing relationship
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.7
+  title: "'Update client-sdk and plugin-github'"
+  date: 2022-06-07T02:57:05.283Z
+- commits:
     - subject: Revert recent changes to paid support thread view
       hash: 02724ee5f2df597e88f8f4052a670cedb24a4ef9
       body: |
