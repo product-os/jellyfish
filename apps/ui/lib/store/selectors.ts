@@ -105,14 +105,6 @@ export const getUsersTypingOnCard = (card) => (state) => {
 	return _.keys(_.get(state.core, ['usersTyping', card], {}));
 };
 
-export const getSubscription = (id) => (state) => {
-	return state.views.subscriptions[id] || null;
-};
-
-export const getSubscriptions = () => (state) => {
-	return state.views.subscriptions || {};
-};
-
 export const getUsersViewLens = (viewId) => (state) => {
 	const user = getCurrentUser()(state);
 	return _.get(user, ['data', 'profile', 'viewSettings', viewId, 'lens'], null);

@@ -493,13 +493,9 @@ export default withSetup(
 		render() {
 			const {
 				isMobile,
-				subscriptions,
 				types,
 				actions,
 				channels,
-				channel: {
-					data: { head },
-				},
 				location,
 				user,
 				orgs,
@@ -664,7 +660,6 @@ export default withSetup(
 											return (
 												<ViewLink
 													key={card.id}
-													subscription={subscriptions[card.id] || null}
 													types={types}
 													actions={viewLinkActions}
 													card={card}
@@ -705,7 +700,6 @@ export default withSetup(
 
 								{results.length > 0 && (
 									<TreeMenu
-										subscriptions={subscriptions}
 										node={groups}
 										actions={treeMenuActions}
 										activeChannel={activeChannel}

@@ -68,9 +68,7 @@ const MentionsCount = () => {
 				// If card is null then it has been set to inactive or deleted
 				if (after === null) {
 					setMentions((prevState) => {
-						return prevState
-							? prevState.filter((contract) => contract.id !== id)
-							: null;
+						return prevState.filter((contract) => contract.id !== id);
 					});
 					return;
 				}

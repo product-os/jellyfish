@@ -13,7 +13,6 @@ const mapStateToProps = (state) => {
 		codename: selectors.getAppCodename()(state),
 		orgs: selectors.getOrgs()(state),
 		types: selectors.getTypes()(state),
-		subscriptions: selectors.getSubscriptions()(state),
 		activeLoop: selectors.getActiveLoop()(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen()(state),
 		user: selectors.getCurrentUser()(state),

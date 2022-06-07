@@ -8,7 +8,6 @@ import ViewLink from '../ViewLink';
 
 const TreeMenu: React.FunctionComponent<any> = ({
 	activeChannel,
-	subscriptions,
 	open,
 	actions,
 	node,
@@ -29,7 +28,6 @@ const TreeMenu: React.FunctionComponent<any> = ({
 		const activeSlice = _.get(activeChannel, ['data', 'options', 'slice']);
 		return (
 			<ViewLink
-				subscription={subscriptions[card.id] || null}
 				actions={actions}
 				key={card.id}
 				card={card}
@@ -71,7 +69,6 @@ const TreeMenu: React.FunctionComponent<any> = ({
 				{node.children.map((child) => {
 					return (
 						<TreeMenu
-							subscriptions={subscriptions}
 							actions={actions}
 							key={child.key}
 							node={child}

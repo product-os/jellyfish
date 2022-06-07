@@ -64,11 +64,6 @@ interface State {
 			open: boolean;
 		};
 	};
-	views: {
-		viewData: {};
-		subscriptions: {};
-		activeView: null;
-	};
 }
 
 export const defaultState: State = {
@@ -114,97 +109,6 @@ export const defaultState: State = {
 			open: false,
 		},
 	},
-	views: {
-		viewData: {},
-		subscriptions: {},
-		activeView: null,
-	},
-};
-
-const viewsReducer = (state = defaultState.views, action: any = {}) => {
-	switch (action.type) {
-		case actions.SET_VIEW_DATA: {
-			return update(state, {
-				viewData: {
-					[action.value.id]: {
-						$set: action.value.data,
-					},
-				},
-			});
-		}
-		case actions.REMOVE_VIEW_DATA_ITEM: {
-			if (state.viewData[action.value.id]) {
-				const indexToRemove = _.findIndex(
-					state.viewData[action.value.id] || [],
-					{
-						id: action.value.itemId,
-					},
-				);
-				if (indexToRemove !== -1) {
-					return update(state, {
-						viewData: {
-							[action.value.id]: {
-								$splice: [[indexToRemove, 1]],
-							},
-						},
-					});
-				}
-			}
-			return state;
-		}
-		case actions.UPSERT_VIEW_DATA_ITEM: {
-			const indexToUpdate = _.findIndex(state.viewData[action.value.id] || [], {
-				id: action.value.data.id,
-			});
-			return update(state, {
-				viewData: {
-					[action.value.id]: (dataItems) =>
-						update(
-							dataItems || [],
-							indexToUpdate === -1
-								? {
-										$push: [action.value.data],
-								  }
-								: {
-										[indexToUpdate]: {
-											$set: action.value.data,
-										},
-								  },
-						),
-				},
-			});
-		}
-		case actions.APPEND_VIEW_DATA_ITEM: {
-			// Ensure our viewData items are new objects
-			const appendTarget = clone(state.viewData[action.value.id] || []);
-			if (_.isArray(action.value.data)) {
-				appendTarget.push(...action.value.data);
-			} else {
-				appendTarget.push(action.value.data);
-			}
-
-			// Question: Should we really use uniqBy here as it will silently discard
-			// the newly added item if there's already an item with the same id?
-			return update(state, {
-				viewData: {
-					[action.value.id]: {
-						$set: _.uniqBy(appendTarget, 'id'),
-					},
-				},
-			});
-		}
-		case actions.SAVE_SUBSCRIPTION: {
-			return update(state, {
-				subscriptions: {
-					[action.value.id]: {
-						$set: action.value.data,
-					},
-				},
-			});
-		}
-		default:
-			return state;
-	}
 };
 
 const uiReducer = (state = defaultState.ui, action: any = {}) => {
@@ -499,17 +403,10 @@ const uiPersistConfig = {
 	key: 'ui',
 };
 
-const viewsPersistConfig = {
-	...commonConfig,
-	key: 'views',
-	blacklist: ['viewData'],
-};
-
 const rootReducer = redux.combineReducers({
 	router: connectRouter(history),
 	core: persistReducer(corePersistConfig, coreReducer),
 	ui: persistReducer(uiPersistConfig, uiReducer),
-	views: persistReducer(viewsPersistConfig, viewsReducer),
 });
 
 export const reducer = persistReducer(rootPersistConfig, rootReducer);

@@ -2,180 +2,9 @@ import _ from 'lodash';
 import actions from './actions';
 import { reducer, defaultState } from './reducer';
 
-describe('Redux store reducers - views', () => {
-	test('SET_VIEW_DATA action updates the specified view data', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const value = {
-			id: 12345,
-			data: {
-				foo: 'bar',
-			},
-		};
-
-		const newState = reducer(initialState, {
-			type: actions.SET_VIEW_DATA,
-			value,
-		});
-
-		expect(newState.views.viewData[value.id]).toEqual(value.data);
-	});
-
-	test('reducer should create a default state if one is not provided', () => {
-		const initialState = _.cloneDeep(defaultState);
-
-		const { core, views } = _.cloneDeep(defaultState);
-
-		// Hard-wire the values that are dynamically set
-		core.channels[0] = _.merge(core.channels[0], {
-			created_at: initialState.core.channels[0].created_at,
-			id: initialState.core.channels[0].id,
-			slug: initialState.core.channels[0].slug,
-		});
-		expect(initialState.core).toEqual(core);
-		expect(initialState.views).toEqual(views);
-	});
-
-	test('REMOVE_VIEW_DATA_ITEM action should do nothing if there is no view data', () => {
-		const initialState = _.cloneDeep(defaultState);
-
-		const newState = reducer(initialState, {
-			type: actions.REMOVE_VIEW_DATA_ITEM,
-			value: {
-				id: 12345,
-			},
-		});
-
-		expect(initialState.views).toEqual(newState.views);
-	});
-
-	test('REMOVE_VIEW_DATA_ITEM action removes the specified view data item', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const viewId = 12345;
-		const dataToRemove = {
-			id: 21,
-		};
-		const dataToKeep = {
-			id: 'bar',
-		};
-		initialState.views.viewData[viewId] = [dataToRemove, dataToKeep];
-
-		const newState = reducer(initialState, {
-			type: actions.REMOVE_VIEW_DATA_ITEM,
-			value: {
-				id: viewId,
-				itemId: dataToRemove.id,
-			},
-		});
-
-		expect(newState.views.viewData[viewId]).toEqual([dataToKeep]);
-	});
-
-	test('UPSERT_VIEW_DATA_ITEM action adds the specified view data item if not already in list', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const viewId = 12345;
-		const initialViewDataItem = {
-			id: 'bar',
-		};
-		const newViewDataItem = {
-			id: 'foo',
-		};
-		initialState.views.viewData[viewId] = [initialViewDataItem];
-		const value = {
-			id: 12345,
-			data: newViewDataItem,
-		};
-
-		const newState = reducer(initialState, {
-			type: actions.UPSERT_VIEW_DATA_ITEM,
-			value,
-		});
-
-		expect(newState.views.viewData[value.id]).toEqual([
-			initialViewDataItem,
-			newViewDataItem,
-		]);
-	});
-
-	test('UPSERT_VIEW_DATA_ITEM action updates the specified view data item if already in list', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const viewId = 12345;
-		const initialViewDataItem = {
-			id: 'bar',
-			foo: 'a',
-		};
-		const newViewDataItem = {
-			id: 'bar',
-			foo: 'b',
-		};
-		initialState.views.viewData[viewId] = [initialViewDataItem];
-		const value = {
-			id: 12345,
-			data: newViewDataItem,
-		};
-
-		const newState = reducer(initialState, {
-			type: actions.UPSERT_VIEW_DATA_ITEM,
-			value,
-		});
-
-		expect(newState.views.viewData[value.id]).toEqual([newViewDataItem]);
-	});
-
-	test('APPEND_VIEW_DATA_ITEM action appends the specified view data item', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const viewId = 12345;
-		const initialViewDataItem = {
-			id: 'bar',
-		};
-		const newViewDataItem = {
-			id: 'foo',
-		};
-		initialState.views.viewData[viewId] = [initialViewDataItem];
-		const value = {
-			id: 12345,
-			data: newViewDataItem,
-		};
-
-		const newState = reducer(initialState, {
-			type: actions.APPEND_VIEW_DATA_ITEM,
-			value,
-		});
-
-		expect(newState.views.viewData[value.id]).toEqual([
-			initialViewDataItem,
-			newViewDataItem,
-		]);
-	});
-
-	test('APPEND_VIEW_DATA_ITEM action ignores the specified view data item if it already exists', () => {
-		const initialState = _.cloneDeep(defaultState);
-		const viewId = 12345;
-		const initialViewDataItem = {
-			id: 'bar',
-			foo: 'a',
-		};
-		const newViewDataItem = {
-			id: 'bar',
-			foo: 'b',
-		};
-		initialState.views.viewData[viewId] = [initialViewDataItem];
-		const value = {
-			id: 12345,
-			data: newViewDataItem,
-		};
-
-		const newState = reducer(initialState, {
-			type: actions.APPEND_VIEW_DATA_ITEM,
-			value,
-		});
-
-		expect(newState.views.viewData[value.id]).toEqual([initialViewDataItem]);
-	});
-});
-
 describe('Redux store reducers - core', () => {
 	test('UPDATE_CHANNEL action overrides the specified channel if found', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.channels = [
 			{
 				id: 1,
@@ -196,7 +25,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('UPDATE_CHANNEL action does nothing if channel not found in state', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.channels = [
 			{
 				id: 1,
@@ -217,7 +46,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('ADD_CHANNEL action adds channel and trims non-parent channels', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.channels = [
 			{
 				id: 1,
@@ -251,7 +80,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('REMOVE_CHANNEL action removes the specified channel', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.channels = [
 			{
 				id: 1,
@@ -276,7 +105,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('SET_CARD action merges the specified card', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.cards = {
 			user: {
 				1: {
@@ -343,7 +172,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('SET_USER action sets the authToken to null if not already set', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 
 		expect(initialState.core.session).toBeNull();
 
@@ -359,7 +188,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('SET_TIMELINE_MESSAGE action sets the message of the specified timeline', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 
 		const newState = reducer(initialState, {
 			type: actions.SET_TIMELINE_MESSAGE,
@@ -377,7 +206,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('SET_LENS_STATE action merges the specified lens state', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		const lens = 1;
 		const cardId = 2;
 		initialState.ui.lensState = {
@@ -412,7 +241,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('USER_STARTED_TYPING action adds the user to the usersTyping for that card', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		const newState = reducer(initialState, {
 			type: actions.USER_STARTED_TYPING,
 			value: {
@@ -429,7 +258,7 @@ describe('Redux store reducers - core', () => {
 	});
 
 	test('USER_STOPPED_TYPING action removes the user from the usersTyping for that card', () => {
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.usersTyping = {
 			2: {
 				test1: true,
@@ -475,7 +304,7 @@ describe('Redux store reducers - core', () => {
 				},
 			},
 		];
-		const initialState = _.cloneDeep(defaultState);
+		const initialState: any = _.cloneDeep(defaultState);
 		const newState = reducer(initialState, {
 			type: actions.SET_GROUPS,
 			value: {

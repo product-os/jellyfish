@@ -48,7 +48,6 @@ export interface Props extends Setup {
 	getActorHref?: (actor: any) => string;
 	groups: { [k: string]: any };
 	headerOptions: any;
-	next: () => Promise<Contract[]>;
 	notifications: any;
 	setTimelineMessage: (id: string, message: string) => void;
 	setTimelinePendingMessages: (id: string, message: any[]) => void;
