@@ -8,6 +8,13 @@ import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
 import actions from './actions';
 import history from '../services/history';
+import { ChannelContract } from '../types';
+import {
+	LoopContract,
+	OrgContract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -17,7 +24,47 @@ if (global.localStorage) {
 	storage.setDriver(storage.LOCALSTORAGE);
 }
 
-export const defaultState: any = {
+// Interface for defaultState
+interface State {
+	core: {
+		status: 'initializing' | 'unauthorized' | 'authorized';
+		channels: ChannelContract[];
+		types: TypeContract[];
+		loops: LoopContract[];
+		groups: {};
+		session: null | {
+			authToken?: string | null;
+			user?: UserContract;
+		};
+		viewNotices: {};
+		cards: {};
+		orgs: OrgContract[];
+		config: {};
+		userCustomFilters: {};
+		usersTyping: {
+			[contractId: string]: {
+				[slug: string]: boolean;
+			};
+		};
+	};
+	ui: {
+		lensState: {};
+		sidebar: {
+			expanded: string[];
+		};
+		timelines: {};
+		chatWidget: {
+			open: boolean;
+		};
+	};
+	views: {
+		viewData: {};
+		subscriptions: {};
+		activeView: null;
+	};
+}
+
+export const defaultState: State = {
 	core: {
 		status: 'initializing',
 		channels: [
@@ -48,8 +95,10 @@ export const defaultState: any = {
 		orgs: [],
 		config: {},
 		userCustomFilters: {},
+		usersTyping: {},
 	},
 	ui: {
+		lensState: {},
 		sidebar: {
 			expanded: [],
 		},
