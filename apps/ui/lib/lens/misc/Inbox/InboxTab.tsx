@@ -1,20 +1,18 @@
 import _ from 'lodash';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Flex, Search } from 'rendition';
-import update from 'immutability-helper';
-import { useSetup } from '../../../components';
+import { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
 import useDebounce from '../../../hooks/use-debounce';
 import { selectors } from '../../../store';
 import MarkAsReadButton from './MarkAsReadButton';
 import MessageList from './MessageList';
-import LiveCollection from '../../common/LiveCollection';
+import { useCursorEffect } from '../../../hooks';
 
-const DEFAULT_OPTIONS = {
+const DEFAULT_OPTIONS: SdkQueryOptions = {
 	limit: 30,
 	sortBy: 'created_at',
 	sortDir: 'desc',
-	page: 0,
 };
 
 const DebouncedSearch = (props) => {
@@ -33,11 +31,16 @@ const DebouncedSearch = (props) => {
 };
 
 const InboxTab = ({ canMarkAsRead, getQuery }: any) => {
-	const { sdk } = useSetup() as any;
-
-	const user = useSelector(selectors.getCurrentUser());
-	const groupNames = useSelector(selectors.getMyGroupNames());
-	const query = getQuery(user, groupNames);
+	const user = useSelector(selectors.getCurrentUser(), _.isEqual);
+	const groupNames = useSelector(selectors.getMyGroupNames(), _.isEqual);
+	const [searchTerm, setSearchTerm] = useState('');
+	const query = React.useMemo(() => {
+		return getQuery(user, groupNames, searchTerm);
+	}, [user, groupNames, searchTerm]);
+	const [messages, nextPage, hasNextPage, loading] = useCursorEffect(
+		query,
+		DEFAULT_OPTIONS,
+	);
 
 	return (
 		<Flex
@@ -47,12 +50,25 @@ const InboxTab = ({ canMarkAsRead, getQuery }: any) => {
 				flex: 1,
 			}}
 		>
-			<LiveCollection
-				query={query}
-				channel={{} as any}
-				card={{ slug: 'inbox' } as any}
-				useSlices
-			/>
+			<Flex p={3}>
+				<DebouncedSearch onChange={setSearchTerm} />
+				{canMarkAsRead && (
+					<MarkAsReadButton
+						messages={messages}
+						user={user}
+						groupNames={groupNames}
+					/>
+				)}
+			</Flex>
+
+			{Boolean(messages) && (
+				<MessageList
+					nextPage={nextPage}
+					tail={messages}
+					loading={loading}
+					loadedAllResults={!hasNextPage()}
+				/>
+			)}
 		</Flex>
 	);
 };

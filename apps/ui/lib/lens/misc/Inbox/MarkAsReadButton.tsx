@@ -1,7 +1,7 @@
 import Bluebird from 'bluebird';
 import React, { useState, useCallback } from 'react';
 import { Button } from 'rendition';
-import { Icon } from '../../../components';
+import { Icon, useSetup } from '../../../components';
 
 const markMessagesAsRead = (sdk, inboxData, user, groupNames) => {
 	return Bluebird.map(
@@ -15,7 +15,8 @@ const markMessagesAsRead = (sdk, inboxData, user, groupNames) => {
 	);
 };
 
-const MarkAsReadButton = ({ messages, user, groupNames, sdk }) => {
+const MarkAsReadButton = ({ messages, user, groupNames }) => {
+	const { sdk } = useSetup()!;
 	const [isMarkingAllAsRead, setIsMarkingAllAsRead] = useState(false);
 
 	const markAllAsRead = useCallback(async () => {
