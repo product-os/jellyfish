@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.5.4 to 8.5.5
+      hash: 1490a98dd6394a897fa83bf5f54715763b0f5351
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.15
+  title: "'Update grafana/grafana from 8.5.4 to 8.5.5'"
+  date: 2022-06-08T17:05:53.952Z
+- commits:
     - subject: Update internal packages
       hash: 564b3f64bc752471d00c55fad78fbea169465145
       body: ""
