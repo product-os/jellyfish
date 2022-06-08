@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.3.1 to v13.3.2
+      hash: bf6f31b41e005c8017d2724729a42cffa8ecb61d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.16
+  title: "'Update balena/open-balena-base from v13.3.1 to v13.3.2'"
+  date: 2022-06-08T19:13:10.912Z
+- commits:
     - subject: Update grafana/grafana from 8.5.4 to 8.5.5
       hash: 1490a98dd6394a897fa83bf5f54715763b0f5351
       body: ""
