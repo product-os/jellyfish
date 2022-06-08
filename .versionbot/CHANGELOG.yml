@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typedoc from 0.22.15 to 0.22.17
+      hash: 78ca75d1bebe7e092d6cb3d6a29020b233890128
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.13
+  title: "'Update typedoc from 0.22.15 to 0.22.17'"
+  date: 2022-06-07T20:46:17.059Z
+- commits:
     - subject: Fix iteration of support threads, now correctly handles discussions
       hash: 589c854c430a7b8cc3bc74c9288b389cc59bd775
       body: ""
