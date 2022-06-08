@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update internal packages
+      hash: 564b3f64bc752471d00c55fad78fbea169465145
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.14
+  title: "'Update internal packages'"
+  date: 2022-06-08T04:44:55.112Z
+- commits:
     - subject: Update typedoc from 0.22.15 to 0.22.17
       hash: 78ca75d1bebe7e092d6cb3d6a29020b233890128
       body: ""
