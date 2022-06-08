@@ -54,7 +54,7 @@ export const useCursorEffect = (
 			cursorRef.current!.close();
 			setResults([]);
 		};
-	}, [query, queryOptions]);
+	}, [query]);
 
 	const nextPage = React.useCallback(async () => {
 		if (cursorRef.current && cursorRef.current.hasNextPage()) {
