@@ -55,6 +55,11 @@ tasks:
     cmds:
       - task: e2e-server
 
+  benchmark:
+    cmds:
+      - cmd: hyperfine --runs 3 'npm run test:benchmark'
+        ignore_errors: true
+
   test:
     cmds:
       - task: catch-uncommitted
@@ -67,3 +72,4 @@ tasks:
       - task: export-database
       - task: import-database
       - task: e2e-server-previous-dump
+      - task: benchmark
