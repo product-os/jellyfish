@@ -40,7 +40,7 @@ ava.afterEach.always(async () => {
 	await helpers.afterEach(sdk)
 })
 
-ava('If you call card.link twice with the same params you will get the same link card back', async (test) => {
+ava.serial('If you call card.link twice with the same params you will get the same link card back', async (test) => {
 	// Create a support thread and support issue
 	const supportThread = await createSupportThread()
 
@@ -56,7 +56,7 @@ ava('If you call card.link twice with the same params you will get the same link
 	test.is(link, true)
 })
 
-ava('card.link will create a new link if the previous one was deleted', async (test) => {
+ava.serial('card.link will create a new link if the previous one was deleted', async (test) => {
 	// Create a support thread and issue
 	const supportThread = await createSupportThread()
 
