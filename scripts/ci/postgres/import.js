@@ -71,12 +71,16 @@ const getCommitHash = async (options) => {
  * const dumpPath = extract('/tmp/postgres-dump.gz')
  */
 const extract = (file) => {
+	const extractPath = file.replace(/\.gz$/, '')
+	if (fs.existsSync(extractPath)) {
+		fs.unlinkSync(extractPath)
+	}
 	try {
 		execSync(`gunzip ${file}`)
 	} catch (error) {
 		utils.handleError(error)
 	}
-	return file.replace('.gz', '')
+	return extractPath
 }
 
 /**

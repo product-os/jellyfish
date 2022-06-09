@@ -9,6 +9,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libnss3-tools \
     && rm -rf /var/lib/apt/lists/*
 
+# TODO: Move this to jellyfish-test image
+# Install hyperfine for benchmarking
+RUN wget https://github.com/sharkdp/hyperfine/releases/download/v1.14.0/hyperfine_1.14.0_amd64.deb && \
+    dpkg -i hyperfine_1.14.0_amd64.deb && \
+    rm hyperfine_1.14.0_amd64.deb
 
 # --- run unit tests
 FROM base AS test

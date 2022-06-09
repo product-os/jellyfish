@@ -26,6 +26,7 @@
     "test:e2e:ui": "playwright test test/e2e/ui",
     "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
     "test:integration:server": "(cd apps/server && npm run test:integration)",
+    "test:benchmark": "playwright test ./test/benchmark/*.spec.js",
     "docs": "(cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
     "docs:diagram": "nomnoml docs/diagrams/architecture.noml > docs/assets/architecture.svg",
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
