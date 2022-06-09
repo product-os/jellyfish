@@ -1,4 +1,38 @@
 - commits:
+    - subject: Improve types of core state reducer
+      hash: d0ec1c236a2e62d19ce4225d6b8b306e01d7e0e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: Remove viewNotices state property
+      hash: a331fbbfb8f15876451c9f252f221b114873b226
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+    - subject: "UI: Correctly type reducer"
+      hash: 7eb37dfc0ffebea8c16d8ce8f9fd024af358449b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.23
+  title: "'Mob/UI simplify redux state'"
+  date: 2022-06-09T19:35:27.564Z
+- commits:
     - subject: "Server: Improve performance of GitHub mirror triggers"
       hash: 07587365453c4e566bc4306198e343c4555b3772
       body: ""
