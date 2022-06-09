@@ -14,14 +14,11 @@ const InboxColumn = styled(Column)`
 	}
 `;
 
-const Inbox = ({ channel, setupStream, clearViewData, paginateStream }) => {
+const Inbox = ({ channel }) => {
 	// State controller for managing the active tab
 	const [currentTab, setCurrentTab] = useState(0);
 
 	const defaultTabProps = {
-		setupStream,
-		clearViewData,
-		paginateStream,
 		currentTab,
 		key: currentTab,
 	};

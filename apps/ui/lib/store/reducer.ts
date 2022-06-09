@@ -8,6 +8,15 @@ import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
 import actions from './actions';
 import history from '../services/history';
+import { ChannelContract } from '../types';
+import {
+	Contract,
+	LoopContract,
+	OrgContract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
+import { JsonSchema } from '@balena/jellyfish-types';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -17,9 +26,50 @@ if (global.localStorage) {
 	storage.setDriver(storage.LOCALSTORAGE);
 }
 
-export const defaultState: any = {
+// Interface for defaultState
+interface State {
+	core: {
+		status: 'initializing' | 'unauthorized' | 'authorized';
+		mentionsCount: number;
+		channels: ChannelContract[];
+		types: TypeContract[];
+		loops: LoopContract[];
+		groups: {};
+		session: null | {
+			authToken?: string | null;
+			user?: UserContract;
+		};
+		cards: {};
+		orgs: OrgContract[];
+		config: {};
+		userCustomFilters: { [contractId: string]: JsonSchema[] };
+		usersTyping: {
+			[contractId: string]: {
+				[slug: string]: boolean;
+			};
+		};
+	};
+	ui: {
+		lensState: {};
+		sidebar: {
+			expanded: string[];
+		};
+		timelines: {
+			[contractId: string]: {
+				message?: string;
+				pending?: Array<Partial<Contract>>;
+			};
+		};
+		chatWidget: {
+			open: boolean;
+		};
+	};
+}
+
+export const defaultState: State = {
 	core: {
 		status: 'initializing',
+		mentionsCount: 0,
 		channels: [
 			{
 				id: uuid(),
@@ -43,13 +93,14 @@ export const defaultState: any = {
 		loops: [],
 		groups: {},
 		session: null,
-		viewNotices: {},
 		cards: {},
 		orgs: [],
 		config: {},
 		userCustomFilters: {},
+		usersTyping: {},
 	},
 	ui: {
+		lensState: {},
 		sidebar: {
 			expanded: [],
 		},
@@ -58,97 +109,6 @@ export const defaultState: any = {
 			open: false,
 		},
 	},
-	views: {
-		viewData: {},
-		subscriptions: {},
-		activeView: null,
-	},
-};
-
-const viewsReducer = (state = defaultState.views, action: any = {}) => {
-	switch (action.type) {
-		case actions.SET_VIEW_DATA: {
-			return update(state, {
-				viewData: {
-					[action.value.id]: {
-						$set: action.value.data,
-					},
-				},
-			});
-		}
-		case actions.REMOVE_VIEW_DATA_ITEM: {
-			if (state.viewData[action.value.id]) {
-				const indexToRemove = _.findIndex(
-					state.viewData[action.value.id] || [],
-					{
-						id: action.value.itemId,
-					},
-				);
-				if (indexToRemove !== -1) {
-					return update(state, {
-						viewData: {
-							[action.value.id]: {
-								$splice: [[indexToRemove, 1]],
-							},
-						},
-					});
-				}
-			}
-			return state;
-		}
-		case actions.UPSERT_VIEW_DATA_ITEM: {
-			const indexToUpdate = _.findIndex(state.viewData[action.value.id] || [], {
-				id: action.value.data.id,
-			});
-			return update(state, {
-				viewData: {
-					[action.value.id]: (dataItems) =>
-						update(
-							dataItems || [],
-							indexToUpdate === -1
-								? {
-										$push: [action.value.data],
-								  }
-								: {
-										[indexToUpdate]: {
-											$set: action.value.data,
-										},
-								  },
-						),
-				},
-			});
-		}
-		case actions.APPEND_VIEW_DATA_ITEM: {
-			// Ensure our viewData items are new objects
-			const appendTarget = clone(state.viewData[action.value.id] || []);
-			if (_.isArray(action.value.data)) {
-				appendTarget.push(...action.value.data);
-			} else {
-				appendTarget.push(action.value.data);
-			}
-
-			// Question: Should we really use uniqBy here as it will silently discard
-			// the newly added item if there's already an item with the same id?
-			return update(state, {
-				viewData: {
-					[action.value.id]: {
-						$set: _.uniqBy(appendTarget, 'id'),
-					},
-				},
-			});
-		}
-		case actions.SAVE_SUBSCRIPTION: {
-			return update(state, {
-				subscriptions: {
-					[action.value.id]: {
-						$set: action.value.data,
-					},
-				},
-			});
-		}
-		default:
-			return state;
-	}
 };
 
 const uiReducer = (state = defaultState.ui, action: any = {}) => {
@@ -204,6 +164,12 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 
 const coreReducer = (state = defaultState.core, action: any = {}) => {
 	switch (action.type) {
+		case actions.SET_MENTIONS_COUNT: {
+			return {
+				...state,
+				mentionsCount: action.value,
+			};
+		}
 		case actions.LOGOUT: {
 			return update(defaultState.core, {
 				status: {
@@ -359,22 +325,6 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				},
 			});
 		}
-		case actions.ADD_VIEW_NOTICE: {
-			return update(state, {
-				viewNotices: {
-					[action.value.id]: {
-						$set: action.value,
-					},
-				},
-			});
-		}
-		case actions.REMOVE_VIEW_NOTICE: {
-			return update(state, {
-				viewNotices: {
-					$unset: [action.value],
-				},
-			});
-		}
 		case actions.SET_STATUS: {
 			return update(state, {
 				status: {
@@ -453,17 +403,10 @@ const uiPersistConfig = {
 	key: 'ui',
 };
 
-const viewsPersistConfig = {
-	...commonConfig,
-	key: 'views',
-	blacklist: ['viewData'],
-};
-
 const rootReducer = redux.combineReducers({
 	router: connectRouter(history),
 	core: persistReducer(corePersistConfig, coreReducer),
 	ui: persistReducer(uiPersistConfig, uiReducer),
-	views: persistReducer(viewsPersistConfig, viewsReducer),
 });
 
 export const reducer = persistReducer(rootPersistConfig, rootReducer);

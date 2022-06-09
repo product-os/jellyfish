@@ -1,5 +1,13 @@
+import * as React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'rendition';
 import styled from 'styled-components';
+import * as selectors from '../store/selectors';
+import { Contract } from '@balena/jellyfish-types/build/core';
+import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
+import _ from 'lodash';
+import { actionCreators } from '../store';
+import { useCursorEffect } from '../hooks';
 
 const getFontSize = (text: any) => {
 	if (text.length === 1) {
@@ -13,7 +21,7 @@ const getFontSize = (text: any) => {
 	return 10;
 };
 
-const MentionsCount = styled(Box)`
+const Container = styled(Box)`
 	background: rgb(255, 197, 35);
 	color: white;
 	width: auto;
@@ -30,5 +38,36 @@ const MentionsCount = styled(Box)`
 		return getFontSize(props.children);
 	}}px;
 `;
+
+const MentionsCount = () => {
+	const inboxQuery = useSelector(selectors.getInboxQuery(), _.isEqual);
+	const dispatch = useDispatch();
+
+	const [mentions] = useCursorEffect(inboxQuery, {
+		limit: 100,
+	});
+
+	React.useEffect(() => {
+		dispatch(actionCreators.setMentionsCount(mentions.length));
+	}, [mentions.length]);
+
+	if (!mentions.length) {
+		return null;
+	}
+
+	return (
+		<Container
+			style={{
+				position: 'absolute',
+				left: '30px',
+				bottom: '10px',
+			}}
+			tooltip={`${mentions.length} notifications`}
+			data-test="homechannel-mentions-count"
+		>
+			{mentions.length >= 100 ? '99+' : mentions.length}
+		</Container>
+	);
+};
 
 export default MentionsCount;

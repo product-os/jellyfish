@@ -13,34 +13,17 @@ const mapStateToProps = (state) => {
 		codename: selectors.getAppCodename()(state),
 		orgs: selectors.getOrgs()(state),
 		types: selectors.getTypes()(state),
-		mentions: selectors.getInboxViewData()(state),
-		subscriptions: selectors.getSubscriptions()(state),
 		activeLoop: selectors.getActiveLoop()(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen()(state),
 		user: selectors.getCurrentUser()(state),
 		homeView: selectors.getHomeView()(state),
 		version: selectors.getAppVersion()(state),
-		viewNotices: selectors.getViewNotices()(state),
 	};
 };
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, [
-				'addChannel',
-				'loadViewData',
-				'logout',
-				'removeViewNotice',
-				'updateUser',
-				'queryAPI',
-				'removeView',
-				'setChatWidgetOpen',
-				'setDefault',
-				'setSidebarExpanded',
-			]),
-			dispatch,
-		),
+		actions: redux.bindActionCreators(actionCreators, dispatch),
 	};
 };
 

@@ -4,13 +4,7 @@ import _ from 'lodash';
 import { Button, Box, Flex, Modal } from 'rendition';
 import * as helpers from '../../services/helpers';
 import * as notifications from '../../services/notifications';
-import {
-	ActionButton,
-	ActionRouterLink,
-	ContextMenu,
-	Icon,
-	MentionsCount,
-} from '../';
+import { ActionButton, ActionRouterLink, ContextMenu, Icon } from '../';
 
 export default class ViewLink extends React.Component<any, any> {
 	constructor(props) {
@@ -87,8 +81,7 @@ export default class ViewLink extends React.Component<any, any> {
 	}
 
 	render() {
-		const { label, isHomeView, activeSlice, card, isActive, user, update } =
-			this.props;
+		const { label, isHomeView, activeSlice, card, isActive, user } = this.props;
 		const bookmarked = this.isBookmarked();
 		const isCustomView = helpers.isCustomView(card, user.slug);
 
@@ -120,9 +113,6 @@ export default class ViewLink extends React.Component<any, any> {
 									>
 										<Icon name="home" />
 									</Box>
-								)}
-								{Boolean(update) && (
-									<MentionsCount mr={2}>{update}</MentionsCount>
 								)}
 							</Flex>
 						</ActionRouterLink>

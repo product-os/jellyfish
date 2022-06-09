@@ -1,9 +1,27 @@
+import { connect, useSelector } from 'react-redux';
+import { selectors } from '../store';
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import { useLabeledImage } from '../../hooks';
-import { isProduction } from '../../environment';
+import { useLabeledImage } from '../hooks';
+import { isProduction } from '../environment';
 
-export default function CountFavicon({ isLoggedIn, label }) {
+const getLabel = (mentionsCount) => {
+	if (!mentionsCount) {
+		return null;
+	}
+
+	if (mentionsCount > 99) {
+		return '99+';
+	}
+
+	return mentionsCount + '';
+};
+
+export default function CountFavicon() {
+	const mentionsCount = useSelector(selectors.getMentionsCount());
+	const label = getLabel(mentionsCount);
+	const isLoggedIn = useSelector(selectors.getStatus()) === 'authorized';
+
 	const productionIcons = [
 		{
 			size: 16,

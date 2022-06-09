@@ -16,9 +16,6 @@ const wrapperWithSetup = ({ children, sdk }: any) => {
 export const timestamp = new Date().toISOString();
 
 const createTestContext = (_test: any, sandbox: any) => {
-	const loadMoreChannelData = sandbox.stub();
-	loadMoreChannelData.resolves([]);
-
 	const createEvent = {
 		id: 'fake-create-id',
 		type: 'create@1.0.0',
@@ -93,7 +90,6 @@ const createTestContext = (_test: any, sandbox: any) => {
 		user,
 		getActor,
 		tail,
-		loadMoreChannelData,
 		setTimelineMessage,
 		next,
 	};
@@ -105,7 +101,6 @@ const createTestContext = (_test: any, sandbox: any) => {
 		whisperEvent,
 		messageEvent,
 		updateEvent,
-		loadMoreChannelData,
 	};
 };
 

@@ -4,3 +4,4 @@ export {
 	useChannelContext,
 	withChannelContext,
 } from './channel-context';
+export * from './use-cursor-effect';

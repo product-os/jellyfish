@@ -54,11 +54,10 @@ export interface LensContract
 	};
 }
 
-export interface ChannelContract
-	extends Pick<Contract, 'slug' | 'type' | 'active' | 'data' | 'created_at'> {
+export interface ChannelContract extends Omit<Contract, 'updated_at' | 'name'> {
 	data: {
-		canonical: boolean;
-		target: 'string';
+		canonical?: boolean;
+		target: string;
 		error?: any;
 		cardType?: string;
 		seed?: any;

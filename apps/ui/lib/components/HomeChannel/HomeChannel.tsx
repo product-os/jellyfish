@@ -493,18 +493,13 @@ export default withSetup(
 		render() {
 			const {
 				isMobile,
-				subscriptions,
 				types,
 				actions,
 				channels,
-				channel: {
-					data: { head },
-				},
 				location,
 				user,
 				orgs,
 				isChatWidgetOpen,
-				mentions,
 			} = this.props;
 			const { results, bookmarks } = this.state;
 
@@ -615,19 +610,7 @@ export default withSetup(
 
 									<Icon name="caret-down" />
 
-									{mentions && mentions.length > 0 && (
-										<MentionsCount
-											style={{
-												position: 'absolute',
-												left: '30px',
-												bottom: '10px',
-											}}
-											tooltip={`${mentions.length} notifications`}
-											data-test="homechannel-mentions-count"
-										>
-											{mentions.length >= 100 ? '99+' : mentions.length}
-										</MentionsCount>
-									)}
+									<MentionsCount />
 								</Flex>
 								<OmniSearch ml={3} mr={2} />
 								<LoopSelector ml={2} mr={2} mb={2} />
@@ -659,19 +642,7 @@ export default withSetup(
 											</ActionRouterLink>
 										)}
 
-										{
-											// @ts-ignore
-											<ActionRouterLink to="/inbox">
-												<Flex justifyContent="space-between">
-													Inbox
-													{mentions && mentions.length > 0 && (
-														<MentionsCount mr={2}>
-															{mentions.length}
-														</MentionsCount>
-													)}
-												</Flex>
-											</ActionRouterLink>
-										}
+										<ActionRouterLink to="/inbox">Inbox</ActionRouterLink>
 
 										{_.map(defaultViews, (card) => {
 											const isActive =
@@ -689,7 +660,6 @@ export default withSetup(
 											return (
 												<ViewLink
 													key={card.id}
-													subscription={subscriptions[card.id] || null}
 													types={types}
 													actions={viewLinkActions}
 													card={card}
@@ -730,11 +700,9 @@ export default withSetup(
 
 								{results.length > 0 && (
 									<TreeMenu
-										subscriptions={subscriptions}
 										node={groups}
 										actions={treeMenuActions}
 										activeChannel={activeChannel}
-										viewNotices={this.props.viewNotices}
 									/>
 								)}
 							</Box>

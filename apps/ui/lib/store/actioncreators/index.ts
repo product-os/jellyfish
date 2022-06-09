@@ -89,25 +89,6 @@ const createChannel = (data: any = {}) => {
 	};
 };
 
-const loadSchema = async (sdk, query, user) => {
-	if (_.isString(query)) {
-		return sdk.card
-			.get(query, {
-				type: 'view',
-			})
-			.then((card) => {
-				return helpers.getViewSchema(card, user);
-			});
-	}
-	if (query.type === 'view' || query.type === 'view@1.0.0') {
-		return helpers.getViewSchema(query, user);
-	}
-	return clone(query);
-};
-
-// TODO: Fix these side effects
-const streams: any = {};
-
 let commsStream: any = null;
 let tokenRefreshInterval: any = null;
 
@@ -302,7 +283,7 @@ export const actionCreators = {
 		};
 	},
 
-	setSidebarExpanded(name, isExpanded) {
+	setSidebarExpanded(name: string, isExpanded: boolean) {
 		return (dispatch, getState) => {
 			const uiState = selectors.getUIState(getState());
 			const newExpandedItems = isExpanded
@@ -468,96 +449,6 @@ export const actionCreators = {
 		return query;
 	},
 
-	loadMoreChannelData(target: string) {
-		return async (dispatch, getState): Promise<Contract[]> => {
-			// The target value can be a slug or id. We can find the corresponding
-			// full card from the stored channel data and then use that to find the
-			// cached stream reference.
-			// TODO: normalize channel loading to use the card ID
-			const idGetter = (channel) => _.get(channel, ['data', 'head', 'id']);
-			const slugGetter = (channel) => _.get(channel, ['data', 'head', 'slug']);
-			const versionGetter = (channel) =>
-				_.get(channel, ['data', 'head', 'version']);
-			const targetChannel = _.find(
-				selectors.getChannels()(getState()),
-				(channel) => {
-					return idGetter(channel) === target || slugGetter(channel) === target;
-				},
-			);
-			const targetSlug = slugGetter(targetChannel);
-			const targetVersion = versionGetter(targetChannel);
-			const targetId = idGetter(targetChannel);
-
-			const stream =
-				streams[`${targetSlug}@${targetVersion}`] ||
-				streams[targetSlug] ||
-				streams[targetId];
-
-			if (!stream) {
-				throw new Error(
-					'Stream not found: Did you forget to call loadDEFUNCTChannelData?',
-				);
-			}
-
-			if (!stream.page) {
-				stream.page = 1;
-			}
-
-			stream.page++;
-
-			const pageSize = 20;
-
-			const query = {
-				type: 'object',
-				properties: {
-					id: {
-						const: targetId,
-					},
-				},
-				$$links: {
-					'has attached element': {
-						type: 'object',
-					},
-				},
-			};
-
-			const queryOptions = {
-				links: {
-					'has attached element': {
-						sortBy: 'created_at',
-						sortDir: 'desc',
-						limit: stream.page * pageSize,
-						skip: (stream.page - 1) * pageSize,
-					},
-				},
-			};
-
-			const queryId = uuid();
-
-			stream.emit('queryDataset', {
-				data: {
-					id: queryId,
-					schema: query,
-					options: queryOptions,
-				},
-			});
-			return new Promise((resolve, reject) => {
-				const handler = ({ data }) => {
-					if (data.id === queryId) {
-						const results = _.get(
-							data.cards[0],
-							['links', 'has attached element'],
-							[],
-						);
-						resolve(results);
-						stream.off('dataset', handler);
-					}
-				};
-				stream.on('dataset', handler);
-			});
-		};
-	},
-
 	updateChannel(channel) {
 		return {
 			type: actions.UPDATE_CHANNEL,
@@ -586,17 +477,6 @@ export const actionCreators = {
 	},
 
 	removeChannel(channel) {
-		// Shutdown any streams that are open for this channel
-		if (channel.data.canonical !== false) {
-			const { target } = channel.data;
-			const hash = hashCode(target);
-
-			if (streams[hash]) {
-				streams[hash].close();
-				Reflect.deleteProperty(streams, hash);
-			}
-		}
-
 		return {
 			type: actions.REMOVE_CHANNEL,
 			value: channel,
@@ -667,6 +547,13 @@ export const actionCreators = {
 		};
 	},
 
+	setMentionsCount(count) {
+		return {
+			type: actions.SET_MENTIONS_COUNT,
+			value: count,
+		};
+	},
+
 	bootstrap() {
 		return (dispatch, getState, { sdk, errorReporter }) => {
 			return sdk.auth.whoami().then((user) => {
@@ -698,7 +585,6 @@ export const actionCreators = {
 								type: actions.SET_CONFIG,
 								value: config,
 							});
-							const channels = selectors.getChannels()(state);
 						}
 
 						errorReporter.setUser({
@@ -765,8 +651,6 @@ export const actionCreators = {
 						// Load unread message pings
 						const groupNames = selectors.getMyGroupNames()(getState());
 						const unreadQuery = getUnreadQuery(user, groupNames);
-
-						dispatch(actionCreators.loadViewData(unreadQuery));
 
 						return user;
 					});
@@ -843,10 +727,6 @@ export const actionCreators = {
 				commsStream = null;
 				sdk.auth.logout();
 			}
-			_.forEach(streams, (stream: any, id) => {
-				stream.close();
-				Reflect.deleteProperty(streams, id);
-			});
 			dispatch({
 				type: actions.LOGOUT,
 			});
@@ -962,20 +842,6 @@ export const actionCreators = {
 				console.error('Failed to remove view', err);
 				notifications.addNotification('danger', 'Could not remove view');
 			}
-		};
-	},
-
-	addViewNotice(payload) {
-		return {
-			type: actions.ADD_VIEW_NOTICE,
-			value: payload,
-		};
-	},
-
-	removeViewNotice(id) {
-		return {
-			type: actions.REMOVE_VIEW_NOTICE,
-			value: id,
 		};
 	},
 
@@ -1154,21 +1020,6 @@ export const actionCreators = {
 		};
 	},
 
-	clearViewData(query, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-		if (streams[id]) {
-			streams[id].close();
-			Reflect.deleteProperty(streams, id);
-		}
-		return {
-			type: actions.SET_VIEW_DATA,
-			value: {
-				id,
-				data: null,
-			},
-		};
-	},
-
 	createLink(fromCard, toCard, verb, options: any = {}) {
 		return async (dispatch, getState, { sdk, analytics }) => {
 			try {
@@ -1207,146 +1058,6 @@ export const actionCreators = {
 			_.set(state, ['core', 'session', 'user', 'data', 'hash'], '[REDACTED]');
 
 			return state;
-		};
-	},
-
-	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getStream({ sdk }, streamId, query) {
-		if (streams[streamId]) {
-			streams[streamId].close();
-			Reflect.deleteProperty(streams, streamId);
-		}
-
-		const stream = sdk.stream(query);
-
-		streams[streamId] = stream;
-		return stream;
-	},
-
-	setupStream(streamId, query, options, handlers) {
-		return async (dispatch, getState, { sdk }) => {
-			const stream = actionCreators.getStream(
-				{
-					sdk,
-				},
-				streamId,
-				query,
-			);
-
-			stream.on('update', (response) => {
-				const { type, id: cardId, after: card } = response.data;
-
-				// If card is null then it has been set to inactive or deleted
-				if (card === null) {
-					return handlers.remove(cardId);
-				}
-
-				// If the type is insert, it is a new item
-				if (type === 'insert') {
-					return handlers.append(card);
-				}
-
-				// All other updates are an upsert
-				return handlers.upsert(card);
-			});
-
-			stream.emit('queryDataset', {
-				id: uuid(),
-				data: {
-					schema: query,
-					options: {
-						limit: options.limit,
-						skip: options.limit * options.page,
-						sortBy: options.sortBy,
-						sortDir: options.sortDir,
-					},
-				},
-			});
-
-			const [
-				{
-					data: { cards },
-				},
-			] = await once(stream, 'dataset');
-			await handlers.set(cards);
-			return cards;
-		};
-	},
-
-	paginateStream(viewId, query, options, appendHandler) {
-		return async (dispatch, getState, context): Promise<Contract[]> => {
-			const stream = streams[viewId];
-			if (!stream) {
-				throw new Error(
-					'Stream not found: Did you forget to call loadViewData?',
-				);
-			}
-			const user = selectors.getCurrentUser()(getState());
-			const queryId = uuid();
-
-			const queryOptions = {
-				limit: options.limit,
-				skip: options.limit * options.page,
-				sortBy: options.sortBy,
-				sortDir: options.sortDir,
-			};
-
-			const rawSchema = await loadSchema(context.sdk, query, user);
-			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema;
-
-			stream.emit('queryDataset', {
-				data: {
-					id: queryId,
-					schema,
-					options: queryOptions,
-				},
-			});
-			return new Promise((resolve, reject) => {
-				const handler = ({ data: { id, cards } }) => {
-					if (id === queryId) {
-						appendHandler(cards);
-						resolve(cards);
-						stream.off('dataset', handler);
-					}
-				};
-				stream.on('dataset', handler);
-			});
-		};
-	},
-
-	loadViewData(query, options: any = {}) {
-		return async (dispatch, getState, context) => {
-			const commonOptions = _.pick(options, 'viewId');
-			const user = selectors.getCurrentUser()(getState());
-			const viewId = options.viewId || getViewId(query);
-
-			const rawSchema = await loadSchema(context.sdk, query, user);
-			if (!rawSchema) {
-				return null;
-			}
-
-			const schema = options.mask ? options.mask(clone(rawSchema)) : rawSchema;
-			schema.description = schema.description || 'View action creators';
-
-			const streamHandlers = {
-				remove: (cardId) =>
-					dispatch(
-						actionCreators.removeViewDataItem(query, cardId, commonOptions),
-					),
-				append: (card) =>
-					dispatch(actionCreators.appendViewData(query, card, commonOptions)),
-				upsert: (card) =>
-					dispatch(actionCreators.upsertViewData(query, card, commonOptions)),
-				set: (cards) =>
-					dispatch(actionCreators.setViewData(query, cards, commonOptions)),
-			};
-
-			return actionCreators.setupStream(
-				viewId,
-				schema,
-				options,
-				streamHandlers,
-			)(dispatch, getState, context);
 		};
 	},
 
@@ -1427,51 +1138,6 @@ export const actionCreators = {
 		};
 	},
 
-	removeViewDataItem(query, itemId, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-		return {
-			type: actions.REMOVE_VIEW_DATA_ITEM,
-			value: {
-				id,
-				itemId,
-			},
-		};
-	},
-
-	setViewData(query, data, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-		return {
-			type: actions.SET_VIEW_DATA,
-			value: {
-				id,
-				data,
-			},
-		};
-	},
-
-	upsertViewData(query, data, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-		return {
-			type: actions.UPSERT_VIEW_DATA_ITEM,
-			value: {
-				id,
-				data,
-			},
-		};
-	},
-
-	appendViewData(query, data, options: any = {}) {
-		const id = options.viewId || getViewId(query);
-
-		return {
-			type: actions.APPEND_VIEW_DATA_ITEM,
-			value: {
-				id,
-				data,
-			},
-		};
-	},
-
 	authorizeIntegration(user, integration, code) {
 		return async (dispatch, getState, { sdk }) => {
 			await sdk.integrations.authorize(user, integration, code);
@@ -1479,78 +1145,6 @@ export const actionCreators = {
 			const updatedUser = await sdk.auth.whoami();
 
 			dispatch(actionCreators.setUser(updatedUser));
-		};
-	},
-
-	addSubscription(target) {
-		return (dispatch, getState, { sdk, analytics }) => {
-			const user = selectors.getCurrentUser()(getState());
-			if (!user) {
-				throw new Error("Can't load a subscription without an active user");
-			}
-			sdk
-				.query({
-					type: 'object',
-					description: `Get subscription ${user.id} / ${target}`,
-					properties: {
-						type: {
-							const: 'subscription@1.0.0',
-						},
-						data: {
-							type: 'object',
-							properties: {
-								target: {
-									const: target,
-								},
-								actor: {
-									const: user.id,
-								},
-							},
-							additionalProperties: true,
-						},
-					},
-					additionalProperties: true,
-				})
-				.then((results) => {
-					// Check to see if the user is still logged in
-					if (!selectors.getSessionToken()(getState())) {
-						return;
-					}
-					(Bluebird as any)
-						.try(() => {
-							const subCard = _.first(results) || null;
-							if (!subCard) {
-								return sdk.card
-									.create({
-										type: 'subscription',
-										data: {
-											target,
-											actor: user.id,
-										},
-									})
-									.tap(() => {
-										analytics.track('element.create', {
-											element: {
-												type: 'subscription',
-											},
-										});
-									});
-							}
-							return subCard;
-						})
-						.tap((subCard) => {
-							dispatch({
-								type: actions.SAVE_SUBSCRIPTION,
-								value: {
-									data: subCard,
-									id: target,
-								},
-							});
-						});
-				})
-				.catch((error) => {
-					notifications.addNotification('danger', error.message);
-				});
 		};
 	},
 };

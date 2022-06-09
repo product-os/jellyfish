@@ -29,19 +29,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
-	const card = ownProps.card;
-	return bindActionCreators(
-		{
-			..._.pick(actionCreators, [
-				'setTimelineMessage',
-				'setTimelinePendingMessages',
-				'signalTyping',
-				'getActor',
-			]),
-			next: () => actionCreators.loadMoreChannelData(card.id),
-		},
-		dispatch,
-	);
+	return bindActionCreators(actionCreators, dispatch);
 };
 
 const lens = {
