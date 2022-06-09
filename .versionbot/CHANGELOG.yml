@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add basic benchmarking, update db import script
+      hash: 40fa006fbc2d80afc5788f3d8ff5ea7ae03fac3f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.19
+  title: "'Add basic benchmarking'"
+  date: 2022-06-09T04:00:54.098Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-channels from 3.1.15 to 3.2.1
       hash: 03a1c468d1b7d25d821f93076efcd6e3e41bd251
       body: ""
