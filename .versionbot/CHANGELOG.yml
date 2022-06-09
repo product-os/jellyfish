@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-channels from 3.1.15 to 3.2.1
+      hash: 03a1c468d1b7d25d821f93076efcd6e3e41bd251
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.18
+  title: "'Update @balena/jellyfish-plugin-channels from 3.1.15 to 3.2.1'"
+  date: 2022-06-09T00:47:07.440Z
+- commits:
     - subject: Update resinci/jellyfish-test from v3.0.13 to v3.0.14
       hash: 3c102318c0b5e32df6c990a6c212e712c698e7ac
       body: ""
