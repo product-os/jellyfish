@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Upgrade to latest autumndb that uses 30s query timeout"
+      hash: f792490455b4bbffa17853dde650009391bbd40c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.21
+  title: "'Server: Upgrade to latest autumndb that uses 30s query timeout'"
+  date: 2022-06-09T10:20:40.410Z
+- commits:
     - subject: Remove unsupported ava serial option
       hash: 5b4fa28198a238d4f7c560bc2ed700e1976efa75
       body: ""
