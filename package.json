@@ -53,7 +53,6 @@
   "ava": {
     "timeout": "10m",
     "verbose": true,
-    "serial": true,
     "failWithoutAssertions": true,
     "failFast": true,
     "files": [
