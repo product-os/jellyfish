@@ -120,9 +120,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	});
 
 	const closeWorker = async () => {
-		await worker.consumer.cancel();
-		worker.contractsStream.removeAllListeners();
-		worker.contractsStream.close();
+		await worker.stop();
 		await kernel.disconnect(logContext);
 		if (cache) {
 			await cache.disconnect();
