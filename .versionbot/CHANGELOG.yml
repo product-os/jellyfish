@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Specify contract types when streaming timeline"
+      hash: 9478ba5fd9623a58a0c1e0743162089b97a5126b
+      body: |
+        Specifying the contract types when querying for a timeline improves
+        query and stream performance.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.25
+  title: "'UI: Specify contract types when streaming timeline'"
+  date: 2022-06-10T11:54:52.551Z
+- commits:
     - subject: "Server: Update bootstrap code to use correct worker shutdown method"
       hash: 51d8852fa198d72ead9a079e1499e439cd801ff0
       body: ""
