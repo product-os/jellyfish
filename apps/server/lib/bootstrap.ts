@@ -7,6 +7,7 @@ import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
 import * as autumndb from 'autumndb';
 import _ from 'lodash';
+import { setTimeout } from 'timers/promises';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 
@@ -329,6 +330,10 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			);
 		}),
 	);
+
+	// TODO: Find out where this race condition is happening
+	// Wait for the server to settle before starting
+	await setTimeout(2000);
 
 	return {
 		worker,
