@@ -1,4 +1,28 @@
 - commits:
+    - subject: "Server: Update bootstrap code to use correct worker shutdown method"
+      hash: 51d8852fa198d72ead9a079e1499e439cd801ff0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Update @balena/jellyfish-worker from 29.0.0 to 30.0.1
+      hash: 7735ff9872ea96f16113455ddeb696dd4ef1dd1d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.24
+  title: "'Update @balena/jellyfish-worker from 29.0.0 to 30.0.1'"
+  date: 2022-06-10T08:19:09.830Z
+- commits:
     - subject: Improve types of core state reducer
       hash: d0ec1c236a2e62d19ce4225d6b8b306e01d7e0e1
       body: ""
