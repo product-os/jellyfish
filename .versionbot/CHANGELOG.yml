@@ -1,4 +1,18 @@
 - commits:
+    - subject: Upgrade to @balena/jellyfish-plugin-default@27.8.2
+      hash: fb6aebf4636735e75257e2c3929c76b834e8165d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.28
+  title: "'Upgrade to @balena/jellyfish-plugin-default@27.8.2'"
+  date: 2022-06-10T21:56:00.039Z
+- commits:
     - subject: "Server: Improve heuristics when evaluating triggers"
       hash: 8d0ac7d0fbcfbdbbcb645c87bb1d7c4c3520001a
       body: |
