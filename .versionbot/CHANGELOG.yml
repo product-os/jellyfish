@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Improve bootstrap performance"
+      hash: 31c7522d7a32d190c5c11aa46ca7cbee55eedd3d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.25
+  title: "'Server: Improve bootstrap performance'"
+  date: 2022-06-10T10:52:02.646Z
+- commits:
     - subject: "Server: Update bootstrap code to use correct worker shutdown method"
       hash: 51d8852fa198d72ead9a079e1499e439cd801ff0
       body: ""
