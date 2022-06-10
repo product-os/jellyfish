@@ -5,10 +5,10 @@ import type {
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import * as helpers from '../services/helpers';
-import { getViewId } from './helpers';
 import { getUnreadQuery } from '../queries';
+import { State } from './reducer';
 
-export const getCard = (idOrSlug, type) => (state) => {
+export const getCard = (idOrSlug, type) => (state: State) => {
 	const cards = _.get(state.core, ['cards', helpers.getTypeBase(type)]);
 	if (!cards) {
 		return null;
@@ -20,51 +20,61 @@ export const getCard = (idOrSlug, type) => (state) => {
 		  }) || null;
 };
 
-export const getAccounts = () => (state) => {
+export const getAccounts = () => (state: State) => {
 	return state.core.accounts;
 };
 
-export const getOrgs = () => (state) => {
+export const getOrgs = () => (state: State) => {
 	return state.core.orgs;
 };
 
-export const getAppVersion = () => (state) => {
+export const getAppVersion = () => (state: State) => {
 	return _.get(state.core, ['config', 'version']) || null;
 };
 
-export const getAppCodename = () => (state) => {
+export const getAppCodename = () => (state: State) => {
 	return _.get(state.core, ['config', 'codename']) || null;
 };
 
-export const getChannels = () => (state) => {
+export const getChannels = () => (state: State) => {
 	return state.core.channels;
 };
 
-export const getCurrentUser = () => (state) => {
-	return _.get(state.core, ['session', 'user']) || null;
+export const getSelectedAccount = () => (state: State) => {
+	if (!state.core.selectedAccount) {
+		return state.core.accounts[0];
+	}
+
+	return state.core.accounts.find((account) => {
+		return account.user === state.core.selectedAccount;
+	});
 };
 
-export const getCurrentUserStatus = () => (state) => {
-	return _.get(state.core, ['session', 'user', 'data', 'status']) || null;
+export const getCurrentUser = () => (state: State) => {
+	return state.core.currentUser;
 };
 
-export const getSessionToken = () => (state) => {
-	return _.get(state.core, ['session', 'authToken']) || null;
+export const getCurrentUserStatus = () => (state: State) => {
+	return getCurrentUser()(state)?.data.status;
 };
 
-export const getStatus = () => (state) => {
+export const getSessionToken = () => (state: State) => {
+	return getSelectedAccount()(state)?.token;
+};
+
+export const getStatus = () => (state: State) => {
 	return state.core.status;
 };
 
-export const getTimelineMessage = (target) => (state) => {
+export const getTimelineMessage = (target) => (state: State) => {
 	return _.get(state.ui, ['timelines', target, 'message'], '');
 };
 
-export const getTimelinePendingMessages = (target) => (state) => {
+export const getTimelinePendingMessages = (target) => (state: State) => {
 	return _.get(state.ui, ['timelines', target, 'pending'], '');
 };
 
-export const getChatWidgetOpen = () => (state) => {
+export const getChatWidgetOpen = () => (state: State) => {
 	return _.get(state.ui, ['chatWidget', 'open']);
 };
 
@@ -76,45 +86,45 @@ export const getTypes =
 
 export const getLoops =
 	() =>
-	(state): LoopContract[] => {
+	(state: State): LoopContract[] => {
 		return state.core.loops;
 	};
 
-export const getGroups = () => (state) => {
+export const getGroups = () => (state: State) => {
 	return state.core.groups;
 };
 
-export const getMyGroupNames = () => (state) => {
+export const getMyGroupNames = () => (state: State) => {
 	return _.map(_.filter(getGroups()(state), 'isMine'), 'name');
 };
 
-export const getUIState = (state) => {
+export const getUIState = (state: State) => {
 	return state.ui;
 };
 
-export const getSidebarIsExpanded = (name) => (state) => {
+export const getSidebarIsExpanded = (name) => (state: State) => {
 	const expandedItems = _.get(state.ui, ['sidebar', 'expanded'], []);
 	return _.includes(expandedItems, name);
 };
 
-export const getLensState = (lensSlug, cardId) => (state) => {
+export const getLensState = (lensSlug, cardId) => (state: State) => {
 	return _.get(state.ui, ['lensState', lensSlug, cardId], {});
 };
 
-export const getUsersTypingOnCard = (card) => (state) => {
+export const getUsersTypingOnCard = (card) => (state: State) => {
 	return _.keys(_.get(state.core, ['usersTyping', card], {}));
 };
 
-export const getUsersViewLens = (viewId) => (state) => {
+export const getUsersViewLens = (viewId) => (state: State) => {
 	const user = getCurrentUser()(state);
 	return _.get(user, ['data', 'profile', 'viewSettings', viewId, 'lens'], null);
 };
 
-export const getUserCustomFilters = (contractId) => (state) => {
+export const getUserCustomFilters = (contractId) => (state: State) => {
 	return state.core.userCustomFilters[contractId] || [];
 };
 
-export const getHomeView = () => (state) => {
+export const getHomeView = () => (state: State) => {
 	const user = getCurrentUser()(state);
 	return _.get(user, ['data', 'profile', 'homeView'], null);
 };
@@ -126,12 +136,12 @@ export const getActiveLoop =
 		return _.get(user, ['data', 'profile', 'activeLoop'], null);
 	};
 
-export const getInboxQuery = () => (state) => {
+export const getInboxQuery = () => (state: State) => {
 	const user = getCurrentUser()(state);
 	const groupNames = getMyGroupNames()(state);
 	return getUnreadQuery(user, groupNames);
 };
 
-export const getMentionsCount = () => (state) => {
+export const getMentionsCount = () => (state: State) => {
 	return state.core.mentionsCount;
 };

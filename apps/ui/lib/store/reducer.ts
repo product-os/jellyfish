@@ -17,6 +17,7 @@ import {
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import { JsonSchema } from '@balena/jellyfish-types';
+import { getSelectedAccount } from './selectors';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -27,18 +28,17 @@ if (global.localStorage) {
 }
 
 // Interface for defaultState
-interface State {
+export interface State {
 	core: {
 		status: 'initializing' | 'unauthorized' | 'authorized';
+		accounts: Array<{ user: string; token: string }>;
+		selectedAccount: string | null;
+		currentUser: UserContract | null;
 		mentionsCount: number;
 		channels: ChannelContract[];
 		types: TypeContract[];
 		loops: LoopContract[];
 		groups: {};
-		session: null | {
-			authToken?: string | null;
-			user?: UserContract;
-		};
 		cards: {};
 		orgs: OrgContract[];
 		config: {};
@@ -69,6 +69,9 @@ interface State {
 export const defaultState: State = {
 	core: {
 		status: 'initializing',
+		accounts: [],
+		selectedAccount: null,
+		currentUser: null,
 		mentionsCount: 0,
 		channels: [
 			{
@@ -92,7 +95,6 @@ export const defaultState: State = {
 		types: [],
 		loops: [],
 		groups: {},
-		session: null,
 		cards: {},
 		orgs: [],
 		config: {},
@@ -268,19 +270,10 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 			});
 		}
 		case actions.SET_USER: {
-			return update(state, {
-				session: (session) =>
-					update(
-						session || {
-							authToken: null,
-						},
-						{
-							user: {
-								$set: action.value,
-							},
-						},
-					),
-			});
+			return {
+				...state,
+				currentUser: action.value,
+			};
 		}
 		case actions.SET_TYPES: {
 			return update(state, {
@@ -379,34 +372,20 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 	}
 };
 
-// Note: redux-persist blacklists are 'shallow' - to blacklist a nested
-// field you need to blacklist each part of the path to it.
-
-const commonConfig = {
-	storage,
-};
-
-const rootPersistConfig = {
-	...commonConfig,
-	key: 'root',
-	blacklist: ['core', 'views'],
-};
-
 const corePersistConfig = {
-	...commonConfig,
+	storage,
 	key: 'core',
-	blacklist: ['status', 'cards', 'channels', 'usersTyping'],
+	whitelist: ['accounts'],
 };
 
 const uiPersistConfig = {
-	...commonConfig,
+	storage,
 	key: 'ui',
+	whitelist: ['timelines'],
 };
 
-const rootReducer = redux.combineReducers({
+export const reducer = redux.combineReducers({
 	router: connectRouter(history),
 	core: persistReducer(corePersistConfig, coreReducer),
 	ui: persistReducer(uiPersistConfig, uiReducer),
 });
-
-export const reducer = persistReducer(rootPersistConfig, rootReducer);
