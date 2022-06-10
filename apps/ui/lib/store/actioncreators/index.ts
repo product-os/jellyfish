@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
-import Bluebird from 'bluebird';
+import Bluebird from 'bluebird';/
 import immutableUpdate from 'immutability-helper';
 import { push } from 'connected-react-router';
 import clone from 'deep-copy';
@@ -22,6 +22,8 @@ import type {
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
 import * as selectors from '../selectors';
+import { Dispatch, Store } from 'redux';
+import { State } from '../reducer';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -226,7 +228,13 @@ export const getSeedData = (
 	});
 };
 
-export const actionCreators = {
+export interface ActionCreators {
+	[key: string]: (...args) => ((dispatch: Dispatch, getState: () => State, {
+		sdk: JellyfishSDK,
+	}) => any) | { type: string, value: any},
+}
+
+export const actionCreators: ActionCreators = {
 	getIntegrationAuthUrl(state: {
 		userSlug: string;
 		providerSlug: string;
@@ -553,101 +561,100 @@ export const actionCreators = {
 
 	bootstrap() {
 		return (dispatch, getState, { sdk, errorReporter }) => {
-			return sdk.auth.whoami().then((user) => {
-				if (!user) {
-					throw new Error('Could not retrieve user');
-				}
-				sdk.globalQueryMask = buildGlobalQueryMask(
-					_.get(user, ['data', 'profile', 'activeLoop'], null),
-				);
-				return (Bluebird as any)
-					.props({
-						loops: sdk.card.getAllByType('loop'),
-						orgs: sdk.card.getAllByType('org'),
-						types: sdk.card.getAllByType('type'),
-						groups: sdk.query(allGroupsWithUsersQuery),
-						config: sdk.getConfig(),
-					})
-					.then(async ({ loops, types, groups, orgs, config }) => {
-						const state = getState();
+			const user = selectors.getCurrentUser()(getState());
+			if (!user) {
+				throw new Error('Could not retrieve user');
+			}
+			sdk.globalQueryMask = buildGlobalQueryMask(
+				_.get(user, ['data', 'profile', 'activeLoop'], null),
+			);
+			return (Bluebird as any)
+				.props({
+					loops: sdk.card.getAllByType('loop'),
+					orgs: sdk.card.getAllByType('org'),
+					types: sdk.card.getAllByType('type'),
+					groups: sdk.query(allGroupsWithUsersQuery),
+					config: sdk.getConfig(),
+				})
+				.then(async ({ loops, types, groups, orgs, config }) => {
+					const state = getState();
 
-						// Check to see if we're still logged in
-						if (selectors.getSessionToken()(state)) {
-							dispatch(actionCreators.setLoops(loops));
-							dispatch(actionCreators.setUser(user));
-							dispatch(actionCreators.setTypes(types));
-							dispatch(actionCreators.setOrgs(orgs));
-							dispatch(actionCreators.setGroups(groups, user));
-							dispatch({
-								type: actions.SET_CONFIG,
-								value: config,
-							});
-						}
-
-						errorReporter.setUser({
-							id: user.id,
-							slug: user.slug,
-							email: _.get(user, ['data', 'email']),
+					// Check to see if we're still logged in
+					if (selectors.getSessionToken()(state)) {
+						dispatch(actionCreators.setLoops(loops));
+						dispatch(actionCreators.setUser(user));
+						dispatch(actionCreators.setTypes(types));
+						dispatch(actionCreators.setOrgs(orgs));
+						dispatch(actionCreators.setGroups(groups, user));
+						dispatch({
+							type: actions.SET_CONFIG,
+							value: config,
 						});
+					}
 
-						// Check token expiration and refresh it if it is due to expire in the next 24 hours
-						sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
-							if (
-								tokenCard &&
-								tokenCard.data.expiration &&
-								new Date(tokenCard.data.expiration).getTime() <
-									Date.now() + 1000 * 60 * 60 * 24
-							) {
-								sdk.auth.refreshToken();
-							}
-						});
-
-						tokenRefreshInterval = setInterval(async () => {
-							const newToken = await sdk.auth.refreshToken();
-							dispatch(actionCreators.setAuthToken(newToken));
-						}, TOKEN_REFRESH_INTERVAL);
-
-						if (commsStream) {
-							commsStream.close();
-						}
-
-						// Open a stream for messages, whispers and uses. This allows us to
-						// listen for message edits, sync status, alerts/pings and changes in
-						// other users statuses
-						commsStream = sdk.stream({
-							type: 'object',
-							properties: {
-								type: {
-									type: 'string',
-									enum: [
-										'message@1.0.0',
-										'whisper@1.0.0',
-										'summary@1.0.0',
-										'rating@1.0.0',
-										'user@1.0.0',
-									],
-								},
-							},
-							required: ['type'],
-						});
-
-						commsStream.on('update', (payload) =>
-							streamUpdate(payload, getState, dispatch, user, types),
-						);
-
-						// TODO handle typing notifications in a more generic way, this is an
-						// abomination. (A small abomination, but still an abomination)
-						commsStream.on('typing', (payload) =>
-							streamTyping(dispatch, payload),
-						);
-
-						commsStream.on('connect_error', (error) => {
-							console.error('A stream error occurred', error);
-						});
-
-						return user;
+					errorReporter.setUser({
+						id: user.id,
+						slug: user.slug,
+						email: _.get(user, ['data', 'email']),
 					});
-			});
+
+					// Check token expiration and refresh it if it is due to expire in the next 24 hours
+					sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
+						if (
+							tokenCard &&
+							tokenCard.data.expiration &&
+							new Date(tokenCard.data.expiration).getTime() <
+								Date.now() + 1000 * 60 * 60 * 24
+						) {
+							sdk.auth.refreshToken();
+						}
+					});
+
+					tokenRefreshInterval = setInterval(async () => {
+						const newToken = await sdk.auth.refreshToken();
+						dispatch(actionCreators.setAuthToken(newToken));
+					}, TOKEN_REFRESH_INTERVAL);
+
+					if (commsStream) {
+						commsStream.close();
+					}
+
+					// Open a stream for messages, whispers and uses. This allows us to
+					// listen for message edits, sync status, alerts/pings and changes in
+					// other users statuses
+					commsStream = sdk.stream({
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								enum: [
+									'message@1.0.0',
+									'whisper@1.0.0',
+									'summary@1.0.0',
+									'rating@1.0.0',
+									'user@1.0.0',
+								],
+							},
+						},
+						required: ['type'],
+					});
+
+					commsStream.on('update', (payload) =>
+						streamUpdate(payload, getState, dispatch, user, types),
+					);
+
+					// TODO handle typing notifications in a more generic way, this is an
+					// abomination. (A small abomination, but still an abomination)
+					commsStream.on('typing', (payload) =>
+						streamTyping(dispatch, payload),
+					);
+
+					commsStream.on('connect_error', (error) => {
+						console.error('A stream error occurred', error);
+					});
+
+					return user;
+				});
 		};
 	},
 
@@ -658,12 +665,36 @@ export const actionCreators = {
 		};
 	},
 
+	setAccount(account: {
+		token: string,
+		user: UserContract,
+	}) {
+		return {
+			type: actions.SET_ACCOUNT,
+			value: account,
+		};
+	},
+
+	setSelectedAccount(slug: string) {
+		return {
+			type: actions.SET_SELECTED_ACCOUNT,
+			value: slug,
+		};
+	},
+
 	loginWithToken(token) {
-		return (dispatch, getState, { sdk, analytics }) => {
+		return async (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.loginWithToken(token)
 				.then(() => {
-					return dispatch(actionCreators.setAuthToken(token));
+					return sdk.whoami();
+				})
+				.then((user) => {
+					dispatch(actionCreators.setAccount({
+						token,
+						user,
+					}));
+					dispatch(actionCreators.setSelectedAccount(user.slug));
 				})
 				.then(() => {
 					return dispatch(actionCreators.bootstrap());
@@ -686,8 +717,12 @@ export const actionCreators = {
 		return (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.login(payload)
-				.then((session) => {
-					return dispatch(actionCreators.setAuthToken(session.id));
+				.then(async (session) => {
+					const user = await sdk.whoami();
+					return dispatch(actionCreators.setAccount({
+						token: session.id,
+						user,
+					}));
 				})
 				.then(() => {
 					return dispatch(actionCreators.bootstrap());

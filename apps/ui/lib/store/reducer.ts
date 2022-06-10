@@ -31,9 +31,8 @@ if (global.localStorage) {
 export interface State {
 	core: {
 		status: 'initializing' | 'unauthorized' | 'authorized';
-		accounts: Array<{ user: string; token: string }>;
+		accounts: Array<{ user: UserContract; token: string; }>;
 		selectedAccount: string | null;
-		currentUser: UserContract | null;
 		mentionsCount: number;
 		channels: ChannelContract[];
 		types: TypeContract[];
@@ -71,7 +70,6 @@ export const defaultState: State = {
 		status: 'initializing',
 		accounts: [],
 		selectedAccount: null,
-		currentUser: null,
 		mentionsCount: 0,
 		channels: [
 			{
@@ -258,6 +256,35 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 						}),
 				},
 			});
+		}
+		case actions.SET_ACCOUNT: {
+			const accountIndex = state.accounts.findIndex((account) => {
+				return account.user.slug === action.value.user.slug;
+			});
+			if (accountIndex >= 0) {
+				return {
+					...state,
+					accounts: state.accounts.map((account, index) => {
+						if (index === accountIndex) {
+							return {
+								...account,
+								token: action.value.token,
+							};
+						}
+						return account;
+					}),
+				}
+			}
+			return {
+				...state,
+				accounts: state.accounts.concat(action.value),
+			}
+		}
+		case actions.SET_SELECTED_ACCOUNT: {
+			return {
+				...state,
+				selectedAccount: action.value,
+			}
 		}
 		case actions.SET_AUTHTOKEN: {
 			return update(state, {

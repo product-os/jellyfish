@@ -46,12 +46,12 @@ export const getSelectedAccount = () => (state: State) => {
 	}
 
 	return state.core.accounts.find((account) => {
-		return account.user === state.core.selectedAccount;
+		return account.user.slug === state.core.selectedAccount;
 	});
 };
 
 export const getCurrentUser = () => (state: State) => {
-	return state.core.currentUser;
+	return getSelectedAccount()(state)?.user;
 };
 
 export const getCurrentUserStatus = () => (state: State) => {

@@ -94,16 +94,14 @@ const JellyfishUI = ({ actions, status }) => {
 	const path = window.location.pathname + window.location.hash;
 	const query = new URLSearchParams(location.search);
 
+	useAuthorize();
+
 	if (status === 'initializing') {
 		return <Splash />;
 	}
 
 	if (matchPath(location.pathname, '/oauth/callback')) {
 		return <OauthCallback />;
-	}
-
-	if (query.get(LOGIN_AS_SEARCH_PARAM_NAME)) {
-		return <LoginAs />;
 	}
 
 	if (status === 'unauthorized') {

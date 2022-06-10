@@ -168,6 +168,7 @@ const App = () => {
 	}, [sdk, analytics, errorReporter]);
 
 	const persistor = React.useMemo(() => {
+		/*
 		const onHydrated = async () => {
 			const token = selectors.getSessionToken()(store.getState());
 			try {
@@ -180,8 +181,10 @@ const App = () => {
 				console.error(error);
 			}
 		};
+		*/
+		// return persistStore(store, null, onHydrated);
 
-		return persistStore(store, null, onHydrated);
+		return persistStore(store);
 	}, [store]);
 
 	return (
