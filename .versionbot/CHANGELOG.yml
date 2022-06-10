@@ -1,4 +1,21 @@
 - commits:
+    - subject: "Server: Improve heuristics when evaluating triggers"
+      hash: 8d0ac7d0fbcfbdbbcb645c87bb1d7c4c3520001a
+      body: |
+        This brings in improvements to the worker module that make it better at
+        rejecting non-matching triggers without needing to make a DB query,
+        increasing performance.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.27
+  title: "'Server: Improve heuristics when evaluating triggers'"
+  date: 2022-06-10T16:55:13.071Z
+- commits:
     - subject: "Server: improve stream performance"
       hash: 9a00a2e459660769434afc45d10ebedea7033b13
       body: |
