@@ -201,6 +201,18 @@ class Timeline extends React.Component<Props, State> {
 				},
 			},
 			type: 'object',
+			properties: {
+				type: {
+					type: 'string',
+					enum: [
+						'message@1.0.0',
+						'whisper@1.0.0',
+						'create@1.0.0',
+						'update@1.0.0',
+						'summary@1.0.0',
+					],
+				},
+			},
 		};
 		return query;
 	}
