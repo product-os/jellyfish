@@ -1,4 +1,21 @@
 - commits:
+    - subject: "CI: Drop shellcheck install from test base image"
+      hash: 52f370aab5d34d24f258819a0a4e1b47a277749d
+      body: |
+        We are installing shellcheck through npm and therefore
+        do not need to have it installed in the test base image
+        as well.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.31
+  title: "'CI: Drop shellcheck install from test base image'"
+  date: 2022-06-11T06:00:40.937Z
+- commits:
     - subject: "CI: Reduce test container build time"
       hash: 962a6e052583a78983c20384b14867e3e1030bc9
       body: |
