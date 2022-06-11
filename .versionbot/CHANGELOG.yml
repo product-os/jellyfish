@@ -1,4 +1,20 @@
 - commits:
+    - subject: "CI: Reduce test container build time"
+      hash: 962a6e052583a78983c20384b14867e3e1030bc9
+      body: |
+        Reduce test container build time by baking required packages
+        into the base image instead of installing them on every build.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.30
+  title: "'CI: Reduce test container build time'"
+  date: 2022-06-11T03:50:15.076Z
+- commits:
     - subject: Update @balena/jellyfish-metrics from 2.0.85 to 2.0.87
       hash: 951bc4acbee05d8aad515c98e3cb2a20915df7d3
       body: ""
