@@ -1,19 +1,6 @@
 # https://github.com/product-os/jellyfish-base-images
 # https://registry.hub.docker.com/r/resinci/jellyfish-test
-FROM resinci/jellyfish-test:v3.0.14 AS base
-
-ENV DEBIAN_FRONTEND noninteractive
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    shellcheck \
-    libnss3-tools \
-    && rm -rf /var/lib/apt/lists/*
-
-# TODO: Move this to jellyfish-test image
-# Install hyperfine for benchmarking
-RUN wget https://github.com/sharkdp/hyperfine/releases/download/v1.14.0/hyperfine_1.14.0_amd64.deb && \
-    dpkg -i hyperfine_1.14.0_amd64.deb && \
-    rm hyperfine_1.14.0_amd64.deb
+FROM resinci/jellyfish-test:v3.1.0 AS base
 
 # --- run unit tests
 FROM base AS test
