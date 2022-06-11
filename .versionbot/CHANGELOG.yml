@@ -1,4 +1,18 @@
 - commits:
+    - subject: Upgrade to jellyfish-worker@30.0.5
+      hash: f376d641c640c4140e77fa281a507f2e2bd906c5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.32
+  title: "'Upgrade to jellyfish-worker@30.0.5'"
+  date: 2022-06-11T19:20:38.029Z
+- commits:
     - subject: "CI: Drop shellcheck install from test base image"
       hash: 52f370aab5d34d24f258819a0a4e1b47a277749d
       body: |
