@@ -84,9 +84,8 @@ const SplashWrapper = styled(Box)`
 	}
 `;
 
-const sizes = [240, 500];
-const dim = [px(sizes[0]), px(sizes[0]), px(sizes[1])];
-const margin = [px(-sizes[0] / 2), px(-sizes[0] / 2), px(-sizes[1] / 2)];
+const dim = 240;
+const margin = -(dim / 2);
 const splashWaveStyles = {
 	width: dim,
 	height: dim,
