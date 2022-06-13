@@ -159,11 +159,16 @@ export const getTypesFromViewCard = (card: ViewContract) => {
 		return _.castArray(card.data.types);
 	}
 
+	// Normalize { allOf: [{ schema: <schema> }] } weirdness into `{ allOf: [<schema>] }`
+	const normalize = (item: { schema: any }) => {
+		return item.schema;
+	};
+
 	return getTypesFromSchema({
 		...(typeof card.data.schema === 'object' ? card.data.schema : {}),
-		oneOf: card.data.oneOf,
-		allOf: card.data.allOf,
-		anyOf: card.data.anyOf,
+		oneOf: card.data.oneOf?.map(normalize),
+		allOf: card.data.allOf?.map(normalize),
+		anyOf: card.data.anyOf?.map(normalize),
 	});
 };
 
