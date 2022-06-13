@@ -12,6 +12,7 @@ export default class ErrorReporter {
 	) {
 		this.initialized = false;
 		this.reportException = this.reportException.bind(this);
+		this.handleAsyncError = this.handleAsyncError.bind(this);
 		if (this.config.isProduction && this.config.dsn !== '0') {
 			Sentry.init({
 				dsn: this.config.dsn,
