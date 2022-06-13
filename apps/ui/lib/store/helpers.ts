@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import update from 'immutability-helper';
+import { v4 as isUUID } from 'is-uuid';
 
 /**
  * Given a target card id and a card that's been updated, finds all channels
@@ -83,4 +84,60 @@ export const mentionsUser = (card, user, groups) => {
 	return _.some(groupMentions, (groupName) => {
 		return _.get(groups, [groupName, 'isMine']);
 	});
+};
+
+export const createChannelQuery = (target, user) => {
+	let properties = {};
+	if (isUUID(target)) {
+		properties = {
+			id: {
+				const: target,
+			},
+		};
+	} else {
+		const [slug, version] = target.split('@');
+		properties = {
+			slug: {
+				const: slug,
+			},
+
+			// We MUST specify the version otherwise the query will return all versions
+			// and randomly show one of them
+			version: {
+				const: version || '1.0.0',
+			},
+		};
+	}
+
+	const query = {
+		type: 'object',
+		anyOf: [
+			{
+				$$links: {
+					'is bookmarked by': {
+						type: 'object',
+						required: ['type', 'id'],
+						properties: {
+							type: {
+								const: 'user@1.0.0',
+							},
+							id: {
+								const: user.id,
+							},
+						},
+					},
+				},
+			},
+			{
+				$$links: {
+					'has attached element': {
+						type: 'object',
+					},
+				},
+			},
+			true,
+		],
+		properties,
+	};
+	return query;
 };

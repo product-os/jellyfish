@@ -1,6 +1,6 @@
 /* eslint-disable class-methods-use-this */
 
-import Bluebird from 'bluebird';/
+import Bluebird from 'bluebird';
 import immutableUpdate from 'immutability-helper';
 import { push } from 'connected-react-router';
 import clone from 'deep-copy';
@@ -16,19 +16,22 @@ import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
-	Contract,
 	LoopContract,
+	SessionContract,
 	UserContract,
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
 import * as selectors from '../selectors';
-import { Dispatch, Store } from 'redux';
+import { AnyAction } from 'redux';
 import { State } from '../reducer';
+import ErrorReporter from '../../services/error-reporter';
+import Analytics from '../../services/analytics';
+import { ThunkAction as ReduxThunkAction } from 'redux-thunk';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
 
-const allGroupsWithUsersQuery = {
+const allGroupsWithUsersQuery: JsonSchema = {
 	type: 'object',
 	description: 'Get all groups with member user slugs',
 	required: ['type', 'name'],
@@ -228,21 +231,31 @@ export const getSeedData = (
 	});
 };
 
-export interface ActionCreators {
-	[key: string]: (...args) => ((dispatch: Dispatch, getState: () => State, {
-		sdk: JellyfishSDK,
-	}) => any) | { type: string, value: any},
+interface ActionCreatorContext {
+	sdk: JellyfishSDK;
+	errorReporter: ErrorReporter;
+	analytics: Analytics;
 }
 
-export const actionCreators: ActionCreators = {
+export type Action = { type: string; value: any };
+export type ThunkAction<T = any> = ReduxThunkAction<
+	T,
+	State,
+	ActionCreatorContext,
+	AnyAction
+>;
+
+export const actionCreators = {
 	getIntegrationAuthUrl(state: {
 		userSlug: string;
 		providerSlug: string;
 		returnUrl: string;
-	}) {
+	}): ThunkAction<Promise<string>> {
 		return async (dispatch, getState, { sdk }) => {
 			const url = new URL(
-				(await sdk.get(`/oauth/${state.providerSlug}/url`)).url,
+				(
+					await sdk.get<{ url: string }>(`/oauth/${state.providerSlug}/url`)
+				).url,
 			);
 			url.searchParams.set('redirect_uri', location.origin + '/oauth/callback');
 			url.searchParams.set('state', JSON.stringify(state));
@@ -250,7 +263,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	getCard(cardIdOrSlug, cardType, linkVerbs) {
+	getCard(cardIdOrSlug, cardType, linkVerbs): ThunkAction {
 		return async (dispatch, getState, context) => {
 			return getCardInternal(cardIdOrSlug, cardType, linkVerbs)(
 				dispatch,
@@ -260,7 +273,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	getActor(idOrSlug) {
+	getActor(idOrSlug): ThunkAction {
 		return async (dispatch, getState, context) => {
 			const card = await getCardInternal(idOrSlug, 'user', ['is member of'])(
 				dispatch,
@@ -271,7 +284,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setStatus(status) {
+	setStatus(status): ThunkAction {
 		return (dispatch, _getState, { sdk }) => {
 			// If the status is now 'unauthorized' just run the logout routine
 			if (status === 'unauthorized') {
@@ -288,7 +301,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setSidebarExpanded(name: string, isExpanded: boolean) {
+	setSidebarExpanded(name: string, isExpanded: boolean): ThunkAction {
 		return (dispatch, getState) => {
 			const uiState = selectors.getUIState(getState());
 			const newExpandedItems = isExpanded
@@ -307,7 +320,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setLensState(lens, cardId, state) {
+	setLensState(lens, cardId, state): Action {
 		return {
 			type: actions.SET_LENS_STATE,
 			value: {
@@ -319,7 +332,12 @@ export const actionCreators: ActionCreators = {
 	},
 
 	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getLinks({ sdk }: { sdk: JellyfishSDK }, card, verb, targetType) {
+	getLinks(
+		{ sdk }: { sdk: JellyfishSDK },
+		card,
+		verb,
+		targetType,
+	): ThunkAction {
 		let baseTargetType = targetType && helpers.getTypeBase(targetType);
 		let linkedType = targetType;
 
@@ -398,63 +416,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	createChannelQuery(target, user): any {
-		let properties = {};
-		if (isUUID(target)) {
-			properties = {
-				id: {
-					const: target,
-				},
-			};
-		} else {
-			const [slug, version] = target.split('@');
-			properties = {
-				slug: {
-					const: slug,
-				},
-
-				// We MUST specify the version otherwise the query will return all versions
-				// and randomly show one of them
-				version: {
-					const: version || '1.0.0',
-				},
-			};
-		}
-
-		const query = {
-			type: 'object',
-			anyOf: [
-				{
-					$$links: {
-						'is bookmarked by': {
-							type: 'object',
-							required: ['type', 'id'],
-							properties: {
-								type: {
-									const: 'user@1.0.0',
-								},
-								id: {
-									const: user.id,
-								},
-							},
-						},
-					},
-				},
-				{
-					$$links: {
-						'has attached element': {
-							type: 'object',
-						},
-					},
-				},
-				true,
-			],
-			properties,
-		};
-		return query;
-	},
-
-	updateChannel(channel) {
+	updateChannel(channel): Action {
 		return {
 			type: actions.UPDATE_CHANNEL,
 			value: channel,
@@ -467,7 +429,7 @@ export const actionCreators: ActionCreators = {
 		canonical?: boolean;
 		target?: string;
 		cardType?: string;
-	}) {
+	}): ThunkAction {
 		if (!data.cardType && data.canonical !== false) {
 			console.error('Channel added without a card type', data);
 		}
@@ -481,14 +443,14 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	removeChannel(channel) {
+	removeChannel(channel): Action {
 		return {
 			type: actions.REMOVE_CHANNEL,
 			value: channel,
 		};
 	},
 
-	setChannels(channelData: any[] = []) {
+	setChannels(channelData: any[] = []): ThunkAction {
 		const channels = _.map(channelData, (channel) => {
 			// If the channel has an ID its already been instantiated
 			if (channel.id) {
@@ -516,7 +478,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	openCreateChannel(sourceCard, types, options: any = {}) {
+	openCreateChannel(sourceCard, types, options: any = {}): ThunkAction {
 		return (dispatch, getState) => {
 			const state = getState();
 			const user = selectors.getCurrentUser()(state);
@@ -536,7 +498,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setChatWidgetOpen(open) {
+	setChatWidgetOpen(open): ThunkAction {
 		return (dispatch, getState) => {
 			const uiState = getState().ui;
 
@@ -552,14 +514,14 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setMentionsCount(count) {
+	setMentionsCount(count): Action {
 		return {
 			type: actions.SET_MENTIONS_COUNT,
 			value: count,
 		};
 	},
 
-	bootstrap() {
+	bootstrap(): ThunkAction {
 		return (dispatch, getState, { sdk, errorReporter }) => {
 			const user = selectors.getCurrentUser()(getState());
 			if (!user) {
@@ -599,16 +561,18 @@ export const actionCreators: ActionCreators = {
 					});
 
 					// Check token expiration and refresh it if it is due to expire in the next 24 hours
-					sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
-						if (
-							tokenCard &&
-							tokenCard.data.expiration &&
-							new Date(tokenCard.data.expiration).getTime() <
-								Date.now() + 1000 * 60 * 60 * 24
-						) {
-							sdk.auth.refreshToken();
-						}
-					});
+					sdk.card
+						.get<SessionContract>(sdk.getAuthToken()!)
+						.then((tokenCard) => {
+							if (
+								tokenCard &&
+								tokenCard.data.expiration &&
+								new Date(tokenCard.data.expiration).getTime() <
+									Date.now() + 1000 * 60 * 60 * 24
+							) {
+								sdk.auth.refreshToken();
+							}
+						});
 
 					tokenRefreshInterval = setInterval(async () => {
 						const newToken = await sdk.auth.refreshToken();
@@ -658,42 +622,41 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setAuthToken(token) {
+	setAuthToken(token): Action {
 		return {
 			type: actions.SET_AUTHTOKEN,
 			value: token,
 		};
 	},
 
-	setAccount(account: {
-		token: string,
-		user: UserContract,
-	}) {
+	setAccount(account: { token: string; user: UserContract }): Action {
 		return {
 			type: actions.SET_ACCOUNT,
 			value: account,
 		};
 	},
 
-	setSelectedAccount(slug: string) {
+	setSelectedAccount(slug: string): Action {
 		return {
 			type: actions.SET_SELECTED_ACCOUNT,
 			value: slug,
 		};
 	},
 
-	loginWithToken(token) {
+	loginWithToken(token): ThunkAction {
 		return async (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.loginWithToken(token)
 				.then(() => {
-					return sdk.whoami();
+					return sdk.auth.whoami<UserContract>();
 				})
 				.then((user) => {
-					dispatch(actionCreators.setAccount({
-						token,
-						user,
-					}));
+					dispatch(
+						actionCreators.setAccount({
+							token,
+							user,
+						}),
+					);
 					dispatch(actionCreators.setSelectedAccount(user.slug));
 				})
 				.then(() => {
@@ -713,16 +676,18 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	login(payload) {
+	login(payload): ThunkAction {
 		return (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.login(payload)
 				.then(async (session) => {
-					const user = await sdk.whoami();
-					return dispatch(actionCreators.setAccount({
-						token: session.id,
-						user,
-					}));
+					const user = await sdk.auth.whoami<UserContract>();
+					return dispatch(
+						actionCreators.setAccount({
+							token: session!.id,
+							user,
+						}),
+					);
 				})
 				.then(() => {
 					return dispatch(actionCreators.bootstrap());
@@ -741,7 +706,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	logout() {
+	logout(): ThunkAction {
 		return (dispatch, getState, { sdk, analytics, errorReporter }) => {
 			if (tokenRefreshInterval) {
 				clearInterval(tokenRefreshInterval);
@@ -761,7 +726,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	signup(payload) {
+	signup(payload): ThunkAction {
 		return (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth.signup(payload).then(() => {
 				analytics.track('ui.signup');
@@ -770,20 +735,20 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	queryAPI(expression, options = {}) {
+	queryAPI(expression, options = {}): ThunkAction {
 		return (dispatch, getState, { sdk }) => {
 			return sdk.query(expression, options);
 		};
 	},
 
-	setUser(user) {
+	setUser(user): Action {
 		return {
 			type: actions.SET_USER,
 			value: user,
 		};
 	},
 
-	setTimelineMessage(target, message) {
+	setTimelineMessage(target, message): ThunkAction {
 		return (dispatch) => {
 			dispatch({
 				type: actions.SET_TIMELINE_MESSAGE,
@@ -795,7 +760,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setTimelinePendingMessages(target, messages) {
+	setTimelinePendingMessages(target, messages): ThunkAction {
 		return (dispatch) => {
 			dispatch({
 				type: actions.SET_TIMELINE_PENDING_MESSAGES,
@@ -807,21 +772,21 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setTypes(types) {
+	setTypes(types): Action {
 		return {
 			type: actions.SET_TYPES,
 			value: types,
 		};
 	},
 
-	setLoops(loops: LoopContract[]) {
+	setLoops(loops: LoopContract[]): Action {
 		return {
 			type: actions.SET_LOOPS,
 			value: loops,
 		};
 	},
 
-	setGroups(groups, user) {
+	setGroups(groups, user): Action {
 		return {
 			type: actions.SET_GROUPS,
 			value: {
@@ -831,14 +796,14 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setOrgs(orgs) {
+	setOrgs(orgs): Action {
 		return {
 			type: actions.SET_ORGS,
 			value: orgs,
 		};
 	},
 
-	removeView(view) {
+	removeView(view): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState())!;
@@ -873,7 +838,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setActiveLoop(loopVersionedSlug: string | null) {
+	setActiveLoop(loopVersionedSlug: string | null): ThunkAction {
 		return async (dispatch, getState, context) => {
 			const state = getState();
 			const user = selectors.getCurrentUser()(state)!;
@@ -904,13 +869,13 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	pushLocation(location: string) {
+	pushLocation(location: string): ThunkAction {
 		return (dispatch) => {
 			dispatch(push(location));
 		};
 	},
 
-	updateUser(patches, successNotification?: string | null) {
+	updateUser(patches, successNotification?: string | null): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState())!;
@@ -941,7 +906,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	addUser({ username, email, org }) {
+	addUser({ username, email, org }): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = await sdk.auth.signup({
@@ -967,7 +932,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	sendFirstTimeLoginLink({ user }) {
+	sendFirstTimeLoginLink({ user }): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				await sdk.action({
@@ -988,14 +953,14 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	requestPasswordReset({ username }) {
+	requestPasswordReset({ username }): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			const userType = await sdk.getBySlug('user@latest');
 			return sdk.auth.requestPasswordReset(username);
 		};
 	},
 
-	completePasswordReset({ password, resetToken }) {
+	completePasswordReset({ password, resetToken }): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			return sdk.auth.completePasswordReset(password, resetToken);
 		};
@@ -1007,7 +972,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setPassword(currentPassword, newPassword) {
+	setPassword(currentPassword, newPassword): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState())!;
@@ -1031,7 +996,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setSendCommand(command) {
+	setSendCommand(command): ThunkAction {
 		return async (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState())!;
 
@@ -1048,7 +1013,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	createLink(fromCard, toCard, verb, options: any = {}) {
+	createLink(fromCard, toCard, verb, options: any = {}): ThunkAction {
 		return async (dispatch, getState, { sdk, analytics }) => {
 			try {
 				await sdk.card.link(fromCard, toCard, verb);
@@ -1066,7 +1031,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	removeLink(fromCard, toCard, verb, options: any = {}) {
+	removeLink(fromCard, toCard, verb, options: any = {}): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb);
@@ -1079,7 +1044,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	dumpState() {
+	dumpState(): ThunkAction {
 		return async (dispatch, getState) => {
 			const state = clone(getState());
 			_.set(state, ['core', 'session', 'authToken'], '[REDACTED]');
@@ -1089,7 +1054,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setDefault(card) {
+	setDefault(card): ThunkAction {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState())!;
 
@@ -1112,7 +1077,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setViewLens(viewId, lensSlug) {
+	setViewLens(viewId, lensSlug): ThunkAction {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState())!;
 
@@ -1130,7 +1095,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setViewSlice(viewId, slice) {
+	setViewSlice(viewId, slice): ThunkAction {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState())!;
 
@@ -1148,7 +1113,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	setUserCustomFilters(contractId: string, filters: JsonSchema[]) {
+	setUserCustomFilters(contractId: string, filters: JsonSchema[]): Action {
 		return {
 			type: actions.SET_USER_CUSTOM_FILTERS,
 			value: {
@@ -1158,7 +1123,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	signalTyping(card) {
+	signalTyping(card): ThunkAction {
 		return (dispatch, getState) => {
 			const user = selectors.getCurrentUser()(getState())!;
 
@@ -1166,7 +1131,7 @@ export const actionCreators: ActionCreators = {
 		};
 	},
 
-	authorizeIntegration(user, integration, code) {
+	authorizeIntegration(user, integration, code): ThunkAction {
 		return async (dispatch, getState, { sdk }) => {
 			await sdk.integrations.authorize(user, integration, code);
 
