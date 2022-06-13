@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Correctly bind async error handling"
+      hash: d6f786901204ea905e2fe9734f69956d8aac670b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.35
+  title: "'UI: Correctly bind async error handling'"
+  date: 2022-06-13T09:22:00.778Z
+- commits:
     - subject: "UI: Tell browsers to cache audio files served by nginx"
       hash: e92379267a96517ad5387724834186965c5eeef8
       body: ""
