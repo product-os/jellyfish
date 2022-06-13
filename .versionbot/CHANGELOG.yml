@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Tell browsers to cache audio files served by nginx"
+      hash: e92379267a96517ad5387724834186965c5eeef8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.34
+  title: "'UI: Tell browsers to cache audio files served by nginx'"
+  date: 2022-06-13T05:55:37.513Z
+- commits:
     - subject: "UI: Inline splash screen in html for faster paint time"
       hash: 2f8875c02afaf33e6900fcf619a8007c0919b09b
       body: ""
