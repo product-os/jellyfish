@@ -102,11 +102,48 @@ export const appendToChannelPath = (
 	return `/${route}`;
 };
 
-const getTypesFromSchema = (schema: JsonSchema): string[] => {
+/**
+ * Extracts an array of types that are defined in a schema
+ *
+ * @param {Object} schema
+ *
+ * @returns {String[]} - an array of types that are defined in the view card's filter
+ */
+export const getTypesFromSchema = (schema) => {
+	let value: string[] = [];
 	const types =
 		_.get(schema, ['properties', 'type', 'const']) ||
 		_.get(schema, ['properties', 'type', 'enum']);
-	return types && _.castArray(types);
+	if (types) {
+		value = _.castArray(types);
+	}
+	if (schema.allOf) {
+		for (const item of schema.allOf) {
+			let found = getTypesFromSchema(item);
+			if (found) {
+				value = value.concat(found);
+				break;
+			}
+			if (item.anyOf) {
+				for (const subschema of item.anyOf) {
+					found = getTypesFromSchema(subschema);
+					if (found) {
+						value = value.concat(found);
+					}
+				}
+			}
+		}
+	}
+	if (!value.length && schema.oneOf) {
+		for (const item of schema.oneOf) {
+			const found = getTypesFromSchema(item);
+			if (found) {
+				value = value.concat(found);
+			}
+		}
+	}
+	// Default to the `card` type, which will give a sensible schema
+	return value.length > 0 ? _.uniq(value) : null;
 };
 
 /**
@@ -117,46 +154,22 @@ const getTypesFromSchema = (schema: JsonSchema): string[] => {
  * @returns {String[]} - an array of types that are defined in the view card's filter
  */
 export const getTypesFromViewCard = (card: ViewContract) => {
-	let value: string[] = [];
-
 	// First check if the view has explicitly declared types
 	if (!_.isEmpty(card.data.types)) {
 		return _.castArray(card.data.types);
 	}
 
-	if (card.data.allOf) {
-		for (const item of card.data.allOf) {
-			let found = getTypesFromSchema(item.schema);
-			if (found) {
-				value = found;
-				break;
-			}
-			if (typeof item.schema === 'object' && item.schema.anyOf) {
-				for (const subschema of item.schema.anyOf) {
-					found = getTypesFromSchema(subschema);
-					if (found) {
-						break;
-					}
-				}
-			}
-			if (found) {
-				value = found;
-				break;
-			}
-		}
-	}
-	if (!value.length && card.data.oneOf) {
-		for (const item of card.data.oneOf) {
-			const found = getTypesFromSchema(item.schema);
-			if (found) {
-				value = found;
-				break;
-			}
-		}
-	}
+	// Normalize { allOf: [{ schema: <schema> }] } weirdness into `{ allOf: [<schema>] }`
+	const normalize = (item: { schema: any }) => {
+		return item.schema;
+	};
 
-	// Default to the `card` type, which will give a sensible schema
-	return value.length > 0 ? _.uniq(value) : ['card'];
+	return getTypesFromSchema({
+		...(typeof card.data.schema === 'object' ? card.data.schema : {}),
+		oneOf: card.data.oneOf?.map(normalize),
+		allOf: card.data.allOf?.map(normalize),
+		anyOf: card.data.anyOf?.map(normalize),
+	});
 };
 
 export const formatTimestamp = (stamp: number | string, prefix = false) => {

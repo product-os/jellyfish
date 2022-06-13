@@ -34,50 +34,6 @@ import {
 import { unpackLinksSchema } from './Header/Filters/filter-utils';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
-/**
- * Extracts an array of types that are defined in a schema
- *
- * @param {Object} schema
- *
- * @returns {String[]} - an array of types that are defined in the view card's filter
- */
-const getTypesFromSchema = (schema) => {
-	let value: string[] = [];
-	const types =
-		_.get(schema, ['properties', 'type', 'const']) ||
-		_.get(schema, ['properties', 'type', 'enum']);
-	if (types) {
-		value = _.castArray(types);
-	}
-	if (schema.allOf) {
-		for (const item of schema.allOf) {
-			let found = getTypesFromSchema(item);
-			if (found) {
-				value = value.concat(found);
-				break;
-			}
-			if (item.anyOf) {
-				for (const subschema of item.anyOf) {
-					found = getTypesFromSchema(subschema);
-					if (found) {
-						value = value.concat(found);
-					}
-				}
-			}
-		}
-	}
-	if (!value.length && schema.oneOf) {
-		for (const item of schema.oneOf) {
-			const found = getTypesFromSchema(item.schema);
-			if (found) {
-				value = value.concat(found);
-			}
-		}
-	}
-	// Default to the `card` type, which will give a sensible schema
-	return value.length > 0 ? _.uniq(value) : null;
-};
-
 const setSliceFilter = (filters, lens, slice) => {
 	// We only want to filter by slice if the lens does not supports slices itself!
 	if (!_.get(lens, ['data', 'supportsSlices']) && slice) {
@@ -356,12 +312,18 @@ export default withSetup(
 				this.props.userActiveLens &&
 				this.getLensBySlug(this.props.userActiveLens);
 
-			const viewTailTypes = getTypesFromSchema(query);
+			const viewTailTypes = helpers.getTypesFromSchema(query);
+
+			const tailTypes = _.compact(
+				_.map(viewTailTypes, (tailType) => {
+					return helpers.getType(tailType, types);
+				}),
+			);
 
 			// If the schema doesn't hint at a type, use the pseudo-master type "card"
-			const tailTypes = _.map(viewTailTypes || ['card'], (tailType) => {
-				return helpers.getType(tailType, types);
-			});
+			if (!tailTypes.length) {
+				tailTypes.push(helpers.getType('card', types));
+			}
 
 			const initialSearchTerm = _.get(seed, ['searchTerm']);
 
