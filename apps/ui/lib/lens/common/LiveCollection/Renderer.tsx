@@ -314,20 +314,16 @@ export default withSetup(
 
 			const viewTailTypes = helpers.getTypesFromSchema(query);
 
-			// If the schema doesn't hint at a type, use the pseudo-master type "card"
 			const tailTypes = _.compact(
-				_.map(viewTailTypes || ['card'], (tailType) => {
-					const typeContract = helpers.getType(tailType, types);
-					if (!typeContract) {
-						console.warn(
-							`Type "${tailType}" was not found in types array (${JSON.stringify(
-								types.map((type) => type.slug),
-							)})`,
-						);
-					}
-					return typeContract;
+				_.map(viewTailTypes, (tailType) => {
+					return helpers.getType(tailType, types);
 				}),
 			);
+
+			// If the schema doesn't hint at a type, use the pseudo-master type "card"
+			if (!tailTypes.length) {
+				tailTypes.push(helpers.getType('card', types));
+			}
 
 			const initialSearchTerm = _.get(seed, ['searchTerm']);
 
