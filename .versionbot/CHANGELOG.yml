@@ -1,4 +1,20 @@
 - commits:
+    - subject: "Server: Update to latest jellyfish-worker@30.0.9"
+      hash: d158bf7ae5b562500944c065c31c5c22111c3c96
+      body: |
+        This fixes an issue where some triggers would not run if they matched on
+        an inverse relationship name.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.36
+  title: "'Server: Update to latest jellyfish-worker@30.0.9'"
+  date: 2022-06-13T10:39:30.565Z
+- commits:
     - subject: "UI: Correctly bind async error handling"
       hash: d6f786901204ea905e2fe9734f69956d8aac670b
       body: ""
