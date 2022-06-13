@@ -136,7 +136,7 @@ export const getTypesFromSchema = (schema) => {
 	}
 	if (!value.length && schema.oneOf) {
 		for (const item of schema.oneOf) {
-			const found = getTypesFromSchema(item.schema);
+			const found = getTypesFromSchema(item);
 			if (found) {
 				value = value.concat(found);
 			}
