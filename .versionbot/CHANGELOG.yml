@@ -1,4 +1,20 @@
 - commits:
+    - subject: "Server: Improve performance of discourse plugin"
+      hash: 82c77084007e51a6d47676ea166ba1e9c09b2ad7
+      body: |
+        Update to include changes that reduce the number of actions enqueued
+        when mirror messages back to discourse.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.37
+  title: "'Server: Improve performance of discourse plugin'"
+  date: 2022-06-13T13:07:07.960Z
+- commits:
     - subject: "Server: Update to latest jellyfish-worker@30.0.9"
       hash: d158bf7ae5b562500944c065c31c5c22111c3c96
       body: |
