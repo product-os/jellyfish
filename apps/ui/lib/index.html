@@ -20,9 +20,108 @@
 				<link rel="manifest" href="/manifest.json" crossorigin="use-credentials">
 				<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 				<script src="/env-config.js"></script>
+				<style>
+					html,
+					body,
+					#app {
+						height: 100%;
+					}
+
+					.splash__wrapper {
+						width: 100%;
+						height: 100%;
+						background: lighten(#f0f4c3, 10%);
+						position: relative;
+						overflow: hidden;
+						transform: translate3d(0, 0, 0);
+					}
+
+					.splash__wave {
+						opacity: 0.4;
+						position: absolute;
+						top: 50%;
+						left: 50%;
+						background: #0af;
+						transform-origin: 50% 48%;
+						border-radius: 43%;
+						animation: drift 3000ms infinite linear;
+						width: 240px;
+						height: 240px;
+						margin-left: -120px;
+						margin-top: -120px;
+					}
+
+					.splash__wave.-three {
+						animation: drift 5000ms infinite linear;
+					}
+
+					.splash__wave.-two {
+						animation: drift 7000ms infinite linear;
+						opacity: 0.1;
+						background: yellow;
+					}
+
+					.splash__icon {
+						top: 50%;
+						left: 50%;
+						position: absolute;
+						width: 100px;
+						margin-left: -50px;
+						margin-top: -50px;
+						animation: wiggle 2500ms infinite linear;
+					}
+
+					.splash__wrapper:after {
+						content: '';
+						display: block;
+						left: 0;
+						top: 0;
+						width: 100%;
+						height: 100%;
+						background: linear-gradient(
+							to bottom,
+							rgba(#e8a, 1),
+							rgba(#def, 0) 80%,
+							rgba(white, 0.5)
+						);
+						z-index: 11;
+						transform: translate3d(0, 0, 0);
+					}
+
+					@keyframes drift {
+						from {
+							transform: rotate(0deg);
+						}
+						from {
+							transform: rotate(360deg);
+						}
+					}
+
+					@keyframes wiggle {
+						0% {
+							transform: rotate(0deg);
+						}
+						25% {
+							transform: rotate(15deg);
+						}
+						50% {
+							transform: rotate(0deg);
+						}
+						75% {
+							transform: rotate(-15deg);
+						}
+					}
+				</style>
     </head>
 
     <body>
-        <div id="app"></div>
+        <div id="app">
+					<div class="splash__wrapper">
+						<div class="splash__wave -one"></div>
+						<div class="splash__wave -two"></div>
+						<div class="splash__wave -three"></div>
+						<img class="splash__icon" src="/icons/jellyfish.svg" />
+					</div>
+				</div>
     </body>
 </html>
