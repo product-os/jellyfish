@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Inline splash screen in html for faster paint time"
+      hash: 2f8875c02afaf33e6900fcf619a8007c0919b09b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 52.0.33
+  title: "'UI: Inline splash screen in html for faster paint time'"
+  date: 2022-06-12T08:14:23.280Z
+- commits:
     - subject: Upgrade to jellyfish-worker@30.0.5
       hash: f376d641c640c4140e77fa281a507f2e2bd906c5
       body: ""
