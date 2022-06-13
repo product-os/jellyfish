@@ -1,4 +1,17 @@
 - commits:
+    - subject: Fix getting types from view schema
+      hash: c386c38380eec7ff9a8ed5de466a758191fa6949
+      body: |
+        This could cause ui errors for some users.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 52.0.38
+  title: "'Fix getting types from view schema'"
+  date: 2022-06-13T14:37:33.665Z
+- commits:
     - subject: "Server: Improve performance of discourse plugin"
       hash: 82c77084007e51a6d47676ea166ba1e9c09b2ad7
       body: |
