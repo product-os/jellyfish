@@ -12,10 +12,11 @@ import {
 	TagList,
 	ThreadMirrorIcon,
 	withSetup,
+	withDefaultGetActorHref,
 } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
-import { actionCreators } from '../../../store';
+import { actionCreators, selectors } from '../../../store';
 import CardFields from '../../../components/CardFields';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
@@ -24,6 +25,7 @@ import {
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
+import { JsonSchema } from '@balena/jellyfish-types';
 import {
 	BoundActionCreators,
 	ChatGroup,
@@ -31,6 +33,73 @@ import {
 	UIActor,
 } from '../../../types';
 import { Setup } from '../../../components/SetupProvider';
+import { useCursorEffect } from '../../../hooks';
+import { useSelector } from 'react-redux';
+
+const Highlights = withDefaultGetActorHref()(
+	({ threadId, isMirrored, getActorHref }) => {
+		const groups = useSelector(selectors.getGroups(), _.isEqual);
+		const user = useSelector(selectors.getCurrentUser(), _.isEqual);
+
+		const query = React.useMemo<JsonSchema>(() => {
+			return {
+				type: 'object',
+				properties: {
+					tags: {
+						type: 'array',
+						contains: {
+							type: 'string',
+							enum: ['summary', 'status'],
+						},
+					},
+				},
+				$$links: {
+					'is attached to': {
+						type: 'object',
+						properties: {
+							id: {
+								type: 'string',
+								const: threadId,
+							},
+							type: {
+								type: 'string',
+								const: 'support-thread@1.0.0',
+							},
+						},
+					},
+				},
+			};
+		}, [threadId]);
+
+		const [highlightedContracts] = useCursorEffect(query, {
+			sortBy: ['data', 'timestamp'],
+		});
+
+		return (
+			highlightedContracts.length && (
+				<Box pt={2}>
+					<Txt bold>Highlights</Txt>
+					<Extract py={2}>
+						{highlightedContracts.map((statusEvent) => {
+							return (
+								<Event
+									key={statusEvent.id}
+									card={statusEvent}
+									user={user}
+									groups={groups}
+									mb={1}
+									threadIsMirrored={isMirrored}
+									getActorHref={getActorHref}
+								/>
+							);
+						})}
+					</Extract>
+					<Divider width="100%" />
+				</Box>
+			)
+		);
+	},
+);
 
 const Extract = styled(Box)`
 	background: lightyellow;
@@ -85,8 +154,6 @@ export default withSetup(
 			this.setState({
 				actor,
 			});
-
-			this.loadHighlights(this.props.card.id);
 		}
 
 		reopen() {
@@ -162,69 +229,11 @@ export default withSetup(
 				});
 		}
 
-		async loadHighlights(id: string): Promise<void> {
-			const [result] = await this.props.sdk.query(
-				{
-					$$links: {
-						'has attached element': {
-							type: 'object',
-							properties: {
-								tags: {
-									type: 'array',
-									contains: {
-										type: 'string',
-										enum: ['summary', 'status'],
-									},
-								},
-							},
-						},
-					},
-					type: 'object',
-					properties: {
-						id: {
-							type: 'string',
-							const: id,
-						},
-						type: {
-							type: 'string',
-							const: 'support-thread@1.0.0',
-						},
-					},
-					additionalProperties: true,
-				},
-				// TS-TODO: Make sure that `links` is an allowed query option key
-				{
-					links: {
-						'has attached element': {
-							sortBy: ['data', 'timestamp'],
-						},
-					},
-				} as any,
-			);
-
-			const highlights =
-				result && result.links ? result.links['has attached element'] : [];
-
-			this.setState({
-				highlights,
-			});
-		}
-
 		shouldComponentUpdate(nextProps, nextState) {
 			return (
 				!circularDeepEqual(nextProps, this.props) ||
 				!circularDeepEqual(nextState, this.state)
 			);
-		}
-
-		componentDidUpdate(prevProps) {
-			if (
-				prevProps.card.id !== this.props.card.id ||
-				prevProps.card.linked_at['has attached element'] !==
-					this.props.card.linked_at!['has attached element']
-			) {
-				this.loadHighlights(this.props.card.id);
-			}
 		}
 
 		render() {
@@ -383,28 +392,7 @@ export default withSetup(
 							</Txt>
 						)}
 
-						{highlights.length > 0 && (
-							<Box pt={2}>
-								<Txt bold>Highlights</Txt>
-								<Extract py={2}>
-									{_.map(highlights, (statusEvent) => {
-										return (
-											<Event
-												key={statusEvent.id}
-												card={statusEvent}
-												user={this.props.user}
-												groups={this.props.groups}
-												mb={1}
-												threadIsMirrored={isMirrored}
-												getActorHref={getActorHref}
-											/>
-										);
-									})}
-								</Extract>
-								<Divider width="100%" />
-							</Box>
-						)}
-
+						<Highlights threadId={card.id} isMirrored={isMirrored} />
 						<CardFields card={card} type={typeContract} />
 					</>
 				</TabbedContractLayout>

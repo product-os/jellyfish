@@ -1,7 +1,5 @@
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { withDefaultGetActorHref } from '../../../components';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import * as _ from 'lodash';
@@ -34,12 +32,9 @@ export default {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: compose(
-			connect<StateProps, DispatchProps, OwnProps>(
-				mapStateToProps,
-				mapDispatchToProps,
-			),
-			withDefaultGetActorHref(),
+		renderer: connect<StateProps, DispatchProps, OwnProps>(
+			mapStateToProps,
+			mapDispatchToProps,
 		)(SupportThreadBase),
 		filter: {
 			type: 'object',
