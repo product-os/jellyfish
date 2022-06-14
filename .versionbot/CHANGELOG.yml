@@ -1,4 +1,18 @@
 - commits:
+    - subject: Stream thread highlights
+      hash: 62f5dbdb2e734c7a5369115acd28aa57218944d4
+      body: >
+        We previously used thread's  `linked_at` property to detect updates and
+        fetch highlights. Now we stream highlights directly.
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 52.0.41
+  title: "'Stream thread highlights'"
+  date: 2022-06-14T11:26:19.370Z
+- commits:
     - subject: Update autumndb and jellyfish-worker
       hash: 0770b9cd7b4ed71870afcbc469b5de6bb90c9407
       body: |
