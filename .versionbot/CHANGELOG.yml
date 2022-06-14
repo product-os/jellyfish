@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update autumndb and jellyfish-worker
+      hash: 0770b9cd7b4ed71870afcbc469b5de6bb90c9407
+      body: |
+        Stop updating linked_at timestamps to reduce locks
+        and overall database writes.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.40
+  title: "'Update autumndb and jellyfish-worker'"
+  date: 2022-06-14T09:02:51.308Z
+- commits:
     - subject: Use official Postgres image
       hash: 9104e5c13c4d746295b60ea087ab4e8b543902ee
       body: ""
