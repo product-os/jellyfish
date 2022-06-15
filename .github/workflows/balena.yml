@@ -344,10 +344,6 @@ jobs:
             --service registry \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-          balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
-            --service registry \
-            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
           balena env add REGISTRY2_S3_CLOUDFRONT_ENDPOINT '' \
             --service registry \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
@@ -372,6 +368,9 @@ jobs:
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
           balena env add INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION '' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
           balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '' \
