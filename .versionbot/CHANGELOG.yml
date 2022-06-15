@@ -1,4 +1,18 @@
 - commits:
+    - subject: Ignore registry token-auth env vars in the fleet when running e2e.
+      hash: d590aabaef5ca96b0ff8e31446656483d4eb0452
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 52.0.42
+  title: "'Ignore registry token-auth env vars in the fleet when running e2e.'"
+  date: 2022-06-15T14:50:01.123Z
+- commits:
     - subject: Stream thread highlights
       hash: 62f5dbdb2e734c7a5369115acd28aa57218944d4
       body: >
