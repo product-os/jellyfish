@@ -42,6 +42,12 @@ env:
   POSTGRES_PASSWORD: docker
   POSTGRES_USER: docker
   REDIS_HOST: redis
+  REGISTRY_HOST: registry.ly.fish.local
+  REGISTRY_TOKEN_AUTH_CERT_ISSUER: api.ly.fish.local
+  REGISTRY_TOKEN_AUTH_CERT_KEY: LS0tLS1CRUdJTiBFQyBQUklWQVRFIEtFWS0tLS0tCk1IY0NBUUVFSU4xWUw1WVRjb3NVVnhHdXlXMGt4cGE0ekxzbEpGQ2JvZUxIUWlpaW1vTkhvQW9HQ0NxR1NNNDkKQXdFSG9VUURRZ0FFR0RRQ2FpK1FnNG9GZE9HMXZNdWdtMFA5bTViSUR3R29MNjg1aGVYR0hwZWJVblgxOGQvYwpQUTZGbDBQaklQam9iUzlCNW5oSTF1Y0p3MW8vclE2UXdnPT0KLS0tLS1FTkQgRUMgUFJJVkFURSBLRVktLS0tLQo=
+  REGISTRY_TOKEN_AUTH_CERT_KID: UkNVNTo2Q1RaOkJITjc6RlBCUjpKWUJIOjVHRVI6QVdQSDpIRk9aOjZaT0c6VVUzTzo3Q0gzOjZFU0sK
+  REGISTRY_TOKEN_AUTH_CERT_PUB: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJKekNCemdJSkFPRkhIb0ZGSVFDbk1Bb0dDQ3FHU000OUJBTUNNQnd4R2pBWUJnTlZCQU1NRVdGd2FTNXMKZVM1bWFYTm9MbXh2WTJGc01CNFhEVEl5TURZeE56QXhNalV6TjFvWERUSXpNRFl4TnpBeE1qVXpOMW93SERFYQpNQmdHQTFVRUF3d1JZWEJwTG14NUxtWnBjMmd1Ykc5allXd3dXVEFUQmdjcWhrak9QUUlCQmdncWhrak9QUU1CCkJ3TkNBQVFZTkFKcUw1Q0RpZ1YwNGJXOHk2Q2JRLzJibHNnUEFhZ3Zyem1GNWNZZWw1dFNkZlh4Mzl3OURvV1gKUStNZytPaHRMMEhtZUVqVzV3bkRXait0RHBEQ01Bb0dDQ3FHU000OUJBTUNBMGdBTUVVQ0lRRGJXaGtSUkN6QgpsdW5kUTVGRXFZK3AvYUU1dDlzdFpVV1lQVnpQYTBuSGhnSWdBcXRKZUI2UjZOSzVDYTRibGRvUi9TemZtS3FECmVqL1lTWlNUN2p5MnNCRT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=
+  REGISTRY_TOKEN_AUTH_JWT_ALGO: ES256
   REGISTRY2_CACHE_ADDR: redis:6379
   REGISTRY2_STORAGEPATH: /data
   RELEASES: 50
@@ -288,9 +294,6 @@ jobs:
           balena env add SERVER_HOST "api.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-          balena env add REGISTRY_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
-            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
-
           balena env add REGISTRY2_HOST "registry.${{ steps.register-test-device.outputs.balena_device_uuid }}.${{ env.DNS_TLD }}" \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
@@ -370,10 +373,22 @@ jobs:
           balena env add INTEGRATION_BALENA_API_PUBLIC_KEY_PRODUCTION '' \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-          balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '' \
+          balena env add REGISTRY_HOST '${{ env.REGISTRY_HOST }}' \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
-          balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '' \
+          balena env add REGISTRY_TOKEN_AUTH_CERT_ISSUER '${{ env.REGISTRY_TOKEN_AUTH_CERT_ISSUER }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add REGISTRY_TOKEN_AUTH_CERT_KEY '${{ env.REGISTRY_TOKEN_AUTH_CERT_KEY }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add REGISTRY_TOKEN_AUTH_CERT_KID '${{ env.REGISTRY_TOKEN_AUTH_CERT_KID }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add REGISTRY_TOKEN_AUTH_JWT_ALGO '${{ env.REGISTRY_TOKEN_AUTH_JWT_ALGO }}' \
+            --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
+
+          balena env add REGISTRY_TOKEN_AUTH_CERT_PUB '${{ env.REGISTRY_TOKEN_AUTH_CERT_PUB }}' \
             --device '${{ steps.register-test-device.outputs.balena_device_uuid }}'
 
       - name: configure test device secrets
