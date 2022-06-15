@@ -7,8 +7,9 @@ import type {
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
-import type { Kernel, SessionContract } from 'autumndb';
+import type { Kernel } from 'autumndb';
 import errio from 'errio';
+import type { Application, Request, Response } from 'express';
 import _ from 'lodash';
 import multer from 'multer';
 import { v4 as uuidv4 } from 'uuid';
@@ -16,7 +17,7 @@ import * as facades from './facades';
 import { Storage } from './file-storage';
 import * as oauth from './oauth';
 import * as registry from './registry';
-import { authMiddleware } from './auth';
+import { authMiddleware } from '../auth';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -28,7 +29,7 @@ const upload = multer({
 	storage: multer.memoryStorage(),
 });
 
-const sendHTTPError = (request, response, error) => {
+const sendHTTPError = (request: Request, response: Response, error: any) => {
 	// If the error is expected, respond with error information
 	if (error.expected) {
 		const errorObject = errio.toObject(error, {
@@ -69,7 +70,7 @@ const sendHTTPError = (request, response, error) => {
 };
 
 export const attachRoutes = (
-	application,
+	application: Application,
 	kernel: Kernel,
 	worker: Worker,
 	options: { sync: Sync },
@@ -130,18 +131,12 @@ export const attachRoutes = (
 					throw new Error(`No type contract: ${PING_TYPE}`);
 				}
 
-				const adminSession = await kernel.getContractById(
-					request.context,
-					kernel.adminSession()!,
-					kernel.adminSession()!,
-				);
-				strict(adminSession);
 				const actionRequest = await worker.insertCard<ActionRequestContract>(
 					request.context,
 					kernel.adminSession()!,
 					worker.typeContracts['action-request@1.0.0'],
 					{
-						actor: adminSession.data.actor,
+						actor: kernel.adminSession()?.actor.id,
 						timestamp: new Date().toISOString(),
 					},
 					{
@@ -151,7 +146,7 @@ export const attachRoutes = (
 							context: request.context,
 							card: typeContract.id,
 							type: typeContract.type,
-							actor: adminSession.data.actor,
+							actor: kernel.adminSession()?.actor.id,
 							epoch: new Date().valueOf(),
 							input: {
 								id: typeContract.id,
@@ -352,18 +347,12 @@ export const attachRoutes = (
 			 */
 			const suffix = uuidv4();
 
-			const adminSession = await kernel.getContractById(
-				request.context,
-				kernel.adminSession()!,
-				kernel.adminSession()!,
-			);
-			strict(adminSession);
 			const actionRequest = await worker.insertCard<ActionRequestContract>(
 				request.context,
 				kernel.adminSession()!,
 				worker.typeContracts['action-request@1.0.0'],
 				{
-					actor: adminSession.data.actor,
+					actor: kernel.adminSession()?.actor.id,
 					timestamp: new Date().toISOString(),
 				},
 				{
@@ -373,7 +362,7 @@ export const attachRoutes = (
 						context: request.context,
 						card: sessionTypeContract!.id,
 						type: sessionTypeContract!.type,
-						actor: adminSession.data.actor,
+						actor: kernel.adminSession()?.actor.id,
 						epoch: new Date().valueOf(),
 						input: {
 							id: sessionTypeContract!.id,
@@ -558,7 +547,8 @@ export const attachRoutes = (
 					request.params.provider,
 					integrationToken,
 					{
-						raw: request.rawBody || request.body,
+						// TODO: Find out if `rawBody` is ever present
+						raw: (request as any).rawBody || request.body,
 						headers: request.headers,
 					},
 				);
@@ -598,19 +588,13 @@ export const attachRoutes = (
 				const id = uuidv4();
 				const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`;
 
-				const adminSession = await kernel.getContractById(
-					request.context,
-					kernel.adminSession()!,
-					kernel.adminSession()!,
-				);
-				strict(adminSession);
 				const actionRequest = await worker.insertCard<ActionRequestContract>(
 					request.context,
 					kernel.adminSession()!,
 					worker.typeContracts['action-request@1.0.0'],
 					{
 						timestamp: new Date().toISOString(),
-						actor: adminSession.data.actor,
+						actor: kernel.adminSession()?.actor.id,
 					},
 					{
 						type: 'action-request@1.0.0',
@@ -619,7 +603,7 @@ export const attachRoutes = (
 							context: request.context,
 							card: typeContract.id,
 							type: typeContract.type,
-							actor: adminSession.data.actor,
+							actor: kernel.adminSession()?.actor.id,
 							epoch: new Date().valueOf(),
 							input: {
 								id: typeContract.id,
@@ -672,15 +656,6 @@ export const attachRoutes = (
 				return response.send(404);
 			}
 
-			const sessionContract = await kernel.getContractById<SessionContract>(
-				request.context,
-				request.session,
-				request.session,
-			);
-			if (!sessionContract) {
-				return response.send(401);
-			}
-
 			const attachment = _.find(
 				_.get(contract, ['data', 'payload', 'attachments']),
 				(item) => {
@@ -706,7 +681,7 @@ export const attachRoutes = (
 							},
 						} as any,
 						{
-							actor: sessionContract.data.actor,
+							actor: request.session.actor.id,
 						},
 					)
 					.then((file) => {
@@ -745,7 +720,7 @@ export const attachRoutes = (
 		upload.any(),
 		async (request, response) => {
 			return metrics
-				.measureHttpAction(() => {
+				.measureHttpAction(async () => {
 					// If files are uploaded, the action payload is serialized as the form field
 					// "action" and will need to be parsed
 					const action = request.files
@@ -775,7 +750,8 @@ export const attachRoutes = (
 
 					return actionFacade
 						.processAction(request.context, request.session, action, {
-							files: request.files,
+							// TS-TODO: Type this correctly with multer
+							files: request.files as any,
 						})
 						.then((data) => {
 							response.status(200).json({
@@ -795,7 +771,7 @@ export const attachRoutes = (
 		validateSession,
 		async (request, response) => {
 			return metrics
-				.measureHttpQuery(() => {
+				.measureHttpQuery(async () => {
 					if (_.isEmpty(request.body)) {
 						return response.status(400).json({
 							error: true,

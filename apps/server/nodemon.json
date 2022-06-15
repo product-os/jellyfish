@@ -3,6 +3,7 @@
   "ignoreRoot": [],
   "watch": [
     "lib/",
+    "@types/",
     "node_modules/@balena/jellyfish-assert/build/*.js",
     "node_modules/@balena/jellyfish-client-sdk/build/**/*.js",
     "node_modules/@balena/jellyfish-environment/build/**/*.js",

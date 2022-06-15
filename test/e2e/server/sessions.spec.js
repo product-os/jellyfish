@@ -13,7 +13,7 @@ ava.serial.afterEach(() => {
 })
 
 ava.serial(
-	'should fail with a user error when querying an id with an expired session',
+	'should fail with a 401 when querying an id with an expired session',
 	async (test) => {
 		const admin = await sdk.card.get('user-admin')
 
@@ -29,7 +29,9 @@ ava.serial(
 			}
 		})
 
-		const result = await helpers.http(
+		const {
+			code, response
+		} = await helpers.http(
 			'GET',
 			'/api/v2/id/4a962ad9-20b5-4dd8-a707-bf819593cc84',
 			null,
@@ -38,20 +40,14 @@ ava.serial(
 			}
 		)
 
-		test.is(result.code, 400)
-		test.deepEqual(result.response, {
-			error: true,
-			data: {
-				context: result.response.data.context,
-				name: 'JellyfishSessionExpired',
-				message: result.response.data.message
-			}
-		})
+		test.is(code, 401)
+		test.is(response.error, true)
+		test.is(response.data, 'Invalid session')
 	}
 )
 
 ava.serial(
-	'should fail with a user error when querying a slug with an expired session',
+	'should fail with a 401 when querying a slug with an expired session',
 	async (test) => {
 		const admin = await sdk.card.get('user-admin')
 
@@ -67,24 +63,25 @@ ava.serial(
 			}
 		})
 
-		const result = await helpers.http('GET', '/api/v2/slug/user-admin', null, {
-			Authorization: `Bearer ${session.id}`
-		})
-
-		test.is(result.code, 400)
-		test.deepEqual(result.response, {
-			error: true,
-			data: {
-				context: result.response.data.context,
-				name: 'JellyfishSessionExpired',
-				message: result.response.data.message
+		const {
+			code, response
+		} = await helpers.http(
+			'GET',
+			'/api/v2/slug/user-admin',
+			null,
+			{
+				Authorization: `Bearer ${session.id}`
 			}
-		})
+		)
+
+		test.is(code, 401)
+		test.is(response.error, true)
+		test.is(response.data, 'Invalid session')
 	}
 )
 
 ava.serial(
-	'should fail with a user error when querying with an expired session',
+	'should fail with a 401 when querying with an expired session',
 	async (test) => {
 		const admin = await sdk.card.get('user-admin')
 
@@ -100,7 +97,9 @@ ava.serial(
 			}
 		})
 
-		const result = await helpers.http(
+		const {
+			code, response
+		} = await helpers.http(
 			'POST',
 			'/api/v2/query',
 			{
@@ -125,20 +124,14 @@ ava.serial(
 			}
 		)
 
-		test.is(result.code, 400)
-		test.deepEqual(result.response, {
-			error: true,
-			data: {
-				context: result.response.data.context,
-				name: 'JellyfishSessionExpired',
-				message: result.response.data.message
-			}
-		})
+		test.is(code, 401)
+		test.is(response.error, true)
+		test.is(response.data, 'Invalid session')
 	}
 )
 
 ava.serial(
-	'should fail with a user error when posting an action with an expired session',
+	'should fail with a 401 when posting an action with an expired session',
 	async (test) => {
 		const admin = await sdk.card.get('user-admin')
 
@@ -154,7 +147,9 @@ ava.serial(
 			}
 		})
 
-		const result = await helpers.http(
+		const {
+			code, response
+		} = await helpers.http(
 			'POST',
 			'/api/v2/action',
 			{
@@ -170,15 +165,9 @@ ava.serial(
 			}
 		)
 
-		test.is(result.code, 400)
-		test.deepEqual(result.response, {
-			error: true,
-			data: {
-				context: result.response.data.context,
-				name: 'JellyfishSessionExpired',
-				message: result.response.data.message
-			}
-		})
+		test.is(code, 401)
+		test.is(response.error, true)
+		test.is(response.data, 'Invalid session')
 	}
 )
 

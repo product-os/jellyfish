@@ -5,7 +5,7 @@ import type {
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict as assert } from 'assert';
-import type { SessionContract } from 'autumndb';
+import type { AutumnDBSession } from 'autumndb';
 import errio from 'errio';
 import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';
@@ -40,7 +40,7 @@ export class ActionFacade {
 
 	async processAction(
 		context: { [x: string]: any; id: any },
-		session: string,
+		session: AutumnDBSession,
 		action: ActionPreRequest,
 		options: ActionFacadeOptions = {},
 	) {
@@ -71,13 +71,6 @@ export class ActionFacade {
 		}
 
 		const finalRequest = await this.worker.pre(session, action);
-		const sessionContract =
-			await this.worker.kernel.getContractById<SessionContract>(
-				context,
-				session,
-				session,
-			);
-		assert(sessionContract);
 		const input = isUUID(action.card)
 			? {
 					id: action.card,
@@ -95,7 +88,7 @@ export class ActionFacade {
 			this.worker.typeContracts['action-request@1.0.0'],
 			{
 				timestamp: actionRequestDate.toISOString(),
-				actor: sessionContract.data.actor,
+				actor: session.actor.id,
 			},
 			{
 				type: 'action-request@1.0.0',
@@ -104,7 +97,7 @@ export class ActionFacade {
 					context,
 					epoch: actionRequestDate.valueOf(),
 					timestamp: actionRequestDate.toISOString(),
-					actor: sessionContract.data.actor,
+					actor: session.actor.id,
 					input: {
 						id: input.id,
 					},

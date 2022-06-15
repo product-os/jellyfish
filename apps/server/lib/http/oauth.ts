@@ -5,7 +5,7 @@ import type {
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict as assert } from 'assert';
-import type { SessionContract } from 'autumndb';
+import type { AutumnDBSession } from 'autumndb';
 import errio from 'errio';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
@@ -15,7 +15,7 @@ const logger = getLogger(__filename);
 export const whoami = (
 	logContext: LogContext,
 	worker: Worker,
-	session: string,
+	session: AutumnDBSession,
 	provider: string,
 	credentials,
 	options: { sync: Sync },
@@ -35,7 +35,7 @@ export const whoami = (
 export const match = (
 	logContext: LogContext,
 	worker: Worker,
-	session: string,
+	session: AutumnDBSession,
 	provider: string,
 	externalUser,
 	options: { slug: string; sync: Sync },
@@ -56,18 +56,11 @@ export const match = (
 export const sync = async (
 	logContext: LogContext,
 	worker: Worker,
-	session: string,
+	session: AutumnDBSession,
 	provider: string,
 	externalUser,
 	options: { sync: Sync },
 ) => {
-	const sessionContract = await worker.kernel.getContractById<SessionContract>(
-		logContext,
-		session,
-		session,
-	);
-	assert(sessionContract);
-
 	const event = await worker.kernel.insertContract(logContext, session, {
 		type: 'external-event@1.0.0',
 		slug: `external-event-${uuid()}`,
@@ -103,7 +96,7 @@ export const sync = async (
 				context: logContext,
 				epoch: actionRequestDate.valueOf(),
 				timestamp: actionRequestDate.toISOString(),
-				actor: sessionContract.data.actor,
+				actor: session.actor.id,
 				input: {
 					id: event.id,
 				},
@@ -122,7 +115,7 @@ export const sync = async (
 export const authorize = async (
 	logContext: LogContext,
 	worker: Worker,
-	session: string,
+	session: AutumnDBSession,
 	provider: string,
 	options,
 ) => {
@@ -132,17 +125,10 @@ export const authorize = async (
 		code: options.code,
 	});
 
-	const sessionContract = await worker.kernel.getContractById<SessionContract>(
-		logContext,
-		session,
-		session,
-	);
-	assert(sessionContract);
-
 	const preResults = await worker.pre(session, {
 		action: 'action-oauth-authorize@1.0.0',
 		logContext,
-		card: sessionContract.data.actor,
+		card: session.actor.id,
 		type: 'user@1.0.0',
 		arguments: {
 			provider,
@@ -166,9 +152,9 @@ export const authorize = async (
 				context: logContext,
 				epoch: actionRequestDate.valueOf(),
 				timestamp: actionRequestDate.toISOString(),
-				actor: sessionContract.data.actor,
+				actor: session.actor.id,
 				input: {
-					id: sessionContract.data.actor,
+					id: session.actor.id,
 				},
 			},
 		},
@@ -187,7 +173,7 @@ export const authorize = async (
 export const associate = async (
 	logContext: LogContext,
 	worker: Worker,
-	session: string,
+	session: AutumnDBSession,
 	provider: string,
 	user,
 	credentials,
@@ -198,13 +184,6 @@ export const associate = async (
 		provider,
 		user: user.id,
 	});
-
-	const sessionContract = await worker.kernel.getContractById<SessionContract>(
-		logContext,
-		session,
-		session,
-	);
-	assert(sessionContract);
 
 	const data = await worker.pre(session, {
 		action: 'action-oauth-associate@1.0.0',
@@ -233,7 +212,7 @@ export const associate = async (
 				context: logContext,
 				epoch: actionRequestDate.valueOf(),
 				timestamp: actionRequestDate.toISOString(),
-				actor: sessionContract.data.actor,
+				actor: session.actor.id,
 				input: {
 					id: user.id,
 				},

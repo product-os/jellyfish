@@ -20,6 +20,7 @@ COPY ./apps/server/run.sh /usr/src/jellyfish/apps/server/run.sh
 #dev-copy=./.libs/ /usr/src/jellyfish/apps/server/node_modules/
 COPY ./apps/server/lib/ /usr/src/jellyfish/apps/server/lib/
 COPY ./apps/server/test/ /usr/src/jellyfish/apps/server/test/
+COPY ./apps/server/@types/ /usr/src/jellyfish/apps/server/@types/
 COPY ./apps/server/tslint.json /usr/src/jellyfish/apps/server/tslint.json
 RUN npm run lint
 RUN npm run build
