@@ -1,4 +1,18 @@
 - commits:
+    - subject: Go back to balena db image
+      hash: 136e64f303ad0cd504c4bb70b81eee5efe49a8fa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 52.0.45
+  title: "'Go back to balena db image'"
+  date: 2022-06-16T05:29:17.758Z
+- commits:
     - subject: Update internal packages
       hash: 99d856f2b5358900077ff159ae0b16aa1580ad3b
       body: ""
