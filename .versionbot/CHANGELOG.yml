@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typescript from 4.6.4 to 4.7.3
+      hash: 84a20f16c7dfed10f775a2023ea6a1b38f299306
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Renovate Bot
+      nested: []
+  version: 52.0.43
+  title: "'Update typescript from 4.6.4 to 4.7.3'"
+  date: 2022-06-15T23:58:33.041Z
+- commits:
     - subject: Ignore registry token-auth env vars in the fleet when running e2e.
       hash: d590aabaef5ca96b0ff8e31446656483d4eb0452
       body: ""
