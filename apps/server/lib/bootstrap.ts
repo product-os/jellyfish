@@ -252,30 +252,8 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	logger.info(logContext, 'Configuring socket server');
 	const socketServer = attachSocket(kernel, webServer.server);
 
-	// Set up guest user
-	logger.info(logContext, 'Setting up guest user');
-	const guestUser = await kernel.getContractBySlug(
-		logContext,
-		kernel.adminSession()!,
-		'user-guest@latest',
-	);
-	const guestSession = await kernel.replaceContract(
-		logContext,
-		kernel.adminSession()!,
-		autumndb.Kernel.defaults({
-			slug: 'session-guest',
-			version: '1.0.0',
-			type: 'session@1.0.0',
-			data: {
-				actor: guestUser!.id,
-			},
-		}),
-	);
-	logger.info(logContext, 'Done setting up guest session');
-
 	// Set up routes/middlewares now that we're ready to serve http traffic
 	webServer.ready(kernel, worker, {
-		guestSession: guestSession.id,
 		sync: worker.sync,
 	});
 
@@ -338,7 +316,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	return {
 		worker,
 		kernel,
-		guestSession: guestSession.id,
 		port: webServer.port,
 		close: async () => {
 			socketServer.close();

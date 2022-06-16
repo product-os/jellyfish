@@ -50,14 +50,13 @@ const isValidSession = async (
 };
 
 export const authMiddleware =
-	(kernel: Kernel, options: { guestSession: string }) =>
-	async (request, _response, next) => {
-		request.session = options.guestSession;
-
+	(kernel: Kernel) => async (request, response, next) => {
 		const authorizationHeader = request.headers['authorization'];
-
 		if (!authorizationHeader) {
-			return next();
+			return response.status(401).json({
+				error: true,
+				data: 'Invalid session',
+			});
 		}
 
 		// Split 'Bearer ' and <session_id>.<auth_token>
@@ -86,5 +85,15 @@ export const authMiddleware =
 				request.session = credentials[0];
 			}
 		}
-		return next();
+
+		// If a session was successfully retrieved, continue the request
+		// Otherwise, reject the request
+		if (request.session) {
+			return next();
+		} else {
+			return response.status(401).json({
+				error: true,
+				data: 'Invalid session',
+			});
+		}
 	};
