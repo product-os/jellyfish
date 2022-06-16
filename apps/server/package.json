@@ -41,7 +41,6 @@
     "autumndb": "^20.1.12",
     "aws-sdk": "^2.1148.0",
     "bcrypt": "^5.0.1",
-    "bluebird": "^3.7.2",
     "body-parser": "^1.20.0",
     "compression": "^1.7.4",
     "errio": "^1.2.2",

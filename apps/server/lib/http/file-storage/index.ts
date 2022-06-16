@@ -1,8 +1,8 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import AWS from 'aws-sdk';
-import Bluebird from 'bluebird';
 import _ from 'lodash';
+import { setTimeout } from 'timers/promises';
 
 const logger = getLogger(__filename);
 
@@ -39,7 +39,7 @@ export class Storage {
 		return s3.putObject(object).promise();
 	}
 
-	public retrieve(
+	public async retrieve(
 		context: LogContext,
 		scope: string,
 		name: string,
@@ -57,27 +57,19 @@ export class Storage {
 			bucket: object.Bucket,
 		});
 
-		return s3
-			.getObject(object)
-			.promise()
-			.then((data) => {
-				logger.info(
-					context,
-					'S3 object fetch response',
-					_.omit(data, ['Body']),
-				);
-				return data.Body;
-			})
-			.catch((error) => {
-				logger.exception(context, 'S3 error', error);
+		try {
+			const data = await s3.getObject(object).promise();
+			logger.info(context, 'S3 object fetch response', _.omit(data, ['Body']));
+			return data.Body;
+		} catch (error: any) {
+			logger.exception(context, 'S3 error', error);
 
-				if (retries < this.numberOfRetries) {
-					return Bluebird.delay(100).then(() => {
-						return this.retrieve(context, scope, name, retries + 1);
-					});
-				}
+			if (retries < this.numberOfRetries) {
+				await setTimeout(100);
+				return this.retrieve(context, scope, name, retries + 1);
+			}
 
-				throw error;
-			});
+			throw error;
+		}
 	}
 }

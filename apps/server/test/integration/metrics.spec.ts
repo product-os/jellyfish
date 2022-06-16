@@ -1,5 +1,4 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import Bluebird from 'bluebird';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from '../../lib/bootstrap';
@@ -24,7 +23,7 @@ afterAll(async () => {
 });
 
 const getMetrics = async () => {
-	return new Bluebird<any>((resolve, reject) => {
+	return new Promise<any>((resolve, reject) => {
 		const requestOptions = {
 			method: 'GET',
 			baseUrl: `http://localhost:${environment.metrics.ports.socket}`,

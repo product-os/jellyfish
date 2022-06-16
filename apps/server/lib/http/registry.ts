@@ -2,7 +2,6 @@ import { defaultEnvironment as environment } from '@balena/jellyfish-environment
 import { getLogger } from '@balena/jellyfish-logger';
 import type { Contract } from '@balena/jellyfish-types/build/core';
 import type { Kernel } from 'autumndb';
-import Bluebird from 'bluebird';
 import jsonwebtoken from 'jsonwebtoken';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
@@ -148,39 +147,41 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 		jti: uuidv4(),
 		nbf: Math.floor(Date.now() / 1000) - 10,
 		access: _.compact(
-			await Bluebird.map(parsedScopes, async ([type, name, actions]) => {
-				let contract: Contract | null = null;
+			await Promise.all(
+				parsedScopes.map(async ([type, name, actions]) => {
+					let contract: Contract | null = null;
 
-				try {
-					// Name will refer to the slug of the contract representing this entity.
-					// The registry doesn't allow scopes per version - we assume that all versions
-					// have the same permissions set
-					contract = await kernel.getContractBySlug(
-						request.context,
-						session!,
-						`${name}@latest`,
-					);
-				} catch (error) {
-					logger.info(
-						request.context,
-						'Registry authentication hit error querying for contract',
-						{
+					try {
+						// Name will refer to the slug of the contract representing this entity.
+						// The registry doesn't allow scopes per version - we assume that all versions
+						// have the same permissions set
+						contract = await kernel.getContractBySlug(
+							request.context,
+							session!,
+							`${name}@latest`,
+						);
+					} catch (error) {
+						logger.info(
+							request.context,
+							'Registry authentication hit error querying for contract',
+							{
+								name,
+							},
+						);
+
+						return null;
+					}
+
+					if (contract) {
+						return {
+							type,
 							name,
-						},
-					);
-
+							actions: _.intersection(actions, ['push', 'pull']),
+						};
+					}
 					return null;
-				}
-
-				if (contract) {
-					return {
-						type,
-						name,
-						actions: _.intersection(actions, ['push', 'pull']),
-					};
-				}
-				return null;
-			}),
+				}),
+			),
 		),
 	};
 
