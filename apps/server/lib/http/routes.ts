@@ -9,7 +9,6 @@ import type {
 } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
 import type { Kernel } from 'autumndb';
-import Bluebird from 'bluebird';
 import errio from 'errio';
 import _ from 'lodash';
 import multer from 'multer';
@@ -102,24 +101,23 @@ export const attachRoutes = (
 		return response.status(200).end();
 	});
 
-	application.get('/status', (request, response) => {
-		return Bluebird.props({
-			kernel: kernel.getStatus(),
-		})
-			.then((status) => {
-				return response.status(200).json(status);
-			})
-			.catch((error) => {
-				const errorObject = errio.toObject(error, {
-					stack: true,
-				});
-
-				logger.exception(request.context, 'Status error', error);
-				return response.status(500).json({
-					error: true,
-					data: errorObject,
-				});
+	application.get('/status', async (request, response) => {
+		try {
+			const kernelStatus = await kernel.getStatus();
+			return response.status(200).json({
+				kernel: kernelStatus,
 			});
+		} catch (error: any) {
+			const errorObject = errio.toObject(error, {
+				stack: true,
+			});
+
+			logger.exception(request.context, 'Status error', error);
+			return response.status(500).json({
+				error: true,
+				data: errorObject,
+			});
+		}
 	});
 
 	application.get('/ping', (request, response) => {
@@ -563,25 +561,26 @@ export const attachRoutes = (
 	// /api/v2/hooks/workable. As a solution, we can allow this rule to
 	// have an optional "type" parameter that is not used for anything
 	// apart from differentiating the endpoints.
-	application.all('/api/v2/hooks/:provider/:type*?', (request, response) => {
-		const hostname = request.headers.host;
-		const startDate = new Date();
-		logger.info(request.context, 'Received webhook', {
-			ip: request.ip,
-			source: request.params.provider,
-		});
+	application.all(
+		'/api/v2/hooks/:provider/:type*?',
+		async (request, response) => {
+			const hostname = request.headers.host;
+			const startDate = new Date();
+			logger.info(request.context, 'Received webhook', {
+				ip: request.ip,
+				source: request.params.provider,
+			});
 
-		// A dummy /dev/null that we can use in various
-		// services for testing purposes.
-		if (request.params.provider === 'none') {
-			return response.status(200).end();
-		}
+			// A dummy /dev/null that we can use in various
+			// services for testing purposes.
+			if (request.params.provider === 'none') {
+				return response.status(200).end();
+			}
 
-		const integrationToken = environment.integration[request.params.provider];
+			const integrationToken = environment.integration[request.params.provider];
 
-		return Bluebird.try(async () => {
-			if (
-				!(await options.sync.isValidEvent(
+			try {
+				const isValidEvent = await options.sync.isValidEvent(
 					request.context,
 					request.params.provider,
 					integrationToken,
@@ -589,131 +588,121 @@ export const attachRoutes = (
 						raw: request.rawBody || request.body,
 						headers: request.headers,
 					},
-				))
-			) {
-				logger.warn(request.context, 'Webhook rejected', {
-					ip: request.ip,
+				);
+				if (!isValidEvent) {
+					logger.warn(request.context, 'Webhook rejected', {
+						ip: request.ip,
+						source: request.params.provider,
+						hostname,
+						body: request.body,
+					});
+
+					return response.status(401).json({
+						error: true,
+						data: 'Webhook rejected',
+					});
+				}
+
+				if (_.isEmpty(request.body)) {
+					return response.status(400).json({
+						error: true,
+						data: 'Invalid external event',
+					});
+				}
+
+				const validateDate = new Date();
+				logger.info(request.context, 'Webhook validated', {
 					source: request.params.provider,
-					hostname,
-					body: request.body,
+					ip: request.ip,
+					time: validateDate.getTime() - startDate.getTime(),
 				});
 
-				return response.status(401).json({
-					error: true,
-					data: 'Webhook rejected',
-				});
-			}
-
-			if (_.isEmpty(request.body)) {
-				return response.status(400).json({
-					error: true,
-					data: 'Invalid external event',
-				});
-			}
-
-			const validateDate = new Date();
-			logger.info(request.context, 'Webhook validated', {
-				source: request.params.provider,
-				ip: request.ip,
-				time: validateDate.getTime() - startDate.getTime(),
-			});
-
-			const EXTERNAL_EVENT_BASE_TYPE = 'external-event';
-			const EXTERNAL_EVENT_TYPE = `${EXTERNAL_EVENT_BASE_TYPE}@1.0.0`;
-			return kernel
-				.getContractBySlug(
+				const EXTERNAL_EVENT_BASE_TYPE = 'external-event';
+				const EXTERNAL_EVENT_TYPE = `${EXTERNAL_EVENT_BASE_TYPE}@1.0.0`;
+				const typeContract = await kernel.getContractBySlug(
 					request.context,
 					kernel.adminSession()!,
 					EXTERNAL_EVENT_TYPE,
-				)
-				.then((typeContract) => {
-					if (!typeContract) {
-						throw new Error(`No type contract: ${EXTERNAL_EVENT_TYPE}`);
-					}
+				);
 
-					const id = uuidv4();
-					return new Promise((resolve) => {
-						const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`;
+				if (!typeContract) {
+					throw new Error(`No type contract: ${EXTERNAL_EVENT_TYPE}`);
+				}
 
-						logger.info(request.context, 'Creating external event', {
-							source: request.params.provider,
-							slug,
-						});
+				const id = uuidv4();
+				const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`;
 
-						return resolve(
-							kernel
-								.getContractById(
-									request.context,
-									kernel.adminSession()!,
-									kernel.adminSession()!,
-								)
-								.then((adminSession) => {
-									strict(adminSession);
-									return worker.insertCard<ActionRequestContract>(
-										request.context,
-										kernel.adminSession()!,
-										worker.typeContracts['action-request@1.0.0'],
-										{
-											timestamp: new Date().toISOString(),
-											actor: adminSession.data.actor,
-										},
-										{
-											type: 'action-request@1.0.0',
-											data: {
-												action: 'action-create-card@1.0.0',
-												context: request.context,
-												card: typeContract.id,
-												type: typeContract.type,
-												actor: adminSession.data.actor,
-												epoch: new Date().valueOf(),
-												input: {
-													id: typeContract.id,
-												},
-												timestamp: new Date().toISOString(),
-												arguments: {
-													reason: null,
-													properties: {
-														slug,
-														version: '1.0.0',
-														data: {
-															source: request.params.provider,
-															headers: request.headers,
-															payload: request.body,
-														},
-													},
-												},
-											},
-										},
-									);
-								}),
-						);
-					});
-				})
-				.then((actionRequest) => {
-					const enqueuedDate = new Date();
-					logger.info(request.context, 'Webhook enqueued', {
-						source: request.params.provider,
-						ip: request.ip,
-						time: enqueuedDate.getTime() - startDate.getTime(),
-					});
-
-					return response.status(200).json({
-						error: false,
-						data: actionRequest,
-					});
+				logger.info(request.context, 'Creating external event', {
+					source: request.params.provider,
+					slug,
 				});
-		}).catch((error) => {
-			error.body = request.body;
-			logger.exception(request.context, 'Webhook error', error);
-			return response.status(500).json({
-				error: true,
-				data: {
-					type: 'Error',
-					message: error.message,
-				},
-			});
-		});
-	});
+
+				const adminSession = await kernel.getContractById(
+					request.context,
+					kernel.adminSession()!,
+					kernel.adminSession()!,
+				);
+				strict(adminSession);
+				const actionRequest = await worker.insertCard<ActionRequestContract>(
+					request.context,
+					kernel.adminSession()!,
+					worker.typeContracts['action-request@1.0.0'],
+					{
+						timestamp: new Date().toISOString(),
+						actor: adminSession.data.actor,
+					},
+					{
+						type: 'action-request@1.0.0',
+						data: {
+							action: 'action-create-card@1.0.0',
+							context: request.context,
+							card: typeContract.id,
+							type: typeContract.type,
+							actor: adminSession.data.actor,
+							epoch: new Date().valueOf(),
+							input: {
+								id: typeContract.id,
+							},
+							timestamp: new Date().toISOString(),
+							arguments: {
+								reason: null,
+								properties: {
+									slug,
+									version: '1.0.0',
+									data: {
+										source: request.params.provider,
+										headers: request.headers,
+										payload: request.body,
+									},
+								},
+							},
+						},
+					},
+				);
+				const enqueuedDate = new Date();
+				logger.info(request.context, 'Webhook enqueued', {
+					source: request.params.provider,
+					ip: request.ip,
+					time: enqueuedDate.getTime() - startDate.getTime(),
+				});
+
+				return response.status(200).json({
+					error: false,
+					data: actionRequest,
+				});
+			} catch (error: any) {
+				error.body = request.body;
+				logger.exception(request.context, 'Webhook error', error);
+				return response.status(500).json({
+					error: true,
+					data: {
+						type: 'Error',
+						message: error.message,
+					},
+				});
+			}
+		},
+	);
 
 	application.get(
 		'/api/v2/file/:cardId/:fileName',

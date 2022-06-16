@@ -1,4 +1,5 @@
 import * as assert from '@balena/jellyfish-assert';
+import { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	SessionContract,
@@ -22,7 +23,7 @@ export class AuthFacade extends QueryFacade {
 			'Session does not exist',
 		);
 
-		const schema = {
+		const schema: JsonSchema = {
 			type: 'object',
 			$$links: {
 				'is member of': {

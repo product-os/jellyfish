@@ -2,7 +2,6 @@ import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import type { Sync, Worker } from '@balena/jellyfish-worker';
 import type { Kernel } from 'autumndb';
-import Bluebird from 'bluebird';
 import errio from 'errio';
 import http from 'http';
 import { attachMiddlewares } from './middlewares';
@@ -103,7 +102,7 @@ export const createServer = (logContext: LogContext, configuration: any) => {
 			ready = true;
 		},
 		stop: async () => {
-			await new Bluebird((resolve) => {
+			await new Promise((resolve) => {
 				server.close();
 				server.once('close', resolve);
 			});

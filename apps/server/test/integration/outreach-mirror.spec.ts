@@ -1,6 +1,5 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { strict as assert } from 'assert';
-import Bluebird from 'bluebird';
 import _ from 'lodash';
 import nock from 'nock';
 import querystring from 'querystring';
@@ -38,7 +37,7 @@ beforeEach(async () => {
 	helpers.beforeEach(test);
 
 	context.getProspect = async (id: string) => {
-		return new Bluebird((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			request(
 				{
 					method: 'GET',
