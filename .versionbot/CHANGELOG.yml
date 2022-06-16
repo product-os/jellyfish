@@ -1,4 +1,21 @@
 - commits:
+    - subject: "Server: Drop Bluebird package"
+      hash: 02067a2d4f5d33e828cdb88870ee44f8037ef319
+      body: |
+        In all cases we've been able to simplify code by either using native
+        promises or switching to async/await, removing the need for the Bluebird
+        package.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.0.1
+  title: "'Server: Drop Bluebird package'"
+  date: 2022-06-16T14:15:38.093Z
+- commits:
     - subject: Drop guest user/session
       hash: 7ba690cfc1f6bce896076f7dfcbf16af3ce56362
       body: ""
