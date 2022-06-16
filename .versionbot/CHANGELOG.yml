@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop guest user/session
+      hash: 7ba690cfc1f6bce896076f7dfcbf16af3ce56362
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.0
+  title: "'Stop using a guest user session'"
+  date: 2022-06-16T12:50:22.219Z
+- commits:
     - subject: Go back to balena db image
       hash: 136e64f303ad0cd504c4bb70b81eee5efe49a8fa
       body: ""
