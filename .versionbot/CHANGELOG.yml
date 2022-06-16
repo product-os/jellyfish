@@ -1,4 +1,16 @@
 - commits:
+    - subject: Mob/UI Switch between accounts
+      hash: 93a94e483703560158ac0c750cca08ef8282e201
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 52.1.0
+  title: "'Mob/UI Switch between accounts'"
+  date: 2022-06-16T08:43:15.556Z
+- commits:
     - subject: Improve types of core state reducer
       hash: d0ec1c236a2e62d19ce4225d6b8b306e01d7e0e1
       body: ""
