@@ -18,6 +18,7 @@ import * as facades from './facades';
 import { Storage } from './file-storage';
 import * as oauth from './oauth';
 import * as registry from './registry';
+import { authMiddleware } from './auth';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -73,12 +74,13 @@ export const attachRoutes = (
 	application,
 	kernel: Kernel,
 	worker: Worker,
-	options: { sync: Sync; guestSession: string },
+	options: { sync: Sync },
 ) => {
 	const queryFacade = new facades.QueryFacade(kernel);
 	const authFacade = new facades.AuthFacade(kernel);
 	const actionFacade = new facades.ActionFacade(worker, fileStore);
 	const viewFacade = new facades.ViewFacade(kernel, queryFacade);
+	const validateSession = authMiddleware(kernel);
 
 	application.get('/api/v2/config', (_request, response) => {
 		response.send({
@@ -474,70 +476,86 @@ export const attachRoutes = (
 		);
 	});
 
-	application.get('/api/v2/type/:type', async (request, response) => {
-		return metrics
-			.measureHttpType(() => {
-				const [base, version] = request.params.type.split('@');
-				return kernel
-					.query(request.context, request.session, {
-						type: 'object',
-						additionalProperties: true,
-						required: ['type'],
-						properties: {
-							type: {
-								type: 'string',
-								const: `${base}@${version || '1.0.0'}`,
+	application.get(
+		'/api/v2/type/:type',
+		validateSession,
+		async (request, response) => {
+			return metrics
+				.measureHttpType(() => {
+					const [base, version] = request.params.type.split('@');
+					return kernel
+						.query(request.context, request.session, {
+							type: 'object',
+							additionalProperties: true,
+							required: ['type'],
+							properties: {
+								type: {
+									type: 'string',
+									const: `${base}@${version || '1.0.0'}`,
+								},
 							},
-						},
-					})
-					.then((results) => {
-						return response.status(200).json(results);
-					});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+						})
+						.then((results) => {
+							return response.status(200).json(results);
+						});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
+				});
+		},
+	);
 
-	application.get('/api/v2/id/:id', async (request, response) => {
-		return metrics
-			.measureHttpId(() => {
-				return kernel
-					.getContractById(request.context, request.session, request.params.id)
-					.then((contract) => {
-						if (contract) {
-							return response.status(200).json(contract);
-						}
+	application.get(
+		'/api/v2/id/:id',
+		validateSession,
+		async (request, response) => {
+			return metrics
+				.measureHttpId(() => {
+					return kernel
+						.getContractById(
+							request.context,
+							request.session,
+							request.params.id,
+						)
+						.then((contract) => {
+							if (contract) {
+								return response.status(200).json(contract);
+							}
 
-						return response.status(404).end();
-					});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+							return response.status(404).end();
+						});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
+				});
+		},
+	);
 
-	application.get('/api/v2/slug/:slug', async (request, response) => {
-		return metrics
-			.measureHttpSlug(() => {
-				return kernel
-					.getContractBySlug(
-						request.context,
-						request.session,
-						`${request.params.slug}@latest`,
-					)
-					.then((contract) => {
-						if (contract) {
-							return response.status(200).json(contract);
-						}
+	application.get(
+		'/api/v2/slug/:slug',
+		validateSession,
+		async (request, response) => {
+			return metrics
+				.measureHttpSlug(() => {
+					return kernel
+						.getContractBySlug(
+							request.context,
+							request.session,
+							`${request.params.slug}@latest`,
+						)
+						.then((contract) => {
+							if (contract) {
+								return response.status(200).json(contract);
+							}
 
-						return response.status(404).end();
-					});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+							return response.status(404).end();
+						});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
+				});
+		},
+	);
 
 	// Some services, such as Workable, require the user to register
 	// different endpoints for every type of event we're interested in,
@@ -699,6 +717,7 @@ export const attachRoutes = (
 
 	application.get(
 		'/api/v2/file/:cardId/:fileName',
+		validateSession,
 		async (request, response) => {
 			const contract = await kernel.getContractById(
 				request.context,
@@ -768,6 +787,9 @@ export const attachRoutes = (
 					return response.status(200).send(file);
 				})
 				.catch((error) => {
+					if (error.statusCode) {
+						return response.status(error.statusCode).end();
+					}
 					return sendHTTPError(request, response, error);
 				});
 		},
@@ -775,6 +797,7 @@ export const attachRoutes = (
 
 	application.post(
 		'/api/v2/action',
+		validateSession,
 		upload.any(),
 		async (request, response) => {
 			return metrics
@@ -830,85 +853,97 @@ export const attachRoutes = (
 		},
 	);
 
-	application.post('/api/v2/query', async (request, response) => {
-		return metrics
-			.measureHttpQuery(() => {
-				if (_.isEmpty(request.body)) {
-					return response.status(400).json({
-						error: true,
-						data: 'No query schema',
-					});
-				} else if (_.isPlainObject(request.body) && !request.body.query) {
-					return response.status(400).json({
-						error: true,
-						data: 'Invalid request body',
-					});
-				}
-
-				return queryFacade
-					.queryAPI(
-						request.context,
-						request.session,
-						request.body.query,
-						request.body.options,
-						request.ip,
-					)
-					.then((data) => {
-						return response.status(200).json({
-							error: false,
-							data,
+	application.post(
+		'/api/v2/query',
+		validateSession,
+		async (request, response) => {
+			return metrics
+				.measureHttpQuery(() => {
+					if (_.isEmpty(request.body)) {
+						return response.status(400).json({
+							error: true,
+							data: 'No query schema',
 						});
-					});
-			})
-			.catch((error) => {
-				logger.warn(request.context, 'JSON Schema query error', request.body);
-				return sendHTTPError(request, response, error);
-			});
-	});
+					} else if (_.isPlainObject(request.body) && !request.body.query) {
+						return response.status(400).json({
+							error: true,
+							data: 'Invalid request body',
+						});
+					}
 
-	application.post('/api/v2/view/:slug', (request, response) => {
-		viewFacade
-			.queryByView(
-				request.context,
-				request.session,
-				request.params.slug,
-				request.body.params,
-				request.body.options,
-				request.ip,
-			)
-			.then((data) => {
-				if (!data) {
-					return response.status(404).end();
-				}
-
-				return response.status(200).json({
-					error: false,
-					data,
+					return queryFacade
+						.queryAPI(
+							request.context,
+							request.session,
+							request.body.query,
+							request.body.options,
+							request.ip,
+						)
+						.then((data) => {
+							return response.status(200).json({
+								error: false,
+								data,
+							});
+						});
+				})
+				.catch((error) => {
+					logger.warn(request.context, 'JSON Schema query error', request.body);
+					return sendHTTPError(request, response, error);
 				});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+		},
+	);
 
-	application.get('/api/v2/whoami', async (request, response) => {
-		return metrics
-			.measureHttpWhoami(async () => {
-				const user = await authFacade.whoami(
+	application.post(
+		'/api/v2/view/:slug',
+		validateSession,
+		(request, response) => {
+			viewFacade
+				.queryByView(
 					request.context,
 					request.session,
+					request.params.slug,
+					request.body.params,
+					request.body.options,
 					request.ip,
-				);
+				)
+				.then((data) => {
+					if (!data) {
+						return response.status(404).end();
+					}
 
-				return response.status(200).json({
-					error: false,
-					data: user,
+					return response.status(200).json({
+						error: false,
+						data,
+					});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
 				});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+		},
+	);
+
+	application.get(
+		'/api/v2/whoami',
+		validateSession,
+		async (request, response) => {
+			return metrics
+				.measureHttpWhoami(async () => {
+					const user = await authFacade.whoami(
+						request.context,
+						request.session,
+						request.ip,
+					);
+
+					return response.status(200).json({
+						error: false,
+						data: user,
+					});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
+				});
+		},
+	);
 
 	// The login route dispatches the login request to the auth facade using
 	// the admin session. This is a special case because we don't want anonymous
@@ -1094,50 +1129,54 @@ export const attachRoutes = (
 		},
 	);
 
-	application.post('/api/v2/signup', async (request, response) => {
-		const { username, email, password } = request.body;
+	application.post(
+		'/api/v2/signup',
+		validateSession,
+		async (request, response) => {
+			const { username, email, password } = request.body;
 
-		// Verify parameters
-		const parameters = {
-			username,
-			email,
-			password,
-		};
-		for (const [key, value] of Object.entries(parameters).sort()) {
-			if (!_.isString(value)) {
-				return response.status(400).json({
-					error: true,
-					data: `Invalid ${key}`,
-				});
-			}
-		}
-
-		// Normalize username and email to lower case
-		const name = username.toLowerCase();
-		const mail = email.toLowerCase();
-
-		const action = {
-			logContext: request.context,
-			card: 'user',
-			type: 'type',
-			action: 'action-create-user@1.0.0',
-			arguments: {
-				email: mail,
-				username: `user-${name}`,
+			// Verify parameters
+			const parameters = {
+				username,
+				email,
 				password,
-			},
-		};
+			};
+			for (const [key, value] of Object.entries(parameters).sort()) {
+				if (!_.isString(value)) {
+					return response.status(400).json({
+						error: true,
+						data: `Invalid ${key}`,
+					});
+				}
+			}
 
-		return actionFacade
-			.processAction(request.context, request.session, action)
-			.then((data) => {
-				return response.status(200).json({
-					error: false,
-					data,
+			// Normalize username and email to lower case
+			const name = username.toLowerCase();
+			const mail = email.toLowerCase();
+
+			const action = {
+				logContext: request.context,
+				card: 'user',
+				type: 'type',
+				action: 'action-create-user@1.0.0',
+				arguments: {
+					email: mail,
+					username: `user-${name}`,
+					password,
+				},
+			};
+
+			return actionFacade
+				.processAction(request.context, request.session, action)
+				.then((data) => {
+					return response.status(200).json({
+						error: false,
+						data,
+					});
+				})
+				.catch((error) => {
+					return sendHTTPError(request, response, error);
 				});
-			})
-			.catch((error) => {
-				return sendHTTPError(request, response, error);
-			});
-	});
+		},
+	);
 };

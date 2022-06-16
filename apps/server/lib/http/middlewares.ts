@@ -1,11 +1,9 @@
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Kernel } from 'autumndb';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
 import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
 import compression from 'compression';
-import { authMiddleware } from './auth';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -13,14 +11,7 @@ const packageJSON = require('../../../../package.json');
 
 const logger = getLogger(__filename);
 
-export const attachMiddlewares = (
-	rootContext,
-	application,
-	kernel: Kernel,
-	options: {
-		guestSession: string;
-	},
-) => {
+export const attachMiddlewares = (rootContext, application) => {
 	application.use(compression());
 
 	application.use(
@@ -113,9 +104,5 @@ export const attachMiddlewares = (
 				});
 			}
 		}),
-	);
-
-	application.use(
-		authMiddleware(kernel, { guestSession: options.guestSession }),
 	);
 };

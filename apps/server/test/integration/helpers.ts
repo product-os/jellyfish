@@ -1,10 +1,10 @@
 import { getSdk } from '@balena/jellyfish-client-sdk';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import bcrypt from 'bcrypt';
-import Bluebird from 'bluebird';
 import _ from 'lodash';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
+import { setTimeout } from 'timers/promises';
 import { bootstrap } from '../../lib/bootstrap';
 import { getPlugins } from '../../lib/plugins';
 
@@ -91,7 +91,7 @@ export const before = async (context) => {
 		if (results.length > 0) {
 			return results[0];
 		}
-		await Bluebird.delay(1000);
+		await setTimeout(1000);
 		return context.waitForMatch(query, times - 1);
 	};
 };
@@ -113,7 +113,7 @@ export const beforeEach = (context) => {
 	};
 
 	context.http = (method, uri, payload, headers, options: any = {}) => {
-		return new Bluebird((resolve, reject) => {
+		return new Promise((resolve, reject) => {
 			const requestOptions: any = {
 				method,
 				baseUrl: `${environment.http.host}:${environment.http.port}`,

@@ -61,18 +61,11 @@ export const createServer = (logContext: LogContext, configuration: any) => {
 				server.listen(application.get('port'));
 			});
 		},
-		ready: (
-			kernel: Kernel,
-			worker: Worker,
-			options: { sync: Sync; guestSession: string },
-		) => {
-			attachMiddlewares(logContext, application, kernel, {
-				guestSession: options.guestSession,
-			});
+		ready: (kernel: Kernel, worker: Worker, options: { sync: Sync }) => {
+			attachMiddlewares(logContext, application);
 
 			attachRoutes(application, kernel, worker, {
 				sync: options.sync,
-				guestSession: options.guestSession,
 			});
 
 			// We must define 4 arguments even if we don't use them
