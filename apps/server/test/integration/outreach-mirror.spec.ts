@@ -1,10 +1,8 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { strict as assert } from 'assert';
-import Bluebird from 'bluebird';
 import _ from 'lodash';
 import nock from 'nock';
 import querystring from 'querystring';
-import request from 'request';
 import { v4 as uuid } from 'uuid';
 import * as helpers from './helpers';
 import * as outreachMock from './outreach-mock';
@@ -35,41 +33,29 @@ const NOCK_OPTS = {
 };
 
 beforeEach(async () => {
-	helpers.beforeEach(test);
+	helpers.beforeEach(context);
 
 	context.getProspect = async (id: string) => {
-		return new Bluebird((resolve, reject) => {
-			request(
-				{
-					method: 'GET',
-					baseUrl: 'https://api.outreach.io',
-					uri: `/api/v2/prospects/${id}`,
-					json: true,
-					headers: {
-						Authorization: NOCK_OPTS.reqheaders.Authorization,
-					},
-				},
-				(error, response, body) => {
-					if (error) {
-						return reject(error);
-					}
+		const { statusCode, body } = await context.http(
+			'GET',
+			`/api/v2/prospects/${id}`,
+			{
+				Authorization: NOCK_OPTS.reqheaders.Authorization,
+			},
+			{
+				host: 'https://api.outreach.io',
+				json: false,
+			},
+		);
+		if (statusCode === 404) {
+			return null;
+		}
 
-					if (response.statusCode === 404) {
-						return resolve(null);
-					}
+		if (statusCode !== 200) {
+			throw new Error(`Got ${statusCode}: ${JSON.stringify(body, null, 2)}`);
+		}
 
-					if (response.statusCode !== 200) {
-						return reject(
-							new Error(
-								`Got ${response.statusCode}: ${JSON.stringify(body, null, 2)}`,
-							),
-						);
-					}
-
-					return resolve(body);
-				},
-			);
-		});
+		return body;
 	};
 
 	nock.cleanAll();

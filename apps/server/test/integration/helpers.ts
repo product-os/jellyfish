@@ -2,7 +2,7 @@ import { getSdk } from '@balena/jellyfish-client-sdk';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import bcrypt from 'bcrypt';
 import _ from 'lodash';
-import request from 'request';
+import * as https from 'https';
 import { v4 as uuidv4 } from 'uuid';
 import { setTimeout } from 'timers/promises';
 import { bootstrap } from '../../lib/bootstrap';
@@ -112,31 +112,50 @@ export const beforeEach = (context) => {
 		return slug;
 	};
 
-	context.http = (method, uri, payload, headers, options: any = {}) => {
-		return new Promise((resolve, reject) => {
-			const requestOptions: any = {
+	context.http = (method, uri, payload, headers = {}, options: any = {}) => {
+		new Promise((resolve, reject) => {
+			const isJson = _.isNil(options.json) ? true : options.json;
+			const requestOptions: https.RequestOptions = {
 				method,
-				baseUrl: `${environment.http.host}:${environment.http.port}`,
-				url: uri,
-				json: _.isNil(options.json) ? true : options.json,
+				host:
+					options.host || `${environment.http.host}:${environment.http.port}`,
+				path: uri,
 				headers,
 			};
-
-			if (payload) {
-				requestOptions.body = payload;
+			const data = isJson ? JSON.stringify(payload) : payload;
+			if (isJson) {
+				requestOptions.headers!['Content-Type'] = 'application/json';
+				requestOptions.headers!['Content-length'] = data.length;
 			}
+			const req = https.request(requestOptions, (res) => {
+				// I believe chunks can simply be joined into a string
+				const chunks: any[] = [];
 
-			request(requestOptions, (error, response, body) => {
-				if (error) {
-					return reject(error);
-				}
+				res.on('data', (chunk) => chunks.push(chunk));
+				res.on('error', reject);
+				res.on('end', () => {
+					const { statusCode, headers } = res;
+					const validResponse =
+						statusCode && statusCode >= 200 && statusCode <= 299;
+					const body = chunks.join('');
 
-				return resolve({
-					code: response.statusCode,
-					headers: response.headers,
-					response: body,
+					if (validResponse) {
+						resolve({
+							statusCode,
+							headers,
+							body: isJson ? JSON.parse(body) : body,
+						});
+					} else {
+						reject(
+							new Error(`Request failed. status: ${statusCode}, body: ${body}`),
+						);
+					}
 				});
 			});
+
+			req.on('error', reject);
+			req.write(data, 'binary');
+			req.end();
 		});
 	};
 };
