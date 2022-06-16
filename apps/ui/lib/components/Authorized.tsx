@@ -6,7 +6,7 @@ import manifestJSON from '../manifest.json';
 import PageTitle from './PageTitle';
 import HomeChannel from './HomeChannel';
 import { createLazyComponent } from './SafeLazy';
-import { useSelector, useStore } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { actionCreators, selectors } from '../store';
 
 const RouteHandler = createLazyComponent(
@@ -18,13 +18,17 @@ const ChatWidgetSidebar = createLazyComponent(
 		import(/* webpackChunkName: "chat-widget-sidebar" */ './ChatWidgetSidebar'),
 );
 
-const Authorized = () => {
+const Livechat = createLazyComponent(
+	() => import(/* webpackChunkName: "livechat" */ './Livechat'),
+);
+
+const Layout = ({ children }) => {
 	const [home] = useSelector(selectors.getChannels());
 	const isChatWidgetOpen = useSelector(selectors.getChatWidgetOpen());
-	const store = useStore();
+	const dispatch = useDispatch();
 
 	const handleChatWidgetClose = React.useCallback(() => {
-		actionCreators.setChatWidgetOpen(false)(store.dispatch, store.getState);
+		dispatch(actionCreators.setChatWidgetOpen(false));
 	}, []);
 
 	return (
@@ -37,16 +41,30 @@ const Authorized = () => {
 			>
 				<PageTitle siteName={manifestJSON.name} />
 				<HomeChannel channel={home} />
-
-				<Switch>
-					<Route path="/*" component={RouteHandler} />
-				</Switch>
+				{children}
 			</Flex>
 
 			{isChatWidgetOpen && (
 				<ChatWidgetSidebar onClose={handleChatWidgetClose} />
 			)}
 		</React.Fragment>
+	);
+};
+
+const RouteHandlerWithLayout = (props) => {
+	return (
+		<Layout>
+			<RouteHandler {...props} />
+		</Layout>
+	);
+};
+
+const Authorized = () => {
+	return (
+		<Switch>
+			<Route path="/livechat" component={Livechat} />
+			<Route path="/*" component={RouteHandlerWithLayout} />
+		</Switch>
 	);
 };
 

@@ -17,7 +17,6 @@ import {
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import { JsonSchema } from '@balena/jellyfish-types';
-import { getSelectedAccount } from './selectors';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.
@@ -27,12 +26,18 @@ if (global.localStorage) {
 	storage.setDriver(storage.LOCALSTORAGE);
 }
 
+export interface AccountsMap {
+	[slug: string]: string;
+}
+
 // Interface for defaultState
 export interface State {
 	core: {
 		status: 'initializing' | 'unauthorized' | 'authorized';
-		accounts: Array<{ user: UserContract; token: string; }>;
+		accounts: AccountsMap;
 		selectedAccount: string | null;
+		defaultAccount: string | null;
+		currentUser: UserContract | null;
 		mentionsCount: number;
 		channels: ChannelContract[];
 		types: TypeContract[];
@@ -68,8 +73,10 @@ export interface State {
 export const defaultState: State = {
 	core: {
 		status: 'initializing',
-		accounts: [],
+		accounts: {},
 		selectedAccount: null,
+		defaultAccount: null,
+		currentUser: null,
 		mentionsCount: 0,
 		channels: [
 			{
@@ -170,13 +177,6 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				mentionsCount: action.value,
 			};
 		}
-		case actions.LOGOUT: {
-			return update(defaultState.core, {
-				status: {
-					$set: 'unauthorized',
-				},
-			});
-		}
 		case actions.UPDATE_CHANNEL: {
 			const existingChannelIndex = _.findIndex(state.channels, {
 				id: action.value.id,
@@ -258,45 +258,36 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 			});
 		}
 		case actions.SET_ACCOUNT: {
-			const accountIndex = state.accounts.findIndex((account) => {
-				return account.user.slug === action.value.user.slug;
-			});
-			if (accountIndex >= 0) {
-				return {
-					...state,
-					accounts: state.accounts.map((account, index) => {
-						if (index === accountIndex) {
-							return {
-								...account,
-								token: action.value.token,
-							};
-						}
-						return account;
-					}),
-				}
-			}
 			return {
 				...state,
-				accounts: state.accounts.concat(action.value),
-			}
+				accounts: {
+					...state.accounts,
+					[action.value.user]: action.value.token,
+				},
+			};
+		}
+		case actions.SET_DEFAULT_ACCOUNT: {
+			return {
+				...state,
+				defaultAccount: action.value,
+			};
 		}
 		case actions.SET_SELECTED_ACCOUNT: {
 			return {
 				...state,
 				selectedAccount: action.value,
-			}
+			};
 		}
-		case actions.SET_AUTHTOKEN: {
-			return update(state, {
-				session: (session) =>
-					update(session || {}, {
-						authToken: {
-							$set: action.value,
-						},
-					}),
-			});
+		case actions.REMOVE_ACCOUNT: {
+			const { [action.value]: removedAccount, ...updatedAccountsMap } =
+				state.accounts;
+
+			return {
+				...state,
+				accounts: updatedAccountsMap,
+			};
 		}
-		case actions.SET_USER: {
+		case actions.SET_CURRENT_USER: {
 			return {
 				...state,
 				currentUser: action.value,
@@ -402,7 +393,7 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 const corePersistConfig = {
 	storage,
 	key: 'core',
-	whitelist: ['accounts'],
+	whitelist: ['accounts', 'defaultAccount'],
 };
 
 const uiPersistConfig = {

@@ -8,12 +8,11 @@ import {
 	createWebTracker,
 } from 'analytics-client';
 import { saveAs } from 'file-saver';
-import Splash from './components/Splash';
 import { actionCreators, selectors } from './store';
 import { useLocation, useHistory, Redirect, matchPath } from 'react-router-dom';
 import { isProduction } from './environment';
 import { createLazyComponent } from './components/SafeLazy';
-import { LOGIN_AS_SEARCH_PARAM_NAME } from './components/LoginAs';
+import { AuthorizeTask } from './components/AuthorizeTask';
 
 const Unauthorized = createLazyComponent(
 	() =>
@@ -22,14 +21,6 @@ const Unauthorized = createLazyComponent(
 
 const Authorized = createLazyComponent(
 	() => import(/* webpackChunkName: "authorized" */ './components/Authorized'),
-);
-
-const Livechat = createLazyComponent(
-	() => import(/* webpackChunkName: "livechat" */ './components/Livechat'),
-);
-
-const LoginAs = createLazyComponent(
-	() => import(/* webpackChunkName: "login-as" */ './components/LoginAs'),
 );
 
 const OauthCallback = createLazyComponent(
@@ -92,13 +83,6 @@ const JellyfishUI = ({ actions, status }) => {
 	}, []);
 
 	const path = window.location.pathname + window.location.hash;
-	const query = new URLSearchParams(location.search);
-
-	useAuthorize();
-
-	if (status === 'initializing') {
-		return <Splash />;
-	}
 
 	if (matchPath(location.pathname, '/oauth/callback')) {
 		return <OauthCallback />;
@@ -112,11 +96,13 @@ const JellyfishUI = ({ actions, status }) => {
 		return <Redirect to={transformLegacyPath(path)} />;
 	}
 
-	if (matchPath(location.pathname, '/livechat')) {
-		return <Livechat />;
-	}
-
-	return <Authorized />;
+	return (
+		<AuthorizeTask>
+			{() => {
+				return <Authorized />;
+			}}
+		</AuthorizeTask>
+	);
 };
 
 const mapStateToProps = (state) => {

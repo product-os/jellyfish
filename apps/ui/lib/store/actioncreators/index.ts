@@ -284,20 +284,10 @@ export const actionCreators = {
 		};
 	},
 
-	setStatus(status): ThunkAction {
-		return (dispatch, _getState, { sdk }) => {
-			// If the status is now 'unauthorized' just run the logout routine
-			if (status === 'unauthorized') {
-				sdk.auth.logout();
-				dispatch({
-					type: actions.LOGOUT,
-				});
-			} else {
-				dispatch({
-					type: actions.SET_STATUS,
-					value: status,
-				});
-			}
+	setStatus(status): Action {
+		return {
+			type: actions.SET_STATUS,
+			value: status,
 		};
 	},
 
@@ -522,8 +512,8 @@ export const actionCreators = {
 	},
 
 	bootstrap(): ThunkAction {
-		return (dispatch, getState, { sdk, errorReporter }) => {
-			const user = selectors.getCurrentUser()(getState());
+		return async (dispatch, getState, { sdk, errorReporter }) => {
+			const user = await sdk.auth.whoami();
 			if (!user) {
 				throw new Error('Could not retrieve user');
 			}
@@ -544,7 +534,7 @@ export const actionCreators = {
 					// Check to see if we're still logged in
 					if (selectors.getSessionToken()(state)) {
 						dispatch(actionCreators.setLoops(loops));
-						dispatch(actionCreators.setUser(user));
+						dispatch(actionCreators.setCurrentUser(user));
 						dispatch(actionCreators.setTypes(types));
 						dispatch(actionCreators.setOrgs(orgs));
 						dispatch(actionCreators.setGroups(groups, user));
@@ -557,7 +547,7 @@ export const actionCreators = {
 					errorReporter.setUser({
 						id: user.id,
 						slug: user.slug,
-						email: _.get(user, ['data', 'email']),
+						email: _.first(_.get(user, ['data', 'email']) as string),
 					});
 
 					// Check token expiration and refresh it if it is due to expire in the next 24 hours
@@ -575,8 +565,12 @@ export const actionCreators = {
 						});
 
 					tokenRefreshInterval = setInterval(async () => {
-						const newToken = await sdk.auth.refreshToken();
-						dispatch(actionCreators.setAuthToken(newToken));
+						dispatch(
+							actionCreators.setAccount({
+								token: await sdk.auth.refreshToken(),
+								user: `${user.slug}@${user.version}`,
+							}),
+						);
 					}, TOKEN_REFRESH_INTERVAL);
 
 					if (commsStream) {
@@ -622,95 +616,143 @@ export const actionCreators = {
 		};
 	},
 
-	setAuthToken(token): Action {
-		return {
-			type: actions.SET_AUTHTOKEN,
-			value: token,
-		};
-	},
-
-	setAccount(account: { token: string; user: UserContract }): Action {
+	setAccount(account: { token: string; user: string }): Action {
 		return {
 			type: actions.SET_ACCOUNT,
 			value: account,
 		};
 	},
 
-	setSelectedAccount(slug: string): Action {
+	setDefaultAccount(user: string | null): Action {
 		return {
-			type: actions.SET_SELECTED_ACCOUNT,
-			value: slug,
+			type: actions.SET_DEFAULT_ACCOUNT,
+			value: user,
 		};
 	},
 
-	loginWithToken(token): ThunkAction {
+	removeAccount(user: string): Action {
+		return {
+			type: actions.REMOVE_ACCOUNT,
+			value: user,
+		};
+	},
+
+	setSelectedAccount(user: string | null): ThunkAction {
+		return async (dispatch, getState, { sdk }) => {
+			if (!user) {
+				sdk.auth.logout();
+
+				dispatch({
+					type: actions.SET_SELECTED_ACCOUNT,
+					value: null,
+				});
+
+				dispatch(actionCreators.setStatus('unauthorized'));
+				return;
+			}
+
+			dispatch(actionCreators.setStatus('authorizing'));
+			const token = selectors.getSessionToken(user)(getState());
+
+			if (!token) {
+				dispatch(actionCreators.setStatus('unauthorized'));
+				return;
+			}
+
+			if (sdk.getAuthToken() !== token) {
+				try {
+					await sdk.auth.loginWithToken(token);
+				} catch (error: any) {
+					notifications.addNotification('error', error.message);
+					dispatch(actionCreators.setStatus('unauthorized'));
+					dispatch(actionCreators.removeAccount(user));
+					return;
+				}
+			}
+
+			dispatch({
+				type: actions.SET_SELECTED_ACCOUNT,
+				value: user,
+			});
+
+			await dispatch(actionCreators.bootstrap());
+			dispatch(actionCreators.setStatus('authorized'));
+		};
+	},
+
+	authorize({
+		loginAs,
+		loginWithProvider,
+		returnUrl,
+	}: {
+		loginAs?: string | null;
+		loginWithProvider?: string | null;
+		returnUrl: string;
+	}): ThunkAction {
+		return async (dispatch, getState) => {
+			if (loginAs) {
+				const token = selectors.getSessionToken(loginAs)(getState());
+
+				if (token) {
+					return dispatch(actionCreators.setSelectedAccount(loginAs));
+				}
+
+				if (!loginWithProvider) {
+					throw new Error('Missing loginWithProvider parameter');
+				}
+
+				return dispatch(
+					actionCreators.getIntegrationAuthUrl({
+						userSlug: loginAs,
+						providerSlug: loginWithProvider,
+						returnUrl,
+					}),
+				);
+			}
+
+			const defaultAccount = selectors.getDefaultAccount()(getState());
+
+			if (defaultAccount) {
+				return dispatch(actionCreators.setSelectedAccount(defaultAccount));
+			}
+
+			dispatch(actionCreators.setStatus('unauthorized'));
+		};
+	},
+
+	login(payload: { username: string; password: string }): ThunkAction {
 		return async (dispatch, getState, { sdk, analytics }) => {
-			return sdk.auth
-				.loginWithToken(token)
-				.then(() => {
-					return sdk.auth.whoami<UserContract>();
-				})
-				.then((user) => {
-					dispatch(
-						actionCreators.setAccount({
-							token,
-							user,
-						}),
-					);
-					dispatch(actionCreators.setSelectedAccount(user.slug));
-				})
-				.then(() => {
-					return dispatch(actionCreators.bootstrap());
-				})
-				.then(() => {
-					return dispatch(actionCreators.setStatus('authorized'));
-				})
-				.then(() => {
-					analytics.track('ui.loginWithToken');
-					analytics.identify(selectors.getCurrentUser()(getState())!.id);
-				})
-				.catch((error) => {
-					dispatch(actionCreators.setStatus('unauthorized'));
-					throw error;
-				});
-		};
-	},
+			try {
+				const session = await sdk.auth.login(payload);
+				const account = {
+					token: session!.id,
+					user: `user-${helpers.slugify(payload.username)}@1.0.0`,
+				};
 
-	login(payload): ThunkAction {
-		return (dispatch, getState, { sdk, analytics }) => {
-			return sdk.auth
-				.login(payload)
-				.then(async (session) => {
-					const user = await sdk.auth.whoami<UserContract>();
-					return dispatch(
-						actionCreators.setAccount({
-							token: session!.id,
-							user,
-						}),
-					);
-				})
-				.then(() => {
-					return dispatch(actionCreators.bootstrap());
-				})
-				.then(() => {
-					return dispatch(actionCreators.setStatus('authorized'));
-				})
-				.then(() => {
-					analytics.track('ui.login');
-					analytics.identify(selectors.getCurrentUser()(getState())!.id);
-				})
-				.catch((error) => {
-					dispatch(actionCreators.setStatus('unauthorized'));
-					throw error;
-				});
+				dispatch(actionCreators.setAccount(account));
+
+				await dispatch(actionCreators.setSelectedAccount(account.user));
+
+				dispatch(actionCreators.setDefaultAccount(account.user));
+
+				analytics.track('ui.login');
+				analytics.identify(selectors.getCurrentUser()(getState())!.id);
+			} catch (error) {
+				dispatch(actionCreators.setStatus('unauthorized'));
+				throw error;
+			}
 		};
 	},
 
 	logout(): ThunkAction {
-		return (dispatch, getState, { sdk, analytics, errorReporter }) => {
+		return async (dispatch, getState, { sdk, analytics, errorReporter }) => {
 			if (tokenRefreshInterval) {
 				clearInterval(tokenRefreshInterval);
 			}
+
+			const selectedAccount = selectors.getSelectedAccount()(getState());
+			dispatch(actionCreators.removeAccount(selectedAccount!));
+			await dispatch(actionCreators.setSelectedAccount(null));
 
 			analytics.track('ui.logout');
 			analytics.identify();
@@ -718,11 +760,7 @@ export const actionCreators = {
 			if (commsStream) {
 				commsStream.close();
 				commsStream = null;
-				sdk.auth.logout();
 			}
-			dispatch({
-				type: actions.LOGOUT,
-			});
 		};
 	},
 
@@ -741,9 +779,9 @@ export const actionCreators = {
 		};
 	},
 
-	setUser(user): Action {
+	setCurrentUser(user): Action {
 		return {
-			type: actions.SET_USER,
+			type: actions.SET_CURRENT_USER,
 			value: user,
 		};
 	},
@@ -890,7 +928,7 @@ export const actionCreators = {
 				);
 
 				// Optimistically update the user in local state
-				await dispatch(actionCreators.setUser(optimisticUpdate));
+				await dispatch(actionCreators.setCurrentUser(optimisticUpdate));
 
 				await sdk.card.update(user.id, 'user', patches);
 
@@ -1128,16 +1166,6 @@ export const actionCreators = {
 			const user = selectors.getCurrentUser()(getState())!;
 
 			commsStream.type(user.slug, card);
-		};
-	},
-
-	authorizeIntegration(user, integration, code): ThunkAction {
-		return async (dispatch, getState, { sdk }) => {
-			await sdk.integrations.authorize(user, integration, code);
-
-			const updatedUser = await sdk.auth.whoami();
-
-			dispatch(actionCreators.setUser(updatedUser));
 		};
 	},
 };

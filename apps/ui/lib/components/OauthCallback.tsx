@@ -1,14 +1,14 @@
 import React from 'react';
-import { useStore } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../store';
 import { useSetup } from './SetupProvider';
+import { useHistory } from 'react-router-dom';
 
 const OauthCallback = () => {
-	const store = useStore();
-	const { sdk, analytics } = useSetup()!;
+	const { sdk } = useSetup()!;
+	const dispatch = useDispatch();
 	const history = useHistory();
 
 	const exchangeCodeTask = useTask(async () => {
@@ -51,12 +51,14 @@ const OauthCallback = () => {
 			throw new Error('Could not fetch an auth token');
 		}
 
-		await actionCreators.loginWithToken(token)(store.dispatch, store.getState, {
-			sdk,
-			analytics,
-		});
+		dispatch(
+			actionCreators.setAccount({
+				token,
+				user: userSlug,
+			}),
+		);
 
-		location.href = returnUrl;
+		history.replace(returnUrl);
 	});
 
 	React.useEffect(() => {

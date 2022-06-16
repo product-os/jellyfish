@@ -41,25 +41,24 @@ export const getChannels = () => (state: State) => {
 };
 
 export const getSelectedAccount = () => (state: State) => {
-	if (!state.core.selectedAccount) {
-		return state.core.accounts[0];
-	}
+	return state.core.selectedAccount;
+};
 
-	return state.core.accounts.find((account) => {
-		return account.user.slug === state.core.selectedAccount;
-	});
+export const getDefaultAccount = () => (state: State) => {
+	return state.core.defaultAccount;
 };
 
 export const getCurrentUser = () => (state: State) => {
-	return getSelectedAccount()(state)?.user;
+	return state.core.currentUser;
 };
 
 export const getCurrentUserStatus = () => (state: State) => {
 	return getCurrentUser()(state)?.data.status;
 };
 
-export const getSessionToken = () => (state: State) => {
-	return getSelectedAccount()(state)?.token;
+export const getSessionToken = (user?: string) => (state: State) => {
+	const slug = user || getSelectedAccount()(state);
+	return slug ? getAccounts()(state)[slug] : null;
 };
 
 export const getStatus = () => (state: State) => {
