@@ -26,14 +26,13 @@ ava.serial.afterEach(() => {
 })
 
 ava.serial(
-	'querying whoami with an invalid session should return the guest user info',
+	'querying whoami with an invalid session should return unauthorized code',
 	async (test) => {
 		const result = await helpers.http('GET', '/api/v2/whoami', null, {
 			Authorization: `Bearer ${uuid()}`
 		})
 
-		test.is(result.code, 200)
-		test.is(result.response.data.slug, 'user-guest')
+		test.is(result.code, 401)
 	}
 )
 
@@ -123,34 +122,38 @@ ava.serial(
 			required: [ 'id' ]
 		}
 
-		await sdkHelpers.executeThenWait(sdk, async () => {
-			const result = await helpers.http(
-				'POST',
-				'/api/v2/action',
-				{
-					card: `${thread.slug}@${thread.version}`,
-					type: thread.type,
-					action: 'action-update-card@1.0.0',
-					arguments: {
-						reason: null,
-						patch: [
-							{
-								op: 'add',
-								path: '/data/description',
-								value: 'Lorem ipsum dolor sit amet'
-							}
-						]
+		await sdkHelpers.executeThenWait(
+			sdk,
+			async () => {
+				const result = await helpers.http(
+					'POST',
+					'/api/v2/action',
+					{
+						card: `${thread.slug}@${thread.version}`,
+						type: thread.type,
+						action: 'action-update-card@1.0.0',
+						arguments: {
+							reason: null,
+							patch: [
+								{
+									op: 'add',
+									path: '/data/description',
+									value: 'Lorem ipsum dolor sit amet'
+								}
+							]
+						}
+					},
+					{
+						Authorization: `Bearer ${sdk.getAuthToken()}`
 					}
-				},
-				{
-					Authorization: `Bearer ${sdk.getAuthToken()}`
-				}
-			)
+				)
 
-			if (result.code !== 200) {
-				throw new Error(`Error code: ${result.code}`)
-			}
-		}, waitQuery)
+				if (result.code !== 200) {
+					throw new Error(`Error code: ${result.code}`)
+				}
+			},
+			waitQuery
+		)
 
 		const card = await sdk.card.getWithTimeline(thread.id, {
 			type: 'thread@1.0.0'
@@ -171,9 +174,6 @@ ava.serial(
 	'Users should not be able to login as the core admin user',
 	async (test) => {
 		const token = sdk.getAuthToken()
-
-		// First check that the guest user cannot login
-		sdk.auth.logout()
 
 		await test.throwsAsync(
 			sdk.auth.login({
