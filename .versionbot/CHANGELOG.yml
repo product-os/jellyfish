@@ -1,4 +1,18 @@
 - commits:
+    - subject: Ignore other fleet registry token auth env vars during e2e tests.
+      hash: dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+        signed-off-by: Carlo Miguel F. Cruz <carloc@balena.io>
+      author: Carlo Miguel F. Cruz
+      nested: []
+  version: 53.0.3
+  title: "'Ignore other fleet registry token auth env vars during e2e tests.'"
+  date: 2022-06-17T01:49:42.465Z
+- commits:
     - subject: "Dev: Fix local postgres service healthcheck"
       hash: 6f1f2695b777e729997a304aa32ed23cba845b7c
       body: ""
