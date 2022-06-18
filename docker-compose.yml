@@ -148,7 +148,7 @@ services:
 
   # https://github.com/balena-io/open-balena-s3
   s3:
-    image: balena/open-balena-s3:v2.13.7
+    image: balena/open-balena-s3:v2.13.8
     volumes:
       - s3-data:/export
       - certs-data:/certs
