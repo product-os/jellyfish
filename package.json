@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "53.0.4",
+  "version": "53.0.5",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "snappy",
@@ -109,7 +109,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-06-18T00:31:16.796Z"
+    "publishedAt": "2022-06-18T02:24:35.617Z"
   },
   "balena": {
     "environment": [
