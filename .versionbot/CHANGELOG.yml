@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update balena-mdns-publisher from 1.15.2 to 1.15.9
+      hash: 0eee4ae1a5b9fe41b2f335a1c7e888c0116c95f4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.4
+  title: "'Update balena-mdns-publisher from 1.15.2 to 1.15.9'"
+  date: 2022-06-18T00:31:14.786Z
+- commits:
     - subject: Ignore other fleet registry token auth env vars during e2e tests.
       hash: dffda9bfb1a2f25cd4a33ad561cd11e7f9f4cdc7
       body: ""
