@@ -122,7 +122,7 @@ services:
 
   # https://github.com/balena-io/open-balena-db
   postgres:
-    image: balena/open-balena-db:v5.1.0
+    image: balena/open-balena-db:v5.1.1
     restart: unless-stopped
     healthcheck:
       interval: 15s
