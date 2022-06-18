@@ -80,7 +80,7 @@
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
     "ava": "^4.3.0",
-    "aws-sdk": "^2.1148.0",
+    "aws-sdk": "^2.1157.0",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
     "depcheck": "^1.4.3",
