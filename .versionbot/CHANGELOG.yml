@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Renovate: Drop old settings"
+      hash: d0a0f00b13e4bf47761bcfe85da9bdebe41694a8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.10
+  title: "'Renovate: Drop old settings'"
+  date: 2022-06-18T14:39:36.237Z
+- commits:
     - subject: Update eslint
       hash: 363445b81abb87c53d943163c630696ae9abc9ad
       body: ""
