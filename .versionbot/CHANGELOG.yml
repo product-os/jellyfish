@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update balena/open-balena-haproxy from 4.0.6 to 4.0.7
+      hash: fc7b2e361db60156070ce2dce86d75f8995ee2c1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.6
+  title: "'Update balena/open-balena-haproxy from 4.0.6 to 4.0.7'"
+  date: 2022-06-18T05:51:15.065Z
+- commits:
     - subject: Update balena/open-balena-db from 5.1.0 to 5.1.1
       hash: bc88a8fb2f167089cb8cba66610e98739d9fa4b2
       body: ""
