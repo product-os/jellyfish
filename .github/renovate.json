@@ -2,21 +2,10 @@
   "extends": [
     "github>product-os/renovate-config"
   ],
-  "prConcurrentLimit": 2,
   "packageRules": [
-    {
-      "matchPackagePatterns": ["puppeteer"],
-      "groupName": "puppeteer"
-    },
-    {
-      "matchPackageNames": ["resinci/jellyfish-test"],
-      "groupName": "jellyfish-test-image"
-    },
     {
       "groupName": "non-major-frontend",
       "matchPackageNames": [
-        "@balena/jellyfish-ui-components",
-        "@balena/jellyfish-chat-widget",
         "rendition",
         "styled-components"
       ],
