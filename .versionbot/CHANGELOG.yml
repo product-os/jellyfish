@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update aws-sdk from 2.1148.0 to 2.1157.0
+      hash: f72cb3f441ea3f0b5324cb0da5a68308490cfa02
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.8
+  title: "'Update aws-sdk from 2.1148.0 to 2.1157.0'"
+  date: 2022-06-18T12:45:31.110Z
+- commits:
     - subject: Update balena/open-balena-registry from 2.25.2 to 2.25.3
       hash: 882949b0a6080121cf1d8ea8f48190008d02f7b1
       body: ""
