@@ -233,7 +233,7 @@ services:
 
   # https://github.com/balena-io/balena-mdns-publisher
   mdns:
-    image: balena/balena-mdns-publisher:v1.15.2
+    image: balena/balena-mdns-publisher:v1.15.9
     network_mode: host
     cap_add:
       - SYS_RESOURCE
