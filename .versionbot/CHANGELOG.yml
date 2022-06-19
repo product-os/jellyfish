@@ -1,4 +1,19 @@
 - commits:
+    - subject: "Renovate: Ignore redis updates"
+      hash: 1d83dc88761c09c77d973f502e394b8e222d9aa8
+      body: |
+        Manually update redis image to keep the same version as production.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.11
+  title: "'Renovate: Ignore redis updates'"
+  date: 2022-06-19T00:58:52.762Z
+- commits:
     - subject: "Renovate: Drop old settings"
       hash: d0a0f00b13e4bf47761bcfe85da9bdebe41694a8
       body: ""
