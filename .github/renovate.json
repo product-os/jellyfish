@@ -2,6 +2,10 @@
   "extends": [
     "github>product-os/renovate-config"
   ],
+  "ignoreDeps": [
+    "node",
+    "redis"
+  ],
   "packageRules": [
     {
       "groupName": "non-major-frontend",
