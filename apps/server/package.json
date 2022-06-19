@@ -59,7 +59,6 @@
   },
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^11.0.0",
-    "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^6.2.0",
     "@types/bcrypt": "^5.0.0",

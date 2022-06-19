@@ -1,3 +1,4 @@
 {
-	"extends": "@balena/jellyfish-config/config/tslint.json"
+	"extends": "@balena/lint/config/tslint-prettier.json",
+	"rules": {}
 }

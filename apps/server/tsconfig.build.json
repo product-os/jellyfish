@@ -1,6 +1,10 @@
 {
-  "extends": "@balena/jellyfish-config/config/tsconfig.build.json",
+  "extends": "./tsconfig.json",
   "compilerOptions": {
-    "declaration": false,
-  }
+    "declaration": false
+  },
+  "exclude": [
+    "lib/**/*.spec.ts",
+    "test/**/*.ts"
+  ]
 }

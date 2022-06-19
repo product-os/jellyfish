@@ -89,7 +89,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-config": "^2.0.6",
     "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.7.1",
