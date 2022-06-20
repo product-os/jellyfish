@@ -1,4 +1,9 @@
 module.exports = {
-	...require('@balena/jellyfish-config/config/jest.config'),
+	preset: 'ts-jest',
+	testEnvironment: 'node',
+	roots: [
+		'lib',
+		'test'
+	],
 	testTimeout: 30 * 1000
 }

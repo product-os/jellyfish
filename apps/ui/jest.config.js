@@ -1,7 +1,5 @@
-const base = require('@balena/jellyfish-config/config/jest.config')
-
 module.exports = {
-	preset: base.preset,
+	preset: 'ts-jest',
 	testEnvironment: 'jsdom',
 	testTimeout: 12000,
 	transformIgnorePatterns: [
@@ -14,5 +12,9 @@ module.exports = {
 		'\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|css)$':
 			'<rootDir>/file-transformer.js'
 	},
-	setupFiles: [ '<rootDir>/test/setup.ts' ]
+	setupFiles: [ '<rootDir>/test/setup.ts' ],
+	roots: [
+		'lib',
+		'test'
+	]
 }
