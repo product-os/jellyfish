@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Fix bug where sales threads aren't synced to Front"
+      hash: 5788fca84307d9954408271455516fe28a32219d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.0.13
+  title: "'Server: Fix bug where sales threads aren't synced to Front'"
+  date: 2022-06-20T10:59:52.252Z
+- commits:
     - subject: Drop @balena/jellyfish-config
       hash: 85849d0cedc85dcc8fc0e0dcd31d34ff9ddcbb62
       body: ""
