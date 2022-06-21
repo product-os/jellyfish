@@ -1,0 +1,165 @@
+{
+  "name": "jellyfish-test",
+  "version": "53.0.14",
+  "homepage": "https://github.com/product-os/jellyfish",
+  "description": "The Jellyfish Project",
+  "codename": "snappy",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:product-os/jellyfish.git"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps &&  npm run lint:server && npm run lint:ui",
+    "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh",
+    "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck",
+    "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
+    "lint:server": "(cd apps/server && npm run lint)",
+    "lint:ui": "(cd apps/ui && npm run lint)",
+    "test": "npm run lint && npm run test:unit",
+    "test:unit": "npm run test:unit:ui",
+    "test:unit:ui": "(cd apps/ui && npm run test:unit)",
+    "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
+    "test:e2e:ui": "playwright test test/e2e/ui",
+    "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
+    "test:integration:server": "(cd apps/server && npm run test:integration)",
+    "test:benchmark": "playwright test ./test/benchmark/*.spec.js",
+    "docs": "(cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
+    "docs:diagram": "nomnoml docs/diagrams/architecture.noml > docs/assets/architecture.svg",
+    "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
+    "clean": "rimraf apps/*/packages/*",
+    "postinstall": "(cd apps/server && npm i); (cd apps/ui && npm i)",
+    "compose:build": "docker-compose build",
+    "compose:up": "docker-compose up",
+    "compose:local": "docker-compose -f docker-compose.local.yml up",
+    "push": "./scripts/push.sh",
+    "push:lib": "./scripts/push-lib.js",
+    "build:server": "(cd apps/server && npm run build)",
+    "build:ui": "(cd apps/ui && npm run build)",
+    "dev:server": "(cd apps/server && npm run dev)",
+    "dev:ui": "(cd apps/ui && npm run dev)"
+  },
+  "deplint": {
+    "files": [
+      "apps/server/lib/**/*.ts"
+    ],
+    "modules": [
+      "apps/server"
+    ]
+  },
+  "ava": {
+    "timeout": "10m",
+    "verbose": true,
+    "failWithoutAssertions": true,
+    "failFast": true,
+    "files": [
+      "test/**/*.spec.js"
+    ]
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --cache --fix",
+      "deplint"
+    ],
+    "*.{ts,tsx}": [
+      "balena-lint --fix"
+    ],
+    "*.sh": [
+      "shellcheck"
+    ]
+  },
+  "author": "Balena.io. <hello@balena.io>",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@balena/jellyfish-client-sdk": "^11.0.3",
+    "@balena/jellyfish-environment": "^12.0.11",
+    "@balena/lint": "^6.2.0",
+    "@playwright/test": "^1.22.2",
+    "ava": "^4.3.0",
+    "aws-sdk": "^2.1157.0",
+    "catch-uncommitted": "^2.0.0",
+    "cli-spinner": "^0.2.10",
+    "depcheck": "^1.4.3",
+    "deplint": "^1.1.3",
+    "eslint": "^8.18.0",
+    "eslint-config-standard": "^17.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "eslint-plugin-jsdoc": "^39.3.2",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-n": "^15.2.1",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.30.0",
+    "jsonwebtoken": "^8.5.1",
+    "lint-staged": "^13.0.0",
+    "lodash": "^4.17.21",
+    "node-jose": "^2.1.1",
+    "nomnoml": "^1.5.2",
+    "playwright": "^1.22.2",
+    "request": "^2.88.2",
+    "rimraf": "^3.0.2",
+    "shellcheck": "^1.1.0",
+    "simple-git-hooks": "^2.8.0",
+    "uuid": "^8.3.2"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "npx lint-staged"
+  },
+  "versionist": {
+    "publishedAt": "2022-06-21T05:01:47.274Z"
+  },
+  "balena": {
+    "environment": [
+      {
+        "name": "LOGLEVEL",
+        "value": "info"
+      },
+      {
+        "name": "NODE_ENV",
+        "value": "development"
+      },
+      {
+        "name": "NODE_ENV",
+        "serviceName": "jellyfish-tests",
+        "value": "test"
+      }
+    ],
+    "secrets": [
+      {
+        "serviceName": "jellyfish-tests",
+        "value": "aws_access_key_id"
+      },
+      {
+        "serviceName": "jellyfish-tests",
+        "value": "aws_s3_bucket_name"
+      },
+      {
+        "serviceName": "jellyfish-tests",
+        "value": "aws_secret_access_key"
+      },
+      {
+        "value": "integration_discourse_token"
+      },
+      {
+        "value": "integration_discourse_username"
+      },
+      {
+        "value": "integration_front_token"
+      },
+      {
+        "value": "integration_github_app_id"
+      },
+      {
+        "value": "integration_github_private_key"
+      },
+      {
+        "value": "integration_github_token"
+      },
+      {
+        "value": "integration_intercom_token"
+      }
+    ]
+  }
+}
