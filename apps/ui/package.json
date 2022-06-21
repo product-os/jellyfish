@@ -12,7 +12,7 @@
     "build": "npm run clean && NODE_ENV=production NODE_OPTIONS=--max-old-space-size=6144 webpack --config=./webpack.config.js",
     "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,typedoc",
     "lint:fix": "balena-lint --fix lib test",
-    "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:unit",
+    "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint",
     "test:unit": "jest",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
