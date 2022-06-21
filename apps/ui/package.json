@@ -13,7 +13,7 @@
     "lint": "balena-lint lib test && depcheck --ignore-bin-package --ignores=@types/jest,assert,canvas,history,typedoc",
     "lint:fix": "balena-lint --fix lib test",
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint",
-    "test:unit": "jest",
+    "test:unit": "npm run lint",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
     "env": "mkdir -p ./dist/ui && NODE_ENV=development PUBLIC_DIR='./' ./conf/env.sh && cp ./env-config.js ./dist/ui/",
