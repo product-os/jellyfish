@@ -1,4 +1,16 @@
 - commits:
+    - subject: Allow livechat subdomains
+      hash: 4003d2ca70d2a6dacae7d278632b122f19bf6d33
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: karaxuna
+      nested: []
+  version: 53.1.0
+  title: "'Allow livechat subdomains'"
+  date: 2022-06-21T10:38:44.054Z
+- commits:
     - subject: Bump internal packages
       hash: af3936bcc8a1382aa3289f246dc85915c4b31dea
       body: ""
