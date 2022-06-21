@@ -286,7 +286,7 @@ services:
       - balena-ca
     environment:
       <<: *default-environment
-      # wildcard certificate for reverse proxy
+      # wildcard certificate for reverse proxy and livechat subdomains
       SUBJECT_ALTERNATE_NAMES: '*,*.livechat'
       ORG_UNIT: productOS
       SSH_KEY_NAMES: 'livechat,'
