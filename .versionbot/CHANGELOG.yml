@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: af3936bcc8a1382aa3289f246dc85915c4b31dea
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.0.14
+  title: "'Bump internal packages'"
+  date: 2022-06-21T05:01:45.707Z
+- commits:
     - subject: "Server: Fix bug where sales threads aren't synced to Front"
       hash: 5788fca84307d9954408271455516fe28a32219d
       body: ""
