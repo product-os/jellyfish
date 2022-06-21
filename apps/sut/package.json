@@ -13,42 +13,16 @@
     "node": ">=16.0.0"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps &&  npm run lint:server && npm run lint:ui",
+    "lint": "eslint --ext .js,.jsx scripts test && npm run lint:check && npm run lint:deps",
     "lint:check": "./scripts/lint/check-filenames.sh && shellcheck scripts/*.sh scripts/*/*.sh",
     "lint:deps": "deplint && depcheck --ignore-bin-package --ignores=@balena/jellyfish-*,shellcheck",
     "lint:catch": "catch-uncommitted --skip-node-versionbot-changes --exclude=VERSION,.versionbot/",
-    "lint:server": "(cd apps/server && npm run lint)",
-    "lint:ui": "(cd apps/ui && npm run lint)",
-    "test": "npm run lint && npm run test:unit",
-    "test:unit": "npm run test:unit:ui",
-    "test:unit:ui": "(cd apps/ui && npm run test:unit)",
+    "test": "npm run lint",
     "test:e2e:sdk": "ava ./test/e2e/sdk/*.spec.js",
     "test:e2e:ui": "playwright test test/e2e/ui",
     "test:e2e:server": "ava ./test/e2e/server/**/*.spec.js",
-    "test:integration:server": "(cd apps/server && npm run test:integration)",
-    "test:benchmark": "playwright test ./test/benchmark/*.spec.js",
-    "docs": "(cd apps/server && npm run doc); (cd apps/ui && npm run doc)",
-    "docs:diagram": "nomnoml docs/diagrams/architecture.noml > docs/assets/architecture.svg",
-    "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
-    "clean": "rimraf apps/*/packages/*",
-    "postinstall": "(cd apps/server && npm i); (cd apps/ui && npm i)",
-    "compose:build": "docker-compose build",
-    "compose:up": "docker-compose up",
-    "compose:local": "docker-compose -f docker-compose.local.yml up",
-    "push": "./scripts/push.sh",
-    "push:lib": "./scripts/push-lib.js",
-    "build:server": "(cd apps/server && npm run build)",
-    "build:ui": "(cd apps/ui && npm run build)",
-    "dev:server": "(cd apps/server && npm run dev)",
-    "dev:ui": "(cd apps/ui && npm run dev)"
-  },
-  "deplint": {
-    "files": [
-      "apps/server/lib/**/*.ts"
-    ],
-    "modules": [
-      "apps/server"
-    ]
+    "test:integration:server": "echo \"Run these as e2e tests\"",
+    "test:benchmark": "playwright test ./test/benchmark/*.spec.js"
   },
   "ava": {
     "timeout": "10m",
