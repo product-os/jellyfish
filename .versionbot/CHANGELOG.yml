@@ -1,4 +1,19 @@
 - commits:
+    - subject: Add whisper to milestone relationship
+      hash: dd692e22db8d05a53a6ad1a6d480382d729d5faf
+      body: |
+        Bring in missing whisper to milestone relationship
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.1
+  title: "'Add whisper to milestone relationship'"
+  date: 2022-06-22T00:57:35.801Z
+- commits:
     - subject: Allow livechat subdomains
       hash: 4003d2ca70d2a6dacae7d278632b122f19bf6d33
       body: ""
