@@ -1,4 +1,16 @@
 - commits:
+    - subject: Add certs for livechat subdomains
+      hash: bbe426d7367ad7588e46b5aa4500c35edd43542a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 53.1.2
+  title: "'Add certs for livechat subdomains'"
+  date: 2022-06-22T10:17:09.407Z
+- commits:
     - subject: Add whisper to milestone relationship
       hash: dd692e22db8d05a53a6ad1a6d480382d729d5faf
       body: |
