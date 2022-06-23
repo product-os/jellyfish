@@ -16,10 +16,6 @@ tasks:
     cmds:
       - npm run lint
 
-  unit:
-    cmds:
-      - npm run test:unit
-
   wait-for-api:
     cmds:
       - ./scripts/ci/wait-for-api.sh
