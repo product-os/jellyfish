@@ -1,4 +1,16 @@
 - commits:
+    - subject: Show errors when required fields are not set
+      hash: 8791143938378acb68f37cb19e3e19efe49d6e78
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: karaxuna
+      nested: []
+  version: 53.1.3
+  title: "'Show errors when required fields are not set'"
+  date: 2022-06-23T16:55:23.061Z
+- commits:
     - subject: Add certs for livechat subdomains
       hash: bbe426d7367ad7588e46b5aa4500c35edd43542a
       body: ""
