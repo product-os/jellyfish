@@ -110,6 +110,14 @@ export const setCards = (ctx: ActionCreatorContext) => {
 
 export const initiateThread = (ctx: ActionCreatorContext) => {
 	return async ({ subject, text, files }) => {
+		if (!subject) {
+			throw new Error('Subject is required!');
+		}
+
+		if (!text) {
+			throw new Error('Text is required!');
+		}
+
 		const state = ctx.store.getState();
 		const currentUser = selectCurrentUser()(state)!;
 		const markers = [`${currentUser.slug}+org-balena`];

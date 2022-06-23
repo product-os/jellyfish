@@ -49,10 +49,6 @@ export const CreateThread: React.FunctionComponent<any> = ({
 	}, []);
 
 	const handleSubmit = React.useCallback(async () => {
-		if (!subject || !text) {
-			return;
-		}
-
 		const taskState = await initiateThreadTask.exec({
 			subject,
 			text,
