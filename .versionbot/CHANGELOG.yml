@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Improve performance of component unit testing"
+      hash: 5e34bc62477584b47ceca509c203b1c2e7f77c70
+      body: >
+        This change turns off in-place typechecking when running unit test
+
+        files, dramatically improving test performance. Typechecking still
+
+        happens when the UI app is built, so we don't lose type security here,
+
+        and see a big improvement in performance.
+
+
+        See: https://github.com/kulshekhar/ts-jest/blob/main/website/docs/getting-started/options/isolatedModules.md
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.1.5
+  title: "'UI: Improve performance of component unit testing'"
+  date: 2022-06-24T13:54:55.630Z
+- commits:
     - subject: Update balena/cert-manager from v0.1.0 to v0.1.1
       hash: e24fba282c855d33ee2216f149f760df8931e9b4
       body: ""
