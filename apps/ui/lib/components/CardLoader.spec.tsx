@@ -27,20 +27,6 @@ afterEach(() => {
 	sandbox.restore();
 });
 
-test('CardLoader children must be a function', async () => {
-	expect(() => {
-		mount(
-			<CardLoader id="1" type="user" card={null} withLinks={['is member of']}>
-				{/* @ts-ignore */}
-				<div>Test</div>
-			</CardLoader>,
-			{
-				wrappingComponent: getWrappingComponent(testCard),
-			},
-		);
-	}).toThrow();
-});
-
 test('CardLoader passes card to its child function', async () => {
 	const children = sinon.fake.returns(<div>Test</div>);
 	await mount(

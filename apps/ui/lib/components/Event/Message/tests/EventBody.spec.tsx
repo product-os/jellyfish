@@ -98,22 +98,6 @@ test('Edited message is shown in markdown if message is being updated', () => {
 	expect(messageText.text()).toBe(editedMessage);
 });
 
-test('An error is captured by the component and an error message is rendered', () => {
-	const { commonProps } = context;
-
-	const eventBody: any = mount(<Body {...commonProps} />, {
-		wrappingComponent,
-	});
-
-	const error = new Error();
-	eventBody.childAt(0).childAt(0).simulateError(error);
-
-	const message = eventBody.first('div[data-test="eventBody__errorMessage"]');
-	expect(message.text()).toBe(
-		'An error occured while attempting to render this message',
-	);
-});
-
 test('Hidden front URLs are not displayed in the message', () => {
 	const { commonProps } = context;
 
