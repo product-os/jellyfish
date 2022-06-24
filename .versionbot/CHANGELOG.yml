@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/cert-manager from v0.1.0 to v0.1.1
+      hash: e24fba282c855d33ee2216f149f760df8931e9b4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.4
+  title: "'Update balena/cert-manager from v0.1.0 to v0.1.1'"
+  date: 2022-06-24T00:34:22.611Z
+- commits:
     - subject: Show errors when required fields are not set
       hash: 8791143938378acb68f37cb19e3e19efe49d6e78
       body: ""
