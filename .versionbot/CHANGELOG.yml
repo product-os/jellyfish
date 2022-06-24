@@ -1,4 +1,38 @@
 - commits:
+    - subject: "UI: Remove unnecessary error test in EventBody spec"
+      hash: f12878b726bf72322e67f2f9d155d099198f300d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add a test mock for window.scrollTo"
+      hash: d98bc7d82107d5d46aa7a69f7fcf9608dbc35821
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove CardLoader test that is already covered by type checks"
+      hash: 20d66a17e026318a8cf447c9b175f10cbc27645e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.1.6
+  title: "'Lucianbuzzo/UI test warnings'"
+  date: 2022-06-24T15:45:35.286Z
+- commits:
     - subject: "UI: Improve performance of component unit testing"
       hash: 5e34bc62477584b47ceca509c203b1c2e7f77c70
       body: >
