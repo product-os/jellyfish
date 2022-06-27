@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Fix imports"
+      hash: dbcbce87fccbc0e7b12cb874d775ad283ac962f5
+      body: |
+        Remove a number of unecessary imports, use import type where possible,
+        and add missing type packages that we attempt to import.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.12
+  title: "'UI: Fix imports'"
+  date: 2022-06-27T09:52:57.572Z
+- commits:
     - subject: "Update: update grafana/grafana from 8.5.5 to 8.5.6"
       hash: 25a6e4de5b3eb90fd6d7ee50a9e57dcc47609365
       body: ""
