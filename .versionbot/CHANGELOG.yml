@@ -1,4 +1,16 @@
 - commits:
+    - subject: "Update: update grafana/grafana from 8.5.5 to 8.5.6"
+      hash: 25a6e4de5b3eb90fd6d7ee50a9e57dcc47609365
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.11
+  title: "'Update: update grafana/grafana from 8.5.5 to 8.5.6'"
+  date: 2022-06-27T07:57:16.352Z
+- commits:
     - subject: Update nginx from 1.22.0 to 1.23.0
       hash: ae7feb83ee28bfc3f14c3d3f123ecd67bc57672b
       body: ""
