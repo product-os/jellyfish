@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-s3 from v2.13.7 to v2.13.9
+      hash: 489468f572d810c99cf4c2ec1de7b0e503091fa3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.7
+  title: "'Update balena/open-balena-s3 from v2.13.7 to v2.13.9'"
+  date: 2022-06-27T00:58:53.711Z
+- commits:
     - subject: "UI: Remove unnecessary error test in EventBody spec"
       hash: f12878b726bf72322e67f2f9d155d099198f300d
       body: ""
