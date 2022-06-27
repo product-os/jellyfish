@@ -1,4 +1,20 @@
 - commits:
+    - subject: Enable backend relationship validation
+      hash: 44683bf5e1a4ea92a832e0877e4c4b933e75d0d5
+      body: |
+        Add missing message to saga relationship and
+        enable backend relationship validation
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.8
+  title: "'Enable backend relationship validation'"
+  date: 2022-06-27T02:15:51.898Z
+- commits:
     - subject: Update balena/open-balena-s3 from v2.13.7 to v2.13.9
       hash: 489468f572d810c99cf4c2ec1de7b0e503091fa3
       body: ""
