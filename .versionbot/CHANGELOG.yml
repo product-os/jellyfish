@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus from v2.36.0 to v2.36.2
+      hash: eef98ca3c42e10391b82a8b5a5c63fbe5a25da6b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.9
+  title: "'Update prom/prometheus from v2.36.0 to v2.36.2'"
+  date: 2022-06-27T03:41:20.879Z
+- commits:
     - subject: Enable backend relationship validation
       hash: 44683bf5e1a4ea92a832e0877e4c4b933e75d0d5
       body: |
