@@ -24,8 +24,7 @@ import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
-import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
+import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;

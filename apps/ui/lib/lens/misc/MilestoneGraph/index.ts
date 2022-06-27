@@ -2,7 +2,7 @@ import _ from 'lodash';
 import { connect } from 'react-redux';
 import { selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { LensContract } from '../../../types';
+import type { LensContract } from '../../../types';
 import type { StateProps, OwnProps } from './MilestoneGraph';
 
 const LensRenderer = createLazyComponent(

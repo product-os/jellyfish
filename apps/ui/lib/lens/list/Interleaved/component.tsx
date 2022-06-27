@@ -6,8 +6,8 @@ import { core } from '@balena/jellyfish-types';
 import { Event, useSetup } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
-import { LensRendererProps } from '../../../types';
-import { ChannelContextProps } from '../../../hooks/channel-context';
+import type { LensRendererProps } from '../../../types';
+import type { ChannelContextProps } from '../../../hooks/channel-context';
 
 interface State {
 	newMessage: string;

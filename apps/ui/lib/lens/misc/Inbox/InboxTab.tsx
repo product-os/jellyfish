@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Flex, Search } from 'rendition';
-import { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
+import type { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
 import useDebounce from '../../../hooks/use-debounce';
 import { selectors } from '../../../store';
 import MarkAsReadButton from './MarkAsReadButton';

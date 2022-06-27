@@ -1,7 +1,7 @@
 import type { JsonSchema } from '@balena/jellyfish-types';
 import skhema from 'skhema';
 import _ from 'lodash';
-import { FilterFieldOption } from 'rendition/dist/components/Filters/FilterModal';
+import type { FilterFieldOption } from 'rendition/dist/components/Filters/FilterModal';
 
 export const LINKED_CONTRACT_PREFIX = '🔗';
 const DELIMITER = '___';

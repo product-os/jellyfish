@@ -2,7 +2,10 @@ import * as React from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Mermaid } from 'rendition/dist/extra/Mermaid';
 import { Box, Modal } from 'rendition';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import * as _ from 'lodash';
 import interact from 'interactjs';
 import styled from 'styled-components';

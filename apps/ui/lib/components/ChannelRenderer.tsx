@@ -8,17 +8,17 @@ import { LinkModal } from './LinkModal';
 import ChannelNotFound from './ChannelNotFound';
 import { ChannelContextProvider } from '../hooks';
 import { getLens } from '../lens';
-import {
+import type {
 	Contract,
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { BoundActionCreators, ChannelContract } from '../types';
+import type { BoundActionCreators, ChannelContract } from '../types';
 import { actionCreators } from '../store';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import { Setup, withSetup } from './SetupProvider';
 import { compose } from 'redux';
-import { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
+import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
 const createChannelQuery = (
 	idOrSlug: string,

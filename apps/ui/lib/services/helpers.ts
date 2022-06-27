@@ -15,11 +15,10 @@ import { SchemaSieve } from 'rendition';
 import skhema from 'skhema';
 import { DetectUA } from 'detect-ua';
 import { MESSAGE, WHISPER, SUMMARY, RATING } from '../components/constants';
-import { ChannelContract, JSONPatch, UIActor } from '../types';
+import type { ChannelContract, JSONPatch, UIActor } from '../types';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
-	ContractData,
 	LinkContract,
 	TypeContract,
 	UserContract,

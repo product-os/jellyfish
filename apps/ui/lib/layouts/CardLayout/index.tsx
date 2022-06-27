@@ -1,4 +1,7 @@
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -7,7 +10,7 @@ import { CloseButton, Column, LinksProvider, useSetup } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors } from '../../store';
-import { ChannelContract } from '../../types';
+import type { ChannelContract } from '../../types';
 
 interface StateProps {
 	types: TypeContract[];

@@ -1,5 +1,5 @@
 import path from 'path';
-import { UIActor } from '../types';
+import type { UIActor } from '../types';
 import { withDefaultProps } from './with-default-props';
 
 const getActorHref = (actor: UIActor) => {

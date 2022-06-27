@@ -1,5 +1,5 @@
 import * as assert from '@balena/jellyfish-assert';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	SessionContract,

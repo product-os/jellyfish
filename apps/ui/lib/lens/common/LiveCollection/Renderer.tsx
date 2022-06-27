@@ -5,7 +5,7 @@ import update from 'immutability-helper';
 import _ from 'lodash';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Box, FiltersView, Flex, SchemaSieve } from 'rendition';
+import { FiltersView, Flex, SchemaSieve } from 'rendition';
 import { v4 as uuid } from 'uuid';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';

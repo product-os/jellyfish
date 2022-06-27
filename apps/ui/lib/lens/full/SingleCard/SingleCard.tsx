@@ -1,8 +1,8 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
-import { LensRendererProps } from '../../../types';
-import { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { LensRendererProps } from '../../../types';
+import type { TypeContract } from '@balena/jellyfish-types/build/core';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 
 export type OwnProps = LensRendererProps;

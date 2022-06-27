@@ -4,27 +4,24 @@ import Bluebird from 'bluebird';
 import immutableUpdate from 'immutability-helper';
 import { push } from 'connected-react-router';
 import clone from 'deep-copy';
-import { once } from 'events';
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
-import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
 import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
-	Contract,
 	LoopContract,
 	UserContract,
 	ViewContract,
 } from '@balena/jellyfish-types/build/core';
 import * as selectors from '../selectors';
-import { getViewId, hashCode } from '../helpers';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;

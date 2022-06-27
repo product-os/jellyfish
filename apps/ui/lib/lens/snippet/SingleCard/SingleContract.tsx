@@ -2,7 +2,7 @@ import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
 import styled from 'styled-components';
-import { Box, Flex, Txt } from 'rendition';
+import { Box, Flex } from 'rendition';
 import { TagList, UserAvatar } from '../../../components';
 import type { UserContract } from '@balena/jellyfish-types/build/core';
 import CardFields from '../../../components/CardFields';

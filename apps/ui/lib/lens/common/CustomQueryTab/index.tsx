@@ -2,10 +2,13 @@ import React from 'react';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 import { connect } from 'react-redux';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import { selectors, actionCreators } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { ChannelContract } from '../../../types';
+import type { ChannelContract } from '../../../types';
 import {
 	CustomQueryTab as InnerCustomQueryTab,
 	OwnProps,

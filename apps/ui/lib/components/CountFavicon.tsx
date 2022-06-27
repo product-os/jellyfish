@@ -1,4 +1,4 @@
-import { connect, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { selectors } from '../store';
 import React from 'react';
 import { Helmet } from 'react-helmet';

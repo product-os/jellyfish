@@ -7,7 +7,7 @@ import FullLenses from './full';
 import ListLenses from './list';
 import SnippetLenses from './snippet';
 import MiscLenses from './misc';
-import { LensContract } from '../types';
+import type { LensContract } from '../types';
 
 const allLenses = _.concat<any>(
 	ActionLenses,

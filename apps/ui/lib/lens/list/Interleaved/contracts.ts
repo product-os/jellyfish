@@ -6,8 +6,8 @@ import { compose } from 'redux';
 import { withDefaultGetActorHref } from '../../../components';
 import { selectors } from '../../../store';
 import { withChannelContext } from '../../../hooks';
-import { LensContract, LensRendererProps } from '../../../types';
-import { OwnProps, StateProps } from './component';
+import type { LensContract, LensRendererProps } from '../../../types';
+import type { OwnProps, StateProps } from './component';
 import { InterleavedList } from './component';
 
 const mapStateToProps = (state): StateProps => {

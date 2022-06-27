@@ -1,6 +1,6 @@
-import { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 import React from 'react';
-import { ChannelContract } from '../types';
+import type { ChannelContract } from '../types';
 
 const channelContext = React.createContext(null);
 

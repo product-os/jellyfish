@@ -1,4 +1,3 @@
-import * as Bluebird from 'bluebird';
 import _ from 'lodash';
 import React from 'react';
 import queryString from 'query-string';
@@ -17,8 +16,8 @@ import type {
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
-import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 
 export { MessageInput };
 

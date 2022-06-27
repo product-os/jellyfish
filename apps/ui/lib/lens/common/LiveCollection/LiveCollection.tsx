@@ -1,12 +1,15 @@
-import { Contract, UserContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 import clone from 'deep-copy';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import * as React from 'react';
 import jsf from 'json-schema-faker';
-import { LensContract } from '../../../types';
-import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
+import type { LensContract } from '../../../types';
+import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
 interface Props extends Setup {

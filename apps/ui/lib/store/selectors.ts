@@ -5,7 +5,6 @@ import type {
 	TypeContract,
 } from '@balena/jellyfish-types/build/core';
 import * as helpers from '../services/helpers';
-import { getViewId } from './helpers';
 import { getUnreadQuery } from '../queries';
 
 export const getCard = (idOrSlug, type) => (state) => {

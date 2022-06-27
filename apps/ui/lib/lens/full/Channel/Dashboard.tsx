@@ -2,7 +2,6 @@ import React from 'react';
 import { Flex, Box } from 'rendition';
 import Plot from 'react-plotly.js';
 import * as _ from 'lodash';
-import { card } from '../../../../test/fixtures/types';
 import { withSetup, Setup } from '../../../components/SetupProvider';
 
 interface OwnProps extends Setup {

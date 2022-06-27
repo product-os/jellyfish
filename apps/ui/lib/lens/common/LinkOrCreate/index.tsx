@@ -2,7 +2,10 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Button } from 'rendition';
 import * as _ from 'lodash';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import * as helpers from '../../../services/helpers';
 import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
