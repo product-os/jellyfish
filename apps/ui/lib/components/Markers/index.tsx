@@ -2,7 +2,7 @@ import { commaListsAnd } from 'common-tags';
 import { flatMap, partition, uniq } from 'lodash';
 import React from 'react';
 import { Txt, TxtProps } from 'rendition';
-import { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from '@balena/jellyfish-types/build/core';
 
 export default function Markers({
 	card,

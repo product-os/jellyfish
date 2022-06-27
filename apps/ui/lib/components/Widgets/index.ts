@@ -1,7 +1,6 @@
 import { withOptionProps } from 'rendition/dist/components/Renderer/widgets/widget-util';
 import { JellyfishLinkWidget } from './JellyfishLinkWidget';
 import { JellyfishUserWidget } from './JellyfishUserWidget';
-import { createLazyComponent } from '../SafeLazy';
 export { LoopSelectWidget } from './LoopSelectWidget';
 import MarkdownWidget from './MarkdownWidget';
 import MermaidWidget from './MermaidWidget';

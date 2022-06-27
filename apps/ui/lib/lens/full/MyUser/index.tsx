@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import * as redux from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';

@@ -1,4 +1,3 @@
-import Bluebird from 'bluebird';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import * as React from 'react';
@@ -12,7 +11,7 @@ import {
 	InfiniteList,
 } from '../../../components';
 import * as helpers from '../../../services/helpers';
-import { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from '@balena/jellyfish-types/build/core';
 
 const StyledTabs = styled(Tabs)`
 	flex: 1 > [role= 'tabpanel' ] {

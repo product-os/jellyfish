@@ -1,9 +1,12 @@
 import React from 'react';
 import { Tab } from 'rendition';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
 import * as helpers from '../../../services/helpers';
 import { actionCreators } from '../../../store';
-import { BoundActionCreators, ChannelContract } from '../../../types';
+import type { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';
 
 export interface StateProps {

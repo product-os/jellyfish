@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import React, { useEffect, useState } from 'react';
 import { Box, Divider } from 'rendition';
 import { getLens } from '../..';
-import { LensRendererProps } from '../../../types';
+import type { LensRendererProps } from '../../../types';
 import { RouteComponentProps } from 'react-router-dom';
 import { core } from '@balena/jellyfish-types';
 import { GroupedVirtuoso } from 'react-virtuoso';

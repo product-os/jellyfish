@@ -6,7 +6,7 @@ import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { SLUG } from './Kanban';
 import type { DispatchProps, StateProps, OwnProps } from './Kanban';
-import { LensContract } from '../../../types';
+import type { LensContract } from '../../../types';
 
 export const Kanban = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-kanban" */ './Kanban'),

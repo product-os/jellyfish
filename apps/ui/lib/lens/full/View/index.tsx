@@ -5,7 +5,7 @@ import { bindActionCreators } from '../../../bindactioncreators';
 import { withResponsiveContext } from '../../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import type { StateProps, DispatchProps, OwnProps } from './ViewRenderer';
+import type { StateProps, DispatchProps } from './ViewRenderer';
 
 export const ViewRenderer = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-view" */ './ViewRenderer'),

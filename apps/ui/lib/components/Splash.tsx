@@ -1,7 +1,6 @@
 import React from 'react';
 import { Box, Img } from 'rendition';
 import styled from 'styled-components';
-import { px } from '../services/helpers';
 
 const SplashWrapper = styled(Box)`
 	width: 100%;

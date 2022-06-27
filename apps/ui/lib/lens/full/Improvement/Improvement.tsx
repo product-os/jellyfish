@@ -7,10 +7,13 @@ import { UI_SCHEMA_MODE } from '../../schema-util';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import CardFields from '../../../components/CardFields';
 import * as helpers from '../../../services/helpers';
-import { Contract, TypeContract } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type {
+	Contract,
+	TypeContract,
+} from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import { ViewFooter } from '../../common/ViewFooter';
-import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
+import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
 export type OwnProps = LensRendererProps & {

@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Box } from 'rendition';
 import styled from 'styled-components';
 import * as selectors from '../store/selectors';
-import { Contract } from '@balena/jellyfish-types/build/core';
-import { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import _ from 'lodash';
 import { actionCreators } from '../store';
 import { useCursorEffect } from '../hooks';

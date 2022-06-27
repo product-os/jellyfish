@@ -6,9 +6,12 @@ import { Flex, DropDownButton, Button } from 'rendition';
 import styled from 'styled-components';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import { ActionLink, Icon, Setup } from '../../../components';
-import { BoundActionCreators, ChannelContract } from '../../../types';
+import type { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators, getSeedData } from '../../../store';
-import { TypeContract, UserContract } from '@balena/jellyfish-types/build/core';
+import type {
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
 import * as helpers from '../../../services/helpers';
 import * as notifications from '../../../services/notifications';

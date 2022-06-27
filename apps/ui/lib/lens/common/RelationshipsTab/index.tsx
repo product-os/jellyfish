@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators, selectors } from '../../../store';
 import {
-	getViewId,
 	RelationshipsTab as InnerRelationshipsTab,
 	StateProps,
 	DispatchProps,

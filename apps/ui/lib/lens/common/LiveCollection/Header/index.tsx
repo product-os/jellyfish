@@ -3,10 +3,10 @@ import type { JSONSchema7 } from 'json-schema';
 import React, { useState } from 'react';
 import { Box, Button, FiltersProps, Flex, Search } from 'rendition';
 import styled from 'styled-components';
-import { TypeContract } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import { Icon } from '../../../../components';
-import { LensContract } from '../../../../types';
+import type { LensContract } from '../../../../types';
 import { LensSelection } from './LensSelection';
 import ViewFilters from './Filters';
 

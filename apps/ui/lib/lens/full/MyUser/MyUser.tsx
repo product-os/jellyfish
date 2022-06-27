@@ -1,15 +1,18 @@
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Card, Divider, Flex, Txt, Tab } from 'rendition';
+import { Box, Card, Flex, Txt, Tab } from 'rendition';
 import * as timezones from '../../../services/timezones';
 import * as helpers from '../../../services/helpers';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import LiveCollection from '../../common/LiveCollection';
-import { BoundActionCreators, LensRendererProps } from '../../../types';
-import { TypeContract, Contract } from '@balena/jellyfish-types/build/core';
+import type { BoundActionCreators, LensRendererProps } from '../../../types';
+import type {
+	TypeContract,
+	Contract,
+} from '@balena/jellyfish-types/build/core';
 import { actionCreators } from '../../../store';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
 export type OwnProps = LensRendererProps;

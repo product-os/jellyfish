@@ -1,6 +1,6 @@
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import { JsonSchema } from '@balena/jellyfish-types';
-import { ViewContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type { ViewContract } from '@balena/jellyfish-types/build/core';
 import { Kernel, errors as coreErrors } from 'autumndb';
 import _ from 'lodash';
 

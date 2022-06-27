@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import React from 'react';
 import { Flex, Tab } from 'rendition';
-import { LensContract, LensRendererProps } from '../../../types';
+import type { LensContract, LensRendererProps } from '../../../types';
 import Dashboard from './Dashboard';
 import LiveCollection from '../../common/LiveCollection';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';

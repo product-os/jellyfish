@@ -8,15 +8,15 @@ import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
 import actions from './actions';
 import history from '../services/history';
-import { ChannelContract } from '../types';
-import {
+import type { ChannelContract } from '../types';
+import type {
 	Contract,
 	LoopContract,
 	OrgContract,
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.

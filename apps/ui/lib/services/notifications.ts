@@ -1,6 +1,6 @@
 import { notifications } from 'rendition';
 // TS-TODO: export `NotificationOptions` from rendition main file
-import { NotificationOptions } from 'rendition/dist/components/Notifications';
+import type { NotificationOptions } from 'rendition/dist/components/Notifications';
 import { v4 as uuid } from 'uuid';
 
 // TS-TODO: `notifications.addNotification` does not accept id

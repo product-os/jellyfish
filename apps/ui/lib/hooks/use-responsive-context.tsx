@@ -1,7 +1,6 @@
 /* eslint-disable no-undefined */
 
 import React from 'react';
-import type { ThemeType } from 'rendition';
 import { withTheme } from 'styled-components';
 
 interface ResponsiveContextValue {

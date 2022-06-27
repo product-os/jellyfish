@@ -3,7 +3,7 @@ import * as _ from 'lodash';
 import { Box, Checkbox } from 'rendition';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import ForceGraph2D from 'react-force-graph-2d';
-import { LensRendererProps } from '../../../types';
+import type { LensRendererProps } from '../../../types';
 import { useSetup } from '../../../components';
 
 export type Props = LensRendererProps;

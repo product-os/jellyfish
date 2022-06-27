@@ -1,6 +1,6 @@
 import React from 'react';
 import useEventListener from '@use-it/event-listener';
-import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { ChatWidget } from './ChatWidget';
 declare const window: Window & { sdk: JellyfishSDK };
 

@@ -1,17 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
-import { CSVLink } from 'react-csv';
-import { Box, Divider, Flex, Search, Txt } from 'rendition';
+import { Box, Divider, Flex, Txt } from 'rendition';
 import styled from 'styled-components';
-import { Contract, ViewContract } from '@balena/jellyfish-types/build/core';
-import { flatten } from 'flat';
+import type {
+	Contract,
+	ViewContract,
+} from '@balena/jellyfish-types/build/core';
 import { ActionLink, CloseButton } from '../../../../components';
 import * as helpers from '../../../../services/helpers';
 import CardActions from '../../../../components/CardActions';
 import Markers from '../../../../components/Markers';
-import { ChannelContract } from '../../../../types';
+import type { ChannelContract } from '../../../../types';
 import CSVDownloadModal from '../../../../components/CSVDownloadModal';
-import { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from '@balena/jellyfish-types';
 
 // Style CSV link to match rendition theme
 const CSVLinkWrapper = styled(Box)`

@@ -2,8 +2,7 @@
 
 import React from 'react';
 import _ from 'lodash';
-import { Box, Heading, Flex, Tab, Table, Txt, Divider } from 'rendition';
-import * as helpers from '../../../services/helpers';
+import { Box, Heading, Flex, Tab, Table, Txt } from 'rendition';
 import { DeviceMetrics } from '../../../components/Metrics/DeviceMetrics';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 

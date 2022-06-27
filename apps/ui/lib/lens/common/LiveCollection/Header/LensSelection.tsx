@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Box, BoxProps, Button, ButtonGroup } from 'rendition';
 import { Icon } from '../../../../components';
-import { LensContract } from '../../../../types';
+import type { LensContract } from '../../../../types';
 
 // HACK: set min height to the height of a button group
 // this prevents the component collapsing vertically if

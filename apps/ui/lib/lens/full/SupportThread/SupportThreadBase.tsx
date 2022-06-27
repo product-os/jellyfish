@@ -20,19 +20,19 @@ import { actionCreators, selectors } from '../../../store';
 import CardFields from '../../../components/CardFields';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
-import {
+import type {
 	Contract,
 	TypeContract,
 	UserContract,
 } from '@balena/jellyfish-types/build/core';
-import { JsonSchema } from '@balena/jellyfish-types';
-import {
+import type { JsonSchema } from '@balena/jellyfish-types';
+import type {
 	BoundActionCreators,
 	ChatGroup,
 	LensRendererProps,
 	UIActor,
 } from '../../../types';
-import { Setup } from '../../../components/SetupProvider';
+import type { Setup } from '../../../components/SetupProvider';
 import { useCursorEffect } from '../../../hooks';
 import { useSelector } from 'react-redux';
 
