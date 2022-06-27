@@ -29,7 +29,7 @@ services:
       timeout: 5s
     command: redis-server --appendonly yes
   s3:
-    image: balena/open-balena-s3:v2.13.7
+    image: balena/open-balena-s3:v2.13.9
     environment:
       BUCKETS: jellyfish
       MINIO_DOMAIN: ly.fish.local
