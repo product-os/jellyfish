@@ -1,4 +1,16 @@
 - commits:
+    - subject: "Update: update json-schema-faker from 0.5.0-rcv.42 to 0.5.0-rcv.43"
+      hash: d98ea30a6de6cd01d6cbe18bde6bb0844b7d2dbc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.14
+  title: "'Update: update json-schema-faker from 0.5.0-rcv.42 to 0.5.0-rcv.43'"
+  date: 2022-06-28T01:50:10.898Z
+- commits:
     - subject: "Update: update internal-patch (internal patch bumps)"
       hash: 013b61de25f2459b9887daac6d1f74f20f3314a6
       body: ""
