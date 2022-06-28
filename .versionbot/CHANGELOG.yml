@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add message to group relationship
+      hash: f8a471924735132e91c1c6a8667a256c15a03a31
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.16
+  title: "'Add message to group relationship'"
+  date: 2022-06-28T03:53:31.149Z
+- commits:
     - subject: "Update: update resinci/jellyfish-test from v4.0.1 to v4.0.2"
       hash: 50d43b439e456189168a02da405995e5f75afb2e
       body: ""
