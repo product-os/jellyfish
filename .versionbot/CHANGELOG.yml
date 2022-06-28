@@ -1,4 +1,21 @@
 - commits:
+    - subject: Drop @balena/jellyfish-plugin-channels
+      hash: 629d8c1568005facf34e5055102b275257577a92
+      body: |
+        jellyfish-plugin-channels functionality has been merged into
+        jellyfish-worker, primarily because channels should be
+        first-class citizen contracts and not in a plugin
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.18
+  title: "'Drop @balena/jellyfish-plugin-channels'"
+  date: 2022-06-28T07:19:48.518Z
+- commits:
     - subject: Update client-sdk from 11.0.7 to 11.0.8
       hash: d52022f58714e9efc6dd374be02d322880f1529c
       body: ""
