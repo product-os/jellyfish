@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update client-sdk from 11.0.7 to 11.0.8
+      hash: d52022f58714e9efc6dd374be02d322880f1529c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.17
+  title: "'Update client-sdk from 11.0.7 to 11.0.8'"
+  date: 2022-06-28T06:20:14.399Z
+- commits:
     - subject: Add message to group relationship
       hash: f8a471924735132e91c1c6a8667a256c15a03a31
       body: ""
