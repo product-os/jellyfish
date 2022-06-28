@@ -1,5 +1,4 @@
 import { balenaApiPlugin } from '@balena/jellyfish-plugin-balena-api';
-import { channelsPlugin } from '@balena/jellyfish-plugin-channels';
 import { defaultPlugin } from '@balena/jellyfish-plugin-default';
 import { discoursePlugin } from '@balena/jellyfish-plugin-discourse';
 import { flowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
@@ -14,7 +13,6 @@ export function getPlugins(): PluginDefinition[] {
 	return [
 		productOsPlugin(),
 		defaultPlugin(),
-		channelsPlugin(),
 		typeformPlugin(),
 		githubPlugin(),
 		flowdockPlugin(),
