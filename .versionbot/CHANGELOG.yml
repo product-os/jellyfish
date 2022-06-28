@@ -1,4 +1,16 @@
 - commits:
+    - subject: "Update: update internal-patch (internal patch bumps)"
+      hash: 013b61de25f2459b9887daac6d1f74f20f3314a6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.13
+  title: "'Update: update internal-patch (internal patch bumps)'"
+  date: 2022-06-28T00:35:34.298Z
+- commits:
     - subject: "UI: Fix imports"
       hash: dbcbce87fccbc0e7b12cb874d775ad283ac962f5
       body: |
