@@ -1,4 +1,20 @@
 - commits:
+    - subject: "Dev: Remove old compose commands"
+      hash: f0f5c0f8a929af6871cc2638f1cf8153e913250e
+      body: |
+        Drop a couple npm run compose commands as they are no longer
+        usable after the move to balena
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.1.19
+  title: "'Dev: Remove old compose commands'"
+  date: 2022-06-28T08:45:40.115Z
+- commits:
     - subject: Drop @balena/jellyfish-plugin-channels
       hash: 629d8c1568005facf34e5055102b275257577a92
       body: |
