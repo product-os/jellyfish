@@ -1,6 +1,6 @@
 # https://github.com/product-os/jellyfish-base-images
 # https://registry.hub.docker.com/r/resinci/jellyfish-test
-FROM resinci/jellyfish-test:v4.0.1 AS base
+FROM resinci/jellyfish-test:v4.0.2 AS base
 
 # --- run unit tests
 FROM base AS test
