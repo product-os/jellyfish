@@ -52,7 +52,7 @@
     "interactjs": "^1.10.11",
     "is-uuid": "^1.0.2",
     "json-e": "^4.4.3",
-    "json-schema-faker": "^0.5.0-rcv.43",
+    "json-schema-faker": "^0.5.0-rcv.44",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "memoize-one": "^5.2.0",
