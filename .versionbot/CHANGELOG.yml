@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update json-schema-faker from 0.5.0-rcv.43 to 0.5.0-rcv.44
+      hash: 19c75d9f7050bd4cbe2876b5eb746fc12b926bdc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.20
+  title: "'Update json-schema-faker from 0.5.0-rcv.43 to 0.5.0-rcv.44'"
+  date: 2022-06-28T18:59:20.567Z
+- commits:
     - subject: "Dev: Remove old compose commands"
       hash: f0f5c0f8a929af6871cc2638f1cf8153e913250e
       body: |
