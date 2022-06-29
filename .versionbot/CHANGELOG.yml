@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update autumndb from 20.1.24 to 20.2.0
+      hash: aa2d7194d39b3717281779d2467c56452fa87567
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.1.21
+  title: "'Update autumndb from 20.1.24 to 20.2.0'"
+  date: 2022-06-29T01:18:57.171Z
+- commits:
     - subject: Update json-schema-faker from 0.5.0-rcv.43 to 0.5.0-rcv.44
       hash: 19c75d9f7050bd4cbe2876b5eb746fc12b926bdc
       body: ""
