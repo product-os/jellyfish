@@ -3,6 +3,7 @@ import _ from 'lodash';
 import type { LoopContract, TypeContract } from 'autumndb';
 import * as helpers from '../services/helpers';
 import { getUnreadQuery } from '../queries';
+import type { RelationshipContract } from 'autumndb';
 
 export const getCard = (idOrSlug, type) => (state) => {
 	const cards = _.get(state.core, ['cards', helpers.getTypeBase(type)]);
@@ -68,6 +69,12 @@ export const getTypes =
 	() =>
 	(state): TypeContract[] => {
 		return state.core.types;
+	};
+
+export const getRelationships =
+	() =>
+	(state): RelationshipContract[] => {
+		return state.core.relationships || [];
 	};
 
 export const getLoops =

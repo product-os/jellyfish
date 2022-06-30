@@ -271,7 +271,7 @@ const ContractGraph = (props: Props) => {
 				<LinkModal
 					target={linkTargets.from}
 					cards={[linkTargets.to]}
-					targetTypes={types}
+					targetTypes={types || []}
 					onHide={() => setLinkTargets(null)}
 				/>
 			)}

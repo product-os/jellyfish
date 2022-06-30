@@ -2,7 +2,8 @@ import React from 'react';
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import update from 'immutability-helper';
-import { supportsLink } from '@balena/jellyfish-client-sdk';
+import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import type { Contract, RelationshipContract } from 'autumndb';
 const linksContext = React.createContext<any>(null);
 
 // LinksProvider asynchronously fetches the requested links and stores them in React context
@@ -10,7 +11,19 @@ const linksContext = React.createContext<any>(null);
 // Note: currently you can request links for multiple cards but only a single link verb is supported
 // by an instance of LinksProvider.
 
-export const LinksProvider = ({ sdk, cards, link, children }: any) => {
+export const LinksProvider = ({
+	sdk,
+	cards,
+	link,
+	children,
+	relationships,
+}: {
+	sdk: JellyfishSDK;
+	cards: Contract[];
+	link: string;
+	children: any;
+	relationships: RelationshipContract[];
+}) => {
 	const [links, setLinks] = React.useState({});
 
 	const updateLinks = (cardId: string, linkVerb: string, newLinks: any) => {
@@ -31,15 +44,19 @@ export const LinksProvider = ({ sdk, cards, link, children }: any) => {
 
 	const fetchLinks = async () => {
 		const actions = _.filter(cards, (card) => {
-			return supportsLink(card.type, link);
-		}).map((card) => {
-			return sdk.card.getWithLinks(card.id, link).then((cardWithLinks: any) => {
-				const fetchedLinks = _.get(cardWithLinks, ['links', link]);
-				if (fetchedLinks) {
-					updateLinks(card.id, link, fetchedLinks);
-				}
-				return true;
+			return relationships.some((r) => {
+				return r.name === link && r.data.from.type === card.type;
 			});
+		}).map((card) => {
+			return sdk.card
+				.getWithLinks(card.id, [link])
+				.then((cardWithLinks: any) => {
+					const fetchedLinks = _.get(cardWithLinks, ['links', link]);
+					if (fetchedLinks) {
+						updateLinks(card.id, link, fetchedLinks);
+					}
+					return true;
+				});
 		});
 		await Bluebird.all(actions);
 	};

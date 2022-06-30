@@ -2,7 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Button } from 'rendition';
 import * as _ from 'lodash';
-import type { Contract, TypeContract } from 'autumndb';
+import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import * as helpers from '../../../services/helpers';
 import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
@@ -26,8 +26,8 @@ interface OwnProps {
 		type: string;
 	};
 	onSave?: (
-		card: Contract | null,
-		selectedTarget: Contract,
+		fromCard: ContractSummary | null,
+		toCard: ContractSummary,
 		linkTypeName: string,
 	) => any;
 }
@@ -126,7 +126,7 @@ class LinkOrCreate extends React.Component<Props, State> {
 					<LinkModal
 						linkVerb={segment.link}
 						cards={[card]}
-						targetTypes={[type]}
+						targetTypes={type ? [type] : []}
 						onHide={this.hideLinkModal}
 						onSave={onSave}
 						onSaved={_.noop}

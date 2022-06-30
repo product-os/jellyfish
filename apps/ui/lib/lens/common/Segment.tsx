@@ -12,9 +12,11 @@ import type { ChannelContract } from '../../types';
 import { selectors } from '../../store';
 import LiveCollection from './LiveCollection';
 import LinkOrCreate from './LinkOrCreate';
+import type { RelationshipContract } from 'autumndb';
 
 interface StateProps {
 	activeLoop: string | null;
+	relationships: RelationshipContract[];
 }
 
 interface OwnProps {
@@ -61,7 +63,7 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	getData() {
-		const { card, segment, sdk } = this.props;
+		const { card, segment, sdk, relationships } = this.props;
 
 		const verb = segment.link;
 		const targetType =
@@ -69,40 +71,31 @@ class Segment extends React.Component<Props, State> {
 		let baseTargetType = targetType && helpers.getTypeBase(targetType);
 		let linkedType: string | undefined = targetType;
 
-		// Link constraints allow '*' to indicate any type
+		// Relationships allow '*' to indicate any type
 		if (targetType === 'undefined@1.0.0') {
 			// eslint-disable-next-line no-undefined
 			linkedType = undefined;
 			baseTargetType = '*';
 		}
-		const linkDefinition = _.find(sdk.LINKS, {
+		const relationship = _.find(relationships, {
 			name: verb,
 			data: {
-				to: baseTargetType,
+				to: {
+					type: baseTargetType,
+				},
 			},
 		});
 
-		if (!linkDefinition) {
+		if (!relationship) {
 			throw new Error(
 				`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
-			);
-		}
-
-		// Find the inverse of the link definition
-		const inverseDefinition = _.find(sdk.LINKS, {
-			slug: linkDefinition.data.inverse,
-		});
-
-		if (!inverseDefinition) {
-			throw new Error(
-				`No link definition found from ${baseTargetType} to ${card.type} using ${verb}`,
 			);
 		}
 
 		const query = {
 			$id: uuid(),
 			$$links: {
-				[inverseDefinition.name]: {
+				[relationship.data.inverseName!]: {
 					type: 'object',
 					required: ['id'],
 					properties: {
@@ -187,6 +180,7 @@ class Segment extends React.Component<Props, State> {
 const mapStateToProps = (state: any): StateProps => {
 	return {
 		activeLoop: selectors.getActiveLoop()(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 

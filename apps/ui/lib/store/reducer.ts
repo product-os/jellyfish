@@ -14,6 +14,7 @@ import type {
 	JsonSchema,
 	LoopContract,
 	OrgContract,
+	RelationshipContract,
 	TypeContract,
 	UserContract,
 } from 'autumndb';
@@ -33,6 +34,7 @@ interface State {
 		mentionsCount: number;
 		channels: ChannelContract[];
 		types: TypeContract[];
+		relationships: RelationshipContract[];
 		loops: LoopContract[];
 		groups: {};
 		session: null | {
@@ -90,6 +92,7 @@ export const defaultState: State = {
 			},
 		],
 		types: [],
+		relationships: [],
 		loops: [],
 		groups: {},
 		session: null,
@@ -285,6 +288,13 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 		case actions.SET_TYPES: {
 			return update(state, {
 				types: {
+					$set: action.value,
+				},
+			});
+		}
+		case actions.SET_RELATIONSHIPS: {
+			return update(state, {
+				relationships: {
 					$set: action.value,
 				},
 			});

@@ -11,19 +11,20 @@ import { Hideable } from '../Hideable';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
 import * as helpers from '../../services/helpers';
+import type { RelationshipContract } from 'autumndb';
+import { BoundActionCreators } from '../../types';
+import { actionCreators } from '../../store';
 
 const HideableBox = Hideable(Box);
 
-export interface LinkModalProps {
-	actions: {
-		createLink: (
-			fromCard: ContractSummary,
-			toCard: ContractSummary,
-			linkVerb: string,
-			options: any,
-		) => void;
-	};
+export interface StateProps {
 	allTypes: TypeContract[];
+	relationships: RelationshipContract[];
+}
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+export interface OwnProps {
 	targetTypes: TypeContract[];
 	cards: Contract[];
 	target?: Contract;
@@ -37,7 +38,9 @@ export interface LinkModalProps {
 	onSaved?: (toCard: ContractSummary, linkVerb: string) => void;
 }
 
-export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
+type Props = StateProps & DispatchProps & OwnProps;
+
+export const LinkModal: React.FunctionComponent<Props> = ({
 	actions,
 	cards,
 	onHide,
@@ -47,13 +50,14 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	allTypes,
 	targetTypes,
 	linkVerb,
+	relationships,
 }) => {
 	const [selectedTarget, setSelectedTarget] = React.useState<
 		Contract | undefined
 	>(target);
 	const [cardType, setCardType] = React.useState<TypeContract>();
 	const [submitting, setSubmitting] = React.useState(false);
-	const [linkType, setLinkType] = React.useState<linkUtils.LinkType>();
+	const [linkType, setLinkType] = React.useState<{ name: string }>();
 
 	// Get and cache the type of the cards to be linked _from_
 	const fromType = linkUtils.getCommonTypeBase(cards);
@@ -67,52 +71,73 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 	// 3. the link verb (if specified)
 	// 4. the target ('to') card (if specified)
 	const validTypes = React.useMemo(() => {
-		return linkUtils.getValidTypes(targetTypes, fromType, linkVerb, target);
-	}, [targetTypes, fromType, linkVerb, target]);
+		return linkUtils.getValidTypes(
+			targetTypes,
+			relationships,
+			fromType,
+			linkVerb,
+			target,
+		);
+	}, [targetTypes, relationships, fromType, linkVerb, target]);
 
-	// Get the link constraints that apply based on:
+	// Get the relationships that apply based on:
 	// 1. the type of the source card(s)
 	// 2. the link verb (if specified)
 	// 3. the target ('to') card (if specified)
 	const linkTypeTargets = React.useMemo(() => {
-		const targets = linkUtils.getFilteredLinkConstraints(
+		const filteredRelationships = linkUtils.getFilteredRelationships(
+			relationships,
 			fromType,
 			linkVerb,
 			selectedTarget,
 		);
+		const targets: Array<{ name: string }> = [];
+		for (const r of filteredRelationships) {
+			if (r.data.from.type === fromType) {
+				targets.push({ name: r.name as string });
+				targets.push({ name: r.data.inverseName as string });
+			} else {
+				targets.push({ name: r.data.inverseName as string });
+				targets.push({ name: r.name as string });
+			}
+		}
 		setLinkType(targets[0]);
 		return targets;
 	}, [fromType, linkVerb, selectedTarget]);
 
 	const onDone = async () => {
-		setSubmitting(true);
+		try {
+			setSubmitting(true);
 
-		assert.ok(linkType);
-		assert.ok(selectedTarget);
+			assert.ok(linkType);
+			assert.ok(selectedTarget);
 
-		const linkCard = async (card: ContractSummary) => {
-			if (onSave) {
-				onSave(card, selectedTarget, linkType.name);
-			} else {
-				await actions.createLink(card, selectedTarget, linkType.name, {
-					skipSuccessMessage: true,
-				});
-				if (onSaved) {
-					onSaved(selectedTarget, linkType.name);
+			const linkCard = async (card: ContractSummary) => {
+				if (onSave) {
+					onSave(card, selectedTarget, linkType.name!);
+				} else {
+					await actions.createLink(card, selectedTarget, linkType.name!, {
+						skipSuccessMessage: true,
+					});
+					if (onSaved) {
+						onSaved(selectedTarget, linkType.name!);
+					}
 				}
-			}
-		};
+			};
 
-		const linkTasks = cards.map(linkCard);
-		await Promise.all(linkTasks);
+			const linkTasks = cards.map(linkCard);
+			await Promise.all(linkTasks);
 
-		notifications.addNotification(
-			'success',
-			`Created new link${cards.length > 1 ? 's' : ''}`,
-		);
-		setSubmitting(false);
-		setSelectedTarget(undefined);
-		onHide();
+			notifications.addNotification(
+				'success',
+				`Created new link${cards.length > 1 ? 's' : ''}`,
+			);
+			setSubmitting(false);
+			setSelectedTarget(undefined);
+			onHide();
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	const typeName = fromTypeContract
@@ -170,11 +195,11 @@ export const LinkModal: React.FunctionComponent<LinkModalProps> = ({
 						mb={3}
 						id="card-linker--type-select"
 						value={linkType || _.first(linkTypeTargets)}
-						onChange={({ option }: { option: linkUtils.LinkType }) => {
+						onChange={({ option }: { option: { name: string } }) => {
 							setLinkType(option);
 						}}
 						labelKey="name"
-						valueKey="slug"
+						valueKey="name"
 						options={linkTypeTargets}
 						data-test="card-linker--type__input"
 					/>

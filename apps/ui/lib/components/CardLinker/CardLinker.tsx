@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { DragSource } from 'react-dnd';
-import { linkConstraints as LINKS } from '@balena/jellyfish-client-sdk';
 import { ActionButton, ContextMenu, PlainButton, Icon } from '../';
 import { LinkModal, UnlinkModal } from '../LinkModal';
 
@@ -72,8 +71,8 @@ class CardLinker extends React.Component<any, any> {
 		const type = card.type.split('@')[0];
 
 		if (
-			!_.some(LINKS, ['data.from', card.type]) &&
-			!_.some(LINKS, ['data.from', type])
+			!_.some(this.props.relationships, ['data.from.type', card.type]) &&
+			!_.some(this.props.relationships, ['data.from.type', type])
 		) {
 			return null;
 		}

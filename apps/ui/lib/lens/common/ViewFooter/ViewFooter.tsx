@@ -4,7 +4,6 @@ import { v4 as uuid } from 'uuid';
 import path from 'path';
 import { Flex, DropDownButton, Button } from 'rendition';
 import styled from 'styled-components';
-import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import { ActionLink, Icon, Setup } from '../../../components';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators, getSeedData } from '../../../store';
@@ -12,6 +11,7 @@ import type { TypeContract, UserContract } from 'autumndb';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
 import * as helpers from '../../../services/helpers';
 import * as notifications from '../../../services/notifications';
+import { RelationshipContract } from 'autumndb';
 
 const Footer = styled(Flex)`
 	border-top: 1px solid #eee;
@@ -47,6 +47,7 @@ export interface DispatchProps {
 export interface OwnProps {
 	types: TypeContract[];
 	channel: ChannelContract;
+	relationships: RelationshipContract[];
 }
 
 type Props = StateProps &
@@ -63,6 +64,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 	errorReporter: { handleAsyncError },
 	sdk,
 	analytics,
+	relationships,
 	...rest
 }) => {
 	const [isBusy, setIsBusy] = React.useState(false);
@@ -103,14 +105,18 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 							cardReference(newCard),
 						);
 						actions.pushLocation(newPath);
-						const linkConstraint = _.find(linkConstraints, {
+						const relationship = _.find(relationships, {
 							data: {
-								from: type.slug,
-								to: helpers.getTypeBase(head.type),
+								from: {
+									type: type.slug,
+								},
+								to: {
+									type: helpers.getTypeBase(head.type),
+								},
 							},
 						});
-						if (linkConstraint) {
-							await sdk.card.link(newCard, head, linkConstraint.name);
+						if (relationship) {
+							await sdk.card.link(newCard, head, relationship.name!);
 						}
 						analytics.track('element.create', {
 							element: {

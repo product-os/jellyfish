@@ -33,6 +33,7 @@ import {
 } from './constants';
 import { unpackLinksSchema } from './Header/Filters/filter-utils';
 import { Setup, withSetup } from '../../../components/SetupProvider';
+import { RelationshipContract } from 'autumndb';
 
 const setSliceFilter = (filters, lens, slice) => {
 	// We only want to filter by slice if the lens does not supports slices itself!
@@ -259,6 +260,7 @@ export interface StateProps {
 	user: UserContract;
 	userActiveLens: string | null;
 	userCustomFilters: JsonSchema[];
+	relationships: RelationshipContract[];
 }
 
 export interface DispatchProps {
@@ -650,15 +652,23 @@ export default withSetup(
 		}
 
 		render() {
-			const { card, isMobile, types, channel, hideFooter, user } = this.props;
+			const {
+				card,
+				channel,
+				hideFooter,
+				isMobile,
+				relationships,
+				types,
+				user,
+			} = this.props;
 
 			const {
-				tailTypes,
 				activeLens,
-				redirectTo,
 				filters,
+				redirectTo,
 				searchFilter,
 				searchTerm,
+				tailTypes,
 			} = this.state;
 
 			if (redirectTo) {
@@ -703,6 +713,7 @@ export default withSetup(
 										tailTypes={tailTypes || []}
 										allTypes={types}
 										updateFilters={this.updateFilters}
+										relationships={relationships}
 										saveView={this.saveView}
 										searchFilter={searchFilter}
 										searchTerm={searchTerm || ''}

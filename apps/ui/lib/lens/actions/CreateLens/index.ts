@@ -11,6 +11,7 @@ export const CreateLens = createLazyComponent(
 const mapStateToProps = (state) => {
 	return {
 		allTypes: selectors.getTypes()(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 

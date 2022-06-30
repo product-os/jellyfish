@@ -1,7 +1,6 @@
 import copy from 'copy-to-clipboard';
 import React from 'react';
 import { Flex, Modal } from 'rendition';
-import { supportsLink } from '@balena/jellyfish-client-sdk';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import { ActionLink, ContextMenu, PlainButton, Icon } from '../';
@@ -9,8 +8,39 @@ import CardLinker from '../CardLinker';
 import CardOwner from '../CardOwner';
 import VideoLink from '../VideoLink';
 import { BookmarkButton } from '../BookmarkButton';
+import type {
+	Contract,
+	RelationshipContract,
+	TypeContract,
+	UserContract,
+} from 'autumndb';
+import { BoundActionCreators } from '../../types';
+import { actionCreators } from '../../store';
+import { Setup } from '../../components/SetupProvider';
 
-export default class CardActions extends React.Component<any, any> {
+export interface StateProps {
+	relationships: RelationshipContract[];
+	types: TypeContract[];
+	user: UserContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export interface OwnProps {
+	card: Contract;
+	inlineActionItems?: React.ReactNode;
+}
+
+type Props = Setup & StateProps & DispatchProps & OwnProps;
+
+interface State {
+	showDeleteModal: boolean;
+	showMenu: boolean;
+}
+
+export default class CardActions extends React.Component<Props, State> {
 	delete = () => {
 		this.props.sdk.card
 			.remove(this.props.card.id, this.props.card.type)
@@ -72,7 +102,13 @@ export default class CardActions extends React.Component<any, any> {
 	render() {
 		const isView = this.props.card.type === 'view@1.0.0';
 
-		const supportsOwnership = supportsLink(this.props.card.type, 'is owned by');
+		// True if there is a relationship that matches the card type and 'is owned by'
+		const supportsOwnership = this.props.relationships.some((r) => {
+			return (
+				r.name === 'is owned by' && r.data.from.type === this.props.card.type
+			);
+		});
+
 		return (
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">

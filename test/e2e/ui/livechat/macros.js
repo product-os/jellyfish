@@ -124,7 +124,7 @@ exports.prepareUser = async (sdk, org, role, name) => {
 		await sdk.card.link(card, org, 'is member of')
 	}
 
-	const userSdk = getSdk({
+	const userSdk = await getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})

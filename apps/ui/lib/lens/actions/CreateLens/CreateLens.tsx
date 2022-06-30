@@ -21,7 +21,9 @@ const FormBox = styled(Box)`
 	overflow-y: auto;
 `;
 
-const getRelationshipsBySlug = memoize((slug) => getRelationships(slug));
+const getRelationshipsBySlug = memoize((relationships, slug) =>
+	getRelationships(relationships, slug),
+);
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
@@ -60,16 +62,22 @@ export default withSetup(
 				if (types) {
 					selectedTypeTarget = _.first(_.castArray(types));
 
-					linkOption = _.find(this.props.sdk.LINKS, {
+					linkOption = _.find(this.props.relationships, {
 						data: {
-							from,
-							to: selectedTypeTarget.slug,
+							from: {
+								type: from,
+							},
+							to: {
+								type: selectedTypeTarget.slug,
+							},
 						},
 					});
 				} else {
-					linkOption = _.find(this.props.sdk.LINKS, {
+					linkOption = _.find(this.props.relationships, {
 						data: {
-							from,
+							from: {
+								type: from,
+							},
 						},
 					});
 
@@ -280,7 +288,7 @@ export default withSetup(
 		render() {
 			const { redirectTo, selectedTypeTarget, links, linkOption } = this.state;
 
-			const { card, channel, allTypes } = this.props;
+			const { card, channel, allTypes, relationships } = this.props;
 
 			if (redirectTo) {
 				return <Redirect push to={redirectTo} />;
@@ -312,7 +320,10 @@ export default withSetup(
 
 			const uiSchema = getUiSchema(selectedTypeTarget, UI_SCHEMA_MODE.create);
 
-			const relationships = getRelationshipsBySlug(selectedTypeTarget.slug);
+			const linkRelationships = getRelationshipsBySlug(
+				relationships,
+				selectedTypeTarget.slug,
+			);
 
 			// Always show specific base card fields
 			const baseCardType = helpers.getType('card', allTypes);
@@ -357,9 +368,9 @@ export default withSetup(
 				// data.title file to the root of the object, as the rendition Select
 				// component can't use a non-root field for the `labelKey` prop
 				// TODO make the Select component allow nested fields for the `labelKey` prop
-				linkTypeTargets = _.filter(this.props.sdk.LINKS, [
-					'data.from',
-					from,
+				linkTypeTargets = _.filter(this.props.relationships, [
+					'data.from.type',
+					from.type,
 				]).map((constraint) => {
 					return Object.assign({}, constraint, {
 						title: constraint.data.title,
@@ -415,7 +426,7 @@ export default withSetup(
 								onSchemaChange={this.setLocalSchema}
 							/>
 
-							{_.map(relationships, (segment) => {
+							{_.map(linkRelationships, (segment) => {
 								const key = getLinkKey(segment.type, segment.link);
 								const targets = _.map(links[key], 'target');
 								return (
