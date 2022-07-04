@@ -1,4 +1,26 @@
 - commits:
+    - subject: Update to latest GitHub plugin that syncs orgs
+      hash: d5fcaa24d7e0016b7a0d8192b936dab747fa86c5
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Update dependencies (external v0 minor bumps)
+      hash: f1de62268d33bc6321d3dd1f540db0bc7718aff6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.2.0
+  title: "'Update to latest GitHub plugin that syncs orgs'"
+  date: 2022-07-04T12:59:33.162Z
+- commits:
     - subject: Update resinci/jellyfish-test from v4.0.2 to v4.0.3
       hash: 571fbe888b9a8279afb35fa222e6c269dee8ab46
       body: ""
