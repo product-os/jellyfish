@@ -3,7 +3,7 @@ import _ from 'lodash';
 import * as React from 'react';
 import styled from 'styled-components';
 import { addBusinessDays, isAfter } from 'date-fns';
-import { Box, Tab, Tabs, Txt } from 'rendition';
+import { Box, Tab, Tabs } from 'rendition';
 import {
 	CardChatSummary,
 	Column,

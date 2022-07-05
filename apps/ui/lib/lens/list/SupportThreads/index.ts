@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import * as redux from 'redux';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { withSetup, Setup } from '../../../components/SetupProvider';
+import { withSetup } from '../../../components/SetupProvider';
 import { SLUG } from './SupportThreads';
 
 export const SupportThreads = createLazyComponent(

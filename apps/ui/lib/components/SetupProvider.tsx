@@ -8,7 +8,6 @@ export interface Setup {
 	sdk: JellyfishSDK;
 	analytics: Analytics;
 	errorReporter: ErrorReporter;
-	actions: any;
 }
 
 const setupContext = React.createContext<Setup | null>(null);
@@ -18,7 +17,6 @@ export const SetupProvider: FunctionComponent<Setup> = ({
 	analytics,
 	errorReporter,
 	sdk,
-	actions,
 	children,
 }) => {
 	const setup = React.useMemo(() => {
@@ -27,9 +25,8 @@ export const SetupProvider: FunctionComponent<Setup> = ({
 			sdk,
 			analytics,
 			errorReporter,
-			actions,
 		};
-	}, [environment, sdk, analytics, errorReporter, actions]);
+	}, [environment, sdk, analytics, errorReporter]);
 
 	return (
 		<setupContext.Provider value={setup}>{children}</setupContext.Provider>

@@ -3,7 +3,7 @@
 import React from 'react';
 import { withTheme } from 'styled-components';
 
-interface ResponsiveContextValue {
+export interface ResponsiveContextProps {
 	windowSize: {
 		width: number | undefined;
 		height: number | undefined;
@@ -11,7 +11,7 @@ interface ResponsiveContextValue {
 	isMobile: boolean;
 }
 
-const responsiveContext = React.createContext<ResponsiveContextValue | null>(
+const responsiveContext = React.createContext<ResponsiveContextProps | null>(
 	null,
 );
 
@@ -46,7 +46,7 @@ const ResponsiveProviderInner: React.FunctionComponent<{
 		// Empty array ensures that effect is only run on mount and unmount
 	}, []);
 
-	const context: ResponsiveContextValue = {
+	const context: ResponsiveContextProps = {
 		windowSize,
 		isMobile: !!windowSize.width && windowSize.width < theme.breakpoints[1],
 	};
@@ -61,7 +61,7 @@ const ResponsiveProviderInner: React.FunctionComponent<{
 export const ResponsiveProvider = withTheme(ResponsiveProviderInner);
 
 export const withResponsiveContext = <TProps extends {}>(
-	Component: React.ComponentType<TProps & ResponsiveContextValue>,
+	Component: React.ComponentType<TProps & ResponsiveContextProps>,
 ) => {
 	return (props: TProps) => {
 		return (

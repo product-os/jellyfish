@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStore } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
 import { actionCreators } from '../store';
@@ -9,7 +8,6 @@ import { useSetup } from './SetupProvider';
 const OauthCallback = () => {
 	const store = useStore();
 	const { sdk, analytics } = useSetup()!;
-	const history = useHistory();
 
 	const exchangeCodeTask = useTask(async () => {
 		const url = new URL(location.href);

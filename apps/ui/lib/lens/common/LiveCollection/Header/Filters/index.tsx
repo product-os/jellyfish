@@ -233,7 +233,7 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 
 		// Only render filters in compact mode for the first breakpoint
 		const filtersBreakpointSettings = React.useMemo(() => {
-			return _.sortBy(Theme.breakpoints).map((breakpoint, index) =>
+			return _.sortBy(Theme.breakpoints).map((_breakpoint, index) =>
 				Boolean(index <= 0),
 			);
 		}, [Theme.breakpoints]);

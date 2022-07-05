@@ -172,10 +172,10 @@ export default class CardTable extends React.Component<any, any> {
 					<Link to={helpers.appendToChannelPath(channel, item)}>{slug}</Link>
 				);
 			},
-			created_at: (timestamp, item) => {
+			created_at: (timestamp) => {
 				return format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss');
 			},
-			updated_at: (timestamp, item) => {
+			updated_at: (timestamp) => {
 				return timestamp
 					? format(parseISO(timestamp), 'MM/dd/yyyy hh:mm:ss')
 					: null;

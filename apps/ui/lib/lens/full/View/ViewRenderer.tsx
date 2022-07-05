@@ -1,20 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
-import { Flex, FlexProps } from 'rendition';
+import { Flex } from 'rendition';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	TypeContract,
 	ViewContract,
-	UserContract,
 } from '@balena/jellyfish-types/build/core';
 import { actionCreators } from '../../../store';
 import type {
 	BoundActionCreators,
 	ChannelContract,
 	LensRendererProps,
-	LensContract,
 } from '../../../types';
 import LiveCollection from '../../common/LiveCollection';
 import Header from './Header';

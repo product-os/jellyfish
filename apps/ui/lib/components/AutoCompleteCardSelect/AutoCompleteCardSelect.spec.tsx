@@ -44,32 +44,6 @@ const types = [
 	},
 ];
 
-const users = [
-	{
-		id: 'u1',
-		slug: 'user1',
-		name: 'test user',
-	},
-	{
-		id: 'u2',
-		slug: 'user2',
-		name: 'another user',
-	},
-];
-
-const issues = [
-	{
-		id: 'i1',
-		slug: 'issue1',
-		title: 'test issue',
-	},
-	{
-		id: 'i2',
-		slug: 'issue2',
-		title: 'another issue',
-	},
-];
-
 const sandbox = sinon.createSandbox();
 
 let context: any = {};

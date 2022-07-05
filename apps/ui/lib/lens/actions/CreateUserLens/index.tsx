@@ -8,7 +8,7 @@ export const CreateUserLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create-user" */ './CreateUserLens'),
 );
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 	return {
 		user: selectors.getCurrentUser()(state),
 	};

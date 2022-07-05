@@ -130,15 +130,10 @@ export const getWrapper = (
 	return {
 		store,
 		wrapper: ({ children }: any) => {
-			const stream = {
-				on: sinon.stub(),
-				emit: sinon.stub(),
-			};
 			return (
 				<CacheProvider value={emotionCache}>
 					<MemoryRouter>
 						<SetupProvider
-							actions={{}}
 							sdk={setupProps.sdk as any}
 							analytics={{} as any}
 							errorReporter={setupProps.errorReporter as any}

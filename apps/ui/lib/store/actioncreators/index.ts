@@ -12,7 +12,6 @@ import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
-import { getUnreadQuery } from '../../queries';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import type { JsonSchema } from '@balena/jellyfish-types';
@@ -232,7 +231,7 @@ export const actionCreators = {
 		providerSlug: string;
 		returnUrl: string;
 	}) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, _getState, { sdk }) => {
 			const url = new URL(
 				(await sdk.get(`/oauth/${state.providerSlug}/url`)).url,
 			);
@@ -645,10 +644,6 @@ export const actionCreators = {
 							console.error('A stream error occurred', error);
 						});
 
-						// Load unread message pings
-						const groupNames = selectors.getMyGroupNames()(getState());
-						const unreadQuery = getUnreadQuery(user, groupNames);
-
 						return user;
 					});
 			});
@@ -711,7 +706,7 @@ export const actionCreators = {
 	},
 
 	logout() {
-		return (dispatch, getState, { sdk, analytics, errorReporter }) => {
+		return (dispatch, _getState, { sdk, analytics, errorReporter }) => {
 			if (tokenRefreshInterval) {
 				clearInterval(tokenRefreshInterval);
 			}
@@ -731,17 +726,11 @@ export const actionCreators = {
 	},
 
 	signup(payload) {
-		return (dispatch, getState, { sdk, analytics }) => {
+		return (dispatch, _getState, { sdk, analytics }) => {
 			return sdk.auth.signup(payload).then(() => {
 				analytics.track('ui.signup');
 				dispatch(actionCreators.login(payload));
 			});
-		};
-	},
-
-	queryAPI(expression, options = {}) {
-		return (dispatch, getState, { sdk }) => {
-			return sdk.query(expression, options);
 		};
 	},
 
@@ -911,7 +900,7 @@ export const actionCreators = {
 	},
 
 	addUser({ username, email, org }) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (dispatch, _getState, { sdk }) => {
 			try {
 				const user = await sdk.auth.signup({
 					username,
@@ -937,7 +926,7 @@ export const actionCreators = {
 	},
 
 	sendFirstTimeLoginLink({ user }) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, _getState, { sdk }) => {
 			try {
 				await sdk.action({
 					card: user.id,
@@ -958,26 +947,25 @@ export const actionCreators = {
 	},
 
 	requestPasswordReset({ username }) {
-		return async (dispatch, getState, { sdk }) => {
-			const userType = await sdk.getBySlug('user@latest');
+		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.requestPasswordReset(username);
 		};
 	},
 
 	completePasswordReset({ password, resetToken }) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.completePasswordReset(password, resetToken);
 		};
 	},
 
 	completeFirstTimeLogin({ password, firstTimeLoginToken }) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.completeFirstTimeLogin(password, firstTimeLoginToken);
 		};
 	},
 
 	setPassword(currentPassword, newPassword) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState());
 				await sdk.action({
@@ -1018,7 +1006,7 @@ export const actionCreators = {
 	},
 
 	createLink(fromCard, toCard, verb, options: any = {}) {
-		return async (dispatch, getState, { sdk, analytics }) => {
+		return async (_dispatch, _getState, { sdk, analytics }) => {
 			try {
 				await sdk.card.link(fromCard, toCard, verb);
 				analytics.track('element.create', {
@@ -1036,7 +1024,7 @@ export const actionCreators = {
 	},
 
 	removeLink(fromCard, toCard, verb, options: any = {}) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (_dispatch, _getState, { sdk }) => {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb);
 				if (!options.skipSuccessMessage) {
@@ -1049,7 +1037,7 @@ export const actionCreators = {
 	},
 
 	dumpState() {
-		return async (dispatch, getState) => {
+		return async (_dispatch, getState) => {
 			const state = clone(getState());
 			_.set(state, ['core', 'session', 'authToken'], '[REDACTED]');
 			_.set(state, ['core', 'session', 'user', 'data', 'hash'], '[REDACTED]');
@@ -1128,7 +1116,7 @@ export const actionCreators = {
 	},
 
 	signalTyping(card) {
-		return (dispatch, getState) => {
+		return (_dispatch, getState) => {
 			const user = selectors.getCurrentUser()(getState());
 
 			commsStream.type(user.slug, card);
@@ -1136,7 +1124,7 @@ export const actionCreators = {
 	},
 
 	authorizeIntegration(user, integration, code) {
-		return async (dispatch, getState, { sdk }) => {
+		return async (dispatch, _getState, { sdk }) => {
 			await sdk.integrations.authorize(user, integration, code);
 
 			const updatedUser = await sdk.auth.whoami();

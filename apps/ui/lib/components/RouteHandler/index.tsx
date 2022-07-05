@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { compose, bindActionCreators } from 'redux';
+import { bindActionCreators } from 'redux';
 import { withResponsiveContext } from '../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../store';
 import RouteHandler from './RouteHandler';
@@ -16,14 +16,11 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['setChannels', 'queryAPI', 'createLink']),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
-export default compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withResponsiveContext,
-)(RouteHandler);
+export default connect(
+	mapStateToProps,
+	mapDispatchToProps,
+)(withResponsiveContext(RouteHandler));

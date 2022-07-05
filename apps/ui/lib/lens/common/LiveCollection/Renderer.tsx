@@ -539,7 +539,7 @@ export default withSetup(
 		// For this to work properly there needs to be a mechanism for returning the
 		// total available items from the API.
 		getQueryOptions(
-			lensSlug: string | null,
+			_lensSlug: string | null,
 			keepState: boolean = true,
 		): {
 			limit: number;

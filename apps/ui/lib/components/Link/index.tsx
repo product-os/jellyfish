@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { Link as InnerLink } from './Link';
 import {
 	isRelativeUrl,
@@ -26,7 +26,7 @@ export const getLinkProps = (href: string) => {
 		  };
 };
 
-interface JellyfishLinkProps extends RouteComponentProps {
+interface JellyfishLinkProps {
 	href: string;
 }
 

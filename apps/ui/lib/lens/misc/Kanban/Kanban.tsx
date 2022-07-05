@@ -163,7 +163,7 @@ export default withSetup(
 			let cards = this.props.tail.slice();
 			const lanes: any[] = [];
 			const slices = this.getSlices();
-			slices.forEach((schema, index) => {
+			slices.forEach((schema) => {
 				if (typeof schema === 'boolean') {
 					return;
 				}

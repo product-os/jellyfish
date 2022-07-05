@@ -94,13 +94,11 @@ describe('VideoLink', () => {
 
 		let notificationType = '';
 		const addNotificationPromise = getPromiseResolver();
-		sandbox
-			.stub(notifications, 'addNotification')
-			.callsFake((type, content, options) => {
-				notificationType = type;
-				addNotificationPromise.resolver();
-				return 0;
-			});
+		sandbox.stub(notifications, 'addNotification').callsFake((type) => {
+			notificationType = type;
+			addNotificationPromise.resolver();
+			return 0;
+		});
 
 		commonProps.sdk.action = sandbox.fake.rejects('TestError');
 

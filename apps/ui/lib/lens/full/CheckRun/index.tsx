@@ -16,15 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, [
-				'createLink',
-				'addChannel',
-				'getLinks',
-				'queryAPI',
-			]),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 

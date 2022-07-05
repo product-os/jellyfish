@@ -1,9 +1,11 @@
 env-config.js
 
 # Doc files should not be committed. They are generated using
-# the command 'npm run doc' and committed to the root of the 
+# the command 'npm run doc' and committed to the root of the
 # 'docs' branch.
 docs/
 
 # Ignore local build output (typescript definition files)
 build/
+
+.prettierrc
