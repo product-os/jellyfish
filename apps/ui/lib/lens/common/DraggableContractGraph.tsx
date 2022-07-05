@@ -15,7 +15,7 @@ type Props = Pick<LensRendererProps, 'channel' | 'tail' | 'card'> & {
 
 export default class DraggableContractGraph extends React.Component<Props> {
 	render() {
-		const { card, channel, tail, types } = this.props;
+		const { card, tail, types } = this.props;
 		if (!tail) {
 			return null;
 		}

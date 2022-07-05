@@ -16,7 +16,7 @@ import {
 	DispatchProps,
 } from './CustomQueryTab';
 
-const mapStateToProps = (state, props): StateProps => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		types: selectors.getTypes()(state),
 	};
@@ -24,10 +24,7 @@ const mapStateToProps = (state, props): StateProps => {
 
 const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['getLinks', 'queryAPI', 'addChannel']),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 

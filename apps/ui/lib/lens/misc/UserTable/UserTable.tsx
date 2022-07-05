@@ -7,8 +7,6 @@ import { format, parseISO } from 'date-fns';
 import flatten from 'flat';
 import ContractTable from '../Table/ContractTable';
 
-const PAGE_SIZE = 25;
-
 // Do not include markdown or mermaid fields in our table
 const OMISSIONS: any[] = [
 	{

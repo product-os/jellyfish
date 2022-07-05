@@ -1,13 +1,17 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
 import { withRouter } from 'react-router-dom';
 import { withTheme } from 'styled-components';
+import { bindActionCreators } from '../../bindactioncreators';
 import { withResponsiveContext } from '../../hooks/use-responsive-context';
 import { actionCreators, selectors } from '../../store';
-import HomeChannel from './HomeChannel';
+import HomeChannel, {
+	StateProps,
+	DispatchProps,
+	OwnProps,
+} from './HomeChannel';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		channels: selectors.getChannels()(state),
 		codename: selectors.getAppCodename()(state),
@@ -21,15 +25,13 @@ const mapStateToProps = (state) => {
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
-		actions: redux.bindActionCreators(actionCreators, dispatch),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 
-export default redux.compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withTheme,
-	withRouter,
-	withResponsiveContext,
-)(HomeChannel);
+export default connect<StateProps, DispatchProps, OwnProps>(
+	mapStateToProps,
+	mapDispatchToProps,
+)(withTheme<any>(withRouter(withResponsiveContext(HomeChannel))));

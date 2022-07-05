@@ -280,7 +280,7 @@ export default withSetup(
 		render() {
 			const { redirectTo, selectedTypeTarget, links, linkOption } = this.state;
 
-			const { card, channel, allTypes, actions } = this.props;
+			const { card, channel, allTypes } = this.props;
 
 			if (redirectTo) {
 				return <Redirect push to={redirectTo} />;

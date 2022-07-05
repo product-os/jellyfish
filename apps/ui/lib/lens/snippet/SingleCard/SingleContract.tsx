@@ -42,9 +42,6 @@ export default class SingleCard extends React.Component<any, any> {
 			_.includes(threadTargets, card.slug) ||
 			_.includes(threadTargets, card.id);
 
-		const versionSuffix =
-			card.version && card.version !== '1.0.0' ? ` v${card.version}` : '';
-
 		const owner: UserContract = _.first(
 			_.get(card, ['links', 'is owned by'], []),
 		) as any;

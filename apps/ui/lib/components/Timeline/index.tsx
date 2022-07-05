@@ -319,7 +319,6 @@ class Timeline extends React.Component<Props, State> {
 
 	retrieveFullTimeline = async () => {
 		let fullResults: Contract[] = [];
-		const { card } = this.props;
 		const limit = 500;
 		let skip = 0;
 

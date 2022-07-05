@@ -1,7 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
 import { Box, Divider, Flex, Txt } from 'rendition';
-import styled from 'styled-components';
 import type {
 	Contract,
 	ViewContract,
@@ -13,26 +12,6 @@ import Markers from '../../../../components/Markers';
 import type { ChannelContract } from '../../../../types';
 import CSVDownloadModal from '../../../../components/CSVDownloadModal';
 import type { JsonSchema } from '@balena/jellyfish-types';
-
-// Style CSV link to match rendition theme
-const CSVLinkWrapper = styled(Box)`
-	a {
-		display: block;
-		font-size: 14px;
-		color: #00aeef;
-		text-decoration: none;
-		padding: 8px 16px;
-		width: 100%;
-		display: block !important;
-		cursor: pointer;
-		margin: 0;
-
-		&: hover {
-			color: #008bbf;
-			background-color: #f4f4f4 !important;
-		}
-	}
-`;
 
 interface HeaderProps {
 	channel: ChannelContract;

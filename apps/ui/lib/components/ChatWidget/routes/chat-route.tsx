@@ -90,7 +90,6 @@ export const ChatRoute = () => {
 								setTimelinePendingMessages={noop}
 								eventMenuOptions={false}
 								headerOptions={timelineHeaderOptions}
-								next={() => actions.loadMoreThreadData(thread.id)}
 								notifications={notifications}
 							/>
 						</Box>

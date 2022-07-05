@@ -14,9 +14,7 @@ export interface StateProps {
 }
 
 export interface DispatchProps {
-	actions: BoundActionCreators<
-		Pick<typeof actionCreators, 'addChannel' | 'getLinks' | 'queryAPI'>
-	>;
+	actions: BoundActionCreators<typeof actionCreators>;
 }
 
 export interface OwnProps {
@@ -34,8 +32,6 @@ type Props = StateProps & DispatchProps & OwnProps;
 export const CustomQueryTab: React.FunctionComponent<Props> = ({
 	segment,
 	card,
-	types,
-	actions,
 	channel,
 }) => (
 	<Tab

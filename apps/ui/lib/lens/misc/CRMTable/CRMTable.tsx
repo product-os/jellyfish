@@ -93,7 +93,7 @@ class CRMTable extends React.Component<any, any> {
 			{
 				field: 'Due Date',
 				sortable: true,
-				render: (value, item) => {
+				render: (value) => {
 					if (!value) {
 						return '';
 					}
@@ -140,7 +140,7 @@ class CRMTable extends React.Component<any, any> {
 			{
 				field: 'Stage',
 				sortable: true,
-				render: (value, item) => <SelectWrapper {...this.props} card={value} />,
+				render: (value) => <SelectWrapper {...this.props} card={value} />,
 			},
 			{
 				field: 'Account Status',
@@ -164,7 +164,7 @@ class CRMTable extends React.Component<any, any> {
 			{
 				field: 'Tags',
 				sortable: true,
-				render: (tags, item) => {
+				render: (tags) => {
 					if (!tags) {
 						return '';
 					}

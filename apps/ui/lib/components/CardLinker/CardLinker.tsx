@@ -65,20 +65,6 @@ class CardLinker extends React.Component<any, any> {
 		});
 	}
 
-	getAvailableTypes() {
-		const { card, types } = this.props;
-
-		const availableTypes = types.filter((type) => {
-			return _.find(LINKS, {
-				data: {
-					from: card.type.split('@')[0],
-				},
-			});
-		});
-
-		return availableTypes;
-	}
-
 	render() {
 		const { card, connectDragSource, types } = this.props;
 		const { showLinkModal } = this.state;

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import pick from 'lodash/pick';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import { withSetup } from '../../../components';
@@ -17,16 +16,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		actions: bindActionCreators(
-			pick(actionCreators, [
-				'createLink',
-				'addChannel',
-				'removeChannel',
-				'getLinks',
-				'queryAPI',
-			]),
-			dispatch,
-		),
+		actions: bindActionCreators(actionCreators, dispatch),
 	};
 };
 

@@ -12,7 +12,7 @@ const ChartLazy = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-chart" */ './PlotlyChart'),
 );
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
 	const types = selectors.getTypes()(state);
 	const chartConfigurationType = helpers.getType('chart-configuration', types);
 	return {

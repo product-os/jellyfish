@@ -30,7 +30,7 @@ export const getReadQuery = (user, groupNames, searchTerm) => {
 	);
 };
 
-export const getSentQuery = (user, groupNames, searchTerm) => {
+export const getSentQuery = (user, _groupNames, searchTerm) => {
 	return queries.withSearch(
 		{
 			type: 'object',

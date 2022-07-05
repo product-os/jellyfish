@@ -170,13 +170,13 @@ export default withSetup(
 				.then(() => {
 					notifications.addNotification('success', 'Opened support thread');
 				})
-				.catch((error) => {
-					notifications.addNotification('danger', error.message || error);
-				})
 				.finally(() => {
 					this.setState({
 						isClosing: false,
 					});
+				})
+				.catch((error) => {
+					notifications.addNotification('danger', error.message || error);
 				});
 		}
 
@@ -237,8 +237,8 @@ export default withSetup(
 		}
 
 		render() {
-			const { card, channel, getActorHref, types } = this.props;
-			const { actor, highlights, isClosing } = this.state;
+			const { card, channel, types } = this.props;
+			const { actor, isClosing } = this.state;
 
 			const typeContract = helpers.getType(card.type, types);
 

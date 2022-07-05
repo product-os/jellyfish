@@ -14,10 +14,12 @@ import {
 	MenuPanel,
 	UserAvatarLive,
 	withSetup,
+	Setup,
 } from '../';
 import * as helpers from '../../services/helpers';
 import { core, JsonSchema } from '@balena/jellyfish-types';
 import TreeMenu from './TreeMenu';
+import { ResponsiveContextProps } from '../../hooks/use-responsive-context';
 import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
@@ -25,6 +27,14 @@ import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
+import { actionCreators } from '../../store';
+import { BoundActionCreators, ChannelContract } from '../../types';
+import {
+	OrgContract,
+	TypeContract,
+	UserContract,
+} from '@balena/jellyfish-types/build/core';
+import { RouteComponentProps } from 'react-router-dom';
 
 // Slide-in delay in seconds
 const DELAY = 0.6;
@@ -299,8 +309,43 @@ const bookmarksQuery = (userId: string): JsonSchema => {
 	};
 };
 
+export interface StateProps {
+	channels: ChannelContract[];
+	codename: string;
+	orgs: OrgContract[];
+	types: TypeContract[];
+	activeLoop: string | null;
+	isChatWidgetOpen: boolean;
+	user: UserContract;
+	homeView: string;
+	version: string;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+export interface OwnProps {
+	channel: ChannelContract;
+}
+
+type Props = Setup &
+	RouteComponentProps &
+	ResponsiveContextProps &
+	StateProps &
+	DispatchProps &
+	OwnProps;
+
+interface State {
+	showDrawer: boolean;
+	showMenu: boolean;
+	sliding: boolean;
+	messages: any[];
+	results: any[];
+	bookmarks: any[];
+}
+
 export default withSetup(
-	class HomeChannel extends React.Component<any, any> {
+	class HomeChannel extends React.Component<Props, State> {
 		primaryStream: ExtendedSocket | null = null;
 		bookmarkStream: ExtendedSocket | null = null;
 		wrapper: any;
@@ -381,7 +426,9 @@ export default withSetup(
 		onGrabHandleSwiping = (event) => {
 			// As we move the grab handle, directly update the 'transform' styling of the drawer element
 			const xPercent =
-				100 * ((event.initial[0] - event.deltaX) / this.props.windowSize.width);
+				100 *
+				((event.initial[0] - event.deltaX) /
+					(this.props.windowSize?.width || 500));
 			if (event.first) {
 				this.setState({
 					sliding: true,
@@ -457,7 +504,10 @@ export default withSetup(
 			const { channel, user, sdk } = this.props;
 
 			const card = await sdk.card.get(channel.data.target);
-			const getData = async (name: string, query: JsonSchema) => {
+			const getData = async (
+				name: 'results' | 'bookmarks',
+				query: JsonSchema,
+			) => {
 				const streamProp = `${name}Stream`;
 				if (this[streamProp]) {
 					this[streamProp].close();
@@ -471,13 +521,13 @@ export default withSetup(
 				});
 				this.setState({
 					[name]: results,
-				});
+				} as any);
 				stream.on('update', (response) => {
 					const { after } = response.data;
 					if (after) {
 						const resultsHash = _.keyBy(this.state[name], 'id');
 						resultsHash[after.id] = after;
-						this.setState({ [name]: _.values(resultsHash) });
+						this.setState({ [name]: _.values(resultsHash) } as any);
 					}
 				});
 			};

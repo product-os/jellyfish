@@ -198,7 +198,6 @@ const App = () => {
 			<ResponsiveProvider>
 				<DocumentVisibilityProvider>
 					<SetupProvider
-						actions={{}}
 						environment={environment}
 						sdk={sdk}
 						analytics={analytics}

@@ -17,7 +17,6 @@ import type { BoundActionCreators, ChannelContract } from '../types';
 import { actionCreators } from '../store';
 import type { JsonSchema } from '@balena/jellyfish-types';
 import { Setup, withSetup } from './SetupProvider';
-import { compose } from 'redux';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
 const createChannelQuery = (
@@ -274,7 +273,6 @@ const dndCollect = (connector, monitor) => {
 	};
 };
 
-export default compose(
-	withSetup,
-	DropTarget('channel', dndTarget, dndCollect),
-)(ChannelRenderer);
+export default withSetup(
+	DropTarget('channel', dndTarget, dndCollect)(ChannelRenderer),
+);
