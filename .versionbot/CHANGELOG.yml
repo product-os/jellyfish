@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Don't allow unused variables"
+      hash: 1288e435228dd521c8dfee59dd56f12675ef09e5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.3.2
+  title: "'UI: Don't allow unused variables'"
+  date: 2022-07-05T16:10:08.387Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 6.1.0 to 6.2.0
       hash: 9de328fc09339edfe7c3cc8a21884f545e2abf7e
       body: ""
