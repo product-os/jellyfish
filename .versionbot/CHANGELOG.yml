@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-github from 6.1.0 to 6.2.0
+      hash: 9de328fc09339edfe7c3cc8a21884f545e2abf7e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.3.1
+  title: "'Update @balena/jellyfish-plugin-github from 6.1.0 to 6.2.0'"
+  date: 2022-07-05T07:39:14.447Z
+- commits:
     - subject: "Server: Add relationship between GitHub orgs and loops"
       hash: d755dc2fb57c166bcb2848861aca8cf2ff3eb3d4
       body: |
