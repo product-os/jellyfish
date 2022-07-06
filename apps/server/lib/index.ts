@@ -55,11 +55,14 @@ const run = async () => {
 
 		// Fork workers.
 		for (let i = 0; i < numCPUs; i++) {
-			cluster.fork();
+			const startWorker = () => {
+				cluster.fork().on('exit', startWorker);
+			};
+			startWorker();
 		}
 
 		cluster.on('exit', (worker, code, signal) => {
-			logger.info(DEFAULT_CONTEXT, `worker ${worker.process.pid} died`, {
+			logger.warn(DEFAULT_CONTEXT, `worker ${worker.process.pid} died`, {
 				code,
 				signal,
 			});
