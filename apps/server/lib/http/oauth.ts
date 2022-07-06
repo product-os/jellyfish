@@ -1,11 +1,11 @@
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type {
 	ActionRequestContract,
 	Sync,
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict as assert } from 'assert';
+import type { SessionContract } from 'autumndb';
 import errio from 'errio';
 import _ from 'lodash';
 import { v4 as uuid } from 'uuid';

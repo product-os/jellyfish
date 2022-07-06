@@ -3,10 +3,7 @@ import { Flex } from 'rendition';
 import * as _ from 'lodash';
 import { LensRendererProps } from '../../types';
 import ContractGraph from './ContractGraph';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 
 type Props = Pick<LensRendererProps, 'channel' | 'tail' | 'card'> & {
 	types: TypeContract[];

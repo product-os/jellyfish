@@ -2,12 +2,12 @@ import _ from 'lodash';
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { Flex } from 'rendition';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	ViewContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import { actionCreators } from '../../../store';
 import type {
 	BoundActionCreators,

@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 import { Flex, FlexProps } from 'rendition';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import Icon from './Icon';
 
 const statusSize = (props: { small?: boolean }) => {

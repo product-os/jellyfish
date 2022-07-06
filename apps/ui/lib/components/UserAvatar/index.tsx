@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import _ from 'lodash';
 import { Avatar, Box, Flex, FlexProps, TooltipPlacement } from 'rendition';
-import { core } from '@balena/jellyfish-types';
+import type { UserContract } from 'autumndb';
 import { CardLoader } from '../CardLoader';
 import UserStatusIcon from '../UserStatusIcon';
 import { getUserTooltipText } from '../../services/helpers';
@@ -27,7 +27,7 @@ const Wrapper = styled(Flex)`
 `;
 
 export interface UserAvatarProps {
-	user: core.UserContract;
+	user: UserContract;
 	emphasized?: boolean;
 	tooltipPlacement?: TooltipPlacement;
 }
@@ -66,7 +66,7 @@ export interface UserAvatarLive
 export const UserAvatarLive = React.memo<UserAvatarLive>(
 	({ userId, emphasized, tooltipPlacement, ...rest }) => {
 		return (
-			<CardLoader<core.UserContract>
+			<CardLoader<UserContract>
 				id={userId}
 				type="user"
 				withLinks={['is member of']}

@@ -2,10 +2,7 @@ import _ from 'lodash';
 import getUsers from './get-users';
 import { username } from '../../../../services/helpers';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type {
-	UserContract,
-	UserData,
-} from '@balena/jellyfish-types/build/core';
+import type { UserContract, UserData } from 'autumndb';
 
 const getFullName = (data: UserData) => {
 	const firstName = _.get(data, ['profile', 'name', 'first']);

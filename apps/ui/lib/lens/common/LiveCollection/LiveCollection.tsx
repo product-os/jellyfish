@@ -1,7 +1,4 @@
-import type {
-	Contract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, UserContract } from 'autumndb';
 import clone from 'deep-copy';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';

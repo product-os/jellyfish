@@ -11,12 +11,12 @@ import history from '../services/history';
 import type { ChannelContract } from '../types';
 import type {
 	Contract,
+	JsonSchema,
 	LoopContract,
 	OrgContract,
 	TypeContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
-import type { JsonSchema } from '@balena/jellyfish-types';
+} from 'autumndb';
 
 // Set localStorage as the backend driver, as it is a little easier to work
 // with.

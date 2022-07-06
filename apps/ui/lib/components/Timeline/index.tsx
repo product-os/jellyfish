@@ -13,10 +13,10 @@ import { addNotification } from '../../services/notifications';
 import { UPDATE, CREATE } from '../constants';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
-import type { JsonSchema } from '@balena/jellyfish-types';
+} from 'autumndb';
 import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 
 export { MessageInput };

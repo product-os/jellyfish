@@ -1,7 +1,4 @@
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';

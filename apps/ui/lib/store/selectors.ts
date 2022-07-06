@@ -1,9 +1,6 @@
 import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';
-import type {
-	LoopContract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { LoopContract, TypeContract } from 'autumndb';
 import * as helpers from '../services/helpers';
 import { getUnreadQuery } from '../queries';
 

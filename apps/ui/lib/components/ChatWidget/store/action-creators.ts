@@ -14,8 +14,7 @@ import {
 	selectThreadListQuery,
 	selectThreads,
 } from './selectors';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema, UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 
 export interface ActionCreatorContext {

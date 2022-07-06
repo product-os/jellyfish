@@ -1,10 +1,7 @@
 import React from 'react';
 import { Box, BoxProps, Flex, Txt, useTheme } from 'rendition';
 import styled from 'styled-components';
-import type {
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { TypeContract, UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { PlainButton } from '../PlainButton';
 import AutocompleteTextarea from '../AutocompleteTextarea';

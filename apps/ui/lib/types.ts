@@ -1,9 +1,9 @@
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import React from 'react';
 
 export interface JSONPatch {

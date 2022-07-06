@@ -23,7 +23,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@balena/jellyfish-client-sdk": "^11.0.8",
+    "@balena/jellyfish-client-sdk": "^11.0.13",
     "@balena/jellyfish-environment": "^12.1.0",
     "@sentry/browser": "^6.19.7",
     "@use-it/event-listener": "^0.1.7",
@@ -90,7 +90,6 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-types": "^2.0.5",
     "@balena/lint": "^6.2.0",
     "@emotion/cache": "^11.7.1",
     "@emotion/react": "^11.9.0",
@@ -114,6 +113,7 @@
     "@types/redux-mock-store": "^1.0.3",
     "@types/sinon": "^10.0.11",
     "@types/webscopeio__react-textarea-autocomplete": "^4.7.2",
+    "autumndb": "^20.3.3",
     "browser-env": "^3.3.0",
     "canvas": "^2.9.1",
     "catch-uncommitted": "^2.0.0",

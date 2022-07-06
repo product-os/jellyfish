@@ -2,7 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
 import { Theme, Flex, Txt } from 'rendition';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import { Link } from '../../Link';
 import Context, { EventContextProps } from './Context';
 import { username, getUserTooltipText } from '../../../services/helpers';

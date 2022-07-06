@@ -3,7 +3,7 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
 import { LoopSelector } from './LoopSelector';
-import type { LoopContract } from '@balena/jellyfish-types/build/core';
+import type { LoopContract } from 'autumndb';
 
 const sandbox = sinon.createSandbox();
 

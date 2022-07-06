@@ -12,7 +12,7 @@ import Timeline from '../../lens/list/Timeline';
 import { UI_SCHEMA_MODE } from '../../lens/schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../lens/common';
 import type { BoundActionCreators, LensRendererProps } from '../../types';
-import type { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { TypeContract } from 'autumndb';
 import { actionCreators, selectors } from '../../store';
 
 const SLUG = 'tabbed-contract-layout';

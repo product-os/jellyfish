@@ -1,6 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import { parseMessage } from './Message/Body';
 import { CardLoader } from '../CardLoader';
 import * as helpers from '../../services/helpers';

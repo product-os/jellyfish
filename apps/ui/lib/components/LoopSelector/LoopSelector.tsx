@@ -1,9 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import type {
-	Contract,
-	LoopContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, LoopContract } from 'autumndb';
 import { HighlightedName, Select, RenditionSystemProps } from 'rendition';
 import * as helpers from '../../services/helpers';
 

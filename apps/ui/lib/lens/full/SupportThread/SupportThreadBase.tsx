@@ -22,10 +22,10 @@ import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { SubscribeButton } from './SubscribeButton';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
-import type { JsonSchema } from '@balena/jellyfish-types';
+} from 'autumndb';
 import type {
 	BoundActionCreators,
 	ChatGroup,

@@ -8,10 +8,7 @@ import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import { ActionLink, Icon, Setup } from '../../../components';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators, getSeedData } from '../../../store';
-import type {
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { TypeContract, UserContract } from 'autumndb';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
 import * as helpers from '../../../services/helpers';
 import * as notifications from '../../../services/notifications';

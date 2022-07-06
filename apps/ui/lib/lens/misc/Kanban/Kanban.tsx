@@ -11,10 +11,7 @@ import { Card } from './Card';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 import { actionCreators } from '../../../store';
 import type { BoundActionCreators, LensRendererProps } from '../../../types';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 
 const TrelloWrapper = styled(Flex)`
 	height: 100%;

@@ -3,10 +3,7 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
-import type {
-	UserContract,
-	ViewContract,
-} from '@balena/jellyfish-types/build/core';
+import type { UserContract, ViewContract } from 'autumndb';
 import actions from '../actions';
 import { actionCreators, getSeedData } from '.';
 

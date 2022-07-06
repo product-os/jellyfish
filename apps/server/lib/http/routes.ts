@@ -1,14 +1,13 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type {
 	ActionRequestContract,
 	Sync,
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
-import type { Kernel } from 'autumndb';
+import type { Kernel, SessionContract } from 'autumndb';
 import errio from 'errio';
 import _ from 'lodash';
 import multer from 'multer';

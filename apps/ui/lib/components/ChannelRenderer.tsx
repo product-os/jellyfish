@@ -10,12 +10,12 @@ import { ChannelContextProvider } from '../hooks';
 import { getLens } from '../lens';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import type { BoundActionCreators, ChannelContract } from '../types';
 import { actionCreators } from '../store';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import { Setup, withSetup } from './SetupProvider';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 

@@ -1,10 +1,10 @@
 import * as assert from '@balena/jellyfish-assert';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type {
+import {
 	Contract,
+	errors as coreErrors,
+	JsonSchema,
 	SessionContract,
-} from '@balena/jellyfish-types/build/core';
-import { errors as coreErrors } from 'autumndb';
+} from 'autumndb';
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {

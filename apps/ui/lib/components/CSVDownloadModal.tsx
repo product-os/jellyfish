@@ -3,9 +3,8 @@ import React from 'react';
 import { CSVLink } from 'react-csv';
 import { Box, Modal, Txt } from 'rendition';
 import styled from 'styled-components';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract, JsonSchema } from 'autumndb';
 import { flatten } from 'flat';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import Icon from './Icon';
 import { useSetup } from './SetupProvider';
 

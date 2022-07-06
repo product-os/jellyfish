@@ -1,7 +1,4 @@
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 import * as helpers from '../../services/helpers';
 import { linkConstraints, LinkConstraint } from '@balena/jellyfish-client-sdk';
 import _ from 'lodash';

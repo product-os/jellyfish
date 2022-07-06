@@ -1,7 +1,6 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Contract } from '@balena/jellyfish-types/build/core';
-import type { Kernel } from 'autumndb';
+import type { Contract, Kernel } from 'autumndb';
 import jsonwebtoken from 'jsonwebtoken';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';

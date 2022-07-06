@@ -1,4 +1,4 @@
-import type { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from 'autumndb';
 import skhema from 'skhema';
 import _ from 'lodash';
 import type { FilterFieldOption } from 'rendition/dist/components/Filters/FilterModal';
