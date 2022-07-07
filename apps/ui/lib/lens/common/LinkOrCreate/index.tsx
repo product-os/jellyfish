@@ -67,7 +67,7 @@ class LinkOrCreate extends React.Component<Props, State> {
 
 		addChannel({
 			head: {
-				types: _.find(types, {
+				types: _.filter(types, {
 					slug: segment.type.split('@')[0],
 				}),
 				seed: {

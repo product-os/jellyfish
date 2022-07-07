@@ -9,8 +9,34 @@ import CardLinker from '../CardLinker';
 import CardOwner from '../CardOwner';
 import VideoLink from '../VideoLink';
 import { BookmarkButton } from '../BookmarkButton';
+import { Setup } from '../../components/SetupProvider';
+import { BoundActionCreators } from '../../types';
+import { actionCreators } from '../../store';
+import { Contract, TypeContract, UserContract } from 'autumndb';
 
-export default class CardActions extends React.Component<any, any> {
+export interface StateProps {
+	types: TypeContract[];
+	user: UserContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export interface OwnProps {
+	card: Contract;
+	inlineActionItems?: React.ReactNode;
+	children?: React.ReactNode;
+}
+
+type Props = Setup & StateProps & DispatchProps & OwnProps;
+
+interface State {
+	showDeleteModal: boolean;
+	showMenu: boolean;
+}
+
+export default class CardActions extends React.Component<Props, State> {
 	delete = () => {
 		this.props.sdk.card
 			.remove(this.props.card.id, this.props.card.type)
@@ -53,7 +79,7 @@ export default class CardActions extends React.Component<any, any> {
 		this.props.actions.addChannel({
 			head: {
 				types: this.props.types,
-				card: this.props.card,
+				contract: this.props.card,
 				onDone: {
 					action: 'close',
 				},

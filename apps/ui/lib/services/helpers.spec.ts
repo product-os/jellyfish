@@ -1636,7 +1636,7 @@ test('getViewSchema merges $$links with the same link verb using an allOf proper
 		},
 	};
 
-	const schema = helpers.getViewSchema(view, user1);
+	const schema = helpers.getViewSchema(view as any, user1);
 
 	expect(schema).toEqual({
 		type: 'object',

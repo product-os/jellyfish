@@ -60,7 +60,7 @@ export const pathWithoutTarget = (target: string) => {
 };
 
 export const pathWithoutChannel = (channel: ChannelContract) => {
-	return pathWithoutTarget(channel.data.target);
+	return pathWithoutTarget(channel.data.target!);
 };
 
 /**
@@ -165,7 +165,7 @@ export const getTypesFromViewCard = (card: ViewContract) => {
 
 	return getTypesFromSchema({
 		...(typeof card.data.schema === 'object' ? card.data.schema : {}),
-		oneOf: card.data.oneOf?.map(normalize),
+		oneOf: (card.data as any).oneOf?.map(normalize),
 		allOf: card.data.allOf?.map(normalize),
 		anyOf: card.data.anyOf?.map(normalize),
 	});
@@ -270,6 +270,7 @@ export const getViewSchema = (card: ViewContract, user: UserContract) => {
 	if (!_.isEmpty(disjunctions)) {
 		conjunctions.push({
 			anyOf: disjunctions,
+			type: 'object',
 		});
 	}
 
@@ -499,9 +500,12 @@ export const getSchemaSlices = (
 	const slices: JsonSchema[] = _.flatten(
 		_.compact(
 			_.map(typeContract.data.slices as string[], (slice) => {
-				const subSchema = _.get(typeContract.data.schema, slice);
+				const subSchema: JsonSchema = _.get(
+					typeContract.data.schema,
+					slice,
+				) as any;
 				// Only enums are supported
-				if (!subSchema || !subSchema.enum) {
+				if (!subSchema || typeof subSchema === 'boolean' || !subSchema.enum) {
 					return null;
 				}
 
@@ -509,8 +513,9 @@ export const getSchemaSlices = (
 
 				// Map the subschema enums into seperate schemas that select for a specific value
 				return subSchema.enum.map((value, index) => {
-					const label = subSchema.enumNames
-						? subSchema.enumNames[index]
+					// TODO: Add enumNames key to type
+					const label = (subSchema as any).enumNames
+						? (subSchema as any).enumNames[index]
 						: value;
 					const filter = _.set(
 						{
@@ -545,7 +550,7 @@ export const getSchemaSlices = (
 				});
 			}),
 		),
-	);
+	) as any;
 
 	return slices;
 };

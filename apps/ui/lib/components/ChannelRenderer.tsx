@@ -122,7 +122,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 			return;
 		}
 
-		const query = createChannelQuery(data.target, user);
+		const query = createChannelQuery(data.target!, user);
 
 		this.props.sdk
 			.query(query, { limit: 1 })
@@ -131,6 +131,8 @@ class ChannelRenderer extends React.Component<Props, State> {
 					this.setState({
 						head: result,
 					});
+
+					this.updateReduxChannelData(result);
 				}
 				this.setState({
 					loading: false,
@@ -144,6 +146,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 		stream.on('update', (response) => {
 			const { after: card } = response.data;
 			this.setState({ head: card });
+			this.updateReduxChannelData(card);
 		});
 	}
 
@@ -151,6 +154,12 @@ class ChannelRenderer extends React.Component<Props, State> {
 		if (this.stream) {
 			this.stream.close();
 		}
+	}
+
+	updateReduxChannelData(head: Contract) {
+		const channel = _.cloneDeep(this.props.channel);
+		_.set(channel, ['data', 'head', 'contract'], head);
+		this.props.actions.updateChannel(channel);
 	}
 
 	closeLinkModal() {

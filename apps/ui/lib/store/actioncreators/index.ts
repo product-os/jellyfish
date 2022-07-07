@@ -21,6 +21,7 @@ import type {
 	ViewContract,
 } from 'autumndb';
 import * as selectors from '../selectors';
+import { ChannelContract } from '../../types';
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -445,20 +446,14 @@ export const actionCreators = {
 		return query;
 	},
 
-	updateChannel(channel) {
+	updateChannel(channel: ChannelContract) {
 		return {
 			type: actions.UPDATE_CHANNEL,
 			value: channel,
 		};
 	},
 
-	addChannel(data: {
-		head?: any;
-		format?: any;
-		canonical?: boolean;
-		target?: string;
-		cardType?: string;
-	}) {
+	addChannel(data: ChannelContract['data']) {
 		if (!data.cardType && data.canonical !== false) {
 			console.error('Channel added without a card type', data);
 		}

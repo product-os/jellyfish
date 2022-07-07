@@ -1,9 +1,9 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { selectors } from '../../store';
-import PageTitle from './PageTitle';
+import PageTitle, { StateProps, OwnProps } from './PageTitle';
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	const mentionsCount = selectors.getMentionsCount()(state);
 	const channels = selectors.getChannels()(state);
 	return {
@@ -12,4 +12,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(PageTitle);
+export default connect<StateProps, {}, OwnProps>(mapStateToProps)(PageTitle);

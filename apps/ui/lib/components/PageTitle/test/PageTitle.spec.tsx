@@ -3,9 +3,9 @@ import { shallow } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
 import PageTitle from '../PageTitle';
-import ViewAllIssues from './fixtures/view-all-issues.json';
-import SupportThread from './fixtures/support-thread.json';
-import ViewAllIssuesLoading from './fixtures/view-all-issues-loading.json';
+import ViewAllIssues from './fixtures/view-all-issues';
+import SupportThread from './fixtures/support-thread';
+import ViewAllIssuesLoading from './fixtures/view-all-issues-loading';
 
 const sandbox = sinon.createSandbox();
 

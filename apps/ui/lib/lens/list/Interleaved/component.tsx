@@ -79,7 +79,7 @@ export const InterleavedList = (props: Props) => {
 	};
 
 	const openChannel = (target: string) => {
-		const current = props.channelData.channel.data.target;
+		const current = props.channelData.channel.data.target!;
 		props.history.push(
 			path.join(window.location.pathname.split(current)[0], current, target),
 		);

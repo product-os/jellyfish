@@ -504,6 +504,10 @@ export default withSetup(
 		loadData = async () => {
 			const { channel, user, sdk } = this.props;
 
+			if (!channel.data.target) {
+				return;
+			}
+
 			const card = await sdk.card.get(channel.data.target);
 			const getData = async (
 				name: 'results' | 'bookmarks',

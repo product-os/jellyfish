@@ -39,9 +39,9 @@ export default withSetup(
 			super(props);
 
 			const { head } = this.props.channel.data;
-			const { types, card } = head!;
+			const { types, contract } = head!;
 
-			const cardType = helpers.getType(card.type, types);
+			const cardType = helpers.getType(contract!.type, types);
 
 			// Omit known computed values from the schema
 			const schema = _.omit(cardType ? cardType.data.schema : {}, [
@@ -76,7 +76,7 @@ export default withSetup(
 
 			this.state = {
 				// Omit known immutable values
-				editModel: _.omit(clone(card), ['id', 'slug']),
+				editModel: _.omit(clone(contract), ['id', 'slug']),
 				schema,
 			};
 
@@ -100,14 +100,14 @@ export default withSetup(
 
 		updateEntry() {
 			const { head } = this.props.channel.data;
-			const { card, onDone } = head!;
+			const { contract, onDone } = head!;
 
 			const updatedEntry = helpers.removeUndefinedArrayItems(
-				_.assign({}, card, this.state.editModel),
+				_.assign({}, contract, this.state.editModel),
 			);
-			const { id, type } = card;
+			const { id, type } = contract!;
 
-			const patch = jsonpatch.compare(card, updatedEntry);
+			const patch = jsonpatch.compare(contract!, updatedEntry);
 
 			this.props.sdk.card
 				.update(id, type, patch)
@@ -160,7 +160,7 @@ export default withSetup(
 			const { editModel } = this.state;
 			const localSchema = helpers.getLocalSchema(editModel);
 			const { head } = this.props.channel.data;
-			const { types, card } = head!;
+			const { types, contract } = head!;
 
 			const freeFieldData = _.reduce(
 				localSchema.properties,
@@ -174,7 +174,11 @@ export default withSetup(
 				{},
 			);
 
-			const cardType = helpers.getType(card.type, types);
+			if (!contract) {
+				return null;
+			}
+
+			const cardType = helpers.getType(contract.type, types);
 
 			const uiSchema = getUiSchema(cardType, UI_SCHEMA_MODE.edit);
 
@@ -205,11 +209,11 @@ export default withSetup(
 				<CardLayout
 					noActions
 					onClose={this.close}
-					card={card}
+					card={contract}
 					channel={this.props.channel}
 					title={
 						<Heading.h4>
-							<em>Edit</em> {card.name || card.type}
+							<em>Edit</em> {contract.name || contract.type}
 						</Heading.h4>
 					}
 				>
