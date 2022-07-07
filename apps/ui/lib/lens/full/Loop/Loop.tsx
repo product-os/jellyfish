@@ -468,7 +468,11 @@ export default withSetup(
 			}
 
 			return (
-				<TabbedContractLayout card={card} channel={channel}>
+				<TabbedContractLayout
+					primaryTabTitle="Dashboard"
+					card={card}
+					channel={channel}
+				>
 					<Box width={420} mx="auto">
 						<Flex alignItems="center">
 							<Corner rotate={90} />
