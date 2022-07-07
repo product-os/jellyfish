@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Fix incorrect type in GitHub Org schema"
+      hash: 95b83e1d0089ef8c54a362ddcd1e73032cc91846
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.4.2
+  title: "'Server: Fix incorrect type in GitHub Org schema'"
+  date: 2022-07-07T08:02:41.281Z
+- commits:
     - subject: Drop jellyfish-types
       hash: fbae739fda04f36c0a5c0f3031d5397660b0d3a1
       body: ""
