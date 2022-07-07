@@ -17,7 +17,13 @@ import {
 	Setup,
 } from '../';
 import * as helpers from '../../services/helpers';
-import { core, JsonSchema } from '@balena/jellyfish-types';
+import type {
+	JsonSchema,
+	OrgContract,
+	TypeContract,
+	UserContract,
+	ViewContract,
+} from 'autumndb';
 import TreeMenu from './TreeMenu';
 import { ResponsiveContextProps } from '../../hooks/use-responsive-context';
 import UserStatusMenuItem from '../UserStatusMenuItem';
@@ -29,11 +35,6 @@ import { ChatButton } from './ChatButton';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 import { actionCreators } from '../../store';
 import { BoundActionCreators, ChannelContract } from '../../types';
-import {
-	OrgContract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
 import { RouteComponentProps } from 'react-router-dom';
 
 // Slide-in delay in seconds
@@ -226,9 +227,9 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	}
 
 	const splitViews: {
-		myViews: core.ViewContract[];
-		oneToOneViews: core.ViewContract[];
-		otherViews: core.ViewContract[];
+		myViews: ViewContract[];
+		oneToOneViews: ViewContract[];
+		otherViews: ViewContract[];
 	} = {
 		myViews: [],
 		oneToOneViews: [],

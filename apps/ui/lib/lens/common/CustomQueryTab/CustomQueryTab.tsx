@@ -1,9 +1,6 @@
 import React from 'react';
 import { Tab } from 'rendition';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 import * as helpers from '../../../services/helpers';
 import { actionCreators } from '../../../store';
 import type { BoundActionCreators, ChannelContract } from '../../../types';

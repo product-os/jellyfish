@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import type { Operation } from 'fast-json-patch';
 import { useSetup } from '../components/SetupProvider';
 import { addNotification } from '../services/notifications';

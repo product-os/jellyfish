@@ -2,7 +2,7 @@ import React from 'react';
 import { CardLoaderContext } from '../../CardLoader';
 import { selectCardById } from '../store/selectors';
 import { useActions } from '../hooks';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 
 export const CardLoaderContextProvider = React.memo(({ children }) => {
 	const actions = useActions();

@@ -1,17 +1,13 @@
 import _ from 'lodash';
 import React from 'react';
 import { Box, Divider, Flex, Txt } from 'rendition';
-import type {
-	Contract,
-	ViewContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, JsonSchema, ViewContract } from 'autumndb';
 import { ActionLink, CloseButton } from '../../../../components';
 import * as helpers from '../../../../services/helpers';
 import CardActions from '../../../../components/CardActions';
 import Markers from '../../../../components/Markers';
 import type { ChannelContract } from '../../../../types';
 import CSVDownloadModal from '../../../../components/CSVDownloadModal';
-import type { JsonSchema } from '@balena/jellyfish-types';
 
 interface HeaderProps {
 	channel: ChannelContract;

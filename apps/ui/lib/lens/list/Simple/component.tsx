@@ -4,7 +4,7 @@ import { Box, Divider } from 'rendition';
 import { getLens } from '../..';
 import type { LensRendererProps } from '../../../types';
 import { RouteComponentProps } from 'react-router-dom';
-import { core } from '@balena/jellyfish-types';
+import type { Contract } from 'autumndb';
 import { GroupedVirtuoso } from 'react-virtuoso';
 
 interface State {
@@ -12,7 +12,7 @@ interface State {
 }
 
 export interface StateProps {
-	user: core.Contract;
+	user: Contract;
 }
 
 export type OwnProps = LensRendererProps;

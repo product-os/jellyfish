@@ -9,10 +9,7 @@ import { RE_FRONT_HIDDEN_URL } from '../Event/Message/Body';
 import { HIDDEN_ANCHOR } from '../Timeline';
 import { linkComponentOverride } from '../Link';
 import { getMessage, generateActorFromUserCard } from '../../services/helpers';
-import type {
-	Contract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, UserContract } from 'autumndb';
 
 const componentOverrides = {
 	// TS-TODO

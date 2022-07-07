@@ -13,8 +13,7 @@ import * as skhema from 'skhema';
 import { actionCreators } from '../../../store';
 import type { BoundActionCreators, LensRendererProps } from '../../../types';
 import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
-import type { Contract } from '@balena/jellyfish-types/build/core';
-import type { JsonSchema } from '@balena/jellyfish-types';
+import type { Contract, JsonSchema } from 'autumndb';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
 const FormBox = styled(Box)`

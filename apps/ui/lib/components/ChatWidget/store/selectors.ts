@@ -2,11 +2,7 @@ import filter from 'lodash/filter';
 import orderBy from 'lodash/orderBy';
 import get from 'lodash/get';
 import every from 'lodash/every';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type {
-	Contract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, JsonSchema, UserContract } from 'autumndb';
 
 export const selectThreadListQuery = () => {
 	return (state): JsonSchema => {

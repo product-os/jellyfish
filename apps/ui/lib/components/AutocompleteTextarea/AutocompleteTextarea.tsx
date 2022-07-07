@@ -5,11 +5,7 @@ import TextareaAutosize from 'react-textarea-autosize';
 import * as reactDnD from 'react-dnd';
 import { BoxProps, Card, Txt } from 'rendition';
 import styled from 'styled-components';
-import type {
-	Contract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { Link } from '../Link';
 import * as helpers from '../../services/helpers';

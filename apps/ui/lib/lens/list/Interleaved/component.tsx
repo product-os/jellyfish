@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import _ from 'lodash';
 import path from 'path';
 import { RouteComponentProps } from 'react-router-dom';
-import { core } from '@balena/jellyfish-types';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import { Event, useSetup } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
@@ -17,9 +17,9 @@ interface State {
 }
 
 export interface StateProps {
-	types: core.TypeContract[];
-	groups: core.Contract[];
-	user: core.UserContract;
+	types: TypeContract[];
+	groups: Contract[];
+	user: UserContract;
 }
 
 export type OwnProps = LensRendererProps;
@@ -85,7 +85,7 @@ export const InterleavedList = (props: Props) => {
 		);
 	};
 
-	const handleContractVisible = (contract: core.Contract) => {
+	const handleContractVisible = (contract: Contract) => {
 		sdk.card
 			.markAsRead(
 				props.user.slug,
@@ -99,7 +99,7 @@ export const InterleavedList = (props: Props) => {
 
 	const firstMessagesByThreads = {};
 
-	const EventBox = React.memo(({ contract }: { contract: core.Contract }) => {
+	const EventBox = React.memo(({ contract }: { contract: Contract }) => {
 		if (!contract) {
 			return <Box p={3}>Loading...</Box>;
 		}

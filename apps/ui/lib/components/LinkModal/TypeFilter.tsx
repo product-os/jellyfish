@@ -1,4 +1,4 @@
-import type { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { TypeContract } from 'autumndb';
 import React from 'react';
 import _ from 'lodash';
 import { Box, BoxProps, Button, Flex, Txt } from 'rendition';

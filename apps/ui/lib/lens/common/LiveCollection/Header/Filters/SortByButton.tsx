@@ -5,7 +5,7 @@ import memoize from 'memoize-one';
 import { circularDeepEqual } from 'fast-equals';
 import clone from 'deep-copy';
 import { Select, SelectProps } from 'rendition';
-import type { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { TypeContract } from 'autumndb';
 import * as helpers from '../../../../../services/helpers';
 import { Setup, withSetup } from '../../../../../components/SetupProvider';
 

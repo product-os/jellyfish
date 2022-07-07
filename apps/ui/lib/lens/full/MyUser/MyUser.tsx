@@ -7,12 +7,8 @@ import * as helpers from '../../../services/helpers';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import LiveCollection from '../../common/LiveCollection';
 import type { BoundActionCreators, LensRendererProps } from '../../../types';
-import type {
-	TypeContract,
-	Contract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, JsonSchema, TypeContract } from 'autumndb';
 import { actionCreators } from '../../../store';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 
 export type OwnProps = LensRendererProps;

@@ -2,12 +2,12 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { Icon, PlainButton, useSetup } from '../../../components';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
 	ContractDefinition,
+	JsonSchema,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import { selectors } from '../../../store';
 
 export const SubscribeButton = ({ card, ...rest }) => {

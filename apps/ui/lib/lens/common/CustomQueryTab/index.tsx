@@ -2,10 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import memoize from 'memoize-one';
 import { connect } from 'react-redux';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 import { selectors, actionCreators } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import type { ChannelContract } from '../../../types';

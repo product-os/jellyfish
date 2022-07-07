@@ -11,7 +11,7 @@ import {
 	InfiniteList,
 } from '../../../components';
 import * as helpers from '../../../services/helpers';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 
 const StyledTabs = styled(Tabs)`
 	flex: 1 > [role= 'tabpanel' ] {

@@ -1,7 +1,6 @@
 import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import type { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract, JsonSchema } from 'autumndb';
 import _ from 'lodash';
 import * as React from 'react';
 import { useSetup } from '../components';

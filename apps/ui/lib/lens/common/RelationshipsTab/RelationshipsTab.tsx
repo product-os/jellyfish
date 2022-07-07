@@ -6,10 +6,7 @@ import styled from 'styled-components';
 import useDebounce from '../../../hooks/use-debounce';
 import * as helpers from '../../../services/helpers';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
-import type {
-	Contract,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract } from 'autumndb';
 import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';

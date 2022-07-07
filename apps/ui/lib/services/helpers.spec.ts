@@ -3,8 +3,7 @@ import format from 'date-fns/format';
 import sub from 'date-fns/sub';
 import add from 'date-fns/add';
 import * as helpers from './helpers';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema, UserContract } from 'autumndb';
 
 const user = {
 	slug: 'user',

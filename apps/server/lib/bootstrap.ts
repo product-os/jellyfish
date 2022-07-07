@@ -2,10 +2,14 @@ import * as assert from '@balena/jellyfish-assert';
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
-import * as autumndb from 'autumndb';
+import {
+	Cache,
+	errors as autumndbErrors,
+	Kernel,
+	SessionContract,
+} from 'autumndb';
 import _ from 'lodash';
 import { setTimeout } from 'timers/promises';
 import { createServer } from './http';
@@ -22,7 +26,7 @@ interface SessionContractWithActor extends SessionContract {
 
 const getActorKey = async (
 	logContext: LogContext,
-	kernel: autumndb.Kernel,
+	kernel: Kernel,
 	session: string,
 	actorId: string,
 ): Promise<SessionContractWithActor> => {
@@ -45,7 +49,7 @@ const getActorKey = async (
 	return kernel.replaceContract(
 		logContext,
 		session,
-		autumndb.Kernel.defaults({
+		Kernel.defaults({
 			slug: keySlug,
 			active: true,
 			version: '1.0.0',
@@ -69,7 +73,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	await webServer.start();
 
 	logger.info(logContext, 'Setting up cache');
-	const cache = new autumndb.Cache(environment.redis);
+	const cache = new Cache(environment.redis);
 	if (cache) {
 		await cache.connect();
 	}
@@ -80,7 +84,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			? Object.assign({}, environment.database.options, options.database)
 			: environment.database.options;
 
-	const { kernel, pool } = await autumndb.Kernel.withPostgres(
+	const { kernel, pool } = await Kernel.withPostgres(
 		logContext,
 		cache,
 		backendOptions,
@@ -143,14 +147,14 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	assert.INTERNAL(
 		logContext,
 		environment.test.user.username,
-		autumndb.errors.JellyfishInvalidEnvironmentVariable as any,
+		autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
 		`No test username: ${environment.test.user.username}`,
 	);
 
 	assert.INTERNAL(
 		logContext,
 		environment.test.user.role,
-		autumndb.errors.JellyfishInvalidEnvironmentVariable as any,
+		autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
 		`No test role: ${environment.test.user.role}`,
 	);
 
@@ -179,7 +183,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		assert.INTERNAL(
 			logContext,
 			userContract,
-			autumndb.errors.JellyfishNoElement,
+			autumndbErrors.JellyfishNoElement,
 			`Test user does not exist: ${environment.test.user.username}`,
 		);
 
@@ -227,7 +231,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		assert.INTERNAL(
 			logContext,
 			orgContract,
-			autumndb.errors.JellyfishNoElement,
+			autumndbErrors.JellyfishNoElement,
 			`Test org does not exist: ${environment.test.user.organization}`,
 		);
 

@@ -1,5 +1,4 @@
 import { getLogger } from '@balena/jellyfish-logger';
-import type { SessionContract } from '@balena/jellyfish-types/build/core';
 import type {
 	ActionPreRequest,
 	ActionRequestContract,
@@ -7,6 +6,7 @@ import type {
 	Worker,
 } from '@balena/jellyfish-worker';
 import { strict as assert } from 'assert';
+import type { SessionContract } from 'autumndb';
 import errio from 'errio';
 import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';

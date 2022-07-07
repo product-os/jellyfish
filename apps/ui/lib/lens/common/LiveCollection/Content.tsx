@@ -2,11 +2,7 @@ import React from 'react';
 import _ from 'lodash';
 import { Box, Flex, Txt } from 'rendition';
 import { Icon } from '../../../components';
-import type {
-	Contract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import { ViewFooter } from '../ViewFooter';
 import type { ChannelContract, LensContract } from '../../../types';
 

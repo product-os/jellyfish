@@ -10,11 +10,7 @@ import {
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import { Icon } from '../';
-import type {
-	Contract,
-	ContractSummary,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';

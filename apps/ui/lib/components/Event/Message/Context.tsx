@@ -4,7 +4,7 @@ import queryString from 'query-string';
 import copy from 'copy-to-clipboard';
 import styled from 'styled-components';
 import { Theme, Txt, Flex, Button, FlexProps } from 'rendition';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import { formatTimestamp } from '../../../services/helpers';
 import Icon from '../../Icon';
 import { ActionLink } from '../../ActionLink';

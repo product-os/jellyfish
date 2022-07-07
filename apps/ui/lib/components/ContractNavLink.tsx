@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Txt } from 'rendition';
 import * as helpers from '../services/helpers';
 import { Link } from '.';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import type { ChannelContract } from '../types';
 
 interface Props {

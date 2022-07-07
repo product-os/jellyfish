@@ -7,7 +7,7 @@ import AsyncSelect from 'react-select/async';
 import { Badge, Flex, Txt } from 'rendition';
 import debounce from 'debounce-promise';
 import * as helpers from '../../services/helpers';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 
 const preventClickPropagation = (event: any) => {
 	event.stopPropagation();

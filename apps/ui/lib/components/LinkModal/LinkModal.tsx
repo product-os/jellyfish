@@ -5,11 +5,7 @@ import pluralize from 'pluralize';
 import { Badge, Modal, Select, Txt, Box } from 'rendition';
 import * as notifications from '../../services/notifications';
 import { Icon } from '../';
-import type {
-	Contract,
-	ContractSummary,
-	TypeContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
 import { Hideable } from '../Hideable';
 import * as linkUtils from './util';

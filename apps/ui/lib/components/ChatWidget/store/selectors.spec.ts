@@ -1,4 +1,4 @@
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import { v4 as uuidv4 } from 'uuid';
 import { createReducer } from './reducer';
 import { selectMessages, areEqualArrayOfContracts } from './selectors';

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { SettingType } from '@webscopeio/react-textarea-autocomplete';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import findMatchingUsers from './find-matching-users';
 

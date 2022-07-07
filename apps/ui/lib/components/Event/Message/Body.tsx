@@ -3,11 +3,7 @@ import _ from 'lodash';
 import styled from 'styled-components';
 import { Button, Txt, Img } from 'rendition';
 import { Markdown } from 'rendition/dist/extra/Markdown';
-import type {
-	Contract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import { HIDDEN_ANCHOR } from '../../Timeline';
 import Icon from '../../Icon';

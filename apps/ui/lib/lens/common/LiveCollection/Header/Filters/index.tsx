@@ -14,8 +14,7 @@ import {
 import styled from 'styled-components';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
-import type { JsonSchema } from '@balena/jellyfish-types';
-import type { TypeContract } from '@balena/jellyfish-types/build/core';
+import type { JsonSchema, TypeContract } from 'autumndb';
 import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import * as helpers from '../../../../../services/helpers';
 import {

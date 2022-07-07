@@ -1,6 +1,6 @@
 import update from 'immutability-helper';
 import merge from 'lodash/merge';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import {
 	SET_CARDS,
 	SET_CURRENT_USER,

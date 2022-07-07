@@ -16,14 +16,14 @@ import skhema from 'skhema';
 import { DetectUA } from 'detect-ua';
 import { MESSAGE, WHISPER, SUMMARY, RATING } from '../components/constants';
 import type { ChannelContract, JSONPatch, UIActor } from '../types';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
+	JsonSchema,
 	LinkContract,
 	TypeContract,
 	UserContract,
 	ViewContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 
 export const createPermaLink = (card: Contract) => {
 	const versionSuffix = card.version !== '1.0.0' ? `@${card.version}` : '';

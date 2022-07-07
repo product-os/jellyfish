@@ -7,11 +7,7 @@ import React from 'react';
 import { Box } from 'rendition';
 import styled from 'styled-components';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type {
-	Contract,
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import SmartVisibilitySensor from '../../SmartVisibilitySensor';
 import * as helpers from '../../../services/helpers';
 import { UserAvatarLive } from '../../UserAvatar';

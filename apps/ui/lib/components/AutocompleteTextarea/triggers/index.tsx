@@ -10,10 +10,7 @@ import type {
 	TriggerType,
 } from '@webscopeio/react-textarea-autocomplete';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type {
-	TypeContract,
-	UserContract,
-} from '@balena/jellyfish-types/build/core';
+import type { TypeContract, UserContract } from 'autumndb';
 
 const AUTOCOMPLETE_DEBOUNCE = 250;
 

@@ -7,7 +7,7 @@ import * as helpers from '../../../services/helpers';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 import { ContractGraph } from '../../common';
-import type { Contract } from '@balena/jellyfish-types/build/core';
+import type { Contract } from 'autumndb';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { Setup, withSetup } from '../../../components/SetupProvider';
 

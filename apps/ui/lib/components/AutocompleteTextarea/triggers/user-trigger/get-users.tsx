@@ -1,5 +1,5 @@
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import _ from 'lodash';
 
 const getUsers = async (

@@ -14,12 +14,12 @@ import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import actions from '../actions';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
+	JsonSchema,
 	LoopContract,
 	UserContract,
 	ViewContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import * as selectors from '../selectors';
 
 // Refresh the session token once every 3 hours

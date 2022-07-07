@@ -9,13 +9,13 @@ import { FiltersView, Flex, SchemaSieve } from 'rendition';
 import { v4 as uuid } from 'uuid';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
-import type { JsonSchema } from '@balena/jellyfish-types';
 import type {
 	Contract,
+	JsonSchema,
 	TypeContract,
 	ViewContract,
 	UserContract,
-} from '@balena/jellyfish-types/build/core';
+} from 'autumndb';
 import { actionCreators } from '../../../store';
 import type {
 	BoundActionCreators,

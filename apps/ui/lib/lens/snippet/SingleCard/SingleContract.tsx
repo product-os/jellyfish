@@ -4,7 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { Box, Flex } from 'rendition';
 import { TagList, UserAvatar } from '../../../components';
-import type { UserContract } from '@balena/jellyfish-types/build/core';
+import type { UserContract } from 'autumndb';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 import ContractNavLink from '../../../components/ContractNavLink';

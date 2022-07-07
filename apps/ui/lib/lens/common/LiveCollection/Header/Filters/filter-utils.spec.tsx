@@ -1,4 +1,4 @@
-import type { JsonSchema } from '@balena/jellyfish-types';
+import type { JsonSchema } from 'autumndb';
 import {
 	getLinkedContractDataFilterKey,
 	unpackLinksSchema,
