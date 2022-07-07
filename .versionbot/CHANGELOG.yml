@@ -1,4 +1,18 @@
 - commits:
+    - subject: Drop jellyfish-types
+      hash: fbae739fda04f36c0a5c0f3031d5397660b0d3a1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.4.1
+  title: "'Drop jellyfish-types'"
+  date: 2022-07-07T00:11:04.119Z
+- commits:
     - subject: "Server: Add logic for restarting crashed worker processes"
       hash: 8f7b578b2c71c5a797fa32a741aa7b9c97657c95
       body: ""
