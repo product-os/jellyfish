@@ -1,4 +1,30 @@
 - commits:
+    - subject: "UI: Surface GitHub orgs when viewing a loop"
+      hash: d62a578362a05b7d3e63c0700ac17c27aacc4997
+      body: ""
+      footer:
+        Connects-to: https://github.com/product-os/jellyfish/issues/8788
+        connects-to: https://github.com/product-os/jellyfish/issues/8788
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Rename loop "info" tab to "Dashboard"'
+      hash: 052bd63e46fb833843af9609322ef8467fef3087
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.5.0
+  title: "'Lucianbuzzo/loop GitHub orgs'"
+  date: 2022-07-07T09:54:01.845Z
+- commits:
     - subject: "Server: Fix incorrect type in GitHub Org schema"
       hash: 95b83e1d0089ef8c54a362ddcd1e73032cc91846
       body: ""
