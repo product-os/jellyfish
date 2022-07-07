@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix incorrect github sync query
+      hash: 36bf5af2e5177e0abeb024902f24cad364b6a0f6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.5.1
+  title: "'Fix incorrect github sync query'"
+  date: 2022-07-07T19:57:51.222Z
+- commits:
     - subject: "UI: Surface GitHub orgs when viewing a loop"
       hash: d62a578362a05b7d3e63c0700ac17c27aacc4997
       body: ""
