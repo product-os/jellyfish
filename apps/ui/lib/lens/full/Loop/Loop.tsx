@@ -2,9 +2,10 @@ import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { Box, Card, Divider, Flex, Txt, Heading } from 'rendition';
+import { Box, Card, Divider, Flex, Tab, Txt, Heading } from 'rendition';
 import { Icon, Link, withSetup } from '../../../components';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
+import { GitHubOrgs } from './GitHubOrgs';
 
 const WIDTH = 160;
 
@@ -468,7 +469,16 @@ export default withSetup(
 			}
 
 			return (
-				<TabbedContractLayout card={card} channel={channel}>
+				<TabbedContractLayout
+					primaryTabTitle="Dashboard"
+					card={card}
+					channel={channel}
+					tabs={[
+						<Tab title="GitHub Orgs">
+							<GitHubOrgs channel={channel} contract={card} />
+						</Tab>,
+					]}
+				>
 					<Box width={420} mx="auto">
 						<Flex alignItems="center">
 							<Corner rotate={90} />
