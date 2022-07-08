@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Add simple lenses for GitHub orgs and repositories"
+      hash: 543d3851800cffe825feefd0ceacac4f30631788
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.6.0
+  title: "'UI: Add simple lenses for GitHub orgs and repositories'"
+  date: 2022-07-08T13:25:15.343Z
+- commits:
     - subject: Update typedoc from 0.23.5 to 0.23.6
       hash: cb3e97f18495b51913ab3f014b999bd4fa37d5aa
       body: ""
