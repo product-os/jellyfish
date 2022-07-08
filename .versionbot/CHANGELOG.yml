@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-environment to v12.2.0
+      hash: c89988d2ad44f2adc3df3590a290b87dfc8a1688
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.6.1
+  title: "'Update @balena/jellyfish-environment to v12.2.0'"
+  date: 2022-07-08T20:31:47.028Z
+- commits:
     - subject: "UI: Add simple lenses for GitHub orgs and repositories"
       hash: 543d3851800cffe825feefd0ceacac4f30631788
       body: ""
