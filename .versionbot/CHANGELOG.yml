@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v4.0.3 to v4.0.4
+      hash: bcdc2131b86f1a1dc5f7b4498e394e80b7dbeb31
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.5.2
+  title: "'Update resinci/jellyfish-test from v4.0.3 to v4.0.4'"
+  date: 2022-07-08T00:50:23.292Z
+- commits:
     - subject: Fix incorrect github sync query
       hash: 36bf5af2e5177e0abeb024902f24cad364b6a0f6
       body: ""
