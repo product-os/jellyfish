@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update server nodemon watch list
+      hash: 27bcafebc51d299a1e41f61201e542063b9de871
+      body: |
+        Remove old dependencies from apps/server nodemon watch list and
+        add missing client-sdk path.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.6.2
+  title: "'Update server nodemon watch list'"
+  date: 2022-07-09T00:28:30.066Z
+- commits:
     - subject: Update @balena/jellyfish-environment to v12.2.0
       hash: c89988d2ad44f2adc3df3590a290b87dfc8a1688
       body: ""
