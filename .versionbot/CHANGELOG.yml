@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v4.0.4 to v4.0.5
+      hash: 368d70beb19fb686cd42e5cb6ba7da671573edae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.6.3
+  title: "'Update resinci/jellyfish-test from v4.0.4 to v4.0.5'"
+  date: 2022-07-09T10:40:23.806Z
+- commits:
     - subject: Update server nodemon watch list
       hash: 27bcafebc51d299a1e41f61201e542063b9de871
       body: |
