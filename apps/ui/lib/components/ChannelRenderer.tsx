@@ -19,6 +19,8 @@ import { actionCreators } from '../store';
 import { Setup, withSetup } from './SetupProvider';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
+const NAVBAR_HEIGHT = 60;
+
 const createChannelQuery = (
 	idOrSlug: string,
 	user: UserContract,
@@ -187,6 +189,8 @@ class ChannelRenderer extends React.Component<Props, State> {
 			minWidth: 0,
 			maxWidth: '100%',
 			overflow: 'hidden',
+			paddingTop: NAVBAR_HEIGHT,
+			marginTop: -NAVBAR_HEIGHT,
 		};
 
 		if (canonical) {

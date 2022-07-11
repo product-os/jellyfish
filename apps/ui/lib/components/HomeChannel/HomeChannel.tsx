@@ -26,7 +26,6 @@ import type {
 } from 'autumndb';
 import TreeMenu from './TreeMenu';
 import { ResponsiveContextProps } from '../../hooks/use-responsive-context';
-import UserStatusMenuItem from '../UserStatusMenuItem';
 import ViewLink from '../ViewLink';
 import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
@@ -41,6 +40,7 @@ import { RouteComponentProps } from 'react-router-dom';
 const DELAY = 0.6;
 
 const HomeChannelWrapper = styled(Flex)`
+	min-height: 0;
 	&.collapsed {
 		position: absolute;
 		top: 0;
@@ -622,119 +622,6 @@ export default withSetup(
 							flexDirection="column"
 							data-test="home-channel__content"
 						>
-							<Flex
-								flexDirection="column"
-								style={{
-									position: 'relative',
-									borderBottom: '1px solid #eee',
-								}}
-							>
-								<Flex
-									className="user-menu-toggle"
-									py={3}
-									pl={3}
-									pr={2}
-									alignItems="center"
-									maxWidth="100%"
-									onClick={this.showMenu}
-									style={{
-										cursor: 'pointer',
-										position: 'relative',
-									}}
-								>
-									<UserAvatarLive emphasized userId={user.id} />
-									{Boolean(username) && (
-										<Txt
-											mx={2}
-											style={{
-												textOverflow: 'ellipsis',
-												flex: '1 1 0%',
-												fontWeight: 600,
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-											}}
-										>
-											{username}
-										</Txt>
-									)}
-
-									<Icon name="caret-down" />
-
-									<MentionsCount />
-								</Flex>
-								<OmniSearch ml={3} mr={2} />
-								<LoopSelector ml={2} mr={2} mb={2} />
-							</Flex>
-
-							{this.state.showMenu && (
-								<Fixed
-									top={true}
-									right={true}
-									bottom={true}
-									left={true}
-									z={10}
-									onClick={this.hideMenu}
-								>
-									<MenuPanel className="user-menu" mx={3} py={2}>
-										{user && (
-											<UserStatusMenuItem
-												user={user}
-												actions={actions}
-												types={types}
-											/>
-										)}
-
-										{user && (
-											// Todo: Resolve the broken typing on ActionRouterLink
-											// @ts-ignore
-											<ActionRouterLink to={`/${user.slug}`}>
-												Profile
-											</ActionRouterLink>
-										)}
-
-										<ActionRouterLink to="/inbox">Inbox</ActionRouterLink>
-
-										{_.map(defaultViews, (card) => {
-											const isActive =
-												card.slug === activeChannelTarget ||
-												card.id === activeChannelTarget;
-
-											// The inbox view is only used to easily facilitate streaming of
-											// mentions
-											// TODO Remove this once the `view-my-inbox` card has been removed
-											// from Jellyfish
-											if (card.slug === 'view-my-inbox') {
-												return null;
-											}
-
-											return (
-												<ViewLink
-													key={card.id}
-													types={types}
-													actions={viewLinkActions}
-													card={card}
-													isActive={isActive}
-													activeSlice={activeSlice}
-													open={this.open}
-												/>
-											);
-										})}
-
-										<Box mx={3}>
-											<Divider height={1} />
-										</Box>
-
-										<ActionButton
-											className="user-menu__logout"
-											plain
-											onClick={this.logout}
-										>
-											Log out
-										</ActionButton>
-									</MenuPanel>
-								</Fixed>
-							)}
-
 							<Box
 								flex="1"
 								py={2}

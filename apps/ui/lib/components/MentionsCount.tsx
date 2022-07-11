@@ -57,8 +57,8 @@ const MentionsCount = () => {
 		<Container
 			style={{
 				position: 'absolute',
-				left: '30px',
-				bottom: '10px',
+				left: '24px',
+				bottom: '4px',
 			}}
 			tooltip={`${mentions.length} notifications`}
 			data-test="homechannel-mentions-count"

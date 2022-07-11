@@ -1,8 +1,21 @@
 import React from 'react';
 import _ from 'lodash';
 import type { Contract, LoopContract } from 'autumndb';
-import { HighlightedName, Select, RenditionSystemProps } from 'rendition';
-import * as helpers from '../../services/helpers';
+import { Select, RenditionSystemProps } from 'rendition';
+import styled from 'styled-components';
+
+const StyledSelect = styled(Select)`
+	button {
+		color: white;
+		height: 38px;
+		padding-left: 8px;
+		width: 180px;
+	}
+
+	svg {
+		stroke: white;
+	}
+`;
 
 interface DefaultOption {
 	name: string;
@@ -25,17 +38,9 @@ const allLoops: DefaultOption = {
 };
 
 // Display of a particular loop (option or selected value) within the loop selector
-const LoopDisplay: React.FunctionComponent<LoopDisplayProps> = React.memo(
-	({ option, ...rest }) => (
-		<HighlightedName
-			{...rest}
-			data-test={`loop-option--${option.slug}`}
-			bg={option.slug ? helpers.colorHash(option.slug) : '#fff'}
-		>
-			{option.name || option.slug!.replace(/^loop-/, '')}
-		</HighlightedName>
-	),
-);
+const LoopDisplay = ({ option }) => {
+	return option.name || option.slug!.replace(/^loop-/, '');
+};
 
 export interface LoopSelectorProps extends RenditionSystemProps {
 	onSetLoop: (loopVersionedSlug?: string) => void;
@@ -65,14 +70,13 @@ export const LoopSelector: React.FunctionComponent<LoopSelectorProps> =
 		};
 
 		return (
-			<Select
+			<StyledSelect
 				{...rest}
 				id="loopselector__select"
-				plain
 				placeholder="Select loop..."
 				options={loopOptions}
 				value={selectedLoop}
-				valueLabel={<LoopDisplay option={selectedLoop} mx={2} />}
+				valueLabel={<LoopDisplay option={selectedLoop} />}
 				labelKey={(option) => <LoopDisplay option={option} />}
 				valueKey="slug"
 				onChange={onChange}
