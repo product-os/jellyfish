@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Add tab to GitHub org that aggregates threads of child repos"
+      hash: 17d6b90fd2fd38c0596ee4ab446f4aac256b626b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add multiple threads to repositories"
+      hash: ca3136f567e5331d6a01c6bb1d0fb8e13c2317b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.6.7
+  title: "'UI: Add multiple threads to repositories'"
+  date: 2022-07-11T09:58:12.394Z
+- commits:
     - subject: Add missing message to user-feedback relationship
       hash: c3404f603ed8e74970e253ecf50073e2c6f75132
       body: ""
