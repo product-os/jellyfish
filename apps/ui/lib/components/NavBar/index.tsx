@@ -102,7 +102,7 @@ const NavBar = () => {
 					</Fixed>
 				)}
 
-				<LoopSelector ml={3} mr={2} />
+				<LoopSelector />
 			</Flex>
 			<OmniSearch ml={3} mr={2} />
 		</Wrapper>
