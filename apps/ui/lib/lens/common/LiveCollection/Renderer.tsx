@@ -598,7 +598,7 @@ export default withSetup(
 					name: USER_FILTER_NAME,
 					schema: _.assign(SchemaSieve.unflattenSchema(filter), {
 						type: 'object',
-					}),
+					}) as any,
 				});
 			});
 			Reflect.deleteProperty(newView, 'id');
