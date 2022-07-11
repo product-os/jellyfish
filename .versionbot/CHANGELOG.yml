@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Add relationship between GitHub Orgs and Threads"
+      hash: 7420abda12c574c5932bcd8fc79d756cd5e6d55d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.6.8
+  title: "'Server: Add relationship between GitHub Orgs and Threads'"
+  date: 2022-07-11T12:16:16.470Z
+- commits:
     - subject: "UI: Add tab to GitHub org that aggregates threads of child repos"
       hash: 17d6b90fd2fd38c0596ee4ab446f4aac256b626b
       body: ""
