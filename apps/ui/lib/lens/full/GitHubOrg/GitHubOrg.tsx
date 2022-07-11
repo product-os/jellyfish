@@ -6,6 +6,7 @@ import type { LensRendererProps } from '../../../types';
 import type { TypeContract } from 'autumndb';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { ChildRepos } from './ChildRepos';
+import { Threads } from './Threads';
 
 export type OwnProps = LensRendererProps;
 
@@ -31,6 +32,9 @@ export default class GitHubOrgLens extends React.Component<Props> {
 				card={card}
 				channel={channel}
 				tabs={[
+					<Tab title="Threads">
+						<Threads channel={channel} contract={card} />
+					</Tab>,
 					<Tab title="Repositories">
 						<ChildRepos channel={channel} contract={card} />
 					</Tab>,

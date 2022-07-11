@@ -120,7 +120,6 @@ export const lens: LensContract = {
 						},
 					},
 					required: ['active', 'type'],
-					additionalProperties: true,
 				};
 			},
 		},
