@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typedoc from 0.23.6 to 0.23.7
+      hash: 0aa57bc9154bf9871155168c8b36bffc54fea447
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.6.4
+  title: "'Update typedoc from 0.23.6 to 0.23.7'"
+  date: 2022-07-10T23:39:43.926Z
+- commits:
     - subject: Update resinci/jellyfish-test from v4.0.4 to v4.0.5
       hash: 368d70beb19fb686cd42e5cb6ba7da671573edae
       body: ""
