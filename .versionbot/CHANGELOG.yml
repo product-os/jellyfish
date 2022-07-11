@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-base from v13.3.2 to v13.4.0
+      hash: 0bba2954384dc7bb1f8dbc5dd4f92e8bc22a5446
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.6.5
+  title: "'Update balena/open-balena-base from v13.3.2 to v13.4.0'"
+  date: 2022-07-11T01:35:35.744Z
+- commits:
     - subject: Update typedoc from 0.23.6 to 0.23.7
       hash: 0aa57bc9154bf9871155168c8b36bffc54fea447
       body: ""
