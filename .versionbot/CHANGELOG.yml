@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add missing message to user-feedback relationship
+      hash: c3404f603ed8e74970e253ecf50073e2c6f75132
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.6.6
+  title: "'Add missing message to user-feedback relationship'"
+  date: 2022-07-11T02:42:16.156Z
+- commits:
     - subject: Update balena/open-balena-base from v13.3.2 to v13.4.0
       hash: 0bba2954384dc7bb1f8dbc5dd4f92e8bc22a5446
       body: ""
