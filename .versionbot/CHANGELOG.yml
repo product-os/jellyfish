@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use wildcard message relationship
+      hash: f26e1bb8ea98e3d22cd78ac2406099a442614431
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 53.6.9
+  title: "'Use wildcard message relationship'"
+  date: 2022-07-12T01:06:18.657Z
+- commits:
     - subject: "Server: Add relationship between GitHub Orgs and Threads"
       hash: 7420abda12c574c5932bcd8fc79d756cd5e6d55d
       body: ""
