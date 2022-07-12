@@ -43,7 +43,7 @@ const NavBar = () => {
 						position: 'relative',
 					}}
 				>
-					<UserAvatarLive emphasized userId={user.id} />
+					<UserAvatarLive userId={user.id} />
 					{Boolean(username) && (
 						<Txt
 							color="white"

@@ -22,6 +22,9 @@ const IconWrapper = styled(Box)`
 const SearchInput = styled(Input)`
 	padding-left: 26px;
 	background-color: #c8aff9;
+	height: 28px;
+	padding-top: 0;
+	padding-bottom: 0;
 	border-width: 0;
 	&::placeholder {
 		color: white;

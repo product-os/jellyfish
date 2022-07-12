@@ -1,95 +1,190 @@
 import React from 'react';
 import _ from 'lodash';
-import { connect, useSelector } from 'react-redux';
-import { selectors } from '../../store';
-
-import _ from 'lodash';
+import { useSelector } from 'react-redux';
 import type { Contract, LoopContract } from 'autumndb';
-import { Select, RenditionSystemProps } from 'rendition';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
+import { selectors } from '../../store';
+import { useSetup } from '../SetupProvider';
+import Select, { SelectProps } from 'react-select';
 
 const StyledSelect = styled(Select)`
-	button {
-		color: white;
-		height: 38px;
-		padding-left: 8px;
-		width: 180px;
-	}
-
-	svg {
-		stroke: white;
-	}
+	margin-left: 16px;
 `;
-
-interface DefaultOption {
-	name: string;
-	slug: null;
-}
-
-interface LoopOption {
-	name?: string | null;
-	slug: string;
-	version: string;
-}
-
-const allLoops: DefaultOption = {
-	name: 'Select loop',
-	slug: null,
-};
-
-// Display of a particular loop (option or selected value) within the loop selector
-const LoopDisplay = ({ option }) => {
-	if (option === null) {
-		return allLoops.name;
-	}
-	return option.name || option.slug!.replace(/^loop-/, '');
-};
 
 // A drop-down component for selecting a loop
 export const LoopSelector = React.memo(() => {
 	const loops = useSelector(selectors.getLoops());
-	const channels = useSelector(selectors.getChannels());
 	const history = useHistory();
-	let activeLoop: LoopContract | null = null;
-	// Find the loop that has an id or slug matching the target of a channel
-	for (const channel of channels) {
-		for (const loop of loops) {
-			if (
-				loop.id === channel.data.target ||
-				loop.slug === channel.data.target
-			) {
-				activeLoop = loop;
-				break;
-			}
-			if (activeLoop) {
-				break;
+	const channels = useSelector(selectors.getChannels());
+	const { sdk } = useSetup()!;
+	const [products, setProducts] = React.useState<Contract[]>([]);
+	const [activeLoop, setActiveLoop] = React.useState<LoopContract | null>(null);
+	const [activeProduct, setActiveProduct] = React.useState<Contract | null>(
+		null,
+	);
+
+	React.useEffect(() => {
+		for (const channel of channels) {
+			for (const loop of loops) {
+				if (
+					loop.id === channel.data.target ||
+					loop.slug === channel.data.target
+				) {
+					return setActiveLoop(loop);
+				}
 			}
 		}
-	}
+		return setActiveLoop(null);
+	}, [channels]);
 
-	const loopOptions = React.useMemo(() => {
-		return _.concat<DefaultOption | Contract>([allLoops], ...loops);
-	}, [loops]);
+	React.useEffect(() => {
+		for (const channel of channels) {
+			for (const product of products) {
+				if (
+					product.id === channel.data.target ||
+					product.slug === channel.data.target
+				) {
+					if (!activeLoop) {
+						const linkedLoop = product?.links?.['is used by'][0]!;
+						if (
+							linkedLoop.id === channel.data.target ||
+							linkedLoop.slug === channel.data.target
+						) {
+							setActiveLoop(linkedLoop);
+						}
+					}
+					return setActiveProduct(product);
+				}
+			}
+		}
+		return setActiveProduct(null);
+	}, [channels]);
 
-	const onChange = ({ value }) => {
+	React.useEffect(() => {
+		if (activeLoop) {
+			sdk
+				.query({
+					type: 'object',
+					properties: {
+						type: {
+							const: 'repository@1.0.0',
+						},
+					},
+					$$links: {
+						'is used by': {
+							type: 'object',
+							properties: {
+								id: {
+									const: activeLoop.id,
+								},
+							},
+						},
+					},
+				})
+				.then((result) => {
+					setProducts(result);
+				})
+				.catch(console.error);
+		} else {
+			setProducts([]);
+		}
+	}, [activeLoop]);
+
+	const onLoopChange = ({ value }) => {
 		if (value) {
-			history.push(value.slug);
+			history.push(`/${value.slug}`);
 		} else {
 			history.push('/');
 		}
 	};
 
+	const onProductChange = ({ value }) => {
+		if (activeLoop) {
+			if (value) {
+				history.push(`/${activeLoop.slug}/${value.slug}`);
+			} else {
+				history.push(`/${activeLoop.slug}`);
+			}
+		}
+	};
+
+	const height = 28;
+	const customStyles: SelectProps['styles'] = {
+		valueContainer: (styles) => ({
+			...styles,
+			height,
+			color: '#F7F2FF',
+		}),
+		indicatorsContainer: (styles) => ({
+			...styles,
+			height,
+		}),
+		control: (styles, { isFocused, hasValue }) => ({
+			...styles,
+			minHeight: 0,
+			width: 180,
+			background: isFocused ? 'white' : hasValue ? '#8369C4' : '#AF91E8',
+			borderColor: hasValue ? '#8369C4' : '#F7F2FF',
+		}),
+		singleValue: (styles) => {
+			return {
+				...styles,
+				color: '#F7F2FF',
+			};
+		},
+		dropdownIndicator: (styles) => ({
+			...styles,
+			color: '#F7F2FF',
+		}),
+		placeholder: (styles) => ({
+			...styles,
+			color: '#F7F2FF',
+		}),
+	};
+
 	return (
-		<StyledSelect
-			ml={3}
-			id="loopselector__select"
-			placeholder="Select loop..."
-			options={loopOptions}
-			valueLabel={<LoopDisplay option={activeLoop} />}
-			labelKey={(option) => <LoopDisplay option={option} />}
-			valueKey="slug"
-			onChange={onChange}
-		/>
+		<>
+			<StyledSelect
+				styles={customStyles}
+				width="180px"
+				ml={3}
+				id="loopselector__select"
+				blurInputOnSelect
+				placeholder="Select loop..."
+				value={
+					activeLoop && {
+						value: activeLoop,
+						label: activeLoop.name,
+					}
+				}
+				options={loops.map((option) => ({
+					value: option,
+					label: option.name,
+				}))}
+				onChange={onLoopChange}
+			/>
+			<StyledSelect
+				styles={customStyles}
+				width="180px"
+				ml={2}
+				id="productselector__select"
+				placeholder="Select product..."
+				blurInputOnSelect
+				value={
+					activeProduct && {
+						value: activeProduct,
+						label: activeProduct.name,
+					}
+				}
+				options={products.map((option) => ({
+					value: option,
+					label: option.name,
+				}))}
+				labelKey="name"
+				valueKey="slug"
+				onChange={onProductChange}
+			/>
+		</>
 	);
 });

@@ -3,19 +3,10 @@ import classnames from 'classnames';
 import memoize from 'memoize-one';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
+import { Box, Button, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
 import styled from 'styled-components';
-import {
-	ActionButton,
-	ActionRouterLink,
-	Icon,
-	MentionsCount,
-	MenuPanel,
-	UserAvatarLive,
-	withSetup,
-	Setup,
-} from '../';
+import { Icon, withSetup, Setup } from '../';
 import * as helpers from '../../services/helpers';
 import type {
 	JsonSchema,
@@ -26,9 +17,6 @@ import type {
 } from 'autumndb';
 import TreeMenu from './TreeMenu';
 import { ResponsiveContextProps } from '../../hooks/use-responsive-context';
-import ViewLink from '../ViewLink';
-import OmniSearch from '../OmniSearch';
-import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
@@ -285,9 +273,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	return groups;
 });
 
-const viewLinkActionNames = ['setDefault', 'removeView'];
 const treeMenuActionNames = ['setDefault', 'removeView', 'setSidebarExpanded'];
-const pickViewLinkActions = memoize(_.pick);
 const pickTreeMenuActions = memoize(_.pick);
 
 const bookmarksQuery = (userId: string): JsonSchema => {
@@ -543,7 +529,6 @@ export default withSetup(
 		render() {
 			const {
 				isMobile,
-				types,
 				actions,
 				channels,
 				location,
@@ -553,19 +538,12 @@ export default withSetup(
 			} = this.props;
 			const { results, bookmarks } = this.state;
 
-			const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
 			const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
 
 			const { showDrawer, sliding } = this.state;
 			const activeChannel = channels.length > 1 ? channels[1] : null;
-			const username = user
-				? user.name || user.slug.replace(/user-/, '')
-				: null;
 			const groupedViews = groupViews(results, bookmarks, user.id, orgs);
 			const groups = groupedViews.main;
-			const defaultViews = groupedViews.defaults;
-			const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
-			const activeSlice = _.get(activeChannel, ['data', 'options', 'slice']);
 
 			const collapsed =
 				isMobile &&
