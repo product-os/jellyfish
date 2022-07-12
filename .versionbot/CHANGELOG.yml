@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Update channel with API data once loaded by ChannelRenderer"
+      hash: cc754ddfae9675aaa779ef05d172cca44cea97f0
+      body: >
+        This change will update the channel data in redux with the full target
+        contract so that it can be used for things like the page title.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 53.6.10
+  title: "'UI: Update channel with API data once loaded by ChannelRenderer'"
+  date: 2022-07-12T16:30:54.779Z
+- commits:
     - subject: Use wildcard message relationship
       hash: f26e1bb8ea98e3d22cd78ac2406099a442614431
       body: ""
