@@ -1,10 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import type { Contract, LoopContract } from 'autumndb';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { selectors } from '../../store';
+import { actionCreators, selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
 import Select, { SelectProps } from 'react-select';
 
@@ -16,8 +16,10 @@ const StyledSelect = styled(Select)`
 export const LoopSelector = React.memo(() => {
 	const loops = useSelector(selectors.getLoops());
 	const history = useHistory();
+	const stateActiveLoop = useSelector(selectors.getActiveLoop());
 	const channels = useSelector(selectors.getChannels());
 	const { sdk } = useSetup()!;
+	const dispatch = useDispatch();
 	const [products, setProducts] = React.useState<Contract[]>([]);
 	const [activeLoop, setActiveLoop] = React.useState<LoopContract | null>(null);
 	const [activeProduct, setActiveProduct] = React.useState<Contract | null>(
@@ -35,7 +37,10 @@ export const LoopSelector = React.memo(() => {
 				}
 			}
 		}
-		return setActiveLoop(null);
+		setActiveLoop(null);
+		if (stateActiveLoop) {
+			dispatch(actionCreators.setActiveLoop(null));
+		}
 	}, [channels]);
 
 	React.useEffect(() => {
@@ -94,8 +99,10 @@ export const LoopSelector = React.memo(() => {
 	const onLoopChange = ({ value }) => {
 		if (value) {
 			history.push(`/${value.slug}`);
+			dispatch(actionCreators.setActiveLoop(`${value.slug}@${value.version}`));
 		} else {
 			history.push('/');
+			dispatch(actionCreators.setActiveLoop(null));
 		}
 	};
 

@@ -60,8 +60,6 @@ const NavBar = () => {
 						</Txt>
 					)}
 
-					<Icon name="caret-down" />
-
 					<MentionsCount />
 				</Flex>
 

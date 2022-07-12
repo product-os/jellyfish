@@ -878,9 +878,6 @@ export const actionCreators = {
 				context,
 			);
 			actionCreators.bootstrap()(dispatch, getState, context);
-			// TODO: Ideally we should just re-query all existing streams and we won't need
-			// this redirect to 'reset' the UI.
-			dispatch(push('/'));
 		};
 	},
 
