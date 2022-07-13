@@ -5,7 +5,7 @@ import Plot from 'react-plotly.js';
 import { Box, Card, Divider, Flex, Tab, Txt, Heading } from 'rendition';
 import { Icon, Link, withSetup } from '../../../components';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
-import { GitHubOrgs } from './GitHubOrgs';
+import { Threads } from './Threads';
 
 const WIDTH = 160;
 
@@ -474,8 +474,8 @@ export default withSetup(
 					card={card}
 					channel={channel}
 					tabs={[
-						<Tab title="GitHub Orgs">
-							<GitHubOrgs channel={channel} contract={card} />
+						<Tab title="Threads">
+							<Threads channel={channel} contract={card} />
 						</Tab>,
 					]}
 				>
