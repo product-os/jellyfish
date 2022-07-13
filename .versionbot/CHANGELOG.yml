@@ -1,4 +1,19 @@
 - commits:
+    - subject: Beta to include async triggers worker
+      hash: 8ced906f616bf82a265d459b28990fb32b17f288
+      body: >
+        @balena/jellyfish-worker@31.2.0-ramirogm-async-triggers-2-ad555c0e20f27ca245d5b5535a4b8866234e588c
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 54.0.3
+  title: "'Ramirogm/async triggers 3'"
+  date: 2022-07-13T18:08:02.393Z
+- commits:
     - subject: "UI: handle inverse relationships when rendering link tabs"
       hash: de3049b44d63b754472b7f8764451d3d6b27bc6e
       body: ""
