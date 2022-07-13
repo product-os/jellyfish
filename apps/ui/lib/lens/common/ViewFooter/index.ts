@@ -15,6 +15,7 @@ import { withChannelContext } from '../../../hooks';
 const mapStateToProps = (state): StateProps => {
 	return {
 		user: selectors.getCurrentUser()(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 

@@ -38,6 +38,7 @@ const ButtonLabel: any = ({ type, isBusy }) => {
 
 export interface StateProps {
 	user: UserContract;
+	relationships: RelationshipContract[];
 }
 
 export interface DispatchProps {
@@ -47,7 +48,6 @@ export interface DispatchProps {
 export interface OwnProps {
 	types: TypeContract[];
 	channel: ChannelContract;
-	relationships: RelationshipContract[];
 }
 
 type Props = StateProps &
@@ -105,18 +105,35 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 							cardReference(newCard),
 						);
 						actions.pushLocation(newPath);
-						const relationship = _.find(relationships, {
-							data: {
-								from: {
-									type: type.slug,
+						const relationship =
+							_.find(relationships, {
+								data: {
+									from: {
+										type: type.slug,
+									},
+									to: {
+										type: helpers.getTypeBase(head.type),
+									},
 								},
-								to: {
-									type: helpers.getTypeBase(head.type),
+							}) ||
+							_.find(relationships, {
+								data: {
+									from: {
+										type: helpers.getTypeBase(head.type),
+									},
+									to: {
+										type: type.slug,
+									},
 								},
-							},
-						});
+							});
+
 						if (relationship) {
-							await sdk.card.link(newCard, head, relationship.name!);
+							const isInverse = relationship.data.to.type === type.slug;
+							await sdk.card.link(
+								newCard,
+								head,
+								isInverse ? relationship.data.inverseName! : relationship.name!,
+							);
 						}
 						analytics.track('element.create', {
 							element: {
