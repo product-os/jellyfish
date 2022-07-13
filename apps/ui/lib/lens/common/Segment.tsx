@@ -77,14 +77,23 @@ class Segment extends React.Component<Props, State> {
 			linkedType = undefined;
 			baseTargetType = '*';
 		}
-		const relationship = _.find(relationships, {
-			name: verb,
-			data: {
-				to: {
-					type: baseTargetType,
+		const relationship =
+			_.find(relationships, {
+				name: verb,
+				data: {
+					to: {
+						type: baseTargetType,
+					},
 				},
-			},
-		});
+			}) ||
+			_.find(relationships, {
+				data: {
+					inverseName: verb,
+					from: {
+						type: baseTargetType,
+					},
+				},
+			});
 
 		if (!relationship) {
 			throw new Error(
@@ -92,10 +101,12 @@ class Segment extends React.Component<Props, State> {
 			);
 		}
 
+		const isInverse = relationship.name !== verb;
+
 		const query = {
 			$id: uuid(),
 			$$links: {
-				[relationship.data.inverseName!]: {
+				[isInverse ? relationship.name! : relationship.data.inverseName!]: {
 					type: 'object',
 					required: ['id'],
 					properties: {

@@ -53,6 +53,14 @@ export const getRelationships = (
 					count: 0,
 				});
 			}
+			if (relationship.data.to.type === typeSlugBase) {
+				acc.push({
+					title: pluralize(relationship.data.inverseTitle),
+					link: relationship.data.inverseName!,
+					type: relationship.data.from.type,
+					count: 0,
+				});
+			}
 			return acc;
 		}, linkRelationships),
 		['type', 'title'],
