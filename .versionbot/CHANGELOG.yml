@@ -1,4 +1,21 @@
 - commits:
+    - subject: "Server: Add support for COUNT_BY function in formulas"
+      hash: 10578f8cc0cc0f8d39b3c13607d195cc08431580
+      body: |
+        The `COUNT_BY` function is an alias for the lodash `_.countBy` function.
+
+        See https://lodash.com/docs/4.17.15#countBy
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 54.0.1
+  title: "'Server: Add support for COUNT_BY function in formulas'"
+  date: 2022-07-13T11:40:25.220Z
+- commits:
     - subject: Update to client-sdk v12
       hash: 9cbc85a6d38f85a1dcce89c8a2d017fd4c30fe3f
       body: ""
