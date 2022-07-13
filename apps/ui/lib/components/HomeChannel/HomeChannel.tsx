@@ -208,6 +208,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 			{
 				name: 'Bookmarks',
 				key: '__bookmarks',
+				icon: 'bookmark',
 			},
 			false,
 		);
@@ -242,16 +243,18 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	if (myViews.length) {
 		groups.main.children.push(
 			viewsToTree(myViews, {
-				name: 'My views',
+				name: 'Custom views',
 				key: '__myViews',
+				icon: 'eye',
 			}),
 		);
 	}
 	if (oneToOneViews.length) {
 		groups.main.children.push(
 			viewsToTree(oneToOneViews, {
-				name: 'Private chats',
+				name: '1 to 1s',
 				key: '__oneToOneViews',
+				icon: 'comments',
 			}),
 		);
 	}
@@ -265,6 +268,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 				viewsToTree(views, {
 					name: org ? org.name : 'Unknown organisation',
 					key,
+					icon: 'folder',
 				}),
 			);
 		}
