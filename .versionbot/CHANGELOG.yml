@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-db from v5.1.1 to v5.1.2
+      hash: efa79712fd872c47be30255eeb0362db08ad89ab
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 53.6.11
+  title: "'Update balena/open-balena-db from v5.1.1 to v5.1.2'"
+  date: 2022-07-12T23:20:46.791Z
+- commits:
     - subject: Update balena/balena-mdns-publisher from v1.15.9 to v1.15.13
       hash: e962406294e74d05b3ee0fa3f2e7c2331786d407
       body: ""
