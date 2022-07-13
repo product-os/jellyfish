@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: materialize reactions on messages and whispers"
+      hash: ace3bdbb9fba985807c65588d163686934543b42
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 54.1.0
+  title: "'Server: materialize reactions on messages and whispers'"
+  date: 2022-07-13T15:24:59.874Z
+- commits:
     - subject: "UI: handle inverse relationships when rendering link tabs"
       hash: de3049b44d63b754472b7f8764451d3d6b27bc6e
       body: ""
