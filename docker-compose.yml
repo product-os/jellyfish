@@ -180,7 +180,7 @@ services:
 
   # https://github.com/balena-io/open-balena-registry
   registry:
-    image: balena/open-balena-registry:v2.25.3
+    image: balena/open-balena-registry:v2.25.4
     depends_on:
       - mdns
       - haproxy
