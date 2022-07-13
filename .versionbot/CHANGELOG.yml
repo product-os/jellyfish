@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update to client-sdk v12
+      hash: 9cbc85a6d38f85a1dcce89c8a2d017fd4c30fe3f
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 54.0.0
+  title: "'Update to client-sdk v12'"
+  date: 2022-07-13T04:22:09.368Z
+- commits:
     - subject: Update balena/open-balena-db from v5.1.1 to v5.1.2
       hash: efa79712fd872c47be30255eeb0362db08ad89ab
       body: ""
