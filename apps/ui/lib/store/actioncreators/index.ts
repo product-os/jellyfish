@@ -15,8 +15,10 @@ import actions from '../actions';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import type {
+	Contract,
 	JsonSchema,
 	LoopContract,
+	RelationshipContract,
 	UserContract,
 	ViewContract,
 } from 'autumndb';
@@ -310,82 +312,91 @@ export const actionCreators = {
 	},
 
 	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getLinks({ sdk }: { sdk: JellyfishSDK }, card, verb, targetType) {
-		let baseTargetType = targetType && helpers.getTypeBase(targetType);
-		let linkedType = targetType;
+	getLinks(
+		{ sdk }: { sdk: JellyfishSDK },
+		card: Partial<Contract>,
+		verb: string,
+		targetType: string | undefined,
+	) {
+		return (_dispatch, getState) => {
+			let baseTargetType = targetType && helpers.getTypeBase(targetType);
+			let linkedType = targetType;
 
-		// Link constraints allow '*' to indicate any type
-		if (targetType === 'undefined@1.0.0') {
-			// eslint-disable-next-line no-undefined
-			linkedType = undefined;
-			baseTargetType = '*';
-		}
-		if (
-			!_.some(sdk.LINKS, {
-				name: verb,
-				data: {
-					to: baseTargetType,
-				},
-			})
-		) {
-			throw new Error(
-				`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
-			);
-		}
-
-		return async () => {
-			const results = await sdk.query(
-				{
-					$$links: {
-						[verb]: {
-							type: 'object',
-							required: ['type'],
-							properties: {
-								type: {
-									const: linkedType,
-								},
-							},
-							// Always load the owner if there is one
-							anyOf: [
-								{
-									$$links: {
-										'is owned by': {
-											type: 'object',
-										},
-									},
-								},
-								true,
-							],
+			// Relationships allow '*' to indicate any type
+			if (targetType === 'undefined@1.0.0') {
+				// eslint-disable-next-line no-undefined
+				linkedType = undefined;
+				baseTargetType = '*';
+			}
+			if (
+				!_.some(getState().core.relationships, {
+					name: verb,
+					data: {
+						to: {
+							type: baseTargetType,
 						},
 					},
-					description: `Get card with links ${card.id}`,
-					type: 'object',
-					properties: {
-						id: {
-							type: 'string',
-							const: card.id,
-						},
-						links: {
-							type: 'object',
-						},
-					},
-					required: ['id'],
-				},
-				{
-					limit: 1,
-					links: {
-						[verb]: {
-							sortBy: 'created_at',
-						},
-					},
-				},
-			);
-
-			if (results.length && results[0].links) {
-				return results[0].links[verb] || [];
+				})
+			) {
+				throw new Error(
+					`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
+				);
 			}
 
-			return [];
+			return async () => {
+				const results = await sdk.query(
+					{
+						$$links: {
+							[verb]: {
+								type: 'object',
+								required: ['type'],
+								properties: {
+									type: {
+										const: linkedType,
+									},
+								},
+								// Always load the owner if there is one
+								anyOf: [
+									{
+										$$links: {
+											'is owned by': {
+												type: 'object',
+											},
+										},
+									},
+									true,
+								],
+							},
+						},
+						description: `Get card with links ${card.id}`,
+						type: 'object',
+						properties: {
+							id: {
+								type: 'string',
+								const: card.id,
+							},
+							links: {
+								type: 'object',
+							},
+						},
+						required: ['id'],
+					},
+					{
+						limit: 1,
+						links: {
+							[verb]: {
+								sortBy: 'created_at',
+							},
+						},
+					},
+				);
+
+				if (results.length && results[0].links) {
+					return results[0].links[verb] || [];
+				}
+
+				return [];
+			};
 		};
 	},
 
@@ -564,88 +575,92 @@ export const actionCreators = {
 						loops: sdk.card.getAllByType('loop'),
 						orgs: sdk.card.getAllByType('org'),
 						types: sdk.card.getAllByType('type'),
+						relationships: sdk.card.getAllByType('relationship'),
 						groups: sdk.query(allGroupsWithUsersQuery),
 						config: sdk.getConfig(),
 					})
-					.then(async ({ loops, types, groups, orgs, config }) => {
-						const state = getState();
+					.then(
+						async ({ loops, types, relationships, groups, orgs, config }) => {
+							const state = getState();
 
-						// Check to see if we're still logged in
-						if (selectors.getSessionToken()(state)) {
-							dispatch(actionCreators.setLoops(loops));
-							dispatch(actionCreators.setUser(user));
-							dispatch(actionCreators.setTypes(types));
-							dispatch(actionCreators.setOrgs(orgs));
-							dispatch(actionCreators.setGroups(groups, user));
-							dispatch({
-								type: actions.SET_CONFIG,
-								value: config,
-							});
-						}
-
-						errorReporter.setUser({
-							id: user.id,
-							slug: user.slug,
-							email: _.get(user, ['data', 'email']),
-						});
-
-						// Check token expiration and refresh it if it is due to expire in the next 24 hours
-						sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
-							if (
-								tokenCard &&
-								tokenCard.data.expiration &&
-								new Date(tokenCard.data.expiration).getTime() <
-									Date.now() + 1000 * 60 * 60 * 24
-							) {
-								sdk.auth.refreshToken();
+							// Check to see if we're still logged in
+							if (selectors.getSessionToken()(state)) {
+								dispatch(actionCreators.setLoops(loops));
+								dispatch(actionCreators.setUser(user));
+								dispatch(actionCreators.setTypes(types));
+								dispatch(actionCreators.setRelationships(relationships));
+								dispatch(actionCreators.setOrgs(orgs));
+								dispatch(actionCreators.setGroups(groups, user));
+								dispatch({
+									type: actions.SET_CONFIG,
+									value: config,
+								});
 							}
-						});
 
-						tokenRefreshInterval = setInterval(async () => {
-							const newToken = await sdk.auth.refreshToken();
-							dispatch(actionCreators.setAuthToken(newToken));
-						}, TOKEN_REFRESH_INTERVAL);
+							errorReporter.setUser({
+								id: user.id,
+								slug: user.slug,
+								email: _.get(user, ['data', 'email']),
+							});
 
-						if (commsStream) {
-							commsStream.close();
-						}
+							// Check token expiration and refresh it if it is due to expire in the next 24 hours
+							sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
+								if (
+									tokenCard &&
+									tokenCard.data.expiration &&
+									new Date(tokenCard.data.expiration).getTime() <
+										Date.now() + 1000 * 60 * 60 * 24
+								) {
+									sdk.auth.refreshToken();
+								}
+							});
 
-						// Open a stream for messages, whispers and uses. This allows us to
-						// listen for message edits, sync status, alerts/pings and changes in
-						// other users statuses
-						commsStream = sdk.stream({
-							type: 'object',
-							properties: {
-								type: {
-									type: 'string',
-									enum: [
-										'message@1.0.0',
-										'whisper@1.0.0',
-										'summary@1.0.0',
-										'rating@1.0.0',
-										'user@1.0.0',
-									],
+							tokenRefreshInterval = setInterval(async () => {
+								const newToken = await sdk.auth.refreshToken();
+								dispatch(actionCreators.setAuthToken(newToken));
+							}, TOKEN_REFRESH_INTERVAL);
+
+							if (commsStream) {
+								commsStream.close();
+							}
+
+							// Open a stream for messages, whispers and uses. This allows us to
+							// listen for message edits, sync status, alerts/pings and changes in
+							// other users statuses
+							commsStream = sdk.stream({
+								type: 'object',
+								properties: {
+									type: {
+										type: 'string',
+										enum: [
+											'message@1.0.0',
+											'whisper@1.0.0',
+											'summary@1.0.0',
+											'rating@1.0.0',
+											'user@1.0.0',
+										],
+									},
 								},
-							},
-							required: ['type'],
-						});
+								required: ['type'],
+							});
 
-						commsStream.on('update', (payload) =>
-							streamUpdate(payload, getState, dispatch, user, types),
-						);
+							commsStream.on('update', (payload) =>
+								streamUpdate(payload, getState, dispatch, user, types),
+							);
 
-						// TODO handle typing notifications in a more generic way, this is an
-						// abomination. (A small abomination, but still an abomination)
-						commsStream.on('typing', (payload) =>
-							streamTyping(dispatch, payload),
-						);
+							// TODO handle typing notifications in a more generic way, this is an
+							// abomination. (A small abomination, but still an abomination)
+							commsStream.on('typing', (payload) =>
+								streamTyping(dispatch, payload),
+							);
 
-						commsStream.on('connect_error', (error) => {
-							console.error('A stream error occurred', error);
-						});
+							commsStream.on('connect_error', (error) => {
+								console.error('A stream error occurred', error);
+							});
 
-						return user;
-					});
+							return user;
+						},
+					);
 			});
 		};
 	},
@@ -769,6 +784,13 @@ export const actionCreators = {
 		return {
 			type: actions.SET_TYPES,
 			value: types,
+		};
+	},
+
+	setRelationships(relationships: RelationshipContract[]) {
+		return {
+			type: actions.SET_RELATIONSHIPS,
+			value: relationships,
 		};
 	},
 

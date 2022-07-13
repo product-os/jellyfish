@@ -1,10 +1,10 @@
 import type { Contract, TypeContract } from 'autumndb';
 import * as helpers from '../../services/helpers';
-import { linkConstraints, LinkConstraint } from '@balena/jellyfish-client-sdk';
 import _ from 'lodash';
 import memoize from 'memoize-one';
+import type { RelationshipContract } from 'autumndb';
 
-export interface LinkType extends LinkConstraint {
+export interface LinkType extends RelationshipContract {
 	title: string;
 }
 
@@ -24,46 +24,68 @@ export const getCommonTypeBase = memoize((cards: Contract[]): string => {
 	return fromType;
 });
 
-export const getFilteredLinkConstraints = (
+export const getFilteredRelationships = (
+	relationships: RelationshipContract[],
 	fromType: string,
 	linkVerb?: string,
 	target?: Contract,
 ): LinkType[] => {
-	const matcher: any = {
-		data: {
-			from: fromType,
+	return _.map(
+		relationships.filter((relationship) => {
+			if (
+				relationship.data.from.type !== fromType &&
+				relationship.data.to.type !== fromType
+			) {
+				return false;
+			}
+			if (
+				linkVerb &&
+				relationship.name !== linkVerb &&
+				relationship.data.inverseName !== linkVerb
+			) {
+				return false;
+			}
+			if (
+				target &&
+				relationship.data.to.type !== helpers.getTypeBase(target.type) &&
+				relationship.data.from.type !== helpers.getTypeBase(target.type)
+			) {
+				return false;
+			}
+			return true;
+		}),
+		(relationship) => {
+			// Move the data.title property to the root of the object, as the rendition Select
+			// component can't use a non-root field for the `labelKey` prop
+			return Object.assign({}, relationship, {
+				title: relationship.data.title,
+			});
 		},
-	};
-	if (linkVerb) {
-		matcher.name = linkVerb;
-	}
-	if (target) {
-		matcher.data.to = helpers.getTypeBase(target.type);
-	}
-	return _.map(_.filter(linkConstraints, matcher), (linkConstraint) => {
-		// Move the data.title property to the root of the object, as the rendition Select
-		// component can't use a non-root field for the `labelKey` prop
-		return Object.assign({}, linkConstraint, {
-			title: linkConstraint.data.title,
-		});
-	});
+	);
 };
 
 export const getValidTypes = (
 	types: TypeContract[],
+	relationships: RelationshipContract[],
 	fromType: string,
 	linkVerb?: string,
 	target?: Contract,
 ): TypeContract[] => {
-	const constraints = getFilteredLinkConstraints(fromType, linkVerb, target);
+	const filteredRelationships = getFilteredRelationships(
+		relationships,
+		fromType,
+		linkVerb,
+		target,
+	);
 	const validTypes = _.reduce<TypeContract, TypeContract[]>(
 		types,
 		(acc, type) => {
 			if (
-				_.find(constraints, {
-					data: {
-						to: type.slug,
-					},
+				filteredRelationships.find((relationship) => {
+					return (
+						relationship.data.to.type === type.slug ||
+						relationship.data.from.type === type.slug
+					);
 				})
 			) {
 				acc.push(type);

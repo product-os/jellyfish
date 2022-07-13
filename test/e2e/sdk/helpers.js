@@ -4,7 +4,7 @@ const {
 const environment = require('@balena/jellyfish-environment').defaultEnvironment
 
 exports.login = async () => {
-	const sdk = getSdk({
+	const sdk = await getSdk({
 		apiPrefix: 'api/v2',
 		apiUrl: `${environment.http.host}:${environment.http.port}`
 	})

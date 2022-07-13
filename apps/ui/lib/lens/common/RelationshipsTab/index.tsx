@@ -17,6 +17,7 @@ const mapStateToProps = (state, props): StateProps => {
 	return {
 		types: selectors.getTypes()(state),
 		lensState: selectors.getLensState(SLUG, target)(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 

@@ -1,4 +1,4 @@
-import type { Contract, TypeContract } from 'autumndb';
+import type { Contract, RelationshipContract, TypeContract } from 'autumndb';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
@@ -11,6 +11,7 @@ import type { ChannelContract } from '../../types';
 
 interface StateProps {
 	types: TypeContract[];
+	relationships: RelationshipContract[];
 }
 
 interface OwnProps {
@@ -29,13 +30,14 @@ type Props = StateProps & OwnProps;
 
 const CardLayout = (props: Props) => {
 	const {
-		inlineActionItems,
 		actionItems,
 		card,
 		channel,
 		children,
+		inlineActionItems,
 		noActions,
 		overflowY,
+		relationships,
 		title,
 		types,
 	} = props;
@@ -55,7 +57,12 @@ const CardLayout = (props: Props) => {
 	const versionSuffix = card.version === '1.0.0' ? '' : ` v${card.version}`;
 
 	return (
-		<LinksProvider sdk={sdk} cards={typeBase ? [card] : []} link="is owned by">
+		<LinksProvider
+			relationships={relationships}
+			sdk={sdk}
+			cards={typeBase ? [card] : []}
+			link="is owned by"
+		>
 			<Column
 				className={`column--${typeBase || 'unknown'} column--slug-${
 					card.slug || 'unknown'
@@ -118,6 +125,7 @@ const CardLayout = (props: Props) => {
 const mapStateToProps = (state): StateProps => {
 	return {
 		types: selectors.getTypes()(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 

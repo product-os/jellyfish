@@ -15,13 +15,13 @@ import styled from 'styled-components';
 import SortByButton from './SortByButton';
 import { SortDirButton } from './SortDirButton';
 import type { JsonSchema, TypeContract } from 'autumndb';
-import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import * as helpers from '../../../../../services/helpers';
 import {
 	getLinkedContractDataFilterKey,
 	compareFilterFields,
 	LINKED_CONTRACT_PREFIX,
 } from './filter-utils';
+import type { RelationshipContract } from 'autumndb';
 
 type JsonSchemaObject = Exclude<JsonSchema, boolean>;
 
@@ -74,7 +74,11 @@ const simplifiedCardProperties = {
 	},
 };
 
-const getSchemaForFilters = (tailTypes, allTypes) => {
+const getSchemaForFilters = (
+	tailTypes,
+	allTypes,
+	relationships: RelationshipContract[],
+) => {
 	const tailSchemas = _.map(tailTypes, (tailType) => {
 		return clone(_.get(tailType, ['data', 'schema'], {}));
 	});
@@ -104,26 +108,35 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 		_.pick(simplifiedCardProperties, 'created_at', 'updated_at', 'loop'),
 	);
 
-	// Get all relevant link constraints from the tail type
+	// Get all relevant relationships from the tail type
 	const firstTailType = tailTypes[0];
-	const filteredLinkConstraints = _.filter(
-		linkConstraints,
-		(linkConstraint) => {
-			// TODO: We exclude '*' link constraints that can link to any type as that would make for
-			// an insanely large list of filter options. But we should find _some_ way to accomodate
-			// this kind of link constraint in the future.
-			return (
-				linkConstraint.data.from === firstTailType.slug &&
-				linkConstraint.data.to !== '*'
-			);
-		},
-	);
+	const filteredRelationships = _.filter(relationships, (relationship) => {
+		// TODO: We exclude '*' link constraints that can link to any type as that would make for
+		// an insanely large list of filter options. But we should find _some_ way to accomodate
+		// this kind of link constraint in the future.
+		return (
+			(relationship.data.from.type === firstTailType.slug ||
+				relationship.data.to.type === firstTailType.slug) &&
+			relationship.data.to.type !== '*'
+		);
+	});
 
 	// For each relevant link constraint...
-	for (const linkConstraint of filteredLinkConstraints) {
+	for (const filteredRelationship of filteredRelationships) {
+		// Handle inverse relationships
+		const relationship = _.cloneDeep(filteredRelationship);
+		if (filteredRelationship.data.to.type === firstTailType.slug) {
+			relationship.name = filteredRelationship.data.inverseName;
+			relationship.data.inverseName = filteredRelationship.name!;
+			relationship.data.from.type = filteredRelationship.data.to.type;
+			relationship.data.to.type = filteredRelationship.data.from.type;
+			relationship.data.title = filteredRelationship.data.inverseTitle;
+			relationship.data.inverseTitle = filteredRelationship.data.title;
+		}
+
 		// Get the flattened contract schema
 		const toType: TypeContract = helpers.getType(
-			linkConstraint.data.to,
+			relationship.data.to.type,
 			allTypes,
 		);
 		if (!toType) {
@@ -151,14 +164,14 @@ const getSchemaForFilters = (tailTypes, allTypes) => {
 					[
 						'properties',
 						getLinkedContractDataFilterKey(
-							linkConstraint.name,
+							relationship.name!,
 							linkedContractType,
 							`___${keyPath.replace(/^___/, '')}`,
 						),
 					],
 					{
 						...(schema as JsonSchemaObject),
-						title: `${LINKED_CONTRACT_PREFIX} ${linkConstraint.data.title}: ${fieldTitle}`,
+						title: `${LINKED_CONTRACT_PREFIX} ${relationship.data.title}: ${fieldTitle}`,
 					},
 				);
 			},
@@ -207,6 +220,7 @@ interface ViewFiltersProps {
 	searchFilter: JsonSchema;
 	tailTypes: TypeContract[];
 	updateFilters: (filters: JSONSchema7[]) => void;
+	relationships: RelationshipContract[];
 }
 
 const ViewFilters = React.memo<ViewFiltersProps>(
@@ -221,13 +235,14 @@ const ViewFilters = React.memo<ViewFiltersProps>(
 		updateFiltersFromSummary,
 		pageOptions,
 		onSortOptionsChange,
+		relationships,
 	}) => {
 		const summaryFilters = React.useMemo(() => {
 			return _.compact([...filters, searchFilter]);
 		}, [filters, searchFilter]);
 
 		const schemaForFilters = React.useMemo(() => {
-			return getSchemaForFilters(tailTypes, allTypes);
+			return getSchemaForFilters(tailTypes, allTypes, relationships);
 		}, [tailTypes]);
 
 		// Only render filters in compact mode for the first breakpoint

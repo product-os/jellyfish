@@ -12,6 +12,7 @@ const mapStateToProps = (state, ownProps): StateProps => {
 
 	return {
 		types: selectors.getTypes()(state),
+		relationships: selectors.getRelationships()(state),
 		user,
 		userActiveLens: selectors.getUsersViewLens(target)(state),
 		userCustomFilters: selectors.getUserCustomFilters(target)(state),

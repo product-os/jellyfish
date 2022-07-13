@@ -5,13 +5,13 @@ import { Tab, Txt, Select, TxtProps } from 'rendition';
 import styled from 'styled-components';
 import useDebounce from '../../../hooks/use-debounce';
 import * as helpers from '../../../services/helpers';
-import { linkConstraints } from '@balena/jellyfish-client-sdk';
 import type { Contract, TypeContract } from 'autumndb';
 import type { JSONSchema } from 'rendition/dist/components/Renderer/types';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import Segment from '../Segment';
 import { actionCreators } from '../../../store';
 import { useSetup } from '../../../components';
+import type { RelationshipContract } from 'autumndb';
 
 export const SLUG = 'RELATIONSHIPS_TAB';
 
@@ -37,21 +37,24 @@ export const getViewId = (id: string): string => {
 	return `${id}-relationships`;
 };
 
-export const getRelationships = (typeSlug: string) => {
-	const relationships: LinkRelationship[] = [];
+export const getRelationships = (
+	relationships: RelationshipContract[],
+	typeSlug: string,
+) => {
+	const linkRelationships: LinkRelationship[] = [];
 	const typeSlugBase = helpers.getTypeBase(typeSlug);
 	return _.sortBy(
-		linkConstraints.reduce((acc, constraint) => {
-			if (constraint.data.from === typeSlugBase) {
+		relationships.reduce((acc, relationship) => {
+			if (relationship.data.from.type === typeSlugBase) {
 				acc.push({
-					title: pluralize(constraint.data.title),
-					link: constraint.name,
-					type: constraint.data.to,
+					title: pluralize(relationship.data.title),
+					link: relationship.name!,
+					type: relationship.data.to.type,
 					count: 0,
 				});
 			}
 			return acc;
-		}, relationships),
+		}, linkRelationships),
 		['type', 'title'],
 	);
 };
@@ -89,6 +92,7 @@ export interface StateProps {
 	lensState: {
 		activeIndex?: number;
 	};
+	relationships: RelationshipContract[];
 }
 
 export interface DispatchProps {
@@ -102,27 +106,28 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	card,
 	channel,
 	lensState,
+	relationships,
 }) => {
 	const { sdk } = useSetup()!;
 	const [activeRelationship, setActiveRelationship] =
 		React.useState<LinkRelationship>();
-	const [relationships, setRelationships] = React.useState<LinkRelationship[]>(
-		getRelationships(card.type),
-	);
+	const [linkRelationships, setRelationships] = React.useState<
+		LinkRelationship[]
+	>(getRelationships(relationships, card.type));
 	const [searchTerm, setSearchTerm] = React.useState<string>();
 	const debouncedSearchTerm = useDebounce(searchTerm, 300);
 
 	const filteredRelationships = React.useMemo(() => {
 		if (!debouncedSearchTerm) {
-			return relationships;
+			return linkRelationships;
 		}
 		const searchRE = new RegExp(debouncedSearchTerm, 'i');
-		return relationships.filter((relationship) => {
+		return linkRelationships.filter((relationship) => {
 			return _.some(_.values(relationship) as string[], (field) => {
 				return searchRE.test(field);
 			});
 		});
-	}, [relationships, debouncedSearchTerm]);
+	}, [linkRelationships, debouncedSearchTerm]);
 
 	React.useEffect(() => {
 		if (lensState.hasOwnProperty('activeIndex')) {
@@ -134,7 +139,7 @@ export const RelationshipsTab: React.FunctionComponent<Props> = ({
 	// Fetch relationships as view data when the component loads
 	React.useEffect(() => {
 		Promise.all(
-			relationships.map(async (relationship) => {
+			linkRelationships.map(async (relationship) => {
 				const schema = {
 					description: `Fetch all contracts linked to ${card.slug}`,
 					type: 'object',

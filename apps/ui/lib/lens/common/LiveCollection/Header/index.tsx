@@ -8,6 +8,7 @@ import { Icon } from '../../../../components';
 import type { LensContract } from '../../../../types';
 import { LensSelection } from './LensSelection';
 import ViewFilters from './Filters';
+import type { RelationshipContract } from 'autumndb';
 
 const StyledSearch = styled(Search)`
 	padding-left: 0px;
@@ -43,6 +44,7 @@ interface HeaderProps {
 	updateFilters: (filters: JSONSchema7[]) => void;
 	updateFiltersFromSummary: (filters: JSONSchema7[]) => void;
 	updateSearch: (value: any) => void;
+	relationships: RelationshipContract[];
 }
 
 export default React.memo<HeaderProps>((props) => {
@@ -61,6 +63,7 @@ export default React.memo<HeaderProps>((props) => {
 		updateFiltersFromSummary,
 		pageOptions,
 		onSortOptionsChange,
+		relationships,
 	} = props;
 
 	const [showFilters, setShowFilters] = useState(false);
@@ -116,6 +119,7 @@ export default React.memo<HeaderProps>((props) => {
 				updateFiltersFromSummary={updateFiltersFromSummary}
 				pageOptions={pageOptions}
 				onSortOptionsChange={onSortOptionsChange}
+				relationships={relationships}
 			/>
 		</HeaderBox>
 	);

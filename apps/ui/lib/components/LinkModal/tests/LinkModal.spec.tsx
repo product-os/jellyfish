@@ -1,7 +1,9 @@
 import { getPromiseResolver, getWrapper } from '../../../../test/ui-setup';
+import type { RelationshipContract } from 'autumndb';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import { LinkModal } from '../LinkModal';
 import * as AutoCompleteCardSelect from '../../AutoCompleteCardSelect';
 import user from './fixtures/user.json';
@@ -47,6 +49,33 @@ const targets = [
 ];
 
 const selectedTarget = targets[0];
+
+const relationships: RelationshipContract[] = [
+	{
+		type: 'relationship@1.0.0',
+		slug: 'relationship-org-has-member-user',
+		id: uuidv4(),
+		version: '1.0.0',
+		active: true,
+		name: 'has member',
+		data: {
+			from: {
+				type: 'org',
+			},
+			to: {
+				type: 'user',
+			},
+			inverseName: 'is member of',
+			title: 'Member',
+			inverseTitle: 'Org',
+		},
+		tags: [],
+		markers: [],
+		created_at: new Date().toISOString(),
+		requires: [],
+		capabilities: [],
+	},
+];
 
 // Mock the AutoCompleteCardSelect as it doesn't work well outside of the real browser environment
 const mockAutoCompleteCardSelect = () => {
@@ -99,6 +128,7 @@ describe('LinkModal', () => {
 			onHidePromise,
 			autoCompleteCallbacks: mockAutoCompleteCardSelect(),
 			commonProps: {
+				relationships,
 				onHide,
 				onSaved: sandbox.stub(),
 				allTypes: types,
@@ -190,6 +220,7 @@ describe('LinkModal', () => {
 		const autoComplete = linkModalComponent
 			.find('AutoCompleteCardSelect')
 			.first();
+
 		expect(autoComplete.prop('isDisabled')).toBe(true);
 
 		submit(linkModalComponent);

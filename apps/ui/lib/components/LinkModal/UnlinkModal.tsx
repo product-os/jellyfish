@@ -3,10 +3,6 @@ import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
 import { Modal } from 'rendition';
-import {
-	linkConstraints,
-	getReverseConstraint,
-} from '@balena/jellyfish-client-sdk';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import { Icon } from '../';
@@ -14,29 +10,32 @@ import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
-import type { LinkConstraint } from '@balena/jellyfish-client-sdk';
+import type { RelationshipContract } from 'autumndb';
+import { BoundActionCreators } from '../../types';
+import { actionCreators } from '../../store';
 
-export interface UnlinkModalProps {
-	actions: {
-		removeLink: (
-			fromCard: ContractSummary,
-			toCard: ContractSummary,
-			linkVerb: string,
-			options: any,
-		) => void;
-	};
+export interface StateProps {
 	allTypes: TypeContract[];
+	relationships: RelationshipContract[];
+}
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+export interface OwnProps {
 	cards: Contract[];
 	target?: Contract;
 	onHide: () => void;
 }
 
-export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
+type Props = StateProps & DispatchProps & OwnProps;
+
+export const UnlinkModal: React.FunctionComponent<Props> = ({
 	actions,
 	cards,
 	target,
 	allTypes,
 	onHide,
+	relationships,
 }) => {
 	const [selectedTarget, setSelectedTarget] = React.useState<
 		Contract | undefined
@@ -55,30 +54,41 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 	// 2. the type of the source card(s)
 	// 3. the target ('to') card (if specified)
 	const validTypes = React.useMemo(() => {
-		return linkUtils.getValidTypes(allTypes, fromType, undefined, target);
-	}, [allTypes, fromType, undefined, target]);
+		return linkUtils.getValidTypes(
+			allTypes,
+			relationships,
+			fromType,
+			undefined,
+			target,
+		);
+	}, [allTypes, relationships, fromType, undefined, target]);
 
-	// Get the link constraints that apply based on:
+	// Get the relationships that apply based on:
 	// 1. the type of the source card
 	// 2. the filtered target types
 	const allLinkTypeTargets = React.useMemo(() => {
 		const cardTypes = _.castArray(cardType || validTypes);
-		return linkConstraints.reduce<linkUtils.LinkType[]>(
-			(acc: any, constraint) => {
+		return relationships.reduce<linkUtils.LinkType[]>(
+			(acc: any, relationship) => {
 				if (
-					constraint.data.from === fromType &&
-					_.find(cardTypes, {
-						slug: constraint.data.to,
-					})
+					(relationship.data.from.type === fromType &&
+						_.find(cardTypes, {
+							slug: relationship.data.to.type,
+						})) ||
+					(relationship.data.to.type === fromType &&
+						_.find(cardTypes, {
+							slug: relationship.data.from.type,
+						}))
 				) {
 					// Move the data.title property to the root of the object, as the rendition Select
 					// component can't use a non-root field for the `labelKey` prop
 					acc.push(
-						Object.assign({}, constraint, {
-							title: constraint.data.title,
+						Object.assign({}, relationship, {
+							title: relationship.data.title,
 						}),
 					);
 				}
+
 				return acc;
 			},
 			[],
@@ -91,13 +101,34 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 		assert.ok(selectedTarget);
 
 		const unlinkCard = async (card: ContractSummary) => {
-			const constraint = _.find(linkConstraints, {
-				data: {
-					from: helpers.getTypeBase(card.type),
-					to: helpers.getTypeBase(selectedTarget.type),
-				},
-			});
-			await actions.removeLink(card, selectedTarget, constraint!.name, {
+			const fromTypeBase = helpers.getTypeBase(card.type);
+			const toTypeBase = helpers.getTypeBase(selectedTarget.type);
+			const relationship =
+				_.find(relationships, {
+					data: {
+						from: {
+							type: fromTypeBase,
+						},
+						to: {
+							type: toTypeBase,
+						},
+					},
+				}) ||
+				_.find(relationships, {
+					data: {
+						from: {
+							type: toTypeBase,
+						},
+						to: {
+							type: fromTypeBase,
+						},
+					},
+				});
+			const linkVerb =
+				relationship!.data.from.type === fromTypeBase
+					? relationship!.name!
+					: relationship!.data.inverseName!;
+			await actions.removeLink(card, selectedTarget, linkVerb, {
 				skipSuccessMessage: true,
 			});
 		};
@@ -119,18 +150,13 @@ export const UnlinkModal: React.FunctionComponent<UnlinkModalProps> = ({
 	const getLinkedCardsQuery = (value: string) => {
 		return {
 			type: 'object',
-			anyOf: allLinkTypeTargets.map((constraint) => {
-				const revConstraint: LinkConstraint | undefined = getReverseConstraint(
-					constraint.data.from,
-					constraint.data.to,
-					constraint.name,
-				);
-				const toType = helpers.getType(constraint.data.to, allTypes);
+			anyOf: allLinkTypeTargets.map((relationship) => {
+				const toType = helpers.getType(relationship.data.to.type, allTypes);
 				const query = {
 					type: 'object',
 					required: ['type'],
 					$$links: {
-						[revConstraint!.name]: {
+						[relationship!.data.inverseName!]: {
 							allOf: cards.map((card) => {
 								return {
 									type: 'object',

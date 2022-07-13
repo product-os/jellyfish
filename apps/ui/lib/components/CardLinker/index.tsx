@@ -5,6 +5,7 @@ import CardLinker from './CardLinker';
 const mapStateToProps = (state: any) => {
 	return {
 		activeLoop: selectors.getActiveLoop()(state),
+		relationships: selectors.getRelationships()(state),
 	};
 };
 
