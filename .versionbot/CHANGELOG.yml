@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: handle inverse relationships when rendering link tabs"
+      hash: de3049b44d63b754472b7f8764451d3d6b27bc6e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 54.0.2
+  title: "'UI: handle inverse relationships when rendering link tabs'"
+  date: 2022-07-13T14:23:14.406Z
+- commits:
     - subject: "Server: Add support for COUNT_BY function in formulas"
       hash: 10578f8cc0cc0f8d39b3c13607d195cc08431580
       body: |
