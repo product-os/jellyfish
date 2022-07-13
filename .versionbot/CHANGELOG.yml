@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Fix inverse relationships when creating link after contract
+        creation"
+      hash: f1b2b03dc59c432cc26c2d2f838ac5026a12bef1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 54.1.1
+  title: "'UI: Fix inverse relationships when creating link after contract creation'"
+  date: 2022-07-13T19:16:09.682Z
+- commits:
     - subject: "Server: materialize reactions on messages and whispers"
       hash: ace3bdbb9fba985807c65588d163686934543b42
       body: ""
