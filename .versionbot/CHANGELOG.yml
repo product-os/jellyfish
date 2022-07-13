@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-registry from v2.25.3 to v2.25.4
+      hash: cc9ce05112b6cde58313d088a1edfc3d0dd52cdc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.2
+  title: "'Update balena/open-balena-registry from v2.25.3 to v2.25.4'"
+  date: 2022-07-13T22:11:46.653Z
+- commits:
     - subject: "UI: Fix inverse relationships when creating link after contract
         creation"
       hash: f1b2b03dc59c432cc26c2d2f838ac5026a12bef1
