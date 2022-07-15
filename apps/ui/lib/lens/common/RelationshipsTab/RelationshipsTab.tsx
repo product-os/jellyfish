@@ -43,27 +43,33 @@ export const getRelationships = (
 ) => {
 	const linkRelationships: LinkRelationship[] = [];
 	const typeSlugBase = helpers.getTypeBase(typeSlug);
-	return _.sortBy(
-		relationships.reduce((acc, relationship) => {
-			if (relationship.data.from.type === typeSlugBase) {
-				acc.push({
-					title: pluralize(relationship.data.title),
-					link: relationship.name!,
-					type: relationship.data.to.type,
-					count: 0,
-				});
-			}
-			if (relationship.data.to.type === typeSlugBase) {
-				acc.push({
-					title: pluralize(relationship.data.inverseTitle),
-					link: relationship.data.inverseName!,
-					type: relationship.data.from.type,
-					count: 0,
-				});
-			}
-			return acc;
-		}, linkRelationships),
-		['type', 'title'],
+
+	// Ensure uniqueness as self-referencing relationships result in multiple array elements
+	// Example: pattern-relates-to-pattern
+	return _.uniqWith(
+		_.sortBy(
+			relationships.reduce((acc, relationship) => {
+				if (relationship.data.from.type === typeSlugBase) {
+					acc.push({
+						title: pluralize(relationship.data.title),
+						link: relationship.name!,
+						type: relationship.data.to.type,
+						count: 0,
+					});
+				}
+				if (relationship.data.to.type === typeSlugBase) {
+					acc.push({
+						title: pluralize(relationship.data.inverseTitle),
+						link: relationship.data.inverseName!,
+						type: relationship.data.from.type,
+						count: 0,
+					});
+				}
+				return acc;
+			}, linkRelationships),
+			['type', 'title'],
+		),
+		_.isEqual,
 	);
 };
 

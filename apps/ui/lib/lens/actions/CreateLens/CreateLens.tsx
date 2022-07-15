@@ -31,6 +31,18 @@ const getLinkKey = (targetCardType, linkVerb) => {
 	return `${targetCardType.split('@')[0]}-${helpers.slugify(linkVerb)}`;
 };
 
+// Invert provided relationship
+const invertRelationship = (relationship) => {
+	const inverse = _.cloneDeep(relationship);
+	inverse.name = relationship.data.inverseName;
+	inverse.data.inverseName = relationship.name;
+	inverse.data.from.type = relationship.data.to.type;
+	inverse.data.to.type = relationship.data.from.type;
+	inverse.data.title = relationship.data.inverseTitle;
+	inverse.data.inverseTitle = relationship.data.title;
+	return inverse;
+};
+
 const getTypes = memoize((cards) => {
 	return _.uniq(_.map(cards, 'type'));
 });
@@ -62,24 +74,53 @@ export default withSetup(
 				if (types) {
 					selectedTypeTarget = _.first(_.castArray(types));
 
-					linkOption = _.find(this.props.relationships, {
-						data: {
-							from: {
-								type: from,
+					linkOption =
+						_.find(this.props.relationships, {
+							data: {
+								from: {
+									type: from,
+								},
+								to: {
+									type: selectedTypeTarget.slug,
+								},
 							},
-							to: {
-								type: selectedTypeTarget.slug,
+						}) ||
+						_.find(this.props.relationships, {
+							data: {
+								from: {
+									type: selectedTypeTarget.slug,
+								},
+								to: {
+									type: from,
+								},
 							},
-						},
-					});
+						});
+
+					// Handle inverse relationship case
+					if (linkOption && linkOption.data.from.type !== from) {
+						linkOption = invertRelationship(linkOption);
+					}
 				} else {
-					linkOption = _.find(this.props.relationships, {
-						data: {
-							from: {
-								type: from,
+					linkOption =
+						_.find(this.props.relationships, {
+							data: {
+								from: {
+									type: from,
+								},
 							},
-						},
-					});
+						}) ||
+						_.find(this.props.relationships, {
+							data: {
+								to: {
+									type: from,
+								},
+							},
+						});
+
+					// Handle inverse relationship case
+					if (linkOption && linkOption.data.from.type !== from) {
+						linkOption = invertRelationship(linkOption);
+					}
 
 					selectedTypeTarget = _.find(allTypes, {
 						slug: linkOption.data.to,
