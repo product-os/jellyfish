@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Fix assign button link logic"
+      hash: e3c0113f2f4f627cde2a09d3245ae8d95966df3f
+      body: |
+        Update assign button link logic to account for inverse relationships
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 54.1.4
+  title: "'UI: Fix assign button link logic'"
+  date: 2022-07-15T08:12:13.227Z
+- commits:
     - subject: "UI: Fix CreateLens link logic"
       hash: 4ae18dc2ebba04a6e2b4a792482fe5d6e80275e8
       body: |
