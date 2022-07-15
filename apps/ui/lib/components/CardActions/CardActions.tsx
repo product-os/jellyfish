@@ -105,7 +105,10 @@ export default class CardActions extends React.Component<Props, State> {
 		// True if there is a relationship that matches the card type and 'is owned by'
 		const supportsOwnership = this.props.relationships.some((r) => {
 			return (
-				r.name === 'is owned by' && r.data.from.type === this.props.card.type
+				(r.name === 'is owned by' &&
+					r.data.from.type === this.props.card.type.split('@')[0]) ||
+				(r.data.inverseName === 'is owned by' &&
+					r.data.to.type === this.props.card.type.split('@')[0])
 			);
 		});
 
