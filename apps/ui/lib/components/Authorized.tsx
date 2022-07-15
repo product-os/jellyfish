@@ -40,7 +40,7 @@ const Authorized = () => {
 				<NavBar />
 				<PageTitle siteName={manifestJSON.name} />
 
-				<Flex flex="1">
+				<Flex flex="1" style={{ minHeight: 0 }}>
 					<HomeChannel channel={home} />
 
 					<Switch>
