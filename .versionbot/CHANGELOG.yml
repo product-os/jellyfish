@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Fix CreateLens link logic"
+      hash: 4ae18dc2ebba04a6e2b4a792482fe5d6e80275e8
+      body: |
+        Fix link logic in the create lens, add support for handling
+        inverse relationships.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 54.1.3
+  title: "'UI: Fix CreateLens link logic'"
+  date: 2022-07-15T05:36:41.112Z
+- commits:
     - subject: Update balena/open-balena-registry from v2.25.3 to v2.25.4
       hash: cc9ce05112b6cde58313d088a1edfc3d0dd52cdc
       body: ""
