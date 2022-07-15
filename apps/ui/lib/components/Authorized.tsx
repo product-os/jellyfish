@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { Box, Flex } from 'rendition';
+import { Flex } from 'rendition';
 import { Route, Switch } from 'react-router-dom';
 import manifestJSON from '../manifest.json';
 import PageTitle from './PageTitle';

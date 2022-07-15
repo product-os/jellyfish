@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import {
 	ActionButton,
 	ActionRouterLink,
-	Icon,
 	MentionsCount,
 	MenuPanel,
 	UserAvatarLive,

@@ -63,7 +63,7 @@ class Segment extends React.Component<Props, State> {
 	}
 
 	getData() {
-		const { card, segment, sdk, relationships } = this.props;
+		const { card, segment, relationships } = this.props;
 
 		const verb = segment.link;
 		const targetType =
