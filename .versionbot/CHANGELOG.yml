@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v4.0.5 to v4.0.7
+      hash: 3a7801fff95887835c417132ed7f3ad147c724bc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.9
+  title: "'Update resinci/jellyfish-test from v4.0.5 to v4.0.7'"
+  date: 2022-07-16T16:07:01.525Z
+- commits:
     - subject: Update grafana/grafana from 8.5.6 to 8.5.9
       hash: 7ded20751285b5b5f13fac8ea6f50e8ce43aea40
       body: ""
