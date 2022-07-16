@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-registry from v2.25.4 to v2.25.5
+      hash: 81699d70026391988aa41f1d3a48cec709c8b682
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.7
+  title: "'Update balena/open-balena-registry from v2.25.4 to v2.25.5'"
+  date: 2022-07-16T12:46:12.317Z
+- commits:
     - subject: Bump internal packages
       hash: 4d39e81119291ecc4c0424ca37ed2a76e3a643c6
       body: ""
