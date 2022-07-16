@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 4d39e81119291ecc4c0424ca37ed2a76e3a643c6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 54.1.6
+  title: "'Bump internal packages'"
+  date: 2022-07-16T05:32:24.726Z
+- commits:
     - subject: Update balena/open-balena-s3 from v2.13.9 to v2.13.10
       hash: 0edda0227b474fb5a1fc42337570142bf9fd8fbe
       body: ""
