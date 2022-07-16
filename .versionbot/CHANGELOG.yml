@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/open-balena-s3 from v2.13.9 to v2.13.10
+      hash: 0edda0227b474fb5a1fc42337570142bf9fd8fbe
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.5
+  title: "'Update balena/open-balena-s3 from v2.13.9 to v2.13.10'"
+  date: 2022-07-15T11:08:01.130Z
+- commits:
     - subject: "UI: Fix assign button link logic"
       hash: e3c0113f2f4f627cde2a09d3245ae8d95966df3f
       body: |
