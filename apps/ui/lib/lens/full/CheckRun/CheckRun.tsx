@@ -23,7 +23,7 @@ export const SingleCardTabs = styled(Tabs)`
 
 // The maximum depth to explore the graph
 const GRAPH_DEPTH = 3;
-const BUILT_VERB = 'was built into';
+const TRANSFORMED_VERB = 'was transformed to';
 const MERGE_VERB = 'was merged as';
 
 const hourInMs = 60 * 60 * 1000;
@@ -73,7 +73,7 @@ export default withSetup(
 		}
 
 		// Loads the commit contract attached to this check run and then recursively loads all
-		// contracts that it was built into, creating a tree of contracts that can be used to
+		// contracts that it was transformed to, creating a tree of contracts that can be used to
 		// represent a chain of transformers
 		async loadTransformerData() {
 			const { card } = this.props;
@@ -85,7 +85,7 @@ export default withSetup(
 			}
 			const commit = withCommit.links['is attached to commit'][0];
 
-			const getWasBuiltInto = async (contract: Contract) => {
+			const getWasTransformedTo = async (contract: Contract) => {
 				// Build a recursive links query to a maximum depth
 				let fragment = {};
 				_.times(GRAPH_DEPTH, () => {
@@ -93,7 +93,7 @@ export default withSetup(
 						anyOf: [
 							{
 								$$links: {
-									[BUILT_VERB]: {
+									[TRANSFORMED_VERB]: {
 										type: 'object',
 										...fragment,
 									},
@@ -124,7 +124,7 @@ export default withSetup(
 				return contractWithLinks;
 			};
 
-			const result = await getWasBuiltInto(commit);
+			const result = await getWasTransformedTo(commit);
 
 			this.setState({
 				tree: result,
