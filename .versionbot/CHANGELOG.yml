@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana from 8.5.6 to 8.5.9
+      hash: 7ded20751285b5b5f13fac8ea6f50e8ce43aea40
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.8
+  title: "'Update grafana/grafana from 8.5.6 to 8.5.9'"
+  date: 2022-07-16T15:46:46.788Z
+- commits:
     - subject: Update balena/open-balena-registry from v2.25.4 to v2.25.5
       hash: 81699d70026391988aa41f1d3a48cec709c8b682
       body: ""
