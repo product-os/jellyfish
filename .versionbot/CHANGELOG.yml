@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update prom/prometheus from v2.36.2 to v2.37.0
+      hash: b0c7eadfc7eb2260e4ab88fceb6b1b7577521e0c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.10
+  title: "'Update prom/prometheus from v2.36.2 to v2.37.0'"
+  date: 2022-07-16T23:49:50.198Z
+- commits:
     - subject: Update resinci/jellyfish-test from v4.0.5 to v4.0.7
       hash: 3a7801fff95887835c417132ed7f3ad147c724bc
       body: ""
