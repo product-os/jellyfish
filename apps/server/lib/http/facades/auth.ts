@@ -8,7 +8,7 @@ import {
 import { QueryFacade } from './query';
 
 export class AuthFacade extends QueryFacade {
-	async whoami(context, session, ipAddress) {
+	async whoami(context, session) {
 		// Use the admin session, as the user invoking this function
 		// might not have enough access to read its entire session contract.
 		const result = await this.kernel.getContractById<SessionContract>(
@@ -52,15 +52,9 @@ export class AuthFacade extends QueryFacade {
 		// Try and load the user with attached org data, otherwise load them without it.
 		// TODO: Fix our broken queries so that we can optionally get linked data
 		let user = (
-			await this.queryAPI(
-				context,
-				session,
-				schema,
-				{
-					limit: 1,
-				},
-				ipAddress,
-			)
+			await this.queryAPI(context, session, schema, {
+				limit: 1,
+			})
 		)[0] as Contract | null;
 
 		if (!user) {

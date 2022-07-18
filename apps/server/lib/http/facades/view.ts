@@ -14,7 +14,7 @@ export class ViewFacade {
 		this.queryFacade = queryFacade;
 	}
 
-	async queryByView(context, session, viewSlug, params, options, ipAddress) {
+	async queryByView(context, session, viewSlug, params, options) {
 		if (!_.includes(viewSlug, '@')) {
 			throw new Error('View slug must include a version');
 		}
@@ -40,13 +40,7 @@ export class ViewFacade {
 					query = view;
 				}
 
-				return this.queryFacade.queryAPI(
-					context,
-					session,
-					query,
-					options,
-					ipAddress,
-				);
+				return this.queryFacade.queryAPI(context, session, query, options);
 			});
 	}
 }

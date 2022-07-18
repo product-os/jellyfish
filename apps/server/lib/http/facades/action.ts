@@ -1,4 +1,3 @@
-import { getLogger } from '@balena/jellyfish-logger';
 import type {
 	ActionPreRequest,
 	ActionRequestContract,
@@ -11,8 +10,6 @@ import errio from 'errio';
 import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
-
-const logger = getLogger(__filename);
 
 interface FileItem {
 	buffer: any;
@@ -117,7 +114,6 @@ export class ActionFacade {
 		assert(actionRequest);
 
 		const results = await this.producer.waitResults(context, actionRequest);
-		logger.info(context, 'Got action results', results);
 
 		if (results.error) {
 			throw errio.fromObject(results.data);
@@ -127,11 +123,6 @@ export class ActionFacade {
 			const contractId = (results.data! as any).id!;
 
 			for (const item of files) {
-				logger.info(context, 'Uploading attachment', {
-					card: contractId,
-					key: item.name,
-				});
-
 				await this.fileStore.store(context, contractId, item.name, item.buffer);
 			}
 		}

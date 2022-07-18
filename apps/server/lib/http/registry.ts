@@ -54,7 +54,7 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 			_.isEmpty,
 		)
 	) {
-		logger.info(
+		logger.warn(
 			request.context,
 			'Registry authentication unavailable due to missing env var(s)',
 			{
@@ -85,7 +85,7 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 			(request.headers.authorization || '').split(' ')[1] || '',
 		).split(':');
 		if (!actorSlug || !session) {
-			logger.info(request.context, 'Session token missing');
+			logger.warn(request.context, 'Session token missing');
 			return response.status(400).send('session token missing');
 		}
 
@@ -110,7 +110,7 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 			throw new Error('Invalid session');
 		}
 	} catch (error) {
-		logger.info(
+		logger.warn(
 			request.context,
 			'Registry authentication error validating session',
 			{
@@ -160,7 +160,7 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 							`${name}@latest`,
 						);
 					} catch (error) {
-						logger.info(
+						logger.warn(
 							request.context,
 							'Registry authentication hit error querying for contract',
 							{
@@ -184,7 +184,7 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 		),
 	};
 
-	logger.info(request.context, 'Registry authentication generating JWT', {
+	logger.debug(request.context, 'Registry authentication generating JWT', {
 		access: payload.access,
 	});
 

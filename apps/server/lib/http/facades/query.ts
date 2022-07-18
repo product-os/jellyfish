@@ -1,4 +1,4 @@
-import { getLogger, LogContext } from '@balena/jellyfish-logger';
+import { LogContext } from '@balena/jellyfish-logger';
 import {
 	JsonSchema,
 	Kernel,
@@ -6,8 +6,6 @@ import {
 	ViewContract,
 } from 'autumndb';
 import _ from 'lodash';
-
-const logger = getLogger(__filename);
 
 export class QueryFacade {
 	kernel: Kernel;
@@ -65,23 +63,10 @@ export class QueryFacade {
 		session: string,
 		queryIsh: JsonSchema | string,
 		options,
-		ipAddress,
 	) {
 		const schema = await this.getQuerySchema(logContext, session, queryIsh);
-		const startDate = new Date();
-
-		logger.info(logContext, 'JSON Schema query start', {
-			date: startDate,
-			ip: ipAddress,
-			schema,
-		});
 
 		const data = await this.kernel.query(logContext, session, schema, options);
-		const endDate = new Date();
-		const queryTime = endDate.getTime() - startDate.getTime();
-		logger.info(logContext, 'JSON Schema query end', {
-			time: queryTime,
-		});
 
 		return data;
 	}

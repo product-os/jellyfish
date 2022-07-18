@@ -1,5 +1,4 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
-import { getLogger } from '@balena/jellyfish-logger';
 import * as prometheus from '@balena/socket-prometheus-metrics';
 import type { Kernel } from 'autumndb';
 import express from 'express';
@@ -13,8 +12,6 @@ import { v4 as uuidv4 } from 'uuid';
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
 const packageJSON = require('../../../../package.json');
-
-const logger = getLogger(__filename);
 
 export const attachSocket = (kernel: Kernel, server) => {
 	const socketServer = new socketIo.Server(server, {
@@ -94,17 +91,9 @@ export const attachSocket = (kernel: Kernel, server) => {
 		});
 
 		const emit = (() => {
-			let emitCount = 0;
 			return async <TData>(event: string, data: TData) => {
-				const { stream, payload } = await ready;
+				const { stream } = await ready;
 				stream.emit(event, data);
-
-				emitCount++;
-				if (emitCount % 100 === 0) {
-					logger.info(context, `stream has emitted ${emitCount} events`, {
-						query: payload.data.query,
-					});
-				}
 			};
 		})();
 

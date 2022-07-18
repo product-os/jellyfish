@@ -41,7 +41,7 @@ const getActorKey = async (
 		return key;
 	}
 
-	logger.info(logContext, 'Create worker key', {
+	logger.debug(logContext, 'Create worker key', {
 		slug: keySlug,
 		actor: actorId,
 	});

@@ -126,7 +126,7 @@ export const authorize = async (
 	provider: string,
 	options,
 ) => {
-	logger.info(logContext, 'OAuth authorization', {
+	logger.debug(logContext, 'OAuth authorization', {
 		ip: options.ip,
 		provider,
 		code: options.code,
@@ -193,7 +193,7 @@ export const associate = async (
 	credentials,
 	options,
 ) => {
-	logger.info(logContext, 'OAuth association', {
+	logger.debug(logContext, 'OAuth association', {
 		ip: options.ip,
 		provider,
 		user: user.id,
