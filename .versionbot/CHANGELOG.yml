@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-github from 7.0.3 to 7.1.1
+      hash: 42a840173d6b3296dc23d1206281b86f4dfadf18
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.1
+  title: "'Update @balena/jellyfish-plugin-github from 7.0.3 to 7.1.1'"
+  date: 2022-07-18T15:05:16.057Z
+- commits:
     - subject: "UI: Aggregate threads linked to loops and threads linked to products
         of loops"
       hash: b3373d38c71e3409101d39c816544a3d21080181
