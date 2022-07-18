@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update typedoc from 0.23.7 to 0.23.8
+      hash: a2031256baed7d5cb24b3db7e04bb91a95cdedbf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 54.1.11
+  title: "'Update typedoc from 0.23.7 to 0.23.8'"
+  date: 2022-07-18T00:47:06.893Z
+- commits:
     - subject: Update prom/prometheus from v2.36.2 to v2.37.0
       hash: b0c7eadfc7eb2260e4ab88fceb6b1b7577521e0c
       body: ""
