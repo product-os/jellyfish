@@ -1,7 +1,7 @@
 import _ from 'lodash';
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Box, Button, Flex } from 'rendition';
+import { Box, Button, Flex, Img, Txt } from 'rendition';
 import { Icon } from '../';
 import { selectors } from '../../store';
 import ViewLink from '../ViewLink';
@@ -44,9 +44,8 @@ const TreeMenu: React.FunctionComponent<any> = ({
 			{node.name && (
 				<Button
 					plain
-					primary
 					width="100%"
-					px={3}
+					px={2}
 					my={2}
 					data-groupname={node.name}
 					data-expanded={isExpanded}
@@ -54,7 +53,32 @@ const TreeMenu: React.FunctionComponent<any> = ({
 					onClick={toggleExpandGroup}
 				>
 					<Flex width="100%" justifyContent="space-between" alignItems="center">
-						{node.name}
+						<Box>
+							{node.icon && (
+								<Txt.span
+									mr={2}
+									style={{
+										width: 18,
+										textAlign: 'center',
+										display: 'inline-block',
+									}}
+								>
+									{node.key === 'org-balena' ? (
+										<Img
+											src="/icons/balena.svg"
+											style={{
+												display: 'inline-block',
+												width: 14,
+												transform: 'translateY(3px)',
+											}}
+										/>
+									) : (
+										<Icon name={node.icon} regular />
+									)}
+								</Txt.span>
+							)}
+							{node.name}
+						</Box>
 						<Icon name={`chevron-${isExpanded ? 'up' : 'down'}`} />
 					</Flex>
 				</Button>

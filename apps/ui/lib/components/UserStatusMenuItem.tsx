@@ -3,8 +3,14 @@ import { Box, Flex, Txt } from 'rendition';
 import _ from 'lodash';
 import { ActionButton, Icon } from '.';
 import * as helpers from '../services/helpers';
+import { actionCreators, selectors } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
 
-export default function UserStatusMenuItem({ user, actions, types, ...rest }) {
+export default function UserStatusMenuItem({ ...rest }) {
+	const user = useSelector(selectors.getCurrentUser());
+	const types = useSelector(selectors.getTypes());
+	const dispatch = useDispatch();
+
 	const userType = _.find(types, {
 		slug: 'user',
 	});
@@ -22,7 +28,7 @@ export default function UserStatusMenuItem({ user, actions, types, ...rest }) {
 			: userStatusOptions.DoNotDisturb;
 		const patches = helpers.patchPath(user, ['data', 'status'], newStatus);
 		const successNotification = `Your status is now '${newStatus.title}'`;
-		actions.updateUser(patches, successNotification);
+		dispatch(actionCreators.updateUser(patches, successNotification));
 	};
 	const buttonProps: any = {
 		...rest,

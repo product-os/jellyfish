@@ -8,6 +8,7 @@ import HomeChannel from './HomeChannel';
 import { createLazyComponent } from './SafeLazy';
 import { useSelector, useStore } from 'react-redux';
 import { actionCreators, selectors } from '../store';
+import NavBar from './NavBar';
 
 const RouteHandler = createLazyComponent(
 	() => import(/* webpackChunkName: "route-handler" */ './RouteHandler'),
@@ -31,16 +32,21 @@ const Authorized = () => {
 		<React.Fragment>
 			<Flex
 				flex="1"
+				flexDirection="column"
 				style={{
 					height: '100%',
 				}}
 			>
+				<NavBar />
 				<PageTitle siteName={manifestJSON.name} />
-				<HomeChannel channel={home} />
 
-				<Switch>
-					<Route path="/*" component={RouteHandler} />
-				</Switch>
+				<Flex flex="1" style={{ minHeight: 0 }}>
+					<HomeChannel channel={home} />
+
+					<Switch>
+						<Route path="/*" component={RouteHandler} />
+					</Switch>
+				</Flex>
 			</Flex>
 
 			{isChatWidgetOpen && (

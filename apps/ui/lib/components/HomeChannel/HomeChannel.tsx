@@ -3,19 +3,10 @@ import classnames from 'classnames';
 import memoize from 'memoize-one';
 import _ from 'lodash';
 import React from 'react';
-import { Box, Button, Divider, Fixed, Flex, Link, Txt } from 'rendition';
+import { Box, Button, Flex, Link, Txt } from 'rendition';
 import { useSwipeable } from 'react-swipeable';
 import styled from 'styled-components';
-import {
-	ActionButton,
-	ActionRouterLink,
-	Icon,
-	MentionsCount,
-	MenuPanel,
-	UserAvatarLive,
-	withSetup,
-	Setup,
-} from '../';
+import { Icon, withSetup, Setup } from '../';
 import * as helpers from '../../services/helpers';
 import type {
 	JsonSchema,
@@ -26,10 +17,6 @@ import type {
 } from 'autumndb';
 import TreeMenu from './TreeMenu';
 import { ResponsiveContextProps } from '../../hooks/use-responsive-context';
-import UserStatusMenuItem from '../UserStatusMenuItem';
-import ViewLink from '../ViewLink';
-import OmniSearch from '../OmniSearch';
-import { LoopSelector } from '../LoopSelector';
 import { registerForNotifications } from '../../services/native-notifications';
 import { ChatButton } from './ChatButton';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
@@ -41,6 +28,7 @@ import { RouteComponentProps } from 'react-router-dom';
 const DELAY = 0.6;
 
 const HomeChannelWrapper = styled(Flex)`
+	min-height: 0;
 	&.collapsed {
 		position: absolute;
 		top: 0;
@@ -220,6 +208,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 			{
 				name: 'Bookmarks',
 				key: '__bookmarks',
+				icon: 'bookmark',
 			},
 			false,
 		);
@@ -254,16 +243,18 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	if (myViews.length) {
 		groups.main.children.push(
 			viewsToTree(myViews, {
-				name: 'My views',
+				name: 'Custom views',
 				key: '__myViews',
+				icon: 'eye',
 			}),
 		);
 	}
 	if (oneToOneViews.length) {
 		groups.main.children.push(
 			viewsToTree(oneToOneViews, {
-				name: 'Private chats',
+				name: '1 to 1s',
 				key: '__oneToOneViews',
+				icon: 'comments',
 			}),
 		);
 	}
@@ -277,6 +268,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 				viewsToTree(views, {
 					name: org ? org.name : 'Unknown organisation',
 					key,
+					icon: 'folder',
 				}),
 			);
 		}
@@ -285,9 +277,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	return groups;
 });
 
-const viewLinkActionNames = ['setDefault', 'removeView'];
 const treeMenuActionNames = ['setDefault', 'removeView', 'setSidebarExpanded'];
-const pickViewLinkActions = memoize(_.pick);
 const pickTreeMenuActions = memoize(_.pick);
 
 const bookmarksQuery = (userId: string): JsonSchema => {
@@ -543,7 +533,6 @@ export default withSetup(
 		render() {
 			const {
 				isMobile,
-				types,
 				actions,
 				channels,
 				location,
@@ -553,19 +542,12 @@ export default withSetup(
 			} = this.props;
 			const { results, bookmarks } = this.state;
 
-			const viewLinkActions = pickViewLinkActions(actions, viewLinkActionNames);
 			const treeMenuActions = pickTreeMenuActions(actions, treeMenuActionNames);
 
 			const { showDrawer, sliding } = this.state;
 			const activeChannel = channels.length > 1 ? channels[1] : null;
-			const username = user
-				? user.name || user.slug.replace(/user-/, '')
-				: null;
 			const groupedViews = groupViews(results, bookmarks, user.id, orgs);
 			const groups = groupedViews.main;
-			const defaultViews = groupedViews.defaults;
-			const activeChannelTarget = _.get(activeChannel, ['data', 'target']);
-			const activeSlice = _.get(activeChannel, ['data', 'options', 'slice']);
 
 			const collapsed =
 				isMobile &&
@@ -622,119 +604,6 @@ export default withSetup(
 							flexDirection="column"
 							data-test="home-channel__content"
 						>
-							<Flex
-								flexDirection="column"
-								style={{
-									position: 'relative',
-									borderBottom: '1px solid #eee',
-								}}
-							>
-								<Flex
-									className="user-menu-toggle"
-									py={3}
-									pl={3}
-									pr={2}
-									alignItems="center"
-									maxWidth="100%"
-									onClick={this.showMenu}
-									style={{
-										cursor: 'pointer',
-										position: 'relative',
-									}}
-								>
-									<UserAvatarLive emphasized userId={user.id} />
-									{Boolean(username) && (
-										<Txt
-											mx={2}
-											style={{
-												textOverflow: 'ellipsis',
-												flex: '1 1 0%',
-												fontWeight: 600,
-												whiteSpace: 'nowrap',
-												overflow: 'hidden',
-											}}
-										>
-											{username}
-										</Txt>
-									)}
-
-									<Icon name="caret-down" />
-
-									<MentionsCount />
-								</Flex>
-								<OmniSearch ml={3} mr={2} />
-								<LoopSelector ml={2} mr={2} mb={2} />
-							</Flex>
-
-							{this.state.showMenu && (
-								<Fixed
-									top={true}
-									right={true}
-									bottom={true}
-									left={true}
-									z={10}
-									onClick={this.hideMenu}
-								>
-									<MenuPanel className="user-menu" mx={3} py={2}>
-										{user && (
-											<UserStatusMenuItem
-												user={user}
-												actions={actions}
-												types={types}
-											/>
-										)}
-
-										{user && (
-											// Todo: Resolve the broken typing on ActionRouterLink
-											// @ts-ignore
-											<ActionRouterLink to={`/${user.slug}`}>
-												Profile
-											</ActionRouterLink>
-										)}
-
-										<ActionRouterLink to="/inbox">Inbox</ActionRouterLink>
-
-										{_.map(defaultViews, (card) => {
-											const isActive =
-												card.slug === activeChannelTarget ||
-												card.id === activeChannelTarget;
-
-											// The inbox view is only used to easily facilitate streaming of
-											// mentions
-											// TODO Remove this once the `view-my-inbox` card has been removed
-											// from Jellyfish
-											if (card.slug === 'view-my-inbox') {
-												return null;
-											}
-
-											return (
-												<ViewLink
-													key={card.id}
-													types={types}
-													actions={viewLinkActions}
-													card={card}
-													isActive={isActive}
-													activeSlice={activeSlice}
-													open={this.open}
-												/>
-											);
-										})}
-
-										<Box mx={3}>
-											<Divider height={1} />
-										</Box>
-
-										<ActionButton
-											className="user-menu__logout"
-											plain
-											onClick={this.logout}
-										>
-											Log out
-										</ActionButton>
-									</MenuPanel>
-								</Fixed>
-							)}
-
 							<Box
 								flex="1"
 								py={2}
