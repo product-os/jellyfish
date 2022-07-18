@@ -9,7 +9,7 @@ interface Props {
 	contract: Contract;
 }
 
-// Aggregate all threads that arre linked to product repositories of this loop
+// Aggregate all threads that are linked to product repositories of this loop, or directly to the loop itself
 const getQuery = (contract: Contract): JsonSchema => {
 	// The query is a intentionally verbose so that the "interleaved" lens
 	// can be correctly inferred and used prior to data being loaded from the API.
@@ -28,27 +28,21 @@ const getQuery = (contract: Contract): JsonSchema => {
 				type: 'string',
 			},
 		},
-		$$links: {
-			'is of': {
-				type: 'object',
-				properties: {
-					type: {
-						const: 'repository@1.0.0',
-					},
-				},
+		anyOf: [
+			{
 				$$links: {
-					'belongs to': {
+					'is of': {
 						type: 'object',
 						properties: {
 							type: {
-								const: 'github-org@1.0.0',
+								const: 'repository@1.0.0',
 							},
-						},
-						$$links: {
-							'belongs to': {
+							data: {
 								type: 'object',
+								// TODO: Use full relationships once https://github.com/product-os/autumndb/issues/1396 is fixed
+								required: ['is_used_by'],
 								properties: {
-									id: {
+									is_used_by: {
 										const: contract.id,
 									},
 								},
@@ -57,7 +51,19 @@ const getQuery = (contract: Contract): JsonSchema => {
 					},
 				},
 			},
-		},
+			{
+				$$links: {
+					'is of': {
+						type: 'object',
+						properties: {
+							id: {
+								const: contract.id,
+							},
+						},
+					},
+				},
+			},
+		],
 	};
 };
 
