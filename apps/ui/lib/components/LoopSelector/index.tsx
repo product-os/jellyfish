@@ -106,15 +106,18 @@ export const LoopSelector = React.memo(() => {
 		}
 	};
 
-	const onProductChange = ({ value }) => {
-		if (activeLoop) {
-			if (value) {
-				history.push(`/${activeLoop.slug}/${value.slug}`);
-			} else {
-				history.push(`/${activeLoop.slug}`);
+	const onProductChange = React.useCallback(
+		({ value }) => {
+			if (activeLoop) {
+				if (value) {
+					history.push(`/${activeLoop.slug}/${value.slug}`);
+				} else {
+					history.push(`/${activeLoop.slug}`);
+				}
 			}
-		}
-	};
+		},
+		[activeLoop],
+	);
 
 	const height = 28;
 	const customStyles: SelectProps['styles'] = {
