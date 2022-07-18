@@ -1,4 +1,131 @@
 - commits:
+    - subject: "UI: Aggregate threads linked to loops and threads linked to products
+        of loops"
+      hash: b3373d38c71e3409101d39c816544a3d21080181
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use a callback hook for product selector"
+      hash: 2c962a4552a1cc2c7ab8666a456420d8a1dc8634
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Update loop selecter e2e tests"
+      hash: fd9f3bda26e96cd0decccfdee0d2e4a5ee1f70b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix test errors"
+      hash: 081c6d4b58ca112f3f9bdfb25f9761edd2a5ebc2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Fix side menu overflow"
+      hash: 5097597c9b8fa446f940e11d7dcee15f42e27c73
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Replace unneeded GitHub orgs tab with a Threads tab on loops"
+      hash: 9f049a1c3fb091df341e51fd342ab54a97537423
+      body: |
+        The threads tab shows an aggregation of threads linked to repositories
+        of the loop.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add icons for left hand menu"
+      hash: 32ca92b118dfb6ebe96cfcf4af29a25b104d23b6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Don't show number of mentions on inbox indicator"
+      hash: 6a1836911d4877e188a754ca306756e4da49a145
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Create fast navigation selection in NavBar"
+      hash: 6b253a68633dc55725e5783a7f74d913dc450049
+      body: |
+        This change uses select lists to allow fast navigation between loops and
+        their attached products.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Make the loop selector navigate to the loop on select"
+      hash: 285ff573d88a7d6037ce9289bd646f9344e3547c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Implement new NavBar component"
+      hash: aa5e80baceabfaac640ade32f910325fa1279306
+      body: |
+        As part of transitioning to the new iteration of the Jellyfish UI the
+        user profile/avatar, search and loop selector will now appear in
+        a persistent navigation element at the top of the page.
+
+        In a follow up PR, the "loop selector" dropdown will be reworked into
+        a navigation control.
+      footer:
+        Connects-to: https://github.com/product-os/jellyfish/issues/8788
+        connects-to: https://github.com/product-os/jellyfish/issues/8788
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.0
+  title: "'UI: Implement new NavBar component'"
+  date: 2022-07-18T13:25:17.443Z
+- commits:
     - subject: Update typedoc from 0.23.7 to 0.23.8
       hash: a2031256baed7d5cb24b3db7e04bb91a95cdedbf
       body: ""
