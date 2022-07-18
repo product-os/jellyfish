@@ -943,49 +943,6 @@ test.describe('Chat', () => {
 		await page2.close()
 	})
 
-	test('Messages that alert a user should appear in their inbox and in the mentions count', async ({
-		page,
-		browser
-	}) => {
-		const context = await browser.newContext()
-		const page2 = await context.newPage()
-		await Promise.all([
-			login(page, users.community),
-			login(page2, users.community2)
-		])
-
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'thread@1.0.0'
-			})
-		})
-		const columnSelector = `.column--slug-${thread.slug}`
-
-		// Navigate to the thread page
-		await page.goto(`/${thread.id}`)
-		await page.waitForSelector(columnSelector)
-		await page.locator('[data-test="timeline-tab"]').click()
-		const msg = `@${user2.slug.slice(5)} ${uuid()}`
-		await page.waitForSelector('.new-message-input')
-		await macros.createChatMessage(page, columnSelector, msg)
-		await macros.createChatMessage(page, columnSelector, msg)
-
-		// Navigate to the inbox page
-		await page2.goto('/inbox')
-		await page2.waitForSelector('[data-test="event-card__message"]')
-		const inboxmessages = await page2.$$('[data-test="event-card__message"]')
-		await page2.waitForSelector('[data-test="homechannel-mentions-count"]')
-		const mentionscount = await macros.getElementText(
-			page2,
-			'[data-test="homechannel-mentions-count"]'
-		)
-
-		// Assert that they are equal count
-		expect(inboxmessages.length).toEqual(Number(mentionscount))
-
-		await page2.close()
-	})
-
 	test('Messages that mention a users group should appear in their inbox', async ({
 		page,
 		browser
