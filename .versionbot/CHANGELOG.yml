@@ -1,4 +1,21 @@
 - commits:
+    - subject: "Server: Lint code as part of docker build"
+      hash: e0dd07616191efad2923e7025bcfeac2d09c2de3
+      body: |
+        This change is part of continuing work to have the SUT container only
+        deal with e2e testing of the application instead of loading the source
+        code for the entire application so it can run lint and unit tests.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.6
+  title: "'Server: Lint code as part of docker build'"
+  date: 2022-07-19T12:26:06.815Z
+- commits:
     - subject: "UI: Fix link verbs in link modal"
       hash: f22ecaf4d5f980af9eea481ab0b7dd0cc8288a88
       body: |
