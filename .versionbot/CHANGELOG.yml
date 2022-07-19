@@ -1,4 +1,22 @@
 - commits:
+    - subject: "UI: Fix link verbs in link modal"
+      hash: f22ecaf4d5f980af9eea481ab0b7dd0cc8288a88
+      body: |
+        Remove odd hidden box wrapping link verb select component.
+        Remove possibility of duplicate link verbs from list.
+        Only add link verbs to the select list that are valid for the
+        selected target contract type.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 55.0.5
+  title: "'UI: Fix link verbs in link modal'"
+  date: 2022-07-19T11:26:08.811Z
+- commits:
     - subject: Run UI service lint and unit tests in UI dockerfile
       hash: 1453d7d1222bda8e2f2abad384164cc5f36053b4
       body: >
