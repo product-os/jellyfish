@@ -1,4 +1,20 @@
 - commits:
+    - subject: Drop plugin-default
+      hash: 843274fc9fe1f67f529a37ad8c5084b55d2fba49
+      body: |
+        Remove jellyfish-plugin-default as a dependency as it has been
+        merged into jellyfish-worker.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 55.0.2
+  title: "'Drop plugin-default'"
+  date: 2022-07-19T03:11:06.844Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 7.0.3 to 7.1.1
       hash: 42a840173d6b3296dc23d1206281b86f4dfadf18
       body: ""
