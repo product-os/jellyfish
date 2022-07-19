@@ -23,12 +23,25 @@ COPY ./apps/ui /usr/src/jellyfish/apps/ui
 RUN npm run build
 
 ###########################################################
+# Test
+###########################################################
+
+# https://github.com/product-os/jellyfish-base-images
+# https://registry.hub.docker.com/r/resinci/jellyfish-test
+FROM base AS test
+
+WORKDIR /usr/src/jellyfish/apps/ui
+COPY --from=base /usr/src/jellyfish/apps/ui/  /usr/src/jellyfish/apps/ui/
+
+RUN npm run test
+
+###########################################################
 # Runtime
 ###########################################################
 
 FROM nginx:1.23.0
 WORKDIR /usr/share/nginx/html
-COPY --from=base /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
+COPY --from=test /usr/src/jellyfish/apps/ui/dist/ui /usr/share/nginx/html
 COPY apps/ui/run.sh /usr/src/jellyfish/apps/ui/run.sh
 COPY apps/ui/conf/env.sh /tmp
 COPY apps/ui/conf/nginx.conf /etc/nginx/conf.d/default.conf
