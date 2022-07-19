@@ -5,27 +5,11 @@ import _ from 'lodash';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
 import { setTimeout } from 'timers/promises';
-import { bootstrap } from '../../lib/bootstrap';
-import { getPlugins } from '../../lib/plugins';
-
-const workerOptions = {
-	onError: (_context, error) => {
-		throw error;
-	},
-	database: {
-		database: `test_${uuidv4().replace(/-/g, '_')}`,
-	},
-};
 
 export const before = async (context) => {
 	context.context = {
 		id: `SERVER-TEST-${uuidv4()}`,
 	};
-
-	context.server = await bootstrap(context.context, {
-		...workerOptions,
-		plugins: getPlugins(),
-	});
 
 	context.sdk = getSdk({
 		apiPrefix: 'api/v2',

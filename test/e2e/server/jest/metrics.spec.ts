@@ -1,8 +1,6 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import request from 'request';
 import { v4 as uuidv4 } from 'uuid';
-import { bootstrap } from '../../lib/bootstrap';
-import { getPlugins } from '../../lib/plugins';
 
 const context = {} as any;
 
@@ -10,16 +8,6 @@ beforeAll(async () => {
 	context.context = {
 		id: `SERVER-TEST-${uuidv4()}`,
 	};
-	context.server = await bootstrap(context.context, {
-		onError: (_context, error) => {
-			throw error;
-		},
-		plugins: getPlugins(),
-	});
-});
-
-afterAll(async () => {
-	await context.server.close();
 });
 
 const getMetrics = async () => {
