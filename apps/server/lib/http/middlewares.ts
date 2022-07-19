@@ -1,7 +1,6 @@
 import { getLogger } from '@balena/jellyfish-logger';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
-import responseTime from 'response-time';
 import { v4 as uuidv4 } from 'uuid';
 import compression from 'compression';
 
@@ -84,25 +83,4 @@ export const attachMiddlewares = (rootContext, application) => {
 			return next();
 		}
 	});
-
-	application.use(
-		// TS-TODO: Resolve this any casting and correctly type middlewares
-		responseTime((request: any, response, time) => {
-			logger.info(request.context, 'HTTP request end', {
-				uri: request.originalUrl,
-				ip: request.ip,
-				status: response.statusCode,
-				time,
-			});
-
-			if (time > 5000) {
-				logger.info(request.context, 'Slow HTTP request', {
-					uri: request.originalUrl,
-					ip: request.ip,
-					payload: request.payload,
-					time,
-				});
-			}
-		}),
-	);
 };

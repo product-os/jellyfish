@@ -36,7 +36,7 @@ const sendHTTPError = (request, response, error) => {
 			exclude: ['expected'],
 		});
 
-		logger.info(request.context, 'HTTP expected error', {
+		logger.debug(request.context, 'HTTP expected error', {
 			ip: request.ip,
 			error: errorObject,
 		});
@@ -123,19 +123,12 @@ export const attachRoutes = (
 		const PING_TYPE = 'ping@1.0.0';
 		const PING_SLUG = 'ping-api';
 
-		const getTypeStartDate = new Date();
 		return kernel
 			.getContractBySlug(request.context, kernel.adminSession()!, PING_TYPE)
 			.then(async (typeContract) => {
-				const getTypeEndDate = new Date();
 				if (!typeContract) {
 					throw new Error(`No type contract: ${PING_TYPE}`);
 				}
-
-				logger.info(request.context, 'Got type contract', {
-					slug: typeContract.slug,
-					time: getTypeEndDate.getTime() - getTypeStartDate.getTime(),
-				});
 
 				const adminSession = await kernel.getContractById(
 					request.context,
@@ -143,7 +136,6 @@ export const attachRoutes = (
 					kernel.adminSession()!,
 				);
 				strict(adminSession);
-				const enqueueStartDate = new Date();
 				const actionRequest = await worker.insertCard<ActionRequestContract>(
 					request.context,
 					kernel.adminSession()!,
@@ -173,23 +165,10 @@ export const attachRoutes = (
 				);
 				strict(actionRequest);
 
-				const enqueueEndDate = new Date();
-				logger.info(request.context, 'Enqueue ping request', {
-					slug: actionRequest.slug,
-					time: enqueueEndDate.getTime() - enqueueStartDate.getTime(),
-				});
-
-				const waitStartDate = new Date();
 				const results = await worker.producer.waitResults(
 					request.context,
 					actionRequest,
 				);
-
-				const waitEndDate = new Date();
-				logger.info(request.context, 'Waiting for ping results', {
-					slug: actionRequest.slug,
-					time: waitEndDate.getTime() - waitStartDate.getTime(),
-				});
 
 				if (results.error) {
 					return response.status(500).json(results);
@@ -246,7 +225,7 @@ export const attachRoutes = (
 	);
 
 	const oauthAssociate = async (request, response, slug, code) => {
-		logger.info(request.context, `Associating oauth user: ${slug}`, {
+		logger.debug(request.context, `Associating oauth user: ${slug}`, {
 			provider: request.params.providerSlug,
 		});
 
@@ -294,7 +273,7 @@ export const attachRoutes = (
 				},
 			);
 
-			logger.info(request.context, 'Getting external user match', {
+			logger.debug(request.context, 'Getting external user match', {
 				provider: request.params.providerSlug,
 				externalUser,
 			});
@@ -332,7 +311,7 @@ export const attachRoutes = (
 				);
 
 				if (!user) {
-					logger.info(
+					logger.debug(
 						request.context,
 						`Failed to sync external oauth user: ${slug}`,
 						{
@@ -564,11 +543,6 @@ export const attachRoutes = (
 		'/api/v2/hooks/:provider/:type*?',
 		async (request, response) => {
 			const hostname = request.headers.host;
-			const startDate = new Date();
-			logger.info(request.context, 'Received webhook', {
-				ip: request.ip,
-				source: request.params.provider,
-			});
 
 			// A dummy /dev/null that we can use in various
 			// services for testing purposes.
@@ -609,13 +583,6 @@ export const attachRoutes = (
 					});
 				}
 
-				const validateDate = new Date();
-				logger.info(request.context, 'Webhook validated', {
-					source: request.params.provider,
-					ip: request.ip,
-					time: validateDate.getTime() - startDate.getTime(),
-				});
-
 				const EXTERNAL_EVENT_BASE_TYPE = 'external-event';
 				const EXTERNAL_EVENT_TYPE = `${EXTERNAL_EVENT_BASE_TYPE}@1.0.0`;
 				const typeContract = await kernel.getContractBySlug(
@@ -630,11 +597,6 @@ export const attachRoutes = (
 
 				const id = uuidv4();
 				const slug = `${EXTERNAL_EVENT_BASE_TYPE}-${id}`;
-
-				logger.info(request.context, 'Creating external event', {
-					source: request.params.provider,
-					slug,
-				});
 
 				const adminSession = await kernel.getContractById(
 					request.context,
@@ -678,12 +640,6 @@ export const attachRoutes = (
 						},
 					},
 				);
-				const enqueuedDate = new Date();
-				logger.info(request.context, 'Webhook enqueued', {
-					source: request.params.provider,
-					ip: request.ip,
-					time: enqueuedDate.getTime() - startDate.getTime(),
-				});
 
 				return response.status(200).json({
 					error: false,
@@ -796,13 +752,6 @@ export const attachRoutes = (
 						? JSON.parse(request.body.action)
 						: request.body;
 
-					logger.info(request.context, 'HTTP action request', {
-						ip: request.ip,
-						card: action.card,
-						type: action.type,
-						action: action.action,
-					});
-
 					if (_.isEmpty(action)) {
 						return response.status(400).json({
 							error: true,
@@ -865,7 +814,6 @@ export const attachRoutes = (
 							request.session,
 							request.body.query,
 							request.body.options,
-							request.ip,
 						)
 						.then((data) => {
 							return response.status(200).json({
@@ -892,7 +840,6 @@ export const attachRoutes = (
 					request.params.slug,
 					request.body.params,
 					request.body.options,
-					request.ip,
 				)
 				.then((data) => {
 					if (!data) {
@@ -919,7 +866,6 @@ export const attachRoutes = (
 					const user = await authFacade.whoami(
 						request.context,
 						request.session,
-						request.ip,
 					);
 
 					return response.status(200).json({

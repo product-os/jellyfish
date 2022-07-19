@@ -30,7 +30,7 @@ export class Storage {
 			Bucket: environment.aws.s3BucketName,
 		};
 
-		logger.info(context, 'Storing S3 object', {
+		logger.debug(context, 'Storing S3 object', {
 			key: object.Key,
 			bucket: object.Bucket,
 		});
@@ -52,14 +52,14 @@ export class Storage {
 			Bucket: environment.aws.s3BucketName,
 		};
 
-		logger.info(context, 'Getting S3 object', {
+		logger.debug(context, 'Getting S3 object', {
 			key: object.Key,
 			bucket: object.Bucket,
 		});
 
 		try {
 			const data = await s3.getObject(object).promise();
-			logger.info(context, 'S3 object fetch response', _.omit(data, ['Body']));
+			logger.debug(context, 'S3 object fetch response', _.omit(data, ['Body']));
 			return data.Body;
 		} catch (error: any) {
 			logger.exception(context, 'S3 error', error);
