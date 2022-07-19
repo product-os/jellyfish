@@ -2,20 +2,17 @@ import React from 'react';
 import _ from 'lodash';
 import { strict as assert } from 'assert';
 import pluralize from 'pluralize';
-import { Badge, Modal, Select, Txt, Box } from 'rendition';
+import { Badge, Modal, Select, Txt } from 'rendition';
 import * as notifications from '../../services/notifications';
 import { Icon } from '../';
 import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import { AutoCompleteCardSelect } from '../AutoCompleteCardSelect';
-import { Hideable } from '../Hideable';
 import * as linkUtils from './util';
 import { TypeFilter } from './TypeFilter';
 import * as helpers from '../../services/helpers';
 import type { RelationshipContract } from 'autumndb';
 import { BoundActionCreators } from '../../types';
 import { actionCreators } from '../../store';
-
-const HideableBox = Hideable(Box);
 
 export interface StateProps {
 	allTypes: TypeContract[];
@@ -95,14 +92,12 @@ export const LinkModal: React.FunctionComponent<Props> = ({
 		for (const r of filteredRelationships) {
 			if (r.data.from.type === fromType) {
 				targets.push({ name: r.name as string });
-				targets.push({ name: r.data.inverseName as string });
 			} else {
 				targets.push({ name: r.data.inverseName as string });
-				targets.push({ name: r.name as string });
 			}
 		}
 		setLinkType(targets[0]);
-		return targets;
+		return _.uniqWith(targets, _.isEqual);
 	}, [fromType, linkVerb, selectedTarget]);
 
 	const onDone = async () => {
@@ -190,20 +185,18 @@ export const LinkModal: React.FunctionComponent<Props> = ({
 				{cards[0].name || cards[0].slug}
 			</Txt>
 			{!linkVerb && (
-				<HideableBox isHidden={!selectedTarget || linkTypeTargets.length === 1}>
-					<Select
-						mb={3}
-						id="card-linker--type-select"
-						value={linkType || _.first(linkTypeTargets)}
-						onChange={({ option }: { option: { name: string } }) => {
-							setLinkType(option);
-						}}
-						labelKey="name"
-						valueKey="name"
-						options={linkTypeTargets}
-						data-test="card-linker--type__input"
-					/>
-				</HideableBox>
+				<Select
+					mb={3}
+					id="card-linker--type-select"
+					value={linkType || _.first(linkTypeTargets)}
+					onChange={({ option }: { option: { name: string } }) => {
+						setLinkType(option);
+					}}
+					labelKey="name"
+					valueKey="name"
+					options={linkTypeTargets}
+					data-test="card-linker--type__input"
+				/>
 			)}
 			{!target && validTypes.length > 1 && (
 				<TypeFilter
