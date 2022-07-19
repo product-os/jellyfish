@@ -1,4 +1,32 @@
 - commits:
+    - subject: "Server: Reduce verbosity of logging"
+      hash: 5f46b3ade9b3a87f45a159cf672d263994821ad7
+      body: |
+        In some cases logging has been change from `info` to `debug`, in others
+        the log has been completely removed where it was deemed to be redundant.
+        In a few instances we were using timers, these have been removed as we
+        now have much better instrumenting via the metrics.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Add prettierrc file to root
+      hash: 8d9606f449f0ca904152cff0cb7066e48429aa53
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.3
+  title: "'Lucianbuzzo/reduce logging'"
+  date: 2022-07-19T07:10:12.788Z
+- commits:
     - subject: Drop plugin-default
       hash: 843274fc9fe1f67f529a37ad8c5084b55d2fba49
       body: |
