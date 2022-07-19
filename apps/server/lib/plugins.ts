@@ -1,5 +1,4 @@
 import { balenaApiPlugin } from '@balena/jellyfish-plugin-balena-api';
-import { defaultPlugin } from '@balena/jellyfish-plugin-default';
 import { discoursePlugin } from '@balena/jellyfish-plugin-discourse';
 import { flowdockPlugin } from '@balena/jellyfish-plugin-flowdock';
 import { frontPlugin } from '@balena/jellyfish-plugin-front';
@@ -10,7 +9,6 @@ import { PluginDefinition } from '@balena/jellyfish-worker';
 
 export function getPlugins(): PluginDefinition[] {
 	return [
-		defaultPlugin(),
 		typeformPlugin(),
 		githubPlugin(),
 		flowdockPlugin(),
