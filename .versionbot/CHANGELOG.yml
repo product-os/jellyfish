@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Tests: Split up long-running e2e UI tests"
+      hash: 3990987a241796ef4776dfb84bd65b9f2181d925
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.4
+  title: "'Tests: Split up long-running e2e UI tests'"
+  date: 2022-07-19T08:59:40.201Z
+- commits:
     - subject: "Server: Reduce verbosity of logging"
       hash: 5f46b3ade9b3a87f45a159cf672d263994821ad7
       body: |
