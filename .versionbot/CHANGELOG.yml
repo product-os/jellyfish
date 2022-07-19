@@ -1,4 +1,29 @@
 - commits:
+    - subject: Run UI service lint and unit tests in UI dockerfile
+      hash: 1453d7d1222bda8e2f2abad384164cc5f36053b4
+      body: >
+        Currently these tests are run inside the SUT dockerfile, which means
+
+        that image needs to load all of the UI source code as well. With this
+
+        change, the UI unit and lint tests are run as part of the UI service build step.
+
+        This approach makes more sense and should reduce the size and build time
+
+        of the SUT container, which is currently the biggest bottleneck in the
+
+        stack's build step.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 55.0.4
+  title: "'Run UI service lint and unit tests in UI dockerfile'"
+  date: 2022-07-19T09:07:06.414Z
+- commits:
     - subject: "Server: Reduce verbosity of logging"
       hash: 5f46b3ade9b3a87f45a159cf672d263994821ad7
       body: |
