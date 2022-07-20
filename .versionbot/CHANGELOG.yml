@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove duplicated type contracs that existed as test fixtures
+      hash: 39d02d4545274784e51104324bc59cd2bbaaa802
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Carol Schulze <carol@balena.io>
+        signed-off-by: Carol Schulze <carol@balena.io>
+      author: Carol Schulze
+      nested: []
+  version: 55.0.7
+  title: "'Remove duplicated type contracs that existed as test fixtures'"
+  date: 2022-07-20T18:40:08.543Z
+- commits:
     - subject: "Server: Lint code as part of docker build"
       hash: e0dd07616191efad2923e7025bcfeac2d09c2de3
       body: |
