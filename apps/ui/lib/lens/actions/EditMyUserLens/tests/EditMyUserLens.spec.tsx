@@ -4,13 +4,14 @@ jest.mock('../../../common/RelationshipsTab', () => {
 	};
 });
 
+import { CONTRACTS } from 'autumndb';
 import { getWrapper } from '../../../../../test/ui-setup';
 import '../../../../../test/react-select-mock';
 import sinon from 'sinon';
 import { mount } from 'enzyme';
 import React from 'react';
 import MyUser from '../EditMyUserLens';
-import { user, userType } from './fixtures';
+import { user } from './fixtures';
 
 const sandbox = sinon.createSandbox();
 
@@ -37,7 +38,7 @@ describe('MyUser', () => {
 					setPassword: sandbox.stub(),
 				},
 				card: { card: user },
-				types: [userType],
+				types: [CONTRACTS.user],
 			},
 		};
 	});

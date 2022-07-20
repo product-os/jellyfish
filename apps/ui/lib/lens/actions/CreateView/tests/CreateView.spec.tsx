@@ -1,3 +1,4 @@
+import { CONTRACTS } from 'autumndb';
 import { getWrapper } from '../../../../../test/ui-setup';
 import _ from 'lodash';
 import { mount } from 'enzyme';
@@ -5,7 +6,6 @@ import sinon from 'sinon';
 import React from 'react';
 import Bluebird from 'bluebird';
 import CreateView from '../CreateView';
-import userType from './fixtures/user.json';
 
 const sandbox = sinon.createSandbox();
 
@@ -22,7 +22,7 @@ describe('CreateView', () => {
 				user: {
 					slug: 'user-1',
 				},
-				allTypes: [userType],
+				allTypes: [CONTRACTS.user],
 				channel: {
 					id: 'c-1',
 					slug: 'channel-1',

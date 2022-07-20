@@ -1,13 +1,11 @@
 import { getPromiseResolver, getWrapper } from '../../../../test/ui-setup';
-import type { RelationshipContract } from 'autumndb';
+import { CONTRACTS, RelationshipContract } from 'autumndb';
 import { mount } from 'enzyme';
 import sinon from 'sinon';
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { LinkModal } from '../LinkModal';
 import * as AutoCompleteCardSelect from '../../AutoCompleteCardSelect';
-import user from './fixtures/user.json';
-import org from './fixtures/org.json';
 
 const sandbox = sinon.createSandbox();
 
@@ -31,7 +29,7 @@ const orgInstanceCard = {
 	type: 'org@1.0.0',
 };
 
-const types = [user, org];
+const types = [CONTRACTS.user, CONTRACTS.org];
 
 const targets = [
 	{
