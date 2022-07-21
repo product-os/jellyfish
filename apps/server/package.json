@@ -33,7 +33,7 @@
     "@balena/jellyfish-plugin-github": "^7.1.2",
     "@balena/jellyfish-plugin-outreach": "^4.2.10",
     "@balena/jellyfish-plugin-typeform": "^9.0.7",
-    "@balena/jellyfish-worker": "^31.5.0",
+    "@balena/jellyfish-worker": "^32.0.3",
     "@balena/socket-prometheus-metrics": "^0.0.3",
     "autumndb": "^20.3.6",
     "aws-sdk": "^2.1157.0",
