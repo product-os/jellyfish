@@ -1,4 +1,21 @@
 - commits:
+    - subject: "Server: Allow external support users to read relationships"
+      hash: d794b4d9f752c45b8e0aa439e2b75d9ce16468a8
+      body: |
+        This fixes a bug where external support users are unable to directly
+        create links between contracts because the SDK needs to read
+        relationships to create the correct link.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 56.0.2
+  title: "'Server: Allow external support users to read relationships'"
+  date: 2022-07-21T12:11:02.339Z
+- commits:
     - subject: Update nginx from 1.23.0 to 1.23.1
       hash: c58cd81691039228f8e648316ab00b199a200156
       body: ""
