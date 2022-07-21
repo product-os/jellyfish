@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update nginx from 1.23.0 to 1.23.1
+      hash: c58cd81691039228f8e648316ab00b199a200156
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 56.0.1
+  title: "'Update nginx from 1.23.0 to 1.23.1'"
+  date: 2022-07-21T10:42:52.999Z
+- commits:
     - subject: Use session identity instead of tokens for worker and kernel
       hash: fdf81bc2f791bd239d2325684a004718fd102dfb
       body: >
