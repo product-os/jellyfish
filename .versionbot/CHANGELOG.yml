@@ -1,4 +1,23 @@
 - commits:
+    - subject: Use session identity instead of tokens for worker and kernel
+      hash: fdf81bc2f791bd239d2325684a004718fd102dfb
+      body: >
+        This change brings in the [update to
+        autumndb](https://github.com/product-os/autumndb/pull/1363) that removes
+        direct session handling.
+
+        Instead of AutumnDB handling session tokens, it only deals with the identity/actor making requests. Authorization of users is now hoisted up to the route layer at the top of the call stack, where it can eventually be delegated to an external service, such as Ory Kratos.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 56.0.0
+  title: "'Use session identity instead of tokens for worker and kernel'"
+  date: 2022-07-21T09:54:40.058Z
+- commits:
     - subject: Update server nodemon watch list
       hash: 461f64e9f28ae049c1e96081eeff402368bd07f7
       body: ""
