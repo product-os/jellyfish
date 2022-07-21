@@ -22,64 +22,69 @@ export const before = async (context) => {
 		id: `SERVER-TEST-${uuidv4()}`,
 	};
 
-	context.server = await bootstrap(context.context, {
-		...workerOptions,
-		plugins: getPlugins(),
-	});
+	try {
+		context.server = await bootstrap(context.context, {
+			...workerOptions,
+			plugins: getPlugins(),
+		});
 
-	context.sdk = getSdk({
-		apiPrefix: 'api/v2',
-		apiUrl: `${environment.http.host}:${environment.http.port}`,
-	});
+		context.sdk = getSdk({
+			apiPrefix: 'api/v2',
+			apiUrl: `${environment.http.host}:${environment.http.port}`,
+		});
 
-	const token = await context.sdk.auth.login({
-		username: environment.test.user.username,
-		password: environment.test.user.password,
-	});
+		const token = await context.sdk.auth.login({
+			username: environment.test.user.username,
+			password: environment.test.user.password,
+		});
 
-	context.token = token.id;
-	context.sdk.setAuthToken(context.token);
-	context.username = environment.integration.default.user;
+		context.token = token.id;
+		context.sdk.setAuthToken(context.token);
+		context.username = environment.integration.default.user;
 
-	context.createUser = async (username: string) => {
-		const { sdk } = context;
-		const slug = `user-${username}`;
-		const usrContract =
-			(await sdk.card.get(slug)) ||
-			(await sdk.action({
-				card: 'user@1.0.0',
-				type: 'type',
-				action: 'action-create-user@1.0.0',
-				arguments: {
-					username: slug,
-					email: `${username}@example.com`,
-					password: 'foobarbaz',
+		context.createUser = async (username: string) => {
+			const { sdk } = context;
+			const slug = `user-${username}`;
+			const usrContract =
+				(await sdk.card.get(slug)) ||
+				(await sdk.action({
+					card: 'user@1.0.0',
+					type: 'type',
+					action: 'action-create-user@1.0.0',
+					arguments: {
+						username: slug,
+						email: `${username}@example.com`,
+						password: 'foobarbaz',
+					},
+				}));
+			const orgContract = await sdk.card.get('org-balena');
+			await sdk.card.link(usrContract, orgContract, 'is member of');
+			return usrContract;
+		};
+
+		const userContract = await context.createUser(context.username);
+
+		context.sessionToken = uuidv4();
+
+		// Force login, even if we don't know the password
+		context.session = await context.sdk.card.create({
+			slug: `session-${userContract.slug}-integration-tests-${uuidv4()}`,
+			type: 'session',
+			version: '1.0.0',
+			data: {
+				actor: userContract.id,
+				token: {
+					authentication: await bcrypt.hash(context.sessionToken, 12),
 				},
-			}));
-		const orgContract = await sdk.card.get('org-balena');
-		await sdk.card.link(usrContract, orgContract, 'is member of');
-		return usrContract;
-	};
-
-	const userContract = await context.createUser(context.username);
-
-	context.sessionToken = uuidv4();
-
-	// Force login, even if we don't know the password
-	context.session = await context.sdk.card.create({
-		slug: `session-${userContract.slug}-integration-tests-${uuidv4()}`,
-		type: 'session',
-		version: '1.0.0',
-		data: {
-			actor: userContract.id,
-			token: {
-				authentication: await bcrypt.hash(context.sessionToken, 12),
 			},
-		},
-	});
+		});
 
-	await context.sdk.auth.loginWithToken(context.session.id);
-	context.user = await context.sdk.auth.whoami();
+		await context.sdk.auth.loginWithToken(context.session.id);
+		context.user = await context.sdk.auth.whoami();
+	} catch (e) {
+		console.error('SDK setup failed');
+		console.error(e);
+	}
 
 	context.waitForMatch = async (query, times = 40) => {
 		if (times === 0) {
@@ -128,6 +133,8 @@ export const beforeEach = (context) => {
 
 			request(requestOptions, (error, response, body) => {
 				if (error) {
+					console.log('got an error');
+					console.log(error);
 					return reject(error);
 				}
 

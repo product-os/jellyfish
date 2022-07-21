@@ -58,7 +58,9 @@ exports.subscribeToThread = async (user, thread) => {
 
 exports.getRenderedConversationIds = async (page) => {
 	return page.evaluate(() => {
-		const containers = document.querySelectorAll('[data-test-component="card-chat-summary"]')
+		const containers = document.querySelectorAll(
+			'[data-test-component="card-chat-summary"]'
+		)
 		return Array.from(containers).map((container) => {
 			return container.getAttribute('data-test-id')
 		})
@@ -67,7 +69,9 @@ exports.getRenderedConversationIds = async (page) => {
 
 exports.scrollToLatestConversationListItem = (page) => {
 	return page.evaluate(() => {
-		const containers = document.querySelectorAll('[data-test-component="card-chat-summary"]')
+		const containers = document.querySelectorAll(
+			'[data-test-component="card-chat-summary"]'
+		)
 		containers[containers.length - 1].scrollIntoView()
 	})
 }
@@ -96,29 +100,25 @@ exports.prepareUser = async (sdk, org, role, name) => {
 		}
 	})
 
-	await sdk.card.update(
-		card.id,
-		card.type,
-		[
-			{
-				op: 'add',
-				path: '/data/roles/0',
-				value: role
-			},
-			{
-				op: 'add',
-				path: '/data/profile',
-				value: {
-					name: (([ first, last ]) => {
-						return {
-							first,
-							last
-						}
-					})(name.split(' '))
-				}
+	await sdk.card.update(card.id, card.type, [
+		{
+			op: 'add',
+			path: '/data/roles/0',
+			value: role
+		},
+		{
+			op: 'add',
+			path: '/data/profile',
+			value: {
+				name: (([ first, last ]) => {
+					return {
+						first,
+						last
+					}
+				})(name.split(' '))
 			}
-		]
-	)
+		}
+	])
 
 	if (org) {
 		await sdk.card.link(card, org, 'is member of')
@@ -178,13 +178,55 @@ exports.insertAgentReply = async (user, thread, message) => {
 }
 
 exports.waitForNotifications = (page, notificationsLength) => {
-	return exports.retry(60, async () => {
-		const notifications = await page.evaluate(() => {
-			return window.notifications
-		})
-		if (notifications && notifications.length === notificationsLength) {
-			return notifications
-		}
-		throw new Error('No notifications found')
-	}, 5000)
+	return exports.retry(
+		60,
+		async () => {
+			const notifications = await page.evaluate(() => {
+				return window.notifications
+			})
+			if (notifications && notifications.length === notificationsLength) {
+				return notifications
+			}
+			const allNotifications = await page.evaluate(async () => {
+				const results = await window.sdk.card.getAllByType('notification')
+				return results
+			})
+
+			console.log(
+				'allNotifications',
+				JSON.stringify(allNotifications, null, 2)
+			)
+
+			const allSubscriptions = await page.evaluate(async () => {
+				// Query for all subscription contracts with $$links for attached elements
+				const results = await window.sdk.query({
+					anyOf: [
+						{
+							$$links: {
+								'has attached': {
+									type: 'object'
+								}
+							}
+						},
+						true
+					],
+					type: 'object',
+					properties: {
+						type: {
+							const: 'subscription@1.0.0'
+						}
+					}
+				})
+				return results
+			})
+
+			console.log(
+				'allSubscriptions',
+				JSON.stringify(allSubscriptions, null, 2)
+			)
+
+			throw new Error('No notifications found')
+		},
+		5000
+	)
 }

@@ -50,15 +50,19 @@ export const useNotificationWatcher = ({ onNotificationsChange }) => {
 								type: {
 									const: 'support-thread@1.0.0',
 								},
-								data: {
-									type: 'object',
-									required: ['product'],
-									properties: {
-										product: {
-											const: product,
-										},
-									},
-								},
+								data: product
+									? {
+											type: 'object',
+									  }
+									: {
+											type: 'object',
+											required: ['product'],
+											properties: {
+												product: {
+													const: product,
+												},
+											},
+									  },
 							},
 						},
 					},

@@ -4,62 +4,13 @@ import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import * as metrics from '@balena/jellyfish-metrics';
 import { ActionRequestContract, Worker } from '@balena/jellyfish-worker';
 import { strict } from 'assert';
-import {
-	Cache,
-	errors as autumndbErrors,
-	Kernel,
-	SessionContract,
-} from 'autumndb';
+import { Cache, errors as autumndbErrors, Kernel } from 'autumndb';
 import _ from 'lodash';
 import { setTimeout } from 'timers/promises';
 import { createServer } from './http';
 import { attachSocket } from './socket';
 
 const logger = getLogger(__filename);
-
-// A session with a guaranteed actor set
-interface SessionContractWithActor extends SessionContract {
-	data: SessionContract['data'] & {
-		actor: string;
-	};
-}
-
-const getActorKey = async (
-	logContext: LogContext,
-	kernel: Kernel,
-	session: string,
-	actorId: string,
-): Promise<SessionContractWithActor> => {
-	const keySlug = `session-action-${actorId}`;
-	const key = await kernel.getContractBySlug<SessionContract>(
-		logContext,
-		session,
-		`${keySlug}@1.0.0`,
-	);
-
-	if (key && key.active && key.data.actor === actorId) {
-		return key;
-	}
-
-	logger.debug(logContext, 'Create worker key', {
-		slug: keySlug,
-		actor: actorId,
-	});
-
-	return kernel.replaceContract(
-		logContext,
-		session,
-		Kernel.defaults({
-			slug: keySlug,
-			active: true,
-			version: '1.0.0',
-			type: 'session@1.0.0',
-			data: {
-				actor: actorId,
-			},
-		}),
-	);
-};
 
 // TS-TODO: Define type for options argument
 export const bootstrap = async (logContext: LogContext, options: any) => {
@@ -106,15 +57,19 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	await worker.initialize(logContext, async (actionRequest) => {
 		metrics.markActionRequest(actionRequest.data.action.split('@')[0]);
 		try {
-			const key = await getActorKey(
+			// Get the actor by id
+			if (!actionRequest.data.actor) {
+				console.log('No actor found for action request', actionRequest);
+			}
+			const actor = await kernel.getContractById(
 				logContext,
-				kernel,
 				kernel.adminSession()!,
-				actionRequest.data.actor!,
+				actionRequest.data.actor,
 			);
+			strict(actor, 'Actor not found');
 			const requestData = actionRequest.data;
 			requestData.context.worker = logContext.id;
-			await worker.execute(key.id, actionRequest);
+			await worker.execute({ actor }, actionRequest);
 		} catch (error: any) {
 			logger.error(logContext, 'Failed to execute action request', {
 				id: actionRequest.id,
@@ -131,13 +86,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			await cache.disconnect();
 		}
 	};
-
-	const adminSession = await kernel.getContractById<SessionContract>(
-		logContext,
-		kernel.adminSession()!,
-		kernel.adminSession()!,
-	);
-	strict(adminSession);
 
 	logger.info(logContext, 'Inserting test user', {
 		username: environment.test.user.username,
@@ -205,7 +153,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			worker.typeContracts['action-request@1.0.0'],
 			{
 				timestamp: new Date().toISOString(),
-				actor: adminSession.data.actor,
+				actor: kernel.adminSession()?.actor.id,
 			},
 			{
 				type: 'action-request@1.0.0',
@@ -214,7 +162,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 					context: logContext,
 					epoch: actionRequestDate.valueOf(),
 					timestamp: actionRequestDate.toISOString(),
-					actor: adminSession.data.actor,
+					actor: kernel.adminSession()?.actor.id,
 					input: {
 						id: userContract.id,
 					},
@@ -300,7 +248,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 						context: logContext,
 						card: channelContract!.id,
 						type: channelContract!.type,
-						actor: adminSession.data.actor,
+						actor: kernel.adminSession()?.actor.id,
 						epoch: new Date().valueOf(),
 						input: {
 							id: channelContract!.id,

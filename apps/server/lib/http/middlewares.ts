@@ -1,8 +1,9 @@
-import { getLogger } from '@balena/jellyfish-logger';
+import { getLogger, LogContext } from '@balena/jellyfish-logger';
 import bodyParser from 'body-parser';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
 import compression from 'compression';
+import { Application } from 'express';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -10,7 +11,10 @@ const packageJSON = require('../../../../package.json');
 
 const logger = getLogger(__filename);
 
-export const attachMiddlewares = (rootContext, application) => {
+export const attachMiddlewares = (
+	rootContext: LogContext,
+	application: Application,
+) => {
 	application.use(compression());
 
 	application.use(

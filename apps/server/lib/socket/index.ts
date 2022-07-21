@@ -1,6 +1,12 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import * as prometheus from '@balena/socket-prometheus-metrics';
-import type { Kernel } from 'autumndb';
+import type {
+	AutumnDBSession,
+	Contract,
+	JsonSchema,
+	Kernel,
+	QueryOptions,
+} from 'autumndb';
 import express from 'express';
 import basicAuth from 'express-basic-auth';
 import http from 'http';
@@ -8,13 +14,60 @@ import _ from 'lodash';
 import * as socketIo from 'socket.io';
 import redisAdapter from 'socket.io-redis';
 import { v4 as uuidv4 } from 'uuid';
+import { getSessionFromToken } from '../auth';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
 const packageJSON = require('../../../../package.json');
 
+interface ClientToServerEvents {
+	query: (payload: {
+		token: string;
+		data: {
+			query: JsonSchema;
+		};
+	}) => void;
+	queryDataset: (payload: {
+		data: {
+			schema: JsonSchema;
+			options: QueryOptions;
+		};
+	}) => void;
+	setSchema: (payload: {
+		data: {
+			schema: JsonSchema;
+		};
+	}) => void;
+	typing: (payload: { token: string; user: string; card: string }) => void;
+}
+
+interface ServerToClientEvents {
+	streamError: (payload: { error: boolean; data: any }) => void;
+	ready: () => void;
+	dataset: (payload: {
+		error: boolean;
+		data: {
+			id: string;
+			cards: Contract[];
+		};
+	}) => void;
+	update: (payload: {
+		error: boolean;
+		data: {
+			id: string;
+			contractType: string;
+			type: string;
+			after: null | Contract;
+		};
+	}) => void;
+	typing: (payload: { user: string; card: string }) => void;
+}
+
 export const attachSocket = (kernel: Kernel, server) => {
-	const socketServer = new socketIo.Server(server, {
+	const socketServer = new socketIo.Server<
+		ClientToServerEvents,
+		ServerToClientEvents
+	>(server, {
 		pingTimeout: 60000,
 		transports: ['websocket', 'polling'],
 		perMessageDeflate: true,
@@ -35,7 +88,8 @@ export const attachSocket = (kernel: Kernel, server) => {
 		const ready = new Promise<{ stream: any; payload: any }>((resolve) => {
 			// The query property can be either a JSON schema, view ID or a view contract
 			socket.on('query', async (payload) => {
-				if (!payload.token) {
+				const { token } = payload;
+				if (!token) {
 					return socket.emit('streamError', {
 						error: true,
 						data: 'No session token',
@@ -43,12 +97,11 @@ export const attachSocket = (kernel: Kernel, server) => {
 				}
 
 				let stream: any = null;
+				let session: AutumnDBSession;
+
 				try {
-					stream = await kernel.stream(
-						context,
-						payload.token,
-						payload.data.query,
-					);
+					session = await getSessionFromToken(context, kernel, token);
+					stream = await kernel.stream(context, session, payload.data.query);
 				} catch (err: any) {
 					return socket.emit('streamError', {
 						error: true,

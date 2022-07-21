@@ -1,9 +1,10 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import type { Contract, Kernel } from 'autumndb';
+import type { AutumnDBSession, Contract, Kernel } from 'autumndb';
 import jsonwebtoken from 'jsonwebtoken';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import { getSessionFromToken } from '../auth';
 
 const logger = getLogger(__filename);
 
@@ -77,36 +78,23 @@ export const authenticate = async (request, response, kernel: Kernel) => {
 		return response.sendStatus(503);
 	}
 
-	let session: string | null = null;
+	let session: AutumnDBSession | null = null;
 	let actorSlug: string | null = null;
+	let token: string | null = null;
 	try {
 		// Get id and session from basic auth header
-		[actorSlug, session] = b64decode(
+		[actorSlug, token] = b64decode(
 			(request.headers.authorization || '').split(' ')[1] || '',
 		).split(':');
-		if (!actorSlug || !session) {
+		if (!actorSlug || !token) {
 			logger.warn(request.context, 'Session token missing');
 			return response.status(400).send('session token missing');
 		}
 
 		// Retrieve actor contract to verify the session
-		// TODO figure out why we need the version on the slug here
-		const actor = await kernel.getContractBySlug(
-			request.context,
-			session,
-			`${actorSlug}@latest`,
-		);
-		if (!actor) {
-			throw new Error('Unable to load actor');
-		}
+		session = await getSessionFromToken(request.context, kernel, token);
 
-		// Retrieve session contract
-		const sessionContract = await kernel.getContractById(
-			request.context,
-			session,
-			session,
-		);
-		if (!session || sessionContract!.data.actor !== actor.id) {
+		if (session.actor.slug !== actorSlug) {
 			throw new Error('Invalid session');
 		}
 	} catch (error) {

@@ -16,5 +16,5 @@ export function getPlugins(): PluginDefinition[] {
 		outreachPlugin(),
 		frontPlugin(),
 		balenaApiPlugin(),
-	];
+	] as any;
 }

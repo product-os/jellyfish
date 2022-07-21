@@ -1,10 +1,11 @@
 import { LogContext } from '@balena/jellyfish-logger';
 import {
-	JsonSchema,
 	Kernel,
 	errors as coreErrors,
+	JsonSchema,
 	ViewContract,
 } from 'autumndb';
+import type { AutumnDBSession } from 'autumndb';
 import _ from 'lodash';
 
 export class QueryFacade {
@@ -16,7 +17,7 @@ export class QueryFacade {
 
 	private async getQuerySchema(
 		logContext: LogContext,
-		session: string,
+		session: AutumnDBSession,
 		query: JsonSchema | string,
 	): Promise<JsonSchema | ViewContract> {
 		if (!_.isString(query)) {
@@ -60,7 +61,7 @@ export class QueryFacade {
 
 	async queryAPI(
 		logContext: LogContext,
-		session: string,
+		session: AutumnDBSession,
 		queryIsh: JsonSchema | string,
 		options,
 	) {
