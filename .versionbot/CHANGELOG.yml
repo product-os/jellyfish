@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Server: Fix issue with flakey message syncing to Front"
+      hash: d3de8400f4f8fc96dd7850f34090f47378684066
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 56.0.3
+  title: "'Server: Fix issue with flakey message syncing to Front'"
+  date: 2022-07-21T16:26:11.026Z
+- commits:
     - subject: "Server: Allow external support users to read relationships"
       hash: d794b4d9f752c45b8e0aa439e2b75d9ce16468a8
       body: |
