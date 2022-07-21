@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update server nodemon watch list
+      hash: 461f64e9f28ae049c1e96081eeff402368bd07f7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 55.0.8
+  title: "'Remove plugin-default from nodemon watch list'"
+  date: 2022-07-21T08:29:00.472Z
+- commits:
     - subject: Remove duplicated type contracs that existed as test fixtures
       hash: 39d02d4545274784e51104324bc59cd2bbaaa802
       body: ""
