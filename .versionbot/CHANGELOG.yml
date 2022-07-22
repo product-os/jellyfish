@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-environment from 12.2.2 to 12.3.0
+      hash: eb79677b09efef25833cd79ee362adf3140b1ee5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 56.0.4
+  title: "'Update @balena/jellyfish-environment from 12.2.2 to 12.3.0'"
+  date: 2022-07-22T03:51:29.423Z
+- commits:
     - subject: "Server: Fix issue with flakey message syncing to Front"
       hash: d3de8400f4f8fc96dd7850f34090f47378684066
       body: ""
