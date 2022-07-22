@@ -1,4 +1,21 @@
 - commits:
+    - subject: Temporarily remove plugin-incidents
+      hash: fec3432352037071a27a8587938c027afe13aa00
+      body: |
+        Removing plugin-incidents as adding it in caused heavy locking
+        in the production database on deployment. Will be adding this
+        plugin back in once the underlying cause has been fixed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 56.1.1
+  title: "'Temporarily remove plugin-incidents'"
+  date: 2022-07-22T05:26:08.463Z
+- commits:
     - subject: Add @balena/jellyfish-plugin-incidents
       hash: 599e5108255402dd9676cdc3361aab48f001bb22
       body: ""
