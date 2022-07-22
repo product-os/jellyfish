@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add @balena/jellyfish-plugin-incidents
+      hash: 599e5108255402dd9676cdc3361aab48f001bb22
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@balena.io>
+        signed-off-by: Josh Bowling <josh@balena.io>
+      author: Josh Bowling
+      nested: []
+  version: 56.1.0
+  title: "'Add @balena/jellyfish-plugin-incidents'"
+  date: 2022-07-22T04:20:11.094Z
+- commits:
     - subject: Update @balena/jellyfish-environment from 12.2.2 to 12.3.0
       hash: eb79677b09efef25833cd79ee362adf3140b1ee5
       body: ""
