@@ -31,7 +31,6 @@
     "@balena/jellyfish-plugin-flowdock": "^5.0.48",
     "@balena/jellyfish-plugin-front": "^6.0.3",
     "@balena/jellyfish-plugin-github": "^8.0.0",
-    "@balena/jellyfish-plugin-incidents": "^6.1.0",
     "@balena/jellyfish-plugin-outreach": "^5.0.1",
     "@balena/jellyfish-plugin-typeform": "^10.0.0",
     "@balena/jellyfish-worker": "^32.0.4",
