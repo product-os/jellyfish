@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update autumndb from 20.3.3 to 21.1.4
+      hash: 5857e641a15cb9bd52ce66a1491906f65421cab1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 56.1.4
+  title: "'Update autumndb from 20.3.3 to 21.1.4'"
+  date: 2022-07-23T10:00:54.070Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 12.0.0 to 13.0.0
       hash: ee349eb200c23012375718d852697a13f7468585
       body: ""
