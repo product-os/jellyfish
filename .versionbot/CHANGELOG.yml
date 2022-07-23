@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v4.0.7 to v4.0.8
+      hash: 3c88f83ae4cafba3693411810821ef3d870c7cbd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 56.1.2
+  title: "'Update resinci/jellyfish-test from v4.0.7 to v4.0.8'"
+  date: 2022-07-22T06:13:10.836Z
+- commits:
     - subject: Temporarily remove plugin-incidents
       hash: fec3432352037071a27a8587938c027afe13aa00
       body: |
