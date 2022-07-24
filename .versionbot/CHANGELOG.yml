@@ -1,4 +1,18 @@
 - commits:
+    - subject: Enable statuspage webhook handler
+      hash: 9dcd161e0ca0803a0034d4459206f964abe5784f
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 56.3.0
+  title: "'Enable statuspage webhook handler'"
+  date: 2022-07-24T01:28:10.339Z
+- commits:
     - subject: Add plugin-incidents
       hash: 2ed316072bbf37fa946c22d37197f2b9e3928819
       body: ""
