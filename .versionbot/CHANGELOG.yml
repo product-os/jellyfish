@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update repo.yml
+      hash: 6fe9dd158e6cbc372d4f0c986be457ca33fefa5b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 56.3.1
+  title: "'Update repo.yml'"
+  date: 2022-07-24T02:32:29.128Z
+- commits:
     - subject: Enable statuspage webhook handler
       hash: 9dcd161e0ca0803a0034d4459206f964abe5784f
       body: ""
