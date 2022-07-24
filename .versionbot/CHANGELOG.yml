@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add plugin-incidents
+      hash: 2ed316072bbf37fa946c22d37197f2b9e3928819
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 56.2.0
+  title: "'Add plugin-incidents'"
+  date: 2022-07-24T00:37:55.080Z
+- commits:
     - subject: Update autumndb from 20.3.3 to 21.1.4
       hash: 5857e641a15cb9bd52ce66a1491906f65421cab1
       body: ""
