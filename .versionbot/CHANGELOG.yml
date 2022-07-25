@@ -1,4 +1,29 @@
 - commits:
+    - subject: Update user membership test
+      hash: 7a0bb988b2ba06eee03efc9d4df2dc3c64ab2676
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "Server: Only allow org members to add users to an org"
+      hash: 21fabf206409575d8fefe55f79912d8213211610
+      body: |
+        This change also automatically adds an orgs creator to an org.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Balena CI
+      nested: []
+  version: 56.3.4
+  title: "'Only allow org members to add users to an org'"
+  date: 2022-07-25T09:35:57.553Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 32.0.4 to 32.0.8
       hash: 30dce5f2734040ba8f7d59c99a81b7994cdaba50
       body: ""
