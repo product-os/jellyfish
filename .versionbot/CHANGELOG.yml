@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 32.0.4 to 32.0.8
+      hash: 30dce5f2734040ba8f7d59c99a81b7994cdaba50
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 56.3.3
+  title: "'Update @balena/jellyfish-worker from 32.0.4 to 32.0.8'"
+  date: 2022-07-25T06:43:16.563Z
+- commits:
     - subject: Update typedoc from 0.23.8 to 0.23.9
       hash: 32fd58caf808d24fde3f999c240cb59c648dabd5
       body: ""
