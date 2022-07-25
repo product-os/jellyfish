@@ -323,41 +323,12 @@ ava.serial('Updating a user should not remove their org membership', async (test
 
 	await sdk.auth.login(userDetails)
 
-	const waitQuery = {
-		type: 'object',
-		$$links: {
-			'is member of': {
-				type: 'object',
-				required: [ 'slug' ],
-				properties: {
-					slug: {
-						type: 'string',
-						const: 'org-balena'
-					}
-				}
-			}
-		},
-		properties: {
-			id: {
-				type: 'string',
-				const: user.id
-			},
-			type: {
-				type: 'string',
-				const: 'user@1.0.0'
-			}
-		},
-		required: [ 'id', 'type' ],
-		additionalProperties: true
-	}
-
-	const balenaOrg = await sdk.card.get('org-balena', {
-		type: 'org'
+	await sdk.card.create({
+		type: 'org',
+		slug: `org-balena-${uuid()}`,
+		name: 'Balena',
+		version: '1.0.0'
 	})
-
-	await sdkHelpers.executeThenWait(sdk, () => {
-		return sdk.card.link(balenaOrg, user, 'has member')
-	}, waitQuery)
 
 	const linkedUser = await sdk.auth.whoami()
 
