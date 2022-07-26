@@ -87,42 +87,42 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		}
 	};
 
-	logger.info(logContext, 'Inserting test user', {
-		username: environment.test.user.username,
-		role: environment.test.user.role,
-	});
-
-	assert.INTERNAL(
-		logContext,
-		environment.test.user.username,
-		autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
-		`No test username: ${environment.test.user.username}`,
-	);
-
-	assert.INTERNAL(
-		logContext,
-		environment.test.user.role,
-		autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
-		`No test role: ${environment.test.user.role}`,
-	);
-
-	const userContract = await kernel.replaceContract(
-		logContext,
-		kernel.adminSession()!,
-		{
-			slug: `user-${environment.test.user.username}`,
-			type: 'user@1.0.0',
-			name: 'Test User',
-			data: {
-				email: 'test@jel.ly.fish',
-				hash: 'PASSWORDLESS',
-				roles: [environment.test.user.role],
-			},
-		},
-	);
-
 	// Need test user during development and CI.
 	if (!environment.isProduction() || environment.isCI()) {
+		logger.info(logContext, 'Inserting test user', {
+			username: environment.test.user.username,
+			role: environment.test.user.role,
+		});
+
+		assert.INTERNAL(
+			logContext,
+			environment.test.user.username,
+			autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
+			`No test username: ${environment.test.user.username}`,
+		);
+
+		assert.INTERNAL(
+			logContext,
+			environment.test.user.role,
+			autumndbErrors.JellyfishInvalidEnvironmentVariable as any,
+			`No test role: ${environment.test.user.role}`,
+		);
+
+		const userContract = await kernel.replaceContract(
+			logContext,
+			kernel.adminSession()!,
+			{
+				slug: `user-${environment.test.user.username}`,
+				type: 'user@1.0.0',
+				name: 'Test User',
+				data: {
+					email: 'test@jel.ly.fish',
+					hash: 'PASSWORDLESS',
+					roles: [environment.test.user.role, 'user-operator'],
+				},
+			},
+		);
+
 		logger.info(logContext, 'Setting test user password', {
 			username: environment.test.user.username,
 			role: environment.test.user.role,
