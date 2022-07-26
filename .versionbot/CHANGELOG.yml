@@ -1,4 +1,18 @@
 - commits:
+    - subject: Correctly initialize default worker contracts
+      hash: 2fbe5a53dc3a09ee2afefe2454807bff4859a894
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 56.3.7
+  title: "'Correctly initialize default worker contracts'"
+  date: 2022-07-26T14:02:07.784Z
+- commits:
     - subject: Update worker to 32.1.2
       hash: cf800cb3ca5339dabd332a8e54e43c5d860b6cda
       body: |
