@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update worker to 32.1.2
+      hash: cf800cb3ca5339dabd332a8e54e43c5d860b6cda
+      body: |
+        Don't allow normal users to update other user contracts. user-admin
+        and users with operator role are allowed to edit other user contracts.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 56.3.6
+  title: "'Update worker to 32.1.2'"
+  date: 2022-07-26T08:02:38.537Z
+- commits:
     - subject: Update autumndb to v21.2.0
       hash: cc0cabdbc4f7a5fd9b99460fb9c55b8eb10ae974
       body: ""
