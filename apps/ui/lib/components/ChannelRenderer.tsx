@@ -19,7 +19,7 @@ import { actionCreators } from '../store';
 import { Setup, withSetup } from './SetupProvider';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
 
-const NAVBAR_HEIGHT = 60;
+const NAVBAR_HEIGHT = 40;
 
 const createChannelQuery = (
 	idOrSlug: string,
