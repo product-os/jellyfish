@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import { Icon, PlainButton, useSetup } from '../../../components';
+import { Icon, PlainButton, useSetup } from '.';
 import type {
 	Contract,
 	ContractDefinition,
 	JsonSchema,
 	UserContract,
 } from 'autumndb';
-import { selectors } from '../../../store';
+import { selectors } from '../store';
 
 export const SubscribeButton = ({ card, ...rest }) => {
 	const { sdk } = useSetup()!;

@@ -19,7 +19,7 @@ import * as helpers from '../../../services/helpers';
 import { actionCreators, selectors } from '../../../store';
 import CardFields from '../../../components/CardFields';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
-import { SubscribeButton } from './SubscribeButton';
+import { SubscribeButton } from '../../../components/SubscribeButton';
 import type {
 	Contract,
 	JsonSchema,
