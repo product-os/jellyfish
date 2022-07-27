@@ -219,12 +219,20 @@ export const getSeedData = (
 
 	const activeLoop = _.get(user, ['data', 'profile', 'activeLoop'], null);
 
-	return Object.assign(helpers.getUpdateObjectFromSchema(schema), {
+	const seed = Object.assign(helpers.getUpdateObjectFromSchema(schema), {
 		// Always inherit markers from the view card
 		markers: viewCard.markers,
 		// Inherit the loop from the view card or the active loop
 		loop: viewCard.loop || activeLoop,
 	});
+
+	// If this is a direct message view, seed the thread with the same indicators
+	if (viewCard.data.dms && viewCard.data.actors) {
+		_.set(seed, ['data', 'dms'], viewCard.data.dms);
+		_.set(seed, ['data', 'actors'], viewCard.data.actors);
+	}
+
+	return seed;
 };
 
 export const actionCreators = {

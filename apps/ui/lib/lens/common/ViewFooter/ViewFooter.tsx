@@ -95,6 +95,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 						},
 						getSeedData(head, user),
 					);
+					console.log('seed', getSeedData(head, user));
 
 					try {
 						const newCard = await sdk.card.create(cardData);

@@ -68,12 +68,12 @@ export default withSetup(
 					'user-',
 					'',
 				)}`,
-				slug: `view-121-${slugs.join('-')}`,
-
 				// Add a compound marker, which will only allow yourself of the target
 				// user to see the view
 				markers: [compoundMarker],
 				data: {
+					dms: true,
+					actors: slugs,
 					allOf: [
 						{
 							name: 'Marked threads',
