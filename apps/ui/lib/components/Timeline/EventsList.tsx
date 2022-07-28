@@ -1,6 +1,6 @@
 import React from 'react';
 import _ from 'lodash';
-import { Box } from 'rendition';
+import { Box, Flex, Txt } from 'rendition';
 import styled from 'styled-components';
 import Icon from '../Icon';
 import Event from '../Event';
@@ -8,7 +8,6 @@ import { WHISPER } from '../constants';
 import { getTypeBase, isTimelineEvent } from '../../services/helpers';
 import { InfiniteList } from '../InfiniteList';
 import Loading from './Loading';
-import TimelineStart from './TimelineStart';
 import { eventsContainerStyles } from '../EventsContainer';
 
 const EventListItem: React.FunctionComponent<any> = ({
@@ -79,11 +78,11 @@ const EventsList = React.forwardRef<any, any>(
 				onScrollBeginning={onScrollBeginning}
 			>
 				{reachedBeginningOfTimeline ? (
-					<TimelineStart />
+					<Flex justifyContent="center">
+						<Txt data-test="Timeline__TimelineStart">Beginning of Timeline</Txt>
+					</Flex>
 				) : (
-					<Box p={3}>
-						<Loading />
-					</Box>
+					<Loading />
 				)}
 				{sortedEvents.map((event, index) => {
 					return (

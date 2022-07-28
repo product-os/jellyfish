@@ -119,7 +119,11 @@ class TabbedContractLayout extends React.Component<Props, State> {
 				channel={channel}
 				actionItems={actionItems}
 			>
-				<Divider width="100%" color={helpers.colorHash(card.type)} />
+				<Divider
+					width="100%"
+					style={{ marginBottom: 4 }}
+					color={helpers.colorHash(card.type)}
+				/>
 
 				<SingleCardTabs
 					activeIndex={this.state.activeIndex}

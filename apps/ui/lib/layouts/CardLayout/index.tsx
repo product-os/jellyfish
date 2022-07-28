@@ -71,7 +71,8 @@ const CardLayout = (props: Props) => {
 				data-test={props['data-test']}
 			>
 				<Flex
-					p={3}
+					px={3}
+					pt={2}
 					pb={0}
 					flexDirection={['column-reverse', 'column-reverse', 'row']}
 					justifyContent="space-between"

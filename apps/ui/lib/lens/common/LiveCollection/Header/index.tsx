@@ -71,7 +71,7 @@ export default React.memo<HeaderProps>((props) => {
 	return (
 		<HeaderBox>
 			<Flex flexDirection={['column', 'column', 'row']}>
-				<Flex px={3} pb={2} justifyContent="space-between">
+				<Flex px={3} pb={1} justifyContent="space-between">
 					<Box>
 						<StyledSearch
 							className="view__search"
@@ -94,7 +94,7 @@ export default React.memo<HeaderProps>((props) => {
 
 				<Flex
 					px={3}
-					pb={2}
+					pb={1}
 					alignItems="center"
 					justifyContent={'flex-end'}
 					flex={1}
