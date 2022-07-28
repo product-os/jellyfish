@@ -228,7 +228,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	const { myViews, oneToOneViews, otherViews } = _.reduce(
 		sortedTail,
 		(acc, view) => {
-			if (view.slug.startsWith('view-121')) {
+			if (view.data.dms) {
 				acc.oneToOneViews.push(view);
 			} else if (view.data.actor === userId) {
 				acc.myViews.push(view);

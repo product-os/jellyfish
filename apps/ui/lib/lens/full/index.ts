@@ -7,6 +7,7 @@ import Loop from './Loop';
 import SingleCard from './SingleCard';
 import SupportThread from './SupportThread';
 import View from './View';
+import ViewDirectMessages from './ViewDirectMessages';
 import Repository from './Repository';
 import User from './User';
 import TransformerWorker from './TransformerWorker';
@@ -23,5 +24,6 @@ export default [
 	SupportThread,
 	User,
 	View,
+	ViewDirectMessages,
 	TransformerWorker,
 ];

@@ -12,6 +12,11 @@ export interface JSONPatch {
 	value: any;
 }
 
+// A utility type that makes the given fields on a type optional.
+// example:
+// type Foo = Optional<Bar, 'baz' | 'qux'>;
+export type Optional<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
+
 // Utility type that allows you to change the return type of a function
 // From https://stackoverflow.com/a/50014868
 export type ReplaceReturnType<T extends (...a: any) => any, TNewReturn> = (

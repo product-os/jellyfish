@@ -17,6 +17,7 @@ import type {
 import { BoundActionCreators } from '../../types';
 import { actionCreators } from '../../store';
 import { Setup } from '../../components/SetupProvider';
+import { SubscribeButton } from '../SubscribeButton';
 
 export interface StateProps {
 	relationships: RelationshipContract[];
@@ -100,15 +101,16 @@ export default class CardActions extends React.Component<Props, State> {
 	};
 
 	render() {
-		const isView = this.props.card.type === 'view@1.0.0';
+		const { card } = this.props;
+		const isView = card.type === 'view@1.0.0';
 
 		// True if there is a relationship that matches the card type and 'is owned by'
 		const supportsOwnership = this.props.relationships.some((r) => {
 			return (
 				(r.name === 'is owned by' &&
-					r.data.from.type === this.props.card.type.split('@')[0]) ||
+					r.data.from.type === card.type.split('@')[0]) ||
 				(r.data.inverseName === 'is owned by' &&
-					r.data.to.type === this.props.card.type.split('@')[0])
+					r.data.to.type === card.type.split('@')[0])
 			);
 		});
 
@@ -116,7 +118,10 @@ export default class CardActions extends React.Component<Props, State> {
 			<React.Fragment>
 				<Flex alignItems="center" justifyContent="flex-end">
 					{this.props.inlineActionItems}
-					<BookmarkButton card={this.props.card} />
+
+					{card.type === 'thread@1.0.0' && <SubscribeButton card={card} />}
+
+					<BookmarkButton card={card} />
 
 					{supportsOwnership && (
 						<CardOwner

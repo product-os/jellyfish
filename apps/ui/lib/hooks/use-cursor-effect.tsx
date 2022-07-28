@@ -8,7 +8,7 @@ import { useSetup } from '../components';
 export const useCursorEffect = (
 	query: JsonSchema,
 	queryOptions: SdkQueryOptions,
-): [Contract[], () => Promise<void>, () => boolean, boolean] => {
+): [Contract[], () => Promise<Contract[]>, () => boolean, boolean] => {
 	const { sdk } = useSetup()!;
 	const [results, setResults] = React.useState<Contract[]>([]);
 	const [loading, setLoading] = React.useState(false);
@@ -44,7 +44,14 @@ export const useCursorEffect = (
 						return prevState;
 					}
 					// Otherwise add it to the results
-					return prevState ? prevState.concat(after) : [after];
+					let newState = prevState ? prevState.concat(after) : [after];
+					if (queryOptions.sortBy) {
+						newState = _.sortBy(newState, queryOptions.sortBy);
+					}
+					if (queryOptions.sortDir === 'desc') {
+						newState = newState.reverse();
+					}
+					return newState;
 				});
 			}) as any);
 		})();
@@ -60,10 +67,19 @@ export const useCursorEffect = (
 			setLoading(true);
 			const nextPageResults = await cursorRef.current.nextPage();
 			setResults((prevState) => {
-				return _.uniqBy(prevState.concat(nextPageResults), 'id');
+				let newState = _.uniqBy(prevState.concat(nextPageResults), 'id');
+				if (queryOptions.sortBy) {
+					newState = _.sortBy(newState, queryOptions.sortBy);
+				}
+				if (queryOptions.sortDir === 'desc') {
+					newState = newState.reverse();
+				}
+				return newState;
 			});
 			setLoading(false);
+			return nextPageResults;
 		}
+		return [];
 	}, []);
 
 	const hasNextPage = React.useCallback(() => {

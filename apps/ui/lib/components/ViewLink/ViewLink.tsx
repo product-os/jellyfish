@@ -4,7 +4,13 @@ import _ from 'lodash';
 import { Button, Box, Flex, Modal } from 'rendition';
 import * as helpers from '../../services/helpers';
 import * as notifications from '../../services/notifications';
-import { ActionButton, ActionRouterLink, ContextMenu, Icon } from '../';
+import {
+	ActionButton,
+	ActionRouterLink,
+	ContextMenu,
+	Icon,
+	UserAvatarLive,
+} from '../';
 
 export default class ViewLink extends React.Component<any, any> {
 	constructor(props) {
@@ -81,9 +87,20 @@ export default class ViewLink extends React.Component<any, any> {
 	}
 
 	render() {
-		const { label, isHomeView, activeSlice, card, isActive, user } = this.props;
+		const { isHomeView, activeSlice, card, isActive, user } = this.props;
 		const bookmarked = this.isBookmarked();
 		const isCustomView = helpers.isCustomView(card, user.slug);
+
+		let label = this.props.label;
+
+		const isDM = card.data.dms && card.data.actors;
+
+		if (isDM) {
+			label = card.data.actors
+				.filter((actor) => actor !== user.slug)
+				.map((actor) => actor.replace('user-', ''))
+				.join(', ');
+		}
 
 		return (
 			<Box>
@@ -103,7 +120,18 @@ export default class ViewLink extends React.Component<any, any> {
 							to={`/${card.slug || card.id}`}
 						>
 							<Flex justifyContent="space-between" alignItems="center">
-								{label || card.name || card.slug}
+								<Flex>
+									{isDM &&
+										card.data.actors.map((slug) => {
+											if (slug === user.slug) {
+												return null;
+											}
+											return <UserAvatarLive mr={2} userId={slug} />;
+										})}
+
+									{label || card.name || card.slug}
+								</Flex>
+
 								{isHomeView && (
 									<Box
 										fontSize="80%"
