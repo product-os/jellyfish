@@ -118,32 +118,26 @@ export default withSetup(
 				},
 			};
 
-			// Check if the view already exists, otherwise create it
-			try {
-				const existing = await sdk.card.get(view.slug);
-				this.handleDone(existing);
-			} catch (err) {
-				sdk.card
-					.create(view)
-					.catch((error) => {
-						notifications.addNotification('danger', error.message);
-					})
-					.then((card) => {
-						if (card) {
-							this.props.analytics.track('element.create', {
-								element: {
-									type: card.type,
-								},
-							});
-						}
-						this.handleDone(card || null);
-					})
-					.finally(() => {
-						this.setState({
-							submitting: false,
+			sdk.card
+				.create(view)
+				.catch((error) => {
+					notifications.addNotification('danger', error.message);
+				})
+				.then((card) => {
+					if (card) {
+						this.props.analytics.track('element.create', {
+							element: {
+								type: card.type,
+							},
 						});
+					}
+					this.handleDone(card || null);
+				})
+				.finally(() => {
+					this.setState({
+						submitting: false,
 					});
-			}
+				});
 		}
 
 		close() {
