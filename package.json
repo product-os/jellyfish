@@ -3,7 +3,7 @@
   "version": "56.3.7",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
-  "codename": "snappy",
+  "codename": "greendale",
   "private": true,
   "repository": {
     "type": "git",
