@@ -1,8 +1,17 @@
 import _ from 'lodash';
 import React from 'react';
-import { Box, Divider, Flex, Txt } from 'rendition';
-import type { Contract, JsonSchema, ViewContract } from 'autumndb';
-import { ActionLink, CloseButton } from '../../../../components';
+import { Box, Divider, Flex } from 'rendition';
+import type {
+	Contract,
+	JsonSchema,
+	UserContract,
+	ViewContract,
+} from 'autumndb';
+import {
+	ActionLink,
+	CloseButton,
+	UserAvatarLive,
+} from '../../../../components';
 import * as helpers from '../../../../services/helpers';
 import CardActions from '../../../../components/CardActions';
 import Markers from '../../../../components/Markers';
@@ -15,16 +24,23 @@ interface HeaderProps {
 	isMobile: boolean;
 	results?: null | Contract[];
 	query: JsonSchema | null;
+	user: UserContract;
 }
 
 export default React.memo<HeaderProps>((props: HeaderProps) => {
-	const { channel, query, contract } = props;
+	const { channel, query, contract, user } = props;
 
 	if (!contract) {
 		return null;
 	}
 
 	const [displayCSVModal, setDisplayCSVModal] = React.useState(false);
+
+	const participants = React.useMemo(() => {
+		return (contract?.data?.actors as string[]).filter(
+			(slug) => slug !== user.slug,
+		);
+	}, [contract]);
 
 	return (
 		<Box>
@@ -36,7 +52,14 @@ export default React.memo<HeaderProps>((props: HeaderProps) => {
 				alignItems="center"
 			>
 				<Box>
-					{contract.name && <Txt bold>{contract.name}</Txt>}
+					{participants.map((slug) => {
+						return (
+							<Flex>
+								<UserAvatarLive mr={2} userId={slug} />
+								{slug.replace('user-', '')}
+							</Flex>
+						);
+					})}
 					<Markers px={0} card={contract} />
 				</Box>
 				<Flex alignSelf={['flex-end', 'flex-end', 'flex-start']}>

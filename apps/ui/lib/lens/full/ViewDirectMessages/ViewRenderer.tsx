@@ -6,6 +6,7 @@ import type {
 	Contract,
 	JsonSchema,
 	TypeContract,
+	UserContract,
 	ViewContract,
 } from 'autumndb';
 import { actionCreators } from '../../../store';
@@ -21,7 +22,7 @@ export type OwnProps = LensRendererProps;
 
 export interface StateProps {
 	types: TypeContract[];
-	// lenses: LensContract[];
+	user: UserContract;
 	userActiveLens: string | null;
 	userCustomFilters: JsonSchema[];
 	channels: ChannelContract[];
@@ -52,7 +53,7 @@ interface State {
 }
 
 const ViewRenderer = (props: Props) => {
-	const { card, channel, isMobile } = props;
+	const { card, channel, isMobile, user } = props;
 	const [state, setState] = React.useState<State>({
 		redirectTo: null,
 		query: {
@@ -100,6 +101,7 @@ const ViewRenderer = (props: Props) => {
 				channel={channel}
 				results={state.results}
 				query={state.queryWithFilters || state.query}
+				user={user}
 			/>
 
 			<LiveCollection

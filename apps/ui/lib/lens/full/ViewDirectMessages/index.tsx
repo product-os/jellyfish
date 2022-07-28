@@ -17,6 +17,7 @@ const mapStateToProps = (state, ownProps): StateProps => {
 	return {
 		channels: selectors.getChannels()(state),
 		types: selectors.getTypes()(state),
+		user: selectors.getCurrentUser()(state),
 		userActiveLens: selectors.getUsersViewLens(target)(state),
 		userCustomFilters: selectors.getUserCustomFilters(target)(state),
 	};
