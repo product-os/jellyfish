@@ -1,4 +1,87 @@
 - commits:
+    - subject: Set codename to "greendale"
+      hash: 268ed05d247f60a6e0172e8171aff76e44769426
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Retain old Inbox lens during migration period"
+      hash: ea5d72b5cd75cf4925bdf0d470dbc9ece945ab4a
+      body: >
+        Keeping the old inbox lens accessible under `/inbox-legacy` allows users
+        to still access old mentions/pings that will not have generated
+        notifications.
+
+        This should be removed after a reasonable grace period.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve header rendering for direct message views"
+      hash: f6c21c391b91a9851d3d4f5a7cdade3e397d6d5a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Improve rendering of 1-2-1 conversation links in sidebar"
+      hash: fb4cc7e4bda3a59f5268c5eb11383eafeef603e8
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Make sure that direct message threads are annotated correctly
+      hash: 295d288cecfda4aa681a4d69f879f7f44ddbedff
+      body: >
+        This will ensure that subscriptions are automatically generated for each
+        participating actor.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add SubscribeButton to threads"
+      hash: 48bb2e13820628b55ec5accc700f631c65e0e8e6
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use notifications for inbox functionality"
+      hash: bd0edaac88ecfb218b69c8ac331265cde431db71
+      body: |
+        This changes the inbox to load notifications instead of using a direct
+        query for messages that mention the user or groups they are part of.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.0.0
+  title: "'UI: Use notifications for inbox functionality'"
+  date: 2022-07-28T16:05:02.036Z
+- commits:
     - subject: Correctly initialize default worker contracts
       hash: 2fbe5a53dc3a09ee2afefe2454807bff4859a894
       body: ""
