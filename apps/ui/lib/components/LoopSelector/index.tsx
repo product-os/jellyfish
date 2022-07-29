@@ -188,6 +188,8 @@ export const LoopSelector = React.memo(() => {
 				styles={customStyles}
 				width="180px"
 				ml={3}
+				className="nav-selector"
+				id="orgselector__select"
 				blurInputOnSelect
 				placeholder="Select org..."
 				value={
@@ -206,6 +208,7 @@ export const LoopSelector = React.memo(() => {
 				styles={customStyles}
 				width="180px"
 				ml={3}
+				className="nav-selector"
 				id="loopselector__select"
 				blurInputOnSelect
 				placeholder="Select loop..."
@@ -229,6 +232,7 @@ export const LoopSelector = React.memo(() => {
 				styles={customStyles}
 				width="180px"
 				ml={2}
+				className="nav-selector"
 				id="productselector__select"
 				placeholder="Select product..."
 				blurInputOnSelect

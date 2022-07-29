@@ -109,9 +109,15 @@ export default withSetup(
 										},
 										minItems: 1,
 									},
+									id: {
+										type: 'string',
+									},
+									slug: {
+										type: 'string',
+									},
 								},
 								additionalProperties: true,
-								required: ['type', 'markers'],
+								required: ['id', 'type', 'slug', 'markers'],
 							},
 						},
 					],
