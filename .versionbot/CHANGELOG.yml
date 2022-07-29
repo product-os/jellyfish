@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update resinci/jellyfish-test from v4.0.8 to v4.0.9
+      hash: cdaca93f2645b1ff27a958a3d85860bdeffd8a19
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.1
+  title: "'Update resinci/jellyfish-test from v4.0.8 to v4.0.9'"
+  date: 2022-07-28T17:43:18.163Z
+- commits:
     - subject: Set codename to "greendale"
       hash: 268ed05d247f60a6e0172e8171aff76e44769426
       body: ""
