@@ -5,7 +5,7 @@ import { createLazyComponent } from '../../../components/SafeLazy';
 import { actionCreators } from '../../../store';
 
 export const Inbox = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-inbox" */ './Inbox'),
+	() => import(/* webpackChunkName: "lens-inbox-legacy" */ './InboxLegacy'),
 );
 
 const mapDispatchToProps = (dispatch) => {
@@ -13,13 +13,13 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 export default {
-	slug: 'lens-inbox',
+	slug: 'lens-inbox-legacy',
 	type: 'lens',
 	version: '1.0.0',
-	name: 'Inbox lens',
+	name: 'Legacy Inbox lens',
 	data: {
-		pathRegExp: '^inbox$',
-		format: 'inbox',
+		pathRegExp: '^inbox-legacy$',
+		format: 'inbox-legacy',
 		renderer: connect(null, mapDispatchToProps)(Inbox),
 		icon: 'address-card',
 		type: '*',
