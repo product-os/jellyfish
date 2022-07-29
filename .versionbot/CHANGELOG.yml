@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Make sure that new inbox lens is used to render notifications"
+      hash: 2728e1132b4699169a24ce7eb3827a80319d6727
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.0.5
+  title: "'UI: Make sure that new inbox lens is used to render notifications'"
+  date: 2022-07-29T13:13:23.357Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.2.1 to 7.2.2
       hash: 992f42974f2e42f4660300409648f5c648510fce
       body: |
