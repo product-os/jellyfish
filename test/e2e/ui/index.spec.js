@@ -1062,7 +1062,7 @@ test.describe('Chat', () => {
 		await page2.close()
 	})
 
-	test('One-to-one messages to a user should appear in their inbox', async ({
+	test.skip('One-to-one messages to a user should appear in their inbox', async ({
 		page,
 		browser
 	}) => {
@@ -1308,7 +1308,8 @@ test.describe('Chat', () => {
 		await page2.close()
 	})
 
-	test('Users should be able to mark all messages as read from their inbox', async ({
+	// TODO re-enable this test once "mark all as read" on new inbox is implemented
+	test.skip('Users should be able to mark all messages as read from their inbox', async ({
 		page,
 		browser
 	}) => {
@@ -1342,7 +1343,8 @@ test.describe('Chat', () => {
 		await page2.close()
 	})
 
-	test('When filtering unread messages, only filtered messages can be marked as read', async ({
+	// TODO re-enable this test once filtering on new inbox is implemented
+	test.skip('When filtering unread messages, only filtered messages can be marked as read', async ({
 		page,
 		browser
 	}) => {
