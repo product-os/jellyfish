@@ -1,4 +1,20 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 32.2.0 to 32.2.1
+      hash: ef5e745ab53013e71b5e93c884b51255ae709a26
+      body: |
+        Add whisper to any relationship, as whispers can be included in
+        the timeline of any contract.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.3
+  title: "'Update @balena/jellyfish-worker from 32.2.0 to 32.2.1'"
+  date: 2022-07-29T01:43:57.846Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.1.0 to 7.2.1
       hash: 495664035bf1b78436e8a9477340e341f8d803d6
       body: ""
