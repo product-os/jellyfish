@@ -1,7 +1,7 @@
 import React from 'react';
 import _ from 'lodash';
 import { useDispatch, useSelector } from 'react-redux';
-import type { Contract, LoopContract } from 'autumndb';
+import type { Contract, LoopContract, OrgContract } from 'autumndb';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { actionCreators, selectors } from '../../store';
@@ -14,17 +14,35 @@ const StyledSelect = styled(Select)`
 
 // A drop-down component for selecting a loop
 export const LoopSelector = React.memo(() => {
-	const loops = useSelector(selectors.getLoops());
 	const history = useHistory();
-	const stateActiveLoop = useSelector(selectors.getActiveLoop());
-	const channels = useSelector(selectors.getChannels());
 	const { sdk } = useSetup()!;
 	const dispatch = useDispatch();
+	const user = useSelector(selectors.getCurrentUser());
+	const loops = useSelector(selectors.getLoops());
+	const stateActiveLoop = useSelector(selectors.getActiveLoop());
+	const channels = useSelector(selectors.getChannels());
 	const [products, setProducts] = React.useState<Contract[]>([]);
+	const [activeOrg, setActiveOrg] = React.useState<OrgContract | null>(null);
 	const [activeLoop, setActiveLoop] = React.useState<LoopContract | null>(null);
 	const [activeProduct, setActiveProduct] = React.useState<Contract | null>(
 		null,
 	);
+
+	const orgs = user.links['is member of'];
+
+	React.useEffect(() => {
+		for (const channel of channels) {
+			for (const org of orgs) {
+				if (
+					org.id === channel.data.target ||
+					org.slug === channel.data.target
+				) {
+					return setActiveOrg(org);
+				}
+			}
+		}
+		setActiveOrg(null);
+	}, [channels]);
 
 	React.useEffect(() => {
 		for (const channel of channels) {
@@ -96,27 +114,38 @@ export const LoopSelector = React.memo(() => {
 		}
 	}, [activeLoop]);
 
-	const onLoopChange = ({ value }) => {
-		if (value) {
-			history.push(`/${value.slug}`);
-			dispatch(actionCreators.setActiveLoop(`${value.slug}@${value.version}`));
-		} else {
-			history.push('/');
-			dispatch(actionCreators.setActiveLoop(null));
-		}
-	};
+	const onOrgChange = React.useCallback(({ value }) => {
+		history.push(`/${value.slug}`);
+	}, []);
+
+	const onLoopChange = React.useCallback(
+		({ value }) => {
+			if (value) {
+				if (activeOrg) {
+					history.push(`/${activeOrg.slug}/${value.slug}`);
+					dispatch(
+						actionCreators.setActiveLoop(`${value.slug}@${value.version}`),
+					);
+				}
+			} else {
+				history.push('/');
+				dispatch(actionCreators.setActiveLoop(null));
+			}
+		},
+		[activeOrg],
+	);
 
 	const onProductChange = React.useCallback(
 		({ value }) => {
-			if (activeLoop) {
+			if (activeLoop && activeOrg) {
 				if (value) {
-					history.push(`/${activeLoop.slug}/${value.slug}`);
+					history.push(`/${activeOrg.slug}/${activeLoop.slug}/${value.slug}`);
 				} else {
-					history.push(`/${activeLoop.slug}`);
+					history.push(`/${activeOrg.slug}/${activeLoop.slug}`);
 				}
 			}
 		},
-		[activeLoop],
+		[activeOrg, activeLoop],
 	);
 
 	const height = 28;
@@ -159,6 +188,24 @@ export const LoopSelector = React.memo(() => {
 				styles={customStyles}
 				width="180px"
 				ml={3}
+				blurInputOnSelect
+				placeholder="Select org..."
+				value={
+					activeOrg && {
+						value: activeOrg,
+						label: activeOrg.name,
+					}
+				}
+				options={orgs.map((option) => ({
+					value: option,
+					label: option.name,
+				}))}
+				onChange={onOrgChange}
+			/>
+			<StyledSelect
+				styles={customStyles}
+				width="180px"
+				ml={3}
 				id="loopselector__select"
 				blurInputOnSelect
 				placeholder="Select loop..."
@@ -168,10 +215,14 @@ export const LoopSelector = React.memo(() => {
 						label: activeLoop.name,
 					}
 				}
-				options={loops.map((option) => ({
-					value: option,
-					label: option.name,
-				}))}
+				options={
+					activeOrg
+						? loops.map((option) => ({
+								value: option,
+								label: option.name,
+						  }))
+						: []
+				}
 				onChange={onLoopChange}
 			/>
 			<StyledSelect
