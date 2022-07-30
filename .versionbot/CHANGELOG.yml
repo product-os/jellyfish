@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump external packages
+      hash: 1113d276fd089e7107116ddd7da23fd1e4a15551
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.11
+  title: "'Bump external packages'"
+  date: 2022-07-30T09:55:55.648Z
+- commits:
     - subject: Update aws-sdk from 2.1157.0 to 2.1184.0
       hash: 6d12c84a58af9b430b5e0bbdda321b44ce6f798f
       body: ""
