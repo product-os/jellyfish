@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update aws-sdk from 2.1157.0 to 2.1184.0
+      hash: 6d12c84a58af9b430b5e0bbdda321b44ce6f798f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.10
+  title: "'Update aws-sdk from 2.1157.0 to 2.1184.0'"
+  date: 2022-07-30T07:56:00.470Z
+- commits:
     - subject: Bump internal packages
       hash: 62248c6eb7958ef85fabd16a78133a44781c89cf
       body: ""
