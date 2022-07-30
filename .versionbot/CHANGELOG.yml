@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump internal packages
+      hash: 62248c6eb7958ef85fabd16a78133a44781c89cf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.9
+  title: "'Bump internal packages'"
+  date: 2022-07-30T07:07:06.444Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.2.2 to 7.3.1
       hash: de1d3bb3fb8bc6a22e95297a32b288e45d602757
       body: ""
