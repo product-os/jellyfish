@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 32.2.1 to 32.3.1
+      hash: cb916f067e8f179c0b3c7350c73707ae955ed29b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.6
+  title: "'Update @balena/jellyfish-worker from 32.2.1 to 32.3.1'"
+  date: 2022-07-29T14:12:48.476Z
+- commits:
     - subject: "UI: Make sure that new inbox lens is used to render notifications"
       hash: 2728e1132b4699169a24ce7eb3827a80319d6727
       body: ""
