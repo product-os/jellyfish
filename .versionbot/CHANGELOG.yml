@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update dependencies from 1.1.2 to 1.1.3
+      hash: cf40d10e188ecdca8e5a8fa27e0c79b42c57cdee
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.14
+  title: "'Update dependencies from 1.1.2 to 1.1.3'"
+  date: 2022-07-31T07:51:51.600Z
+- commits:
     - subject: Update eslint packages
       hash: 29bf16d91b72ddb74c46e9e43a72a317d0965032
       body: ""
