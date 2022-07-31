@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update interactjs from 1.10.11 to 1.10.17
+      hash: 31e1e9fc3d265f0ce27d6f03f95f1380db6296b8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.17
+  title: "'Update interactjs from 1.10.11 to 1.10.17'"
+  date: 2022-07-31T13:29:13.206Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.4 to 13.0.6
       hash: c461a9ddc0d619edff10827439bfffcdc92d96a0
       body: ""
