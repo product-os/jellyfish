@@ -65,7 +65,7 @@
     "@balena/jellyfish-environment": "^12.3.1",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
-    "ava": "^4.3.0",
+    "ava": "^4.3.1",
     "aws-sdk": "^2.1184.0",
     "catch-uncommitted": "^2.0.0",
     "cli-spinner": "^0.2.10",
