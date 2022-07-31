@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Renovate: Set concurrency to 2"
+      hash: 3c5aacb651c7aaff380196ecdc8c2b0424fb4c95
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.18
+  title: "'Renovate: Set concurrency to 2'"
+  date: 2022-07-31T22:26:21.582Z
+- commits:
     - subject: Update interactjs from 1.10.11 to 1.10.17
       hash: 31e1e9fc3d265f0ce27d6f03f95f1380db6296b8
       body: ""
