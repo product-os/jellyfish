@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update typescript from 4.7.3 to 4.7.4
+      hash: 121d06168b66d0827a42bd9c6b24a1b2f4e95881
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.11
+  title: "'Update typescript from 4.7.3 to 4.7.4'"
+  date: 2022-07-30T23:40:41.594Z
+- commits:
     - subject: Update aws-sdk from 2.1157.0 to 2.1184.0
       hash: 6d12c84a58af9b430b5e0bbdda321b44ce6f798f
       body: ""
