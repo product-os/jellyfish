@@ -6,6 +6,8 @@
     "node",
     "redis"
   ],
+  "branchConcurrentLimit": 2,
+  "prConcurrentLimit": 2,
   "packageRules": [
     {
       "groupName": "non-major-frontend",
