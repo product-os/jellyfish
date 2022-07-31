@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update ava from 4.3.0 to 4.3.1
+      hash: 9d9be195f0c9c6583cbd76842866d59f15ce48d3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.12
+  title: "'Update ava from 4.3.0 to 4.3.1'"
+  date: 2022-07-31T00:29:39.216Z
+- commits:
     - subject: Update typescript from 4.7.3 to 4.7.4
       hash: 121d06168b66d0827a42bd9c6b24a1b2f4e95881
       body: ""
