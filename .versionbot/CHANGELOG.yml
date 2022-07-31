@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update eslint packages
+      hash: 29bf16d91b72ddb74c46e9e43a72a317d0965032
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 57.0.13
+  title: "'Update eslint packages'"
+  date: 2022-07-31T07:06:42.989Z
+- commits:
     - subject: Update ava from 4.3.0 to 4.3.1
       hash: 9d9be195f0c9c6583cbd76842866d59f15ce48d3
       body: ""
