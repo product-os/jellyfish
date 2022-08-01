@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-outreach from 5.0.10 to 5.0.21
+      hash: 91d04cc56abdd9bea977269290231887a91aecdf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.1.1
+  title: "'Update @balena/jellyfish-plugin-outreach from 5.0.10 to 5.0.21'"
+  date: 2022-08-01T19:57:34.413Z
+- commits:
     - subject: 'UI: Add functionality for "peeking" at collapsed channels'
       hash: 7a52843ff953ed0ec2c338ddbb88c622258bce90
       body: ""
