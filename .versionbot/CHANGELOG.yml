@@ -1,4 +1,38 @@
 - commits:
+    - subject: 'UI: Add functionality for "peeking" at collapsed channels'
+      hash: 7a52843ff953ed0ec2c338ddbb88c622258bce90
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add an Org lens with a dedicated Threads tab"
+      hash: 5d3d899294b22e57efadc719371455b15d3499df
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add org selector to NavBar"
+      hash: 55aa6c3128ffe30106ad1e6ac00c44e560c3ef65
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.1.0
+  title: "'Lucianbuzzo/org selector navbar'"
+  date: 2022-08-01T19:13:16.708Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.3.2 to 7.3.21
       hash: 53d570a287cd7c642d4cf4fd53b53bb68ec92f0f
       body: ""
