@@ -368,13 +368,14 @@ export default withSetup(
 
 			// Always show specific base card fields
 			const baseCardType = helpers.getType('card', allTypes);
+
 			_.set(
 				schema,
 				['properties', 'loop'],
 				_.merge(
 					{},
 					baseCardType.data.schema.properties.loop,
-					selectedTypeTarget.data.schema.properties.loop,
+					selectedTypeTarget.data.schema?.properties?.loop || {},
 				),
 			);
 
@@ -385,6 +386,13 @@ export default withSetup(
 					items: {
 						type: 'string',
 					},
+				});
+			}
+
+			// Always show name input
+			if (!schema.properties.name) {
+				_.set(schema, ['properties', 'name'], {
+					type: 'string',
 				});
 			}
 
