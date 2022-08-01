@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.46 to 1.2.50
+      hash: 8a19b945ad509ba2626cfda66d880040b148941d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.19
+  title: "'Update @balena/jellyfish-assert from 1.2.46 to 1.2.50'"
+  date: 2022-07-31T23:37:38.144Z
+- commits:
     - subject: "Renovate: Set concurrency to 2"
       hash: 3c5aacb651c7aaff380196ecdc8c2b0424fb4c95
       body: ""
