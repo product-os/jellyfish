@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 7.3.2 to 7.3.21
+      hash: 53d570a287cd7c642d4cf4fd53b53bb68ec92f0f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.32
+  title: "'Update @balena/jellyfish-plugin-incidents from 7.3.2 to 7.3.21'"
+  date: 2022-08-01T15:38:10.273Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 8.0.8 to 8.0.10
       hash: 2ee661b2ca61bd4d48bdeeea169a377602928ba7
       body: ""
