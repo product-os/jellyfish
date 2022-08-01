@@ -42,8 +42,7 @@ export default class RouteHandler extends React.Component<any, any> {
 	//    ratio
 	calcWidth(channels) {
 		const sidebarWidth = 180;
-		const squishedWidth = 24;
-		const channelMinWidth = 300;
+		const squishedWidth = 18;
 
 		if (!channels) {
 			return;
@@ -64,7 +63,7 @@ export default class RouteHandler extends React.Component<any, any> {
 						  }
 						: {
 								left: sidebarWidth + item * squishedWidth,
-								width: channelMinWidth,
+								width: squishedWidth,
 						  },
 				);
 			}

@@ -18,8 +18,18 @@ import type { BoundActionCreators, ChannelContract } from '../types';
 import { actionCreators } from '../store';
 import { Setup, withSetup } from './SetupProvider';
 import type { ExtendedSocket } from '@balena/jellyfish-client-sdk/build/types';
+import styled from 'styled-components';
 
 const NAVBAR_HEIGHT = 40;
+
+const StyledWrapper = styled.div`
+	border-left: 1px solid #eee;
+	min-width: 340px;
+	max-width: 100%;
+	overflow: hidden;
+	height: 100%;
+	transition: all ease-in-out 150ms;
+`;
 
 const createChannelQuery = (
 	idOrSlug: string,
@@ -96,6 +106,7 @@ interface State {
 	linkFrom: null | Contract;
 	head: null | Contract;
 	loading: boolean;
+	hover: boolean;
 }
 
 // Selects an appropriate renderer for a card
@@ -109,6 +120,7 @@ class ChannelRenderer extends React.Component<Props, State> {
 			linkFrom: null,
 			head: null,
 			loading: true,
+			hover: false,
 		};
 
 		this.closeLinkModal = this.closeLinkModal.bind(this);
@@ -168,29 +180,42 @@ class ChannelRenderer extends React.Component<Props, State> {
 		});
 	}
 
+	handleMouseOver = () => {
+		this.setState({
+			hover: true,
+		});
+	};
+
+	handleMouseLeave = () => {
+		this.setState({
+			hover: false,
+		});
+	};
+
 	render() {
 		const { channel, connectDropTarget, isOver, types, user } = this.props;
 
 		const { error, canonical } = channel.data;
-		const { loading } = this.state;
+		const { loading, hover } = this.state;
 		// TODO: Cleanup the handling of non-canonical lenses (e.g. create/edit pages)
 		const head = canonical ? this.state.head : channel.data.head;
 
 		const { linkFrom, showLinkModal } = this.state;
 
+		const spaceWidth = _.get(this.props.space, ['width'], 'auto');
+
+		const isSquished = spaceWidth < 20;
+
 		const style: any = {
-			position: 'absolute',
-			width: _.get(this.props.space, ['width'], 'auto'),
+			width: hover && isSquished ? 500 : spaceWidth,
 			left: _.get(this.props.space, ['left'], 'auto'),
-			height: '100%',
-			transition: 'all ease-in-out 150ms',
+			top: NAVBAR_HEIGHT,
+			bottom: 0,
 			background: isOver ? '#ccc' : 'white',
-			borderLeft: '1px solid #eee',
+			transition: 'all ease-in-out 150ms',
 			minWidth: 0,
 			maxWidth: '100%',
 			overflow: 'hidden',
-			paddingTop: NAVBAR_HEIGHT,
-			marginTop: -NAVBAR_HEIGHT,
 		};
 
 		if (canonical) {
@@ -237,8 +262,14 @@ class ChannelRenderer extends React.Component<Props, State> {
 			<ChannelContextProvider channelData={{ channel, head }}>
 				<ErrorBoundary style={style}>
 					{connectDropTarget(
-						<div style={style}>
-							<lens.data.renderer card={head} {...this.props} />
+						<div
+							style={style}
+							onMouseOver={isSquished ? this.handleMouseOver : undefined}
+							onMouseLeave={isSquished ? this.handleMouseLeave : undefined}
+						>
+							<StyledWrapper>
+								<lens.data.renderer card={head} {...this.props} />
+							</StyledWrapper>
 						</div>,
 					)}
 
