@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-flowdock from 5.0.58 to 5.0.66
+      hash: b4ef4a97f4f9c20ed44d95f59774e79d04d7aabd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.0.29
+  title: "'Update @balena/jellyfish-plugin-flowdock from 5.0.58 to 5.0.66'"
+  date: 2022-08-01T13:28:33.458Z
+- commits:
     - subject: "UI: Fix bug when creating contracts with very simple schemas"
       hash: 23e5a149fa348e40d390dff9b391945443b0e397
       body: ""
