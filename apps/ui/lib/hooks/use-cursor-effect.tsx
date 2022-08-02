@@ -8,7 +8,7 @@ import { useSetup } from '../components';
 
 export const useCursorEffect = (
 	query: JsonSchema,
-	queryOptions: SdkQueryOptions,
+	queryOptions: SdkQueryOptions = {},
 ): [Contract[], () => Promise<Contract[]>, () => boolean, boolean] => {
 	const { sdk } = useSetup()!;
 	const [results, setResults] = React.useState<Contract[]>([]);
@@ -27,6 +27,8 @@ export const useCursorEffect = (
 				data: { type: any; id: any; after: any };
 			}) => {
 				const { id, after } = response.data;
+
+				console.log({ id, after });
 
 				// If card is null then it has been set to inactive or deleted
 				if (after === null) {

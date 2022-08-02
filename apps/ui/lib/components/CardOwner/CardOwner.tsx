@@ -1,45 +1,122 @@
+/* tslint:disable no-floating-promises */
 import React from 'react';
 import _ from 'lodash';
-import path from 'path';
-import { Txt, DropDownButton } from 'rendition';
-import styled from 'styled-components';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
-import { ActionLink, Icon } from '../';
+import {
+	ActionLink,
+	ContextMenu,
+	Icon,
+	PlainButton,
+	UserAvatarLive,
+} from '../';
+import { Contract, JsonSchema, TypeContract, UserContract } from 'autumndb';
+import { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import { useCursorEffect } from '../../hooks';
 
-const OwnerTxt = styled(Txt.span)`
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 120px;
-`;
+interface Props {
+	card: Contract;
+	sdk: JellyfishSDK;
+	types: TypeContract[];
+	user: UserContract;
+}
 
-export default class CardOwner extends React.Component<any, any> {
-	constructor(props) {
-		super(props);
-		this.assignToMe = this.assignToMe.bind(this);
-		this.unassign = this.unassign.bind(this);
-		this.openOwnerChannel = this.openOwnerChannel.bind(this);
-		this.handleButtonClick = this.handleButtonClick.bind(this);
-
-		this.state = {
-			isChangingOwner: false,
+const CardOwner = (props: Props) => {
+	const [isChangingOwner, setIsChangingOwner] = React.useState(false);
+	const [showMenu, setShowMenu] = React.useState(false);
+	const [owner, setOwner] = React.useState<UserContract | null>(null);
+	const { card, sdk, types, user } = props;
+	const cardTypeName = helpers.getType(card.type, types).name;
+	const query: JsonSchema = React.useMemo(() => {
+		return {
+			type: 'object',
+			properties: {
+				id: {
+					const: card.id,
+				},
+			},
+			$$links: {
+				'is owned by': {
+					type: 'object',
+					properties: {
+						type: {
+							const: 'user@1.0.0',
+						},
+					},
+				},
+			},
 		};
-	}
+	}, [card]);
 
-	async assignToMe() {
-		const { cardOwner, card, sdk, types, user } = this.props;
-		const cardTypeName = helpers.getType(card.type, types).name;
-		this.setState({ isChangingOwner: true });
+	// TODO: Simplify this streaming logic.
+	// Streaming the link between contract and contract owner is
+	// necessary due to a bug in AutumnDB that means there are no events
+	// emitted for subsequent links of the same name
+	// See https://github.com/product-os/autumndb/pull/1419
+	const linkQuery: JsonSchema = React.useMemo(() => {
+		return {
+			type: 'object',
+			properties: {
+				type: {
+					const: 'link@1.0.0',
+				},
+				name: {
+					const: 'is owned by',
+				},
+				active: {
+					const: true,
+				},
+				data: {
+					type: 'object',
+					properties: {
+						from: {
+							type: 'object',
+							properties: {
+								id: {
+									const: card.id,
+								},
+							},
+						},
+						to: {
+							type: 'object',
+							properties: {
+								type: {
+									const: 'user@1.0.0',
+								},
+							},
+						},
+					},
+				},
+			},
+		};
+	}, [card]);
+
+	const [[link]] = useCursorEffect(linkQuery);
+
+	React.useEffect(() => {
+		sdk
+			.query(query)
+			.then((result) => {
+				if (result.length > 0) {
+					setOwner(
+						(result[0]?.links?.['is owned by'][0] as UserContract) || null,
+					);
+				} else {
+					setOwner(null);
+				}
+			})
+			.catch(console.error);
+	}, [link]);
+
+	const assignToMe = React.useCallback(async () => {
+		setIsChangingOwner(true);
 
 		try {
-			if (cardOwner) {
-				await sdk.card.unlink(card, cardOwner, 'is owned by');
+			if (owner) {
+				await sdk.card.unlink(card, owner, 'is owned by');
 			}
 
 			await sdk.card.link(card, user, 'is owned by');
-
-			this.props.updateCardOwnerCache(user);
 
 			notifications.addNotification(
 				'success',
@@ -53,19 +130,15 @@ export default class CardOwner extends React.Component<any, any> {
 			console.error('Failed to create link', err);
 		}
 
-		this.setState({ isChangingOwner: false });
-	}
+		setIsChangingOwner(false);
+	}, [owner, card, sdk, types, user]);
 
-	async unassign() {
-		const { cardOwner, card, sdk, types } = this.props;
-		const cardTypeName = helpers.getType(card.type, types).name;
-		this.setState({ isChangingOwner: true });
+	const unassign = React.useCallback(async () => {
+		setIsChangingOwner(true);
 
 		try {
-			if (cardOwner) {
-				await sdk.card.unlink(card, cardOwner, 'is owned by');
-
-				this.props.updateCardOwnerCache(null);
+			if (owner) {
+				await sdk.card.unlink(card, owner, 'is owned by');
 
 				notifications.addNotification('success', `Unassigned ${cardTypeName}`);
 			}
@@ -77,92 +150,65 @@ export default class CardOwner extends React.Component<any, any> {
 			console.error('Failed to create link', err);
 		}
 
-		this.setState({ isChangingOwner: false });
+		setIsChangingOwner(false);
+	}, [owner, card, sdk, types]);
+
+	const toggleMenu = React.useCallback(() => {
+		setShowMenu(!showMenu);
+	}, [showMenu]);
+
+	if (isChangingOwner) {
+		return <PlainButton px={10} icon={<Icon name="cog" spin />} />;
 	}
 
-	openOwnerChannel() {
-		const { cardOwner, history } = this.props;
-
-		history.push(path.join(window.location.pathname, cardOwner.slug));
-	}
-
-	handleButtonClick(event) {
-		event.preventDefault();
-		event.stopPropagation();
-
-		const { cardOwner } = this.props;
-
-		if (cardOwner) {
-			this.openOwnerChannel();
-		} else {
-			this.assignToMe();
-		}
-	}
-
-	render() {
-		const { card, cardOwner, types, user } = this.props;
-		const { isChangingOwner } = this.state;
-
-		const cardTypeName = helpers.getType(card.type, types).name;
-
+	if (!owner) {
 		return (
-			<DropDownButton
-				data-test="card-owner-dropdown"
-				px={2}
-				tertiary={cardOwner && cardOwner.id === user.id}
-				quartenary={cardOwner && cardOwner.id !== user.id}
-				onClick={this.handleButtonClick}
-				label={
-					isChangingOwner ? (
-						<Icon name="cog" spin />
-					) : cardOwner ? (
-						<OwnerTxt
-							bold
-							data-test="card-owner-dropdown__label--assigned"
-							tooltip={{
-								text: `${helpers.userDisplayName(
-									cardOwner,
-								)} owns this ${cardTypeName}`,
-								placement: 'bottom',
-							}}
-						>
-							{helpers.userDisplayName(cardOwner)}
-						</OwnerTxt>
-					) : (
-						<OwnerTxt
-							bold
-							italic
-							data-test="card-owner-dropdown__label--assign-to-me"
-							tooltip={{
-								text: `This ${cardTypeName} is unassigned. Assign it to me`,
-								placement: 'bottom',
-							}}
-						>
-							Assign to me
-						</OwnerTxt>
-					)
-				}
-			>
-				{cardOwner && cardOwner.id !== user.id && (
-					<ActionLink
-						mx={-3}
-						onClick={this.assignToMe}
-						data-test="card-owner-menu__assign-to-me"
-					>
-						Assign to me
-					</ActionLink>
-				)}
-
-				{cardOwner && (
-					<ActionLink
-						mx={-3}
-						onClick={this.unassign}
-						data-test="card-owner-menu__unassign"
-					>
-						Unassign
-					</ActionLink>
-				)}
-			</DropDownButton>
+			<PlainButton
+				onClick={assignToMe}
+				tooltip={{
+					text: `This ${cardTypeName} is unassigned. Assign it to me`,
+					placement: 'left',
+				}}
+				icon={<Icon name="user-plus" />}
+			/>
 		);
 	}
-}
+
+	return (
+		<span>
+			<PlainButton p={'4px'} px={2} onClick={toggleMenu}>
+				<UserAvatarLive
+					userId={owner.id}
+					tooltipPlacement="left"
+					tooltipText={`${helpers.userDisplayName(
+						owner as UserContract,
+					)} owns this ${cardTypeName}`}
+				/>
+			</PlainButton>
+
+			{showMenu && (
+				<ContextMenu position="bottom" onClose={toggleMenu}>
+					{owner && owner.id !== user.id && (
+						<ActionLink
+							onClick={assignToMe}
+							data-test="card-owner-menu__assign-to-me"
+						>
+							Assign to me
+						</ActionLink>
+					)}
+
+					{owner && (
+						<ActionLink
+							onClick={unassign}
+							data-test="card-owner-menu__unassign"
+						>
+							Unassign
+						</ActionLink>
+					)}
+				</ContextMenu>
+			)}
+		</span>
+	);
+};
+
+export default CardOwner;
