@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix bug where updates are ignored in useCursorEffect"
+      hash: 585737b279ca442c7001929f067bb3d24e886416
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.1.13
+  title: "'UI: Fix bug where updates are ignored in useCursorEffect'"
+  date: 2022-08-02T11:47:58.643Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.16 to 6.0.17
       hash: f89a5c61e57a468edb9ca8888c64719c2543ae80
       body: ""
