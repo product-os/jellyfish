@@ -1,4 +1,26 @@
 - commits:
+    - subject: "UI: Fix warning about missing key"
+      hash: 579e624a95461c0f84998d5b992aa82c57e6f36f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: Update @balena/jellyfish-plugin-typeform from 10.0.16 to 10.0.18
+      hash: 7c5a81301e11aa94a781b1061dbfe7a19e5d7eaf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.1.15
+  title: "'UI: Fix warning about missing key'"
+  date: 2022-08-02T17:27:18.970Z
+- commits:
     - subject: "UI: Fix bug in type and relationship selection when creating a new
         contract"
       hash: 61cdc3a7655ffa9f5a13d3df2927f6daac33615e
