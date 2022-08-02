@@ -3,7 +3,6 @@ import memoize from 'memoize-one';
 import _ from 'lodash';
 import Bluebird from 'bluebird';
 import React from 'react';
-import update from 'immutability-helper';
 import { Redirect } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Select, Txt, Form } from 'rendition';
 import styled from 'styled-components';
@@ -16,9 +15,15 @@ import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
 import { getRelationships } from '../../common/RelationshipsTab';
 import LinkOrCreate from '../../common/LinkOrCreate';
 import ContractNavLink from '../../../components/ContractNavLink';
-import { RelationshipContract, TypeContract } from 'autumndb';
+import {
+	Contract,
+	JsonSchema,
+	RelationshipContract,
+	TypeContract,
+} from 'autumndb';
 import { BoundActionCreators, LensRendererProps } from '../../../types';
 import { actionCreators } from '../../../store';
+import { JSONSchema7 } from 'json-schema';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
@@ -71,17 +76,33 @@ export type OwnProps = LensRendererProps;
 
 type Props = StateProps & DispatchProps & Setup & OwnProps;
 
+interface LinkPair {
+	target: Contract;
+	verb: string;
+}
+
+interface State {
+	newCardModel: Partial<Contract>;
+	selectedTypeTarget: TypeContract | null;
+	links: { [key: string]: LinkPair[] };
+	linkOption: RelationshipContract | null;
+	submitting: boolean;
+	redirectTo?: string;
+}
+
 export default withSetup(
-	class CreateLens extends React.Component<Props, any> {
+	class CreateLens extends React.Component<Props, State> {
 		constructor(props) {
 			super(props);
 
 			// TS-TODO: fix casting
-			const { types, seed, onDone } = this.props.channel.data.head as any;
+			const { seed, onDone } = this.props.channel.data.head as any;
 			const { allTypes } = this.props;
+			const types = (this.props.channel.data.head as any)
+				.types as TypeContract[];
 
-			let selectedTypeTarget: any = null;
-			let linkOption: any = null;
+			let selectedTypeTarget: TypeContract | null = null;
+			let linkOption: RelationshipContract | null = null;
 
 			// If the intention is to link the created card to another upon completion,
 			// only show type options that are valid link targets
@@ -89,29 +110,32 @@ export default withSetup(
 				// If types have been specified, select the first specified type
 				const from = getCardsType(onDone.targets);
 				if (types) {
-					selectedTypeTarget = _.first(_.castArray(types));
+					selectedTypeTarget = _.first(_.castArray(types)) || null;
 
-					linkOption =
-						_.find(this.props.relationships, {
-							data: {
-								from: {
-									type: from,
+					if (selectedTypeTarget) {
+						linkOption =
+							_.find(this.props.relationships, {
+								data: {
+									from: {
+										type: from,
+									},
+									to: {
+										type: selectedTypeTarget.slug,
+									},
 								},
-								to: {
-									type: selectedTypeTarget.slug,
+							}) ||
+							_.find(this.props.relationships, {
+								data: {
+									from: {
+										type: selectedTypeTarget.slug,
+									},
+									to: {
+										type: from,
+									},
 								},
-							},
-						}) ||
-						_.find(this.props.relationships, {
-							data: {
-								from: {
-									type: selectedTypeTarget.slug,
-								},
-								to: {
-									type: from,
-								},
-							},
-						});
+							}) ||
+							null;
+					}
 
 					// Handle inverse relationship case
 					if (linkOption && linkOption.data.from.type !== from) {
@@ -132,19 +156,23 @@ export default withSetup(
 									type: from,
 								},
 							},
-						});
+						}) ||
+						null;
 
 					// Handle inverse relationship case
 					if (linkOption && linkOption.data.from.type !== from) {
 						linkOption = invertRelationship(linkOption);
 					}
 
-					selectedTypeTarget = _.find(allTypes, {
-						slug: linkOption.data.to,
-					});
+					if (linkOption) {
+						const found = _.find(allTypes, {
+							slug: linkOption.data.to.type,
+						});
+						selectedTypeTarget = found || null;
+					}
 				}
 			} else {
-				selectedTypeTarget = _.first(_.castArray(types));
+				selectedTypeTarget = _.first(_.castArray(types)) || null;
 			}
 
 			this.state = {
@@ -152,6 +180,7 @@ export default withSetup(
 				selectedTypeTarget,
 				links: {},
 				linkOption,
+				submitting: false,
 			};
 
 			this.bindMethods([
@@ -166,23 +195,29 @@ export default withSetup(
 			]);
 		}
 
-		saveLink = async (_card, selectedTarget, linkTypeName) => {
+		saveLink = async (
+			_card,
+			selectedTarget: Pick<Contract, 'id' | 'type'>,
+			linkTypeName: string,
+		) => {
 			const fullContract = await this.props.sdk.card.get(selectedTarget.id);
+			if (!fullContract) {
+				return;
+			}
 			this.setState((prevState) => {
 				const key = getLinkKey(selectedTarget.type, linkTypeName);
-				return update(prevState, {
-					links: {
-						[key]: (items) =>
-							update(items || [], {
-								$push: [
-									{
-										target: fullContract,
-										verb: linkTypeName,
-									},
-								],
-							}),
-					},
+				const list = prevState.links[key] || [];
+				list.push({
+					target: fullContract,
+					verb: linkTypeName,
 				});
+				return {
+					...prevState,
+					links: {
+						...prevState.links,
+						[key]: list,
+					},
+				};
 			});
 		};
 
@@ -252,7 +287,7 @@ export default withSetup(
 					// Create all the links asynchronously
 					const linkActions = _.reduce(
 						links,
-						(acc: any, targetLinks) => {
+						(acc: Array<Promise<void>>, targetLinks) => {
 							_.map(targetLinks, ({ target, verb }) => {
 								acc.push(actions.createLink(card, target, verb));
 							});
@@ -286,9 +321,10 @@ export default withSetup(
 
 		handleLinkOptionSelect(payload) {
 			const option = payload.value;
-			const selectedTypeTarget = _.find(this.props.allTypes, {
-				slug: option.data.to,
-			});
+			const selectedTypeTarget =
+				_.find(this.props.allTypes, {
+					slug: option.data.to,
+				}) || null;
 
 			this.setState({
 				newCardModel: Object.assign(
@@ -316,6 +352,9 @@ export default withSetup(
 					const cards = onDone.targets;
 					const { linkOption, selectedTypeTarget } = this.state;
 					const createLink = async (card) => {
+						if (!linkOption) {
+							return;
+						}
 						return this.props.actions.createLink(
 							card,
 							newCard,
@@ -372,8 +411,12 @@ export default withSetup(
 
 			console.log({ selectedTypeTarget });
 
+			if (!selectedTypeTarget) {
+				return 'No type target found';
+			}
+
 			// Omit known computed values from the schema
-			const schema = _.omit(selectedTypeTarget.data.schema, [
+			const schema: JsonSchema = _.omit(selectedTypeTarget.data.schema, [
 				'properties.data.properties.participants',
 				'properties.data.properties.mentionsUser',
 				'properties.data.properties.totalValue',
@@ -392,18 +435,17 @@ export default withSetup(
 			// Always show specific base card fields
 			const baseCardType = helpers.getType('card', allTypes);
 
+			const targetLoop =
+				(selectedTypeTarget.data.schema?.properties as any)?.loop || {};
+
 			_.set(
 				schema,
 				['properties', 'loop'],
-				_.merge(
-					{},
-					baseCardType.data.schema.properties.loop,
-					selectedTypeTarget.data.schema?.properties?.loop || {},
-				),
+				_.merge({}, baseCardType.data.schema.properties.loop, targetLoop),
 			);
 
 			// Always show tags input
-			if (!schema.properties.tags) {
+			if (!schema?.properties?.tags) {
 				_.set(schema, ['properties', 'tags'], {
 					type: 'array',
 					items: {
@@ -413,7 +455,7 @@ export default withSetup(
 			}
 
 			// Always show name input
-			if (!schema.properties.name) {
+			if (!schema?.properties?.name) {
 				_.set(schema, ['properties', 'name'], {
 					type: 'string',
 				});
@@ -421,7 +463,7 @@ export default withSetup(
 
 			const isValid =
 				skhema.isValid(
-					schema,
+					schema as any,
 					helpers.removeUndefinedArrayItems(this.state.newCardModel),
 				) &&
 				skhema.isValid(
@@ -471,7 +513,7 @@ export default withSetup(
 
 									<Select
 										ml={2}
-										value={linkOption}
+										value={linkOption as any}
 										onChange={this.handleLinkOptionSelect}
 										options={linkTypeTargets}
 										labelKey="title"
@@ -485,7 +527,7 @@ export default withSetup(
 
 							<Form
 								uiSchema={uiSchema}
-								schema={schema}
+								schema={schema as JSONSchema7}
 								value={this.state.newCardModel}
 								onFormChange={this.handleFormChange}
 								hideSubmitButton={true}
