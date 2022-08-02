@@ -29,21 +29,24 @@ const FormBox = styled(Box)`
 	overflow-y: auto;
 `;
 
-const getRelationshipsBySlug = memoize((relationships, slug) =>
-	getRelationships(relationships, slug),
+const getRelationshipsBySlug = memoize(
+	(relationships: RelationshipContract[], slug: string) =>
+		getRelationships(relationships, slug),
 );
 
 // 'Draft' links are stored in a map in the component's state,
 // keyed by the combination of the target card type and the link verb.
-const getLinkKey = (targetCardType, linkVerb) => {
+const getLinkKey = (targetCardType: string, linkVerb: string): string => {
 	return `${targetCardType.split('@')[0]}-${helpers.slugify(linkVerb)}`;
 };
 
 // Invert provided relationship
-const invertRelationship = (relationship) => {
+const invertRelationship = (
+	relationship: RelationshipContract,
+): RelationshipContract => {
 	const inverse = _.cloneDeep(relationship);
 	inverse.name = relationship.data.inverseName;
-	inverse.data.inverseName = relationship.name;
+	inverse.data.inverseName = relationship.name!;
 	inverse.data.from.type = relationship.data.to.type;
 	inverse.data.to.type = relationship.data.from.type;
 	inverse.data.title = relationship.data.inverseTitle;
@@ -51,11 +54,11 @@ const invertRelationship = (relationship) => {
 	return inverse;
 };
 
-const getTypes = memoize((cards) => {
+const getTypes = memoize((cards: Contract[]): string[] => {
 	return _.uniq(_.map(cards, 'type'));
 });
 
-const getCardsType = memoize((cards) => {
+const getCardsType = memoize((cards: Contract[]): string => {
 	const cardTypes = getTypes(cards);
 	if (cardTypes.length > 1) {
 		throw new Error('All target cards must be of the same type');
@@ -305,8 +308,9 @@ export default withSetup(
 								type: card.type,
 							},
 						});
+
+						await this.handleDone(card);
 					}
-					await this.handleDone(card || null);
 				})
 				.catch(console.error);
 
@@ -319,11 +323,21 @@ export default withSetup(
 			this.props.actions.removeChannel(this.props.channel);
 		}
 
-		handleLinkOptionSelect(payload) {
-			const option = payload.value;
+		handleLinkOptionSelect(payload: {
+			option: RelationshipContract;
+			selected: number;
+			target: React.ChangeEvent<HTMLElement>;
+			value: RelationshipContract;
+		}) {
+			const option: RelationshipContract = payload.value;
+			const from = getCardsType(this.props.channel.data.head?.onDone.targets);
+			const targetTypeSlug =
+				option.data.to.type === from
+					? option.data.from.type
+					: option.data.to.type;
 			const selectedTypeTarget =
 				_.find(this.props.allTypes, {
-					slug: option.data.to,
+					slug: targetTypeSlug,
 				}) || null;
 
 			this.setState({
@@ -336,7 +350,9 @@ export default withSetup(
 			});
 		}
 
-		async handleDone(newCard) {
+		async handleDone(
+			newCard: Pick<Contract, 'id' | 'slug' | 'version' | 'type'>,
+		) {
 			const { onDone } = this.props.channel.data.head as any;
 
 			let closed = false;
@@ -355,14 +371,14 @@ export default withSetup(
 						if (!linkOption) {
 							return;
 						}
-						return this.props.actions.createLink(
-							card,
-							newCard,
-							linkOption.name,
-							{
-								skipSuccessMessage: true,
-							},
-						);
+						const baseType = card.type.split('@')[0];
+						const linkName =
+							linkOption.data.from.type === baseType
+								? linkOption.name
+								: linkOption.data.inverseName;
+						return this.props.actions.createLink(card, newCard, linkName, {
+							skipSuccessMessage: true,
+						});
 					};
 					if (newCard && selectedTypeTarget) {
 						const linkTasks = cards.map(createLink);
@@ -408,8 +424,6 @@ export default withSetup(
 				},
 				{},
 			);
-
-			console.log({ selectedTypeTarget });
 
 			if (!selectedTypeTarget) {
 				return 'No type target found';
@@ -482,14 +496,25 @@ export default withSetup(
 				// data.title file to the root of the object, as the rendition Select
 				// component can't use a non-root field for the `labelKey` prop
 				// TODO make the Select component allow nested fields for the `labelKey` prop
-				linkTypeTargets = _.filter(this.props.relationships, [
+				const matchingRelationships = _.filter(this.props.relationships, [
 					'data.from.type',
-					from.type,
+					from,
 				]).map((constraint) => {
 					return Object.assign({}, constraint, {
 						title: constraint.data.title,
 					});
 				});
+
+				const inverseRelationships = _.filter(this.props.relationships, [
+					'data.to.type',
+					from,
+				]).map((constraint) => {
+					return Object.assign({}, constraint, {
+						title: constraint.data.inverseTitle,
+					});
+				});
+
+				linkTypeTargets = matchingRelationships.concat(inverseRelationships);
 			}
 
 			return (
