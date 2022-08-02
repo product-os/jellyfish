@@ -1,3 +1,4 @@
+/* tslint:disable no-floating-promises */
 import type { JellyfishCursor } from '@balena/jellyfish-client-sdk/build/cursor';
 import type { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
 import type { Contract, JsonSchema } from 'autumndb';
@@ -37,11 +38,13 @@ export const useCursorEffect = (
 
 				// Otherwise perform an upsert
 				setResults((prevState) => {
-					const exists = _.some(prevState, { id });
+					const foundIndex = _.findIndex(prevState, { id });
 
-					// If an item is found we don't need to do anything, because count is the same
-					if (exists) {
-						return prevState;
+					// If an item is found replace it with the new one
+					if (foundIndex !== -1) {
+						const newResults = prevState.slice();
+						newResults.splice(foundIndex, 1, after);
+						return newResults;
 					}
 					// Otherwise add it to the results
 					let newState = prevState ? prevState.concat(after) : [after];
