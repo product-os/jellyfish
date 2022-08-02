@@ -1,4 +1,39 @@
 - commits:
+    - subject: "UI: Fix bug in type and relationship selection when creating a new
+        contract"
+      hash: 61cdc3a7655ffa9f5a13d3df2927f6daac33615e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Type state of CreateLens"
+      hash: 9de53e3cc54bf4886ab198985be1fcbe2de8c4e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Type props for CreateLens"
+      hash: b19336963f65f4dc5f9d85d9e973b87ac9bc387a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.1.14
+  title: "'Fix bugs when creating a contract'"
+  date: 2022-08-02T15:53:33.843Z
+- commits:
     - subject: "UI: Fix bug where updates are ignored in useCursorEffect"
       hash: 585737b279ca442c7001929f067bb3d24e886416
       body: ""
