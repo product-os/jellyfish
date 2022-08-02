@@ -7,7 +7,7 @@ import update from 'immutability-helper';
 import { Redirect } from 'react-router-dom';
 import { Box, Button, Flex, Heading, Select, Txt, Form } from 'rendition';
 import styled from 'styled-components';
-import { FreeFieldForm, Icon, withSetup } from '../../../components';
+import { FreeFieldForm, Icon, Setup, withSetup } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
@@ -16,6 +16,9 @@ import { getUiSchema, UI_SCHEMA_MODE } from '../../schema-util';
 import { getRelationships } from '../../common/RelationshipsTab';
 import LinkOrCreate from '../../common/LinkOrCreate';
 import ContractNavLink from '../../../components/ContractNavLink';
+import { RelationshipContract, TypeContract } from 'autumndb';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { actionCreators } from '../../../store';
 
 const FormBox = styled(Box)`
 	overflow-y: auto;
@@ -55,12 +58,26 @@ const getCardsType = memoize((cards) => {
 	return cards[0].type.split('@')[0];
 });
 
+export interface StateProps {
+	allTypes: TypeContract[];
+	relationships: RelationshipContract[];
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export type OwnProps = LensRendererProps;
+
+type Props = StateProps & DispatchProps & Setup & OwnProps;
+
 export default withSetup(
-	class CreateLens extends React.Component<any, any> {
+	class CreateLens extends React.Component<Props, any> {
 		constructor(props) {
 			super(props);
 
-			const { types, seed, onDone } = this.props.channel.data.head;
+			// TS-TODO: fix casting
+			const { types, seed, onDone } = this.props.channel.data.head as any;
 			const { allTypes } = this.props;
 
 			let selectedTypeTarget: any = null;
@@ -176,7 +193,7 @@ export default withSetup(
 		}
 
 		handleFormChange(data) {
-			const { seed } = this.props.channel.data.head;
+			const { seed } = this.props.channel.data.head as any;
 
 			this.setState({
 				newCardModel: Object.assign({}, seed, data.formData),
@@ -255,7 +272,8 @@ export default withSetup(
 						});
 					}
 					await this.handleDone(card || null);
-				});
+				})
+				.catch(console.error);
 
 			this.setState({
 				submitting: true,
@@ -273,14 +291,17 @@ export default withSetup(
 			});
 
 			this.setState({
-				newCardModel: Object.assign({}, this.props.channel.data.head.seed),
+				newCardModel: Object.assign(
+					{},
+					(this.props.channel.data.head as any).seed,
+				),
 				selectedTypeTarget,
 				linkOption: option,
 			});
 		}
 
 		async handleDone(newCard) {
-			const { onDone } = this.props.channel.data.head;
+			const { onDone } = this.props.channel.data.head as any;
 
 			let closed = false;
 
@@ -349,6 +370,8 @@ export default withSetup(
 				{},
 			);
 
+			console.log({ selectedTypeTarget });
+
 			// Omit known computed values from the schema
 			const schema = _.omit(selectedTypeTarget.data.schema, [
 				'properties.data.properties.participants',
@@ -406,7 +429,7 @@ export default withSetup(
 					helpers.removeUndefinedArrayItems(freeFieldData),
 				);
 
-			const head = this.props.channel.data.head;
+			const head = this.props.channel.data.head as any;
 
 			let linkTypeTargets: any = null;
 

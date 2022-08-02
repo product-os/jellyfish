@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
-import { bindActionCreators, compose } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { actionCreators, selectors } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { withSetup } from '../../../components';
+import type { StateProps, DispatchProps, OwnProps } from './CreateLens';
 
 export const CreateLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create" */ './CreateLens'),
 );
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state): StateProps => {
 	return {
 		allTypes: selectors.getTypes()(state),
 		relationships: selectors.getRelationships()(state),
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch): DispatchProps => {
 	return {
 		actions: bindActionCreators(actionCreators, dispatch),
 	};
@@ -28,9 +28,9 @@ export default {
 	name: 'Default list lens',
 	data: {
 		format: 'create',
-		renderer: compose(
-			withSetup,
-			connect(mapStateToProps, mapDispatchToProps),
+		renderer: connect<StateProps, DispatchProps, OwnProps>(
+			mapStateToProps,
+			mapDispatchToProps,
 		)(CreateLens),
 		icon: 'address-card',
 		type: '*',
