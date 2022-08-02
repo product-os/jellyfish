@@ -126,7 +126,7 @@ export default class ViewLink extends React.Component<any, any> {
 											if (slug === user.slug) {
 												return null;
 											}
-											return <UserAvatarLive mr={2} userId={slug} />;
+											return <UserAvatarLive key={slug} mr={2} userId={slug} />;
 										})}
 
 									{label || card.name || card.slug}
