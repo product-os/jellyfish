@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-flowdock from 5.0.66 to 5.0.67
+      hash: b1b26a52795e4749b720b9f4b267f79e97e5704a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.1.4
+  title: "'Update @balena/jellyfish-plugin-flowdock from 5.0.66 to 5.0.67'"
+  date: 2022-08-02T02:49:30.861Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.14 to 6.0.16
       hash: 833f83de8fc1379afe34920cab0293e5ef596d7a
       body: ""
