@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Refactor card owner widget"
+      hash: a213da2c12179fb8f7f3d83b2571020f2b644d74
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.2.0
+  title: "'UI: Refactor card owner widget'"
+  date: 2022-08-03T09:38:13.465Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-typeform from 10.0.18 to 10.0.19
       hash: 1e3b9c7085078192fd29aed2026fb548b6f2b024
       body: ""
