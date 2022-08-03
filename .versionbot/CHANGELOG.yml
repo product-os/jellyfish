@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.28 to 6.0.29
+      hash: 1e4cca28823a39e10d3254a8833b2054ec0d0592
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.3.2
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.28 to 6.0.29'"
+  date: 2022-08-03T20:24:16.814Z
+- commits:
     - subject: Update typedoc from 0.23.9 to 0.23.10
       hash: 170a79fc375271f178cf2810ec1983e79a7a07ad
       body: ""
