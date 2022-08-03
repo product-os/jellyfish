@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "57.1.18",
+  "version": "57.1.19",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "greendale",
@@ -93,7 +93,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-08-03T00:29:08.023Z"
+    "publishedAt": "2022-08-03T01:10:22.145Z"
   },
   "balena": {
     "environment": [
