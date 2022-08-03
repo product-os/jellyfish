@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 32.3.15 to 32.3.15
+      hash: b4c782c00e29ddf733894d5b86cc21a29a20f1bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.2.1
+  title: "'Update @balena/jellyfish-worker from 32.3.15 to 32.3.15'"
+  date: 2022-08-03T11:14:48.083Z
+- commits:
     - subject: "UI: Refactor card owner widget"
       hash: a213da2c12179fb8f7f3d83b2571020f2b644d74
       body: ""
