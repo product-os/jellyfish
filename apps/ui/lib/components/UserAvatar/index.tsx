@@ -30,10 +30,11 @@ export interface UserAvatarProps {
 	user: UserContract;
 	emphasized?: boolean;
 	tooltipPlacement?: TooltipPlacement;
+	tooltipText?: string;
 }
 
 export const UserAvatar = React.memo<UserAvatarProps>(
-	({ user, emphasized, tooltipPlacement = 'top' }) => {
+	({ user, emphasized, tooltipPlacement = 'top', tooltipText }) => {
 		const firstName = _.get(user, ['data', 'profile', 'name', 'first']);
 		const lastName = _.get(user, ['data', 'profile', 'name', 'last']);
 		const src = _.get(user, ['data', 'avatar']);
@@ -41,7 +42,7 @@ export const UserAvatar = React.memo<UserAvatarProps>(
 			<Box
 				data-test="avatar-wrapper"
 				tooltip={{
-					text: getUserTooltipText(user),
+					text: tooltipText || getUserTooltipText(user),
 					placement: tooltipPlacement,
 				}}
 			>
@@ -64,7 +65,7 @@ export interface UserAvatarLive
 }
 
 export const UserAvatarLive = React.memo<UserAvatarLive>(
-	({ userId, emphasized, tooltipPlacement, ...rest }) => {
+	({ userId, emphasized, tooltipPlacement, tooltipText, ...rest }) => {
 		return (
 			<CardLoader<UserContract>
 				id={userId}
@@ -78,6 +79,7 @@ export const UserAvatarLive = React.memo<UserAvatarLive>(
 								emphasized={emphasized}
 								user={user}
 								tooltipPlacement={tooltipPlacement}
+								tooltipText={tooltipText}
 							/>
 							<UserStatusIcon
 								className="user-status-icon"
