@@ -1,4 +1,31 @@
 - commits:
+    - subject: "UI: Remove debug statement from cursor effect hook"
+      hash: 432424b5ce9c9ae5944e43c7ac018fe4d81b71e8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Attach threads to Channels"
+      hash: 19472bf5d3366bccf94a1ed4864cf76cf79bc2b6
+      body: >
+        Making this work required fixing bugged handling of wildcard
+        relationships, which were simply ignored in thread creation callback
+        before.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.4.0
+  title: "'UI: Attach threads to Channels'"
+  date: 2022-08-04T16:57:55.476Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.18 to 13.0.19
       hash: 2bcf4a65634f052cab9120c21c81baadb9441938
       body: ""
