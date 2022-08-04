@@ -10,6 +10,7 @@ import { InfiniteList } from '../InfiniteList';
 import Loading from './Loading';
 import TimelineStart from './TimelineStart';
 import { eventsContainerStyles } from '../EventsContainer';
+import { Contract, UserContract } from 'autumndb';
 
 const EventListItem: React.FunctionComponent<any> = ({
 	event,
@@ -59,7 +60,34 @@ const StyledInfiniteList = styled(InfiniteList)`
 	${eventsContainerStyles}
 `;
 
-const EventsList = React.forwardRef<any, any>(
+export type PendingMessage = Pick<
+	Contract,
+	'type' | 'tags' | 'slug' | 'data'
+> & {
+	pending: boolean;
+	created_at: string;
+	data: {
+		actor: string;
+		payload: any;
+		target: string;
+	};
+};
+
+interface Props {
+	sortedEvents: Contract[];
+	pendingMessages: PendingMessage[];
+	loading: boolean;
+	user: UserContract;
+	hideWhispers: boolean;
+	uploadingFiles: string[];
+	messagesOnly: boolean;
+	reachedBeginningOfTimeline: boolean;
+	retry: (contract: Contract) => void;
+	onScrollBeginning: () => void;
+	onCardVisible: (contract: Contract) => void;
+}
+
+const EventsList = React.forwardRef<any, Props>(
 	(
 		{
 			sortedEvents,
@@ -68,6 +96,7 @@ const EventsList = React.forwardRef<any, any>(
 			onScrollBeginning,
 			reachedBeginningOfTimeline,
 			retry,
+			onCardVisible,
 			...rest
 		},
 		ref,
@@ -89,6 +118,7 @@ const EventsList = React.forwardRef<any, any>(
 					return (
 						<EventListItem
 							{...rest}
+							onCardVisible={onCardVisible}
 							key={event.slug}
 							event={event}
 							previousEvent={sortedEvents[index - 1]}

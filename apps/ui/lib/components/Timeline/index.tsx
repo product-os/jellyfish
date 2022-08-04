@@ -7,7 +7,7 @@ import Column from '../Column';
 import MessageInput, { messageSymbolRE } from './MessageInput';
 import { withSetup, Setup } from '../SetupProvider';
 import Header from './Header';
-import EventsList from './EventsList';
+import EventsList, { PendingMessage } from './EventsList';
 import TypingNotice from './TypingNotice';
 import { addNotification } from '../../services/notifications';
 import { UPDATE, CREATE } from '../constants';
@@ -59,16 +59,6 @@ export interface Props extends Setup {
 	usersTyping: any;
 	wide: boolean;
 }
-
-type PendingMessage = Pick<Contract, 'type' | 'tags' | 'slug' | 'data'> & {
-	pending: boolean;
-	created_at: string;
-	data: {
-		actor: string;
-		payload: any;
-		target: string;
-	};
-};
 
 interface State {
 	pendingMessages: PendingMessage[];
