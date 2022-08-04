@@ -20,6 +20,7 @@ import type {
 	Contract,
 	JsonSchema,
 	LinkContract,
+	RelationshipContract,
 	TypeContract,
 	UserContract,
 	ViewContract,
@@ -1157,4 +1158,41 @@ export const isTimelineEvent = (type: string) => {
 export const isPrivateTimelineEvent = (type: string) => {
 	const typeBase = getTypeBase(type);
 	return _.includes([WHISPER, SUMMARY, RATING], typeBase);
+};
+
+export const findRelationships = (
+	relationships: RelationshipContract[],
+	fromType: string,
+	toType: string,
+): Array<{ isInverse: boolean; relationship: RelationshipContract }> => {
+	const filteredRelationships = relationships.filter((r) => {
+		if (r.data.from.type === toType && r.data.to.type === fromType) {
+			return true;
+		}
+		if (r.data.from.type === fromType && r.data.to.type === toType) {
+			return true;
+		}
+		if (
+			r.data.from.type === '*' &&
+			(r.data.to.type === toType || r.data.to.type === fromType)
+		) {
+			return true;
+		}
+		if (
+			(r.data.from.type === toType || r.data.from.type === fromType) &&
+			r.data.to.type === '*'
+		) {
+			return true;
+		}
+
+		return false;
+	});
+
+	return filteredRelationships.map((relationship) => {
+		const isInverse = relationship.data.to.type === toType;
+		return {
+			isInverse,
+			relationship,
+		};
+	});
 };
