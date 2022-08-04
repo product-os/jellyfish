@@ -95,7 +95,6 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 						},
 						getSeedData(head, user),
 					);
-					console.log('seed', getSeedData(head, user));
 
 					try {
 						const newCard = await sdk.card.create(cardData);
@@ -106,30 +105,13 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 							cardReference(newCard),
 						);
 						actions.pushLocation(newPath);
-						const relationship =
-							_.find(relationships, {
-								data: {
-									from: {
-										type: type.slug,
-									},
-									to: {
-										type: helpers.getTypeBase(head.type),
-									},
-								},
-							}) ||
-							_.find(relationships, {
-								data: {
-									from: {
-										type: helpers.getTypeBase(head.type),
-									},
-									to: {
-										type: type.slug,
-									},
-								},
-							});
+						const headTypeBase = helpers.getTypeBase(head.type);
+						const match = _.first(
+							helpers.findRelationships(relationships, headTypeBase, type.slug),
+						);
 
-						if (relationship) {
-							const isInverse = relationship.data.to.type === type.slug;
+						if (match) {
+							const { isInverse, relationship } = match;
 							await sdk.card.link(
 								newCard,
 								head,
