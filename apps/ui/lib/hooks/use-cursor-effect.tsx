@@ -28,8 +28,6 @@ export const useCursorEffect = (
 			}) => {
 				const { id, after } = response.data;
 
-				console.log({ id, after });
-
 				// If card is null then it has been set to inactive or deleted
 				if (after === null) {
 					setResults((prevState) => {
