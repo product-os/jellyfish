@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix bug where pending messages would be incorrectly marked as read"
+      hash: 5e580038057c92e081ec41f6259fd9e9212293e6
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.3.9
+  title: "'UI: Fix bug where pending messages would be incorrectly marked as read'"
+  date: 2022-08-04T09:13:27.498Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-outreach from 5.0.24 to 5.0.25
       hash: 964dd4f7582797a6b0557fd9efbfd756d48af9ed
       body: ""
