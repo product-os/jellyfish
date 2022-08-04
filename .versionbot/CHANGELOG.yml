@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 32.4.1 to 32.5.0
+      hash: fe37136c224a0884fae768cec340e81f3afa7dc7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update autumndb to v21.3.14
+      hash: e6b78d572dcddc8f44572e197af6b0c96912fa2f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.3.10
+  title: "'Update @balena/jellyfish-worker from 32.4.1 to 32.5.0'"
+  date: 2022-08-04T10:49:09.899Z
+- commits:
     - subject: "UI: Fix bug where pending messages would be incorrectly marked as read"
       hash: 5e580038057c92e081ec41f6259fd9e9212293e6
       body: ""
