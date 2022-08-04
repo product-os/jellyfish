@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 7.3.27 to 7.3.30
+      hash: 99b9afd14e6bd09ff64c65ee2c13a1e7dce64442
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.4.1
+  title: "'Update @balena/jellyfish-plugin-incidents from 7.3.27 to 7.3.30'"
+  date: 2022-08-04T18:00:03.401Z
+- commits:
     - subject: "UI: Remove debug statement from cursor effect hook"
       hash: 432424b5ce9c9ae5944e43c7ac018fe4d81b71e8
       body: ""
