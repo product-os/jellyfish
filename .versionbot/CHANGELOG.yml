@@ -1,4 +1,18 @@
 - commits:
+    - subject: Fix bug where notifications are not generated from whispers
+      hash: d9d4be4bada133aa19033b77c1c6b41257c6402c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.4.5
+  title: "'Fix bug where notifications are not generated from whispers'"
+  date: 2022-08-05T14:00:46.790Z
+- commits:
     - subject: "UI: Fix dom nesting warning for mentions component"
       hash: 4a4fb1dff656d85ef64376a7472843bbda4bcce5
       body: ""
