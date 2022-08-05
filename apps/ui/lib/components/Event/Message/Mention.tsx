@@ -48,7 +48,7 @@ export const highlightTags = (
 	}
 };
 
-const Container = styled(Box)`
+const Container = styled.span`
 	display: inline;
 	position: relative;
 	${tagStyle}
