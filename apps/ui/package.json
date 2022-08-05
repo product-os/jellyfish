@@ -113,7 +113,7 @@
     "@types/redux-mock-store": "^1.0.3",
     "@types/sinon": "^10.0.13",
     "@types/webscopeio__react-textarea-autocomplete": "^4.7.2",
-    "autumndb": "^21.3.15",
+    "autumndb": "^22.0.0",
     "browser-env": "^3.3.0",
     "canvas": "^2.9.1",
     "depcheck": "^1.4.3",
