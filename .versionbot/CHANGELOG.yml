@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix dom nesting warning for mentions component"
+      hash: 4a4fb1dff656d85ef64376a7472843bbda4bcce5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 57.4.4
+  title: "'UI: Fix dom nesting warning for mentions component'"
+  date: 2022-08-05T09:04:36.015Z
+- commits:
     - subject: Update autumndb to v21.3.15
       hash: 55559985bfd7d2109e6b820a4e1bb362bf00270f
       body: ""
