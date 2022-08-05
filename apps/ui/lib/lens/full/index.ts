@@ -9,7 +9,7 @@ import SingleCard from './SingleCard';
 import SupportThread from './SupportThread';
 import View from './View';
 import ViewDirectMessages from './ViewDirectMessages';
-import Repository from './Repository';
+import Thread from './Thread';
 import User from './User';
 import TransformerWorker from './TransformerWorker';
 
@@ -21,9 +21,9 @@ export default [
 	Improvement,
 	Loop,
 	Org,
-	Repository,
 	SingleCard,
 	SupportThread,
+	Thread,
 	User,
 	View,
 	ViewDirectMessages,

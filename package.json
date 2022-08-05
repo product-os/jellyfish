@@ -3,7 +3,7 @@
   "version": "57.4.8",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
-  "codename": "greendale",
+  "codename": "seamstress",
   "private": true,
   "repository": {
     "type": "git",

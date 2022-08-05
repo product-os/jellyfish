@@ -8,12 +8,14 @@ import { bindActionCreators } from '../../bindactioncreators';
 import * as helpers from '../../services/helpers';
 import CardFields from '../../components/CardFields';
 import CardLayout from '../../layouts/CardLayout';
-import Timeline from '../../lens/list/Timeline';
 import { UI_SCHEMA_MODE } from '../../lens/schema-util';
 import { RelationshipsTab, customQueryTabs } from '../../lens/common';
 import type { BoundActionCreators, LensRendererProps } from '../../types';
-import type { TypeContract } from 'autumndb';
+import type { JsonSchema, TypeContract } from 'autumndb';
 import { actionCreators, selectors } from '../../store';
+import Activity from '../../components/Activity';
+import { Threads } from '../../components/Threads';
+import Timeline from '../../lens/list/Timeline';
 
 const SLUG = 'tabbed-contract-layout';
 
@@ -35,6 +37,7 @@ export type OwnProps = Pick<LensRendererProps, 'card' | 'channel'> & {
 	primaryTabTitle?: string;
 	title?: JSX.Element;
 	maxWidth?: number | string;
+	threadsQuery?: JsonSchema;
 };
 
 export interface StateProps {
@@ -96,6 +99,7 @@ class TabbedContractLayout extends React.Component<Props, State> {
 			title,
 			primaryTabTitle,
 			maxWidth,
+			threadsQuery,
 		} = this.props;
 
 		const type = helpers.getType(card.type, types);
@@ -104,11 +108,16 @@ class TabbedContractLayout extends React.Component<Props, State> {
 		// is meant for discussing a user and exposing the timeline on the user card
 		// is more than likely going to cause people to accidentally expose internal
 		// comments about a user to the user themselves. Disaster!
-		const displayTimeline = card.type !== 'user';
+		const displayTimeline = [
+			'support-thread',
+			'sales-thread',
+			'thread',
+			'issue',
+		].includes(type.slug);
 
-		const allowWhispers =
-			card.type.split('@')[0] === 'support-thread' ||
-			card.type.split('@')[0] === 'sales-thread';
+		const allowWhispers = ['support-thread', 'sales-thread'].includes(
+			type.slug,
+		);
 
 		return (
 			<CardLayout
@@ -141,8 +150,20 @@ class TabbedContractLayout extends React.Component<Props, State> {
 									viewMode={UI_SCHEMA_MODE.fields}
 								/>
 							)}
+
+							<Activity contract={card} />
 						</Box>
 					</Tab>
+
+					{!displayTimeline && (
+						<Tab title="Threads">
+							<Threads
+								channel={channel}
+								contract={card}
+								threadsQuery={threadsQuery}
+							/>
+						</Tab>
+					)}
 
 					{displayTimeline && (
 						<Tab data-test="timeline-tab" title="Timeline">

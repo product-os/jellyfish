@@ -72,11 +72,9 @@ export default class Header extends React.Component<any> {
 		const {
 			headerOptions,
 			hideWhispers,
-			messagesOnly,
 			sortedEvents,
 			handleJumpToTop,
 			handleWhisperToggle,
-			handleEventToggle,
 		} = this.props;
 		return (
 			<Flex mx={2} justifyContent="flex-end">
@@ -103,23 +101,6 @@ export default class Header extends React.Component<any> {
 							}}
 							onClick={handleWhisperToggle}
 							icon={<Icon name="user-secret" />}
-						/>
-					)}
-
-					{_.get(headerOptions, ['buttons', 'toggleEvents']) !== false && (
-						<PlainButton
-							tooltip={{
-								placement: 'left',
-								text: `${
-									messagesOnly ? 'Show' : 'Hide'
-								} create and update events`,
-							}}
-							style={{
-								opacity: messagesOnly ? 0.5 : 1,
-							}}
-							className="timeline__checkbox--additional-info"
-							onClick={handleEventToggle}
-							icon={<Icon name="stream" />}
 						/>
 					)}
 

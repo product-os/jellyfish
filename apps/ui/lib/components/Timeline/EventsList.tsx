@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import Icon from '../Icon';
 import Event from '../Event';
 import { WHISPER } from '../constants';
-import { getTypeBase, isTimelineEvent } from '../../services/helpers';
+import { getTypeBase } from '../../services/helpers';
 import { InfiniteList } from '../InfiniteList';
 import Loading from './Loading';
 import TimelineStart from './TimelineStart';
@@ -16,7 +16,6 @@ const EventListItem: React.FunctionComponent<any> = ({
 	event,
 	hideWhispers,
 	uploadingFiles,
-	messagesOnly,
 	eventMenuOptions,
 	notifications = [],
 	...eventProps
@@ -31,15 +30,6 @@ const EventListItem: React.FunctionComponent<any> = ({
 	}
 
 	const pureType = getTypeBase(event.type);
-
-	const isSurfacedUpdate =
-		event.type === 'update@1.0.0' &&
-		event.name &&
-		event.data.payload.length > 0;
-
-	if (messagesOnly && !isTimelineEvent(pureType) && !isSurfacedUpdate) {
-		return null;
-	}
 
 	if (hideWhispers && pureType === WHISPER) {
 		return null;
@@ -80,7 +70,6 @@ interface Props {
 	user: UserContract;
 	hideWhispers: boolean;
 	uploadingFiles: string[];
-	messagesOnly: boolean;
 	reachedBeginningOfTimeline: boolean;
 	retry: (contract: Contract) => void;
 	onScrollBeginning: () => void;

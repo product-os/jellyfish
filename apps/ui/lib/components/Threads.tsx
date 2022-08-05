@@ -1,14 +1,16 @@
 import { Contract, JsonSchema } from 'autumndb';
 import React from 'react';
 import { Box, Flex } from 'rendition';
-import { ChannelContract } from '../../../types';
-import LiveCollection from '../../common/LiveCollection';
+import { ChannelContract } from '../types';
+import LiveCollection from '../lens/common/LiveCollection';
 
 interface Props {
 	channel: ChannelContract;
 	contract: Contract;
+	threadsQuery?: JsonSchema;
 }
 
+// Aggregate all threads that are linked to product repositories of this loop, or directly to the loop itself
 const getQuery = (contract: Contract): JsonSchema => {
 	// The query is a intentionally verbose so that the "interleaved" lens
 	// can be correctly inferred and used prior to data being loaded from the API.
@@ -40,8 +42,8 @@ const getQuery = (contract: Contract): JsonSchema => {
 	};
 };
 
-export const RepoThreads = ({ channel, contract }: Props) => {
-	const query = getQuery(contract);
+export const Threads = ({ channel, contract, threadsQuery }: Props) => {
+	const query = threadsQuery || getQuery(contract);
 	return (
 		<Flex
 			flexDirection="column"
