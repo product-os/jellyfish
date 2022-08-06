@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update autumndb from 22.0.0 to 22.0.6
+      hash: a10c04ced2f7e5ccff8f697f65ede80d0c051aff
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.19 to 13.0.21
+      hash: 27ddf688753d57dd717428b178ff82dcc0e80851
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 57.4.6
+  title: "'Update autumndb from 22.0.0 to 22.0.6'"
+  date: 2022-08-06T12:50:23.076Z
+- commits:
     - subject: Fix bug where notifications are not generated from whispers
       hash: d9d4be4bada133aa19033b77c1c6b41257c6402c
       body: ""
