@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-flowdock from 5.0.71 to 5.0.78
+      hash: c3eb88325b12441bd635f34980ceeb3faea995ae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.0.1
+  title: "'Update @balena/jellyfish-plugin-flowdock from 5.0.71 to 5.0.78'"
+  date: 2022-08-08T09:30:11.471Z
+- commits:
     - subject: "UI: Refactor contracts to have multi-threaded conversation by default"
       hash: e2b017b5b637c3f9c980080799e433f6832d7ce8
       body: |
