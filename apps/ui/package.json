@@ -23,7 +23,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.24",
+    "@balena/jellyfish-client-sdk": "^13.0.26",
     "@balena/jellyfish-environment": "^12.3.5",
     "@sentry/browser": "^6.19.7",
     "@use-it/event-listener": "^0.1.7",
