@@ -5,7 +5,6 @@ import type { LensContract, LensRendererProps } from '../../../types';
 import Dashboard from './Dashboard';
 import LiveCollection from '../../common/LiveCollection';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
-import { Threads } from './Threads';
 
 interface State {
 	mineQuery: any;
@@ -103,10 +102,6 @@ class ChannelRenderer extends React.Component<LensRendererProps, State> {
 				channel={channel}
 				primaryTabTitle="Dashboard"
 				tabs={[
-					<Tab title="Threads">
-						<Threads channel={channel} contract={card} />
-					</Tab>,
-
 					<Tab title="Owned by me">
 						<Flex
 							flexDirection="column"

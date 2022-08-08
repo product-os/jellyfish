@@ -1,24 +1,23 @@
-import _ from 'lodash';
 import { createLazyComponent } from '../../../components/SafeLazy';
 
-export const RepositoryLens = createLazyComponent(
-	() => import(/* webpackChunkName: "lens-check-run" */ './Repository'),
+export const ThreadLens = createLazyComponent(
+	() => import(/* webpackChunkName: "lens-thread" */ './Thread'),
 );
 
 const lens = {
-	slug: 'lens-full-default',
+	slug: 'lens-thread',
 	type: 'lens',
 	version: '1.0.0',
 	name: 'Default lens',
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: RepositoryLens,
+		renderer: ThreadLens,
 		filter: {
 			type: 'object',
 			properties: {
 				type: {
-					const: 'repository@1.0.0',
+					const: 'thread@1.0.0',
 				},
 			},
 		},

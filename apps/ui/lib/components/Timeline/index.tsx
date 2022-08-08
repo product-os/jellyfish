@@ -10,7 +10,6 @@ import Header from './Header';
 import EventsList, { PendingMessage } from './EventsList';
 import TypingNotice from './TypingNotice';
 import { addNotification } from '../../services/notifications';
-import { UPDATE, CREATE } from '../constants';
 import type {
 	Contract,
 	JsonSchema,
@@ -66,7 +65,6 @@ interface State {
 	hasNextPage: boolean;
 	hideWhispers: boolean;
 	messageSymbol: boolean;
-	messagesOnly: boolean;
 	uploadingFiles: string[];
 	loadingMoreEvents: boolean;
 	ready: boolean;
@@ -83,7 +81,6 @@ class Timeline extends React.Component<Props, State> {
 			hasNextPage: true,
 			hideWhispers: false,
 			messageSymbol: false,
-			messagesOnly: true,
 			pendingMessages: this.props.timelinePendingMessages || [],
 			uploadingFiles: [],
 			loadingMoreEvents: false,
@@ -96,7 +93,6 @@ class Timeline extends React.Component<Props, State> {
 		this.addMessage = this.addMessage.bind(this);
 		this.handleCardVisible = this.handleCardVisible.bind(this);
 		this.handleFileChange = this.handleFileChange.bind(this);
-		this.handleEventToggle = this.handleEventToggle.bind(this);
 		this.handleJumpToTop = this.handleJumpToTop.bind(this);
 		this.handleWhisperToggle = this.handleWhisperToggle.bind(this);
 	}
@@ -193,13 +189,7 @@ class Timeline extends React.Component<Props, State> {
 			properties: {
 				type: {
 					type: 'string',
-					enum: [
-						'message@1.0.0',
-						'whisper@1.0.0',
-						'create@1.0.0',
-						'update@1.0.0',
-						'summary@1.0.0',
-					],
+					enum: ['message@1.0.0', 'whisper@1.0.0', 'summary@1.0.0'],
 				},
 			},
 		};
@@ -250,10 +240,6 @@ class Timeline extends React.Component<Props, State> {
 			id: eventId,
 		});
 		if (existing) {
-			const pureType = existing.type.split('@')[0];
-			if (pureType === UPDATE || pureType === CREATE) {
-				this.handleEventToggle();
-			}
 			const messageElement = document.getElementById(`event-${eventId}`);
 			if (messageElement) {
 				messageElement.scrollIntoView({
@@ -336,12 +322,6 @@ class Timeline extends React.Component<Props, State> {
 			results: fullResults,
 		});
 	};
-
-	handleEventToggle() {
-		this.setState({
-			messagesOnly: !this.state.messagesOnly,
-		});
-	}
 
 	handleWhisperToggle() {
 		this.setState({
@@ -516,7 +496,6 @@ class Timeline extends React.Component<Props, State> {
 			notifications,
 		} = this.props;
 		const {
-			messagesOnly,
 			pendingMessages,
 			hideWhispers,
 			loadingMoreEvents,
@@ -554,11 +533,9 @@ class Timeline extends React.Component<Props, State> {
 				<Header
 					headerOptions={headerOptions}
 					hideWhispers={hideWhispers}
-					messagesOnly={messagesOnly}
 					sortedEvents={sortedEvents}
 					handleJumpToTop={this.handleJumpToTop}
 					handleWhisperToggle={this.handleWhisperToggle}
-					handleEventToggle={this.handleEventToggle}
 					card={card}
 					getActor={getActor}
 				/>
@@ -570,7 +547,6 @@ class Timeline extends React.Component<Props, State> {
 					hideWhispers={hideWhispers}
 					sortedEvents={sortedEvents}
 					uploadingFiles={uploadingFiles}
-					messagesOnly={messagesOnly}
 					loading={!ready || loadingMoreEvents}
 					onScrollBeginning={this.handleScrollBeginning}
 					pendingMessages={pendingMessages}

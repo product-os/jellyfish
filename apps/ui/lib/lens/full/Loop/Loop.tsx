@@ -1,11 +1,11 @@
+import { Contract, JsonSchema } from 'autumndb';
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import React from 'react';
 import Plot from 'react-plotly.js';
-import { Box, Card, Divider, Flex, Tab, Txt, Heading } from 'rendition';
+import { Box, Card, Divider, Flex, Txt, Heading } from 'rendition';
 import { Icon, Link, withSetup } from '../../../components';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
-import { Threads } from './Threads';
 
 const WIDTH = 160;
 
@@ -28,6 +28,64 @@ const LOOP_CONTRACTS = {
 		type: 'brainstorm-topic@1.0.0',
 		status: 'open',
 	},
+};
+
+// Aggregate all threads that are linked to product repositories of this loop, or directly to the loop itself
+const getThreadsQuery = (contract: Contract): JsonSchema => {
+	// The query is a intentionally verbose so that the "interleaved" lens
+	// can be correctly inferred and used prior to data being loaded from the API.
+	return {
+		type: 'object',
+		required: ['id', 'type', 'slug'],
+		properties: {
+			id: {
+				type: 'string',
+			},
+			slug: {
+				type: 'string',
+			},
+			type: {
+				const: 'thread@1.0.0',
+				type: 'string',
+			},
+		},
+		anyOf: [
+			{
+				$$links: {
+					'is of': {
+						type: 'object',
+						properties: {
+							type: {
+								const: 'repository@1.0.0',
+							},
+							data: {
+								type: 'object',
+								// TODO: Use full relationships once https://github.com/product-os/autumndb/issues/1396 is fixed
+								required: ['is_used_by'],
+								properties: {
+									is_used_by: {
+										const: contract.id,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			{
+				$$links: {
+					'is of': {
+						type: 'object',
+						properties: {
+							id: {
+								const: contract.id,
+							},
+						},
+					},
+				},
+			},
+		],
+	};
 };
 
 const Corner = (props: { rotate: number } = { rotate: 0 }) => {
@@ -473,11 +531,7 @@ export default withSetup(
 					primaryTabTitle="Dashboard"
 					card={card}
 					channel={channel}
-					tabs={[
-						<Tab title="Threads">
-							<Threads channel={channel} contract={card} />
-						</Tab>,
-					]}
+					threadsQuery={getThreadsQuery(this.props.card)}
 				>
 					<Box width={420} mx="auto">
 						<Flex alignItems="center">
