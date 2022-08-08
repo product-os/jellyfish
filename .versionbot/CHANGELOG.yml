@@ -1,4 +1,25 @@
 - commits:
+    - subject: "UI: Refactor contracts to have multi-threaded conversation by default"
+      hash: e2b017b5b637c3f9c980080799e433f6832d7ce8
+      body: |
+        By default contracts will have threads attached to them, that are
+        rendered in an interleaved style. The update and create events are now
+        displayed under and activity header in the info tab.
+        Sales threads, support threads and threads will be an exception as they
+        will need to render the message/whisper timeline.
+        Existing timeline messages will need to be migrated to fresh threads so
+        that they will still be discoverable.
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 58.0.0
+  title: "'UI: Refactor contracts to have multi-threaded conversation by default'"
+  date: 2022-08-08T08:45:43.440Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.29 to 6.0.33
       hash: 11e8ef08bbfd941840baf13e3ddfd25d86c3a5b6
       body: ""
