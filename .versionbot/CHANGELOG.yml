@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.34 to 6.0.35
+      hash: 8b7fa60465d91128501a535b9231fad93667dbcc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.24 to 13.0.26
+      hash: 2b8a8ddeec66b8f490004688e649ec411357865c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.0.5
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.34 to 6.0.35'"
+  date: 2022-08-08T17:12:11.529Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.3.30 to 7.3.34
       hash: cc2ef5aed0f480c23f8156bb897bf07edf497135
       body: ""
