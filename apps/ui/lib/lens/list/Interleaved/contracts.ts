@@ -67,7 +67,7 @@ export const lens: LensContract = {
 							},
 							type: {
 								type: 'string',
-								const: 'message@1.0.0',
+								enum: ['message@1.0.0', 'whisper@1.0.0'],
 							},
 							data: {
 								type: 'object',
@@ -116,7 +116,7 @@ export const lens: LensContract = {
 						},
 						type: {
 							type: 'string',
-							const: 'message@1.0.0',
+							enum: ['message@1.0.0', 'whisper@1.0.0'],
 						},
 					},
 					required: ['active', 'type'],
