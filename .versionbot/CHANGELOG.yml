@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Load whispers in interleaved lens"
+      hash: 766ed7756c4572c436fb1e1d6d4dedb29010c13f
+      body: |
+        Previously only messages would be loaded.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 58.1.0
+  title: "'UI: Load whispers in interleaved lens'"
+  date: 2022-08-09T11:36:32.108Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.34 to 6.0.35
       hash: 8b7fa60465d91128501a535b9231fad93667dbcc
       body: ""
