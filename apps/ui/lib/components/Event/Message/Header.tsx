@@ -72,8 +72,14 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 			card,
 			squashTop,
 			getActorHref,
+			is121,
+			context,
 			...contextProps
 		} = this.props;
+
+		console.log({ context, is121 });
+
+		const contextName = context?.name;
 
 		const isOwnMessage = user.id === _.get(card, ['data', 'actor']);
 
@@ -85,6 +91,8 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 					style={{
 						lineHeight: 1.75,
 					}}
+					flex={1}
+					justifyContent="space-between"
 				>
 					{!squashTop && isMessage && (
 						<Txt
@@ -120,6 +128,17 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 					)}
 
 					{!squashTop && !isMessage && this.getTimelineElement()}
+
+					{!squashTop && is121 && (
+						<Txt color={Theme.colors.text.light} mr={2}>
+							1 to 1
+						</Txt>
+					)}
+					{!squashTop && contextName && (
+						<Txt color={Theme.colors.text.light} mr={2}>
+							{contextName}
+						</Txt>
+					)}
 				</Flex>
 
 				<Context

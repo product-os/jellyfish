@@ -43,6 +43,19 @@ const getQuery = (): JsonSchema => {
 					},
 				},
 			},
+			'is attached to': {
+				type: 'object',
+				anyOf: [
+					{
+						$$links: {
+							'is of': {
+								type: 'object',
+							},
+						},
+					},
+					true,
+				],
+			},
 		},
 	};
 };
@@ -82,12 +95,19 @@ const Inbox = ({ channel }) => {
 		);
 	};
 
+	console.log(messages);
+
 	const EventBox = React.memo(({ contract }: { contract: Contract }) => {
 		if (!contract) {
 			return <Box p={3}>Loading...</Box>;
 		}
 
 		const read = (contract as any).data?.readBy?.includes(user.slug);
+
+		const source = contract.links?.['is attached to']?.[0];
+		const context = source?.links?.['is of']?.[0];
+
+		const is121 = source?.data.dms ?? false;
 
 		return (
 			<InboxMessageWrapper className={read ? 'event-read' : 'event-unread'}>
@@ -97,6 +117,8 @@ const Inbox = ({ channel }) => {
 					groups={groups}
 					getActorHref={getActorHref}
 					card={contract}
+					is121={is121}
+					context={context}
 				/>
 			</InboxMessageWrapper>
 		);

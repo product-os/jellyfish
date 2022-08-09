@@ -116,6 +116,8 @@ interface Props {
 	nextEvent: Contract;
 	getActorHref: (actor: UserContract) => string;
 	retry: (message: any) => any;
+	is121?: boolean;
+	context?: Contract;
 }
 
 export default class Event extends React.Component<Props, State> {
@@ -282,6 +284,8 @@ export default class Event extends React.Component<Props, State> {
 			nextEvent,
 			getActorHref,
 			retry,
+			is121,
+			context,
 			...rest
 		} = this.props;
 
@@ -374,6 +378,8 @@ export default class Event extends React.Component<Props, State> {
 							squashTop={squashTop}
 							getActorHref={getActorHref}
 							retry={retry}
+							is121={is121}
+							context={context}
 						/>
 						<Body
 							actor={actor}
