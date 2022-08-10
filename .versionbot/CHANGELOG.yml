@@ -1,4 +1,31 @@
 - commits:
+    - subject: "UI: Add ability to archive notifications from the inbox"
+      hash: ee8dd877f2a347cb59321eb4b928bcf3d6eb0764
+      body: |
+        This change also displays the context for the notification. e.g. if the
+        thread was generate from the balena loop, the context will be shown as
+        "balena".
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Show message context in inbox"
+      hash: 3bae85b6fd5958812fc5e784a408a6e505b9d4c7
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 58.2.0
+  title: "'Add ability to archive notifications'"
+  date: 2022-08-10T14:27:14.150Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 7.3.34 to 7.3.35
       hash: 7cff529896edf67d74a9b41f1842665090935d94
       body: ""
