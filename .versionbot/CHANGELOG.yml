@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-outreach from 5.0.25 to 5.0.29
+      hash: d53c912f55fb2c6916f10ea919cc7d9f2cfe4d45
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.2.1
+  title: "'Update @balena/jellyfish-plugin-outreach from 5.0.25 to 5.0.29'"
+  date: 2022-08-10T15:08:56.949Z
+- commits:
     - subject: "UI: Add ability to archive notifications from the inbox"
       hash: ee8dd877f2a347cb59321eb4b928bcf3d6eb0764
       body: |
