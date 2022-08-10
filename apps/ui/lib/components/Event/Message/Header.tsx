@@ -1,11 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
-import { Theme, Flex, Txt } from 'rendition';
-import type { UserContract } from 'autumndb';
+import { Theme, Flex, Txt, Button } from 'rendition';
+import type { Contract, UserContract } from 'autumndb';
 import { Link } from '../../Link';
-import Context, { EventContextProps } from './Context';
+import HoverMenu, { EventContextProps } from './Context';
 import { username, getUserTooltipText } from '../../../services/helpers';
+import Icon from '../../Icon';
+import { useSetup } from '../../SetupProvider';
 
 const HeaderWrapper = styled(Flex)`
 	position: relative;
@@ -27,15 +29,29 @@ interface EventHeaderProps extends Omit<EventContextProps, 'isOwnMessage'> {
 	squashTop?: boolean;
 	// TS-TODO
 	getActorHref: (actor: any) => string;
+	is121?: boolean;
+	context?: Contract;
+	hide?: () => void;
 }
 
-export default class EventHeader extends React.Component<EventHeaderProps> {
-	getTimelineElement() {
-		const targetCard = _.get(
-			this.props.card,
-			['links', 'is attached to', '0'],
-			this.props.card,
-		);
+const EventHeader = (props: EventHeaderProps) => {
+	const { sdk } = useSetup()!;
+	const {
+		isMessage,
+		user,
+		actor,
+		card,
+		squashTop,
+		getActorHref,
+		is121,
+		context,
+		...contextProps
+	} = props;
+
+	const [isArchiving, setIsArchiving] = React.useState(false);
+
+	const getTimelineElement = React.useCallback(() => {
+		const targetCard = _.get(card, ['links', 'is attached to', '0'], card);
 		const typeBase = targetCard.type.split('@')[0];
 		if (typeBase === 'user') {
 			return (
@@ -55,46 +71,51 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 		return (
 			<Txt color={Theme.colors.text.light}>
 				<em>{text}</em>{' '}
-				<strong>
-					{this.props.actor && this.props.actor.card
-						? username(this.props.actor.card.slug)
-						: ''}
-				</strong>
+				<strong>{actor && actor.card ? username(actor.card.slug) : ''}</strong>
 			</Txt>
 		);
-	}
+	}, [actor, card]);
 
-	render() {
-		const {
-			isMessage,
-			user,
-			actor,
-			card,
-			squashTop,
-			getActorHref,
-			is121,
-			context,
-			...contextProps
-		} = this.props;
+	const archiveNotification = React.useCallback(async () => {
+		const notification = card?.links?.['has attached'][0];
 
-		console.log({ context, is121 });
+		setIsArchiving(true);
+		if (notification) {
+			try {
+				await sdk.card.update(notification.id, notification.type, [
+					{
+						op: notification.data.status ? 'replace' : 'add',
+						path: '/data/status',
+						value: 'archived',
+					},
+				]);
+				if (props.hide) {
+					props.hide();
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		}
+		setIsArchiving(false);
+	}, ['card']);
 
-		const contextName = context?.name;
+	const contextName = context?.name;
 
-		const isOwnMessage = user.id === _.get(card, ['data', 'actor']);
+	const isOwnMessage = user.id === _.get(card, ['data', 'actor']);
 
-		return (
-			<HeaderWrapper justifyContent="space-between">
-				<Flex
-					mt={isMessage ? 0 : 1}
-					alignItems="center"
-					style={{
-						lineHeight: 1.75,
-					}}
-					flex={1}
-					justifyContent="space-between"
-				>
-					{!squashTop && isMessage && (
+	return (
+		<HeaderWrapper justifyContent="space-between">
+			<Flex
+				mt={isMessage ? 0 : 1}
+				alignItems="center"
+				style={{
+					lineHeight: 1.75,
+				}}
+				flex={1}
+				justifyContent="space-between"
+			>
+				{!squashTop && isMessage && (
+					<Flex flexDirection="column" alignItems={'flex-start'}>
 						<Txt
 							data-test="event__actor-label"
 							tooltip={
@@ -125,29 +146,48 @@ export default class EventHeader extends React.Component<EventHeaderProps> {
 
 							{!actor && <ActorPlaceholder>Loading...</ActorPlaceholder>}
 						</Txt>
-					)}
 
-					{!squashTop && !isMessage && this.getTimelineElement()}
+						{is121 && (
+							<Txt color={'#B8B8B8'} mr={1}>
+								1 to 1
+							</Txt>
+						)}
+						{contextName && (
+							<Link color={'#B8B8B8'} mr={1} append={context.slug}>
+								{contextName}
+							</Link>
+						)}
+					</Flex>
+				)}
 
-					{!squashTop && is121 && (
-						<Txt color={Theme.colors.text.light} mr={2}>
-							1 to 1
-						</Txt>
-					)}
-					{!squashTop && contextName && (
-						<Txt color={Theme.colors.text.light} mr={2}>
-							{contextName}
-						</Txt>
-					)}
-				</Flex>
+				{!squashTop && !isMessage && getTimelineElement()}
 
-				<Context
+				{(context || is121) && (
+					<Button
+						tooltip={{
+							text: 'Archive this notification',
+							placement: 'left',
+						}}
+						plain
+						icon={
+							<Icon name={isArchiving ? 'cog' : 'box'} spin={isArchiving} />
+						}
+						onClick={archiveNotification}
+						mr={1}
+					/>
+				)}
+			</Flex>
+
+			{!(context || is121) && (
+				<HoverMenu
 					card={card}
 					{...contextProps}
 					isOwnMessage={isOwnMessage}
 					isMessage={isMessage}
 				/>
-			</HeaderWrapper>
-		);
-	}
-}
+			)}
+		</HeaderWrapper>
+	);
+};
+
+export default EventHeader;

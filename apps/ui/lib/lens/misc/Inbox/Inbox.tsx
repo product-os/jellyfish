@@ -41,6 +41,14 @@ const getQuery = (): JsonSchema => {
 					type: {
 						const: 'notification@1.0.0',
 					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								const: 'open',
+							},
+						},
+					},
 				},
 			},
 			'is attached to': {
@@ -94,8 +102,6 @@ const Inbox = ({ channel }) => {
 			path.join(window.location.pathname.split(current)[0], current, target),
 		);
 	};
-
-	console.log(messages);
 
 	const EventBox = React.memo(({ contract }: { contract: Contract }) => {
 		if (!contract) {
