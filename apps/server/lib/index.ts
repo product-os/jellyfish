@@ -1,11 +1,12 @@
 import { defaultEnvironment as environment } from '@balena/jellyfish-environment';
 import { getLogger } from '@balena/jellyfish-logger';
-import { v4 as uuidv4 } from 'uuid';
 import { bootstrap } from './bootstrap';
 import { getPlugins } from './plugins';
 import cluster from 'node:cluster';
-import { cpus } from 'node:os';
+import { cpus, networkInterfaces } from 'node:os';
 import process from 'node:process';
+import { HandoverPeer } from 'handover-lib';
+import _ from 'lodash';
 
 // Avoid including package.json in the build output!
 // tslint:disable-next-line: no-var-requires
@@ -20,8 +21,20 @@ if (MAX_WORKERS) {
 	numCPUs = Math.min(numCPUs, parseInt(MAX_WORKERS, 10));
 }
 
+const serverId = Math.round(Math.random() * 1000);
+
+let hostId = environment.pod.name; // on a docker-compose would be 'localhost'
+if (hostId === 'localhost') {
+	const localAddresses = networkInterfaces()?.eth0;
+	if (localAddresses && localAddresses[0] && localAddresses[0].address) {
+		hostId = localAddresses[0].address;
+	}
+}
+
 const DEFAULT_CONTEXT = {
-	id: `SERVER-ERROR-${environment.pod.name}-${packageJSON.version}`,
+	id: `SERVER-ERROR-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
+		packageJSON.version
+	}`,
 };
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
@@ -42,35 +55,111 @@ process.on('unhandledRejection', (error) => {
 });
 
 const startDate = new Date();
-
 const run = async () => {
 	if (cluster.isPrimary) {
+		const context = {
+			id: `SERVER-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
+				packageJSON.version
+			}-primary`,
+		};
+		const handoverPeer = new HandoverPeer(startDate, context);
+
 		logger.info(
-			DEFAULT_CONTEXT,
+			context,
 			`Primary worker started, spawning ${numCPUs} workers`,
 			{
 				time: startDate.getTime(),
 			},
 		);
 
+		let activeWorkers = 0;
+		const maxWorkers = numCPUs;
+		// Wait until all workers are ready
+		const workersNeeded = maxWorkers;
 		// Fork workers.
-		for (let i = 0; i < numCPUs; i++) {
-			const startWorker = () => {
-				cluster.fork().on('exit', startWorker);
-			};
-			startWorker();
+		for (let i = 0; i < maxWorkers; i++) {
+			cluster.fork();
 		}
-
 		cluster.on('exit', (worker, code, signal) => {
-			logger.warn(DEFAULT_CONTEXT, `worker ${worker.process.pid} died`, {
-				code,
-				signal,
-			});
+			if (worker.exitedAfterDisconnect === true) {
+				logger.info(
+					context,
+					`worker ${worker?.process?.pid} exited (${signal || code}).`,
+				);
+			} else {
+				logger.info(
+					context,
+					`worker ${worker?.process?.pid} died (${
+						signal || code
+					}). Forking again`,
+				);
+				cluster.fork();
+			}
 		});
+
+		cluster.on('online', (worker) => {
+			logger.debug(
+				context,
+				`Worker ${worker.id} responded after it was forked`,
+			);
+		});
+
+		logger.info(context, `Waiting for ${workersNeeded} workers to start`);
+
+		cluster.on('message', (worker, message) => {
+			if (message?.msg === 'worker-started') {
+				activeWorkers++;
+				logger.info(
+					context,
+					`Worker ${worker.id} worker-started. activeWorkers ${activeWorkers}`,
+				);
+				if (activeWorkers === workersNeeded) {
+					logger.info(context, `All ${workersNeeded} needed workers started.`);
+					handoverPeer.startBroadcasting();
+				}
+			} else if (message?.msg === 'DONE') {
+				// Ignored, is handled by the shutdown code
+			} else {
+				logger.warn(context, `Unknown message received from worker`, message);
+			}
+		});
+
+		// handoverPeer will call this function when we're shutting down. It will `await` until it returns to signal that the handover is done.
+		// Reminder that the handover ( new instance takes the hostname ) is not performed until the old container is killed, so we have to balance between clean-shutdown and almost-zero-downtime
+		// Here we go with the "almost-zero-downtime": we forward the message to all workers and return without waiting for their response.
+		const shutdownCallback = async () => {
+			let exitedWorkers = 0;
+			const liveWorkers = Object.values(cluster.workers || {});
+			for (const worker of liveWorkers) {
+				worker?.on('message', (message) => {
+					if (message?.msg === 'DONE') {
+						exitedWorkers++;
+					}
+				});
+				worker?.send('SHUTDOWN');
+			}
+			// Keep logging while we're alive
+			setImmediate(async () => {
+				while (exitedWorkers < liveWorkers.length) {
+					logger.info(
+						context,
+						`exitedWorkers: ${exitedWorkers} of ${liveWorkers.length}`,
+					);
+					await new Promise((r) => setTimeout(r, 100));
+				}
+				logger.info(
+					context,
+					`All workers exited. ExitedWorkers: ${exitedWorkers} of ${liveWorkers.length}`,
+				);
+			});
+		};
+
+		handoverPeer.startListening(shutdownCallback);
 	} else {
-		const id = uuidv4();
 		const context = {
-			id: `SERVER-${packageJSON.version}-${environment.pod.name}-worker#${cluster.worker?.id}-${id}`,
+			id: `SERVER-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
+				packageJSON.version
+			}-worker#${cluster.worker?.id}`,
 		};
 
 		logger.info(context, `Starting server with worker ${cluster.worker?.id}`, {
@@ -94,6 +183,16 @@ const run = async () => {
 					});
 
 					process.send!({ msg: 'worker-started' });
+
+					cluster.worker?.on('message', async (msg) => {
+						if (msg === 'SHUTDOWN') {
+							await server.close();
+							logger.info(context, `${cluster.worker?.id}:Server stopped`);
+							process.send!({ msg: 'DONE' });
+							// bye
+							setTimeout(() => cluster.worker?.kill(), 100);
+						}
+					});
 
 					if (timeToStart > 10000) {
 						logger.warn(context, 'Slow server startup time', {
