@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/ca-private Docker tag to v0.0.7
+      hash: a207b0750fbff0999e7ffef06947bae3037a8afd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.5
+  title: "'Update balena/ca-private Docker tag to v0.0.7'"
+  date: 2022-08-12T05:53:51.118Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-typeform from 10.0.19 to 10.0.26
       hash: eee5acd5b1c2d25283ebc26ea3fa8f1516d3f5bc
       body: ""
