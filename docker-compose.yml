@@ -88,7 +88,7 @@ services:
       io.balena.update.strategy: hand-over
       # Note that this timer starts to run after the new node is started, so it needs to give enough time for
       # the new service to be ready to handle requests
-      io.balena.update.handover-timeout: 120000
+      io.balena.update.handover-timeout: 60000
     volumes:
       - resin-data:/balena
       - certs-data:/certs
