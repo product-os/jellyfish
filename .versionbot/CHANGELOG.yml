@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.35 to 6.0.38
+      hash: fef3a2f699c1c34a99a40328ad0db7e373955cda
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.6
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.35 to 6.0.38'"
+  date: 2022-08-12T08:15:20.280Z
+- commits:
     - subject: Update balena/ca-private Docker tag to v0.0.7
       hash: a207b0750fbff0999e7ffef06947bae3037a8afd
       body: ""
