@@ -41,7 +41,28 @@ const getQuery = (): JsonSchema => {
 					type: {
 						const: 'notification@1.0.0',
 					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								const: 'open',
+							},
+						},
+					},
 				},
+			},
+			'is attached to': {
+				type: 'object',
+				anyOf: [
+					{
+						$$links: {
+							'is of': {
+								type: 'object',
+							},
+						},
+					},
+					true,
+				],
 			},
 		},
 	};
@@ -89,6 +110,11 @@ const Inbox = ({ channel }) => {
 
 		const read = (contract as any).data?.readBy?.includes(user.slug);
 
+		const source = contract.links?.['is attached to']?.[0];
+		const context = source?.links?.['is of']?.[0];
+
+		const is121 = source?.data.dms ?? false;
+
 		return (
 			<InboxMessageWrapper className={read ? 'event-read' : 'event-unread'}>
 				<Event
@@ -97,6 +123,8 @@ const Inbox = ({ channel }) => {
 					groups={groups}
 					getActorHref={getActorHref}
 					card={contract}
+					is121={is121}
+					context={context}
 				/>
 			</InboxMessageWrapper>
 		);

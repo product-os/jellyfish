@@ -84,6 +84,7 @@ interface State {
 	updating: boolean;
 	messageHeight: number | null;
 	isVisible: boolean;
+	isHidden: boolean;
 }
 
 interface Props {
@@ -116,6 +117,8 @@ interface Props {
 	nextEvent: Contract;
 	getActorHref: (actor: UserContract) => string;
 	retry: (message: any) => any;
+	is121?: boolean;
+	context?: Contract;
 }
 
 export default class Event extends React.Component<Props, State> {
@@ -126,6 +129,7 @@ export default class Event extends React.Component<Props, State> {
 		updating: false,
 		messageHeight: null,
 		isVisible: false,
+		isHidden: false,
 	};
 
 	handleOpenChannel = () => {
@@ -261,6 +265,10 @@ export default class Event extends React.Component<Props, State> {
 		}
 	}
 
+	hide = () => {
+		this.setState({ isHidden: true });
+	};
+
 	render() {
 		const {
 			types,
@@ -282,10 +290,16 @@ export default class Event extends React.Component<Props, State> {
 			nextEvent,
 			getActorHref,
 			retry,
+			is121,
+			context,
 			...rest
 		} = this.props;
 
-		const { editedMessage, updating } = this.state;
+		const { editedMessage, updating, isHidden } = this.state;
+
+		if (isHidden) {
+			return null;
+		}
 
 		const typeBase = helpers.getTypeBase(card.type);
 		const isMessage = helpers.isTimelineEvent(typeBase);
@@ -374,6 +388,9 @@ export default class Event extends React.Component<Props, State> {
 							squashTop={squashTop}
 							getActorHref={getActorHref}
 							retry={retry}
+							is121={is121}
+							context={context}
+							hide={this.hide}
 						/>
 						<Body
 							actor={actor}
