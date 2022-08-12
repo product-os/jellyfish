@@ -1,4 +1,18 @@
 - commits:
+    - subject: Clean up logger context
+      hash: a1929714af535caf4d186391a3fc55c770ac0f29
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 58.3.1
+  title: "'Clean up logger context'"
+  date: 2022-08-12T03:00:48.443Z
+- commits:
     - subject: Add support for handover strategy
       hash: 8764f068ca5aaa11909acfee7b3f5a193e9035cf
       body: ""
