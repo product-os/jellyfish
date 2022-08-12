@@ -27,14 +27,16 @@ let hostId = environment.pod.name; // on a docker-compose would be 'localhost'
 if (hostId === 'localhost') {
 	const localAddresses = networkInterfaces()?.eth0;
 	if (localAddresses && localAddresses[0] && localAddresses[0].address) {
-		hostId = localAddresses[0].address;
+		hostId = 'IP-' + localAddresses[0].address;
 	}
 }
 
+const baseLogId = `SERVER-ID-${'[' + serverId + ']'}-PID-${
+	process.pid
+}-${hostId}-${packageJSON.version}`;
+
 const DEFAULT_CONTEXT = {
-	id: `SERVER-ERROR-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
-		packageJSON.version
-	}`,
+	id: `ERROR-${baseLogId}`,
 };
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
@@ -58,9 +60,7 @@ const startDate = new Date();
 const run = async () => {
 	if (cluster.isPrimary) {
 		const context = {
-			id: `SERVER-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
-				packageJSON.version
-			}-primary`,
+			id: `${baseLogId}-primary`,
 		};
 		const handoverPeer = new HandoverPeer(startDate, context);
 
@@ -157,9 +157,7 @@ const run = async () => {
 		handoverPeer.startListening(shutdownCallback);
 	} else {
 		const context = {
-			id: `SERVER-ID-${'[' + serverId + ']'}-PID-${process.pid}-H-${hostId}-${
-				packageJSON.version
-			}-worker#${cluster.worker?.id}`,
+			id: `${baseLogId}-worker#${cluster.worker?.id}`,
 		};
 
 		logger.info(context, `Starting server with worker ${cluster.worker?.id}`, {
