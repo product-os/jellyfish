@@ -1,4 +1,19 @@
 - commits:
+    - subject: Keep the workers alive while handing over to the new instance. Use
+        /ping from haproxy
+      hash: 70d6cf76e01be958caa5ac8711eee4c14cd901e8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 58.3.9
+  title: "'Keep the workers alive while handing over to the new instance. Use /p…'"
+  date: 2022-08-12T16:51:37.931Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-outreach from 5.0.29 to 5.0.31
       hash: ce9096c43d46b5ab85f4de6d8368ef67319ff760
       body: ""
