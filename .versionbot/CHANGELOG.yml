@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.26 to 13.0.27
+      hash: 6370f5210d53e5a6a35a7de90920274829d0e36c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.2
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.26 to 13.0.27'"
+  date: 2022-08-12T03:43:56.507Z
+- commits:
     - subject: Clean up logger context
       hash: a1929714af535caf4d186391a3fc55c770ac0f29
       body: ""
