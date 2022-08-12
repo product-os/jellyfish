@@ -81,9 +81,19 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 
 	const closeWorker = async () => {
 		await worker.stop();
-		await kernel.disconnect(logContext);
+		try {
+			await kernel.disconnect(logContext);
+		} catch (error) {
+			logger.warn(logContext, `Error when disconnecting the kernel`, { error });
+		}
 		if (cache) {
-			await cache.disconnect();
+			try {
+				await cache.disconnect();
+			} catch (error) {
+				logger.warn(logContext, `Error when disconnecting the cache`, {
+					error,
+				});
+			}
 		}
 	};
 
@@ -274,10 +284,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 			metricsServer.close();
 			await webServer.stop();
 			await closeWorker();
-			await kernel.disconnect(logContext);
-			if (cache) {
-				await cache.disconnect();
-			}
 		},
 	};
 };
