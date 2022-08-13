@@ -62,7 +62,7 @@
   "license": "AGPL-3.0",
   "devDependencies": {
     "@balena/jellyfish-client-sdk": "^13.0.29",
-    "@balena/jellyfish-environment": "^12.3.5",
+    "@balena/jellyfish-environment": "^12.3.6",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
     "ava": "^4.3.1",
