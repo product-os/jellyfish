@@ -126,32 +126,9 @@ const run = async () => {
 
 		// handoverPeer will call this function when we're shutting down. It will `await` until it returns to signal that the handover is done.
 		// Reminder that the handover ( new instance takes the hostname ) is not performed until the old container is killed, so we have to balance between clean-shutdown and almost-zero-downtime
-		// Here we go with the "almost-zero-downtime": we forward the message to all workers and return without waiting for their response.
+		// Here we go with the "almost-zero-downtime": don't stop servicing requests. The container may get killed while it's processing a request
 		const shutdownCallback = async () => {
-			let exitedWorkers = 0;
-			const liveWorkers = Object.values(cluster.workers || {});
-			for (const worker of liveWorkers) {
-				worker?.on('message', (message) => {
-					if (message?.msg === 'DONE') {
-						exitedWorkers++;
-					}
-				});
-				worker?.send('SHUTDOWN');
-			}
-			// Keep logging while we're alive
-			setImmediate(async () => {
-				while (exitedWorkers < liveWorkers.length) {
-					logger.info(
-						context,
-						`exitedWorkers: ${exitedWorkers} of ${liveWorkers.length}`,
-					);
-					await new Promise((r) => setTimeout(r, 100));
-				}
-				logger.info(
-					context,
-					`All workers exited. ExitedWorkers: ${exitedWorkers} of ${liveWorkers.length}`,
-				);
-			});
+			logger.info(context, `Keeping the workers alive during handover.`);
 		};
 
 		handoverPeer.startListening(shutdownCallback);
