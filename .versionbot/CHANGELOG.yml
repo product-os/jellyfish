@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.28 to 5.1.28
+      hash: 5089bc0573320847ab7c06ec8f9c6b7da21251ea
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.13
+  title: "'Update @balena/jellyfish-logger from 5.1.28 to 5.1.28'"
+  date: 2022-08-14T14:27:44.605Z
+- commits:
     - subject: Keep the workers alive while handing over to the new instance. Use
         /ping from haproxy
       hash: 63f54d0e4571a1c38f163192da0c136987efcd8b
