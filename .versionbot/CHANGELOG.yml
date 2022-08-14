@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-metrics from 2.0.120 to 2.0.120
+      hash: 3bfd482ca7ac44f67165bba08e061484da215a01
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.15
+  title: "'Update @balena/jellyfish-metrics from 2.0.120 to 2.0.120'"
+  date: 2022-08-14T16:52:03.112Z
+- commits:
     - subject: Trigger release to test last handover change
       hash: 15e50ae586b1fec1c51d575a772c221b9d99f1cb
       body: ""
