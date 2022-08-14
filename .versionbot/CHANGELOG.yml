@@ -1,4 +1,18 @@
 - commits:
+    - subject: Trigger release to test last handover change
+      hash: 15e50ae586b1fec1c51d575a772c221b9d99f1cb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 58.3.14
+  title: "'Trigger release to test last handover change'"
+  date: 2022-08-14T16:08:40.373Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 5.1.28 to 5.1.28
       hash: 5089bc0573320847ab7c06ec8f9c6b7da21251ea
       body: ""
