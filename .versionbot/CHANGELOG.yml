@@ -1,4 +1,20 @@
 - commits:
+    - subject: Keep the workers alive while handing over to the new instance. Use
+        /ping from haproxy
+      hash: 63f54d0e4571a1c38f163192da0c136987efcd8b
+      body: >
+        Update workflow to workaround an instance shortage by using a m6a.2xlarge
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 58.3.12
+  title: "'Keep the workers alive while handing over to the new instance. Use /p…'"
+  date: 2022-08-14T13:49:26.362Z
+- commits:
     - subject: Update @balena/jellyfish-environment to v12.3.6
       hash: 2fc77133189bf88bcb100a9704eeb8c5502a21e8
       body: ""
