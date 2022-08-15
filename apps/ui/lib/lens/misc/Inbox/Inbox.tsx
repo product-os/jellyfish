@@ -111,7 +111,9 @@ const Inbox = ({ channel }) => {
 		const read = (contract as any).data?.readBy?.includes(user.slug);
 
 		const source = contract.links?.['is attached to']?.[0];
-		const context = source?.links?.['is of']?.[0];
+		// The context is either the source of the message or the notification itself
+		const context =
+			source?.links?.['is of']?.[0] ?? contract?.links?.['has attached']?.[0];
 
 		const is121 = source?.data.dms ?? false;
 
