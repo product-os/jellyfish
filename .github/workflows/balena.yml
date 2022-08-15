@@ -677,7 +677,9 @@ jobs:
           rm -f /tmp/ssh_agent.sock
 
       - name: destroy ephemeral test device
-        if: always()
+        # Executing only if the same conditions of `id: provision-test-device` apply
+        if: ${{ github.event_name == 'pull_request' && github.event.action != 'closed'}}
+
         id: destroy-test-device
         run: |
           set -ue
