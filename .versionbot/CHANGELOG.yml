@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 10.0.31 to 10.0.32
+      hash: 19ba4c5314f7845e5b9e50b96c1edfb7fcb8e85d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.22
+  title: "'Update @balena/jellyfish-plugin-typeform from 10.0.31 to 10.0.32'"
+  date: 2022-08-15T05:56:26.860Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 32.6.7 to 32.6.7
       hash: b70d2b30bb24c0c0c5ee2afea98e7899b4cf2df5
       body: ""
