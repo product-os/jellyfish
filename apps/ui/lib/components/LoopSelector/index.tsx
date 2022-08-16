@@ -28,7 +28,11 @@ export const LoopSelector = React.memo(() => {
 		null,
 	);
 
-	const orgs = user.links['is member of'];
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
+
+	const orgs = user?.links?.['is member of'] ?? [];
 
 	React.useEffect(() => {
 		for (const channel of channels) {

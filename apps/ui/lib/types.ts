@@ -62,15 +62,16 @@ export interface LensContract
 export interface ChannelContract extends Omit<Contract, 'updated_at' | 'name'> {
 	data: {
 		canonical?: boolean;
-		target: string;
+		target?: string;
 		error?: any;
 		cardType?: string;
 		seed?: any;
+		format?: string;
 		head?: {
 			onDone: any;
-			seed: any;
-			types: TypeContract[];
-			card: Contract;
+			seed?: any;
+			types?: TypeContract[];
+			card?: Contract;
 		};
 	};
 }

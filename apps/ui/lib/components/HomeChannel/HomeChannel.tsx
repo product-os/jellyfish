@@ -302,14 +302,14 @@ const bookmarksQuery = (userId: string): JsonSchema => {
 
 export interface StateProps {
 	channels: ChannelContract[];
-	codename: string;
+	codename: string | null;
 	orgs: OrgContract[];
 	types: TypeContract[];
 	activeLoop: string | null;
 	isChatWidgetOpen: boolean;
 	user: UserContract;
-	homeView: string;
-	version: string;
+	homeView: string | null;
+	version: string | null;
 }
 
 export interface DispatchProps {
@@ -493,6 +493,10 @@ export default withSetup(
 
 		loadData = async () => {
 			const { channel, user, sdk } = this.props;
+
+			if (!channel.data.target) {
+				throw new Error('No target specified');
+			}
 
 			const card = await sdk.card.get(channel.data.target);
 			const getData = async (

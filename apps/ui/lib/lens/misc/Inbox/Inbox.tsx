@@ -148,7 +148,7 @@ const Inbox = ({ channel }) => {
 			return <Box p={3}>Loading...</Box>;
 		}
 
-		const read = (contract as any).data?.readBy?.includes(user.slug);
+		const read = !!user && (contract as any).data?.readBy?.includes(user.slug);
 
 		const source = contract.links?.['is attached to']?.[0];
 		// The context is either the source of the message or the notification itself

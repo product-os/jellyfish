@@ -13,11 +13,16 @@ export const ViewRenderer = createLazyComponent(
 
 const mapStateToProps = (state, ownProps): StateProps => {
 	const target = ownProps.card.id;
+	const user = selectors.getCurrentUser()(state);
+
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
 
 	return {
 		channels: selectors.getChannels()(state),
 		types: selectors.getTypes()(state),
-		user: selectors.getCurrentUser()(state),
+		user,
 		userActiveLens: selectors.getUsersViewLens(target)(state),
 		userCustomFilters: selectors.getUserCustomFilters(target)(state),
 	};

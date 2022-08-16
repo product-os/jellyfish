@@ -11,6 +11,10 @@ export default function UserStatusMenuItem({ ...rest }) {
 	const types = useSelector(selectors.getTypes());
 	const dispatch = useDispatch();
 
+	if (!user) {
+		return null;
+	}
+
 	const userType = _.find(types, {
 		slug: 'user',
 	});

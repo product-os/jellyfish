@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { bindActionCreators } from '../../bindactioncreators';
-import { actionCreators, selectors } from '../../store';
+import { actionCreators, selectors, State } from '../../store';
 import {
 	LinkModal as LinkModalInner,
 	StateProps,
@@ -15,8 +15,8 @@ import {
 	OwnProps as UOwnProps,
 } from './UnlinkModal';
 
-export const LinkModal = connect<StateProps, DispatchProps, OwnProps>(
-	(state): StateProps => {
+export const LinkModal = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state: State): StateProps => {
 		return {
 			allTypes: selectors.getTypes()(state),
 			relationships: selectors.getRelationships()(state),
@@ -29,7 +29,12 @@ export const LinkModal = connect<StateProps, DispatchProps, OwnProps>(
 	},
 )(LinkModalInner);
 
-export const UnlinkModal = connect<UStateProps, UDispatchProps, UOwnProps>(
+export const UnlinkModal = connect<
+	UStateProps,
+	UDispatchProps,
+	UOwnProps,
+	State
+>(
 	(state) => {
 		return {
 			allTypes: selectors.getTypes()(state),

@@ -26,6 +26,10 @@ const NavBar = () => {
 	const dispatch = useDispatch();
 	const username = user ? user.name || user.slug.replace(/user-/, '') : null;
 
+	if (!user) {
+		return null;
+	}
+
 	return (
 		<Wrapper justifyContent="space-between" alignItems="center">
 			<Flex alignItems="center">

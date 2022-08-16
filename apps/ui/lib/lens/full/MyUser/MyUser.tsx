@@ -284,13 +284,15 @@ export default withSetup(
 		}
 
 		async changePassword() {
+			const { currentPassword, newPassword } = this.state.changePassword;
+			if (!currentPassword || !newPassword) {
+				return;
+			}
 			this.setState(
 				{
 					submitting: true,
 				},
 				async () => {
-					const { currentPassword, newPassword } = this.state.changePassword;
-
 					await this.props.actions.setPassword(currentPassword, newPassword);
 
 					this.setState({

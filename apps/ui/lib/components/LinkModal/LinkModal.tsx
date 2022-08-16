@@ -111,9 +111,14 @@ export const LinkModal: React.FunctionComponent<Props> = ({
 				if (onSave) {
 					onSave(card, selectedTarget, linkType.name!);
 				} else {
-					await actions.createLink(card, selectedTarget, linkType.name!, {
-						skipSuccessMessage: true,
-					});
+					await actions.createLink(
+						card as Contract,
+						selectedTarget,
+						linkType.name!,
+						{
+							skipSuccessMessage: true,
+						},
+					);
 					if (onSaved) {
 						onSaved(selectedTarget, linkType.name!);
 					}

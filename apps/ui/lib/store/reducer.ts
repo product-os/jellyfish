@@ -28,7 +28,7 @@ if (global.localStorage) {
 }
 
 // Interface for defaultState
-interface State {
+export interface State {
 	core: {
 		status: 'initializing' | 'unauthorized' | 'authorized';
 		mentionsCount: number;
@@ -41,9 +41,16 @@ interface State {
 			authToken?: string | null;
 			user?: UserContract;
 		};
-		cards: {};
+		cards: {
+			[type: string]: {
+				[id: string]: Contract;
+			};
+		};
 		orgs: OrgContract[];
-		config: {};
+		config: {
+			version?: string;
+			codename?: string;
+		};
 		userCustomFilters: { [contractId: string]: JsonSchema[] };
 		usersTyping: {
 			[contractId: string]: {
@@ -52,7 +59,13 @@ interface State {
 		};
 	};
 	ui: {
-		lensState: {};
+		lensState: {
+			[lensSlug: string]: {
+				[id: string]: {
+					activeIndex: number;
+				};
+			};
+		};
 		sidebar: {
 			expanded: string[];
 		};

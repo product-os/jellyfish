@@ -3,9 +3,11 @@ import _ from 'lodash';
 import Bluebird from 'bluebird';
 import { v4 as uuid } from 'uuid';
 import { v4 as isUUID } from 'is-uuid';
-import type { UserContract, ViewContract } from 'autumndb';
+import type { Contract, UserContract, ViewContract } from 'autumndb';
 import actions from '../actions';
 import { actionCreators, getSeedData } from '.';
+import { State } from '../reducer';
+import { strict as assert } from 'assert';
 
 const sandbox = sinon.createSandbox();
 
@@ -31,7 +33,7 @@ const card = {
 			},
 		],
 	},
-};
+} as any as Contract;
 
 const getStateFactory = (userCard?) => () => ({
 	core: {
@@ -259,22 +261,23 @@ describe('Redux action creators', () => {
 		test("sets the homeView field in the user's profile", async () => {
 			const { sdk, dispatch, thunkContext } = context;
 
-			const getState = () => ({
-				core: {
-					session: {
-						user: {
-							id: '1',
-							data: {
-								profile: {},
+			const getState = () =>
+				({
+					core: {
+						session: {
+							user: {
+								id: '1',
+								data: {
+									profile: {},
+								},
 							},
 						},
 					},
-				},
-			});
+				} as State);
 
-			const view = {
+			const view: ViewContract = {
 				id: 'view-123',
-			};
+			} as any;
 
 			sdk.getById = sandbox.fake.resolves({
 				id: '1',
@@ -323,23 +326,32 @@ describe('Redux action creators', () => {
 
 	describe('createChannelQuery', () => {
 		test('handles IDs', () => {
-			const query = actionCreators.createChannelQuery(cardId, card);
-			expect(query.properties.id.const).toBe(cardId);
+			const query = actionCreators.createChannelQuery(
+				cardId,
+				card as UserContract,
+			);
+			assert(typeof query !== 'boolean');
+			expect(query?.properties?.id?.['const']).toBe(cardId);
 		});
 
 		test('handles plain slugs', () => {
-			const query = actionCreators.createChannelQuery(cardSlug, card);
-			expect(query.properties.slug.const).toBe(cardSlug);
-			expect(query.properties.version.const).toBe('1.0.0');
+			const query = actionCreators.createChannelQuery(
+				cardSlug,
+				card as UserContract,
+			);
+			assert(typeof query !== 'boolean');
+			expect(query.properties?.slug?.['const']).toBe(cardSlug);
+			expect(query.properties?.version?.['const']).toBe('1.0.0');
 		});
 
 		test('handles versioned slugs', () => {
 			const query = actionCreators.createChannelQuery(
 				`${cardSlug}@2.4.5`,
-				card,
+				card as UserContract,
 			);
-			expect(query.properties.slug.const).toBe(cardSlug);
-			expect(query.properties.version.const).toBe('2.4.5');
+			assert(typeof query !== 'boolean');
+			expect(query.properties?.slug?.['const']).toBe(cardSlug);
+			expect(query.properties?.version?.['const']).toBe('2.4.5');
 		});
 	});
 });

@@ -7,7 +7,7 @@ interface CardLoaderContextValue {
 	selectCard: <TCard extends Contract>(
 		id: string,
 		type: string,
-	) => (state: any) => TCard;
+	) => (state: any) => TCard | null;
 }
 
 export const CardLoaderContext =
@@ -43,5 +43,8 @@ export const CardLoader = <TCard extends Contract = Contract>({
 			getCard(id, type, withLinks);
 		}
 	}, [id]);
+	if (!card) {
+		return null;
+	}
 	return children ? children(card) : null;
 };

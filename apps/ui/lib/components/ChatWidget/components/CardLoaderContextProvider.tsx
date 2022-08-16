@@ -11,8 +11,8 @@ export const CardLoaderContextProvider = React.memo(({ children }) => {
 		return {
 			getCard: actions.getCard,
 			selectCard: <TCard extends Contract>(id) => {
-				return (state): TCard => {
-					return selectCardById<TCard>(id)(state)!;
+				return (state): TCard | null => {
+					return selectCardById<TCard>(id)(state);
 				};
 			},
 		};

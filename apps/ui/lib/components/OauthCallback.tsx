@@ -1,13 +1,13 @@
 import React from 'react';
-import { useStore } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
-import { actionCreators } from '../store';
+import { actionCreators, JellyThunkDispatch } from '../store';
 import { useSetup } from './SetupProvider';
 
 const OauthCallback = () => {
-	const store = useStore();
-	const { sdk, analytics } = useSetup()!;
+	const dispatch: JellyThunkDispatch = useDispatch();
+	const { sdk } = useSetup()!;
 
 	const exchangeCodeTask = useTask(async () => {
 		const url = new URL(location.href);
@@ -49,10 +49,7 @@ const OauthCallback = () => {
 			throw new Error('Could not fetch an auth token');
 		}
 
-		await actionCreators.loginWithToken(token)(store.dispatch, store.getState, {
-			sdk,
-			analytics,
-		});
+		await dispatch(actionCreators.loginWithToken(token));
 
 		location.href = returnUrl;
 	});

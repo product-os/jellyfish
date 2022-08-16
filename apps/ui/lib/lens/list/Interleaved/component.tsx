@@ -6,7 +6,7 @@ import type { Contract, TypeContract, UserContract } from 'autumndb';
 import { Event, useSetup } from '../../../components';
 import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
-import type { LensRendererProps } from '../../../types';
+import type { ChatGroup, LensRendererProps } from '../../../types';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
 
 interface State {
@@ -18,7 +18,7 @@ interface State {
 
 export interface StateProps {
 	types: TypeContract[];
-	groups: Contract[];
+	groups: { [slug: string]: ChatGroup };
 	user: UserContract;
 }
 
@@ -80,9 +80,11 @@ export const InterleavedList = (props: Props) => {
 
 	const openChannel = (target: string) => {
 		const current = props.channelData.channel.data.target;
-		props.history.push(
-			path.join(window.location.pathname.split(current)[0], current, target),
-		);
+		if (current) {
+			props.history.push(
+				path.join(window.location.pathname.split(current)[0], current, target),
+			);
+		}
 	};
 
 	const handleContractVisible = (contract: Contract) => {

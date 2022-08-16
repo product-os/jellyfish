@@ -18,16 +18,43 @@ import type {
 	Contract,
 	JsonSchema,
 	LoopContract,
+	OrgContract,
 	RelationshipContract,
+	SessionContract,
+	TypeContract,
 	UserContract,
 	ViewContract,
 } from 'autumndb';
+import { State } from '../reducer';
 import * as selectors from '../selectors';
+import { ChannelContract, UIActor } from '../../types';
+import { AnyAction } from 'redux';
+import { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import ErrorReporter from '../../services/error-reporter';
+import Analytics from '../../services/analytics';
+import assert from 'assert';
+import { Operation } from 'fast-json-patch';
+
+type ThunkExtraArgs = {
+	sdk: JellyfishSDK;
+	analytics: Analytics;
+	errorReporter: ErrorReporter;
+};
+
+type JellyThunk<R> = ThunkAction<R, State, ThunkExtraArgs, AnyAction>;
+// Because redux dispatch doesn't know about async thunks, we need to
+// define our own dispatcher that will support async thunks.
+// See https://stackoverflow.com/a/59801865
+export type JellyThunkDispatch = ThunkDispatch<
+	State,
+	ThunkExtraArgs,
+	AnyAction
+>;
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
 
-const allGroupsWithUsersQuery = {
+const allGroupsWithUsersQuery: JsonSchema = {
 	type: 'object',
 	description: 'Get all groups with member user slugs',
 	required: ['type', 'name'],
@@ -71,7 +98,7 @@ const buildGlobalQueryMask = (loop: string | null): JsonSchema | null => {
 	};
 };
 
-const createChannel = (data: any = {}) => {
+const createChannel = (data: ChannelContract['data']): ChannelContract => {
 	const id = uuid();
 	if (!data.hasOwnProperty('canonical')) {
 		data.canonical = true;
@@ -80,6 +107,11 @@ const createChannel = (data: any = {}) => {
 	return {
 		id,
 		created_at: new Date().toISOString(),
+		version: '1.0.0',
+		tags: [],
+		markers: [],
+		capabilities: [],
+		requires: [],
 		slug: `channel-${id}`,
 		type: 'channel',
 		active: true,
@@ -87,26 +119,26 @@ const createChannel = (data: any = {}) => {
 	};
 };
 
-let commsStream: any = null;
+let commsStream: null | ReturnType<JellyfishSDK['stream']> = null;
 let tokenRefreshInterval: any = null;
 
 // Card exists here until it's loaded
-const loadingCardCache: any = {};
+const loadingCardCache: { [key: string]: Promise<Contract | null> } = {};
 
 // This is a function that memoizes a debounce function, this allows us to
 // create different debounce lists depending on the args passed to
 // 'getCard'
-const getCardInternal = (
+const getCardInternal = <T extends Contract = Contract>(
 	idOrSlug: string,
 	type: string,
 	linkVerbs: any[] = [],
-) => {
+): JellyThunk<Promise<T | null>> => {
 	return async (dispatch, getState, { sdk }) => {
 		if (!idOrSlug) {
 			return null;
 		}
 		const isId = isUUID(idOrSlug);
-		let card = selectors.getCard(idOrSlug, type)(getState());
+		let card = selectors.getCard<T>(idOrSlug, type)(getState());
 
 		// Check if the cached card has all the links required by this request
 		const isCached =
@@ -148,7 +180,7 @@ const getCardInternal = (
 				}
 
 				loadingCardCache[loadingCacheKey] = sdk
-					.query(schema, {
+					.query<T>(schema, {
 						limit: 1,
 					})
 					.then((result) => {
@@ -168,7 +200,7 @@ const getCardInternal = (
 						// If a card doesn't have matching links, but a request was made
 						// for them, indicate this with an empty array, so the cache entry
 						// isn't ignored unnecessarily
-						if (element && linkVerbs.length) {
+						if (element?.links && linkVerbs.length) {
 							for (const linkVerb of linkVerbs) {
 								if (!element.links[linkVerb]) {
 									element.links[linkVerb] = [];
@@ -183,7 +215,7 @@ const getCardInternal = (
 					});
 			}
 
-			card = await loadingCardCache[loadingCacheKey];
+			card = (await loadingCardCache[loadingCacheKey]) as T | null;
 
 			if (card) {
 				dispatch({
@@ -192,7 +224,7 @@ const getCardInternal = (
 				});
 			}
 		}
-		return card || null;
+		return card;
 	};
 };
 
@@ -240,10 +272,10 @@ export const actionCreators = {
 		userSlug: string;
 		providerSlug: string;
 		returnUrl: string;
-	}) {
-		return async (_dispatch, _getState, { sdk }) => {
+	}): JellyThunk<Promise<string>> {
+		return async (_dispatch, _getState, { sdk }): Promise<string> => {
 			const url = new URL(
-				(await sdk.get(`/oauth/${state.providerSlug}/url`)).url,
+				((await sdk.get(`/oauth/${state.providerSlug}/url`)) as any).url,
 			);
 			url.searchParams.set('redirect_uri', location.origin + '/oauth/callback');
 			url.searchParams.set('state', JSON.stringify(state));
@@ -251,9 +283,13 @@ export const actionCreators = {
 		};
 	},
 
-	getCard(cardIdOrSlug, cardType, linkVerbs) {
+	getCard<T extends Contract = Contract>(
+		cardIdOrSlug: string,
+		cardType: string,
+		linkVerbs: string[],
+	): JellyThunk<Promise<T | null>> {
 		return async (dispatch, getState, context) => {
-			return getCardInternal(cardIdOrSlug, cardType, linkVerbs)(
+			return getCardInternal<T>(cardIdOrSlug, cardType, linkVerbs)(
 				dispatch,
 				getState,
 				context,
@@ -261,18 +297,19 @@ export const actionCreators = {
 		};
 	},
 
-	getActor(idOrSlug) {
+	getActor(idOrSlug: string): JellyThunk<Promise<UIActor | null>> {
 		return async (dispatch, getState, context) => {
-			const card = await getCardInternal(idOrSlug, 'user', ['is member of'])(
-				dispatch,
-				getState,
-				context,
-			);
+			const card = await getCardInternal<UserContract>(idOrSlug, 'user', [
+				'is member of',
+			])(dispatch, getState, context);
+			if (!card) {
+				return null;
+			}
 			return helpers.generateActorFromUserCard(card);
 		};
 	},
 
-	setStatus(status) {
+	setStatus(status: State['core']['status']): JellyThunk<void> {
 		return (dispatch, _getState, { sdk }) => {
 			// If the status is now 'unauthorized' just run the logout routine
 			if (status === 'unauthorized') {
@@ -289,7 +326,7 @@ export const actionCreators = {
 		};
 	},
 
-	setSidebarExpanded(name: string, isExpanded: boolean) {
+	setSidebarExpanded(name: string, isExpanded: boolean): JellyThunk<void> {
 		return (dispatch, getState) => {
 			const uiState = selectors.getUIState(getState());
 			const newExpandedItems = isExpanded
@@ -308,7 +345,7 @@ export const actionCreators = {
 		};
 	},
 
-	setLensState(lens, cardId, state) {
+	setLensState(lens: string, cardId: string, state: { activeIndex: number }) {
 		return {
 			type: actions.SET_LENS_STATE,
 			value: {
@@ -319,96 +356,7 @@ export const actionCreators = {
 		};
 	},
 
-	// TODO: This is NOT an action creator, it should be part of sdk or other helper
-	getLinks(
-		{ sdk }: { sdk: JellyfishSDK },
-		card: Partial<Contract>,
-		verb: string,
-		targetType: string | undefined,
-	) {
-		return (_dispatch, getState) => {
-			let baseTargetType = targetType && helpers.getTypeBase(targetType);
-			let linkedType = targetType;
-
-			// Relationships allow '*' to indicate any type
-			if (targetType === 'undefined@1.0.0') {
-				// eslint-disable-next-line no-undefined
-				linkedType = undefined;
-				baseTargetType = '*';
-			}
-			if (
-				!_.some(getState().core.relationships, {
-					name: verb,
-					data: {
-						to: {
-							type: baseTargetType,
-						},
-					},
-				})
-			) {
-				throw new Error(
-					`No link definition found from ${card.type} to ${baseTargetType} using ${verb}`,
-				);
-			}
-
-			return async () => {
-				const results = await sdk.query(
-					{
-						$$links: {
-							[verb]: {
-								type: 'object',
-								required: ['type'],
-								properties: {
-									type: {
-										const: linkedType,
-									},
-								},
-								// Always load the owner if there is one
-								anyOf: [
-									{
-										$$links: {
-											'is owned by': {
-												type: 'object',
-											},
-										},
-									},
-									true,
-								],
-							},
-						},
-						description: `Get card with links ${card.id}`,
-						type: 'object',
-						properties: {
-							id: {
-								type: 'string',
-								const: card.id,
-							},
-							links: {
-								type: 'object',
-							},
-						},
-						required: ['id'],
-					},
-					{
-						limit: 1,
-						links: {
-							[verb]: {
-								sortBy: 'created_at',
-							},
-						},
-					},
-				);
-
-				if (results.length && results[0].links) {
-					return results[0].links[verb] || [];
-				}
-
-				return [];
-			};
-		};
-	},
-
-	createChannelQuery(target, user): any {
+	createChannelQuery(target: string, user: UserContract): JsonSchema {
 		let properties = {};
 		if (isUUID(target)) {
 			properties = {
@@ -431,7 +379,7 @@ export const actionCreators = {
 			};
 		}
 
-		const query = {
+		const query: JsonSchema = {
 			type: 'object',
 			anyOf: [
 				{
@@ -464,20 +412,14 @@ export const actionCreators = {
 		return query;
 	},
 
-	updateChannel(channel) {
+	updateChannel(channel: ChannelContract) {
 		return {
 			type: actions.UPDATE_CHANNEL,
 			value: channel,
 		};
 	},
 
-	addChannel(data: {
-		head?: any;
-		format?: any;
-		canonical?: boolean;
-		target?: string;
-		cardType?: string;
-	}) {
+	addChannel(data: ChannelContract['data']): JellyThunk<void> {
 		if (!data.cardType && data.canonical !== false) {
 			console.error('Channel added without a card type', data);
 		}
@@ -491,23 +433,25 @@ export const actionCreators = {
 		};
 	},
 
-	removeChannel(channel) {
+	removeChannel(channel: ChannelContract) {
 		return {
 			type: actions.REMOVE_CHANNEL,
 			value: channel,
 		};
 	},
 
-	setChannels(channelData: any[] = []) {
+	setChannels(
+		channelData: Array<ChannelContract | ChannelContract['data']> = [],
+	): JellyThunk<void> {
 		const channels = _.map(channelData, (channel) => {
 			// If the channel has an ID its already been instantiated
-			if (channel.id) {
+			if (channel.hasOwnProperty('id')) {
 				return channel;
 			}
 
 			// Otherwise we're just dealing with the `data` value and need to create
 			// a full channel card
-			return createChannel(channel);
+			return createChannel(channel as ChannelContract['data']);
 		});
 
 		return (dispatch, getState) => {
@@ -526,10 +470,15 @@ export const actionCreators = {
 		};
 	},
 
-	openCreateChannel(sourceCard, types, options: any = {}) {
+	openCreateChannel(
+		sourceCard: Contract,
+		types: TypeContract[],
+		options: any = {},
+	): JellyThunk<void> {
 		return (dispatch, getState) => {
 			const state = getState();
 			const user = selectors.getCurrentUser()(state);
+			assert(user);
 			dispatch(
 				actionCreators.addChannel({
 					head: options.head || {
@@ -546,7 +495,7 @@ export const actionCreators = {
 		};
 	},
 
-	setChatWidgetOpen(open) {
+	setChatWidgetOpen(open: boolean): JellyThunk<void> {
 		return (dispatch, getState) => {
 			const uiState = getState().ui;
 
@@ -562,16 +511,16 @@ export const actionCreators = {
 		};
 	},
 
-	setMentionsCount(count) {
+	setMentionsCount(count: number) {
 		return {
 			type: actions.SET_MENTIONS_COUNT,
 			value: count,
 		};
 	},
 
-	bootstrap() {
+	bootstrap(): JellyThunk<Promise<void>> {
 		return (dispatch, getState, { sdk, errorReporter }) => {
-			return sdk.auth.whoami().then((user) => {
+			return sdk.auth.whoami<UserContract>().then((user) => {
 				if (!user) {
 					throw new Error('Could not retrieve user');
 				}
@@ -608,20 +557,22 @@ export const actionCreators = {
 							errorReporter.setUser({
 								id: user.id,
 								slug: user.slug,
-								email: _.get(user, ['data', 'email']),
+								email: _.get(user, ['data', 'email']) as string,
 							});
 
 							// Check token expiration and refresh it if it is due to expire in the next 24 hours
-							sdk.card.get(sdk.getAuthToken()).then((tokenCard) => {
-								if (
-									tokenCard &&
-									tokenCard.data.expiration &&
-									new Date(tokenCard.data.expiration).getTime() <
-										Date.now() + 1000 * 60 * 60 * 24
-								) {
-									sdk.auth.refreshToken();
-								}
-							});
+							sdk.card
+								.get<SessionContract>(sdk.getAuthToken()!)
+								.then((tokenCard) => {
+									if (
+										tokenCard?.data.expiration &&
+										new Date(tokenCard.data.expiration).getTime() <
+											Date.now() + 1000 * 60 * 60 * 24
+									) {
+										return sdk.auth.refreshToken();
+									}
+								})
+								.catch(console.error);
 
 							tokenRefreshInterval = setInterval(async () => {
 								const newToken = await sdk.auth.refreshToken();
@@ -673,14 +624,14 @@ export const actionCreators = {
 		};
 	},
 
-	setAuthToken(token) {
+	setAuthToken(token: string) {
 		return {
 			type: actions.SET_AUTHTOKEN,
 			value: token,
 		};
 	},
 
-	loginWithToken(token) {
+	loginWithToken(token: string): JellyThunk<Promise<void>> {
 		return (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.loginWithToken(token)
@@ -695,7 +646,9 @@ export const actionCreators = {
 				})
 				.then(() => {
 					analytics.track('ui.loginWithToken');
-					analytics.identify(selectors.getCurrentUser()(getState()).id);
+					const user = selectors.getCurrentUser()(getState());
+					assert(user);
+					analytics.identify(user.id);
 				})
 				.catch((error) => {
 					dispatch(actionCreators.setStatus('unauthorized'));
@@ -704,11 +657,17 @@ export const actionCreators = {
 		};
 	},
 
-	login(payload) {
+	login(payload: {
+		username: string;
+		password: string;
+	}): JellyThunk<Promise<void>> {
 		return (dispatch, getState, { sdk, analytics }) => {
 			return sdk.auth
 				.login(payload)
 				.then((session) => {
+					if (!session) {
+						throw new Error('No session returned');
+					}
 					return dispatch(actionCreators.setAuthToken(session.id));
 				})
 				.then(() => {
@@ -719,7 +678,9 @@ export const actionCreators = {
 				})
 				.then(() => {
 					analytics.track('ui.login');
-					analytics.identify(selectors.getCurrentUser()(getState()).id);
+					const user = selectors.getCurrentUser()(getState());
+					assert(user);
+					analytics.identify(user.id);
 				})
 				.catch((error) => {
 					dispatch(actionCreators.setStatus('unauthorized'));
@@ -728,7 +689,7 @@ export const actionCreators = {
 		};
 	},
 
-	logout() {
+	logout(): JellyThunk<void> {
 		return (dispatch, _getState, { sdk, analytics, errorReporter }) => {
 			if (tokenRefreshInterval) {
 				clearInterval(tokenRefreshInterval);
@@ -748,23 +709,26 @@ export const actionCreators = {
 		};
 	},
 
-	signup(payload) {
-		return (dispatch, _getState, { sdk, analytics }) => {
-			return sdk.auth.signup(payload).then(() => {
-				analytics.track('ui.signup');
-				dispatch(actionCreators.login(payload));
-			});
+	signup(payload: {
+		username: string;
+		password: string;
+		email: string;
+	}): JellyThunk<Promise<void>> {
+		return async (dispatch, _getState, { sdk, analytics }) => {
+			await sdk.auth.signup(payload);
+			analytics.track('ui.signup');
+			return dispatch(actionCreators.login(payload));
 		};
 	},
 
-	setUser(user) {
+	setUser(user: UserContract) {
 		return {
 			type: actions.SET_USER,
 			value: user,
 		};
 	},
 
-	setTimelineMessage(target, message) {
+	setTimelineMessage(target: string, message: Contract): JellyThunk<void> {
 		return (dispatch) => {
 			dispatch({
 				type: actions.SET_TIMELINE_MESSAGE,
@@ -776,7 +740,10 @@ export const actionCreators = {
 		};
 	},
 
-	setTimelinePendingMessages(target, messages) {
+	setTimelinePendingMessages(
+		target: string,
+		messages: Contract[],
+	): JellyThunk<void> {
 		return (dispatch) => {
 			dispatch({
 				type: actions.SET_TIMELINE_PENDING_MESSAGES,
@@ -788,7 +755,7 @@ export const actionCreators = {
 		};
 	},
 
-	setTypes(types) {
+	setTypes(types: TypeContract[]) {
 		return {
 			type: actions.SET_TYPES,
 			value: types,
@@ -809,7 +776,7 @@ export const actionCreators = {
 		};
 	},
 
-	setGroups(groups, user) {
+	setGroups(groups: Contract[], user: UserContract) {
 		return {
 			type: actions.SET_GROUPS,
 			value: {
@@ -819,17 +786,18 @@ export const actionCreators = {
 		};
 	},
 
-	setOrgs(orgs) {
+	setOrgs(orgs: OrgContract[]) {
 		return {
 			type: actions.SET_ORGS,
 			value: orgs,
 		};
 	},
 
-	removeView(view) {
+	removeView(view: ViewContract): JellyThunk<Promise<void>> {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState());
+				assert(user);
 				if (!helpers.isCustomView(view, user.slug)) {
 					notifications.addNotification(
 						'danger',
@@ -861,10 +829,11 @@ export const actionCreators = {
 		};
 	},
 
-	setActiveLoop(loopVersionedSlug: string | null) {
+	setActiveLoop(loopVersionedSlug: string | null): JellyThunk<Promise<void>> {
 		return async (dispatch, getState, context) => {
 			const state = getState();
 			const user = selectors.getCurrentUser()(state);
+			assert(user);
 			const patches = helpers.patchPath(
 				user,
 				['data', 'profile', 'activeLoop'],
@@ -889,16 +858,21 @@ export const actionCreators = {
 		};
 	},
 
-	pushLocation(location: string) {
+	pushLocation(location: string): JellyThunk<void> {
 		return (dispatch) => {
 			dispatch(push(location));
 		};
 	},
 
-	updateUser(patches, successNotification?: string | null) {
+	updateUser(
+		patches: Operation[],
+		successNotification?: string | null,
+	): JellyThunk<Promise<void>> {
 		return async (dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState());
+
+				assert(user);
 
 				const optimisticUpdate = jsonpatch.applyPatch(
 					clone(user),
@@ -926,10 +900,18 @@ export const actionCreators = {
 		};
 	},
 
-	addUser({ username, email, org }) {
+	addUser({
+		username,
+		email,
+		org,
+	}: {
+		username: string;
+		email: string;
+		org: OrgContract;
+	}): JellyThunk<Promise<boolean>> {
 		return async (dispatch, _getState, { sdk }) => {
 			try {
-				const user = await sdk.auth.signup({
+				const user = await sdk.auth.signup<UserContract>({
 					username,
 					email,
 					password: '',
@@ -952,7 +934,11 @@ export const actionCreators = {
 		};
 	},
 
-	sendFirstTimeLoginLink({ user }) {
+	sendFirstTimeLoginLink({
+		user,
+	}: {
+		user: UserContract;
+	}): JellyThunk<Promise<boolean>> {
 		return async (_dispatch, _getState, { sdk }) => {
 			try {
 				await sdk.action({
@@ -973,28 +959,48 @@ export const actionCreators = {
 		};
 	},
 
-	requestPasswordReset({ username }) {
+	requestPasswordReset({
+		username,
+	}: {
+		username: string;
+	}): JellyThunk<Promise<void>> {
 		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.requestPasswordReset(username);
 		};
 	},
 
-	completePasswordReset({ password, resetToken }) {
+	completePasswordReset({
+		password,
+		resetToken,
+	}: {
+		password: string;
+		resetToken: string;
+	}): JellyThunk<Promise<void>> {
 		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.completePasswordReset(password, resetToken);
 		};
 	},
 
-	completeFirstTimeLogin({ password, firstTimeLoginToken }) {
+	completeFirstTimeLogin({
+		password,
+		firstTimeLoginToken,
+	}: {
+		password: string;
+		firstTimeLoginToken: string;
+	}): JellyThunk<Promise<void>> {
 		return async (_dispatch, _getState, { sdk }) => {
 			return sdk.auth.completeFirstTimeLogin(password, firstTimeLoginToken);
 		};
 	},
 
-	setPassword(currentPassword, newPassword) {
+	setPassword(
+		currentPassword: string,
+		newPassword: string,
+	): JellyThunk<Promise<void>> {
 		return async (_dispatch, getState, { sdk }) => {
 			try {
 				const user = selectors.getCurrentUser()(getState());
+				assert(user);
 				await sdk.action({
 					card: user.id,
 					action: 'action-set-password@1.0.0',
@@ -1015,9 +1021,10 @@ export const actionCreators = {
 		};
 	},
 
-	setSendCommand(command) {
+	setSendCommand(command: string): JellyThunk<Promise<void>> {
 		return async (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState());
+			assert(user);
 
 			const patches = helpers.patchPath(
 				user,
@@ -1032,7 +1039,14 @@ export const actionCreators = {
 		};
 	},
 
-	createLink(fromCard, toCard, verb, options: any = {}) {
+	createLink(
+		fromCard: Contract,
+		toCard: Contract,
+		verb: string,
+		options: {
+			skipSuccessMessage?: boolean;
+		} = {},
+	): JellyThunk<Promise<void>> {
 		return async (_dispatch, _getState, { sdk, analytics }) => {
 			try {
 				await sdk.card.link(fromCard, toCard, verb);
@@ -1050,7 +1064,14 @@ export const actionCreators = {
 		};
 	},
 
-	removeLink(fromCard, toCard, verb, options: any = {}) {
+	removeLink(
+		fromCard: Contract,
+		toCard: Contract,
+		verb: string,
+		options: {
+			skipSuccessMessage?: boolean;
+		} = {},
+	): JellyThunk<Promise<void>> {
 		return async (_dispatch, _getState, { sdk }) => {
 			try {
 				await sdk.card.unlink(fromCard, toCard, verb);
@@ -1063,8 +1084,8 @@ export const actionCreators = {
 		};
 	},
 
-	dumpState() {
-		return async (_dispatch, getState) => {
+	dumpState(): JellyThunk<State> {
+		return (_dispatch, getState) => {
 			const state = clone(getState());
 			_.set(state, ['core', 'session', 'authToken'], '[REDACTED]');
 			_.set(state, ['core', 'session', 'user', 'data', 'hash'], '[REDACTED]');
@@ -1073,9 +1094,11 @@ export const actionCreators = {
 		};
 	},
 
-	setDefault(card) {
+	setDefault(card: Contract): JellyThunk<Promise<void>> {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState());
+
+			assert(user);
 
 			const patch = helpers.patchPath(
 				user,
@@ -1096,9 +1119,10 @@ export const actionCreators = {
 		};
 	},
 
-	setViewLens(viewId, lensSlug) {
+	setViewLens(viewId: string, lensSlug: string): JellyThunk<Promise<void>> {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState());
+			assert(user);
 
 			const patches = helpers.patchPath(
 				user,
@@ -1114,9 +1138,10 @@ export const actionCreators = {
 		};
 	},
 
-	setViewSlice(viewId, slice) {
+	setViewSlice(viewId: string, slice: string): JellyThunk<void> {
 		return (dispatch, getState, context) => {
 			const user = selectors.getCurrentUser()(getState());
+			assert(user);
 
 			const patches = helpers.patchPath(
 				user,
@@ -1142,19 +1167,27 @@ export const actionCreators = {
 		};
 	},
 
-	signalTyping(card) {
+	signalTyping(card: Contract): JellyThunk<void> {
 		return (_dispatch, getState) => {
 			const user = selectors.getCurrentUser()(getState());
+			assert(user);
 
-			commsStream.type(user.slug, card);
+			if (commsStream?.type) {
+				// TODO: Fix casting once https://github.com/product-os/jellyfish-client-sdk/pull/660 is merged
+				(commsStream as any).type(user.slug, card);
+			}
 		};
 	},
 
-	authorizeIntegration(user, integration, code) {
+	authorizeIntegration(
+		user: UserContract,
+		integration: string,
+		code: string,
+	): JellyThunk<Promise<void>> {
 		return async (dispatch, _getState, { sdk }) => {
 			await sdk.integrations.authorize(user, integration, code);
 
-			const updatedUser = await sdk.auth.whoami();
+			const updatedUser: UserContract = await sdk.auth.whoami();
 
 			dispatch(actionCreators.setUser(updatedUser));
 		};
