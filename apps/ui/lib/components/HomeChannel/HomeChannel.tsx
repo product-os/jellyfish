@@ -279,6 +279,16 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 		}
 	});
 
+	groups.main.children.push({
+		name: 'Flowdock Archive',
+		key: 'flowdock-archive',
+		icon: 'folder',
+		card: {
+			slug: 'flowdock-archive',
+			data: {},
+		},
+		children: [],
+	});
 	return groups;
 });
 

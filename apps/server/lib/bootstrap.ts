@@ -223,6 +223,147 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		sync: worker.sync,
 	});
 
+	await worker.replaceCard(
+		logContext,
+		kernel.adminSession()!,
+		worker.typeContracts['type@1.0.0'],
+		{
+			attachEvents: false,
+			timestamp: new Date().toISOString(),
+		},
+		{
+			slug: 'flowdock-message',
+			type: 'type@1.0.0',
+			name: 'Flowdock message',
+			markers: [],
+			data: {
+				schema: {
+					required: ['data'],
+					type: 'object',
+					properties: {
+						data: {
+							required: [
+								'username',
+								'userFullName',
+								'flowdockUserId',
+								'flowdockUUID',
+								'sent',
+							],
+							type: 'object',
+							properties: {
+								flowdockUUID: {
+									type: 'string',
+								},
+								flowdockUserId: {
+									type: 'string',
+								},
+								userFullName: {
+									type: 'string',
+								},
+								username: {
+									type: 'string',
+								},
+								content: {
+									type: 'string',
+									format: 'markdown',
+									fullTextSearch: true,
+								},
+								sent: {
+									type: 'string',
+									format: 'date-time',
+								},
+								file: {
+									type: 'object',
+									properties: {
+										name: {
+											type: 'string',
+										},
+										mime: {
+											type: 'string',
+										},
+										bytesize: {
+											type: 'number',
+										},
+										slug: {
+											type: 'string',
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+				indexed_fields: [['data.content']],
+			},
+		},
+	);
+
+	await worker.replaceCard(
+		logContext,
+		kernel.adminSession()!,
+		worker.typeContracts['type@1.0.0'],
+		{
+			attachEvents: false,
+			timestamp: new Date().toISOString(),
+		},
+		{
+			slug: 'flowdock-archive',
+			type: 'type@1.0.0',
+			name: 'Flowdock archive',
+			markers: [],
+			data: {
+				schema: {
+					required: ['data'],
+					type: 'object',
+					properties: {
+						data: {
+							required: ['title', 'flowdockThreadId', 'flowdockFlow'],
+							type: 'object',
+							properties: {
+								title: {
+									type: 'string',
+								},
+								flowdockThreadId: {
+									type: 'string',
+								},
+								flowdockFlow: {
+									type: 'string',
+								},
+							},
+						},
+					},
+				},
+				indexed_fields: [['data.flowdockThreadId']],
+			},
+		},
+	);
+
+	await worker.replaceCard(
+		logContext,
+		kernel.adminSession()!,
+		worker.typeContracts['relationship@1.0.0'],
+		{
+			attachEvents: false,
+			timestamp: new Date().toISOString(),
+		},
+		{
+			slug: 'relationship-flowdock-message-is-attached-to-flowdock-archive',
+			type: 'relationship@1.0.0',
+			name: 'is attached to',
+			data: {
+				inverseName: 'has attached element',
+				title: 'Flowdock message',
+				inverseTitle: 'Flowdock archive',
+				from: {
+					type: 'flowdock-message',
+				},
+				to: {
+					type: 'flowdock-archive',
+				},
+			},
+		},
+	);
+
 	// TODO: Find out where this race condition is happening
 	// Wait for the server to settle before starting
 	await setTimeout(2000);

@@ -2,6 +2,7 @@ import CRMTable from './CRMTable';
 import Chart from './Chart';
 import Inbox from './Inbox';
 import InboxLegacy from './InboxLegacy';
+import Flowdock from './Flowdock';
 import Kanban from './Kanban';
 import MilestoneGraph from './MilestoneGraph';
 import OmniSearch from './OmniSearch';
@@ -15,6 +16,7 @@ export default [
 	Chart,
 	Inbox,
 	InboxLegacy,
+	Flowdock,
 	Kanban,
 	MilestoneGraph,
 	OmniSearch,

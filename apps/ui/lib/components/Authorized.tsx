@@ -14,6 +14,10 @@ const RouteHandler = createLazyComponent(
 	() => import(/* webpackChunkName: "route-handler" */ './RouteHandler'),
 );
 
+const FlowdockArchive = createLazyComponent(
+	() => import(/* webpackChunkName: "flowdock-archive" */ './FlowdockArchive'),
+);
+
 const ChatWidgetSidebar = createLazyComponent(
 	() =>
 		import(/* webpackChunkName: "chat-widget-sidebar" */ './ChatWidgetSidebar'),
@@ -44,6 +48,7 @@ const Authorized = () => {
 					<HomeChannel channel={home} />
 
 					<Switch>
+						<Route path="/flowdock-archive" component={FlowdockArchive} />
 						<Route path="/*" component={RouteHandler} />
 					</Switch>
 				</Flex>
