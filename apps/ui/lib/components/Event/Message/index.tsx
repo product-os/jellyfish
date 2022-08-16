@@ -84,7 +84,6 @@ interface State {
 	updating: boolean;
 	messageHeight: number | null;
 	isVisible: boolean;
-	isHidden: boolean;
 }
 
 interface Props {
@@ -129,7 +128,6 @@ export default class Event extends React.Component<Props, State> {
 		updating: false,
 		messageHeight: null,
 		isVisible: false,
-		isHidden: false,
 	};
 
 	handleOpenChannel = () => {
@@ -265,10 +263,6 @@ export default class Event extends React.Component<Props, State> {
 		}
 	}
 
-	hide = () => {
-		this.setState({ isHidden: true });
-	};
-
 	render() {
 		const {
 			types,
@@ -295,11 +289,7 @@ export default class Event extends React.Component<Props, State> {
 			...rest
 		} = this.props;
 
-		const { editedMessage, updating, isHidden } = this.state;
-
-		if (isHidden) {
-			return null;
-		}
+		const { editedMessage, updating } = this.state;
 
 		const typeBase = helpers.getTypeBase(card.type);
 		const isMessage = helpers.isTimelineEvent(typeBase);
@@ -390,7 +380,6 @@ export default class Event extends React.Component<Props, State> {
 							retry={retry}
 							is121={is121}
 							context={context}
-							hide={this.hide}
 						/>
 						<Body
 							actor={actor}
