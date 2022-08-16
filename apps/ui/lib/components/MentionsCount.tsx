@@ -6,6 +6,7 @@ import * as selectors from '../store/selectors';
 import _ from 'lodash';
 import { actionCreators } from '../store';
 import { useCursorEffect } from '../hooks';
+import { JsonSchema, UserContract } from 'autumndb';
 
 const Container = styled(Box)`
 	background: rgb(255, 197, 35);
@@ -20,13 +21,62 @@ const Container = styled(Box)`
 	min-width: 0;
 `;
 
+// Returns a query that matches all unread messages or whispers that
+// are attached to an open notification
+const getQuery = (user: UserContract): JsonSchema => {
+	return {
+		type: 'object',
+		properties: {
+			type: {
+				enum: ['message@1.0.0', 'whisper@1.0.0'],
+			},
+			data: {
+				type: 'object',
+				properties: {
+					readBy: {
+						type: 'array',
+						not: {
+							contains: {
+								const: user.slug,
+							},
+						},
+					},
+				},
+			},
+		},
+		$$links: {
+			'has attached': {
+				type: 'object',
+				properties: {
+					type: {
+						const: 'notification@1.0.0',
+					},
+					data: {
+						type: 'object',
+						properties: {
+							status: {
+								const: 'open',
+							},
+						},
+					},
+				},
+			},
+		},
+	};
+};
+
 const MentionsCount = () => {
-	const inboxQuery = useSelector(selectors.getInboxQuery(), _.isEqual);
+	const user = useSelector(selectors.getCurrentUser());
+	const inboxQuery = React.useMemo(() => {
+		return getQuery(user);
+	}, [user]);
 	const dispatch = useDispatch();
 
 	const [mentions] = useCursorEffect(inboxQuery, {
 		limit: 100,
 	});
+
+	console.log(mentions);
 
 	React.useEffect(() => {
 		dispatch(actionCreators.setMentionsCount(mentions.length));
