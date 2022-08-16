@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update grafana from 8.5.9 to 8.5.10
+      hash: 5d2b42db20f5621fe61565c1329340a73cb7014f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 58.3.27
+  title: "'Update grafana from 8.5.9 to 8.5.10'"
+  date: 2022-08-16T01:32:18.131Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.51 to 6.0.52
       hash: 6558b5e6a28ee34e753d61f34f89eb88d52a6fa4
       body: ""
