@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove plugin-flowdock
+      hash: 1bcdb4367fee1f2ed2a6322c4623d6627926287f
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.0.0
+  title: "'Remove plugin-flowdock'"
+  date: 2022-08-16T04:19:33.801Z
+- commits:
     - subject: Update plugin-incidents to 8.0.6
       hash: f885cb6bb145729cf0ecad8b3b63f0bbfaa08c1b
       body: ""
