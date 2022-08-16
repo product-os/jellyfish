@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.28 to 5.1.29
+      hash: 4d1c6e5d669ac48d32ff1f6be27598d6cc879cfc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.0.5
+  title: "'Update @balena/jellyfish-logger from 5.1.28 to 5.1.29'"
+  date: 2022-08-16T23:29:25.930Z
+- commits:
     - subject: Log unhandledRejection for query timeout errors instead of restarting
       hash: 05bb0a24ce6ad3edb14a0c44a541508dfc8e7461
       body: |
