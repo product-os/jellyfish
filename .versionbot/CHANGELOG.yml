@@ -1,4 +1,24 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.29 to 13.0.31
+      hash: ed374e4ff5f8c36958e6da07741d65b83815d52d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-assert from 1.2.50 to 1.2.51
+      hash: 8a67126b3dd8eeee9398ae2194e0c1cf1d268562
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.0.2
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.29 to 13.0.31'"
+  date: 2022-08-16T12:28:22.500Z
+- commits:
     - subject: "UI: Do a better job of handling archived notifications"
       hash: ff8619959cf1b55f0b63b68fadbcb9ec97aa7884
       body: ""
