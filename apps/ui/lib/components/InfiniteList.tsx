@@ -15,7 +15,9 @@ const ScrollArea = styled<any>(Box)`
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
+	padding-bottom: 100px;
 `;
+// unsure about the padding-bottom (it might not be at the right level, it should add 100px of white space a the end of the scroll list (so you can scroll the content 100px up when at the end))
 
 const TRIGGEROFFSET = 200;
 
