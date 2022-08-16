@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update plugin-incidents to 8.0.6
+      hash: f885cb6bb145729cf0ecad8b3b63f0bbfaa08c1b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 58.3.28
+  title: "'Update plugin-incidents to 8.0.6'"
+  date: 2022-08-16T02:52:37.459Z
+- commits:
     - subject: Update grafana from 8.5.9 to 8.5.10
       hash: 5d2b42db20f5621fe61565c1329340a73cb7014f
       body: ""
