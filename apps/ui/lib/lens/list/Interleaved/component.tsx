@@ -141,6 +141,20 @@ export const InterleavedList = (props: Props) => {
 			startReached={loadMoreContracts}
 			itemContent={itemContent}
 			overscan={10}
+			components={{
+				Footer: () => {
+					return (
+						<div
+							style={{
+								padding: '2rem',
+								textAlign: 'center',
+							}}
+						>
+							&nbsp;
+						</div>
+					);
+				},
+			}}
 		/>
 	);
 };

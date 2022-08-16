@@ -14,7 +14,9 @@ import * as notifications from '../../../services/notifications';
 import { RelationshipContract } from 'autumndb';
 
 const Footer = styled(Flex)`
-	border-top: 1px solid #eee;
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
 `;
 
 const DropUpButton = styled(DropDownButton).attrs({

@@ -77,6 +77,20 @@ export default function SimpleList(props: Props) {
 			endReached={loadMoreContracts}
 			itemContent={itemContent}
 			overscan={5}
+			components={{
+				Footer: () => {
+					return (
+						<div
+							style={{
+								padding: '2rem',
+								textAlign: 'center',
+							}}
+						>
+							&nbsp;
+						</div>
+					);
+				},
+			}}
 		/>
 	);
 }

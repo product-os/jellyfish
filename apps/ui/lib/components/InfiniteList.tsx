@@ -15,6 +15,7 @@ const ScrollArea = styled<any>(Box)`
 	overflow-y: auto;
 	display: flex;
 	flex-direction: column;
+	padding-bottom: 100px;
 `;
 
 const TRIGGEROFFSET = 200;
