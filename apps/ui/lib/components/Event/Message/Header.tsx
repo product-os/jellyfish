@@ -31,7 +31,6 @@ interface EventHeaderProps extends Omit<EventContextProps, 'isOwnMessage'> {
 	getActorHref: (actor: any) => string;
 	is121?: boolean;
 	context?: Contract;
-	hide?: () => void;
 }
 
 const EventHeader = (props: EventHeaderProps) => {
@@ -89,9 +88,6 @@ const EventHeader = (props: EventHeaderProps) => {
 						value: 'archived',
 					},
 				]);
-				if (props.hide) {
-					props.hide();
-				}
 			} catch (err) {
 				console.error(err);
 			}

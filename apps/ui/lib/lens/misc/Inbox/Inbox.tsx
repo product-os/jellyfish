@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import { Flex, Box } from 'rendition';
 import path from 'path';
-import { Column, Icon } from '../../../components';
+import { Column, Icon, useSetup } from '../../../components';
 import { Contract, JsonSchema } from 'autumndb';
 import { useSelector } from 'react-redux';
 import { selectors } from '../../../store';
@@ -25,9 +25,26 @@ const getActorHref = (actor: UIActor) => {
 	return path.join(location.pathname, actor.card.slug);
 };
 
+const getArchivedNotificationQuery = (): JsonSchema => ({
+	type: 'object',
+	properties: {
+		type: {
+			const: 'notification@1.0.0',
+		},
+		data: {
+			type: 'object',
+			required: ['status'],
+			properties: {
+				status: {
+					const: 'archived',
+				},
+			},
+		},
+	},
+});
+
 const getQuery = (): JsonSchema => {
 	return {
-		title: 'foo',
 		type: 'object',
 		properties: {
 			type: {
@@ -76,6 +93,7 @@ const DEFAULT_OPTIONS: SdkQueryOptions = {
 
 const Inbox = ({ channel }) => {
 	const user = useSelector(selectors.getCurrentUser());
+	const { sdk } = useSetup()!;
 	const query = React.useMemo(() => {
 		return getQuery();
 	}, []);
@@ -83,6 +101,28 @@ const Inbox = ({ channel }) => {
 		query,
 		DEFAULT_OPTIONS,
 	);
+
+	// This is a hack that will store a list of notification ids that have been archived
+	// whilst this component is alive. This is to prevent the notification from being shown
+	// even though it has been archived.
+	// We have to do this because the current streaming logic will not unmatch the messages
+	// if the notification contract changes.
+	// TODO: Fix this at the autumndb level and remove this code.
+	const [archivedNotifications, setArchivedNotifications] = useState<string[]>(
+		[],
+	);
+	React.useEffect(() => {
+		const stream = sdk.stream(getArchivedNotificationQuery());
+		stream.on('update', ({ data }) => {
+			if (data.after) {
+				setArchivedNotifications(archivedNotifications.concat(data.id));
+			}
+		});
+		return () => {
+			stream.close();
+		};
+	}, [archivedNotifications]);
+
 	const [isLoadingPage, setIsLoadingPage] = useState(false);
 
 	const groups = useSelector(selectors.getGroups());
@@ -138,6 +178,11 @@ const Inbox = ({ channel }) => {
 		return <EventBox contract={contract} />;
 	};
 
+	const inboxItems = messages.filter((message) => {
+		const nId = message?.links?.['has attached'][0].id;
+		return nId && !archivedNotifications.includes(nId);
+	});
+
 	return (
 		<Column>
 			<Flex
@@ -154,13 +199,13 @@ const Inbox = ({ channel }) => {
 						minHeight: 0,
 					}}
 				>
-					{loading && !messages.length ? (
+					{loading && !inboxItems.length ? (
 						<Box p={2}>
 							<Icon name="cog" spin />
 						</Box>
 					) : (
 						<GroupedVirtuoso
-							data={messages}
+							data={inboxItems}
 							endReached={loadMoreContracts}
 							itemContent={itemContent}
 							overscan={10}
