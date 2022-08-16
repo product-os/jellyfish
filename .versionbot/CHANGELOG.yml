@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Do a better job of handling archived notifications"
+      hash: ff8619959cf1b55f0b63b68fadbcb9ec97aa7884
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.0.1
+  title: "'UI: Do a better job of handling archived notifications'"
+  date: 2022-08-16T10:46:58.312Z
+- commits:
     - subject: Remove plugin-flowdock
       hash: 1bcdb4367fee1f2ed2a6322c4623d6627926287f
       body: ""
