@@ -90,17 +90,20 @@ const run = async () => {
 			cluster.fork();
 		}
 		cluster.on('exit', (worker, code, signal) => {
+			activeWorkers--;
 			if (worker.exitedAfterDisconnect === true) {
 				logger.info(
 					context,
-					`worker ${worker?.process?.pid} exited (${signal || code}).`,
+					`worker ${worker?.process?.pid} exited (${
+						signal || code
+					}). activeWorkers ${activeWorkers}`,
 				);
 			} else {
 				logger.info(
 					context,
 					`worker ${worker?.process?.pid} died (${
 						signal || code
-					}). Forking again`,
+					}). activeWorkers ${activeWorkers}. Forking again`,
 				);
 				cluster.fork();
 			}
