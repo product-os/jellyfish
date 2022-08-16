@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.51 to 6.0.52
+      hash: 6558b5e6a28ee34e753d61f34f89eb88d52a6fa4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 58.3.26
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.51 to 6.0.52'"
+  date: 2022-08-16T01:17:29.326Z
+- commits:
     - subject: Update balena/cert-manager Docker tag to v0.1.4
       hash: 6966e34ec06fad502943793c7b03531a3aabb8f4
       body: ""
