@@ -52,8 +52,17 @@ const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
 	}, 1000);
 };
 
-process.on('unhandledRejection', (error) => {
-	return onError(error, 'Unhandled Server Error');
+/**
+ * `unhandledRejection` event means that a promise rejection wasn't handled.
+ * Log query read timeouts, exit the process on other cases
+ */
+process.on('unhandledRejection', (reason: Error | unknown, promise) => {
+	if (_.isError(reason) && reason.message === 'Query read timeout') {
+		// Don't exit, just log
+		logger.error(DEFAULT_CONTEXT, 'Unhandled Rejection', { reason, promise });
+	} else {
+		return onError(reason, 'Unhandled Rejection');
+	}
 });
 
 const startDate = new Date();
@@ -81,17 +90,20 @@ const run = async () => {
 			cluster.fork();
 		}
 		cluster.on('exit', (worker, code, signal) => {
+			activeWorkers--;
 			if (worker.exitedAfterDisconnect === true) {
 				logger.info(
 					context,
-					`worker ${worker?.process?.pid} exited (${signal || code}).`,
+					`worker ${worker?.process?.pid} exited (${
+						signal || code
+					}). activeWorkers ${activeWorkers}`,
 				);
 			} else {
 				logger.info(
 					context,
 					`worker ${worker?.process?.pid} died (${
 						signal || code
-					}). Forking again`,
+					}). activeWorkers ${activeWorkers}. Forking again`,
 				);
 				cluster.fork();
 			}
