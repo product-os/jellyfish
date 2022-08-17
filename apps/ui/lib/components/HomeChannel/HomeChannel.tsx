@@ -590,7 +590,7 @@ export default withSetup(
 						flex={1}
 						data-test="home-channel__drawer"
 						ref={this.wrapper}
-						onClick={helpers.swallowEvent as any}
+						// onClick={helpers.swallowEvent as any}
 						isMobile={isMobile}
 					>
 						{collapsed && (
