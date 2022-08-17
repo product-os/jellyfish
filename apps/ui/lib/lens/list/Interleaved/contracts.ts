@@ -115,6 +115,24 @@ export const lens: LensContract = {
 					$$links: {
 						'is attached to': query,
 					},
+					anyOf: [
+						{
+							$$links: {
+								'has attached element': {
+									type: 'object',
+									properties: {
+										type: {
+											const: 'reaction@1.0.0',
+										},
+										active: {
+											const: true,
+										},
+									},
+								},
+							},
+						},
+						true,
+					],
 					properties: {
 						active: {
 							const: true,
