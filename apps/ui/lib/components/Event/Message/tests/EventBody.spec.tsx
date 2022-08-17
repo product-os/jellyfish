@@ -105,7 +105,7 @@ test('Hidden front URLs are not displayed in the message', () => {
 		data: {
 			payload: {
 				message:
-					'Line1\n[](https://www.balena-cloud.com?hidden=whisper&source=flowdock)',
+					'Line1\n[](https://www.balena-cloud.com?hidden=whisper&source=foobar)',
 			},
 		},
 	});
