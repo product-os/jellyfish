@@ -1,4 +1,40 @@
 - commits:
+    - subject: "UI: Strongly type action lenses"
+      hash: f36e47e918404f859a5cee49ea7317f0fc5cb6d4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Strongly type the default snippet lens component"
+      hash: fa5563f7097f0f113812a330b4f291f1b20f135f
+      body: |
+        This change drops the use of redux.compose as it mangles Typescript
+        props.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: 'UI: Strongly type "full" lens components'
+      hash: f3c6057bef5b96551f5944b69a5eebacd9fda1fc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.0.10
+  title: "'UI: Strongly type lenses'"
+  date: 2022-08-17T13:39:56.331Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.31 to 13.0.33
       hash: 043c90ca1c0c4461a3cdf2da0b977320a9bf9852
       body: ""
