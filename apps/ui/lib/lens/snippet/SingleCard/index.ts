@@ -1,20 +1,22 @@
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import { selectors } from '../../../store';
+import { selectors, State } from '../../../store';
 import { withChannelContext } from '../../../hooks/channel-context';
 import { createLazyComponent } from '../../../components/SafeLazy';
+import type { StateProps, OwnProps } from './SingleContract';
 
 export const SingleContract = createLazyComponent(
 	() =>
 		import(/* webpackChunkName: "lens-single-contract" */ './SingleContract'),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		channels: selectors.getChannels()(state),
-		types: selectors.getTypes()(state),
-	};
-};
+const Renderer = withChannelContext(
+	connect<StateProps, {}, OwnProps, State>((state): StateProps => {
+		return {
+			channels: selectors.getChannels()(state),
+			types: selectors.getTypes()(state),
+		};
+	})(SingleContract),
+);
 
 const lens = {
 	slug: 'lens-snippet-default',
@@ -24,10 +26,7 @@ const lens = {
 	data: {
 		format: 'snippet',
 		icon: 'address-card',
-		renderer: compose<any>(
-			connect(mapStateToProps),
-			withChannelContext,
-		)(SingleContract),
+		renderer: Renderer,
 		filter: {
 			type: 'object',
 		},
