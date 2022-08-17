@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import type { StateProps, DispatchProps, OwnProps } from './MyUser';
 
@@ -11,17 +11,18 @@ export const MyUser = createLazyComponent(
 
 const SLUG = 'lens-my-user';
 
-const mapStateToProps = (state): StateProps => {
-	return {
-		types: selectors.getTypes()(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch): DispatchProps => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		return {
+			types: selectors.getTypes()(state),
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(MyUser);
 
 export default {
 	slug: SLUG,
@@ -31,10 +32,7 @@ export default {
 	data: {
 		icon: 'address-card',
 		format: 'full',
-		renderer: connect<StateProps, DispatchProps, OwnProps>(
-			mapStateToProps,
-			mapDispatchToProps,
-		)(MyUser),
+		renderer: Renderer,
 		filter: {
 			type: 'object',
 			properties: {

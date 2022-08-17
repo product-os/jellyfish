@@ -1,27 +1,30 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
+import type { StateProps, DispatchProps, OwnProps } from './CreateUserLens';
 
 export const CreateUserLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create-user" */ './CreateUserLens'),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		user: selectors.getCurrentUser()(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, ['removeChannel', 'addUser']),
-			dispatch,
-		),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		const user = selectors.getCurrentUser()(state);
+		if (!user) {
+			throw new Error('User not found');
+		}
+		return {
+			user,
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(CreateUserLens);
 
 export default {
 	slug: 'lens-action-create-user',
@@ -30,7 +33,7 @@ export default {
 	name: 'Create user lens',
 	data: {
 		format: 'create',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CreateUserLens),
+		renderer: Renderer,
 		icon: 'address-card',
 		type: '*',
 		action: {

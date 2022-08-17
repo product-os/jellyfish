@@ -4,11 +4,14 @@ import skhema from 'skhema';
 import { Redirect } from 'react-router-dom';
 import { Box, Flex, Heading, Input, Txt } from 'rendition';
 import styled from 'styled-components';
-import { Icon, UserAvatar, withSetup } from '../../../components';
+import { Icon, Setup, UserAvatar, withSetup } from '../../../components';
 
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import CardLayout from '../../../layouts/CardLayout';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { actionCreators } from '../../../store';
+import { JsonSchema, TypeContract, UserContract } from 'autumndb';
 
 const UserRow = styled(Box)`
 	border-bottom: 1px solid #eee;
@@ -19,14 +22,36 @@ const UserRow = styled(Box)`
 	}
 `;
 
+export interface StateProps {
+	allTypes: TypeContract[];
+	user: UserContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export type OwnProps = LensRendererProps;
+
+type Props = StateProps & DispatchProps & OwnProps & Setup;
+
+interface State {
+	users: null | UserContract[];
+	searchTerm: string;
+	submitting: boolean;
+	redirectTo: null | string;
+}
+
 export default withSetup(
-	class CreateView extends React.Component<any, any> {
+	class CreateView extends React.Component<Props, State> {
 		constructor(props) {
 			super(props);
 
 			this.state = {
 				searchTerm: '',
 				users: null,
+				submitting: false,
+				redirectTo: null,
 			};
 
 			this.close = this.close.bind(this);
@@ -37,7 +62,7 @@ export default withSetup(
 		}
 
 		componentDidMount() {
-			this.loadUsers();
+			this.loadUsers().catch(console.error);
 		}
 
 		async createView(event) {
@@ -126,9 +151,6 @@ export default withSetup(
 
 			sdk.card
 				.create(view)
-				.catch((error) => {
-					notifications.addNotification('danger', error.message);
-				})
 				.then((card) => {
 					if (card) {
 						this.props.analytics.track('element.create', {
@@ -143,6 +165,9 @@ export default withSetup(
 					this.setState({
 						submitting: false,
 					});
+				})
+				.catch((error) => {
+					notifications.addNotification('danger', error.message);
 				});
 		}
 
@@ -151,7 +176,7 @@ export default withSetup(
 		}
 
 		handleDone(newCard) {
-			const { onDone } = this.props.channel.data.head;
+			const onDone = this.props.channel.data?.head?.onDone;
 
 			if (!onDone) {
 				return;
@@ -164,19 +189,6 @@ export default withSetup(
 
 				return;
 			}
-
-			if (onDone.action === 'link') {
-				const card = onDone.target;
-				const { linkOption, selectedTypeTarget } = this.state;
-				if (!newCard) {
-					return;
-				}
-				if (!selectedTypeTarget) {
-					return;
-				}
-				this.props.actions.createLink(card, newCard, linkOption.name);
-				this.close();
-			}
 		}
 
 		handleSearchTermChange(event) {
@@ -185,7 +197,7 @@ export default withSetup(
 				searchTerm: term,
 			});
 
-			this.loadUsers();
+			this.loadUsers().catch(console.error);
 		}
 
 		async loadUsers() {
@@ -195,6 +207,10 @@ export default withSetup(
 			const userType = _.find(allTypes, {
 				slug: 'user',
 			});
+
+			if (!userType) {
+				return;
+			}
 
 			const linksQuery = {
 				$$links: {
@@ -247,7 +263,7 @@ export default withSetup(
 				searchQueryFilter,
 			]);
 
-			const users = await sdk.query(query, {
+			const users = await sdk.query<UserContract>(query as JsonSchema, {
 				sortBy: 'slug',
 			});
 
@@ -323,7 +339,7 @@ export default withSetup(
 									);
 								})}
 
-							{Boolean(users) && users.length === 0 && (
+							{!!users && users.length === 0 && (
 								<Txt p={3}>
 									Your search - <strong>{searchTerm}</strong> - did not match
 									any users.

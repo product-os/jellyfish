@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
 import type { StateProps, DispatchProps, OwnProps } from './CreateLens';
 
@@ -8,18 +8,19 @@ export const CreateLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create" */ './CreateLens'),
 );
 
-const mapStateToProps = (state): StateProps => {
-	return {
-		allTypes: selectors.getTypes()(state),
-		relationships: selectors.getRelationships()(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch): DispatchProps => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		return {
+			allTypes: selectors.getTypes()(state),
+			relationships: selectors.getRelationships()(state),
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(CreateLens);
 
 export default {
 	slug: 'lens-action-create',
@@ -28,10 +29,7 @@ export default {
 	name: 'Default list lens',
 	data: {
 		format: 'create',
-		renderer: connect<StateProps, DispatchProps, OwnProps>(
-			mapStateToProps,
-			mapDispatchToProps,
-		)(CreateLens),
+		renderer: Renderer,
 		icon: 'address-card',
 		type: '*',
 		filter: {

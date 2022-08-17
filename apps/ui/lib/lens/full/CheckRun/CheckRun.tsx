@@ -7,9 +7,11 @@ import * as helpers from '../../../services/helpers';
 import CardFields from '../../../components/CardFields';
 import { UI_SCHEMA_MODE } from '../../schema-util';
 import { ContractGraph } from '../../common';
-import type { Contract } from 'autumndb';
+import type { Contract, TypeContract } from 'autumndb';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
 import { Setup, withSetup } from '../../../components/SetupProvider';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { actionCreators } from '../../../store';
 
 export const SingleCardTabs = styled(Tabs)`
 	flex: 1;
@@ -38,11 +40,25 @@ const makeLogLink = (commit?: Contract) => {
 	return `https://monitor.balena-cloud.com/explore?orgId=1&left=%5B%22${startUnix}%22,%22${endUnix}%22,%22loki%22,%7B%22expr%22:%22%7Bfleet%3D%5C%22transformers-workers%5C%22,service!%3D%5C%22fleet-launcher%5C%22,service!%3D%5C%22balena_supervisor%5C%22,service!%3D%5C%22logshipper%5C%22,service!%3D%5C%22garbage-collector%5C%22,source_type%3D%5C%22balena%5C%22%7D%20%7C%20json%20%7C%20%20line_format%20%5C%22%7B%7B.name_extracted%7D%7D:%20%7B%7B.msg%7D%7D%20%7B%7B.line_status%7D%7D%20%7B%7B.slug%7D%7D%20%7B%7B.version%7D%7D%20%7B%7B.id%7D%7D%5C%22%5Cn%20%20%7C%20commit%3D%5C%22${sha}%5C%22%22,%22refId%22:%22A%22%7D%5D`;
 };
 
+export interface StateProps {
+	types: TypeContract[];
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export type OwnProps = LensRendererProps;
+
+type Props = OwnProps & StateProps & DispatchProps & Setup;
+
+interface State {
+	tree?: Contract;
+	commit?: Contract;
+}
+
 export default withSetup(
-	class CheckRun extends React.Component<
-		{ card: Contract; channel: any; types: any; actionItems: any } & Setup,
-		{ tree?: Contract; commit?: Contract }
-	> {
+	class CheckRun extends React.Component<Props, State> {
 		interval: NodeJS.Timeout | null = null;
 
 		constructor(props) {

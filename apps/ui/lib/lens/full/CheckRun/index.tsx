@@ -1,24 +1,26 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
+import type { StateProps, DispatchProps, OwnProps } from './CheckRun';
 
 export const CheckRun = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-check-run" */ './CheckRun'),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes()(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		return {
+			types: selectors.getTypes()(state),
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(CheckRun);
 
 const lens = {
 	slug: 'lens-full-default',
@@ -28,7 +30,7 @@ const lens = {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(CheckRun),
+		renderer: Renderer,
 		filter: {
 			type: 'object',
 			properties: {
