@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Improve type safety of redux action creators"
+      hash: 9e4e9cbfbc754085fe22a6b6fc9cefd8b5fdbfb2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.0.8
+  title: "'UI: Improve type safety of redux action creators'"
+  date: 2022-08-17T11:34:37.621Z
+- commits:
     - subject: Remove more references to flowdock
       hash: dfc9051d0de78fa34e23197e97284b0ab728ed38
       body: ""
