@@ -1,4 +1,28 @@
 - commits:
+    - subject: Rollback change to balena workflow that leaves dangling ec2 instances
+      hash: c1d7a2810374748ccb6f63b9a4a73a138cad0055
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+    - subject: Rollback change to balena workflow that leaves dangling ec2 instances
+      hash: b57c0a977b18958be62b61f3af687f106f57b6b0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.1.1
+  title: "'Rollback change to balena workflow that leaves dangling ec2 instances'"
+  date: 2022-08-17T17:44:56.395Z
+- commits:
     - subject: Add reactions
       hash: 111d57b10638925fc0f1483cccb5830bb3f0cea0
       body: ""
