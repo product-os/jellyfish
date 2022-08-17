@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.33 to 13.0.34
+      hash: 5200a609f5e5e0e9cc874841ca73cee1a50f88a7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.2
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.33 to 13.0.34'"
+  date: 2022-08-17T20:30:18.928Z
+- commits:
     - subject: "UI: Fix bug in custom view creation"
       hash: 24c09f546f53c085fe9d85691ad2b181140d707e
       body: |
