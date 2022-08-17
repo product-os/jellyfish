@@ -1,4 +1,18 @@
 - commits:
+    - subject: haproxy logs that print the server IP
+      hash: 2691606fdd515646c82697a641ee5034ecf443e8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.0.6
+  title: "'haproxy logs that print the server IP'"
+  date: 2022-08-17T02:21:28.705Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 5.1.28 to 5.1.29
       hash: 4d1c6e5d669ac48d32ff1f6be27598d6cc879cfc
       body: ""
