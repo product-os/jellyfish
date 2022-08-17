@@ -13,7 +13,6 @@ import type {
 	Contract,
 	JsonSchema,
 	TypeContract,
-	ViewContract,
 	UserContract,
 } from 'autumndb';
 import { actionCreators } from '../../../store';
@@ -581,31 +580,30 @@ export default withSetup(
 			);
 		}
 
-		createView(view) {
-			const { user, card } = this.props;
-			const newView = clone<ViewContract>(card);
-			newView.name = view.name;
-			newView.slug = `view-user-created-view-${uuid()}-${helpers.slugify(
-				view.name,
-			)}`;
-			if (!newView.data.allOf) {
-				newView.data.allOf = [];
-			}
-			newView.data.allOf = _.reject(newView.data.allOf, {
-				name: USER_FILTER_NAME,
-			});
-			newView.data.actor = user.id;
-			view.filters.forEach((filter) => {
-				newView.data.allOf!.push({
-					name: USER_FILTER_NAME,
-					schema: _.assign(SchemaSieve.unflattenSchema(filter), {
-						type: 'object',
-					}) as any,
-				});
-			});
-			Reflect.deleteProperty(newView, 'id');
-			Reflect.deleteProperty(newView, 'created_at');
-			Reflect.deleteProperty(newView.data, 'namespace');
+		createView(view: FiltersView) {
+			const { user, card, query } = this.props;
+			const newView = {
+				type: 'view@1.0.0',
+				markers: card.markers,
+				name: view.name,
+				slug: `view-user-created-view-${uuid()}-${helpers.slugify(view.name)}`,
+				data: {
+					actor: user.id,
+					allOf: [
+						{
+							name: 'Query',
+							schema: unifyQuery(
+								query,
+								_.compact(view.filters).map((filter) => {
+									return _.assign(SchemaSieve.unflattenSchema(filter), {
+										type: 'object',
+									});
+								}),
+							),
+						},
+					],
+				},
+			};
 			return newView;
 		}
 
