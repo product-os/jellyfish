@@ -6,8 +6,12 @@ import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import * as skhema from 'skhema';
 import CardLayout from '../../../layouts/CardLayout';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { OrgContract, UserContract } from 'autumndb';
+import { actionCreators } from '../../../store';
+import { JSONSchema7 } from 'json-schema';
 
-const FORM_SCHEMA = {
+const FORM_SCHEMA: JSONSchema7 = {
 	type: 'object',
 	required: ['email', 'username'],
 	properties: {
@@ -21,8 +25,32 @@ const FORM_SCHEMA = {
 	},
 };
 
+export interface StateProps {
+	user: UserContract;
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+export type OwnProps = LensRendererProps;
+
+type Props = StateProps & DispatchProps & OwnProps;
+
+interface State {
+	orgs: OrgContract[];
+	submitting: boolean;
+	formData: {
+		username?: string;
+		email?: string;
+		organisation?: string;
+	};
+	cardIsValid: boolean;
+	formSchema: JSONSchema7;
+}
+
 // TODO autogenerate this based on user creation action card
-class CreateUserLens extends React.Component<any, any> {
+class CreateUserLens extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 
@@ -78,7 +106,7 @@ class CreateUserLens extends React.Component<any, any> {
 		this.setState({
 			formData,
 			cardIsValid: skhema.isValid(
-				formSchema,
+				formSchema as any,
 				helpers.removeUndefinedArrayItems(formData),
 			),
 		});
@@ -91,14 +119,20 @@ class CreateUserLens extends React.Component<any, any> {
 
 		const { actions } = this.props;
 
+		const { username, email, organisation } = formData;
+
+		if (!username || !email || !organisation) {
+			return;
+		}
+
 		this.setState(
 			{
 				submitting: true,
 			},
 			async () => {
 				const success = await actions.addUser({
-					username: formData.username,
-					email: formData.email,
+					username,
+					email,
 					org: _.find(orgs, {
 						slug: formData.organisation,
 					}),

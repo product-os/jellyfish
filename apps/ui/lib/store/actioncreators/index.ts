@@ -907,7 +907,7 @@ export const actionCreators = {
 	}: {
 		username: string;
 		email: string;
-		org: OrgContract;
+		org?: OrgContract;
 	}): JellyThunk<Promise<boolean>> {
 		return async (dispatch, _getState, { sdk }) => {
 			try {
@@ -916,7 +916,9 @@ export const actionCreators = {
 					email,
 					password: '',
 				});
-				await dispatch(actionCreators.createLink(org, user, 'has member'));
+				if (org) {
+					await dispatch(actionCreators.createLink(org, user, 'has member'));
+				}
 				const loginLinkSent = await dispatch(
 					actionCreators.sendFirstTimeLoginLink({
 						user,

@@ -1,30 +1,32 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
-import { compose } from 'redux';
-import { withSetup } from '../../../components';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
+import type { StateProps, DispatchProps, OwnProps } from './CreateView';
 
 export const CreateView = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-create-view" */ './CreateView'),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		allTypes: selectors.getTypes()(state),
-		user: selectors.getCurrentUser()(state),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		const user = selectors.getCurrentUser()(state);
+		if (!user) {
+			throw new Error('User not found');
+		}
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: redux.bindActionCreators(
-			_.pick(actionCreators, ['createLink', 'removeChannel']),
-			dispatch,
-		),
-	};
-};
+		return {
+			allTypes: selectors.getTypes()(state),
+			user,
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(CreateView);
 
 export default {
 	slug: 'lens-action-create-view',
@@ -33,10 +35,7 @@ export default {
 	name: 'View creation lens',
 	data: {
 		format: 'createView',
-		renderer: compose(
-			withSetup,
-			connect(mapStateToProps, mapDispatchToProps),
-		)(CreateView),
+		renderer: Renderer,
 		icon: 'address-card',
 		type: '*',
 		filter: {

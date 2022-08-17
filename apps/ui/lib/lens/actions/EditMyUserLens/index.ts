@@ -1,23 +1,25 @@
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import { bindActionCreators } from '../../../bindactioncreators';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
+import { StateProps, DispatchProps, OwnProps } from './EditMyUserLens';
 
 export const EditLens = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-edit" */ './EditMyUserLens'),
 );
 
-const mapStateToProps = (state) => {
-	return {
-		types: selectors.getTypes()(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch) => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch),
-	};
-};
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		return {
+			types: selectors.getTypes()(state),
+		};
+	},
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(EditLens);
 
 export default {
 	slug: 'lens-action-edit-my-user',
@@ -26,7 +28,7 @@ export default {
 	name: 'Default lens for editing own user contract',
 	data: {
 		format: 'edit',
-		renderer: connect(mapStateToProps, mapDispatchToProps)(EditLens),
+		renderer: Renderer,
 		icon: 'pencil',
 		type: '*',
 		filter: {

@@ -15,11 +15,15 @@ import {
 	TextWithCopy,
 } from 'rendition';
 import * as skhema from 'skhema';
-import { Icon, withSetup } from '../../../components';
+import { Icon, Setup, withSetup } from '../../../components';
 import * as timezones from '../../../services/timezones';
 import * as helpers from '../../../services/helpers';
 import { customQueryTabs } from '../../common';
 import CardLayout from '../../../layouts/CardLayout';
+import { Contract, TypeContract } from 'autumndb';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { actionCreators } from '../../../store';
+import { JSONSchema7 } from 'json-schema';
 
 const userProfileUiSchema = {
 	data: {
@@ -52,8 +56,39 @@ const interfaceUiSchema = {
 	},
 };
 
+export interface StateProps {
+	types: TypeContract[];
+}
+
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+
+// TODO: Refactor generic props handling for action lenses.
+// It's a mess that we overload the card property like this.
+export type OwnProps = Omit<LensRendererProps, 'card'> & {
+	card: {
+		card: Contract;
+		types: TypeContract[];
+		onDone: { action: string };
+	};
+};
+
+type Props = StateProps & DispatchProps & OwnProps & Setup;
+
+interface State {
+	submitting: boolean;
+	changePassword: {
+		currentPassword?: string;
+		newPassword?: string;
+	};
+	userProfileSchema: JSONSchema7;
+	interfaceSchema: JSONSchema7;
+	fetchingIntegrationUrl: boolean;
+}
+
 export default withSetup(
-	class EditMyUserLens extends React.Component<any, any> {
+	class EditMyUserLens extends React.Component<Props, State> {
 		constructor(props) {
 			super(props);
 
@@ -83,7 +118,7 @@ export default withSetup(
 				timezones.names;
 
 			// Annoyingly we have to explicitly set the title fields to '' to avoid them being displayed
-			const interfaceSchema = {
+			const interfaceSchema: JSONSchema7 = {
 				properties: {
 					data: {
 						type: 'object',
@@ -111,6 +146,7 @@ export default withSetup(
 				changePassword: {},
 				userProfileSchema,
 				interfaceSchema,
+				fetchingIntegrationUrl: false,
 			};
 		}
 
@@ -170,7 +206,9 @@ export default withSetup(
 				async () => {
 					const { currentPassword, newPassword } = this.state.changePassword;
 
-					await this.props.actions.setPassword(currentPassword, newPassword);
+					if (currentPassword && newPassword) {
+						await this.props.actions.setPassword(currentPassword, newPassword);
+					}
 
 					this.setState({
 						submitting: false,
