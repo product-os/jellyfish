@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.31 to 13.0.33
+      hash: 043c90ca1c0c4461a3cdf2da0b977320a9bf9852
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.0.9
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.31 to 13.0.33'"
+  date: 2022-08-17T11:51:42.772Z
+- commits:
     - subject: "UI: Improve type safety of redux action creators"
       hash: 9e4e9cbfbc754085fe22a6b6fc9cefd8b5fdbfb2
       body: ""
