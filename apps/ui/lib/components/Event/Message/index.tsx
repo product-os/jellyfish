@@ -15,6 +15,7 @@ import Icon from '../../Icon';
 import Wrapper from './Wrapper';
 import Header from './Header';
 import Body, { parseMessage } from './Body';
+import { DisplayReactions } from './DisplayReactions';
 
 const MESSAGE_COLLAPSED_HEIGHT = 400;
 
@@ -401,6 +402,7 @@ export default class Event extends React.Component<Props, State> {
 							updating={updating}
 							user={user}
 						/>
+						<DisplayReactions message={card} />
 					</Box>
 				</Wrapper>
 			</SmartVisibilitySensor>
