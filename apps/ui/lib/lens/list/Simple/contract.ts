@@ -10,8 +10,14 @@ export const SimpleList = createLazyComponent(
 );
 
 const mapStateToProps = (state) => {
+	const user = selectors.getCurrentUser()(state);
+
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
+
 	return {
-		user: selectors.getCurrentUser()(state),
+		user,
 	};
 };
 

@@ -67,6 +67,9 @@ const getQuery = (user: UserContract): JsonSchema => {
 
 const MentionsCount = () => {
 	const user = useSelector(selectors.getCurrentUser());
+	if (!user) {
+		throw new Error('Cannot render without user');
+	}
 	const inboxQuery = React.useMemo(() => {
 		return getQuery(user);
 	}, [user]);
@@ -75,8 +78,6 @@ const MentionsCount = () => {
 	const [mentions] = useCursorEffect(inboxQuery, {
 		limit: 100,
 	});
-
-	console.log(mentions);
 
 	React.useEffect(() => {
 		dispatch(actionCreators.setMentionsCount(mentions.length));

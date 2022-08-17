@@ -13,8 +13,14 @@ import {
 import { withChannelContext } from '../../../hooks';
 
 const mapStateToProps = (state): StateProps => {
+	const user = selectors.getCurrentUser()(state);
+
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
+
 	return {
-		user: selectors.getCurrentUser()(state),
+		user,
 		relationships: selectors.getRelationships()(state),
 	};
 };

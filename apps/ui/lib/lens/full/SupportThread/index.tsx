@@ -11,10 +11,16 @@ export const SupportThreadBase = createLazyComponent(
 );
 
 const mapStateToProps = (state): StateProps => {
+	const user = selectors.getCurrentUser()(state);
+
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
+
 	return {
 		types: selectors.getTypes()(state),
 		groups: selectors.getGroups()(state),
-		user: selectors.getCurrentUser()(state),
+		user,
 	};
 };
 

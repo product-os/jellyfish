@@ -61,7 +61,11 @@ export const pathWithoutTarget = (target: string) => {
 };
 
 export const pathWithoutChannel = (channel: ChannelContract) => {
-	return pathWithoutTarget(channel.data.target);
+	if (channel.data.target) {
+		return pathWithoutTarget(channel.data.target);
+	} else {
+		return window.location.pathname;
+	}
 };
 
 /**

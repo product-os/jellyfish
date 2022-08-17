@@ -1,11 +1,10 @@
 import React from 'react';
-import { useStore } from 'react-redux';
+import { useDispatch, useStore } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
-import { selectors } from '../store';
+import { JellyThunkDispatch, selectors } from '../store';
 import { slugify } from '../services/helpers';
-import { useSetup } from './SetupProvider';
 import { actionCreators } from '../store';
 
 export const LOGIN_AS_SEARCH_PARAM_NAME = 'loginAs';
@@ -13,7 +12,7 @@ export const LOGIN_WITH_PROVIDER_SEARCH_PARAM_NAME = 'loginWithProvider';
 
 const LoginAs = () => {
 	const store = useStore();
-	const { sdk } = useSetup()!;
+	const dispatch: JellyThunkDispatch = useDispatch();
 	const urlRef = React.useRef(new URL(location.href));
 
 	const authenticationTask = useTask(async () => {
@@ -42,13 +41,13 @@ const LoginAs = () => {
 			);
 		}
 
-		location.href = await actionCreators.getIntegrationAuthUrl({
-			userSlug: loginAsUserSlug,
-			providerSlug: loginWithProviderSlug,
-			returnUrl: urlRef.current.href,
-		})(store.dispatch, store.getState, {
-			sdk,
-		});
+		location.href = await dispatch(
+			actionCreators.getIntegrationAuthUrl({
+				userSlug: loginAsUserSlug,
+				providerSlug: loginWithProviderSlug,
+				returnUrl: urlRef.current.href,
+			}),
+		);
 	});
 
 	React.useEffect(() => {

@@ -10,6 +10,10 @@ const mapStateToProps = (state, ownProps): StateProps => {
 	const target = ownProps.card.id;
 	const user = selectors.getCurrentUser()(state);
 
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
+
 	return {
 		types: selectors.getTypes()(state),
 		relationships: selectors.getRelationships()(state),

@@ -21,7 +21,7 @@ export default class Analytics {
 		this.isInitialized = true;
 	}
 
-	track(event: string, metadata: Dict | undefined) {
+	track(event: string, metadata?: Dict) {
 		if (!this.isInitialized) {
 			throw new Error('Analytics are not initialized');
 		}
@@ -31,7 +31,7 @@ export default class Analytics {
 		mixpanel.track(event, metadata);
 	}
 
-	identify(id: string) {
+	identify(id?: string) {
 		if (!this.isInitialized) {
 			throw new Error('Analytics are not initialized');
 		}

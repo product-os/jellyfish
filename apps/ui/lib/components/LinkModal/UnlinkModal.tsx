@@ -128,7 +128,7 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 				relationship!.data.from.type === fromTypeBase
 					? relationship!.name!
 					: relationship!.data.inverseName!;
-			await actions.removeLink(card, selectedTarget, linkVerb, {
+			await actions.removeLink(card as Contract, selectedTarget, linkVerb, {
 				skipSuccessMessage: true,
 			});
 		};

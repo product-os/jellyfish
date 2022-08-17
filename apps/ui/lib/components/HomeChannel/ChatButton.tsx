@@ -5,7 +5,7 @@ import uniq from 'lodash/uniq';
 import { Badge, Box, Button } from 'rendition';
 import styled from 'styled-components';
 import { Icon, useSetup } from '../';
-import type { JsonSchema, UserContract } from 'autumndb';
+import type { JsonSchema } from 'autumndb';
 import { selectors } from '../../store';
 
 const StyledBadge = styled(Badge)`
@@ -24,12 +24,14 @@ const Container = styled(Box)`
 export const ChatButton = ({ onClick, ...rest }) => {
 	const { sdk } = useSetup()!;
 	const [notifications, setNotifications] = React.useState<null | any[]>(null);
-	const currentUser = useSelector<any, UserContract>(
-		selectors.getCurrentUser(),
-	);
+	const currentUser = useSelector(selectors.getCurrentUser());
 
 	React.useEffect(() => {
 		let stream: any = null;
+
+		if (!currentUser) {
+			return;
+		}
 
 		(async () => {
 			const query: JsonSchema = {
@@ -121,7 +123,7 @@ export const ChatButton = ({ onClick, ...rest }) => {
 				stream.close();
 			}
 		};
-	}, [sdk, currentUser.id]);
+	}, [sdk, currentUser?.id]);
 
 	return (
 		<Container {...rest}>

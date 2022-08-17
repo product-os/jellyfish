@@ -107,7 +107,7 @@ const Extract = styled(Box)`
 
 export interface StateProps {
 	types: TypeContract[];
-	groups: ChatGroup[];
+	groups: { [slug: string]: ChatGroup };
 	user: UserContract;
 }
 
@@ -237,6 +237,8 @@ export default withSetup(
 		}
 
 		render() {
+			console.log(this.props);
+
 			const { card, channel, types } = this.props;
 			const { actor, isClosing } = this.state;
 

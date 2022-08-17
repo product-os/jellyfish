@@ -136,6 +136,10 @@ class ChannelRenderer extends React.Component<Props, State> {
 			return;
 		}
 
+		if (!data.target) {
+			return;
+		}
+
 		const query = createChannelQuery(data.target, user);
 
 		this.props.sdk

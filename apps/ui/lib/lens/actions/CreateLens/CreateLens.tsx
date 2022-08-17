@@ -292,7 +292,7 @@ export default withSetup(
 						links,
 						(acc: Array<Promise<void>>, targetLinks) => {
 							_.map(targetLinks, ({ target, verb }) => {
-								acc.push(actions.createLink(card, target, verb));
+								acc.push(actions.createLink(card as Contract, target, verb));
 							});
 							return acc;
 						},
@@ -376,9 +376,17 @@ export default withSetup(
 							linkOption.data.from.type === baseType
 								? linkOption.name
 								: linkOption.data.inverseName;
-						return this.props.actions.createLink(card, newCard, linkName, {
-							skipSuccessMessage: true,
-						});
+						if (!linkName) {
+							return;
+						}
+						return this.props.actions.createLink(
+							card,
+							newCard as Contract,
+							linkName,
+							{
+								skipSuccessMessage: true,
+							},
+						);
 					};
 					if (newCard && selectedTypeTarget) {
 						const linkTasks = cards.map(createLink);

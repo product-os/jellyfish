@@ -2,12 +2,7 @@ import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
 import { Icon, PlainButton, useSetup } from '.';
-import type {
-	Contract,
-	ContractDefinition,
-	JsonSchema,
-	UserContract,
-} from 'autumndb';
+import type { Contract, ContractDefinition, JsonSchema } from 'autumndb';
 import { selectors } from '../store';
 
 export const SubscribeButton = ({ card, ...rest }) => {
@@ -16,9 +11,7 @@ export const SubscribeButton = ({ card, ...rest }) => {
 	const [subscription, setSubscription] = React.useState<
 		Contract | ContractDefinition | null
 	>(null);
-	const currentUser = useSelector<any, UserContract>(
-		selectors.getCurrentUser(),
-	);
+	const currentUser = useSelector(selectors.getCurrentUser());
 
 	React.useEffect(() => {
 		let stream: any = null;
@@ -48,7 +41,7 @@ export const SubscribeButton = ({ card, ...rest }) => {
 								required: ['actor'],
 								properties: {
 									actor: {
-										const: currentUser.id,
+										const: currentUser?.id,
 									},
 								},
 							},
@@ -91,7 +84,7 @@ export const SubscribeButton = ({ card, ...rest }) => {
 				stream.close();
 			}
 		};
-	}, [sdk, currentUser.id]);
+	}, [sdk, currentUser?.id]);
 
 	const handleClick = React.useCallback(async () => {
 		try {

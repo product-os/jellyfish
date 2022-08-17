@@ -12,6 +12,10 @@ import HomeChannel, {
 } from './HomeChannel';
 
 const mapStateToProps = (state): StateProps => {
+	const user = selectors.getCurrentUser()(state);
+	if (!user) {
+		throw new Error('Cannot render without a user');
+	}
 	return {
 		channels: selectors.getChannels()(state),
 		codename: selectors.getAppCodename()(state),
@@ -19,7 +23,7 @@ const mapStateToProps = (state): StateProps => {
 		types: selectors.getTypes()(state),
 		activeLoop: selectors.getActiveLoop()(state),
 		isChatWidgetOpen: selectors.getChatWidgetOpen()(state),
-		user: selectors.getCurrentUser()(state),
+		user,
 		homeView: selectors.getHomeView()(state),
 		version: selectors.getAppVersion()(state),
 	};

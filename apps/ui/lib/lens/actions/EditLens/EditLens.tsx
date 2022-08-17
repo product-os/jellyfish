@@ -41,6 +41,10 @@ export default withSetup(
 			const { head } = this.props.channel.data;
 			const { types, card } = head!;
 
+			if (!card) {
+				throw new Error('Cannot render without a contract');
+			}
+
 			const cardType = helpers.getType(card.type, types);
 
 			// Omit known computed values from the schema
@@ -105,9 +109,9 @@ export default withSetup(
 			const updatedEntry = helpers.removeUndefinedArrayItems(
 				_.assign({}, card, this.state.editModel),
 			);
-			const { id, type } = card;
+			const { id, type } = card!;
 
-			const patch = jsonpatch.compare(card, updatedEntry);
+			const patch = jsonpatch.compare(card!, updatedEntry);
 
 			this.props.sdk.card
 				.update(id, type, patch)
@@ -174,7 +178,7 @@ export default withSetup(
 				{},
 			);
 
-			const cardType = helpers.getType(card.type, types);
+			const cardType = helpers.getType(card!.type, types);
 
 			const uiSchema = getUiSchema(cardType, UI_SCHEMA_MODE.edit);
 
@@ -205,11 +209,11 @@ export default withSetup(
 				<CardLayout
 					noActions
 					onClose={this.close}
-					card={card}
+					card={card!}
 					channel={this.props.channel}
 					title={
 						<Heading.h4>
-							<em>Edit</em> {card.name || card.type}
+							<em>Edit</em> {card!.name || card!.type}
 						</Heading.h4>
 					}
 				>
