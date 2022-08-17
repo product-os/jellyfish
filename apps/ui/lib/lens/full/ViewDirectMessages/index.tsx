@@ -1,46 +1,40 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { withResponsiveContext } from '../../../hooks/use-responsive-context';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import type { StateProps, DispatchProps } from './ViewRenderer';
+import type { StateProps, DispatchProps, OwnProps } from './ViewRenderer';
 
 export const ViewRenderer = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-view" */ './ViewRenderer'),
 );
 
-const mapStateToProps = (state, ownProps): StateProps => {
-	const target = ownProps.card.id;
-	const user = selectors.getCurrentUser()(state);
+const WrappedViewRenderer = withResponsiveContext(
+	connect<StateProps, DispatchProps, OwnProps, State>(
+		(state, ownProps): StateProps => {
+			const target = ownProps.card.id;
+			const user = selectors.getCurrentUser()(state);
 
-	if (!user) {
-		throw new Error('Cannot render without a user');
-	}
+			if (!user) {
+				throw new Error('Cannot render without a user');
+			}
 
-	return {
-		channels: selectors.getChannels()(state),
-		types: selectors.getTypes()(state),
-		user,
-		userActiveLens: selectors.getUsersViewLens(target)(state),
-		userCustomFilters: selectors.getUserCustomFilters(target)(state),
-	};
-};
-
-const mapDispatchToProps = (dispatch): DispatchProps => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['setViewLens', 'setViewSlice']),
-			dispatch,
-		),
-	};
-};
-
-const WrappedViewRenderer = redux.compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withResponsiveContext,
-)(ViewRenderer);
+			return {
+				channels: selectors.getChannels()(state),
+				types: selectors.getTypes()(state),
+				user,
+				userActiveLens: selectors.getUsersViewLens(target)(state),
+				userCustomFilters: selectors.getUserCustomFilters(target)(state),
+			};
+		},
+		(dispatch): DispatchProps => {
+			return {
+				actions: bindActionCreators(actionCreators, dispatch),
+			};
+		},
+	)(ViewRenderer),
+);
 
 const viewLens = {
 	slug: 'lens-view',

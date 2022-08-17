@@ -1,40 +1,38 @@
 import _ from 'lodash';
 import { connect } from 'react-redux';
-import * as redux from 'redux';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { withResponsiveContext } from '../../../hooks/use-responsive-context';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import type { StateProps, DispatchProps } from './ViewRenderer';
+import type { StateProps, DispatchProps, OwnProps } from './ViewRenderer';
 
 export const ViewRenderer = createLazyComponent(
 	() => import(/* webpackChunkName: "lens-view" */ './ViewRenderer'),
 );
 
-const mapStateToProps = (state, ownProps): StateProps => {
-	const target = ownProps.card.id;
+const WrappedViewRenderer = withResponsiveContext(
+	connect<StateProps, DispatchProps, OwnProps, State>(
+		(state, ownProps): StateProps => {
+			const target = ownProps.card.id;
 
-	return {
-		channels: selectors.getChannels()(state),
-		types: selectors.getTypes()(state),
-		userActiveLens: selectors.getUsersViewLens(target)(state),
-		userCustomFilters: selectors.getUserCustomFilters(target)(state),
-	};
-};
+			return {
+				channels: selectors.getChannels()(state),
+				types: selectors.getTypes()(state),
+				userActiveLens: selectors.getUsersViewLens(target)(state),
+				userCustomFilters: selectors.getUserCustomFilters(target)(state),
+			};
+		},
 
-const mapDispatchToProps = (dispatch): DispatchProps => {
-	return {
-		actions: bindActionCreators(
-			_.pick(actionCreators, ['setViewLens', 'setViewSlice']),
-			dispatch,
-		),
-	};
-};
-
-const WrappedViewRenderer = redux.compose(
-	connect(mapStateToProps, mapDispatchToProps),
-	withResponsiveContext,
-)(ViewRenderer);
+		(dispatch): DispatchProps => {
+			return {
+				actions: bindActionCreators(
+					_.pick(actionCreators, ['setViewLens', 'setViewSlice']),
+					dispatch,
+				),
+			};
+		},
+	)(ViewRenderer),
+);
 
 const viewLens = {
 	slug: 'lens-view',

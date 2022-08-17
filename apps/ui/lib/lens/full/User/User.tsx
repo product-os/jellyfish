@@ -1,11 +1,28 @@
 import React from 'react';
 import _ from 'lodash';
-import { ActionLink } from '../../../components';
+import { ActionLink, Setup } from '../../../components';
 import * as notifications from '../../../services/notifications';
 import * as helpers from '../../../services/helpers';
 import TabbedContractLayout from '../../../layouts/TabbedContractLayout';
+import { BoundActionCreators, LensRendererProps } from '../../../types';
+import { actionCreators } from '../../../store';
+import { OrgContract, UserContract } from 'autumndb';
 
-export default class User extends React.Component<any, any> {
+export interface StateProps {
+	balenaOrg?: OrgContract;
+}
+export interface DispatchProps {
+	actions: BoundActionCreators<typeof actionCreators>;
+}
+export type OwnProps = LensRendererProps;
+
+type Props = StateProps & DispatchProps & OwnProps & Setup;
+
+interface State {
+	isOperator: boolean;
+}
+
+export default class User extends React.Component<Props, State> {
 	constructor(props) {
 		super(props);
 		this.sendFirstTimeLoginLink = this.sendFirstTimeLoginLink.bind(this);
@@ -17,7 +34,7 @@ export default class User extends React.Component<any, any> {
 
 	componentDidMount() {
 		return this.props.sdk
-			.query({
+			.query<UserContract>({
 				type: 'object',
 				required: ['id', 'type', 'data'],
 				properties: {
@@ -33,7 +50,9 @@ export default class User extends React.Component<any, any> {
 						properties: {
 							roles: {
 								type: 'array',
-								items: 'string',
+								items: {
+									type: 'string',
+								},
 							},
 						},
 					},
@@ -52,12 +71,16 @@ export default class User extends React.Component<any, any> {
 	sendFirstTimeLoginLink() {
 		const { card, actions } = this.props;
 		return actions.sendFirstTimeLoginLink({
-			user: card,
+			user: card as UserContract,
 		});
 	}
 
 	async offboardUser() {
 		const { sdk, card, balenaOrg } = this.props;
+
+		if (!balenaOrg) {
+			throw new Error('Cannot offboard member if they are not in an org');
+		}
 
 		// First, set the user's role
 		const patches = helpers.patchPath(
@@ -71,7 +94,7 @@ export default class User extends React.Component<any, any> {
 		await sdk.card.unlink(card, balenaOrg, 'is member of');
 		notifications.addNotification(
 			'success',
-			`Offboarded user '${helpers.userDisplayName(card)}'`,
+			`Offboarded user '${helpers.userDisplayName(card as UserContract)}'`,
 		);
 	}
 

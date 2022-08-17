@@ -1,8 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from '../../../bindactioncreators';
-import { actionCreators, selectors } from '../../../store';
+import { actionCreators, selectors, State } from '../../../store';
 import { createLazyComponent } from '../../../components/SafeLazy';
-import * as _ from 'lodash';
 import type { StateProps, DispatchProps, OwnProps } from './SupportThreadBase';
 
 export const SupportThreadBase = createLazyComponent(
@@ -10,25 +9,27 @@ export const SupportThreadBase = createLazyComponent(
 		import(/* webpackChunkName: "lens-support-thread" */ './SupportThreadBase'),
 );
 
-const mapStateToProps = (state): StateProps => {
-	const user = selectors.getCurrentUser()(state);
+const Renderer = connect<StateProps, DispatchProps, OwnProps, State>(
+	(state): StateProps => {
+		const user = selectors.getCurrentUser()(state);
 
-	if (!user) {
-		throw new Error('Cannot render without a user');
-	}
+		if (!user) {
+			throw new Error('Cannot render without a user');
+		}
 
-	return {
-		types: selectors.getTypes()(state),
-		groups: selectors.getGroups()(state),
-		user,
-	};
-};
+		return {
+			types: selectors.getTypes()(state),
+			groups: selectors.getGroups()(state),
+			user,
+		};
+	},
 
-const mapDispatchToProps = (dispatch): DispatchProps => {
-	return {
-		actions: bindActionCreators(actionCreators, dispatch),
-	};
-};
+	(dispatch): DispatchProps => {
+		return {
+			actions: bindActionCreators(actionCreators, dispatch),
+		};
+	},
+)(SupportThreadBase);
 
 export default {
 	slug: 'lens-support-thread',
@@ -38,10 +39,7 @@ export default {
 	data: {
 		format: 'full',
 		icon: 'address-card',
-		renderer: connect<StateProps, DispatchProps, OwnProps>(
-			mapStateToProps,
-			mapDispatchToProps,
-		)(SupportThreadBase),
+		renderer: Renderer,
 		filter: {
 			type: 'object',
 			properties: {
