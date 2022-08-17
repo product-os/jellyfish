@@ -44,7 +44,7 @@ test('MessageSnippet does not display hidden front URLs', async () => {
 		data: {
 			payload: {
 				message:
-					'Line1[](https://www.balena-cloud.com?hidden=whisper&source=flowdock)',
+					'Line1[](https://www.balena-cloud.com?hidden=whisper&source=foobar)',
 			},
 		},
 	});

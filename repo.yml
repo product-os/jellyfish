@@ -20,8 +20,6 @@ upstream:
     url: "https://github.com/product-os/jellyfish-plugin-balena-api"
   - repo: "jellyfish-plugin-discourse"
     url: "https://github.com/product-os/jellyfish-plugin-discourse"
-  - repo: "jellyfish-plugin-flowdock"
-    url: "https://github.com/product-os/jellyfish-plugin-flowdock"
   - repo: "jellyfish-plugin-front"
     url: "https://github.com/product-os/jellyfish-plugin-front"
   - repo: "jellyfish-plugin-github"
