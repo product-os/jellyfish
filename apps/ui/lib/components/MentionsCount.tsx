@@ -61,6 +61,9 @@ const getQuery = (user: UserContract): JsonSchema => {
 					},
 				},
 			},
+			// By requiring the "is attached to" link to be present, we ensure that we don't show
+			// notifications for messages that are attached to deleted threads.
+			'is attached to': true,
 		},
 	};
 };
