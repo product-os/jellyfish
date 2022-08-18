@@ -78,18 +78,9 @@ export default function SimpleList(props: Props) {
 			itemContent={itemContent}
 			overscan={5}
 			components={{
-				Footer: () => {
-					return (
-						<div
-							style={{
-								padding: '2rem',
-								textAlign: 'center',
-							}}
-						>
-							&nbsp;
-						</div>
-					);
-				},
+				// An empty footer gives space for the floating "Add X"
+				// button once you've reached the end of the list
+				Footer: () => <Box p={4}>&nbsp;</Box>,
 			}}
 		/>
 	);
