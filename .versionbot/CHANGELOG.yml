@@ -1,4 +1,18 @@
 - commits:
+    - subject: Use /health from haproxy to api.
+      hash: 4f7e80066c4ecb841f6b6e10b8a2b2dfff001527
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.1.8
+  title: "'Use /health from haproxy to api.'"
+  date: 2022-08-18T13:00:36.422Z
+- commits:
     - subject: "UI: Reduce size of lens footer buttons"
       hash: 194fe254caec642e09be673326b27b633c7cbe1f
       body: |
