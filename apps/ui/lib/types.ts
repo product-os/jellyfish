@@ -46,6 +46,7 @@ export interface LensContract
 		pathRegExp?: string;
 		type?: 'view' | '*';
 		supportsSlices?: boolean;
+		hideFooter?: boolean;
 		icon: string;
 		format: 'list' | 'full' | 'summary' | 'snippet';
 		renderer: React.ComponentType<LensRendererProps>;

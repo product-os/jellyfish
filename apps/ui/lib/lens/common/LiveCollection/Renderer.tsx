@@ -676,6 +676,8 @@ export default withSetup(
 			const lens = this.getLensBySlug(activeLens);
 			const options = this.getQueryOptions(activeLens);
 
+			const shouldHideFooter = lens?.data?.hideFooter || hideFooter;
+
 			return (
 				<Flex
 					className={`column--${
@@ -737,7 +739,7 @@ export default withSetup(
 										channel={channel}
 										tailTypes={tailTypes || []}
 										pageOptions={options}
-										hideFooter={!!hideFooter}
+										hideFooter={!!shouldHideFooter}
 									/>
 								</>
 							)}
