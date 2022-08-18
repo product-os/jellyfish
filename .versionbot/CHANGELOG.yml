@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.24 to 6.0.26
+      hash: 61a0e6425d3ff2fc0cd1a75c46fc8f42dfce1c27
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.13
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.24 to 6.0.26'"
+  date: 2022-08-18T18:42:09.500Z
+- commits:
     - subject: "UI: Automatically mark message as read if it has an attached
         notification"
       hash: 5aad9546510995d47acc477a45c387b59328984b
