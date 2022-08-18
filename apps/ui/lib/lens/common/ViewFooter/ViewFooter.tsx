@@ -14,7 +14,10 @@ import * as notifications from '../../../services/notifications';
 import { RelationshipContract } from 'autumndb';
 
 const Footer = styled(Flex)`
-	border-top: 1px solid #eee;
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	z-index: 9;
 `;
 
 const DropUpButton = styled(DropDownButton).attrs({
@@ -137,7 +140,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 	);
 
 	return (
-		<Footer flex={0} p={3} {...rest} justifyContent="flex-end">
+		<Footer flex={0} mr={1} {...rest} justifyContent="flex-end">
 			{types.length > 1 ? (
 				<DropUpButton
 					alignRight
@@ -163,13 +166,17 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 				<Button
 					disabled={isBusy}
 					success
+					width={38}
 					data-test={`viewfooter__add-btn--${types[0].slug}`}
 					onClick={() => {
 						handleAsyncError(onAddCard(types[0]));
 					}}
-				>
-					<ButtonLabel isBusy={isBusy} type={types[0]} />
-				</Button>
+					tooltip={{
+						text: `Add ${types[0].name || types[0].slug}`,
+						placement: 'left',
+					}}
+					icon={isBusy ? <Icon spin name="cog" /> : <Icon name="plus" />}
+				/>
 			)}
 		</Footer>
 	);

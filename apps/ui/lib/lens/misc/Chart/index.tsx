@@ -40,6 +40,7 @@ const lens = {
 		label: 'Chart',
 		icon: 'chart-bar',
 		format: 'list',
+		hideFooter: true,
 		renderer: compose(
 			withRouter,
 			withSetup,

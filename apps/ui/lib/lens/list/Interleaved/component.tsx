@@ -141,6 +141,11 @@ export const InterleavedList = (props: Props) => {
 			startReached={loadMoreContracts}
 			itemContent={itemContent}
 			overscan={10}
+			components={{
+				// An empty footer gives space for the floating "Add X"
+				// button once you've reached the end of the list
+				Footer: () => <Box p={4}>&nbsp;</Box>,
+			}}
 		/>
 	);
 };

@@ -2,12 +2,21 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { Flex, Button } from 'rendition';
 import * as _ from 'lodash';
+import styled from 'styled-components';
 import type { Contract, ContractSummary, TypeContract } from 'autumndb';
 import * as helpers from '../../../services/helpers';
 import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { BoundActionCreators } from '../../../types';
 import { LinkModal } from '../../../components/LinkModal';
+import { Icon } from '../../../components';
+
+const Footer = styled(Flex)`
+	position: absolute;
+	bottom: 16px;
+	right: 16px;
+	z-index: 9;
+`;
 
 interface StateProps {
 	activeLoop: string | null;
@@ -100,26 +109,33 @@ class LinkOrCreate extends React.Component<Props, State> {
 		return (
 			<>
 				{segment.link && type && (
-					<Flex pb={3} flexWrap="wrap" justifyContent="flex-end">
+					<Footer mr={1} flexWrap="wrap" justifyContent="flex-end">
 						<Button
 							mr={2}
 							mt={2}
+							width={38}
 							success
 							data-test={`add-${type.slug}`}
 							onClick={this.openCreateChannel}
-						>
-							Add {type.name || type.slug}
-						</Button>
+							tooltip={{
+								text: `Add ${type.name || type.slug}`,
+								placement: 'left',
+							}}
+							icon={<Icon name="plus" />}
+						/>
 
 						<Button
-							outline
+							width={38}
 							mt={2}
 							data-test={`link-to-${type.slug}`}
 							onClick={this.openLinkModal}
-						>
-							Link to a {type.name || type.slug}
-						</Button>
-					</Flex>
+							tooltip={{
+								text: `Link to a ${type.name || type.slug}`,
+								placement: 'left',
+							}}
+							icon={<Icon name="bezier-curve" />}
+						/>
+					</Footer>
 				)}
 
 				{showLinkModal && (

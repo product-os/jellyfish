@@ -225,6 +225,7 @@ export default class CardTable extends React.Component<any, any> {
 					style={{
 						position: 'relative',
 					}}
+					pb={60}
 				>
 					{showLinkModal === 'link' && (
 						<LinkModal
