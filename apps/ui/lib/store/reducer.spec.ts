@@ -45,24 +45,18 @@ describe('Redux store reducers - core', () => {
 		expect(newState.core.channels).toEqual(initialState.core.channels);
 	});
 
-	test('ADD_CHANNEL action adds channel and trims non-parent channels', () => {
+	test('ADD_CHANNEL action adds channel', () => {
 		const initialState: any = _.cloneDeep(defaultState);
 		initialState.core.channels = [
 			{
 				id: 1,
 				name: 'a',
 			},
-			{
-				id: 2,
-				name: 'b',
-			},
 		];
 		const newChannel = {
 			id: 3,
 			name: 'c',
-			data: {
-				parentChannel: 1,
-			},
+			data: {},
 		};
 
 		const newState = reducer(initialState, {

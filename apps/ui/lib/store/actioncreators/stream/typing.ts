@@ -2,7 +2,10 @@ import _ from 'lodash';
 import actions from '../../actions';
 const typingTimeouts = {};
 
-export const streamTyping = (dispatch, payload) => {
+export const streamTyping = (
+	dispatch,
+	payload: { user: string; card: string },
+) => {
 	if (
 		typingTimeouts[payload.card] &&
 		typingTimeouts[payload.card][payload.user]

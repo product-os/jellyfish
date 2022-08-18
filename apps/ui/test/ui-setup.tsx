@@ -20,7 +20,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import { SetupProvider } from '../lib/components/SetupProvider';
 import type { Contract, ContractDefinition } from 'autumndb';
 import { v4 as uuid } from 'uuid';
-import { waitFor } from '@testing-library/react';
 
 const emotionCache = createCache({
 	key: 'test',
