@@ -120,6 +120,10 @@ export const attachRoutes = (
 		}
 	});
 
+	/**
+	 * ping does a full health check, inserting an action and waiting for its result,
+	 * so it uses the Worker and DB
+	 */
 	application.get('/ping', (request, response) => {
 		const PING_TYPE = 'ping@1.0.0';
 		const PING_SLUG = 'ping-api';
