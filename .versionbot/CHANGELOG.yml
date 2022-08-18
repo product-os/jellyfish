@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Fix CreateView loadUsers call"
+      hash: 93f7da53c2e608031180d06b8b813adb2ed8538a
+      body: |
+        Update catch strategy to work with debounced functions
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.1.4
+  title: "'UI: Fix CreateView loadUsers call'"
+  date: 2022-08-18T06:09:55.835Z
+- commits:
     - subject: Update offboard unlink call
       hash: 56ca257f6382a79d169781bc037a75685cbb0699
       body: ""
