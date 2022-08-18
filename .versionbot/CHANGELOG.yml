@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.52 to 6.0.60
+      hash: a8bfed04ae96f2626d076acdfa4c85cbb5cf303a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.5
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.52 to 6.0.60'"
+  date: 2022-08-18T06:52:59.542Z
+- commits:
     - subject: "UI: Fix CreateView loadUsers call"
       hash: 93f7da53c2e608031180d06b8b813adb2ed8538a
       body: |
