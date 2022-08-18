@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.60 to 6.0.62
+      hash: eb8c8da9b688347d91767ecf6a6b3a0ef6ff6d32
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.11
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.60 to 6.0.62'"
+  date: 2022-08-18T15:57:03.153Z
+- commits:
     - subject: Enhance logs, tGrigger an update
       hash: 02f8dfbd8d07f4c64a8acbfb8019886294bf451b
       body: ""
