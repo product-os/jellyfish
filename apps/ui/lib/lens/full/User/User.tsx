@@ -91,7 +91,7 @@ export default class User extends React.Component<Props, State> {
 		await sdk.card.update(card.id, card.type, patches);
 
 		// And then remove them from the balena org
-		await sdk.card.unlink(card, balenaOrg, 'is member of');
+		await sdk.card.unlink(balenaOrg, card, 'has member');
 		notifications.addNotification(
 			'success',
 			`Offboarded user '${helpers.userDisplayName(card as UserContract)}'`,
