@@ -1,4 +1,25 @@
 - commits:
+    - subject: "UI: Automatically mark message as read if it has an attached
+        notification"
+      hash: 5aad9546510995d47acc477a45c387b59328984b
+      body: |
+        Previously we would check the mentions* and alerts* fields, and only
+        mark a message as read if these fields contain the user slug. With the
+        switch to notifications we can simply check to see if the message has
+        attached notification for the current user.
+        This also means that marking a message as read when it is visible will
+        work for threads where the user is subscribed.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.12
+  title: "'UI: Automatically mark message as read if it has an attached notification'"
+  date: 2022-08-18T17:01:12.703Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.60 to 6.0.62
       hash: eb8c8da9b688347d91767ecf6a6b3a0ef6ff6d32
       body: ""
