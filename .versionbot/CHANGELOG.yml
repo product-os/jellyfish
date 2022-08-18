@@ -1,4 +1,18 @@
 - commits:
+    - subject: Enhance logs, tGrigger an update
+      hash: 02f8dfbd8d07f4c64a8acbfb8019886294bf451b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.1.10
+  title: "'Enhance logs, trigger an update'"
+  date: 2022-08-18T15:14:48.903Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.19 to 6.0.24
       hash: fe640db6261cf1f71845a0b16e2e974206b92a1b
       body: ""
