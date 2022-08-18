@@ -18,7 +18,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	const webServer = createServer(logContext, {
 		port: environment.http.port,
 	});
-	logger.info(logContext, 'Starting web server');
+	logger.info(logContext, 'Starting web server listener');
 	// Start the webserver so that liveness and readiness endpoints can begin
 	// serving traffic.
 	// Note that the webserver is triggered as ready below ( see call to `webServer.ready` ),
@@ -217,6 +217,7 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	logger.info(logContext, 'Configuring socket server');
 	const socketServer = attachSocket(kernel, webServer.server);
 
+	logger.info(logContext, 'Starting web server routes');
 	// Set up routes/middlewares now that we're ready to serve http traffic
 	webServer.ready(kernel, worker, {
 		sync: worker.sync,
