@@ -20,7 +20,10 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 	});
 	logger.info(logContext, 'Starting web server');
 	// Start the webserver so that liveness and readiness endpoints can begin
-	// serving traffic
+	// serving traffic.
+	// Note that the webserver is triggered as ready below ( see call to `webServer.ready` ),
+	// where routes are defined,
+	// so after the following call only a connect check would work
 	await webServer.start();
 
 	logger.info(logContext, 'Setting up cache');
