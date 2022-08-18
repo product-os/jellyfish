@@ -1,4 +1,83 @@
 - commits:
+    - subject: "UI: Reduce size of lens footer buttons"
+      hash: 194fe254caec642e09be673326b27b633c7cbe1f
+      body: |
+        The button text has been replaced by icons and the text is now visible
+        on hover as a tooltip. Buttons now appear as small round controls.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Make segment footer buttons float like the view footer buttons"
+      hash: 3d93ca6adbe0042a9a6e6e3042c3530e2b08679e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Add space for floating footer button in Table lens"
+      hash: 5351b377947a36dfc8caffc66c7d1e29f3a9810a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Hide footer on chart lens"
+      hash: f6300bd91c5399a976c4d82f6b5369352b8747b0
+      body: |
+        Adding a new contract from the footer doesn't make much sense on
+        a reporting lens like the chart lens.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Adjust positioning of View footer to condense UI."
+      hash: 5e915309eeceb9449b95efc3b0c3bcbb1676cccd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Use a rendition component for virtuoso footer."
+      hash: 05d6a018ddeb36313c8e16dadfb0b90a5ba3ce4e
+      body: |
+        This is a little cleaner, and uses styled-components instead of an
+        inline style so is slightly more performant.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Makes 'Add [Support|Chat] Thread' floating to save screen real
+        estate"
+      hash: d767523d1f1d82a96ba394ddc49672d6f786c83a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: JOASSART Edwin
+      nested: []
+  version: 59.1.7
+  title: "'UI: Makes 'Add [Support|Chat] Thread' floating'"
+  date: 2022-08-18T11:24:23.401Z
+- commits:
     - subject: haproxy logs that print the server IP
       hash: c6c6ef69566f30ff1e35b55b3fc219982492ff5b
       body: ""
