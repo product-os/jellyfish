@@ -17,6 +17,7 @@ const Footer = styled(Flex)`
 	position: absolute;
 	bottom: 16px;
 	right: 16px;
+	z-index: 9;
 `;
 
 const DropUpButton = styled(DropDownButton).attrs({
@@ -139,7 +140,7 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 	);
 
 	return (
-		<Footer flex={0} p={3} {...rest} justifyContent="flex-end">
+		<Footer flex={0} mr={1} {...rest} justifyContent="flex-end">
 			{types.length > 1 ? (
 				<DropUpButton
 					alignRight
