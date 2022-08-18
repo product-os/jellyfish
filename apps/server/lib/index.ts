@@ -59,7 +59,10 @@ const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
 process.on('unhandledRejection', (reason: Error | unknown, promise) => {
 	if (_.isError(reason) && reason.message === 'Query read timeout') {
 		// Don't exit, just log
-		logger.error(DEFAULT_CONTEXT, 'Unhandled Rejection', { reason, promise });
+		logger.error(DEFAULT_CONTEXT, 'Unhandled Rejection', {
+			reason: reason.stack || reason,
+			promise,
+		});
 	} else {
 		return onError(reason, 'Unhandled Rejection');
 	}

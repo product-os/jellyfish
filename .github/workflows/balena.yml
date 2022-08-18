@@ -556,15 +556,28 @@ jobs:
             --data '{"uuid": "${{ steps.register-test-device.outputs.balena_device_uuid }}", "method": "GET"}' \
             --compressed | jq -r '.update_pending')" =~ ^true$ ]]; do
 
+            curl -X POST --silent --retry ${{ env.RETRY }} --fail \
+            'https://api.${{ env.ENVIRONMENT }}/supervisor/v1/device' \
+            --header 'authorization: Bearer ${{ secrets.BALENA_API_KEY_TEST }}' \
+            --header 'Content-Type:application/json' \
+            --data '{"uuid": "${{ steps.register-test-device.outputs.balena_device_uuid }}", "method": "GET"}' \
+            --compressed | jq -r '.update_pending'
+
               sleep "$(( ( RANDOM % ${{ env.RETRY }} ) + ${{ env.RETRY }} ))s"
           done
 
           # wait for services to start running
+          echo wait for services to start running
           while with_backoff ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
             'balena ps -q | xargs balena inspect | jq -r .[].State.Status' \
             | grep -E 'created|restarting|removing|paused|exited|dead'; do
 
+              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
+              'balena ps -q | xargs balena inspect | jq -r .[].State.Status' \
+                | grep -E 'created|restarting|removing|paused|exited|dead' 
+              
               echo "::warning::Still working..."
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
@@ -575,6 +588,12 @@ jobs:
             'balena ps -q | xargs balena inspect \
             | jq -r ".[] | select(.State.Health.Status!=null).Name + \":\" + .State.Health.Status"' \
             | grep -E ':starting|:unhealthy'; do
+
+              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
+              'balena ps -q | xargs balena inspect \
+              | jq -r ".[] | select(.State.Health.Status!=null).Name + \":\" + .State.Health.Status"' \
+              | grep -E ':starting|:unhealth'
 
               echo "::warning::Still working..."
               sleep "$(( (RANDOM % 30) + 30 ))s"
