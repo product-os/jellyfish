@@ -169,7 +169,7 @@ export default class Event extends React.Component<Props, State> {
 	};
 
 	saveEditedMessage = () => {
-		const { sdk, user, card, onUpdateCard } = this.props;
+		const { card, onUpdateCard } = this.props;
 		if (this.state.editedMessage === parseMessage(helpers.getMessage(card))) {
 			// No change or empty message - just finish editing now
 			this.onStopEditing();
@@ -202,13 +202,6 @@ export default class Event extends React.Component<Props, State> {
 					onUpdateCard(this.props.card, patch)
 						.then(async () => {
 							this.onStopEditing();
-
-							// If the edit happens to add a mention of the current user,
-							// we need to mark this message as read!
-							const updatedCard = await sdk.card.get(card.id);
-							if (updatedCard) {
-								sdk.card.markAsRead(user.slug, updatedCard as any);
-							}
 						})
 						.catch(() => {
 							this.setState({

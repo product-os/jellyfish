@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import jsonpatch from 'fast-json-patch';
 import React from 'react';
 import queryString from 'query-string';
 import { v4 as uuid } from 'uuid';
@@ -68,6 +69,7 @@ interface State {
 	uploadingFiles: string[];
 	loadingMoreEvents: boolean;
 	ready: boolean;
+	markingAsRead: string[];
 }
 
 class Timeline extends React.Component<Props, State> {
@@ -85,6 +87,7 @@ class Timeline extends React.Component<Props, State> {
 			uploadingFiles: [],
 			loadingMoreEvents: false,
 			ready: false,
+			markingAsRead: [],
 		};
 
 		this.eventListRef = React.createRef();
@@ -196,6 +199,18 @@ class Timeline extends React.Component<Props, State> {
 								},
 								active: {
 									const: true,
+								},
+							},
+						},
+					},
+				},
+				{
+					$$links: {
+						'has attached': {
+							type: 'object',
+							properties: {
+								type: {
+									const: 'notification@1.0.0',
 								},
 							},
 						},
@@ -389,16 +404,38 @@ class Timeline extends React.Component<Props, State> {
 			});
 	}
 
-	handleCardVisible(card: any) {
-		this.props.sdk.card
-			.markAsRead(
-				this.props.user.slug,
-				card,
-				_.map(_.filter(this.props.groups, 'isMine'), 'name'),
-			)
-			.catch((error: any) => {
+	async handleCardVisible(card: any) {
+		const { slug } = this.props.user;
+		const { markingAsRead } = this.state;
+		if (card.data?.readBy?.includes(this.props.user.slug)) {
+			return;
+		}
+		if (markingAsRead.includes(card.id)) {
+			return;
+		}
+		if (card?.links?.['has attached']?.[0].type === 'notification@1.0.0') {
+			this.setState((prevState) => ({
+				markingAsRead: _.uniq(prevState.markingAsRead.concat(card.id)),
+			}));
+			const readBy = card.data?.readBy || [];
+			const newContract = _.set(
+				_.cloneDeep(card),
+				['data', 'readBy'],
+				_.uniq([...readBy, slug]),
+			);
+			const patch = jsonpatch.compare(card, newContract);
+
+			try {
+				await this.props.sdk.card.update(card.id, card.type, patch);
+			} catch (error: any) {
+				addNotification('danger', error.message || error);
 				console.error(error);
-			});
+			}
+
+			this.setState((prevState) => ({
+				markingAsRead: _.without(prevState.markingAsRead, card.id),
+			}));
+		}
 	}
 
 	sendMessage(message: any) {
@@ -414,6 +451,7 @@ class Timeline extends React.Component<Props, State> {
 			tags: message.tags,
 			slug: message.slug,
 			data: {
+				readBy: [],
 				actor: this.props.user.id,
 				payload: message.data.payload,
 				target: this.props.card.id,
