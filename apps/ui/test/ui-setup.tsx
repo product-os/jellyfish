@@ -95,13 +95,6 @@ export const withDefaults = (cardFields: ContractDefinition): Contract => {
 	);
 };
 
-export const waitForLazyLoad = async (component) => {
-	await waitFor(() => {
-		component.update();
-		expect(component.find('[data-testid="splash"]')).toHaveLength(0);
-	});
-};
-
 export const getWrapper = (
 	initialState = {},
 	cardLoader = {
