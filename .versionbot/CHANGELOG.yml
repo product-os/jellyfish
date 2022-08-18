@@ -1,4 +1,26 @@
 - commits:
+    - subject: Update offboard unlink call
+      hash: 56ca257f6382a79d169781bc037a75685cbb0699
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Update @balena/jellyfish-metrics from 2.0.120 to 2.0.123
+      hash: d7b61feb205d21793780ea6dbb6375eb036592f0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.3
+  title: "'Update offboard unlink call'"
+  date: 2022-08-18T03:06:35.491Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.33 to 13.0.34
       hash: 5200a609f5e5e0e9cc874841ca73cee1a50f88a7
       body: ""
