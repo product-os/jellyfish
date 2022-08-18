@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.19 to 6.0.24
+      hash: fe640db6261cf1f71845a0b16e2e974206b92a1b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.9
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.19 to 6.0.24'"
+  date: 2022-08-18T13:48:29.572Z
+- commits:
     - subject: Use /health from haproxy to api.
       hash: 4f7e80066c4ecb841f6b6e10b8a2b2dfff001527
       body: ""
