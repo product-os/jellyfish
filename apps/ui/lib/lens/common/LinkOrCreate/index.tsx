@@ -9,6 +9,7 @@ import { actionCreators, selectors } from '../../../store';
 import { bindActionCreators } from '../../../bindactioncreators';
 import { BoundActionCreators } from '../../../types';
 import { LinkModal } from '../../../components/LinkModal';
+import { Icon } from '../../../components';
 
 const Footer = styled(Flex)`
 	position: absolute;
@@ -112,22 +113,28 @@ class LinkOrCreate extends React.Component<Props, State> {
 						<Button
 							mr={2}
 							mt={2}
+							width={38}
 							success
 							data-test={`add-${type.slug}`}
 							onClick={this.openCreateChannel}
-						>
-							Add {type.name || type.slug}
-						</Button>
+							tooltip={{
+								text: `Add ${type.name || type.slug}`,
+								placement: 'left',
+							}}
+							icon={<Icon name="plus" />}
+						/>
 
 						<Button
-							style={{ background: 'white' }}
-							outline
+							width={38}
 							mt={2}
 							data-test={`link-to-${type.slug}`}
 							onClick={this.openLinkModal}
-						>
-							Link to a {type.name || type.slug}
-						</Button>
+							tooltip={{
+								text: `Link to a ${type.name || type.slug}`,
+								placement: 'left',
+							}}
+							icon={<Icon name="bezier-curve" />}
+						/>
 					</Footer>
 				)}
 

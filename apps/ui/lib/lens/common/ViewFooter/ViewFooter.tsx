@@ -166,13 +166,17 @@ export const ViewFooter: React.FunctionComponent<Props> = ({
 				<Button
 					disabled={isBusy}
 					success
+					width={38}
 					data-test={`viewfooter__add-btn--${types[0].slug}`}
 					onClick={() => {
 						handleAsyncError(onAddCard(types[0]));
 					}}
-				>
-					<ButtonLabel isBusy={isBusy} type={types[0]} />
-				</Button>
+					tooltip={{
+						text: `Add ${types[0].name || types[0].slug}`,
+						placement: 'left',
+					}}
+					icon={isBusy ? <Icon spin name="cog" /> : <Icon name="plus" />}
+				/>
 			)}
 		</Footer>
 	);
