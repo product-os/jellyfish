@@ -57,12 +57,15 @@ export default withSetup(
 			this.close = this.close.bind(this);
 			this.createView = this.createView.bind(this);
 			this.handleSearchTermChange = this.handleSearchTermChange.bind(this);
-
-			this.loadUsers = _.debounce(this.loadUsers, 500) as any;
+			this.loadUsers = _.debounce(this.loadUsers.bind(this), 500) as any;
 		}
 
 		componentDidMount() {
-			this.loadUsers().catch(console.error);
+			try {
+				this.loadUsers();
+			} catch (error) {
+				console.error(error);
+			}
 		}
 
 		async createView(event) {
@@ -197,7 +200,11 @@ export default withSetup(
 				searchTerm: term,
 			});
 
-			this.loadUsers().catch(console.error);
+			try {
+				this.loadUsers();
+			} catch (error) {
+				console.error(error);
+			}
 		}
 
 		async loadUsers() {
