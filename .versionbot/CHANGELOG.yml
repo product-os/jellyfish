@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Strongly type redux actions"
+      hash: fd0d4b5fbcae0aa9198db2fe2dabcec5658b4bdd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Remove unused test helper"
+      hash: 69d4a4b59070e4c09b2961e9f3a5e6155a77b958
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.17
+  title: "'Strongly type Redux actions'"
+  date: 2022-08-19T11:46:36.051Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-front from 6.0.18 to 6.0.28
       hash: 4f90cf888249023a09fe258e334eaf74477393d7
       body: ""
