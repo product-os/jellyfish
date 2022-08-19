@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update plugin-incidents to 8.0.17
+      hash: 9cb9d37f43292a32a55fef63df876eb3ec722d79
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.1.14
+  title: "'Update plugin-incidents to 8.0.17'"
+  date: 2022-08-19T00:24:55.581Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.24 to 6.0.26
       hash: 61a0e6425d3ff2fc0cd1a75c46fc8f42dfce1c27
       body: ""
