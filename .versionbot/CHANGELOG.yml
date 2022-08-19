@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.18 to 6.0.28
+      hash: 4f90cf888249023a09fe258e334eaf74477393d7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.16
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.18 to 6.0.28'"
+  date: 2022-08-19T05:53:46.874Z
+- commits:
     - subject: "UI: Add archived and sent tabs to the inbox"
       hash: d2bfb37b5184ad5a6e6f937e26247691e19bc69e
       body: |
