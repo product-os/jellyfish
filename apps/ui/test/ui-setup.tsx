@@ -20,7 +20,6 @@ import Adapter from 'enzyme-adapter-react-16';
 import { SetupProvider } from '../lib/components/SetupProvider';
 import type { Contract, ContractDefinition } from 'autumndb';
 import { v4 as uuid } from 'uuid';
-import { waitFor } from '@testing-library/react';
 
 const emotionCache = createCache({
 	key: 'test',
@@ -93,13 +92,6 @@ export const withDefaults = (cardFields: ContractDefinition): Contract => {
 		},
 		cardFields,
 	);
-};
-
-export const waitForLazyLoad = async (component) => {
-	await waitFor(() => {
-		component.update();
-		expect(component.find('[data-testid="splash"]')).toHaveLength(0);
-	});
 };
 
 export const getWrapper = (

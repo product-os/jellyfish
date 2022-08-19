@@ -2,7 +2,7 @@
 
 import Bluebird from 'bluebird';
 import immutableUpdate from 'immutability-helper';
-import { push } from 'connected-react-router';
+import { CallHistoryMethodAction, push } from 'connected-react-router';
 import clone from 'deep-copy';
 import * as jsonpatch from 'fast-json-patch';
 import _ from 'lodash';
@@ -11,7 +11,7 @@ import { v4 as isUUID } from 'is-uuid';
 import * as notifications from '../../services/notifications';
 import * as helpers from '../../services/helpers';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
-import actions from '../actions';
+import { Action } from '../actions';
 import { streamUpdate } from './stream/update';
 import { streamTyping } from './stream/typing';
 import type {
@@ -28,7 +28,6 @@ import type {
 import { State } from '../reducer';
 import * as selectors from '../selectors';
 import { ChannelContract, UIActor } from '../../types';
-import { AnyAction } from 'redux';
 import { ThunkAction, ThunkDispatch } from 'redux-thunk';
 import ErrorReporter from '../../services/error-reporter';
 import Analytics from '../../services/analytics';
@@ -41,15 +40,16 @@ type ThunkExtraArgs = {
 	errorReporter: ErrorReporter;
 };
 
-type JellyThunk<R> = ThunkAction<R, State, ThunkExtraArgs, AnyAction>;
+type JellyThunk<R> = ThunkAction<
+	R,
+	State,
+	ThunkExtraArgs,
+	Action | CallHistoryMethodAction
+>;
 // Because redux dispatch doesn't know about async thunks, we need to
 // define our own dispatcher that will support async thunks.
 // See https://stackoverflow.com/a/59801865
-export type JellyThunkDispatch = ThunkDispatch<
-	State,
-	ThunkExtraArgs,
-	AnyAction
->;
+export type JellyThunkDispatch = ThunkDispatch<State, ThunkExtraArgs, Action>;
 
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
@@ -144,7 +144,7 @@ const getCardInternal = <T extends Contract = Contract>(
 		const isCached =
 			card &&
 			_.every(linkVerbs, (linkVerb) => {
-				return Boolean(_.get(card, ['links'], {})[linkVerb]);
+				return !!card?.links?.[linkVerb];
 			});
 
 		if (!isCached) {
@@ -181,8 +181,9 @@ const getCardInternal = <T extends Contract = Contract>(
 
 				loadingCardCache[loadingCacheKey] = sdk
 					.query<T>(schema, {
+						// TODO: Fix broken query options typing in client-sdk
 						limit: 1,
-					})
+					} as any)
 					.then((result) => {
 						if (result.length) {
 							return result[0];
@@ -219,7 +220,7 @@ const getCardInternal = <T extends Contract = Contract>(
 
 			if (card) {
 				dispatch({
-					type: actions.SET_CARD,
+					type: 'SET_CARD',
 					value: card,
 				});
 			}
@@ -315,11 +316,11 @@ export const actionCreators = {
 			if (status === 'unauthorized') {
 				sdk.auth.logout();
 				dispatch({
-					type: actions.LOGOUT,
+					type: 'LOGOUT',
 				});
 			} else {
 				dispatch({
-					type: actions.SET_STATUS,
+					type: 'SET_STATUS',
 					value: status,
 				});
 			}
@@ -333,7 +334,7 @@ export const actionCreators = {
 				? uiState.sidebar.expanded.concat([name])
 				: _.without(uiState.sidebar.expanded, name);
 			return dispatch({
-				type: actions.SET_UI_STATE,
+				type: 'SET_UI_STATE',
 				value: immutableUpdate(uiState, {
 					sidebar: {
 						expanded: {
@@ -345,9 +346,13 @@ export const actionCreators = {
 		};
 	},
 
-	setLensState(lens: string, cardId: string, state: { activeIndex: number }) {
+	setLensState(
+		lens: string,
+		cardId: string,
+		state: { activeIndex: number },
+	): Action {
 		return {
-			type: actions.SET_LENS_STATE,
+			type: 'SET_LENS_STATE',
 			value: {
 				lens,
 				cardId,
@@ -412,9 +417,9 @@ export const actionCreators = {
 		return query;
 	},
 
-	updateChannel(channel: ChannelContract) {
+	updateChannel(channel: ChannelContract): Action {
 		return {
-			type: actions.UPDATE_CHANNEL,
+			type: 'UPDATE_CHANNEL',
 			value: channel,
 		};
 	},
@@ -427,26 +432,27 @@ export const actionCreators = {
 
 		return (dispatch) => {
 			return dispatch({
-				type: actions.ADD_CHANNEL,
+				type: 'ADD_CHANNEL',
 				value: channel,
 			});
 		};
 	},
 
-	removeChannel(channel: ChannelContract) {
+	removeChannel(channel: ChannelContract): Action {
 		return {
-			type: actions.REMOVE_CHANNEL,
+			type: 'REMOVE_CHANNEL',
 			value: channel,
 		};
 	},
 
+	// TODO: The mixing of types here is an abomination, fix it!
 	setChannels(
 		channelData: Array<ChannelContract | ChannelContract['data']> = [],
 	): JellyThunk<void> {
-		const channels = _.map(channelData, (channel) => {
+		const channels: ChannelContract[] = _.map(channelData, (channel) => {
 			// If the channel has an ID its already been instantiated
 			if (channel.hasOwnProperty('id')) {
-				return channel;
+				return channel as ChannelContract;
 			}
 
 			// Otherwise we're just dealing with the `data` value and need to create
@@ -464,7 +470,7 @@ export const actionCreators = {
 				dispatch(actionCreators.removeChannel(removedChannel));
 			}
 			dispatch({
-				type: actions.SET_CHANNELS,
+				type: 'SET_CHANNELS',
 				value: channels,
 			});
 		};
@@ -500,7 +506,7 @@ export const actionCreators = {
 			const uiState = getState().ui;
 
 			dispatch({
-				type: actions.SET_UI_STATE,
+				type: 'SET_UI_STATE',
 				value: {
 					...uiState,
 					chatWidget: {
@@ -511,14 +517,14 @@ export const actionCreators = {
 		};
 	},
 
-	setMentionsCount(count: number) {
+	setMentionsCount(count: number): Action {
 		return {
-			type: actions.SET_MENTIONS_COUNT,
+			type: 'SET_MENTIONS_COUNT',
 			value: count,
 		};
 	},
 
-	bootstrap(): JellyThunk<Promise<void>> {
+	bootstrap(): JellyThunk<Promise<UserContract | void>> {
 		return (dispatch, getState, { sdk, errorReporter }) => {
 			return sdk.auth.whoami<UserContract>().then((user) => {
 				if (!user) {
@@ -527,106 +533,102 @@ export const actionCreators = {
 				sdk.globalQueryMask = buildGlobalQueryMask(
 					_.get(user, ['data', 'profile', 'activeLoop'], null),
 				);
-				return (Bluebird as any)
-					.props({
-						loops: sdk.card.getAllByType('loop'),
-						orgs: sdk.card.getAllByType('org'),
-						types: sdk.card.getAllByType('type'),
-						relationships: sdk.card.getAllByType('relationship'),
-						groups: sdk.query(allGroupsWithUsersQuery),
-						config: sdk.getConfig(),
-					})
-					.then(
-						async ({ loops, types, relationships, groups, orgs, config }) => {
-							const state = getState();
+				return Promise.all([
+					sdk.card.getAllByType<LoopContract>('loop'),
+					sdk.card.getAllByType<OrgContract>('org'),
+					sdk.card.getAllByType<TypeContract>('type'),
+					sdk.card.getAllByType<RelationshipContract>('relationship'),
+					sdk.query(allGroupsWithUsersQuery),
+					sdk.getConfig(),
+				]).then(async ([loops, orgs, types, relationships, groups, config]) => {
+					const state = getState();
 
-							// Check to see if we're still logged in
-							if (selectors.getSessionToken()(state)) {
-								dispatch(actionCreators.setLoops(loops));
-								dispatch(actionCreators.setUser(user));
-								dispatch(actionCreators.setTypes(types));
-								dispatch(actionCreators.setRelationships(relationships));
-								dispatch(actionCreators.setOrgs(orgs));
-								dispatch(actionCreators.setGroups(groups, user));
-								dispatch({
-									type: actions.SET_CONFIG,
-									value: config,
-								});
+					// Check to see if we're still logged in
+					if (selectors.getSessionToken()(state)) {
+						dispatch(actionCreators.setLoops(loops));
+						dispatch(actionCreators.setUser(user));
+						dispatch(actionCreators.setTypes(types));
+						dispatch(actionCreators.setRelationships(relationships));
+						dispatch(actionCreators.setOrgs(orgs));
+						dispatch(actionCreators.setGroups(groups, user));
+						dispatch({
+							type: 'SET_CONFIG',
+							value: config,
+						});
+					}
+
+					errorReporter.setUser({
+						id: user.id,
+						slug: user.slug,
+						email: _.get(user, ['data', 'email']) as string,
+					});
+
+					// Check token expiration and refresh it if it is due to expire in the next 24 hours
+					sdk.card
+						.get<SessionContract>(sdk.getAuthToken()!)
+						.then((tokenCard) => {
+							if (
+								tokenCard?.data.expiration &&
+								new Date(tokenCard.data.expiration).getTime() <
+									Date.now() + 1000 * 60 * 60 * 24
+							) {
+								return sdk.auth.refreshToken();
 							}
+						})
+						.catch(console.error);
 
-							errorReporter.setUser({
-								id: user.id,
-								slug: user.slug,
-								email: _.get(user, ['data', 'email']) as string,
-							});
+					tokenRefreshInterval = setInterval(async () => {
+						const newToken = await sdk.auth.refreshToken();
+						dispatch(actionCreators.setAuthToken(newToken));
+					}, TOKEN_REFRESH_INTERVAL);
 
-							// Check token expiration and refresh it if it is due to expire in the next 24 hours
-							sdk.card
-								.get<SessionContract>(sdk.getAuthToken()!)
-								.then((tokenCard) => {
-									if (
-										tokenCard?.data.expiration &&
-										new Date(tokenCard.data.expiration).getTime() <
-											Date.now() + 1000 * 60 * 60 * 24
-									) {
-										return sdk.auth.refreshToken();
-									}
-								})
-								.catch(console.error);
+					if (commsStream) {
+						commsStream.close();
+					}
 
-							tokenRefreshInterval = setInterval(async () => {
-								const newToken = await sdk.auth.refreshToken();
-								dispatch(actionCreators.setAuthToken(newToken));
-							}, TOKEN_REFRESH_INTERVAL);
-
-							if (commsStream) {
-								commsStream.close();
-							}
-
-							// Open a stream for messages, whispers and uses. This allows us to
-							// listen for message edits, sync status, alerts/pings and changes in
-							// other users statuses
-							commsStream = sdk.stream({
-								type: 'object',
-								properties: {
-									type: {
-										type: 'string',
-										enum: [
-											'message@1.0.0',
-											'whisper@1.0.0',
-											'summary@1.0.0',
-											'rating@1.0.0',
-											'user@1.0.0',
-										],
-									},
-								},
-								required: ['type'],
-							});
-
-							commsStream.on('update', (payload) =>
-								streamUpdate(payload, getState, dispatch, user, types),
-							);
-
-							// TODO handle typing notifications in a more generic way, this is an
-							// abomination. (A small abomination, but still an abomination)
-							commsStream.on('typing', (payload) =>
-								streamTyping(dispatch, payload),
-							);
-
-							commsStream.on('connect_error', (error) => {
-								console.error('A stream error occurred', error);
-							});
-
-							return user;
+					// Open a stream for messages, whispers and uses. This allows us to
+					// listen for message edits, sync status, alerts/pings and changes in
+					// other users statuses
+					commsStream = sdk.stream({
+						type: 'object',
+						properties: {
+							type: {
+								type: 'string',
+								enum: [
+									'message@1.0.0',
+									'whisper@1.0.0',
+									'summary@1.0.0',
+									'rating@1.0.0',
+									'user@1.0.0',
+								],
+							},
 						},
+						required: ['type'],
+					});
+
+					commsStream.on('update', (payload) =>
+						streamUpdate(payload, getState, dispatch, user, types),
 					);
+
+					// TODO handle typing notifications in a more generic way, this is an
+					// abomination. (A small abomination, but still an abomination)
+					commsStream.on('typing', (payload) =>
+						streamTyping(dispatch, payload),
+					);
+
+					commsStream.on('connect_error', (error) => {
+						console.error('A stream error occurred', error);
+					});
+
+					return user;
+				});
 			});
 		};
 	},
 
-	setAuthToken(token: string) {
+	setAuthToken(token: string): Action {
 		return {
-			type: actions.SET_AUTHTOKEN,
+			type: 'SET_AUTHTOKEN',
 			value: token,
 		};
 	},
@@ -704,7 +706,7 @@ export const actionCreators = {
 				sdk.auth.logout();
 			}
 			dispatch({
-				type: actions.LOGOUT,
+				type: 'LOGOUT',
 			});
 		};
 	},
@@ -721,9 +723,9 @@ export const actionCreators = {
 		};
 	},
 
-	setUser(user: UserContract) {
+	setUser(user: UserContract): Action {
 		return {
-			type: actions.SET_USER,
+			type: 'SET_USER',
 			value: user,
 		};
 	},
@@ -731,7 +733,7 @@ export const actionCreators = {
 	setTimelineMessage(target: string, message: Contract): JellyThunk<void> {
 		return (dispatch) => {
 			dispatch({
-				type: actions.SET_TIMELINE_MESSAGE,
+				type: 'SET_TIMELINE_MESSAGE',
 				value: {
 					target,
 					message,
@@ -746,7 +748,7 @@ export const actionCreators = {
 	): JellyThunk<void> {
 		return (dispatch) => {
 			dispatch({
-				type: actions.SET_TIMELINE_PENDING_MESSAGES,
+				type: 'SET_TIMELINE_PENDING_MESSAGES',
 				value: {
 					target,
 					messages,
@@ -755,30 +757,30 @@ export const actionCreators = {
 		};
 	},
 
-	setTypes(types: TypeContract[]) {
+	setTypes(types: TypeContract[]): Action {
 		return {
-			type: actions.SET_TYPES,
+			type: 'SET_TYPES',
 			value: types,
 		};
 	},
 
-	setRelationships(relationships: RelationshipContract[]) {
+	setRelationships(relationships: RelationshipContract[]): Action {
 		return {
-			type: actions.SET_RELATIONSHIPS,
+			type: 'SET_RELATIONSHIPS',
 			value: relationships,
 		};
 	},
 
-	setLoops(loops: LoopContract[]) {
+	setLoops(loops: LoopContract[]): Action {
 		return {
-			type: actions.SET_LOOPS,
+			type: 'SET_LOOPS',
 			value: loops,
 		};
 	},
 
-	setGroups(groups: Contract[], user: UserContract) {
+	setGroups(groups: Contract[], user: UserContract): Action {
 		return {
-			type: actions.SET_GROUPS,
+			type: 'SET_GROUPS',
 			value: {
 				groups,
 				userSlug: user.slug,
@@ -786,9 +788,9 @@ export const actionCreators = {
 		};
 	},
 
-	setOrgs(orgs: OrgContract[]) {
+	setOrgs(orgs: OrgContract[]): Action {
 		return {
-			type: actions.SET_ORGS,
+			type: 'SET_ORGS',
 			value: orgs,
 		};
 	},
@@ -854,7 +856,7 @@ export const actionCreators = {
 				getState,
 				context,
 			);
-			actionCreators.bootstrap()(dispatch, getState, context);
+			await actionCreators.bootstrap()(dispatch, getState, context);
 		};
 	},
 
@@ -1159,9 +1161,9 @@ export const actionCreators = {
 		};
 	},
 
-	setUserCustomFilters(contractId: string, filters: JsonSchema[]) {
+	setUserCustomFilters(contractId: string, filters: JsonSchema[]): Action {
 		return {
-			type: actions.SET_USER_CUSTOM_FILTERS,
+			type: 'SET_USER_CUSTOM_FILTERS',
 			value: {
 				id: contractId,
 				data: filters,

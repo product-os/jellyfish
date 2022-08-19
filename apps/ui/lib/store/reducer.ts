@@ -6,7 +6,7 @@ import { connectRouter } from 'connected-react-router';
 import _ from 'lodash';
 import * as redux from 'redux';
 import { v4 as uuid } from 'uuid';
-import actions from './actions';
+import { Action } from './actions';
 import history from '../services/history';
 import type { ChannelContract } from '../types';
 import type {
@@ -24,8 +24,17 @@ import type {
 // In memory storage should be used as a fallback if localStorage isn't
 // available for some reason.
 if (global.localStorage) {
-	storage.setDriver(storage.LOCALSTORAGE);
+	storage.setDriver(storage.LOCALSTORAGE).catch((e) => {
+		console.error('Unable to set local storage');
+		console.error(e);
+	});
 }
+
+type GroupSummary = {
+	name: string;
+	users: string[];
+	isMine: boolean;
+};
 
 // Interface for defaultState
 export interface State {
@@ -36,7 +45,7 @@ export interface State {
 		types: TypeContract[];
 		relationships: RelationshipContract[];
 		loops: LoopContract[];
-		groups: {};
+		groups: { [name: string]: GroupSummary };
 		session: null | {
 			authToken?: string | null;
 			user?: UserContract;
@@ -71,7 +80,7 @@ export interface State {
 		};
 		timelines: {
 			[contractId: string]: {
-				message?: string;
+				message?: Contract;
 				pending?: Array<Partial<Contract>>;
 			};
 		};
@@ -127,12 +136,12 @@ export const defaultState: State = {
 	},
 };
 
-const uiReducer = (state = defaultState.ui, action: any = {}) => {
+const uiReducer = (state = defaultState.ui, action: Action) => {
 	switch (action.type) {
-		case actions.SET_UI_STATE: {
+		case 'SET_UI_STATE': {
 			return action.value;
 		}
-		case actions.SET_LENS_STATE: {
+		case 'SET_LENS_STATE': {
 			return update(state, {
 				lensState: (lensState) =>
 					update(lensState || {}, {
@@ -146,7 +155,7 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 					}),
 			});
 		}
-		case actions.SET_TIMELINE_MESSAGE: {
+		case 'SET_TIMELINE_MESSAGE': {
 			const { target, message } = action.value;
 			return update(state, {
 				timelines: {
@@ -159,7 +168,7 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 				},
 			});
 		}
-		case actions.SET_TIMELINE_PENDING_MESSAGES: {
+		case 'SET_TIMELINE_PENDING_MESSAGES': {
 			const { target, messages } = action.value;
 			return update(state, {
 				timelines: {
@@ -178,22 +187,22 @@ const uiReducer = (state = defaultState.ui, action: any = {}) => {
 	}
 };
 
-const coreReducer = (state = defaultState.core, action: any = {}) => {
+const coreReducer = (state = defaultState.core, action: Action) => {
 	switch (action.type) {
-		case actions.SET_MENTIONS_COUNT: {
+		case 'SET_MENTIONS_COUNT': {
 			return {
 				...state,
 				mentionsCount: action.value,
 			};
 		}
-		case actions.LOGOUT: {
+		case 'LOGOUT': {
 			return update(defaultState.core, {
 				status: {
 					$set: 'unauthorized',
 				},
 			});
 		}
-		case actions.UPDATE_CHANNEL: {
+		case 'UPDATE_CHANNEL': {
 			const existingChannelIndex = _.findIndex(state.channels, {
 				id: action.value.id,
 			});
@@ -211,22 +220,9 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 			}
 			return state;
 		}
-		case actions.ADD_CHANNEL: {
-			let newChannels = clone(state.channels);
+		case 'ADD_CHANNEL': {
+			const newChannels = clone(state.channels);
 
-			if (action.value.data.parentChannel) {
-				// If the triggering channel is not the last channel, remove trailing
-				// channels. This creates a 'breadcrumb' effect when navigating channels
-				const triggerIndex = _.findIndex(state.channels, {
-					id: action.value.data.parentChannel,
-				});
-				if (triggerIndex > -1) {
-					const shouldTrim = triggerIndex + 1 < state.channels.length;
-					if (shouldTrim) {
-						newChannels = _.take(newChannels, triggerIndex + 1);
-					}
-				}
-			}
 			newChannels.push(action.value);
 			return update(state, {
 				channels: {
@@ -234,7 +230,7 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				},
 			});
 		}
-		case actions.REMOVE_CHANNEL: {
+		case 'REMOVE_CHANNEL': {
 			const index = _.findIndex(state.channels, {
 				id: action.value.id,
 			});
@@ -247,14 +243,14 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 			}
 			return state;
 		}
-		case actions.SET_CHANNELS: {
+		case 'SET_CHANNELS': {
 			return update(state, {
 				channels: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_CARD: {
+		case 'SET_CARD': {
 			const card = action.value;
 			const cardType = card.type.split('@')[0];
 			const prevCard = _.cloneDeep(
@@ -273,7 +269,7 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				},
 			});
 		}
-		case actions.SET_AUTHTOKEN: {
+		case 'SET_AUTHTOKEN': {
 			return update(state, {
 				session: (session) =>
 					update(session || {}, {
@@ -283,7 +279,7 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 					}),
 			});
 		}
-		case actions.SET_USER: {
+		case 'SET_USER': {
 			return update(state, {
 				session: (session) =>
 					update(
@@ -298,39 +294,42 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 					),
 			});
 		}
-		case actions.SET_TYPES: {
+		case 'SET_TYPES': {
 			return update(state, {
 				types: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_RELATIONSHIPS: {
+		case 'SET_RELATIONSHIPS': {
 			return update(state, {
 				relationships: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_LOOPS: {
+		case 'SET_LOOPS': {
 			return update(state, {
 				loops: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_GROUPS: {
+		case 'SET_GROUPS': {
 			const { groups, userSlug } = action.value;
-			const newGroups = _.reduce(
+			const newGroups = _.reduce<Contract, State['core']['groups']>(
 				groups,
 				(acc, group) => {
-					const groupUsers = _.map(group.links['has group member'], 'slug');
+					const groupUsers = _.map(
+						group?.links?.['has group member'] ?? [],
+						'slug',
+					);
 					const groupSummary = {
-						name: group.name,
+						name: group.name!,
 						users: groupUsers,
 						isMine: groupUsers.includes(userSlug),
 					};
-					acc[group.name] = groupSummary;
+					acc[group.name!] = groupSummary;
 					return acc;
 				},
 				{},
@@ -341,28 +340,28 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 				},
 			});
 		}
-		case actions.SET_ORGS: {
+		case 'SET_ORGS': {
 			return update(state, {
 				orgs: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_STATUS: {
+		case 'SET_STATUS': {
 			return update(state, {
 				status: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.SET_CONFIG: {
+		case 'SET_CONFIG': {
 			return update(state, {
 				config: {
 					$set: action.value,
 				},
 			});
 		}
-		case actions.USER_STARTED_TYPING: {
+		case 'USER_STARTED_TYPING': {
 			return update(state, {
 				usersTyping: (usersTyping) =>
 					update(usersTyping || {}, {
@@ -375,7 +374,7 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 					}),
 			});
 		}
-		case actions.USER_STOPPED_TYPING: {
+		case 'USER_STOPPED_TYPING': {
 			return update(state, {
 				usersTyping: (usersTyping) =>
 					update(usersTyping || {}, {
@@ -386,7 +385,8 @@ const coreReducer = (state = defaultState.core, action: any = {}) => {
 					}),
 			});
 		}
-		case actions.SET_USER_CUSTOM_FILTERS: {
+		case 'SET_USER_CUSTOM_FILTERS': {
+			console.log(action);
 			return update(state, {
 				userCustomFilters: (value) =>
 					update(value, {

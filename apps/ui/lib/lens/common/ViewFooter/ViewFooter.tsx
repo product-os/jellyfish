@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import { ActionLink, Icon, Setup } from '../../../components';
 import type { BoundActionCreators, ChannelContract } from '../../../types';
 import { actionCreators, getSeedData } from '../../../store';
-import type { TypeContract, UserContract } from 'autumndb';
+import type { Contract, TypeContract, UserContract } from 'autumndb';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
 import * as helpers from '../../../services/helpers';
 import * as notifications from '../../../services/notifications';
@@ -27,15 +27,21 @@ const DropUpButton = styled(DropDownButton).attrs({
 		max-height: 80vh;
 	}
 `;
-const isSynchronous = (type) => {
+const isSynchronous = (type: TypeContract) => {
 	return type.slug === 'thread';
 };
 
-const cardReference = (contract) => {
+const cardReference = (contract: Contract) => {
 	return contract.slug ? `${contract.slug}@${contract.version}` : contract.id;
 };
 
-const ButtonLabel: any = ({ type, isBusy }) => {
+const ButtonLabel: any = ({
+	type,
+	isBusy,
+}: {
+	type: TypeContract;
+	isBusy: boolean;
+}) => {
 	return isBusy ? <Icon spin name="cog" /> : `Add ${type.name || type.slug}`;
 };
 
