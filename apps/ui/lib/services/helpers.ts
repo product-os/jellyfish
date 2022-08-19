@@ -929,12 +929,24 @@ export const username = (slug: string) => {
 	return slug.replace(/^user-/, '');
 };
 
+/** Given a timeZone string (i.e. `America/New-York` or `Europe/Brussels`) and an optional locale (default to browser settings), will return current time at that TZ */
+export const getLocalTimeForTimezone = (
+	timeZone: string,
+	locale?: string,
+): string | null => {
+	if (!timeZone) {
+		return null;
+	}
+	return new Date().toLocaleString(locale, { timeZone });
+};
+
 export const getUserTooltipText = (
 	user: UserContract,
 	options: {
 		hideName?: boolean;
 		hideEmail?: boolean;
 		hideUsername?: boolean;
+		hideLocaltime?: boolean;
 	} = {},
 ) => {
 	const slug = _.get(user, ['slug'], '');
@@ -942,10 +954,17 @@ export const getUserTooltipText = (
 	const lastName = _.get(user, ['data', 'profile', 'name', 'last'], '');
 	const fullName = `${firstName} ${lastName}`.trim();
 	const email = _.first(_.castArray(_.get(user, ['data', 'email']))) || '';
+	const timeZone = _.get(user, ['data', 'profile', 'timezone'], '');
+	const city = _.get(user, ['data', 'profile', 'city']);
+	const localTimeAndCity = `${
+		getLocalTimeForTimezone(timeZone) ?? '(TZ unkown)'
+	} (${city ?? 'City unkown'})`;
+
 	return _.compact([
 		options.hideName ? null : _.truncate(fullName, { length: 30 }),
 		options.hideEmail ? null : _.truncate(email, { length: 30 }),
 		options.hideUsername ? null : _.truncate(slug.slice(5), { length: 30 }),
+		options.hideLocaltime ? null : localTimeAndCity,
 	]).join('\n');
 };
 
