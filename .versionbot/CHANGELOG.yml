@@ -1,4 +1,20 @@
 - commits:
+    - subject: "UI: Add archived and sent tabs to the inbox"
+      hash: d2bfb37b5184ad5a6e6f937e26247691e19bc69e
+      body: |
+        This change adds a tab to the inbox that shows archived notifications
+        and a tab that shows your sent messages.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.15
+  title: "'UI: Add archived and sent tabs to the inbox'"
+  date: 2022-08-19T01:46:05.304Z
+- commits:
     - subject: Update plugin-incidents to 8.0.17
       hash: 9cb9d37f43292a32a55fef63df876eb3ec722d79
       body: ""
