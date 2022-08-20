@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.51 to 1.2.54
+      hash: 44f6c3eb757a5ca143492ace018c6bd685cc1b09
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.19
+  title: "'Update @balena/jellyfish-assert from 1.2.51 to 1.2.54'"
+  date: 2022-08-20T09:50:34.500Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.34 to 13.0.37
       hash: 4fe0dfb7159b0a29e04c5a98a0d228509af40162
       body: ""
