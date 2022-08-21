@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.28 to 6.0.39
+      hash: 0530612dad35e2cb9e90a6f46a7e62416db74c84
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.26
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.28 to 6.0.39'"
+  date: 2022-08-21T07:53:09.042Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.26 to 6.0.35
       hash: 96657975961f0f7f4ceebcb9b0140689d7bb43cd
       body: ""
