@@ -1,13 +1,13 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useStore } from 'react-redux';
 import { Task } from './ChatWidget/components/Task';
 import { useTask } from './ChatWidget/hooks';
-import { actionCreators, JellyThunkDispatch } from '../store';
+import { actionCreators } from '../store';
 import { useSetup } from './SetupProvider';
 
 const OauthCallback = () => {
-	const dispatch: JellyThunkDispatch = useDispatch();
-	const { sdk } = useSetup()!;
+	const store = useStore();
+	const { sdk, analytics, errorReporter } = useSetup()!;
 
 	const exchangeCodeTask = useTask(async () => {
 		const url = new URL(location.href);
@@ -49,13 +49,30 @@ const OauthCallback = () => {
 			throw new Error('Could not fetch an auth token');
 		}
 
-		await dispatch(actionCreators.loginWithToken(token));
+		await actionCreators.loginWithToken(token)(store.dispatch, store.getState, {
+			sdk,
+			analytics,
+			errorReporter,
+		});
 
 		location.href = returnUrl;
 	});
 
 	React.useEffect(() => {
-		exchangeCodeTask.exec();
+		const url = new URL(window.location.href);
+		const errorName = url.searchParams.get('error');
+
+		if (errorName) {
+			const error = new Error(url.searchParams.get('error_description')!);
+			error.name = errorName;
+
+			exchangeCodeTask.setState({
+				finished: true,
+				error,
+			});
+		} else {
+			exchangeCodeTask.exec();
+		}
 	}, []);
 
 	return <Task task={exchangeCodeTask}>{() => null}</Task>;

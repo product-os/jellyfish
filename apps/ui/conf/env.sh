@@ -24,6 +24,7 @@ touch "./$BASE_FILENAME"
 	echo "  SERVER_HOST: \"$SERVER_HOST\","
 	echo "  SERVER_PORT: \"$SERVER_PORT\","
 	echo "  SENTRY_DSN_UI: \"$SENTRY_DSN_UI\","
+	echo "  LIVECHAT_HOST: \"$LIVECHAT_HOST\","
 
 	echo "}"
 } >> "./$BASE_FILENAME"

@@ -27,6 +27,10 @@ export const api = {
 			  window.location.origin,
 };
 
+export const livechat = {
+	host: windowEnv.LIVECHAT_HOST || '',
+};
+
 export const analytics = {
 	mixpanel: {
 		token: typeof env === 'undefined' ? '' : env.MIXPANEL_TOKEN_UI || '',

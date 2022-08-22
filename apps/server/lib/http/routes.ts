@@ -6,6 +6,7 @@ import type {
 	Sync,
 	Worker,
 } from '@balena/jellyfish-worker';
+import { hydraAdmin } from '@balena/jellyfish-plugin-oauth';
 import { strict } from 'assert';
 import type { Kernel } from 'autumndb';
 import errio from 'errio';
@@ -856,6 +857,148 @@ export const attachRoutes = (
 				.catch((error) => {
 					return sendHTTPError(request, response, error);
 				});
+		},
+	);
+
+	application.post('/api/v2/oauthprovider/login', async (request, response) => {
+		try {
+			const user = await authFacade.whoami(
+				request.context,
+				request.session,
+				request.ip,
+			);
+
+			if (!user || user.slug === 'user-guest') {
+				throw new Error('User is not authorized.');
+			}
+
+			// The challenge is used to fetch information about the login request from ORY Hydra.
+			const challenge = request.body.challenge;
+
+			if (!challenge) {
+				throw new Error(
+					'Expected a login challenge to be set but received none.',
+				);
+			}
+
+			const {
+				data: { redirect_to },
+			} = await hydraAdmin.acceptLoginRequest(challenge, {
+				// Subject is an alias for user ID. A subject can be a random string, a UUID, an email address, ....
+				subject: user.slug,
+
+				// This tells hydra to remember the browser and automatically authenticate the user in future requests. This will
+				// set the "skip" parameter in the other route to true on subsequent requests!
+				remember: true,
+
+				// When the session expires, in seconds. Set this to 0 so it will never expire.
+				remember_for: 0,
+			});
+
+			response.send({
+				error: false,
+				data: {
+					redirect_to,
+				},
+			});
+		} catch (error) {
+			return sendHTTPError(request, response, error);
+		}
+	});
+
+	application.post(
+		'/api/v2/oauthprovider/consent',
+		async (request, response) => {
+			try {
+				const user = await authFacade.whoami(
+					request.context,
+					request.session,
+					request.ip,
+				);
+
+				if (!user || user.slug === 'user-guest') {
+					throw new Error('User is not authorized.');
+				}
+
+				// The challenge is used to fetch information about the login request from ORY Hydra.
+				const { challenge, accept, consent } = request.body;
+
+				if (!accept) {
+					const { data: rejectConsentResponse } =
+						await hydraAdmin.rejectConsentRequest(challenge, {
+							error: 'access_denied',
+							error_description: 'The resource owner denied the request',
+						});
+
+					return response.send({
+						error: false,
+						data: {
+							redirect_to: rejectConsentResponse.redirect_to,
+						},
+					});
+				}
+
+				if (!challenge) {
+					throw new Error(
+						'Expected a login challenge to be set but received none.',
+					);
+				}
+
+				const { data: consentRequest } = await hydraAdmin.getConsentRequest(
+					challenge,
+				);
+
+				let grantScope = consent.grant_scope;
+				if (!Array.isArray(grantScope)) {
+					grantScope = [grantScope];
+				}
+
+				const {
+					data: { redirect_to },
+				} = await hydraAdmin.acceptConsentRequest(challenge, {
+					// We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
+					// are requested accidentally.
+					grant_scope: grantScope,
+
+					// ORY Hydra checks if requested audiences are allowed by the client, so we can simply echo this.
+					grant_access_token_audience:
+						consentRequest.requested_access_token_audience,
+
+					// This tells hydra to remember this consent request and allow the same client to request the same
+					// scopes from the same user, without showing the UI, in the future.
+					remember: Boolean(consent.remember),
+
+					// When this "remember" sesion expires, in seconds. Set this to 0 so it will never expire.
+					remember_for: 0,
+				});
+
+				response.send({
+					error: false,
+					data: {
+						redirect_to,
+					},
+				});
+			} catch (error) {
+				return sendHTTPError(request, response, error);
+			}
+		},
+	);
+
+	application.get(
+		'/api/v2/oauthprovider/consent/:challenge',
+		async (request, response) => {
+			try {
+				const consentRequest = await hydraAdmin.getConsentRequest(
+					request.params.challenge,
+				);
+
+				response.send({
+					error: false,
+					data: consentRequest.data,
+				});
+			} catch (error) {
+				return sendHTTPError(request, response, error);
+			}
 		},
 	);
 

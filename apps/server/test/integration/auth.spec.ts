@@ -1,13 +1,22 @@
+import { defaultEnvironment } from '@balena/jellyfish-environment';
+import nock from 'nock';
 import { after, before, beforeEach } from './helpers';
 
 const context: any = {};
 
 beforeAll(async () => {
+	nock.cleanAll();
+	nock(defaultEnvironment.hydra.adminHost)
+		.persist()
+		.post('/clients')
+		.reply(200, {});
+
 	await before(context);
 	beforeEach(context);
 });
 
 afterAll(async () => {
+	nock.cleanAll();
 	await after(context);
 });
 

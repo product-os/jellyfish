@@ -49,9 +49,10 @@ const Authorized = () => {
 				</Flex>
 			</Flex>
 
-			{isChatWidgetOpen && (
-				<ChatWidgetSidebar onClose={handleChatWidgetClose} />
-			)}
+			<ChatWidgetSidebar
+				onClose={handleChatWidgetClose}
+				isVisible={isChatWidgetOpen}
+			/>
 		</React.Fragment>
 	);
 };

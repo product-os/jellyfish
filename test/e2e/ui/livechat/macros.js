@@ -148,7 +148,7 @@ exports.initChat = async (page, user) => {
 		inbox: 'paid'
 	})
 
-	const url = `${environment.livechat.host}/livechat?${queryString}`
+	const url = `test-chat-widget.${environment.livechat.host}/livechat?${queryString}`
 	await page.goto(url)
 }
 

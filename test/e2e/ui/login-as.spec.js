@@ -5,30 +5,19 @@ const {
 const sdkHelpers = require('../sdk/helpers')
 const livechatMacros = require('./livechat/macros')
 const uiMacros = require('./macros')
-const {
-	mockLoginAs
-} = require('./macros')
 
 let sdk = {}
 let user = {}
-let unmockLoginAs = null
 
 test.beforeAll(async () => {
 	sdk = await sdkHelpers.login()
 	user = await livechatMacros.prepareUser(sdk, await sdk.card.get('org-balena'), 'user-community', 'User')
 })
 
-test.beforeEach(async ({
-	page
-}) => {
-	unmockLoginAs = await mockLoginAs(page, environment.livechat.host, user)
-})
-
 test.afterEach(async ({
 	page
 }) => {
 	sdkHelpers.afterEach(sdk)
-	await unmockLoginAs()
 	await page.close()
 })
 
@@ -39,10 +28,10 @@ test.describe('Login as', () => {
 		// 1. Log into jel.ly.fish
 		await uiMacros.loginUser(page, user.credentials)
 
-		// 2. Open livechat.ly.fish/livechat and login with balena-api
+		// 2. Open livechat.ly.fish/livechat and login with jellyfish
 		const livechatUrl = new URL('/livechat', environment.livechat.host)
 		livechatUrl.searchParams.append('loginAs', user.card.slug.replace('user-', ''))
-		livechatUrl.searchParams.append('loginWithProvider', 'balena-api')
+		livechatUrl.searchParams.append('loginWithProvider', 'jellyfish')
 		await page.goto(livechatUrl.toString())
 
 		// 3. Should perform oauth flow

@@ -18,8 +18,7 @@
     "test": "catch-uncommitted --skip-node-versionbot-changes && npm run lint && npm run test:integration",
     "doc": "typedoc lib/",
     "prepack": "npm run build",
-    "start": "node --abort-on-uncaught-exception --stack-trace-limit=100 build/index.js",
-    "dev": "NODE_ENV=development nodemon --inspect=0.0.0.0 ./lib/index.ts"
+    "start": "./run.sh"
   },
   "dependencies": {
     "@balena/jellyfish-assert": "^1.2.54",
@@ -31,6 +30,7 @@
     "@balena/jellyfish-plugin-front": "^6.0.50",
     "@balena/jellyfish-plugin-github": "^8.0.38",
     "@balena/jellyfish-plugin-incidents": "^8.0.17",
+    "@balena/jellyfish-plugin-oauth": "^1.0.0",
     "@balena/jellyfish-plugin-outreach": "^5.0.34",
     "@balena/jellyfish-plugin-typeform": "^10.0.32",
     "@balena/jellyfish-worker": "^32.6.7",

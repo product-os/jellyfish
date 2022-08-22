@@ -5,6 +5,7 @@ import { githubPlugin } from '@balena/jellyfish-plugin-github';
 import { incidentsPlugin } from '@balena/jellyfish-plugin-incidents';
 import { outreachPlugin } from '@balena/jellyfish-plugin-outreach';
 import { typeformPlugin } from '@balena/jellyfish-plugin-typeform';
+import { oauthPlugin } from '@balena/jellyfish-plugin-oauth';
 import { PluginDefinition } from '@balena/jellyfish-worker';
 
 export function getPlugins(): PluginDefinition[] {
@@ -16,5 +17,6 @@ export function getPlugins(): PluginDefinition[] {
 		frontPlugin(),
 		balenaApiPlugin(),
 		incidentsPlugin(),
-	] as any;
+		oauthPlugin(),
+	];
 }
