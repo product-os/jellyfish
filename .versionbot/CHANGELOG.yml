@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.82 to 6.0.85
+      hash: 09b7c8d789ec2e17965bd90bd05c25815f58a4bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.39
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.82 to 6.0.85'"
+  date: 2022-08-22T14:19:30.791Z
+- commits:
     - subject: Restrict access to authorization contracts
       hash: b4678de13ed44194eda9cd6fa6a2d7e98d0a5f08
       body: ""
