@@ -1,4 +1,17 @@
 - commits:
+    - subject: Intergrate with ory hydra Perform oauth flow with oauth contracts
+        instead of data from integrations;
+      hash: 073ba1eeb4838b61bc0ca18fabe747f4ecf3d4c4
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: karaxuna
+      nested: []
+  version: 60.0.0
+  title: "'Intergrate with ory hydra'"
+  date: 2022-08-22T22:35:12.857Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.82 to 6.0.85
       hash: 09b7c8d789ec2e17965bd90bd05c25815f58a4bb
       body: ""
