@@ -862,11 +862,7 @@ export const attachRoutes = (
 
 	application.post('/api/v2/oauthprovider/login', async (request, response) => {
 		try {
-			const user = await authFacade.whoami(
-				request.context,
-				request.session,
-				request.ip,
-			);
+			const user = await authFacade.whoami(request.context, request.session);
 
 			if (!user || user.slug === 'user-guest') {
 				throw new Error('User is not authorized.');
@@ -910,11 +906,7 @@ export const attachRoutes = (
 		'/api/v2/oauthprovider/consent',
 		async (request, response) => {
 			try {
-				const user = await authFacade.whoami(
-					request.context,
-					request.session,
-					request.ip,
-				);
+				const user = await authFacade.whoami(request.context, request.session);
 
 				if (!user || user.slug === 'user-guest') {
 					throw new Error('User is not authorized.');
