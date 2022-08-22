@@ -1,4 +1,18 @@
 - commits:
+    - subject: Restrict access to authorization contracts
+      hash: b4678de13ed44194eda9cd6fa6a2d7e98d0a5f08
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.38
+  title: "'Restrict access to authorization contracts'"
+  date: 2022-08-22T13:12:36.941Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.37 to 6.0.40
       hash: 5efb10b6157d2650e3a80776a27f32f6706fa3e1
       body: ""
