@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.41 to 6.0.42
+      hash: 41ed01bad4fae37c7510c7bed19855291bec5da0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.44
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.41 to 6.0.42'"
+  date: 2022-08-23T09:25:22.133Z
+- commits:
     - subject: "UI: Allow click event propagation for left menu items"
       hash: af382c83bbb9c77eec62670ce0a4a70697aa6303
       body: ""
