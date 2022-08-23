@@ -126,7 +126,7 @@ export const getWrapper = (
 							sdk={setupProps.sdk as any}
 							analytics={{} as any}
 							errorReporter={setupProps.errorReporter as any}
-							environment={{}}
+							environment={{} as any}
 						>
 							<ReduxProvider store={store}>
 								<Provider>

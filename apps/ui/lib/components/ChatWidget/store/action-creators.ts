@@ -7,19 +7,20 @@ import type { Store } from 'redux';
 import { v4 as uuid } from 'uuid';
 import { FILE_PROXY_MESSAGE } from '../../Timeline';
 import * as helpers from '../../../services/helpers';
-import { SET_CARDS, SET_CURRENT_USER, SET_GROUPS } from './action-types';
+import { Action } from './action-types';
 import {
 	selectCardById,
 	selectCurrentUser,
 	selectThreadListQuery,
 	selectThreads,
 } from './selectors';
-import type { JsonSchema, UserContract } from 'autumndb';
+import type { Contract, JsonSchema, UserContract } from 'autumndb';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
+import { State } from './reducer';
 
 export interface ActionCreatorContext {
 	sdk: JellyfishSDK;
-	store: Store;
+	store: Store<State, Action>;
 }
 
 /**
@@ -56,18 +57,21 @@ const allGroupsWithUsersQuery: JsonSchema = {
 	},
 };
 
-//
 // Card exists here until it's loaded
-const loadingCardCache = {};
+const loadingCardCache: {
+	[id: string]: Promise<Contract | null>;
+} = {};
 
 // TODO cleanup once we have pagination built into our streams
-const streams = {};
+const streams: {
+	[streamId: string]: ReturnType<JellyfishSDK['stream']> & { page?: number };
+} = {};
 
 // TODO cleanup once we have pagination built into our streams
-const hashCode = (input) => {
+const hashCode = (input: string): string => {
 	let hash: any = 0;
 	let iteration = 0;
-	let character = '';
+	let character = 0;
 	if (input.length === 0) {
 		return hash;
 	}
@@ -86,7 +90,7 @@ const hashCode = (input) => {
 
 // TODO cleanup once we have pagination built into our streams
 const getStream = (ctx: ActionCreatorContext) => {
-	return async (streamId, query) => {
+	return async (streamId: string, query: JsonSchema) => {
 		if (streams[streamId]) {
 			streams[streamId].close();
 			Reflect.deleteProperty(streams, streamId);
@@ -99,16 +103,24 @@ const getStream = (ctx: ActionCreatorContext) => {
 };
 
 export const setCards = (ctx: ActionCreatorContext) => {
-	return (cards) => {
+	return (cards: Contract[]) => {
 		ctx.store.dispatch({
-			type: SET_CARDS,
+			type: 'SET_CARDS',
 			payload: cards,
 		});
 	};
 };
 
 export const initiateThread = (ctx: ActionCreatorContext) => {
-	return async ({ subject, text, files }) => {
+	return async ({
+		subject,
+		text,
+		files,
+	}: {
+		subject: string;
+		text: string;
+		files: any[];
+	}) => {
 		if (!subject) {
 			throw new Error('Subject is required!');
 		}
@@ -178,7 +190,7 @@ export const initiateThread = (ctx: ActionCreatorContext) => {
 };
 
 export const fetchThreads = (ctx: ActionCreatorContext) => {
-	return async ({ limit }) => {
+	return async ({ limit }: { limit: number }) => {
 		const state = ctx.store.getState();
 		const query = selectThreadListQuery()(state);
 
@@ -202,10 +214,10 @@ export const fetchThreads = (ctx: ActionCreatorContext) => {
 
 export const setCurrentUser = (ctx: ActionCreatorContext) => {
 	return async () => {
-		const currentUser = await ctx.sdk.auth.whoami();
+		const currentUser: UserContract = await ctx.sdk.auth.whoami();
 
 		ctx.store.dispatch({
-			type: SET_CURRENT_USER,
+			type: 'SET_CURRENT_USER',
 			payload: currentUser,
 		});
 
@@ -217,14 +229,14 @@ export const setGroups = (ctx: ActionCreatorContext) => {
 	return async () => {
 		const groups = await ctx.sdk.query(allGroupsWithUsersQuery);
 		ctx.store.dispatch({
-			type: SET_GROUPS,
+			type: 'SET_GROUPS',
 			payload: groups,
 		});
 	};
 };
 
 export const getActor = (ctx: ActionCreatorContext) => {
-	return async (id) => {
+	return async (id: string) => {
 		const actor = (await getCard(ctx)(id, 'user', [
 			'is member of',
 		])) as UserContract;
@@ -268,7 +280,7 @@ export const getActor = (ctx: ActionCreatorContext) => {
 export const getCard = (ctx: ActionCreatorContext) => {
 	// Type argument is included to keep this method signature
 	// the same as the corresponding Jellyfish action
-	return async (id, _type, linkVerbs: any[] = []) => {
+	return async (id: string, _type: string, linkVerbs: string[] = []) => {
 		const state = ctx.store.getState();
 		let card = selectCardById(id)(state);
 
@@ -276,7 +288,7 @@ export const getCard = (ctx: ActionCreatorContext) => {
 		const isCached =
 			card &&
 			every(linkVerbs, (linkVerb) => {
-				return Boolean(get(card, ['links'], {})[linkVerb]);
+				return !!card?.links?.[linkVerb];
 			});
 
 		if (!isCached) {
@@ -323,7 +335,9 @@ export const getCard = (ctx: ActionCreatorContext) => {
 
 			card = await loadingCardCache[loadingCacheKey];
 
-			setCards(ctx)([card]);
+			if (card) {
+				setCards(ctx)([card]);
+			}
 		}
 		return card;
 	};
@@ -331,8 +345,8 @@ export const getCard = (ctx: ActionCreatorContext) => {
 
 // TODO make stream setup part of use-stream hook
 export const loadThreadData = (ctx: ActionCreatorContext) => {
-	return async (threadId, limit) => {
-		const query = {
+	return async (threadId: string, limit: number) => {
+		const query: JsonSchema = {
 			type: 'object',
 			properties: {
 				id: {
@@ -385,72 +399,5 @@ export const loadThreadData = (ctx: ActionCreatorContext) => {
 		});
 
 		return resultPromise;
-	};
-};
-
-// TODO cleanup once we have pagination built into our streams
-export const loadMoreThreadData = (target: string) => {
-	return async () => {
-		const streamHash = hashCode(target);
-		const stream = streams[streamHash];
-		if (!stream) {
-			throw new Error(
-				'Stream not found: Did you forget to call loadChannelData?',
-			);
-		}
-		if (!stream.page) {
-			stream.page = 1;
-		}
-
-		stream.page++;
-
-		const pageSize = 20;
-
-		const query = {
-			type: 'object',
-			properties: {
-				id: {
-					const: target,
-				},
-			},
-			$$links: {
-				'has attached element': {
-					type: 'object',
-				},
-			},
-		};
-
-		const queryOptions = {
-			links: {
-				'has attached element': {
-					sortBy: 'created_at',
-					sortDir: 'desc',
-					limit: stream.page * pageSize,
-					skip: (stream.page - 1) * pageSize,
-				},
-			},
-		};
-		const queryId = uuid();
-		stream.emit('queryDataset', {
-			data: {
-				id: queryId,
-				schema: query,
-				options: queryOptions,
-			},
-		});
-		return new Promise((resolve) => {
-			const handler = ({ data }) => {
-				if (data.id === queryId) {
-					const results = get(
-						data.cards[0],
-						['links', 'has attached element'],
-						[],
-					);
-					resolve(results);
-					stream.off('dataset', handler);
-				}
-			};
-			stream.on('dataset', handler);
-		});
 	};
 };

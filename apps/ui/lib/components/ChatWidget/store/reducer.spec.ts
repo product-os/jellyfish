@@ -1,4 +1,3 @@
-import * as actionTypes from './action-types';
 import { createReducer } from './reducer';
 
 const context: any = {};
@@ -15,7 +14,7 @@ beforeEach(() => {
 
 test('SET_CARDS add the specified cards to an empty list', () => {
 	const newState = context.reducer(context.initialState, {
-		type: actionTypes.SET_CARDS,
+		type: 'SET_CARDS',
 		payload: [
 			{
 				id: 1,
@@ -53,7 +52,7 @@ test("SET_CARDS merges a card that's already in the state", () => {
 		},
 	};
 	const newState = context.reducer(context.initialState, {
-		type: actionTypes.SET_CARDS,
+		type: 'SET_CARDS',
 		payload: [
 			{
 				id: 1,
@@ -101,7 +100,7 @@ test("SET_CARDS merges a card that's already in the state", () => {
 
 test('SET_CURRENT_USER adds the specified card and sets the current user ID', () => {
 	const newState = context.reducer(context.initialState, {
-		type: actionTypes.SET_CURRENT_USER,
+		type: 'SET_CURRENT_USER',
 		payload: {
 			id: 1,
 			foo: 'a',

@@ -1,5 +1,4 @@
 import sinon from 'sinon';
-import { SET_CARDS } from './action-types';
 import noop from 'lodash/noop';
 import omit from 'lodash/omit';
 import { getActor, getCard } from './action-creators';
@@ -125,7 +124,7 @@ test('getCard uses the API to fetch the card if not already cached', async () =>
 	// Finally check that the correct action was dispatched
 	expect(ctx.store.dispatch.calledOnce).toBe(true);
 	expect(ctx.store.dispatch.getCall(0).args[0]).toEqual({
-		type: SET_CARDS,
+		type: 'SET_CARDS',
 		payload: [card],
 	});
 });

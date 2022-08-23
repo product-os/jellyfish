@@ -1,7 +1,11 @@
 import React from 'react';
-import { Alert } from 'rendition';
+import { Alert, AlertProps } from 'rendition';
 
-export const ErrorMessage = ({ children, ...rest }) => {
+interface Props extends AlertProps {
+	children: React.ReactElement[];
+}
+
+export const ErrorMessage = ({ children, ...rest }: Props) => {
 	return (
 		<Alert plaintext danger {...rest}>
 			{children}
