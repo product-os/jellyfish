@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Adjust query so that segments can use the interleaved lens
+        correctly"
+      hash: afe0d589e7f0a716222b6175447a8133a46daca3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.45
+  title: "'UI: Adjust query so that segments can use the interleaved lens correctly'"
+  date: 2022-08-23T15:36:54.400Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.41 to 6.0.42
       hash: 41ed01bad4fae37c7510c7bed19855291bec5da0
       body: ""
