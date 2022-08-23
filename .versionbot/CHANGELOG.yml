@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.45 to 13.0.46
+      hash: 866e1e1ae4c04f4aa89811aa81aecaf2408159fa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.47
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.45 to 13.0.46'"
+  date: 2022-08-23T17:20:57.590Z
+- commits:
     - subject: "UI: Fix layout issues for linkable contracts when creating a new
         contract"
       hash: 090939ed08b6ec51cb473eae8113ccc3fdac8686
