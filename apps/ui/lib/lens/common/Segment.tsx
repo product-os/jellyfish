@@ -130,6 +130,12 @@ class Segment extends React.Component<Props, State> {
 			description: `Get ${baseTargetType} contracts linked to ${card.id}`,
 			type: 'object',
 			properties: {
+				id: {
+					type: 'string',
+				},
+				slug: {
+					type: 'string',
+				},
 				type: {
 					type: 'string',
 					const: linkedType,
