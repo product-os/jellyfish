@@ -578,7 +578,6 @@ export default withSetup(
 								const targets = _.map(links[key], 'target');
 								return (
 									<Box
-										px={3}
 										mt={3}
 										key={key}
 										data-test={`segment-card--${_.get(segment, ['type'])}`}
@@ -598,6 +597,7 @@ export default withSetup(
 										</Box>
 
 										<LinkOrCreate
+											fixed
 											card={selectedTypeTarget}
 											segment={segment}
 											onSave={this.saveLink}
@@ -606,7 +606,7 @@ export default withSetup(
 								);
 							})}
 						</FormBox>
-						<Flex justifyContent="flex-end" my={3} flex={0}>
+						<Flex justifyContent="flex-end" m={3} flex={0}>
 							<Button onClick={this.close} mr={2}>
 								Cancel
 							</Button>
