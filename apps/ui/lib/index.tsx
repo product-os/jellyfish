@@ -242,7 +242,7 @@ ReactDOM.render(<App />, document.getElementById('app'));
 				}),
 			);
 		} catch (err) {
-			console.log('Service worker unregistration failed:', err);
+			console.error('Service worker unregistration failed:', err);
 		}
 	}
 })();

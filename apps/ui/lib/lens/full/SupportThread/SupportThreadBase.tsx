@@ -237,8 +237,6 @@ export default withSetup(
 		}
 
 		render() {
-			console.log(this.props);
-
 			const { card, channel, types } = this.props;
 			const { actor, isClosing } = this.state;
 
