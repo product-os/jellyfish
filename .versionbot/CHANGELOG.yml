@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.46 to 8.0.47
+      hash: f129fa19a6e35e2c5d2011d994d10e9fdc830ff2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.53
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.46 to 8.0.47'"
+  date: 2022-08-23T22:43:22.572Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.43 to 6.0.44
       hash: 1244bc31faa597e7c2a0f40b4556ccf4d7e81bf8
       body: ""
