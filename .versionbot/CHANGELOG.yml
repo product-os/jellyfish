@@ -1,4 +1,16 @@
 - commits:
+    - subject: "UI: Allow click event propagation for left menu items"
+      hash: af382c83bbb9c77eec62670ce0a4a70697aa6303
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: JOASSART Edwin
+      nested: []
+  version: 59.1.43
+  title: "'UI: Allow click event propagation for left menu items'"
+  date: 2022-08-23T08:43:43.801Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.40 to 6.0.41
       hash: 491ad4bc391f526ad210df27f1632d91de459d17
       body: ""
