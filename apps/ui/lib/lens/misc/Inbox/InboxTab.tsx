@@ -1,29 +1,14 @@
 import { circularDeepEqual } from 'fast-equals';
 import _ from 'lodash';
 import { SdkQueryOptions } from '@balena/jellyfish-client-sdk/build/types';
-import styled from 'styled-components';
 import React, { useState } from 'react';
 import { Flex, Box } from 'rendition';
-import path from 'path';
 import { Icon, useSetup } from '../../../components';
-import { Contract, JsonSchema } from 'autumndb';
-import { useSelector } from 'react-redux';
-import { selectors } from '../../../store';
+import { JsonSchema } from 'autumndb';
 import { useCursorEffect } from '../../../hooks';
 import { GroupedVirtuoso } from 'react-virtuoso';
-import { Event } from '../../../components';
-import { ChannelContract, UIActor } from '../../../types';
-import { useHistory } from 'react-router-dom';
-
-const InboxMessageWrapper = styled(Box)`
-	&.event-unread {
-		background: #ffeb838a;
-	}
-`;
-
-const getActorHref = (actor: UIActor) => {
-	return path.join(location.pathname, actor.card.slug);
-};
+import { ChannelContract } from '../../../types';
+import { EventBox } from './EventBox';
 
 const getArchivedNotificationQuery = (): JsonSchema => ({
 	type: 'object',
@@ -55,9 +40,8 @@ interface Props {
 }
 
 const Inbox = ({ channel, query }: Props) => {
-	const user = useSelector(selectors.getCurrentUser());
 	const { sdk } = useSetup()!;
-	const [messages, nextPage, hasNextPage, loading] = useCursorEffect(
+	const [threads, nextPage, hasNextPage, loading] = useCursorEffect(
 		query,
 		DEFAULT_OPTIONS,
 	);
@@ -85,9 +69,6 @@ const Inbox = ({ channel, query }: Props) => {
 
 	const [isLoadingPage, setIsLoadingPage] = useState(false);
 
-	const groups = useSelector(selectors.getGroups());
-	const history = useHistory();
-
 	const loadMoreContracts = async () => {
 		if (!isLoadingPage && hasNextPage()) {
 			setIsLoadingPage(true);
@@ -96,58 +77,19 @@ const Inbox = ({ channel, query }: Props) => {
 		}
 	};
 
-	const openChannel = (target: string) => {
-		const current = channel.data.target;
-
-		if (current) {
-			history.push(
-				path.join(window.location.pathname.split(current)[0], current, target),
-			);
-		}
-	};
-
-	const EventBox = React.memo(({ contract }: { contract: Contract }) => {
-		if (!contract) {
-			return <Box p={3}>Loading...</Box>;
-		}
-
-		const hasNotification = contract.links?.['has attached']?.[0];
-
-		const read =
-			!hasNotification ||
-			(!!user && (contract as any).data?.readBy?.includes(user.slug));
-
-		const source = contract.links?.['is attached to']?.[0];
-		// The context is either the source of the message or the notification itself
-		const context =
-			source?.links?.['is of']?.[0] ?? contract?.links?.['has attached']?.[0];
-
-		const is121 = source?.data.dms ?? false;
-
-		return (
-			<InboxMessageWrapper className={read ? 'event-read' : 'event-unread'}>
-				<Event
-					openChannel={openChannel}
-					user={user}
-					groups={groups}
-					getActorHref={getActorHref}
-					card={contract}
-					is121={is121}
-					context={context}
-				/>
-			</InboxMessageWrapper>
-		);
-	});
-
 	// An oddity of react-virtuoso is that the `itemContent` cannot be a memoized component, but it can call out to a memoized component.
 	// See https://virtuoso.dev/#performance
 	const itemContent = (_index, contract) => {
-		return <EventBox contract={contract} />;
+		return <EventBox contract={contract} channel={channel} />;
 	};
 
-	const inboxItems = messages.filter((message) => {
-		const nId = message?.links?.['has attached']?.[0].id;
-		return !nId || !archivedNotifications.includes(nId);
+	const inboxItems = threads.filter((thread) => {
+		const nIds = _.map(
+			thread?.links?.['has attached element']?.[0]?.links?.['has attached'] ??
+				[],
+			'id',
+		);
+		return !nIds.length || !_.intersection(archivedNotifications, nIds).length;
 	});
 
 	return (
