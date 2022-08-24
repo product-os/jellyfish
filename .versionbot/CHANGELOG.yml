@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Strongly type chat widget component"
+      hash: 6bf01e2310dc75b4f0beba85b359171ac86749bf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.56
+  title: "'UI: Strongly type chat widget component'"
+  date: 2022-08-24T12:30:30.473Z
+- commits:
     - subject: Remove defunct channel bootstrap executes
       hash: 2e8a8ac2869459199765a1b43d9f0b621df66843
       body: |
