@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.86 to 6.0.88
+      hash: cb8c67d3be44777778f5495259c8ce80c08d437f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.2.1
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.86 to 6.0.88'"
+  date: 2022-08-24T15:38:48.696Z
+- commits:
     - subject: "UI: If inbox notifications have the same source group them together"
       hash: a868e9a98592daaa618f2e468c908310989b34d8
       body: |
