@@ -223,58 +223,6 @@ export const bootstrap = async (logContext: LogContext, options: any) => {
 		sync: worker.sync,
 	});
 
-	// Manually bootstrap channels
-	// TODO: This should ideally be completely automated, but this would
-	// require that triggered actions are up and running before any
-	// channel contracts are loaded.
-	const contracts = worker.pluginManager.getCards();
-	const channels = _.filter(contracts, {
-		type: 'channel@1.0.0',
-		active: true,
-	});
-
-	logger.info(
-		logContext,
-		`Bootstrapping ${channels.length} channel${
-			channels.length === 1 ? '' : 's'
-		}`,
-	);
-
-	await Promise.all(
-		channels.map(async (channel) => {
-			const channelContract = await kernel.getContractBySlug(
-				logContext,
-				kernel.adminSession()!,
-				`${channel.slug}@${channel.version}`,
-			);
-			return worker.insertCard<ActionRequestContract>(
-				logContext,
-				kernel.adminSession()!,
-				worker.typeContracts['action-request@1.0.0'],
-				{
-					attachEvents: false,
-					timestamp: new Date().toISOString(),
-				},
-				{
-					type: 'action-request@1.0.0',
-					data: {
-						action: 'action-bootstrap-channel@1.0.0',
-						context: logContext,
-						card: channelContract!.id,
-						type: channelContract!.type,
-						actor: kernel.adminSession()?.actor.id,
-						epoch: new Date().valueOf(),
-						input: {
-							id: channelContract!.id,
-						},
-						timestamp: new Date().toISOString(),
-						arguments: {},
-					},
-				},
-			);
-		}),
-	);
-
 	// TODO: Find out where this race condition is happening
 	// Wait for the server to settle before starting
 	await setTimeout(2000);
