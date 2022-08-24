@@ -2,9 +2,10 @@ import React, { FunctionComponent } from 'react';
 import type { JellyfishSDK } from '@balena/jellyfish-client-sdk';
 import Analytics from '../services/analytics';
 import ErrorReporter from '../services/error-reporter';
+import * as env from '../environment';
 
 export interface Setup {
-	environment: any;
+	environment: typeof env;
 	sdk: JellyfishSDK;
 	analytics: Analytics;
 	errorReporter: ErrorReporter;

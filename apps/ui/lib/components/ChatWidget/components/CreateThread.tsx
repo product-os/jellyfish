@@ -27,7 +27,7 @@ export const CreateThread: React.FunctionComponent<any> = ({
 }) => {
 	// Using an empty types array will effectively disable the autocomplete
 	// trigger that uses the types
-	const types = [];
+	const types: any[] = [];
 	const { sdk, environment } = useSetup()!;
 	const currentUser = useSelector(selectCurrentUser())!;
 	const [subject, setSubject] = React.useState('');

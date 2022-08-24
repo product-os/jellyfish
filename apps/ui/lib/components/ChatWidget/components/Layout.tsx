@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flex, useTheme } from 'rendition';
+import { Flex, FlexProps, useTheme } from 'rendition';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
 import { useStore } from 'react-redux';
@@ -19,7 +19,7 @@ import {
 	selectThreadListQuery,
 	selectThreads,
 } from '../store/selectors';
-import { SET_CARDS } from '../store/action-types';
+import { Contract } from 'autumndb';
 
 const ChatWrapper = styled(Flex)`
 	p {
@@ -33,13 +33,20 @@ const ChatWrapper = styled(Flex)`
 	}
 `;
 
+interface Props extends FlexProps {
+	initialUrl?: string;
+	onClose: () => void;
+	onNotificationsChange: (notification: Contract[]) => void;
+	children: React.ReactElement[];
+}
+
 export const Layout = ({
 	initialUrl,
 	onClose,
 	onNotificationsChange,
 	children,
 	...rest
-}) => {
+}: Props) => {
 	const theme = useTheme();
 	const actions = useActions();
 	const store = useStore();
@@ -82,7 +89,7 @@ export const Layout = ({
 
 				if (selectCardById(data.after.id)(currentState)) {
 					return store.dispatch({
-						type: SET_CARDS,
+						type: 'SET_CARDS',
 						payload: [data.after],
 					});
 				}
@@ -98,7 +105,7 @@ export const Layout = ({
 
 				if (sortedThreads[0]?.id === data.after.id) {
 					store.dispatch({
-						type: SET_CARDS,
+						type: 'SET_CARDS',
 						payload: [data.after],
 					});
 				}

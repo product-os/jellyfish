@@ -1,12 +1,16 @@
 import React from 'react';
 const TIME_RANGE_CHECK_TIMEOUT = 2000;
 
-const isInUTCHourRange = (from, to, getCurrentHour) => {
+const isInUTCHourRange = (
+	from: number,
+	to: number,
+	getCurrentHour: () => number,
+) => {
 	const now = getCurrentHour();
 	return now >= from && now < to;
 };
 
-const defaultGetCurrentHour = () => {
+const defaultGetCurrentHour = (): number => {
 	return new Date().getUTCHours();
 };
 
@@ -15,8 +19,8 @@ const defaultGetCurrentHour = () => {
  * `getCurrentHour` is for testing purposes
  */
 export const useIsInUTCHourRange = (
-	from,
-	to,
+	from: number,
+	to: number,
 	getCurrentHour = defaultGetCurrentHour,
 ) => {
 	const initialIsInRange = isInUTCHourRange(from, to, getCurrentHour);

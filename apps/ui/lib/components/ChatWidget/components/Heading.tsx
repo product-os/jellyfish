@@ -1,7 +1,12 @@
 import React from 'react';
-import { Txt } from 'rendition';
+import { Txt, TxtProps } from 'rendition';
 
-export const Heading = ({ primaryText, secondaryText, ...rest }) => {
+interface Props extends TxtProps {
+	primaryText: string;
+	secondaryText: string;
+}
+
+export const Heading = ({ primaryText, secondaryText, ...rest }: Props) => {
 	return (
 		<Txt mb="40px" align="center" {...rest}>
 			<Txt mt="12px" mb="14px" fontSize="34px">

@@ -12,6 +12,15 @@ import { createStore } from '../store';
 import { Layout } from './Layout';
 import { CardLoaderContextProvider } from './CardLoaderContextProvider';
 
+interface Props {
+	productTitle: string;
+	product: string;
+	inbox: string;
+	initialUrl?: string;
+	onClose: () => void;
+	onNotificationsChange: (notifications: any) => void;
+}
+
 export const App = React.memo<any>(
 	({
 		productTitle,
@@ -20,7 +29,7 @@ export const App = React.memo<any>(
 		initialUrl,
 		onClose,
 		onNotificationsChange,
-	}) => {
+	}: Props) => {
 		const { environment } = useSetup()!;
 
 		const store = React.useMemo(() => {

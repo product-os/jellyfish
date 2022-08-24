@@ -3,9 +3,10 @@ import orderBy from 'lodash/orderBy';
 import get from 'lodash/get';
 import every from 'lodash/every';
 import type { Contract, JsonSchema, UserContract } from 'autumndb';
+import { State } from './reducer';
 
 export const selectThreadListQuery = () => {
-	return (state): JsonSchema => {
+	return (state: State): JsonSchema => {
 		return {
 			$$links: {
 				'has attached element': {
@@ -44,13 +45,13 @@ export const selectThreadListQuery = () => {
 };
 
 export const selectProduct = () => {
-	return (state) => {
+	return (state: State) => {
 		return state.product;
 	};
 };
 
-export const selectCardsByType = (type) => {
-	return (state) => {
+export const selectCardsByType = (type: string) => {
+	return (state: State) => {
 		return filter(state.cards, (card) => {
 			return card.type.split('@')[0] === type;
 		});
@@ -58,13 +59,13 @@ export const selectCardsByType = (type) => {
 };
 
 export const selectCardById = <TContract extends Contract>(id: string) => {
-	return (state): TContract | null => {
-		return state.cards[id] || null;
+	return (state: State): TContract | null => {
+		return (state?.cards?.[id] as TContract) || null;
 	};
 };
 
 export const selectGroups = () => {
-	return (state) => {
+	return (state: State) => {
 		return {
 			groups: state.groups || [],
 		};
@@ -72,7 +73,7 @@ export const selectGroups = () => {
 };
 
 export const selectThreads = () => {
-	return (state) => {
+	return (state: State) => {
 		const threads = selectCardsByType('support-thread')(state);
 		return orderBy(
 			threads,
@@ -86,13 +87,16 @@ export const selectThreads = () => {
 };
 
 export const selectCurrentUser = () => {
-	return (state): UserContract | null => {
+	return (state: State): UserContract | null => {
+		if (!state.currentUser) {
+			return null;
+		}
 		return selectCardById<UserContract>(state.currentUser)(state);
 	};
 };
 
-export const selectMessages = (threadId) => {
-	return (state) => {
+export const selectMessages = (threadId: string) => {
+	return (state: State) => {
 		const messages = selectCardsByType('message')(state);
 		return orderBy(
 			filter(messages, ['data.target', threadId]),
@@ -107,7 +111,7 @@ export const selectNotifications = () => {
 };
 
 export const selectNotificationsByThread = (threadId: string) => {
-	return (state) => {
+	return (state: State) => {
 		return selectNotifications()(state).filter((notification) => {
 			return (
 				get(notification, [
