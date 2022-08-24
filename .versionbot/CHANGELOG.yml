@@ -1,4 +1,20 @@
 - commits:
+    - subject: Remove defunct channel bootstrap executes
+      hash: 2e8a8ac2869459199765a1b43d9f0b621df66843
+      body: |
+        The channel bootstrap action no longer exists in the codebase,
+        removing this remaining reference to it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.1.55
+  title: "'Remove defunct channel bootstrap executes'"
+  date: 2022-08-24T06:16:54.633Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 8.0.36 to 8.0.37
       hash: f15bddc30bb7c97cff6aa01d8cfd2ccbb2d75016
       body: ""
