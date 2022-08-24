@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Remove debug logs"
+      hash: 76c6de3ae9e508162a296a0a853c81c32a65faef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Ensure that custom views comply with the view schema"
+      hash: d9dc5c0dda1e81165a1c563c7f1a35be8936c17b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.57
+  title: "'UI: Ensure that custom views comply with the view schema'"
+  date: 2022-08-24T13:50:59.668Z
+- commits:
     - subject: "UI: Strongly type chat widget component"
       hash: 6bf01e2310dc75b4f0beba85b359171ac86749bf
       body: ""
