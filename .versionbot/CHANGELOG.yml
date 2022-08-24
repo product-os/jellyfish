@@ -1,4 +1,21 @@
 - commits:
+    - subject: "UI: If inbox notifications have the same source group them together"
+      hash: a868e9a98592daaa618f2e468c908310989b34d8
+      body: |
+        Inbox notifications for messages and whispers that come from the same
+        source are now grouped together. Archiving the notification will also
+        archive all of the grouped notifications.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.2.0
+  title: "'UI: If inbox notifications have the same source group them together'"
+  date: 2022-08-24T14:46:00.758Z
+- commits:
     - subject: "UI: Remove debug logs"
       hash: 76c6de3ae9e508162a296a0a853c81c32a65faef
       body: ""
