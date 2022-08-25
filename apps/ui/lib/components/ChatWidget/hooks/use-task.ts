@@ -4,7 +4,10 @@ const throwOnRetry = () => {
 	throw new Error('Retrying the action that did not fail');
 };
 
-export const useTask = (fn, args: any[] = []) => {
+export const useTask = <R, A extends any[] = any[], E extends any[] = any[]>(
+	fn: (...args: A & E) => Promise<R>,
+	args: any[] = [],
+) => {
 	const [state, setState] = React.useState<any>({
 		started: false,
 		finished: false,
@@ -14,7 +17,7 @@ export const useTask = (fn, args: any[] = []) => {
 	});
 
 	return React.useMemo(() => {
-		const exec = async (...execArgs) => {
+		const exec = async (...execArgs: E) => {
 			setState({
 				started: true,
 				finished: false,
@@ -25,7 +28,7 @@ export const useTask = (fn, args: any[] = []) => {
 
 			let result: any = null;
 			try {
-				const data = await fn(...args.concat(execArgs));
+				const data = await fn(...(args.concat(execArgs) as any));
 
 				setState(
 					(result = {
@@ -63,7 +66,15 @@ export const useTask = (fn, args: any[] = []) => {
 	}, [state, ...args]);
 };
 
-export const useCombineTasks = (...tasks) => {
+interface Task {
+	started: boolean;
+	finished: boolean;
+	error: null | any;
+	retry: (...args: any[]) => any;
+	result: any;
+}
+
+export const useCombineTasks = (...tasks: Task[]) => {
 	return React.useMemo(
 		() => {
 			let started = false;
@@ -96,6 +107,6 @@ export const useCombineTasks = (...tasks) => {
 		},
 		tasks.reduce((deps, task) => {
 			return deps.concat(task.started, task.finished, task.error, task.result);
-		}, []),
+		}, [] as any[]),
 	);
 };

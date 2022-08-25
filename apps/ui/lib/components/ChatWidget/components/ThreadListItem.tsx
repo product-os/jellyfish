@@ -1,3 +1,4 @@
+import { Contract } from 'autumndb';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { CardChatSummary } from '../../';
@@ -7,7 +8,11 @@ import {
 	selectNotificationsByThread,
 } from '../store/selectors';
 
-export const ThreadListItem = ({ thread, ...rest }) => {
+interface Props {
+	thread: Contract;
+}
+
+export const ThreadListItem = ({ thread, ...rest }: Props) => {
 	const actions = useActions();
 	const timeline = useSelector(selectMessages(thread.id));
 	const notifications = useSelector(selectNotificationsByThread(thread.id));

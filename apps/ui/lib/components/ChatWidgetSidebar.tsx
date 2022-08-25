@@ -21,7 +21,11 @@ const Container = styled(Box)`
 	z-index: 15;
 `;
 
-const ChatWidgetSidebar = ({ onClose }) => {
+interface Props {
+	onClose: () => void;
+}
+
+const ChatWidgetSidebar = ({ onClose }: Props) => {
 	return (
 		<Container
 			data-test="chat-widget"

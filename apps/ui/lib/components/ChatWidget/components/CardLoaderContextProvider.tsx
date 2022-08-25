@@ -3,6 +3,7 @@ import { CardLoaderContext } from '../../CardLoader';
 import { selectCardById } from '../store/selectors';
 import { useActions } from '../hooks';
 import type { Contract } from 'autumndb';
+import { State } from '../store/reducer';
 
 export const CardLoaderContextProvider = React.memo(({ children }) => {
 	const actions = useActions();
@@ -10,8 +11,8 @@ export const CardLoaderContextProvider = React.memo(({ children }) => {
 	const cardLoaderCtx = React.useMemo(() => {
 		return {
 			getCard: actions.getCard,
-			selectCard: <TCard extends Contract>(id) => {
-				return (state): TCard | null => {
+			selectCard: <TCard extends Contract>(id: string) => {
+				return (state: State): TCard | null => {
 					return selectCardById<TCard>(id)(state);
 				};
 			},

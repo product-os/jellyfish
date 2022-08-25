@@ -1,13 +1,11 @@
 import React from 'react';
 import _ from 'lodash';
 import styled from 'styled-components';
-import { Theme, Flex, Txt, Button } from 'rendition';
+import { Theme, Flex, Txt } from 'rendition';
 import type { Contract, UserContract } from 'autumndb';
 import { Link } from '../../Link';
 import HoverMenu, { EventContextProps } from './Context';
 import { username, getUserTooltipText } from '../../../services/helpers';
-import Icon from '../../Icon';
-import { useSetup } from '../../SetupProvider';
 
 const HeaderWrapper = styled(Flex)`
 	position: relative;
@@ -34,7 +32,6 @@ interface EventHeaderProps extends Omit<EventContextProps, 'isOwnMessage'> {
 }
 
 const EventHeader = (props: EventHeaderProps) => {
-	const { sdk } = useSetup()!;
 	const {
 		isMessage,
 		user,
@@ -46,8 +43,6 @@ const EventHeader = (props: EventHeaderProps) => {
 		context,
 		...contextProps
 	} = props;
-
-	const [isArchiving, setIsArchiving] = React.useState(false);
 
 	const getTimelineElement = React.useCallback(() => {
 		const targetCard = _.get(card, ['links', 'is attached to', '0'], card);
@@ -75,27 +70,8 @@ const EventHeader = (props: EventHeaderProps) => {
 		);
 	}, [actor, card]);
 
-	const archiveNotification = React.useCallback(async () => {
-		const notification = card?.links?.['has attached'][0];
-
-		setIsArchiving(true);
-		if (notification) {
-			try {
-				await sdk.card.update(notification.id, notification.type, [
-					{
-						op: notification.data.status ? 'replace' : 'add',
-						path: '/data/status',
-						value: 'archived',
-					},
-				]);
-			} catch (err) {
-				console.error(err);
-			}
-		}
-		setIsArchiving(false);
-	}, ['card']);
-
-	const contextName = context?.name;
+	const contextName =
+		context?.type === 'notification@1.0.0' ? 'Notification' : context?.name;
 
 	const isOwnMessage = user.id === _.get(card, ['data', 'actor']);
 
@@ -148,7 +124,7 @@ const EventHeader = (props: EventHeaderProps) => {
 								1 to 1
 							</Txt>
 						)}
-						{contextName && (
+						{context && contextName && (
 							<Link color={'#B8B8B8'} mr={1} append={context.slug}>
 								{contextName}
 							</Link>
@@ -157,21 +133,6 @@ const EventHeader = (props: EventHeaderProps) => {
 				)}
 
 				{!squashTop && !isMessage && getTimelineElement()}
-
-				{(context || is121) && (
-					<Button
-						tooltip={{
-							text: 'Archive this notification',
-							placement: 'left',
-						}}
-						plain
-						icon={
-							<Icon name={isArchiving ? 'cog' : 'box'} spin={isArchiving} />
-						}
-						onClick={archiveNotification}
-						mr={1}
-					/>
-				)}
 			</Flex>
 
 			{!(context || is121) && (

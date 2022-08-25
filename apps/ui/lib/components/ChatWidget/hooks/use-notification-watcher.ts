@@ -1,9 +1,8 @@
 import * as React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { v4 as uuid } from 'uuid';
-import type { JsonSchema } from 'autumndb';
+import type { Contract, JsonSchema } from 'autumndb';
 import { useSetup } from '../../';
-import { SET_CARDS, DELETE_CARD } from '../store/action-types';
 import {
 	areEqualArrayOfContracts,
 	selectCurrentUser,
@@ -11,7 +10,11 @@ import {
 	selectProduct,
 } from '../store/selectors';
 
-export const useNotificationWatcher = ({ onNotificationsChange }) => {
+interface Props {
+	onNotificationsChange: (notifications: Contract[]) => void;
+}
+
+export const useNotificationWatcher = ({ onNotificationsChange }: Props) => {
 	const { sdk } = useSetup()!;
 	const dispatch = useDispatch();
 	const product = useSelector(selectProduct());
@@ -97,7 +100,7 @@ export const useNotificationWatcher = ({ onNotificationsChange }) => {
 
 		stream.on('dataset', ({ data: { cards } }) => {
 			dispatch({
-				type: SET_CARDS,
+				type: 'SET_CARDS',
 				payload: cards,
 			});
 		});
@@ -110,12 +113,12 @@ export const useNotificationWatcher = ({ onNotificationsChange }) => {
 
 			if (data.after) {
 				dispatch({
-					type: SET_CARDS,
+					type: 'SET_CARDS',
 					payload: [data.after],
 				});
 			} else {
 				dispatch({
-					type: DELETE_CARD,
+					type: 'DELETE_CARD',
 					payload: data.id,
 				});
 			}
