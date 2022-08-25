@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update to latest worker v33
+      hash: 373fc5fae7aeb2542517d7eb1a6b3670ccc076f4
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.2.5
+  title: "'Update to latest worker v33'"
+  date: 2022-08-25T05:05:14.977Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.89 to 6.0.90
       hash: 962644ca85bad916f3d2589f93092290ec5961eb
       body: ""
