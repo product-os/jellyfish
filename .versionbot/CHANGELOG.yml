@@ -1,4 +1,38 @@
 - commits:
+    - subject: Force haproxy to restart first
+      hash: dda6a2fa21b421ff2721095aa07a7a33864019ed
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+    - subject: Force haproxy to restart first
+      hash: fc8a8955805b040122100c1d2f497b545f46b275
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+    - subject: Force haproxy to restart first
+      hash: ca3c3093a2fed091eb4fd9efebf8aca0f72ef869
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.2.8
+  title: "'Use handover strategy for haproxy - but just as a delayed handover'"
+  date: 2022-08-25T12:00:29.927Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.46 to 6.0.47
       hash: dced01417063f72c777ba7045c31a9024cf68bff
       body: ""
