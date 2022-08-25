@@ -78,7 +78,7 @@ const run = async () => {
 
 		logger.info(
 			context,
-			`Primary worker started, spawning ${numCPUs} workers`,
+			`Primary worker started, spawning ${numCPUs} workers.`,
 			{
 				time: startDate.getTime(),
 			},
