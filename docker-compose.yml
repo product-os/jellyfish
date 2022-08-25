@@ -81,6 +81,8 @@ services:
       - postgres
       - redis
       - mdns
+      # We want haproxy to restart first, so that it will be ready to process the change of IP that occurs during the handover of api
+      - haproxy
     restart: unless-stopped
     labels:
       io.balena.features.supervisor-api: 1
@@ -355,8 +357,7 @@ services:
       ALIASES: api,grafana,jel,livechat,postgres,prometheus,redis,registry,s3
     labels:
       io.balena.features.balena-socket: '1'
-      io.balena.features.supervisor-api	: '1'
-
+      io.balena.features.supervisor-api: '1'
   logshipper:
     image: bh.cr/balenablocks/logshipper/0.2.1
     environment:

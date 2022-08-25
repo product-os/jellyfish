@@ -54,11 +54,13 @@ while true; do
       --format "{{.ID}}")"
 
     if ! [[ $restarted == "${haproxy}" ]]; then
+        echo "[haproxy-sidecar] Reconnecting haproxy to the network"
         docker network disconnect "${network}" "${haproxy}"
 
         # shellcheck disable=SC2086
         docker network connect --alias haproxy ${aliases} "${network}" "${haproxy}"
 
+        echo "[haproxy-sidecar] Restarting haproxy"
         docker restart "${haproxy}"
 
         restarted="${haproxy}"
