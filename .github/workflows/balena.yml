@@ -578,8 +578,11 @@ jobs:
               'balena ps -q | xargs balena inspect | jq -r .[].State.Status' \
                 | grep -E 'created|restarting|removing|paused|exited|dead' 
               
-              echo "::warning::Still working..."
-              balena ps
+              echo "::warning:: wait for services to start running Still working..."
+              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
+              'balena ps'
+
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
@@ -596,8 +599,10 @@ jobs:
               | jq -r ".[] | select(.State.Health.Status!=null).Name + \":\" + .State.Health.Status"' \
               | grep -E ':starting|:unhealth'
 
-              echo "::warning::Still working..."
-              balena ps
+              echo "::warning:: wait for Docker healthchecks Still working..."
+              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
+              'balena ps'
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
@@ -637,8 +642,10 @@ jobs:
             | grep -vE 'resin_supervisor|balena_supervisor' \
             | grep -E ':starting|:unhealthy'; do
 
-              echo "::warning::Still working..."
-              balena ps
+              echo "::warning:: wait for Docker healthchecks Still working..."
+              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
+              'balena ps'
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
