@@ -575,8 +575,7 @@ jobs:
 
               ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
               ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-              'balena ps -q | xargs balena inspect | jq -r .[].State.Status' \
-                | grep -E 'created|restarting|removing|paused|exited|dead' 
+              'balena ps' 
               
               echo "::warning:: wait for services to start running Still working..."
               ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
@@ -674,7 +673,7 @@ jobs:
             --data '{"uuid": "${{ steps.register-test-device.outputs.balena_device_uuid }}", "method": "GET"}' \
             --compressed | jq -r '.[].services."${{ env.JELLYFISH_TESTS_SERVICE }}".status') =~ Run|run ]]; do
 
-              echo "::warning::Still working..."
+              echo "::warning:: Waiting for the test service to be started"
               sleep "$(( ( RANDOM % ${{ env.RETRY }} ) + ${{ env.RETRY }} ))s"
           done
 

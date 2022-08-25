@@ -20,13 +20,16 @@ x-default-environment: &default-environment
   MDNS_TLD: ly.fish.local
 
 services:
-  jellyfish-tests:
+  test-runner:
     build:
       context: .
-      dockerfile: Dockerfile.template
+      dockerfile: apps/test-runner/Dockerfile
     # (TBC) https://www.flowdock.com/app/rulemotion/r-beginners/threads/uPPfzU-DGRehSDk-TkS-vZs7Q58
     # https://github.com/balena-io-modules/open-balena-base/blob/master/Dockerfile#L105
-    command: /usr/bin/entry.sh
+    entrypoint:
+      - /bin/bash
+      - '-c'
+    command: /usr/src/jellyfish/apps/test-runner/start-jellyfish-test-runner.sh
     cap_add:
       - SYS_RESOURCE
       - SYS_ADMIN
@@ -378,7 +381,7 @@ services:
     command: /opt/run.sh
     environment:
       <<: *default-environment
-      ENABLED: true
+      ENABLED: "true"
     labels:
       io.balena.features.balena-api: '1'
 
