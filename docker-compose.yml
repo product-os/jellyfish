@@ -81,7 +81,7 @@ services:
       - postgres
       - redis
       - mdns
-      # We want haproxy to restart first, so that it will be ready to process the change of IP that occurs during the handover of api
+      # We want haproxy to restart first, so that it will be ready to process the change of IP that occurs during the handover of `api`
       - haproxy
     restart: unless-stopped
     labels:
