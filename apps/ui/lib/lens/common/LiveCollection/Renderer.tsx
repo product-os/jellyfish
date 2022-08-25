@@ -592,13 +592,16 @@ export default withSetup(
 					allOf: [
 						{
 							name: 'Query',
-							schema: unifyQuery(
-								query,
-								_.compact(view.filters).map((filter) => {
-									return _.assign(SchemaSieve.unflattenSchema(filter), {
-										type: 'object',
-									});
-								}),
+							schema: _.merge(
+								{ type: 'object' },
+								unifyQuery(
+									query,
+									_.compact(view.filters).map((filter) => {
+										return _.assign(SchemaSieve.unflattenSchema(filter), {
+											type: 'object',
+										});
+									}),
+								),
 							),
 						},
 					],

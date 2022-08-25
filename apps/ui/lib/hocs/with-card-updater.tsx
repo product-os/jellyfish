@@ -39,7 +39,7 @@ export default function withCardUpdater<
 							return response;
 						})
 						.catch((error) => {
-							console.log(error, error.message);
+							console.error(error, error.message);
 							addNotification('danger', error.message || error);
 						});
 				}

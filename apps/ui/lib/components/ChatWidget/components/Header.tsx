@@ -13,7 +13,11 @@ const Separator = () => {
 	);
 };
 
-export const Header = ({ onClose }) => {
+interface Props {
+	onClose: () => void;
+}
+
+export const Header = ({ onClose }: Props) => {
 	const router = useRouter();
 	const theme = useTheme();
 	const productTitle = useSelector<any, any>((state) => {

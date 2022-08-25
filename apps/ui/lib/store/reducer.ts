@@ -386,7 +386,6 @@ const coreReducer = (state = defaultState.core, action: Action) => {
 			});
 		}
 		case 'SET_USER_CUSTOM_FILTERS': {
-			console.log(action);
 			return update(state, {
 				userCustomFilters: (value) =>
 					update(value, {

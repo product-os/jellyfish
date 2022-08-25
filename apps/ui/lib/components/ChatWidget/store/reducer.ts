@@ -1,44 +1,61 @@
 import update from 'immutability-helper';
 import merge from 'lodash/merge';
 import type { Contract } from 'autumndb';
-import {
-	SET_CARDS,
-	SET_CURRENT_USER,
-	SET_GROUPS,
-	DELETE_CARD,
-} from './action-types';
+import { Action } from './action-types';
 
-const mergeCards = (state, cards) => {
+export interface State {
+	product: string;
+	productTitle: string;
+	inbox: string;
+	currentUser?: null | string;
+	cards?: {
+		[id: string]: Contract;
+	};
+	groups?: Contract[];
+}
+
+const mergeCards = (state: State, cards: Contract[]) => {
 	return Object.assign(
 		{},
 		cards.reduce((newCards, card) => {
 			newCards[card.id] = merge({}, newCards[card.id], card);
 			return newCards;
-		}, state.cards),
+		}, state.cards || {}),
 	);
 };
 
-const extractLinksFromCards = (threads) => {
+const extractLinksFromCards = (threads: Contract[]) => {
 	return threads.reduce((cards, thread) => {
 		if (thread.links && thread.links['has attached element']) {
 			return cards.concat(thread, thread.links['has attached element']);
 		}
 		return cards.concat(thread);
-	}, []);
+	}, [] as Contract[]);
 };
 
-export const createReducer = ({ product, productTitle, inbox }) => {
-	const initialState = {
+export const createReducer = ({
+	product,
+	productTitle,
+	inbox,
+}: {
+	product: string;
+	productTitle: string;
+	inbox: string;
+}) => {
+	const initialState: State = {
 		product,
 		productTitle,
 		inbox,
-		cards: {} as { [key: string]: Contract[] },
+		cards: {} as { [key: string]: Contract },
 		currentUser: null,
 	};
 
-	return (state = initialState, action: any = {}) => {
+	return (state = initialState, action: Action) => {
+		if (!action) {
+			return state;
+		}
 		switch (action.type) {
-			case SET_CARDS: {
+			case 'SET_CARDS': {
 				const threads = extractLinksFromCards(action.payload);
 				return update(state, {
 					cards: {
@@ -46,15 +63,19 @@ export const createReducer = ({ product, productTitle, inbox }) => {
 					},
 				});
 			}
-			case DELETE_CARD: {
-				const { [action.payload]: target, ...cards } = state.cards;
+			case 'DELETE_CARD': {
+				if (state.cards) {
+					const { [action.payload]: target, ...cards } = state.cards;
 
-				return {
-					...state,
-					cards,
-				};
+					return {
+						...state,
+						cards,
+					};
+				}
+
+				return state;
 			}
-			case SET_CURRENT_USER:
+			case 'SET_CURRENT_USER':
 				return update(state, {
 					currentUser: {
 						$set: action.payload.id,
@@ -63,7 +84,7 @@ export const createReducer = ({ product, productTitle, inbox }) => {
 						$set: mergeCards(state, [action.payload]),
 					},
 				});
-			case SET_GROUPS:
+			case 'SET_GROUPS':
 				return update<any>(state, {
 					groups: {
 						$set: action.payload,

@@ -7,10 +7,14 @@ import {
 	compose,
 	createStore as createReduxStore,
 } from 'redux';
+import * as env from '../../../environment';
 import thunkMiddleware from 'redux-thunk';
-import { createReducer } from './reducer';
+import { createReducer, State } from './reducer';
 
-export const createStore = (initialState, { environment }) => {
+export const createStore = (
+	initialState: State,
+	{ environment }: { environment: typeof env },
+) => {
 	const composeEnhancers =
 		typeof window !== 'undefined' &&
 		!environment.isProduction() &&

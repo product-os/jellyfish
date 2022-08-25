@@ -1,4 +1,591 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.89 to 6.0.90
+      hash: 962644ca85bad916f3d2589f93092290ec5961eb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.2.4
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.89 to 6.0.90'"
+  date: 2022-08-24T21:00:22.509Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.44 to 6.0.46
+      hash: f6ab59f56b2baf6a0603febb2329db2fb2c64e9d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.2.3
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.44 to 6.0.46'"
+  date: 2022-08-24T20:18:05.874Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.88 to 6.0.89
+      hash: f8fad585fbdaa92b9512bc4e9ffa9e089bc6598c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.2.2
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.88 to 6.0.89'"
+  date: 2022-08-24T16:26:07.519Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.86 to 6.0.88
+      hash: cb8c67d3be44777778f5495259c8ce80c08d437f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.2.1
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.86 to 6.0.88'"
+  date: 2022-08-24T15:38:48.696Z
+- commits:
+    - subject: "UI: If inbox notifications have the same source group them together"
+      hash: a868e9a98592daaa618f2e468c908310989b34d8
+      body: |
+        Inbox notifications for messages and whispers that come from the same
+        source are now grouped together. Archiving the notification will also
+        archive all of the grouped notifications.
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.2.0
+  title: "'UI: If inbox notifications have the same source group them together'"
+  date: 2022-08-24T14:46:00.758Z
+- commits:
+    - subject: "UI: Remove debug logs"
+      hash: 76c6de3ae9e508162a296a0a853c81c32a65faef
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Ensure that custom views comply with the view schema"
+      hash: d9dc5c0dda1e81165a1c563c7f1a35be8936c17b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.57
+  title: "'UI: Ensure that custom views comply with the view schema'"
+  date: 2022-08-24T13:50:59.668Z
+- commits:
+    - subject: "UI: Strongly type chat widget component"
+      hash: 6bf01e2310dc75b4f0beba85b359171ac86749bf
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.56
+  title: "'UI: Strongly type chat widget component'"
+  date: 2022-08-24T12:30:30.473Z
+- commits:
+    - subject: Remove defunct channel bootstrap executes
+      hash: 2e8a8ac2869459199765a1b43d9f0b621df66843
+      body: |
+        The channel bootstrap action no longer exists in the codebase,
+        removing this remaining reference to it.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.1.55
+  title: "'Remove defunct channel bootstrap executes'"
+  date: 2022-08-24T06:16:54.633Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 8.0.36 to 8.0.37
+      hash: f15bddc30bb7c97cff6aa01d8cfd2ccbb2d75016
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.54
+  title: "'Update @balena/jellyfish-plugin-incidents from 8.0.36 to 8.0.37'"
+  date: 2022-08-23T23:28:40.943Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.46 to 8.0.47
+      hash: f129fa19a6e35e2c5d2011d994d10e9fdc830ff2
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.53
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.46 to 8.0.47'"
+  date: 2022-08-23T22:43:22.572Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.43 to 6.0.44
+      hash: 1244bc31faa597e7c2a0f40b4556ccf4d7e81bf8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.52
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.43 to 6.0.44'"
+  date: 2022-08-23T21:54:18.268Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 8.0.17 to 8.0.36
+      hash: c455d199178ecf98bd1d5b55f097182a0ccd7226
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.51
+  title: "'Update @balena/jellyfish-plugin-incidents from 8.0.17 to 8.0.36'"
+  date: 2022-08-23T21:13:24.858Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.58 to 6.0.59
+      hash: 12f1b59337331c399217b4ba669e37aed6c8367e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.50
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.58 to 6.0.59'"
+  date: 2022-08-23T20:21:18.718Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.38 to 8.0.46
+      hash: 581ac7d590e83b1d8ac73a36754e5839b1647d9c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.50 to 6.0.58
+      hash: c34b50b1e86b283c29e36b23c0c7bb52a3ce4c23
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.49
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.38 to 8.0.46'"
+  date: 2022-08-23T19:32:06.025Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.42 to 6.0.43
+      hash: b2658bffd3e36e12abd065b4d67b247f4abb8981
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.48
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.42 to 6.0.43'"
+  date: 2022-08-23T18:06:56.600Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.45 to 13.0.46
+      hash: 866e1e1ae4c04f4aa89811aa81aecaf2408159fa
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.47
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.45 to 13.0.46'"
+  date: 2022-08-23T17:20:57.590Z
+- commits:
+    - subject: "UI: Fix layout issues for linkable contracts when creating a new
+        contract"
+      hash: 090939ed08b6ec51cb473eae8113ccc3fdac8686
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.46
+  title: "'UI: Fix layout issues for linkable contracts when creating a new contract'"
+  date: 2022-08-23T16:28:10.593Z
+- commits:
+    - subject: "UI: Adjust query so that segments can use the interleaved lens
+        correctly"
+      hash: afe0d589e7f0a716222b6175447a8133a46daca3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.45
+  title: "'UI: Adjust query so that segments can use the interleaved lens correctly'"
+  date: 2022-08-23T15:36:54.400Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.41 to 6.0.42
+      hash: 41ed01bad4fae37c7510c7bed19855291bec5da0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.44
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.41 to 6.0.42'"
+  date: 2022-08-23T09:25:22.133Z
+- commits:
+    - subject: "UI: Allow click event propagation for left menu items"
+      hash: af382c83bbb9c77eec62670ce0a4a70697aa6303
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: JOASSART Edwin
+      nested: []
+  version: 59.1.43
+  title: "'UI: Allow click event propagation for left menu items'"
+  date: 2022-08-23T08:43:43.801Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.40 to 6.0.41
+      hash: 491ad4bc391f526ad210df27f1632d91de459d17
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.42
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.40 to 6.0.41'"
+  date: 2022-08-23T01:20:18.536Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.85 to 6.0.86
+      hash: a31f464682c2cb91b0a24e95aa622be3e2c1417e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.41
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.85 to 6.0.86'"
+  date: 2022-08-23T00:35:19.290Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.44 to 13.0.45
+      hash: 7c13fcc7bd073a6e3b227fab8d95c7dbac341b94
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.40
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.44 to 13.0.45'"
+  date: 2022-08-22T15:10:22.473Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.82 to 6.0.85
+      hash: 09b7c8d789ec2e17965bd90bd05c25815f58a4bb
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.39
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.82 to 6.0.85'"
+  date: 2022-08-22T14:19:30.791Z
+- commits:
+    - subject: Restrict access to authorization contracts
+      hash: b4678de13ed44194eda9cd6fa6a2d7e98d0a5f08
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.1.38
+  title: "'Restrict access to authorization contracts'"
+  date: 2022-08-22T13:12:36.941Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.37 to 6.0.40
+      hash: 5efb10b6157d2650e3a80776a27f32f6706fa3e1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.37
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.37 to 6.0.40'"
+  date: 2022-08-22T12:09:43.187Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.79 to 6.0.82
+      hash: 09e69d5541b3fb7bca34082660d77cf9bfea7229
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.36
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.79 to 6.0.82'"
+  date: 2022-08-22T11:41:37.440Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.43 to 13.0.44
+      hash: 234ae8c266b9a1e31bc63cc475083b5cf17a7c2f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.35
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.43 to 13.0.44'"
+  date: 2022-08-22T02:12:09.523Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.10 to 8.0.38
+      hash: 761e65e23cfc20b8e638f504ce09894c7f8d7b25
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.34
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.10 to 8.0.38'"
+  date: 2022-08-22T01:23:22.013Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.48 to 6.0.50
+      hash: e426a6914372152548c73b68222e99c4873d3a6a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.33
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.48 to 6.0.50'"
+  date: 2022-08-22T00:38:55.672Z
+- commits:
+    - subject: Update @balena/jellyfish-metrics from 2.0.130 to 2.0.131
+      hash: c3ec6e186c9b8020675ff1a62566d5fa430cf906
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.32
+  title: "'Update @balena/jellyfish-metrics from 2.0.130 to 2.0.131'"
+  date: 2022-08-21T23:58:38.194Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.78 to 6.0.79
+      hash: b377ad22890ce606545e457db068a858871fa61f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.31
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.78 to 6.0.79'"
+  date: 2022-08-21T18:59:01.344Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.43 to 6.0.48
+      hash: b855d93036ba887ebdfa97ad993c8f0bfc2fba5f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.30
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.43 to 6.0.48'"
+  date: 2022-08-21T18:15:23.092Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.39 to 6.0.43
+      hash: ab7d47da3e3b795232b4d68a8a2541108e2c51c8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.29
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.39 to 6.0.43'"
+  date: 2022-08-21T12:19:07.101Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.77 to 6.0.78
+      hash: 9a401bb30cabaa704a069ce3629acf82088c30e7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.28
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.77 to 6.0.78'"
+  date: 2022-08-21T11:37:40.171Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.35 to 6.0.37
+      hash: 2f61194ddea96171ad6fcdb6def3afced3e17436
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.27
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.35 to 6.0.37'"
+  date: 2022-08-21T11:19:02.474Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.28 to 6.0.39
+      hash: 0530612dad35e2cb9e90a6f46a7e62416db74c84
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.26
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.28 to 6.0.39'"
+  date: 2022-08-21T07:53:09.042Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.26 to 6.0.35
+      hash: 96657975961f0f7f4ceebcb9b0140689d7bb43cd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.62 to 6.0.77
+      hash: 03f71d97b55333e6ca3cec0819689dbfd0f6f6e9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.25
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.26 to 6.0.35'"
+  date: 2022-08-21T07:04:45.754Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.41 to 13.0.43
+      hash: fc8ec94a9c619a07d7f45c1b1e37acc641bd9c38
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.24
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.41 to 13.0.43'"
+  date: 2022-08-21T05:29:27.387Z
+- commits:
+    - subject: Update @balena/jellyfish-metrics from 2.0.123 to 2.0.130
+      hash: 648dc00ffbc6c89d05ad996835ac5b948db8d5fe
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.23
+  title: "'Update @balena/jellyfish-metrics from 2.0.123 to 2.0.130'"
+  date: 2022-08-20T16:18:28.772Z
+- commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.30 to 5.1.37
+      hash: e57cf86c8aef68663fa1b5464e6bcb01d6087c03
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.22
+  title: "'Update @balena/jellyfish-logger from 5.1.30 to 5.1.37'"
+  date: 2022-08-20T15:32:02.689Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.39 to 13.0.41
+      hash: fc4432bc5a950d3f254935a57f669358c0371265
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.21
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.39 to 13.0.41'"
+  date: 2022-08-20T14:45:02.261Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.37 to 13.0.39
+      hash: 857f3e11ecc4127964c211fa9fb571829d0e8905
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.20
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.37 to 13.0.39'"
+  date: 2022-08-20T10:08:47.590Z
+- commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.51 to 1.2.54
+      hash: 44f6c3eb757a5ca143492ace018c6bd685cc1b09
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.19
+  title: "'Update @balena/jellyfish-assert from 1.2.51 to 1.2.54'"
+  date: 2022-08-20T09:50:34.500Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.34 to 13.0.37
+      hash: 4fe0dfb7159b0a29e04c5a98a0d228509af40162
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.1.18
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.34 to 13.0.37'"
+  date: 2022-08-20T01:42:38.373Z
+- commits:
     - subject: "UI: Strongly type redux actions"
       hash: fd0d4b5fbcae0aa9198db2fe2dabcec5658b4bdd
       body: ""

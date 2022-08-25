@@ -28,6 +28,7 @@ export interface DispatchProps {
 }
 
 interface OwnProps {
+	fixed?: boolean;
 	card: Contract;
 	segment: {
 		link: string;
@@ -99,17 +100,26 @@ class LinkOrCreate extends React.Component<Props, State> {
 	};
 
 	render() {
-		const { card, segment, types, onSave } = this.props;
+		const { card, segment, types, onSave, fixed } = this.props;
 		const { showLinkModal } = this.state;
 
 		const type = _.find(types, {
 			slug: helpers.getRelationshipTargetType(segment),
 		});
 
+		const style: any = fixed
+			? { position: 'relative', right: 0, marginRight: 0 }
+			: {};
+
 		return (
 			<>
 				{segment.link && type && (
-					<Footer mr={1} flexWrap="wrap" justifyContent="flex-end">
+					<Footer
+						style={style}
+						mr={1}
+						flexWrap="wrap"
+						justifyContent="flex-end"
+					>
 						<Button
 							mr={2}
 							mt={2}

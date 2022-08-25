@@ -18,7 +18,7 @@ import { Task } from '../components/Task';
 export const ChatRoute = () => {
 	// Using an empty types array will effectively disable the autocomplete
 	// trigger that uses the types
-	const types = [];
+	const types: any[] = [];
 	const { environment } = useSetup()!;
 	const router = useRouter();
 	const actions = useActions();
