@@ -579,6 +579,7 @@ jobs:
                 | grep -E 'created|restarting|removing|paused|exited|dead' 
               
               echo "::warning::Still working..."
+              balena ps
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
@@ -596,6 +597,7 @@ jobs:
               | grep -E ':starting|:unhealth'
 
               echo "::warning::Still working..."
+              balena ps
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
@@ -636,6 +638,7 @@ jobs:
             | grep -E ':starting|:unhealthy'; do
 
               echo "::warning::Still working..."
+              balena ps
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
