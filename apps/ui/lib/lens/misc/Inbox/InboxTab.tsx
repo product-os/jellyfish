@@ -37,9 +37,10 @@ const DEFAULT_OPTIONS: SdkQueryOptions = {
 interface Props {
 	channel: ChannelContract;
 	query: JsonSchema;
+	canArchive?: boolean;
 }
 
-const Inbox = ({ channel, query }: Props) => {
+const Inbox = ({ channel, query, canArchive }: Props) => {
 	const { sdk } = useSetup()!;
 	const [threads, nextPage, hasNextPage, loading] = useCursorEffect(
 		query,
@@ -80,7 +81,9 @@ const Inbox = ({ channel, query }: Props) => {
 	// An oddity of react-virtuoso is that the `itemContent` cannot be a memoized component, but it can call out to a memoized component.
 	// See https://virtuoso.dev/#performance
 	const itemContent = (_index, contract) => {
-		return <EventBox contract={contract} channel={channel} />;
+		return (
+			<EventBox contract={contract} channel={channel} canArchive={canArchive} />
+		);
 	};
 
 	const inboxItems = threads.filter((thread) => {
