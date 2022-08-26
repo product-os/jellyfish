@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.62 to 6.0.63
+      hash: 627690d0a79d6d7c907c2f3a31bec4127eb3c70e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.2.13
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.62 to 6.0.63'"
+  date: 2022-08-26T06:09:57.992Z
+- commits:
     - subject: Show timestamp for more events
       hash: ad68bc2ceb6ed90dbf840e0f6e5f13f42b0536a7
       body: |
