@@ -1,4 +1,20 @@
 - commits:
+    - subject: Show timestamp for more events
+      hash: ad68bc2ceb6ed90dbf840e0f6e5f13f42b0536a7
+      body: |
+        Show the timestamp portion of the event hover element for events that
+        have a context contract or are a part of 121 conversations.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.2.12
+  title: "'Show timestamp for more events'"
+  date: 2022-08-26T03:54:53.477Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 8.0.47 to 8.0.50
       hash: 9d1a32d3a337406e3a547c6d3babce0b10104fa5
       body: ""
