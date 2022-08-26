@@ -135,7 +135,15 @@ const EventHeader = (props: EventHeaderProps) => {
 				{!squashTop && !isMessage && getTimelineElement()}
 			</Flex>
 
-			{!(context || is121) && (
+			{context || is121 ? (
+				<HoverMenu
+					card={card}
+					{...contextProps}
+					isOwnMessage={isOwnMessage}
+					isMessage={isMessage}
+					menuOptions={false}
+				/>
+			) : (
 				<HoverMenu
 					card={card}
 					{...contextProps}
