@@ -127,7 +127,7 @@ const Inbox = ({ channel }: Props) => {
 		<Column pt={2}>
 			<Tabs>
 				<Tab title="Open">
-					<InboxTab query={openQuery} channel={channel} />
+					<InboxTab query={openQuery} channel={channel} canArchive={true} />
 				</Tab>
 				<Tab title="Archived">
 					<InboxTab query={archivedQuery} channel={channel} />
