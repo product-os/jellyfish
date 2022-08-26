@@ -20,7 +20,7 @@ x-default-environment: &default-environment
   MDNS_TLD: ly.fish.local
 
 services:
-  test-runner:
+  jellyfish-tests:
     build:
       context: .
       dockerfile: apps/test-runner/Dockerfile
