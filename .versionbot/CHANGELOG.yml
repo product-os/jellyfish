@@ -1,4 +1,23 @@
 - commits:
+    - subject: Fix inbox to handle sent tab query results
+      hash: dfdee6987fe7c02e753263537018b37222666c49
+      body: |
+        Update the EventBox component used in the new Inbox to properly
+        handle cases in which the query results in a message/whisper contract
+        and stop assuming result is always a thread. Also add prop to toggle
+        archive button - should only be able to archive things from the open
+        tab.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.2.10
+  title: "'Fix inbox to handle sent tab query results'"
+  date: 2022-08-26T02:31:14.803Z
+- commits:
     - subject: Move test-runner as an app
       hash: fada38683b12bffb925b7e63c0b37d5f7bce0cec
       body: ""
