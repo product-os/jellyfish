@@ -1,4 +1,18 @@
 - commits:
+    - subject: Move test-runner as an app
+      hash: fada38683b12bffb925b7e63c0b37d5f7bce0cec
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.2.9
+  title: "'Avoid restarting the jellyfish-tests /sbin/init'"
+  date: 2022-08-26T01:01:10.768Z
+- commits:
     - subject: Force haproxy to restart first
       hash: dda6a2fa21b421ff2721095aa07a7a33864019ed
       body: ""
