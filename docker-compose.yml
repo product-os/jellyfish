@@ -129,6 +129,7 @@ services:
       context: .
       dockerfile: apps/ui/Dockerfile
 
+  # TODO Don't run on PROD
   # https://github.com/balena-io/open-balena-db
   postgres:
     image: balena/open-balena-db:v5.1.2
@@ -138,10 +139,11 @@ services:
       retries: 3
       test: pg_isready -U "${POSTGRES_USER}" -d postgres
       timeout: 5s
-    command: ['postgres', '-c', 'fsync=off', '-c', 'synchronous_commit=off', '-c', 'full_page_writes=off']
+    command: ['postgres', '-c', 'fsync=off', '-c', 'synchronous_commit=off', '-c', 'full_page_writes=off', '-c', 'max_connections=500', '-c', 'shared_buffers=512MB']
     volumes:
       - postgres-data:/var/lib/postgresql/data
 
+  # TODO Don't run on PROD
   # https://hub.docker.com/_/redis
   redis:
     image: redis:6-alpine
@@ -155,6 +157,7 @@ services:
       - redis-data:/data
     command: redis-server --appendonly yes
 
+  # TODO Don't run on PROD
   # https://github.com/balena-io/open-balena-s3
   s3:
     image: balena/open-balena-s3:v2.13.10
