@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update internal packages
+      hash: 7e6856cd6729a473a78c84257122cac2235e851e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.2.14
+  title: "'Update internal packages'"
+  date: 2022-08-27T00:40:34.994Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-front from 6.0.62 to 6.0.63
       hash: 627690d0a79d6d7c907c2f3a31bec4127eb3c70e
       body: ""
