@@ -15,6 +15,7 @@ const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.
 
 balenaAvaTest('should take application/jose balena-api webhooks', async (test) => {
 	const token = environment.integration['balena-api']
+	console.log(`[test application/jose webhooks] Using token ${token}`)
 
 	const object = {
 		test: 1
@@ -30,6 +31,7 @@ balenaAvaTest('should take application/jose balena-api webhooks', async (test) =
 		jwtid: uuid(),
 		subject: uuid()
 	})
+	console.log(`[test application/jose webhooks] Using signedToken ${signedToken}`)
 
 	const keyValue = Buffer.from(token.production.publicKey, 'base64')
 
@@ -39,10 +41,12 @@ balenaAvaTest('should take application/jose balena-api webhooks', async (test) =
 		format: 'compact'
 	}, encryptionKey)
 	cipher.update(signedToken)
-	const string = await cipher.final()
+	const payload = await cipher.final()
+
+	console.log(`[test application/jose webhooks] Calling endpoint '/api/v2/hooks/balena-api' with payload ${payload}`)
 
 	const result = await helpers.http(
-		'POST', '/api/v2/hooks/balena-api', string, {
+		'POST', '/api/v2/hooks/balena-api', payload, {
 			'Content-Type': 'application/jose'
 		}, {
 			json: false
