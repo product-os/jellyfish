@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump jellyfish-front
+      hash: ac302dc1a50272080b38b8d119a17d0543267f2c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.2.15
+  title: "'Update @balena/jellyfish-plugin-front to 6.0.66'"
+  date: 2022-08-27T12:28:59.115Z
+- commits:
     - subject: Update internal packages
       hash: 7e6856cd6729a473a78c84257122cac2235e851e
       body: ""
