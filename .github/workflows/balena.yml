@@ -11,7 +11,7 @@ env:
   # Patch for issue with AWS - see https://jel.ly.fish/thread-fda9f620-49d0-4d20-9093-1b3dc08f9bf8
   # was c6a.2xlarge
   # AWS_EC2_INSTANCE_TYPE: c6a.2xlarge
-  AWS_EC2_INSTANCE_TYPE: c6a.2xlarge
+  AWS_EC2_INSTANCE_TYPE: c6a.4xlarge
   AWS_EC2_LAUNCH_TEMPLATE: lt-0716bda3583150eaa
   AWS_EC2_LT_VERSION: 6
   AWS_IAM_USERNAME: jellyfish-tests-iam-User-Q6SZ9PAHLZAE
@@ -573,10 +573,6 @@ jobs:
             'balena ps -q | xargs balena inspect | jq -r .[].State.Status' \
             | grep -E 'created|restarting|removing|paused|exited|dead'; do
 
-              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-              'balena ps' 
-              
               echo "::warning:: wait for services to start running Still working..."
               ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
               ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
@@ -592,16 +588,11 @@ jobs:
             | jq -r ".[] | select(.State.Health.Status!=null).Name + \":\" + .State.Health.Status"' \
             | grep -E ':starting|:unhealthy'; do
 
-              ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-              ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-              'balena ps -q | xargs balena inspect \
-              | jq -r ".[] | select(.State.Health.Status!=null).Name + \":\" + .State.Health.Status"' \
-              | grep -E ':starting|:unhealth'
-
               echo "::warning:: wait for Docker healthchecks Still working..."
               ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
               ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
               'balena ps'
+
               sleep "$(( (RANDOM % 30) + 30 ))s"
           done
 
@@ -629,7 +620,8 @@ jobs:
 
           with_backoff ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-            'balena ps -q | xargs balena restart || true'
+            balena restart -t 1 `balena ps -q | tr '\n' ' '` || true
+            
 
           #balena device restart ${{ steps.register-test-device.outputs.balena_device_uuid }}
 
