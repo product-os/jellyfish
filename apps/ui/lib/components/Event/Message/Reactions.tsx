@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import emoji from 'node-emoji';
 import styled from 'styled-components';
-import { Button, Flex } from 'rendition';
+import { Button } from 'rendition';
 import { useSetup } from '../../SetupProvider';
 import { selectors } from '../../../store';
 import { useSelector } from 'react-redux';
