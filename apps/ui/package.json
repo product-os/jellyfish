@@ -24,7 +24,7 @@
   "license": "AGPL-3.0",
   "dependencies": {
     "@balena/jellyfish-client-sdk": "^13.0.49",
-    "@balena/jellyfish-environment": "^13.0.4",
+    "@balena/jellyfish-environment": "^13.0.7",
     "@sentry/browser": "^6.19.7",
     "@use-it/event-listener": "^0.1.7",
     "@webscopeio/react-textarea-autocomplete": "^4.9.1",
