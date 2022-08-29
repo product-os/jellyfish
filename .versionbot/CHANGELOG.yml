@@ -1,4 +1,19 @@
 - commits:
+    - subject: Correctly parse comments with attachments and no text
+      hash: 7a860ba8891583ca3cfb5634e5699e09f24fdbf1
+      body: |
+        Bumped from jellyfish-plugin-front 6.0.67
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.2.16
+  title: "'Correctly parse comments with attachments and no text'"
+  date: 2022-08-29T21:16:20.805Z
+- commits:
     - subject: Bump jellyfish-front
       hash: ac302dc1a50272080b38b8d119a17d0543267f2c
       body: ""
