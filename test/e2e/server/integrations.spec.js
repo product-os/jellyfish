@@ -15,7 +15,7 @@ const balenaAvaTest = _.some(_.values(environment.integration['balena-api']), _.
 
 balenaAvaTest('should take application/jose balena-api webhooks', async (test) => {
 	const token = environment.integration['balena-api']
-	console.log(`[test application/jose webhooks] Using token ${token}`)
+	console.log(`[test application/jose webhooks] Using token ${JSON.stringify(token, null, 2)}`)
 
 	const object = {
 		test: 1

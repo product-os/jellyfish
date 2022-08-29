@@ -620,7 +620,7 @@ jobs:
 
           with_backoff ssh-uuid -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             ${{ steps.register-test-device.outputs.balena_device_uuid }}.balena \
-            balena restart -t 1 `balena ps -q | tr '\n' ' '` || true
+            'balena restart -t 1 `balena ps -q | tr "\n" " "` || true'
             
 
           #balena device restart ${{ steps.register-test-device.outputs.balena_device_uuid }}
