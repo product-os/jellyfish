@@ -1,4 +1,18 @@
 - commits:
+    - subject: Allow users to manually set milestone status
+      hash: 154fc0384723b9e277ade096b684fb35d2adcad8
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.3.0
+  title: "'Allow users to manually set milestone status'"
+  date: 2022-08-30T08:01:53.386Z
+- commits:
     - subject: Update @balena/jellyfish-environment from 13.0.4 to 13.0.7
       hash: c31f2063eb01b89b592a6b9d08ec54fb0be02fab
       body: ""
