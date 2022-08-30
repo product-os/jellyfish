@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Don't auto close native notifications"
+      hash: 35eab226fb557d8932b2ee59fa8cb13063229cf9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.3.8
+  title: "'UI: Don't auto close native notifications'"
+  date: 2022-08-30T16:19:03.130Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-typeform from 10.0.63 to 10.0.70
       hash: 5e1d70da78b7ba73505068e0ee3aa4fe09a68d19
       body: ""
