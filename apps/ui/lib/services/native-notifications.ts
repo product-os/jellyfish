@@ -2,8 +2,6 @@ import { Howl } from 'howler';
 import path from 'path';
 import * as helpers from './helpers';
 
-const TIMEOUT = 10 * 1000;
-
 const sound = new Howl({
 	src: '/audio/dustyroom_cartoon_bubble_pop.mp3',
 });
@@ -43,12 +41,9 @@ export const createNotification = ({
 	});
 
 	if (!disableSound) {
+		console.log(sound);
 		sound.play();
 	}
-
-	const timeout = setTimeout(() => {
-		return notice.close();
-	}, TIMEOUT);
 
 	notice.onclick = () => {
 		// Try...catch block is here as in some situations (eg. browser addons)
@@ -67,7 +62,6 @@ export const createNotification = ({
 			historyPush(newPath);
 		}
 
-		clearTimeout(timeout);
 		notice.close();
 	};
 };
