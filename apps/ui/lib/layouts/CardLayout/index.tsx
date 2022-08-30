@@ -2,12 +2,19 @@ import type { Contract, RelationshipContract, TypeContract } from 'autumndb';
 import _ from 'lodash';
 import React from 'react';
 import { connect } from 'react-redux';
-import { Flex, Txt } from 'rendition';
+import { Box, Flex, Txt } from 'rendition';
+import styled from 'styled-components';
 import { CloseButton, Column, LinksProvider, useSetup } from '../../components';
 import CardActions from '../../components/CardActions';
 import Markers from '../../components/Markers';
 import { selectors } from '../../store';
 import type { ChannelContract } from '../../types';
+
+const EllipsisTxt = styled(Txt)`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+`;
 
 interface StateProps {
 	types: TypeContract[];
@@ -79,24 +86,25 @@ const CardLayout = (props: Props) => {
 				>
 					<Flex
 						flex={1}
+						minWidth={0}
 						alignSelf={['flex-start', 'flex-start', 'inherit']}
 						my={[2, 2, 0]}
 					>
 						{title}
 
 						{!title && (
-							<div>
-								<Txt bold>
+							<Box width="100%">
+								<EllipsisTxt bold>
 									{card.name || card.slug || card.type}
 									{versionSuffix}
-								</Txt>
+								</EllipsisTxt>
 
 								{Boolean(typeName) && (
 									<Txt color="text.light" fontSize="0">
 										{typeName}
 									</Txt>
 								)}
-							</div>
+							</Box>
 						)}
 					</Flex>
 					<Flex alignSelf={['flex-end', 'flex-end', 'flex-start']}>
