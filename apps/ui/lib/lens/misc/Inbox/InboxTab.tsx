@@ -32,6 +32,12 @@ const DEFAULT_OPTIONS: SdkQueryOptions = {
 	limit: 15,
 	sortBy: 'created_at',
 	sortDir: 'desc',
+	links: {
+		'has attached element': {
+			sortBy: 'created_at',
+			sortDir: 'desc',
+		},
+	},
 };
 
 interface Props {
