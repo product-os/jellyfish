@@ -31,7 +31,7 @@
     "@balena/jellyfish-plugin-front": "^6.0.70",
     "@balena/jellyfish-plugin-github": "^8.0.50",
     "@balena/jellyfish-plugin-incidents": "^8.0.40",
-    "@balena/jellyfish-plugin-outreach": "^5.0.70",
+    "@balena/jellyfish-plugin-outreach": "^5.0.76",
     "@balena/jellyfish-plugin-typeform": "^10.0.63",
     "@balena/jellyfish-worker": "^33.2.0",
     "@balena/socket-prometheus-metrics": "^0.0.3",
