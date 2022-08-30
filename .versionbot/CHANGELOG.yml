@@ -1,4 +1,28 @@
 - commits:
+    - subject: "UI: Sort notification display by most recent attached message"
+      hash: 82e1ffd3377adc953a90b957031cc2f107192823
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+    - subject: "UI: Show the most recent notification in a thread first in the inbox"
+      hash: a1d4d16d1cabf72e500c98d0efde007c8dfd2c29
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.3.6
+  title: "'Improve notification sorting in inbox'"
+  date: 2022-08-30T14:57:44.703Z
+- commits:
     - subject: "UI: Shorten long titles with an ellipsis"
       hash: c4d32198f9fbeb45e287986a725f9b120c84724c
       body: |
