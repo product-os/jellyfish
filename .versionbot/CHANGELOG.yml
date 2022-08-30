@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 10.0.63 to 10.0.70
+      hash: 5e1d70da78b7ba73505068e0ee3aa4fe09a68d19
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.3.7
+  title: "'Update @balena/jellyfish-plugin-typeform from 10.0.63 to 10.0.70'"
+  date: 2022-08-30T15:37:47.789Z
+- commits:
     - subject: "UI: Sort notification display by most recent attached message"
       hash: 82e1ffd3377adc953a90b957031cc2f107192823
       body: ""
