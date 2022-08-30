@@ -29,7 +29,7 @@ const getArchivedNotificationQuery = (): JsonSchema => ({
 });
 
 const DEFAULT_OPTIONS: SdkQueryOptions = {
-	limit: 15,
+	limit: 25,
 	sortBy: 'created_at',
 	sortDir: 'desc',
 	links: {
@@ -92,14 +92,23 @@ const Inbox = ({ channel, query, canArchive }: Props) => {
 		);
 	};
 
-	const inboxItems = threads.filter((thread) => {
-		const nIds = _.map(
-			thread?.links?.['has attached element']?.[0]?.links?.['has attached'] ??
-				[],
-			'id',
-		);
-		return !nIds.length || !_.intersection(archivedNotifications, nIds).length;
-	});
+	const inboxItems = _.sortBy(
+		threads.filter((thread) => {
+			const nIds = _.map(
+				thread?.links?.['has attached element']?.[0]?.links?.['has attached'] ??
+					[],
+				'id',
+			);
+			return (
+				!nIds.length || !_.intersection(archivedNotifications, nIds).length
+			);
+		}),
+		// This is a hacky way to sort the threads by their most recent message.
+		// TODO: This should be done at the query level
+		(thread) => {
+			return thread?.links?.['has attached element']?.[0]?.created_at;
+		},
+	).reverse();
 
 	return (
 		<Flex
