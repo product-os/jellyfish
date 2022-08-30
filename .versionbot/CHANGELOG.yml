@@ -1,4 +1,19 @@
 - commits:
+    - subject: "UI: Shorten long titles with an ellipsis"
+      hash: c4d32198f9fbeb45e287986a725f9b120c84724c
+      body: |
+        Titles that overflow the screenspace will be trimmed with an ellipsis.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.3.5
+  title: "'UI: Shorten long titles with an ellipsis'"
+  date: 2022-08-30T14:01:19.003Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-outreach from 5.0.70 to 5.0.76
       hash: 13c2cc7a2e8999704e5a188bdc81a1541ad8481b
       body: ""
