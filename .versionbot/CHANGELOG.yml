@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add another row of emojis
+      hash: 95fbbc7f2f748009f15b15c4250d7e2a187ce55d
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: YingwenChen yingwenchen@balena.io
+        signed-off-by: YingwenChen yingwenchen@balena.io
+      author: yingwen chen
+      nested: []
+  version: 59.4.0
+  title: "'Add another row of emojis'"
+  date: 2022-08-30T20:03:39.343Z
+- commits:
     - subject: "UI: Don't auto close native notifications"
       hash: 35eab226fb557d8932b2ee59fa8cb13063229cf9
       body: ""
