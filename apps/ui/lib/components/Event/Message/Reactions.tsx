@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import emoji from 'node-emoji';
 import styled from 'styled-components';
-import { Button, Flex } from 'rendition';
+import { Button } from 'rendition';
 import { useSetup } from '../../SetupProvider';
 import { selectors } from '../../../store';
 import { useSelector } from 'react-redux';
@@ -93,22 +93,35 @@ export const Reactions = ({ message }) => {
 	);
 
 	return (
-		<Flex justifyContent="space-between">
-			{[':+1:', ':heart:', ':100:', ':smile:', ':pensive:', ':rocket:'].map(
-				(symbol, i) => {
-					return (
-						<EmojiButton
-							p={1}
-							mx={1}
-							onClick={() => onClick(symbol)}
-							plain
-							key={i}
-						>
-							<Emoji symbol={symbol} />
-						</EmojiButton>
-					);
-				},
-			)}
-		</Flex>
+		<div flex-wrap="wrap">
+			{[
+				':+1:',
+				':heart:',
+				':100:',
+				':smile:',
+				':pensive:',
+				':rocket:',
+				':point_up_2:',
+				':thinking_face:',
+				':smirk:',
+				':face_with_rolling_eyes:',
+				':face_palm:',
+				':scream:',
+				':smiling_face_with_tear:',
+				':grimacing:',
+			].map((symbol, i) => {
+				return (
+					<EmojiButton
+						p={1}
+						mx={1}
+						onClick={() => onClick(symbol)}
+						plain
+						key={i}
+					>
+						<Emoji symbol={symbol} />
+					</EmojiButton>
+				);
+			})}
+		</div>
 	);
 };
