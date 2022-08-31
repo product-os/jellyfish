@@ -1,4 +1,24 @@
 - commits:
+    - subject: "UI: Prefer linked target to hardcoded target when clicking a message"
+      hash: 5711f99615fefa765af5ed0a8d4d0bdabca40a93
+      body: |
+        This makes the on-click behaviour much more responsive to context than
+        it used to be, by relying on the linked data if it's available.
+        For example, the message may have initially targeted and entity that no
+        longer exists, but is being queried through a more recent link. By using
+        the link data, it is much more likely that clicking the message will
+        result in the correct behaviour.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.5.1
+  title: "'UI: Prefer linked target to hardcoded target when clicking a message'"
+  date: 2022-08-31T16:09:06.919Z
+- commits:
     - subject: Change navbar color and contrast
       hash: c70950ecb46abfabeb6f72ccd8502248651782ff
       body: ""
