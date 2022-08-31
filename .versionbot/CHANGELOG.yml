@@ -1,4 +1,18 @@
 - commits:
+    - subject: Change navbar color and contrast
+      hash: c70950ecb46abfabeb6f72ccd8502248651782ff
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: YingwenChen yingwenchen@balena.io
+        signed-off-by: YingwenChen yingwenchen@balena.io
+      author: yingwen chen
+      nested: []
+  version: 59.5.0
+  title: "'Change navbar color and contrast'"
+  date: 2022-08-31T14:02:56.702Z
+- commits:
     - subject: Add another row of emojis
       hash: 95fbbc7f2f748009f15b15c4250d7e2a187ce55d
       body: ""
