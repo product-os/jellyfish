@@ -16,7 +16,7 @@ import OmniSearch from '../OmniSearch';
 import { LoopSelector } from '../LoopSelector';
 
 const Wrapper = styled(Flex)`
-	background-color: #af91e8;
+	background-color: #8c31ff;
 	z-index: 1;
 `;
 
