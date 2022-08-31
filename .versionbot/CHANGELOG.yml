@@ -1,4 +1,19 @@
 - commits:
+    - subject: Retry if a query times out to avoid inconsistencies between front and JF
+      hash: bc38f231a593075de29c037c59774cd1d0a1f279
+      body: |
+        Bump jellyfish-plugin-front to v6.0.73
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.5.2
+  title: "'Retry if a query times out to avoid inconsistencies between front and JF'"
+  date: 2022-08-31T17:20:09.082Z
+- commits:
     - subject: "UI: Prefer linked target to hardcoded target when clicking a message"
       hash: 5711f99615fefa765af5ed0a8d4d0bdabca40a93
       body: |
