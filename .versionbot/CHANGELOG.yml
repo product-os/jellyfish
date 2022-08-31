@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.49 to 13.0.50
+      hash: d80d276e1a30a8593ec246a7207e3f909de399a0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.5.3
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.49 to 13.0.50'"
+  date: 2022-08-31T21:13:25.528Z
+- commits:
     - subject: Retry if a query times out to avoid inconsistencies between front and JF
       hash: bc38f231a593075de29c037c59774cd1d0a1f279
       body: |
