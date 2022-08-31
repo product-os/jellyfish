@@ -167,7 +167,7 @@ export const LoopSelector = React.memo(() => {
 			...styles,
 			minHeight: 0,
 			width: 180,
-			background: isFocused ? 'white' : hasValue ? '#8369C4' : '#AF91E8',
+			background: isFocused ? 'white' : hasValue ? '#3E0070' : '#8C31FF',
 			borderColor: hasValue ? '#8369C4' : '#F7F2FF',
 		}),
 		singleValue: (styles) => {
