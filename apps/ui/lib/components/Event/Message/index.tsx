@@ -53,8 +53,10 @@ const MessageIconWrapper = styled(Box)`
 	}
 `;
 
-const getTargetId = (card: Contract<{ target: string }>) => {
-	return _.get(card, ['data', 'target']) || card.id;
+const getTargetId = (card: Contract<{ target: string }>): string => {
+	const linkedTarget = card?.links?.['is attached to']?.[0].id ?? null;
+	const ownTarget = card.data?.target ?? null;
+	return linkedTarget || ownTarget || card.id;
 };
 
 interface MessageIconProps {
