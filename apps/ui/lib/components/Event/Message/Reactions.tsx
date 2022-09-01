@@ -100,8 +100,8 @@ export const Reactions = ({ message }) => {
 				':100:',
 				':smile:',
 				':pensive:',
+				':sunglasses:',
 				':rocket:',
-				':point_up_2:',
 				':thinking_face:',
 				':smirk:',
 				':face_with_rolling_eyes:',
@@ -109,6 +109,13 @@ export const Reactions = ({ message }) => {
 				':scream:',
 				':smiling_face_with_tear:',
 				':grimacing:',
+				':eyes:',
+				':point_up_2:',
+				':crossed_fingers:',
+				':wave:',
+				':raised_hand:',
+				':raised_hands:',
+				':muscle:',
 			].map((symbol, i) => {
 				return (
 					<EmojiButton
