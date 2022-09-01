@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add JellyfishDatabaseTimeoutError to the list of retryable errors
+      hash: 7fba84b0a7040e994aac2c407622a1d22fd13fc3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.5.6
+  title: "'Add JellyfishDatabaseTimeoutError to the list of retryable errors'"
+  date: 2022-09-01T19:45:43.828Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-front from 6.0.73 to 6.0.74
       hash: 060f014eddc1e676bec99790fadb57e539f0fd8d
       body: ""
