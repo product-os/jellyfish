@@ -1,4 +1,18 @@
 - commits:
+    - subject: Add another row of emojis and rearrange order
+      hash: 967ed02f0a2332a336953e907542ff6f44e69ff3
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: YingwenChen yingwenchen@balena.io
+        signed-off-by: YingwenChen yingwenchen@balena.io
+      author: yingwen chen
+      nested: []
+  version: 59.6.0
+  title: "'Add another row of emojis and rearrange order'"
+  date: 2022-09-01T22:51:18.958Z
+- commits:
     - subject: Add JellyfishDatabaseTimeoutError to the list of retryable errors
       hash: 7fba84b0a7040e994aac2c407622a1d22fd13fc3
       body: ""
