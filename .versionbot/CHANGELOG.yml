@@ -1,4 +1,19 @@
 - commits:
+    - subject: "Server: testing autumndb stream updates"
+      hash: 675fc564989bb7c3b28583ebdca84c2d685d3e1d
+      body: |
+        https://github.com/product-os/autumndb/pull/1462
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.7.0
+  title: "'Server: testing autumndb stream updates'"
+  date: 2022-09-05T14:00:15.006Z
+- commits:
     - subject: Add another row of emojis and rearrange order
       hash: 967ed02f0a2332a336953e907542ff6f44e69ff3
       body: ""
