@@ -1,4 +1,18 @@
 - commits:
+    - subject: Accepts Front API events cleaning up the invalid email addresses
+      hash: 66323ead1607d29dc2ae950b873d243437eacf1b
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.6.1
+  title: "'Accepts Front API events cleaning up the invalid email addresses'"
+  date: 2022-09-05T19:52:14.269Z
+- commits:
     - subject: Add another row of emojis and rearrange order
       hash: 967ed02f0a2332a336953e907542ff6f44e69ff3
       body: ""
