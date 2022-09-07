@@ -54,33 +54,6 @@ export type JellyThunkDispatch = ThunkDispatch<State, ThunkExtraArgs, Action>;
 // Refresh the session token once every 3 hours
 const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
 
-const allGroupsWithUsersQuery: JsonSchema = {
-	type: 'object',
-	description: 'Get all groups with member user slugs',
-	required: ['type', 'name'],
-	$$links: {
-		'has group member': {
-			type: 'object',
-			required: ['slug', 'active'],
-			properties: {
-				active: {
-					type: 'boolean',
-					const: true,
-				},
-				slug: {
-					type: 'string',
-				},
-			},
-			additionalProperties: false,
-		},
-	},
-	properties: {
-		type: {
-			const: 'group@1.0.0',
-		},
-	},
-};
-
 const buildGlobalQueryMask = (loop: string | null): JsonSchema | null => {
 	if (!loop) {
 		return null;
@@ -538,9 +511,8 @@ export const actionCreators = {
 					sdk.card.getAllByType<OrgContract>('org'),
 					sdk.card.getAllByType<TypeContract>('type'),
 					sdk.card.getAllByType<RelationshipContract>('relationship'),
-					sdk.query(allGroupsWithUsersQuery),
 					sdk.getConfig(),
-				]).then(async ([loops, orgs, types, relationships, groups, config]) => {
+				]).then(async ([loops, orgs, types, relationships, config]) => {
 					const state = getState();
 
 					// Check to see if we're still logged in
@@ -550,7 +522,6 @@ export const actionCreators = {
 						dispatch(actionCreators.setTypes(types));
 						dispatch(actionCreators.setRelationships(relationships));
 						dispatch(actionCreators.setOrgs(orgs));
-						dispatch(actionCreators.setGroups(groups, user));
 						dispatch({
 							type: 'SET_CONFIG',
 							value: config,
