@@ -37,24 +37,33 @@ const getLoop = (product: string): string => {
 const allGroupsWithUsersQuery: JsonSchema = {
 	type: 'object',
 	description: 'Get all groups with member user slugs',
-	required: ['type', 'name'],
 	$$links: {
 		'has group member': {
 			type: 'object',
-			required: ['slug'],
+			additionalProperties: false,
 			properties: {
+				active: {
+					type: 'boolean',
+					const: true,
+				},
 				slug: {
 					type: 'string',
 				},
 			},
-			additionalProperties: false,
 		},
 	},
 	properties: {
 		type: {
 			const: 'group@1.0.0',
 		},
+		name: {
+			type: 'string',
+		},
+		links: {
+			type: 'object',
+		},
 	},
+	additionalProperties: false,
 };
 
 // Card exists here until it's loaded
