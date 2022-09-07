@@ -6,6 +6,7 @@ import { Button, Txt, useRequest } from 'rendition';
 import { useSetup } from '../../SetupProvider';
 import { selectors } from '../../../store';
 import { Contract } from 'autumndb';
+import _ from 'lodash';
 
 const Emoji = ({ symbol, count, ...rest }) => {
 	const em = React.useMemo(() => {
