@@ -45,7 +45,7 @@ export const Reactions = ({ message }) => {
 			const reactionsIds = reactions.map(
 				(reactionContract) => reactionContract.id,
 			);
-			// Avoid querying with an empty enum below
+			// Avoid querying with an empty array enum below
 			if (!reactionsIds || _.isEmpty(reactionsIds)) {
 				return {} as { [key: string]: Contract[] };
 			}
