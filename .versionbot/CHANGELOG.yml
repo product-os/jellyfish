@@ -1,4 +1,19 @@
 - commits:
+    - subject: Make Sync retry if a query timeouts
+      hash: c774b0dd18c5c1511135a4634ad68be7fada8f05
+      body: |
+        FIX Reactions bug that generated an invalid query
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.8.0
+  title: "'Make worker use a SyncContext that retries queries that timeout'"
+  date: 2022-09-07T14:30:19.601Z
+- commits:
     - subject: Improve functionality of streams, specifically in the handling of links.
       hash: 60f0ef09e897531b08440dd2164f1d8bbd91db5e
       body: |
