@@ -41,7 +41,15 @@ export const DisplayReactions = ({ message }: { message: Contract }) => {
 
 	const [groupReactions, , , forcePoll] = useRequest(
 		async () => {
-			if (!reactions) {
+			if (!reactions || _.isEmpty(reactions)) {
+				return {} as { [key: string]: Contract[] };
+			}
+
+			const reactionsIds = reactions.map(
+				(reactionContract) => reactionContract.id,
+			);
+			// Avoid querying with an empty enum below
+			if (!reactionsIds || _.isEmpty(reactionsIds)) {
 				return {} as { [key: string]: Contract[] };
 			}
 			const reactionsArray = await sdk.query({
@@ -53,7 +61,7 @@ export const DisplayReactions = ({ message }: { message: Contract }) => {
 				},
 				properties: {
 					id: {
-						enum: reactions.map((reactionContract) => reactionContract.id),
+						enum: reactionsIds,
 					},
 				},
 			});
