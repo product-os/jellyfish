@@ -1,4 +1,16 @@
 - commits:
+    - subject: Removed "allGroupsWithUsersQuery" from bootstrap That query was ~60mb
+        and blocked loading and refresh
+      hash: 1a84ae252f4e1c3a77521e986cfaa5046ce6c93e
+      body: ""
+      footer:
+        change-type: minor
+      author: Edwin Joassart
+      nested: []
+  version: 59.7.0
+  title: "'Fix : \"allGroupsWithUsersQuery\" in bootstrap takes 60mb and 10+ sec'"
+  date: 2022-09-07T08:13:28.479Z
+- commits:
     - subject: Accepts Front API events cleaning up the invalid email addresses
       hash: 66323ead1607d29dc2ae950b873d243437eacf1b
       body: ""
