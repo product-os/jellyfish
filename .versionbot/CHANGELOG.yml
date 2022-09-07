@@ -1,4 +1,28 @@
 - commits:
+    - subject: "[Reactions] Avoid generating queries with null ids that fail"
+      hash: 44a0862147d468bc855a38ccca459d57f6b3f597
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+    - subject: "[Reactions] Avoid generating queries with null ids that fail"
+      hash: d9643c10f159da48d01b12b043015114cff9ae09
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.8.2
+  title: "'[Reactions] Avoid generating queries with null ids that fail'"
+  date: 2022-09-07T18:59:15.206Z
+- commits:
     - subject: "UI: Improve performance of chat group query"
       hash: 38f261fbd58771e3e27621a159f769f3e5b092f2
       body: |
