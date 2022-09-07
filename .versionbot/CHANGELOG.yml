@@ -1,4 +1,17 @@
 - commits:
+    - subject: "[UI]: Add Pizza, flowers, infinity emoji"
+      hash: 82a1380ced15512d4f753929f3168ddeaf526d63
+      body: ""
+      footer:
+        change-type: minor
+        Signed-off-by: zoobot <rommims@gmail.com>
+        signed-off-by: zoobot <rommims@gmail.com>
+      author: zoobot
+      nested: []
+  version: 59.9.0
+  title: "'[UI]: Add Pizza, flowers, infinity emoji'"
+  date: 2022-09-07T20:17:19.068Z
+- commits:
     - subject: "[Reactions] Avoid generating queries with null ids that fail"
       hash: 44a0862147d468bc855a38ccca459d57f6b3f597
       body: ""
