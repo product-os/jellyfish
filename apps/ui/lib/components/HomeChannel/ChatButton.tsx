@@ -99,11 +99,17 @@ export const ChatButton = ({ onClick, ...rest }) => {
 			stream.on('update', ({ data: { id, type, after: card } }) => {
 				if (type === 'insert' || type === 'update') {
 					setNotifications((existingNotifications) => {
+						if (!existingNotifications) {
+							return [card];
+						}
 						return uniq(existingNotifications!.concat(card));
 					});
 				} else if (type === 'unmatch') {
 					setNotifications((existingNotifications) => {
-						return existingNotifications!.filter((existingNotification) => {
+						if (!existingNotifications) {
+							return existingNotifications;
+						}
+						return existingNotifications.filter((existingNotification) => {
 							return existingNotification.id !== id;
 						});
 					});
