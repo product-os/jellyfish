@@ -57,11 +57,10 @@ const TOKEN_REFRESH_INTERVAL = 3 * 60 * 60 * 1000;
 const allGroupsWithUsersQuery: JsonSchema = {
 	type: 'object',
 	description: 'Get all groups with member user slugs',
-	required: ['type', 'name'],
 	$$links: {
 		'has group member': {
 			type: 'object',
-			required: ['slug', 'active'],
+			additionalProperties: false,
 			properties: {
 				active: {
 					type: 'boolean',
@@ -71,14 +70,20 @@ const allGroupsWithUsersQuery: JsonSchema = {
 					type: 'string',
 				},
 			},
-			additionalProperties: false,
 		},
 	},
 	properties: {
 		type: {
 			const: 'group@1.0.0',
 		},
+		name: {
+			type: 'string',
+		},
+		links: {
+			type: 'object',
+		},
 	},
+	additionalProperties: false,
 };
 
 const buildGlobalQueryMask = (loop: string | null): JsonSchema | null => {
@@ -542,6 +547,9 @@ export const actionCreators = {
 					sdk.getConfig(),
 				]).then(async ([loops, orgs, types, relationships, groups, config]) => {
 					const state = getState();
+
+					console.log({ allGroupsWithUsersQuery });
+					console.log({ groups });
 
 					// Check to see if we're still logged in
 					if (selectors.getSessionToken()(state)) {
