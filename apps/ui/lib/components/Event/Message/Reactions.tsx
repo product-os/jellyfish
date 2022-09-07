@@ -6,6 +6,7 @@ import { useSetup } from '../../SetupProvider';
 import { selectors } from '../../../store';
 import { useSelector } from 'react-redux';
 import { Contract } from 'autumndb';
+import _ from 'lodash';
 
 const Emoji = ({ symbol, ...rest }) => {
 	const em = React.useMemo(() => {
@@ -37,10 +38,17 @@ export const Reactions = ({ message }) => {
 
 	React.useEffect(() => {
 		(async () => {
-			if (!reactions) {
+			if (!reactions || _.isEmpty(reactions)) {
 				return {} as { [key: string]: Contract[] };
 			}
 
+			const reactionsIds = reactions.map(
+				(reactionContract) => reactionContract.id,
+			);
+			// Avoid querying with an empty enum below
+			if (!reactionsIds || _.isEmpty(reactionsIds)) {
+				return {} as { [key: string]: Contract[] };
+			}
 			const reactionsArray = await sdk.query({
 				type: 'object',
 				$$links: {
@@ -50,7 +58,7 @@ export const Reactions = ({ message }) => {
 				},
 				properties: {
 					id: {
-						enum: reactions.map((reactionContract) => reactionContract.id),
+						enum: reactionsIds,
 					},
 				},
 			});
