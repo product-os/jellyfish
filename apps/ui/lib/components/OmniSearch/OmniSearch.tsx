@@ -22,14 +22,25 @@ const IconWrapper = styled(Box)`
 const SearchInput = styled(Input)`
 	padding-left: 26px;
 	background-color: #8c31ff;
-	color: white;
 	height: 28px;
+	width: 26px;
+	overflow: hidden;
 	padding-top: 0;
 	padding-bottom: 0;
 	border-width: 1px;
 	border-color: white;
+	transition: 1s;
 	&::placeholder {
 		color: white;
+	}
+	&:hover {
+		overflow-x: auto;
+		width: 150px;
+	}
+	&:focus {
+		overflow-x: auto;
+		width: auto;
+		transition: 0.3s;
 	}
 `;
 
