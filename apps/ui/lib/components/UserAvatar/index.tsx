@@ -34,7 +34,7 @@ export interface UserAvatarProps {
 }
 
 export const UserAvatar = React.memo<UserAvatarProps>(
-	({ user, emphasized, tooltipPlacement = 'top', tooltipText }) => {
+	({ user, emphasized, tooltipPlacement = 'right', tooltipText }) => {
 		const firstName = _.get(user, ['data', 'profile', 'name', 'first']);
 		const lastName = _.get(user, ['data', 'profile', 'name', 'last']);
 		const src = _.get(user, ['data', 'avatar']);

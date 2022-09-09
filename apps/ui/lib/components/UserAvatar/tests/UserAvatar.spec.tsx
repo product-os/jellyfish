@@ -55,6 +55,6 @@ test('UserAvatarLive displays the user`s avatar, tooltip and status', async () =
 	});
 	expect(avatarBox.props().tooltip).toEqual({
 		text: `Test User\ntest@jel.ly.fish\njellyfish\n${losAngelesDate} (Las Vegas)`,
-		placement: 'top',
+		placement: 'right',
 	});
 });
