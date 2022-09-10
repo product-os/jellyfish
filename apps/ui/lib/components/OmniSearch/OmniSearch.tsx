@@ -29,18 +29,17 @@ const SearchInput = styled(Input)`
 	padding-bottom: 0;
 	border-width: 1px;
 	border-color: white;
-	transition: 1s;
+	transition: 0.3s;
 	&::placeholder {
 		color: white;
 	}
 	&:hover {
 		overflow-x: auto;
-		width: 150px;
+		width: 100px;
 	}
 	&:focus {
 		overflow-x: auto;
-		width: auto;
-		transition: 0.3s;
+		width: 100px;
 	}
 `;
 
