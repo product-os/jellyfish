@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.57 to 1.2.60
+      hash: 080c179122d049fe68f47e5bcb3ad3f42af3126c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.1
+  title: "'Update @balena/jellyfish-assert from 1.2.57 to 1.2.60'"
+  date: 2022-09-10T13:01:57.531Z
+- commits:
     - subject: "[UI]: Add Pizza, flowers, infinity emoji"
       hash: 82a1380ced15512d4f753929f3168ddeaf526d63
       body: ""
