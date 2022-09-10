@@ -1,11 +1,10 @@
 import React from 'react';
 import _ from 'lodash';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
-import type { Contract, contracts, LoopContract, OrgContract } from 'autumndb';
+import { useSelector } from 'react-redux';
+import type { Contract } from 'autumndb';
 import styled from 'styled-components';
 import { useHistory } from 'react-router-dom';
-import { actionCreators, selectors } from '../../store';
+import { selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
 import Select, { SelectProps, components } from 'react-select';
 import { Icon } from '../../components';
@@ -18,11 +17,7 @@ const StyledSelect = styled(Select)`
 export const LoopSelector = React.memo(() => {
 	const history = useHistory();
 	const { sdk } = useSetup()!;
-	const dispatch = useDispatch();
 	const user = useSelector(selectors.getCurrentUser());
-	const loops = useSelector(selectors.getLoops());
-	const stateActiveLoop = useSelector(selectors.getActiveLoop());
-	const channels = useSelector(selectors.getChannels());
 	const [allLoopsAndProducts, setAllLoopsAndProducts] = React.useState<
 		Contract[]
 	>([]);
@@ -40,6 +35,8 @@ export const LoopSelector = React.memo(() => {
 		})) ?? [];
 
 	React.useEffect(() => {
+		// get and sort all loops and all their products,
+		// then prepare them to be options in react-select
 		sdk
 			.query({
 				type: 'object',
@@ -60,7 +57,10 @@ export const LoopSelector = React.memo(() => {
 				},
 			})
 			.then((loopsAndProducts) => {
-				const landp = loopsAndProducts
+				const loopsAndProdutOptions = loopsAndProducts
+					.sort((loopA: any, loopB: any) =>
+						loopA.label < loopB.label ? -1 : 1,
+					)
 					.map((loop) => ({
 						label: loop.name,
 						value: loop.slug,
@@ -80,13 +80,13 @@ export const LoopSelector = React.memo(() => {
 						return [...aggregator, [{ ...item }], item.products];
 					}, [])
 					.flat();
-				setAllLoopsAndProducts(landp);
+				setAllLoopsAndProducts(loopsAndProdutOptions);
 			})
 			.catch(console.error);
 	}, []);
 
-	const onNavigationChange = React.useCallback(({ value, type }) => {
-		// TODO: set active loop ? Not sure if it's necessary
+	const onNavigationChange = React.useCallback(({ value }) => {
+		// Maybe here we can also dispatch the active loop if useful
 
 		// navigate
 		history.push(`/${value}`);
@@ -152,6 +152,7 @@ export const LoopSelector = React.memo(() => {
 		</components.Option>
 	);
 
+	// TODO: merging of orgs and allLoopsAndProduct won't work for multiple orgs
 	return (
 		<>
 			<StyledSelect
