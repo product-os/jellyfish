@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update grafana/grafana Docker tag to v8.5.11
+      hash: 453cd27ddfb8240f5d9b48513e171e8ae4eb5615
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.2
+  title: "'Update grafana/grafana Docker tag to v8.5.11'"
+  date: 2022-09-10T13:45:07.010Z
+- commits:
     - subject: Update @balena/jellyfish-assert from 1.2.57 to 1.2.60
       hash: 080c179122d049fe68f47e5bcb3ad3f42af3126c
       body: ""
