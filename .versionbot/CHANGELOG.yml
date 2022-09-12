@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.57 to 5.1.59
+      hash: 178fe177762257c6c4977a7bbc2b40db91c288db
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.8
+  title: "'Update @balena/jellyfish-logger from 5.1.57 to 5.1.59'"
+  date: 2022-09-12T09:20:57.871Z
+- commits:
     - subject: "[UI]: add localTime on username tooltips"
       hash: 16059e73985a2db12d10fecc0d92f4acf1463ae7
       body: ""
