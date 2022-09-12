@@ -50,8 +50,11 @@ test('UserAvatarLive displays the user`s avatar, tooltip and status', async () =
 	expect(statusIcon.props().userStatus.value).toEqual('DoNotDisturb');
 
 	const avatarBox: any = component.find('[data-test="avatar-wrapper"]').first();
+	const losAngelesDate = new Date().toLocaleString(undefined, {
+		timeZone: 'America/Los_Angeles',
+	});
 	expect(avatarBox.props().tooltip).toEqual({
-		text: 'Test User\ntest@jel.ly.fish\njellyfish',
+		text: `Test User\ntest@jel.ly.fish\njellyfish\n${losAngelesDate} (Las Vegas)`,
 		placement: 'top',
 	});
 });
