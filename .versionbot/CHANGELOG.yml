@@ -1,4 +1,15 @@
 - commits:
+    - subject: "[UI]: add localTime on username tooltips"
+      hash: 16059e73985a2db12d10fecc0d92f4acf1463ae7
+      body: ""
+      footer:
+        change-type: patch
+      author: Edwin Joassart
+      nested: []
+  version: 59.9.7
+  title: "'[UI]: add localTime on username tooltips'"
+  date: 2022-09-12T08:41:43.878Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.68 to 13.0.69
       hash: ff28f8acaeca2acb45ba9f5c2ef35fa17eb77fae
       body: ""
