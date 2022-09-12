@@ -1,4 +1,26 @@
 - commits:
+    - subject: Update time-sensitive unit test
+      hash: fbfb1105a1495a04c60bf22b5f25a0c6614fe397
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Position tooltip for user avatar from top to right
+      hash: 986bf463894378c44e36934f5e92a681c2ad3df0
+      body: ""
+      footer:
+        Change-Type: patch
+        change-type: patch
+      author: Edwin Joassart
+      nested: []
+  version: 59.9.9
+  title: "'Move Tooltip on user avatar to the right '"
+  date: 2022-09-12T14:29:35.525Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 5.1.57 to 5.1.59
       hash: 178fe177762257c6c4977a7bbc2b40db91c288db
       body: ""
