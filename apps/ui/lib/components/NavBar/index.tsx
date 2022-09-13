@@ -22,19 +22,19 @@ const Wrapper = styled(Flex)`
 `;
 
 const StyledTxt = styled(Txt)`
-	text-overflow: 'ellipsis';
+	text-overflow: ellipsis;
 	flex: '1 1 0%';
 	font-weight: 600;
-	white-space: 'nowrap';
-	overflow: 'hidden';
+	white-space: nowrap;
+	overflow: hidden;
 	@media only screen and (max-width: ${breakPoints.mobile}) {
 		display: none;
 	}
 `;
 
 const StyledFlex = styled(Flex)`
-	cursor: 'pointer';
-	position: 'relative';
+	cursor: pointer;
+	position: relative;
 	width: 180px;
 	@media only screen and (max-width: ${breakPoints.mobile}) {
 		width: 55px;
