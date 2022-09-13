@@ -151,28 +151,21 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 		return {
 			type: 'object',
 			anyOf: allLinkTypeTargets.map((relationship) => {
-				const toType = helpers.getType(relationship.data.to.type, allTypes);
+				const targetType = helpers.getType(
+					relationship.data.from.type,
+					allTypes,
+				);
 				const query = {
 					type: 'object',
 					required: ['type'],
 					$$links: {
-						[relationship!.data.inverseName!]: {
-							allOf: cards.map((card) => {
-								return {
-									type: 'object',
-									required: ['id'],
-									properties: {
-										id: {
-											const: card.id,
-										},
-									},
-								};
-							}),
+						[relationship!.name!]: {
+							type: 'object',
 						},
 					},
 					properties: {
 						type: {
-							const: `${toType.slug}@${toType.version}`,
+							const: `${targetType.slug}@${targetType.version}`,
 						},
 					},
 				};
@@ -180,7 +173,7 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 				// Add full-text-search for the typed text (if set)
 				if (value) {
 					const filter = helpers.createFullTextSearchFilter(
-						toType.data.schema,
+						targetType.data.schema,
 						value,
 						{
 							fullTextSearchFieldsOnly: true,
