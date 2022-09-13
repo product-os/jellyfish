@@ -203,6 +203,11 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 	};
 
 	if (bookmarks && bookmarks.length) {
+		for (const bookmark of bookmarks) {
+			if (bookmark.name.length > 30) {
+				bookmark.name = `${bookmark.name.substring(0, 29)}...`;
+			}
+		}
 		const bookmarksTree = viewsToTree(
 			bookmarks,
 			{
