@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix unlink modal query"
+      hash: b882ab0af90b1f3184aec431627f7bab8dda3263
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.11
+  title: "'UI: Fix unlink modal query'"
+  date: 2022-09-13T07:20:19.978Z
+- commits:
     - subject: Update autumndb from 22.2.0 to 22.2.38
       hash: 4384fa87786bbf0525d764703010e98c23b458f3
       body: ""
