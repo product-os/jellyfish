@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update autumndb from 22.2.0 to 22.2.38
+      hash: 4384fa87786bbf0525d764703010e98c23b458f3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.10
+  title: "'Update autumndb from 22.2.0 to 22.2.38'"
+  date: 2022-09-13T00:47:21.416Z
+- commits:
     - subject: Update time-sensitive unit test
       hash: fbfb1105a1495a04c60bf22b5f25a0c6614fe397
       body: ""
