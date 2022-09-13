@@ -13,6 +13,7 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
+import { Icon } from '../../components';
 
 const StyledMenuTitle = styled('div')`
 	padding: 0.375rem 1.5rem;
@@ -132,18 +133,27 @@ export const LoopSelector = React.memo(() => {
 					</SubMenu>
 				</>
 			);
-		} else
+		} else {
 			return (
 				<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
 					{element.label}
 				</StyledMenuItem>
 			);
+		}
 	};
 
 	// TODO: merging of orgs and allLoopsAndProduct won't work for multiple orgs
 	return (
 		// <>
-		<Menu menuButton={<StyledMenuButton>Balena</StyledMenuButton>} transition>
+		<Menu
+			menuButton={
+				<StyledMenuButton>
+					Balena
+					<Icon style={{ marginLeft: '1rem' }} name="chevron-down" />
+				</StyledMenuButton>
+			}
+			transition
+		>
 			<StyledMenuTitle>Orgs</StyledMenuTitle>
 			{orgs.map((org) => menuOption(org, allLoopsAndProducts))}
 		</Menu>
