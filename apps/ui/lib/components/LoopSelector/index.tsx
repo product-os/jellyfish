@@ -14,6 +14,7 @@ import { useHistory } from 'react-router-dom';
 import { selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
 import { Icon } from '../../components';
+import type { Contract, LoopContract, OrgContract } from 'autumndb';
 
 const StyledMenuTitle = styled('div')`
 	padding: 0.375rem 1.5rem;
@@ -48,6 +49,10 @@ export const LoopSelector = React.memo(() => {
 	const [allLoopsAndProducts, setAllLoopsAndProducts] = React.useState<any[]>(
 		[],
 	);
+	const [activeOrg, setActiveOrg] = React.useState<string>('balena');
+	const [activeLoop, setActiveLoop] = React.useState<string | null>(null);
+	const [activeProduct, setActiveProduct] = React.useState<string | null>(null);
+	const channels = useSelector(selectors.getChannels());
 
 	if (!user) {
 		throw new Error('Cannot render without a user');
@@ -58,7 +63,53 @@ export const LoopSelector = React.memo(() => {
 			label: org.name,
 			type: 'org',
 			value: org.slug,
+			id: org.id,
 		})) ?? [];
+
+	React.useEffect(() => {
+		let findActiveOrg: any;
+		let findActiveLoop: any;
+		let findActiveProduct: any;
+
+		for (const channel of channels) {
+			if (!findActiveOrg) {
+				findActiveOrg = orgs.find(
+					(org) => org.value === channel.data.target || org.id === channel.id,
+				);
+			}
+
+			// if we're in a loop -> loop is active
+			// if we have a product -> containing loop is active as well
+			if (!findActiveLoop) {
+				findActiveLoop = allLoopsAndProducts.find(
+					(loop) =>
+						loop.value === channel.data.target ||
+						loop.id === channel.id ||
+						loop.products.find(
+							(product) =>
+								product.value === channel.data.target ||
+								product.id === channel.id,
+						),
+				);
+			}
+
+			if (!findActiveProduct) {
+				findActiveProduct = findActiveLoop?.products.find(
+					(product) =>
+						product.value === channel.data.target || product.id === channel.id,
+				);
+			}
+		}
+		setActiveOrg(findActiveOrg ? findActiveOrg.label : 'Balena');
+
+		setActiveLoop(findActiveLoop ? findActiveLoop.label : null);
+		// we could dispatch the active Loop here, if useful // dispatch(actionCreators.setActiveLoop(null));
+
+		setActiveProduct(findActiveProduct ? findActiveProduct.label : null);
+	}, [channels, allLoopsAndProducts, orgs]);
+
+	console.log(activeProduct);
+	console.log(channels);
 
 	React.useEffect(() => {
 		// get and sort all loops and all their products,
@@ -91,21 +142,18 @@ export const LoopSelector = React.memo(() => {
 						label: loop.name,
 						value: loop.slug,
 						type: 'loop',
-						icon: 'circle',
+						id: loop.id,
 						products: loop?.links?.has
 							?.map((product) => ({
 								label: product.name,
 								value: product.slug,
 								type: 'product',
-								icon: 'gem',
+								id: product.id,
 							}))
 							.sort((productA: any, productB: any) =>
 								productA.label < productB.label ? -1 : 1,
 							),
 					}));
-				// .reduce((aggregator: any, item) => {
-				// 	return [...aggregator, [{ ...item }], item.products];
-				// }, []);
 				setAllLoopsAndProducts(loopsAndProdutOptions);
 			})
 			.catch(console.error);
@@ -117,11 +165,21 @@ export const LoopSelector = React.memo(() => {
 		history.push(`/${value}`);
 	};
 
+	const isActiveLabel = (label: string) =>
+		activeLoop === label || activeOrg === label || activeProduct === label;
+
+	// TODO: change background for active elements or submenu
 	const menuOption = (element, subMenu?) => {
 		if (subMenu) {
 			return (
 				<>
-					<SubMenu label={element.label}>
+					<SubMenu
+						label={
+							isActiveLabel(element.label)
+								? `* ${element.label}`
+								: element.label
+						}
+					>
 						<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
 							{element.label} {subMenu?.[0]?.type === 'loop' ? 'org' : 'loop'}
 						</StyledMenuItem>
@@ -136,19 +194,28 @@ export const LoopSelector = React.memo(() => {
 		} else {
 			return (
 				<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
-					{element.label}
+					{isActiveLabel(element.label) ? `* ${element.label}` : element.label}
 				</StyledMenuItem>
 			);
 		}
 	};
 
+	const getMenuButtonLabel = () => {
+		if (activeProduct) {
+			return activeProduct;
+		}
+		if (activeLoop) {
+			return activeLoop;
+		}
+		return activeOrg;
+	};
+
 	// TODO: merging of orgs and allLoopsAndProduct won't work for multiple orgs
 	return (
-		// <>
 		<Menu
 			menuButton={
 				<StyledMenuButton>
-					Balena
+					{getMenuButtonLabel()}
 					<Icon style={{ marginLeft: '1rem' }} name="chevron-down" />
 				</StyledMenuButton>
 			}
@@ -157,6 +224,5 @@ export const LoopSelector = React.memo(() => {
 			<StyledMenuTitle>Orgs</StyledMenuTitle>
 			{orgs.map((org) => menuOption(org, allLoopsAndProducts))}
 		</Menu>
-		// </>
 	);
 });
