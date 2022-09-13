@@ -204,7 +204,7 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 
 	if (bookmarks && bookmarks.length) {
 		for (const bookmark of bookmarks) {
-			if (bookmark.name.length > 30) {
+			if (bookmark.name && bookmark.name.length > 30) {
 				bookmark.name = `${bookmark.name.substring(0, 29)}...`;
 			}
 		}
