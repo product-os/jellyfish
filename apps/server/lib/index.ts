@@ -41,31 +41,15 @@ const DEFAULT_CONTEXT = {
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
 	logger.error(ctx, message, error);
-	console.error({
-		context: ctx,
-		message,
-		error,
-	});
-	console.error('Process exiting');
-	setTimeout(() => {
-		process.exit(1);
-	}, 1000);
 };
 
 /**
  * `unhandledRejection` event means that a promise rejection wasn't handled.
- * Log query read timeouts, exit the process on other cases
+ * Log but don't exit the process because that may cause an operation to be interrupted
+ * and leave the system inconsistent.
  */
-process.on('unhandledRejection', (reason: Error | unknown, promise) => {
-	if (_.isError(reason) && reason.message === 'Query read timeout') {
-		// Don't exit, just log
-		logger.error(DEFAULT_CONTEXT, 'Unhandled Rejection', {
-			reason: reason.stack || reason,
-			promise,
-		});
-	} else {
-		return onError(reason, 'Unhandled Rejection');
-	}
+process.on('unhandledRejection', (reason: Error | unknown, _promise) => {
+	return onError(reason, 'Unhandled Rejection');
 });
 
 const startDate = new Date();
