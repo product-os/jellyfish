@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/grafana/grafana
-FROM grafana/grafana:8.5.10
+FROM grafana/grafana:8.5.11
 
 USER root
 

@@ -50,8 +50,8 @@ test('UserAvatarLive displays the user`s avatar, tooltip and status', async () =
 	expect(statusIcon.props().userStatus.value).toEqual('DoNotDisturb');
 
 	const avatarBox: any = component.find('[data-test="avatar-wrapper"]').first();
-	expect(avatarBox.props().tooltip).toEqual({
-		text: 'Test User\ntest@jel.ly.fish\njellyfish',
-		placement: 'top',
-	});
+	expect(avatarBox.props().tooltip.text).toMatch(
+		/^Test User\ntest@jel.ly.fish\njellyfish\n[0-9\/]+, [0-9:]+ [A|P]M \(Las Vegas\)$/,
+	);
+	expect(avatarBox.props().tooltip.placement).toEqual('right');
 });

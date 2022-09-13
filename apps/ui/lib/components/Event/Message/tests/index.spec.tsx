@@ -134,7 +134,7 @@ test("It should display the actor's details", () => {
 	expect(avatar.props().firstName).toBe(user.data.profile.name.first);
 	expect(avatar.props().lastName).toBe(user.data.profile.name.last);
 	const actorLabel: any = event.find('Txt[data-test="event__actor-label"]');
-	expect(actorLabel.props().tooltip).toBe(actor.email);
+	expect(actorLabel.props().tooltip).toContain(actor.email);
 });
 
 test('A markdown message is displayed when the card is a message', async () => {

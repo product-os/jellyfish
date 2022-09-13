@@ -1,4 +1,199 @@
 - commits:
+    - subject: 'Revert "UI: Fix unlink modal query"'
+      hash: 799a67d8249d7beea44d129cae9d2605ecf10ae7
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.14
+  title: "'Revert \"UI: Fix unlink modal query\"'"
+  date: 2022-09-13T10:30:24.055Z
+- commits:
+    - subject: "UI: Fix bookmark length check"
+      hash: 552a5a4740519286619195a5253c48f703ed00e5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.13
+  title: "'UI: Fix bookmark length check'"
+  date: 2022-09-13T08:55:03.599Z
+- commits:
+    - subject: "UI: Truncate bookmark names"
+      hash: a3119e3460d4109a2b90beea9a341e4b350aef94
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.12
+  title: "'UI: Truncate bookmark names'"
+  date: 2022-09-13T08:03:56.421Z
+- commits:
+    - subject: "UI: Fix unlink modal query"
+      hash: b882ab0af90b1f3184aec431627f7bab8dda3263
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.11
+  title: "'UI: Fix unlink modal query'"
+  date: 2022-09-13T07:20:19.978Z
+- commits:
+    - subject: Update autumndb from 22.2.0 to 22.2.38
+      hash: 4384fa87786bbf0525d764703010e98c23b458f3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.9.10
+  title: "'Update autumndb from 22.2.0 to 22.2.38'"
+  date: 2022-09-13T00:47:21.416Z
+- commits:
+    - subject: Update time-sensitive unit test
+      hash: fbfb1105a1495a04c60bf22b5f25a0c6614fe397
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: Position tooltip for user avatar from top to right
+      hash: 986bf463894378c44e36934f5e92a681c2ad3df0
+      body: ""
+      footer:
+        Change-Type: patch
+        change-type: patch
+      author: Edwin Joassart
+      nested: []
+  version: 59.9.9
+  title: "'Move Tooltip on user avatar to the right '"
+  date: 2022-09-12T14:29:35.525Z
+- commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.57 to 5.1.59
+      hash: 178fe177762257c6c4977a7bbc2b40db91c288db
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.8
+  title: "'Update @balena/jellyfish-logger from 5.1.57 to 5.1.59'"
+  date: 2022-09-12T09:20:57.871Z
+- commits:
+    - subject: "[UI]: add localTime on username tooltips"
+      hash: 16059e73985a2db12d10fecc0d92f4acf1463ae7
+      body: ""
+      footer:
+        change-type: patch
+      author: Edwin Joassart
+      nested: []
+  version: 59.9.7
+  title: "'[UI]: add localTime on username tooltips'"
+  date: 2022-09-12T08:41:43.878Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.68 to 13.0.69
+      hash: ff28f8acaeca2acb45ba9f5c2ef35fa17eb77fae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.6
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.68 to 13.0.69'"
+  date: 2022-09-12T07:01:19.988Z
+- commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.43 to 5.1.57
+      hash: 69810910f195b8a98def861118b4e74c8ac77a02
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+    - subject: Update @balena/jellyfish-environment from 13.0.7 to 13.0.13
+      hash: 6ac81af33199ff29ce6d9febb08870b3f2b65d5e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.5
+  title: "'Update @balena/jellyfish-logger from 5.1.43 to 5.1.57'"
+  date: 2022-09-12T03:44:48.200Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.51 to 13.0.68
+      hash: f8ab2e2c372b396dfb92ec583dafdf481181e890
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.4
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.51 to 13.0.68'"
+  date: 2022-09-12T02:44:34.538Z
+- commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.60 to 1.2.63
+      hash: 88b988c504170eef0a2321f54c149112173eadae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.3
+  title: "'Update @balena/jellyfish-assert from 1.2.60 to 1.2.63'"
+  date: 2022-09-11T23:37:53.674Z
+- commits:
+    - subject: Update grafana/grafana Docker tag to v8.5.11
+      hash: 453cd27ddfb8240f5d9b48513e171e8ae4eb5615
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.2
+  title: "'Update grafana/grafana Docker tag to v8.5.11'"
+  date: 2022-09-10T13:45:07.010Z
+- commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.57 to 1.2.60
+      hash: 080c179122d049fe68f47e5bcb3ad3f42af3126c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.9.1
+  title: "'Update @balena/jellyfish-assert from 1.2.57 to 1.2.60'"
+  date: 2022-09-10T13:01:57.531Z
+- commits:
     - subject: "[UI]: Add Pizza, flowers, infinity emoji"
       hash: 82a1380ced15512d4f753929f3168ddeaf526d63
       body: ""
