@@ -32,6 +32,15 @@ const StyledTxt = styled(Txt)`
 	}
 `;
 
+const StyledFlex = styled(Flex)`
+	cursor: 'pointer';
+	position: 'relative';
+	width: 180px;
+	@media only screen and (max-width: ${breakPoints.mobile}) {
+		width: 55px;
+	}
+`;
+
 const NavBar = () => {
 	const [showMenu, setShowMenu] = React.useState(false);
 	const user = useSelector(selectors.getCurrentUser());
@@ -44,18 +53,13 @@ const NavBar = () => {
 
 	return (
 		<Wrapper alignItems="center">
-			<Flex
+			<StyledFlex
 				className="user-menu-toggle"
 				py={2}
 				pl={2}
 				pr={2}
 				alignItems="center"
-				width="180px"
 				onClick={() => setShowMenu(!showMenu)}
-				style={{
-					cursor: 'pointer',
-					position: 'relative',
-				}}
 			>
 				<UserAvatarLive userId={user.id} />
 				{Boolean(username) && (
@@ -65,7 +69,7 @@ const NavBar = () => {
 				)}
 
 				<MentionsCount />
-			</Flex>
+			</StyledFlex>
 
 			{showMenu && (
 				<Fixed
@@ -102,7 +106,7 @@ const NavBar = () => {
 				</Fixed>
 			)}
 
-			<div style={{ marginRight: '10px' }}>
+			<div>
 				<LoopSelector />
 			</div>
 			<OmniSearch ml={3} mr={2} style={{ marginLeft: 'auto' }} />

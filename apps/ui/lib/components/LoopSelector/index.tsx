@@ -1,26 +1,52 @@
 import React from 'react';
-import _ from 'lodash';
-import { useSelector } from 'react-redux';
-import type { Contract } from 'autumndb';
+import {
+	Menu,
+	MenuItem,
+	MenuButton,
+	SubMenu,
+	MenuDivider,
+} from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
 import styled from 'styled-components';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
-import Select, { SelectProps, components } from 'react-select';
-import { Icon } from '../../components';
 
-const StyledSelect = styled(Select)`
-	margin-left: 16px;
+const StyledMenuTitle = styled('div')`
+	padding: 0.375rem 1.5rem;
+	font-weight: bold;
 `;
 
-// A drop-down component for selecting a loop
+const StyledMenuItem = styled(MenuItem)`
+	z-index: 100;
+`;
+
+const StyledMenuButton = styled(MenuButton)`
+	min-height: 0;
+	height: 28px;
+	background: #8c31ff;
+	border-color: #f7f2ff;
+	border: 1px solid white;
+	border-radius: 5px;
+	color: white;
+	padding-left: 16px;
+	padding-right: 16px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	cursor: pointer;
+`;
+
+// A netsted menu component for selecting a loop and/or a product
 export const LoopSelector = React.memo(() => {
 	const history = useHistory();
 	const { sdk } = useSetup()!;
 	const user = useSelector(selectors.getCurrentUser());
-	const [allLoopsAndProducts, setAllLoopsAndProducts] = React.useState<
-		Contract[]
-	>([]);
+	const [allLoopsAndProducts, setAllLoopsAndProducts] = React.useState<any[]>(
+		[],
+	);
 
 	if (!user) {
 		throw new Error('Cannot render without a user');
@@ -31,7 +57,6 @@ export const LoopSelector = React.memo(() => {
 			label: org.name,
 			type: 'org',
 			value: org.slug,
-			icon: 'building',
 		})) ?? [];
 
 	React.useEffect(() => {
@@ -70,103 +95,58 @@ export const LoopSelector = React.memo(() => {
 							?.map((product) => ({
 								label: product.name,
 								value: product.slug,
+								type: 'product',
 								icon: 'gem',
 							}))
 							.sort((productA: any, productB: any) =>
 								productA.label < productB.label ? -1 : 1,
 							),
-					}))
-					.reduce((aggregator: any, item) => {
-						return [...aggregator, [{ ...item }], item.products];
-					}, [])
-					.flat();
+					}));
+				// .reduce((aggregator: any, item) => {
+				// 	return [...aggregator, [{ ...item }], item.products];
+				// }, []);
 				setAllLoopsAndProducts(loopsAndProdutOptions);
 			})
 			.catch(console.error);
 	}, []);
 
-	const onNavigationChange = React.useCallback(({ value }) => {
+	const navigateTo = (e, value) => {
 		// Maybe here we can also dispatch the active loop if useful
-
 		// navigate
 		history.push(`/${value}`);
-	}, []);
-
-	const height = 28;
-	const customStyles: SelectProps['styles'] = {
-		valueContainer: (styles) => ({
-			...styles,
-			height,
-			color: '#F7F2FF',
-		}),
-		indicatorsContainer: (styles) => ({
-			...styles,
-			height,
-		}),
-		control: (styles, { isFocused, hasValue }) => ({
-			...styles,
-			minHeight: 0,
-			width: 180,
-			background: isFocused ? 'white' : hasValue ? '#3E0070' : '#8C31FF',
-			borderColor: hasValue ? '#8369C4' : '#F7F2FF',
-		}),
-		singleValue: (styles) => {
-			return {
-				...styles,
-				color: '#F7F2FF',
-			};
-		},
-		dropdownIndicator: (styles) => ({
-			...styles,
-			color: '#F7F2FF',
-		}),
-		placeholder: (styles) => ({
-			...styles,
-			color: '#F7F2FF',
-		}),
 	};
 
-	const selectOptionStyleFor = (type) => {
-		switch (type) {
-			case 'loop':
-				return {
-					fontSize: '1.1em',
-					fontWeight: 'bold',
-				};
-			case 'org':
-				return {
-					fontSize: '1.3em',
-					fontWeight: 'bold',
-				};
-			case 'product':
-				return {};
-		}
+	const menuOption = (element, subMenu?) => {
+		if (subMenu) {
+			return (
+				<>
+					<SubMenu label={element.label}>
+						<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
+							{element.label} {subMenu?.[0]?.type === 'loop' ? 'org' : 'loop'}
+						</StyledMenuItem>
+						<MenuDivider />
+						<StyledMenuTitle>
+							{subMenu?.[0]?.type === 'loop' ? 'Loops' : 'Products'}
+						</StyledMenuTitle>
+						{subMenu.map((loop) => menuOption(loop, loop.products))}
+					</SubMenu>
+				</>
+			);
+		} else
+			return (
+				<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
+					{element.label}
+				</StyledMenuItem>
+			);
 	};
-
-	const selectOption = (props) => (
-		<components.Option {...props}>
-			<span style={selectOptionStyleFor(props.data.type)}>
-				<Icon name={props.data.icon} regular style={{ float: 'right' }} />{' '}
-				<span>{props.data.label}</span>
-			</span>
-		</components.Option>
-	);
 
 	// TODO: merging of orgs and allLoopsAndProduct won't work for multiple orgs
 	return (
-		<>
-			<StyledSelect
-				styles={customStyles}
-				width="180px"
-				ml={3}
-				className="nav-selector"
-				id="orgselector__select"
-				blurInputOnSelect
-				placeholder="Navigate..."
-				components={{ Option: selectOption }}
-				options={[...orgs, ...allLoopsAndProducts]}
-				onChange={onNavigationChange}
-			/>
-		</>
+		// <>
+		<Menu menuButton={<StyledMenuButton>Balena</StyledMenuButton>} transition>
+			<StyledMenuTitle>Orgs</StyledMenuTitle>
+			{orgs.map((org) => menuOption(org, allLoopsAndProducts))}
+		</Menu>
+		// </>
 	);
 });

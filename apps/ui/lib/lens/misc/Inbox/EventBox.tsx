@@ -19,7 +19,7 @@ const InboxMessageWrapper = styled(Box)`
 	.notifications-meta-container {
 		position: absolute;
 		right: 0;
-		z-index: 9;
+		z-index: 4;
 	}
 `;
 
