@@ -1,4 +1,19 @@
 - commits:
+    - subject: Log S3 object bucket and key when there's an error retrieving from S3
+      hash: c05a80cf80bf99e94ec1ba71540082455b326297
+      body: |
+        https://jel.ly.fish/milestone-print-keys-not-found-s3-70f0a58
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.1
+  title: "'Log S3 object bucket and key when there's an error retrieving from S3'"
+  date: 2022-09-14T02:25:38.937Z
+- commits:
     - subject: Don't exit on unhandled errors and rejections
       hash: cf5e7102eb625b6ce53faaca4daf7f305ae35853
       body: >
