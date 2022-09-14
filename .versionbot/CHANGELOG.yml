@@ -1,4 +1,20 @@
 - commits:
+    - subject: Improve logging info; add NODE_ENV to be able to filter out e2e tests
+        from logs
+      hash: 8954f844133be721a6c1da5abb19900bf7e42dd8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.8
+  title: "'Improve logging; add NODE_ENV to be able to filter out e2e tests from
+    logs'"
+  date: 2022-09-14T16:52:25.456Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.91 to 6.0.136
       hash: 014a5b74472c1be02ef76fe05479b5d6fd030977
       body: ""
