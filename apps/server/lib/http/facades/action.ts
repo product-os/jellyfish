@@ -82,6 +82,10 @@ export class ActionFacade {
 			  );
 		assert(input);
 		const actionRequestDate = new Date();
+
+		// FIXME we should first save the file on the fileStore to make sure it will be there
+		// when saving the action
+		// Current impl will generate broken links if the push to S3 fails
 		const actionRequest = await this.worker.insertCard<ActionRequestContract>(
 			context,
 			this.worker.kernel.adminSession()!,
