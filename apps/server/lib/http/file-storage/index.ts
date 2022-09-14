@@ -32,7 +32,7 @@ export class Storage {
 			Bucket: environment.aws.s3BucketName,
 		};
 
-		logger.debug(context, 'Storing S3 object', {
+		logger.info(context, 'Storing S3 object', {
 			key: object.Key,
 			bucket: object.Bucket,
 		});

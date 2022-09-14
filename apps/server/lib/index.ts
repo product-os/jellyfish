@@ -31,9 +31,9 @@ if (hostId === 'localhost') {
 	}
 }
 
-const baseLogId = `SERVER-ID-${'[' + serverId + ']'}-PID-${
-	process.pid
-}-${hostId}-${packageJSON.version}`;
+const baseLogId = `SERVER-ID-${serverId}-PID-${process.pid}-H-${hostId}-V-${
+	packageJSON.version
+}-ENV-${process.env.NODE_ENV ? process.env.NODE_ENV.substring(0, 4) : '?'}`;
 
 const DEFAULT_CONTEXT = {
 	id: `ERROR-${baseLogId}`,
