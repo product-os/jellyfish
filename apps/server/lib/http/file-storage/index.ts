@@ -6,6 +6,8 @@ import { setTimeout } from 'timers/promises';
 
 const logger = getLogger(__filename);
 
+const RETRIEVE_RETRY_DELAY = 100;
+
 export class Storage {
 	private config: AWS.S3.ClientConfiguration;
 	private numberOfRetries: number;
@@ -61,14 +63,18 @@ export class Storage {
 			const data = await s3.getObject(object).promise();
 			logger.debug(context, 'S3 object fetch response', _.omit(data, ['Body']));
 			return data.Body;
-		} catch (error: any) {
-			logger.exception(context, 'S3 error', error);
+		} catch (error: any | AWS.AWSError) {
+			const msg = `S3 error when getting object from bucket: ${object.Bucket} key: ${object.Key}`;
+			if (
+				retries < this.numberOfRetries &&
+				(_.isNil(error.retryable) || error.retryable)
+			) {
+				logger.warn(context, msg + `; retrying ( attempt #${retries})`, error);
 
-			if (retries < this.numberOfRetries) {
-				await setTimeout(100);
+				await setTimeout(RETRIEVE_RETRY_DELAY);
 				return this.retrieve(context, scope, name, retries + 1);
 			}
-
+			logger.exception(context, msg, error);
 			throw error;
 		}
 	}
