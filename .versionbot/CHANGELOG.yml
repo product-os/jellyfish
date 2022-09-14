@@ -1,4 +1,43 @@
 - commits:
+    - subject: Don't exit on unhandled errors and rejections
+      hash: cf5e7102eb625b6ce53faaca4daf7f305ae35853
+      body: >
+        Currently JF exits on unhandled exceptions, in an attempt to highlight
+        the error. But what actually happens is that a worker exits and it's
+        then restarted, with the unwanted effect the worker exiting means a
+        non-clean shutdown that may interrupt some operations, which is not
+        needed.
+
+        This is affecting at least:
+
+
+        Bug on autumndb, fixed in 22.2.42: https://sentry.io/organizations/balena/issues/3568604519/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        Query timeouts: https://sentry.io/organizations/balena/issues/3337230685/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3475517541/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3164921816/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3354918880/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3475748626/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+
+        This improvement logs the error so that it can be clearly seen in Sentry, but doesn't abort the process.
+
+        These errors will appear as `mechanism: generic, handled: true` instead as `mechanism: onunhandledrejection, handled: false`
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.0
+  title: "'Don't exit on unhandled errors and rejections'"
+  date: 2022-09-13T19:18:35.816Z
+- commits:
     - subject: 'Revert "UI: Fix unlink modal query"'
       hash: 799a67d8249d7beea44d129cae9d2605ecf10ae7
       body: ""
