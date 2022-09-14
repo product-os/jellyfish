@@ -548,9 +548,6 @@ export const actionCreators = {
 				]).then(async ([loops, orgs, types, relationships, groups, config]) => {
 					const state = getState();
 
-					console.log({ allGroupsWithUsersQuery });
-					console.log({ groups });
-
 					// Check to see if we're still logged in
 					if (selectors.getSessionToken()(state)) {
 						dispatch(actionCreators.setLoops(loops));
@@ -1202,6 +1199,29 @@ export const actionCreators = {
 			const updatedUser: UserContract = await sdk.auth.whoami();
 
 			dispatch(actionCreators.setUser(updatedUser));
+		};
+	},
+
+	setImageSrc(
+		contractId: string,
+		name: string,
+		mimeType: string,
+	): JellyThunk<Promise<void>> {
+		return async (dispatch, _getState, { sdk }) => {
+			const data = await sdk.getFile(contractId, name);
+			const blob = new Blob([data], {
+				type: mimeType,
+			});
+			const src = URL.createObjectURL(blob);
+
+			dispatch({
+				type: 'SET_IMAGE',
+				value: {
+					contractId,
+					name,
+					src,
+				},
+			});
 		};
 	},
 };

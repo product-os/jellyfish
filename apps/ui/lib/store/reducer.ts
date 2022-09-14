@@ -66,6 +66,11 @@ export interface State {
 				[slug: string]: boolean;
 			};
 		};
+		images: {
+			[contractId: string]: {
+				[name: string]: string;
+			};
+		};
 	};
 	ui: {
 		lensState: {
@@ -123,6 +128,7 @@ export const defaultState: State = {
 		config: {},
 		userCustomFilters: {},
 		usersTyping: {},
+		images: {},
 	},
 	ui: {
 		lensState: {},
@@ -340,6 +346,19 @@ const coreReducer = (state = defaultState.core, action: Action) => {
 				},
 			});
 		}
+		case 'SET_IMAGE': {
+			return update(state, {
+				images: (images) =>
+					update(images, {
+						[action.value.contractId]: (contract) =>
+							update(contract || {}, {
+								[action.value.name]: {
+									$set: action.value.src,
+								},
+							}),
+					}),
+			});
+		}
 		case 'SET_ORGS': {
 			return update(state, {
 				orgs: {
@@ -417,7 +436,7 @@ const rootPersistConfig = {
 const corePersistConfig = {
 	...commonConfig,
 	key: 'core',
-	blacklist: ['status', 'cards', 'channels', 'usersTyping'],
+	blacklist: ['status', 'cards', 'channels', 'usersTyping', 'images'],
 };
 
 const uiPersistConfig = {

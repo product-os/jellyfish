@@ -150,11 +150,14 @@ export default withSetup(
 						};
 					}
 					// Otherwise add it to the results
-					return {
-						results: prevState.results
-							? prevState.results.concat(after)
-							: [after],
-					};
+					if (prevState.results) {
+						prevState.results.push(after);
+						return {
+							results: prevState.results,
+						};
+					} else {
+						return { results: [after] };
+					}
 				});
 			}) as any);
 		}

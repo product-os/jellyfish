@@ -152,3 +152,9 @@ export const getInboxQuery = () => (state: State) => {
 export const getMentionsCount = () => (state: State) => {
 	return state.core.mentionsCount;
 };
+
+export const getImage =
+	(cardId: string, name: string) =>
+	(state: State): string | null => {
+		return state.core.images?.[cardId]?.[name] ?? null;
+	};

@@ -19,6 +19,7 @@ const ACTION_TYPES = {
 	SET_CHANNELS: 'SET_CHANNELS',
 	SET_CONFIG: 'SET_CONFIG',
 	SET_GROUPS: 'SET_GROUPS',
+	SET_IMAGE: 'SET_IMAGE',
 	SET_LENS_STATE: 'SET_LENS_STATE',
 	SET_LOOPS: 'SET_LOOPS',
 	SET_MENTIONS_COUNT: 'SET_MENTIONS_COUNT',
@@ -88,6 +89,15 @@ interface ActionSetGroups extends ActionBase {
 	value: {
 		groups: Contract[];
 		userSlug: string;
+	};
+}
+
+interface ActionSetImage extends ActionBase {
+	type: 'SET_IMAGE';
+	value: {
+		contractId: string;
+		name: string;
+		src: string;
 	};
 }
 
@@ -201,6 +211,7 @@ export type Action =
 	| ActionSetChannels
 	| ActionSetConfig
 	| ActionSetGroups
+	| ActionSetImage
 	| ActionSetLensState
 	| ActionSetLoops
 	| ActionSetMentions
