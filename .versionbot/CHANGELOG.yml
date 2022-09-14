@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.69 to 13.0.74
+      hash: 98484e0fb28d87bb3aee38347df9b613b640bf05
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.2
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.69 to 13.0.74'"
+  date: 2022-09-14T07:09:57.221Z
+- commits:
     - subject: Log S3 object bucket and key when there's an error retrieving from S3
       hash: c05a80cf80bf99e94ec1ba71540082455b326297
       body: |
