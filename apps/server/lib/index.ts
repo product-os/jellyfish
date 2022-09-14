@@ -40,7 +40,11 @@ const DEFAULT_CONTEXT = {
 };
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
-	logger.error(ctx, message, error);
+	if (_.isError(error)) {
+		logger.exception(ctx, message, error);
+	} else {
+		logger.error(ctx, message, error);
+	}
 };
 
 /**
