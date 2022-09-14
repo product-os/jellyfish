@@ -32,7 +32,10 @@ export const LoopSelector = React.memo(() => {
 		throw new Error('Cannot render without a user');
 	}
 
-	const orgs = user?.links?.['is member of'] ?? [];
+	const orgs =
+		user?.links?.['is member of']?.filter((contract) => {
+			return contract.type.split('@')[0] === 'org';
+		}) ?? [];
 
 	React.useEffect(() => {
 		for (const channel of channels) {
