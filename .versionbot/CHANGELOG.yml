@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unused b64 file
+      hash: 6dd3cf460bd5a0f811dd28fdbf454c844f8c032d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.12
+  title: "'Remove unused b64 file'"
+  date: 2022-09-15T01:25:57.210Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-front from 6.0.75 to 6.0.129
       hash: 3b5f0b700581bf68408f4878bc8b53c90c21a9e3
       body: ""
