@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117
+      hash: 7ce9f2bcc44ac96e9127923c430b90109bdb93b3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.17
+  title: "'Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117'"
+  date: 2022-09-15T11:51:48.711Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-incidents from 8.0.40 to 8.0.73
       hash: e709bf84a516241c50aaa2da326a9648c512abb8
       body: ""
