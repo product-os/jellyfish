@@ -10,7 +10,7 @@ const RETRIEVE_RETRY_DELAY = 100;
 
 export class Storage {
 	private config: AWS.S3.ClientConfiguration;
-	private numberOfRetries: number;
+	private maxNumberOfRetries: number;
 
 	constructor() {
 		this.config = {
@@ -22,10 +22,10 @@ export class Storage {
 			this.config.s3ForcePathStyle = true;
 			this.config.signatureVersion = 'v4';
 		}
-		this.numberOfRetries = 1;
+		this.maxNumberOfRetries = (3 * 1000) / RETRIEVE_RETRY_DELAY; // 3 seconds
 	}
 
-	public store(context: LogContext, scope: string, name: string, data) {
+	public store(context: LogContext, scope: string, name: string, data: any) {
 		const object = {
 			Body: data,
 			Key: `${scope}/${name}`,
@@ -66,8 +66,13 @@ export class Storage {
 		} catch (error: any | AWS.AWSError) {
 			const msg = `S3 error when getting object from bucket: ${object.Bucket} key: ${object.Key}`;
 			if (
-				retries < this.numberOfRetries &&
-				(_.isNil(error.retryable) || error.retryable)
+				retries < this.maxNumberOfRetries &&
+				(_.isNil(error.retryable) ||
+					error.retryable ||
+					error.statusCode === '404')
+				// Allowing retries on 404s because there's a race condition on
+				// jellyfish/apps/server/lib/http/facades/action.ts
+				// where the link is created before the file
 			) {
 				logger.warn(context, msg + `; retrying ( attempt #${retries})`, error);
 
