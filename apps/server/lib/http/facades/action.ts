@@ -51,11 +51,13 @@ export class ActionFacade {
 		const files: FileItem[] = [];
 
 		if (options.files) {
-			const id = uuidv4();
+			const fileUniqueId = uuidv4();
 
 			// Upload magic
+			// Create one entry on action.arguments per each uploaded file,
+			// and also push to the files array defined above
 			options.files.forEach((file) => {
-				const name = `${id}.${file.originalname}`;
+				const name = `${fileUniqueId}.${file.originalname}`;
 
 				_.set(action.arguments as any, ['payload', file.fieldname], {
 					name: file.originalname,
@@ -87,6 +89,8 @@ export class ActionFacade {
 		// FIXME we should first save the file on the fileStore to make sure it will be there
 		// when saving the action
 		// Current impl will generate broken links if the push to S3 fails
+		// Fixing is a bit complex because the S3 key uses an ID that is created when the action is processed,
+		// so we don't have id beforehand.
 		const actionRequest = await this.worker.insertCard<ActionRequestContract>(
 			context,
 			this.worker.kernel.adminSession()!,
@@ -110,7 +114,6 @@ export class ActionFacade {
 			},
 		);
 		assert(actionRequest);
-
 		const results = await this.producer.waitResults(context, actionRequest);
 
 		if (results.error) {
