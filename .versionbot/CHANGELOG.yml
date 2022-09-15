@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update @balena/jellyfish-worker from 33.4.0 to 33.4.38
+      hash: 63ad8d90d0c0f17ab08b5a17504f888d68897301
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.14
+  title: "'Update @balena/jellyfish-worker from 33.4.0 to 33.4.38'"
+  date: 2022-09-15T04:02:17.374Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-github from 8.0.50 to 8.0.82
       hash: 96608b48919cd2329ee0c052de5c4546dcffc3b9
       body: ""
