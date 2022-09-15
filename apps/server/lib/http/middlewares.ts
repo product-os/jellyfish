@@ -68,7 +68,9 @@ export const attachMiddlewares = (
 			const contextId = request.headers['request-id'] || uuidv4();
 
 			const context = {
-				id: `REQUEST-${packageJSON.version}-${contextId}`,
+				id: `REQUEST-V-${packageJSON.version}-ENV-${
+					process.env.NODE_ENV ? process.env.NODE_ENV.substring(0, 4) : '?'
+				}-${contextId}`,
 				api: rootContext.id,
 			};
 

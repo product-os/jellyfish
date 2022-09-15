@@ -31,41 +31,29 @@ if (hostId === 'localhost') {
 	}
 }
 
-const baseLogId = `SERVER-ID-${'[' + serverId + ']'}-PID-${
-	process.pid
-}-${hostId}-${packageJSON.version}`;
+const baseLogId = `SERVER-ID-${serverId}-PID-${process.pid}-H-${hostId}-V-${
+	packageJSON.version
+}-ENV-${process.env.NODE_ENV ? process.env.NODE_ENV.substring(0, 4) : '?'}`;
 
 const DEFAULT_CONTEXT = {
 	id: `ERROR-${baseLogId}`,
 };
 
 const onError = (error, message = 'Server error', ctx = DEFAULT_CONTEXT) => {
-	logger.error(ctx, message, error);
-	console.error({
-		context: ctx,
-		message,
-		error,
-	});
-	console.error('Process exiting');
-	setTimeout(() => {
-		process.exit(1);
-	}, 1000);
+	if (_.isError(error)) {
+		logger.exception(ctx, message, error);
+	} else {
+		logger.error(ctx, message, error);
+	}
 };
 
 /**
  * `unhandledRejection` event means that a promise rejection wasn't handled.
- * Log query read timeouts, exit the process on other cases
+ * Log but don't exit the process because that may cause an operation to be interrupted
+ * and leave the system inconsistent.
  */
-process.on('unhandledRejection', (reason: Error | unknown, promise) => {
-	if (_.isError(reason) && reason.message === 'Query read timeout') {
-		// Don't exit, just log
-		logger.error(DEFAULT_CONTEXT, 'Unhandled Rejection', {
-			reason: reason.stack || reason,
-			promise,
-		});
-	} else {
-		return onError(reason, 'Unhandled Rejection');
-	}
+process.on('unhandledRejection', (reason: Error | unknown, _promise) => {
+	return onError(reason, 'Unhandled Rejection');
 });
 
 const startDate = new Date();

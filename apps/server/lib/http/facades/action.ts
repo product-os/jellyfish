@@ -10,6 +10,7 @@ import errio from 'errio';
 import { v4 as isUUID } from 'is-uuid';
 import _ from 'lodash';
 import { v4 as uuidv4 } from 'uuid';
+import { Storage } from '../file-storage';
 
 interface FileItem {
 	buffer: any;
@@ -28,11 +29,11 @@ interface ActionFacadeOptions {
 }
 
 export class ActionFacade {
-	fileStore: any;
+	fileStore: Storage;
 	producer: Producer;
 	worker: Worker;
 
-	constructor(worker: Worker, fileStore: any) {
+	constructor(worker: Worker, fileStore: Storage) {
 		this.fileStore = fileStore;
 		this.producer = worker.producer;
 		this.worker = worker;
@@ -82,6 +83,10 @@ export class ActionFacade {
 			  );
 		assert(input);
 		const actionRequestDate = new Date();
+
+		// FIXME we should first save the file on the fileStore to make sure it will be there
+		// when saving the action
+		// Current impl will generate broken links if the push to S3 fails
 		const actionRequest = await this.worker.insertCard<ActionRequestContract>(
 			context,
 			this.worker.kernel.adminSession()!,

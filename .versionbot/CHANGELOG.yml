@@ -1,4 +1,272 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117
+      hash: 7ce9f2bcc44ac96e9127923c430b90109bdb93b3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.17
+  title: "'Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117'"
+  date: 2022-09-15T11:51:48.711Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 8.0.40 to 8.0.73
+      hash: e709bf84a516241c50aaa2da326a9648c512abb8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.16
+  title: "'Update @balena/jellyfish-plugin-incidents from 8.0.40 to 8.0.73'"
+  date: 2022-09-15T11:06:39.740Z
+- commits:
+    - subject: "UI: Remove compacting of notifications in inbox"
+      hash: 0bc4a86e3ed877550da38848306cd8f1c2dc649a
+      body: >
+        Each message you are notified of will now be a seperate item in the
+        inbox.
+
+        This change has been made to avoid the situation where notifications are
+
+        missed, because they are obscured by a subsequent notification on the
+
+        same context.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.10.15
+  title: "'UI: Remove compacting of notifications in inbox'"
+  date: 2022-09-15T10:12:20.323Z
+- commits:
+    - subject: Update @balena/jellyfish-worker from 33.4.0 to 33.4.38
+      hash: 63ad8d90d0c0f17ab08b5a17504f888d68897301
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.14
+  title: "'Update @balena/jellyfish-worker from 33.4.0 to 33.4.38'"
+  date: 2022-09-15T04:02:17.374Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.50 to 8.0.82
+      hash: 96608b48919cd2329ee0c052de5c4546dcffc3b9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.13
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.50 to 8.0.82'"
+  date: 2022-09-15T02:07:50.184Z
+- commits:
+    - subject: Remove unused b64 file
+      hash: 6dd3cf460bd5a0f811dd28fdbf454c844f8c032d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.12
+  title: "'Remove unused b64 file'"
+  date: 2022-09-15T01:25:57.210Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.75 to 6.0.129
+      hash: 3b5f0b700581bf68408f4878bc8b53c90c21a9e3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.11
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.75 to 6.0.129'"
+  date: 2022-09-15T00:21:30.615Z
+- commits:
+    - subject: Log UnhandledException details
+      hash: c533db7acaaba2a51c8e90afa4f2195b50d106d1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.10
+  title: "'Log UnhandledException details'"
+  date: 2022-09-14T23:37:18.092Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-discourse from 6.0.47 to 6.0.68
+      hash: b012fa6735b7a382c3949684b8d878c2148f0f0c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.9
+  title: "'Update @balena/jellyfish-plugin-discourse from 6.0.47 to 6.0.68'"
+  date: 2022-09-14T18:01:49.753Z
+- commits:
+    - subject: Improve logging info; add NODE_ENV to be able to filter out e2e tests
+        from logs
+      hash: 8954f844133be721a6c1da5abb19900bf7e42dd8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.8
+  title: "'Improve logging; add NODE_ENV to be able to filter out e2e tests from
+    logs'"
+  date: 2022-09-14T16:52:25.456Z
+- commits:
+    - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.91 to 6.0.136
+      hash: 014a5b74472c1be02ef76fe05479b5d6fd030977
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.7
+  title: "'Update @balena/jellyfish-plugin-balena-api from 6.0.91 to 6.0.136'"
+  date: 2022-09-14T13:48:33.268Z
+- commits:
+    - subject: Update @balena/jellyfish-metrics from 2.0.162 to 2.0.162
+      hash: b70a8b38e645c863e5f9bb423b06e261444d36b9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.6
+  title: "'Update @balena/jellyfish-metrics from 2.0.162 to 2.0.162'"
+  date: 2022-09-14T13:29:27.053Z
+- commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.63 to 5.1.63
+      hash: 22384383882b5764b9520a0736a9cf277db96213
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.5
+  title: "'Update @balena/jellyfish-logger from 5.1.63 to 5.1.63'"
+  date: 2022-09-14T10:26:49.407Z
+- commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.67 to 1.2.67
+      hash: 67885397033d6d9957242f3e63e833d56a50c103
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.4
+  title: "'Update @balena/jellyfish-assert from 1.2.67 to 1.2.67'"
+  date: 2022-09-14T09:07:19.809Z
+- commits:
+    - subject: "UI: Only include orgs in org selector"
+      hash: fee2e21e35afd30da33e7b0ad06b4dfdd994e1e8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.3
+  title: "'UI: Only include orgs in org selector'"
+  date: 2022-09-14T07:58:54.518Z
+- commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.69 to 13.0.74
+      hash: 98484e0fb28d87bb3aee38347df9b613b640bf05
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.2
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.69 to 13.0.74'"
+  date: 2022-09-14T07:09:57.221Z
+- commits:
+    - subject: Log S3 object bucket and key when there's an error retrieving from S3
+      hash: c05a80cf80bf99e94ec1ba71540082455b326297
+      body: |
+        https://jel.ly.fish/milestone-print-keys-not-found-s3-70f0a58
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.1
+  title: "'Log S3 object bucket and key when there's an error retrieving from S3'"
+  date: 2022-09-14T02:25:38.937Z
+- commits:
+    - subject: Don't exit on unhandled errors and rejections
+      hash: cf5e7102eb625b6ce53faaca4daf7f305ae35853
+      body: >
+        Currently JF exits on unhandled exceptions, in an attempt to highlight
+        the error. But what actually happens is that a worker exits and it's
+        then restarted, with the unwanted effect the worker exiting means a
+        non-clean shutdown that may interrupt some operations, which is not
+        needed.
+
+        This is affecting at least:
+
+
+        Bug on autumndb, fixed in 22.2.42: https://sentry.io/organizations/balena/issues/3568604519/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        Query timeouts: https://sentry.io/organizations/balena/issues/3337230685/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3475517541/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3164921816/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3354918880/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+        https://sentry.io/organizations/balena/issues/3475748626/?environment=server&environment=prod&project=1366139&query=is%3Aunresolved
+
+
+        This improvement logs the error so that it can be clearly seen in Sentry, but doesn't abort the process.
+
+        These errors will appear as `mechanism: generic, handled: true` instead as `mechanism: onunhandledrejection, handled: false`
+      footer:
+        Change-type: minor
+        change-type: minor
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.0
+  title: "'Don't exit on unhandled errors and rejections'"
+  date: 2022-09-13T19:18:35.816Z
+- commits:
     - subject: 'Revert "UI: Fix unlink modal query"'
       hash: 799a67d8249d7beea44d129cae9d2605ecf10ae7
       body: ""

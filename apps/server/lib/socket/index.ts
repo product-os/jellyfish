@@ -82,7 +82,9 @@ export const attachSocket = (kernel: Kernel, server) => {
 		const id = uuidv4();
 
 		const context = {
-			id: `SOCKET-REQUEST-${packageJSON.version}-${id}`,
+			id: `SOCKET-REQUEST-V-${packageJSON.version}-ENV-${
+				process.env.NODE_ENV ? process.env.NODE_ENV.substring(0, 4) : '?'
+			}-${id}`,
 		};
 
 		const ready = new Promise<{ stream: any; payload: any }>((resolve) => {

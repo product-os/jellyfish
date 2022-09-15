@@ -1,6 +1,6 @@
 {
   "name": "jellyfish",
-  "version": "59.9.14",
+  "version": "59.10.17",
   "homepage": "https://github.com/product-os/jellyfish",
   "description": "The Jellyfish Project",
   "codename": "seamstress",
@@ -61,7 +61,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.69",
+    "@balena/jellyfish-client-sdk": "^13.0.74",
     "@balena/jellyfish-environment": "^13.0.13",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
@@ -93,7 +93,7 @@
     "pre-commit": "npx lint-staged"
   },
   "versionist": {
-    "publishedAt": "2022-09-13T10:30:25.418Z"
+    "publishedAt": "2022-09-15T11:51:51.228Z"
   },
   "balena": {
     "environment": [

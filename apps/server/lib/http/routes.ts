@@ -37,7 +37,7 @@ const sendHTTPError = (request: Request, response: Response, error: any) => {
 			exclude: ['expected'],
 		});
 
-		logger.debug(request.context, 'HTTP expected error', {
+		logger.info(request.context, 'HTTP expected error', {
 			ip: request.ip,
 			error: errorObject,
 		});
