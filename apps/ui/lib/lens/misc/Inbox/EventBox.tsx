@@ -4,7 +4,6 @@ import path from 'path';
 import { Box, Button, Flex, Txt } from 'rendition';
 import styled from 'styled-components';
 import { Event, Icon, useSetup } from '../../../components';
-import { MESSAGE, WHISPER } from '../../../components/constants';
 import { ChannelContract, UIActor } from '../../../types';
 import { useSelector } from 'react-redux';
 import { selectors } from '../../../store';
@@ -41,15 +40,9 @@ export const EventBox = React.memo(
 		const user = useSelector(selectors.getCurrentUser());
 		const [isArchiving, setIsArchiving] = React.useState(false);
 
-		// Depending on the executed query, the matching contract could be a
-		// message/whisper or a thread. We need to account for both cases.
-		const typeBase = contract.type.split('@')[0];
-		let message = contract.links?.['has attached element']?.[0];
-		let source = contract;
-		if (typeBase === MESSAGE || typeBase === WHISPER) {
-			message = contract;
-			source = contract.links!['is attached to']?.[0];
-		}
+		const message = contract;
+		const source = contract.links!['is attached to']?.[0];
+
 		const hasNotification = !!message?.links?.['has attached']?.[0];
 
 		const read =
@@ -59,13 +52,7 @@ export const EventBox = React.memo(
 		const archiveNotification = React.useCallback(async () => {
 			setIsArchiving(true);
 
-			// There may be multiple notifications to clear, since we
-			// compact messages and their notifications from the same thread together
-			const notifications: Contract[] = [];
-
-			for (const event of source.links?.['has attached element'] ?? []) {
-				notifications.push(...(event?.links?.['has attached'] || []));
-			}
+			const notifications = message.links?.['has attached'] ?? [];
 
 			await Promise.all(
 				notifications.map(async (notification) => {
