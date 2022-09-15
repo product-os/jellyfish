@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 10.0.70 to 10.0.107
+      hash: 56907c3c80a8834faace3697a09098c7f5d15ded
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.19
+  title: "'Update @balena/jellyfish-plugin-typeform from 10.0.70 to 10.0.107'"
+  date: 2022-09-15T19:27:57.327Z
+- commits:
     - subject: Retry file GET is S3 returns a 404 to work around race conditions when
         saving files
       hash: 0f7e6b51e6098d7958412feaaebee0831a12a2d0
