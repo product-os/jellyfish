@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-front from 6.0.75 to 6.0.129
+      hash: 3b5f0b700581bf68408f4878bc8b53c90c21a9e3
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.11
+  title: "'Update @balena/jellyfish-plugin-front from 6.0.75 to 6.0.129'"
+  date: 2022-09-15T00:21:30.615Z
+- commits:
     - subject: Log UnhandledException details
       hash: c533db7acaaba2a51c8e90afa4f2195b50d106d1
       body: ""
