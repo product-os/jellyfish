@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-github from 8.0.50 to 8.0.82
+      hash: 96608b48919cd2329ee0c052de5c4546dcffc3b9
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.13
+  title: "'Update @balena/jellyfish-plugin-github from 8.0.50 to 8.0.82'"
+  date: 2022-09-15T02:07:50.184Z
+- commits:
     - subject: Remove unused b64 file
       hash: 6dd3cf460bd5a0f811dd28fdbf454c844f8c032d
       body: ""
