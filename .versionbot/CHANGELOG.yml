@@ -1,4 +1,18 @@
 - commits:
+    - subject: Log UnhandledException details
+      hash: c533db7acaaba2a51c8e90afa4f2195b50d106d1
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.10
+  title: "'Log UnhandledException details'"
+  date: 2022-09-14T23:37:18.092Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.47 to 6.0.68
       hash: b012fa6735b7a382c3949684b8d878c2148f0f0c
       body: ""
