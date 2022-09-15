@@ -1,4 +1,20 @@
 - commits:
+    - subject: Retry file GET is S3 returns a 404 to work around race conditions when
+        saving files
+      hash: 0f7e6b51e6098d7958412feaaebee0831a12a2d0
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.18
+  title: "'Retry GET if S3 returns a 404 to work around race conditions when
+    saving files'"
+  date: 2022-09-15T18:03:24.160Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117
       hash: 7ce9f2bcc44ac96e9127923c430b90109bdb93b3
       body: ""
