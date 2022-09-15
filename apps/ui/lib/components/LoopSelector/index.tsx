@@ -6,6 +6,7 @@ import {
 	SubMenu,
 	MenuDivider,
 } from '@szhsin/react-menu';
+import { menuItemSelector } from '@szhsin/react-menu/style-utils';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 import styled from 'styled-components';
@@ -14,7 +15,13 @@ import { useHistory } from 'react-router-dom';
 import { selectors } from '../../store';
 import { useSetup } from '../SetupProvider';
 import { Icon } from '../../components';
-import type { Contract, LoopContract, OrgContract } from 'autumndb';
+// import type { Contract, LoopContract, OrgContract } from 'autumndb';
+
+const StyledMenu = styled(Menu)`
+	${menuItemSelector.hover} {
+		color: #000;
+	}
+`;
 
 const StyledMenuTitle = styled('div')`
 	padding: 0.375rem 1.5rem;
@@ -22,10 +29,26 @@ const StyledMenuTitle = styled('div')`
 `;
 
 const StyledMenuItem = styled(MenuItem)`
+	background: ${(props) =>
+		props.active
+			? '#8c31ff'
+			: props.isOrgLoop
+			? 'rgba(140, 49, 255, 0.1)'
+			: '#ffffff'};
+	color: ${(props) => (props.active ? '#ffffff' : '#000000')};
 	z-index: 100;
+	position: relative;
+`;
+
+const StyledSubMenu = styled(SubMenu)`
+	background: ${(props) => (props.active ? '#8c31ff' : '#ffffff')};
+	color: ${(props) => (props.active ? '#ffffff' : '#000000')};
+	z-index: 100;
+	position: relative;
 `;
 
 const StyledMenuButton = styled(MenuButton)`
+	color: white;
 	min-height: 0;
 	height: 28px;
 	background: #8c31ff;
@@ -168,33 +191,36 @@ export const LoopSelector = React.memo(() => {
 	const isActiveLabel = (label: string) =>
 		activeLoop === label || activeOrg === label || activeProduct === label;
 
-	// TODO: change background for active elements or submenu
 	const menuOption = (element, subMenu?) => {
 		if (subMenu) {
 			return (
 				<>
-					<SubMenu
-						label={
-							isActiveLabel(element.label)
-								? `* ${element.label}`
-								: element.label
-						}
+					<StyledSubMenu
+						active={isActiveLabel(element.label)}
+						label={element.label}
 					>
-						<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
-							{element.label} {subMenu?.[0]?.type === 'loop' ? 'org' : 'loop'}
+						<StyledMenuItem
+							// isOrgLoop
+							onClick={(e) => navigateTo(e, element.value)}
+						>
+							{element.label}{' '}
+							{subMenu?.[0]?.type === 'loop' ? '(org)' : '(loop)'}
 						</StyledMenuItem>
 						<MenuDivider />
 						<StyledMenuTitle>
 							{subMenu?.[0]?.type === 'loop' ? 'Loops' : 'Products'}
 						</StyledMenuTitle>
 						{subMenu.map((loop) => menuOption(loop, loop.products))}
-					</SubMenu>
+					</StyledSubMenu>
 				</>
 			);
 		} else {
 			return (
-				<StyledMenuItem onClick={(e) => navigateTo(e, element.value)}>
-					{isActiveLabel(element.label) ? `* ${element.label}` : element.label}
+				<StyledMenuItem
+					active={isActiveLabel(element.label)}
+					onClick={(e) => navigateTo(e, element.value)}
+				>
+					{element.label}
 				</StyledMenuItem>
 			);
 		}
@@ -212,7 +238,7 @@ export const LoopSelector = React.memo(() => {
 
 	// TODO: merging of orgs and allLoopsAndProduct won't work for multiple orgs
 	return (
-		<Menu
+		<StyledMenu
 			menuButton={
 				<StyledMenuButton>
 					{getMenuButtonLabel()}
@@ -223,6 +249,6 @@ export const LoopSelector = React.memo(() => {
 		>
 			<StyledMenuTitle>Orgs</StyledMenuTitle>
 			{orgs.map((org) => menuOption(org, allLoopsAndProducts))}
-		</Menu>
+		</StyledMenu>
 	);
 });
