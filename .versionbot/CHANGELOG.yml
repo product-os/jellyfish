@@ -1,4 +1,26 @@
 - commits:
+    - subject: "UI: Remove compacting of notifications in inbox"
+      hash: 0bc4a86e3ed877550da38848306cd8f1c2dc649a
+      body: >
+        Each message you are notified of will now be a seperate item in the
+        inbox.
+
+        This change has been made to avoid the situation where notifications are
+
+        missed, because they are obscured by a subsequent notification on the
+
+        same context.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.10.15
+  title: "'UI: Remove compacting of notifications in inbox'"
+  date: 2022-09-15T10:12:20.323Z
+- commits:
     - subject: Update @balena/jellyfish-worker from 33.4.0 to 33.4.38
       hash: 63ad8d90d0c0f17ab08b5a17504f888d68897301
       body: ""
