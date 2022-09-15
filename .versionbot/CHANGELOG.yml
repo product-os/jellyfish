@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-incidents from 8.0.40 to 8.0.73
+      hash: e709bf84a516241c50aaa2da326a9648c512abb8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.16
+  title: "'Update @balena/jellyfish-plugin-incidents from 8.0.40 to 8.0.73'"
+  date: 2022-09-15T11:06:39.740Z
+- commits:
     - subject: "UI: Remove compacting of notifications in inbox"
       hash: 0bc4a86e3ed877550da38848306cd8f1c2dc649a
       body: >
