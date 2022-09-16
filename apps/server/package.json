@@ -30,7 +30,7 @@
     "@balena/jellyfish-plugin-discourse": "^6.0.68",
     "@balena/jellyfish-plugin-front": "^6.0.129",
     "@balena/jellyfish-plugin-github": "^8.0.82",
-    "@balena/jellyfish-plugin-incidents": "^8.0.73",
+    "@balena/jellyfish-plugin-incidents": "^8.0.75",
     "@balena/jellyfish-plugin-outreach": "^5.0.117",
     "@balena/jellyfish-plugin-typeform": "^10.0.107",
     "@balena/jellyfish-worker": "^33.4.38",
