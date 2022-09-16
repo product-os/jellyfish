@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-plugin-typeform from 10.0.107 to 10.0.109
+      hash: 384cf8d2773c9b4c579407f0424df6fd5c0c100d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.27
+  title: "'Update @balena/jellyfish-plugin-typeform from 10.0.107 to 10.0.109'"
+  date: 2022-09-16T14:25:11.813Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-balena-api from 6.0.137 to 6.0.138
       hash: d1afcc4f8be20d366fb9828562b818d6601767b9
       body: ""
