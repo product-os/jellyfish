@@ -245,7 +245,7 @@ services:
 
   # https://github.com/balena-io/balena-mdns-publisher
   mdns:
-    image: balena/balena-mdns-publisher:v1.15.13
+    image: balena/balena-mdns-publisher:v1.16.6
     network_mode: host
     cap_add:
       - SYS_RESOURCE
