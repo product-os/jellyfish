@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update balena/balena-mdns-publisher Docker tag to v1.16.6
+      hash: c40b996c8c48da7701a6d6f6984bee901b60ffce
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.30
+  title: "'Update balena/balena-mdns-publisher Docker tag to v1.16.6'"
+  date: 2022-09-16T22:48:57.387Z
+- commits:
     - subject: Update autumndb from 22.0.6 to 22.2.45
       hash: 42fdaba0fd79a0e41798688e19e31203e83d7123
       body: ""
