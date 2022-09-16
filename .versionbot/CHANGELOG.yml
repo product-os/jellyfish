@@ -1,4 +1,18 @@
 - commits:
+    - subject: Bump autumndb
+      hash: 1d189eda0541672e3ec276e935442bf9c0414d56
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+        signed-off-by: Ramiro Gonzalez <ramiro.gonzalez@balena.io>
+      author: Ramiro González Maciel
+      nested: []
+  version: 59.10.22
+  title: "'Bump autumndb'"
+  date: 2022-09-16T10:34:14.053Z
+- commits:
     - subject: Update typedoc from 0.23.10 to 0.23.14
       hash: 9ae388fa2af13454ca185f3be5cac6c0f2e45eb8
       body: ""
