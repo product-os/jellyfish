@@ -26,8 +26,6 @@ RUN npm run build
 # Test
 ###########################################################
 
-# https://github.com/product-os/jellyfish-base-images
-# https://registry.hub.docker.com/r/resinci/jellyfish-test
 FROM base AS test
 
 WORKDIR /usr/src/jellyfish/apps/ui
