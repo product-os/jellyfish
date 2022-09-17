@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.75 to 13.0.78
+      hash: f1d3d465613a5632f60f218e298f0d9d7fb00140
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.37
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.75 to 13.0.78'"
+  date: 2022-09-17T11:33:14.959Z
+- commits:
     - subject: "CI: Remove incomplete benchmarks"
       hash: dfb173221ea108b3d3c869c0e76f65c1995eb2fc
       body: |
