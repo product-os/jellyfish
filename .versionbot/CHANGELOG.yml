@@ -1,4 +1,18 @@
 - commits:
+    - subject: "CI: Drop unused Dockerfile"
+      hash: 8ad027fcc8525c994f79a16e4313f54333b2fd75
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.33
+  title: "'CI: Drop unused Dockerfile'"
+  date: 2022-09-17T07:20:46.781Z
+- commits:
     - subject: "Docs: Default to local devenv"
       hash: 4f1faf8d90431448b0adabbad3f336941ab2200c
       body: ""
