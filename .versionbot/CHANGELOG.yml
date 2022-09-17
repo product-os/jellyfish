@@ -1,4 +1,28 @@
 - commits:
+    - subject: "Dev: Update .nvmrc to node 16.17"
+      hash: 063cad353c22dee154be69ec7ad4b3b44b7dd8bc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "Dev: Remove old ackrc dotfile"
+      hash: 526f1b81303f38d5c36b1be047ee9b6a8d87afd5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.34
+  title: "'Remove .ackrc and update .nvmrc'"
+  date: 2022-09-17T08:02:29.058Z
+- commits:
     - subject: "CI: Drop unused Dockerfile"
       hash: 8ad027fcc8525c994f79a16e4313f54333b2fd75
       body: ""
