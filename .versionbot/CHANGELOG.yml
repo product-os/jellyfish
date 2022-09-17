@@ -1,4 +1,33 @@
 - commits:
+    - subject: "CI: Remove incomplete benchmarks"
+      hash: dfb173221ea108b3d3c869c0e76f65c1995eb2fc
+      body: |
+        We should bring benchmarking back later in a more complete form when we
+        are ready to use its output for something useful.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+    - subject: "CI: Merge test image into test-runner"
+      hash: 78883d980e4aa36cbfee35d748418b4774e5bf02
+      body: |
+        The Jellyfish test image is only used here, so merging it
+        in and deprecating the product-os/jellyfish-base-images
+        repository.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.36
+  title: "'CI: Merge test image into test-runner'"
+  date: 2022-09-17T10:48:02.948Z
+- commits:
     - subject: Update @balena/jellyfish-assert from 1.2.67 to 1.2.69
       hash: c097f6cde739e16cd07332033476d8cbdec8ac9a
       body: ""
