@@ -29,7 +29,7 @@
     "docs:summary": "./scripts/architecture-summary.sh > ARCHITECTURE.md",
     "clean": "rimraf apps/*/packages/*",
     "postinstall": "cd apps/server && npm i",
-    "install:all": "(cd apps/server && npm i); (cd apps/ui && npm i)",
+    "install:all": "npm i && (cd apps/ui && npm i)",
     "compose:local": "docker-compose -f docker-compose.local.yml up",
     "push": "./scripts/push.sh",
     "push:lib": "./scripts/push-lib.js",

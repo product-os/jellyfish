@@ -7,48 +7,44 @@
 * [Running e2e/integration tests](#testing)
 * [Footnotes](#footnotes)
 
-
 ## Dependencies
-> all reference commands assume a Linux/BSD compatible execution environment and a Bash
-  shell.
+> All reference commands assume a Linux/BSD compatible execution environment and a Bash shell.
 
 * Intel NUC or another amd64 device capable of running balenaOS[[fn1](#fn1)]
-* a balenaCloud account with access to [jellyfish-on-balena] fleet
+* A balenaCloud account with access to [jellyfish-on-balena] fleet
 * balena CLI, openssl, jq, yq v4+ and Etcher[[fn3](#fn3)]
-* single network broadcast domain containing the development environment[[fn4](#fn4)]
-
+* Single network broadcast domain containing the development environment[[fn4](#fn4)]
 
 ## Provisioning
-* request access to [jellyfish-on-balena] fleet and provision your device into it
-* login to balenaCloud
+* Request access to [jellyfish-on-balena] fleet and provision your device into it
+* Login to balenaCloud
 
 ```sh
 balena login
 ```
 
-* find your device and configure environment
+* Find your device and configure environment
 
 ```sh
 source ./scripts/get-device.sh
 ```
 
-* enable [Public device URL]
+* Enable [Public device URL]
 
 ```sh
 balena device public-url "${SHORT_UUID}" --enable
 ```
 
-
 ## Development
 
 ### Livepush
-* enable [local-mode]
+* Enable [local-mode]
 
 ```sh
 balena device local-mode "${SHORT_UUID}" --enable
 ```
 
-* create `~/.balena/secrets.json` containing your DockerHub credentials
+* Create `~/.balena/secrets.json` containing your DockerHub credentials
 
 ```json
 {
@@ -59,9 +55,10 @@ balena device local-mode "${SHORT_UUID}" --enable
 }
 ```
 
-* reveal secrets
+* Reveal secrets
 
 ```sh
+git submodule update --init
 git secret reveal -f
 ```
 
@@ -71,13 +68,13 @@ git secret reveal -f
 npm run push
 ```
 
-* pull down the CA bundle
+* Pull down the CA bundle
 
 ```sh
 source ./scripts/get-ca-bundle.sh
 ```
 
-* configure operating system (**macOS**)
+* Configure operating system (**macOS**)
 
 ```sh
 sudo security add-trusted-cert -d \
@@ -86,27 +83,27 @@ sudo security add-trusted-cert -d \
   ${NODE_EXTRA_CA_CERTS}
 ```
 
-* configure operating system (**Windows**)
+* Configure operating system (**Windows**)
 
 ```PowerShell
 Import-Certificate -FilePath "${NODE_EXTRA_CA_CERTS}" `
   -CertStoreLocation Cert:\LocalMachine\Root
 ```
 
-* configure operating system (**Arch Linux**)
+* Configure operating system (**Arch Linux**)
 
 ```sh
 sudo trust anchor --store "${NODE_EXTRA_CA_CERTS}"
 ```
 
-* configure operating system (**Ubuntu/Debian**)
+* Configure operating system (**Ubuntu/Debian**)
 
 ```sh
 sudo cp ${NODE_EXTRA_CA_CERTS} /usr/local/share/ca-certificates/productOS.pem \
   && sudo update-ca-certificates
 ```
 
-* configure operating system (**CentOS**)
+* Configure operating system (**CentOS**)
 
 ```sh
 sudo yum install ca-certificates \
@@ -115,13 +112,13 @@ sudo yum install ca-certificates \
   && update-ca-trust extract
 ```
 
-* verify that all of backends are up
+* Verify that all of backends are up
 
 ```sh
 open https://balena:${LONG_UUID}@stats.${LONG_UUID}.${TLD}:1936/metrics
 ```
 
-* open Jellyfish
+* Open Jellyfish
 
 ```sh
 open https://jel.${LONG_UUID}.${TLD}
@@ -129,11 +126,50 @@ open https://jel.${LONG_UUID}.${TLD}
 
 You're done! 🎉
 
+* Working with libraries
+
+If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
+Be sure to clone them with the right scope if necessary, for example:
+```
+cd .libs
+mkdir -p @balena
+cd @balena
+git clone git@github.com:product-os/jellyfish-worker.git
+```
+
+Finally, deploy everything to the device by executing `npm run push` from the repository root.
+During the bootstrap phase a default user contract with username and password equal to jellyfish is inserted.
+With those credentials you can start interacting with Jellyfish, for instance using [Jellyfish client SDK](https://github.com/product-os/jellyfish-client-sdk).
+
+Once deployed, app and library source changes will cause quick service reloads. Adding and removing
+app dependencies will cause that service's image to be rebuilt from its `npm ci` layer. Adding and
+removing library dependencies is a bit different. The following is an example when working with the
+`jellyfish-worker` library:
+
+```sh
+cd .libs/jellyfish-worker
+npm install new-dependency
+cd ../..
+npm run push:lib jellyfish-worker
+```
+
+What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
+copies the resulting tarball into apps `packages` subdirectories. This triggers partial image rebuilds.
+Execute `npm run clean` to delete these tarballs when you no longer need them.
+
+* Resetting
+
+Deleting cloned libraries from `.libs/` or deleting library tarballs from `apps/*/packages/` doesn't currently
+reset that library to it's original state in the app(s) on your Livepush device. This can lead to a confusing
+state in which your local source doesn't correctly mirror what's being executed on your device. To reset your
+device back to a clean state:
+- `rm -fr .libs/*` (Assuming you no longer need these libraries)
+- `NOCACHE=1 npm run push`
+
+The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Documentation](https://www.balena.io/docs/reference/balena-cli/#-c---nocache)
 
 ## Testing
-
-* execute e2e tests
-
+Example of running e2e tests:
 ```sh
 echo 'SUT=1 scripts/ci/run-tests.sh \
   wait-for-api \
@@ -145,14 +181,11 @@ echo 'SUT=1 scripts/ci/run-tests.sh \
   e2e-server-previous-dump' | balena ssh "${SHORT_UUID}.local" jellyfish-tests
 ```
 
-
 ## Footnotes
 
 ### [fn1](https://github.com/balena-io/balena-on-balena/blob/master/docs/development.md#fn1)
 ### [fn3](https://github.com/balena-io/balena-on-balena/blob/master/docs/development.md#fn3)
 ### [fn4](https://github.com/balena-io/balena-on-balena/blob/master/docs/development.md#fn4)
-
-
 
 [documentation]: https://www.balena.io/docs/learn/welcome/introduction/
 [jellyfish-on-balena]: https://dashboard.balena-cloud.com/fleets/1842831/summary

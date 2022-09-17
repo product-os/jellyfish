@@ -23,7 +23,7 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**AutumnDB**](https://github.com/product-os/autumndb/blob/master/README.md) the low-level internal SDK to interact with contracts and links in the database
 	- [**Plugin development**](https://github.com/product-os/jellyfish/blob/master/docs/developing/plugins.markdown)
 	- [**Adding a new type**](https://github.com/product-os/jellyfish/blob/master/docs/developing/add-new-type.markdown)
-	- [**Developing locally**](https://github.com/product-os/jellyfish/blob/master/docs/developing/local-development.markdown)
+	- [**Developing on balena**](https://github.com/product-os/jellyfish/blob/master/docs/developing/on-balena.markdown)
 	- [**Running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
 	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
@@ -40,151 +40,168 @@ Many parts of Jellyfish are still under development, and this document aims to c
 - **Integrations**
 	- [**Integrating with GitHub**](https://github.com/product-os/jellyfish/blob/master/docs/integrating-github.markdown)
 
-Installing dependencies
------------------------
+## Install dependencies
+If you want to develop Jellyfish on your local machine, you will need the following:
 
-We use Node v16 to develop Jellyfish. First install dependencies with:
+- Docker
+- Docker Compose
+- Node.js v16
+
+Install node dependencies with:
 ```sh
-npm i
+npm run install:all
 ```
 
 If you get a Playwright installation error, try skipping its browser downloads. [Source](https://github.com/microsoft/playwright/issues/1941#issuecomment-1008338376)
 ```sh
-PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm i
+PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm run install:all
 ```
 
-Revealing secrets
------------------------
-We use [`git secret`](https://git-secret.io/) to safely share secrets used during testing and development.
-Contact someone on the Jellyfish team if you work at Balena and need access. See [`product-os/secrets`](https://github.com/product-os/secrets)
-for more information on how secrets are managed.
+## Start services
+You can then run these commands in different terminal emulators, which will run all services in non-daemon mode:
 
-Once you have been given access, you can reveal secrets stored under `.balena/secrets` with:
+Start Postgres, Redis, and S3 services:
 ```sh
-git submodule update --init
-git secret reveal -f
+npm run compose:local
 ```
 
-Developing with Livepush
-------------------------
-
-To start developing, you must first install [balenaCLI](https://github.com/balena-io/balena-cli) and set up a local-mode device. This could be a virtual machine [in VirtualBox](https://www.balena.io/blog/no-hardware-use-virtualbox/) with at least 32 GB of disk space, 4 GB RAM, and 4 CPU cores. It could also be a separate device, such as an Intel NUC (i7 CPU and at least 8GB memory recommended), on your local network to move the heavy lifting off of your main machine.
-
-### Prepare the device
-1. Create a new balenaCloud app as described [here](https://www.balena.io/docs/learn/getting-started/intel-nuc/nodejs/)
-2. After your device shows up in the dashboard, enable [local mode](https://www.balena.io/docs/learn/develop/local-mode/)
-
-### Deploy code
-Now that the device is up and running in local mode, we need to get its local IP address:
-```
-sudo balena scan | grep address
-  address:       <DEVICE-IP-ADDRESS>
-```
-
-Add endpoints to local hosts file:
-```
-<DEVICE-IP-ADDRESS> livechat.ly.fish.local api.ly.fish.local jel.ly.fish.local postgres.ly.fish.local redis.ly.fish.local grafana.ly.fish.local prometheus.ly.fish.local s3.ly.fish.local
-```
-
-If you are going to be working with any libraries, clone them under `.libs` and checkout your branches.
-Be sure to clone them with the right scope if necessary, for example:
-```
-cd .libs
-mkdir -p @balena
-cd @balena
-git clone git@github.com:product-os/jellyfish-worker.git
-```
-
-Finally, deploy everything to the device by executing `npm run push` from the repository root.
-
-During the bootstrap phase a default user contract with username and password equal to jellyfish is inserted. With those credentials you can start interacting with Jellyfish, for instance using [Jellyfish client SDK](https://github.com/product-os/jellyfish-client-sdk).
-
-Once deployed, app and library source changes will cause quick service reloads. Adding and removing
-app dependencies will cause that service's image to be rebuilt from its `npm ci` layer. Adding and
-removing library dependencies is a bit different. The following is an example when working with the
-`jellyfish-worker` library:
-
+Start the frontend:
 ```sh
-cd .libs/jellyfish-worker
-npm install new-dependency
-cd ../..
-npm run push:lib jellyfish-worker
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_PORT=9000 npm run dev:ui
 ```
 
-What this does is create a local beta package for `.libs/jellyfish-worker` using `npm pack` and then
-copies the resulting tarball into apps `packages` subdirectories. This triggers partial image rebuilds.
-Execute `npm run clean` to delete these tarballs when you no longer need them.
+Start the backend:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 POSTGRES_HOST=localhost REDIS_HOST=localhost \
+    AWS_S3_ENDPOINT=http://localhost:43680 AWS_ACCESS_KEY_ID=AKIAIOSFODNN7EXAMPLE \
+    AWS_SECRET_ACCESS_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY AWS_S3_BUCKET_NAME=jellyfish npm run dev:server
+```
 
-### Opening Jellyfish
-Now that the system is up and running, the UI can be opened in your browser:
-- Login: http://jel.ly.fish.local
+The API will listen on `8000` and the UI will listen on `9000`. Open http://localhost:9000 and login with:
 - Username: `jellyfish`
 - Password: `jellyfish`
 
-The API is listening at http://api.ly.fish.local, meaning you can work with it directly
-using `curl` or other similar tools for debugging/testing if necessary.
+> Note: The development user is not available in production
+> (`NODE_ENV=production`)
 
-### Connecting to Postgres and Redis
-The Postgres and Redis services running on the Livepush device can be accessed with:
+## Work with Dependencies
+There are times in which you may want to make changes a dependency while working on a service component.
+This is where `npm link` comes in. In the example below, we set up `@balena/jellyfish-metrics` as a dependency
+using this strategy.
+
+```bash
+# If adding a new contract to the default plugin use
+# export MODULE_NAME=jellyfish-plugin-default
+export MODULE_NAME=jellyfish-metrics
+# cd to your git clone root folder
+cd ~/git
+git clone git@github.com:product-os/$MODULE_NAME.git
+cd $MODULE_NAME && npm i && npm run build && cd ..
+git clone git@github.com:product-os/jellyfish.git
+cd jellyfish && npm i
+sudo npm link ../$MODULE_NAME
+cd apps/server
+sudo npm link ../../../$MODULE_NAME
+cd ../..
+# check that the links were updated as expected
+find . -name $MODULE_NAME
 ```
-psql -hpostgres.ly.fish.local -Udocker jellyfish -W (password = docker)
-redis-cli -h redis.ly.fish.local
+
+And the output will be similar to:
+```
+...
+/usr/lib/node_modules/@balena/jellyfish-metrics -> /home/josh/git/jellyfish-metrics
+/home/$USER/git/jellyfish/node_modules/@balena/jellyfish-metrics -> /usr/lib/node_modules/@balena/jellyfish-metrics -> /home/josh/git/jellyfish-metrics
 ```
 
-### Looking at metrics
-As instances of Prometheus and Grafana are running as part of the stack, system metrics
-can be accessed and monitored by opening the following:
-- Prometheus: http://prometheus.ly.fish.local
-- Grafana: http://grafana.ly.fish.local
+Now any changes made in `~/git/jellyfish-metrics` will be reflected in `~/git/jellyfish/node_modules/@balena/jellyfish-metrics`.
 
-Jellyfish graphs in Grafana are located under the `standard` folder.
+To remove the global link:
 
-### Managing uploaded files
-An instance of [`minio`](https://min.io/), an S3-compatible service, also runs as part of
-the stack. During development and testing this is the target of any uploads, while production
-uses the real AWS S3 service. Visit the following in your browser to manage buckets and
-uploaded data:
-- Minio admin panel: http://s3.ly.fish.local:43697
-- Username: `AKIAIOSFODNN7EXAMPLE`
-- Password: `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`
+```sh
+cd ~/git/jellyfish-metrics
+sudo npm uninstall
+```
 
-The minio API is listening on https://s3.ly.fish.local:80 so any debugging/testing can
-be done against this endpoint using the AWS CLI, the `aws-sdk` package, etc.
+If you need to link another module you can use the following snippet, assuming you already have cloned and built the dependency:
 
-### Resetting
-Deleting cloned libraries from `.libs/` or deleting library tarballs from `apps/*/packages/` doesn't currently
-reset that library to it's original state in the app(s) on your Livepush device. This can lead to a confusing
-state in which your local source doesn't correctly mirror what's being executed on your device. To reset your
-device back to a clean state:
-- `rm -fr .libs/*` (Assuming you no longer need these libraries)
-- `NOCACHE=1 npm run push`
+```sh
+export MODULE_NAME=jellyfish-plugin-default
+cd jellyfish
+sudo npm link ../$MODULE_NAME
+cd apps/server
+sudo npm link ../../../$MODULE_NAME
+cd ../..
+# check that the links were updated as expected
+find . -name $MODULE_NAME
+```
 
-The `NOCACHE` option sets the `--nocache` flag for `balena push`: [balena CLI Documentation](https://www.balena.io/docs/reference/balena-cli/#-c---nocache)
+`npm link` uses the global `node_modules` directory for linking, which is usually in a path not owned by a normal user, making it necessary to run with `sudo`.
+A way around this is to configure `npm` to use a directory the current user is the owner of:
+```sh
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
+export PATH=~/.npm-global/bin:$PATH
+```
 
-### Troubleshooting
-- Tail individual service logs with `balena logs jel.ly.fish.local --service <name>`
-- Log into device with `balena ssh`, which allows you to then:
-	- Check running containers with `balena ps`
-	- Enter running container with `balena exec -ti <name> bash`
-	- Check container logs directly from within device using `balena logs <name>`
+## Run tests
+Below are a number of test execution examples.
 
-### Debugging
-First, try executing a push with the balenaCLI debug flag enabled: `DEBUG=1 npm run push`.
-When using livepush the backend services start with remote debugging enabled via the `--inspect` flag. Use Chrome dev tools, or your IDE to [start a debugging session](https://nodejs.org/en/docs/guides/debugging-getting-started/#inspector-clients).
+### Lint
+Run lint checks:
+```sh
+npm run lint
+npm run lint:server
+npm run lint:ui
+```
 
-- To debug API server connect to `<DEVICE-IP-ADDRESS>:9229`
-- To debug the worker server connect to `<DEVICE-IP-ADDRESS>:923<WORKER-ID>`
-	- e.g. to connect to the first worker `<DEVICE-IP-ADDRESS>:9231`
+### Unit
+Run unit tests:
+```sh
+npm run test:unit
+npm run test:unit:server
+npm run test:unit:ui
+```
 
-### Testing
-See this guide on [**running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown) to learn how you can run tests against your up and running Jellyfish instance.
+### E2E SDK
+Run SDK E2E tests:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost UI_PORT=9000 npm run test:e2e:sdk
+```
 
-Reporting problems
-------------------
+### E2E UI
+Install browser for tests:
+```sh
+npx playwright install chromium
+```
+
+Run UI E2E tests with headless browser:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npm run test:e2e:ui
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npx playwright test test/e2e/ui/index.spec.js
+```
+
+Run UI E2E tests with browser displayed:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 UI_HOST=http://localhost:9000 npx playwright test test/e2e/ui/index.spec.js --headed
+```
+
+### E2E Server
+Run server E2E tests:
+```sh
+SERVER_HOST=http://localhost SERVER_PORT=8000 npm run test:e2e:server
+```
+
+### Server Integration
+Run server integration tests:
+```sh
+SOCKET_METRICS_PORT=9009 SERVER_PORT=8009 POSTGRES_HOST=localhost REDIS_HOST=localhost npm run test:integration:server
+```
+
+## Reporting problems
 
 If you're having any problems, please [raise an issue](https://github.com/product-os/jellyfish/issues/new) on GitHub and the Jellyfish team will be happy to help.
 
-License
--------
+## License
 
 Jellyfish is open-source software. See the LICENSE file for more information.
