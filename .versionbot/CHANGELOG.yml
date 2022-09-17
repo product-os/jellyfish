@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Docs: Update dev:server example in readme"
+      hash: 6fad3ebaac18e4d99c8e83367338f241c5246d67
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.39
+  title: "'Docs: Update dev:server example in readme'"
+  date: 2022-09-17T13:58:23.166Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 5.1.63 to 5.1.68
       hash: e4fcf7726b091fd22aaab614c5fed6e6a479bb4a
       body: ""
