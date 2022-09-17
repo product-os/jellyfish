@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-assert from 1.2.67 to 1.2.69
+      hash: c097f6cde739e16cd07332033476d8cbdec8ac9a
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.35
+  title: "'Update @balena/jellyfish-assert from 1.2.67 to 1.2.69'"
+  date: 2022-09-17T08:43:24.756Z
+- commits:
     - subject: "Dev: Update .nvmrc to node 16.17"
       hash: 063cad353c22dee154be69ec7ad4b3b44b7dd8bc
       body: ""
