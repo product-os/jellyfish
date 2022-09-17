@@ -23,11 +23,6 @@ RUN apt-get update && \
 	apt-get clean && \
 	rm -rf /var/lib/apt/lists/*
 
-# Install hyperfine for benchmarking
-RUN wget https://github.com/sharkdp/hyperfine/releases/download/v1.14.0/hyperfine_1.14.0_amd64.deb && \
-    dpkg -i hyperfine_1.14.0_amd64.deb && \
-    rm hyperfine_1.14.0_amd64.deb
-
 COPY ./package.json ./package.json
 COPY ./package-lock.json ./package-lock.json
 COPY ./apps/server ./apps/server

@@ -30,8 +30,7 @@ env:
     e2e e2e-ui \
     export-database \
     import-database \
-    e2e-server-previous-dump \
-    benchmark
+    e2e-server-previous-dump
 
   LIVECHAT_PORT: 443
   LOGLEVEL: warning
