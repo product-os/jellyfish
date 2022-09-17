@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Docs: Default to local devenv"
+      hash: 4f1faf8d90431448b0adabbad3f336941ab2200c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.32
+  title: "'Docs: Default to local devenv'"
+  date: 2022-09-17T04:43:25.681Z
+- commits:
     - subject: Update balena/open-balena-base Docker tag to v13.5.1
       hash: 383d1dd0defb9a24c974650bd21fd893db31aaa9
       body: ""
