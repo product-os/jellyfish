@@ -60,7 +60,7 @@ PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=true npm run install:all
 ## Start services
 You can then run these commands in different terminal emulators, which will run all services in non-daemon mode:
 
-Start Postgres, Redis, and S3 services:
+Start Postgres, Redis, and MinIO services:
 ```sh
 npm run compose:local
 ```
@@ -83,6 +83,10 @@ The API will listen on `8000` and the UI will listen on `9000`. Open http://loca
 
 > Note: The development user is not available in production
 > (`NODE_ENV=production`)
+
+You can also view uploaded files by opening http://localhost:43697 and logging in with:
+- Username: `AKIAIOSFODNN7EXAMPLE`
+- Password: `wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY`
 
 ## Work with Dependencies
 There are times in which you may want to make changes a dependency while working on a service component.
