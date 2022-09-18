@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Docs: Remove balenaCI doc"
+      hash: 69b7197924d9b2ca3ce65a642fb475358f2d4e70
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.50
+  title: "'Docs: Remove balenaCI doc'"
+  date: 2022-09-18T09:26:29.274Z
+- commits:
     - subject: Remove unused scripts/perf
       hash: f42721fecacd3cdcb78d7d0b63046b57da4d1855
       body: ""
