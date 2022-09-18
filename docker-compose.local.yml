@@ -28,29 +28,23 @@ services:
       test: echo INFO | redis-cli | grep redis_version
       timeout: 5s
     command: redis-server --appendonly yes
-  s3:
-    image: balena/open-balena-s3:v2.13.10
+  minio-server:
+    image: quay.io/minio/minio
+    restart: always
     environment:
-      BUCKETS: jellyfish
-      MINIO_DOMAIN: ly.fish.local
-      S3_MINIO_ACCESS_KEY: AKIAIOSFODNN7EXAMPLE
-      S3_MINIO_SECRET_KEY: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
-    healthcheck:
-      test: /usr/src/app/docker-hc
-      interval: 45s
-      timeout: 15s
-      retries: 3
-    cap_add:
-      - SYS_RESOURCE
-      - SYS_ADMIN
-    security_opt:
-      - apparmor=unconfined
-    tmpfs:
-      - /run
-      - /sys/fs/cgroup
-    restart: unless-stopped
-    networks:
-      - internal
+      MINIO_ROOT_USER: AKIAIOSFODNN7EXAMPLE
+      MINIO_ROOT_PASSWORD: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+    command: server /data --console-address ":9001"
     ports:
-      - '43680:80'
-      - '43697:43697'
+      - '43680:9000'
+      - '43697:9001'
+  minio-client:
+    image: minio/mc
+    depends_on:
+      - minio-server
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc config host add minio-server http://minio-server:9000 AKIAIOSFODNN7EXAMPLE wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY;
+      /usr/bin/mc mb --ignore-existing minio-server/jellyfish;
+      exit 0;
+      "
