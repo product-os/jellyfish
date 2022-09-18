@@ -60,7 +60,7 @@
   "author": "Balena.io. <hello@balena.io>",
   "license": "AGPL-3.0",
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.80",
+    "@balena/jellyfish-client-sdk": "^13.0.81",
     "@balena/jellyfish-environment": "^13.0.13",
     "@balena/lint": "^6.2.0",
     "@playwright/test": "^1.22.2",
