@@ -1,4 +1,20 @@
 - commits:
+    - subject: "Dev: Switch to official MinIO image for S3"
+      hash: 708be968c1c4ae545af442121006a63f937a36aa
+      body: |
+        The open-balena-s3 image uses systemd and causes issues with systems
+        running cgroups v2. The official MinIO images do not have this problem.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.44
+  title: "'Dev: Switch to official MinIO image for S3'"
+  date: 2022-09-18T02:32:02.693Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-discourse from 6.0.68 to 6.0.78
       hash: 43eebc239364428a7f76a6f6745ae83b04725046
       body: ""
