@@ -25,7 +25,4 @@ COPY ./apps/server/tslint.json /usr/src/jellyfish/apps/server/tslint.json
 RUN npm run lint
 RUN npm run build
 
-# Production debugging scripts
-COPY ./scripts/production /usr/src/jellyfish/scripts/production
-
 CMD [ "npm", "start" ]
