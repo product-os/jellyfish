@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unused scripts/production
+      hash: a0f8ad0e25122973156309efa12730430251d626
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.48
+  title: "'Remove unused scripts/production'"
+  date: 2022-09-18T07:23:51.317Z
+- commits:
     - subject: "CI: Remove unused scripts/lint"
       hash: f2855f7aca9e673f74859a0b7a3c8ed97beff5f9
       body: ""
