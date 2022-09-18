@@ -26,7 +26,6 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Developing on balena**](https://github.com/product-os/jellyfish/blob/master/docs/developing/on-balena.markdown)
 	- [**Running tests**](https://github.com/product-os/jellyfish/blob/master/docs/developing/running-tests.markdown)
 	- [**Adding metrics**](https://github.com/product-os/jellyfish-metrics/blob/master/doc/adding-metrics.markdown)
-	- [**Writing translate tests**](https://github.com/product-os/jellyfish-test-harness/blob/master/doc/writing-translate-tests.markdown)
 	- [**Managing secrets**](https://github.com/product-os/secrets)
 - **Links**
 	- [**Production logs**](https://monitor.balena-cloud.com/explore?left=%5B%22now-3h%22,%22now%22,%22loki%22,%7B%22expr%22:%22%22,%22datasource%22:%22loki%22,%22refId%22:%22A%22%7D%5D&orgId=1)
@@ -35,7 +34,6 @@ Many parts of Jellyfish are still under development, and this document aims to c
 	- [**Metrics**](https://monitor.balena-cloud.com/dashboards/f/auto/auto)
 - **Services**
 	- [**Using New Relic**](https://github.com/product-os/jellyfish/blob/master/docs/newrelic.markdown)
-	- [**Using Balena CI**](https://github.com/product-os/jellyfish/blob/master/docs/balenaci.markdown)
 	- [**Using Sentry**](https://github.com/product-os/jellyfish/blob/master/docs/sentry.markdown)
 - **Integrations**
 	- [**Integrating with GitHub**](https://github.com/product-os/jellyfish/blob/master/docs/integrating-github.markdown)
