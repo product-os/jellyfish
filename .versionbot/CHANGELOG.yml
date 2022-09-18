@@ -1,4 +1,18 @@
 - commits:
+    - subject: Remove unused mergify config
+      hash: 75851619e891d6ab72d377c8e12708b01b95d021
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.51
+  title: "'Remove unused mergify config'"
+  date: 2022-09-18T10:24:21.222Z
+- commits:
     - subject: "Docs: Remove balenaCI doc"
       hash: 69b7197924d9b2ca3ce65a642fb475358f2d4e70
       body: ""
