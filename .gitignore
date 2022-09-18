@@ -82,12 +82,6 @@ dist/
 # Execution files
 .tar.gz
 
-# NYC instrumented code
-.nyc-root
-
-# Katapult generated files
-deploy-templates/jellyfish-product/product/deploy/kubernetes/templates
-
 # tmp directory
 tmp/
 
