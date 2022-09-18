@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Dev: Fix tslint config whitespace"
+      hash: 72b26b0df8a75d8ef9c8c0ca1b620022faefedb5
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.54
+  title: "'Dev: Fix tslint config whitespace'"
+  date: 2022-09-18T14:10:03.986Z
+- commits:
     - subject: Update secrets submodule
       hash: 5f221135a2bbc0ca658f28a183fc612abc44ee12
       body: ""
