@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.80 to 13.0.81
+      hash: fa45faba3d07357ae286a99097445e75f38b876c
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.45
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.80 to 13.0.81'"
+  date: 2022-09-18T03:15:47.699Z
+- commits:
     - subject: "Dev: Switch to official MinIO image for S3"
       hash: 708be968c1c4ae545af442121006a63f937a36aa
       body: |
