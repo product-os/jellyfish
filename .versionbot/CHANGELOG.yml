@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update gitignore
+      hash: 2272d3f9cc09663547c05ed46339490ba4ace8fd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.52
+  title: "'Update gitignore'"
+  date: 2022-09-18T11:25:50.815Z
+- commits:
     - subject: Remove unused mergify config
       hash: 75851619e891d6ab72d377c8e12708b01b95d021
       body: ""
