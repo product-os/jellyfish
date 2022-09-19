@@ -55,7 +55,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@balena/jellyfish-client-sdk": "^13.0.81",
+    "@balena/jellyfish-client-sdk": "^13.0.84",
     "@balena/lint": "^6.2.0",
     "@types/bcrypt": "^5.0.0",
     "@types/is-uuid": "^1.0.0",
