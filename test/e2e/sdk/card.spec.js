@@ -6,10 +6,6 @@ const helpers = require('./helpers')
 
 let sdk = {}
 
-// TODO: Possibly move this file to test/integration/sdk if/when
-// we resolve where to place sdk helper methods that are used by
-// both e2e tests and integration tests.
-
 const createSupportThread = async () => {
 	return sdk.card.create({
 		type: 'support-thread@1.0.0',
