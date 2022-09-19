@@ -22,7 +22,7 @@
     "dev": "NODE_ENV=development nodemon --inspect=0.0.0.0 ./lib/index.ts"
   },
   "dependencies": {
-    "@balena/jellyfish-assert": "^1.2.69",
+    "@balena/jellyfish-assert": "^1.2.70",
     "@balena/jellyfish-environment": "^13.0.13",
     "@balena/jellyfish-logger": "^5.1.68",
     "@balena/jellyfish-metrics": "^2.0.171",
