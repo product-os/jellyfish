@@ -1,4 +1,22 @@
 - commits:
+    - subject: Replace react-select with react-menu
+      hash: d75609249b645626cc3d9db38b6269ed64921c17
+      body: ""
+      footer:
+        change-type: minor
+      author: Edwin Joassart
+      nested: []
+    - subject: add media-queries hide username on mobile improve navbar flex behaviour
+      hash: fec2f8a7c6a55f4b27ab1a5d19d1ecf3bac2418d
+      body: ""
+      footer:
+        change-type: patch
+      author: JOASSART Edwin
+      nested: []
+  version: 59.11.0
+  title: "'Aethernet/mobile 2'"
+  date: 2022-09-19T08:58:48.123Z
+- commits:
     - subject: Update @balena/jellyfish-plugin-outreach from 5.0.76 to 5.0.117
       hash: 7ce9f2bcc44ac96e9127923c430b90109bdb93b3
       body: ""
