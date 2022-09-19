@@ -82,13 +82,15 @@ export const LoopSelector = React.memo(() => {
 	}
 
 	const orgs =
-		user?.links?.['is member of'].filter(contract => contract.type.split('@')[0] === 'org').map((org) => ({
-			label: org.name,
-			type: 'org',
-			value: org.slug,
-			id: org.id,
-		})) ?? [];
-  
+		user?.links?.['is member of']
+			.filter((contract) => contract.type.split('@')[0] === 'org')
+			.map((org) => ({
+				label: org.name,
+				type: 'org',
+				value: org.slug,
+				id: org.id,
+			})) ?? [];
+
 	React.useEffect(() => {
 		let findActiveOrg: any;
 		let findActiveLoop: any;
