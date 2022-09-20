@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Fix unlink modal relationship logic"
+      hash: 93354166d68a150b124a9a1ac7365481a052b77d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.65
+  title: "'UI: Fix unlink modal relationship logic'"
+  date: 2022-09-20T05:35:09.676Z
+- commits:
     - subject: Update autumndb and jellyfish-worker
       hash: 216b70f21ee78f1291cd1c627391b75a98eef167
       body: ""
