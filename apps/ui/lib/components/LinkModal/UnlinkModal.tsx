@@ -124,11 +124,17 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 						},
 					},
 				});
+			let from = card as Contract;
+			let to = selectedTarget as Contract;
+			if (relationship!.data.from.type !== fromTypeBase) {
+				from = selectedTarget as Contract;
+				to = card as Contract;
+			}
 			const linkVerb =
-				relationship!.data.from.type === fromTypeBase
+				relationship!.data.from.type === from.type.split('@')[0]
 					? relationship!.name!
 					: relationship!.data.inverseName!;
-			await actions.removeLink(card as Contract, selectedTarget, linkVerb, {
+			await actions.removeLink(from, to, linkVerb, {
 				skipSuccessMessage: true,
 			});
 		};
@@ -151,12 +157,15 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 		return {
 			type: 'object',
 			anyOf: allLinkTypeTargets.map((relationship) => {
-				const toType = helpers.getType(relationship.data.to.type, allTypes);
+				const from = helpers.getType(relationship.data.from.type, allTypes);
+				const to = helpers.getType(relationship.data.to.type, allTypes);
 				const query = {
 					type: 'object',
 					required: ['type'],
 					$$links: {
-						[relationship!.data.inverseName!]: {
+						[fromType === from.slug
+							? relationship!.data.inverseName!
+							: relationship.name!]: {
 							allOf: cards.map((card) => {
 								return {
 									type: 'object',
@@ -172,7 +181,10 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 					},
 					properties: {
 						type: {
-							const: `${toType.slug}@${toType.version}`,
+							const:
+								fromType === from.slug
+									? `${to.slug}@${to.version}`
+									: `${from.slug}@${from.version}`,
 						},
 					},
 				};
@@ -180,7 +192,7 @@ export const UnlinkModal: React.FunctionComponent<Props> = ({
 				// Add full-text-search for the typed text (if set)
 				if (value) {
 					const filter = helpers.createFullTextSearchFilter(
-						toType.data.schema,
+						to.data.schema,
 						value,
 						{
 							fullTextSearchFieldsOnly: true,
