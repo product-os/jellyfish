@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-client-sdk from 13.0.91 to 13.0.93
+      hash: 4afb9153419c93feda74bc4ab4ea49d6f0453cc8
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.68
+  title: "'Update @balena/jellyfish-client-sdk from 13.0.91 to 13.0.93'"
+  date: 2022-09-20T11:40:37.769Z
+- commits:
     - subject: "Docs: Remove New Relic doc"
       hash: fe3fe3bbf75a378fb112487321f787be07113294
       body: ""
