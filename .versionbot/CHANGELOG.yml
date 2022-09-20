@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Docs: Remove New Relic doc"
+      hash: fe3fe3bbf75a378fb112487321f787be07113294
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.67
+  title: "'Docs: Remove New Relic doc'"
+  date: 2022-09-20T10:47:12.616Z
+- commits:
     - subject: "UI: Add link modal e2e test"
       hash: 85737e325aba974b43e48e0bd234532f7448e566
       body: ""
