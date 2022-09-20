@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Add link modal e2e test"
+      hash: 85737e325aba974b43e48e0bd234532f7448e566
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.66
+  title: "'UI: Add link modal e2e test'"
+  date: 2022-09-20T09:07:07.172Z
+- commits:
     - subject: "UI: Fix unlink modal relationship logic"
       hash: 93354166d68a150b124a9a1ac7365481a052b77d
       body: ""
