@@ -1,4 +1,16 @@
 - commits:
+    - subject: Update @balena/jellyfish-logger from 5.1.71 to 5.1.82
+      hash: 4300e1a46b9d3a612765d91d5c6cb36690b94754
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: renovate[bot]
+      nested: []
+  version: 59.10.63
+  title: "'Update @balena/jellyfish-logger from 5.1.71 to 5.1.82'"
+  date: 2022-09-19T23:47:20.038Z
+- commits:
     - subject: "CI: Remove old confusing test comment"
       hash: c124065cffb3f7aa458f6888090957058dd25e30
       body: ""
