@@ -1,4 +1,18 @@
 - commits:
+    - subject: Update autumndb and jellyfish-worker
+      hash: 216b70f21ee78f1291cd1c627391b75a98eef167
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.64
+  title: "'Update autumndb and jellyfish-worker'"
+  date: 2022-09-20T04:38:46.907Z
+- commits:
     - subject: Update @balena/jellyfish-logger from 5.1.71 to 5.1.82
       hash: 4300e1a46b9d3a612765d91d5c6cb36690b94754
       body: ""
