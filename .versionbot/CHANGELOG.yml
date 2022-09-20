@@ -1,4 +1,18 @@
 - commits:
+    - subject: Flowdock archive
+      hash: bdcf217c932c8529fc6f755fb6323113916b18a3
+      body: ""
+      footer:
+        Change-type: Major
+        change-type: Major
+        Signed-off-by: Amit Solanki <amit@balena.io>
+        signed-off-by: Amit Solanki <amit@balena.io>
+      author: Amit Solanki
+      nested: []
+  version: 60.0.0
+  title: "'Flowdock archive'"
+  date: 2022-09-20T11:19:54.489Z
+- commits:
     - subject: "UI: Add link modal e2e test"
       hash: 85737e325aba974b43e48e0bd234532f7448e566
       body: ""
