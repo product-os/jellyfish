@@ -1,4 +1,18 @@
 - commits:
+    - subject: "Security: Add CodeQL workflow"
+      hash: b906ec4e32d356e95c511d2539a96cf77872df4d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.69
+  title: "'Security: Add CodeQL workflow'"
+  date: 2022-09-20T23:12:17.801Z
+- commits:
     - subject: Update @balena/jellyfish-client-sdk from 13.0.91 to 13.0.93
       hash: 4afb9153419c93feda74bc4ab4ea49d6f0453cc8
       body: ""
