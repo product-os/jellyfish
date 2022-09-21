@@ -1,4 +1,42 @@
 - commits:
+    - subject: Bump got and nodemon in /apps/server
+      hash: 6c6eac90be110a7b7aaa707f2930c61ad0ef87cb
+      body: >
+        Bumps [got](https://github.com/sindresorhus/got) and
+        [nodemon](https://github.com/remy/nodemon). These dependencies needed to
+        be updated together.
+
+
+        Removes `got`
+
+
+        Updates `nodemon` from 2.0.16 to 2.0.20
+
+        - [Release notes](https://github.com/remy/nodemon/releases)
+
+        - [Commits](https://github.com/remy/nodemon/compare/v2.0.16...v2.0.20)
+
+
+        ---
+
+        updated-dependencies:
+
+        - dependency-name: got
+          dependency-type: indirect
+        - dependency-name: nodemon
+          dependency-type: direct:development
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 59.10.72
+  title: "'Bump got and nodemon in /apps/server'"
+  date: 2022-09-21T05:04:01.243Z
+- commits:
     - subject: "UI: Improve image rendering"
       hash: 9fde580ced2bfda3427a65914ca33873b34bb4ed
       body: |
