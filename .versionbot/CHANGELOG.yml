@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Tooltip for sidemenu items with long name"
+      hash: fe8bc3a6056f282065daf24c428eaaaf3f860a92
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.70
+  title: "'UI: Tooltip for sidemenu items with long name'"
+  date: 2022-09-21T01:38:25.265Z
+- commits:
     - subject: "Security: Add CodeQL workflow"
       hash: b906ec4e32d356e95c511d2539a96cf77872df4d
       body: ""
