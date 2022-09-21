@@ -12,6 +12,8 @@ import {
 	UserAvatarLive,
 } from '../';
 
+const NAME_MAX_LENGTH = 30;
+
 export default class ViewLink extends React.Component<any, any> {
 	constructor(props) {
 		super(props);
@@ -86,6 +88,13 @@ export default class ViewLink extends React.Component<any, any> {
 		);
 	}
 
+	truncateName(name: string) {
+		if (name.length > NAME_MAX_LENGTH) {
+			return `${name.substring(0, NAME_MAX_LENGTH - 1)}...`;
+		}
+		return name;
+	}
+
 	render() {
 		const { isHomeView, activeSlice, card, isActive, user } = this.props;
 		const bookmarked = this.isBookmarked();
@@ -102,8 +111,16 @@ export default class ViewLink extends React.Component<any, any> {
 				.join(', ');
 		}
 
+		// Truncate name and set tooltip if necessary
+		let name = label || card.name || card.slug;
+		let tooltip = '';
+		if (name.length > NAME_MAX_LENGTH) {
+			tooltip = name;
+			name = this.truncateName(name);
+		}
+
 		return (
-			<Box>
+			<Box tooltip={{ text: tooltip, placement: 'right' }}>
 				<Flex
 					justifyContent="space-between"
 					bg={isActive && !activeSlice ? '#eee' : 'none'}
@@ -129,7 +146,7 @@ export default class ViewLink extends React.Component<any, any> {
 											return <UserAvatarLive key={slug} mr={2} userId={slug} />;
 										})}
 
-									{label || card.name || card.slug}
+									{name}
 								</Flex>
 
 								{isHomeView && (
