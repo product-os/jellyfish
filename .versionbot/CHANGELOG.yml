@@ -1,4 +1,23 @@
 - commits:
+    - subject: "UI: Improve image rendering"
+      hash: 9fde580ced2bfda3427a65914ca33873b34bb4ed
+      body: |
+        This change keeps the generated blob source data in cache in the
+        browser, reducing server load and visually disruptive re-renders.
+        This cache is ephemeeral and flushed on a browser navigation.
+        The ideal solution is to use cookies to authenticate files instead of
+        fetching blob data and assembling it in the browser.
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+        signed-off-by: Lucian Buzzo <lucian.buzzo@gmail.com>
+      author: Lucian Buzzo
+      nested: []
+  version: 59.10.71
+  title: "'UI: Improve image rendering'"
+  date: 2022-09-21T02:32:18.799Z
+- commits:
     - subject: "UI: Tooltip for sidemenu items with long name"
       hash: fe8bc3a6056f282065daf24c428eaaaf3f860a92
       body: ""
