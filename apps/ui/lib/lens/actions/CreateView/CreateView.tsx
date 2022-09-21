@@ -90,6 +90,39 @@ export default withSetup(
 
 			const compoundMarker = slugs.join('+');
 
+			// Use existing view if one is found
+			const views = await sdk.query({
+				type: 'object',
+				required: ['type', 'data', 'markers'],
+				properties: {
+					type: {
+						const: 'view@1.0.0',
+					},
+					data: {
+						type: 'object',
+						required: ['dms'],
+						properties: {
+							dms: {
+								const: true,
+							},
+						},
+					},
+					markers: {
+						type: 'array',
+						contains: {
+							const: compoundMarker,
+						},
+					},
+				},
+			});
+			if (views.length > 0) {
+				this.setState({
+					submitting: false,
+				});
+				this.handleDone(views[0]);
+				return this.close();
+			}
+
 			const view = {
 				type: 'view',
 				name: `${slugs[0].replace('user-', '')} - ${slugs[1].replace(
