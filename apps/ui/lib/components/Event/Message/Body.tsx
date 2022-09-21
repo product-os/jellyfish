@@ -18,7 +18,7 @@ import ErrorBoundary from '../../ErrorBoundary';
 const tagMatchRE = helpers.createPrefixRegExp(helpers.TAG_MATCH_REGEXP_PREFIX);
 
 const MESSAGE_Y_SPACE = '3px';
-const MAX_IMAGE_SIZE = '500px';
+const MAX_IMAGE_SIZE = 500;
 
 const EditingAutocompleteTextarea = styled(PlainAutocompleteTextarea)`
 	margin: ${MESSAGE_Y_SPACE} 0;
@@ -116,8 +116,8 @@ export const parseMessage = (messageField: string) => {
 };
 
 const IMG_STYLE = {
-	maxWidth: `min(${MAX_IMAGE_SIZE}, 100%)`,
-	maxHeight: MAX_IMAGE_SIZE,
+	maxWidth: `min(${MAX_IMAGE_SIZE}px, 100%)`,
+	maxHeight: `${MAX_IMAGE_SIZE}px`,
 };
 
 const componentOverrides = {

@@ -54,7 +54,7 @@ export default React.memo<HeaderProps>((props: HeaderProps) => {
 				<Box>
 					{participants.map((slug) => {
 						return (
-							<Flex>
+							<Flex key={slug}>
 								<UserAvatarLive mr={2} userId={slug} />
 								{slug.replace('user-', '')}
 							</Flex>

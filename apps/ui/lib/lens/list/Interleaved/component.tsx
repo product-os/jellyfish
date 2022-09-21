@@ -8,6 +8,7 @@ import { GroupedVirtuoso } from 'react-virtuoso';
 import { Box } from 'rendition';
 import type { ChatGroup, LensRendererProps } from '../../../types';
 import type { ChannelContextProps } from '../../../hooks/channel-context';
+import { circularDeepEqual } from 'fast-equals';
 
 interface State {
 	newMessage: string;
@@ -42,7 +43,54 @@ const isFirstInThread = (card, firstMessagesByThreads) => {
 	return false;
 };
 
-export const InterleavedList = (props: Props) => {
+const EventBox = React.memo(
+	({
+		contract,
+		user,
+		groups,
+		openChannel,
+		handleContractVisible,
+		tail,
+		firstMessagesByThreads,
+		getActorHref,
+	}: {
+		contract: Contract;
+		user: UserContract;
+		groups: StateProps['groups'];
+		openChannel: any;
+		handleContractVisible: any;
+		tail: any;
+		firstMessagesByThreads: any;
+		getActorHref: any;
+	}) => {
+		if (!contract) {
+			return <Box p={3}>Loading...</Box>;
+		}
+
+		// We cannot rely on the index arg passed by react-virtuoso as it is offset by START_INDEX,
+		// so we get the index of the contract being rendered in order to find its neighbors.
+		const contractIndex = _.findIndex(tail, (el: any) => el.id === contract.id);
+
+		return (
+			<Box key={contract.id}>
+				<Event
+					nextEvent={tail![contractIndex + 1]}
+					previousEvent={tail![contractIndex - 1]}
+					onCardVisible={handleContractVisible}
+					openChannel={openChannel}
+					user={user}
+					groups={groups}
+					firstInThread={isFirstInThread(contract, firstMessagesByThreads)}
+					getActorHref={getActorHref}
+					card={contract}
+				/>
+			</Box>
+		);
+	},
+	circularDeepEqual,
+);
+
+export const InterleavedList = React.memo((props: Props) => {
 	const START_INDEX = 100000;
 	const INITIAL_ITEM_COUNT = 30;
 
@@ -54,8 +102,6 @@ export const InterleavedList = (props: Props) => {
 		messagesOnly: true,
 		isLoadingPage: false,
 	});
-
-	const { user, groups, getActorHref } = props;
 
 	const tail = _.sortBy(props.tail || [], 'created_at');
 	const prevTail = useRef<LensRendererProps['tail']>([]);
@@ -72,66 +118,61 @@ export const InterleavedList = (props: Props) => {
 		prevTail.current = props.tail;
 	}, [props.tail]);
 
-	const loadMoreContracts = async () => {
+	const loadMoreContracts = React.useCallback(async () => {
 		setState({ ...state, isLoadingPage: true });
 		await props.nextPage();
 		setState({ ...state, isLoadingPage: false });
-	};
+	}, []);
 
-	const openChannel = (target: string) => {
-		const current = props.channelData.channel.data.target;
-		if (current) {
-			props.history.push(
-				path.join(window.location.pathname.split(current)[0], current, target),
-			);
-		}
-	};
+	const openChannel = React.useCallback(
+		(target: string) => {
+			const current = props.channelData.channel.data.target;
+			if (current) {
+				props.history.push(
+					path.join(
+						window.location.pathname.split(current)[0],
+						current,
+						target,
+					),
+				);
+			}
+		},
+		[props.channelData],
+	);
 
-	const handleContractVisible = (contract: Contract) => {
-		sdk.card
-			.markAsRead(
-				props.user.slug,
-				contract as any,
-				_.map(_.filter(props.groups, 'isMine'), 'name') as string[],
-			)
-			.catch((error) => {
-				console.error(error);
-			});
-	};
+	const handleContractVisible = React.useCallback(
+		(contract: Contract) => {
+			sdk.card
+				.markAsRead(
+					props.user.slug,
+					contract as any,
+					_.map(_.filter(props.groups, 'isMine'), 'name') as string[],
+				)
+				.catch((error) => {
+					console.error(error);
+				});
+		},
+		[props.user, props.groups],
+	);
 
 	const firstMessagesByThreads = {};
 
-	const EventBox = React.memo(({ contract }: { contract: Contract }) => {
-		if (!contract) {
-			return <Box p={3}>Loading...</Box>;
-		}
-
-		// We cannot rely on the index arg passed by react-virtuoso as it is offset by START_INDEX,
-		// so we get the index of the contract being rendered in order to find its neighbors.
-		const contractIndex = _.findIndex(tail, (el: any) => el.id === contract.id);
-
-		return (
-			<Box>
-				<Event
-					nextEvent={tail![contractIndex + 1]}
-					previousEvent={tail![contractIndex - 1]}
-					onCardVisible={handleContractVisible}
-					openChannel={openChannel}
-					user={user}
-					groups={groups}
-					firstInThread={isFirstInThread(contract, firstMessagesByThreads)}
-					getActorHref={getActorHref}
-					card={contract}
-				/>
-			</Box>
-		);
-	});
-
 	// An oddity of react-virtuoso is that the `itemContent` cannot be a memoized component, but it can call out to a memoized component.
 	// See https://virtuoso.dev/#performance
-	const itemContent = (_index, contract) => {
-		return <EventBox contract={contract} />;
-	};
+	const itemContent = React.useCallback((_index, contract) => {
+		return (
+			<EventBox
+				contract={contract}
+				user={props.user}
+				groups={props.groups}
+				getActorHref={props.getActorHref}
+				openChannel={openChannel}
+				handleContractVisible={handleContractVisible}
+				tail={tail}
+				firstMessagesByThreads={firstMessagesByThreads}
+			/>
+		);
+	}, []);
 
 	return (
 		<GroupedVirtuoso
@@ -148,4 +189,4 @@ export const InterleavedList = (props: Props) => {
 			}}
 		/>
 	);
-};
+}, circularDeepEqual);

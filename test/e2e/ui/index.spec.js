@@ -534,58 +534,7 @@ test.describe('Chat Widget', () => {
 })
 
 test.describe('File Upload', () => {
-	test('Users should be able to upload an image', async ({
-		page
-	}) => {
-		await login(page, users.community)
-
-		// Create a new thread
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'thread@1.0.0'
-			})
-		})
-
-		// Navigate to thread and upload file
-		await page.goto(`/${thread.slug}`)
-		await page.locator('[data-test="timeline-tab"]').click()
-		await page.setInputFiles(
-			'input[type="file"]',
-			path.join(__dirname, 'assets', 'test.png')
-		)
-		await page.waitForSelector(
-			'.column--thread [data-test="event-card__image"]'
-		)
-	})
-
-	test('Users should be able to upload an image to a support thread', async ({
-		page
-	}) => {
-		await login(page, users.community)
-
-		// Create a new thread
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'support-thread@1.0.0',
-				data: {
-					status: 'open'
-				}
-			})
-		})
-
-		// Navigate to thread and upload file
-		await page.goto(`/${thread.id}`)
-		await page.locator('[data-test="timeline-tab"]').click()
-		await page.setInputFiles(
-			'input[type="file"]',
-			path.join(__dirname, 'assets', 'test.png')
-		)
-		await page.waitForSelector(
-			'.column--support-thread [data-test="event-card__image"]'
-		)
-	})
-
-	test('Users should be able to upload a text file', async ({
+	test('Users should be able to upload a file', async ({
 		page
 	}) => {
 		await login(page, users.community)
@@ -606,33 +555,6 @@ test.describe('File Upload', () => {
 		)
 		await page.waitForSelector(
 			'.column--thread [data-test="event-card__file"]'
-		)
-	})
-
-	test('Users should be able to upload a text file to a support thread', async ({
-		page
-	}) => {
-		await login(page, users.community)
-
-		// Create a new thread
-		const thread = await page.evaluate(() => {
-			return window.sdk.card.create({
-				type: 'support-thread@1.0.0',
-				data: {
-					status: 'open'
-				}
-			})
-		})
-
-		// Navigate to thread and upload file
-		await page.goto(`/${thread.id}`)
-		await page.locator('[data-test="timeline-tab"]').click()
-		await page.setInputFiles(
-			'input[type="file"]',
-			path.join(__dirname, 'assets', 'test.txt')
-		)
-		await page.waitForSelector(
-			'.column--support-thread [data-test="event-card__file"]'
 		)
 	})
 })
