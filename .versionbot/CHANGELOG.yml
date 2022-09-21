@@ -1,4 +1,28 @@
 - commits:
+    - subject: Bump terser from 5.11.0 to 5.15.0 in /apps/ui
+      hash: c2f065938f3c1e9541dc796daf19e10957775549
+      body: |
+        Bumps [terser](https://github.com/terser/terser) from 5.11.0 to 5.15.0.
+        - [Release notes](https://github.com/terser/terser/releases)
+        - [Changelog](https://github.com/terser/terser/blob/master/CHANGELOG.md)
+        - [Commits](https://github.com/terser/terser/compare/v5.11.0...v5.15.0)
+
+        ---
+        updated-dependencies:
+        - dependency-name: terser
+          dependency-type: indirect
+        ...
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: dependabot[bot] <support@github.com>
+        signed-off-by: dependabot[bot] <support@github.com>
+      author: dependabot[bot]
+      nested: []
+  version: 59.10.73
+  title: "'Bump terser from 5.11.0 to 5.15.0 in /apps/ui'"
+  date: 2022-09-21T06:02:32.486Z
+- commits:
     - subject: Bump got and nodemon in /apps/server
       hash: 6c6eac90be110a7b7aaa707f2930c61ad0ef87cb
       body: >
