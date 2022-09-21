@@ -225,11 +225,19 @@ const groupViews = memoize<any>((tail, bookmarks, userId, orgs) => {
 		otherViews: [],
 	};
 
+	const oneToOneViewMarkers: string[] = [];
 	const { myViews, oneToOneViews, otherViews } = _.reduce(
 		sortedTail,
 		(acc, view) => {
 			if (view.data.dms) {
-				acc.oneToOneViews.push(view);
+				// Use markers to only display unique 1 to 1s
+				const markers = _.uniq(view.markers.join('+').split('+').sort()).join(
+					'+',
+				);
+				if (!oneToOneViewMarkers.includes(markers)) {
+					oneToOneViewMarkers.push(markers);
+					acc.oneToOneViews.push(view);
+				}
 			} else if (view.data.actor === userId) {
 				acc.myViews.push(view);
 			} else {
