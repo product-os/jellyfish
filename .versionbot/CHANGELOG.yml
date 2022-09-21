@@ -1,4 +1,18 @@
 - commits:
+    - subject: "UI: Only display unique 1 to 1s"
+      hash: 357d46898696a1dd16c1a0b571266296690c48cd
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Josh Bowling <josh@monarci.com>
+        signed-off-by: Josh Bowling <josh@monarci.com>
+      author: Josh Bowling
+      nested: []
+  version: 59.10.74
+  title: "'UI: Only display unique 1 to 1s'"
+  date: 2022-09-21T06:48:30.473Z
+- commits:
     - subject: Bump terser from 5.11.0 to 5.15.0 in /apps/ui
       hash: c2f065938f3c1e9541dc796daf19e10957775549
       body: |
