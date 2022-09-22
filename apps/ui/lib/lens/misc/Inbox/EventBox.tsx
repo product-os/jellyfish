@@ -30,10 +30,11 @@ interface Props {
 	contract: Contract;
 	channel: ChannelContract;
 	canArchive?: boolean;
+	isDirectMention?: boolean;
 }
 
 export const EventBox = React.memo(
-	({ channel, contract, canArchive }: Props) => {
+	({ channel, contract, canArchive, isDirectMention }: Props) => {
 		const { sdk } = useSetup()!;
 		const history = useHistory();
 		const groups = useSelector(selectors.getGroups());
@@ -138,6 +139,7 @@ export const EventBox = React.memo(
 					card={message}
 					is121={is121}
 					context={context}
+					isDirectMention={isDirectMention}
 				/>
 			</InboxMessageWrapper>
 		);

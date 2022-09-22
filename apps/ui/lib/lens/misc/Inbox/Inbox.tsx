@@ -126,21 +126,29 @@ const Inbox = ({ channel }: Props) => {
 						query={openQuery}
 						channel={channel}
 						canArchive={true}
-						isDirectPing={false}
+						isDirectMention={false}
 					/>
 				</Tab>
-				<Tab title="Archived">
-					<InboxTab query={archivedQuery} channel={channel} />
-				</Tab>
-				<Tab title="Sent">
-					<InboxTab query={sentQuery} channel={channel} />
-				</Tab>
-				<Tab title="Direct Pings">
+				<Tab title="Direct Mentions">
 					<InboxTab
 						query={openQuery}
 						channel={channel}
 						canArchive={true}
-						isDirectPing={true}
+						isDirectMention={true}
+					/>
+				</Tab>
+				<Tab title="Archived">
+					<InboxTab
+						query={archivedQuery}
+						channel={channel}
+						isDirectMention={false}
+					/>
+				</Tab>
+				<Tab title="Sent">
+					<InboxTab
+						query={sentQuery}
+						channel={channel}
+						isDirectMention={false}
 					/>
 				</Tab>
 			</Tabs>
