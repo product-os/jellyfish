@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { compose } from 'redux';
 import type { UserContract } from 'autumndb';
 import { parseMessage } from './Message/Body';
@@ -14,50 +14,74 @@ import Message from './Message';
 export { parseMessage };
 
 const EventWithActor: React.FunctionComponent<any> = (props) => {
-	const { card, user, onCardVisible, targetCard, isDirectPing } = props;
-	// console.log(card.links['has attached'][0].markers)
-	// console.log(card.data.payload.mentionsUser.includes(user.slug))
-	const [isRenderAllToggle, setRenderAllToggle] = useState(false);
+	const { card, user, onCardVisible, targetCard, isDirectMention } = props;
 	const isDirect = card.data.payload.mentionsUser.includes(user.slug);
-
-	if (isDirectPing) {
-		setRenderAllToggle(isDirect);
-	} else {
-		setRenderAllToggle(true);
-	}
-
 	const typeBase = props.card.type.split('@')[0];
-	return (
-		<div>
-			{isRenderAllToggle && (
-				<CardLoader<UserContract>
-					id={helpers.getActorIdFromCard(props.card)}
-					type="user"
-					withLinks={['is member of']}
-				>
-					{(author) => {
-						const actor = helpers.generateActorFromUserCard(author);
-						if (typeBase === UPDATE) {
-							return (
-								<Update
-									onCardVisible={onCardVisible}
-									card={card}
-									user={user}
-									actor={actor}
-								/>
-							);
-						}
-						if (typeBase === LINK) {
-							return (
-								<LinkedCard actor={actor} card={card} targetCard={targetCard} />
-							);
-						}
-						return <Message {...props} actor={actor} />;
-					}}
-				</CardLoader>
-			)}
-		</div>
-	);
+	if (isDirectMention) {
+		return (
+			<div>
+				{isDirect && (
+					<CardLoader<UserContract>
+						id={helpers.getActorIdFromCard(props.card)}
+						type="user"
+						withLinks={['is member of']}
+					>
+						{(author) => {
+							const actor = helpers.generateActorFromUserCard(author);
+							if (typeBase === UPDATE) {
+								return (
+									<Update
+										onCardVisible={onCardVisible}
+										card={card}
+										user={user}
+										actor={actor}
+									/>
+								);
+							}
+							if (typeBase === LINK) {
+								return (
+									<LinkedCard
+										actor={actor}
+										card={card}
+										targetCard={targetCard}
+									/>
+								);
+							}
+							return <Message {...props} actor={actor} />;
+						}}
+					</CardLoader>
+				)}
+			</div>
+		);
+	} else {
+		return (
+			<CardLoader<UserContract>
+				id={helpers.getActorIdFromCard(props.card)}
+				type="user"
+				withLinks={['is member of']}
+			>
+				{(author) => {
+					const actor = helpers.generateActorFromUserCard(author);
+					if (typeBase === UPDATE) {
+						return (
+							<Update
+								onCardVisible={onCardVisible}
+								card={card}
+								user={user}
+								actor={actor}
+							/>
+						);
+					}
+					if (typeBase === LINK) {
+						return (
+							<LinkedCard actor={actor} card={card} targetCard={targetCard} />
+						);
+					}
+					return <Message {...props} actor={actor} />;
+				}}
+			</CardLoader>
+		);
+	}
 };
 
 export default compose<any>(withSetup, withCardUpdater(true))(EventWithActor);
