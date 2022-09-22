@@ -98,7 +98,7 @@ cd ~/git
 git clone git@github.com:product-os/$MODULE_NAME.git
 cd $MODULE_NAME && npm i && npm run build && cd ..
 git clone git@github.com:product-os/jellyfish.git
-cd jellyfish && npm i
+cd jellyfish && npm run install:all
 sudo npm link ../$MODULE_NAME
 cd apps/server
 sudo npm link ../../../$MODULE_NAME
